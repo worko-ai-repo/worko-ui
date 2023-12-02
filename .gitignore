@@ -1,0 +1,9 @@
+node_modules/
+dist/
+
+#angular
+.angular/
+
+# serverless
+.serverless
+package-lock.json

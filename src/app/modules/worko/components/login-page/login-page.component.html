@@ -1,0 +1,463 @@
+<div class="container-fluid">
+  <!-- signup -->
+  <div class="row">
+    <div class="col-md-12">
+      <button type="button" class="btn btn-primary" data-toggle="modal" data-target=".bd-example-modal-lg">
+        Large modal
+      </button>
+
+      <div class="modal fade bd-example-modal-lg" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel"
+        aria-hidden="true">
+        <div class="modal-dialog modal-lg">
+          <div class="modal-content">
+            <div class="container-fluid">
+              <div class="body">
+                <div class="row" *ngIf="showSignInRow"
+                  style="background: radial-gradient( circle at 0% 50%,#034c7f 4%, #77c9dc 10%, #034c7f 32%, #034c7f 41%,#0A1E36 50%);">
+                  <div class="col-md-6 first-div d-flex p-0">
+                    <div class="d-flex align-self-center" style="width: 110px">
+                      <img src="/assets/image-login/g8%2097.png" />
+                    </div>
+                    <div *ngIf="selectedUserType === 'candidate'" class="d-flex align-self-center">
+                      <div class="login-side-heading">
+                        <h2 class="unlockText text-white1">
+                          Unlock Dream <br />
+                          Referrals: Join Now!
+                        </h2>
+                        <h5 class="sub-heading m-0">
+                          Interview Guidance
+                        </h5>
+                      </div>
+
+                    </div>
+                    <div *ngIf="selectedUserType === 'employee'" class="d-flex align-self-center">
+                      <div class="login-side-heading">
+
+
+                        <h2 class="unlockText text-white1">
+                          Ready to Refer? <br />
+                          Lets Get Started!
+                        </h2>
+                        <div class="sub-heading m-0">
+                          Refferals
+                        </div>
+                      </div>
+                    </div>
+                    <!-- </div> -->
+                  </div>
+
+                  <div class="col-md-6 second-div">
+                    <div class="row">
+                      <div class="col-md-12 text-white" style="top: 2rem; font-size: 18px">
+                        <p>Create your account as</p>
+                      </div>
+                      <div class="col-md-6 mt-4 option" style="justify-content: space-between">
+                        <a href="javascript:void(0);" [class.selected]="selectedUserType === 'candidate'"
+                          class="text-white" (click)="selectUserType('candidate')">Candidate</a>
+                        <a href="javascript:void(0);" [class.selected]="selectedUserType === 'employee'"
+                          (click)="selectUserType('employee')" style="font-size: 11px"
+                          class="text-white ms-2">Employee</a>
+                      </div>
+                    </div>
+
+                    <!-- candidate-form -->
+
+                    <div class="row" *ngIf="selectedUserType === 'candidate'">
+
+                      <form (ngSubmit)="candidate.form.valid && confirmSignUpCandidate(form)" #candidate="ngForm" novalidate>
+                        <div class="row" >
+                        <div class="col-md-6 mt-5 pt-3">
+                          <div>
+                            <!-- [class.is-invalid]="candidateName.invalid && (candidateName.dirty || candidateName.touched)" -->
+                            <div class="material-input__group">
+                              <i class="fa-solid fa-user" style="color: #f4f5f5; font-size: 12px"></i>
+                              <input type="text" placeholder="Name" class="text-white material-input__group__input"
+                              
+                                #candidateName="ngModel" [(ngModel)]="candidateForm.candidateName" name="candidateName"
+                                id="candidateName" />
+                            </div>
+                          </div>
+                        </div>
+                        <div class="col-md-6 mt-5 pt-3">
+                          <div>
+                            <!-- [class.is-invalid]="password.invalid && (password.dirty || password.touched)" -->
+                            <div class="material-input__group">
+                              <!-- <i class="fa-solid fa-password" style="color: #ffffff; font-size: 12px"></i> -->
+                              <i class="fas fa-lock" style="color: #ffffff; font-size: 12px"></i>
+                              <input type="password" placeholder="Password"
+                                class="text-white material-input__group__input"
+                              
+                                #password="ngModel" [(ngModel)]="candidateForm.password" name="password"
+                                id="password" />
+
+                            </div>
+                          </div>
+                        </div>
+
+                        <div class="col-md-6">
+
+                          <div class="material-input__group">
+                            <i class="fa-solid fa-envelope" style="color: #f5f5f5; font-size: 12px"></i>
+                            <input type="text" placeholder="Email ID" class="text-white material-input__group__input"
+                            pattern="^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,4}$"
+                            [class.is-invalid]="emailId.invalid && (emailId.dirty || emailId.touched)"
+                              #emailId="ngModel" [(ngModel)]="candidateForm.emailId" name="emailId" id="emailId" />
+                            <ng-container *ngIf="!isEmailVerified">
+                              <a class="verify-text position-absolute font-size-12"
+                                (click)="createUserCoginto()">Verify</a>
+                            </ng-container>
+                          </div>
+                        </div>
+
+                        <div class="col-md-6" *ngIf="isEmailVerified">
+                          <div>
+                            <!-- [class.is-invalid]="otp.invalid && (otp.dirty || otp.touched)" -->
+                            <div class="material-input__group">
+                              <input type="text" style="font-size: 11.8px; border: 1px solid white; border-radius: 4px;"
+                                placeholder="Enter OTP" class="text-white material-input__group__input"
+                               #candidateOtp="ngModel"
+                                [(ngModel)]="candidateForm.candidateOtp"
+                                name="candidateOtp" id="candidateOtp" />
+                            </div>
+                          </div>
+                        </div>
+                        <div class="co-md-6">
+                          <!-- <input type="hidden" name="" id=""> -->
+                        </div>
+
+                        <div class="col-md-6">
+                          <!-- [class.is-invalid]="linkdinProfile.invalid && (linkdinProfile.dirty || linkdinProfile.touched)" -->
+                          <div>
+                            <div class="material-input__group">
+                              <i class="fa-brands fa-linkedin" style="color: #f6f7f9;"></i>
+                              <input type="text" style="font-size: 11px" placeholder="Linkedin Profile"
+                                class="text-white material-input__group__input"
+                                
+                                #linkdinProfile="ngModel" [(ngModel)]="candidateForm.linkdinProfile"
+                                name="linkdinProfile" id="linkdinProfile" />
+                            </div>
+                          </div>
+                        </div>
+
+                        <div class="col-md-6">
+                          <div>
+                            <!-- [class.is-invalid]="experience.invalid && (experience.dirty || experience.touched)" -->
+                            <div class="material-input__group">
+                              <i class="fa-solid fa-graduation-cap" style="color: #fafcff;"></i>
+                              <input type="number" style="font-size: 11.8px;" placeholder="Total year of experience"
+                                class="text-white material-input__group__input"
+                              
+                                #experience="ngModel" [(ngModel)]="candidateForm.experience" name="experience"
+                                id="experience" />
+                            </div>
+                          </div>
+                        </div>
+
+                        <div class="col-md-6">
+                          <div>
+                            <!-- [class.is-invalid]="expectedCtc.invalid && (expectedCtc.dirty || expectedCtc.touched)" -->
+                            <div class="material-input__group">
+                              <i class="fa-regular fa-money-bill-1" style="color: #ffffff;"></i>
+                              <input type="text" style="font-size: 12px" placeholder="Expected CTC(in LPA)"
+                                class="text-white material-input__group__input"
+                                
+                                #expectedCtc="ngModel" [(ngModel)]="candidateForm.expectedCtc" name="expectedCtc"
+                                id="expectedCtc" />
+                            </div>
+                          </div>
+                        </div>
+
+                        <div class="col-md-6">
+                          <!-- <label class="custom-file-input">
+                            <div style="float: left;width: 9px;margin-right: 10px;">
+                              <img src="assets/images/Group.png" />
+                            </div>
+                            <input type="file">
+                            <span>Upload CV</span>
+                            <div style="float: right;width: 15px;height: 15px;margin-top: -1px;">
+                              <img src="assets/images/mingcute_upload-line.png" />
+                            </div>
+                          </label> -->
+                        </div>
+                     
+                        <div class="col-md-12 mt-4 ms-2 d-flex justify-content-center">
+                          <button class="btn btn-signUp" type="submit" [disabled]="(!candidate.form.valid || !candidateForm.candidateName || !candidateForm.emailId || !candidateForm.expectedCtc  || !candidateForm.password || !candidateForm.linkdinProfile || !candidateForm.experience || !candidateForm.candidateOtp )">SIGN UP</button>
+                        </div>
+
+                        <!-- <div class="row text-center mt-2 flex-center-align"> -->
+                        <div class="col-md-12 d-flex justify-content-center ms-2  mt-2">
+                          <img src="/assets/public/devicon_linkedin.svg" style="width: 32px;  height: 28px" alt="">
+                          <button class="btn btn-signUpLinkdin text-white"> Sign Up with LinkedIn</button>
+
+                        </div>
+                        <!-- </div> -->
+                        <div class="col-md-12 text-center pt-1">
+                          <p class="text-white">Already have an account? <a (click)="toggleSignInRow()"
+                              style="color: #68DBFF;;">Sign in now</a></p>
+                        </div>
+                      </div>
+                      </form>
+                    </div>
+
+
+                    <!-- Employee-form -->
+                    <form (ngSubmit)="f.form.valid && submit(form)" #f="ngForm" novalidate>
+                      <div class="row" *ngIf="selectedUserType === 'employee'">
+                        <div class="col-md-6 mt-2 pt-3">
+                          <div>
+                            <div class="material-input__group">
+                              <i class="fa-solid fa-user" style="color: #f4f5f5; font-size: 12px"></i>
+                              <input type="text" placeholder="Name" class="text-white material-input__group__input"
+                                [class.is-invalid]="employeeName.invalid && (employeeName.dirty || employeeName.touched)"
+                                #employeeName="ngModel" [(ngModel)]="employeeForm.employeeName" name="employeeName"
+                                id="employeeName" />
+                            </div>
+                          </div>
+                        </div>
+                        <div class="col-md-6 mt-2 pt-3">
+                          <div>
+                            <div class="material-input__group">
+                              <i class="fa-solid fa-user" style="color: #f4f5f5; font-size: 12px"></i>
+                              <input type="text" placeholder="Communication Email id"
+                                class="text-white material-input__group__input"
+                                [class.is-invalid]="commuEmailId.invalid && (commuEmailId.dirty || commuEmailId.touched)"
+                                #commuEmailId="ngModel" [(ngModel)]="employeeForm.commuEmailId" name="commuEmailId"
+                                id="commuEmailId" />
+                            </div>
+                          </div>
+                        </div>
+
+                        <div class="col-md-6">
+                          <div>
+                            <div class="material-input__group">
+
+                              <i class="fa-regular fa-building" style="color: #eff1f5; font-size: 12px;"></i>
+
+                              <input type="text" placeholder="Company name "
+                                class="text-white material-input__group__input"
+                                [class.is-invalid]="companyName.invalid && (companyName.dirty || companyName.touched)"
+                                #companyName="ngModel" [(ngModel)]="employeeForm.companyName" name="companyName"
+                                id="companyName" />
+
+                            </div>
+                          </div>
+                        </div>
+
+                        <div class="col-md-6">
+                          <div>
+                            <div class="material-input__group">
+                              <i class="fa-solid fa-phone" style="color: #ffffff; font-size: 12px"></i>
+                              <input type="otp" placeholder="Phone number"
+                                class="text-white material-input__group__input"
+                                [class.is-invalid]="phoneNumber.invalid && (phoneNumber.dirty || phoneNumber.touched)"
+                                #phoneNumber="ngModel" [(ngModel)]="employeeForm.phoneNumber" name="phoneNumber"
+                                id="phoneNumber" />
+                            </div>
+                          </div>
+                        </div>
+
+                        <div class="col-md-6">
+                          <div>
+                            <div class="material-input__group">
+                              <i class="fa-solid fa-envelope" style="color: #fafafa; font-size: 12px;"></i>
+                              <input type="text" placeholder="Company Email ID"
+                                class="text-white material-input__group__input iconic"
+                                [class.is-invalid]="companyEmailID.invalid && (companyEmailID.dirty || companyEmailID.touched)"
+                                #companyEmailID="ngModel" [(ngModel)]="employeeForm.companyEmailID"
+                                name="companyEmailID" id="companyEmailID" />
+                              <ng-container *ngIf="!emailverify">
+                                <a class="verify-text position-absolute font-size-12"
+                                  (click)="handleVerifyClick1()">Verify</a>
+                              </ng-container>
+
+                            </div>
+                          </div>
+                        </div>
+
+                        <div class="col-md-6">
+                          <div *ngIf="emailverify">
+                            <div class="material-input__group">
+                              <input type="number" style="font-size: 11.8px;border: 1px solid white;border-radius: 4px;"
+                                placeholder="OTP" class="text-white material-input__group__input"
+                                [class.is-invalid]="otp.invalid && (otp.dirty || otp.touched)" #otp="ngModel"
+                                [(ngModel)]="employeeForm.otp" name="otp" id="otp" />
+
+                            </div>
+                          </div>
+                        </div>
+                        <!-- <div class="col-md-6">
+                        <input type="hidden">
+                      </div> -->
+
+                        <div class="col-md-6">
+                          <div>
+                            <div class="material-input__group">
+                              <i class="fa-brands fa-linkedin" style="color: #f6f7f9; font-size: 12px"></i>
+                              <input type="text" style="font-size: 12px" placeholder="LinkdIn Profile"
+                                class="text-white material-input__group__input"
+                                [class.is-invalid]="linkdinProfile.invalid && (linkdinProfile.dirty || linkdinProfile.touched)"
+                                #linkdinProfile="ngModel" [(ngModel)]="employeeForm.linkdinProfile"
+                                name="linkdinProfile" id="linkdinProfile" />
+                            </div>
+                          </div>
+                        </div>
+                        <div class="col-md-6">
+                          <div>
+                            <div class="material-input__group">
+                              <i class="fa-regular fa-file" style="color: #f0f2f4; font-size: 12px;"></i>
+                              <input type="text" style="font-size: 12px" placeholder="Total year of Experience"
+                                class="text-white material-input__group__input"
+                                [class.is-invalid]="experience.invalid && (experience.dirty || experience.touched)"
+                                #experience="ngModel" [(ngModel)]="employeeForm.experience" name="experience"
+                                id="experience" />
+                            </div>
+                          </div>
+                        </div>
+                        <div class="col-md-6">
+                          <div>
+                            <div class="material-input__group">
+                              <i class="fa-regular fa-file" style="color: #f0f2f4; font-size: 12px;"></i>
+                              <input type="text" style="font-size: 12px" placeholder="Department"
+                                class="text-white material-input__group__input"
+                                [class.is-invalid]="dapartment.invalid && (dapartment.dirty || dapartment.touched)"
+                                #dapartment="ngModel" [(ngModel)]="employeeForm.dapartment" name="dapartment"
+                                id="dapartment" />
+                            </div>
+                          </div>
+                        </div>
+                        <div class="col-md-6">
+                          <div>
+                            <div class="material-input__group">
+                              <i class="fa-regular fa-file" style="color: #f0f2f4; font-size: 12px;"></i>
+                              <input type="text" style="font-size: 12px" placeholder="Designation"
+                                class="text-white material-input__group__input"
+                                [class.is-invalid]="designation.invalid && (designation.dirty || designation.touched)"
+                                #designation="ngModel" [(ngModel)]="employeeForm.designation" name="designation"
+                                id="designation" />
+                            </div>
+                          </div>
+                        </div>
+
+                        <div class="col-md-12 mt-4 ms-2 d-flex justify-content-center">
+                          <button class="btn btn-signUp" (click)="signUpEmployee()">SIGN UP</button>
+                        </div>
+
+
+
+                        <div class="col-md-12 d-flex justify-content-center ms-2 mt-2">
+                          <img src="/assets/public/devicon_linkedin.svg" style="width: 32px;  height: 28px" alt="">
+                          <button class="btn btn-signUpLinkdin text-white"> Sign Up with LinkedIn</button>
+                        </div>
+                        <div class="col-md-12 text-center pt-1">
+                          <p class="text-white">Already have an account? <a (click)="toggleSignInRow()"
+                              style="color: #68DBFF;;">Sign in now</a></p>
+                        </div>
+
+
+
+
+
+                      </div>
+                    </form>
+                  </div>
+                </div>
+
+                <!-- Signin Now form -->
+
+
+                <div class="row" *ngIf="!showSignInRow" style="background: radial-gradient( circle at 0% 50%,#034c7f 4%, #77c9dc 10%, #034c7f 62%, #034c7f 68%,#0A1E36 79%);
+                  height: 100%;">
+                  <div class="col-md-7">
+                    <div
+                      style=" background-image:url(/assets/public/eart-signup1.png); background-size: cover; margin-left: -15px; height:  100%; width: 105%;"
+                      alt="">
+                      <img src="/assets/public/workologoai-2@2x.png" class="worko-logo-signup">
+                      <p class="para-div">An equitable job market where job seekers meet the company seeking exceptional
+                        talent! Liked the idea, but please share few other options to chose from</p>
+                    </div>
+                  </div>
+
+
+                  <div class="col-md-5" style="margin-left: -44px">
+                    <div class="col-md-12">
+                      <p class="text-white mt-5 your-referral">Your Referral <br> Universe Awaits: <br> Sign In!</p>
+                    </div>
+                    <form (ngSubmit)="f.form.valid && submit(form)" #f="ngForm" novalidate>
+                      <div class="col-md-12">
+                        <div>
+                          <div class="material-input__group text-white">
+
+                            <!-- <input type="text" style="font-size: 14px" placeholder="Enter Email"
+                            class="text-white mt-4 material-input__group__input" /> -->
+
+
+                            <input type="text" style="font-size: 14px"
+                              class="text-white mt-4 material-input__group__input"
+                              [class.is-invalid]="email.invalid && (email.dirty || email.touched)" #email="ngModel"
+                              [(ngModel)]="form.email" name="email" id="email" placeholder="Enter Email" />
+
+
+                          </div>
+                        </div>
+                      </div>
+
+
+                      <div class="col-md-12">
+                        <div>
+                          <div class="material-input__group text-white">
+                            <!-- <input type="text" style="font-size: 14px ;color: white;" placeholder="Enter password"
+                            class="text-white   material-input__group__input" /> -->
+
+
+                            <input type="text" style="font-size: 14px"
+                              class="text-white mt-4 material-input__group__input"
+                              [class.is-invalid]="password.invalid && (password.dirty || password.touched)"
+                              #password="ngModel" [(ngModel)]="form.password" name="password" id="password"
+                              placeholder="Enter Password" />
+                          </div>
+                        </div>
+                      </div>
+
+                      <div class="row">
+                        <div class="col-md-6 text-white" style="width: 9rem; margin-top: -15px; font-size: x-small;">
+                          <input type="checkbox" class="ms-3" style="border-radius: 5px; 
+                     "> Remember me
+                        </div>
+
+                        <div class="col-md-6 ps-5" style="font-size: x-small; margin-top: -15px;">
+                          <a href="">Forget password?</a>
+                        </div>
+                      </div>
+
+                      <div class="col-md-12 mt-3">
+                        <button class="btn signInButton" type="submit"> Sign in</button>
+                      </div>
+
+                    </form>
+                    <div class="col-md-12 mt-3">
+                      <button class="btn signInButton" (click)="signOut()" type="button"> Sign out</button>
+                    </div>
+                    <div class="col-md-12 mt-4">
+                      <img src="/assets/public/devicon_linkedin.svg" style="width: 38px; height: 34px;" alt="">
+                      <button class="btn signInLinkdInButton text-white"> Sign in with LinkdIn</button>
+                    </div>
+
+                    <div class="col-md-12 text-center text-white mt-2 mb-5 "
+                      style="font-size: 14px; padding-left: initial; ">
+                      Dont have any account?<a href="">Sign up now</a>
+                    </div>
+
+                  </div>
+
+
+
+
+
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>

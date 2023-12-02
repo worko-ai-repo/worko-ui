@@ -1,0 +1,2653 @@
+:root {
+    /* fonts */
+    --font-inria-sans: "Inria Sans";
+    --font-poppins: Poppins;
+    --font-poller-one: "Poller One";
+  
+    /* font sizes */
+    --font-size-7xl: 1.63rem;
+    --font-size-13xl: 2rem;
+    --font-size-5xl: 1.5rem;
+    --font-size-41xl: 3.75rem;
+    --font-size-35xl: 3.38rem;
+    --font-size-lg: 1.13rem;
+    --font-size-xl: 1.25rem;
+    --font-size-17xl: 2.25rem;
+    --font-size-26xl: 2.81rem;
+    --font-size-15xl: 2.13rem;
+    --font-size-3xl: 1.38rem;
+    --font-size-11xl: 1.88rem;
+  
+    /* Colors */
+    --color-white: #fff;
+    --color-black: #000;
+    --color-gray-100: #fffefe;
+    --color-gray-200: #7b888b;
+    --color-gray-300: #061634;
+    --color-gray-400: rgba(123, 136, 139, 0.4);
+    --color-lightgray-100: rgba(214, 213, 213, 0.4);
+    --color-skyblue-100: #57e1ff;
+    --color-darkslategray-100: #004759;
+    --color-darkslategray-200: #20324b;
+    --color-darkslategray-300: rgba(24, 43, 69, 0.99);
+    --color-aliceblue: #e5ebf2;
+    --color-deepskyblue-100: rgba(0, 194, 255, 0.4);
+    --color-deepskyblue-200: rgba(0, 210, 255, 0.4);
+    --color-deepskyblue-300: rgba(0, 210, 255, 0.5);
+    --color-teal-100: #3a7783;
+    --color-teal-200: #09758b;
+    --color-cadetblue: #5baabe;
+    --color-gainsboro: rgba(227, 227, 227, 0.4);
+  
+    /* Paddings */
+    --padding-8xs: 0.31rem;
+    --padding-19xl: 2.38rem;
+  
+    /* Border radiuses */
+    --br-7xs: 6px;
+    --br-11xl: 30px;
+    --br-31xl: 50px;
+    --br-xl: 20px;
+    --br-162xl: 181px;
+  }
+
+
+
+  // Background eclipse
+
+// .ellipse-5-0 {
+//     height: 949px;
+//     width: 977px;
+//   }
+  .simple-iconsx {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 3.13rem;
+    height: 3.13rem;
+    overflow: hidden;
+  }
+  .material-symbols-lightquick-r-icon {
+    position: absolute;
+    top: 398.5rem;
+    left: 12.69rem;
+    width: 4.38rem;
+    height: 4.31rem;
+    overflow: hidden;
+  }
+  .final-macbook-pro-16-38-child {
+    position: absolute;
+    top: 104.75rem;
+    left: 67.06rem;
+    border-radius: 50%;
+    background: linear-gradient(87.75deg, rgba(0, 194, 255, 0.04), rgba(0, 194, 255, 0.21) 30.83%, rgba(0, 194, 255, 0));
+    width: 39.25rem;
+    height: 29.75rem;
+  }
+  .final-macbook-pro-16-38-item {
+    position: absolute;
+    top: 129.13rem;
+    left: -15.31rem;
+    border-radius: 50%;
+    background-color: rgba(0, 194, 255, 0.37);
+    filter: blur(300px);
+    width: 31.38rem;
+    height: 28.25rem;
+  }
+  .final-macbook-pro-16-38-inner {
+    position: absolute;
+    top: 584.38rem;
+    left: -0.28rem;
+    background: linear-gradient(100.43deg, #005e99, rgba(106, 106, 106, 0));
+    width: 83.88rem;
+    height: 43.88rem;
+    transform: rotate(39.08deg);
+    transform-origin: 0 0;
+  }
+  .it,
+  .it1 {
+    font-size: var(--font-size-26xl);
+  }
+  .it {
+    position: absolute;
+    top: 348.38rem;
+    left: 100.25rem;
+    display: inline-block;
+    color: var(--color-gray-400);
+    width: 10.44rem;
+    height: 4.5rem;
+  }
+  .it1 {
+    top: 401.88rem;
+    left: 98.94rem;
+  }
+  .d2c,
+  .d2c1,
+  .d2c2,
+  .energy,
+  .it1,
+  .it2,
+  .real-estate,
+  .retial,
+  .retial1,
+  .retial2,
+  .sports {
+    position: absolute;
+    display: inline-block;
+    color: var(--color-gray-400);
+    width: 10.44rem;
+    height: 4.5rem;
+  }
+  .it2 {
+    top: 458.19rem;
+    left: 98.5rem;
+    font-size: var(--font-size-26xl);
+  }
+  .d2c,
+  .d2c1,
+  .d2c2,
+  .energy,
+  .real-estate,
+  .retial,
+  .retial1,
+  .retial2,
+  .sports {
+    top: 344.94rem;
+    left: 99.13rem;
+  }
+  .d2c1,
+  .d2c2,
+  .energy,
+  .real-estate,
+  .retial,
+  .retial1,
+  .retial2,
+  .sports {
+    top: 397.44rem;
+    left: 97.75rem;
+  }
+  .d2c2,
+  .energy,
+  .real-estate,
+  .retial,
+  .retial1,
+  .retial2,
+  .sports {
+    top: 452.63rem;
+    left: 97.25rem;
+  }
+  .energy,
+  .real-estate,
+  .retial,
+  .retial1,
+  .retial2,
+  .sports {
+    top: 353.19rem;
+    left: 97.56rem;
+  }
+  .energy,
+  .real-estate,
+  .retial1,
+  .retial2,
+  .sports {
+    top: 406.69rem;
+    left: 96.25rem;
+  }
+  .energy,
+  .real-estate,
+  .retial2,
+  .sports {
+    top: 464.56rem;
+    left: 94.44rem;
+  }
+  .energy,
+  .real-estate,
+  .sports {
+    top: 436.88rem;
+    left: 48.94rem;
+    font-size: var(--font-size-26xl);
+    color: var(--color-gray-200);
+    width: 16.25rem;
+  }
+  .energy,
+  .sports {
+    top: 398.25rem;
+    left: 37.5rem;
+    color: var(--color-deepskyblue-300);
+    width: 10.5rem;
+  }
+  .energy {
+    top: 406.44rem;
+    left: 53rem;
+  }
+  .fintech,
+  .fintech1 {
+    color: var(--color-deepskyblue-200);
+    width: 11.81rem;
+    height: 4.5rem;
+  }
+  .fintech {
+    position: absolute;
+    top: 340.06rem;
+    left: 96.88rem;
+    display: inline-block;
+  }
+  .fintech1 {
+    top: 392.25rem;
+    left: 94.81rem;
+  }
+  .chemical,
+  .fintech1,
+  .fintech2 {
+    position: absolute;
+    display: inline-block;
+  }
+  .fintech2 {
+    top: 445.44rem;
+    left: 93.75rem;
+    color: var(--color-deepskyblue-200);
+    width: 11.81rem;
+    height: 4.5rem;
+  }
+  .chemical {
+    top: 391.38rem;
+    left: 35.63rem;
+    font-size: var(--font-size-26xl);
+    color: rgba(138, 138, 138, 0.56);
+    width: 14.38rem;
+    height: 4.44rem;
+  }
+  .e-commerce,
+  .e-commerce1,
+  .e-commerce2,
+  .supplychain,
+  .supplychain1,
+  .supplychain2 {
+    position: absolute;
+    top: 363.81rem;
+    left: 87.13rem;
+    display: inline-block;
+    color: var(--color-gainsboro);
+    width: 21.25rem;
+    height: 4.5rem;
+  }
+  .e-commerce1,
+  .e-commerce2,
+  .supplychain,
+  .supplychain1,
+  .supplychain2 {
+    top: 417.69rem;
+  }
+  .e-commerce2,
+  .supplychain,
+  .supplychain1,
+  .supplychain2 {
+    top: 475.19rem;
+    left: 84.44rem;
+  }
+  .supplychain,
+  .supplychain1,
+  .supplychain2 {
+    top: 329.19rem;
+    left: 87.44rem;
+    text-transform: capitalize;
+    color: var(--color-deepskyblue-100);
+    width: 22.19rem;
+  }
+  .supplychain1,
+  .supplychain2 {
+    top: 382.31rem;
+    left: 86.44rem;
+  }
+  .supplychain2 {
+    top: 435.31rem;
+    left: 85.5rem;
+  }
+  .mingcutesuitcase-2-fill-icon {
+    position: absolute;
+    top: 26.83rem;
+    left: 4.7rem;
+    width: 4.36rem;
+    height: 5.96rem;
+    overflow: hidden;
+  }
+  .image-10 {
+    position: absolute;
+    top: 158.58rem;
+    left: 199.83rem;
+    width: 36.24rem;
+    height: 64.46rem;
+    transform: rotate(179.81deg);
+    transform-origin: 0 0;
+  }
+  .vector-icon {
+    position: absolute;
+    top: 26rem;
+    left: 6.22rem;
+    width: 0.31rem;
+    height: 67.44rem;
+  }
+  .final-macbook-pro-16-38-child1 {
+    position: absolute;
+    top: 262rem;
+    left: 6.3rem;
+    width: 0.31rem;
+    height: 275.31rem;
+  }
+  .image-removebg-preview-33-1 {
+    position: absolute;
+    top: -58px;
+    left: -72px;
+    width: 28.24rem;
+    height: 17.59rem;
+    object-fit: cover;
+  }
+  .rectangle-section {
+    position: absolute;
+    top: 65.94rem;
+    left: 18.44rem;
+    border-radius: var(--br-31xl);
+    filter: blur(155px);
+    width: 81.5rem;
+    height: 100.38rem;
+  }
+  .worko-logo-ai-2-icon {
+    position: absolute;
+    top: 1.56rem;
+    left: 2.63rem;
+    width: 9.06rem;
+    height: 3.44rem;
+    object-fit: cover;
+  }
+  .about-us, .corporate {
+    position: absolute;
+    top: 1.81rem;
+    left: 30.13rem;
+    font-size: var(--font-size-7xl);
+    font-family: var(--font-inria-sans);
+  }
+  .corporate {
+    left: 52.13rem;
+  }
+  .image-9-icon {
+    position: absolute;
+    top: 9.31rem;
+    left: 41.56rem;
+    border-radius: 466.73px;
+    width: 49.44rem;
+    height: 47.41rem;
+    object-fit: cover;
+  }
+  .faqs {
+    position: absolute;
+    top: 1.81rem;
+    left: 42.56rem;
+    font-size: var(--font-size-7xl);
+    font-family: var(--font-inria-sans);
+    display: inline-block;
+    width: 4.5rem;
+  }
+  .frame-child {
+    position: absolute;
+    top: 0;
+    left: 4.47rem;
+    background-color: var(--color-white);
+    width: 108.81rem;
+    height: 10.5rem;
+  }
+  .image-25-icon,
+  .pngwing-1-icon {
+    position: absolute;
+    top: 2.88rem;
+    left: 16.18rem;
+    width: 16.18rem;
+    height: 4.81rem;
+    object-fit: cover;
+  }
+  .image-25-icon {
+    top: 1.13rem;
+    left: 4.81rem;
+    width: 13.23rem;
+    height: 8.25rem;
+  }
+  .download-removebg-preview-13-icon {
+    position: absolute;
+    top: 3.06rem;
+    left: 110.19rem;
+    width: 15.81rem;
+    height: 5.44rem;
+    object-fit: cover;
+  }
+  .download-removebg-preview-14-icon {
+    position: absolute;
+    top: 4rem;
+    left: 57.36rem;
+    width: 14.17rem;
+    height: 4.44rem;
+    object-fit: cover;
+  }
+  .download-removebg-preview-15-icon {
+    position: absolute;
+    top: 3.06rem;
+    left: 74.05rem;
+    width: 15.93rem;
+    height: 5.38rem;
+    object-fit: cover;
+  }
+  .download-removebg-preview-16-icon {
+    position: absolute;
+    top: 4.56rem;
+    left: 92.5rem;
+    width: 13.35rem;
+    height: 3.88rem;
+    object-fit: cover;
+  }
+  .download-removebg-preview-17-icon {
+    position: absolute;
+    top: 1.81rem;
+    left: 37.53rem;
+    width: 14.61rem;
+    height: 7.94rem;
+    object-fit: cover;
+  }
+  .rectangle-parent {
+    position: absolute;
+    top: 500.5rem;
+    left: -4.81rem;
+    width: 126rem;
+    height: 10.5rem;
+  }
+  .connections-made-to,
+  .employees-willing-to,
+  .job-seekers,
+  .k-20k-104k {
+    position: absolute;
+    font-weight: 600;
+    text-align: center;
+    display: inline-block;
+  }
+  .k-20k-104k {
+    top: 71.63rem;
+    left: 5.44rem;
+    font-size: 3.63rem;
+    font-family: var(--font-poppins);
+    color: var(--color-white);
+    width: 76.81rem;
+    height: 11.56rem;
+  }
+  .connections-made-to,
+  .employees-willing-to,
+  .job-seekers {
+    top: 78.06rem;
+    left: 19.5rem;
+    color: var(--color-gray-200);
+    width: 15.38rem;
+    height: 3.63rem;
+    font-size: 30px;
+  }
+  .connections-made-to,
+  .employees-willing-to {
+    top: 77;
+    left: 34.25rem;
+    width: 22.94rem;
+    height: 4.44rem;
+  }
+  .connections-made-to {
+    top: 78.38rem;
+    left: 51.44rem;
+    width: 23.06rem;
+  }
+  .ellipse-div {
+    position: absolute;
+    top: 34.56rem;
+    left: -16.12rem;
+    border-radius: 50%;
+    background: linear-gradient(
+      180deg,
+      rgba(15, 78, 174, 0.3),
+      rgba(48, 143, 230, 0.3) 99.99%,
+      rgba(175, 37, 240, 0.3)
+    );
+    filter: blur(300px);
+    width: 41.5rem;
+    height: 39.69rem;
+  }
+  
+  .iconamoonprofile-circle-fill {
+    position: absolute;
+    top: 1.7rem;
+    left: 69rem;
+    width: 4.69rem;
+    height: 2.69rem;
+    overflow: hidden;
+  }
+  .final-macbook-pro-16-38-child2 {
+    position: absolute;
+    top: 7.69rem;
+    left: 6.22rem;
+    width: 0.31rem;
+    height: 20rem;
+  }
+  .final-macbook-pro-16-38-child3 {
+    position: absolute;
+    top: -3.74rem;
+    left: 6.05rem;
+    width: 12.23rem;
+    height: 27.33rem;
+  }
+  .final-macbook-pro-16-38-child4, .final-macbook-pro-16-38-child5 {
+    position: absolute;
+    top: 7.56rem;
+    left: 5.25rem;
+    border-radius: 50%;
+    background-color: var(--color-white);
+    width: 2rem;
+    height: 2rem;
+  }
+  .final-macbook-pro-16-38-child5 {
+    top: 1.69rem;
+    left: 15.8rem;
+    width: 1.88rem;
+    height: 1.88rem;
+  }
+  .rinumbers-fill-icon {
+    position: absolute;
+    top: 66.26rem;
+    left: 8.8rem;
+    width: 5.23rem;
+    height: 6.36rem;
+    overflow: hidden;
+  }
+  .final-macbook-pro-16-38-child6 {
+    position: absolute;
+    top: 51.67rem;
+    left: 6.22rem;
+    width: 4.45rem;
+    height: 13.61rem
+  }
+  .final-macbook-pro-16-38-child7 {
+    position: absolute;
+    top: 72.16rem;
+    left: 6.22rem;
+    width: 4.41rem;
+    height: 13.35rem
+  
+  }
+  .material-symbolsproblem-outli-icon {
+    position: absolute;
+    top: 89.08rem;
+    left: 5.14rem;
+    width: 4.36rem;
+    height: 5.83rem;
+    overflow: hidden;
+  }
+  .final-macbook-pro-16-38-child8,
+   .rectangle-div {
+    position: absolute;
+    top: 54.38rem;
+    border-radius: var(--br-xl);
+    box-sizing: border-box;
+    height: 4.13rem;
+  }
+  .rectangle-div {
+    left: 8.81rem;
+    background-color: var(--color-skyblue-100);
+    border: 5px solid var(--color-gray-300);
+    width: 16.94rem;
+  
+  }
+  .final-macbook-pro-16-38-child8 {
+    left: 26.88rem;
+      border: 5px solid #68dbff;
+    width: 17rem;
+  }
+  .get-referral,
+  .give-referral {
+    position: absolute;
+    top: 55.13rem;
+    font-size: var(--font-size-13xl);
+    font-family: var(--font-inria-sans);
+    display: inline-block;
+    height: 5.94rem;
+  }
+  .give-referral {
+    left: 30.19rem;
+    color: #73ddff;
+    background: none;
+    width: 11.88rem;
+  }
+  .get-referral {
+    left: 11.69rem;
+    color: var(--color-darkslategray-300);
+    width: 11.19rem;
+  }
+  .final-macbook-pro-16-38-child9 {
+    position: absolute;
+    top: 409.38rem;
+    left: -20.56rem;
+    border-radius: 50%;
+    background-color: rgba(0, 194, 255, 0.6);
+    filter: blur(300px);
+    width: 31.38rem;
+    height: 28.25rem;
+  }
+  .final-macbook-pro-16-38-child10 {
+    position: absolute;
+    top: 679.16rem;
+    left: 39.69rem;
+    border-radius: var(--br-162xl);
+    background: linear-gradient(
+      245.67deg,
+      rgba(8, 110, 154, 0.58),
+      rgba(24, 69, 53, 0) 98.98%
+    );
+    width: 76.76rem;
+    height: 39.08rem;
+    transform: rotate(-36.5deg);
+    transform-origin: 0 0;
+  }
+  .footer-rectangle {
+    position: absolute;
+    top: 673.69rem;
+    left: 0;
+    background-color: var(--color-white);
+    width: 108rem;
+    height: 29.44rem;
+  }
+  .final-macbook-pro-16-38-child11 {
+    position: absolute;
+    top: 703.09rem;
+    left: 42.25rem;
+    border-radius: var(--br-162xl);
+    background: linear-gradient(
+      245.67deg,
+      rgba(8, 110, 154, 0.17),
+      rgba(24, 69, 53, 0) 98.98%
+    );
+    width: 76.76rem;
+    height: 39.08rem;
+    transform: rotate(-36.5deg);
+    transform-origin: 0 0;
+  }
+  .worko-all-rights {
+    margin: 0;
+  }
+  .worko-all-rights-container {
+    position: absolute;
+    top: 695.69rem;
+    left: 43.38rem;
+    font-size: var(--font-size-xl);
+    font-weight: 500;
+    color: var(--color-darkslategray-300);
+    text-align: center;
+  }
+  .elevate-your-recruitment {
+    margin: 0;
+    font-weight: 500;
+    color: rgba(113, 113, 113, 0.99);
+  }
+  .setting-new-hiring-container {
+    position: absolute;
+    top: 680.69rem;
+    left: 2.19rem;
+    font-size: var(--font-size-xl);
+    display: inline-block;
+    width: 52.13rem;
+    color: var(--color-darkslategray-300);
+  }
+  .worko-logo-ai-7-icon {
+    position: absolute;
+    top: 674.31rem;
+    left: 1.75rem;
+    width: 14.38rem;
+    height: 6rem;
+    object-fit: cover;
+  }
+  .faqs1,
+  .quick-links {
+    position: absolute;
+    color: var(--color-darkslategray-300);
+  }
+  .quick-links {
+    top: 676.63rem;
+    left: 70.69rem;
+    font-size: var(--font-size-7xl);
+    font-weight: 500;
+  }
+  .faqs1 {
+    top: 682rem;
+    left: 70.94rem;
+    font-size: var(--font-size-5xl);
+  }
+  .about,
+  .contact-us,
+  .div,
+  .follow-us,
+  .helloworkoai,
+  .privacy-policy,
+  .terms-of-service,
+  .validation-of-was {
+    position: absolute;
+    top: 679.63rem;
+    left: 91.5rem;
+    font-size: var(--font-size-5xl);
+    color: var(--color-darkslategray-300);
+  }
+  .about,
+  .contact-us,
+  .follow-us,
+  .helloworkoai,
+  .privacy-policy,
+  .terms-of-service,
+  .validation-of-was {
+    top: 682.19rem;
+  }
+  .about,
+  .contact-us,
+  .follow-us,
+  .privacy-policy,
+  .terms-of-service,
+  .validation-of-was {
+    top: 686.88rem;
+    left: 70.94rem;
+  }
+  .about,
+  .contact-us,
+  .follow-us,
+  .terms-of-service,
+  .validation-of-was {
+    top: 689.13rem;
+  }
+  .about,
+  .contact-us,
+  .follow-us,
+  .terms-of-service {
+    top: 684.44rem;
+  }
+  .about,
+  .contact-us,
+  .follow-us {
+    top: 679.56rem;
+  }
+  .contact-us,
+  .follow-us {
+    top: 676.63rem;
+    left: 91.5rem;
+    font-size: var(--font-size-7xl);
+    font-weight: 500;
+  }
+  .follow-us {
+    top: 686.44rem;
+  }
+  .final-macbook-pro-16-38-child12 {
+    position: absolute;
+    top: 89.38rem;
+    left: 6.22rem;
+    width: 0.31rem;
+    height: 62.5rem;
+  }
+  .final-macbook-pro-16-38-child13,
+  .worko-your-job {
+    position: absolute;
+    top: 151.38rem;
+    left: -1096px;
+    width: 150rem;
+    height: 56.51rem;
+  }
+  .worko-your-job {
+    top: 88.44rem;
+    left: 11.13rem;
+    font-size: 46px;
+    font-weight: 700;
+    font-family: var(--font-poppins);
+    background: linear-gradient(180deg, #50d5ff 12.5%, #d1e4fb 76.04%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    text-align: left;
+    display: inline-block;
+    // width: 72.44rem;
+    // height: 5.75rem;
+  }
+  .final-macbook-pro-16-38-child15 {
+    position: absolute;
+    top: 104.67rem;
+    left: 6.2rem;
+    width: 4.45rem;
+    height: 13.61rem
+  }
+  .final-macbook-pro-16-38-child16 {
+    position: absolute;
+    top: 124.35rem;
+    left: 6.4rem;
+    width: 4.41rem;
+    height: 13.35rem;
+
+  }
+  .material-symbolsproblem-outli-icon1 {
+    position: absolute;
+    top: 147.21rem;
+    left: 5rem;
+    width: 4.36rem;
+    height: 5.83rem;
+    overflow: hidden;
+  }
+  .promoting-equitability-by {
+    position: absolute;
+    top: 94.38rem;
+    left: 11.31rem;
+    font-size: 19px;
+    display: inline-block;
+    width: 36.69rem;
+    height: 8.06rem;
+  }
+  .worko-logo-ai-3-icon {
+    position: absolute;
+    top: 106.88rem;
+    left: 48.38rem;
+    width: 32.19rem;
+    height: 26.5rem;
+    object-fit: cover;
+  }
+  .blank-line1 {
+    font-size: var(--font-size-7xl);
+  }
+  .blank-line {
+    font-weight: 500;
+  }
+  .blank-line,
+  .span {
+    font-family: var(--font-poppins);
+  }
+  .referrals-and-guidance {
+    font-size: var(--font-size-13xl);
+  }
+  .worko-enables-the {
+    font-weight: 300;
+  }
+  .referrals-and-guidance-worko {
+    margin: 0;
+    font-size: var(--font-size-3xl);
+  }
+  .blank-line4 {
+    margin: 0;
+    font-weight: 500;
+  }
+  .referrals-and-guidance-container {
+    position: absolute;
+    top: 111.69rem;
+    left: 11.81rem;
+    text-align: center;
+    display: inline-block;
+    width: 40rem;
+    height: 10.81rem;
+    font-size: var(--br-7xs);
+  }
+  .bridging-talent-gap1 {
+    font-weight: 500;
+    font-size: 26px;
+  }
+  .it-bridges-the {
+    margin: 0;
+    font-size: var(--font-size-3xl);
+    font-weight: 300;
+    font-size: 18px;
+  }
+  .bridging-talent-gap-container {
+    position: absolute;
+    top: 124.44rem;
+    left: 11.5rem;
+    text-align: center;
+    display: inline-block;
+    width: 40rem;
+    height: 10.81rem;
+    font-size: var(--font-size-13xl);
+  }
+  .google-code {
+    position: absolute;
+    top: 240.81rem;
+    left: 92.13rem;
+    width: 5.63rem;
+    height: 5.63rem;
+  }
+  .final-macbook-pro-16-38-child17,
+  .worko-your-job1 {
+    position: absolute;
+    top: 204.63rem;
+    left: 6.3rem;
+    width: 0.5rem;
+    height: 86.51rem;
+  }
+  .worko-your-job1 {
+    top: 203.88rem;
+    left: 11.25rem;
+    font-size: 2.9rem;
+    font-weight: 700;
+    font-family: var(--font-poppins);
+    background: linear-gradient(180deg, #50d5ff 12.5%, #d1e4fb 76.04%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    text-align: left;
+    display: inline-block;
+    width: 72.44rem;
+    height: 5.75rem;
+  }
+  .final-macbook-pro-16-38-child18 {
+    position: absolute;
+    top: 221.11rem;
+    left: 6.4rem;
+    width: 4.45rem;
+    height: 13.61rem;
+  }
+  .final-macbook-pro-16-38-child19 {
+    position: absolute;
+    top: 332.79rem;
+    left: 10.78rem;
+    width: 4.13rem;
+    height: 12.83rem;
+  }
+  .final-macbook-pro-16-38-child20,
+  .final-macbook-pro-16-38-child21 {
+    position: absolute;
+    top: 385.11rem;
+    left: 10.91rem;
+    width: 4.13rem;
+    height: 12.83rem;
+  }
+  .final-macbook-pro-16-38-child21 {
+    top: 440.92rem;
+    width: 4.19rem;
+  }
+  .final-macbook-pro-16-38-child22 {
+    position: absolute;
+    top: 240.79rem;
+    left: 6.51rem;
+    width: 4.41rem;
+    height: 13.35rem;
+  }
+  .final-macbook-pro-16-38-child23 {
+    position: absolute;
+    top: 351.37rem;
+    left: 10.47rem;
+    width: 4.1rem;
+    height: 12.61rem;
+  }
+  .final-macbook-pro-16-38-child24,
+  .final-macbook-pro-16-38-child25 {
+    position: absolute;
+    top: 403.55rem;
+    left: 10.64rem;
+    width: 4.11rem;
+    height: 12.61rem;
+  }
+  .final-macbook-pro-16-38-child25 {
+    top: 459.51rem;
+  }
+  .material-symbolsproblem-outli-icon2 {
+    position: absolute;
+    top: 204.46rem;
+    left: 4.9rem;
+    width: 4.36rem;
+    height: 5.83rem;
+    overflow: hidden;
+  }
+  .promoting-equitability-by1 {
+    position: absolute;
+    top: 210.81rem;
+    left: 11.44rem;
+    font-size: 19px;
+    display: inline-block;
+    width: 36.69rem;
+    height: 8.06rem;
+  }
+  .users-gain-insights-from-indus {
+    margin: 0;
+    font-size: 20px;
+  }
+  .insider-insights-users-container1 {
+    line-break: anywhere;
+    width: 100%;
+  }
+  .insider-insights-users-container {
+    position: absolute;
+    top: 230.38rem;
+    left: 14.94rem;
+    display: flex;
+    align-items: center;
+    width: 34.75rem;
+    height: 20.56rem;
+  }
+  .image-14-icon {
+    position: absolute;
+    top: 221.69rem;
+    left: 47.69rem;
+    width: 30.5rem;
+    height: 29.5rem;
+    object-fit: cover;
+  }
+  .an-equitable-job-container,
+  .we-augment-the {
+    position: absolute;
+    left: 10.63rem;
+    display: inline-block;
+  }
+  .we-augment-the {
+    top: 27.19rem;
+    font-size: var(--font-size-35xl);
+    background: linear-gradient(90deg, #4fc3f5, #d1e4fb);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    width: 52.81rem;
+    height: 11.19rem;
+  }
+  .an-equitable-job-container {
+    top: 32.63rem;
+    font-size: var(--font-size-11xl);
+    font-weight: 500;
+    color: #f9e6e6;
+    width: 52.44rem;
+    height: 6.81rem;
+  }
+  .vector-icon1 {
+    position: absolute;
+    height: 0.26%;
+    width: 1.85%;
+    top: 4.6%;
+    right: 8.74%;
+    bottom: 95.14%;
+    left: 89.41%;
+    max-width: 100%;
+    overflow: hidden;
+    max-height: 100%;
+  }
+  .vector-icon2,
+  .vector-icon3,
+  .vector-icon4,
+  .vector-icon5,
+  .vector-icon6,
+  .vector-icon7,
+  .vector-icon8 {
+    position: absolute;
+    height: 0.26%;
+    width: 1.85%;
+    top: 5.25%;
+    right: 14.64%;
+    bottom: 94.49%;
+    left: 83.51%;
+    max-width: 100%;
+    overflow: hidden;
+    max-height: 100%;
+  }
+  .vector-icon3,
+  .vector-icon4,
+  .vector-icon5,
+  .vector-icon6,
+  .vector-icon7,
+  .vector-icon8 {
+    top: 6.95%;
+    right: 5.61%;
+    bottom: 92.8%;
+    left: 92.53%;
+  }
+  .vector-icon4,
+  .vector-icon5,
+  .vector-icon6,
+  .vector-icon7,
+  .vector-icon8 {
+    top: 5.34%;
+    right: 1.5%;
+    bottom: 94.41%;
+    left: 96.64%;
+  }
+  .vector-icon5,
+  .vector-icon6,
+  .vector-icon7,
+  .vector-icon8 {
+    top: 3.21%;
+    right: 4.34%;
+    bottom: 96.53%;
+    left: 93.81%;
+  }
+  .vector-icon6,
+  .vector-icon7,
+  .vector-icon8 {
+    top: 2.14%;
+    bottom: 97.6%;
+  }
+  .vector-icon7,
+  .vector-icon8 {
+    top: 2.58%;
+    right: 11.46%;
+    bottom: 97.16%;
+    left: 86.69%;
+  }
+  .vector-icon8 {
+    top: 5.99%;
+    right: 6.89%;
+    bottom: 93.75%;
+    left: 91.26%;
+  }
+  .final-macbook-pro-16-38-child26 {
+    position: absolute;
+    top: 735.22rem;
+    left: -44.69rem;
+    border-radius: var(--br-162xl);
+    background: linear-gradient(
+      245.67deg,
+      rgba(8, 110, 154, 0.17),
+      rgba(24, 69, 53, 0) 98.98%
+    );
+    width: 76.76rem;
+    height: 39.08rem;
+    transform: rotate(-36.5deg);
+    transform-origin: 0 0;
+  }
+  .vector-icon9 {
+    position: absolute;
+    height: 2.5%;
+    width: 21.81%;
+    top: 2.47%;
+    right: 12.33%;
+    bottom: 95.03%;
+    left: 67.87%;
+    max-width: 100%;
+    overflow: hidden;
+    max-height: 100%;
+  }
+  .flat-color-iconsgoogle {
+    position: absolute;
+    top: 19.75rem;
+    left: 66.88rem;
+    width: 2.0rem;
+    height: 2.6rem;
+    overflow: hidden;
+  }
+  .hi-kunal-here,
+  .sde-2-from-container {
+    position: absolute;
+    left: 76.19rem;
+    font-weight: 500;
+    display: inline-block;
+  }
+  .hi-kunal-here {
+    top: 22.63rem;
+    font-size: var(--font-size-3xl);
+    width: 13.75rem;
+    left: 55rem;
+    height: 1.44rem;
+  }
+  .sde-2-from-container {
+    top: 24.88rem;
+    font-size: 0.78rem;
+    color: #c4c3c3;
+    left: 55rem;
+    width: 17.06rem;
+    height: 4rem;
+  }
+  .man-wearing-t-shirt-gesturing-icon {
+    position: absolute;
+    top: 19.9rem;
+    left: 55.1rem;
+    border-radius: 1365px;
+    width: 2.5rem;
+    height: 2.5rem;
+    object-fit: cover;
+  }
+  .line-icon {
+    position: absolute;
+    top: 33.69rem;
+    left: 84.56rem;
+    width: 4.88rem;
+    height: 0.25rem;
+  }
+  .final-macbook-pro-16-38-child27 {
+    position: absolute;
+    top: 32.84rem;
+    left: 89.31rem;
+    border-radius: 50%;
+    background-color: var(--color-white);
+    filter: blur(4px);
+    width: 1.06rem;
+    height: 1.13rem;
+  }
+  .image-24-icon {
+    position: absolute;
+    top: 357.88rem;
+    left: 47.38rem;
+    border-radius: var(--br-11xl);
+    width: 4.69rem;
+    height: 4.63rem;
+    object-fit: cover;
+    display: none;
+  }
+  .div1 {
+    position: absolute;
+    top: 425.13rem;
+    left: -62.37rem;
+    font-size: 9.38rem;
+    font-family: var(--font-poller-one);
+    color: #00d2ff;
+  }
+  .benefits-for-you,
+  .worko-is-committed {
+    position: absolute;
+    font-family: var(--font-poppins);
+    text-align: left;
+    display: inline-block;
+  }
+  .benefits-for-you {
+    top: 265.88rem;
+    left: 12.13rem;
+    font-size: 49px;
+    font-weight: 700;
+    background: linear-gradient(90deg, #50d5ff 12.5%, #d1e4fb 76.04%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    width: 72.44rem;
+    height: 12.06rem;
+  }
+  .worko-is-committed {
+    top: 272.94rem;
+    left: 12.63rem;
+    font-size: 18px;
+    color: var(--color-white);
+    width: 86.75rem;
+    height: 8.06rem;
+  }
+  .final-macbook-pro-16-38-child28,
+  .final-macbook-pro-16-38-child29,
+  .final-macbook-pro-16-38-child30 {
+    position: absolute;
+    top: 341.19rem;
+    left: 76.75rem;
+    border-radius: 50%;
+    background-color: var(--color-black);
+    box-shadow: 50px 25px 4px rgba(0, 0, 0, 0.25);
+    width: 16.75rem;
+    height: 16.31rem;
+  }
+  .final-macbook-pro-16-38-child29,
+  .final-macbook-pro-16-38-child30 {
+    top: 393.63rem;
+    left: 75.69rem;
+    box-shadow: 100px 20px 4px rgba(0, 0, 0, 0.25);
+    width: 16.69rem;
+  }
+  .final-macbook-pro-16-38-child30 {
+    top: 449.38rem;
+  }
+  .final-macbook-pro-16-38-child31,
+  .final-macbook-pro-16-38-child32,
+  .final-macbook-pro-16-38-child33 {
+    position: absolute;
+    top: 338.23rem;
+    left: 94.8rem;
+    border-radius: 50%;
+    background: linear-gradient(
+      181.58deg,
+      rgba(40, 67, 105, 0.67) 21.46%,
+      #0cbada
+    );
+    box-shadow: 30px 10px 4px rgba(0, 0, 0, 0.25),
+      0 10px 10px rgba(0, 0, 0, 0.25) inset;
+    width: 20.72rem;
+    height: 20.33rem;
+    transform: rotate(87.08deg);
+    transform-origin: 0 0;
+  }
+  .final-macbook-pro-16-38-child32,
+  .final-macbook-pro-16-38-child33 {
+    top: 390.71rem;
+    left: 93.7rem;
+  }
+  .final-macbook-pro-16-38-child33 {
+    top: 446.43rem;
+  }
+  .final-macbook-pro-16-38-child34,
+  .final-macbook-pro-16-38-child35,
+  .final-macbook-pro-16-38-child36 {
+       position: absolute;
+    top: 307.14rem;
+    left: 53.04rem;
+    border-radius: 50%;
+    background: linear-gradient(180deg, #0d93ae 9.9%, rgba(51, 84, 129, 0) 51.56%);
+    box-shadow: 25px 10px 4px rgba(0, 0, 0, 0.25);
+    width: 20.11rem;
+    height: 21.21rem;
+    transform: rotate(-90deg);
+    transform-origin: 0 0;
+  }
+  .final-macbook-pro-16-38-child35,
+  .final-macbook-pro-16-38-child36 {
+    top: 416.62rem;
+    left: 68.94rem;
+  }
+  .final-macbook-pro-16-38-child36 {
+    top: 472.34rem;
+  }
+  .rectangle-input {
+    border: 0;
+    background-color: var(--color-cadetblue);
+    position: absolute;
+    top: 281.13rem;
+    left: 26.69rem;
+    border-radius: var(--br-11xl);
+    box-shadow: 10px 8px 20px rgba(255, 255, 255, 0.34);
+    width: 28.38rem;
+    height: 3.94rem;
+  }
+  .final-macbook-pro-16-38-child37,
+  .final-macbook-pro-16-38-child38,
+  .final-macbook-pro-16-38-child39,
+  .final-macbook-pro-16-38-child40,
+  .final-macbook-pro-16-38-child41 {
+    border: 0;
+    background-color: var(--color-cadetblue);
+    position: absolute;
+    top: 381.63rem;
+    left: 30.63rem;
+    border-radius: var(--br-11xl);
+    box-shadow: 10px 8px 20px rgba(255, 255, 255, 0.34);
+    width: 40.31rem;
+    height: 4.88rem;
+  }
+  .final-macbook-pro-16-38-child38,
+  .final-macbook-pro-16-38-child39,
+  .final-macbook-pro-16-38-child40,
+  .final-macbook-pro-16-38-child41 {
+    top: 437.31rem;
+    height: 4.94rem;
+  }
+  .final-macbook-pro-16-38-child39,
+  .final-macbook-pro-16-38-child40,
+  .final-macbook-pro-16-38-child41 {
+    top: 287.06rem;
+    left: 21.56rem;
+    width: 29.38rem;
+    height: 3.88rem;
+  }
+  .final-macbook-pro-16-38-child40,
+  .final-macbook-pro-16-38-child41 {
+    top: 389.5rem;
+    left: 24.44rem;
+    height: 4.94rem;
+  }
+  .final-macbook-pro-16-38-child41 {
+    top: 445.25rem;
+    height: 4.88rem;
+  }
+  .final-macbook-pro-16-38-child42,
+  .final-macbook-pro-16-38-child43,
+  .final-macbook-pro-16-38-child44 {
+    border: 0;
+    background-color: var(--color-teal-100);
+    position: absolute;
+    top: 293.5rem;
+    left: 18.75rem;
+    border-radius: var(--br-11xl);
+    box-shadow: 10px 20px 30px rgba(255, 255, 255, 0.18);
+    width: 28.31rem;
+    height: 3.81rem;
+  }
+  .final-macbook-pro-16-38-child43,
+  .final-macbook-pro-16-38-child44 {
+    top: 397.94rem;
+    left: 21.63rem;
+    height: 4.88rem;
+  }
+  .final-macbook-pro-16-38-child44 {
+    top: 453.69rem;
+    height: 4.81rem;
+  }
+  .final-macbook-pro-16-38-child45,
+  .final-macbook-pro-16-38-child46,
+  .final-macbook-pro-16-38-child47 {
+    border: 0;
+    background-color: var(--color-darkslategray-100);
+    position: absolute;
+    top: 299.5rem;
+    left: 21.63rem;
+    border-radius: var(--br-11xl);
+    box-shadow: 10px 20px 30px rgba(255, 255, 255, 0.17);
+    width: 28.31rem;
+    height: 3.94rem;
+  }
+  .final-macbook-pro-16-38-child46,
+  .final-macbook-pro-16-38-child47 {
+    top: 406rem;
+    left: 24.5rem;
+    height: 4.88rem;
+  }
+  .final-macbook-pro-16-38-child47 {
+    top: 461.69rem;
+    height: 4.94rem;
+  }
+  .final-macbook-pro-16-38-child48,
+  .final-macbook-pro-16-38-child49,
+  .final-macbook-pro-16-38-child50 {
+    border: 0;
+    background-color: var(--color-teal-200);
+    position: absolute;
+    top: 305.75rem;
+    left: 26.31rem;
+    border-radius: var(--br-11xl);
+    box-shadow: 10px 20px 30px rgba(255, 255, 255, 0.09);
+    width: 28.31rem;
+    height: 3.88rem;
+  }
+  .final-macbook-pro-16-38-child49,
+  .final-macbook-pro-16-38-child50 {
+    top: 414.19rem;
+    left: 30.19rem;
+    height: 4.94rem;
+  }
+  .final-macbook-pro-16-38-child50 {
+    top: 469.94rem;
+    height: 4.88rem;
+  }
+  .consulting,
+  .consulting1,
+  .consulting2,
+  .healthtech,
+  .healthtech1,
+  .healthtech2 {
+    position: absolute;
+    top: 359rem;
+    left: 91.75rem;
+    display: inline-block;
+    color: var(--color-lightgray-100);
+    width: 18.31rem;
+    height: 4.5rem;
+  }
+  .consulting,
+  .consulting1,
+  .consulting2,
+  .healthtech1,
+  .healthtech2 {
+    top: 412.88rem;
+  }
+  .consulting,
+  .consulting1,
+  .consulting2,
+  .healthtech2 {
+    top: 470.38rem;
+    left: 89.06rem;
+  }
+  .consulting,
+  .consulting1,
+  .consulting2 {
+    top: 334.06rem;
+    left: 91.75rem;
+    color: var(--color-deepskyblue-200);
+    width: 16.63rem;
+  }
+  .consulting1,
+  .consulting2 {
+    top: 387.19rem;
+    left: 90.75rem;
+  }
+  .consulting2 {
+    top: 440.19rem;
+    left: 89.81rem;
+  }
+  .afknej,
+  .consumer-goods {
+    position: absolute;
+    font-size: var(--font-size-26xl);
+  }
+  .consumer-goods {
+    top: 446.69rem;
+    left: 30.75rem;
+    display: none;
+    color: var(--color-deepskyblue-300);
+    width: 27.69rem;
+    height: 4.44rem;
+  }
+  .afknej {
+    top: 370.31rem;
+    left: 114.25rem;
+    display: inline-block;
+    color: rgba(192, 192, 192, 0.49);
+    width: 11.31rem;
+    height: 4.75rem;
+  }
+  .connect-with-industry,
+  .connect-with-industry1,
+  .connect-with-industry2,
+  .connect-with-industry3,
+  .connect-with-industry4,
+  .connect-with-industry5,
+  .connect-with-industry6 {
+    position: absolute;
+    top: 306.49rem;
+    left: 21rem;
+    font-size: 14px;
+    text-align: center;
+    display: inline-block;
+    width: 39.49rem;
+    height: 3.66rem;
+    text-shadow: 10px 4px 4px rgba(0, 0, 0, 0.25);
+  }
+  .connect-with-industry1,
+  .connect-with-industry2,
+  .connect-with-industry3,
+  .connect-with-industry4,
+  .connect-with-industry5,
+  .connect-with-industry6 {
+    top: 287.76rem;
+    left: 17.03rem;
+    font-size: 14px;
+
+  }
+  .connect-with-industry2,
+  .connect-with-industry3,
+  .connect-with-industry4,
+  .connect-with-industry5,
+  .connect-with-industry6 {
+    top: 470.69rem;
+  }
+  .connect-with-industry3,
+  .connect-with-industry4,
+  .connect-with-industry5,
+  .connect-with-industry6 {
+    top: 281.85rem;
+    left: 21.17rem;
+    font-size: 14px;
+    text-shadow: 0 4px 4px rgba(0, 0, 0, 0.25);
+  }
+  .connect-with-industry4,
+  .connect-with-industry5,
+  .connect-with-industry6 {
+    top: 382.33rem;
+    left: 31.07rem;
+  }
+  .connect-with-industry5,
+  .connect-with-industry6 {
+    top: 438.04rem;
+  }
+  .connect-with-industry6 {
+    top: 294.1rem;
+    left: 13.09rem;
+  }
+  .connect-with-industry7 {
+    top: 390.23rem;
+    left: 24.93rem;
+    text-shadow: 0 4px 4px rgba(0, 0, 0, 0.25);
+  }
+  .connect-with-industry7,
+  .connect-with-industry8,
+  .connect-with-industry9 {
+    position: absolute;
+    font-size: var(--font-size-xl);
+    text-align: center;
+    display: inline-block;
+    width: 39.49rem;
+    height: 3.66rem;
+  }
+  .connect-with-industry8 {
+    top: 445.96rem;
+    left: 24.93rem;
+    text-shadow: 0 4px 4px rgba(0, 0, 0, 0.25);
+  }
+  .connect-with-industry9 {
+    top: 345.96rem;
+    left: 22.73rem;
+  }
+  .connect-with-industry10,
+  .connect-with-industry11,
+  .connect-with-industry12,
+  .connect-with-industry13,
+  .connect-with-industry14 {
+    position: absolute;
+    top: 398.44rem;
+    left: 21.63rem;
+    font-size: var(--font-size-xl);
+    text-align: center;
+    display: inline-block;
+    width: 39.49rem;
+    height: 3.66rem;
+  }
+  .connect-with-industry11,
+  .connect-with-industry12,
+  .connect-with-industry13,
+  .connect-with-industry14 {
+    top: 454.16rem;
+  }
+  .connect-with-industry12,
+  .connect-with-industry13,
+  .connect-with-industry14 {
+    top: 300.34rem;
+    left: 15.8rem;
+    font-size: 14px;
+  }
+  .connect-with-industry13,
+  .connect-with-industry14 {
+    top: 406.82rem;
+    left: 24.7rem;
+  }
+  .connect-with-industry14 {
+    top: 462.54rem;
+  }
+  .final-macbook-pro-16-38-child51 {
+    position: absolute;
+    top: 585.56rem;
+    left: calc(50% - 787px);
+    border-radius: 59px;
+    background-color: var(--color-gray-100);
+    backdrop-filter: blur(15px);
+    width: 97.31rem;
+    height: 52.31rem;
+  }
+  .screenshot-2023-10-29-at-418-icon {
+    position: absolute;
+    top: 625.94rem;
+    left: 72.44rem;
+    width: 21.5rem;
+    height: 12.25rem;
+    object-fit: cover;
+  }
+  .employees-can-earn-container,
+  .mr-referral-bonuses {
+    position: relative;
+    display: inline-block;
+    width: 15.56rem;
+  }
+  .employees-can-earn-container {
+    font-size: var(--font-size-lg);
+    width: 15.63rem;
+    margin-top: -0.06rem;
+  }
+  .mr-referral-bonuses-parent {
+    position: absolute;
+    top: 599.38rem;
+    left: 24.75rem;
+    border-radius: var(--br-31xl);
+    background-color: var(--color-darkslategray-300);
+    box-shadow: 25px 25px 4px rgba(0, 0, 0, 0.25);
+    border: 3px solid var(--color-white);
+    box-sizing: border-box;
+    width: 19.94rem;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    justify-content: flex-end;
+    padding: var(--padding-19xl) var(--padding-19xl) 1.38rem 1.94rem;
+    text-align: center;
+    font-size: 1.44rem;
+  }
+  .employees-can-offer-container,
+  .mr-referral-bonuses-container {
+    position: relative;
+    display: inline-block;
+    width: 15.63rem;
+    height: 3.25rem;
+    flex-shrink: 0;
+  }
+  .employees-can-offer-container {
+    width: 13.69rem;
+    height: 7.5rem;
+  }
+  .mr-referral-bonuses-group {
+    position: absolute;
+    top: 602.31rem;
+    left: 45.56rem;
+    border-radius: var(--br-31xl);
+    background-color: rgba(30, 59, 99, 0.9);
+    box-shadow: 10px 15px 4px rgba(0, 0, 0, 0.25);
+    border: 3px solid var(--color-white);
+    box-sizing: border-box;
+    width: 17.31rem;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: flex-end;
+    padding: var(--padding-8xs) 0.88rem var(--padding-8xs) 0.81rem;
+    gap: 0.88rem;
+    text-align: center;
+    font-size: var(--font-size-lg);
+  }
+  .we-pre-filter-candidates-container {
+    position: absolute;
+    top: 4.06rem;
+    left: 1.5rem;
+    display: inline-block;
+    width: 13.63rem;
+    height: 9rem;
+  }
+  .mr-referral-bonuses-container1 {
+    position: absolute;
+    top: 1.13rem;
+    left: 0;
+    display: inline-block;
+    width: 15.63rem;
+    height: 3.25rem;
+  }
+  .iconamoonprofile-circle-fill1 {
+    position: absolute;
+    top: 1.69rem;
+    left: 6.81rem;
+    width: 3.13rem;
+    height: 3.13rem;
+    overflow: hidden;
+    display: none;
+  }
+  .we-pre-filter-candidates-and-p-parent {
+    position: absolute;
+    top: 602.5rem;
+    left: 7.19rem;
+    border-radius: var(--br-31xl);
+    background-color: #1e3b63;
+    box-shadow: 10px 15px 4px rgba(0, 0, 0, 0.25);
+    border: 3px solid var(--color-white);
+    box-sizing: border-box;
+    width: 16.69rem;
+    height: 14.63rem;
+    text-align: center;
+    font-size: var(--font-size-lg);
+  }
+  .vector-icon10,
+  .vector-icon11 {
+    position: absolute;
+    height: 0.3%;
+    width: 2.2%;
+    top: 76.35%;
+    right: 75.52%;
+    bottom: 23.35%;
+    left: 22.28%;
+    max-width: 100%;
+    overflow: hidden;
+    max-height: 100%;
+  }
+  .vector-icon11 {
+    top: 76.65%;
+    right: 61.92%;
+    bottom: 23.05%;
+    left: 35.88%;
+  }
+  .see-what-our {
+    position: absolute;
+    top: 589.31rem;
+    left: 7.19rem;
+    font-size: 3.44rem;
+    display: inline-block;
+    background: linear-gradient(90deg, #505050 15.63%, #001b3b 66.67%),
+      linear-gradient(90deg, #505050 15.63%, #001b3b 66.67%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    width: 72.44rem;
+    height: 12.06rem;
+  }
+  .final-macbook-pro-16-38-child52,
+  .final-macbook-pro-16-38-child53 {
+    position: absolute;
+    border-radius: 50%;
+    box-shadow: 6px 8px 4px rgba(0, 0, 0, 0.25),
+      0 10px 10px rgba(0, 0, 0, 0.25) inset;
+    width: 3.88rem;
+    height: 3.88rem;
+    transform: rotate(87.03deg);
+    transform-origin: 0 0;
+  }
+  .final-macbook-pro-16-38-child52 {
+    top: 620.13rem;
+    left: 32.49rem;
+    background-color: rgba(23, 39, 60, 0.3);
+  }
+  .final-macbook-pro-16-38-child53 {
+    top: 620.25rem;
+    left: 38.06rem;
+    background-color: #17273c;
+  }
+  .i-can-refer,
+  .i-want-to,
+  .im-looking-for {
+    position: absolute;
+    top: 347.56rem;
+    left: 77.19rem;
+    font-size: var(--font-size-15xl);
+    display: inline-block;
+    color: var(--color-aliceblue);
+    text-align: center;
+    width: 16.56rem;
+    height: 3.13rem;
+  }
+  .i-want-to,
+  .im-looking-for {
+    top: 398.94rem;
+    left: 76.06rem;
+    height: 5.63rem;
+  }
+  .i-want-to {
+    top: 453rem;
+    left: 75.81rem;
+    height: 9.31rem;
+  }
+  .e,
+  .e1,
+  .e2,
+  .f,
+  .r,
+  .r1 {
+    position: absolute;
+    top: 0.04rem;
+    left: 1.81rem;
+    transform: rotate(-24.19deg);
+    transform-origin: 0 0;
+  }
+  .e,
+  .e1,
+  .e2,
+  .f,
+  .r1 {
+    top: 2.44rem;
+    left: 0.84rem;
+    transform: rotate(-15deg);
+  }
+  .e1,
+  .e2,
+  .f,
+  .r1 {
+    top: 4.83rem;
+    left: 0.34rem;
+    transform: rotate(-7.57deg);
+  }
+  .e1,
+  .e2,
+  .r1 {
+    top: 6.59rem;
+    left: 0.17rem;
+    transform: rotate(-0.14deg);
+  }
+  .e2,
+  .r1 {
+    top: 9.06rem;
+    left: 0.29rem;
+    transform: rotate(7.7deg);
+  }
+  .e2 {
+    top: 10.99rem;
+    left: 0.64rem;
+    transform: rotate(15.54deg);
+  }
+  .e3 {
+    top: 13.39rem;
+    left: 1.43rem;
+    transform: rotate(24.46deg);
+  }
+  .a,
+  .a1,
+  .c,
+  .d,
+  .d1,
+  .e3,
+  .e4,
+  .frame,
+  .i,
+  .n,
+  .t {
+    position: absolute;
+    transform-origin: 0 0;
+  }
+  .frame {
+    top: 356.2rem;
+    left: 69.69rem;
+    width: 15.02rem;
+    height: 5.69rem;
+    transform: rotate(-88.56deg);
+    font-size: var(--font-size-26xl);
+    color: var(--color-aliceblue);
+  }
+  .a,
+  .a1,
+  .c,
+  .d,
+  .d1,
+  .e4,
+  .i,
+  .n,
+  .t {
+    top: 0.04rem;
+    left: 3.97rem;
+    transform: rotate(-38.74deg);
+  }
+  .a,
+  .a1,
+  .d,
+  .d1,
+  .e4,
+  .i,
+  .n,
+  .t {
+    top: 2.5rem;
+    left: 2.09rem;
+    transform: rotate(-27.24deg);
+  }
+  .a1,
+  .d,
+  .d1,
+  .e4,
+  .i,
+  .n,
+  .t {
+    top: 5.03rem;
+    left: 0.85rem;
+    transform: rotate(-16.35deg);
+  }
+  .a1,
+  .d,
+  .d1,
+  .e4,
+  .i,
+  .t {
+    top: 7.75rem;
+    left: 0.11rem;
+    transform: rotate(-5.45deg);
+  }
+  .a1,
+  .d1,
+  .e4,
+  .i,
+  .t {
+    top: 10.43rem;
+    left: 0.08rem;
+    transform: rotate(2.88deg);
+  }
+  .a1,
+  .d1,
+  .e4,
+  .t {
+    top: 12.04rem;
+    left: 0.01rem;
+    transform: rotate(11.2deg);
+  }
+  .a1,
+  .e4,
+  .t {
+    top: 14.8rem;
+    left: 0.61rem;
+    transform: rotate(22.1deg);
+  }
+  .e4,
+  .t {
+    top: 17.29rem;
+    left: 1.69rem;
+    transform: rotate(31.18deg);
+  }
+  .e4 {
+    top: 18.95rem;
+    left: 2.72rem;
+    transform: rotate(39.8deg);
+  }
+  .frame1 {
+    top: 412.21rem;
+    left: 69.06rem;
+    width: 20.27rem;
+    height: 7.28rem;
+    transform: rotate(-90.53deg);
+    font-size: var(--font-size-26xl);
+    color: var(--color-aliceblue);
+  }
+  .e5,
+  .frame1,
+  .r2 {
+    position: absolute;
+    transform-origin: 0 0;
+  }
+  .r2 {
+    top: 0;
+    left: 2.8rem;
+    display: inline-block;
+    width: 1.78rem;
+    height: 4.18rem;
+    transform: rotate(-32.67deg);
+  }
+  .e5 {
+    top: 2.16rem;
+    left: 1.49rem;
+    width: 1.64rem;
+    height: 4.21rem;
+    transform: rotate(-23.08deg);
+  }
+  .c1,
+  .e5,
+  .r3 {
+    display: inline-block;
+  }
+  .c1 {
+    position: absolute;
+    top: 4.36rem;
+    left: 0.62rem;
+    width: 1.63rem;
+    height: 4.24rem;
+    transform: rotate(-13.63deg);
+    transform-origin: 0 0;
+  }
+  .r3 {
+    top: 6.62rem;
+    left: 0.14rem;
+    width: 1.16rem;
+    height: 4.25rem;
+    transform: rotate(-5.23deg);
+  }
+  .i1,
+  .r3,
+  .u {
+    position: absolute;
+    transform-origin: 0 0;
+  }
+  .u {
+    top: 8.47rem;
+    left: 0;
+    display: inline-block;
+    width: 1.8rem;
+    height: 4.25rem;
+    transform: rotate(3.63deg);
+  }
+  .i1 {
+    top: 10.91rem;
+    left: 0.24rem;
+    width: 0.82rem;
+    height: 4.24rem;
+    transform: rotate(11.6deg);
+  }
+  .e6,
+  .i1,
+  .t1 {
+    display: inline-block;
+  }
+  .t1 {
+    position: absolute;
+    top: 12.26rem;
+    left: 0.54rem;
+    width: 1.11rem;
+    height: 4.22rem;
+    transform: rotate(17.8deg);
+    transform-origin: 0 0;
+  }
+  .e6 {
+    top: 13.95rem;
+    left: 1.11rem;
+    width: 1.65rem;
+    height: 4.2rem;
+    transform: rotate(25.92deg);
+  }
+  .e6,
+  .frame2,
+  .r4 {
+    position: absolute;
+    transform-origin: 0 0;
+  }
+  .r4 {
+    top: 16.02rem;
+    left: 2.19rem;
+    display: inline-block;
+    width: 1.19rem;
+    height: 4.17rem;
+    transform: rotate(34.07deg);
+  }
+  .frame2 {
+    top: 466.31rem;
+    left: 68.56rem;
+    width: 17rem;
+    height: 6.45rem;
+    transform: rotate(-90deg);
+    font-size: var(--font-size-26xl);
+    color: var(--color-aliceblue);
+  }
+  .vector-icon12,
+  .vector-icon13 {
+    position: absolute;
+    height: 0.16%;
+    width: 0.64%;
+    top: 78.52%;
+    right: 74.19%;
+    bottom: 21.32%;
+    left: 25.17%;
+    max-width: 100%;
+    overflow: hidden;
+    max-height: 100%;
+  }
+  .vector-icon13 {
+    right: 78.94%;
+    left: 20.43%;
+  }
+  .final-macbook-pro-16-38-child54,
+  .final-macbook-pro-16-38-child55 {
+    position: absolute;
+    top: 629.44rem;
+    border-radius: var(--br-xl);
+    height: 4.13rem;
+  }
+  .final-macbook-pro-16-38-child54 {
+    left: 14.56rem;
+    background-color: var(--color-darkslategray-200);
+    box-shadow: 10px 10px 4px rgba(0, 0, 0, 0.25);
+    width: 16.94rem;
+  }
+  .final-macbook-pro-16-38-child55 {
+    left: 34.63rem;
+    box-shadow: 8px 8px 4px rgba(0, 0, 0, 0.25);
+    border: 5px solid var(--color-darkslategray-200);
+    box-sizing: border-box;
+    width: 17rem;
+  }
+  .give-referral1 {
+    top: 630.19rem;
+    left: 37.94rem;
+    font-size: var(--font-size-13xl);
+    font-family: var(--font-inria-sans);
+    color: var(--color-darkslategray-200);
+    width: 11.88rem;
+    height: 5.94rem;
+  }
+  .get-referral1,
+  .give-referral1,
+  .join-our-platform {
+    position: absolute;
+    display: inline-block;
+  }
+  .get-referral1 {
+    top: 630.19rem;
+    left: 17.44rem;
+    font-size: var(--font-size-13xl);
+    font-family: var(--font-inria-sans);
+    color: rgba(252, 253, 255, 0.99);
+    width: 11.19rem;
+    height: 5.94rem;
+  }
+  .join-our-platform {
+    top: 490.81rem;
+    left: 13.19rem;
+    font-weight: 600;
+    background: linear-gradient(180deg, #80dbfe, #fff);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    width: 78.31rem;
+    height: 3.19rem;
+  }
+  .final-macbook-pro-16-38-child56 {
+    position: absolute;
+    top: 510rem;
+    left: 48.06rem;
+    border-radius: var(--br-31xl);
+    background-color: var(--color-white);
+    width: 12.5rem;
+    height: 3.25rem;
+  }
+  .find-more {
+    position: absolute;
+    top: 510.69rem;
+    left: 51.44rem;
+    font-size: var(--font-size-xl);
+    color: #182b45;
+  }
+  .final-macbook-pro-16-38-child57 {
+    position: absolute;
+    top: 495.75rem;
+    left: 47.94rem;
+    border-radius: var(--br-11xl);
+    background-color: var(--color-white);
+    box-shadow: 26px 4px 4px rgba(0, 0, 0, 0.25);
+    border: 2px solid var(--color-skyblue-100);
+    box-sizing: border-box;
+    width: 18.06rem;
+    height: 18.38rem;
+  }
+  .screenshot-2023-10-29-at-248 {
+    position: absolute;
+    top: 496.06rem;
+    left: 52.88rem;
+    width: 8.19rem;
+    height: 4.44rem;
+    object-fit: cover;
+  }
+  .final-macbook-pro-16-38-child58,
+  .final-macbook-pro-16-38-child59 {
+    border: 0;
+    background-color: var(--color-skyblue-100);
+    position: absolute;
+    top: 510.19rem;
+    left: 49.75rem;
+    border-radius: var(--br-xl);
+    width: 14.88rem;
+    height: 2.69rem;
+  }
+  .final-macbook-pro-16-38-child59 {
+    top: 506.44rem;
+  }
+  .interview-hand-holding,
+  .request-referral,
+  .visit-our-list {
+    position: absolute;
+    top: 510.69rem;
+    left: 50.81rem;
+    font-size: var(--font-size-lg);
+    display: inline-block;
+    width: 13.81rem;
+    height: 4.44rem;
+  }
+  .request-referral,
+  .visit-our-list {
+    top: 506.94rem;
+    left: 52.69rem;
+  }
+  .visit-our-list {
+    top: 500.38rem;
+    left: 50.81rem;
+    color: #565656;
+    text-align: center;
+    width: 12.44rem;
+    height: 5.13rem;
+  }
+  .final-macbook-pro-16-38-child60,
+  .final-macbook-pro-16-38-child61 {
+    border: 5px solid var(--color-gray-300);
+    background-color: var(--color-white);
+    position: absolute;
+    top: 482.5rem;
+    left: 48.75rem;
+    border-radius: var(--br-xl);
+    box-sizing: border-box;
+    width: 14.5rem;
+    height: 3.06rem;
+  }
+  .final-macbook-pro-16-38-child61 {
+    top: 518.25rem;
+    left: 40.94rem;
+    width: 33.75rem;
+    height: 3.25rem;
+  }
+  .component-child,
+  .component-inner,
+  .component-item {
+    position: absolute;
+    height: 1.99%;
+    width: 1.44%;
+    top: 2.32%;
+    right: 95.47%;
+    bottom: 95.69%;
+    left: 3.09%;
+    border-radius: 50%;
+    background-color: #fb0000;
+  }
+  .component-inner,
+  .component-item {
+    right: 93.2%;
+    left: 5.36%;
+    background-color: #c1c1c1;
+  }
+  .component-inner {
+    width: 1.51%;
+    right: 90.94%;
+    left: 7.55%;
+    background-color: #05fb00;
+  }
+  .component-child1 {
+    position: absolute;
+    height: 4.42%;
+    width: 61.33%;
+    top: 1.43%;
+    right: 17.56%;
+    bottom: 94.15%;
+    left: 21.11%;
+    border-radius: var(--br-31xl);
+    background-color: rgba(215, 215, 215, 0.8);
+  }
+  .httpswwwworkoai {
+    position: absolute;
+    height: 2.1%;
+    width: 41.09%;
+    top: 1.99%;
+    left: 42.97%;
+    font-weight: 500;
+    display: inline-block;
+  }
+  .worko-logo-ai-8-icon {
+    position: absolute;
+    height: 3.61%;
+    width: 2.2%;
+    top: 1.49%;
+    right: 73.89%;
+    bottom: 94.91%;
+    left: 23.91%;
+    border-radius: 33.34px;
+    max-width: 100%;
+    overflow: hidden;
+    max-height: 100%;
+    object-fit: cover;
+  }
+  .video-area-of {
+    position: absolute;
+    height: 11.59%;
+    width: 78.99%;
+    top: 44.21%;
+    left: 10.51%;
+    font-size: var(--font-size-35xl);
+    display: inline-block;
+    background: linear-gradient(90deg, rgba(24, 24, 24, 0.51), #d1e4fb);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+  }
+  .ellipse-parent {
+    position: absolute;
+    height: 6.21%;
+    width: 58.39%;
+    top: 75.21%;
+    right: 37.15%;
+    bottom: 18.58%;
+    left: 4.46%;
+    border-radius: var(--br-11xl);
+    background-color: var(--color-gray-100);
+    box-shadow: 20px 15px 60px rgba(0, 163, 255, 0.83);
+    font-size: var(--font-size-lg);
+    color: var(--color-black);
+  }
+  .worko-your-job2 {
+    position: absolute;
+    top: 144.44rem;
+    left: 11.38rem;
+    font-size: 47px;
+    font-weight: 700;
+    font-family: var(--font-poppins);
+    background: linear-gradient(90deg, #50d5ff 12.5%, #d1e4fb 76.04%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    text-align: left;
+    display: inline-block;
+    width: 72.44rem;
+    height: 5.75rem;
+  }
+  .final-macbook-pro-16-38-child62 {
+    position: absolute;
+    top: 164.61rem;
+    left: 6.3rem;
+    width: 4.45rem;
+    height: 13.61rem;
+  }
+  .final-macbook-pro-16-38-child63 {
+    position: absolute;
+    top: 185.35rem;
+    left: 6.3rem;
+    width: 4.41rem;
+    height: 13.35rem;
+  }
+  .promoting-equitability-by2 {
+    position: absolute;
+    top: 151.19rem;
+    left: 11.69rem;
+    font-size: 19px;
+    display: inline-block;
+    width: 36.69rem;
+    height: 8.06rem;
+  }
+  .peer-to-peer-hiring-platform-container,
+  .seamless-connection-it-container {
+    position: absolute;
+    top: 170.25rem;
+    left: 12.94rem;
+    text-align: center;
+    display: inline-block;
+    width: 43.75rem;
+    height: 15.31rem;
+    font-size: 25px;
+  }
+  .seamless-connection-it-container {
+    top: 183rem;
+    left: 17.81rem;
+    width: 34.88rem;
+    height: 11.06rem;
+  }
+  .carbonhelp-desk-icon,
+  .carbonhelp-desk-icon1,
+  .carbonhelp-desk-icon2 {
+    position: absolute;
+    top: 180.56rem;
+    left: 9.5rem;
+    width: 3.4rem;
+    height: 4.18rem;
+    overflow: hidden;
+  }
+  .carbonhelp-desk-icon1,
+  .carbonhelp-desk-icon2 {
+    top: 235.69rem;
+    width: 50px;
+  }
+  .carbonhelp-desk-icon2 {
+    top: 120.25rem;
+    left: 9.38rem;
+    width: 56px
+  }
+  .image-removebg-preview-44-2 {
+    position: absolute;
+    top: 164.5rem;
+    left: 49.69rem;
+    width: 35.75rem;
+    height: 29.69rem;
+    object-fit: cover;
+  }
+  .vaadinpaperplane-icon {
+    position: absolute;
+    top: 455.31rem;
+    left: 12.69rem;
+    width: 3.13rem;
+    height: 3.13rem;
+    overflow: hidden;
+  }
+  .clarityhelp-info-solid-icon,
+  .fa-solidhands-helping-icon {
+    position: absolute;
+    top: 346.75rem;
+    left: 12.81rem;
+    width: 3.91rem;
+    height: 3.13rem;
+    overflow: hidden;
+  }
+  .clarityhelp-info-solid-icon {
+    top: 266.25rem;
+    left: 5rem;
+    width: 3.5rem;
+    height: 4.63rem;
+  }
+  .final-macbook-pro-16-38-child64,
+  .final-macbook-pro-16-38-child65 {
+    position: absolute;
+    top: 500.5rem;
+    left: 98.25rem;
+    background: linear-gradient(-87.75deg, #0e0e0e 7.29%, rgba(14, 14, 14, 0));
+    width: 10rem;
+    height: 10.5rem;
+  }
+  .final-macbook-pro-16-38-child65 {
+    top: 511rem;
+    left: 9.98rem;
+    transform: rotate(179.76deg);
+    transform-origin: 0 0;
+  }
+  .find-more1,
+  .view-more {
+    position: absolute;
+    top: 482.81rem;
+    left: 52.19rem;
+    font-size: var(--font-size-7xl);
+    font-family: var(--font-inria-sans);
+    color: var(--color-black);
+    display: inline-block;
+    width: 10.38rem;
+    height: 1.19rem;
+  }
+  .view-more {
+    top: 518.75rem;
+    left: 53.25rem;
+  }
+  .deviconlinkedin,
+  .mobile-marketing-cuate-1 {
+    position: absolute;
+    top: 589.5rem;
+    left: 62.5rem;
+    width: 39.38rem;
+    height: 37.25rem;
+    overflow: hidden;
+  }
+  .deviconlinkedin {
+    top: 628.44rem;
+    left: 80rem;
+    width: 4.88rem;
+    height: 4.88rem;
+  }
+  .deviconlinkedin1,
+  .mdiarrow-down-drop-icon,
+  .skill-iconsinstagram {
+    position: absolute;
+    top: 689.94rem;
+    left: 91.13rem;
+    width: 1.69rem;
+    height: 1.75rem;
+    overflow: hidden;
+  }
+  .deviconlinkedin1,
+  .mdiarrow-down-drop-icon {
+    left: 93.5rem;
+    width: 1.81rem;
+  }
+  .mdiarrow-down-drop-icon {
+    top: 1.38rem;
+    left: 46.06rem;
+    width: 3.13rem;
+    height: 3.13rem;
+  }
+  .meta-1-icon {
+    position: relative;
+    width: 1.36rem;
+    height: 1.34rem;
+    object-fit: cover;
+  }
+  .final-macbook-pro-16-38-child66,
+  .frame-icon,
+  .meta-1-wrapper {
+    position: absolute;
+    top: 689.94rem;
+    border-radius: var(--br-7xs);
+    width: 1.75rem;
+    height: 1.75rem;
+  }
+  .meta-1-wrapper {
+    left: 96rem;
+    background-color: var(--color-white);
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    justify-content: flex-start;
+    padding: 0.2rem 0.19rem;
+    box-sizing: border-box;
+  }
+  .final-macbook-pro-16-38-child66,
+  .frame-icon {
+    left: 98.44rem;
+  }
+  .final-macbook-pro-16-38-child66 {
+    top: 628.44rem;
+    left: 74.38rem;
+    width: 4.88rem;
+    height: 4.75rem;
+  }
+  .property-1default-icon,
+  .property-1variant2-icon {
+   position: absolute;
+    left: -137px;
+    width: 61.06rem;
+    height: 76.19rem;
+    top: -3rem;
+  }
+  property-1default-icon {
+    top: -22px;
+    left: 14rem
+  }
+  .property-1variant2-icon {
+    top: 31.19rem;
+    left: -16rem;
+    width: 104rem;
+    height: 100rem
+  }
+  .property-1default-parent {
+    position: absolute;
+    top: -3.94rem;
+    left: 31.44rem;
+    border-radius: 5px;
+    box-sizing: border-box;
+    width: 63.56rem;
+    height: 122.38rem;
+    overflow: hidden;
+  }
+  .final-macbook-pro-16-38 {
+    position: relative;
+    background: linear-gradient(147.55deg, #000 29.9%,);
+    width: 100%;
+    height: 703.13rem;
+    overflow: hidden;
+    text-align: left;
+    font-size: var(--font-size-17xl);
+    color: var(--color-white);
+    font-family: var(--font-poppins);
+  }
+
+  // global scc //
+  body {
+    margin: 0;
+    line-height: normal;
+  }
+  
+  :root {
+    /* fonts */
+    --font-inria-sans: "Inria Sans";
+    --font-poppins: Poppins;
+    --font-poller-one: "Poller One";
+  
+    /* font sizes */
+    --font-size-7xl: 1.63rem;
+    --font-size-13xl: 2rem;
+    --font-size-5xl: 1.5rem;
+    --font-size-41xl: 3.75rem;
+    --font-size-35xl: 3.38rem;
+    --font-size-lg: 1.13rem;
+    --font-size-xl: 1.25rem;
+    --font-size-17xl: 2.25rem;
+    --font-size-26xl: 2.81rem;
+    --font-size-15xl: 2.13rem;
+    --font-size-3xl: 1.38rem;
+    --font-size-11xl: 1.88rem;
+  
+    /* Colors */
+    --color-white: #fff;
+    --color-black: #000;
+    --color-gray-100: #fffefe;
+    --color-gray-200: #7b888b;
+    --color-gray-300: #061634;
+    --color-gray-400: rgba(123, 136, 139, 0.4);
+    --color-lightgray-100: rgba(214, 213, 213, 0.4);
+    --color-skyblue-100: #57e1ff;
+    --color-darkslategray-100: #004759;
+    --color-darkslategray-200: #20324b;
+    --color-darkslategray-300: rgba(24, 43, 69, 0.99);
+    --color-aliceblue: #e5ebf2;
+    --color-deepskyblue-100: rgba(0, 194, 255, 0.4);
+    --color-deepskyblue-200: rgba(0, 210, 255, 0.4);
+    --color-deepskyblue-300: rgba(0, 210, 255, 0.5);
+    --color-teal-100: #3a7783;
+    --color-teal-200: #09758b;
+    --color-cadetblue: #5baabe;
+    --color-gainsboro: rgba(227, 227, 227, 0.4);
+  
+    /* Paddings */
+    --padding-8xs: 0.31rem;
+    --padding-19xl: 2.38rem;
+  
+    /* Border radiuses */
+    --br-7xs: 6px;
+    --br-11xl: 30px;
+    --br-31xl: 50px;
+    --br-xl: 20px;
+    --br-162xl: 181px;
+  }
+  
+  
+  
+  
