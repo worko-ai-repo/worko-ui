@@ -13,6 +13,7 @@ export class CompanyListingComponent implements OnInit {
   selectedItem: any = null;
   showdiv: boolean = false;
   hidediv: boolean = true;
+  isDivOpen: boolean = false;
   companyarry: any[] = [{
     "createdAt": "2023-11-13T18:34:56.411Z",
     "SK": "ID#01HF4ZE6GQ241E6RJ079TKHDCC",
@@ -124,4 +125,9 @@ export class CompanyListingComponent implements OnInit {
   isSelected(item: any) {
     return this.selectedItem === item;
   }
+  
+
+  toggleDiv() {
+    this.isDivOpen = !this.isDivOpen;
+  }
 }

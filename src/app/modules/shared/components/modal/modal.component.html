@@ -1,0 +1,26 @@
+<ng-template #modalRef let-modal>
+    <div *ngIf="showHeader"  class="modal-header-class" [class]="headerClass" [ngClass]="{ 'centralized': textCenter }" >
+      <h5 class="modal-title" [id]="ariaLabelledBy">
+        <!-- {{ title | translate }} -->
+      </h5>
+      <!-- <button type="button" class="close" aria-label="Close" (click)="modal.dismiss('cross')">
+        <span aria-hidden="true">&times;</span>
+      </button> -->
+    </div>
+    <div class="modal-body" [class]="bodyClass">
+      <div *ngIf="message; else contentBlock" [class.text-center]="textCenter" [innerHTML]="message">
+      </div>
+      <ng-template #contentBlock>
+        <ng-content></ng-content>
+      </ng-template>
+    </div>
+    <div *ngIf="showFooter" class="modal-footer-class theme-k" [class]="footerClass">
+      <button type="button" class="btn btn-primary" (click)="modal.close('button')" (click)="redirectClick()">
+      Ok
+      </button>
+      <button *ngIf="showConfirmButton" type="button" class="btn btn-primary ml-3" (click)="modal.close('confirm')">
+        Confirm
+      </button>
+    </div>
+  </ng-template>
+  

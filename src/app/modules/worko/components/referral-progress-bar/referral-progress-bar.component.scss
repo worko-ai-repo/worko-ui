@@ -1,0 +1,63 @@
+// progress bar//
+/* Apply css properties to h1 element */
+h1{ 
+	text-align: center; 
+} 
+
+/* Create a container using css properties */
+.container { 
+	top: 30%; 
+	left:50%; 
+	position: absolute; 
+	text-align: center; 
+	transform: translate(-50%, -50%); 
+} 
+
+/* Apply css properties to ui-widgets class */
+.ui-widgets { 
+	position: relative; 
+	display: inline-block; 
+	width: 10rem; 
+	height: 10rem; 
+	border-radius: 9rem; 
+	margin:1.5rem; 
+	border: 1.2rem solid rgba(217, 217, 217, 0.55);; 
+	// box-shadow: inset #57FF68; 
+	border-left-color: #57FF68; 
+	// border-top-color:#57FF68 ; 
+	border-right-color: #57FF68; 
+	border-bottom-color: #57FF68 ; 
+	text-align: center; 
+	box-sizing: border-box; 
+} 
+
+/* Apply css properties to the second 
+	child of ui-widgets class */
+
+
+/* Apply css properties to ui-widgets 
+class and ui-values class */
+.ui-widgets .ui-values { 
+    top: 55px;
+    position: absolute;
+    left: 10px;
+    right: 0;
+    color: white;
+    font-weight: 700;
+    font-size: 2rem;
+} 
+
+/* Apply css properties to ui-widgets 
+class and ui-labels class */
+.ui-widgets .ui-labels { 
+	left: 0; 
+	bottom: -16px; 
+	text-shadow: 0 0 4px grey; 
+	color:black; 
+	position: absolute; 
+	width: 100%; 
+	font-size: 16px; 
+}
+div[hidden] {
+    display: none;
+  }

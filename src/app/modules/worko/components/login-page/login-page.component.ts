@@ -1,9 +1,9 @@
-import { animate, animation } from '@angular/animations';
-import { Component, EventEmitter, Output } from '@angular/core';
-// import { FormBuilder, FormGroup, Validators, FormControl } from '@angular/forms';
-import { CognitoService } from 'src/app/modules/services/cognito.service';
-import { signUp } from 'aws-amplify/auth';
 
+import { Component, EventEmitter, Output } from '@angular/core';
+import { CognitoService } from 'src/app/modules/services/cognito.service';
+import { Router } from '@angular/router';
+// import { Router, router } from '@angular/router';
+import { CandidateComponent } from '../../../candidate/candidate.component';
 @Component({
   selector: 'app-login-page',
   templateUrl: './login-page.component.html',
@@ -13,86 +13,121 @@ import { signUp } from 'aws-amplify/auth';
 export class LoginPageComponent {
   @Output() userTypeSelected = new EventEmitter<string>();
   selectedUserType: string = 'candidate'; // Default to 'employee'
-
-  // verifyOtp:string='verify';
-  // FormControlDirective.form: FormControl
-  isVerificationTriggered: boolean = false;
-  emailverify: boolean = false;
   showSignInRow: boolean = true;
-  isEmailVerified: boolean = false;
+  isCandidateEmailVerified: boolean = false;
+  isEmployeeEmailVerified: boolean = false;
+  confirmationCodeScreen: boolean = false;
+  confirmationEmail: string='';
+  isDivOpen:boolean=false;
+  isDivClose:boolean=true
+  hideDiv:boolean=true
+ 
   form = {
     email: '',
     password: ''
   };
 
   candidateForm = {
-    candidateName : '',
-    emailId : '',
-    password : '',
-    candidateOtp : '',
-    linkdinProfile : '',
-    experience : '',
-    expectedCtc : '',
+    name: '',
+    emailId: '',
+    password: '',
+    candidateOtp: '',
+    newPassword:'',
+    linkdinProfile: '',
+    experience: '',
+    expectedCtc: '',
+    phoneNumber: ''
   }
-  employeeForm ={
-    employeeName : '',
-    commuEmailId : '',
-    companyName : '',
-    phoneNumber : '',
-    companyEmailID : '',
-    otp : '',
-    linkdinProfile : '',
-    experience : '',
-    dapartment : '',
-    designation : '',
+  employeeForm = {
+    name: '',
+    emailId: '',
+    companyName: '',
+    phoneNumber: '',
+    companyEmailID: '',
+    employeeOtp: '',
+    linkdinProfile: '',
+    experience: '',
+    department: '',
+    designation: '',
+    newPassword:'',
+    password:''
 
   }
-  
+  verificationForm = {
+    code: ''
+  }
 
+  constructor(private amplify: CognitoService , private router : Router ) { }
 
-constructor (private amplify: CognitoService){}
   selectUserType(userType: string) {
     this.selectedUserType = userType;
-
-
     this.userTypeSelected.emit(userType);
   }
 
-  // verifyOtp()
-  // handleVerifyClick() {
-  //   // Set the variable to true to show the OTP input
-  //   this.isVerificationTriggered = true;
-  // }
-  handleVerifyClick1() {
-    // Set the variable to true to show the OTP input
-    this.emailverify = true;
-  }
+
   toggleSignInRow() {
     this.showSignInRow = false;
   }
 
-  async createUserCoginto(): Promise<void> {
+  toggleSignUpRow() {
+    this.showSignInRow = true;
+  }
+  
+
+  signInC(){
+    this.router.navigate(['/candidate/candidate-dashboard'])
+  }
+  signInE(){
+    this.router.navigate(['/employee/employee-dashboard'])
+  }
+  
+  async createCandidate(form: any): Promise<void> {
     try {
-      let signupform = {
-        password: this.candidateForm.password,
-        username: this.candidateForm.emailId,
+      this.confirmationEmail = this.maskEmail(this.candidateForm.emailId);
+      let a = this.createUser(this.candidateForm);
+      this.confirmationCodeScreen= true;
+    } catch (error) {
+      console.log('Error signing up candidate:', error);
+      
+    }
+  }
+
+  async confirmSignUp(form: any): Promise<void> {
+    try {
+      console.log(this.candidateForm, "Candidate Forms end----------");
+      console.log(this.verificationForm);
+      if(this.selectedUserType === "candidate"){
+        let userDetails = this.createUserWithConfirmation(this.candidateForm, this.verificationForm);
+        console.log(userDetails);
+        this.signInC();
       }
-      // let a = await this.amplify.handleSignUp(signupform);
-      this.isEmailVerified = true;
-      // console.log(a);
+      
+      if(this.selectedUserType === "employee"){
+       let userDetails = this.createUserWithConfirmation(this.employeeForm, this.verificationForm);
+       console.log(userDetails);
+       this.signInE();
+      }
+
+    } catch (error) {
+      console.log('Error signing up candidate:', error);
+      
+    }
+ 
+  }
+
+  async createEmployee(form: any): Promise<void> {
+    try {
+      let a = this.createUser(this.employeeForm);
+      this.confirmationCodeScreen= true;
     } catch (error) {
       console.log('Error signing up candidate:', error);
     }
   }
 
-  async confirmSignUpCandidate(form: any): Promise<void> {
-   
+
+  async confirmSignUpEmployee(form: any): Promise<void> {
     try {
-      let signupform = {
-        username: this.candidateForm.emailId,
-        confirmationCode: this.candidateForm.candidateOtp,
-      }
-      let userDetails = this.amplify.handleSignUpConfirmation(signupform);
+      let userDetails = this.createUserWithConfirmation(this.employeeForm, this.verificationForm);
       console.log(userDetails);
 
     } catch (error) {
@@ -100,73 +135,65 @@ constructor (private amplify: CognitoService){}
     }
   }
 
-  async signUpEmployee(): Promise<void> {
-    try {
-      // Your custom logic for employee sign-up
-      console.log('Employee Sign Up:', this.employeeForm);
-
-      // Simulate sending OTP to the entered phone number and email
-      const otpResponse = await this.sendOTP(this.employeeForm.phoneNumber, this.employeeForm.companyEmailID);
-
-      if (otpResponse.success) {
-        // Set the variable to true to show the OTP input
-        this.isVerificationTriggered = true;
-      } else {
-        console.log('Error sending OTP:', otpResponse.error);
-        // Handle error, show a message, etc.
-      }
-    } catch (error) {
-      console.log('Error signing up employee:', error);
-    }
-  }
-
-  async sendOTP(phoneNumber: string, email: string): Promise<{ success: boolean; error?: string }> {
-    // Simulate sending OTP (Replace this with your actual OTP service/API call)
-    try {
-      // Your logic for sending OTP (e.g., using a third-party service)
-      console.log(`Sending OTP to ${phoneNumber} and ${email}`);
-
-      // Simulate success
-      return { success: true };
-    } catch (error) {
-      console.log('Error sending OTP:', error);
-      return { success: false, error: 'Error sending OTP' };
-    }
-  }
-
-  
-
-
-
-  
-  
-
-
-
-
-
-
-
-
-
-
   async submit(form: any): Promise<void> {
-    // console.log(form);
-    const studentData = {
+    const loginData = {
       email: this.form.email,
       password: this.form.password
 
     }
-    console.log(studentData);
-    let login = await this.amplify.handleSignIn(studentData);
+    console.log(loginData);
+    let login = await this.amplify.handleSignIn(loginData);
     console.log(login, "LoginDetails");
   }
 
-  async signOut(): Promise<void>{
+  async signOut(): Promise<void> {
     let login = await this.amplify.handleSignOut();
   }
 
+  async createUser(form: any) {
+    try {
+      let signupform = {
+        password: form.password,
+        username: form.emailId,
+        name: form.name,
+        phone_number: "+91"+form.phoneNumber
+      }
+      return await this.amplify.handleSignUp(signupform);
+    } catch (error) {
+      debugger;
+      console.log('Error signing up candidate:', error);
+    }
+  }
 
+  async createUserWithConfirmation(form: any, verificationForm: any) {
+    try {
+      let signupform = {
+        username: form.emailId,
+        confirmationCode: verificationForm.code,
+      }
+      return this.amplify.handleSignUpConfirmation(signupform);
+    }
+    catch (error) {
+      debugger;
+      console.log('Error signing up candidate:', error);
+    }
 
+  }
+
+  maskEmail(email: string): string {
+    const parts = email.split('@');
+    if (parts.length !== 2) {
+      // Invalid email format
+      return email;
+    }
+  
+    const username = parts[0];
+    const domain = parts[1];
+  
+    const maskedUsername = username.length > 1 ? `${username.charAt(0)}${'*'.repeat(username.length - 1)}` : username;
+    const maskedDomain = domain.length > 1 ? `${domain.charAt(0)}${'*'.repeat(domain.length - 1)}` : domain;
+  
+    return `${maskedUsername}@${maskedDomain}`;
+  }
 
 }

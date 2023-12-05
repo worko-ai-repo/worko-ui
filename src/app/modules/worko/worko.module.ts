@@ -25,6 +25,11 @@ import { MatInputModule } from '@angular/material/input';
 import { MatSelectModule } from '@angular/material/select';
 import { FormControl, ReactiveFormsModule } from '@angular/forms';
 import { FormsModule } from '@angular/forms';
+import { ReferralRequestComponent } from './components/referral-request/referral-request.component';
+import { SubscriptionPackComponent } from './components/subscription-pack/subscription-pack.component';
+import { ReferralProgressBarComponent } from './components/referral-progress-bar/referral-progress-bar.component';
+import { SharedModule } from '../shared/shared.module';
+
 
 export const routes: Routes = [
   {
@@ -100,6 +105,18 @@ export const routes: Routes = [
         path : 'login',
         component: LoginPageComponent
       },
+      {
+        path : 'referral-req',
+        component: ReferralRequestComponent
+      },
+      {
+        path : 'subscript-pack',
+        component: SubscriptionPackComponent
+      },
+      {
+        path : 'progress-bar',
+        component: ReferralProgressBarComponent
+      },
       
       
       
@@ -115,22 +132,25 @@ export const routes: Routes = [
     WorkoComponent,
     HomeComponent,
     NavbarComponent,
-   
     IndexHomeComponent,
-         JobSerchSectionComponent,
-         ReferralGuidenceComponent,
-         InsiderInsightComponent,
-         BenifitsSectionComponent,
-         CompaniesSectionComponent,
-         VedioAreaComponent,
-         CompanyListingComponent,
-         TestimonialComponent,
-         FooterComponent,
-         CompanyBoxComponent,
-         LoginPageComponent,
+    JobSerchSectionComponent,
+    ReferralGuidenceComponent,
+    InsiderInsightComponent,
+    BenifitsSectionComponent,
+    CompaniesSectionComponent,
+    VedioAreaComponent,
+    CompanyListingComponent,
+    TestimonialComponent,
+    FooterComponent,
+    CompanyBoxComponent,
+    LoginPageComponent,
+    ReferralRequestComponent,
+    SubscriptionPackComponent,
+    ReferralProgressBarComponent,
   ],
   imports: [
     CommonModule,
+    SharedModule,
     RouterModule.forChild(routes),
     MatFormFieldModule,
     MatInputModule,

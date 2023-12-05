@@ -1,0 +1,130 @@
+.main-div{
+    border-radius: 16px;
+    border: 1px solid rgba(87, 225, 255, 0.58);
+    background: #0A1E36;
+    backdrop-filter: blur(18.149999618530273px);
+    height: 400px;
+    width: 100%; 
+}
+.refeeral-img{
+    height: 117%;
+    width: 80%;
+    // background-color: yellow;
+    position: absolute;
+    left: 47px;
+    top: 6px;
+    margin-left: auto;
+    background-image: url(/assets/public/referral-bg-img.png);
+    background-size: 100% 100%;
+    background-repeat: no-repeat;
+    mix-blend-mode: exclusion;
+   animation: rotate 10s infinite linear;
+}
+@keyframes rotate {
+    0%{
+        transform:rotate(0deg);
+    }
+    100%{
+        transform: rotate(360deg);
+    }
+}
+
+.refeeral-img-hand{
+    height: 81%;
+    width: 66%;
+    z-index: 999999;
+    position: absolute;
+    top: 1px;
+    left: -12px;
+}
+.ref-req-text{
+    color: #FFF;
+    // text-align: center;
+    font-family: Poppins;
+    font-size: 27px;
+    font-style: normal;
+    font-weight: 700;
+    line-height: normal;
+}
+.hand-img{
+    width: 476px;
+    height: 299px
+}
+.job-url-text{
+    color: #FFF;
+    /* text-align: center; */
+    /* font-family: Montserrat; */
+    font-size: 14px;
+    font-style: normal;
+    font-weight: 400;
+    line-height: normal;
+}
+.input-jobUrl{
+    background: transparent;
+    border: 2px solid rgba(87, 225, 255, 0.58);
+    width: 17rem;
+    height: 2rem;
+    border-radius: 9px;
+    
+}
+.req-btn{
+    width: 135px;
+    color: white;
+    border-radius: 7.5px;
+background: linear-gradient(90deg, #2F92C7 0%, rgba(47, 146, 199, 0.00) 205.38%);
+}
+.subscrip-text{
+    color: #FFF;
+    text-align: center;
+    /* font-family: Montserrat; */
+    font-size: 34px;
+    font-style: normal;
+    font-weight: 500;
+    line-height: 107.272%;
+    letter-spacing: 0.3px;
+
+}
+
+.buy-btn{
+    color: #FFF;
+    text-align: center;
+    font-family: Poppins;
+    font-size: 14px;
+    font-style: normal;
+    font-weight: 700;
+    line-height: 118.5%;
+    letter-spacing: 1.3px;
+    width: 170px;
+    border-radius: 7.5px;
+    background:#2F92C7;
+}
+.mostPop-text{
+    display: flex;
+width: 350px;
+height: 69px;
+flex-direction: column;
+justify-content: center;
+flex-shrink: 0;
+
+color: #0A1E35;
+
+text-align: center;
+font-family: Poppins;
+font-size: 26px;
+font-style: normal;
+font-weight: 700;
+line-height: normal;
+letter-spacing: 1.3px;
+text-transform: uppercase;
+}
+.svg-1{
+    width: 615.5px;
+height: 9px;
+flex-shrink: 0;
+}
+.gif-img{
+    width: 272px;
+    height: 272px;
+    flex-shrink: 0;
+
+}

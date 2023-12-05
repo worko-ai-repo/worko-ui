@@ -1,6 +1,7 @@
 <router-outlet></router-outlet>
 <div class="container-fluid final-macbook-pro-16-38">
   <app-navbar></app-navbar>
+  
   <div class="row">
     <div class="col-md-12">
     <img src="assets/public/imageremovebgpreview-33-1@2x.png" class="image-removebg-preview-33-1" alt="">
@@ -20,6 +21,7 @@
           class="final-macbook-pro-16-38-child2"
         />
         <img
+        (click)="openLogin()"
           src="assets/public/mingcutesuitcase2fill.svg"
           class="mingcutesuitcase-2-fill-icon"
         />
@@ -149,7 +151,7 @@
       <div class=".final-macbook-pro-16-38">
         <img src="assets/public/image-9@2x.png" class="image-9-icon" />
       </div>
-      <div class="property-1default-parent">
+      <div class="property-1default-parent" >
         <img
           alt=""
           src="assets/public/property-1default.svg"
@@ -267,6 +269,7 @@
       
     </div>
   </div>
+      <!-- <app-login-page></app-login-page> -->
       <app-job-serch-section></app-job-serch-section>
       <app-referral-guidence></app-referral-guidence>
       <app-insider-insight></app-insider-insight>
@@ -276,3 +279,9 @@
       <app-testimonial></app-testimonial>
       <app-footer></app-footer>
 </div>
+<app-modal>
+  <ng-container *ngIf="showModal === modalType.LOGIN_SIGNUP">
+    <app-login-page></app-login-page> 
+  </ng-container>
+</app-modal>
+<!-- <app-login-page></app-login-page> -->

@@ -20,7 +20,8 @@ type SignUpParameters = {
   username: string;
   password: string;
   // email: string;
-  // phone_number: string;
+  phone_number: string;
+  name: string;
 };
 
 @Injectable({
@@ -61,7 +62,8 @@ export class CognitoService {
     username,
     password,
     // email
-    // phone_number
+    phone_number,
+    name
   }: SignUpParameters) {
     try {
       const { isSignUpComplete, userId, nextStep } = await signUp({
@@ -69,8 +71,8 @@ export class CognitoService {
         password,
         options: {
           userAttributes: {
-            // email,
-            // phone_number // E.164 number convention
+            name, 
+             phone_number 
           },
           // optional
           autoSignIn: true // or SignInOptions e.g { authFlowType: "USER_SRP_AUTH" }

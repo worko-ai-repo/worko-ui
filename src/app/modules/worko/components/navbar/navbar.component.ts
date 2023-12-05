@@ -7,4 +7,11 @@ import { Component } from '@angular/core';
 })
 export class NavbarComponent {
 
+  isDivOpen: boolean = false;
+
+  toggleDiv() {
+    this.isDivOpen = true;
+  }
+
+
 }
