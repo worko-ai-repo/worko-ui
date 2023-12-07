@@ -3,7 +3,7 @@ import { Component, EventEmitter, Output } from '@angular/core';
 import { CognitoService } from 'src/app/modules/services/cognito.service';
 import { Router } from '@angular/router';
 // import { Router, router } from '@angular/router';
-import { CandidateComponent } from '../../../candidate/candidate.component';
+import { AuthService } from '../../services/auth.service';
 @Component({
   selector: 'app-login-page',
   templateUrl: './login-page.component.html',
@@ -17,22 +17,22 @@ export class LoginPageComponent {
   isCandidateEmailVerified: boolean = false;
   isEmployeeEmailVerified: boolean = false;
   confirmationCodeScreen: boolean = false;
-  confirmationEmail: string='';
-  isDivOpen:boolean=false;
-  isDivClose:boolean=true
-  hideDiv:boolean=true
- 
+  confirmationEmail: string = '';
+  isDivOpen: boolean = false;
+  isDivClose: boolean = true
+  hideDiv: boolean = true
+
   form = {
     email: '',
     password: ''
   };
-
+  fileToUpload: File | null = null;
   candidateForm = {
     name: '',
     emailId: '',
     password: '',
     candidateOtp: '',
-    newPassword:'',
+    newPassword: '',
     linkdinProfile: '',
     experience: '',
     expectedCtc: '',
@@ -49,15 +49,16 @@ export class LoginPageComponent {
     experience: '',
     department: '',
     designation: '',
-    newPassword:'',
-    password:''
+    newPassword: '',
+    password: ''
 
   }
+  fileString: string = "";
   verificationForm = {
     code: ''
   }
 
-  constructor(private amplify: CognitoService , private router : Router ) { }
+  constructor(private amplify: CognitoService, private router: Router, private authService: AuthService) { }
 
   selectUserType(userType: string) {
     this.selectedUserType = userType;
@@ -72,53 +73,146 @@ export class LoginPageComponent {
   toggleSignUpRow() {
     this.showSignInRow = true;
   }
-  
 
-  signInC(){
+
+  signInC() {
     this.router.navigate(['/candidate/candidate-dashboard'])
   }
-  signInE(){
+  signInE() {
     this.router.navigate(['/employee/employee-dashboard'])
   }
-  
+
   async createCandidate(form: any): Promise<void> {
     try {
       this.confirmationEmail = this.maskEmail(this.candidateForm.emailId);
-      let a = this.createUser(this.candidateForm);
-      this.confirmationCodeScreen= true;
+       let a = this.createUser(this.candidateForm);
+      // let a = {
+      //   "name": this.candidateForm.name,
+      //   "emailList": { "primary": this.candidateForm.emailId },
+      //   "number": this.candidateForm.phoneNumber,
+      //   "linkedinUrl": this.candidateForm.linkdinProfile,
+      //   "ECTC": this.candidateForm.expectedCtc,
+      //   "YOE": this.candidateForm.experience,
+      //   "CV": this.fileToUpload
+      // }
+      // this.authService.createCandidate(a).subscribe({
+      //   next: (response) => {
+      //     debugger;
+      //     console.log(response);
+      //     // this.loading = false;
+      //   },
+      //   error: (error) => {
+      //     debugger;
+      //     console.error(error);
+      //     // this.loading = false;
+      //     // this.feedback = getErrorFeedback("ERROR.UNHANDLED_ERROR");
+      //   },
+      //   complete: () => {
+      //     // Optionally handle the completion event
+      //   }
+      // });
+
+
+      this.confirmationCodeScreen = true;
     } catch (error) {
       console.log('Error signing up candidate:', error);
-      
+
     }
   }
+
+
+
+
+  handleFileInput(event: Event): void {
+    const inputElement = event.target as HTMLInputElement;
+
+    if (inputElement.files) {
+      const files: FileList | null = inputElement.files;
+
+      if (files && files.length > 0) {
+        const file: File = files[0];
+
+        // Check if the file type is PDF
+        if (file.type === 'application/pdf') {
+          // Process the PDF file as needed
+          this.fileToUpload = file;
+          console.log('Selected PDF file:', file);
+        } else {
+          // Display an error for invalid file type
+          console.error('Invalid file type. Please upload a PDF file.');
+          // Optionally, you can reset the input to clear the invalid selection
+          inputElement.value = '';
+          this.fileToUpload = null;
+        }
+      }
+    }
+  }
+
+  // readPdfFile(file: File): void {
+  //   const fileReader = new FileReader();
+
+  //   fileReader.onload = (event: ProgressEvent<FileReader>) => {
+  //     // 'result' contains the contents of the file as a Data URL
+  //     // const pdfDataUrl: string | ArrayBuffer | null = event.target?.result;
+  //     const pdfDataUrl: string | ArrayBuffer | null = event.target?.result;
+
+  //     if (pdfDataUrl !== undefined && pdfDataUrl !== null) {
+  //       // Convert the Data URL to a string (if needed)
+  //       const pdfString = pdfDataUrl.toString();
+  //       this.fileString = pdfDataUrl;
+  //       // Now you can send the pdfString to your API using HttpClient
+  //       // this.sendPdfToApi(pdfString);
+  //     }
+  //   };
+
+  //   fileReader.onerror = (event: ProgressEvent<FileReader>) => {
+  //     console.error('Error reading PDF file:', event.target?.error);
+  //   };
+
+  //   // Read the file as a Data URL (string)
+  //   fileReader.readAsDataURL(file);
+  // }
+
 
   async confirmSignUp(form: any): Promise<void> {
     try {
       console.log(this.candidateForm, "Candidate Forms end----------");
       console.log(this.verificationForm);
-      if(this.selectedUserType === "candidate"){
+      if (this.selectedUserType === "candidate") {
         let userDetails = this.createUserWithConfirmation(this.candidateForm, this.verificationForm);
         console.log(userDetails);
         this.signInC();
       }
-      
-      if(this.selectedUserType === "employee"){
-       let userDetails = this.createUserWithConfirmation(this.employeeForm, this.verificationForm);
-       console.log(userDetails);
-       this.signInE();
+
+      if (this.selectedUserType === "employee") {
+        let userDetails = this.createUserWithConfirmation(this.employeeForm, this.verificationForm);
+        console.log(userDetails);
+        this.signInE();
       }
 
     } catch (error) {
       console.log('Error signing up candidate:', error);
-      
+
     }
- 
+
   }
 
   async createEmployee(form: any): Promise<void> {
     try {
-      let a = this.createUser(this.employeeForm);
-      this.confirmationCodeScreen= true;
+      // let a = {
+      //   "name": this.employeeForm.name,
+      //   "emailList": { "primary": this.employeeForm.emailId },
+      //   "number": this.employeeForm.phoneNumber,
+      //   "linkedinUrl": this.employeeForm.linkdinProfile,
+      //   "YOE": this.employeeForm.experience,
+      //   "Designation": this.employeeForm.designation,
+      //   "Department": this.employeeForm.department,
+      //   "companyEmailID":this.employeeForm.companyEmailID,
+      //   "companyName":this.employeeForm.companyName,
+      // }
+
+       let a = this.createUser(this.employeeForm);
+      this.confirmationCodeScreen = true;
     } catch (error) {
       console.log('Error signing up candidate:', error);
     }
@@ -156,7 +250,7 @@ export class LoginPageComponent {
         password: form.password,
         username: form.emailId,
         name: form.name,
-        phone_number: "+91"+form.phoneNumber
+        phone_number: "+91" + form.phoneNumber
       }
       return await this.amplify.handleSignUp(signupform);
     } catch (error) {
@@ -186,13 +280,13 @@ export class LoginPageComponent {
       // Invalid email format
       return email;
     }
-  
+
     const username = parts[0];
     const domain = parts[1];
-  
+
     const maskedUsername = username.length > 1 ? `${username.charAt(0)}${'*'.repeat(username.length - 1)}` : username;
     const maskedDomain = domain.length > 1 ? `${domain.charAt(0)}${'*'.repeat(domain.length - 1)}` : domain;
-  
+
     return `${maskedUsername}@${maskedDomain}`;
   }
 

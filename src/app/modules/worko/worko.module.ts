@@ -15,7 +15,7 @@ import { CompaniesSectionComponent } from './components/companies-section/compan
 import { VedioAreaComponent } from './components/vedio-area/vedio-area.component';
 import { TestimonialComponent } from './components/testimonial/testimonial.component';
 import { FooterComponent } from './components/footer/footer.component';
-import { CompanyListingComponent } from '../app-core/components/company-box/company-listing/company-listing.component';
+import { CompanyListingComponent } from './components/company-listing/company-listing.component';
 import { CompanyBoxComponent } from '../app-core/components/company-box/company-box.component';
 import { SearchFilterComponent } from '../app-core/components/company-box/search-filter/search-filter.component';
 import { TitleComponent } from '../app-core/components/company-box/title/title.component';
@@ -29,7 +29,7 @@ import { ReferralRequestComponent } from './components/referral-request/referral
 import { SubscriptionPackComponent } from './components/subscription-pack/subscription-pack.component';
 import { ReferralProgressBarComponent } from './components/referral-progress-bar/referral-progress-bar.component';
 import { SharedModule } from '../shared/shared.module';
-
+import { HttpClientModule } from '@angular/common/http';
 
 export const routes: Routes = [
   {
@@ -156,7 +156,8 @@ export const routes: Routes = [
     MatInputModule,
     MatSelectModule,
     ReactiveFormsModule,
-    FormsModule
+    FormsModule,
+    HttpClientModule
     
     
    

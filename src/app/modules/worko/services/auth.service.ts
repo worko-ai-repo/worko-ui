@@ -3,13 +3,14 @@ import { HttpClient, HttpHeaders} from '@angular/common/http';
 // import { AuthService } from '../../auth/services/auth.service';
 // import { RequesterInfo, studentData} from '../interfaces/requester.interface';
  import { environment } from '../../../../environment/environment';
+import { Observable } from 'rxjs';
 
 const API_URL = environment.apiUrl;
 
 @Injectable({
   providedIn: 'root'
 })
-export class RequesterService {
+export class AuthService {
   /**
    * ProductService constructor.
    *
@@ -26,9 +27,9 @@ export class RequesterService {
    * @param {RequesterInfo} RequesterInfo
    * @returns {Promise<any>}
    */
-  // createCandidate(candidateInfo): Promise<any> {
-  //   return this.http.post(API_URL + 'requester/create', requesterInfo, this.getHttpOptions()).toPromise();
-  // }
+  createCandidate(candidateInfo: any): Observable<any> {
+    return this.http.post(API_URL + 'user/signup', candidateInfo, this.getHttpOptions());
+  }
 
   /**
    * Create Student.

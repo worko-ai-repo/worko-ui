@@ -1,0 +1,223 @@
+.company-listing-container {
+    background: linear-gradient(148deg, #000 5.99%, #182b45 70.16%);
+    height:100vh;
+}
+
+.referred {
+    flex-shrink: 0;
+    font-family: Poppins;
+    font-size: 40px;
+    font-weight: 700;
+    line-height: 40px;
+    background: linear-gradient(90deg, #50D5FF 4.91%, #D1E4FB 73.96%);
+    background-clip: text;
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+}
+
+.paraReferral {
+    flex-shrink: 0;
+    color: #FFF;
+    font-family: Poppins;
+    font-size: 15px;
+    font-weight: 400;
+    line-height: 25px;
+}
+
+.searchInput {
+     width: 100%;
+    height: 40px;
+    // left: 1;
+    border-radius: 11px;
+    background-color: none;
+    border: 2px solid #73DDFF;
+    -webkit-backdrop-filter: blur(300px);
+    backdrop-filter: blur(300px);
+    color: white;
+}
+
+.campanies {
+    color: #FFF;
+    font-family: Poppins;
+    font-style: normal;
+    font-weight: 400;
+    line-height: normal;
+    font-size: large
+}
+
+.h2 {
+    width: 220px
+}
+
+// .rectangle-div{
+//     width: 173px;
+//     top: 24rem;
+//     left: 33rem;
+//     height: 76px;
+//     flex-shrink: 0;
+//     border-radius: 18px;
+//     background: rgba(87, 225, 255, 0.21);
+//     -webkit-backdrop-filter: blur(300px);
+//     backdrop-filter: blur(300px);
+// }
+// .rectangle-div{
+
+//        height: 60px;
+//        border-radius: 9px;
+//        background: rgba(87, 225, 255, 0.21);
+//        -webkit-backdrop-filter: blur(300px);
+//        backdrop-filter: blur(300px);
+//     }
+
+.haver {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    height: 60px;
+    border-radius: 9px;
+    background: rgba(87, 225, 255, 0.21);
+    -webkit-backdrop-filter: blur(300px);
+    backdrop-filter: blur(300px);
+    color: white;
+    padding: 10px;
+}
+
+.haver:hover {
+    height: 150px;
+    width: 250px;
+}
+
+.haver:hover .company-box {
+    display: block;
+}
+
+.haver:hover .logo-image {
+    display: none;
+}
+
+.haver:hover .buttons-referral {
+    display: block;
+}
+
+.zoom-box {
+
+    display: inline-block;
+    position: relative;
+    transition: transform 0.4s ease-in-out;
+    width: 250px;
+}
+
+.white-background {
+    background: #FFF;
+}
+
+// .zoom-box:hover {
+
+//     // transform: scale(1.0);
+// }
+
+// .campanies{
+//     color: #FFF;
+// text-align: center;
+// font-family: Poppins;
+// font-size: 30px;
+// font-style: normal;
+// font-weight: 400;
+// line-height: normal;
+// font-size: 22px
+// }
+.campanyBox {
+    position: absolute;
+    width: 277px;
+    height: 97px;
+    flex-shrink: 0;
+    border-radius: 21px;
+    background: #FFF;
+}
+
+.company-box {
+    display: none;
+}
+
+// .company-box{
+//     position: absolute;
+//     width: 324px;
+//     height: 150px;
+//     flex-shrink: 0;
+//     border-radius: 30px;
+//     background: rgba(87, 225, 255, 0.21);
+//     -webkit-backdrop-filter: blur(300px);
+//     backdrop-filter: blur(300px);
+// }
+.card {
+
+    display: flex;
+    flex-direction: column;
+    min-width: 0;
+    word-wrap: break-word;
+    background-color: #fff;
+    background-clip: border-box;
+    border: 1px solid rgba(0, 0, 0, 0.125);
+    border-radius: 0.25rem;
+    width: 210px;
+    left: 10px;
+    height: 100px;
+    top: -25px;
+}
+
+img {
+    max-width: 100%;
+}
+
+.brand-image {
+    width: 100px;
+    overflow: hidden;
+}
+
+.buttons-referral {
+    display: none;
+}
+
+.long-button {
+    width: 110px;
+    margin-left: 3px;
+}
+
+.logo-image {
+    background: #FFF;
+    width: 100%;
+    display: flex;
+    height: 40px;
+    justify-content: center;
+    border-radius: 9px;
+}
+
+.request-button {
+    margin-right: 10px;
+    width: 110px;
+}
+
+.listing-button {
+    border: 1px solid red;
+    height: 25px;
+    font-size: 12px;
+    font-weight: 500;
+    text-align: center;
+    vertical-align: middle;
+    border-radius: 5px;
+}
+
+.anchor-button {
+    border: 1px solid;
+    border-radius: 5px;
+    width: 80px;
+    font-size: 10px;
+    margin-top: 5px;
+    text-align: center;
+
+}
+
+.anchor-button a {
+    text-decoration: none;
+    padding: 5px;
+}

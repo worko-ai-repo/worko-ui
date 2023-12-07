@@ -6,7 +6,7 @@ import { AppComponent } from './app.component';
 import { FormsModule } from '@angular/forms';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
-
+import { HttpClientModule } from '@angular/common/http';
 
 @NgModule({
   declarations: [
@@ -18,7 +18,7 @@ import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
     BrowserAnimationsModule,
     FormsModule,
     NgbModule,
-
+    HttpClientModule
 
     
   ],

@@ -147,7 +147,7 @@ input {
 
 .material-input__group__input {
   font-family: 'Ubuntu', sans-serif;
-  padding: 0px 0px 3px 20px;
+  padding: 0px 0px 3px 22px;
   display: block;
   width: 100%;
   border: none;
@@ -310,7 +310,7 @@ input {
 }
 
 .custom-file-input::before {
-  content: 'Select some files';
+  // content: 'Select some files';
   color: black;
   display: inline-block;
   background: -webkit-linear-gradient(top, #f9f9f9, #e3e3e3);
@@ -400,3 +400,43 @@ img {
 a{
   text-decoration:none;
 }
+
+/* Style for the container */
+.file-container {
+  display: flex;
+  align-items: center;
+}
+
+/* Style for the file input */
+.file-input {
+  display: none; /* Hide the default file input */
+}
+
+/* Style for the label */
+.file-label {
+  cursor: pointer;
+  padding: 8px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  display: flex;
+  align-items: center;
+  color:#FFF;
+  font-size: 10px;
+  width:100%;
+  height: 30px;
+}
+
+/* Style for the image */
+.upload-icon {
+  margin-right: 5px;
+  width: 15px;
+  // height: 15px;
+}
+.upload-text {
+  text-align: center;
+}
+
+/* Hover effect for the label */
+// .file-label:hover {
+//   background-color: #f0f0f0;
+// }

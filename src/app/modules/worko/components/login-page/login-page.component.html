@@ -170,16 +170,34 @@
                           </div>
 
                           <div class="col-md-6">
-                            <label class="custom-file-input">
+                            <!-- <label class="custom-file-input">
                               <div style="float: left;width: 9px;margin-right: 10px;">
                                 <img src="assets/images/Group.png" alt="" />
                               </div>
-                              <input type="file">
-                              <span>Upload CV</span>
+                              <label for="file">Choose File</label>
+                              <input type="file"
+                                     id="file"
+                                   (change)="handleFileInput($event)">
                               <div style="float: right;width: 15px;height: 15px;margin-top: -1px;">
                                 <img src="assets/images/mingcute_upload-line.png" alt="" />
                               </div>
-                            </label>
+                            </label> -->
+                            <div class="file-container">
+                             
+                              <label for="file" class="file-label">
+                                <div style="width: 10px;">
+                                  <img src="assets/images/Group.png" alt="" />
+                                </div>
+                               <div class="upload-text w-100">
+                                Upload CV
+                               </div> 
+                                <input type="file" id="file" class="file-input" (change)="handleFileInput($event)">
+                                <div class="doc-icon">
+                                  <img src="assets/images/mingcute_upload-line.png" alt="" class="upload-icon">
+                                </div>
+                               
+                              </label>
+                            </div>
                           </div>
 
                           <div class="col-md-12 mt-4 ms-2 d-flex justify-content-center">
