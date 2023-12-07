@@ -46,7 +46,7 @@
       <app-referral-request *ngIf="isDivOpen"></app-referral-request>
     </div>
     <div class="row p-3  d-flex">
-      <div class="zoom-box " *ngFor="let item of companyList">
+      <div class="zoom-box pb-3" *ngFor="let item of companyList">
         <div class="haver">
           <div class="logo-image">
             <div class="brand-image">
@@ -60,7 +60,7 @@
                 <img src="{{ item.logoUrl }}" alt="Brand Image">
               </div>
 
-              <div class="col-6">
+              <div class="col-6 p-3">
                 <div class="anchor-button">
                   <a href="{{ item.linkedIn }}" target="_blank">Linkedin</a>
                 </div>
