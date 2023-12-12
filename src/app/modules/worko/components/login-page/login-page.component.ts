@@ -17,7 +17,7 @@ export class LoginPageComponent {
   showSignInRow: boolean = true;
   isCandidateEmailVerified: boolean = false;
   isEmployeeEmailVerified: boolean = false;
-  confirmationCodeScreen: boolean = true;
+  confirmationCodeScreen: boolean = false;
   confirmationEmail: string = '';
   isDivOpen: boolean = false;
   isDivClose: boolean = true
