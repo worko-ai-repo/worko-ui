@@ -1,10 +1,8 @@
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpHeaders} from '@angular/common/http';
-// import { AuthService } from '../../auth/services/auth.service';
-// import { RequesterInfo, studentData} from '../interfaces/requester.interface';
  import { environment } from '../../../../environment/environment';
 import { Observable } from 'rxjs';
-
+import { candidateInfo, employeeInfo } from '../interfaces/auth.interface';
 const API_URL = environment.apiUrl;
 
 @Injectable({
@@ -20,29 +18,55 @@ export class AuthService {
   constructor(private http: HttpClient) { }
 
   /**
-   * Create Requester.
+   * Create Candidate.
    *
-   * @link https://transcript-api.verif-y.internal/swagger-ui/#/requester-controller/createRequesterUserProfileUsingPOST
-   *
-   * @param {RequesterInfo} RequesterInfo
+   * @param {RequesterInfo} candidateInfo
    * @returns {Promise<any>}
    */
-  createCandidate(candidateInfo: any): Observable<any> {
-    return this.http.post(API_URL + 'user/signup', candidateInfo, this.getHttpOptions());
+  createCandidate(candidateInfo: candidateInfo): Promise<any> {
+    return this.http.post(API_URL + 'user/register/candidate', candidateInfo, this.getHttpOptions()).toPromise();
   }
 
   /**
-   * Create Student.
+   * Create Employee.
    *
-   * @link https://transcript-api.verif-y.internal/swagger-ui/#/requester-controller/createStudentProfileUsingPOST
-   *
-   * @param {number | string } studentData
+   * @param {number | string } employeeInfo
    * @returns {Promise<any>}
    */
-  // createStudent(studentData: studentData): Promise<any> {
-  //   return this.http.post(API_URL + `requester/transcript/request`,studentData, this.authService.getHttpOptions()).toPromise();
-  // }
+  createEmployee(employeeInfo: employeeInfo): Promise<any> {
+    return this.http.post(API_URL + `user/register/employee`,employeeInfo, this.getHttpOptions()).toPromise();
+  }
 
+    /**
+   * Create Employee.
+   *
+   * @param {number | string } employeeInfo
+   * @returns {Observable<any>}
+   */
+    uploadCV(documentDetails: any): Promise<any> {
+      return this.http.post(API_URL + `file/gsu2u/USER_RESUME`, documentDetails, this.getHttpOptions())
+        .toPromise()
+        .then(response => response as ArrayBuffer);
+    }
+
+    uploadFileOnS3Bucket(file: File, signedUrl: string, awsS3Tag: string): Promise<any> {
+      return this.http.put(signedUrl, file, this.getHttpOptions(false, { awsS3Tag: awsS3Tag, "fileType": file.type })).toPromise()
+    }
+
+    linkResumewithUser(emailId: string, awsS3fileName: string): Promise<any> {
+      return this.http.patch(API_URL + `user/${emailId}/cv`, {resume :awsS3fileName}, this.getHttpOptions())
+        .toPromise()
+        .then(response => response as ArrayBuffer);
+    }
+
+    getProfile(emailId: string): Promise<any> {
+      return this.http.get(API_URL + `user/${emailId}/profile`, this.getHttpOptions())
+        .toPromise()
+        .then(response => response as ArrayBuffer);
+    }
+
+
+  
    /**
    * Get Http Options.
    *

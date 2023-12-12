@@ -1,16 +1,10 @@
 import { Injectable } from '@angular/core';
 import { BehaviorSubject } from 'rxjs';
-// import { Amplify } from '@aws-amplify/core';
-import { signIn, type SignInInput, signOut, signUp , confirmSignUp, type ConfirmSignUpInput} from 'aws-amplify/auth';
+import {  SignInOutput , getCurrentUser, signIn, type SignInInput, signOut, signUp, confirmSignUp, type ConfirmSignUpInput, AuthError } from 'aws-amplify/auth';
 import { Amplify } from 'aws-amplify';
 import * as awsamplify from './../../../../amplify-config'
-
-
-
-
-
-import { environment } from '../../../environment/environment';
-
+import { StorageService } from '../app-core/services/storage.service';
+// import { confirmSignUp, ConfirmSignUpInput } from 'aws-amplify/auth';
 export interface IUser {
   email: string;
   password: string;
@@ -31,23 +25,47 @@ export class CognitoService {
 
   private authenticationSubject: BehaviorSubject<any>;
 
-  constructor() {
+  constructor(private storage: StorageService) {
 
     Amplify.configure(awsamplify.config);
 
     this.authenticationSubject = new BehaviorSubject<boolean>(false);
   }
 
-  public handleSignIn(user: IUser): Promise<any> {
+
+public async handleSignIn(user: IUser): Promise<{ response?: SignInOutput; error?: AuthError }> {
+  try {
     const login: SignInInput = {
       username: user.email,
       password: user.password
+    };
+
+    const authData = await signIn(login);
+
+    this.authenticationSubject.next(true);
+
+    return { response: authData };
+  } catch (error) {
+    console.error('Error signing in:', error);
+
+    if (error instanceof AuthError) {
+      return { error };
     }
-    return signIn(login)
-      .then(() => {
-        console.log()
-        this.authenticationSubject.next(true);
-      });
+
+    // If it's not an AuthError, handle it as needed
+    throw error;
+  }
+}
+
+  async  currentAuthenticatedUser() {
+    try {
+      const { username, userId, signInDetails } = await getCurrentUser();
+      console.log(`The username: ${username}`);
+      console.log(`The userId: ${userId}`);
+      console.log(`The signInDetails: ${signInDetails}`);
+     } catch (err) {
+      console.log(err);
+    }
   }
 
   async handleSignOut() {
@@ -61,41 +79,56 @@ export class CognitoService {
   async handleSignUp({
     username,
     password,
-    // email
     phone_number,
     name
-  }: SignUpParameters) {
+  }: SignUpParameters): Promise<{ response?: any; error?: AuthError }> {
     try {
-      const { isSignUpComplete, userId, nextStep } = await signUp({
+      const signUpResponse = await signUp({
         username,
         password,
         options: {
           userAttributes: {
-            name, 
-             phone_number 
+            name,
+            phone_number
           },
-          // optional
-          autoSignIn: true // or SignInOptions e.g { authFlowType: "USER_SRP_AUTH" }
+          autoSignIn: true
         }
       });
 
-      console.log(userId);
+      // Return the entire response if sign-up is successful
+      return { response: signUpResponse };
+
     } catch (error) {
-      console.log('error signing up:', error);
+      console.log('Error signing up:', error);
+      if (error instanceof AuthError && error.message && (error.message.includes('Password did not conform with policy: Password not long enough') || error.message.includes('Invalid phone number format') || error.message.includes('An account with the given email already exists.'))) {
+        return { error };
+      } else {
+        // Rethrow other errors to propagate them to the calling method
+        throw error;
+      }
     }
   }
 
-  async  handleSignUpConfirmation({
-    username,
-    confirmationCode
-  }: ConfirmSignUpInput) {
-    try {
-      const { isSignUpComplete, nextStep } = await confirmSignUp({
-        username,
-        confirmationCode
-      });
-    } catch (error) {
-      console.log('error confirming sign up', error);
-    }
+
+
+async handleSignUpConfirmation({
+  username,
+  confirmationCode
+}: ConfirmSignUpInput): Promise<{ response?: any; error?: any }> {
+  try {
+    const { isSignUpComplete, nextStep } = await confirmSignUp({
+      username,
+      confirmationCode
+    });
+
+    // Return the response if confirmation is successful
+    return { response: { isSignUpComplete, nextStep } };
+  } catch (error) {
+    console.log('error confirming sign up', error);
+
+    // Return the error
+    return { error };
   }
+}
+
 }

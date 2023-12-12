@@ -2,8 +2,9 @@
 import { Component, EventEmitter, Output } from '@angular/core';
 import { CognitoService } from 'src/app/modules/services/cognito.service';
 import { Router } from '@angular/router';
-// import { Router, router } from '@angular/router';
 import { AuthService } from '../../services/auth.service';
+import { StorageService } from 'src/app/modules/app-core/services/storage.service';
+import { passwordValidator } from '../../validators/password.validators';
 @Component({
   selector: 'app-login-page',
   templateUrl: './login-page.component.html',
@@ -16,12 +17,12 @@ export class LoginPageComponent {
   showSignInRow: boolean = true;
   isCandidateEmailVerified: boolean = false;
   isEmployeeEmailVerified: boolean = false;
-  confirmationCodeScreen: boolean = false;
+  confirmationCodeScreen: boolean = true;
   confirmationEmail: string = '';
   isDivOpen: boolean = false;
   isDivClose: boolean = true
   hideDiv: boolean = true
-
+  errorMessage: string = "";
   form = {
     email: '',
     password: ''
@@ -50,7 +51,8 @@ export class LoginPageComponent {
     department: '',
     designation: '',
     newPassword: '',
-    password: ''
+    password: '',
+    designationTag: ''
 
   }
   fileString: string = "";
@@ -58,70 +60,196 @@ export class LoginPageComponent {
     code: ''
   }
 
-  constructor(private amplify: CognitoService, private router: Router, private authService: AuthService) { }
+  designationTagList: any = [
+    {
+      name: "Assistant Manager / Team Lead",
+      value: "1"
+    },
+    {
+      name: "Manager / Sr. Manager",
+      value: "5"
+    },
+    {
+      name: "Asst. GM / GM",
+      value: "10"
+    },
+    {
+      name: "Asst. Director / Director",
+      value: "15"
+    },
+    {
+      name: "Sr. Director / AVP",
+      value: "20"
+    },
+    {
+      name: "VP / CXO",
+      value: "25"
+    },
+  ]
+
+  userId: string = "";
+  fileName: string = "";
+  fileType: string = "";
+  uploadedCvName: string = "";
+  constructor(private storage: StorageService, private amplify: CognitoService, private router: Router, private authService: AuthService) { }
+
 
   selectUserType(userType: string) {
     this.selectedUserType = userType;
+    this.errorMessage = "";
     this.userTypeSelected.emit(userType);
   }
 
 
   toggleSignInRow() {
+    this.setErrorMessage("");
     this.showSignInRow = false;
   }
 
   toggleSignUpRow() {
+    this.setErrorMessage("");
+    // this.amplify.currentAuthenticatedUser();
     this.showSignInRow = true;
   }
 
-
-  signInC() {
-    this.router.navigate(['/candidate/candidate-dashboard'])
-  }
-  signInE() {
-    this.router.navigate(['/employee/employee-dashboard'])
-  }
-
-  async createCandidate(form: any): Promise<void> {
+  async createEmployee(form: any): Promise<void> {
     try {
-      this.confirmationEmail = this.maskEmail(this.candidateForm.emailId);
-       let a = this.createUser(this.candidateForm);
-      // let a = {
-      //   "name": this.candidateForm.name,
-      //   "emailList": { "primary": this.candidateForm.emailId },
-      //   "number": this.candidateForm.phoneNumber,
-      //   "linkedinUrl": this.candidateForm.linkdinProfile,
-      //   "ECTC": this.candidateForm.expectedCtc,
-      //   "YOE": this.candidateForm.experience,
-      //   "CV": this.fileToUpload
-      // }
-      // this.authService.createCandidate(a).subscribe({
-      //   next: (response) => {
-      //     debugger;
-      //     console.log(response);
-      //     // this.loading = false;
-      //   },
-      //   error: (error) => {
-      //     debugger;
-      //     console.error(error);
-      //     // this.loading = false;
-      //     // this.feedback = getErrorFeedback("ERROR.UNHANDLED_ERROR");
-      //   },
-      //   complete: () => {
-      //     // Optionally handle the completion event
-      //   }
-      // });
+      this.confirmationEmail = this.maskEmail(this.employeeForm.emailId);
+      const { response, error } = await this.createUser(this.employeeForm);
+      if (response) {
+        let employeeData = {
+          name: this.employeeForm.name,
+          email: this.employeeForm.emailId,
+          number: Number(this.employeeForm.phoneNumber),
+          linkedinUrl: this.employeeForm.linkdinProfile,
+          YOE: Number(this.employeeForm.experience),
+          designation: this.employeeForm.designation,
+          department: this.employeeForm.department,
+          companyEmailId: this.employeeForm.companyEmailID,
+          companyName: this.employeeForm.companyName,
+          userId: response.userId,
+          designationTag: Number(this.employeeForm.designationTag)
+        }
+
+        this.authService.createEmployee(employeeData).then(async () => {
+          try {
+            this.confirmationCodeScreen = true;
+          } catch (error: any) {
+            console.log(error);
+          }
+        })
+          .catch(error => {
+            this.setErrorMessage(error.error?.errors[0].message);
+            console.error('Create Employee Error:', error);
+
+          });
+      }
+
+      if (error && error.message) {
+        this.errorMessage = error.message;
+      }
 
 
-      this.confirmationCodeScreen = true;
     } catch (error) {
-      console.log('Error signing up candidate:', error);
-
+      console.log('Error signing up candidate createEmployee:', error);
     }
   }
 
 
+  async createCandidate(form: any): Promise<void> {
+    try {
+      this.confirmationEmail = this.maskEmail(this.candidateForm.emailId);
 
+      const { response, error } = await this.createUser(this.candidateForm);
+      console.log(response);
+      console.log(error);
+
+      if (response) {
+        try {
+          let candidateData = {
+            name: this.candidateForm.name,
+            email: this.candidateForm.emailId,
+            number: Number(this.candidateForm.phoneNumber),
+            linkedinUrl: this.candidateForm.linkdinProfile,
+            ECTC: Number(this.candidateForm.expectedCtc),
+            YOE: Number(this.candidateForm.experience),
+            userId: response.userId
+          }
+          this.authService.createCandidate(candidateData).then(async () => {
+            try {
+              if (response && response.userId && this.fileName) {
+
+                let documentDetails = {
+                  userId: this.userId,
+                  resumeUserFileName: this.fileName,
+                  resumeFileMimeType: this.fileType
+                }
+                let docResult = await this.authService.uploadCV(documentDetails);
+                console.log(docResult);
+
+                this.uploadedCvName = docResult.cloudFileName;
+                this.uploadCVonS3Bucket(docResult);
+
+              }
+            } catch (error) {
+              console.log(error);
+            }
+          })
+            .catch(error => {
+              this.setErrorMessage(error.error?.errors[0].message);
+              console.error('File upload error:', error);
+
+
+
+            });
+
+
+        } catch (error: any) {
+          this.setErrorMessage(error.error?.errors[0].message);
+          console.error('File upload error:', error);
+        }
+
+
+      }
+
+      if (error && error.message) {
+        this.errorMessage = error.message;
+      }
+
+    } catch (error) {
+      console.log('Error signing up candidate createCandidate:', error);
+    }
+
+
+  }
+
+
+  uploadCVonS3Bucket(docResult: any) {
+    try {
+
+      this.authService.uploadFileOnS3Bucket(this.fileToUpload!, docResult.awsS3SignedUrl, docResult.awsS3Tag)
+        .then(async () => {
+          console.log('File uploaded successfully.');
+          try {
+            let a = await this.authService.linkResumewithUser(this.candidateForm.emailId, this.uploadedCvName);
+            this.confirmationCodeScreen = true;
+          } catch (error) {
+            // this.errorMessage = error.code
+            console.error('File Link error linkResumewithUser:', error);
+          }
+
+        })
+        .catch(error => {
+
+          console.error('File upload error:', error);
+
+
+        });
+
+    } catch (error) {
+      console.log(error)
+    }
+  }
 
   handleFileInput(event: Event): void {
     const inputElement = event.target as HTMLInputElement;
@@ -136,6 +264,8 @@ export class LoginPageComponent {
         if (file.type === 'application/pdf') {
           // Process the PDF file as needed
           this.fileToUpload = file;
+          this.fileName = file.name;
+          this.fileType = file.type;
           console.log('Selected PDF file:', file);
         } else {
           // Display an error for invalid file type
@@ -148,103 +278,72 @@ export class LoginPageComponent {
     }
   }
 
-  // readPdfFile(file: File): void {
-  //   const fileReader = new FileReader();
-
-  //   fileReader.onload = (event: ProgressEvent<FileReader>) => {
-  //     // 'result' contains the contents of the file as a Data URL
-  //     // const pdfDataUrl: string | ArrayBuffer | null = event.target?.result;
-  //     const pdfDataUrl: string | ArrayBuffer | null = event.target?.result;
-
-  //     if (pdfDataUrl !== undefined && pdfDataUrl !== null) {
-  //       // Convert the Data URL to a string (if needed)
-  //       const pdfString = pdfDataUrl.toString();
-  //       this.fileString = pdfDataUrl;
-  //       // Now you can send the pdfString to your API using HttpClient
-  //       // this.sendPdfToApi(pdfString);
-  //     }
-  //   };
-
-  //   fileReader.onerror = (event: ProgressEvent<FileReader>) => {
-  //     console.error('Error reading PDF file:', event.target?.error);
-  //   };
-
-  //   // Read the file as a Data URL (string)
-  //   fileReader.readAsDataURL(file);
-  // }
-
 
   async confirmSignUp(form: any): Promise<void> {
     try {
-      console.log(this.candidateForm, "Candidate Forms end----------");
-      console.log(this.verificationForm);
       if (this.selectedUserType === "candidate") {
-        let userDetails = this.createUserWithConfirmation(this.candidateForm, this.verificationForm);
-        console.log(userDetails);
-        this.signInC();
+        const { response, error } = await this.createUserWithConfirmation(this.candidateForm, this.verificationForm);
+        if (response) {
+          this.toggleSignInRow();
+        }
+
+        if (error) {
+          this.errorMessage = error.message;
+        }
       }
 
       if (this.selectedUserType === "employee") {
-        let userDetails = this.createUserWithConfirmation(this.employeeForm, this.verificationForm);
-        console.log(userDetails);
-        this.signInE();
+        const { response, error } = await this.createUserWithConfirmation(this.employeeForm, this.verificationForm);
+
+        if (response) {
+          this.toggleSignInRow();
+        }
+
+        if (error) {
+          this.errorMessage = error.message;
+        }
       }
-
     } catch (error) {
-      console.log('Error signing up candidate:', error);
-
-    }
-
-  }
-
-  async createEmployee(form: any): Promise<void> {
-    try {
-      // let a = {
-      //   "name": this.employeeForm.name,
-      //   "emailList": { "primary": this.employeeForm.emailId },
-      //   "number": this.employeeForm.phoneNumber,
-      //   "linkedinUrl": this.employeeForm.linkdinProfile,
-      //   "YOE": this.employeeForm.experience,
-      //   "Designation": this.employeeForm.designation,
-      //   "Department": this.employeeForm.department,
-      //   "companyEmailID":this.employeeForm.companyEmailID,
-      //   "companyName":this.employeeForm.companyName,
-      // }
-
-       let a = this.createUser(this.employeeForm);
-      this.confirmationCodeScreen = true;
-    } catch (error) {
-      console.log('Error signing up candidate:', error);
+      console.log('Error signing up candidate confirmSignUp:', error);
     }
   }
 
-
-  async confirmSignUpEmployee(form: any): Promise<void> {
-    try {
-      let userDetails = this.createUserWithConfirmation(this.employeeForm, this.verificationForm);
-      console.log(userDetails);
-
-    } catch (error) {
-      console.log('Error signing up candidate:', error);
-    }
-  }
 
   async submit(form: any): Promise<void> {
     const loginData = {
       email: this.form.email,
       password: this.form.password
-
     }
-    console.log(loginData);
     let login = await this.amplify.handleSignIn(loginData);
-    console.log(login, "LoginDetails");
+    if (login && login.error && login.error.message) {
+      this.setErrorMessage(login.error.message);
+    }
+    if (login!.response!.isSignedIn) {
+      this.authService.getProfile(this.form.email).then(async (response) => {
+
+        let userType = response.data.lastAccessedDash;
+        if (userType == "CAND") {
+          this.router.navigate(['/candidate/candidate-dashboard']);
+        } else {
+          this.router.navigate(['/employee/employee-dashboard']);
+        }
+
+      })
+        .catch(error => {
+          console.error('Create Employee Error:', error);
+        });
+    }
+  }
+
+  setErrorMessage(message: string) {
+    this.errorMessage = message;
   }
 
   async signOut(): Promise<void> {
-    let login = await this.amplify.handleSignOut();
+    await this.amplify.handleSignOut();
   }
 
-  async createUser(form: any) {
+  async createUser(form: any): Promise<{ response?: any; error?: Error }> {
     try {
       let signupform = {
         password: form.password,
@@ -252,27 +351,62 @@ export class LoginPageComponent {
         name: form.name,
         phone_number: "+91" + form.phoneNumber
       }
-      return await this.amplify.handleSignUp(signupform);
+      const { response, error } = await this.amplify.handleSignUp(signupform);
+
+      if (response) {
+        // Handle the successful sign-up response
+
+        this.userId = response.userId;
+        console.log('Sign-up successful. UserId:  New method', response.userId);
+        return { response: response };
+      }
+
+      if (error) {
+        // Handle the sign-up error
+        console.error('Sign-up error: New method', error.message);
+        return { error: error };
+      }
     } catch (error) {
-      debugger;
-      console.log('Error signing up candidate:', error);
+      console.log('Error signing up candidate: createUser', error);
     }
+
+    // If an error occurs or no response is received, return an object with an undefined response and error properties
+    return {};
   }
 
-  async createUserWithConfirmation(form: any, verificationForm: any) {
+
+  async createUserWithConfirmation(form: any, verificationForm: any): Promise<{ response?: any; error?: Error }> {
     try {
       let signupform = {
         username: form.emailId,
         confirmationCode: verificationForm.code,
       }
-      return this.amplify.handleSignUpConfirmation(signupform);
-    }
-    catch (error) {
-      debugger;
-      console.log('Error signing up candidate:', error);
-    }
 
+      // Call handleSignUpConfirmation and await the result
+      const { response, error } = await this.amplify.handleSignUpConfirmation(signupform);
+
+      // Check if the confirmation was successful
+      if (response) {
+        console.log('Sign up confirmed:', response);
+        // Handle the confirmed sign-up as needed
+        return { response: response };
+      } else if (error) {
+        // Handle confirmation error
+        console.error('Error confirming sign up:', error);
+        return { error: error };
+      }
+
+      // If no response or error was encountered, return a default value
+      return { error: new Error('Unexpected error: No response or error.') };
+    } catch (error) {
+      console.error('Unexpected error:', error);
+      // Return the unexpected error
+      // return { error: error };
+    }
+    return {};
   }
+
+
 
   maskEmail(email: string): string {
     const parts = email.split('@');
