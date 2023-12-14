@@ -148,7 +148,8 @@ export class CompanyListingComponent implements OnInit {
   }
   
 
-  toggleDiv() {
+  openReferralPage(item: any) {
+    
     this.isDivOpen = !this.isDivOpen;
   }
 }

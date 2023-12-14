@@ -24,16 +24,22 @@ export class CompanyListingService {
   constructor(private http: HttpClient, private authService: AuthService) { }
 
   /**
-   * Create Requester.
+   * Get Company Listing.
    *
-   * @link https://transcript-api.verif-y.internal/swagger-ui/#/requester-controller/createRequesterUserProfileUsingPOST
-   *
-   * @param {RequesterInfo} RequesterInfo
    * @returns {Promise<any>}
    */
   getCompanyListing(): Observable<any> {
     return this.http.get(API_URL + 'company/list', this.authService.getHttpOptions());
   }
+
+    /**
+   * Get Company Listing.
+   *
+   * @returns {Promise<any>}
+   */
+    createReferralRequest(emailId: string, data: any): Observable<any> {
+      return this.http.post(API_URL + 'user/${emailId}/referral/request', data, this.authService.getHttpOptions());
+    }
 
 }
 

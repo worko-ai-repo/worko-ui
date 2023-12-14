@@ -23,13 +23,14 @@ import { LoginPageComponent } from './components/login-page/login-page.component
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
 import { MatSelectModule } from '@angular/material/select';
-import { FormControl, ReactiveFormsModule } from '@angular/forms';
+import {  ReactiveFormsModule } from '@angular/forms';
 import { FormsModule } from '@angular/forms';
 import { ReferralRequestComponent } from './components/referral-request/referral-request.component';
 import { SubscriptionPackComponent } from './components/subscription-pack/subscription-pack.component';
 import { ReferralProgressBarComponent } from './components/referral-progress-bar/referral-progress-bar.component';
 import { SharedModule } from '../shared/shared.module';
 import { HttpClientModule } from '@angular/common/http';
+import { MatTooltipModule } from '@angular/material/tooltip';
 
 export const routes: Routes = [
   {
@@ -157,8 +158,8 @@ export const routes: Routes = [
     MatSelectModule,
     ReactiveFormsModule,
     FormsModule,
-    HttpClientModule
-    
+    HttpClientModule,
+    MatTooltipModule
     
    
 
