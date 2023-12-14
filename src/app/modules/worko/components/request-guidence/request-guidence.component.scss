@@ -1,0 +1,79 @@
+.main-div{
+    height: 400px;
+    border-radius: 10px;
+border: 1px solid rgba(87, 225, 255, 0.18);
+background: rgba(10, 30, 54, 0.96);
+backdrop-filter: blur(18.149999618530273px);
+display: flex;
+    align-items: center;
+    justify-content: center;
+}
+.images{
+   height: 100%;
+   width: 80%;
+}
+.ref-page{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    
+}
+.button{
+    display: flex;
+    width: 224px;
+    height: 35px;
+    justify-content: center;
+    color: rgba(87, 225, 255, 0.58);
+    background-color: transparent;
+    border: 1.3px solid rgba(87, 225, 255, 0.58);
+}
+.button:hover{
+    color: black;
+    background-color: #57E1FF;
+text-align: center;
+
+font-size: 18px;
+font-style: normal;
+// font-weight: 400;
+line-height: normal;
+}
+.selector{
+    // border-radius: 4.676px;
+    border-top-left-radius: 5px;
+    border-bottom-left-radius: 5px;
+    border: 0.868px solid #3f89a1;
+    // -webkit-backdrop-filter: blur(260.2787475586px);
+    height: 25px;
+    width: 146px;
+    background-color: transparent;
+    color: white;
+    text-align: center;
+}
+.selector1{
+    border-radius: 4.676px;
+    border: 0.868px solid #3f89a1;
+    background-color: transparent;
+    color: white;
+    text-align: center;
+}
+.selector-radius{
+        /* border-radius: 4.676px; */
+        border-top-right-radius: 5px;
+        border-bottom-right-radius: 5px;
+        border: 0.868px solid #3f89a1;
+        height: 25px;
+        width: 146px;
+        background-color: transparent;
+        color: white;
+        text-align: center;
+}
+.req-now-button{
+    border-radius: 5px;
+    text-decoration: none;
+    background: linear-gradient(90deg, #2F92C7 0%, rgba(47, 146, 199, 0) 205.38%);
+    border: 1px solid #3f89a1;
+    color: white;
+    height: 25px;
+    width: 110px;
+    font-size: 11px;
+}
