@@ -1,4 +1,3 @@
-import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 import { CommonModule } from '@angular/common';
 import { ContactComponent } from './components/contact/contact.component';
@@ -23,7 +22,7 @@ import { LoginPageComponent } from './components/login-page/login-page.component
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
 import { MatSelectModule } from '@angular/material/select';
-import {  ReactiveFormsModule } from '@angular/forms';
+import { FormControl, NgModel, ReactiveFormsModule } from '@angular/forms';
 import { FormsModule } from '@angular/forms';
 import { ReferralRequestComponent } from './components/referral-request/referral-request.component';
 import { SubscriptionPackComponent } from './components/subscription-pack/subscription-pack.component';
@@ -31,6 +30,8 @@ import { ReferralProgressBarComponent } from './components/referral-progress-bar
 import { SharedModule } from '../shared/shared.module';
 import { HttpClientModule } from '@angular/common/http';
 import { MatTooltipModule } from '@angular/material/tooltip';
+import { RequestGuidenceComponent } from './components/request-guidence/request-guidence.component';
+import { NgModule } from '@angular/core';
 
 export const routes: Routes = [
   {
@@ -118,6 +119,10 @@ export const routes: Routes = [
         path : 'progress-bar',
         component: ReferralProgressBarComponent
       },
+      {
+        path : 'req-guidence',
+        component: RequestGuidenceComponent
+      },
       
       
       
@@ -148,6 +153,8 @@ export const routes: Routes = [
     ReferralRequestComponent,
     SubscriptionPackComponent,
     ReferralProgressBarComponent,
+    RequestGuidenceComponent,
+    
   ],
   imports: [
     CommonModule,

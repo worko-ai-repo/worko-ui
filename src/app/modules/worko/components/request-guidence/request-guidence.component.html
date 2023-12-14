@@ -1,0 +1,357 @@
+<div class="container-fluid">
+    <!-- signup -->
+    <div class="row">
+      <div class="col-md-12">
+        <button type="button" class="btn btn-primary" data-toggle="modal" data-target=".bd-example-modal-lg">
+          Large modal
+        </button>
+  
+        <div class="modal fade bd-example-modal-lg" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel"
+          aria-hidden="true">
+          <div class="modal-dialog modal-lg">
+            <div class="modal-content  main-div">
+               <div class="body">
+                    <div class="row">
+                        <div class="col-md-6 ">
+                           <div class="row">
+                            <div class="col-md-12">
+                              <img src="/assets/public/ref-raq-img1-removebg-preview.png" alt="" class="images ref-page ms-5">
+                            </div>
+                           </div>
+                        </div>
+
+                        <div class="col-md-6" *ngIf="!isFormVisible" >
+                           <div class="row">
+                            <div class="col-md-12">
+                              <h2 class="text-white bold ms-4 " style="letter-spacing: 0.4px;">Guidance Request</h2>
+                            </div>
+                              <p class="text-white ms-4">Select the Type of service</p>
+                              <button class="button m-1 ms-5   form-control" (click)="selectService('careerGuidance')"> Career guidance</button>
+                              <button class="button m-1 ms-5 form-control" (click)="selectService('mockInterview')" >Mock Interview</button>
+                              <button class="button m-1 ms-5 form-control" (click)="selectService('interviewGuidance')" >Interview guidance</button>
+                              <button class="button m-1 ms-5  form-control" (click)="selectService('reusmeReview')" >Resume review</button>
+                            </div>
+                           </div>
+                           
+                      
+                        <div class="col-md-6" *ngIf="isFormVisible">
+                          
+                        <div class="col-md-12 text-white" *ngIf="selectedService == 'careerGuidance'" >
+                         
+                          <div class="row">
+                            <div class="col-md-12" style="top: 18px;"> <h2 class="text-white bold " style="font-size: x-large;"> Career Guidance</h2></div>
+                            <div class="col-md-12" style="top: 12px;">
+                              <p class="text-white">Select from below options </p>
+                            </div>
+                            <div class="col-md-12 m-1">
+                              <select name="" id="" class="selector" style="border-radius: 4.676px;">
+                                <option value="">Level of mentor</option>
+                              </select>
+                            </div>
+                            <div class="col-md-12 mt-3 mb-2">
+                              Select the 3 Suitable Time Slots
+                            </div>
+                            <div class="row">
+                            
+                              <div class="col-md-6 mb-2">
+                              
+                                  <select name="" id="" class="selector">
+                                    <option value="">1.Choose date</option>
+                                  </select>
+                              </div>
+                              <div class="col-md-6 mb-2 " style="left: -33px;">
+                              
+                                  <select name="" id="" class="selector-radius">
+                                    <option value="">Choose Time</option>
+                                  </select>
+                              </div>
+
+                              <div class="col-md-6 mb-2">
+                              
+                                <select name="" id="" class="selector">
+                                  <option value="">2.Choose date</option>
+                                </select>
+                            </div>
+                            <div class="col-md-6 mb-2 " style="left: -33px;">
+                            
+                                <select name="" id="" class="selector-radius">
+                                  <option value="">Choose Time</option>
+                                </select>
+                            </div>
+
+                            <div class="col-md-6 mb-2">
+                              
+                              <select name="" id="" class="selector">
+                                <option value="">3.Choose date</option>
+                              </select>
+                          </div>
+                          <div class="col-md-6 mb-2 " style="left: -33px;">
+                          
+                              <select name="" id="" class="selector-radius">
+                                <option value="">Choose Time</option>
+                              </select>
+                          </div>
+                             
+                            <div class="col-md-12">
+                                 <textarea name="" id="" cols="39" rows="2" class="selector1" >
+
+                                 </textarea>
+                            </div>
+
+                            <div class="com-md-12 text-center mt-2">
+                              <button class="req-now-button">REQUEST NOW</button>
+                            </div>
+                        
+                        </div>
+                            
+  
+                          
+                              
+                            
+  
+  
+                          </div>
+                          
+                          </div>
+                          <div class="col-md-12 text-white" *ngIf="selectedService == 'mockInterview'">
+                           
+                            <div class="row">
+                              <div class="col-md-12" style="top: 18px;"> <h2 class="text-white bold " style="font-size: x-large;"> Mock Interview</h2></div>
+                              <div class="col-md-12" style="top: 12px;">
+                                <p class="text-white">Select from below options </p>
+                              </div>
+                              <div class="col-md-12 m-1">
+                                <select name="" id="" class="selector" style="border-radius: 4.676px;">
+                                  <option value="">Level of mentor</option>
+                                </select>
+                              </div>
+                              <div class="col-md-12 mt-3 mb-2">
+                                Select the 3 Suitable Time Slots
+                              </div>
+                              <div class="row">
+                              
+                                <div class="col-md-6 mb-2">
+                                
+                                    <select name="" id="" class="selector">
+                                      <option value="">1.Choose date</option>
+                                    </select>
+                                </div>
+                                <div class="col-md-6 mb-2 " style="left: -33px;">
+                                
+                                    <select name="" id="" class="selector-radius">
+                                      <option value="">Choose Time</option>
+                                    </select>
+                                </div>
+  
+                                <div class="col-md-6 mb-2">
+                                
+                                  <select name="" id="" class="selector">
+                                    <option value="">2.Choose date</option>
+                                  </select>
+                              </div>
+                              <div class="col-md-6 mb-2 " style="left: -33px;">
+                              
+                                  <select name="" id="" class="selector-radius">
+                                    <option value="">Choose Time</option>
+                                  </select>
+                              </div>
+  
+                              <div class="col-md-6 mb-2">
+                                
+                                <select name="" id="" class="selector">
+                                  <option value="">3.Choose date</option>
+                                </select>
+                            </div>
+                            <div class="col-md-6 mb-2 " style="left: -33px;">
+                            
+                                <select name="" id="" class="selector-radius">
+                                  <option value="">Choose Time</option>
+                                </select>
+                            </div>
+                               
+                              <div class="col-md-12">
+                                   <textarea name="" id="" cols="39" rows="2" class="selector1" >
+  
+                                   </textarea>
+                              </div>
+  
+                              <div class="com-md-12 text-center mt-2">
+                                <button class="req-now-button">REQUEST NOW</button>
+                              </div>
+                          
+                          </div>
+                              
+    
+                            
+                                
+                              
+    
+    
+                            </div>
+                          </div>
+                          <div class="col-md-12 text-white"*ngIf="selectedService == 'interviewGuidance'">
+                           
+                            <div class="row">
+                              <div class="col-md-12" style="top: 18px;"> <h2 class="text-white bold " style="font-size: x-large;">Interview Guidance</h2></div>
+                              <div class="col-md-12" style="top: 12px;">
+                                <p class="text-white">Select from below options </p>
+                              </div>
+                              <div class="col-md-12 m-1">
+                                <select name="" id="" class="selector" style="border-radius: 4.676px;">
+                                  <option value="">Level of mentor</option>
+                                </select>
+                              </div>
+                              <div class="col-md-12 mt-3 mb-2">
+                                Select the 3 Suitable Time Slots
+                              </div>
+                              <div class="row">
+                              
+                                <div class="col-md-6 mb-2">
+                                
+                                    <select name="" id="" class="selector">
+                                      <option value="">1.Choose date</option>
+                                    </select>
+                                </div>
+                                <div class="col-md-6 mb-2 " style="left: -33px;">
+                                
+                                    <select name="" id="" class="selector-radius">
+                                      <option value="">Choose Time</option>
+                                    </select>
+                                </div>
+  
+                                <div class="col-md-6 mb-2">
+                                
+                                  <select name="" id="" class="selector">
+                                    <option value="">2.Choose date</option>
+                                  </select>
+                              </div>
+                              <div class="col-md-6 mb-2 " style="left: -33px;">
+                              
+                                  <select name="" id="" class="selector-radius">
+                                    <option value="">Choose Time</option>
+                                  </select>
+                              </div>
+  
+                              <div class="col-md-6 mb-2">
+                                
+                                <select name="" id="" class="selector">
+                                  <option value="">3.Choose date</option>
+                                </select>
+                            </div>
+                            <div class="col-md-6 mb-2 " style="left: -33px;">
+                            
+                                <select name="" id="" class="selector-radius">
+                                  <option value="">Choose Time</option>
+                                </select>
+                            </div>
+                               
+                              <div class="col-md-12">
+                                   <textarea name="" id="" cols="39" rows="2" class="selector1" >
+  
+                                   </textarea>
+                              </div>
+  
+                              <div class="com-md-12 text-center mt-2">
+                                <button class="req-now-button">REQUEST NOW</button>
+                              </div>
+                          
+                          </div>
+                              
+    
+                            
+                                
+                              
+    
+    
+                            </div>
+                          </div>
+
+                          <div class="col-md-12 text-white"*ngIf="selectedService == 'reusmeReview'">
+                           
+                            <div class="row">
+                              <div class="col-md-12" style="top: 18px;"> <h2 class="text-white bold " style="font-size: x-large;"> Reusme Review</h2></div>
+                              <div class="col-md-12" style="top: 12px;">
+                                <p class="text-white">Select from below options </p>
+                              </div>
+                              <div class="col-md-12 m-1">
+                                <select name="" id="" class="selector" style="border-radius: 4.676px;">
+                                  <option value="">Level of mentor</option>
+                                </select>
+                              </div>
+                              <div class="col-md-12 mt-3 mb-2">
+                                Select the 3 Suitable Time Slots
+                              </div>
+                              <div class="row">
+                              
+                                <div class="col-md-6 mb-2">
+                                
+                                    <select name="" id="" class="selector">
+                                      <option value="">1.Choose date</option>
+                                    </select>
+                                </div>
+                                <div class="col-md-6 mb-2 " style="left: -33px;">
+                                
+                                    <select name="" id="" class="selector-radius">
+                                      <option value="">Choose Time</option>
+                                    </select>
+                                </div>
+  
+                                <div class="col-md-6 mb-2">
+                                
+                                  <select name="" id="" class="selector">
+                                    <option value="">2.Choose date</option>
+                                  </select>
+                              </div>
+                              <div class="col-md-6 mb-2 " style="left: -33px;">
+                              
+                                  <select name="" id="" class="selector-radius">
+                                    <option value="">Choose Time</option>
+                                  </select>
+                              </div>
+  
+                              <div class="col-md-6 mb-2">
+                                
+                                <select name="" id="" class="selector">
+                                  <option value="">3.Choose date</option>
+                                </select>
+                            </div>
+                            <div class="col-md-6 mb-2 " style="left: -33px;">
+                            
+                                <select name="" id="" class="selector-radius">
+                                  <option value="">Choose Time</option>
+                                </select>
+                            </div>
+                               
+                              <div class="col-md-12">
+                                   <textarea name="" id="" cols="39" rows="2" class="selector1" >
+  
+                                   </textarea>
+                              </div>
+  
+                              <div class="com-md-12 text-center mt-2">
+                                <button class="req-now-button">REQUEST NOW</button>
+                              </div>
+                          
+                          </div>
+                              
+    
+                            
+                                
+                              
+    
+    
+                            </div>
+                          </div>
+
+                        </div>
+               </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+    </div>
+    
+
+  
