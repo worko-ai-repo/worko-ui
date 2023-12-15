@@ -25,6 +25,7 @@ import { MatInputModule } from '@angular/material/input';
 import { MatSelectModule } from '@angular/material/select';
 import { FormControl, ReactiveFormsModule } from '@angular/forms';
 import { FormsModule } from '@angular/forms';
+import { SlickCarouselModule } from 'ngx-slick-carousel';
 
 export const routes: Routes = [
   {
@@ -136,8 +137,9 @@ export const routes: Routes = [
     MatInputModule,
     MatSelectModule,
     ReactiveFormsModule,
-    FormsModule
-    
+    FormsModule,
+    SlickCarouselModule,
+
     
    
 
