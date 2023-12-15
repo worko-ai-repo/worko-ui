@@ -42,9 +42,7 @@
         </div>
       </div>
     </div>
-    <div class="row">
-      <app-referral-request *ngIf="isDivOpen"></app-referral-request>
-    </div>
+  
     <div class="row p-3  d-flex">
       <div class="zoom-box pb-3" *ngFor="let item of companyList">
         <div class="haver">
@@ -88,3 +86,18 @@
     </div>
   </div>
 </div>
+
+<div class="row">
+ 
+</div>
+
+<app-modal [theme]="'theme-k'" [centered]="true" [showHeader]="showModal === modalType.MESSAGE"
+  [showFooter]="showModal === modalType.MESSAGE" [title]="modalTitle" [message]="modalMessage"
+  [bodyClass]="modalMessage ? 'p-4' : 'p-0'" >
+
+
+  <ng-container *ngIf="showModal === modalType.REQUEST_REFERRAL">
+    <app-referral-request   [selectedCompany]="selectedData"></app-referral-request>
+  </ng-container>
+
+</app-modal>

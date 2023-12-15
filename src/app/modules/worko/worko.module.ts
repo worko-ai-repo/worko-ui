@@ -32,6 +32,12 @@ import { HttpClientModule } from '@angular/common/http';
 import { MatTooltipModule } from '@angular/material/tooltip';
 import { RequestGuidenceComponent } from './components/request-guidence/request-guidence.component';
 import { NgModule } from '@angular/core';
+import { MatCardModule } from '@angular/material/card';
+import { MatDividerModule } from '@angular/material/divider';
+import { CircleChartComponent } from './components/circle-chart/circle-chart.component';
+import { MatProgressBarModule } from '@angular/material/progress-bar';
+import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
+
 
 export const routes: Routes = [
   {
@@ -154,6 +160,7 @@ export const routes: Routes = [
     SubscriptionPackComponent,
     ReferralProgressBarComponent,
     RequestGuidenceComponent,
+    CircleChartComponent,
     
   ],
   imports: [
@@ -166,8 +173,11 @@ export const routes: Routes = [
     ReactiveFormsModule,
     FormsModule,
     HttpClientModule,
-    MatTooltipModule
-    
+    MatTooltipModule,
+    MatCardModule,
+    MatDividerModule,
+    MatProgressBarModule,
+    MatProgressSpinnerModule
    
 
   ]

@@ -1,15 +1,9 @@
 <ng-template #modalRef let-modal>
     <div *ngIf="showHeader"  class="modal-header-class" [class]="headerClass" [ngClass]="{ 'centralized': textCenter }" >
-      <h5 class="modal-title" [id]="ariaLabelledBy">
-        <!-- {{ title | translate }} -->
-      </h5>
-      <!-- <button type="button" class="close" aria-label="Close" (click)="modal.dismiss('cross')">
-        <span aria-hidden="true">&times;</span>
-      </button> -->
+ 
     </div>
     <div class="modal-body" [class]="bodyClass">
-      <div *ngIf="message; else contentBlock" [class.text-center]="textCenter" [innerHTML]="message">
-      </div>
+      <div *ngIf="message; else contentBlock" [class.text-center]="textCenter" [innerHTML]="message"></div>
       <ng-template #contentBlock>
         <ng-content></ng-content>
       </ng-template>

@@ -48,7 +48,8 @@ export class ModalComponent implements OnInit {
     const modalOptions: NgbModalOptions = {
       ariaLabelledBy: this.ariaLabelledBy,
       windowClass: `${this.theme} ${this.class}`.trim(),
-      centered: this.centered
+      centered: this.centered,
+      size: 'lg'
     };
 
     this.modalService.open(this.modalRef, modalOptions).result.then(
