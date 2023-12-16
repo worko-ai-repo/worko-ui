@@ -77,3 +77,95 @@ line-height: normal;
     width: 110px;
     font-size: 11px;
 }
+.svgImg{
+    width: 348px;
+height: 395px;
+flex-shrink: 0;
+
+fill: rgba(47, 15, 174, 0.68);
+
+filter: blur(150px);
+}
+.backgroundImg{
+    background-size: cover;
+    background-image: url(/assets/public/background-img-req-guidance\ \(1\).png);
+    height: 395px;
+    width: 795px;
+    left: -53px;
+
+}
+.req-text{
+    color: #FFF;
+    text-align: center;
+    font-family: Poppins;
+    font-size: 33px;
+    font-style: normal;
+    font-weight: 700;
+    line-height: normal;
+   
+
+}
+.para-text{
+    color: #FFF;
+    text-align: center;
+    font-family: Poppins;
+    font-size: 10px;
+    font-style: normal;
+    font-weight: 500;
+    line-height: normal;
+    
+   
+}
+.shedule-back-img{
+    background-image: url(/assets/public/shedule-meeting-back-img.png);
+}
+.content-center{
+    padding: 116px;
+  
+   
+}
+.shedule-meeting-text{
+    color: #FFF;
+text-align: center;
+font-family: Poppins;
+font-size: 24px;
+font-style: normal;
+font-weight: 700;
+line-height: normal;
+}
+.box{
+    border-radius: 15px;
+    border: 0.4px solid #57E1FF;
+    background: #0C2037;
+    height: 126px;
+   
+}
+.wed-text{
+    color: #FFF;
+    text-align: center;
+    font-family: Poppins;
+    font-size: 13.5px;
+    font-style: normal;
+    font-weight: 500;
+    line-height: normal;
+    width: 0;
+   
+}
+.nov-text{
+    color: #FFF;
+    text-align: center;
+    font-family: Poppins;
+    font-size: 12.5px;
+    font-style: normal;
+    font-weight: 700;
+    line-height: normal;
+    width: 99px;
+}
+.text-nov{
+    color: #FFF;
+font-family: Poppins;
+font-size: 11.5px;
+font-style: normal;
+font-weight: 500;
+line-height: normal;
+}

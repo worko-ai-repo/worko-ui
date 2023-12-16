@@ -14,6 +14,7 @@ export class CompanyListingComponent implements OnInit {
   showdiv: boolean = false;
   hidediv: boolean = true;
   isDivOpen: boolean = false;
+  isReqRef:boolean=false;
   // compantList: any[] = [{
   //   "createdAt": "2023-11-13T18:34:56.411Z",
   //   "SK": "ID#01HF4ZE6GQ241E6RJ079TKHDCC",
@@ -151,4 +152,7 @@ export class CompanyListingComponent implements OnInit {
   toggleDiv() {
     this.isDivOpen = !this.isDivOpen;
   }
+reqRefShow(){
+this.isReqRef= !this.isReqRef;
+}
 }

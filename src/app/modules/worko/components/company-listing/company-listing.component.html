@@ -44,6 +44,7 @@
     </div>
     <div class="row">
       <app-referral-request *ngIf="isDivOpen"></app-referral-request>
+      <app-request-guidence *ngIf="isReqRef"></app-request-guidence>
     </div>
     <div class="row p-3  d-flex">
       <div class="zoom-box pb-3" *ngFor="let item of companyList">
@@ -78,7 +79,7 @@
                 </div>
                 <div class="col-md-6 p-0">
                   <button class="btn btn-sm bg-white long-button listing-button"
-                    style="font-size: 10px;white-space: nowrap;">Request Guidance</button>
+                    style="font-size: 10px;white-space: nowrap;" (click)="reqRefShow()">Request Guidance</button>
                 </div>
               </div>
             </div>

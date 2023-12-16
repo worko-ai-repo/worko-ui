@@ -11,7 +11,7 @@
           <div class="modal-dialog modal-lg">
             <div class="modal-content  main-div">
                <div class="body">
-                    <div class="row">
+                    <div class="row" >
                         <div class="col-md-6 ">
                            <div class="row">
                             <div class="col-md-12">
@@ -36,7 +36,7 @@
                       
                         <div class="col-md-6" *ngIf="isFormVisible">
                           
-                        <div class="col-md-12 text-white" *ngIf="selectedService == 'careerGuidance'" >
+                          <div class="col-md-12 text-white" *ngIf="selectedService == 'careerGuidance'" >
                          
                           <div class="row">
                             <div class="col-md-12" style="top: 18px;"> <h2 class="text-white bold " style="font-size: x-large;"> Career Guidance</h2></div>
@@ -54,7 +54,16 @@
                             <div class="row">
                             
                               <div class="col-md-6 mb-2">
-                              
+                                
+                                <!-- <mat-form-field>
+                                  <mat-label>Choose a date</mat-label>
+                                  <input matInput [matDatepicker]="picker">
+                                  <mat-hint>MM/DD/YYYY</mat-hint>
+                                  <mat-datepicker-toggle matIconSuffix [for]="picker"></mat-datepicker-toggle>
+                                  <mat-datepicker #picker></mat-datepicker>
+                                </mat-form-field> -->
+                                
+                                                      
                                   <select name="" id="" class="selector">
                                     <option value="">1.Choose date</option>
                                   </select>
@@ -344,14 +353,117 @@
                           </div>
 
                         </div>
+
+                  </div>
+
+                  <div class="row"  class="backgroundImg content-center " *ngIf="false">
+                    <div class="row">
+                      <div class="col-md-12" style="text-align: center;">
+                        <img src="/assets/public/gif-1.gif" alt="" style="height: 100px; width: 100px;">
+                      </div>
+                    </div>
+                    
+                    <div class="row">
+                      <div class="col-md-12" >
+                        <h1 class="req-text  ">
+                          Request Sent
+                        </h1>
+                       
+                        <p class="para-text ">
+                          Request have been submitted our team will reach out to you and find <br> the best for you kindly check your email
+                        </p>
+                      
+                    </div>
+                    </div>
+                  </div>
+                       <!-- <div class="row"  *ngIf="true">
+                       <div class="col-md-12"  class="shedule-back-img">
+          
+                      </div>
+                      <div class="col-md-12">
+                        <h1 class="shedule-meeting-text">You scheduled a meeting with us</h1>
+                      </div>
+
+                      <div class="col-md-12">
+                        <div class="box">
+                            <div class="row">
+                              <div class="col-md-6 ">
+                               <h2 class="wed-text ps-5 pt-3">Wednesday</h2>
+                                <div class="row ps-5">
+                                  <div class="col-md-12">
+                                    <div class="nov-text">4 <span class=""> Novembar 2023</span></div>
+                                  </div>
+                                </div>
+                              </div>
+                            </div>
+                        </div>
+                      </div>
+                     
+                      </div> -->
+
+                      <div class="row"  class="backgroundImg content-center " *ngIf="false">
+                        
+                        <div class="row">
+                          <div class="col-md-12" style="text-align: center;">
+                            <img src="/assets/public/gif-2.gif" alt="" style="height: 100px; width: 100px;">
+                          </div>
+                        </div>
+                        <div class="row">
+                          
+                          <div class="col-md-12" >
+                            <h1 class="req-text  ">
+                              Pending
+                            </h1>
+                           
+                            <p class="para-text ">
+                              Your guidance request is pending. Please await further <br>
+                               assistance as we work to address and resolve your inquiry. </p>
+                          
+                        </div>
+                        </div>
+                      </div>
+
+                      <div class="row"  class="backgroundImg content-center " *ngIf="false">
+                        
+                        <div class="row">
+                          <div class="col-md-12" style="text-align: center;">
+                            <img src="/assets/public/gif-4.gif" alt="" style="height: 100px; width: 100px;">
+                          </div>
+                        </div>
+                        <div class="row">
+                          
+                          <div class="col-md-12" >
+                            <h1 class="req-text  ">
+                              Rejected
+                            </h1>
+                           
+                            <p class="para-text ">
+                              Your guidance request is rejected. Explore alternative resources or provide additional <br>
+                               details for reconsideration. Contact support for clarification if needed. </p>
+                          
+                        </div>
+                        </div>
+                      </div>
+
+
+                    
+
+                    
+                       
+                        
+                    
+                  </div>
+
+
                </div>
+
               </div>
             </div>
           </div>
         </div>
       </div>
 
-    </div>
-    
+
+
 
   
