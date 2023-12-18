@@ -11,14 +11,13 @@ export class ReferralRequestComponent implements OnInit {
 
 
   showReferrelRow: boolean = true;
-  divShow: boolean = true;
   showContent: boolean = true;
   showLoading: boolean = false;
-
+  showsubscriptionPlan: boolean = false;
   subscriptionArray: any[] = [
-    { "packageName": "Basic", "packageRupees": 199, "packageDuration": "3 referral / Month" },
-    { "packageName": "Classic", "packageRupees": 499, "packageDuration": "10 referral / Month" },
-    { "packageName": "Premium", "packageRupees": 499, "packageDuration": "25 referral / Month" },
+    { "packageName": "Basic", "packageRupees": 199, "packageDuration": "3 referral / Month", isPopular: "no" },
+    { "packageName": "Classic", "packageRupees": 499, "packageDuration": "10 referral / Month", isPopular: "yes" },
+    { "packageName": "Premium", "packageRupees": 499, "packageDuration": "25 referral / Month", isPopular: "no" },
   ];
 
   requestForm = {
@@ -30,7 +29,7 @@ export class ReferralRequestComponent implements OnInit {
     packageRupees: '',
     packageDuration: '',
   }
-
+  matchingScore: number = 0;
   referralRequestId: string = "";
   emailId: string = "prashant@worko.ai";
   constructor(private companyListing: CompanyListingService) { }
@@ -44,10 +43,13 @@ export class ReferralRequestComponent implements OnInit {
     console.log(this.selectedCompany);
     this.companyListing.getReferralCount(this.emailId).then(async (response) => {
       if (response.isSubscribed) {
-        console.log("Helo");
         let count = response.referralCount;
+        // let count = 0;
         if (count) {
           this.createRequest();
+        } else {
+          this.showsubscriptionPlan = true;
+          this.showReferrelRow = false;
         }
       }
     })
@@ -81,11 +83,11 @@ export class ReferralRequestComponent implements OnInit {
       });
   }
 
-  getScore(referralRequestId: string){
+  getScore(referralRequestId: string) {
     this.companyListing.getMatchingScore(this.emailId, referralRequestId).then(async (response) => {
       if (response) {
         console.log("Matchingscore");
-
+        this.matchingScore = response.matchingScore;
         this.showLoading = false;
         this.showScore = true;
       }
@@ -94,12 +96,13 @@ export class ReferralRequestComponent implements OnInit {
         console.error('Create Employee Error:', error);
       });
   }
-  // toggleReferralInRow() {
-  //   this.showReferrelRow = false;
-  // }
 
-  hideDiv() {
-    this.divShow = false;
+  receiveDataFromChild(data: any){
+    alert("payment done")
+  }
+
+  receieveError(data: any){
+    alert("payment failed")
   }
 
 }

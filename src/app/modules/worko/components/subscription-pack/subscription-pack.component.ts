@@ -7,11 +7,17 @@ import { Component, EventEmitter, Input, Output } from '@angular/core';
 })
 export class SubscriptionPackComponent {
   @Input() isOpen: boolean = false;
+  @Input() package: any;
   @Output() onClose: EventEmitter<void> = new EventEmitter<void>();
- 
-  
-
+  @Output() onSuccess: EventEmitter<void> = new EventEmitter<void>();
+  @Output() onError: EventEmitter<void> = new EventEmitter<void>();
   
 
   constructor(){}
+
+  makeOrder(item: any){
+    // const data = 'Hello from child component!';
+    this.onSuccess.emit();
+    // this.onError.emit();
+  }
 }

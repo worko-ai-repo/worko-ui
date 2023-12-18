@@ -177,7 +177,7 @@ export const routes: Routes = [
     MatCardModule,
     MatDividerModule,
     MatProgressBarModule,
-    MatProgressSpinnerModule
+    MatProgressSpinnerModule,
     SlickCarouselModule,
    
 

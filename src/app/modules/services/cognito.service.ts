@@ -1,9 +1,10 @@
 import { Injectable } from '@angular/core';
 import { BehaviorSubject } from 'rxjs';
-import {  SignInOutput , getCurrentUser, signIn, type SignInInput, signOut, signUp, confirmSignUp, type ConfirmSignUpInput, AuthError } from 'aws-amplify/auth';
+import {  fetchAuthSession , SignInOutput , getCurrentUser, signIn, type SignInInput, signOut, signUp, confirmSignUp, type ConfirmSignUpInput, AuthError } from 'aws-amplify/auth';
 import { Amplify } from 'aws-amplify';
 import * as awsamplify from './../../../../amplify-config'
 import { StorageService } from '../app-core/services/storage.service';
+
 // import { confirmSignUp, ConfirmSignUpInput } from 'aws-amplify/auth';
 export interface IUser {
   email: string;
@@ -39,9 +40,9 @@ public async handleSignIn(user: IUser): Promise<{ response?: SignInOutput; error
       username: user.email,
       password: user.password
     };
-
+ 
     const authData = await signIn(login);
-
+   
     this.authenticationSubject.next(true);
 
     return { response: authData };
@@ -130,5 +131,7 @@ async handleSignUpConfirmation({
     return { error };
   }
 }
+
+
 
 }

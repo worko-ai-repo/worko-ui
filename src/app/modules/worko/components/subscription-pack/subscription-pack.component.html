@@ -1,18 +1,18 @@
+<div class="popular-content" *ngIf="package.isPopular == 'yes'">Most Popular</div>
+<div class=" subscription-box" [class.popular-active]="package.isPopular == 'yes'" [class.popular-inactive]="package.isPopular !== 'yes'">
 
-        <div class=" subscrip-box" >
-            <div class="row" >
-              <div class="col-md-12">
-                <p class="basic-text ps-3 pt-3">basic</p>
-              </div>
-              <div class="col-md-12">
-                <p class="ps-3 rupees-text">199 <span style="color: grey;
-                    font-size: 15px">/mo</span> </p> 
-              </div>
-              <div class="col-md-12">
-                <p class="ps-3 ref-month-text">3 Referral / Months</p>
-              </div>
-              
-            </div>
-        </div>
-  
+  <div class="col-md-12 p-0">
+    <p class="basic-text ps-3 pt-3">{{package.packageName}}</p>
+  </div>
+  <div class="col-md-12 p-0">
+    <p class="ps-3 rupees-text">{{package.packageRupees}} <span style="color: grey;
+                    font-size: 15px">/mo</span> </p>
+  </div>
+  <div class="col-md-12 p-0">
+    <p class="ps-3 ref-month-text">{{package.packageDuration}}</p>
+  </div>
+  <div class="col-md-12 p-0 text-center">
+    <button class="btn btn-secondary"    (click)="makeOrder(package)">Buy now</button>
+  </div>
 
+</div>

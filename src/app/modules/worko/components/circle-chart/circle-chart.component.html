@@ -1,12 +1,13 @@
-<div class="circle-chart-container">
+<div class="circle-chart-container d-flex align-self-center justify-content-center ">
     <mat-progress-spinner
       class="circle-chart"
       [ngClass]="{ 'hide-progress-bar': hideProgressBar }"
-      color="primary"
+      [color]="getColor()"
       mode="determinate"
       [value]="chartValue"
+      [diameter]="180"
     >
     </mat-progress-spinner>
-    <div class="circle-chart-text">{{ chartText }}</div>
+    <div class="circle-chart-text">{{ chartText }}/10</div>
   </div>
   

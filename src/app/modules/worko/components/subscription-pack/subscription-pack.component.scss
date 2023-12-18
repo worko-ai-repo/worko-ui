@@ -1,35 +1,42 @@
-.subscrip-box{
+.subscription-box {
     border-radius: 16px;
     border: 1px solid rgba(87, 225, 255, 0.58);
-    height: 187px
+    height: 180px;
+    width: 220px;
+    margin: 0 auto;
 }
-.basic-text{
+
+.popular-active {
+    border-radius: 0px 0px 16px 16px;
+}
+
+.basic-text {
     color: #FFF;
     font-family: Poppins;
     font-size: 16px;
-    font-style: normal;
     font-weight: 700;
     line-height: normal;
     letter-spacing: 1.3px;
+    margin-bottom: 0rem;
 }
-.rupees-text{
+
+.rupees-text {
     color: #FFF;
     font-family: Poppins;
     font-size: 22px;
-    font-style: normal;
     font-weight: 700;
     line-height: normal;
 }
-.ref-month-text{
+
+.ref-month-text {
     color: var(--small-text, #E7F5FF);
     font-family: Poppins;
     font-size: 11px;
-    font-style: normal;
     font-weight: 500;
-    line-height: 118.5%;
     letter-spacing: 1px;
 }
-.buy-btn{
+
+.btn-secondary {
     color: #FFF;
     text-align: center;
     font-family: Poppins;
@@ -38,7 +45,27 @@
     font-weight: 700;
     line-height: 118.5%;
     letter-spacing: 1.3px;
-    width: 170px;
+    min-width: 200px;
     border-radius: 7.5px;
-    background:#2F92C7;
+    background: #2F92C7;
+}
+
+.popular-content {
+    background: #50D5FF;
+    border-radius: 11px 14px 0px 0px;
+    height: 40px;
+    vertical-align: middle;
+    font-size: 20px;
+    font-weight: bold;
+    color: #0A1E35;
+    margin-left: 9px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 220px;
+
+}
+
+.popular-inactive{
+    margin-top:40px;
 }

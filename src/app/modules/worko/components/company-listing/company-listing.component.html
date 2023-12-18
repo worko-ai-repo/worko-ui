@@ -7,17 +7,16 @@
 
   <div class="row  mt-4  me-0 ms-4">
     <div class="col-8">
-      <div class="referred">Get referred to over 1000+ companies</div>
+      <div class="referred headline">Get referred to over 1000+ companies</div>
     </div>
-    <div class="col-8 paraReferral my-2">
+    <div class="col-8 paraReferral paragraph-content my-2">
       <p>
         Select a company you want a referral for. Enter the URL for the job
         posting that you want, and send your profile off to our referral
       </p>
     </div>
     <div class="col-8  text-white my-2">
-      <input class="searchInput" placeholder="Search by company name..."
-        style="background: linear-gradient(148deg, #000 5.99%, #182b45 70.16%)" />
+      <input class="searchInput" placeholder="Search by company name..."/>
     </div>
 
     <div class="row my-4">
@@ -25,58 +24,58 @@
         Companies
       </div>
       <div class="col-8 d-flex justify-content-end">
-        <div class=" me-3 p-1 d-flex" style="border: 1px solid #73ddff; border-radius: 5px;">
-          <select name="" id="" style="background-color: transparent; border: none; color: white">
+        <div class=" me-3 p-1 d-flex filter-field">
+          <select name="" id="" class="select-filter-field">
             <option value="">Industry</option>
           </select>
         </div>
-        <div class=" me-3 p-1  d-flex" style="border: 1px solid #73ddff; border-radius: 5px;">
-          <select name="" id="" style="background-color: transparent; border: none; color: white">
+        <div class=" me-3 p-1  d-flex filter-field">
+          <select name="" id=""  class="select-filter-field">
             <option value="">Team Size</option>
           </select>
         </div>
-        <div class="me-3 p-1 d-flex" style="border: 1px solid #73ddff; border-radius: 5px; ">
-          <select name="" id="" style="background-color: transparent; border: none; color: white">
+        <div class="me-3 p-1 d-flex filter-field" >
+          <select name="" id=""  class="select-filter-field">
             <option value="">Company name</option>
           </select>
         </div>
       </div>
     </div>
-  
+
     <div class="row p-3  d-flex">
-      <div class="zoom-box pb-3" *ngFor="let item of companyList">
-        <div class="haver">
+      <div class="company-detail-container pb-3" *ngFor="let item of companyList">
+        <div class="company-info d-flex justify-content-center">
           <div class="logo-image">
             <div class="brand-image">
               <img src="{{ item.logoUrl }}" alt="" />
             </div>
           </div>
 
-          <div class="  company-box">
-            <div class="row card  d-flex justify-content-center">
+          <div class="company-box">
+            <div class="row card-view card d-flex justify-content-center">
               <div class="col-6">
-                <img src="{{ item.logoUrl }}" alt="Brand Image">
+                <div class="float-left">
+                  <img src="{{ item.logoUrl }}" alt="Brand Image">
+                </div>
+                <div class="vertical-bar"></div>
               </div>
-
               <div class="col-6 p-3">
                 <div class="anchor-button">
-                  <a href="{{ item.linkedIn }}" target="_blank">Linkedin</a>
+                  <a href="{{ item.linkedIn }}" target="_blank">Linkedin page</a>
                 </div>
                 <div class="anchor-button">
                   <a href="{{ item.carrierPage }}" target="_blank">Career page</a>
                 </div>
               </div>
             </div>
-            <div class="row buttons-referral" style="margin-top: -10px;">
+            <div class="row buttons-referral">
               <div class="d-flex p-0">
                 <div class="col-md-6 p-0">
                   <button class="btn btn-sm bg-white request-button listing-button"
-                    style="font-size: 10px;white-space: nowrap;" (click)="openReferralPage(item)">Request Referral</button>
-
+                    (click)="openReferralPage(item)">Request Referral</button>
                 </div>
                 <div class="col-md-6 p-0">
-                  <button class="btn btn-sm bg-white long-button listing-button"
-                    style="font-size: 10px;white-space: nowrap;">Request Guidance</button>
+                  <button class="btn btn-sm bg-white long-button listing-button">Request Guidance</button>
                 </div>
               </div>
             </div>
@@ -87,17 +86,12 @@
   </div>
 </div>
 
-<div class="row">
- 
-</div>
-
 <app-modal [theme]="'theme-k'" [centered]="true" [showHeader]="showModal === modalType.MESSAGE"
   [showFooter]="showModal === modalType.MESSAGE" [title]="modalTitle" [message]="modalMessage"
-  [bodyClass]="modalMessage ? 'p-4' : 'p-0'" >
-
+  [bodyClass]="modalMessage ? 'p-4' : 'p-0'">
 
   <ng-container *ngIf="showModal === modalType.REQUEST_REFERRAL">
-    <app-referral-request   [selectedCompany]="selectedData"></app-referral-request>
+    <app-referral-request [selectedCompany]="selectedData"></app-referral-request>
   </ng-container>
 
 </app-modal>

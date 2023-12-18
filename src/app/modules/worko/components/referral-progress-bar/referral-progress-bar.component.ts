@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, Input } from '@angular/core';
 
 @Component({
   selector: 'app-referral-progress-bar',
@@ -6,6 +6,8 @@ import { Component } from '@angular/core';
   styleUrls: ['./referral-progress-bar.component.scss']
 })
 export class ReferralProgressBarComponent {
+  @Input() score: any;
+
   originalPoints = 2.1;
-  possiblePoints = 4;
+  possiblePoints = 10;
 }

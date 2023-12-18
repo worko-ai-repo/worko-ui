@@ -43,7 +43,7 @@ export class CompanyListingComponent implements OnInit {
     this.companyListing.getCompanyListing().subscribe({
         next: (response) => {
           console.log(response);
-           this.companyList = response;
+           this.companyList = response.data;
           // this.loading = false;
         },
         error: (error) => {

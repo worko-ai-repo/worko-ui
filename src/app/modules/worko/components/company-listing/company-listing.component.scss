@@ -1,9 +1,9 @@
 .company-listing-container {
     background: linear-gradient(148deg, #000 5.99%, #182b45 70.16%);
-    height:100vh;
+    height: 100vh;
 }
 
-.referred {
+.headline {
     flex-shrink: 0;
     font-family: Poppins;
     font-size: 40px;
@@ -15,7 +15,7 @@
     -webkit-text-fill-color: transparent;
 }
 
-.paraReferral {
+.paragraph-content {
     flex-shrink: 0;
     color: #FFF;
     font-family: Poppins;
@@ -24,16 +24,34 @@
     line-height: 25px;
 }
 
+
+.vertical-bar {
+    border-left: 1px solid #000;
+    height: 30px;
+    float: right;
+    margin-right: -15px;
+    margin-top: 10px;
+}
+
 .searchInput {
-     width: 100%;
+    width: 100%;
     height: 40px;
-    // left: 1;
     border-radius: 11px;
     background-color: none;
     border: 2px solid #73DDFF;
     -webkit-backdrop-filter: blur(300px);
     backdrop-filter: blur(300px);
     color: white;
+    background: linear-gradient(148deg, #000 5.99%, #182b45 70.16%);
+}
+.filter-field{
+    border: 1px solid #73ddff;
+    border-radius: 5px;
+}
+.select-filter-field{
+    background-color: transparent;
+     border: none; color: white;
+     min-width: 155px;
 }
 
 .campanies {
@@ -45,34 +63,8 @@
     font-size: large
 }
 
-.h2 {
-    width: 220px
-}
-
-// .rectangle-div{
-//     width: 173px;
-//     top: 24rem;
-//     left: 33rem;
-//     height: 76px;
-//     flex-shrink: 0;
-//     border-radius: 18px;
-//     background: rgba(87, 225, 255, 0.21);
-//     -webkit-backdrop-filter: blur(300px);
-//     backdrop-filter: blur(300px);
-// }
-// .rectangle-div{
-
-//        height: 60px;
-//        border-radius: 9px;
-//        background: rgba(87, 225, 255, 0.21);
-//        -webkit-backdrop-filter: blur(300px);
-//        backdrop-filter: blur(300px);
-//     }
-
-.haver {
-    display: flex;
-
-    justify-content: center;
+.company-info {
+  
     height: 60px;
     border-radius: 9px;
     background: rgba(87, 225, 255, 0.21);
@@ -82,51 +74,46 @@
     padding: 10px;
 }
 
-.haver:hover {
+.company-info:hover {
     height: 150px;
-    width: 250px;
+    width: 280px;
 }
 
-.haver:hover .company-box {
+.company-info:hover .company-box {
     display: block;
 }
 
-.haver:hover .logo-image {
+.company-info:hover .logo-image {
     display: none;
 }
 
-.haver:hover .buttons-referral {
+.company-info:hover .buttons-referral {
     display: block;
+    margin-top: -10px;
 }
 
-.zoom-box {
+.company-detail-container {
 
     display: inline-block;
     position: relative;
     transition: transform 0.4s ease-in-out;
-    width: 270px;
-    padding-top:10px;
+    width: 180px;
+    padding-top: 10px;
 }
 
-.white-background {
-    background: #FFF;
+.company-detail-container:hover {
+    width: 300px;
 }
 
-// .zoom-box:hover {
 
-//     // transform: scale(1.0);
+// .white-background {
+//     background: #FFF;
 // }
 
-// .campanies{
-//     color: #FFF;
-// text-align: center;
-// font-family: Poppins;
-// font-size: 30px;
-// font-style: normal;
-// font-weight: 400;
-// line-height: normal;
-// font-size: 22px
-// }
+.btn:hover {
+    color: #000;
+}
+
 .campanyBox {
     position: absolute;
     width: 277px;
@@ -140,19 +127,7 @@
     display: none;
 }
 
-// .company-box{
-//     position: absolute;
-//     width: 324px;
-//     height: 150px;
-//     flex-shrink: 0;
-//     border-radius: 30px;
-//     background: rgba(87, 225, 255, 0.21);
-//     -webkit-backdrop-filter: blur(300px);
-//     backdrop-filter: blur(300px);
-// }
-.card {
-
-    display: flex;
+.card-view {
     flex-direction: column;
     min-width: 0;
     word-wrap: break-word;
@@ -160,10 +135,10 @@
     background-clip: border-box;
     border: 1px solid rgba(0, 0, 0, 0.125);
     border-radius: 0.25rem;
-    width: 210px;
-    left: 10px;
+    width: 240px;
     height: 100px;
-    top: -25px;
+    top: -30px;
+    left: 5px;
 }
 
 img {
@@ -180,7 +155,7 @@ img {
 }
 
 .long-button {
-    width: 110px;
+    width: 120px;
     margin-left: 3px;
 }
 
@@ -195,30 +170,33 @@ img {
 
 .request-button {
     margin-right: 10px;
-    width: 110px;
+    width: 120px;
 }
 
 .listing-button {
-    border: 1px solid red;
+    border: 1px solid #57E1FF;
     height: 25px;
-    font-size: 12px;
+    font-size: 10px;
     font-weight: 500;
     text-align: center;
     vertical-align: middle;
     border-radius: 5px;
+    white-space: nowrap;
 }
 
 .anchor-button {
     border: 1px solid;
     border-radius: 5px;
-    width: 80px;
+    width: 90px;
     font-size: 10px;
     margin-top: 5px;
     text-align: center;
+    padding: 4px;
 
 }
 
 .anchor-button a {
     text-decoration: none;
     padding: 5px;
+    color: #000;
 }

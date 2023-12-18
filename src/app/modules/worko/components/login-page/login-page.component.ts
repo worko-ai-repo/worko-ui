@@ -4,7 +4,8 @@ import { CognitoService } from 'src/app/modules/services/cognito.service';
 import { Router } from '@angular/router';
 import { AuthService } from '../../services/auth.service';
 import { StorageService } from 'src/app/modules/app-core/services/storage.service';
-
+// import { getCurrentUser, fetchAuthSession  } from 'aws-amplify/auth';
+import { getCurrentUser, fetchAuthSession } from 'aws-amplify/auth';
 @Component({
   selector: 'app-login-page',
   templateUrl: './login-page.component.html',
@@ -121,19 +122,45 @@ export class LoginPageComponent {
   }
 
   passwordChange() {
+    // this.currentAuthenticatedUser();
+    // this.currentSession();
     console.log(this.resetForm)
   }
 
+  async  currentSession() {
+    try {
+      const { accessToken, idToken } = (await fetchAuthSession()).tokens ?? {};
+    } catch (err) {
+      console.log(err);
+    }
+  }
 
+  async  currentAuthenticatedUser() {
+    try {
+      const { username, userId, signInDetails } = await getCurrentUser();
+      console.log(`The username: ${username}`);
+      console.log(`The userId: ${userId}`);
+  
+      if (signInDetails) {
+        console.log('The signInDetails:', signInDetails);
+      } else {
+        console.log('No signInDetails available.');
+      }
+    } catch (err) {
+      console.error('Error fetching current authenticated user:', err);
+    }
+  }
 
   toggleSignInRow() {
     this.setErrorMessage("");
+    // this.currentSession();
+    // this.currentAuthenticatedUser();
     this.showSignInRow = false;
   }
 
   toggleSignUpRow() {
     this.setErrorMessage("");
-    // this.amplify.currentAuthenticatedUser();
+   
     this.showSignInRow = true;
   }
 
@@ -142,6 +169,8 @@ export class LoginPageComponent {
     this.resetVerificationScreen = true;
 
   }
+
+
 
   async createEmployee(form: any): Promise<void> {
     try {
