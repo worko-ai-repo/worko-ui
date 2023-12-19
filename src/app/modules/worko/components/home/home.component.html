@@ -78,14 +78,17 @@
         <img src="assets/images/ellipse.png" alt="" class="ellipse-img">
       </div>
       <div class="circel-radial-gradient left_center">
-        <img src="assets/images/ellipse2.png" alt="" class="ellipse-img">
+        <img src="assets/images/ellipse02.png" alt="" class="ellipse-img">
       </div>
       <div class="earth-map">
-        <!-- <img src="assets/images/earth.png" alt="" class="earth-img"> -->
+        <img src="assets/images/earth.png" alt="" class="earth-img">
       </div>
       <div id="globeViz"></div>
-      <div class="row mt-4 mt-md-5 pt-4 pt-md-5">
-        <div class="col-lg-7 col-md-8">
+      <!-- <h1 (mouseenter)="startInterval()" (mouseleave)="stopInterval()">Hover me</h1> -->
+
+      <div class="row mt-4 mt-md-5">
+        <div class="col-lg-7 col-md-8"  (mouseout)="startInterval()" (mouseover)="stopInterval()">
+
           <div class="text-area pl-4" *ngIf="isShow">
             <div class="main-head  mb-4">
               Supercharge your job search with Worko - Where Connection leads to Career
@@ -99,7 +102,6 @@
               </li>
             </ul>
           </div>
-
           <div class="text-area pl-4" *ngIf="!isShow">
             <div class="main-head  mb-4">
               Discover success with Worko - Where Referrals lead to Rewards.
@@ -112,13 +114,14 @@
               </li>
             </ul>
           </div>
-          <div class="button-group mt-4 mt-md-5 pt-4 pt-md-5">
+          <div class="button-group mt-4 mt-md-5 pt-4 pt-md-5 pl-4">
             <button class="btn btn-dark font-inria" (click)="onClickShow(true)"> Get Referral </button>
             <button class="btn btn-light font-inria" (click)="onClickShow(false)"> Give Referral </button>
           </div>
         </div>
       </div>
-      <div class="counters">
+      <div class="counters position-relative">
+        <img src="assets/icons/counters-bg.png" alt="" class="counters-bg">
         <div class="row text-center">
           <div class="col-md-4"><strong>1,500+</strong>
             <p>Companies</p>
@@ -150,128 +153,153 @@
       <img src="assets/images/ellipse2.png" alt="" class="ellipse-img">
     </div>
     <div class="container-wrap">
-      <div class="section-head">
-        Our Purpose
+      <div class="top-header">
+        <div class="section-head">
+          Our Purpose
+        </div>
+        <p>
+          We empower individuals and businesses by fostering connections, improving the hiring process, and creating a
+          thriving community for career growth.
+        </p>
       </div>
-      <p>
-        We empower individuals and businesses by fostering connections, improving the hiring process, and creating a
-        thriving community for career growth.
-      </p>
-      <div id="solutionElement">
-        <ngx-slick-carousel class="carousel" #slickModal1="slick-carousel" [config]="slideConfig"
-          (init)="slickInit($event)" (breakpoint)="breakpoint($event)">
-          <div ngxSlickItem class="slide">
-            <div class="row align-items-center mb-5">
-              <div class="col-lg-6">
-                <div class="solution-info-wrap mx-auto mt-5 pt-5">
-                  <div class="sub-head text-center">
-                    Peer-to-Peer Hiring
+        <div id="solutionElement">
+          <ngx-slick-carousel class="carousel" #slickModal1="slick-carousel" [config]="slideConfig"
+            (init)="slickInit($event)" (breakpoint)="breakpoint($event)">
+            <div ngxSlickItem class="slide">
+              <div class="row align-items-center mb-5 position-relative mt-5">
+                <div class="col-lg-6">
+                  <div class="solution-info-wrap mx-auto mt-5 pt-5">
+                    <div class="sub-head text-center">
+                      Peer-to-Peer Hiring
+                    </div>
+                    <p class="text-center">
+                      We facilitate connections between candidates and employees, helping candidates secure referrals
+                      and
+                      employees maximise referral bonuses.
+                    </p>
+                    <br>
+                    <br>
+                    <div class="sub-head text-center">
+                      Interview Hand Holding
+                    </div>
+                    <p class="text-center">
+                      During the hiring process, have an internal employee vouch and follow-up for you and provide
+                      guidance at each step.
+                    </p>
                   </div>
-                  <p class="text-center">
-                    We facilitate connections between candidates and employees, helping candidates secure referrals and
-                    employees maximise referral bonuses.
-                  </p>
-                  <br>
-                  <br>
-                  <div class="sub-head text-center">
-                    Interview Hand Holding
+                </div>
+                <div class="col-lg-6 text-right d-flex justify-content-end">
+                  <img src="assets/images/worko-logo-ai.png" alt="" class="img-fluid">
+                </div>
+                <div class="vector-wrap">
+                  <div class="inner-vector-wrap">
+                    <div><img src="assets/icons/vector-line2.png" alt=""></div>
+                    <div class="icon"><img src="assets/icons/carbon_help-desk.png" alt=""></div>
+                    <div><img src="assets/icons/vector-line3.png" alt=""></div>
                   </div>
-                  <p class="text-center">
-                    During the hiring process, have an internal employee vouch and follow-up for you and provide
-                    guidance at each step.
-                  </p>
                 </div>
               </div>
-              <div class="col-lg-6 text-right d-flex justify-content-end">
-                <img src="assets/images/worko-logo-ai.png" alt="" class="img-fluid">
-              </div>
             </div>
-          </div>
-          <div ngxSlickItem class="slide">
-            <div class="row align-items-center mb-5">
-              <div class="col-lg-6">
-                <div class="solution-info-wrap mx-auto mt-5 pt-5">
-                  <div class="sub-head text-center">
-                    Feedback & Transparency
+            <div ngxSlickItem class="slide">
+              <div class="row align-items-center mb-5 position-relative mt-5">
+                <div class="col-lg-6">
+                  <div class="solution-info-wrap mx-auto mt-5 pt-5">
+                    <div class="sub-head text-center">
+                      Feedback & Transparency
+                    </div>
+                    <p class="text-center">
+                      We offer comprehensive job application analysis, recruiter feedback for every referral, and an
+                      application status report.
+                    </p>
+                    <br>
+                    <br>
+                    <div class="sub-head text-center">
+                      Career Guidance
+                    </div>
+                    <p class="text-center">
+                      While candidates can get guidance from industry experts, employees can offer their services and
+                      earn, creating a win-win path to success.
+                    </p>
                   </div>
-                  <p class="text-center">
-                    We offer comprehensive job application analysis, recruiter feedback for every referral, and an
-                    application status report.
-                  </p>
-                  <br>
-                  <br>
-                  <div class="sub-head text-center">
-                    Career Guidance
+                </div>
+                <div class="col-lg-6 text-right d-flex justify-content-end">
+                  <img src="assets/images/worko-logo-ai2.png" alt="" class="img-fluid">
+                </div>
+                <div class="vector-wrap">
+                  <div class="inner-vector-wrap">
+                    <div><img src="assets/icons/vector-line2.png" alt=""></div>
+                    <div class="icon"><img src="assets/icons/feedback-career.png" alt=""></div>
+                    <div><img src="assets/icons/vector-line3.png" alt=""></div>
                   </div>
-                  <p class="text-center">
-                    While candidates can get guidance from industry experts, employees can offer their services and
-                    earn, creating a win-win path to success.
-                  </p>
                 </div>
               </div>
-              <div class="col-lg-6 text-right d-flex justify-content-end">
-                <img src="assets/images/worko-logo-ai2.png" alt="" class="img-fluid">
-              </div>
             </div>
-          </div>
-          <div ngxSlickItem class="slide">
-            <div class="row align-items-center mb-5">
-              <div class="col-lg-6">
-                <div class="solution-info-wrap mx-auto mt-5 pt-5">
-                  <div class="sub-head text-center">
-                    Smart Matching Algorithm
+            <div ngxSlickItem class="slide">
+              <div class="row align-items-center mb-5 position-relative mt-5">
+                <div class="col-lg-6">
+                  <div class="solution-info-wrap mx-auto mt-5 pt-5">
+                    <div class="sub-head text-center">
+                      Smart Matching Algorithm
+                    </div>
+                    <p class="text-center">
+                      Our advanced algorithm provides detailed feedback and scores to candidates, highlighting their
+                      suitability. It informs employees why a referral would be ideal, enhancing the quality of
+                      recommendations.
+                    </p>
+                    <br>
+                    <br>
+                    <div class="sub-head text-center">
+                      Access to Hidden Jobs
+                    </div>
+                    <p class="text-center">
+                      Get access to hidden jobs that are not available on any other platform.
+                    </p>
                   </div>
-                  <p>
-                    Our advanced algorithm provides detailed feedback and scores to candidates, highlighting their
-                    suitability. It informs employees why a referral would be ideal, enhancing the quality of
-                    recommendations.
-                  </p>
-                  <br>
-                  <br>
-                  <div class="sub-head text-center">
-                    Access to Hidden Jobs
+                </div>
+                <div class="col-lg-6 text-right d-flex justify-content-end">
+                  <img src="assets/images/worko-logo-ai3.png" alt="" class="img-fluid">
+                </div>
+                <div class="vector-wrap">
+                  <div class="inner-vector-wrap">
+                    <div><img src="assets/icons/vector-line2.png" alt=""></div>
+                    <div class="icon"><img src="assets/icons/goals.png" alt=""></div>
+                    <div><img src="assets/icons/vector-line3.png" alt=""></div>
                   </div>
-                  <p class="text-center">
-                    Get access to hidden jobs that are not available on any other platform.
-                  </p>
                 </div>
               </div>
-              <div class="col-lg-6 text-right d-flex justify-content-end">
-                <img src="assets/images/worko-logo-ai3.png" alt="" class="img-fluid">
-              </div>
             </div>
-          </div>
-        </ngx-slick-carousel>
-      </div>
+          </ngx-slick-carousel>
+        </div>
+      
     </div>
-
     <div class="vector-wrap">
       <div class="icon"><img src="assets/icons/material-symbols_problem-outline-rounded.png" alt="">
       </div>
       <div><img src="assets/icons/vector-line1.png" alt=""></div>
-      <div class="inner-vector-wrap">
-        <div><img src="assets/icons/vector-line2.png" alt=""></div>
-        <div class="icon"><img src="assets/icons/carbon_help-desk.png" alt=""></div>
-        <div><img src="assets/icons/vector-line3.png" alt=""></div>
-      </div>
     </div>
+
   </section>
 
   <section class="benefits-section pb-130">
     <div class="container-wrap">
+      <div class="circel-radial-gradient bottom_right">
+        <img src="assets/images/ellipse.png" alt="" class="ellipse-img">
+      </div>
+      <div class="top-header">
       <div class="section-head">
         Benefits for Your
       </div>
       <p>
         Worko is committed to addressing common challenges faced by candidates, ensuring a seamless and empowering job
-        search journey:
+        search journey
       </p>
+    </div>
       <div id="benefitsElement">
         <ngx-slick-carousel class="carousel" #slickModal2="slick-carousel" [config]="benefitsSlideConfig"
           (init)="slickInit($event)" (breakpoint)="breakpoint($event)">
           <div ngxSlickItem class="slide">
-            <div class="row align-items-center">
-              <div class="col-xl-5 d-flex justify-content-end">
+            <div class="row align-items-center position-relative">
+              <div class="col-xl-5 pl-5 d-flex justify-content-end">
                 <div class="benefits-info-wrap">
                   <div class="benefits-list">
                     <div class="list-item text-center">
@@ -302,7 +330,7 @@
                   <span>r</span>
                   <span>e</span>
                   <span>e</span> -->
-                    <img src="assets/images/radio-btn-text.png" alt="">
+                    <img src="assets/images/radio-ellipse-referee.png" alt="">
                   </div>
                   <div class="radio-btn-outer">
                     <div class="radio-btn text-center">
@@ -310,22 +338,26 @@
                     </div>
                   </div>
                   <ul class="radio-list-wrap list-unstyled">
-                    <li>Supplychain</li>
-                    <li>Consulting</li>
-                    <li>Fintech</li>
-                    <li>D2C</li>
-                    <li>IT</li>
-                    <li>Retial</li>
-                    <li>Healthtech</li>
-                    <li>e-Commerce</li>
+                    <li>Reward </li>
+                    <li>Earn </li>
+                    <li>Karma </li>
+                    <li>Hiring </li>
+                    <li>Referral </li>
                   </ul>
+                </div>
+              </div>
+              <div class="vector-wrap">
+                <div class="inner-vector-wrap">
+                  <div><img src="assets/icons/vector-line2.png" alt=""></div>
+                  <div class="icon"><img src="assets/icons/hands-helping.png" alt=""></div>
+                  <div><img src="assets/icons/vector-line3.png" alt=""></div>
                 </div>
               </div>
             </div>
           </div>
           <div ngxSlickItem class="slide">
-            <div class="row align-items-center">
-              <div class="col-xl-5 d-flex justify-content-end">
+            <div class="row align-items-center position-relative">
+              <div class="col-xl-5 pl-5 d-flex justify-content-end">
                 <div class="benefits-info-wrap">
                   <div class="benefits-list">
                     <div class="list-item text-center">
@@ -348,7 +380,7 @@
               </div>
               <div class="col-xl-7 text-right d-flex justify-content-end">
                 <div class="radio-btn-wrap  d-flex justify-content-end align-items-center">
-                  <div class="radio-head-text" style="transform: translateX(108px);">
+                  <div class="radio-head-text">
                     <!-- <span>R</span>
               <span>e</span>
               <span>f</span>
@@ -356,23 +388,25 @@
               <span>r</span>
               <span>e</span>
               <span>e</span> -->
-                    <img src="assets/images/radio-btn-text2.png" alt="">
+                    <img src="assets/images/radio-ellipse-candidate.png" alt="">
                   </div>
                   <div class="radio-btn-outer">
                     <div class="radio-btn text-center">
                       <span>I’M LOOKING FOR JOB !</span>
                     </div>
                   </div>
-                  <ul class="radio-list-wrap list-unstyled">
+                  <ul class="radio-list-wrap employee-list list-unstyled">
                     <li>Employee</li>
+                    <li>Job</li>
                     <li>Referral</li>
-                    <li>Fintech</li>
-                    <li>D2C</li>
-                    <li>IT</li>
-                    <li>Retial</li>
-                    <li>Healthtech</li>
-                    <li>e-Commerce</li>
                   </ul>
+                </div>
+              </div>
+              <div class="vector-wrap">
+                <div class="inner-vector-wrap">
+                  <div><img src="assets/icons/vector-line2.png" alt=""></div>
+                  <div class="icon"><img src="assets/icons/material-symbols-light_quick-reference-all-rounded.png" alt=""></div>
+                  <div><img src="assets/icons/vector-line3.png" alt=""></div>
                 </div>
               </div>
             </div>
@@ -384,11 +418,6 @@
       <div class="icon"><img src="assets/icons/clarity_help-info-solid.png" alt="">
       </div>
       <div><img src="assets/icons/vector-line1.png" alt=""></div>
-      <div class="inner-vector-wrap">
-        <div><img src="assets/icons/vector-line2.png" alt=""></div>
-        <div class="icon"><img src="assets/icons/hands-helping.png" alt=""></div>
-        <div><img src="assets/icons/vector-line3.png" alt=""></div>
-      </div>
     </div>
   </section>
 
@@ -614,8 +643,8 @@
 
               </ngx-slick-carousel>
               <div class="button-group mt-5 pt-5 text-center">
-                <button class="btn btn-dark font-inria" (click)="onClickShow(true)"> Get Referral </button>
-                <button class="btn btn-light font-inria" (click)="onClickShow(false)"> Give Referral </button>
+                <button class="btn btn-light font-inria"> Get Referral </button>
+                <button class="btn btn-light font-inria"> Give Referral </button>
               </div>
             </div>
           </div>
@@ -646,7 +675,7 @@
   <div class="rectangle_one"></div>
   <div class="rectangle_two"></div>
   <div class="rectangle_two bottom_left"></div>
-  <div class="footer-content py-4">
+  <div class="footer-content py-3">
     <div class="container-fluid">
       <div class="row">
         <div class="col-lg-6">
@@ -709,8 +738,8 @@
           </div>
         </div>
       </div>
-      <div class="copy-rights text-center mt-5">
-        © 2023 Worko. All rights reserved <br>Made with from INDIA
+      <div class="copy-rights text-center mt-2">
+        © 2023 Worko. All rights reserved <br>Made with <i class="fas fa-heart" ></i> in India 
       </div>
     </div>
   </div>
