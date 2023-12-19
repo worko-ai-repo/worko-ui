@@ -1,4 +1,4 @@
-import { Component, OnInit, ViewChild } from '@angular/core';
+import { Component, OnInit, ViewChild, HostListener  } from '@angular/core';
 import { CompanyListingService } from '../../services/company-listing.service';
 import { ModalType } from 'src/app/modules/shared/interfaces/shared.interface';
 import { ModalComponent } from 'src/app/modules/shared/components/modal/modal.component';
@@ -19,16 +19,16 @@ export class CompanyListingComponent implements OnInit {
   hidediv: boolean = true;
   isDivOpen: boolean = false;
   selectedData: any;
-
+  pageSize = 25;
+  lastKey: string | undefined = undefined;
+  loadedOnce: boolean = true;
   companyList: any[] = [];
-  companyObj: any = {
-    "createdAt": "",
-    "SK": "",
-    "PK": "",
-    "name": "",
-    "updatedAt": ""
-  }
 
+  @HostListener('window:scroll', ['$event'])
+  onScroll(event: Event): void {
+    // Handle scroll event
+    this.detectScroll();
+  }
 
   constructor(private companyListing: CompanyListingService) {
 
@@ -39,34 +39,49 @@ export class CompanyListingComponent implements OnInit {
 
   }
 
-  getCompanyDetails(){
-    this.companyListing.getCompanyListing().subscribe({
-        next: (response) => {
-          console.log(response);
-           this.companyList = response.data;
-          // this.loading = false;
-        },
-        error: (error) => {
-          debugger;
-          console.error(error);
-          // this.loading = false;
-          // this.feedback = getErrorFeedback("ERROR.UNHANDLED_ERROR");
-        },
-        complete: () => {
-          // Optionally handle the completion event
-        }
-      });
-  }
-  onMouseOver(item: any, event: any) {
-    this.showdiv = true;
-    this.companyObj = item;
-    this.selectedItem = item;
-    this.hidediv
+  detectScroll(): void {
+    const scrollPosition = window.scrollY || document.documentElement.scrollTop || document.body.scrollTop || 0;
+    const windowHeight = window.innerHeight || document.documentElement.clientHeight || document.body.clientHeight || 0;
+    const documentHeight = Math.max(
+      document.body.scrollHeight,
+      document.documentElement.scrollHeight,
+      document.body.offsetHeight,
+      document.documentElement.offsetHeight,
+      document.body.clientHeight,
+      document.documentElement.clientHeight
+    );
+  
+    // Check if the user has scrolled to the bottom
+  
+    if (scrollPosition + windowHeight >= documentHeight) {
+      // Load more data
+      this.getCompanyDetails();
+    }
   }
 
-  onMouseOut(event: any) {
-    this.showdiv = false;
+  async getCompanyDetails(){
+    if(this.lastKey || this.loadedOnce){ 
+     await this.companyListing.getCompanyListing(this.pageSize,  this.lastKey).then(async (response) => {
+      if (response) {
+        console.log("Helo11");
+        this.companyList = this.companyList.concat(response.data); 
+        this.lastKey = response.pagination.lastKey;
+        this.loadedOnce = false;
+      }
+    })
+      .catch(error => {
+        console.error('Display Company Listing Error:', error);
+      });
+    }
   }
+  // onMouseOver(item: any, event: any) {
+  //   this.showdiv = true;
+  //   this.selectedItem = item;
+  // }
+
+  // onMouseOut(event: any) {
+  //   this.showdiv = false;
+  // }
   isSelected(item: any) {
     return this.selectedItem === item;
   }

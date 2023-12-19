@@ -28,8 +28,13 @@ export class CompanyListingService {
    *
    * @returns {Promise<any>}
    */
-  getCompanyListing(): Observable<any> {
-    return this.http.get(API_URL + 'company/list', this.authService.getHttpOptions());
+  getCompanyListing(pageSize: number,  lastKey?: string): Promise<any> {
+    const params: any = { pageSize };
+
+    if (lastKey) {
+      params.lastKey = lastKey;
+    }
+    return this.http.get(API_URL + 'company/list?pageSize='+pageSize +'&lastKey='+ lastKey, this.authService.getHttpOptions()).toPromise();
   }
 
   /**
