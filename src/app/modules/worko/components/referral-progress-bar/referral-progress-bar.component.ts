@@ -6,5 +6,6 @@ import { Component } from '@angular/core';
   styleUrls: ['./referral-progress-bar.component.scss']
 })
 export class ReferralProgressBarComponent {
-
+  originalPoints = 2.1;
+  possiblePoints = 4;
 }

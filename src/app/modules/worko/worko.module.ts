@@ -29,8 +29,16 @@ import { SubscriptionPackComponent } from './components/subscription-pack/subscr
 import { ReferralProgressBarComponent } from './components/referral-progress-bar/referral-progress-bar.component';
 import { SharedModule } from '../shared/shared.module';
 import { HttpClientModule } from '@angular/common/http';
+import { MatTooltipModule } from '@angular/material/tooltip';
 import { RequestGuidenceComponent } from './components/request-guidence/request-guidence.component';
 import { NgModule } from '@angular/core';
+import { MatCardModule } from '@angular/material/card';
+import { MatDividerModule } from '@angular/material/divider';
+import { CircleChartComponent } from './components/circle-chart/circle-chart.component';
+import { MatProgressBarModule } from '@angular/material/progress-bar';
+import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
+import {MatDatepickerModule} from '@angular/material/datepicker';
+import { MatNativeDateModule } from '@angular/material/core';
 
 export const routes: Routes = [
   {
@@ -153,6 +161,7 @@ export const routes: Routes = [
     SubscriptionPackComponent,
     ReferralProgressBarComponent,
     RequestGuidenceComponent,
+    CircleChartComponent,
     
   ],
   imports: [
@@ -164,9 +173,14 @@ export const routes: Routes = [
     MatSelectModule,
     ReactiveFormsModule,
     FormsModule,
-    HttpClientModule
-    
-    
+    HttpClientModule,
+    MatTooltipModule,
+    MatCardModule,
+    MatDividerModule,
+    MatProgressBarModule,
+    MatProgressSpinnerModule,
+    MatDatepickerModule,
+    MatNativeDateModule,
    
 
   ]

@@ -1,0 +1,12 @@
+<div class="circle-chart-container">
+    <mat-progress-spinner
+      class="circle-chart"
+      [ngClass]="{ 'hide-progress-bar': hideProgressBar }"
+      color="primary"
+      mode="determinate"
+      [value]="chartValue"
+    >
+    </mat-progress-spinner>
+    <div class="circle-chart-text">{{ chartText }}</div>
+  </div>
+  

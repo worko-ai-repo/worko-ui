@@ -25,27 +25,24 @@
         Companies
       </div>
       <div class="col-8 d-flex justify-content-end">
-        <div class=" me-3 p-1 d-flex" style="border: 1px solid #73ddff; border-radius: 5px;">
-          <select name="" id="" style="background-color: transparent; border: none; color: white">
+        <div class=" me-3 p-1 d-flex company-box" >
+          <select name="" id="" class="company-selectors">
             <option value="">Industry</option>
           </select>
         </div>
-        <div class=" me-3 p-1  d-flex" style="border: 1px solid #73ddff; border-radius: 5px;">
-          <select name="" id="" style="background-color: transparent; border: none; color: white">
+        <div class=" me-3 p-1  d-flex  company-box">
+          <select name="" id="" class="company-selectors">
             <option value="">Team Size</option>
           </select>
         </div>
-        <div class="me-3 p-1 d-flex" style="border: 1px solid #73ddff; border-radius: 5px; ">
-          <select name="" id="" style="background-color: transparent; border: none; color: white">
+        <div class="me-3 p-1 d-flex  company-box" >
+          <select name="" id="" class="company-selectors">
             <option value="">Company name</option>
           </select>
         </div>
       </div>
     </div>
-    <div class="row">
-      <app-referral-request *ngIf="isDivOpen"></app-referral-request>
-      <app-request-guidence *ngIf="isReqRef"></app-request-guidence>
-    </div>
+  
     <div class="row p-3  d-flex">
       <div class="zoom-box pb-3" *ngFor="let item of companyList">
         <div class="haver">
@@ -74,12 +71,12 @@
               <div class="d-flex p-0">
                 <div class="col-md-6 p-0">
                   <button class="btn btn-sm bg-white request-button listing-button"
-                    style="font-size: 10px;white-space: nowrap;" (click)=" toggleDiv()">Request Referral</button>
+                    style="font-size: 10px;white-space: nowrap;" (click)="openReferralPage(item)">Request Referral</button>
 
                 </div>
                 <div class="col-md-6 p-0">
                   <button class="btn btn-sm bg-white long-button listing-button"
-                    style="font-size: 10px;white-space: nowrap;" (click)="reqRefShow()">Request Guidance</button>
+                    style="font-size: 10px;white-space: nowrap;" (click)="openGuidancePage(item)">Request Guidance</button>
                 </div>
               </div>
             </div>
@@ -89,3 +86,22 @@
     </div>
   </div>
 </div>
+
+<div class="row">
+ 
+</div>
+
+<app-modal [theme]="'theme-k'" [centered]="true" [showHeader]="showModal === modalType.MESSAGE"
+  [showFooter]="showModal === modalType.MESSAGE" [title]="modalTitle" [message]="modalMessage"
+  [bodyClass]="modalMessage ? 'p-4' : 'p-0'" >
+
+
+  <ng-container *ngIf="showModal === modalType.REQUEST_REFERRAL">
+    <app-referral-request   [selectedCompany]="selectedData"></app-referral-request>
+  </ng-container>
+
+  <ng-container *ngIf="showModal === modalType.REQUEST_GUIDANCE">
+    <app-request-guidence   [selectedCompany]="reqGuidanceData"> </app-request-guidence>
+  </ng-container>
+
+</app-modal>

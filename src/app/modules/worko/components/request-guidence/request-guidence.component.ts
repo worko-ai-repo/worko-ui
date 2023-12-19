@@ -1,8 +1,5 @@
-import { Component, ElementRef, ViewChild } from '@angular/core';
-import { MatNativeDateModule } from '@angular/material/core';
-import { MatDatepickerModule } from '@angular/material/datepicker';
-import { MatFormFieldModule } from '@angular/material/form-field';
-import { MatInputModule } from '@angular/material/input';
+import { Component, ElementRef, Input, ViewChild } from '@angular/core';
+
 
 
 @Component({
@@ -14,6 +11,8 @@ import { MatInputModule } from '@angular/material/input';
 })
 export class RequestGuidenceComponent {
   @ViewChild('largeModal') largeModal!: ElementRef;
+  @Input() selectedCompany: any;
+
   isDivOpen:boolean=true;
   reqGuidenceArray:any[]=[];
   isDivShow:boolean= true
@@ -27,15 +26,15 @@ export class RequestGuidenceComponent {
     this.isFormVisible = true;
 
   }
-  openLargeModal() {
-    // Using nativeElement to access the underlying HTML element
-    this.largeModal.nativeElement.classList.add('show');
-    this.largeModal.nativeElement.style.display = 'block';
-  }
-  closeLargeModal() {
-    this.largeModal.nativeElement.classList.remove('show');
-    this.largeModal.nativeElement.style.display = 'none';
-  }
+  // openLargeModal() {
+   
+  //   this.largeModal.nativeElement.classList.add('show');
+  //   this.largeModal.nativeElement.style.display = 'block';
+  // }
+  // closeLargeModal() {
+  //   this.largeModal.nativeElement.classList.remove('show');
+  //   this.largeModal.nativeElement.style.display = 'none';
+  // }
 
 
 

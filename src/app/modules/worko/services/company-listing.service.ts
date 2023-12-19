@@ -1,8 +1,8 @@
 import { Injectable } from '@angular/core';
-import { HttpClient, HttpHeaders} from '@angular/common/http';
- import { AuthService } from '../services/auth.service';
+import { HttpClient, HttpHeaders } from '@angular/common/http';
+import { AuthService } from '../services/auth.service';
 // import { RequesterInfo, studentData} from '../interfaces/requester.interface';
- import { environment } from '../../../../environment/environment';
+import { environment } from '../../../../environment/environment';
 import { Observable } from 'rxjs';
 const API_URL = environment.apiUrl;
 
@@ -11,7 +11,7 @@ const API_URL = environment.apiUrl;
 })
 export class CompanyListingService {
 
-  
+
 
 
 
@@ -24,16 +24,41 @@ export class CompanyListingService {
   constructor(private http: HttpClient, private authService: AuthService) { }
 
   /**
-   * Create Requester.
+   * Get Company Listing.
    *
-   * @link https://transcript-api.verif-y.internal/swagger-ui/#/requester-controller/createRequesterUserProfileUsingPOST
-   *
-   * @param {RequesterInfo} RequesterInfo
    * @returns {Promise<any>}
    */
   getCompanyListing(): Observable<any> {
     return this.http.get(API_URL + 'company/list', this.authService.getHttpOptions());
   }
+
+  /**
+ * Get Company Listing.
+ *
+ * @returns {Promise<any>}
+ */
+  createReferralRequest(emailId: string, data: any): Promise<any> {
+    return this.http.post(API_URL + `user/${emailId}/referral/request`, data, this.authService.getHttpOptions()).toPromise();
+  }
+
+  /**
+* Get Referral Count
+*
+* @returns {Promise<any>}
+*/
+getReferralCount(emailId: string): Promise<any> {
+  return this.http.get(`${API_URL}user/${emailId}/subscription/status`, this.authService.getHttpOptions()).toPromise();
+}
+
+  /**
+* GetMatching Score
+*
+* @returns {Promise<any>}
+*/
+getMatchingScore(emailId: string, referralId: string): Promise<any> {
+  return this.http.get(`${API_URL}user/${emailId}/referral/${referralId}/score`, this.authService.getHttpOptions()).toPromise();
+}
+
 
 }
 

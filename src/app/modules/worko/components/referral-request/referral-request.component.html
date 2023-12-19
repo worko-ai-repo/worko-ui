@@ -1,112 +1,92 @@
-<div class="container-fluid">
-  <!-- signup -->
-  <div class="row">
-    <div class="col-md-12">
-      <!-- <button
-        type="button"
-        class="btn btn-primary"
-       
-      >
-        Large modal
-      </button> -->
+<div class="main-div">
+  <div class="row" *ngIf="divShow">
+    <div class="row" *ngIf="showReferrelRow">
 
+      <div class="col-md-6">
+     
+        
+            <div class="refeeral-img"></div>
+            <img src="/assets/public/referral-main1.png" class="hand-img ms-1" alt="" />
       
-        <div class="modal-dialog modal-lg">
-          <div class="modal-content main-div">
-            <div class="container">
-              <div class="body">
-                <div class="row" *ngIf="divShow">
-                <div class="row" *ngIf="showReferrelRow">
-                 
-                  <div class="col-md-6">
-                    <div class="row">
-                      <div class="col-md-12" style="left: -14px">
-                        <div class="refeeral-img"></div>
-                        <img
-                          src="/assets/public/referral-main1.png"
-                          class="hand-img ms-1"
-                          alt=""
-                        />
-                      </div>
-                    </div>
-                  </div>
+       
+      </div>
 
-                  <div class="col-md-6">
-                    <div class="row">
-                      <div class="col-md-12" style="top: 79px">
-                        <h1 class="ref-req-text">Referral Request</h1>
-                      </div>
-                      <div class="col-md-12" style="top: 90px">
-                        <p class="job-url-text">Enter job Url</p>
-                      </div>
-                      <div class="col-md-12" style="top: 89px">
-                        <input
-                          type="text"
-                          class="form-control text-white input-jobUrl"
-                        />
-                      </div>
-                      <div class="col-md-12" style="top: 127px">
-                        <button
-                          class="btn req-btn"
-                          (click)="toggleReferralInRow()"
-                        >
-                          request now
-                        </button>
-                      </div>
-                    </div>
-                  </div>
-                </div>
+      <div class="col-md-6 d-flex align-self-center">
+        <div class="row h-100">
+          <div class="col-md-12" >
+            <h1 class="ref-req-text">Referral Request</h1>
+          </div>
 
-                <div class="row" *ngIf="!showReferrelRow">
-                  <div class="col-md-12">
-                    <div class="row">
-                      <div class="col-md-12 mt-4">
-                        <h1 class="subscrip-text">
-                          Select the <br />
-                          Subscription Plan
-                        </h1>
-                      </div>
-                    </div>
-                    <div class="container-fluid">
-                      <div class="row mt-5" style="justify-content: center" >
-                        <div class="col-md-4" *ngFor="let subsciption of subscriptionArray">
-                          <app-subscription-pack></app-subscription-pack>
-                          <div class="col-md-12 text-center" style="top: -45px;">
-                            <button class="btn buy-btn" (click)="hideDiv()">Buy now</button>
-                          </div>
-                        </div>
-                       
-                      </div>
-                    </div>
-                  </div>
-                </div>
-              </div>
+          <form (ngSubmit)="requestReferral.form.valid && checkRequestReferral(requestReferral)"
+            #requestReferral="ngForm" class="p-0" novalidate>
 
-                <div class="row" *ngIf="!divShow">
-                  <div class="col-md-12 text-center mt-5" >
-                   <img src="/assets/public/gif-img.gif" class="gif-img">
-                  </div>
+            <div class="col-md-12" >
+              <p class="job-url-text">Enter job Url</p>
+            </div>
 
-                  <div class="progress-bar" >
-                    <app-referral-progress-bar *ngIf="divShow"></app-referral-progress-bar>
+            <div class="col-md-12" >
+              <input type="text" placeholder="Enter Job Url" #jobUrl="ngModel" pattern="^[0-9]{6}$"
+                [class.invalid]="(requestReferral.submitted || jobUrl.touched) && jobUrl.invalid"
+                [(ngModel)]="requestForm.jobUrl" name="jobUrl" id="jobUrl"
+                [title]="jobUrl.errors?.['pattern'] ? 'Job Url is invalid' : ''"
+                class="form-control text-white input-jobUrl" />
+            </div>
+            <div class="col-md-12 py-3" >
+              <button class="btn req-btn" type="submit"
+              [disabled]="(!requestReferral.form.valid || !requestForm.jobUrl)"
+                (click)="reqNowBtn()">
+                REQUEST NOW
 
-                  </div>
-
-                </div>
-
-                
-                
-
-                
+              </button>
 
 
+            </div>
+          </form>
+        </div>
+      </div>
+    </div>
 
-                
+    <div class="row" *ngIf="!showReferrelRow">
+      <div class="col-md-12">
+        <div class="row">
+          <div class="col-md-12 mt-4">
+            <h1 class="subscrip-text">
+              Select the <br />
+              Subscription Plan
+            </h1>
+          </div>
+        </div>
+        <div class="container-fluid">
+          <div class="row mt-5" style="justify-content: center">
+            <div class="col-md-4" *ngFor="let subsciption of subscriptionArray">
+              <app-subscription-pack></app-subscription-pack>
+              <div class="col-md-12 text-center" style="top: -45px;">
+                <button class="btn buy-btn" (click)="hideDiv()">Buy now</button>
               </div>
             </div>
+
           </div>
         </div>
       </div>
     </div>
   </div>
 
+  <div class="row" *ngIf="showLoading">
+    <div class="col-md-12 text-center mt-5" *ngIf="showLoading">
+      <img src="/assets/public/gif-img.gif" class="gif-img">
+    </div>
+
+
+  </div>
+
+ <div class="progress-bar"  *ngIf="showScore">
+      <app-referral-progress-bar *ngIf="divShow"></app-referral-progress-bar>
+    </div>
+
+
+
+
+
+
+
+</div>

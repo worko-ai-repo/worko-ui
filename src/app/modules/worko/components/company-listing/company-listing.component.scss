@@ -206,6 +206,7 @@ img {
     text-align: center;
     vertical-align: middle;
     border-radius: 5px;
+   
 }
 
 .anchor-button {
@@ -221,4 +222,10 @@ img {
 .anchor-button a {
     text-decoration: none;
     padding: 5px;
+}
+.company-box{
+    border: 1px solid #73ddff; border-radius: 5px;
+}
+.company-selectors{
+    background-color: transparent; border: none; color: white
 }

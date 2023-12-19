@@ -128,3 +128,6 @@ flex-shrink: 0;
     flex-shrink: 0;
 
 }
+:host ::ng-deep .modal-content {
+    max-width: 800px; /* Adjust the max-width as needed */
+  }

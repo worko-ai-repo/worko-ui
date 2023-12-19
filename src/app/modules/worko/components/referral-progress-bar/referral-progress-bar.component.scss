@@ -1,10 +1,8 @@
-// progress bar//
-/* Apply css properties to h1 element */
+
 h1{ 
 	text-align: center; 
 } 
 
-/* Create a container using css properties */
 .container { 
 	top: 30%; 
 	left:50%; 
@@ -13,7 +11,6 @@ h1{
 	transform: translate(-50%, -50%); 
 } 
 
-/* Apply css properties to ui-widgets class */
 .ui-widgets { 
 	position: relative; 
 	display: inline-block; 
@@ -31,12 +28,7 @@ h1{
 	box-sizing: border-box; 
 } 
 
-/* Apply css properties to the second 
-	child of ui-widgets class */
 
-
-/* Apply css properties to ui-widgets 
-class and ui-values class */
 .ui-widgets .ui-values { 
     top: 55px;
     position: absolute;
@@ -47,17 +39,4 @@ class and ui-values class */
     font-size: 2rem;
 } 
 
-/* Apply css properties to ui-widgets 
-class and ui-labels class */
-.ui-widgets .ui-labels { 
-	left: 0; 
-	bottom: -16px; 
-	text-shadow: 0 0 4px grey; 
-	color:black; 
-	position: absolute; 
-	width: 100%; 
-	font-size: 16px; 
-}
-div[hidden] {
-    display: none;
-  }
+

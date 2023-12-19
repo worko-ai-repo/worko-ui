@@ -1,10 +1,11 @@
 .main-div{
     height: 400px;
+    width: 100%;
     border-radius: 10px;
 border: 1px solid rgba(87, 225, 255, 0.18);
 background: rgba(10, 30, 54, 0.96);
 backdrop-filter: blur(18.149999618530273px);
-display: flex;
+    display: flex;
     align-items: center;
     justify-content: center;
 }
@@ -20,7 +21,7 @@ display: flex;
 }
 .button{
     display: flex;
-    width: 224px;
+    // width: 224px;
     height: 35px;
     justify-content: center;
     color: rgba(87, 225, 255, 0.58);
@@ -44,12 +45,13 @@ line-height: normal;
     border: 0.868px solid #3f89a1;
     // -webkit-backdrop-filter: blur(260.2787475586px);
     height: 25px;
-    width: 146px;
+    width: 100%;
     background-color: transparent;
     color: white;
     text-align: center;
 }
 .selector1{
+    width: 100%;
     border-radius: 4.676px;
     border: 0.868px solid #3f89a1;
     background-color: transparent;
@@ -62,7 +64,7 @@ line-height: normal;
         border-bottom-right-radius: 5px;
         border: 0.868px solid #3f89a1;
         height: 25px;
-        width: 146px;
+        width: 100%;
         background-color: transparent;
         color: white;
         text-align: center;
@@ -87,6 +89,7 @@ fill: rgba(47, 15, 174, 0.68);
 filter: blur(150px);
 }
 .backgroundImg{
+    
     background-size: cover;
     background-image: url(/assets/public/background-img-req-guidance\ \(1\).png);
     height: 395px;
@@ -117,6 +120,11 @@ filter: blur(150px);
    
 }
 .shedule-back-img{
+    // opacity: 0.1;
+    height: 100%;
+    width: 100%;
+    background-repeat: no-repeat;
+    background-size: 100% 100%;
     background-image: url(/assets/public/shedule-meeting-back-img.png);
 }
 .content-center{
@@ -138,34 +146,25 @@ line-height: normal;
     border: 0.4px solid #57E1FF;
     background: #0C2037;
     height: 126px;
+   width: 50%;
+}
+// .wed-text{
+//     color: #FFF;
+//     text-align: center;
+//     font-family: Poppins;
+//     font-size: 13.5px;
+//     font-style: normal;
+//     font-weight: 500;
+//     line-height: normal;
+//     width: 0;
    
+// }
+
+.shedule-meeting-container{
+    // position: absolute;
+//   width: 50%;
+//   bottom: 10px;
 }
-.wed-text{
-    color: #FFF;
-    text-align: center;
-    font-family: Poppins;
-    font-size: 13.5px;
-    font-style: normal;
-    font-weight: 500;
-    line-height: normal;
-    width: 0;
-   
-}
-.nov-text{
-    color: #FFF;
-    text-align: center;
-    font-family: Poppins;
-    font-size: 12.5px;
-    font-style: normal;
-    font-weight: 700;
-    line-height: normal;
-    width: 99px;
-}
-.text-nov{
-    color: #FFF;
-font-family: Poppins;
-font-size: 11.5px;
-font-style: normal;
-font-weight: 500;
-line-height: normal;
+.box-content{
+    border-right: 1px solid white;
 }

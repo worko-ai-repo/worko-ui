@@ -4,7 +4,7 @@ import { CognitoService } from 'src/app/modules/services/cognito.service';
 import { Router } from '@angular/router';
 import { AuthService } from '../../services/auth.service';
 import { StorageService } from 'src/app/modules/app-core/services/storage.service';
-import { passwordValidator } from '../../validators/password.validators';
+
 @Component({
   selector: 'app-login-page',
   templateUrl: './login-page.component.html',
@@ -19,6 +19,8 @@ export class LoginPageComponent {
   isEmployeeEmailVerified: boolean = false;
   confirmationCodeScreen: boolean = false;
   confirmationEmail: string = '';
+  displayResetPassword: boolean = false;
+  resetVerificationScreen: boolean = false;
   isDivOpen: boolean = false;
   isDivClose: boolean = true
   hideDiv: boolean = true
@@ -33,11 +35,11 @@ export class LoginPageComponent {
     emailId: '',
     password: '',
     candidateOtp: '',
-    newPassword: '',
     linkdinProfile: '',
     experience: '',
     expectedCtc: '',
-    phoneNumber: ''
+    phoneNumber: '',
+    confirmPassword: ''
   }
   employeeForm = {
     name: '',
@@ -50,15 +52,23 @@ export class LoginPageComponent {
     experience: '',
     department: '',
     designation: '',
-    newPassword: '',
+    confirmPassword: '',
     password: '',
     designationTag: ''
 
   }
   fileString: string = "";
   verificationForm = {
-    code: ''
+    code: '',
+
   }
+  resetForm = {
+    emailId: '',
+    code: '',
+    confirmPassword: '',
+    password: '',
+  }
+  hoveredField: string | null = null;
 
   designationTagList: any = [
     {
@@ -94,11 +104,26 @@ export class LoginPageComponent {
   constructor(private storage: StorageService, private amplify: CognitoService, private router: Router, private authService: AuthService) { }
 
 
+
   selectUserType(userType: string) {
     this.selectedUserType = userType;
     this.errorMessage = "";
     this.userTypeSelected.emit(userType);
   }
+
+  toggleHover(fieldName: string, isHovered: boolean) {
+    this.hoveredField = isHovered ? fieldName : null;
+  }
+
+  resetPasswordScreen() {
+    this.displayResetPassword = true;
+    this.confirmationCodeScreen = false;
+  }
+
+  passwordChange() {
+    console.log(this.resetForm)
+  }
+
 
 
   toggleSignInRow() {
@@ -110,6 +135,12 @@ export class LoginPageComponent {
     this.setErrorMessage("");
     // this.amplify.currentAuthenticatedUser();
     this.showSignInRow = true;
+  }
+
+  resetPassword(form: any) {
+    this.confirmationEmail = this.maskEmail(this.resetForm.emailId);
+    this.resetVerificationScreen = true;
+
   }
 
   async createEmployee(form: any): Promise<void> {
