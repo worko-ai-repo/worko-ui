@@ -73,9 +73,11 @@ body {
     background: linear-gradient(147.55deg, #000000 34.1%, #182B45 70.16%);
     color: #fff;
 }
-.fa-heart{
-    color: #ff0018!important;
+
+.fa-heart {
+    color: #ff0018 !important;
 }
+
 .font-inria {
     font-family: var(--font-inria-sans) !important;
 }
@@ -84,7 +86,7 @@ body {
     outline: none !important;
     box-shadow: none !important;
     color: rgba(87, 225, 255, 1);
-    background-color: transparent ;
+    background-color: transparent;
     border-radius: 20px;
     padding: 10px 45px;
     border: 5px solid rgba(87, 225, 255, 1);
@@ -129,7 +131,7 @@ body {
         color: #061634 !important;
         background-color: rgba(87, 225, 255, 1) !important;
         border-color: rgba(87, 225, 255, 1) !important;
-        
+
     }
 
     &:focus {
@@ -469,17 +471,19 @@ div#globeViz {
         padding: 100px 20px;
         margin-top: 150px;
         margin-left: 150px;
+
         // background-repeat: no-repeat;
         // background-size: 105% 105%;
-        .counters-bg{
+        .counters-bg {
             position: absolute;
             top: 0;
             left: 0;
             user-select: none;
             pointer-events: none;
             width: 100%;
-            height: 100%    ;
+            height: 100%;
         }
+
         strong {
             font-size: 90px;
             font-weight: 600;
@@ -556,6 +560,8 @@ div#globeViz {
 .benefits-section {
     position: relative;
 
+ 
+
     .container-wrap {
         margin-left: 86px;
     }
@@ -593,16 +599,18 @@ div#globeViz {
         font-size: 24px;
         line-height: 36px;
         max-width: 650px;
-        margin-bottom: 150px;
+        margin-bottom: 70px;
 
     }
 
     .vector-wrap {
         top: 0;
+
         .inner-vector-wrap {
             bottom: auto;
             top: 50%;
             transform: translateY(-50%);
+
             .icon {
                 transform: translate(35px, 0px);
             }
@@ -616,6 +624,7 @@ div#globeViz {
 
     .slide {
         padding-left: 150px;
+
         .vector-wrap {
             top: 0;
             height: 100%;
@@ -728,10 +737,13 @@ div#globeViz {
             align-items: center;
             position: relative;
             padding: 35px;
+            overflow: hidden;
 
             span {
                 position: relative;
                 z-index: 1;
+                transform: translateY(100%);
+                transition: 2s;
             }
 
             &:after {
@@ -747,6 +759,23 @@ div#globeViz {
             }
 
 
+        }
+    }
+
+    .benefits-info-wrap {
+        transform: translateY(100%);
+        transition: 2s;
+    }
+
+    .slick-active {
+        .benefits-info-wrap {
+            transform: translateY(0) !important;
+        }
+
+        .radio-btn {
+            span {
+                transform: translateY(0) !important;
+            }
         }
     }
 
@@ -795,9 +824,11 @@ div#globeViz {
                 &:nth-child(1) {
                     transform: translateX(-10px);
                 }
+
                 &:nth-child(2) {
                     color: rgba(123, 137, 139, 0.4);
                 }
+
                 &:nth-child(2) {
                     color: rgba(0, 210, 255, 0.4);
                     transform: translateX(-10px);
@@ -814,7 +845,7 @@ div#globeViz {
         // }
 
         .radio-head-text {
-            animation: circle 3s linear;
+            animation: circle 2s linear;
         }
     }
 

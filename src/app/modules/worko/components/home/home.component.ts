@@ -22,6 +22,8 @@ export class HomeComponent {
   showModal: ModalType | undefined;
   isShow: any = true;
   countryData: any = data;
+  private intervalId: any;
+  private intervalClient: any;
   private world: any;
   @ViewChild('slickModal1') public slickModal1: any;
   @ViewChild('slickModal2') public slickModal2: any;
@@ -93,6 +95,17 @@ export class HomeComponent {
 
   onClickShow(isShow: any) {
     this.isShow = isShow;
+
+    if (this.isShow == true) {
+      $(".home-banner .btn-dark").addClass("active");
+      $(".home-banner .btn-light").removeClass("active");
+    }
+    else {
+      $(".home-banner .btn-light").addClass("active");
+      $(".home-banner .btn-dark").removeClass("active");
+    }
+
+
   }
 
   slideConfig = {
@@ -103,7 +116,7 @@ export class HomeComponent {
     nextArrow: false,
     vertical: true,
     verticalScrolling: true,
-    speed: 300,
+    speed: 1000,
     infinite: true,
   };
 
@@ -114,7 +127,7 @@ export class HomeComponent {
     prevArrow: false,
     nextArrow: false,
     fade: true,
-    speed: 1500,
+    speed: 1,
     infinite: true,
     cssEase: 'ease-in-out',
 
@@ -304,20 +317,46 @@ export class HomeComponent {
   ngAfterViewInit() {
     this.createGlobe();
     this.focusOnCountry();
-
+    this.clientInfo();
   }
+
   ngOnInit(): void {
 
     this.solutionOnScroll();
     this.benefitsOnScroll();
     $(".home-banner .btn-dark").addClass("active");
     this.startInterval();
+  
+  }
+ 
+
+
+  clientInfo(): void {
+    setTimeout(() => {
+      this.intervalClient = setInterval(() => {
+        var elements: any[] = [];
+        this.gData.forEach((element: any) => {
+          let elem = document.getElementById(element.id);
+          if (elem) {
+            elem!.style.visibility = "hidden";
+            elements.push(element.id);
+          }
+        });
+        const randomIndex = Math.floor(Math.random() * elements.length);
+        let elemVisible = document.getElementById(elements[randomIndex]);
+        elemVisible!.style.visibility = "visible";
+
+        console.log(randomIndex, elements);
+
+        elements = [];
+
+      }, 2000);
+    }, 1000);
 
   }
-  private intervalId: any;
+
   startInterval(): void {
     this.intervalId = setInterval(() => {
-      console.log('Interval triggered');
 
       if (this.isShow == true) {
         this.isShow = false;
@@ -339,6 +378,10 @@ export class HomeComponent {
     if (this.intervalId) {
       clearInterval(this.intervalId);
       this.intervalId = null;
+    }
+    if (this.intervalClient) {
+      clearInterval(this.intervalClient);
+      this.intervalClient = null;
     }
   }
 
