@@ -2,15 +2,11 @@
   <!-- signup -->
   <div class="row">
     <div class="col-md-12">
-      <button type="button" class="btn btn-primary" data-toggle="modal" data-target=".bd-example-modal-lg">
+      <!-- <button type="button" class="btn btn-primary" data-toggle="modal" data-target=".bd-example-modal-lg">
         Large modal
-      </button>
+      </button> -->
 
-      <div class="modal fade bd-example-modal-lg" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel"
-        aria-hidden="true">
-        <div class="modal-dialog modal-lg">
-          <div class="modal-content">
-            <div class="container-fluid">
+   
               <div class="body">
                 <div class="row" *ngIf="showSignInRow"
                   style="min-height:450px;background: radial-gradient( circle at 0% 50%,#034c7f 4%, #77c9dc 10%, #034c7f 32%, #034c7f 41%,#0A1E36 50%);">
@@ -55,7 +51,7 @@
                           <a href="javascript:void(0);" [class.selected]="selectedUserType === 'candidate'"
                             class="text-white fs-12" (click)="selectUserType('candidate')">Candidate</a>
                           <a href="javascript:void(0);" [class.selected]="selectedUserType === 'employee'"
-                            (click)="selectUserType('employee')" class="fs-12" class="text-white ms-2">Employee</a>
+                            (click)="selectUserType('employee')" class="fs-12 text-white ms-2">Employee</a>
                         </div>
                       </div>
 
@@ -180,7 +176,7 @@
 
                           <div class="col-md-12 d-flex justify-content-center ms-2  mt-2">
                             <img src="/assets/public/devicon_linkedin.svg" class="linkedin-button-image" alt="">
-                            <button class="btn btn-signUpLinkdin text-white fs-12"> Sign Up with LinkedIn</button>
+                            <button class="btn btn-signUpLinkdin text-white fs-11"> Sign Up with LinkedIn</button>
 
                           </div>
 
@@ -335,7 +331,7 @@
 
                             <div class="col-md-12 d-flex justify-content-center ms-2 mt-2">
                               <img src="/assets/public/devicon_linkedin.svg" class="linkedin-button-image" alt="">
-                              <button class="btn btn-signUpLinkdin text-white fs-12"> Sign Up with LinkedIn</button>
+                              <button class="btn btn-signUpLinkdin text-white fs-11"> Sign Up with LinkedIn</button>
                             </div>
                             <div class="col-md-12 text-center mt-2 fx-12">
                               <p class="text-white">Already have an account? <a (click)="toggleSignInRow()"
@@ -451,7 +447,7 @@
 
                       <div class="col-md-12 d-flex justify-content-center ms-2 mt-2 p-0">
                         <img src="/assets/public/devicon_linkedin.svg" class="linkedin-button-image" alt="">
-                        <button class="btn btn-signUpLinkdin text-white fs-12 sign-in-linkedin "> Sign Up with
+                        <button class="btn btn-signUpLinkdin text-white fs-11 sign-in-linkedin "> Sign Up with
                           LinkedIn</button>
                       </div>
 
@@ -552,9 +548,6 @@
 
               </div>
             </div>
-          </div>
-        </div>
-      </div>
-    </div>
+
   </div>
 </div>

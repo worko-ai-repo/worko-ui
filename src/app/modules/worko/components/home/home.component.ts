@@ -1,8 +1,11 @@
-import { Component, ViewChild, OnDestroy   } from '@angular/core';
+import { Component, ViewChild, OnDestroy } from '@angular/core';
+import { Router } from '@angular/router';
 import * as $ from 'jquery'
 import Globe from 'globe.gl';
 import { assetUrl } from 'src/asset-url';
 import * as data from 'src/assets/data/data.json';
+import { ModalType } from 'src/app/modules/shared/interfaces/shared.interface';
+import { ModalComponent } from 'src/app/modules/shared/components/modal/modal.component';
 
 @Component({
   selector: 'app-home',
@@ -12,13 +15,20 @@ import * as data from 'src/assets/data/data.json';
 })
 
 export class HomeComponent {
-
-
+  @ViewChild(ModalComponent) modal!: ModalComponent;
+  modalType = ModalType;
+  modalMessage: string = "";
+  modalTitle: string = "";
+  showModal: ModalType | undefined;
   isShow: any = true;
   countryData: any = data;
   private world: any;
   @ViewChild('slickModal1') public slickModal1: any;
   @ViewChild('slickModal2') public slickModal2: any;
+
+  constructor(private router: Router){
+
+  }
 
   private readonly preventDefault = function (e: any) {
     e.preventDefault();
@@ -77,7 +87,7 @@ export class HomeComponent {
       id: String(Math.random()),
       popupHtml: "<div class='globe-content-wtap'><div class='top-header d-flex justify-content-between agline-items-center'><span class='img-wrap left-img'></span><span class='img-wrap right-img'></span></div><div class='heading'> Hi Kunal here !</div><p>SDE 2 From Google Looking for some great developers -> See you soon Here!</p></div>"
     }
-    
+
   ]
 
 
@@ -147,7 +157,7 @@ export class HomeComponent {
 
 
 
-  benefitsOnScroll(){
+  benefitsOnScroll() {
     // let benefitsElement = document.getElementById("benefitsElement");
 
     // benefitsElement!.addEventListener('wheel', (event: any) => {
@@ -157,47 +167,47 @@ export class HomeComponent {
     //     if (benefitsElement != null) {        
     //       benefitsElement.classList.add('rotation');
     //     }
-        
+
     //   } else if (event.deltaY < 0) {
     //     this.slickModal2.slickPrev();
     //     if (benefitsElement != null) {        
     //       benefitsElement.classList.remove('rotation');
     //     }
-        
+
     //   }   
     // });
 
     let benefitsElement = document.getElementById("benefitsElement");
     benefitsElement!.addEventListener('wheel', (event: any) => {
-    let currentIndex = this.slickModal2.currentIndex;
-  
-    if (event.deltaY > 0) {
-        if(currentIndex != 1){
+      let currentIndex = this.slickModal2.currentIndex;
+
+      if (event.deltaY > 0) {
+        if (currentIndex != 1) {
           console.log("inc", currentIndex)
-          benefitsElement!.addEventListener('wheel', this.preventDefault, {passive: false});
+          benefitsElement!.addEventListener('wheel', this.preventDefault, { passive: false });
         } else {
           benefitsElement!.removeEventListener('wheel', this.preventDefault);
         }
-        if(currentIndex < 1){
+        if (currentIndex < 1) {
           this.slickModal2.slickNext();
         }
-    } else if (event.deltaY < 0) {
-      if(currentIndex != 0){
-        console.log("dec", currentIndex)
-        benefitsElement!.addEventListener('wheel', this.preventDefault, {passive: false});
-      }else {
-        benefitsElement!.removeEventListener('wheel', this.preventDefault);
+      } else if (event.deltaY < 0) {
+        if (currentIndex != 0) {
+          console.log("dec", currentIndex)
+          benefitsElement!.addEventListener('wheel', this.preventDefault, { passive: false });
+        } else {
+          benefitsElement!.removeEventListener('wheel', this.preventDefault);
+        }
+        if (currentIndex > 0) {
+          this.slickModal2.slickPrev();
+        }
       }
-      if(currentIndex > 0){
-        this.slickModal2.slickPrev();
-      }
-    }
     });
   }
-  solutionOnScroll(){
+  solutionOnScroll() {
 
     // let solutionElement = document.getElementById("solutionElement");
-  
+
     // solutionElement!.addEventListener('wheel', (event: any) => {
     //   solutionElement!.addEventListener('wheel', this.preventDefault, {passive: false});
     //   if (event.deltaY > 0) {
@@ -206,34 +216,34 @@ export class HomeComponent {
     //     this.slickModal1.slickPrev();
     //   }   
     // });
-  
-  
+
+
     let solutionElement = document.getElementById("solutionElement");
     solutionElement!.addEventListener('wheel', (event: any) => {
       let currentIndex = this.slickModal1.currentIndex;
-    
+
       if (event.deltaY > 0) {
-          if(currentIndex != 2){
-            console.log("inc", currentIndex)
-            solutionElement!.addEventListener('wheel', this.preventDefault, {passive: false});
-          } else {
-            solutionElement!.removeEventListener('wheel', this.preventDefault);
-          }
-          if(currentIndex < 2){
-            this.slickModal1.slickNext();
-          }
-      } else if (event.deltaY < 0) {
-        if(currentIndex != 0){
-          console.log("dec", currentIndex)
-          solutionElement!.addEventListener('wheel', this.preventDefault, {passive: false});
-        }else {
+        if (currentIndex != 2) {
+          console.log("inc", currentIndex)
+          solutionElement!.addEventListener('wheel', this.preventDefault, { passive: false });
+        } else {
           solutionElement!.removeEventListener('wheel', this.preventDefault);
         }
-        if(currentIndex > 0){
+        if (currentIndex < 2) {
+          this.slickModal1.slickNext();
+        }
+      } else if (event.deltaY < 0) {
+        if (currentIndex != 0) {
+          console.log("dec", currentIndex)
+          solutionElement!.addEventListener('wheel', this.preventDefault, { passive: false });
+        } else {
+          solutionElement!.removeEventListener('wheel', this.preventDefault);
+        }
+        if (currentIndex > 0) {
           this.slickModal1.slickPrev();
         }
       }
-      });
+    });
   }
   createGlobe(): void {
 
@@ -298,10 +308,10 @@ export class HomeComponent {
   }
   ngOnInit(): void {
 
-  this.solutionOnScroll();
-  this.benefitsOnScroll();
-  $(".home-banner .btn-dark").addClass("active");
-  this.startInterval();
+    this.solutionOnScroll();
+    this.benefitsOnScroll();
+    $(".home-banner .btn-dark").addClass("active");
+    this.startInterval();
 
   }
   private intervalId: any;
@@ -309,17 +319,17 @@ export class HomeComponent {
     this.intervalId = setInterval(() => {
       console.log('Interval triggered');
 
-      if(this.isShow == true){
+      if (this.isShow == true) {
         this.isShow = false;
         $(".home-banner .btn-light").addClass("active");
         $(".home-banner .btn-dark").removeClass("active");
-  
+
       }
-      else{
-        this.isShow = true; 
+      else {
+        this.isShow = true;
         $(".home-banner .btn-dark").addClass("active");
         $(".home-banner .btn-light").removeClass("active");
-  
+
       }
 
     }, 3000);
@@ -330,7 +340,7 @@ export class HomeComponent {
       clearInterval(this.intervalId);
       this.intervalId = null;
     }
-  } 
+  }
 
 
   // intervalId: any;
@@ -342,13 +352,13 @@ export class HomeComponent {
   //       this.isShow = false;
   //       $(".home-banner .btn-light").addClass("active");
   //       $(".home-banner .btn-dark").removeClass("active");
-  
+
   //     }
   //     else{
   //       this.isShow = true; 
   //       $(".home-banner .btn-dark").addClass("active");
   //       $(".home-banner .btn-light").removeClass("active");
-  
+
   //     }
   //   }, 2000); // Change the interval duration as needed
   // }
@@ -368,6 +378,37 @@ export class HomeComponent {
   ngOnDestroy(): void {
     // Ensure to stop the interval when the component is destroyed
     this.stopInterval();
+  }
+
+  async redirectToCompanyListing() {
+     this.router.navigateByUrl('/company-listing');
+  }
+
+  openLogin(){
+    this.openModal(ModalType.LOGIN_SIGNUP);
+  }
+
+  /**
+   * Open modal.
+   *
+   * @param {ModalType} modalType
+   * @param {string} [message = ""]
+   * @param {string} [title = ""]
+   * @returns {void}
+   */
+ openModal(modalType: ModalType, message: string = "", title: string = ""): void {
+  this.showModal = modalType;
+  this.modalMessage = message;
+  this.modalTitle = title;
+  this.modal.open();
+}
+  /**
+   * Close modal.
+   *
+   * @returns {void}
+   */
+  closeModal(): void {
+    this.modal.cancel();
   }
 
 }

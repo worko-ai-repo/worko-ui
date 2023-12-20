@@ -19,7 +19,7 @@ export class CompanyListingComponent implements OnInit {
   hidediv: boolean = true;
   isDivOpen: boolean = false;
   selectedData: any;
-  pageSize = 25;
+  pageSize = 50;
   lastKey: string | undefined = undefined;
   loadedOnce: boolean = true;
   companyList: any[] = [];

@@ -34,7 +34,7 @@
     <div class="final-macbook-pro-16-38-child4"></div>
     <div class="final-macbook-pro-16-38-child5"></div>
   </div>
-  <nav class="navbar font-inria navbar-expand-lg bg-body-tertiary">
+  <nav class="navbar font-inria navbar-expand-lg">
     <div class="container-fluid">
       <a class="navbar-brand" href="Javascript:;"><img class="worko-logo-ai-2-icon" alt=""
           src="assets/public/workologoai-2@2x.png" /></a>
@@ -60,7 +60,7 @@
             <a class="nav-link">Corporate</a>
           </li>
         </ul>
-        <div class="d-flex" role="search">
+        <div class="d-flex" role="search" (click)="openLogin()">
           <img _ngcontent-ng-c280476550="" alt="" src="assets/public/iconamoonprofilecirclefill.svg">
         </div>
       </div>
@@ -564,7 +564,7 @@
         </div>
       </ngx-slick-carousel>
       <div class="text-center mt-3">
-        <button class="btn bg-white font-inria"> View More... </button>
+        <button class="btn bg-white font-inria" (click)="redirectToCompanyListing()"> View More... </button>
       </div>
     </div>
     <div class="vector-wrap">
@@ -744,3 +744,13 @@
     </div>
   </div>
 </footer>
+
+<app-modal [theme]="'theme-k'" [centered]="true" [showHeader]="showModal === modalType.MESSAGE"
+  [showFooter]="showModal === modalType.MESSAGE" [title]="modalTitle" [message]="modalMessage"
+  [bodyClass]="modalMessage ? 'p-4' : 'p-0'">
+
+  <ng-container *ngIf="showModal === modalType.LOGIN_SIGNUP">
+    <app-login-page></app-login-page>
+  </ng-container>
+
+</app-modal>
