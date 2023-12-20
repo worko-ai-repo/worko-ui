@@ -1,14 +1,26 @@
-<div class="container">
-  <div class="row">
-    <div class="col-md-12">
-      <div class="container">
-        <div class="ui-widgets">
-          <div class="ui-values">8/10</div>
-        </div>
-        
-      </div>
-
-    </div>
-
+<!-- <mat-card> -->
+<!-- <mat-card-title>Original Item Score</mat-card-title> -->
+<div class="row">
+  <div class="d-flex align-self-center justify-content-center">
+    <app-circle-chart [chartText]="score.toString()"
+      [chartValue]="(this.score / this.possiblePoints) * 100"></app-circle-chart>
   </div>
 </div>
+
+<!-- <div class="form-container">
+    <mat-form-field appearance="fill">
+      <mat-label>Original Points</mat-label>
+      <input matInput type="number" step="0.1" [(ngModel)]="originalPoints" />
+    </mat-form-field>
+    <mat-form-field appearance="fill">
+      <mat-label>Possible Points</mat-label>
+      <input matInput type="number" step="1" [(ngModel)]="possiblePoints" />
+    </mat-form-field>
+  </div>
+  <mat-divider></mat-divider>
+  <p>The <strong>chartText</strong> Input and <strong>chartValue</strong> Input are both passed.</p>
+  <p>
+    The <strong>chartValue</strong> Input is a calculated value: <br />
+    <code>(this.originalPoints / this.possiblePoints) * 100</code>
+  </p>-->
+<!-- </mat-card>  -->

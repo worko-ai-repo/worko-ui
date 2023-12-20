@@ -68,7 +68,7 @@
     
 }
 .req-btn{
-    width: 135px;
+
     color: white;
     border-radius: 7.5px;
 background: linear-gradient(90deg, #2F92C7 0%, rgba(47, 146, 199, 0.00) 205.38%);
@@ -130,4 +130,8 @@ flex-shrink: 0;
 }
 :host ::ng-deep .modal-content {
     max-width: 800px; /* Adjust the max-width as needed */
+  }
+
+  .progress-bar{
+    height:100%;
   }

@@ -1,5 +1,6 @@
 import { Component, ElementRef, OnInit, ViewChild, Input } from '@angular/core';
 import { CompanyListingService } from '../../services/company-listing.service';
+import { SubscriptionPackService } from '../../services/subscription-pack.service';
 @Component({
   selector: 'app-referral-request',
   templateUrl: './referral-request.component.html',
@@ -9,33 +10,37 @@ export class ReferralRequestComponent implements OnInit {
   @ViewChild('largeModal') largeModal!: ElementRef;
   @Input() selectedCompany: any;
 
-
+  showSubscription:boolean=false;
   showReferrelRow: boolean = true;
-  divShow: boolean = true;
   showContent: boolean = true;
   showLoading: boolean = false;
-
-  subscriptionArray: any[] = [
-    { "packageName": "Basic", "packageRupees": 199, "packageDuration": "3 referral / Month" },
-    { "packageName": "Classic", "packageRupees": 499, "packageDuration": "10 referral / Month" },
-    { "packageName": "Premium", "packageRupees": 499, "packageDuration": "25 referral / Month" },
-  ];
+  showsubscriptionPlan: boolean = false;
+  // subscriptionList:any[]=[];
+  // subscriptionArray: any[] = [
+  //   { "packageName": "Basic", "packageRupees": 199, "packageDuration": "3 referral / Month", isPopular: "no" },
+  //   { "packageName": "Classic", "packageRupees": 499, "packageDuration": "10 referral / Month", isPopular: "yes" },
+  //   { "packageName": "Premium", "packageRupees": 499, "packageDuration": "25 referral / Month", isPopular: "no" },
+  // ];
 
   requestForm = {
     jobUrl: '',
   }
   showScore: boolean = false;
-  subscriptionObj: any = {
-    packageName: '',
-    packageRupees: '',
-    packageDuration: '',
-  }
-
+  // subscriptionObj:any={
+  //   SK:"",
+  //   amount:0,
+  //   details:"",
+  //   duration:0,
+  //   isActive:true,
+  //   name:"",
+  //   referralCount:0,
+  // }
+  matchingScore: number = 0;
   referralRequestId: string = "";
   emailId: string = "prashant@worko.ai";
-  constructor(private companyListing: CompanyListingService) { }
+  constructor(private companyListing: CompanyListingService , private subscriptionPack : SubscriptionPackService) { }
   ngOnInit(): void {
-
+    // this.getSubcriptionPack();
   }
 
 
@@ -44,10 +49,14 @@ export class ReferralRequestComponent implements OnInit {
     console.log(this.selectedCompany);
     this.companyListing.getReferralCount(this.emailId).then(async (response) => {
       if (response.isSubscribed) {
-        console.log("Helo");
         let count = response.referralCount;
+        // let count = 0;
         if (count) {
           this.createRequest();
+          
+        } else {
+          this.showsubscriptionPlan = true;
+          this.showReferrelRow = false;
         }
       }
     })
@@ -56,6 +65,7 @@ export class ReferralRequestComponent implements OnInit {
         console.error('Create Employee Error:', error);
       });
   }
+
 
   createRequest() {
     // "jobUrl":"https://jobs.netflix.com/jobs/306631088"
@@ -81,11 +91,11 @@ export class ReferralRequestComponent implements OnInit {
       });
   }
 
-  getScore(referralRequestId: string){
+  getScore(referralRequestId: string) {
     this.companyListing.getMatchingScore(this.emailId, referralRequestId).then(async (response) => {
       if (response) {
         console.log("Matchingscore");
-        
+        this.matchingScore = response.matchingScore;
         this.showLoading = false;
         this.showScore = true;
       }
@@ -94,12 +104,35 @@ export class ReferralRequestComponent implements OnInit {
         console.error('Create Employee Error:', error);
       });
   }
-  reqNowBtn() {
-    this.showReferrelRow = false;
+
+  // getSubcriptionPack(){
+  //   this.subscriptionPack.getSubscription().subscribe({
+  //       next: (response) => {
+  //         console.log(response);
+  //          this.subscriptionList = response.data;
+          
+  //       },
+  //       error: (error) => {
+  //         debugger;
+  //         console.error(error);
+          
+          
+  //       },
+  //       complete: () => {
+         
+  //       }
+  //     });
+  //   }
+
+  receiveDataFromChild(data: any){
+    alert("payment done")
   }
 
-  hideDiv() {
-    this.divShow = false;
+  receieveError(data: any){
+    alert("payment failed")
+  }
+  subPack(){
+    this.showSubscription = true;
   }
 
 }

@@ -37,8 +37,7 @@ import { MatDividerModule } from '@angular/material/divider';
 import { CircleChartComponent } from './components/circle-chart/circle-chart.component';
 import { MatProgressBarModule } from '@angular/material/progress-bar';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
-import {MatDatepickerModule} from '@angular/material/datepicker';
-import { MatNativeDateModule } from '@angular/material/core';
+import { SlickCarouselModule } from 'ngx-slick-carousel';
 
 export const routes: Routes = [
   {
@@ -179,8 +178,7 @@ export const routes: Routes = [
     MatDividerModule,
     MatProgressBarModule,
     MatProgressSpinnerModule,
-    MatDatepickerModule,
-    MatNativeDateModule,
+    SlickCarouselModule,
    
 
   ]
