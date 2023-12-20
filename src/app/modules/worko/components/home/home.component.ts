@@ -1,4 +1,4 @@
-import { Component, ViewChild, OnDestroy   } from '@angular/core';
+import { Component, ViewChild, OnDestroy } from '@angular/core';
 import * as $ from 'jquery'
 import Globe from 'globe.gl';
 import { assetUrl } from 'src/asset-url';
@@ -16,6 +16,8 @@ export class HomeComponent {
 
   isShow: any = true;
   countryData: any = data;
+  private intervalId: any;
+  private intervalClient: any;
   private world: any;
   @ViewChild('slickModal1') public slickModal1: any;
   @ViewChild('slickModal2') public slickModal2: any;
@@ -77,12 +79,23 @@ export class HomeComponent {
       id: String(Math.random()),
       popupHtml: "<div class='globe-content-wtap'><div class='top-header d-flex justify-content-between agline-items-center'><span class='img-wrap left-img'></span><span class='img-wrap right-img'></span></div><div class='heading'> Hi Kunal here !</div><p>SDE 2 From Google Looking for some great developers -> See you soon Here!</p></div>"
     }
-    
+
   ]
 
 
   onClickShow(isShow: any) {
     this.isShow = isShow;
+
+    if (this.isShow == true) {
+      $(".home-banner .btn-dark").addClass("active");
+      $(".home-banner .btn-light").removeClass("active");
+    }
+    else {
+      $(".home-banner .btn-light").addClass("active");
+      $(".home-banner .btn-dark").removeClass("active");
+    }
+
+
   }
 
   slideConfig = {
@@ -93,7 +106,7 @@ export class HomeComponent {
     nextArrow: false,
     vertical: true,
     verticalScrolling: true,
-    speed: 300,
+    speed: 1000,
     infinite: true,
   };
 
@@ -104,7 +117,7 @@ export class HomeComponent {
     prevArrow: false,
     nextArrow: false,
     fade: true,
-    speed: 1500,
+    speed: 1,
     infinite: true,
     cssEase: 'ease-in-out',
 
@@ -147,7 +160,7 @@ export class HomeComponent {
 
 
 
-  benefitsOnScroll(){
+  benefitsOnScroll() {
     // let benefitsElement = document.getElementById("benefitsElement");
 
     // benefitsElement!.addEventListener('wheel', (event: any) => {
@@ -157,47 +170,47 @@ export class HomeComponent {
     //     if (benefitsElement != null) {        
     //       benefitsElement.classList.add('rotation');
     //     }
-        
+
     //   } else if (event.deltaY < 0) {
     //     this.slickModal2.slickPrev();
     //     if (benefitsElement != null) {        
     //       benefitsElement.classList.remove('rotation');
     //     }
-        
+
     //   }   
     // });
 
     let benefitsElement = document.getElementById("benefitsElement");
     benefitsElement!.addEventListener('wheel', (event: any) => {
-    let currentIndex = this.slickModal2.currentIndex;
-  
-    if (event.deltaY > 0) {
-        if(currentIndex != 1){
+      let currentIndex = this.slickModal2.currentIndex;
+
+      if (event.deltaY > 0) {
+        if (currentIndex != 1) {
           console.log("inc", currentIndex)
-          benefitsElement!.addEventListener('wheel', this.preventDefault, {passive: false});
+          benefitsElement!.addEventListener('wheel', this.preventDefault, { passive: false });
         } else {
           benefitsElement!.removeEventListener('wheel', this.preventDefault);
         }
-        if(currentIndex < 1){
+        if (currentIndex < 1) {
           this.slickModal2.slickNext();
         }
-    } else if (event.deltaY < 0) {
-      if(currentIndex != 0){
-        console.log("dec", currentIndex)
-        benefitsElement!.addEventListener('wheel', this.preventDefault, {passive: false});
-      }else {
-        benefitsElement!.removeEventListener('wheel', this.preventDefault);
+      } else if (event.deltaY < 0) {
+        if (currentIndex != 0) {
+          console.log("dec", currentIndex)
+          benefitsElement!.addEventListener('wheel', this.preventDefault, { passive: false });
+        } else {
+          benefitsElement!.removeEventListener('wheel', this.preventDefault);
+        }
+        if (currentIndex > 0) {
+          this.slickModal2.slickPrev();
+        }
       }
-      if(currentIndex > 0){
-        this.slickModal2.slickPrev();
-      }
-    }
     });
   }
-  solutionOnScroll(){
+  solutionOnScroll() {
 
     // let solutionElement = document.getElementById("solutionElement");
-  
+
     // solutionElement!.addEventListener('wheel', (event: any) => {
     //   solutionElement!.addEventListener('wheel', this.preventDefault, {passive: false});
     //   if (event.deltaY > 0) {
@@ -206,34 +219,34 @@ export class HomeComponent {
     //     this.slickModal1.slickPrev();
     //   }   
     // });
-  
-  
+
+
     let solutionElement = document.getElementById("solutionElement");
     solutionElement!.addEventListener('wheel', (event: any) => {
       let currentIndex = this.slickModal1.currentIndex;
-    
+
       if (event.deltaY > 0) {
-          if(currentIndex != 2){
-            console.log("inc", currentIndex)
-            solutionElement!.addEventListener('wheel', this.preventDefault, {passive: false});
-          } else {
-            solutionElement!.removeEventListener('wheel', this.preventDefault);
-          }
-          if(currentIndex < 2){
-            this.slickModal1.slickNext();
-          }
-      } else if (event.deltaY < 0) {
-        if(currentIndex != 0){
-          console.log("dec", currentIndex)
-          solutionElement!.addEventListener('wheel', this.preventDefault, {passive: false});
-        }else {
+        if (currentIndex != 2) {
+          console.log("inc", currentIndex)
+          solutionElement!.addEventListener('wheel', this.preventDefault, { passive: false });
+        } else {
           solutionElement!.removeEventListener('wheel', this.preventDefault);
         }
-        if(currentIndex > 0){
+        if (currentIndex < 2) {
+          this.slickModal1.slickNext();
+        }
+      } else if (event.deltaY < 0) {
+        if (currentIndex != 0) {
+          console.log("dec", currentIndex)
+          solutionElement!.addEventListener('wheel', this.preventDefault, { passive: false });
+        } else {
+          solutionElement!.removeEventListener('wheel', this.preventDefault);
+        }
+        if (currentIndex > 0) {
           this.slickModal1.slickPrev();
         }
       }
-      });
+    });
   }
   createGlobe(): void {
 
@@ -294,32 +307,58 @@ export class HomeComponent {
   ngAfterViewInit() {
     this.createGlobe();
     this.focusOnCountry();
-
+    this.clientInfo();
   }
+
   ngOnInit(): void {
 
-  this.solutionOnScroll();
-  this.benefitsOnScroll();
-  $(".home-banner .btn-dark").addClass("active");
-  this.startInterval();
+    this.solutionOnScroll();
+    this.benefitsOnScroll();
+    $(".home-banner .btn-dark").addClass("active");
+    this.startInterval();
+  
+  }
+ 
+
+
+  clientInfo(): void {
+    setTimeout(() => {
+      this.intervalClient = setInterval(() => {
+        var elements: any[] = [];
+        this.gData.forEach((element: any) => {
+          let elem = document.getElementById(element.id);
+          if (elem) {
+            elem!.style.visibility = "hidden";
+            elements.push(element.id);
+          }
+        });
+        const randomIndex = Math.floor(Math.random() * elements.length);
+        let elemVisible = document.getElementById(elements[randomIndex]);
+        elemVisible!.style.visibility = "visible";
+
+        console.log(randomIndex, elements);
+
+        elements = [];
+
+      }, 2000);
+    }, 1000);
 
   }
-  private intervalId: any;
+
   startInterval(): void {
     this.intervalId = setInterval(() => {
-      console.log('Interval triggered');
 
-      if(this.isShow == true){
+      if (this.isShow == true) {
         this.isShow = false;
         $(".home-banner .btn-light").addClass("active");
         $(".home-banner .btn-dark").removeClass("active");
-  
+
       }
-      else{
-        this.isShow = true; 
+      else {
+        this.isShow = true;
         $(".home-banner .btn-dark").addClass("active");
         $(".home-banner .btn-light").removeClass("active");
-  
+
       }
 
     }, 3000);
@@ -330,7 +369,11 @@ export class HomeComponent {
       clearInterval(this.intervalId);
       this.intervalId = null;
     }
-  } 
+    if (this.intervalClient) {
+      clearInterval(this.intervalClient);
+      this.intervalClient = null;
+    }
+  }
 
 
   // intervalId: any;
@@ -342,13 +385,13 @@ export class HomeComponent {
   //       this.isShow = false;
   //       $(".home-banner .btn-light").addClass("active");
   //       $(".home-banner .btn-dark").removeClass("active");
-  
+
   //     }
   //     else{
   //       this.isShow = true; 
   //       $(".home-banner .btn-dark").addClass("active");
   //       $(".home-banner .btn-light").removeClass("active");
-  
+
   //     }
   //   }, 2000); // Change the interval duration as needed
   // }
