@@ -1,21 +1,22 @@
 <!-- <div class="popular-content" *ngIf="package.isPopular == 'yes'">Most Popular</div> -->
 
 <div class="row">
-  <div class="col-md-4">
-    <div class=" subscription-box" *ngFor="let subscription of subscriptionList">
+  <ng-container *ngFor="let subscription of subscriptionList; let i = index">
+    <div class="col-md-4 mt-3" *ngIf="i > 0">
+      <div class="subscription-box">
 
       
       
-        <h1 class="text-white">dddd</h1>
+        <!-- <h1 class="text-white"></h1> -->
           <div class="col-md-12 p-0" >
-             <p class="basic-text ps-3 pt-3"></p>
+             <p class="basic-text ps-3 pt-3">{{subscription.name}}</p>
            </div>
            <div class="col-md-12 p-0">
-             <p class="ps-3 rupees-text"> <span style="color: grey;
-                             font-size: 15px">/mo</span> </p>
+             <p class="ps-3 rupees-text">{{subscription.amount}} <span style="color: grey;
+                             font-size: 15px"> /mo</span> </p>
            </div>
            <div class="col-md-12 p-0">
-             <p class="ps-3 ref-month-text"></p>
+             <p class="ps-3 ref-month-text">{{subscription.referralCount}} Referral / {{subscription.duration}} </p>
            </div>
            <div class="col-md-12 p-0 text-center">
              <button class="btn btn-secondary" (click)="makeOrder(package)">Buy now</button>
@@ -25,6 +26,8 @@
     
     </div>
   </div>
+</ng-container>
+
 </div>
 
 

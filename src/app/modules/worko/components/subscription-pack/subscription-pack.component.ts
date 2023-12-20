@@ -43,9 +43,9 @@ export class SubscriptionPackComponent implements OnInit {
   getSubcriptionPack(){
     this.subscriptionPack.getSubscription().subscribe({
         next: (response) => {
-          console.log(response);
-           this.subscriptionList = response.data;
-          
+          // console.log(response);
+           this.subscriptionList = response;
+            console.log(this.subscriptionList,"Hello")
         },
         error: (error) => {
           debugger;

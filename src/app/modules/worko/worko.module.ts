@@ -38,7 +38,8 @@ import { CircleChartComponent } from './components/circle-chart/circle-chart.com
 import { MatProgressBarModule } from '@angular/material/progress-bar';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 import { SlickCarouselModule } from 'ngx-slick-carousel';
-
+import { MatPaginatorModule } from '@angular/material/paginator';
+import { MatListModule } from '@angular/material/list';
 export const routes: Routes = [
   {
     path: '',
@@ -179,6 +180,8 @@ export const routes: Routes = [
     MatProgressBarModule,
     MatProgressSpinnerModule,
     SlickCarouselModule,
+    MatPaginatorModule,
+    MatListModule
    
 
   ]
