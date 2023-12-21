@@ -135,3 +135,30 @@ flex-shrink: 0;
   .progress-bar{
     height:100%;
   }
+  .yourScore{
+    color: #FFF;
+text-align: center;
+font-family: Poppins;
+font-size: 40px;
+font-style: normal;
+font-weight: 700;
+line-height: normal;
+  }
+  .send-cv-text{
+    color: #FFF;
+text-align: center;
+font-family: Poppins;
+font-size: 17px;
+font-style: normal;
+font-weight: 700;
+line-height: normal;
+  }
+  .view-more-btn{
+    border-radius: 10px;
+    background: #36D0FF;
+    color: white;
+    text-decoration: none;
+    border: none;
+    width: 124px;
+    height: 37px;
+  }
