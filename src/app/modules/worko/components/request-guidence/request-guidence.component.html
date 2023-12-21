@@ -111,7 +111,12 @@
                   class="selector"
                   style="border-radius: 4.676px"
                 >
-                  <option value="">Level of mentor</option>
+                <option value="">Level of mentor</option>
+                <option value="">Manager / Sr. Manager</option>
+                <option value="">Asst. GM / GM</option>
+                <option value="">Asst. Director / Director</option>
+                <option value="">Sr. Director / AVP</option>
+                <option value=""> VP / CXO</option>
                 </select>
               </div>
               <div class="col-md-12 mt-3 mb-2">
@@ -120,9 +125,19 @@
               <div class="row d-flex justify-content-center">
               
                   <div class="col-md-5 mb-2 p-0">
-                    <select name="" id="" class="selector">
+                    <!-- <select name="" id="" class="selector">
                       <option value="">1.Choose date</option>
-                    </select>
+                    </select> -->
+                    <mat-form-field class="example-full-width">
+                      <mat-label>Choose a date</mat-label>
+                      <input matInput [matDatepicker]="picker">
+                      <mat-hint>MM/DD/YYYY</mat-hint>
+                      <mat-datepicker-toggle matIconSuffix [for]="picker">
+                        <mat-icon matDatepickerToggleIcon>keyboard_arrow_down</mat-icon>
+                      </mat-datepicker-toggle>
+                      <mat-datepicker #picker></mat-datepicker>
+                    </mat-form-field>
+                    
                   </div>
                   <div class="col-md-5 p-0">
                     <select name="" id="" class="selector-radius">
@@ -194,7 +209,12 @@
                     class="selector"
                     style="border-radius: 4.676px"
                   >
-                    <option value="">Level of mentor</option>
+                  <option value="">Level of mentor</option>
+                  <option value="">Manager / Sr. Manager</option>
+                  <option value="">Asst. GM / GM</option>
+                  <option value="">Asst. Director / Director</option>
+                  <option value="">Sr. Director / AVP</option>
+                  <option value=""> VP / CXO</option>
                   </select>
                 </div>
                 <div class="col-md-12 mt-3 mb-2">
@@ -273,19 +293,27 @@
               <div class="row">
                 <div class="col-md-6">
                   <select
-                  class="selector-interview-date mb-2">
-                  <option value="">Level of mentor</option>
+                  class="selector-interview-date mb-2 ps-1 text-dark">
+                      <option value="">Level of mentor</option>
+                      <option value="">Manager / Sr. Manager</option>
+                      <option value="">Asst. GM / GM</option>
+                      <option value="">Asst. Director / Director</option>
+                      <option value="">Sr. Director / AVP</option>
+                      <option value=""> VP / CXO</option>
+
                 </select>
                 </div>
               
                   <div class="col-md-12 mb-2">
-                    <select name="" id="" class="selector-interview-date">
+                    <select name="" id="" class="selector-interview-date ps-1">
                       <option value="">Choose your interview date</option>
+                      
+
                     </select>
                   </div>
 
                   <div class="col-md-12 mb-2">
-                    <select name="" id="" class="selector-interview-date">
+                    <select name="" id="" class="selector-interview-date ps-1">
                       <option value="">Role you are being interviewed for?</option>
                     </select>
                   </div>
@@ -334,7 +362,12 @@
                   class="selector"
                   style="border-radius: 4.676px"
                 >
-                  <option value="">Level of mentor</option>
+                <option value="">Level of mentor</option>
+                <option value="">Manager / Sr. Manager</option>
+                <option value="">Asst. GM / GM</option>
+                <option value="">Asst. Director / Director</option>
+                <option value="">Sr. Director / AVP</option>
+                <option value=""> VP / CXO</option>
                 </select>
               </div>
               <div class="col-md-12 mt-3 mb-2">
