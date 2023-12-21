@@ -22,6 +22,7 @@ export class CompanyListingComponent implements OnInit {
   pageSize = 50;
   lastKey: string | undefined = undefined;
   loadedOnce: boolean = true;
+  reqGuidanceData:any
   companyList: any[] = [];
 
   @HostListener('window:scroll', ['$event'])
@@ -90,6 +91,11 @@ export class CompanyListingComponent implements OnInit {
   openReferralPage(item: any) {
     this.selectedData = item;
     this.openModal(ModalType.REQUEST_REFERRAL);
+
+  }
+openGuidancePage(item: any) {
+  this.reqGuidanceData = item;
+  this.openModal(ModalType.REQUEST_GUIDANCE);
   }
 
  /**

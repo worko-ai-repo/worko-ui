@@ -1,5 +1,5 @@
-<div class="main-div">
-
+<div class="row">
+<div class="body main-div">
   <div class="row" *ngIf="showReferrelRow">
 
     <div class="col-md-6">
@@ -28,9 +28,9 @@
               class="form-control text-white input-jobUrl" />
           </div>
           <div class="col-md-12 py-4">
-            <button class="btn req-btn" type="submit" [disabled]="(!requestReferral.form.valid || !requestForm.jobUrl)">
-              REQUEST NOW
-
+            <button class="btn req-btn" type="submit" [disabled]="(!requestReferral.form.valid || !requestForm.jobUrl)" (click)="subPack()">
+              REQUEST NOW  
+              
             </button>
 
 
@@ -39,33 +39,55 @@
       </div>
     </div>
   </div>
+  
+   
+ 
 
 
-  <div class="col-md-12" *ngIf="showsubscriptionPlan">
+  <div class="col-md-12" *ngIf="!showSubscription">
     <div class="row">
       <div class="col-md-12 mt-4">
         <h1 class="subscrip-text">
-          Select the <br />
+          Select the <br/>
           Subscription Plan
         </h1>
       </div>
+
+      <div class="col-md-12">
+        <app-subscription-pack  (onSuccess)="receiveDataFromChild($event)" (onError)="receieveError($event)"></app-subscription-pack> 
+
+      </div>
+      
+
+      
+      
     </div>
 
-    <div class="row mt-3">
-      <div class="col-md-4" *ngFor="let subscription of subscriptionArray">
-        <app-subscription-pack [package]="subscription"  (onSuccess)="receiveDataFromChild($event)" (onError)="receieveError($event)"></app-subscription-pack>
+    <!-- <div class="row mt-3">
+      <div class="col-md-4"*ngFor="let subscription of subscriptionList" >
+         <app-subscription-pack  [package]="subscription"  (onSuccess)="receiveDataFromChild($event)" (onError)="receieveError($event)"></app-subscription-pack> 
+       
+
+      </div>
+    </div> -->
+  </div>
+
+  <!-- <div class="row" *ngIf="showLoading">
+    <div class="col-md-12 text-center mt-5" *ngIf="showLoading">
+      <img src="/assets/public/gif-img.gif" class="gif-img" alt="searching">
+    </div>
+  </div> -->
+
+  <div class="progress-bar" *ngIf="showScore">
+    <app-referral-progress-bar [score]="matchingScore"></app-referral-progress-bar>
+    <div class="row">
+      <div class="col-md-12 mt-4">
+        <h1 class="yourScore">Your Score</h1>
+        <p class="send-cv-text">You are a good match for the job. we are sending your <br> CV to the best suitable Referee who can refer you,</p>
+        <button class="view-more-btn mb-2">View More</button>
       </div>
     </div>
   </div>
 
-  <div class="row" *ngIf="showLoading">
-    <div class="col-md-12 text-center mt-5" *ngIf="showLoading">
-      <img src="/assets/public/gif-img.gif" class="gif-img" alt="searching">
-    </div>
-  </div>
-
-  <div class="progress-bar" *ngIf="showScore">
-    <app-referral-progress-bar [score]="matchingScore"></app-referral-progress-bar>
-  </div>
-
+</div>
 </div>

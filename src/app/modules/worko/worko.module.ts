@@ -40,6 +40,9 @@ import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 import { SlickCarouselModule } from 'ngx-slick-carousel';
 import { MatPaginatorModule } from '@angular/material/paginator';
 import { MatListModule } from '@angular/material/list';
+import { MatNativeDateModule } from '@angular/material/core';
+import {MatDatepickerModule} from '@angular/material/datepicker';
+
 export const routes: Routes = [
   {
     path: '',
@@ -181,7 +184,10 @@ export const routes: Routes = [
     MatProgressSpinnerModule,
     SlickCarouselModule,
     MatPaginatorModule,
-    MatListModule
+    MatDatepickerModule,
+    MatListModule,
+    MatNativeDateModule,
+    MatInputModule,
    
 
   ]
