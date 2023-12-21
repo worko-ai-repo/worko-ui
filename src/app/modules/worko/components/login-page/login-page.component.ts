@@ -122,25 +122,28 @@ export class LoginPageComponent {
   }
 
   passwordChange() {
-    // this.currentAuthenticatedUser();
-    // this.currentSession();
+    this.currentAuthenticatedUser();
+    this.currentSession();
     console.log(this.resetForm)
   }
 
-  async  currentSession() {
+  async currentSession() {
     try {
-      const { accessToken, idToken } = (await fetchAuthSession()).tokens ?? {};
+      // const { accessToken, idToken } = (await fetchAuthSession()).tokens ?? {};
+      const authToken = (await fetchAuthSession()).tokens?.idToken?.toString();
+      // console.log(accessToken, "Acces");
+      console.log(authToken, "authToken");
     } catch (err) {
       console.log(err);
     }
   }
 
-  async  currentAuthenticatedUser() {
+  async currentAuthenticatedUser() {
     try {
       const { username, userId, signInDetails } = await getCurrentUser();
       console.log(`The username: ${username}`);
       console.log(`The userId: ${userId}`);
-  
+
       if (signInDetails) {
         console.log('The signInDetails:', signInDetails);
       } else {
@@ -153,14 +156,14 @@ export class LoginPageComponent {
 
   toggleSignInRow() {
     this.setErrorMessage("");
-    // this.currentSession();
-    // this.currentAuthenticatedUser();
+    this.currentSession();
+    this.currentAuthenticatedUser();
     this.showSignInRow = false;
   }
 
   toggleSignUpRow() {
     this.setErrorMessage("");
-   
+
     this.showSignInRow = true;
   }
 
@@ -382,6 +385,8 @@ export class LoginPageComponent {
       this.authService.getProfile(this.form.email).then(async (response) => {
 
         let userType = response.data.lastAccessedDash;
+        this.currentSession();
+        this.currentAuthenticatedUser();
         if (userType == "CAND") {
           this.router.navigate(['/candidate/candidate-dashboard']);
         } else {
