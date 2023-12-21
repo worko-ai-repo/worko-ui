@@ -3,6 +3,7 @@ import { HttpClient, HttpHeaders} from '@angular/common/http';
  import { environment } from '../../../../environment/environment';
 import { Observable } from 'rxjs';
 import { candidateInfo, employeeInfo } from '../interfaces/auth.interface';
+import { CognitoService } from '../../services/cognito.service';
 const API_URL = environment.apiUrl;
 
 @Injectable({
@@ -15,7 +16,7 @@ export class AuthService {
    * @param {HttpClient} http
    * @param {AuthService} authService
    */
-  constructor(private http: HttpClient) { }
+  constructor(private http: HttpClient, private cognitoService: CognitoService) { }
 
   /**
    * Create Candidate.
@@ -78,7 +79,7 @@ export class AuthService {
     let headers: any = { 'Content-Type': 'application/json' };
 
     if (authorization) {
-      headers.Authorization = `Bearer ${this.getAccessToken()}`;
+      headers.Authorization = `Bearer ${this.cognitoService.getAccessToken()}`;
     }
 
     if (params?.xTenantId) {
@@ -108,17 +109,7 @@ export class AuthService {
 
     return httpOptions;
   }
-
-    /**
-   * Get access token.
-   *
-   * @returns {string}
-   */
-    getAccessToken(): string {
-      // return this.storage.get('accessToken') || '';
-      return "abc";
-    }
-
+  
 
 }
 

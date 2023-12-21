@@ -14,6 +14,8 @@ import { getCurrentUser, fetchAuthSession } from 'aws-amplify/auth';
 
 export class LoginPageComponent {
   @Output() userTypeSelected = new EventEmitter<string>();
+  @Output() onSuccess: EventEmitter<void> = new EventEmitter<void>();
+
   selectedUserType: string = 'candidate'; // Default to 'employee'
   showSignInRow: boolean = true;
   isCandidateEmailVerified: boolean = false;
@@ -387,11 +389,12 @@ export class LoginPageComponent {
         let userType = response.data.lastAccessedDash;
         this.currentSession();
         this.currentAuthenticatedUser();
-        if (userType == "CAND") {
-          this.router.navigate(['/candidate/candidate-dashboard']);
-        } else {
-          this.router.navigate(['/employee/employee-dashboard']);
-        }
+        this.onSuccess.emit();
+        // if (userType == "CAND") {
+        //   this.router.navigate(['/candidate/candidate-dashboard']);
+        // } else {
+        //   this.router.navigate(['/employee/employee-dashboard']);
+        // }
 
       })
         .catch(error => {
@@ -406,6 +409,7 @@ export class LoginPageComponent {
 
   async signOut(): Promise<void> {
     await this.amplify.handleSignOut();
+    this.onSuccess.emit();
   }
 
   async createUser(form: any): Promise<{ response?: any; error?: Error }> {
