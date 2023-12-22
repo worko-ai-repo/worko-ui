@@ -6,7 +6,8 @@ import { assetUrl } from 'src/asset-url';
 import * as data from 'src/assets/data/data.json';
 import { ModalType } from 'src/app/modules/shared/interfaces/shared.interface';
 import { ModalComponent } from 'src/app/modules/shared/components/modal/modal.component';
-
+import { CognitoService } from 'src/app/modules/services/cognito.service';
+import { AnyPixelFormat } from 'three';
 @Component({
   selector: 'app-home',
   templateUrl: './home.component.html',
@@ -25,10 +26,11 @@ export class HomeComponent {
   private intervalId: any;
   private intervalClient: any;
   private world: any;
+  userLoggedIn: boolean = false;
   @ViewChild('slickModal1') public slickModal1: any;
   @ViewChild('slickModal2') public slickModal2: any;
 
-  constructor(private router: Router){
+  constructor(private router: Router, private cognitoService: CognitoService) {
 
   }
 
@@ -161,11 +163,11 @@ export class HomeComponent {
 
 
   slickInit(e: any) {
-    console.log('slick initialized');
+    // console.log('slick initialized');
   }
 
   breakpoint(e: any) {
-    console.log('breakpoint');
+    // console.log('breakpoint');
   }
 
 
@@ -196,7 +198,7 @@ export class HomeComponent {
 
       if (event.deltaY > 0) {
         if (currentIndex != 1) {
-          console.log("inc", currentIndex)
+          // console.log("inc", currentIndex)
           benefitsElement!.addEventListener('wheel', this.preventDefault, { passive: false });
         } else {
           benefitsElement!.removeEventListener('wheel', this.preventDefault);
@@ -206,7 +208,7 @@ export class HomeComponent {
         }
       } else if (event.deltaY < 0) {
         if (currentIndex != 0) {
-          console.log("dec", currentIndex)
+          // console.log("dec", currentIndex)
           benefitsElement!.addEventListener('wheel', this.preventDefault, { passive: false });
         } else {
           benefitsElement!.removeEventListener('wheel', this.preventDefault);
@@ -237,7 +239,7 @@ export class HomeComponent {
 
       if (event.deltaY > 0) {
         if (currentIndex != 2) {
-          console.log("inc", currentIndex)
+          // console.log("inc", currentIndex)
           solutionElement!.addEventListener('wheel', this.preventDefault, { passive: false });
         } else {
           solutionElement!.removeEventListener('wheel', this.preventDefault);
@@ -247,7 +249,7 @@ export class HomeComponent {
         }
       } else if (event.deltaY < 0) {
         if (currentIndex != 0) {
-          console.log("dec", currentIndex)
+          // console.log("dec", currentIndex)
           solutionElement!.addEventListener('wheel', this.preventDefault, { passive: false });
         } else {
           solutionElement!.removeEventListener('wheel', this.preventDefault);
@@ -264,7 +266,7 @@ export class HomeComponent {
     const markerSvg = `<svg xmlns="http://www.w3.org/2000/svg" width="30" height="30" viewBox="0 0 32 30" fill="none">
     <path fill="currentColor" d="M8 3.77796C8 1.78467 9.435 0.164062 11.2 0.164062H28.8C30.565 0.164062 32 1.78467 32 3.77796V20.0405C32 22.0338 30.565 23.6544 28.8 23.6544H16.84C16.25 22.2145 15.345 20.9722 14.22 20.0405H19.2V18.2335C19.2 17.2341 19.915 16.4266 20.8 16.4266H24C24.885 16.4266 25.6 17.2341 25.6 18.2335V20.0405H28.8V3.77796H11.2V6.55049C10.26 5.935 9.165 5.5849 8 5.5849V3.77796ZM8 7.39185C8.63035 7.39185 9.25452 7.53206 9.83688 7.80449C10.4192 8.07691 10.9484 8.4762 11.3941 8.97958C11.8398 9.48295 12.1934 10.0805 12.4346 10.7382C12.6758 11.3959 12.8 12.1008 12.8 12.8127C12.8 13.5246 12.6758 14.2295 12.4346 14.8872C12.1934 15.5448 11.8398 16.1424 11.3941 16.6458C10.9484 17.1492 10.4192 17.5485 9.83688 17.8209C9.25452 18.0933 8.63035 18.2335 8 18.2335C7.36966 18.2335 6.74548 18.0933 6.16312 17.8209C5.58076 17.5485 5.05161 17.1492 4.60589 16.6458C4.16017 16.1424 3.8066 15.5448 3.56538 14.8872C3.32416 14.2295 3.2 13.5246 3.2 12.8127C3.2 12.1008 3.32416 11.3959 3.56538 10.7382C3.8066 10.0805 4.16017 9.48295 4.60589 8.97958C5.05161 8.4762 5.58076 8.07691 6.16312 7.80449C6.74548 7.53206 7.36966 7.39185 8 7.39185ZM6.665 20.0405H9.33C13.015 20.0405 16 23.4116 16 27.5675C16 28.3976 15.405 29.0752 14.665 29.0752H1.335C0.595 29.0752 0 28.4032 0 27.5675C0 23.4116 2.985 20.0405 6.665 20.0405Z" fill="white"/>
     </svg>`;
-    console.log(earthImg, markerSvg);
+    // console.log(earthImg, markerSvg);
     this.world = Globe()
       .width(1200).height(1200).backgroundColor("#fff0")
       .globeImageUrl(earthImg)
@@ -320,16 +322,19 @@ export class HomeComponent {
     this.clientInfo();
   }
 
-  ngOnInit(): void {
-
+  async ngOnInit(): Promise<void> {
+    this.userLoggedIn = await this.cognitoService.isLoggedIn();
     this.solutionOnScroll();
     this.benefitsOnScroll();
     $(".home-banner .btn-dark").addClass("active");
     this.startInterval();
-  
-  }
- 
 
+  }
+
+ async receiveDataFromChild(data: any){
+    this.userLoggedIn = await this.cognitoService.isLoggedIn();
+    this.closeModal();
+  }
 
   clientInfo(): void {
     setTimeout(() => {
@@ -346,7 +351,7 @@ export class HomeComponent {
         let elemVisible = document.getElementById(elements[randomIndex]);
         elemVisible!.style.visibility = "visible";
 
-        console.log(randomIndex, elements);
+        // console.log(randomIndex, elements);
 
         elements = [];
 
@@ -385,6 +390,15 @@ export class HomeComponent {
     }
   }
 
+  openGetReferral(){
+
+    if (this.userLoggedIn) {
+      // alert("User is Logged In")
+      this.redirectToCompanyListing();
+    } else {
+      this.openModal(ModalType.LOGIN_SIGNUP);
+    }
+  }
 
   // intervalId: any;
 
@@ -424,12 +438,22 @@ export class HomeComponent {
   }
 
   async redirectToCompanyListing() {
-     this.router.navigateByUrl('/company-listing');
+    this.router.navigateByUrl('/company-listing');
   }
 
-  openLogin(){
-    this.openModal(ModalType.LOGIN_SIGNUP);
+  async openLogin() {
+    if (this.userLoggedIn) {
+      alert("User is Logged In")
+    } else {
+      this.openModal(ModalType.LOGIN_SIGNUP);
+    }
+
   }
+    async logout(): Promise<void> {
+      await this.cognitoService.handleSignOut();
+      this.userLoggedIn = await this.cognitoService.isLoggedIn();
+    }
+  
 
   /**
    * Open modal.
@@ -439,12 +463,12 @@ export class HomeComponent {
    * @param {string} [title = ""]
    * @returns {void}
    */
- openModal(modalType: ModalType, message: string = "", title: string = ""): void {
-  this.showModal = modalType;
-  this.modalMessage = message;
-  this.modalTitle = title;
-  this.modal.open();
-}
+  openModal(modalType: ModalType, message: string = "", title: string = ""): void {
+    this.showModal = modalType;
+    this.modalMessage = message;
+    this.modalTitle = title;
+    this.modal.open();
+  }
   /**
    * Close modal.
    *

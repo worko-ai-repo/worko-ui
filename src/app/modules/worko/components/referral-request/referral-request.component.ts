@@ -131,9 +131,7 @@ export class ReferralRequestComponent implements OnInit {
   receieveError(data: any){
     alert("payment failed")
   }
-  subPack(){
-    this.showSubscription = true;
-  }
+ 
 
 }
 
