@@ -2,6 +2,9 @@
     <div *ngIf="showHeader"  class="modal-header-class" [class]="headerClass" [ngClass]="{ 'centralized': textCenter }" >
  
     </div>
+    <!-- <button type="button" class="close" aria-label="Close" (click)="cancel()">
+      <span aria-hidden="true">&times;</span>
+    </button> -->
     <div class="modal-body" [class]="bodyClass">
       <div *ngIf="message; else contentBlock" [class.text-center]="textCenter" [innerHTML]="message"></div>
       <ng-template #contentBlock>
