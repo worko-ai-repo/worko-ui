@@ -182,4 +182,17 @@ line-height: normal;
 .options{
     background-color: transparent;
 }
-    
+::ng-deep .cdk-overlay-container{
+    z-index: 1200 !important;
+}
+.transparent-datepicker {
+    background-color: transparent !important /* Adjust the alpha value (0 to 1) for transparency */
+  }
+  ::ng-deep .transparent-datepicker {
+    background-color: rgba(255, 255, 255, 0.8);
+  }
+  .mat-datepicker.transparent-datepicker {
+    background-color: rgba(255, 255, 255, 0.8) !important;
+  }
+  
+  

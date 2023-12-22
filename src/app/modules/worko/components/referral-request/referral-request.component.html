@@ -44,7 +44,7 @@
  
 
 
-  <div class="col-md-12" *ngIf="!showSubscription">
+  <div class="col-md-12" *ngIf="showSubscription">
     <div class="row">
       <div class="col-md-12 mt-4">
         <h1 class="subscrip-text">
@@ -78,7 +78,7 @@
     </div>
   </div> -->
 
-  <div class="progress-bar" *ngIf="showScore">
+  <div class="progress-bar" *ngIf="!showScore">
     <app-referral-progress-bar [score]="matchingScore"></app-referral-progress-bar>
     <div class="row">
       <div class="col-md-12 mt-4">

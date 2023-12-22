@@ -42,6 +42,7 @@ import { MatPaginatorModule } from '@angular/material/paginator';
 import { MatListModule } from '@angular/material/list';
 import { MatNativeDateModule } from '@angular/material/core';
 import {MatDatepickerModule} from '@angular/material/datepicker';
+import {MatIconModule} from '@angular/material/icon';
 
 export const routes: Routes = [
   {
@@ -188,7 +189,7 @@ export const routes: Routes = [
     MatListModule,
     MatNativeDateModule,
     MatInputModule,
-   
+    MatIconModule,
 
   ]
 })
