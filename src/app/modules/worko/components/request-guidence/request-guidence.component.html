@@ -61,13 +61,14 @@
               </div>
               <p class="text-white ms-4">Select the Type of service</p>
               <div class="col-md-8">
-              <button
+              <button *ngFor="let master of masterSrvList"
                 class="button m-2 ms-5 form-control"
-                (click)="selectService('careerGuidance')"
+                (click)="selectService(master.name)"
               >
-                Career guidance
+                {{master.name}}
               </button>
-              <button
+
+              <!-- <button
                 class="button m-2 ms-5 form-control"
                 (click)="selectService('mockInterview')"
               >
@@ -84,15 +85,18 @@
                 (click)="selectService('reusmeReview')"
               >
                 Resume review
-              </button>
+              </button> -->
             </div>
             </div>
           </div>
+         
     
           <div class="col-md-6 mt-2" *ngIf="isFormVisible">
+
+             <!-- career-guidance -->
             <div
               class="col-md-12 text-white"
-              *ngIf="selectedService == 'careerGuidance'"
+              *ngIf="selectedService == 'Career guidance'"
             >
             <form >
               <div class="row">
@@ -109,10 +113,10 @@
                   <select
                   class="selector"
                   style="border-radius: 4.676px"
-                  [(ngModel)]="reqGidanceForm.mentorLevel"
+                  [(ngModel)]="reqGuidanceForm.mentorLevel"
                   name="mentorLevel"
                 >
-                  <option value="">Select the level of mentor</option>
+                  <option value="0">Level of mentor</option>
                   <option value="1">Manager / Sr. Manager</option>
                   <option value="2">Asst. GM / GM</option>
                   <option value="3">Asst. Director / Director</option>
@@ -120,7 +124,6 @@
                   <option value="5">VP / CXO</option>
                 </select>
                 
-                  <!-- <input type="number"  [(ngModel)]="reqGidanceForm.mentorLevel" name="mentorLevel"> -->
                 </div>
                 <div class="col-md-12 mt-3 mb-2">
                   Select the 3 Suitable Time Slots
@@ -128,65 +131,39 @@
                 <div class="row">
                 
                   <div class="container">
-                    <div class="row">
+                    <div class="row d-flex justify-content-center">
                       <div class="col-md-5 mb-2 p-0">
-                        <!-- <mat-form-field class="">
-                          <mat-label>Choose a date</mat-label>
-                          <input matInput [matDatepicker]="picker" [(ngModel)]="reqGidanceForm.slot1" name="slot1">
-                          <mat-hint>MM/DD/YYYY</mat-hint>
-                          <mat-datepicker-toggle matIconSuffix [for]="picker">
-                            <mat-icon matDatepickerToggleIcon>keyboard_arrow_down</mat-icon>
-                          </mat-datepicker-toggle>
-                          <mat-datepicker #picker></mat-datepicker>
-                        </mat-form-field> -->
-                        <!-- <select name="" id="" class="selector-radius" [(ngModel)]="reqGidanceForm.slot1" name="slot1">
-                          <option value="">{{'2022-12-12' | date:'YYYY-MM-DD'}}</option>
-                          
-                        </select> -->
-                        <input type="date" [(ngModel)]="reqGidanceForm.slot1" name="slot1">
+                        <input class="selector-date"   type="date" [(ngModel)]="reqGuidanceForm.date1" name="date1">
 
                       </div>
                       
-                    </div>
-                  </div>
+                   
                   
                     <div class="col-md-5 p-0">
-                      <!-- <select name="" id="" class="selector-radius" >
-                        <option value="" [(ngModel)]="reqGidanceForm.slot1" name="slot1">{{'12:10:00'}}</option>
-                        
-                      </select> -->
-                      <input type="time" [(ngModel)]="reqGidanceForm.slot1"  name="slot1">
+                    
+                      <input class="selector-time" type="time" [(ngModel)]="reqGuidanceForm.time1"  name="time1">
 
                     </div>
   
                     <div class="col-md-5 mb-2 p-0">
-                      <!-- <select name="" id="" class="selector" [(ngModel)]="reqGidanceForm.slot2" name="slot2">
-                        <option value="">{{'2022-12-12' | date:'YYYY-MM-DD'}}</option>
-                      </select> -->
-                      <input type="datetime-local" [(ngModel)]="reqGidanceForm.slot2" name="slot2">
+                      
+                      <input class="selector-date" type="date" [(ngModel)]="reqGuidanceForm.date2" name="date2">
                     </div>
                     <div class="col-md-5 p-0">
-                      <!-- <select name="" id="" class="selector-radius" [(ngModel)]="reqGidanceForm.slot2" name="slot2">
-                        <option value="">{{'12:10:00'}}</option>
-                      </select> -->
-                      <input type="datetime-local" [(ngModel)]="reqGidanceForm.slot2" name="slot2">
+                    
+                      <input class="selector-time" type="time" [(ngModel)]="reqGuidanceForm.time2" name="time2">
 
                     </div>
   
                     <div class="col-md-5 mb-2 p-0">
-                      <!-- <select name="" id="" class="selector" [(ngModel)]="reqGidanceForm.slot3" name="slot3">
-                        <option value="">{{'2022-12-12' | date:'YYYY-MM-DD'}}</option>
-
-                      </select> -->
-                      <input type="datetime-local" [(ngModel)]="reqGidanceForm.slot3" name="slot3">
+                    
+                      <input class="selector-date" type="date" [(ngModel)]="reqGuidanceForm.date3" name="date3">
 
                     </div>
                     <div class="col-md-5 p-0">
-                      <input type="datetime-local" [(ngModel)]="reqGidanceForm.slot3" name="slot3">
+                      <input class="selector-time" type="time" [(ngModel)]="reqGuidanceForm.time3" name="time3">
 
-                      <!-- <select name="" id="" class="selector-radius"[(ngModel)]="reqGidanceForm.slot3" name="slot3">
-                        <option value="">{{'12:10:00'}}</option>
-                      </select> -->
+                      
                     </div>
                  
                  
@@ -198,7 +175,7 @@
                       id=""
                       cols="39"
                       rows="2"
-                      class="selector1" [(ngModel)]="reqGidanceForm.details" name="details"
+                      class="selector-date"[(ngModel)]="reqGuidanceForm.details" name="details"
                     >
                     </textarea>
                   </div>
@@ -208,13 +185,18 @@
                   </div>
                 </div>
               </div>
+                </div>
+              </div>
+
             </form>
            
             
             </div>
+
+              <!--mock-interview  -->
             <div
               class="col-md-12 text-white"
-              *ngIf="selectedService == 'mockInterview'"
+              *ngIf="selectedService == 'Mock Interview'"
             >
               <div class="row">
                 <div class="col-md-12" style="top: 18px">
@@ -233,12 +215,12 @@
                     class="selector"
                     style="border-radius: 4.676px"
                   >
-                  <option value="">Level of mentor</option>
-                  <option value="">Manager / Sr. Manager</option>
-                  <option value="">Asst. GM / GM</option>
-                  <option value="">Asst. Director / Director</option>
-                  <option value="">Sr. Director / AVP</option>
-                  <option value=""> VP / CXO</option>
+                  <option value="0">Level of mentor</option>
+                  <option value="1">Manager / Sr. Manager</option>
+                  <option value="2">Asst. GM / GM</option>
+                  <option value="3">Asst. Director / Director</option>
+                  <option value="4">Sr. Director / AVP</option>
+                  <option value="5"> VP / CXO</option>
                   </select>
                 </div>
                 <div class="col-md-12 mt-3 mb-2">
@@ -246,38 +228,33 @@
                 </div>
                 <div class="row d-flex justify-content-center">
                 
-                    <div class="col-md-5 mb-2 p-0">
-                      <select name="" id="" class="selector">
-                        <option value="">1.Choose date</option>
-                      </select>
-                    </div>
-                    <div class="col-md-5 p-0">
-                      <select name="" id="" class="selector-radius">
-                        <option value="">Choose Time</option>
-                      </select>
-                    </div>
+                  <div class="col-md-5 mb-2 p-0">
+                    <input class="selector-date" type="date" [(ngModel)]="reqGuidanceForm.date1" name="date1">
 
-                    <div class="col-md-5 mb-2 p-0">
-                      <select name="" id="" class="selector">
-                        <option value="">1.Choose date</option>
-                      </select>
-                    </div>
-                    <div class="col-md-5 p-0">
-                      <select name="" id="" class="selector-radius">
-                        <option value="">Choose Time</option>
-                      </select>
-                    </div>
+                  </div>
+                  <div class="col-md-5 p-0">
+                    <input class="selector-time" type="time" [(ngModel)]="reqGuidanceForm.time1"  name="time1">
 
-                    <div class="col-md-5 mb-2 p-0">
-                      <select name="" id="" class="selector">
-                        <option value="">1.Choose date</option>
-                      </select>
-                    </div>
-                    <div class="col-md-5 p-0">
-                      <select name="" id="" class="selector-radius">
-                        <option value="">Choose Time</option>
-                      </select>
-                    </div>
+                  </div>
+
+                  <div class="col-md-5 mb-2 p-0">
+                    <input class="selector-date" type="date" [(ngModel)]="reqGuidanceForm.date2" name="date2">
+
+                  </div>
+                  <div class="col-md-5 p-0">
+                    <input class="selector-time" type="time" [(ngModel)]="reqGuidanceForm.time2"  name="time2">
+
+                  </div>
+
+                  <div class="col-md-5 mb-2 p-0">
+                    <input class="selector-date" type="date" [(ngModel)]="reqGuidanceForm.date3" name="date3">
+
+                  </div>
+                  <div class="col-md-5 p-0">
+                    <input class="selector-time" type="time" [(ngModel)]="reqGuidanceForm.time3"  name="time3">
+
+                  </div>
+                  
                  
                  
                  
@@ -288,20 +265,22 @@
                       id=""
                       cols="39"
                       rows="2"
-                      class="selector1"
+                      class="selector-date" [(ngModel)]="reqGuidanceForm.details"
                     >
                     </textarea>
                   </div>
     
                   <div class="com-md-12 text-center mt-2 mb-3">
-                    <button class="req-now-button">REQUEST NOW</button>
+                    <button class="req-now-button" (click)="reqNow()">REQUEST NOW</button>
                   </div>
                 </div>
               </div>
             </div>
+
+            <!-- Interview-handholding -->
             <div
               class="col-md-12 text-white"
-              *ngIf="selectedService == 'interviewGuidance'"
+              *ngIf="selectedService == 'Interview Guidance'"
             >
             <div class="row">
               <div class="col-md-12" style="top: 18px">
@@ -317,13 +296,13 @@
               <div class="row">
                 <div class="col-md-6">
                   <select
-                  class="selector-interview-date mb-2 ps-1 text-dark">
-                      <option value="">Level of mentor</option>
-                      <option value="">Manager / Sr. Manager</option>
-                      <option value="">Asst. GM / GM</option>
-                      <option value="">Asst. Director / Director</option>
-                      <option value="">Sr. Director / AVP</option>
-                      <option value=""> VP / CXO</option>
+                  class="selector-interview-date mb-2 ps-1">
+                      <option value="0">Level of mentor</option>
+                      <option value="1">Manager / Sr. Manager</option>
+                      <option value="2">Asst. GM / GM</option>
+                      <option value="3">Asst. Director / Director</option>
+                      <option value="4">Sr. Director / AVP</option>
+                      <option value="5"> VP / CXO</option>
 
                 </select>
                 </div>
@@ -353,21 +332,22 @@
                     id=""
                     cols="39"
                     rows="3"
-                    class="selector1"
+                    class="selector-date"
                   >
                   </textarea>
                 </div>
   
                 <div class="com-md-12 text-center mt-2 mb-3">
-                  <button class="req-now-button">SUBMIT</button>
+                  <button class="req-now-button" (click)="reqNow()">SUBMIT</button>
                 </div>
               </div>
             </div>
             </div>
-    
+
+              <!-- resume-review -->
             <div
               class="col-md-12 text-white"
-              *ngIf="selectedService == 'reusmeReview'"
+              *ngIf="selectedService == 'Resume Review'"
             >
             <div class="row">
               <div class="col-md-12" style="top: 18px">
@@ -398,39 +378,33 @@
                 Select the 3 Suitable Time Slots
               </div>
               <div class="row d-flex justify-content-center">
-              
-                  <div class="col-md-5 mb-2 p-0">
-                    <select name="" id="" class="selector">
-                      <option value="">1.Choose date</option>
-                    </select>
-                  </div>
-                  <div class="col-md-5 p-0">
-                    <select name="" id="" class="selector-radius">
-                      <option value="">Choose Time</option>
-                    </select>
-                  </div>
+                <div class="col-md-5 mb-2 p-0">
+                  <input class="selector-date" type="date" [(ngModel)]="reqGuidanceForm.date1" name="date1">
 
-                  <div class="col-md-5 mb-2 p-0">
-                    <select name="" id="" class="selector">
-                      <option value="">1.Choose date</option>
-                    </select>
-                  </div>
-                  <div class="col-md-5 p-0">
-                    <select name="" id="" class="selector-radius">
-                      <option value="">Choose Time</option>
-                    </select>
-                  </div>
+                </div>
+                <div class="col-md-5 p-0">
+                  <input class="selector-time" type="time" [(ngModel)]="reqGuidanceForm.time1"  name="time1">
 
-                  <div class="col-md-5 mb-2 p-0">
-                    <select name="" id="" class="selector">
-                      <option value="">1.Choose date</option>
-                    </select>
-                  </div>
-                  <div class="col-md-5 p-0">
-                    <select name="" id="" class="selector-radius">
-                      <option value="">Choose Time</option>
-                    </select>
-                  </div>
+                </div>
+
+                <div class="col-md-5 mb-2 p-0">
+                  <input class="selector-date" type="date" [(ngModel)]="reqGuidanceForm.date2" name="date2">
+
+                </div>
+                <div class="col-md-5 p-0">
+                  <input class="selector-time" type="time" [(ngModel)]="reqGuidanceForm.time2"  name="time2">
+
+                </div>
+
+                <div class="col-md-5 mb-2 p-0">
+                  <input class="selector-date" type="date" [(ngModel)]="reqGuidanceForm.date3" name="date3">
+
+                </div>
+                <div class="col-md-5 p-0">
+                  <input class="selector-time" type="time" [(ngModel)]="reqGuidanceForm.time3"  name="time3">
+
+                </div>
+                
                
                
                
@@ -441,13 +415,14 @@
                     id=""
                     cols="39"
                     rows="2"
-                    class="selector1"
+                    class="selector-date" [(ngModel)]="reqGuidanceForm.details"
                   >
                   </textarea>
                 </div>
+                  
   
                 <div class="com-md-12 text-center mt-2 mb-3">
-                  <button class="req-now-button">REQUEST NOW</button>
+                  <button class="req-now-button" (click)="reqNow()" >REQUEST NOW</button>
                 </div>
               </div>
             </div>

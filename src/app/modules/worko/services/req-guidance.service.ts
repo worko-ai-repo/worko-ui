@@ -14,6 +14,18 @@ export class ReqGuidanceService {
 
   constructor(private http: HttpClient, private authService: AuthService) { }
 
+
+   /**
+* Get master service
+*
+* @returns {Promise<any>}
+*/
+getMasters(): Observable<any> {
+  return this.http.get( API_URL + 'service/', this.authService.getHttpOptions());
+}
+
+
+
  /**
  * Get Company Listing.
  *

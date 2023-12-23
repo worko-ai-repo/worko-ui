@@ -50,24 +50,29 @@ line-height: normal;
     color: white;
     text-align: center;
 }
-.selector1{
+.selector-date{
     width: 100%;
-    border-radius: 4.676px;
-    border: 0.868px solid #3f89a1;
+    // border-radius: 4.676px;
+    border-top-left-radius: 5px;
+    border-bottom-left-radius: 5px;
+    border: 1.868px solid #3f89a1;
+    // border: 1.868px solid #73DDFF;
     background-color: transparent;
     color: white;
     text-align: center;
 }
-.selector-radius{
-        /* border-radius: 4.676px; */
-        border-top-right-radius: 5px;
-        border-bottom-right-radius: 5px;
-        border: 0.868px solid #3f89a1;
-        height: 25px;
-        width: 100%;
-        background-color: transparent;
-        color: white;
-        text-align: center;
+.selector-time{
+    border-top-right-radius: 5px;
+    border-bottom-right-radius: 5px;
+    border: 1.868px solid #3f89a1;
+    // border: 1.868px solid #73DDFF;
+
+    height: 27px;
+    width: 100%;
+    background-color: transparent;
+    color: white;
+    text-align: center;
+    border-left: none;
 }
 .req-now-button{
     border-radius: 5px;
@@ -193,6 +198,20 @@ line-height: normal;
   }
   .mat-datepicker.transparent-datepicker {
     background-color: rgba(255, 255, 255, 0.8) !important;
+  }
+  .input-selector{
+    margin: 0;
+    font-family: inherit;
+    font-size: inherit;
+    line-height: inherit;
+    background-color: transparent;
+    border: 0.844px solid #73DDFF;
+    background: #0A1E36;
+    -webkit-backdrop-filter: blur(253.1898040771px);
+    backdrop-filter: blur(253.1898040771px);
+    border-radius: 8px;
+    color: white;
+    padding-left: 10px;
   }
   
   
