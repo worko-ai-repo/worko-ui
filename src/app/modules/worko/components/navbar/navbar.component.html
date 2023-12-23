@@ -1,10 +1,58 @@
- 
+<header>
+  <!-- <div class="top-header-bg">
+    <img src="assets/public/logo_bg.png" alt="">
+  </div> -->
+  <!-- <div class="header-vector-wrap">
+    <img class="final-macbook-pro-16-38-child2" alt="" src="assets/public/vector-3.svg" />
+    <img class="final-macbook-pro-16-38-child3" alt="" src="assets/public/vector-4.svg" />
+    <div class="final-macbook-pro-16-38-child4"></div>
+    <div class="final-macbook-pro-16-38-child5"></div>
+  </div> -->
+  <nav class="navbar font-inria navbar-expand-lg">
+    <div class="container-fluid">
+      <a class="navbar-brand" href="Javascript:;"><img class="worko-logo-ai-2-icon" alt=""
+          src="assets/public/workologoai-2@2x.png" /></a>
+      <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent"
+        aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+      </button>
+      <div class="collapse navbar-collapse" id="navbarSupportedContent">
+        <ul class="navbar-nav m-auto">
+          <li class="nav-item">
+            <a class="nav-link active" aria-current="page" href="#">About Us</a>
+          </li>
+          <li class="nav-item dropdown">
+            <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+              FAQ’s
+            </a>
+            <ul class="dropdown-menu">
+              <li><a class="dropdown-item" href="#">FAQ</a></li>
+              <li><a class="dropdown-item" href="#">FAQ</a></li>
+            </ul>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link">Corporate</a>
+          </li>
+        </ul>
+        <div class="d-flex" role="search"  *ngIf="!userLoggedIn" (click)="openLogin()">
+          <img _ngcontent-ng-c280476550="" alt="" src="assets/public/iconamoonprofilecirclefill.svg">
+        </div>
+        <div class="d-flex"   *ngIf="userLoggedIn" (click)="logout()">
+          Logout
+        </div>
+      </div>
+    </div>
+  </nav>
+</header>
+
+
+<!--  
   <div class="container-fluid">
   <div class="row">
     <div class="container">
       <div class="row">
         <div class="col-md-12">
-          <!-- <img src="assets/public/imageremovebgpreview-33-1@2sx.png" class="image-removebg-preview-33-1" alt=""> -->
+      
         </div>
       </div>
     </div>
@@ -58,32 +106,4 @@
 <div class="row">
   
   <app-login-page  *ngIf="isDivOpen" ></app-login-page>
-</div>
-
-
-
-
-<!-- <div class="continer-fluid">
-  <div class="row">
-    <div class="row">
-      <div class="col-md-12">
-        <img src="assets/public/imageremovebgpreview-33-1@2x.png" class="image-removebg-preview-33-1" alt="">
-      </div>
-    <div class="col-md-12">
-      <nav>
-        <div class="col-md-2">
-          <img _ngcontent-ng-c4209328979="" alt="" src="assets/public/workologoai-2@2x.png" class="worko-logo-ai-2-icon">
-        </div>
-        <div class="col-md-6">
-          <div _ngcontent-ng-c4209328979="" class="about-us text-white">About Us</div>
-          <div _ngcontent-ng-c4209328979="" class="faqs text-white">FAQ’s</div>
-          <div _ngcontent-ng-c4209328979="" class="corporate text-white">Corporate</div>
-        </div>
-        <div class="col-md-4">
-          <img _ngcontent-ng-c4209328979="" alt="" src="assets/public/iconamoonprofilecirclefill.svg" class="iconamoonprofile-circle-fill">
-        </div>
-      </nav>
-    </div>
-  </div>
-</div>
 </div> -->

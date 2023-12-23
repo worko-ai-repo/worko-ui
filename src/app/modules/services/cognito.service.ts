@@ -68,6 +68,7 @@ export class CognitoService {
         return true;
       } else {
         console.log('No signInDetails:');
+        await this.handleSignOut();
         return false;
       }
     } catch (err) {

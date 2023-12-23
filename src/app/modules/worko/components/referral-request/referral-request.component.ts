@@ -1,4 +1,4 @@
-import { Component, ElementRef, OnInit, ViewChild, Input } from '@angular/core';
+import { Component, ElementRef, OnInit, ViewChild, Input, SimpleChanges  } from '@angular/core';
 import { CompanyListingService } from '../../services/company-listing.service';
 import { SubscriptionPackService } from '../../services/subscription-pack.service';
 @Component({
@@ -9,6 +9,7 @@ import { SubscriptionPackService } from '../../services/subscription-pack.servic
 export class ReferralRequestComponent implements OnInit {
   @ViewChild('largeModal') largeModal!: ElementRef;
   @Input() selectedCompany: any;
+  // @Input() showReferrelRow!: boolean;
 
   showSubscription:boolean=false;
   showReferrelRow: boolean = true;
@@ -43,6 +44,19 @@ export class ReferralRequestComponent implements OnInit {
     // this.getSubcriptionPack();
   }
 
+  // ngOnChanges(changes: SimpleChanges) {
+  //   debugger;
+  //   // Check if the value of showReferrelRow has changed
+  //   if (changes['showReferrelRow']) {
+  //     // Reset the internal state based on the new value
+  //     this.resetInternalState();
+  //   }
+  // }
+
+  // resetInternalState() {
+  //   this.showReferrelRow = true;
+  //   // ... reset other internal states if needed
+  // }
 
   checkRequestReferral(form: any) {
     console.log(this.requestForm);

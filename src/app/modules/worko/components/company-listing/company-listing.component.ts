@@ -1,7 +1,9 @@
-import { Component, OnInit, ViewChild, HostListener  } from '@angular/core';
+import { Component, OnInit, ViewChild, HostListener } from '@angular/core';
 import { CompanyListingService } from '../../services/company-listing.service';
 import { ModalType } from 'src/app/modules/shared/interfaces/shared.interface';
 import { ModalComponent } from 'src/app/modules/shared/components/modal/modal.component';
+import { CognitoService } from 'src/app/modules/services/cognito.service';
+import { ReferralRequestComponent } from '../referral-request/referral-request.component';
 @Component({
   selector: 'app-company-listing',
   templateUrl: './company-listing.component.html',
@@ -9,6 +11,8 @@ import { ModalComponent } from 'src/app/modules/shared/components/modal/modal.co
 })
 export class CompanyListingComponent implements OnInit {
   @ViewChild(ModalComponent) modal!: ModalComponent;
+  @ViewChild(ReferralRequestComponent) referrralComponent! : ReferralRequestComponent;
+
   modalType = ModalType;
   modalMessage: string = "";
   modalTitle: string = "";
@@ -22,19 +26,23 @@ export class CompanyListingComponent implements OnInit {
   pageSize = 50;
   lastKey: string | undefined = undefined;
   loadedOnce: boolean = true;
-  reqGuidanceData:any
+  reqGuidanceData: any
   companyList: any[] = [];
-
+  userLoggedIn: boolean = false;
+  triggerReferral: boolean = false;
+  triggerGuidance: boolean = false;
+  showReferrelRow: boolean= false;
   @HostListener('window:scroll', ['$event'])
   onScroll(event: Event): void {
     // Handle scroll event
     this.detectScroll();
   }
 
-  constructor(private companyListing: CompanyListingService) {
+  constructor(private companyListing: CompanyListingService, private cognitoService: CognitoService) {
 
   }
-  ngOnInit(): void {
+  async ngOnInit(): Promise<void> {
+    this.userLoggedIn = await this.cognitoService.isLoggedIn();
     this.getCompanyDetails();
 
 
@@ -51,28 +59,28 @@ export class CompanyListingComponent implements OnInit {
       document.body.clientHeight,
       document.documentElement.clientHeight
     );
-  
+
     // Check if the user has scrolled to the bottom
-  
+
     if (scrollPosition + windowHeight >= documentHeight) {
       // Load more data
       this.getCompanyDetails();
     }
   }
 
-  async getCompanyDetails(){
-    if(this.lastKey || this.loadedOnce){ 
-     await this.companyListing.getCompanyListing(this.pageSize,  this.lastKey).then(async (response) => {
-      if (response) {
-        console.log("Helo11");
-        this.companyList = this.companyList.concat(response.data); 
-        this.lastKey = response.pagination.lastKey;
-        this.loadedOnce = false;
-      }
-    })
-      .catch(error => {
-        console.error('Display Company Listing Error:', error);
-      });
+  async getCompanyDetails() {
+    if (this.lastKey || this.loadedOnce) {
+      await this.companyListing.getCompanyListing(this.pageSize, this.lastKey).then(async (response) => {
+        if (response) {
+          console.log("Helo11");
+          this.companyList = this.companyList.concat(response.data);
+          this.lastKey = response.pagination.lastKey;
+          this.loadedOnce = false;
+        }
+      })
+        .catch(error => {
+          console.error('Display Company Listing Error:', error);
+        });
     }
   }
   // onMouseOver(item: any, event: any) {
@@ -86,38 +94,69 @@ export class CompanyListingComponent implements OnInit {
   isSelected(item: any) {
     return this.selectedItem === item;
   }
-  
 
-  openReferralPage(item: any) {
+
+  async openReferralPage(item: any): Promise<void> {
+    this.userLoggedIn = await this.cognitoService.isLoggedIn();
     this.selectedData = item;
-    this.openModal(ModalType.REQUEST_REFERRAL);
+    this.triggerReferral = true;
+    this.triggerGuidance = false;
+    if (this.userLoggedIn) {
+      this.openModal(ModalType.REQUEST_REFERRAL);
+    } else {
+      this.openModal(ModalType.LOGIN_SIGNUP);
+    }
 
-  }
-openGuidancePage(item: any) {
-  this.reqGuidanceData = item;
-  this.openModal(ModalType.REQUEST_GUIDANCE);
-  }
 
- /**
-   * Open modal.
-   *
-   * @param {ModalType} modalType
-   * @param {string} [message = ""]
-   * @param {string} [title = ""]
-   * @returns {void}
-   */
- openModal(modalType: ModalType, message: string = "", title: string = ""): void {
-  this.showModal = modalType;
-  this.modalMessage = message;
-  this.modalTitle = title;
-  this.modal.open();
-}
+  }
+  async openGuidancePage(item: any): Promise<void> {
+    this.userLoggedIn = await this.cognitoService.isLoggedIn();
+    this.reqGuidanceData = item;
+    this.triggerReferral = false;
+    this.triggerGuidance = true;
+    if (this.userLoggedIn) {
+      this.openModal(ModalType.REQUEST_GUIDANCE);
+    } else {
+      this.openModal(ModalType.LOGIN_SIGNUP);
+    }
+  
+  }
+
+
+
+  async receiveDataFromChild(data: any){
+    this.userLoggedIn = await this.cognitoService.isLoggedIn();
+    this.closeModal();
+    if(this.triggerReferral && this.userLoggedIn){
+      
+      this.openModal(ModalType.REQUEST_REFERRAL);
+    }
+    if(this.triggerGuidance && this.userLoggedIn){
+      this.openModal(ModalType.REQUEST_GUIDANCE);
+    }
+  }
+
+  /**
+    * Open modal.
+    *
+    * @param {ModalType} modalType
+    * @param {string} [message = ""]
+    * @param {string} [title = ""]
+    * @returns {void}
+    */
+  openModal(modalType: ModalType, message: string = "", title: string = ""): void {
+    this.showModal = modalType;
+    this.modalMessage = message;
+    this.modalTitle = title;
+    this.modal.open();
+  }
   /**
    * Close modal.
    *
    * @returns {void}
    */
   closeModal(): void {
+    this.referrralComponent.showReferrelRow = true;
     this.modal.cancel();
   }
 }
