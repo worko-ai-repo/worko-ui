@@ -159,13 +159,15 @@ export class CognitoService {
  */
   async setAccessToken(): Promise<boolean> {
     // const accessToken = await this.keycloakService.getToken();
-    const accessToken = (await fetchAuthSession()).tokens?.idToken?.toString();
+    // const accessToken = (await fetchAuthSession()).tokens?.idToken?.toString();
+    const { accessToken, idToken } = (await fetchAuthSession()).tokens ?? {};
+
     if (!accessToken) {
       this.storage.remove('accessToken');
       return false;
     }
 
-    this.storage.set('accessToken', accessToken);
+    this.storage.set('accessToken', accessToken.toString());
     return true;
   }
 
