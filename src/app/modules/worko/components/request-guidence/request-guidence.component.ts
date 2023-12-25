@@ -33,9 +33,12 @@ export class RequestGuidenceComponent implements OnInit {
 
   reqGuidanceForm: any = {
     "mentorLevel": 0,
-    "slot1": "",
-    "slot2": "",
-    "slot3": "",
+    "date1":"",
+    "date2":"",
+    "date3":"",
+    "time1":"",
+    "time2":"",
+    "time3":"",
     "details": "",
     "masterServiceId": "abc123xyz"
   }
@@ -65,6 +68,12 @@ export class RequestGuidenceComponent implements OnInit {
         console.log('Hiii')
       }
     })
+  }
+  async submit(form: any): Promise<void> {
+    const reqGuidanceData = {
+      slot1: this.reqGuidanceForm.date1,
+      solat1: this.reqGuidanceForm.time1,
+    }
   }
   reqNow() {
     this.checkReqGuidance()
