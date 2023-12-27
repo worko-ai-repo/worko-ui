@@ -1,0 +1,30 @@
+.candidate-card{
+    border-radius: 20px;
+background: #0A1E35;
+width: 95%;
+}
+.dash-logo{
+    width: 16px;
+}
+.prof-heding{
+    color: white;
+    font-size: medium;
+}
+.candidate-icon{
+    display: flex;
+    justify-content: center;
+    align-items: self-start;
+}
+.profile-complite-content{
+    color: white;
+    font-size:8px;
+}
+.profile-option{
+    display: flex;
+    display: table-column;
+    
+}
+.content-end{
+    display: flex;
+    align-items: self-end;
+}

@@ -33,15 +33,12 @@ export class RequestGuidenceComponent implements OnInit {
 
   reqGuidanceForm: any = {
     "mentorLevel": 0,
-    "date1":"",
-    "date2":"",
-    "date3":"",
-    "time1":"",
-    "time2":"",
-    "time3":"",
+    "slot1": { "date1": "", "time1": "" },
+    "slot2": { "date2": "", "time2": "" },
+    "slot3": { "date3": "", "time3": "" },
     "details": "",
     "masterServiceId": "abc123xyz"
-  }
+  };
 
   constructor(private reqGuidanceSrv: ReqGuidanceService) { }
   ngOnInit(): void {
