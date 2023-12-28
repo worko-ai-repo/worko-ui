@@ -13,6 +13,10 @@ import { UserAboutComponent } from './components/user-about/user-about.component
 import { UserSkillsComponent } from './components/user-skills/user-skills.component';
 import { ReferralComponent } from './components/referral/referral.component'; 
 import { AwaitingStatusComponent } from '../shared/components/user-interface/referral/awaiting-status/awaiting-status.component';
+import { ReferralStepperComponent } from '../shared/components/user-interface/referral/referral-stepper/referral-stepper.component';
+import { NewRequestComponent } from '../shared/components/user-interface/referral/new-request/new-request.component';
+import { ReferralCancelledComponent } from '../shared/components/user-interface/referral/referral-cancelled/referral-cancelled.component';
+import { ReferralReqRejectedComponent } from '../shared/components/user-interface/referral/referral-req-rejected/referral-req-rejected.component';
 
 
 
@@ -58,6 +62,10 @@ export const routes: Routes = [
   UserSkillsComponent,
   ReferralComponent,
   AwaitingStatusComponent,
+  ReferralStepperComponent,
+  NewRequestComponent,
+  ReferralCancelledComponent,
+  ReferralReqRejectedComponent
     
   ],
   imports: [
