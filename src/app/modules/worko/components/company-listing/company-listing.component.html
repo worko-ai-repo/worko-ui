@@ -4,18 +4,18 @@
       <app-navbar></app-navbar>
     </div>
   </div>
-
-  <div class="row  mt-4  me-0 ms-4">
-    <div class="col-8">
+  <!-- me-0 ms-4 -->
+  <div class="row mt-4">
+    <div class="col-8 ms-5">
       <div class="referred headline">Get referred to over 1000+ companies</div>
     </div>
-    <div class="col-8 paraReferral paragraph-content my-2">
+    <div class="col-8 ms-5 paraReferral paragraph-content my-2">
       <p>
         Select a company you want a referral for. Enter the URL for the job
         posting that you want, and send your profile off to our referral
       </p>
     </div>
-    <div class="col-8  text-white my-2">
+    <div class="col-8 ms-5 text-white my-2">
       <input class="searchInput" placeholder="Search by company name..."/>
     </div>
 
@@ -37,8 +37,8 @@
      
       </div>
     </div>
-
-    <div class="row p-3  d-flex">
+    <!-- d-flex justify-content-center align-items-center -->
+    <div class="row p-3  company-box-container d-flex justify-content-center">
       <div class="company-detail-container pb-3" *ngFor="let item of companyList">
         <div class="company-info d-flex justify-content-center">
           <div class="logo-image">

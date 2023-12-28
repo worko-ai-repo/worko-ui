@@ -1,6 +1,6 @@
 .company-listing-container {
     background: linear-gradient(148deg, #000 5.99%, #182b45 70.16%);
-    height: 100vh;
+    // height: 100vh;
 }
 
 .headline {
@@ -140,7 +140,9 @@
     top: -30px;
     left: 5px;
 }
-
+.company-box-container{
+    margin:0 auto;
+}
 img {
     max-width: 100%;
 }
