@@ -3,6 +3,7 @@ import { CommonModule } from '@angular/common';
 import { HeaderComponent } from './components/header/header.component';
 import { FooterComponent } from './components/footer/footer.component';
 import { ModalComponent } from './components/modal/modal.component';
+import { AwaitingStatusComponent } from './components/user-interface/referral/awaiting-status/awaiting-status.component';
 
 
 
@@ -10,7 +11,7 @@ import { ModalComponent } from './components/modal/modal.component';
   declarations: [
     HeaderComponent,
     FooterComponent,
-    ModalComponent
+    ModalComponent,
   ],
   imports: [
     CommonModule

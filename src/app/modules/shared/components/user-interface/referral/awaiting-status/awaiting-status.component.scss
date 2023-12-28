@@ -1,0 +1,27 @@
+.candidate-card{
+    border-radius: 20px;
+background: #0A1E35;
+width: 100%;
+}
+.dropdown button{
+    background-color: transparent;
+    color: white;
+    border: unset;
+}
+.dropdown .dropdown-menu{
+    background-color: #0A1E35;
+}
+.dropdown-menu::after {
+    all: unset;
+}
+.dropdown ul{
+    position: absolute;
+    // inset: 0px auto auto 0px;
+    margin: 0px;
+    transform: translate(0px, 28px);
+    width: 100%;
+    font-size: 12px;
+}
+.search-input{
+    width: -webkit-fill-available;
+}

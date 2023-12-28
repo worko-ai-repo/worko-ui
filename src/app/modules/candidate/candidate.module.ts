@@ -10,7 +10,9 @@ import { UserDetailsComponent } from './components/user-details/user-details.com
 import { UserProfileCompleteComponent } from './components/user-profile-complete/user-profile-complete.component';
 import { UserSoftSkillsComponent } from './components/user-soft-skills/user-soft-skills.component';
 import { UserAboutComponent } from './components/user-about/user-about.component';
-import { UserSkillsComponent } from './components/user-skills/user-skills.component'; 
+import { UserSkillsComponent } from './components/user-skills/user-skills.component';
+import { ReferralComponent } from './components/referral/referral.component'; 
+import { AwaitingStatusComponent } from '../shared/components/user-interface/referral/awaiting-status/awaiting-status.component';
 
 
 
@@ -27,40 +29,11 @@ export const routes: Routes = [
         canActivate: [ candidateGuard]
       },
       {
-        path: 'user-navbar',
-        component: UserNavbarComponent,
+        path: 'candidate-referral',
+        component: ReferralComponent,
        
       },
-      {
-        path: 'user-menubar',
-        component: UserMenubarComponent,
-       
-      },
-      {
-        path: 'user-details',
-        component: UserDetailsComponent,
-       
-      },
-      {
-        path: 'user-profile-complete',
-        component: UserProfileCompleteComponent,
-       
-      },
-      {
-        path: 'user-soft-skill',
-        component: UserSoftSkillsComponent,
-       
-      },
-      {
-        path: 'user-about',
-        component: UserAboutComponent,
-       
-      },
-      {
-        path: 'user-skills',
-        component: UserAboutComponent,
-       
-      },
+      
       
       
       
@@ -83,6 +56,8 @@ export const routes: Routes = [
   UserSoftSkillsComponent,
   UserAboutComponent,
   UserSkillsComponent,
+  ReferralComponent,
+  AwaitingStatusComponent,
     
   ],
   imports: [
