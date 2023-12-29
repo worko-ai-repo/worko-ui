@@ -79,7 +79,7 @@ export class AuthService {
     let headers: any = { 'Content-Type': 'application/json' };
 
     if (authorization) {
-      headers.Authorization = `Bearer ${this.cognitoService.getAccessToken()}`;
+      headers.Authorization = `${this.cognitoService.getAccessToken()}`;
     }
 
     if (params?.xTenantId) {

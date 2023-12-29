@@ -23,7 +23,7 @@ export class CompanyListingComponent implements OnInit {
   hidediv: boolean = true;
   isDivOpen: boolean = false;
   selectedData: any;
-  pageSize = 50;
+  pageSize = 100;
   lastKey: string | undefined = undefined;
   loadedOnce: boolean = true;
   reqGuidanceData: any
@@ -96,7 +96,8 @@ export class CompanyListingComponent implements OnInit {
   }
 
 
-  async openReferralPage(item: any): Promise<void> {
+  async openReferralPage(event: Event, item: any): Promise<void> {
+    event.preventDefault();
     this.userLoggedIn = await this.cognitoService.isLoggedIn();
     this.selectedData = item;
     this.triggerReferral = true;
@@ -109,7 +110,8 @@ export class CompanyListingComponent implements OnInit {
 
 
   }
-  async openGuidancePage(item: any): Promise<void> {
+  async openGuidancePage(event: Event,item: any): Promise<void> {
+    event.preventDefault();
     this.userLoggedIn = await this.cognitoService.isLoggedIn();
     this.reqGuidanceData = item;
     this.triggerReferral = false;
