@@ -341,24 +341,30 @@
 </div> -->
 
 <div class="container-fluid">
-    <div class="row">
+    <!-- <div class="row">
         <div class="col-12">
-            <app-user-navbar></app-user-navbar>
+           
         </div>
-    </div>
+    </div> -->
     <div class="row">
         <div class="col-12 col-sm-2">
             <app-user-menubar></app-user-menubar>
         </div>
         <div class="col-12 col-sm-10 background-color">
             <div class="row">
+                <div class="col-md-12">
+                    <app-user-navbar></app-user-navbar>
+                </div>
+            </div>
+            <div class="row">
                 <div class="col-12 col-sm-4 pe-0">
                    <app-awaiting-status> </app-awaiting-status>
                 </div>
                 <div class="col-12 col-sm-8 p-0">
                     <app-referral-stepper> </app-referral-stepper>
-                    <app-new-request></app-new-request>
+                    <!-- <app-new-request></app-new-request> -->
                     <!-- <app-referral-cancelled> </app-referral-cancelled> -->
+                    <app-referral-req-rejected> </app-referral-req-rejected>
                 </div>
                 
             </div>

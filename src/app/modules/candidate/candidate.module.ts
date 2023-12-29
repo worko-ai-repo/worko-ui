@@ -65,7 +65,8 @@ export const routes: Routes = [
   ReferralStepperComponent,
   NewRequestComponent,
   ReferralCancelledComponent,
-  ReferralReqRejectedComponent
+  ReferralReqRejectedComponent,
+  
     
   ],
   imports: [
