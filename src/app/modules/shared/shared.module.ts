@@ -12,6 +12,8 @@ import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
 import { ReferralCancelledComponent } from './components/user-interface/referral/referral-cancelled/referral-cancelled.component';
 import { ReferralReqRejectedComponent } from './components/user-interface/referral/referral-req-rejected/referral-req-rejected.component';
+import { AllServicesComponent } from './components/user-interface/service/all-services/all-services.component';
+import { PaymentDueComponent } from './components/user-interface/service/payment-due/payment-due.component';
 
 
 
@@ -20,6 +22,7 @@ import { ReferralReqRejectedComponent } from './components/user-interface/referr
     HeaderComponent,
     FooterComponent,
     ModalComponent,
+    
     
     
   ],
@@ -31,6 +34,7 @@ import { ReferralReqRejectedComponent } from './components/user-interface/referr
     MatFormFieldModule,
     MatInputModule,
     MatButtonModule,
+    
     
   ],
   exports: [

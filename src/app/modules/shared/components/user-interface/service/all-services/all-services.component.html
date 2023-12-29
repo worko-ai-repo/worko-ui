@@ -1,0 +1,243 @@
+<div class="container-fluid">
+  <div class="row">
+    <div class="col-md-12">
+      <div class="card candidate-card ">
+        <div class="card-body">
+          <div class="container-fluid p-0">
+            <div class="row">
+              <div class="col-md-10">
+                <h5 class="text-white">All Services</h5>
+              </div>
+              <div class="col-md-2">
+                <!-- <input type="search" class="search-input form-control" /> -->
+               <i class="fa-solid fa-magnifying-glass search-input" style="color: #f5f7fa;"></i>
+              </div>
+            </div>
+            <div class="row">
+                <div class="row pt-2 mb-2 pb-2   m-0 accordion-background-color" >
+                    <div class="accordion-item">
+                      <h2 class="accordion-header" id="headingAwaiting">
+                        <button class="accordion-button text-white accordion-content-size" type="button" (click)="toggleAccordion('awaiting')" aria-expanded="false">
+                          Awaiting
+                        </button>
+                      </h2>
+                      <div class="accordion-collapse" [ngClass]="{'collapse': currentAccordion !== 'awaiting'}" aria-labelledby="headingAwaiting">
+                        <div class="row mt-4" *ngFor="let service of serviceRequests">
+                            <div class="col-md-2 col-3">
+                              <svg
+                                xmlns="http://www.w3.org/2000/svg"
+                                width="19"
+                                height="19"
+                                viewBox="0 0 19 19"
+                                fill="none"
+                              >
+                                <path
+                                  d="M5.05276 15.0983L1.59314 18.558C1.00523 19.1459 0 18.7295 0 17.8981V2.96622C0 1.41998 1.25348 0.166504 2.79972 0.166504H15.8651C17.4113 0.166504 18.6648 1.41998 18.6648 2.96622V12.2986C18.6648 13.8449 17.4113 15.0983 15.8651 15.0983H5.05276Z"
+                                  fill="white"
+                                />
+                              </svg>
+                            </div>
+                            <div class="col-md-7 col-6 text-size">
+                              <h5 class="m-0 p-0">{{ service.title }}</h5>
+                              <span class="p-0 m-0">Date{{ service.date }}</span>
+                            </div>
+                            <div class="col-md-3 col-3 number-size">
+                              <h5>{{ service.number }}</h5>
+                            </div>
+                            <hr class="line-color"/>
+                          </div>
+                      </div>
+                    </div>
+                  </div>
+                  
+                  <div class="row pt-2 mb-2 pb-2 m-0 accordion-background-color" >
+                    <div class="accordion-item">
+                      <h2 class="accordion-header" id="headingPaymentDue">
+                        <button class="accordion-button text-white accordion-content-size" type="button" (click)="toggleAccordion('paymentDue')" aria-expanded="false">
+                          Payment Due
+                        </button>
+                      </h2>
+                      <div class="accordion-collapse" [ngClass]="{'collapse': currentAccordion !== 'paymentDue'}" aria-labelledby="headingPaymentDue">
+                          <div class="row mt-4" *ngFor="let service of serviceRequests">
+                            <div class="col-md-2 col-3">
+                              <svg
+                                xmlns="http://www.w3.org/2000/svg"
+                                width="19"
+                                height="19"
+                                viewBox="0 0 19 19"
+                                fill="none"
+                              >
+                                <path
+                                  d="M5.05276 15.0983L1.59314 18.558C1.00523 19.1459 0 18.7295 0 17.8981V2.96622C0 1.41998 1.25348 0.166504 2.79972 0.166504H15.8651C17.4113 0.166504 18.6648 1.41998 18.6648 2.96622V12.2986C18.6648 13.8449 17.4113 15.0983 15.8651 15.0983H5.05276Z"
+                                  fill="white"
+                                />
+                              </svg>
+                            </div>
+                            <div class="col-md-7 col-6 text-size">
+                              <h5 class="m-0 p-0">{{ service.title }}</h5>
+                              <span class="p-0 m-0">Date{{ service.date }}</span>
+                            </div>
+                            <div class="col-md-3 col-3 number-size">
+                              <h5>{{ service.number }}</h5>
+                            </div>
+                            <hr class="line-color"/>
+                          </div>
+                      </div>
+                    </div>
+                  </div>
+
+                  <div class="row pt-2 mb-2 pb-2 m-0 accordion-background-color" >
+                    <div class="accordion-item">
+                      <h2 class="accordion-header" id="headingAccepted">
+                        <button class="accordion-button text-white accordion-content-size" type="button" (click)="toggleAccordion('accepted')" aria-expanded="false">
+                          Accepted
+                        </button>
+                      </h2>
+                      <div class="accordion-collapse" [ngClass]="{'collapse': currentAccordion !== 'accepted'}" aria-labelledby="headingAccepted">
+                        <div class="row mt-4" *ngFor="let service of serviceRequests">
+                            <div class="col-md-2 col-3">
+                              <svg
+                                xmlns="http://www.w3.org/2000/svg"
+                                width="19"
+                                height="19"
+                                viewBox="0 0 19 19"
+                                fill="none"
+                              >
+                                <path
+                                  d="M5.05276 15.0983L1.59314 18.558C1.00523 19.1459 0 18.7295 0 17.8981V2.96622C0 1.41998 1.25348 0.166504 2.79972 0.166504H15.8651C17.4113 0.166504 18.6648 1.41998 18.6648 2.96622V12.2986C18.6648 13.8449 17.4113 15.0983 15.8651 15.0983H5.05276Z"
+                                  fill="white"
+                                />
+                              </svg>
+                            </div>
+                            <div class="col-md-7 col-6 text-size">
+                              <h5 class="m-0 p-0">{{ service.title }}</h5>
+                              <span class="p-0 m-0">Date{{ service.date }}</span>
+                            </div>
+                            <div class="col-md-3 col-3 number-size">
+                              <h5>{{ service.number }}</h5>
+                            </div>
+                            <hr class="line-color"/>
+                          </div>
+                      </div>
+                    </div>
+                  </div>
+
+                  <div class="row pt-2 mb-2 pb-2 m-0 accordion-background-color" >
+                    <div class="accordion-item">
+                      <h2 class="accordion-header" id="headingRejected">
+                        <button class="accordion-button text-white accordion-content-size" type="button" (click)="toggleAccordion('rejected')" aria-expanded="false">
+                          Rejected
+                        </button>
+                      </h2>
+                      <div class="accordion-collapse" [ngClass]="{'collapse': currentAccordion !== 'rejected'}" aria-labelledby="headingRejected">
+                        <div class="row mt-4" *ngFor="let service of serviceRequests">
+                            <div class="col-md-2 col-3">
+                              <svg
+                                xmlns="http://www.w3.org/2000/svg"
+                                width="19"
+                                height="19"
+                                viewBox="0 0 19 19"
+                                fill="none"
+                              >
+                                <path
+                                  d="M5.05276 15.0983L1.59314 18.558C1.00523 19.1459 0 18.7295 0 17.8981V2.96622C0 1.41998 1.25348 0.166504 2.79972 0.166504H15.8651C17.4113 0.166504 18.6648 1.41998 18.6648 2.96622V12.2986C18.6648 13.8449 17.4113 15.0983 15.8651 15.0983H5.05276Z"
+                                  fill="white"
+                                />
+                              </svg>
+                            </div>
+                            <div class="col-md-7 col-6 text-size">
+                              <h5 class="m-0 p-0">{{ service.title }}</h5>
+                              <span class="p-0 m-0">Date{{ service.date }}</span>
+                            </div>
+                            <div class="col-md-3 col-3 number-size">
+                              <h5>{{ service.number }}</h5>
+                            </div>
+                            <hr class="line-color"/>
+                          </div>
+                      </div>
+                    </div>
+                  </div>
+
+                  <div class="row pt-2 mb-2 pb-2 m-0 accordion-background-color"  >
+                    <div class="accordion-item">
+                      <h2 class="accordion-header" id="headingCancelled">
+                        <button class="accordion-button text-white accordion-content-size" type="button" (click)="toggleAccordion('cancelled')" aria-expanded="false">
+                          Cancelled
+                        </button>
+                      </h2>
+                      <div class="accordion-collapse" [ngClass]="{'collapse': currentAccordion !== 'cancelled'}" aria-labelledby="headingCancelled">
+                        <div class="row mt-4" *ngFor="let service of serviceRequests">
+                            <div class="col-md-2 col-3">
+                              <svg
+                                xmlns="http://www.w3.org/2000/svg"
+                                width="19"
+                                height="19"
+                                viewBox="0 0 19 19"
+                                fill="none"
+                              >
+                                <path
+                                  d="M5.05276 15.0983L1.59314 18.558C1.00523 19.1459 0 18.7295 0 17.8981V2.96622C0 1.41998 1.25348 0.166504 2.79972 0.166504H15.8651C17.4113 0.166504 18.6648 1.41998 18.6648 2.96622V12.2986C18.6648 13.8449 17.4113 15.0983 15.8651 15.0983H5.05276Z"
+                                  fill="white"
+                                />
+                              </svg>
+                            </div>
+                            <div class="col-md-7 col-6 text-size">
+                              <h5 class="m-0 p-0">{{ service.title }}</h5>
+                              <span class="p-0 m-0">Date{{ service.date }}</span>
+                            </div>
+                            <div class="col-md-3 col-3 number-size">
+                              <h5>{{ service.number }}</h5>
+                            </div>
+                            <hr class="line-color"/>
+                          </div>
+                      </div>
+                    </div>
+                  </div>
+
+                  <div class="row pt-2 mb-2 pb-2 m-0 accordion-background-color" >
+                    <div class="accordion-item">
+                      <h2 class="accordion-header" id="headingDone">
+                        <button class="accordion-button text-white accordion-content-size" type="button" (click)="toggleAccordion('done')" aria-expanded="false">
+                          Done
+                        </button>
+                      </h2>
+                      <div class="accordion-collapse" [ngClass]="{'collapse': currentAccordion !== 'done'}" aria-labelledby="headingDone">
+                        <div class="row mt-4" *ngFor="let service of serviceRequests">
+                            <div class="col-md-2 col-3">
+                              <svg
+                                xmlns="http://www.w3.org/2000/svg"
+                                width="19"
+                                height="19"
+                                viewBox="0 0 19 19"
+                                fill="none"
+                              >
+                                <path
+                                  d="M5.05276 15.0983L1.59314 18.558C1.00523 19.1459 0 18.7295 0 17.8981V2.96622C0 1.41998 1.25348 0.166504 2.79972 0.166504H15.8651C17.4113 0.166504 18.6648 1.41998 18.6648 2.96622V12.2986C18.6648 13.8449 17.4113 15.0983 15.8651 15.0983H5.05276Z"
+                                  fill="white"
+                                />
+                              </svg>
+                            </div>
+                            <div class="col-md-7 col-6 text-size">
+                              <h5 class="m-0 p-0">{{ service.title }}</h5>
+                              <span class="p-0 m-0">Date{{ service.date }}</span>
+                            </div>
+                            <div class="col-md-3 col-3 number-size">
+                              <h5>{{ service.number }}</h5>
+                            </div>
+                            <hr class="line-color"/>
+                          </div>
+                      </div>
+                    </div>
+                  </div>
+
+
+            
+                </div>
+           
+           
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

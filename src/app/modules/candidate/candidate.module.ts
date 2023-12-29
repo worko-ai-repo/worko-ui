@@ -17,6 +17,9 @@ import { ReferralStepperComponent } from '../shared/components/user-interface/re
 import { NewRequestComponent } from '../shared/components/user-interface/referral/new-request/new-request.component';
 import { ReferralCancelledComponent } from '../shared/components/user-interface/referral/referral-cancelled/referral-cancelled.component';
 import { ReferralReqRejectedComponent } from '../shared/components/user-interface/referral/referral-req-rejected/referral-req-rejected.component';
+import { ServiceComponent } from './components/service/service.component';
+import { AllServicesComponent } from '../shared/components/user-interface/service/all-services/all-services.component';
+import { PaymentDueComponent } from '../shared/components/user-interface/service/payment-due/payment-due.component';
 
 
 
@@ -35,6 +38,11 @@ export const routes: Routes = [
       {
         path: 'candidate-referral',
         component: ReferralComponent,
+       
+      },
+      {
+        path: 'candidate-service',
+        component: ServiceComponent,
        
       },
       
@@ -66,6 +74,9 @@ export const routes: Routes = [
   NewRequestComponent,
   ReferralCancelledComponent,
   ReferralReqRejectedComponent,
+  ServiceComponent,
+  AllServicesComponent,
+  PaymentDueComponent,
   
     
   ],

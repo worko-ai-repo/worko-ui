@@ -1,0 +1,126 @@
+.candidate-card{
+    border-radius: 10px;
+background: #0A1E35;
+width: 100%;
+}
+.issue-btn{
+    background-color: transparent;
+    font-size: 13px;
+    display: flex;
+    align-items: center;
+    color: white;
+    border-radius: 100px;
+    background: #0A111C;
+    border: 1px solid transparent;
+    gap: 10px;
+   
+}
+.btn-done{
+    background-color: transparent;
+    /* width: 91%; */
+    font-size: 13px;
+    display: flex;
+    align-items: center;
+    /* border: unset; */
+    /* border-radius: 100px; */
+    border-radius: 100px;
+    border: 1px solid #36D0FF;
+    color: white;
+    gap: 10px;
+}
+.btn-req{
+    background-color: rgba(45, 142, 194, 1);
+    font-size: 12px;
+    display: flex;
+    align-items: center;
+    border-radius: 100px;
+    border: 1px solid #36D0FF;
+    color: white;
+    gap: 10px;
+}
+.payment-img{
+    width: 100%;
+}
+.btn-mentor{
+    border-radius: 80.435px;
+border: 0.804px solid #425D86;
+background: #FFF;
+}
+.link-content{
+    color: white;
+    font-size: smaller;
+    /* display: flex; */
+
+}
+.btn-payNow{
+    color: #FFF;
+    text-align: center;
+    font-family: Poppins;
+    font-size: 18.588px;
+    font-style: normal;
+    font-weight: 700;
+    line-height: 118.5%;
+    letter-spacing: 0.929px;
+    background-color: rgba(45, 142, 194, 1);
+    border: unset;
+    border-radius: 8px;
+}
+.mentor-card{
+    border-radius: 12px;
+background: #132C52;
+}
+.mentor-content{
+    color: #FFF;
+font-family: Poppins;
+font-size: 14px;
+font-style: italic;
+font-weight: 400;
+line-height: normal;
+text-align: center;
+}
+.mentor-img{
+    width: 100px;
+    text-align: center;
+}
+.company-content{
+    color: #FFF;
+    font-family: Poppins;
+    font-size: 10.198px;
+    font-style: normal;
+    font-weight: 400;
+    line-height: normal;
+}
+.designation-content{
+    color: #FFF;
+font-family: Poppins;
+font-size: 11.198px;
+font-style: normal;
+font-weight: 400;
+line-height: normal;
+}
+.profile-link{
+    color: #69DCFF;
+font-family: Poppins;
+font-size: 10.958px;
+font-style: italic;
+font-weight: 300;
+line-height: normal;
+text-decoration-line: underline;
+}
+.about-content{
+    color: #FFF;
+font-family: Poppins;
+font-size: 19.244px;
+font-style: normal;
+font-weight: 600;
+line-height: normal;
+}
+.about-details{
+    color: #FFF;
+text-align: center;
+font-family: Poppins;
+font-size: 9.958px;
+font-style: normal;
+font-weight: 400;
+line-height: normal;
+}
