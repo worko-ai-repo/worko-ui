@@ -21,7 +21,7 @@
           </div>
           <!-- patter="/^(https?:\/\/)?([\w.-]+)\.([a-z]{2,})(\/\S*)?$/i;" -->
           <div class="col-md-12">
-            <input type="text" #jobUrl="ngModel" pattern="^[0-9]{6}$"
+            <input type="text" #jobUrl="ngModel"
               [class.invalid]="(requestReferral.submitted || jobUrl.touched) && jobUrl.invalid"
               [(ngModel)]="requestForm.jobUrl" name="jobUrl" id="jobUrl"
               [title]="jobUrl.errors?.['pattern'] ? 'Job Url is invalid' : ''"
