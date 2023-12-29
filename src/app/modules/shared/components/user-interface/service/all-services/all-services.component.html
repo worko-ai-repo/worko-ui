@@ -17,9 +17,15 @@
                 <div class="row pt-2 mb-2 pb-2   m-0 accordion-background-color" >
                     <div class="accordion-item">
                       <h2 class="accordion-header" id="headingAwaiting">
-                        <button class="accordion-button text-white accordion-content-size" type="button" (click)="toggleAccordion('awaiting')" aria-expanded="false">
-                          Awaiting
-                        </button>
+                        <div class="d-flex justify-content-end">
+                            <button class="accordion-button text-white accordion-content-size" type="button" aria-expanded="false">
+                                Awaiting 
+                              </button>
+                              <div>
+                                  <i class="fa-solid fa-angle-down text-white arrow-icon"   (click)="toggleAccordion('awaiting')"></i>
+                              </div>
+                        </div>
+                        
                       </h2>
                       <div class="accordion-collapse" [ngClass]="{'collapse': currentAccordion !== 'awaiting'}" aria-labelledby="headingAwaiting">
                         <div class="row mt-4" *ngFor="let service of serviceRequests">
@@ -53,9 +59,14 @@
                   <div class="row pt-2 mb-2 pb-2 m-0 accordion-background-color" >
                     <div class="accordion-item">
                       <h2 class="accordion-header" id="headingPaymentDue">
-                        <button class="accordion-button text-white accordion-content-size" type="button" (click)="toggleAccordion('paymentDue')" aria-expanded="false">
-                          Payment Due
-                        </button>
+                        <div class="d-flex justify-content-end">
+                            <button class="accordion-button text-white accordion-content-size"  type="button"  aria-expanded="false">
+                                Payment Due
+                              </button>
+                              <div>
+                                  <i class="fa-solid fa-angle-down text-white arrow-icon"  (click)="toggleAccordion('paymentDue')"></i>
+                              </div>
+                        </div>
                       </h2>
                       <div class="accordion-collapse" [ngClass]="{'collapse': currentAccordion !== 'paymentDue'}" aria-labelledby="headingPaymentDue">
                           <div class="row mt-4" *ngFor="let service of serviceRequests">
@@ -89,9 +100,14 @@
                   <div class="row pt-2 mb-2 pb-2 m-0 accordion-background-color" >
                     <div class="accordion-item">
                       <h2 class="accordion-header" id="headingAccepted">
-                        <button class="accordion-button text-white accordion-content-size" type="button" (click)="toggleAccordion('accepted')" aria-expanded="false">
-                          Accepted
-                        </button>
+                       <div class="d-flex justify-content-end">
+                        <button class="accordion-button text-white accordion-content-size" type="button" aria-expanded="false">
+                            Accepted
+                          </button>
+                          <div>
+                              <i class="fa-solid fa-angle-down text-white arrow-icon"  (click)="toggleAccordion('accepted')"></i>
+                          </div>
+                       </div>
                       </h2>
                       <div class="accordion-collapse" [ngClass]="{'collapse': currentAccordion !== 'accepted'}" aria-labelledby="headingAccepted">
                         <div class="row mt-4" *ngFor="let service of serviceRequests">
@@ -125,9 +141,14 @@
                   <div class="row pt-2 mb-2 pb-2 m-0 accordion-background-color" >
                     <div class="accordion-item">
                       <h2 class="accordion-header" id="headingRejected">
-                        <button class="accordion-button text-white accordion-content-size" type="button" (click)="toggleAccordion('rejected')" aria-expanded="false">
-                          Rejected
-                        </button>
+                       <div class="d-flex justify-content-end">
+                        <button class="accordion-button text-white accordion-content-size" type="button" aria-expanded="false">
+                            Rejected
+                          </button>
+                          <div>
+                              <i class="fa-solid fa-angle-down text-white arrow-icon"  (click)="toggleAccordion('rejected')" ></i>
+                          </div>
+                       </div>
                       </h2>
                       <div class="accordion-collapse" [ngClass]="{'collapse': currentAccordion !== 'rejected'}" aria-labelledby="headingRejected">
                         <div class="row mt-4" *ngFor="let service of serviceRequests">
@@ -161,9 +182,14 @@
                   <div class="row pt-2 mb-2 pb-2 m-0 accordion-background-color"  >
                     <div class="accordion-item">
                       <h2 class="accordion-header" id="headingCancelled">
-                        <button class="accordion-button text-white accordion-content-size" type="button" (click)="toggleAccordion('cancelled')" aria-expanded="false">
-                          Cancelled
-                        </button>
+                       <div class="d-flex justify-content-end">
+                        <button class="accordion-button text-white accordion-content-size" type="button"  aria-expanded="false">
+                            Cancelled
+                          </button>
+                          <div>
+                              <i class="fa-solid fa-angle-down text-white arrow-icon" (click)="toggleAccordion('cancelled')" ></i>
+                          </div>
+                       </div>
                       </h2>
                       <div class="accordion-collapse" [ngClass]="{'collapse': currentAccordion !== 'cancelled'}" aria-labelledby="headingCancelled">
                         <div class="row mt-4" *ngFor="let service of serviceRequests">
@@ -197,9 +223,14 @@
                   <div class="row pt-2 mb-2 pb-2 m-0 accordion-background-color" >
                     <div class="accordion-item">
                       <h2 class="accordion-header" id="headingDone">
-                        <button class="accordion-button text-white accordion-content-size" type="button" (click)="toggleAccordion('done')" aria-expanded="false">
-                          Done
-                        </button>
+                        <div class="d-flex justify-content-end">
+                            <button class="accordion-button text-white accordion-content-size" type="button"  aria-expanded="false">
+                                Done
+                              </button>
+                              <div>
+                                  <i class="fa-solid fa-angle-down text-white arrow-icon" (click)="toggleAccordion('done')" ></i>
+                              </div>
+                        </div>
                       </h2>
                       <div class="accordion-collapse" [ngClass]="{'collapse': currentAccordion !== 'done'}" aria-labelledby="headingDone">
                         <div class="row mt-4" *ngFor="let service of serviceRequests">
