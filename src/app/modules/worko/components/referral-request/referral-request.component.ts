@@ -1,6 +1,7 @@
 import { Component, ElementRef, OnInit, ViewChild, Input, SimpleChanges  } from '@angular/core';
 import { CompanyListingService } from '../../services/company-listing.service';
 import { SubscriptionPackService } from '../../services/subscription-pack.service';
+import { StorageService } from 'src/app/modules/app-core/services/storage.service';
 @Component({
   selector: 'app-referral-request',
   templateUrl: './referral-request.component.html',
@@ -38,10 +39,11 @@ export class ReferralRequestComponent implements OnInit {
   // }
   matchingScore: number = 0;
   referralRequestId: string = "";
-  emailId: string = "prashant@worko.ai";
-  constructor(private companyListing: CompanyListingService , private subscriptionPack : SubscriptionPackService) { }
+  emailId: string = "";
+  constructor(private companyListing: CompanyListingService , private subscriptionPack : SubscriptionPackService, private storage: StorageService) { }
   ngOnInit(): void {
     // this.getSubcriptionPack();
+    this.emailId = this.storage.get("useremail");
   }
 
   // ngOnChanges(changes: SimpleChanges) {

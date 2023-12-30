@@ -130,11 +130,10 @@ export class CompanyListingComponent implements OnInit {
     this.userLoggedIn = await this.cognitoService.isLoggedIn();
     this.closeModal();
     if(this.triggerReferral && this.userLoggedIn){
-      
       this.openModal(ModalType.REQUEST_REFERRAL);
     }
     if(this.triggerGuidance && this.userLoggedIn){
-      this.openModal(ModalType.REQUEST_GUIDANCE);
+       this.openModal(ModalType.REQUEST_GUIDANCE);
     }
   }
 
@@ -158,7 +157,7 @@ export class CompanyListingComponent implements OnInit {
    * @returns {void}
    */
   closeModal(): void {
-    this.referrralComponent.showReferrelRow = true;
+    // this.referrralComponent.showReferrelRow = true;
     this.modal.cancel();
   }
 }
