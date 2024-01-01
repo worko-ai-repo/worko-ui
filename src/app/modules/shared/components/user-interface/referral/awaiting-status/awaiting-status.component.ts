@@ -1,4 +1,5 @@
 import { Component } from '@angular/core';
+import { CandidateDropdownService } from 'src/app/modules/services/candidate-dropdown.service';
 
 @Component({
   selector: 'app-awaiting-status',
@@ -17,4 +18,10 @@ export class AwaitingStatusComponent {
     { id: 7, title: 'Rejected Request', number: '#6499', date:'Dec 24 2023' }
 
   ];
+ 
+
+  
+
+  
+  
 }

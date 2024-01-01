@@ -1,0 +1,79 @@
+.candidate-card{
+    border-radius: 10px;
+background: #0A1E35;
+width: 100%;
+}
+.issue-btn{
+    background-color: transparent;
+    font-size: 11px;
+    display: flex;
+    align-items: center;
+    color: white;
+    border-radius: 100px;
+    background: #0A111C;
+    border: 1px solid transparent;
+    gap: 10px;
+   
+}
+.payment-card{
+    border-radius: 12px;
+background: #192E4F;
+}
+.content-payment{
+    color: white;
+    font-size: 14px;
+}
+.payment-method-box{
+    border-radius: 12px;
+border: 2px solid #FFF;
+background: #0A1E35;
+}
+.payment-number{
+    font-size: 11px;
+    color: #FFF;
+}
+.payment-text{
+    color: #677489;
+    font-family: Poppins;
+    font-size: 14px;
+    font-style: normal;
+    font-weight: 400;
+    line-height: 165%; /* 26.4px */
+    letter-spacing: 0.08px;
+}
+.new-text{
+    font-size: 12px;
+}
+.img-squre{
+    width: 19px;
+}
+.add-square-box{
+    border-radius: 12px;
+    border: 2px solid #FFF;
+    background: #0A1E35;
+    width: auto;
+}
+.cardholder-input{
+    width: 100%;
+    height: 41px;
+    border-radius: 12px;
+    border: 1px solid white;
+    background-color: rgba(10, 30, 53, 1);
+    color:rgba(103, 116, 137, 1) ;
+}
+.checkbox-label{
+    color: #677489;
+font-family: Poppins;
+font-size: 14px;
+font-style: normal;
+font-weight: 500;
+line-height: 165%; /* 26.4px */
+letter-spacing: 0.08px;
+}
+
+.pay-text{
+    border-radius: 12px;
+background: #192E4F;
+    color: #FFF;
+    width: -webkit-fill-available;
+}
