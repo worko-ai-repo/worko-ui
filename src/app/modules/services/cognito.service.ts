@@ -44,6 +44,7 @@ export class CognitoService {
       const authData = await signIn(login);
       this.authenticationSubject.next(true);
       await this.setAccessToken();
+
       return { response: authData };
     } catch (error) {
       console.error('Error signing in:', error);
@@ -65,10 +66,16 @@ export class CognitoService {
 
       if (signInDetails) {
         console.log('The signInDetails:', signInDetails);
+        if(!this.storage.get("useremail")){
+          this.storage.set("useremail", signInDetails.loginId);
+        }
+    
+         console.log( this.storage.get("useremail"))
         return true;
       } else {
         console.log('No signInDetails:');
         await this.handleSignOut();
+        this.storage.remove("useremail");
         return false;
       }
     } catch (err) {
