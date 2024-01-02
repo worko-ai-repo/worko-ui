@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, EventEmitter, Output } from '@angular/core';
 import { CandidateDropdownService } from 'src/app/modules/services/candidate-dropdown.service';
 
 @Component({
@@ -7,6 +7,8 @@ import { CandidateDropdownService } from 'src/app/modules/services/candidate-dro
   styleUrls: ['./awaiting-status.component.scss']
 })
 export class AwaitingStatusComponent {
+  @Output() statusSelected = new EventEmitter<string>();
+  selectedStatus: string = 'Awaiting';
 
   referralRequests = [
     { id: 1, title: 'Referral Request', number: '#6493', date:'Dec 1 2023' },
@@ -18,6 +20,12 @@ export class AwaitingStatusComponent {
     { id: 7, title: 'Rejected Request', number: '#6499', date:'Dec 24 2023' }
 
   ];
+  
+
+  onSelectStatus(status: string): void {
+    this.selectedStatus = status;
+    this.statusSelected.emit(status);
+  }
  
 
   

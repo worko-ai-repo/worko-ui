@@ -30,6 +30,8 @@ import { ReferEarnComponent } from './components/refer-earn/refer-earn.component
 import { InviteFriendsComponent } from '../shared/components/refer&earn/invite-friends/invite-friends.component';
 import { SubscriptionPlanComponent } from '../shared/components/user-interface/subscription/subscription-plan/subscription-plan.component';
 import { ReferEarnStatusComponent } from '../shared/components/refer&earn/refer-earn-status/refer-earn-status.component';
+import { EditProfileComponent } from './components/edit-profile/edit-profile.component';
+import { PersonalInformationComponent } from '../shared/components/user-interface/edit-profile/personal-information/personal-information.component';
 
 
 
@@ -63,6 +65,11 @@ export const routes: Routes = [
       {
         path: 'refer&earn',
         component: ReferEarnComponent,
+       
+      },
+      {
+        path: 'edit-profile',
+        component: EditProfileComponent,
        
       },
       
@@ -106,6 +113,8 @@ export const routes: Routes = [
   InviteFriendsComponent,
   SubscriptionPlanComponent,
   ReferEarnStatusComponent,
+  EditProfileComponent,
+  PersonalInformationComponent,
     
   ],
   imports: [
