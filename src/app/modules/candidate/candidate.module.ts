@@ -20,6 +20,16 @@ import { ReferralReqRejectedComponent } from '../shared/components/user-interfac
 import { ServiceComponent } from './components/service/service.component';
 import { AllServicesComponent } from '../shared/components/user-interface/service/all-services/all-services.component';
 import { PaymentDueComponent } from '../shared/components/user-interface/service/payment-due/payment-due.component';
+import { PaymentMethodComponent } from '../shared/components/user-interface/service/payment-method/payment-method.component';
+import { AcceptedComponent } from '../shared/components/user-interface/service/accepted/accepted.component';
+import { PaymentFailedComponent } from '../shared/components/user-interface/service/payment-failed/payment-failed.component';
+import { ServiceRejectedComponent } from '../shared/components/user-interface/service/service-rejected/service-rejected.component';
+import { SubscriptionComponent } from './components/subscription/subscription.component';
+import { PackageComponent } from '../shared/components/user-interface/subscription/package/package.component';
+import { ReferEarnComponent } from './components/refer-earn/refer-earn.component';
+import { InviteFriendsComponent } from '../shared/components/refer&earn/invite-friends/invite-friends.component';
+import { SubscriptionPlanComponent } from '../shared/components/user-interface/subscription/subscription-plan/subscription-plan.component';
+import { ReferEarnStatusComponent } from '../shared/components/refer&earn/refer-earn-status/refer-earn-status.component';
 
 
 
@@ -45,7 +55,16 @@ export const routes: Routes = [
         component: ServiceComponent,
        
       },
-      
+      {
+        path: 'candidate-subscription',
+        component: SubscriptionComponent,
+       
+      },
+      {
+        path: 'refer&earn',
+        component: ReferEarnComponent,
+       
+      },
       
       
       
@@ -77,7 +96,16 @@ export const routes: Routes = [
   ServiceComponent,
   AllServicesComponent,
   PaymentDueComponent,
-  
+  PaymentMethodComponent,
+  AcceptedComponent,
+  PaymentFailedComponent,
+  ServiceRejectedComponent,
+  SubscriptionComponent,
+  PackageComponent,
+  ReferEarnComponent,
+  InviteFriendsComponent,
+  SubscriptionPlanComponent,
+  ReferEarnStatusComponent,
     
   ],
   imports: [

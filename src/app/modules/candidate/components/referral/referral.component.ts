@@ -1,4 +1,5 @@
 import { Component } from '@angular/core';
+import { CandidateDropdownService } from 'src/app/modules/services/candidate-dropdown.service';
 
 @Component({
   selector: 'app-referral',
@@ -7,4 +8,5 @@ import { Component } from '@angular/core';
 })
 export class ReferralComponent {
 
+  
 }
