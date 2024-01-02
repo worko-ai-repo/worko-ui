@@ -179,6 +179,7 @@ export class LoginPageComponent {
 
   async createEmployee(form: any): Promise<void> {
     try {
+      this.setErrorMessage("");
       this.confirmationEmail = this.maskEmail(this.employeeForm.emailId);
       const { response, error } = await this.createUser(this.employeeForm);
       if (response) {
@@ -223,6 +224,7 @@ export class LoginPageComponent {
 
   async createCandidate(form: any): Promise<void> {
     try {
+      this.setErrorMessage("");
       this.confirmationEmail = this.maskEmail(this.candidateForm.emailId);
 
       const { response, error } = await this.createUser(this.candidateForm);
@@ -291,15 +293,18 @@ export class LoginPageComponent {
 
   uploadCVonS3Bucket(docResult: any) {
     try {
-
       this.authService.uploadFileOnS3Bucket(this.fileToUpload!, docResult.awsS3SignedUrl, docResult.awsS3Tag)
         .then(async () => {
           console.log('File uploaded successfully.');
           try {
             let a = await this.authService.linkResumewithUser(this.candidateForm.emailId, this.uploadedCvName);
             this.confirmationCodeScreen = true;
-          } catch (error) {
-            // this.errorMessage = error.code
+          } catch (error: any) {
+            debugger;
+            if (error && error.error.message) {
+              // this.errorMessage = error.error.message;
+              this.setErrorMessage('File Link error linkResumewithUser:- '+ error.error.message);
+            }
             console.error('File Link error linkResumewithUser:', error);
           }
 
