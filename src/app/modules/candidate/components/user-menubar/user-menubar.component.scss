@@ -1,5 +1,6 @@
 .bg-color{
     background: #0A1E35;
+    height: auto;
 }
 .btn-logOut{
     background-color: transparent;
@@ -16,3 +17,26 @@
 .candidate-worko-logo{
     width:100%;
 }
+.menubar-main{
+    height: auto;
+    width: 100%;
+}
+@media screen and (max-width: 1500px){
+        .menubar-main{
+            height:auto;
+            width: 100%;
+        }
+        .bg-color{
+            height: auto;
+        }
+    }
+
+    @media screen and (max-width: 1200px){
+        .menubar-main{
+            height:auto;
+            width: 100%;
+        }
+        .bg-color{
+            // height: 1000px;
+        }
+    }
