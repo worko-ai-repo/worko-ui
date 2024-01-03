@@ -8,5 +8,10 @@ import { CandidateDropdownService } from 'src/app/modules/services/candidate-dro
 })
 export class ReferralComponent {
 
+  selectedStatus: string = 'Awaiting';
+
+  onStatusSelected(status: string): void {
+    this.selectedStatus = status;
+  }
   
 }

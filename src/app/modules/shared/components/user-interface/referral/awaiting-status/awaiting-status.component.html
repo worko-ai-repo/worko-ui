@@ -182,14 +182,14 @@
                             <div class="col-md-6">
                                 <div class="dropdown">
                                     <button class="dropdown-toggle" type="button" id="dropdownMenu2" data-toggle="dropdown" aria-expanded="false">
-                                        Awaiting
+                                       {{selectedStatus }}
                                     </button>
                                     <ul class="dropdown-menu" aria-labelledby="dropdownMenu2">
-                                        <li><button class="dropdown-item" type="button">Awaiting </button></li>
-                                        <li><button class="dropdown-item" type="button">Accepted</button></li>
-                                        <li><button class="dropdown-item" type="button">Rejected</button></li>
-                                        <li><button class="dropdown-item" type="button">Cancelled</button></li>
-                                        <li><button class="dropdown-item" type="button">Done</button></li>
+                                        <li><button class="dropdown-item" type="button" (click)="onSelectStatus('Awaiting')">Awaiting</button></li>
+                                        <li><button class="dropdown-item" type="button" (click)="onSelectStatus('Accepted')">Accepted</button></li>
+                                        <li><button class="dropdown-item" type="button" (click)="onSelectStatus('Rejected')">Rejected</button></li>
+                                        <li><button class="dropdown-item" type="button" (click)="onSelectStatus('Cancelled')">Cancelled</button></li>
+                                        <li><button class="dropdown-item" type="button" (click)="onSelectStatus('Done')">Done</button></li>
                                     </ul>
                                 </div>
                                 <!-- <select name="" id="" class="selector">

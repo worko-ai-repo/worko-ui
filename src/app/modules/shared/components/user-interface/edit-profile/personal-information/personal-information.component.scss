@@ -1,0 +1,46 @@
+.candidate-card{
+    border-radius: 20px;
+background: #0A1E35;
+width: 100%;
+}
+.edit-profile-text{
+    color: #FFF;
+    text-align: center;
+    font-family: Poppins;
+    font-size: 20px;
+    font-style: normal;
+    font-weight: 600;
+    line-height: normal;
+}
+.candidate-img{
+    width: 128px;
+}
+.upload-file{
+    border-radius: 6.3px;
+    border: 1.13px solid #1ED6FF;
+    background: #0A1E35;
+    width: 100px;
+    font-size: small;
+    background-color: transparent !important;
+}
+// .file-input {
+//     display: none; /* Hide the default file input */
+//   }
+  .upload-text {
+    text-align: center;
+  }
+  .form-lable{
+    font-size: 11px;
+    color: #FFF;
+  }
+  .form-input{
+    color: white;
+    background-color: transparent;
+    font-size: 11px;
+    border-radius: 10px;
+  }
+  ::placeholder {
+    color: gray;
+     /* Firefox */
+  }
+  

@@ -21,7 +21,7 @@ import { ServiceRejectedComponent } from './components/user-interface/service/se
 import { PackageComponent } from './components/user-interface/subscription/package/package.component';
 import { InviteFriendsComponent } from './components/refer&earn/invite-friends/invite-friends.component';
 import { SubscriptionPlanComponent } from './components/user-interface/subscription/subscription-plan/subscription-plan.component';
-import { ReferEarnStatusComponent } from './components/refer&earn/refer-earn-status/refer-earn-status.component';
+import { PersonalInformationComponent } from './components/user-interface/edit-profile/personal-information/personal-information.component';
 
 
 
@@ -30,6 +30,7 @@ import { ReferEarnStatusComponent } from './components/refer&earn/refer-earn-sta
     HeaderComponent,
     FooterComponent,
     ModalComponent,
+    
     
     
     

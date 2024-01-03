@@ -81,7 +81,7 @@ export class AuthService {
     if (authorization) {
       headers.Authorization = `Bearer ${this.cognitoService.getAccessToken()}`;
       if (headers.Authorization == "Bearer ") {
-        headers.Authorization = 'Bearer abc';
+        headers.Authorization = 'Bearer dummyTokenWeArePassing';
       }
       console.log(headers.Authorization, "AccessToken");
     }

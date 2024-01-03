@@ -14,13 +14,18 @@
             </div>
             <div class="row">
                 <div class="col-12 col-sm-4 pe-0">
-                   <app-awaiting-status> </app-awaiting-status>
+                   <app-awaiting-status (statusSelected)="onStatusSelected($event)"> </app-awaiting-status>
                 </div>
                 <div class="col-12 col-sm-8 p-0">
-                    <app-referral-stepper> </app-referral-stepper>
-                    <app-new-request></app-new-request>
-                    <app-referral-cancelled> </app-referral-cancelled>
-                    <app-referral-req-rejected> </app-referral-req-rejected>
+                    <app-referral-stepper></app-referral-stepper>
+                    <ng-container *ngIf="selectedStatus === 'Awaiting'; else otherStatus">
+                        <app-new-request></app-new-request>
+
+                      </ng-container>
+                      <ng-template #otherStatus>
+                        <app-referral-cancelled *ngIf="selectedStatus === 'Cancelled'"></app-referral-cancelled>
+                        <app-referral-req-rejected *ngIf="selectedStatus === 'Rejected'"></app-referral-req-rejected>
+                      </ng-template>
                 </div>
                 
             </div>
