@@ -22,14 +22,22 @@ import { PackageComponent } from './components/user-interface/subscription/packa
 import { InviteFriendsComponent } from './components/refer&earn/invite-friends/invite-friends.component';
 import { SubscriptionPlanComponent } from './components/user-interface/subscription/subscription-plan/subscription-plan.component';
 import { PersonalInformationComponent } from './components/user-interface/edit-profile/personal-information/personal-information.component';
+import { PersonalDetailsComponent } from './components/user-interface/edit-profile/personal-details/personal-details.component';
+import { UploadComponent } from './components/user-interface/edit-profile/upload/upload.component';
+import { Routes } from '@angular/router';
 
 
+export const routes: Routes = [
 
+  
+]
 @NgModule({
   declarations: [
     HeaderComponent,
     FooterComponent,
     ModalComponent,
+    
+    
     
     
     

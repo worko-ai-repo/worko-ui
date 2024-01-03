@@ -34,6 +34,7 @@ width: 100%;
     color: #FFF;
   }
   .form-input{
+    // border: 2px solid white;
     color: white;
     background-color: transparent;
     font-size: 11px;
@@ -43,4 +44,18 @@ width: 100%;
     color: gray;
      /* Firefox */
   }
-  
+
+  .about-textarea{
+    border-radius: 12px;
+border: 1px solid #E5EAF1;
+background: #0A1E35;
+color: #FFF;
+  }
+  .btn-next{
+    // background-color: 36D0FF;
+    background-color: #36D0FF;
+    width: 108px;
+    height: 35px;
+    border-radius: 9px;
+    border: unset;
+  }

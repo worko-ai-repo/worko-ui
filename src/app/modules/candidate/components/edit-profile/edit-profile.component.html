@@ -12,7 +12,9 @@
                     <app-user-navbar></app-user-navbar>
                 </div>    
                 <div class="col-md-12">
-                    <app-personal-information></app-personal-information>
+                    <app-personal-information *ngIf="currentStep === 1" (nextStep)="nextStep()"></app-personal-information>
+                    <app-personal-details *ngIf="currentStep === 2" (nextStep)="nextStep()" (previousStep)="previousStep()"></app-personal-details>
+                    <app-upload *ngIf="currentStep === 3" (previousStep)="previousStep()"></app-upload>
                 </div>            
             </div>
             

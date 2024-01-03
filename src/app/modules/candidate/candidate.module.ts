@@ -32,6 +32,8 @@ import { SubscriptionPlanComponent } from '../shared/components/user-interface/s
 import { ReferEarnStatusComponent } from '../shared/components/refer&earn/refer-earn-status/refer-earn-status.component';
 import { EditProfileComponent } from './components/edit-profile/edit-profile.component';
 import { PersonalInformationComponent } from '../shared/components/user-interface/edit-profile/personal-information/personal-information.component';
+import { PersonalDetailsComponent } from '../shared/components/user-interface/edit-profile/personal-details/personal-details.component';
+import { UploadComponent } from '../shared/components/user-interface/edit-profile/upload/upload.component';
 
 
 
@@ -115,7 +117,8 @@ export const routes: Routes = [
   ReferEarnStatusComponent,
   EditProfileComponent,
   PersonalInformationComponent,
-    
+  PersonalDetailsComponent,
+  UploadComponent,
   ],
   imports: [
     CommonModule,

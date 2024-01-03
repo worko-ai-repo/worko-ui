@@ -1,0 +1,49 @@
+.candidate-card{
+    border-radius: 20px;
+background: #0A1E35;
+width: 100%;
+}
+.edit-profile-text{
+    color: #FFF;
+    text-align: center;
+    font-family: Poppins;
+    font-size: 20px;
+    font-style: normal;
+    font-weight: 600;
+    line-height: normal;
+}
+.drag-drop{
+    border-radius: 11.3px;
+border: 3px solid #1ED6FF;
+background: #0A1E35;
+width: 122px;
+height: 108px;
+text-align: center;
+}
+.drag-drop , h6{
+    color: #1ED6FF;
+    font-size: small;
+}
+.form-lable-cv{
+    color: #FFF;
+font-family: Poppins;
+font-size: 14px;
+font-style: normal;
+font-weight: 500;
+// line-height: 165%; /* 33px */
+letter-spacing: 0.1px;
+  }
+  .cover-latter{
+    border-radius: 12px;
+border: 1px solid #E5EAF1;
+background: #0A1E35;
+color: #FFF;
+  }
+  .btn-next{
+    // background-color: 36D0FF;
+    background-color: #36D0FF;
+    width: 108px;
+    height: 35px;
+    border-radius: 9px;
+    border: unset;
+  }

@@ -20,3 +20,27 @@ width: 95%;
     height: auto;
     width: 100%;
 }
+
+/* Styles for devices with a resolution of 1680x1050 pixels */
+@media (min-width: 1680px) {
+    .user-detai-main {
+        padding: 20px; /* Add padding to the container */
+    }
+
+    .col-md-3 {
+        width: 25%; /* Adjust the width of the left column */
+        margin-right: 20px; /* Add some margin between the columns */
+    }
+
+    .col-md-9 {
+        width: 70%; /* Adjust the width of the right column */
+    }
+
+    .input-logo {
+        font-size: 14px; /* Increase font size for better readability */
+    }
+
+    .img-user {
+        width: 150px; /* Adjust the width of the user image */
+    }
+}
