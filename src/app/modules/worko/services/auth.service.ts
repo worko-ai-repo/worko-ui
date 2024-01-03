@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
-import { HttpClient, HttpHeaders} from '@angular/common/http';
- import { environment } from '../../../../environment/environment';
+import { HttpClient, HttpHeaders } from '@angular/common/http';
+import { environment } from '../../../../environment/environment';
 import { Observable } from 'rxjs';
 import { candidateInfo, employeeInfo } from '../interfaces/auth.interface';
 import { CognitoService } from '../../services/cognito.service';
@@ -35,51 +35,55 @@ export class AuthService {
    * @returns {Promise<any>}
    */
   createEmployee(employeeInfo: employeeInfo): Promise<any> {
-    return this.http.post(API_URL + `user/register/employee`,employeeInfo, this.getHttpOptions()).toPromise();
+    return this.http.post(API_URL + `user/register/employee`, employeeInfo, this.getHttpOptions()).toPromise();
   }
 
-    /**
-   * Create Employee.
-   *
-   * @param {number | string } employeeInfo
-   * @returns {Observable<any>}
-   */
-    uploadCV(documentDetails: any): Promise<any> {
-      return this.http.post(API_URL + `file/gsu2u/USER_RESUME`, documentDetails, this.getHttpOptions())
-        .toPromise()
-        .then(response => response as ArrayBuffer);
-    }
+  /**
+ * Create Employee.
+ *
+ * @param {number | string } employeeInfo
+ * @returns {Observable<any>}
+ */
+  uploadCV(documentDetails: any): Promise<any> {
+    return this.http.post(API_URL + `file/gsu2u/USER_RESUME`, documentDetails, this.getHttpOptions())
+      .toPromise()
+      .then(response => response as ArrayBuffer);
+  }
 
-    uploadFileOnS3Bucket(file: File, signedUrl: string, awsS3Tag: string): Promise<any> {
-      return this.http.put(signedUrl, file, this.getHttpOptions(false, { awsS3Tag: awsS3Tag, "fileType": file.type })).toPromise()
-    }
+  uploadFileOnS3Bucket(file: File, signedUrl: string, awsS3Tag: string): Promise<any> {
+    return this.http.put(signedUrl, file, this.getHttpOptions(false, { awsS3Tag: awsS3Tag, "fileType": file.type })).toPromise()
+  }
 
-    linkResumewithUser(emailId: string, awsS3fileName: string): Promise<any> {
-      return this.http.patch(API_URL + `user/${emailId}/cv`, {resume :awsS3fileName}, this.getHttpOptions())
-        .toPromise()
-        .then(response => response as ArrayBuffer);
-    }
+  linkResumewithUser(emailId: string, awsS3fileName: string): Promise<any> {
+    return this.http.patch(API_URL + `user/${emailId}/cv`, { resume: awsS3fileName }, this.getHttpOptions())
+      .toPromise()
+      .then(response => response as ArrayBuffer);
+  }
 
-    getProfile(emailId: string): Promise<any> {
-      return this.http.get(API_URL + `user/${emailId}/profile`, this.getHttpOptions())
-        .toPromise()
-        .then(response => response as ArrayBuffer);
-    }
+  getProfile(emailId: string): Promise<any> {
+    return this.http.get(API_URL + `user/${emailId}/profile`, this.getHttpOptions())
+      .toPromise()
+      .then(response => response as ArrayBuffer);
+  }
 
 
-  
-   /**
-   * Get Http Options.
-   *
-   * @param {boolean} [authorization = true]
-   * @param {any} [params = {}]
-   * @returns {any}
-   */
-   getHttpOptions(authorization: boolean = true, params: any = {}): any {
+
+  /**
+  * Get Http Options.
+  *
+  * @param {boolean} [authorization = true]
+  * @param {any} [params = {}]
+  * @returns {any}
+  */
+  getHttpOptions(authorization: boolean = true, params: any = {}): any {
     let headers: any = { 'Content-Type': 'application/json' };
 
     if (authorization) {
       headers.Authorization = `Bearer ${this.cognitoService.getAccessToken()}`;
+      if (headers.Authorization == "Bearer ") {
+        headers.Authorization = 'Bearer dummyTokenWeArePassing';
+      }
+      console.log(headers.Authorization, "AccessToken");
     }
     // headers['Access-Control-Allow-Origin'] = '*';
 
@@ -110,7 +114,7 @@ export class AuthService {
 
     return httpOptions;
   }
-  
+
 
 }
 

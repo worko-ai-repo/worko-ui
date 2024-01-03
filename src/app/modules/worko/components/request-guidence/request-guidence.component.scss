@@ -214,4 +214,48 @@ line-height: normal;
     padding-left: 10px;
   }
   
+  .mat-datepicker-toggle{
+    // background: rgba(10, 30, 54, 0.96);
+    color: #FFF;
+  }
+  
+  ::ng-deep .datepickerTwo {
+         background: rgba(10, 30, 54, 0.96);
+    color: #FFF;
+  }
+  
+  ::ng-deep .datepickerTwo .mat-calendar-body-today:not(.mat-calendar-body-selected){
+    border-color:#FFF;
+  }
+
+  .mat-calendar-body-cell-content.mat-focus-indicator, .mat-calendar-table-header th, .mat-calendar-body-label,
+  .mat-mdc-button .mdc-button__label, .mat-mdc-unelevated-button .mdc-button__label, .mat-mdc-raised-button .mdc-button__label, .mat-mdc-outlined-button .mdc-button__label,
+  .mat-calendar-next-button::after{
+    color:#FFF !important;
+  }
+  .mat-datepicker-toggle{
+ position: absolute;
+    top: -12px;
+    right: -10px;
+  }
+  /* Decrease the calendar icon size */
+// ::ng-deep .mat-datepicker-toggle-default-icon {
+//     font-size: 12px; /* Adjust the size as needed */
+//   }
+  
+//   /* Customize the calendar appearance */
+//   ::ng-deep .mat-calendar {
+//     background-color: rgba(10, 30, 54, 0.96); /* Set the background color */
+//     color: white; /* Set the text color */
+//   }
+  
+//   /* Customize the date cells */
+//   ::ng-deep .mat-calendar-body-cell-content {
+//     color: white; /* Set the text color for date numbers */
+//   }
+  
+//   /* Customize the icons in the calendar header */
+//   ::ng-deep .mat-calendar-arrow {
+//     fill: white; /* Set the icon color */
+//   }
   

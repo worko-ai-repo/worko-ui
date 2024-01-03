@@ -29,6 +29,11 @@ export class NavbarComponent {
     this.userLoggedIn = await this.cognitoService.isLoggedIn();
   }
 
+  async receiveDataFromChild(data: any){
+    // this.userLoggedIn = await this.cognitoService.isLoggedIn();
+
+  }
+
   async openLogin() {
     if (this.userLoggedIn) {
       alert("User is Logged In")
