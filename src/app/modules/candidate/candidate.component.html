@@ -1,2 +1,15 @@
 
-<router-outlet></router-outlet>
+<div id="wrapper">
+    <app-user-menubar [isSidebarExpanded]="isSidebarExpanded" (onToggleSidebar)="toggleSidebar()"></app-user-menubar>
+    <div id="content-wrapper" class="d-flex flex-column">
+      <div id="content">
+        <!-- <app-topbar [isSidebarExpanded]="isSidebarExpanded" (onToggleSidebar)="toggleSidebar()"></app-topbar> -->
+        <app-user-navbar></app-user-navbar>
+        <div class="container-fluid">
+          <router-outlet></router-outlet>
+        </div>
+      </div>
+      <!-- <app-footer [variant]="'auth'"></app-footer> -->
+    </div>
+  </div>
+  
