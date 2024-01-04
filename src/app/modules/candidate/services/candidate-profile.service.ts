@@ -1,9 +1,36 @@
 import { Injectable } from '@angular/core';
+import { environment } from '../../../../environment/environment';
+import { param } from 'jquery';
+import { HttpClient } from '@angular/common/http';
+import { Observable } from 'rxjs';
+import { AuthService } from '../../worko/services/auth.service';
+
+
+const API_URL = environment.apiUrl;
 
 @Injectable({
   providedIn: 'root'
 })
 export class CandidateProfileService {
 
-  constructor() { }
+/** 
+  @param {HttpClient} http
+  */
+  constructor(private http : HttpClient , private authService: AuthService) { }
+
+  /**
+    @returns {Promise<any>}
+   */
+    getUserProfile(emailAddress:string):  Observable<any>{
+     return this.http.get(`${API_URL}user/${emailAddress}/socialprofile`,this.authService.getHttpOptions())
+}
+  getUserDetails(emailAddress:string): Observable<any> {
+    return this.http.get(`${API_URL}user/${emailAddress}`,this.authService.getHttpOptions() )
+  }
+  // getUserProfile(emailAddress:string): Observable<any> {
+  //   return this.http.get(API_URL + 'user/{:id}/socialprofile' )
+  // }
+  // getReferralCount(emailId: string): Promise<any> {
+  //   return this.http.get(`${API_URL}user/${emailId}/subscription/status`, this.authService.getHttpOptions()).toPromise();
+  // }
 }

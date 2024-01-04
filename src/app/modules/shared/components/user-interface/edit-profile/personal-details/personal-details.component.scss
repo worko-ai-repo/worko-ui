@@ -1,8 +1,4 @@
-.candidate-card{
-    border-radius: 20px;
-background: #0A1E35;
-width: 100%;
-}
+
 .edit-profile-text{
     color: #FFF;
     text-align: center;
@@ -33,13 +29,7 @@ width: 100%;
     font-size: 11px;
     color: #FFF;
   }
-  .form-input{
-    // border: 2px solid white;
-    color: white;
-    background-color: transparent;
-    font-size: 11px;
-    border-radius: 10px;
-  }
+  
   ::placeholder {
     color: gray;
      /* Firefox */
@@ -51,14 +41,7 @@ border: 1px solid #E5EAF1;
 background: #0A1E35;
 color: #FFF;
   }
-  .btn-next{
-    // background-color: 36D0FF;
-    background-color: #36D0FF;
-    width: 108px;
-    height: 35px;
-    border-radius: 9px;
-    border: unset;
-  }
+  
   .form-ctc{
     color: white;
     background-color: transparent;
@@ -115,8 +98,5 @@ line-height: normal;
     background: #1ED6FF;
     width: 140px;
   }
-  .btn-next{
-    background-color: #1ED6FF;
-    text-align: center;
-    color: #0A1E35;
-  }
+  
+  
