@@ -34,8 +34,7 @@ import { EditProfileComponent } from './components/edit-profile/edit-profile.com
 import { PersonalInformationComponent } from '../shared/components/user-interface/edit-profile/personal-information/personal-information.component';
 import { PersonalDetailsComponent } from '../shared/components/user-interface/edit-profile/personal-details/personal-details.component';
 import { UploadComponent } from '../shared/components/user-interface/edit-profile/upload/upload.component';
-
-
+ import { AcceptedReferralComponent } from '../shared/components/user-interface/candidate/accepted-referral/accepted-referral.component';
 
 
 export const routes: Routes = [
@@ -119,6 +118,7 @@ export const routes: Routes = [
   PersonalInformationComponent,
   PersonalDetailsComponent,
   UploadComponent,
+   AcceptedReferralComponent
   ],
   imports: [
     CommonModule,

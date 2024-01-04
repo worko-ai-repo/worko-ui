@@ -1,89 +1,86 @@
-// .candidate-worko-logo{
-//     width: 71%;
-// }
-// .bg-color{
-// background: #0A1E35;
-
-// }
-// .menu-bar h5{
-//     font-size: medium;
-//     // display: flex;
-//     // justify-content: space-between;
-// }
-
-// .btn-logOut{
-//     background-color: transparent;
-//     border: 1px solid #E51818;
-//     color: #E51818;
-//     width: 128px;
-//     border-radius: 18px;
-//     height: 31px;
-// }
-// .check-box{
-//     background-color: transparent;
-//     color: white;
-//     font-size: larger;
-// }
-// .font-logo{
-//     display: flex;
-//     justify-content: end;
-// }
-// .logo-space{
-//     display: flex;
-//     justify-content: space-evenly;
-// }
-// .dashboard-bg-color{
-//     background-color: #0A111C;
-// }
-// .candidate-card{
-//     border-radius: 20px;
-// background: #0A1E35;
-// width: 95%;
-// }
-// .input-logo{
-//     color: #f7f7f7;
-//     font-size: 11px;
-// }
-// .dash-logo{
-//     width: 16px;
-// }
-// .prof-heding{
-//     color: white;
-//     font-size: medium;
-// }
-// .candidate-icon{
-//     display: flex;
-//     justify-content: center;
-//     align-items: self-start;
-// }
-// .profile-complite-content{
-//     color: white;
-//     font-size:8px;
-// }
-// .profile-option{
-//     display: flex;
-//     display: table-column;
-    
-// }
-// .content-end{
-//     display: flex;
-//     align-items: self-end;
-// }
-// .softskills-content ul{
-//     color: white;
-//     font-size: small;
-//     line-height: 28px;
-   
-// }
-
 
 .background-color{
     background-color: #0A111C;
     height: auto;
 }
-// @media screen and (max-width: 1500px){
-//     .main{
-//         height:auto;
-//         width: 100%;
-//     }
+
+// html, body {
+//     height: 100%;
+//     background-color: #FFF;
+//     margin: 0;
+//     padding: 0;
 // }
+// body {
+//     display: flex;
+//     justify-content: center;
+//     align-items: flex-start;
+
+//     margin-top: 2em;
+// }
+// div {
+//     box-sizing: border-box;
+    
+// }
+// .main-container {
+//     display: flex;
+//     height: 100%;
+//     max-height: 100%;
+//     // border: 1px solid red;
+// }
+// .left-container {
+//     flex: 0 1 45%;
+//     display: flex;
+//     height: 100%;
+//     max-width: 50%;
+//     flex-wrap: wrap;
+//     align-items: flex-start;
+// }
+// .right-container {
+//     flex: 0 1 55%;
+//     display: flex;
+//     height: 100%;
+//     max-width: 50%;
+//     flex-wrap: wrap;
+//     align-items: flex-start;
+// }
+// .half-containers {
+//     flex: 0 0 100%;
+//     max-height: 50%;
+//     min-height: 50%;
+//     max-width: 100%;
+//     // background: #0BDA51;
+//     // border: 1px solid red;
+//     padding: .5em;
+//     overflow: hidden;
+// }
+.main-container{
+    height: 100vh; /* Set the height to half of the viewport height */
+}
+.container {
+  
+    display: flex;
+    flex-direction: row;
+  }
+
+  .half {
+    flex: 1;
+    width:50%;
+    // border: 1px solid #000;
+    // text-align: center;
+    padding: 10px; /* Optional: Add padding for better visual appearance */
+  }
+
+  .divide-55 {
+    flex: 1;
+    width:55%;
+    // border: 1px solid #000;
+    // text-align: center;
+    padding: 10px; /* Optional: Add padding for better visual appearance */
+  }
+  .divide-45 {
+    flex: 1;
+    width:45%;
+    // border: 1px solid #000;
+    // text-align: center;
+    padding: 10px; /* Optional: Add padding for better visual appearance */
+  }

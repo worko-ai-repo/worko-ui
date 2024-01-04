@@ -25,6 +25,8 @@
                       <ng-template #otherStatus>
                         <app-referral-cancelled *ngIf="selectedStatus === 'Cancelled'"></app-referral-cancelled>
                         <app-referral-req-rejected *ngIf="selectedStatus === 'Rejected'"></app-referral-req-rejected>
+                        <app-accepted-referral *ngIf="selectedStatus === 'Accepted'"></app-accepted-referral>
+                        <app-accepted-referral *ngIf="selectedStatus === 'Done'"></app-accepted-referral>
                       </ng-template>
                 </div>
                 
