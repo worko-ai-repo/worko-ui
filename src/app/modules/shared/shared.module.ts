@@ -25,6 +25,7 @@ import { PersonalInformationComponent } from './components/user-interface/edit-p
 import { PersonalDetailsComponent } from './components/user-interface/edit-profile/personal-details/personal-details.component';
 import { UploadComponent } from './components/user-interface/edit-profile/upload/upload.component';
 import { Routes } from '@angular/router';
+import { AcceptedReferralComponent } from './components/user-interface/candidate/accepted-referral/accepted-referral.component';
 
 
 export const routes: Routes = [

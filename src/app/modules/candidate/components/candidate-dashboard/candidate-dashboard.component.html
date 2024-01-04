@@ -1,38 +1,77 @@
+<!-- <div class="row">
+    <div class="col-lg-12 col-sm-12 background-color h-100">
+        <div class="row">
 
-
-<!-- <div class="container-fluid main"> -->
-    <!-- <div class="row">
-        <div class="col-10">
-            <app-user-navbar></app-user-navbar>
-        </div> 
-    </div> -->
-    <div class="row">
-        <!-- <div class="col-lg-2 col-sm-2 h-100">
-            <app-user-menubar></app-user-menubar>
-        </div> -->
-        <div class="col-lg-12 col-sm-12 background-color h-100">
-            <div class="row">
-                <!-- <div class="col-md-12">
-                    <app-user-navbar></app-user-navbar>
-                </div> -->
-                <div class="col-lg-5 col-sm-5 pe-0 h-100">
-                    <app-user-details></app-user-details>
-                </div>
-                <div class="col-12 col-md-4 p-0">
-                    <app-user-profile-complete></app-user-profile-complete>
-                </div>
-                <div class="col-12 col-md-3 p-0">
-                    <app-user-soft-skills></app-user-soft-skills>
-                </div>
+            <div class="col-lg-5 col-sm-5 pe-0 h-100">
+                <app-user-details></app-user-details>
             </div>
-            <div class="row">
-                <div class="col-12 col-md-5 mt-2">
-                    <app-user-about></app-user-about>
-                </div>
-                <div class="col-12 col-md-7 mt-2 p-0">
-                    <app-user-skills></app-user-skills>
-                </div>
+            <div class="col-12 col-md-4 p-0">
+                <app-user-profile-complete></app-user-profile-complete>
+            </div>
+            <div class="col-12 col-md-3 p-0">
+                <app-user-soft-skills></app-user-soft-skills>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-12 col-md-5 mt-2">
+                <app-user-about></app-user-about>
+            </div>
+            <div class="col-12 col-md-7 mt-2 p-0">
+                <app-user-skills></app-user-skills>
             </div>
         </div>
     </div>
-<!-- </div> -->
+</div> -->
+
+<!-- <div class="main-container">
+    <div class="left-container">
+        <div class="half-containers">
+            <app-user-details></app-user-details>
+        </div>
+        <div class="half-containers">
+            <app-user-about></app-user-about>
+        </div>
+    </div>
+    <div class="right-container">
+        <div class="half-containers">
+            <div class="row">
+                <div class="col-lg-8">
+                    <app-user-profile-complete></app-user-profile-complete>
+                </div>
+                <div class="col-lg-4">
+                    <app-user-soft-skills></app-user-soft-skills>
+                </div>
+            </div>
+        </div>
+        <div class="half-containers">
+            <app-user-skills></app-user-skills>
+
+        </div>
+    </div>
+</div> -->
+<div class="main-container">
+
+
+<div class="container">
+    <div class="divide-45">
+
+        <app-user-details></app-user-details>
+    </div>
+    <div class="divide-55">
+        <div class="row" style="height:100%">
+            <div style="width:60%">
+                <app-user-profile-complete></app-user-profile-complete>
+            </div>
+            <div style="width:40%">
+                <app-user-soft-skills></app-user-soft-skills>
+            </div>
+        </div>
+
+    </div>
+</div>
+
+<div class="container">
+    <div class="divide-45"> <app-user-about></app-user-about></div>
+    <div class="divide-55"> <app-user-skills></app-user-skills></div>
+</div>
+</div>
