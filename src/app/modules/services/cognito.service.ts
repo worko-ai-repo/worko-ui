@@ -88,7 +88,9 @@ export class CognitoService {
   async handleSignOut() {
     try {
       await signOut();
+      this.storage.remove("useremail");
       this.removeAccessToken();
+
     } catch (error) {
       console.log('error signing out: ', error);
     }
