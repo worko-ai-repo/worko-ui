@@ -1,3 +1,17 @@
-.background-color{
-    background-color: #0A111C;;
-}
+.content-container {
+    height: calc(100vh - 60px);
+  }
+  
+  .divide-45 {
+    flex: 1;
+    padding: 10px;
+    /* Optional: Add padding for better visual appearance */
+  }
+  
+  .divide-55 {
+    flex: 2;
+    height: 100%;
+    padding: 10px;
+    /* Optional: Add padding for better visual appearance */
+  }
+  

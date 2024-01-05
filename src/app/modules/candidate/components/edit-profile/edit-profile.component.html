@@ -1,27 +1,22 @@
 
 
-<!-- <div class="container-fluid"> -->
-    
-    <!-- <div class="row"> -->
-        <!-- <div class="col-12 col-sm-2">
-            <app-user-menubar></app-user-menubar>
-        </div> -->
-        <div class="row background-color">
+        <!-- <div class="row background-color">
             <div class="row">
-                <!-- <div class="col-md-12">
-                    <app-user-navbar></app-user-navbar>
-                </div>     -->
                 <div class="col-md-12">
                     <app-personal-information *ngIf="currentStep === 1" (nextStep)="nextStep()"></app-personal-information>
                     <app-personal-details *ngIf="currentStep === 2" (nextStep)="nextStep()" (previousStep)="previousStep()"></app-personal-details>
                     <app-upload *ngIf="currentStep === 3" (previousStep)="previousStep()"></app-upload>
                 </div>            
             </div>
-            
-            
-           
-            
-            
+        </div> -->
+
+
+        <div class="row content-container">
+            <div class="divide-55">
+                <div class="row" style="height:100%">
+                    <app-personal-information *ngIf="currentStep === 1" (nextStep)="nextStep()"></app-personal-information>
+                    <app-personal-details *ngIf="currentStep === 2" (nextStep)="nextStep()" (previousStep)="previousStep()"></app-personal-details>
+                    <app-upload *ngIf="currentStep === 3" (previousStep)="previousStep()"></app-upload>
+                </div>
+            </div>
         </div>
-    <!-- </div> -->
-<!-- </div> -->
