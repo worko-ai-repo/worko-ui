@@ -10,9 +10,9 @@ import { StorageService } from 'src/app/modules/app-core/services/storage.servic
 export class UserSkillsComponent implements OnInit {
   achievementsList:any="";
   emailAddress:any="";
-  achievementsDetails:any={
-
-  }
+    
+      
+  
   constructor( private candidateSrv:CandidateProfileService , private storage : StorageService ){}
 
   ngOnInit(): void {
@@ -20,13 +20,16 @@ export class UserSkillsComponent implements OnInit {
       this.getAchievements();
   }
 
-  getAchievements(){
-    this.candidateSrv.getCandidateAchievements(this.emailAddress).subscribe({
-       next:(response)=>{
-             this.achievementsList = response;
+ async  getAchievements(){
+    await this.candidateSrv.getCandidateAchievements(this.emailAddress).then(async(response)=>{
+       if(response){
+             this.achievementsList = response[0].achievements;
+
              console.log(response)
+             console.log(this.achievementsList)
             }
     })
   }
+    
 
 }

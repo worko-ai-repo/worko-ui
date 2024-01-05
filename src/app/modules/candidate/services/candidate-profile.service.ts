@@ -21,18 +21,21 @@ export class CandidateProfileService {
   /**
     @returns {Promise<any>}
    */
-    getUserProfile(emailAddress:string):  Observable<any>{
-     return this.http.get(`${API_URL}user/${emailAddress}/socialprofile`,this.authService.getHttpOptions())
+    getUserProfile(emailAddress:string):Promise<any>{
+     return this.http.get(`${API_URL}user/${emailAddress}/socialprofile`,this.authService.getHttpOptions()).toPromise();
 }
-  getUserDetails(emailAddress:string): Observable<any> {
-    return this.http.get(`${API_URL}user/${emailAddress}`,this.authService.getHttpOptions() )
+  getUserDetails(emailAddress:string): Promise<any> {
+    return this.http.get(`${API_URL}user/${emailAddress}`,this.authService.getHttpOptions()).toPromise();
   }
 
-  getCandidateSkills(emailAddress:string):Observable<any>{
-    return this.http.get(`${API_URL}user/${emailAddress}/skill`, this.authService.getHttpOptions())
+  getCandidateSkills(emailAddress:string):Promise<any>{
+    return this.http.get(`${API_URL}user/${emailAddress}/skill`, this.authService.getHttpOptions()).toPromise();
   }
-  getCandidateAchievements(emailAddress:string){
-    return this.http.get(`${API_URL}user/${emailAddress}/achievement`, this.authService.getHttpOptions())
+  getCandidateAchievements(emailAddress:string):Promise<any>{
+    return this.http.get(`${API_URL}user/${emailAddress}/achievement`, this.authService.getHttpOptions()).toPromise();
+  }
+  getCandidateEducation(emailAddress:string){
+    return this.http.get(`${API_URL}user/${emailAddress}/education`, this.authService.getHttpOptions()).toPromise();
   }
   // getUserProfile(emailAddress:string): Observable<any> {
   //   return this.http.get(API_URL + 'user/{:id}/socialprofile' )

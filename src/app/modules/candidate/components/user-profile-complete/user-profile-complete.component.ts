@@ -18,9 +18,9 @@ export class UserProfileCompleteComponent implements OnInit {
   }
 
 
-  getprofilelogo(){
-    this.candidateSrv.getUserProfile(this.emailAddress).subscribe ({
-          next:(response)=>{
+  async getprofilelogo(){
+   await this.candidateSrv.getUserProfile(this.emailAddress).then(async (response)=> {
+          if(response) {
              this.candidateLogos = response;
              console.log(response)
             }
@@ -28,4 +28,5 @@ export class UserProfileCompleteComponent implements OnInit {
 })
  
 }
+
 }

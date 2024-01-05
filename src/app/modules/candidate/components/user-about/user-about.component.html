@@ -16,27 +16,15 @@
                  Show more...
                 </p>
             </div>
-           <div class="row">
+           <div class="row" *ngFor="let certificate of certificationList" >
             <div class="col-md-4 text-white">
                 <div class="certification-heading">Certifications:</div>
                 
             </div>
             <div class="col-md-4 p-1">
-                <span class="certification-boxes">AWS Cloud Practitioner</span>
+                <span class="certification-boxes">{{certificationDetails.otherCertName}}</span>
             </div>
-            <div class="col-md-4 p-1">
-                <span class="certification-boxes">AWS Cloud Practitioner</span>
-            </div>
-            <div class="col-md-4">
-                <span class="certification-boxes">AWS Cloud Practitioner</span>
-            </div>
-            <div class="col-md-4">
-                <span class="certification-boxes">AWS Cloud Practitioner</span>
-            </div>
-            <div class="col-md-4">
-                <span class="certification-boxes">AWS Cloud Practitioner</span>
-            </div>
-           </div>
+           
            
            
            

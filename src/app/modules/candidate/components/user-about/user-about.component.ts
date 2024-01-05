@@ -11,8 +11,11 @@ export class UserAboutComponent implements OnInit {
  certificationList:any[]=[];
  emailAddress:any="";
  certificationDetails:any={
+  "certifications": "",
+    "otherCertName": "",
+        
+}
 
- }
 
   constructor( private candidateSrv : CandidateProfileService , private storage : StorageService ){}
 
@@ -21,13 +24,15 @@ export class UserAboutComponent implements OnInit {
       this.userCertifications();
   }
 
-  userCertifications(){
-    this.candidateSrv.getCandidateSkills(this.emailAddress).subscribe({
-      next:(response)=>{
+  async userCertifications(){
+   await this.candidateSrv.getCandidateSkills(this.emailAddress).then(async(response)=>{
+      if(response){
         this.certificationList=response;
+        
       }
     })
   }
-
-
 }
+
+
+
