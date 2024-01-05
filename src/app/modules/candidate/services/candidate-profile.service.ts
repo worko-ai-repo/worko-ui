@@ -27,6 +27,13 @@ export class CandidateProfileService {
   getUserDetails(emailAddress:string): Observable<any> {
     return this.http.get(`${API_URL}user/${emailAddress}`,this.authService.getHttpOptions() )
   }
+
+  getCandidateSkills(emailAddress:string):Observable<any>{
+    return this.http.get(`${API_URL}user/${emailAddress}/skill`, this.authService.getHttpOptions())
+  }
+  getCandidateAchievements(emailAddress:string){
+    return this.http.get(`${API_URL}user/${emailAddress}/achievement`, this.authService.getHttpOptions())
+  }
   // getUserProfile(emailAddress:string): Observable<any> {
   //   return this.http.get(API_URL + 'user/{:id}/socialprofile' )
   // }
