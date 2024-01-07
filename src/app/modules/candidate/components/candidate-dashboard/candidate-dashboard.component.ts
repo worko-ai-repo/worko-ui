@@ -13,9 +13,11 @@ export class CandidateDashboardComponent {
   candidateDetails: any = {};
   educationDetails: any = {};
   achievementsList: any = "";
-  candidateImage: any = {};
+  candidateSocial: any = {};
   certificationList:any;
   coreSkillsLists: any;
+  softSkillsLists: any;
+  userDescription: string = "";
   constructor(private candidateSrv: CandidateProfileService, private storage: StorageService) { }
 
   ngOnInit(): void {
@@ -29,6 +31,7 @@ export class CandidateDashboardComponent {
       if (response) {
         this.candidateList = response
         this.candidateDetails = this.candidateList[0];
+        this.userDescription = this.candidateList[0].about;
         console.log(response);
         await this.getEducationDetails();
       }
@@ -39,7 +42,7 @@ export class CandidateDashboardComponent {
     await this.candidateSrv.getCandidateEducation(this.emailAddress).then(async (response) => {
       if (response) {
         this.educationList = response;
-        this.educationDetails = this.educationList[1];
+        this.educationDetails = this.educationList[0];
         console.log(response + "1");
         this.getAchievements();
       }
@@ -50,7 +53,7 @@ export class CandidateDashboardComponent {
     await this.candidateSrv.getCandidateAchievements(this.emailAddress).then(async (response) => {
       if (response) {
         this.achievementsList = response[0].achievements;
-        this.coreSkillsLists = response[0].coreSkills;
+        console.log(  this.achievementsList);
         this.getprofilelogo();
       }
     })
@@ -59,7 +62,7 @@ export class CandidateDashboardComponent {
   async getprofilelogo() {
     await this.candidateSrv.getUserProfile(this.emailAddress).then(async (response) => {
       if (response) {
-        this.candidateImage = response;
+        this.candidateSocial = response;
         console.log(response);
         this.userCertifications();
       }
@@ -72,6 +75,9 @@ export class CandidateDashboardComponent {
     await this.candidateSrv.getCandidateSkills(this.emailAddress).then(async(response)=>{
        if(response){
          this.certificationList=response[0];
+         this.coreSkillsLists = response[0].coreSkills;
+         this.softSkillsLists = response[0].softSkills;
+         console.log(  this.coreSkillsLists);
          
        }
      })

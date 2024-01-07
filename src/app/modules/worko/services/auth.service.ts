@@ -83,7 +83,7 @@ export class AuthService {
       if (headers.Authorization == "Bearer ") {
         headers.Authorization = 'Bearer dummyTokenWeArePassing';
       }
-      console.log(headers.Authorization, "AccessToken");
+      // console.log(headers.Authorization, "AccessToken");
     }
     // headers['Access-Control-Allow-Origin'] = '*';
 

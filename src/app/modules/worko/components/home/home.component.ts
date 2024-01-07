@@ -331,9 +331,19 @@ export class HomeComponent {
 
   }
 
- async receiveDataFromChild(data: any){
-    this.userLoggedIn = await this.cognitoService.isLoggedIn();
+  async receiveDataFromChild(userType: any) {
+    console.log(userType);
     this.closeModal();
+    this.userLoggedIn = await this.cognitoService.isLoggedIn();
+    if (this.userLoggedIn) {
+      if (userType == "CAND") {
+        this.router.navigate(['/candidate/candidate-dashboard']);
+      } else {
+        this.router.navigate(['/employee/employee-dashboard']);
+      }
+    }
+
+
   }
 
   clientInfo(): void {
@@ -390,7 +400,7 @@ export class HomeComponent {
     }
   }
 
-  openGetReferral(){
+  openGetReferral() {
 
     if (this.userLoggedIn) {
       // alert("User is Logged In")
@@ -449,11 +459,11 @@ export class HomeComponent {
     }
 
   }
-    async logout(): Promise<void> {
-      await this.cognitoService.handleSignOut();
-      this.userLoggedIn = await this.cognitoService.isLoggedIn();
-    }
-  
+  async logout(): Promise<void> {
+    await this.cognitoService.handleSignOut();
+    this.userLoggedIn = await this.cognitoService.isLoggedIn();
+  }
+
 
   /**
    * Open modal.

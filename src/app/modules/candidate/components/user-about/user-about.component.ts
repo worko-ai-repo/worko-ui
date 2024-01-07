@@ -9,7 +9,7 @@ import { StorageService } from 'src/app/modules/app-core/services/storage.servic
 })
 export class UserAboutComponent implements OnInit {
  @Input() certificationList:any;
-
+ @Input() userDescription:any;
 
 
 

@@ -2,7 +2,7 @@ import { Component, ViewChild } from '@angular/core';
 import { CognitoService } from 'src/app/modules/services/cognito.service';
 import { ModalType } from 'src/app/modules/shared/interfaces/shared.interface';
 import { ModalComponent } from 'src/app/modules/shared/components/modal/modal.component';
-
+import { Router } from '@angular/router';
 @Component({
   selector: 'app-navbar',
   templateUrl: './navbar.component.html',
@@ -15,7 +15,7 @@ export class NavbarComponent {
   modalTitle: string = "";
   showModal: ModalType | undefined;
   userLoggedIn: boolean = false;
-  constructor(private cognitoService: CognitoService) { }
+  constructor(private cognitoService: CognitoService, private router: Router) { }
 
 
   async ngOnInit(): Promise<void> {
@@ -29,9 +29,15 @@ export class NavbarComponent {
     this.userLoggedIn = await this.cognitoService.isLoggedIn();
   }
 
-  async receiveDataFromChild(data: any){
-    // this.userLoggedIn = await this.cognitoService.isLoggedIn();
-
+  async receiveDataFromChild(userType: any){
+    this.userLoggedIn = await this.cognitoService.isLoggedIn();
+    if(this.userLoggedIn){
+      if (userType == "CAND") {
+        this.router.navigate(['/candidate/candidate-dashboard']);
+      } else {
+        this.router.navigate(['/employee/employee-dashboard']);
+      }
+    }
   }
 
   async openLogin() {

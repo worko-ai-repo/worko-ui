@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, Input } from '@angular/core';
 
 @Component({
   selector: 'app-user-soft-skills',
@@ -6,5 +6,6 @@ import { Component } from '@angular/core';
   styleUrls: ['./user-soft-skills.component.scss']
 })
 export class UserSoftSkillsComponent {
+@Input() softSkillsLists: any;
 
 }
