@@ -37,10 +37,8 @@ export class CandidateProfileService {
   getCandidateEducation(emailAddress:string){
     return this.http.get(`${API_URL}user/${emailAddress}/education`, this.authService.getHttpOptions()).toPromise();
   }
-  // getUserProfile(emailAddress:string): Observable<any> {
-  //   return this.http.get(API_URL + 'user/{:id}/socialprofile' )
-  // }
-  // getReferralCount(emailId: string): Promise<any> {
-  //   return this.http.get(`${API_URL}user/${emailId}/subscription/status`, this.authService.getHttpOptions()).toPromise();
-  // }
+  getReferral(emailAddress:string){
+    return this.http.get(`${API_URL}user/${emailAddress}/referral`, this.authService.getHttpOptions()).toPromise();
+  }
+ 
 }

@@ -6,11 +6,12 @@
                 <h5 class="text-white ps-4">Soft Skills:</h5>
                 <div class="px-3 py-2">
                 <ul>
-                    <li>Team Management</li>
+                    <li *ngFor="let softSkill of softSkillsList">{{softSkill.skillName}}</li>
+                    <!-- <li>Team Management</li>
                     <li>Hard Working</li>
                     <li>Leaders Qualities</li>
                     <li>Punctual</li>
-                    <li>Dedicated</li>
+                    <li>Dedicated</li> -->
                                                     
                 </ul>
             </div>

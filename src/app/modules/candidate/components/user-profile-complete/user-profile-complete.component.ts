@@ -10,6 +10,14 @@ import { StorageService } from 'src/app/modules/app-core/services/storage.servic
 export class UserProfileCompleteComponent implements OnInit {
   candidateLogos:any[]=[];
   emailAddress: string = "";
+  candidateLogosDetails:any={
+    "twitter": "",
+ 
+  "github":"",
+ 
+  "linkedin":"",
+ 
+  }
   constructor(private candidateSrv : CandidateProfileService , private Storage : StorageService){}
 
   ngOnInit(): void {
@@ -22,6 +30,8 @@ export class UserProfileCompleteComponent implements OnInit {
    await this.candidateSrv.getUserProfile(this.emailAddress).then(async (response)=> {
           if(response) {
              this.candidateLogos = response;
+             this.candidateLogosDetails=this.candidateLogos[0];
+
              console.log(response)
             }
 

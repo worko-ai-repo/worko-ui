@@ -16,7 +16,7 @@ export class UserDetailsComponent implements OnInit {
         "ECTC": 0,
         "referralCount": 0,
         "name": "",
-        "number": 0,
+        "number":0,
         "emailList": {
           "primary": "prashant@worko.ai"
       },
