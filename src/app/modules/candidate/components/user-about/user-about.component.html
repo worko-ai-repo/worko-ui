@@ -16,13 +16,14 @@
                  Show more...
                 </p>
             </div>
-           <div class="row" *ngFor="let certificate of certificationList" >
             <div class="col-md-4 text-white">
                 <div class="certification-heading">Certifications:</div>
                 
             </div>
+           <div class="row" *ngFor="let certificate of certificationList.certifications" >
+         
             <div class="col-md-4 p-1">
-                <span class="certification-boxes">{{certificationDetails.otherCertName}}</span>
+                <span class="certification-boxes">{{certificate.certName}}</span>
             </div>
            
            
