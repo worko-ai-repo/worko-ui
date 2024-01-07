@@ -1,12 +1,12 @@
 <div class="row content-container">
     <div class="container">
         <div class="divide-40 mr-3">
-            <app-user-details></app-user-details>
+            <app-user-details [candidateDetails]=" candidateDetails" [educationDetails]="educationDetails"></app-user-details>
         </div>
         <div class="divide-60">
             <div class="row p-0" style="height:100%">
                 <div style="width:60%">
-                    <app-user-profile-complete></app-user-profile-complete>
+                    <app-user-profile-complete [candidateImage]="candidateImage"></app-user-profile-complete>
                 </div>
                 <div style="width:40%;">
                     <app-user-soft-skills></app-user-soft-skills>
@@ -15,7 +15,7 @@
         </div>
     </div>
     <div class="container my-3">
-        <div class="divide-40 mr-3"> <app-user-about></app-user-about></div>
-        <div class="divide-60"> <app-user-skills></app-user-skills></div>
+        <div class="divide-40 mr-3"> <app-user-about [certificationList]="certificationList"></app-user-about></div>
+        <div class="divide-60"> <app-user-skills  [achievementsList]="achievementsList" [coreSkillsLists]="coreSkillsLists" ></app-user-skills></div>
     </div>
 </div>

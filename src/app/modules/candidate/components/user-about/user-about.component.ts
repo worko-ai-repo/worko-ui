@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, Input } from '@angular/core';
 import { CandidateProfileService } from '../../services/candidate-profile.service';
 import { StorageService } from 'src/app/modules/app-core/services/storage.service';
 
@@ -8,30 +8,26 @@ import { StorageService } from 'src/app/modules/app-core/services/storage.servic
   styleUrls: ['./user-about.component.scss']
 })
 export class UserAboutComponent implements OnInit {
- certificationList:any[]=[];
- emailAddress:any="";
- certificationDetails:any={
-  "certifications": "",
-    "otherCertName": "",
-        
-}
+ @Input() certificationList:any;
 
 
-  constructor( private candidateSrv : CandidateProfileService , private storage : StorageService ){}
+
+
+  constructor( ){}
 
   ngOnInit(): void {
-      this.emailAddress= this.storage.get("useremail")
-      this.userCertifications();
+      // this.emailAddress= this.storage.get("useremail")
+      // this.userCertifications();
   }
 
-  async userCertifications(){
-   await this.candidateSrv.getCandidateSkills(this.emailAddress).then(async(response)=>{
-      if(response){
-        this.certificationList=response;
+  // async userCertifications(){
+  //  await this.candidateSrv.getCandidateSkills(this.emailAddress).then(async(response)=>{
+  //     if(response){
+  //       this.certificationList=response;
         
-      }
-    })
-  }
+  //     }
+  //   })
+  // }
 }
 
 

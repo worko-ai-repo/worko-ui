@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, Input } from '@angular/core';
 import { CandidateProfileService } from '../../services/candidate-profile.service';
 import { StorageService } from 'src/app/modules/app-core/services/storage.service';
 
@@ -8,28 +8,30 @@ import { StorageService } from 'src/app/modules/app-core/services/storage.servic
   styleUrls: ['./user-skills.component.scss']
 })
 export class UserSkillsComponent implements OnInit {
-  achievementsList:any="";
-  emailAddress:any="";
+   @Input() achievementsList : any = "";
+   @Input() coreSkillsLists : any = "";
+  // achievementsList:any="";
+  // emailAddress:any="";
     
       
   
-  constructor( private candidateSrv:CandidateProfileService , private storage : StorageService ){}
+  constructor( ){}
 
   ngOnInit(): void {
-      this.emailAddress = this.storage.get("useremail");
-      this.getAchievements();
+      // this.emailAddress = this.storage.get("useremail");
+      // this.getAchievements();
   }
 
- async  getAchievements(){
-    await this.candidateSrv.getCandidateAchievements(this.emailAddress).then(async(response)=>{
-       if(response){
-             this.achievementsList = response[0].achievements;
+//  async  getAchievements(){
+//     await this.candidateSrv.getCandidateAchievements(this.emailAddress).then(async(response)=>{
+//        if(response){
+//              this.achievementsList = response[0].achievements;
 
-             console.log(response)
-             console.log(this.achievementsList)
-            }
-    })
-  }
+//              console.log(response)
+//              console.log(this.achievementsList)
+//             }
+//     })
+//   }
     
 
 }
