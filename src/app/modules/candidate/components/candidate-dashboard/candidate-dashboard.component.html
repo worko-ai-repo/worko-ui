@@ -6,16 +6,16 @@
         <div class="divide-60">
             <div class="row p-0" style="height:100%">
                 <div style="width:60%">
-                    <app-user-profile-complete [candidateImage]="candidateImage"></app-user-profile-complete>
+                    <app-user-profile-complete [candidateSocial]="candidateSocial"></app-user-profile-complete>
                 </div>
                 <div style="width:40%;">
-                    <app-user-soft-skills></app-user-soft-skills>
+                    <app-user-soft-skills [softSkillsLists]="softSkillsLists"></app-user-soft-skills>
                 </div>
             </div>
         </div>
     </div>
     <div class="container my-3">
-        <div class="divide-40 mr-3"> <app-user-about [certificationList]="certificationList"></app-user-about></div>
+        <div class="divide-40 mr-3"> <app-user-about [certificationList]="certificationList" [userDescription]="userDescription"></app-user-about></div>
         <div class="divide-60"> <app-user-skills  [achievementsList]="achievementsList" [coreSkillsLists]="coreSkillsLists" ></app-user-skills></div>
     </div>
 </div>

@@ -394,7 +394,7 @@ export class LoginPageComponent {
         let userType = response.data.lastAccessedDash;
         this.currentSession();
         this.currentAuthenticatedUser();
-        this.onSuccess.emit();
+        this.onSuccess.emit(userType);
         // if (userType == "CAND") {
         //   this.router.navigate(['/candidate/candidate-dashboard']);
         // } else {

@@ -19,6 +19,8 @@ export class UserSkillsComponent implements OnInit {
   constructor( ){}
 
   ngOnInit(): void {
+    console.log(this.coreSkillsLists);
+    console.log(this.achievementsList);
       // this.emailAddress = this.storage.get("useremail");
       // this.getAchievements();
   }

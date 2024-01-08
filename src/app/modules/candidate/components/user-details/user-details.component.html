@@ -1,7 +1,6 @@
 
     <div class="card candidate-card">
         <div class="card-body">
-            
             <div class="row user-detai-main">
                 <div class="col-md-12">
                     <img src="/assets/public/share.img.png" class="float-right img-share"  alt="">
@@ -20,7 +19,7 @@
                         </div>
                         <div class="col-md-6 input-logo">
                             <i class="fa-regular fa-envelope"></i>
-                            <span class="ps-1">{{candidateDetails.emailList.primary}}</span>
+                            <span class="ps-1">{{candidateDetails?.emailList?.primary}}</span>
                         </div>
 
                         <div class="col-md-5 input-logo pt-2">
@@ -127,16 +126,16 @@
                     <h5 class="input-logo">Department: IT(Cloud)</h5>
                 </div>
                 <div class="col-md-6">
-                    <h5 class="input-logo ">CTC: 40 LAKH</h5>
+                    <h5 class="input-logo ">CTC: {{candidateDetails.CTC}} LAKH</h5>
                 </div>
                 <div class="col-md-6">
-                    <h5 class="input-logo">ECTC:{{candidateDetails.ECTC}}</h5>
+                    <h5 class="input-logo">ECTC:{{candidateDetails.ECTC}} LAKH</h5>
                 </div>
                 <div class="col-md-6">
-                    <h5 class="input-logo ">Notice Period: 30 Days</h5>
+                    <h5 class="input-logo ">Notice Period: {{candidateDetails.noticePeriod}} Days</h5>
                 </div>
                 <div class="col-md-6">
-                    <h5 class="input-logo">Location: Delhi</h5>
+                    <h5 class="input-logo">Location: {{candidateDetails.location}}</h5>
                 </div>
             </div>
         </div>

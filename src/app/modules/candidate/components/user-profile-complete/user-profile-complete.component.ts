@@ -8,7 +8,7 @@ import { StorageService } from 'src/app/modules/app-core/services/storage.servic
   styleUrls: ['./user-profile-complete.component.scss']
 })
 export class UserProfileCompleteComponent implements OnInit {
-  @Input() candidateImage: any = "";
+  @Input() candidateSocial: any = "";
   // candidateLogos:any[]=[];
   // emailAddress: string = "";
   constructor(private candidateSrv : CandidateProfileService , private Storage : StorageService){}

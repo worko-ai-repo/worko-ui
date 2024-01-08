@@ -1,5 +1,6 @@
 import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { Router } from '@angular/router';
+import { CognitoService } from 'src/app/modules/services/cognito.service';
 
 @Component({
   selector: 'app-user-menubar',
@@ -7,7 +8,7 @@ import { Router } from '@angular/router';
   styleUrls: ['./user-menubar.component.scss']
 })
 export class UserMenubarComponent {
-  @Input() isSidebarExpanded:boolean = true;
+  @Input() isSidebarExpanded: boolean = true;
   @Output() onToggleSidebar: EventEmitter<void> = new EventEmitter<void>();
 
   // iconChevronLeft: IconDefinition = faChevronLeft;
@@ -15,13 +16,13 @@ export class UserMenubarComponent {
   panelOpenState = false;
   isFilesCollapsed: boolean = true;
   activeRoute: string = '';
-
+  userLoggedIn: boolean = false;
   /**
    * SidebarComponent constructor.
    *
    * @param {Router} router
    */
-  constructor(private router: Router) { }
+  constructor(private router: Router, private cognitoService: CognitoService) { }
 
   ngOnInit(): void {
     this.activeRoute = this.router.url;
@@ -34,5 +35,13 @@ export class UserMenubarComponent {
    */
   toggleSidebar(): void {
     this.onToggleSidebar.emit();
+  }
+
+  async logout(): Promise<void> {
+    await this.cognitoService.handleSignOut();
+    this.userLoggedIn = await this.cognitoService.isLoggedIn();
+    if (!this.userLoggedIn) {
+      this.router.navigateByUrl('/');
+    }
   }
 }
