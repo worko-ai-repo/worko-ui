@@ -18,26 +18,45 @@ export class RequestGuidenceComponent implements OnInit {
   isDivOpen: boolean = true;
   reqGuidenceArray: any[] = [];
   isDivShow: boolean = true
-  selectedService: string = '';
+  selectedService: any = '';
   serviceButtonHide: boolean = true;
   isFormVisible: boolean = false;
+  isButtonScreen: boolean = true;
+  requestSentScreen: boolean = false;
+  scheduleScreen: boolean = false;
+  pendingScreen: boolean = false;
+  rejectedScreen: boolean = false;
+  showSideImage: boolean = true;
   emailAddress: string = "prashant@worko.ai";
-  masterSrvList:any[]=[];
+  masterSrvList: any[] = [];
 
   masterSrvForm: any = {
     SK: 0,
-    details:"",
-    isActive:true,
+    details: "",
+    isActive: true,
     name: ""
   }
+  selectedServiceId: string = "";
 
   reqGuidanceForm: any = {
     "mentorLevel": 0,
-    "slot1":Date(),
-    "slot2": Date(),
-    "slot3": Date(),
+    "slot1Date": "",
+    "slot1Time": "",
+    "slot2Date": "",
+    "slot2Time": "",
+    "slot3Date": "",
+    "slot3Time": "",
     "details": "",
-    "masterServiceId": "abc123xyz"
+    "masterServiceId":""
+  };
+
+  interviewGuidanceForm: any = {
+    "mentorLevel":"",
+    "slot1":"",
+    "details":"",
+    "masterServiceId": "",
+    "companySK":"",
+    "role":"",
   };
 
   constructor(private reqGuidanceSrv: ReqGuidanceService) { }
@@ -46,63 +65,91 @@ export class RequestGuidenceComponent implements OnInit {
   }
 
   getmasterService() {
-    this.reqGuidanceSrv.getMasters().subscribe ({
-     next:(response)=>{
+    this.reqGuidanceSrv.getMasters().subscribe({
+      next: (response) => {
         this.masterSrvList = response;
         console.log(response)
-     },
+      },
       error: (error) => {
-      console.error(error);
-    },
-      
+        console.error(error);
+      },
+
     })
   }
-  checkReqGuidance() {
-    this.reqGuidanceSrv.createreqGuidance(this.reqGuidanceForm, this.emailAddress).then(async (Response) => {
-      if (Response) {
-        console.log(Response + 'hello')
+  checkReqGuidance(reqGuidanceData: any) {
+    this.reqGuidanceSrv.createreqGuidance(reqGuidanceData, this.emailAddress).then(async (response) => {
+      if (response) {
+        console.log(response + 'hello')
+        this.getServiceStatus(response.serviceRequestId);
       } else {
         console.log('Hiii')
       }
     })
   }
+
+  async submitInterviewGuidance(form: any): Promise<void> {
+    const interviewGuidanceData = {
+      slot1: new Date(this.interviewGuidanceForm.slot1).toISOString(),
+      details: this.interviewGuidanceForm.details,
+      mentorLevel: this.interviewGuidanceForm.mentorLevel,
+      masterServiceId: this.selectedServiceId,
+      companySK: this.selectedCompany.SK,
+      role: this.interviewGuidanceForm.role
+    }
+    this.reqGuidanceSrv.setInterviewGuidance(interviewGuidanceData, this.emailAddress).then(async (response) => {
+      if (response) {
+        console.log(response + 'hello')
+        this.getServiceStatus(response.serviceRequestId);
+      } else {
+        console.log('Hiii')
+      }
+    })
+  }
+  getServiceStatus(serviceRequestId: any) {
+    this.reqGuidanceSrv.getServiceStatus(serviceRequestId, this.emailAddress).then(async (response) => {
+      if (response) {
+        console.log(response + 'hello')
+        this.requestSentScreen = true;
+        this.isFormVisible = false;
+        this.selectedService = "";
+        this.isButtonScreen = false;
+        this.showSideImage = false;
+        debugger;
+      } else {
+        console.log('Hiii')
+      }
+    })
+
+  }
   async submit(form: any): Promise<void> {
     const reqGuidanceData = {
-      slot1: this.reqGuidanceForm.date1 + this.reqGuidanceForm.time1,
-      slot2: this.reqGuidanceForm.date2 + this.reqGuidanceForm.time2,
-      slot3: this.reqGuidanceForm.date3 + this.reqGuidanceForm.time3,
-
-     
+      slot1: new Date(this.reqGuidanceForm.slot1Date + 'T' + this.reqGuidanceForm.slot1Time).toISOString(),
+      slot2: new Date(this.reqGuidanceForm.slot2Date + 'T' + this.reqGuidanceForm.slot2Time).toISOString(),
+      slot3: new Date(this.reqGuidanceForm.slot3Date + 'T' + this.reqGuidanceForm.slot3Time).toISOString(),
+      details: this.reqGuidanceForm.details,
+      mentorLevel: this.reqGuidanceForm.mentorLevel,
+      masterServiceId: this.selectedServiceId,
+      companySK: this.selectedCompany.SK,
     }
-  }
-  reqNow() {
-    this.checkReqGuidance()
+    this.checkReqGuidance(reqGuidanceData)
   }
 
-
-
-
-
-
-
-  selectService(service: string) {
-    this.selectedService = service;
-    this.isFormVisible = true;
-
+  
+  selectService(service: any) {
+    this.selectedService = service.name;
+    this.selectedServiceId = service.SK;
+    // this.isFormVisible = true;
+    this.isButtonScreen = false;
+    this.showSideImage = true;
   }
-  // openLargeModal() {
 
-  //   this.largeModal.nativeElement.classList.add('show');
-  //   this.largeModal.nativeElement.style.display = 'block';
-  // }
-  // closeLargeModal() {
-  //   this.largeModal.nativeElement.classList.remove('show');
-  //   this.largeModal.nativeElement.style.display = 'none';
-  // }
-
-
-
-
-
+  resetForm(){
+    this.serviceButtonHide = false;
+    this.isFormVisible = false;
+    this.requestSentScreen = false;
+    this.scheduleScreen = false;
+    this.pendingScreen = false;
+    this.rejectedScreen = false;
+  }
 
 }

@@ -1,71 +1,172 @@
 <div class="row">
   <div class="body main-div">
-    <div class="container">
+    <!-- <div class="container"> -->
 
-      <div class="row" *ngIf="true">
-        <div class="col-md-6">
-          <div class="row">
-            <div class="col-md-12">
-              <img src="/assets/public/ref-raq-img1-removebg-preview.png" alt="" class="images ref-page ms-3" />
-            </div>
+    <div class="row">
+      <div class="col-md-6" *ngIf="showSideImage">
+        <div class="row">
+          <div class="col-md-12">
+            <img src="/assets/public/ref-raq-img1-removebg-preview.png" alt="" class="images ref-page ms-3" />
           </div>
         </div>
+      </div>
 
-        <div class="col-md-6" *ngIf="!isFormVisible">
-          <div class="row">
-            <div class="col-md-12">
-              <h2 class="text-white bold ms-4" style="letter-spacing: 0.4px">
-                Guidance Request
-              </h2>
-            </div>
-            <p class="text-white ms-4">Select the Type of service</p>
-            <div class="col-md-8">
-              <button *ngFor="let master of masterSrvList" class="button m-2 ms-5 form-control"
-                (click)="selectService(master.name)">
-                {{master.name}}
-              </button>
-
-              <!-- <button
-                class="button m-2 ms-5 form-control"
-                (click)="selectService('mockInterview')"
-              >
-                Mock Interview
-              </button>
-              <button
-                class="button m-2 ms-5 form-control"
-                (click)="selectService('interviewGuidance')"
-              >
-                Interview guidance
-              </button>
-              <button
-                class="button m-2 ms-5 form-control"
-                (click)="selectService('reusmeReview')"
-              >
-                Resume review
-              </button> -->
-            </div>
+      <div class="col-md-6" *ngIf="isButtonScreen">
+        <div class="row">
+          <div class="col-md-12">
+            <h2 class="text-white bold ms-4" style="letter-spacing: 0.4px">
+              Guidance Request
+            </h2>
+          </div>
+          <p class="text-white ms-4">Select the Type of service</p>
+          <div class="col-md-8">
+            <button *ngFor="let master of masterSrvList" class="button m-2 ms-5 form-control"
+              (click)="selectService(master)">
+              {{master.name}}
+            </button>
           </div>
         </div>
+      </div>
 
 
-        <div class="col-md-6 mt-2" *ngIf="isFormVisible">
+      <div class="col-md-6 mt-2">
 
-          <!-- career-guidance -->
-          <div class="col-md-12 text-white" *ngIf="selectedService == 'Career guidance'">
-            <form (ngSubmit)="f.form.valid && submit(reqGuidanceForm)" #f="ngForm" novalidate>
+        <!-- career-guidance -->
+        <div class="col-md-12 text-white"
+          *ngIf="selectedService === 'Career guidance' || selectedService === 'Mock Interview' || selectedService === 'Resume Review'">
+          <form (ngSubmit)="f.form.valid && submit(reqGuidanceForm)" #f="ngForm" novalidate>
+            <div class="row">
+              <div class="col-md-12">
+                <h3 class="text-white bold">
+                  Career Guidance
+                </h3>
+              </div>
+
+              <div class="col-md-12">
+                <p class="text-white">Select from below options</p>
+              </div>
+              <div class="col-md-6">
+                <select class="selector" style="border-radius: 4.676px" #mentorLevel="ngModel"
+                  [(ngModel)]="reqGuidanceForm.mentorLevel" name="mentorLevel">
+                  <option value="0">Level of mentor</option>
+                  <option value="1">Manager / Sr. Manager</option>
+                  <option value="2">Asst. GM / GM</option>
+                  <option value="3">Asst. Director / Director</option>
+                  <option value="4">Sr. Director / AVP</option>
+                  <option value="5">VP / CXO</option>
+                </select>
+
+              </div>
+              <div class="col-md-12 mt-3 mb-2">
+                Select the 3 Suitable Time Slots
+              </div>
               <div class="row">
-                <div class="col-md-12">
-                  <h3 class="text-white bold">
-                    Career Guidance
-                  </h3>
-                </div>
 
-                <div class="col-md-12">
-                  <p class="text-white">Select from below options</p>
+                <div class="container">
+                  <div class="row d-flex justify-content-center">
+                    <div class="col-md-5 mb-2 p-0">
+                      <input class="selector-date" type="date" #slot1Date="ngModel" matInput
+                        [(ngModel)]="reqGuidanceForm.slot1Date" name="slot1Date" id="slot1Date"
+                        placeholder="Choose date">
+                      <!-- <input type="text" class="selector-date" (click)="picker1.open()" #slot1Date="ngModel" matInput
+                          [matDatepicker]="picker1" [(ngModel)]="reqGuidanceForm.slot1.date1" name="slot1Date"
+                          id="slot1Date" placeholder="Choose date" />
+                        <mat-datepicker-toggle matSuffix [for]="picker1" class="-hidden">
+                        </mat-datepicker-toggle>
+                    
+                        <mat-datepicker #picker1 color="primary" class="-hidden">
+                        </mat-datepicker> -->
+                    </div>
+
+                    <div class="col-md-5 p-0">
+                      <input class="selector-time" type="time" #slot1Time="ngModel" matInput
+                        [(ngModel)]="reqGuidanceForm.slot1Time" name="slot1Time" id="slot1Time"
+                        placeholder="Choose time">
+
+                    </div>
+
+                    <div class="col-md-5 mb-2 p-0">
+
+                      <input class="selector-date" type="date" #slot2Date="ngModel" matInput
+                        [(ngModel)]="reqGuidanceForm.slot2Date" name="slot2Date" id="slot2Date"
+                        placeholder="Choose date">
+
+                      <!-- <input type="text" class="selector-date" (click)="picker2.open()" #slot2Date="ngModel" matInput
+                          [matDatepicker]="picker2" [(ngModel)]="reqGuidanceForm.slot2.date2" name="slot2Date"
+                          id="slot2Date" placeholder="Choose date" />
+                        <mat-datepicker-toggle matSuffix [for]="picker2" class="-hidden">
+                        </mat-datepicker-toggle>
+                     
+                        <mat-datepicker #picker2 color="primary" class="-hidden">
+                        </mat-datepicker> -->
+                    </div>
+                    <div class="col-md-5 p-0">
+
+                      <input class="selector-time" type="time" #slot2Time="ngModel" matInput
+                        [(ngModel)]="reqGuidanceForm.slot2Time" name="slot2Time" id="slot2Time"
+                        placeholder="Choose time">
+
+                    </div>
+
+                    <div class="col-md-5 mb-2 p-0">
+
+                      <input class="selector-date" type="date" #slot3Date="ngModel" matInput
+                        [(ngModel)]="reqGuidanceForm.slot3Date" name="slot3Date" id="slot3Date"
+                        placeholder="Choose date">
+
+                      <!-- <input type="text" class="selector-date" (click)="picker3.open()" #slot3Date="ngModel" matInput
+                          [matDatepicker]="picker3" [(ngModel)]="reqGuidanceForm.slot2.date2" name="slot3Date"
+                          id="slot3Date" placeholder="Choose date" />
+                        <mat-datepicker-toggle matSuffix [for]="picker3" class="-hidden">
+                        </mat-datepicker-toggle>
+                  
+                        <mat-datepicker #picker3 color="primary" class="-hidden">
+                        </mat-datepicker> -->
+                    </div>
+                    <div class="col-md-5 p-0">
+                      <input class="selector-time" type="time" #slot2Time="ngModel" matInput
+                        [(ngModel)]="reqGuidanceForm.slot3Time" name="slot3Time" id="slot2Time"
+                        placeholder="Choose time">
+                    </div>
+                    <div class="col-md-10 p-0">
+                      <textarea name="" id="" cols="39" rows="2" class="selector-date" #details="ngModel"
+                        [(ngModel)]="reqGuidanceForm.details" name="details">
+                    </textarea>
+                    </div>
+
+                    <div class="com-md-12 text-center mt-2 mb-3">
+                      <button class="req-now-button" type="submit">REQUEST NOW</button>
+                    </div>
+                  </div>
                 </div>
+              </div>
+            </div>
+
+          </form>
+
+
+        </div>
+
+
+
+        <!-- Interview-handholding -->
+        <div class="col-md-12 text-white" *ngIf="selectedService == 'Interview Guidance'">
+          <form (ngSubmit)="f.form.valid && submitInterviewGuidance(interviewGuidanceForm)" #f="ngForm" novalidate>
+            <div class="row">
+              <div class="col-md-12" style="top: 18px">
+                <h3 class="text-white bold">
+                  Interview Handholding
+                </h3>
+              </div>
+
+              <div class="col-md-12 pt-3">
+                <p class="text-white">Select from below options</p>
+              </div>
+
+              <div class="row">
                 <div class="col-md-6">
-                  <select class="selector" style="border-radius: 4.676px" [(ngModel)]="reqGuidanceForm.mentorLevel"
-                    name="mentorLevel">
+                  <select class="selector" style="border-radius: 4.676px" #mentorLevel="ngModel"
+                    [(ngModel)]="interviewGuidanceForm.mentorLevel" name="mentorLevel">
                     <option value="0">Level of mentor</option>
                     <option value="1">Manager / Sr. Manager</option>
                     <option value="2">Asst. GM / GM</option>
@@ -73,384 +174,60 @@
                     <option value="4">Sr. Director / AVP</option>
                     <option value="5">VP / CXO</option>
                   </select>
-
                 </div>
-                <div class="col-md-12 mt-3 mb-2">
-                  Select the 3 Suitable Time Slots
+
+                <div class="col-md-12 mb-2">
+                  <input class="selector-interview-date" type="date" #slot1="ngModel" matInput
+                    [(ngModel)]="interviewGuidanceForm.slot1" name="slot1" id="slot1"
+                    placeholder="Choose your interview date">
                 </div>
-                <div class="row">
 
-                  <div class="container">
-                    <div class="row d-flex justify-content-center">
-                      <div class="col-md-5 mb-2 p-0">
-                        <!-- <input class="selector-date"   type="date"  [(ngModel)]="reqGuidanceForm.slot1.date1" name="date1"> -->
-                        <input type="text" class="selector-date" (click)="picker1.open()" #slot1Date="ngModel" matInput
-                          [matDatepicker]="picker1" [(ngModel)]="reqGuidanceForm.slot1.date1" name="slot1Date"
-                          id="slot1Date" placeholder="Choose date" />
-                        <mat-datepicker-toggle matSuffix [for]="picker1" class="-hidden">
-                        </mat-datepicker-toggle>
-                        <!-- [touchUi]="device.isMobileDevice()" -->
-                        <mat-datepicker #picker1 color="primary" class="-hidden">
-                        </mat-datepicker>
-                      </div>
-
-
-
-
-
-                      <div class="col-md-5 p-0">
-
-                        <input class="selector-time" type="time" [(ngModel)]="reqGuidanceForm.slot1.time1" name="time1">
-
-                      </div>
-
-                      <div class="col-md-5 mb-2 p-0">
-
-                        <!-- <input class="selector-date" type="date" [(ngModel)]="reqGuidanceForm.slot2.date2" name="date2"> -->
-
-                        <input type="text" class="selector-date" (click)="picker2.open()" #slot2Date="ngModel" matInput
-                          [matDatepicker]="picker2" [(ngModel)]="reqGuidanceForm.slot2.date2" name="slot2Date"
-                          id="slot2Date" placeholder="Choose date" />
-                        <mat-datepicker-toggle matSuffix [for]="picker2" class="-hidden">
-                        </mat-datepicker-toggle>
-                        <!-- [touchUi]="device.isMobileDevice()" -->
-                        <mat-datepicker #picker2 color="primary" class="-hidden">
-                        </mat-datepicker>
-                      </div>
-                      <div class="col-md-5 p-0">
-
-                        <input class="selector-time" type="time" [(ngModel)]="reqGuidanceForm.slot2.time2" name="time2">
-
-                      </div>
-
-                      <div class="col-md-5 mb-2 p-0">
-
-                        <!-- <input class="selector-date" type="date" [(ngModel)]="reqGuidanceForm.slot3.date3" name="date3"> -->
-
-                        <input type="text" class="selector-date" (click)="picker3.open()" #slot3Date="ngModel" matInput
-                          [matDatepicker]="picker3" [(ngModel)]="reqGuidanceForm.slot2.date2" name="slot3Date"
-                          id="slot3Date" placeholder="Choose date" />
-                        <mat-datepicker-toggle matSuffix [for]="picker3" class="-hidden">
-                        </mat-datepicker-toggle>
-                        <!-- [touchUi]="device.isMobileDevice()" -->
-                        <mat-datepicker #picker3 color="primary" class="-hidden">
-                        </mat-datepicker>
-                      </div>
-                      <div class="col-md-5 p-0">
-                        <input class="selector-time" type="time" [(ngModel)]="reqGuidanceForm.slot3.time3" name="time3">
-
-
-                      </div>
-
-
-
-
-                      <div class="col-md-10 p-0">
-                        <textarea name="" id="" cols="39" rows="2" class="selector-date"
-                          [(ngModel)]="reqGuidanceForm.details" name="details">
-                    </textarea>
-                      </div>
-
-                      <div class="com-md-12 text-center mt-2 mb-3">
-                        <button class="req-now-button" (click)="reqNow()">REQUEST NOW</button>
-                      </div>
-                    </div>
-                  </div>
+                <div class="col-md-12 mb-2">
+                  <input class="selector-interview-date" type="text" #role="ngModel"
+                    [(ngModel)]="interviewGuidanceForm.role" name="role" id="role"
+                    placeholder="Role you are being interviwed for">
+                </div>
+                <div class="col-md-12">
+                  <textarea name="" id="" cols="39" rows="2" class="selector-date" #details="ngModel"
+                    [(ngModel)]="interviewGuidanceForm.details" name="details">
+            </textarea>
+                </div>
+                <div class="com-md-12 text-center mt-2 mb-3">
+                  <button class="req-now-button" type="submit">SUBMIT</button>
                 </div>
               </div>
-
-            </form>
-
-
-          </div>
-
-          <!--mock-interview  -->
-          <div class="col-md-12 text-white" *ngIf="selectedService == 'Mock Interview'">
-
-            <div class="col-md-12 pt-2">
-              <p class="text-white">Select from below options</p>
             </div>
-            <div class="col-md-6 m-1">
-              <select name="" id="" class="selector" style="border-radius: 4.676px">
-                <option value="0">Level of mentor</option>
-                <option value="1">Manager / Sr. Manager</option>
-                <option value="2">Asst. GM / GM</option>
-                <option value="3">Asst. Director / Director</option>
-                <option value="4">Sr. Director / AVP</option>
-                <option value="5"> VP / CXO</option>
-              </select>
-            </div>
-            <div class="col-md-12 mt-3 mb-2">
-              Select the 3 Suitable Time Slots
-            </div>
-            <div class="row d-flex justify-content-center">
-
-              <div class="col-md-5 mb-2 p-0">
-                <input class="selector-date" type="date" [(ngModel)]="reqGuidanceForm.slot1.date1" name="date1">
-
-              </div>
-              <div class="col-md-5 p-0">
-                <input class="selector-time" type="time" [(ngModel)]="reqGuidanceForm.slot1.time1" name="time1">
-
-              </div>
-
-              <div class="col-md-5 mb-2 p-0">
-                <input class="selector-date" type="date" [(ngModel)]="reqGuidanceForm.slot2.date2" name="date2">
-
-              </div>
-              <div class="col-md-5 p-0">
-                <input class="selector-time" type="time" [(ngModel)]="reqGuidanceForm.slot2.time2" name="time2">
-
-              </div>
-
-              <div class="col-md-5 mb-2 p-0">
-                <input class="selector-date" type="date" [(ngModel)]="reqGuidanceForm.slot3.date3" name="date3">
-
-              </div>
-              <div class="col-md-5 p-0">
-                <input class="selector-time" type="time" [(ngModel)]="reqGuidanceForm.slot3.time3" name="time3">
-
-              </div>
-
-
-
-
-
-              <div class="col-md-10 p-0">
-                <textarea name="" id="" cols="39" rows="2" class="selector-date" [(ngModel)]="reqGuidanceForm.details">
-                    </textarea>
-              </div>
-
-              <div class="com-md-12 text-center mt-2 mb-3">
-                <button class="req-now-button" (click)="reqNow()">REQUEST NOW</button>
-              </div>
-            </div>
-          </div>
-        </div>
-
-        <!-- Interview-handholding -->
-        <div class="col-md-12 text-white" *ngIf="selectedService == 'Interview Guidance'">
-
-          <div class="row">
-            <div class="col-md-12" style="top: 18px">
-              <h3 class="text-white bold">
-                Mock Interview
-              </h3>
-            </div>
-
-            <div class="col-md-12 pt-2">
-              <p class="text-white">Select from below options</p>
-            </div>
-            <div class="col-md-6 m-1">
-              <select name="" id="" class="selector" style="border-radius: 4.676px">
-                <option value="0">Level of mentor</option>
-                <option value="1">Manager / Sr. Manager</option>
-                <option value="2">Asst. GM / GM</option>
-                <option value="3">Asst. Director / Director</option>
-                <option value="4">Sr. Director / AVP</option>
-                <option value="5"> VP / CXO</option>
-              </select>
-            </div>
-            <div class="col-md-12 mt-3 mb-2">
-              Select the 3 Suitable Time Slots
-            </div>
-            <div class="row d-flex justify-content-center">
-
-              <div class="col-md-5 mb-2 p-0">
-                <input class="selector-date" type="date" [(ngModel)]="reqGuidanceForm.date1" name="date1">
-
-              </div>
-              <div class="col-md-5 p-0">
-                <input class="selector-time" type="time" [(ngModel)]="reqGuidanceForm.time1" name="time1">
-
-              </div>
-
-              <div class="col-md-5 mb-2 p-0">
-                <input class="selector-date" type="date" [(ngModel)]="reqGuidanceForm.date2" name="date2">
-
-              </div>
-              <div class="col-md-5 p-0">
-                <input class="selector-time" type="time" [(ngModel)]="reqGuidanceForm.time2" name="time2">
-
-              </div>
-
-              <div class="col-md-5 mb-2 p-0">
-                <input class="selector-date" type="date" [(ngModel)]="reqGuidanceForm.date3" name="date3">
-
-              </div>
-              <div class="col-md-5 p-0">
-                <input class="selector-time" type="time" [(ngModel)]="reqGuidanceForm.time3" name="time3">
-
-              </div>
-
-
-
-
-
-              <div class="col-md-10 p-0">
-                <textarea name="" id="" cols="39" rows="2" class="selector-date" [(ngModel)]="reqGuidanceForm.details">
-                    </textarea>
-              </div>
-
-              <div class="com-md-12 text-center mt-2 mb-3">
-                <button class="req-now-button" (click)="reqNow()">REQUEST NOW</button>
-              </div>
-            </div>
-          </div>
-        </div>
-
-        <!-- Interview-handholding -->
-        <div class="col-md-12 text-white" *ngIf="selectedService == 'Interview Guidance'">
-          <div class="row">
-            <div class="col-md-12" style="top: 18px">
-              <h3 class="text-white bold">
-                Interview Handholding
-              </h3>
-            </div>
-
-            <div class="col-md-12 pt-3">
-              <p class="text-white">Select from below options</p>
-            </div>
-
-            <div class="row">
-              <div class="col-md-6">
-                <select class="selector-interview-date mb-2 ps-1">
-                  <option value="0">Level of mentor</option>
-                  <option value="1">Manager / Sr. Manager</option>
-                  <option value="2">Asst. GM / GM</option>
-                  <option value="3">Asst. Director / Director</option>
-                  <option value="4">Sr. Director / AVP</option>
-                  <option value="5"> VP / CXO</option>
-
-                </select>
-              </div>
-
-              <div class="col-md-12 mb-2">
-                <select name="" id="" class="selector-interview-date ps-1">
-                  <option value="">Choose your interview date</option>
-
-
-                </select>
-              </div>
-
-              <div class="col-md-12 mb-2">
-                <select name="" id="" class="selector-interview-date ps-1">
-                  <option value="">Role you are being interviewed for?</option>
-                </select>
-              </div>
-
-
-
-
-
-
-              <div class="col-md-12">
-                <textarea name="" id="" cols="39" rows="3" class="selector-date">
-                  </textarea>
-              </div>
-
-              <div class="com-md-12 text-center mt-2 mb-3">
-                <button class="req-now-button" (click)="reqNow()">SUBMIT</button>
-              </div>
-            </div>
-          </div>
-        </div>
-
-        <!-- resume-review -->
-        <div class="col-md-12 text-white" *ngIf="selectedService == 'Resume Review'">
-          <div class="row">
-            <div class="col-md-12" style="top: 18px">
-              <h3 class="text-white bold">
-                Resume Review
-              </h3>
-            </div>
-
-            <div class="col-md-12 pt-2">
-              <p class="text-white">Select from below options</p>
-            </div>
-            <div class="col-md-6 m-1">
-              <select name="" id="" class="selector" style="border-radius: 4.676px">
-                <option value="">Level of mentor</option>
-                <option value="">Manager / Sr. Manager</option>
-                <option value="">Asst. GM / GM</option>
-                <option value="">Asst. Director / Director</option>
-                <option value="">Sr. Director / AVP</option>
-                <option value=""> VP / CXO</option>
-              </select>
-            </div>
-            <div class="col-md-12 mt-3 mb-2">
-              Select the 3 Suitable Time Slots
-            </div>
-            <div class="row d-flex justify-content-center">
-              <div class="col-md-5 mb-2 p-0">
-                <input class="selector-date" type="date" [(ngModel)]="reqGuidanceForm.slot1.date1" name="date1">
-
-              </div>
-              <div class="col-md-5 p-0">
-                <input class="selector-time" type="time" [(ngModel)]="reqGuidanceForm.slot1.time1" name="time1">
-
-              </div>
-
-              <div class="col-md-5 mb-2 p-0">
-                <input class="selector-date" type="date" [(ngModel)]="reqGuidanceForm.slot2.date2" name="date2">
-
-              </div>
-              <div class="col-md-5 p-0">
-                <input class="selector-time" type="time" [(ngModel)]="reqGuidanceForm.slot2.time2" name="time2">
-
-              </div>
-
-              <div class="col-md-5 mb-2 p-0">
-                <input class="selector-date" type="date" [(ngModel)]="reqGuidanceForm.slot3.date3" name="date3">
-
-              </div>
-              <div class="col-md-5 p-0">
-                <input class="selector-time" type="time" [(ngModel)]="reqGuidanceForm.slot3.time3" name="time3">
-
-              </div>
-
-
-
-
-
-              <div class="col-md-10 p-0">
-                <textarea name="" id="" cols="39" rows="2" class="selector-date" [(ngModel)]="reqGuidanceForm.details">
-                  </textarea>
-              </div>
-
-
-              <div class="com-md-12 text-center mt-2 mb-3">
-                <button class="req-now-button" (click)="reqNow()">REQUEST NOW</button>
-              </div>
-            </div>
-          </div>
+          </form>
         </div>
       </div>
     </div>
-  </div>
 
 
-  <div *ngIf="" class="row" class="backgroundImg content-center">
-    <div class="row">
-      <div class="col-md-12" style="text-align: center">
-        <img src="/assets/public/gif-1.gif" alt="" style="height: 100px; width: 100px" />
+
+
+    <div *ngIf="requestSentScreen" class=" content-center">
+      <!-- backgroundImg -->
+
+
+      <div class="row">
+        <div class="col-md-12" style="text-align: center">
+          <img src="/assets/public/gif-1.gif" alt="" style="height: 100px; width: 100px" />
+        </div>
+        <div class="col-md-12">
+          <h1 class="req-text">Request Sent</h1>
+
+          <p class="para-text">
+            Request have been submitted our team will reach out to you
+            and find <br />
+            the best for you kindly check your email
+          </p>
+        </div>
       </div>
     </div>
 
-    <div class="row">
-      <div class="col-md-12">
-        <h1 class="req-text">Request Sent</h1>
 
-        <p class="para-text">
-          Request have been submitted our team will reach out to you
-          and find <br />
-          the best for you kindly check your email
-        </p>
-      </div>
-    </div>
-  </div>
-  <div class="row " *ngIf="false">
-    <div class="col-md-12 backgroundImg">
+    <!-- <div class="row " > -->
+    <div class="col-md-12 backgroundImg" *ngIf="scheduleScreen">
       <div class="col-md-12 shedule-back-img shedule-meeting-container">
         <h1 class="shedule-meeting-text">You scheduled a meeting with us</h1>
 
@@ -477,46 +254,53 @@
 
         </div>
       </div>
+      <!-- </div> -->
+
+
     </div>
 
-
-  </div>
-
-  <div class="row" class="backgroundImg content-center" *ngIf="false">
-    <div class="row">
+    <div class="content-center" *ngIf="pendingScreen">
+      <!-- <div class="row">
       <div class="col-md-12" style="text-align: center">
         <img src="/assets/public/gif-2.gif" alt="" style="height: 100px; width: 100px" />
       </div>
-    </div>
-    <div class="row">
-      <div class="col-md-12">
-        <h1 class="req-text">Pending</h1>
+    </div> -->
+      <div class="row">
+        <div class="col-md-12" style="text-align: center">
+          <img src="/assets/public/gif-2.gif" alt="" style="height: 100px; width: 100px" />
+        </div>
+        <div class="col-md-12">
+          <h1 class="req-text">Pending</h1>
 
-        <p class="para-text">
-          Your guidance request is pending. Please await further
-          <br />
-          assistance as we work to address and resolve your inquiry.
-        </p>
+          <p class="para-text">
+            Your guidance request is pending. Please await further
+            <br />
+            assistance as we work to address and resolve your inquiry.
+          </p>
+        </div>
       </div>
     </div>
-  </div>
 
-  <div class="row" class="backgroundImg content-center" *ngIf="false">
-    <div class="row">
+    <div class="content-center" *ngIf="rejectedScreen">
+      <!-- <div class="row">
       <div class="col-md-12" style="text-align: center">
         <img src="/assets/public/gif-4.gif" alt="" style="height: 100px; width: 100px" />
       </div>
-    </div>
-    <div class="row">
-      <div class="col-md-12">
-        <h1 class="req-text">Rejected</h1>
+    </div> -->
+      <div class="row">
+        <div class="col-md-12" style="text-align: center">
+          <img src="/assets/public/gif-4.gif" alt="" style="height: 100px; width: 100px" />
+        </div>
+        <div class="col-md-12">
+          <h1 class="req-text">Rejected</h1>
 
-        <p class="para-text">
-          Your guidance request is rejected. Explore alternative
-          resources or provide additional <br />
-          details for reconsideration. Contact support for
-          clarification if needed.
-        </p>
+          <p class="para-text">
+            Your guidance request is rejected. Explore alternative
+            resources or provide additional <br />
+            details for reconsideration. Contact support for
+            clarification if needed.
+          </p>
+        </div>
       </div>
     </div>
   </div>
