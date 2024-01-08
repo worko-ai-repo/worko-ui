@@ -91,16 +91,22 @@
                             <div class="row mt-1">
                                 <div class="col-md-5">
                                     <label for="" class="form-lable">College Name</label>
-                                    <input type="text" class="form-control form-input" placeholder="College Name">
+                                    <input type="text" class="form-control form-input" placeholder="College Name"
+                                    #name="ngModel" [(ngModel)]="candidatePersonalDetails.collegeName1" name="collegeName1" id="collegeName1">
+
                                 </div>
                                 <div class="col-md-2">
                                     <label for="" class="form-lable">College Degree</label>
-                                    <input type="text" class="form-control form-input" placeholder="College Degree">
+                                    <input type="text" class="form-control form-input" placeholder="College Degree"
+                                    #name="ngModel" [(ngModel)]="candidatePersonalDetails.collegeDegree1" name="collegeDegree1" id="collegeDegree1">
+                                    
                                   
                                 </div>
                                 <div class="col-md-2">
                                     <label for="" class="form-lable">Passing Year</label>
-                                    <input type="text" class="form-control form-input" placeholder="passing Year">
+                                    <input type="text" class="form-control form-input" placeholder="passing Year"
+                                    #name="ngModel" [(ngModel)]="candidatePersonalDetails.passingYear1" name="passingYear1" id="passingYear1">
+                                    
                                   
                                 </div>
 
@@ -108,7 +114,9 @@
                             <div class="row">
                                 <div class="col-md-10 mt-1">
                                     <label for="" class="form-lable">About</label>
-                                    <textarea class="about-textarea form-control"  placeholder="About" name="" id="" cols="10" rows="3"></textarea>
+                                    <textarea class="about-textarea form-control"  placeholder="About" name="" id="" cols="10" rows="3"
+                                    #name="ngModel" [(ngModel)]="candidatePersonalDetails.about" name="about" id="about">
+                                    </textarea>
                                 </div>
                             </div>
                             <div class="row">
@@ -116,18 +124,24 @@
                                     <label for="" class="form-lable" >Social Links</label>
                                 </div>
                                 <div class="col-md-3">
-                                    <input type="text"  placeholder="Link"  class="form-input form-control">
+                                    <input type="text"  placeholder="Github"  class="form-input form-control"
+                                    #name="ngModel" [(ngModel)]="candidatePersonalDetails.socialLinkGithub" name="socialLinkGithub" id="socialLinksGithub">
+                                    >
                                 </div>
                                 <div class="col-md-3">
-                                    <input type="text"  placeholder="Link"  class="form-input form-control">
+                                    <input type="text"  placeholder="LinkdIn"  class="form-input form-control"
+                                    #name="ngModel" [(ngModel)]="candidatePersonalDetails.socialLinklinkdin" name="socialLinklinkdin" id="socialLinklinkdin">
+                                    >
                                 </div>
                                 <div class="col-md-3">
-                                    <input type="text"  placeholder="Link"  class="form-input form-control">
+                                    <input type="text"  placeholder="Twitter"  class="form-input form-control"
+                                    #name="ngModel" [(ngModel)]="candidatePersonalDetails.socialLinktwitter" name="socialLinktwitter" id="socialLinktwitter">
+                                    >
                                 </div>
                             </div>
                             <div class="row">
                                 <div class="col-md-10 mt-3">
-                                    <button class="btn btn-next float-end" type="submit" (click)="nextStep.emit()">Next</button>
+                                    <button class="btn btn-next float-end" type="submit" >Next</button>
                                   </div>
                                   
                             </div>

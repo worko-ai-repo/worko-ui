@@ -21,15 +21,20 @@
                     </div>
                     <div class="row mt-5 row d-flex justify-content-center">
                         
-                            <div class="col-md-12">
+                        <div class="col-md-12">
+                             <form (ngSubmit)="candidate.form.valid && createProfessionalDetails(form)" #candidate="ngForm" novalidate>
                                 <div class="row d-flex justify-content-center">
                                     <div class="col-md-4">
                                         <label for="" class="form-lable">Company Name</label>
-                                        <input type="text" class="form-control form-input" placeholder="Company Name">
+                                        <input type="text" class="form-control form-input" placeholder="Company Name"
+                                    #name="ngModel" [(ngModel)]="candidateProfessionalDetails.companyName" name="companyName" id="companyName"
+                                    >
                                     </div>
                                     <div class="col-md-4">
                                         <label for="" class="form-lable"> Officinal Email</label>
-                                        <input type="text" class="form-control form-input" placeholder="123@gmail.com">
+                                        <input type="text" class="form-control form-input" placeholder="123@gmail.com"
+                                    #name="ngModel" [(ngModel)]="candidateProfessionalDetails.officialEmail" name="officialEmail" id="officialEmail"
+                                    >
                                       
                                     </div>
                                     
@@ -38,11 +43,15 @@
                                 <div class="row d-flex justify-content-center mt-2">
                                     <div class="col-md-4">
                                         <label for="" class="form-lable">Desigination</label>
-                                        <input type="text" class="form-control form-input" placeholder="Desigination">
+                                        <input type="text" class="form-control form-input" placeholder="Desigination"
+                                    #name="ngModel" [(ngModel)]="candidateProfessionalDetails.desigination" name="desigination" id="desigination"
+                                    >
                                     </div>
                                     <div class="col-md-4">
                                         <label for="" class="form-lable">Department</label>
-                                        <input type="text" class="form-control form-input" placeholder="Department">
+                                        <input type="text" class="form-control form-input" placeholder="Department"
+                                    #name="ngModel" [(ngModel)]="candidateProfessionalDetails.department" name="department" id="department"
+                                    >
                                       
                                     </div>
                                     
@@ -51,16 +60,22 @@
                                 <div class="row d-flex justify-content-center mt-2">
                                     <div class="col-md-3">
                                         <label for="" class="form-lable">CTC</label>
-                                        <input type="text" class="form-control form-ctc" placeholder="CTC">
+                                        <input type="text" class="form-control form-ctc" placeholder="CTC"
+                                    #name="ngModel" [(ngModel)]="candidateProfessionalDetails.ctc" name="ctc" id="ctc"
+                                    >
                                     </div>
                                     <div class="col-md-3">
                                         <label for="" class="form-lable">ECTC</label>
-                                        <input type="text" class="form-control form-ctc" placeholder="ECTC">
+                                        <input type="text" class="form-control form-ctc" placeholder="ECTC"
+                                    #name="ngModel" [(ngModel)]="candidateProfessionalDetails.ectc" name="ectc" id="ectc"
+                                    >
                                       
                                     </div>
                                     <div class="col-md-2">
                                         <label for="" class="form-lable">Notice period</label>
-                                        <input type="text" class="form-control form-ctc" placeholder="Notice period">
+                                        <input type="text" class="form-control form-ctc" placeholder="Notice period"
+                                    #name="ngModel" [(ngModel)]="candidateProfessionalDetails.noticePeriod" name="noticePeriod" id="noticePeriod"
+                                    >
                                       
                                     </div>
                                     
@@ -69,11 +84,16 @@
                                 <div class="row d-flex justify-content-center mt-2">
                                     <div class="col-md-4">
                                         <label for="" class="form-lable">Certificate Names</label>
-                                        <textarea name="" id="" class="textarea-soft-skills" cols="34" rows="3"></textarea>
+                                        <textarea name="" id="" class="textarea-soft-skills" cols="34" rows="3"
+                                        #name="ngModel" [(ngModel)]="candidateProfessionalDetails.certificationNames" name="certificationNames" id="certificationNames"
+                                        ></textarea
+                                    >
                                     </div>
                                     <div class="col-md-4">
                                         <label for="" class="form-lable">Soft skills</label>
-                                        <textarea name="" id="" class="textarea-soft-skills" cols="34" rows="3"></textarea>
+                                        <textarea name="" id="" class="textarea-soft-skills" cols="34" rows="3"
+                                    #name="ngModel" [(ngModel)]="candidateProfessionalDetails.softSkills" name="softSkills" id="softSkills"
+                                    ></textarea>
                                     </div>
                                     
                                 </div>
@@ -84,8 +104,12 @@
                                 </div>
                                 <div class="row d-flex justify-content-center">
                                     <div class="col-8 ms-5">
-                                        <input type="text" class="core-skills-input" placeholder="Skills">
-                                        <input type="text" class="core-skills-input ms-2" placeholder="No.of years">
+                                        <input type="text" class="core-skills-input" placeholder="Skills"
+                                        #name="ngModel" [(ngModel)]="candidateProfessionalDetails.skill" name="skill" id="skill"
+                                        >
+                                        <input type="text" class="core-skills-input ms-2" placeholder="No.of years"
+                                    #name="ngModel" [(ngModel)]="candidateProfessionalDetails.year" name="year" id="year"
+                                    >
                                         <button class="float-end btn btn-add">Add</button>
                                     </div>
                                     
@@ -107,8 +131,12 @@
                                 </div>
                                 <div class="row d-flex justify-content-center">
                                     <div class="col-8 ms-5">
-                                        <input type="text" class="core-skills-input" placeholder="Title">
-                                        <input type="date" class="core-skills-input ms-2" placeholder="Date">
+                                        <input type="text" class="core-skills-input" placeholder="Title"
+                                    #name="ngModel" [(ngModel)]="candidateProfessionalDetails.title" name="title" id="title"
+                                    >
+                                        <input type="date" class="core-skills-input ms-2" placeholder="Date"
+                                    #name="ngModel" [(ngModel)]="candidateProfessionalDetails.date" name="date" id="date"
+                                    >
                                         <button class="float-end btn btn-add">Add</button>
                                     </div>
                                     
@@ -120,12 +148,13 @@
                                 <div class="row">
                                     <div class="col-md-10 d-flex justify-content-end">
                                         <button class="btn btn-next me-2" (click)="previousStep.emit()">Previous</button>
-                                        <button class="btn btn-next"  (click)="nextStep.emit()">Next</button>
+                                        <button class="btn btn-next" type="submit">Next</button>
                                       </div>
                                       
                                 </div>
+                            </form>
 
-                            </div>
+                        </div>
                     </div>
                 </div>
             </div>

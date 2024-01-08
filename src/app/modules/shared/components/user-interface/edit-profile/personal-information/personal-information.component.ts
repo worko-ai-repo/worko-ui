@@ -12,6 +12,7 @@ export class PersonalInformationComponent implements OnInit {
   @Output() nextStep = new EventEmitter<void>();
 
   emailAddress:any="";
+  candidateDetailsList:any="";
   candidatePersonalDetails:any={
     name:"",
     email:"",
@@ -20,8 +21,15 @@ export class PersonalInformationComponent implements OnInit {
     collegeName:"",
     collegeDegree:"",
     passingYear:"",
+    collegeName1:"",
+    collegeDegree1:"",
+    passingYear1:"",
     about:"",
-    socialLinks:"",
+    socialLinkGithub:"",
+    socialLinklinkdin:"",
+    socialLinktwitter:"",
+
+
 
   };
   form ={
@@ -35,36 +43,42 @@ ngOnInit(): void {
     
 }
 
-// async createEducation(form:any): Promise<void>{
-//   let data={
-//     "collegeDegree" : "",
-//     "passingYear":"",
-//   }
-//   this.candidateSrv.createEducation(this.emailAddress , data).then(async(response)=>{
-//     if(response){
-//       console.log()
-//     }
-//   })
-// }
-async createEducation(form: any): Promise<void> {
-  // Extract data from the form
-  const educationData = {
-    collegeName: form.collegeName,
-    collegeDegree: form.collegeDegree,
-    passingYear: form.passingYear,
-  };
+async createEducation(form:any): Promise<void>{
+  console.log(this.candidatePersonalDetails)
+  this.nextStep.emit()
+}
+  // let data={
+  //   "collegeDegree" : "",
+  //   "passingYear":"",
+  // }
+  // this.candidateSrv.createEducation(this.emailAddress , data).then(async(response)=>{
+  //   if(response){
+  //     this.candidatePersonalDetails = this.candidateDetailsList
+  //     
+  //   }
+  // })
+
+// async createEducation(form: any): Promise<void> {
+//   // Extract data from the form
+//   const educationData = {
+//     collegeName: form.collegeName,
+//     collegeDegree: form.collegeDegree,
+//     passingYear: form.passingYear,
+//   };
 
  
-  const email = this.candidatePersonalDetails.email;
-  try {
-    const response = await this.candidateSrv.createEducation(email, educationData);
-    console.log('API response:', response);
+//   const email = this.candidatePersonalDetails.email;
+//   try {
+//     const response = await this.candidateSrv.createEducation(email, educationData);
+//     console.log('API response:', response);
 
-  } catch (error) {
+//   } catch (error) {
     
-    console.error('Error creating education:', error);
-  }
-}
+//     console.error('Error creating education:', error);
+//   }
+// }
+
+
 
 // async createCandidate(form: any): Promise<void> {
 //   try {
