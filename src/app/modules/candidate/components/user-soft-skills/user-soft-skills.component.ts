@@ -6,6 +6,5 @@ import { Component, Input } from '@angular/core';
   styleUrls: ['./user-soft-skills.component.scss']
 })
 export class UserSoftSkillsComponent {
-@Input() softSkillsLists: any;
-
+@Input() softSkillsLists : any ="";
 }

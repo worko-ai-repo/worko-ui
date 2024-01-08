@@ -1,6 +1,7 @@
 import { Component, OnInit, Input } from '@angular/core';
 import { CandidateProfileService } from '../../services/candidate-profile.service';
 import { StorageService } from 'src/app/modules/app-core/services/storage.service';
+import { error } from 'jquery';
 
 @Component({
   selector: 'app-user-skills',
@@ -29,11 +30,12 @@ export class UserSkillsComponent implements OnInit {
 //        if(response){
 //              this.achievementsList = response[0].achievements;
 
+
 //              console.log(response)
 //              console.log(this.achievementsList)
 //             }
 //     })
-//   }
+//   };
     
 
-}
+ }

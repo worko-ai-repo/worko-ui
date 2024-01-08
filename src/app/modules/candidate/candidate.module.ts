@@ -35,7 +35,8 @@ import { PersonalInformationComponent } from '../shared/components/user-interfac
 import { PersonalDetailsComponent } from '../shared/components/user-interface/edit-profile/personal-details/personal-details.component';
 import { UploadComponent } from '../shared/components/user-interface/edit-profile/upload/upload.component';
  import { AcceptedReferralComponent } from '../shared/components/user-interface/candidate/accepted-referral/accepted-referral.component';
-
+ import { FormControl, NgModel} from '@angular/forms';
+ import { FormsModule } from '@angular/forms';
 
 export const routes: Routes = [
 
@@ -122,6 +123,9 @@ export const routes: Routes = [
   ],
   imports: [
     CommonModule,
+    FormsModule,
+    
+
     RouterModule.forChild(routes)
   ]
 })
