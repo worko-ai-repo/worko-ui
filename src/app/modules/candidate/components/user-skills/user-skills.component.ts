@@ -29,11 +29,11 @@ export class UserSkillsComponent implements OnInit {
 //              this.achievementsList = response[0].achievements;
 
 
-             console.log(response)
-             console.log(this.achievementsList)
-            }
-    })
-  };
+//              console.log(response)
+//              console.log(this.achievementsList)
+//             }
+//     })
+//   };
     
 
-}
+ }

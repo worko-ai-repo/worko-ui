@@ -4,6 +4,7 @@ import { param } from 'jquery';
 import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { AuthService } from '../../worko/services/auth.service';
+import * as data from 'src/assets/data/data.json';
 
 
 const API_URL = environment.apiUrl;
@@ -40,5 +41,24 @@ export class CandidateProfileService {
   getReferral(emailAddress:string){
     return this.http.get(`${API_URL}user/${emailAddress}/referral`, this.authService.getHttpOptions()).toPromise();
   }
+
+  
+  createEducation(emailAddress:string, data:any):Promise<any>{
+    return this.http.post(API_URL + `user/${emailAddress}/education`, data,this.authService.getHttpOptions() ).toPromise();
+  }
+  createAchievments(emailAddress:string , data:any):Promise<any>{
+    return this.http.post(API_URL + `user/${emailAddress}/achievement`, data, this.authService.getHttpOptions()).toPromise();
+  }
+  createUserProfile(emailAddress:string , data:any):Promise<any>{
+    return this.http.post(API_URL + `user/${emailAddress}/socialprofile`, data, this.authService.getHttpOptions()).toPromise();
+}
+
+  createUserDetails(emailAddress:string): Promise<any> {
+  return this.http.post(API_URL + `user/${emailAddress}`, data , this.authService.getHttpOptions()).toPromise();
+}
+
+  // createReferralRequest(emailId: string, data: any): Promise<any> {
+  //   return this.http.post(API_URL + `user/${emailId}/referral/request`, data, this.authService.getHttpOptions()).toPromise();
+  // }
  
 }
