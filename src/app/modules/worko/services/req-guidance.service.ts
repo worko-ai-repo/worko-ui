@@ -27,12 +27,30 @@ getMasters(): Observable<any> {
 
 
  /**
+ * Create Request Guidance.
+ *
+ * @returns {Promise<any>}
+ */
+ setInterviewGuidance( data:any, emailAddress:string ):Promise<any>{
+  return this.http.post(API_URL + `user/${emailAddress}/service/interview`, data, this.authService.getHttpOptions()).toPromise();
+ }
+
+  /**
+ * Create Request Guidance.
+ *
+ * @returns {Promise<any>}
+ */
+  createreqGuidance( data:any, emailAddress:string ):Promise<any>{
+    return this.http.post(API_URL + `user/${emailAddress}/service`, data, this.authService.getHttpOptions()).toPromise();
+   }
+
+  /**
  * Get Company Listing.
  *
  * @returns {Promise<any>}
  */
- createreqGuidance( data:any, emailAddress:string ):Promise<any>{
-  return this.http.post(API_URL + `user/${emailAddress}/service`, data, this.authService.getHttpOptions()).toPromise();
- }
+  getServiceStatus( serviceId:any, emailAddress:string ):Promise<any>{
+    return this.http.get(API_URL + `user/${emailAddress}/service/${serviceId}`, this.authService.getHttpOptions()).toPromise();
+   }
 
 }

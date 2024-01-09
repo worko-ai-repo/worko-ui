@@ -1,25 +1,47 @@
+// .main-div {
+//     height: 400px;
+//     width: 100%;
+//     border-radius: 10px;
+//     border: 1px solid rgba(87, 225, 255, 0.18);
+//     background: rgba(10, 30, 54, 0.96);
+//     backdrop-filter: blur(18.149999618530273px);
+//     display: flex;
+//     align-items: center;
+//     justify-content: center;
+//     padding:0px;
+//     border-radius: 16px;
+//     border: 1px solid rgba(87, 225, 255, 0.58);
+//     // background: #0A1E36;
+//     // backdrop-filter: blur(18.149999618530273px);
+//     // height: 400px;
+//     // width: 100%;
+//     // padding:10px;
+// }
 .main-div{
+    border-radius: 16px;
+    border: 1px solid rgba(87, 225, 255, 0.58);
+    background: #0A1E36;
+    backdrop-filter: blur(18.149999618530273px);
     height: 400px;
     width: 100%;
-    border-radius: 10px;
-border: 1px solid rgba(87, 225, 255, 0.18);
-background: rgba(10, 30, 54, 0.96);
-backdrop-filter: blur(18.149999618530273px);
-    display: flex;
+    display:flex;
     align-items: center;
     justify-content: center;
+    padding:0px;
 }
-.images{
-   height: 100%;
-   width: 80%;
+.images {
+    height: 100%;
+    width: 80%;
 }
-.ref-page{
+
+.ref-page {
     display: flex;
     align-items: center;
     justify-content: center;
     width: 100%;
 }
-.button{
+
+.button {
     display: flex;
     // width: 224px;
     height: 35px;
@@ -28,17 +50,19 @@ backdrop-filter: blur(18.149999618530273px);
     background-color: transparent;
     border: 1.3px solid rgba(87, 225, 255, 0.58);
 }
-.button:hover{
+
+.button:hover {
     color: black;
     background-color: #57E1FF;
-text-align: center;
+    text-align: center;
 
-font-size: 18px;
-font-style: normal;
-// font-weight: 400;
-line-height: normal;
+    font-size: 18px;
+    font-style: normal;
+    // font-weight: 400;
+    line-height: normal;
 }
-.selector{
+
+.selector {
     // border-radius: 4.676px;
     border-top-left-radius: 5px;
     border-bottom-left-radius: 5px;
@@ -50,7 +74,8 @@ line-height: normal;
     color: white;
     text-align: center;
 }
-.selector-date{
+
+.selector-date {
     width: 100%;
     // border-radius: 4.676px;
     border-top-left-radius: 5px;
@@ -61,7 +86,8 @@ line-height: normal;
     color: white;
     text-align: center;
 }
-.selector-time{
+
+.selector-time {
     border-top-right-radius: 5px;
     border-bottom-right-radius: 5px;
     border: 1.868px solid #3f89a1;
@@ -74,7 +100,8 @@ line-height: normal;
     text-align: center;
     border-left: none;
 }
-.req-now-button{
+
+.req-now-button {
     border-radius: 5px;
     text-decoration: none;
     background: linear-gradient(90deg, #2F92C7 0%, rgba(47, 146, 199, 0) 205.38%);
@@ -84,25 +111,29 @@ line-height: normal;
     width: 110px;
     font-size: 11px;
 }
-.svgImg{
+
+.svgImg {
     width: 348px;
-height: 395px;
-flex-shrink: 0;
+    height: 395px;
+    flex-shrink: 0;
 
-fill: rgba(47, 15, 174, 0.68);
+    fill: rgba(47, 15, 174, 0.68);
 
-filter: blur(150px);
+    filter: blur(150px);
 }
-.backgroundImg{
-    
+
+.backgroundImg {
+
     background-size: cover;
     background-image: url(/assets/public/background-img-req-guidance\ \(1\).png);
-    height: 395px;
-    width: 795px;
-    left: -53px;
+    // height: 395px;
+    // width: 795px;
+    // left: -53px;
+    width: 100%;
 
 }
-.req-text{
+
+.req-text {
     color: #FFF;
     text-align: center;
     font-family: Poppins;
@@ -110,10 +141,11 @@ filter: blur(150px);
     font-style: normal;
     font-weight: 700;
     line-height: normal;
-   
+
 
 }
-.para-text{
+
+.para-text {
     color: #FFF;
     text-align: center;
     font-family: Poppins;
@@ -121,10 +153,11 @@ filter: blur(150px);
     font-style: normal;
     font-weight: 500;
     line-height: normal;
-    
-   
+
+
 }
-.shedule-back-img{
+
+.shedule-back-img {
     // opacity: 0.1;
     height: 100%;
     width: 100%;
@@ -132,27 +165,32 @@ filter: blur(150px);
     background-size: 100% 100%;
     background-image: url(/assets/public/shedule-meeting-back-img.png);
 }
-.content-center{
-    padding: 116px;
-  
-   
+
+.content-center {
+    display: flex;
+    justify-content: center;
+    align-items: end;
+    height:100%;
 }
-.shedule-meeting-text{
+
+.shedule-meeting-text {
     color: #FFF;
-text-align: center;
-font-family: Poppins;
-font-size: 24px;
-font-style: normal;
-font-weight: 700;
-line-height: normal;
+    text-align: center;
+    font-family: Poppins;
+    font-size: 24px;
+    font-style: normal;
+    font-weight: 700;
+    line-height: normal;
 }
-.box{
+
+.box {
     border-radius: 15px;
     border: 0.4px solid #57E1FF;
     background: #0C2037;
     height: 126px;
-   width: 50%;
+    width: 50%;
 }
+
 // .wed-text{
 //     color: #FFF;
 //     text-align: center;
@@ -162,20 +200,21 @@ line-height: normal;
 //     font-weight: 500;
 //     line-height: normal;
 //     width: 0;
-   
+
 // }
 
-.shedule-meeting-container{
+.shedule-meeting-container {
     // position: absolute;
-//   width: 50%;
-//   bottom: 10px;
+    //   width: 50%;
+    //   bottom: 10px;
 }
-.box-content{
+
+.box-content {
     border-right: 1px solid white;
 }
 
-.selector-interview-date{
-    
+.selector-interview-date {
+
     border: 0.868px solid #3f89a1;
     height: 25px;
     width: 100%;
@@ -184,22 +223,29 @@ line-height: normal;
     color: white;
     font-size: 14px;
 }
-.options{
+
+.options {
     background-color: transparent;
 }
-::ng-deep .cdk-overlay-container{
+
+::ng-deep .cdk-overlay-container {
     z-index: 1200 !important;
 }
+
 .transparent-datepicker {
-    background-color: transparent !important /* Adjust the alpha value (0 to 1) for transparency */
-  }
-  ::ng-deep .transparent-datepicker {
+    background-color: transparent !important
+        /* Adjust the alpha value (0 to 1) for transparency */
+}
+
+::ng-deep .transparent-datepicker {
     background-color: rgba(255, 255, 255, 0.8);
-  }
-  .mat-datepicker.transparent-datepicker {
+}
+
+.mat-datepicker.transparent-datepicker {
     background-color: rgba(255, 255, 255, 0.8) !important;
-  }
-  .input-selector{
+}
+
+.input-selector {
     margin: 0;
     font-family: inherit;
     font-size: inherit;
@@ -212,50 +258,56 @@ line-height: normal;
     border-radius: 8px;
     color: white;
     padding-left: 10px;
-  }
-  
-  .mat-datepicker-toggle{
+}
+
+.mat-datepicker-toggle {
     // background: rgba(10, 30, 54, 0.96);
     color: #FFF;
-  }
-  
-  ::ng-deep .datepickerTwo {
-         background: rgba(10, 30, 54, 0.96);
-    color: #FFF;
-  }
-  
-  ::ng-deep .datepickerTwo .mat-calendar-body-today:not(.mat-calendar-body-selected){
-    border-color:#FFF;
-  }
+}
 
-  .mat-calendar-body-cell-content.mat-focus-indicator, .mat-calendar-table-header th, .mat-calendar-body-label,
-  .mat-mdc-button .mdc-button__label, .mat-mdc-unelevated-button .mdc-button__label, .mat-mdc-raised-button .mdc-button__label, .mat-mdc-outlined-button .mdc-button__label,
-  .mat-calendar-next-button::after{
-    color:#FFF !important;
-  }
-  .mat-datepicker-toggle{
- position: absolute;
+::ng-deep .datepickerTwo {
+    background: rgba(10, 30, 54, 0.96);
+    color: #FFF;
+}
+
+::ng-deep .datepickerTwo .mat-calendar-body-today:not(.mat-calendar-body-selected) {
+    border-color: #FFF;
+}
+
+.mat-calendar-body-cell-content.mat-focus-indicator,
+.mat-calendar-table-header th,
+.mat-calendar-body-label,
+.mat-mdc-button .mdc-button__label,
+.mat-mdc-unelevated-button .mdc-button__label,
+.mat-mdc-raised-button .mdc-button__label,
+.mat-mdc-outlined-button .mdc-button__label,
+.mat-calendar-next-button::after {
+    color: #FFF !important;
+}
+
+.mat-datepicker-toggle {
+    position: absolute;
     top: -12px;
     right: -10px;
-  }
-  /* Decrease the calendar icon size */
+}
+
+/* Decrease the calendar icon size */
 // ::ng-deep .mat-datepicker-toggle-default-icon {
 //     font-size: 12px; /* Adjust the size as needed */
 //   }
-  
+
 //   /* Customize the calendar appearance */
 //   ::ng-deep .mat-calendar {
 //     background-color: rgba(10, 30, 54, 0.96); /* Set the background color */
 //     color: white; /* Set the text color */
 //   }
-  
+
 //   /* Customize the date cells */
 //   ::ng-deep .mat-calendar-body-cell-content {
 //     color: white; /* Set the text color for date numbers */
 //   }
-  
+
 //   /* Customize the icons in the calendar header */
 //   ::ng-deep .mat-calendar-arrow {
 //     fill: white; /* Set the icon color */
 //   }
-  
