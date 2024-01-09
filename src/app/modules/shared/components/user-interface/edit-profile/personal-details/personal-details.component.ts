@@ -10,7 +10,7 @@ export class PersonalDetailsComponent implements OnInit {
   @Output() nextStep = new EventEmitter<void>();
   @Output() previousStep = new EventEmitter<void>();
 
-  candidateProfessionalDetails:any={
+ @Input() candidateProfessionalDetails:any={
     companyName:"",
     officialEmail:"",
     desigination:"",
@@ -35,7 +35,7 @@ export class PersonalDetailsComponent implements OnInit {
   }
 
   async createProfessionalDetails(form : any){
-    console.log(this.candidateProfessionalDetails)
-    this.nextStep.emit()
+    // console.log(this.candidateProfessionalDetails)
+    this.nextStep.emit(this.candidateProfessionalDetails)
   }
 }

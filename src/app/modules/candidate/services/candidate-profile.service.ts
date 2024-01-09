@@ -53,9 +53,12 @@ export class CandidateProfileService {
     return this.http.post(API_URL + `user/${emailAddress}/socialprofile`, data, this.authService.getHttpOptions()).toPromise();
 }
 
-  createUserDetails(emailAddress:string): Promise<any> {
-  return this.http.post(API_URL + `user/${emailAddress}`, data , this.authService.getHttpOptions()).toPromise();
+  createUserDetails(emailAddress:string , data:any): Promise<any> {
+  return this.http.put(API_URL + `user/${emailAddress}`, data , this.authService.getHttpOptions()).toPromise();
 }
+  createUserSkills(emailAddress:string , data:any):Promise<any>{
+    return this.http.post(API_URL + `user/${emailAddress}/skill`, data , this.authService.getHttpOptions()).toPromise();
+  }
 
   // createReferralRequest(emailId: string, data: any): Promise<any> {
   //   return this.http.post(API_URL + `user/${emailId}/referral/request`, data, this.authService.getHttpOptions()).toPromise();

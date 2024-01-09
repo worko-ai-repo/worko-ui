@@ -7,8 +7,9 @@ import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 })
 export class UploadComponent implements OnInit {
   @Output() previousStep = new EventEmitter<void>();
+  @Output() onSucess = new EventEmitter<void>();
 
-  candidateUploadDetails:any={
+  @Input() candidateUploadDetails:any={
     uploadCV:"",
     coverLetter:"",
   }
@@ -21,7 +22,8 @@ export class UploadComponent implements OnInit {
   }
 
   async uploadDetails(form:any){
-    console.log(this.candidateUploadDetails)
+    this.onSucess.emit(this.candidateUploadDetails)
+    // console.log(this.candidateUploadDetails)
   }
 
 }
