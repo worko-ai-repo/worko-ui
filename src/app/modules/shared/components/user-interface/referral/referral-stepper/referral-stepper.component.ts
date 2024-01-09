@@ -1,5 +1,5 @@
-import { Component } from '@angular/core';
-import { FormBuilder, Validators } from '@angular/forms';
+import { Component, Input } from '@angular/core';
+// import { FormBuilder, Validators } from '@angular/forms';
 
 
 @Component({
@@ -9,14 +9,27 @@ import { FormBuilder, Validators } from '@angular/forms';
   
 })
 export class ReferralStepperComponent {
+  @Input() selectedReferral: any;
 
-  firstFormGroup = this._formBuilder.group({
-    firstCtrl: ['', Validators.required],
-  });
-  secondFormGroup = this._formBuilder.group({
-    secondCtrl: ['', Validators.required],
-  });
+  // firstFormGroup = this._formBuilder.group({
+  //   firstCtrl: ['', Validators.required],
+  // });
+  // secondFormGroup = this._formBuilder.group({
+  //   secondCtrl: ['', Validators.required],
+  // });
 
-  constructor(private _formBuilder: FormBuilder) {}
+  constructor() {}
 
+  ngOnInit(): void {
+    console.log(this.selectedReferral, "selectedReferral");
+  }
+
+  ngOnChanges(): void {
+    console.log(this.selectedReferral, "selectedReferral");
+  }
+
+  getSlicedValue(value: string): string {
+    const parts = value.split('#');
+    return parts.length > 2 ? parts[2] : '';
+  }
 }

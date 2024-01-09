@@ -80,3 +80,42 @@ line-height: normal;
     cursor: pointer;
     font-size: medium;
 }
+.text-size span {
+    color: #4FAFCB;
+        font-size: 10px;
+    font-style: normal;
+    font-weight: 300;
+    line-height: normal;
+}
+
+.text-overflow {
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    overflow: hidden;
+
+}
+
+.service-list {
+    border-bottom: 1px solid #132A4C;
+    padding: 0.5rem;
+    justify-content: center;
+}
+
+.text-size {
+    padding-left: 15px;
+}
+
+.number-size {
+    width: 100px;
+    color: #4FAFCB;
+    margin-left: 30px;
+    font-size: 14px;
+ 
+    font-style: italic;
+    font-weight: 100;
+    line-height: normal;
+
+}
+.service-request-container{
+    flex-direction: column;
+}

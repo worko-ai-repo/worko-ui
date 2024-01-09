@@ -26,7 +26,7 @@ import { PersonalDetailsComponent } from './components/user-interface/edit-profi
 import { UploadComponent } from './components/user-interface/edit-profile/upload/upload.component';
 import { Routes } from '@angular/router';
 import { AcceptedReferralComponent } from './components/user-interface/candidate/accepted-referral/accepted-referral.component';
-
+import { SplitPipe } from 'src/app/modules/shared/pipes/split.pipe';
 
 export const routes: Routes = [
 
@@ -37,7 +37,7 @@ export const routes: Routes = [
     HeaderComponent,
     FooterComponent,
     ModalComponent,
-    
+    SplitPipe
     
     
     
@@ -60,9 +60,11 @@ export const routes: Routes = [
     MatButtonModule,
     
     
+    
   ],
   exports: [
-  ModalComponent
+  ModalComponent,
+  SplitPipe
   ],
 })
 export class SharedModule { }

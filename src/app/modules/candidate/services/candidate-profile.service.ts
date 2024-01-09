@@ -38,8 +38,12 @@ export class CandidateProfileService {
   getCandidateEducation(emailAddress:string){
     return this.http.get(`${API_URL}user/${emailAddress}/education`, this.authService.getHttpOptions()).toPromise();
   }
-  getReferral(emailAddress:string){
-    return this.http.get(`${API_URL}user/${emailAddress}/referral`, this.authService.getHttpOptions()).toPromise();
+  getReferral(emailAddress:string, status: string){
+    return this.http.get(`${API_URL}user/${emailAddress}/referral?status=${status}`, this.authService.getHttpOptions()).toPromise();
+  }
+
+  getServices(emailAddress:string, status: string){
+    return this.http.get(`${API_URL}user/${emailAddress}/service`, this.authService.getHttpOptions()).toPromise();
   }
 
   

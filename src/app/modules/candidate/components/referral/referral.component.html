@@ -1,19 +1,19 @@
 <div class="row content-container">
     <div class="divide-45">
-        <app-awaiting-status (statusSelected)="onStatusSelected($event)"> </app-awaiting-status>
+        <app-awaiting-status (statusSelected)="onStatusSelected($event)" [referralList]="referralList" (showReferralDetails)="showReferralDetails($event)"> </app-awaiting-status>
     </div>
     <div class="divide-55">
         <div class="row" style="height:100%">
-            <app-referral-stepper></app-referral-stepper>
+            <app-referral-stepper [selectedReferral]="selectedReferral"></app-referral-stepper>
             <div class="status-container">
-                <ng-container *ngIf="selectedStatus === 'Awaiting'; else otherStatus">
+                <ng-container *ngIf="selectedStatus === 'AWAITING'; else otherStatus">
                     <app-new-request></app-new-request>
                 </ng-container>
                 <ng-template #otherStatus>
-                    <app-referral-cancelled *ngIf="selectedStatus === 'Cancelled'"></app-referral-cancelled>
-                    <app-referral-req-rejected *ngIf="selectedStatus === 'Rejected'"></app-referral-req-rejected>
-                    <app-accepted-referral *ngIf="selectedStatus === 'Accepted'"></app-accepted-referral>
-                    <app-accepted-referral *ngIf="selectedStatus === 'Done'"></app-accepted-referral>
+                    <app-referral-cancelled *ngIf="selectedStatus === 'CANCELLED'"></app-referral-cancelled>
+                    <app-referral-req-rejected *ngIf="selectedStatus === 'REJECTED'"></app-referral-req-rejected>
+                    <app-accepted-referral *ngIf="selectedStatus === 'ACCEPTED'"></app-accepted-referral>
+                    <app-accepted-referral *ngIf="selectedStatus === 'DONE'"></app-accepted-referral>
                 </ng-template>
             </div>
         </div>
