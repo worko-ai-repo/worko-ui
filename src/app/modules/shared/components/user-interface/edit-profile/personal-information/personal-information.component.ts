@@ -13,7 +13,7 @@ export class PersonalInformationComponent implements OnInit {
 
   emailAddress:any="";
   candidateDetailsList:any="";
-  candidatePersonalDetails:any={
+  @Input() candidatePersonalDetails:any={
     name:"",
     email:"",
     phoneNo:"",
@@ -44,8 +44,8 @@ ngOnInit(): void {
 }
 
 async createEducation(form:any): Promise<void>{
-  console.log(this.candidatePersonalDetails)
-  this.nextStep.emit()
+  // console.log(this.candidatePersonalDetails)
+  this.nextStep.emit(this.candidatePersonalDetails)
 }
   // let data={
   //   "collegeDegree" : "",
