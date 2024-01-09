@@ -6,5 +6,22 @@ import { Component } from '@angular/core';
   styleUrls: ['./employee.component.scss']
 })
 export class EmployeeComponent {
+  isSidebarExpanded: boolean = true;
 
+  constructor() {
+    // Empty constructor
+   }
+   
+  ngOnInit(): void {
+    // No logic needed
+  }
+
+  /**
+   * Toggle sidebar.
+   *
+   * @returns {void}
+   */
+  toggleSidebar(): void {
+    this.isSidebarExpanded = !this.isSidebarExpanded;
+  }
 }

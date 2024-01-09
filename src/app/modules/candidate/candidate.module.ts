@@ -37,6 +37,7 @@ import { UploadComponent } from '../shared/components/user-interface/edit-profil
  import { AcceptedReferralComponent } from '../shared/components/user-interface/candidate/accepted-referral/accepted-referral.component';
  import { FormControl, NgModel} from '@angular/forms';
  import { FormsModule } from '@angular/forms';
+import { EmployeeModule } from '../employee/employee.module';
 
 export const routes: Routes = [
 
@@ -125,8 +126,15 @@ export const routes: Routes = [
     CommonModule,
     FormsModule,
     
+    
 
     RouterModule.forChild(routes)
+  ],
+  exports: [UserMenubarComponent,
+    UserNavbarComponent,
+    UserDetailsComponent,
+    UserProfileCompleteComponent,
+
   ]
 })
 export class CandidateModule { }

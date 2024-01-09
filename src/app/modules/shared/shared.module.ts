@@ -26,6 +26,7 @@ import { PersonalDetailsComponent } from './components/user-interface/edit-profi
 import { UploadComponent } from './components/user-interface/edit-profile/upload/upload.component';
 import { Routes } from '@angular/router';
 import { AcceptedReferralComponent } from './components/user-interface/candidate/accepted-referral/accepted-referral.component';
+import { JobHistoryComponent } from './components/user-interface/employee/dashboard/job-history/job-history.component';
 
 
 export const routes: Routes = [
@@ -37,6 +38,7 @@ export const routes: Routes = [
     HeaderComponent,
     FooterComponent,
     ModalComponent,
+    
     
     
     
