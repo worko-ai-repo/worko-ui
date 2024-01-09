@@ -7,7 +7,7 @@ import { Component } from '@angular/core';
 })
 export class EmployeeComponent {
   isSidebarExpanded: boolean = true;
-
+  userType : string = "Employee";
   constructor() {
     // Empty constructor
    }
