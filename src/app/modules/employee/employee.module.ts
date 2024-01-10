@@ -8,6 +8,8 @@ import { UserNavbarComponent } from '../candidate/components/user-navbar/user-na
 import { CandidateModule } from '../candidate/candidate.module';
 import { CandidateComponent } from '../candidate/candidate.component';
 import { JobHistoryComponent } from '../shared/components/user-interface/employee/dashboard/job-history/job-history.component';
+import { ServicePackageComponent } from '../shared/components/user-interface/employee/dashboard/service-package/service-package.component';
+import { BankDetailsComponent } from '../shared/components/user-interface/employee/dashboard/bank-details/bank-details.component';
 
 
 export const routes: Routes = [
@@ -36,6 +38,8 @@ export const routes: Routes = [
     EmployeeComponent,
     EmployeeDashboardComponent,
     JobHistoryComponent,
+    ServicePackageComponent,
+    BankDetailsComponent,
     
   
   ],
