@@ -1,7 +1,7 @@
 import { Component, ElementRef, Input, OnInit, ViewChild } from '@angular/core';
-import * as data from 'src/assets/data/data.json';
+// import * as data from 'src/assets/data/data.json';
 import { ReqGuidanceService } from '../../services/req-guidance.service';
-
+import { StorageService } from 'src/app/modules/app-core/services/storage.service';
 
 
 @Component({
@@ -27,7 +27,7 @@ export class RequestGuidenceComponent implements OnInit {
   pendingScreen: boolean = false;
   rejectedScreen: boolean = false;
   showSideImage: boolean = true;
-  emailAddress: string = "prashant@worko.ai";
+  emailAddress: string = "";
   masterSrvList: any[] = [];
 
   masterSrvForm: any = {
@@ -59,8 +59,9 @@ export class RequestGuidenceComponent implements OnInit {
     "role":"",
   };
 
-  constructor(private reqGuidanceSrv: ReqGuidanceService) { }
+  constructor(private reqGuidanceSrv: ReqGuidanceService, private storage:StorageService) { }
   ngOnInit(): void {
+    this.emailAddress = this.storage.get("useremail");
     this.getmasterService()
   }
 

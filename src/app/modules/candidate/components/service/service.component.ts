@@ -15,7 +15,7 @@ export class ServiceComponent {
   
   ngOnInit(): void {
     this.emailAddress = this.storage.get("useremail");
-    this.getServices();
+    // this.getServices();
   }
 
   async getServices() {
@@ -29,6 +29,6 @@ export class ServiceComponent {
 
   onStatusSelected(status: string): void {
     this.selectedStatus = status;
-    this.getServices();
+    // this.getServices();
   }
 }

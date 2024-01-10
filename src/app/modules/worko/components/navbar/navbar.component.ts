@@ -33,9 +33,9 @@ export class NavbarComponent {
     this.userLoggedIn = await this.cognitoService.isLoggedIn();
     if(this.userLoggedIn){
       if (userType == "CAND") {
-        this.router.navigate(['/candidate/dashboard']);
+        this.router.navigate(['/candidate/cdashboard']);
       } else {
-        this.router.navigate(['/employee/dashboard']);
+        this.router.navigate(['/employee/edashboard']);
       }
     }
   }

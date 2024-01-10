@@ -19,19 +19,19 @@ export const routes: Routes = [
     component: EmployeeComponent,
     children: [
       {
-        path: 'dashboard',
+        path: 'edashboard',
         component: EmployeeDashboardComponent
       },
       {
-        path: 'referral',
+        path: 'ereferral',
         component: EmployeeDashboardComponent
       },
       {
-        path: 'service',
+        path: 'eservice',
         component: EmployeeDashboardComponent
       },
       {
-        path: 'packages ',
+        path: 'epackages ',
         component: EmployeeDashboardComponent
       },
       
