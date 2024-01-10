@@ -1,17 +1,18 @@
-
-.dropdown button{
+.dropdown button {
     background-color: transparent;
     color: white;
     border: unset;
 }
-.dropdown .dropdown-menu{
+
+.dropdown .dropdown-menu {
     background-color: #0A1E35;
 }
+
 .dropdown-menu::after {
     all: unset;
 }
 
-.dropdown ul{
+.dropdown ul {
     position: absolute;
     // inset: 0px auto auto 0px;
     margin: 0px;
@@ -19,42 +20,57 @@
     width: 100%;
     font-size: 12px;
 }
-.search-input{
-    width: -webkit-fill-available;
-    background-color: transparent;
-    border: none;
-}
-.text-size h5{
+
+// .search-input{
+//     width: -webkit-fill-available;
+//     background-color: transparent;
+//     border: none;
+// }
+.text-size h5 {
     color: #FFF;
-font-family: Poppins;
-font-size: 14.333px;
-font-style: normal;
-font-weight: 300;
-line-height: normal;
+    font-size: 14px;
+    font-style: normal;
+    font-weight: 300;
+    line-height: normal;
 }
-.number-size h5{
-    color: white;
-    font-size: 13px;
+
+.dropdown-line {
+    color: #0E3877;
+}
+
+.text-size span {
     color: #4FAFCB;
-    font-family: Urbanist;
-    font-size: 14.603px;
+        font-size: 10px;
+    font-style: normal;
+    font-weight: 300;
+    line-height: normal;
+}
+
+.text-overflow {
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    overflow: hidden;
+
+}
+
+.referral-list {
+    border-bottom: 1px solid #132A4C;
+    padding: 0.5rem;
+    justify-content: center;
+}
+
+.text-size {
+    padding-left: 15px;
+}
+
+.number-size {
+    width: 100px;
+    color: #4FAFCB;
+    margin-left: 30px;
+    font-size: 14px;
+ 
     font-style: italic;
     font-weight: 100;
     line-height: normal;
-}
-.line-color{
-    color: #132A4C;
-}
-.dropdown-line{
-    color: #0E3877;
-}
-.text-size span{
-    color: rgba(79, 175, 203, 1);
-   
-    color: #4FAFCB;
-font-family: Poppins;
-font-size: 10px;
-font-style: normal;
-font-weight: 300;
-line-height: normal;
+
 }

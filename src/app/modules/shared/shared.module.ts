@@ -39,8 +39,7 @@ export const routes: Routes = [
   declarations: [
     HeaderComponent,
     FooterComponent,
-    ModalComponent,
-    
+    ModalComponent
     
     
     
@@ -64,6 +63,7 @@ export const routes: Routes = [
     MatFormFieldModule,
     MatInputModule,
     MatButtonModule,
+    
     
     
   ],

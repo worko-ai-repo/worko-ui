@@ -7,7 +7,7 @@ import { Component } from '@angular/core';
 })
 export class CandidateComponent {
   isSidebarExpanded: boolean = true;
-
+  userType : string = "Candidate";
   constructor() {
     // Empty constructor
    }

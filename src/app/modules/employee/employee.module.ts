@@ -19,7 +19,19 @@ export const routes: Routes = [
     component: EmployeeComponent,
     children: [
       {
-        path: 'employee-dashboard',
+        path: 'dashboard',
+        component: EmployeeDashboardComponent
+      },
+      {
+        path: 'referral',
+        component: EmployeeDashboardComponent
+      },
+      {
+        path: 'service',
+        component: EmployeeDashboardComponent
+      },
+      {
+        path: 'packages',
         component: EmployeeDashboardComponent
       },
       

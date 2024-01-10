@@ -10,6 +10,7 @@ import { CognitoService } from 'src/app/modules/services/cognito.service';
 export class UserMenubarComponent {
   @Input() isSidebarExpanded: boolean = true;
   @Output() onToggleSidebar: EventEmitter<void> = new EventEmitter<void>();
+  @Input() userType: string = "";
 
   // iconChevronLeft: IconDefinition = faChevronLeft;
   // iconChevronRight: IconDefinition = faChevronRight;
@@ -17,6 +18,7 @@ export class UserMenubarComponent {
   isFilesCollapsed: boolean = true;
   activeRoute: string = '';
   userLoggedIn: boolean = false;
+  menuItems: any;
   /**
    * SidebarComponent constructor.
    *
@@ -26,6 +28,63 @@ export class UserMenubarComponent {
 
   ngOnInit(): void {
     this.activeRoute = this.router.url;
+    if (this.userType == "Candidate") {
+      this.menuItems = [
+        {
+          name: 'Dashboard',
+          router: "candidate/candidate-dashboard"
+        },
+        {
+          name: 'Referral',
+          router: "candidate/candidate-referral"
+        },
+        {
+          name: 'Service',
+          router: "candidate/candidate-service"
+        },
+        {
+          name: 'Subscription',
+          router: "candidate/candidate-subscription"
+        },
+        {
+          name: 'Refer & Earn',
+          router: "candidate/refer&earn"
+        },
+        {
+          name: 'Settings',
+          router: "candidate/refer&earn"
+        },
+      ]
+    }
+
+    if (this.userType == "Employee") {
+      this.menuItems = [
+        {
+          name: 'Dashboard',
+          router: "employee/dashboard"
+        },
+        {
+          name: 'Referral',
+          router: "employee/referral"
+        },
+        {
+          name: 'Service',
+          router: "employee/service"
+        },
+        {
+          name: 'Packages',
+          router: "employee/packages"
+        },
+        {
+          name: 'Refer & Earn',
+          router: "employee/refer&earn"
+        },
+        {
+          name: 'Settings',
+          router: "employee/refer&earn"
+        },
+      ]
+    }
   }
 
   /**
