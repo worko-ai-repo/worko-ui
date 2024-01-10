@@ -10,6 +10,7 @@ import { CandidateComponent } from '../candidate/candidate.component';
 import { JobHistoryComponent } from '../shared/components/user-interface/employee/dashboard/job-history/job-history.component';
 import { ServicePackageComponent } from '../shared/components/user-interface/employee/dashboard/service-package/service-package.component';
 import { BankDetailsComponent } from '../shared/components/user-interface/employee/dashboard/bank-details/bank-details.component';
+import { EmployeeDetailsComponent } from '../shared/components/user-interface/employee/dashboard/employee-details/employee-details.component';
 
 
 export const routes: Routes = [
@@ -19,7 +20,7 @@ export const routes: Routes = [
     component: EmployeeComponent,
     children: [
       {
-        path: 'dashboard',
+        path: 'dashboards',
         component: EmployeeDashboardComponent
       },
       {
@@ -52,6 +53,7 @@ export const routes: Routes = [
     JobHistoryComponent,
     ServicePackageComponent,
     BankDetailsComponent,
+    EmployeeDetailsComponent,
     
   
   ],

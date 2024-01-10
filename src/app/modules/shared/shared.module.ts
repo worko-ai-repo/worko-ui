@@ -29,6 +29,7 @@ import { AcceptedReferralComponent } from './components/user-interface/candidate
 import { JobHistoryComponent } from './components/user-interface/employee/dashboard/job-history/job-history.component';
 import { ServicePackageComponent } from './components/user-interface/employee/dashboard/service-package/service-package.component';
 import { BankDetailsComponent } from './components/user-interface/employee/dashboard/bank-details/bank-details.component';
+import { EmployeeDetailsComponent } from './components/user-interface/employee/dashboard/employee-details/employee-details.component';
 
 
 export const routes: Routes = [
@@ -39,7 +40,8 @@ export const routes: Routes = [
   declarations: [
     HeaderComponent,
     FooterComponent,
-    ModalComponent
+    ModalComponent,
+    
     
     
     
