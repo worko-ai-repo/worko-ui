@@ -31,7 +31,7 @@ export const routes: Routes = [
         component: EmployeeDashboardComponent
       },
       {
-        path: 'packages',
+        path: 'packages ',
         component: EmployeeDashboardComponent
       },
       
