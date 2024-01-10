@@ -46,22 +46,22 @@ export const routes: Routes = [
     component: CandidateComponent,
     children: [
       {
-        path: 'candidate-dashboard',
+        path: 'dashboard',
         component: CandidateDashboardComponent,
         canActivate: [ candidateGuard]
       },
       {
-        path: 'candidate-referral',
+        path: 'referral',
         component: ReferralComponent,
        
       },
       {
-        path: 'candidate-service',
+        path: 'service',
         component: ServiceComponent,
        
       },
       {
-        path: 'candidate-subscription',
+        path: 'subscription',
         component: SubscriptionComponent,
        
       },

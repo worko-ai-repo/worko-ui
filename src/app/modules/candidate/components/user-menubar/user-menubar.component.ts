@@ -32,19 +32,19 @@ export class UserMenubarComponent {
       this.menuItems = [
         {
           name: 'Dashboard',
-          router: "candidate/candidate-dashboard"
+          router: "candidate/dashboard", 
         },
         {
           name: 'Referral',
-          router: "candidate/candidate-referral"
+          router: "candidate/referral",
         },
         {
           name: 'Service',
-          router: "candidate/candidate-service"
+          router: "candidate/service",
         },
         {
           name: 'Subscription',
-          router: "candidate/candidate-subscription"
+          router: "candidate/subscription"
         },
         {
           name: 'Refer & Earn',
