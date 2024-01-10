@@ -1,4 +1,4 @@
-import { Component, Input} from '@angular/core';
+import { Component, Input, EventEmitter, Output } from '@angular/core';
 
 @Component({
   selector: 'app-all-services',
@@ -7,29 +7,76 @@ import { Component, Input} from '@angular/core';
 })
 export class AllServicesComponent {
   @Input() servicesList: any;
-
-  serviceRequests = [
-    { id: 1, title: 'Service Request', number: '#6493', date:'Dec 1 2023' },
-    { id: 2, title: 'Service Request', number: '#6494', date:'Dec 5 2023' },
-    { id: 3, title: 'Service Request', number: '#6495', date:'Dec 7 2023' },
-    { id: 4, title: 'Service Request', number: '#6496', date:'Dec 12 2023' },
-    
-
-  ];
+  @Output() statusSelected = new EventEmitter<string>();
+  awaitingList:  any = "";
+  acceptedList:  any = "";
+  rejectedList: any = "";
+  doneList: any = "";
+  paymentDueList: any = "";
+  cancelledList: any = "";
   currentAccordion: string | null = null;
+  accordionSelected: any;
+
 
   ngOnInit(): void {
     console.log(this.servicesList)
   }
 
   ngOnChanges(): void {
-    console.log(this.servicesList)
-    // this.showReferralDetails.emit(this.referralList[0]);
+    console.log(this.servicesList);
+
+    if(this.accordionSelected == "AWAITING" &&  this.awaitingList.length === 0){
+      this.awaitingList = this.servicesList;
+    }
+    if(this.accordionSelected == "ACCEPTED" &&  this.acceptedList.length === 0){
+      this.acceptedList = this.servicesList;
+    }
+    if(this.accordionSelected == "REJECTED" &&  this.rejectedList.length === 0){
+      this.rejectedList = this.servicesList;
+    }
+    if(this.accordionSelected == "DONE" &&  this.doneList.length === 0){
+      this.doneList = this.servicesList;
+    }
+    if(this.accordionSelected == "PAYMENT_DUE" &&  this.paymentDueList.length === 0){
+      this.paymentDueList = this.servicesList;
+    }
+    if(this.accordionSelected == "CANCELLED" &&  this.cancelledList.length === 0){
+      this.cancelledList = this.servicesList;
+    }
+    this.currentAccordion = (this.currentAccordion === this.accordionSelected) ? null : this.accordionSelected;
   }
 
+  // onSelectStatus(status: string): void {
+  //   this.selectedStatus = status;
+  //   this.statusSelected.emit(status);
+
+  // }
   toggleAccordion(accordionType: string) {
     // Toggle the accordion
-    this.currentAccordion = (this.currentAccordion === accordionType) ? null : accordionType;
+    this.accordionSelected = accordionType;
+    if( this.accordionSelected === "AWAITING" &&  this.awaitingList.length > 0){
+      this.currentAccordion = (this.currentAccordion === accordionType) ? null : accordionType;
+      return;
+    } else if( this.accordionSelected === "ACCEPTED" &&  this.acceptedList.length > 0){
+      this.currentAccordion = (this.currentAccordion === accordionType) ? null : accordionType;
+      return;
+    } else if( this.accordionSelected === "REJECTED" &&  this.rejectedList.length > 0){
+      this.currentAccordion = (this.currentAccordion === accordionType) ? null : accordionType;
+      return;
+    } else if( this.accordionSelected === "DONE" &&  this.doneList.length > 0){
+      this.currentAccordion = (this.currentAccordion === accordionType) ? null : accordionType;
+      return; 
+    } else if( this.accordionSelected === "PAYMENT_DUE" &&  this.paymentDueList.length > 0){
+      this.currentAccordion = (this.currentAccordion === accordionType) ? null : accordionType;
+      return; 
+    } else if( this.accordionSelected === "CANCELLED" &&  this.cancelledList.length > 0){
+      this.currentAccordion = (this.currentAccordion === accordionType) ? null : accordionType;
+      return; 
+    }else{
+      this.statusSelected.emit(accordionType);
+    }
+    
+    // this.currentAccordion = (this.currentAccordion === accordionType) ? null : accordionType;
   }
   getSlicedValue(value: string): string {
     const parts = value.split('#');

@@ -29,6 +29,6 @@ export class ServiceComponent {
 
   onStatusSelected(status: string): void {
     this.selectedStatus = status;
-    // this.getServices();
+     this.getServices();
   }
 }
