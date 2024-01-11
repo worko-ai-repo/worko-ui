@@ -32,6 +32,7 @@ import { BankDetailsComponent } from './components/user-interface/employee/dashb
 import { EmployeeDetailsComponent } from './components/user-interface/employee/dashboard/employee-details/employee-details.component';
 import { EmployeeReferralDetailsComponent } from './components/user-interface/employee/referral/employee-referral-details/employee-referral-details.component';
 import { ReferralDoneComponent } from './components/user-interface/employee/referral/referral-done/referral-done.component';
+import { RequestAwaitingComponent } from './components/user-interface/employee/services/request-awaiting/request-awaiting.component';
 
 
 export const routes: Routes = [
@@ -44,6 +45,7 @@ export const routes: Routes = [
     FooterComponent,
     ModalComponent,
     ReferralDoneComponent,
+    RequestAwaitingComponent,
     
 
     
@@ -68,6 +70,7 @@ export const routes: Routes = [
   ModalComponent,
   // AwaitingStatusComponent,
   ReferralDoneComponent,
+  RequestAwaitingComponent,
   ],
 
 })

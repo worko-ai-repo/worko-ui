@@ -82,8 +82,32 @@
                         </div>
 
                     </div>
-
                     <div class="row d-flex justify-content-center mt-2">
+                        <div class="col-md-4">
+                            <label for="" class="form-lable">Certificate Names</label>
+                            <div class="certific-skill-box">
+                                <div *ngFor="let certificates of candidateProfessionalDetails.certificationNames">
+
+                                    <div class=" m-2 p-1 skills-add skills-text">{{certificates.certName}}
+                                    <span><i class="fa-solid fa-xmark"></i></span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-4">
+                            <label for="" class="form-lable">Soft skills</label>
+                            <div class="certific-skill-box">
+                                <div *ngFor="let certificates of candidateProfessionalDetails.certificationNames">
+
+                                    <div class=" m-2 p-1 skills-add skills-text">{{certificates.certName}}
+                                    <span><i class="fa-solid fa-xmark"></i></span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- <div class="row d-flex justify-content-center mt-2">
                         <div class="col-md-4">
                             <label for="" class="form-lable">Certificate Names</label>
                             <div class="d-flex ">
@@ -105,7 +129,7 @@
                                 name="softSkills" id="softSkills"></textarea>
                         </div>
 
-                    </div>
+                    </div> -->
                     <div class="row">
                         <div class="col-md-6 mt-2">
                             <label for="" class="core-skills-lable float-end">Core Skills & Experience (add max
@@ -124,10 +148,10 @@
                     </div>
                     <div class="row d-flex justify-content-center mt-4 p-0 ">
 
-                        <div class="col-md-3 ps-3 ms-2 skills-add skills-text">React.js</div>
-                        <div class="col-md-3 ps-3 ms-2 skills-add skills-text">React.js</div>
-                        <div class="col-md-3 ps-3 ms-2 skills-add skills-text">React.js</div>
-                        <div class="col-md-3 ps-3 ms-2 skills-add skills-text">React.js</div>
+                        <div class="col-md-3 ps-3 ms-2 skills-add skills-text">React.js <span><i class="fa-solid fa-xmark"></i></span></div>
+                        <div class="col-md-3 ps-3 ms-2 skills-add skills-text">React.js<span><i class="fa-solid fa-xmark"></i></span></div>
+                        <div class="col-md-3 ps-3 ms-2 skills-add skills-text">React.js<span><i class="fa-solid fa-xmark"></i></span></div>
+                        <div class="col-md-3 ps-3 ms-2 skills-add skills-text">React.js<span><i class="fa-solid fa-xmark"></i></span></div>
 
 
                     </div>
