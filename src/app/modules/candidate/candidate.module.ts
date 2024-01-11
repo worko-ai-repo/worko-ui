@@ -140,6 +140,7 @@ export const routes: Routes = [
     AwaitingStatusComponent,
     ReferralStepperComponent,
     ReferralCancelledComponent,
+    AllServicesComponent,
     
 
   ]

@@ -7,4 +7,11 @@ import { Component } from '@angular/core';
 })
 export class EmployeeServiceComponent {
 
+
+  selectedStatus: string = 'AWAITING';
+
+
+  onStatusSelected(status: string): void {
+    this.selectedStatus = status;
+  }
 }
