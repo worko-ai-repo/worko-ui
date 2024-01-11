@@ -32,7 +32,7 @@ constructor(private candidateSrv:CandidateProfileService , private storage: Stor
 ngOnInit(): void {
   
   this.emailAddress = this.storage.get("useremail");
-   this.userCertifications();
+   this.getCandidateDetails();
 }
 // post //
 async createEducationDetails(){

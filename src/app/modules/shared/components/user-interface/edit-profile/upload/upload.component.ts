@@ -8,7 +8,7 @@ import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 export class UploadComponent implements OnInit {
   @Output() previousStep = new EventEmitter<void>();
   @Output() onSucess = new EventEmitter<void>();
-
+  @Input() candidateList: any;
   @Input() candidateUploadDetails:any={
     uploadCV:"",
     coverLetter:"",
@@ -24,6 +24,19 @@ export class UploadComponent implements OnInit {
   async uploadDetails(form:any){
     this.onSucess.emit(this.candidateUploadDetails)
     // console.log(this.candidateUploadDetails)
+  }
+
+  ngOnChanges(): void {
+    console.log(this.candidateList, "candidateList");
+
+    this.getData();
+    console.log( this.candidateUploadDetails )
+  }
+  getData(){
+   this.candidateUploadDetails ={
+      uploadCV:"",
+      coverLetter:this.candidateList.coverLetter,
+    }
   }
 
 }
