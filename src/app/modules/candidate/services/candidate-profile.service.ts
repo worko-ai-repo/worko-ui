@@ -43,7 +43,7 @@ export class CandidateProfileService {
   }
 
   getServices(emailAddress:string, status: string){
-    return this.http.get(`${API_URL}user/${emailAddress}/service`, this.authService.getHttpOptions()).toPromise();
+    return this.http.get(`${API_URL}user/${emailAddress}/service?status=${status}`, this.authService.getHttpOptions()).toPromise();
   }
 
   
