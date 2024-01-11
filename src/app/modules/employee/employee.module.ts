@@ -15,6 +15,7 @@ import { EmployeeReferralComponent } from './components/employee-referral/employ
 // import { AwaitingStatusComponent } from '../shared/components/user-interface/referral/awaiting-status/awaiting-status.component';
 import { SharedModule } from '../shared/shared.module';
 import { EmployeeReferralDetailsComponent } from '../shared/components/user-interface/employee/referral/employee-referral-details/employee-referral-details.component';
+import { EmployeeServiceComponent } from './components/employee-service/employee-service.component';
 
 
 export const routes: Routes = [
@@ -33,7 +34,7 @@ export const routes: Routes = [
       },
       {
         path: 'eservice',
-        component: EmployeeDashboardComponent
+        component: EmployeeServiceComponent
       },
       {
         path: 'epackages ',
@@ -60,6 +61,7 @@ export const routes: Routes = [
     EmployeeDetailsComponent,
     EmployeeReferralComponent,
     EmployeeReferralDetailsComponent,
+    EmployeeServiceComponent,
     
     
   ],
