@@ -26,12 +26,13 @@ currentStep: number = 1;
 candidatePersonalDetails:any={};
 candidateProfessionalDetails:any={};
 candidateUploadDetails:any={};
+workExperienceDetails: any;
 
 constructor(private candidateSrv:CandidateProfileService , private storage: StorageService){}
 ngOnInit(): void {
   
   this.emailAddress = this.storage.get("useremail");
-  this.getCandidateDetails();
+   this.userCertifications();
 }
 // post //
 async createEducationDetails(){
@@ -148,11 +149,11 @@ await this.candidateSrv.createUserDetails(this.emailAddress, userDetails).then(a
 async getCandidateDetails() {
   await this.candidateSrv.getUserDetails(this.emailAddress).then(async (response) => {
     if (response) {
-      this.candidateList = response
-      this.candidateDetails = this.candidateList[0];
-      this.userDescription = this.candidateList[0].about;
+      this.candidateList = response[0];
+      // this.candidateDetails = this.candidateList[0];
+      // this.userDescription = this.candidateList[0].about;
       console.log(response);
-      await this.getEducationDetails();
+       await this.getEducationDetails();
     }
   })
 }
@@ -163,7 +164,7 @@ async getEducationDetails() {
       this.educationList = response;
       this.educationDetails = this.educationList[0];
       console.log(response + "1");
-      this.getAchievements();
+      // this.getAchievements();
     }
   })
 }
@@ -173,21 +174,30 @@ async getAchievements() {
     if (response) {
       this.achievementsList = response[0].achievements;
       console.log(  this.achievementsList);
-      this.getprofilelogo();
+      this.getSocialProfile();
     }
   })
 }
 
-async getprofilelogo() {
+async getSocialProfile() {
   await this.candidateSrv.getUserProfile(this.emailAddress).then(async (response) => {
     if (response) {
-      this.candidateSocial = response;
+      this.candidateSocial = response[0];
       console.log(response);
-      this.userCertifications();
+      // this.userCertifications();
     }
 
   })
 
+}
+
+async getWorkExperienceDetails() {
+  await this.candidateSrv.getWorkExperience(this.emailAddress).then(async (response) => {
+    if (response) {
+      this.workExperienceDetails = response;
+      this.getAchievements();
+    }
+  })
 }
 
 async userCertifications(){
@@ -208,12 +218,9 @@ async userCertifications(){
 
 
   nextStep(){
-  
     console.log(this.candidatePersonalDetails)
-    
     console.log(this.candidateProfessionalDetails)
     if (this.currentStep < 3) {
-      
       this.currentStep++;
     }
   }
@@ -224,11 +231,11 @@ async userCertifications(){
     }
   }
   onSuccess(){
-    this.createEducationDetails()
-    this.createUserDetails()
-    this.createAchievements()
-    this.createSkills()
-    this.creatSocialProfile()
+    this.createEducationDetails();
+    // this.createUserDetails()
+    // this.createAchievements()
+    // this.createSkills()
+    // this.creatSocialProfile()
   }
 
 }

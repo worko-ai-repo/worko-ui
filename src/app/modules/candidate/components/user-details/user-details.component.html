@@ -77,7 +77,7 @@
                                     
                                 </div>
                                 <div class="col-md-9 p-0">
-                                    <span class="ps-2">Google</span>
+                                    <span class="ps-2">{{workExperienceDetails[0].companyName}}</span>
                                 </div>
                             </div>
 
@@ -120,16 +120,16 @@
 
             <div class="row pt-3">
                 <div class="col-md-6">
-                    <h5 class="input-logo">Designation: SDE-1(Backend)</h5>
+                    <h5 class="input-logo">Designation: {{workExperienceDetails[0].designation}}</h5>
                 </div>
                 <div class="col-md-6">
-                    <h5 class="input-logo">Department: IT(Cloud)</h5>
+                    <h5 class="input-logo">Department: {{workExperienceDetails[0].department}}</h5>
                 </div>
                 <div class="col-md-6">
                     <h5 class="input-logo ">CTC: {{candidateDetails.CTC}} LAKH</h5>
                 </div>
                 <div class="col-md-6">
-                    <h5 class="input-logo">ECTC:{{candidateDetails.ECTC}} LAKH</h5>
+                    <h5 class="input-logo">ECTC: {{candidateDetails.ECTC}} LAKH</h5>
                 </div>
                 <div class="col-md-6">
                     <h5 class="input-logo ">Notice Period: {{candidateDetails.noticePeriod}} Days</h5>

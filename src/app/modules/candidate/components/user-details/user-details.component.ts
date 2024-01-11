@@ -11,6 +11,8 @@ import { StorageService } from 'src/app/modules/app-core/services/storage.servic
 export class UserDetailsComponent implements OnInit {
   @Input() candidateDetails: any = "";
   @Input() educationDetails: any = "";
+  @Input() workExperienceDetails: any = "";
+  
   recentGraduation: any;
   constructor(private candidateSrv: CandidateProfileService, private Storage: StorageService) { }
 

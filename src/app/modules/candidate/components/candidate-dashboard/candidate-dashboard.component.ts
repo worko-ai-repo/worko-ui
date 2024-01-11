@@ -17,6 +17,7 @@ export class CandidateDashboardComponent {
   certificationList:any;
   coreSkillsLists: any;
   softSkillsLists: any;
+  workExperienceDetails: any;
   userDescription: string = "";
   constructor(private candidateSrv: CandidateProfileService, private storage: StorageService) { }
 
@@ -44,22 +45,32 @@ export class CandidateDashboardComponent {
         this.educationList = response;
         this.educationDetails = this.educationList[0];
         console.log(response + "1");
+      this.getWorkExperienceDetails();
+          }
+    })
+  }
+
+  async getWorkExperienceDetails() {
+    await this.candidateSrv.getWorkExperience(this.emailAddress).then(async (response) => {
+      if (response) {
+        this.workExperienceDetails = response;
         this.getAchievements();
       }
     })
   }
+
 
   async getAchievements() {
     await this.candidateSrv.getCandidateAchievements(this.emailAddress).then(async (response) => {
       if (response) {
         this.achievementsList = response[0].achievements;
         console.log(  this.achievementsList);
-        this.getprofilelogo();
+        this.getSocialProfile();
       }
     })
   }
 
-  async getprofilelogo() {
+  async getSocialProfile() {
     await this.candidateSrv.getUserProfile(this.emailAddress).then(async (response) => {
       if (response) {
         this.candidateSocial = response;
