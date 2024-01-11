@@ -1,0 +1,161 @@
+
+<div class="candidate-card mt-2">
+    <div class="row">
+     <div class="col-md-12">
+         <div class="float-end m-3">
+              <ng-container *ngIf="selectedStatus === 'AWAITING'; else rejectedStatus">
+        <button class="employee-reject-btn" (click)="onReject()">Reject</button>
+        <button class="employee-accept-btn ms-2" (click)="onAccept()">Accept</button>
+    </ng-container>
+    <ng-template #rejectedStatus>
+        <button class="employee-reject-btn" (click)="onLeave()">Leave</button>
+        <button class="employee-accept-btn ms-2" (click)="onReject()">Reject</button>
+    </ng-template>
+
+         </div>
+         
+     </div>
+    </div>
+     <!-- <div class="row">
+         <div class="col-md-3">
+             <img src="/assets/public/candidate-img.png" class="img-user m-4" alt="">
+         </div>
+         <div class="col-md-5">
+             <div class="row">
+                 <div class="col-md-12">
+                     <h3 class="pt-3">Rohan Sharma</h3>
+                 </div>
+                 <div class="col-md-12 ref-education">
+                     <div >B.E(C.S.E) , 2020 - VIT Vellor</div>
+                     <div  class="pt-1">Role Applied : SDE-1(Backend)</div>
+                     <div  class="pt-1">Experience: 2+ years</div>
+                     <div  class="pt-1">Job Description: Link</div>
+                 </div>
+             </div>
+         </div>
+         <div class="col-md-4">
+             <div class="row">
+                 <div class="col-md-12 text-center referral-progree-bar">
+                     <div class="ms-3 mt-1">
+                         <svg xmlns="http://www.w3.org/2000/svg" width="60" height="82" viewBox="0 0 80 82" fill="none">
+                             <path d="M37.2193 4.46523C37.05 2.25735 35.1565 0.591351 33.0184 0.982514C25.3445 2.38648 18.2146 6.07842 12.5508 11.6357C5.93897 18.1232 1.73425 26.7514 0.653038 36.0501C-0.428179 45.3488 1.681 54.7427 6.62121 62.6313C11.5614 70.5198 19.027 76.4149 27.7458 79.312C36.4647 82.2091 45.8974 81.929 54.4368 78.5195C62.9762 75.11 70.0938 68.782 74.5769 60.6137C79.0601 52.4453 80.6314 42.9421 79.0231 33.7233C77.6453 25.8259 74.0072 18.5557 68.6109 12.8088C67.1104 11.2107 64.6095 11.4268 63.1955 13.1163C61.7842 14.8026 61.9948 17.3166 63.4543 18.9483C67.489 23.4592 70.2132 29.0654 71.2719 35.1338C72.5606 42.5211 71.3015 50.1364 67.709 56.6819C64.1165 63.2274 58.4129 68.2983 51.5701 71.0305C44.7272 73.7626 37.1685 73.987 30.1817 71.6655C23.195 69.3439 17.2126 64.62 13.2539 58.2987C9.29514 51.9773 7.60498 44.4497 8.4714 36.9983C9.33781 29.547 12.7072 22.6329 18.0054 17.4343C22.3478 13.1736 27.7656 10.2812 33.6118 9.05371C35.7507 8.60461 37.3894 6.6847 37.2193 4.46523Z" fill="#57FF68"/>
+                           </svg>
+                           <div class="m-0 p-0 referral-text" >Referral Score </div>
+                           <div href="" class="m-0 p-0 view-details">View detailed Analysis</div>
+                           <button class="btn-cv mt-2">View CV</button>
+                     </div>
+                 </div>
+             </div>
+         </div>
+     </div>
+
+     <div class="row">
+         <div class="col-md-12 company-details">
+             <div class="d-flex">
+                 <h6 class="m-4 mb-0 pb-3">Department: IT(Cloud)</h6>
+                 <h6 class="m-4 mb-0 pb-3">CTC: 40 LAKH</h6>
+                 
+             </div>
+             <div class="d-flex">
+                 <h6 class="ms-4">Notice Period: 30 Days</h6>
+                 <h6 class="ms-5 ps-1">ECTC: 50 LAKH</h6>
+                 
+             </div>
+
+             
+         </div>
+         <div class="col-md-12">
+             <h5 class=" m-4 mb-0 pb-2">Core Skills & Experience</h5>
+         </div>
+
+         <div class="col-md-12">
+             <div class="row">
+                 <div class="col-md-3 ms-4 pt-1">
+                     <div class="core-skills p-1">React.js    1yr</div>
+                 </div>
+                 <div class="col-md-3 m-0 p-0 ps-1 pt-1">
+                     <div class="core-skills p-1">React.js    1yr</div>
+                 </div>
+                 <div class="col-md-3 m-0 p-0 ps-1 pt-1">
+                     <div class="core-skills p-1">React.js    1yr</div>
+                 </div>
+                 <div class="col-md-3 m-0 p-0 ms-4 ps-1 pt-1">
+                     <div class="core-skills p-1">React.js    1yr</div>
+                 </div>
+                 <div class="col-md-3 m-0 p-0 ps-1 pt-1">
+                     <div class="core-skills p-1">React.js    1yr</div>
+                 </div>
+             </div>
+         </div>
+
+
+         <div class="col-md-12">
+             <h5 class=" m-4 mb-0 pb-2">Achievements</h5>
+         </div>
+
+         <div class="col-md-12">
+             <div class="row">
+                 <div class="col-md-3 ms-4 pt-1">
+                     <div class="core-skills p-1">Microsoft Hack3.0</div>
+                 </div>
+                 <div class="col-md-3 m-0 p-0 ps-1 pt-1">
+                     <div class="core-skills p-1">Microsoft Hack3.0</div>
+                 </div>
+                 <div class="col-md-3 m-0 p-0 ps-1 pt-1">
+                     <div class="core-skills p-1">Microsoft Hack3.0</div>
+                 </div>
+                 <div class="col-md-3 m-0 p-0 ms-4 ps-1 pt-1">
+                     <div class="core-skills p-1">Microsoft Hack3.0</div>
+                 </div>
+                 <div class="col-md-3 m-0 p-0 ps-1 pt-1">
+                     <div class="core-skills p-1">Microsoft Hack3.0</div>
+                 </div>
+                 <div class="col-md-3 m-0 p-0 ps-1 pt-1">
+                     <div class="core-skills p-1">Microsoft Hack3.0</div>
+                 </div>
+             </div>
+         </div>
+
+
+
+
+
+        
+        
+     </div> -->
+
+<div class="row d-flex justify-content-center">
+    <div class="col-md-10">
+        <div class="rej-req-card">
+            <div class="row text-center d-flex justify-content-center">
+                <div class="col-md-12 pt-2">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="70" height="70" viewBox="0 0 88 88" fill="none">
+                        <path d="M43.9974 65.6666C45.2252 65.6666 46.2551 65.2506 47.0871 64.4186C47.9191 63.5866 48.3336 62.5582 48.3307 61.3333C48.3307 60.1055 47.9147 59.0756 47.0827 58.2436C46.2507 57.4116 45.2223 56.9971 43.9974 57C42.7696 57 41.7397 57.416 40.9077 58.248C40.0757 59.08 39.6612 60.1084 39.6641 61.3333C39.6641 62.5611 40.0801 63.591 40.9121 64.423C41.7441 65.255 42.7725 65.6695 43.9974 65.6666ZM39.6641 48.3333H48.3307V22.3333H39.6641V48.3333ZM43.9974 87.3333C38.003 87.3333 32.3696 86.1951 27.0974 83.9186C21.8252 81.6422 17.2391 78.5554 13.3391 74.6583C9.43906 70.7583 6.35229 66.1722 4.07873 60.9C1.80517 55.6277 0.666951 49.9944 0.664062 44C0.664062 38.0055 1.80229 32.3722 4.07873 27.1C6.35517 21.8277 9.44195 17.2416 13.3391 13.3416C17.2391 9.44163 21.8252 6.35485 27.0974 4.08129C32.3696 1.80774 38.003 0.669515 43.9974 0.666626C49.9918 0.666626 55.6252 1.80485 60.8974 4.08129C66.1696 6.35774 70.7557 9.44452 74.6557 13.3416C78.5557 17.2416 81.644 21.8277 83.9204 27.1C86.1968 32.3722 87.3336 38.0055 87.3307 44C87.3307 49.9944 86.1925 55.6277 83.9161 60.9C81.6396 66.1722 78.5528 70.7583 74.6557 74.6583C70.7557 78.5583 66.1696 81.6465 60.8974 83.923C55.6252 86.1994 49.9918 87.3362 43.9974 87.3333ZM43.9974 78.6666C53.6752 78.6666 61.8724 75.3083 68.5891 68.5916C75.3057 61.875 78.6641 53.6777 78.6641 44C78.6641 34.3222 75.3057 26.125 68.5891 19.4083C61.8724 12.6916 53.6752 9.33329 43.9974 9.33329C34.3196 9.33329 26.1224 12.6916 19.4057 19.4083C12.6891 26.125 9.33073 34.3222 9.33073 44C9.33073 53.6777 12.6891 61.875 19.4057 68.5916C26.1224 75.3083 34.3196 78.6666 43.9974 78.6666Z" fill="#E64B4D"/>
+                      </svg>
+                </div>
+                <div class="col-md-12 mt-2">
+                    <h6 class="rej-req-text">Are You Sure you want to <br> Reject this Request?</h6>
+                </div>
+                <div class="col-md-10">
+                   
+                        <select name="" id="" class="form-control ref-select-reason">
+                            <option value="" class="">Select Reason to Reject</option>
+                        </select>
+                   
+                </div>
+                <div class="col-md-10">
+                    <textarea class="ref-textarea mt-2" name="" cols="57" rows="4" placeholder="Give you Comment">
+
+                    </textarea>
+                </div>
+                <div class="col-12 mt-2 mb-2">
+                    <button class="ref-rej-btn">Reject</button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+     
+
+ </div>

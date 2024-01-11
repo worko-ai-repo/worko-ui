@@ -1,0 +1,148 @@
+.candidate-card {
+    border-radius: 20px;
+    background: #0A1E35;
+    width: 100%;
+    height: 100%;
+}
+
+
+.user-detai-main {
+    height: auto;
+    width: 100%;
+}
+
+.img-user {
+    width: 150px;
+}
+
+.payment-card {
+    border-radius: 12px;
+    background: #132C52;
+}
+
+.payment-card-text {
+    h6 {
+        color: #FFF;
+        font-family: Poppins;
+        font-size: 13.558px;
+        font-style: normal;
+        font-weight: 400;
+        line-height: normal;
+    }
+
+    small {
+        color: #FFFEFE;
+        font-family: Poppins;
+        font-size: 10px;
+        font-style: italic;
+        font-weight: 600;
+        line-height: normal;
+    }
+
+    span {
+        color: #F00;
+        font-family: Poppins;
+        font-size: 10px;
+        font-style: italic;
+        font-weight: 600;
+        line-height: normal;
+    }
+
+    .btn,
+    .btn-sm {
+        border-radius: 3.364px;
+        background: #50D5FF;
+        font-size: 8px;
+    }
+}
+
+.employee-details{
+                h6 {
+                    color: #FFF;
+                    font-family: Poppins;
+                    font-size: 25.658px;
+                    font-style: normal;
+                    font-weight: 400;
+                    line-height: normal;
+                }
+                .user-small-text{
+                    color: #FFF;
+                    font-family: Poppins;
+                    font-size: 13.416px;
+                    font-style: normal;
+                    font-weight: 400;
+                    line-height: normal;
+                }
+                small{
+                    color: #FFF;
+                    font-family: Poppins;
+                    font-size: 17px;
+                    font-style: normal;
+                    font-weight: 500;
+                    line-height: normal;
+                }
+                h5{
+                    color: #FFF;
+                    font-family: Poppins;
+                    font-size: 11px;
+                    font-style: normal;
+                    font-weight: 300;
+                    line-height: normal;
+                }
+                .btn , .btn-sm{
+                    border-radius: 3.364px;
+                    background: #50D5FF;
+                    color: #0A1E35;
+                    font-family: Poppins;
+                    font-size: 9.664px;
+                    font-style: normal;
+                    font-weight: 600;
+                    line-height: normal;
+                }
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+/* Styles for devices with a resolution of 1680x1050 pixels */
+@media (min-width: 1680px) {
+    .user-detai-main {
+        padding: 20px;
+        /* Add padding to the container */
+    }
+
+    .col-md-3 {
+        width: 25%;
+        /* Adjust the width of the left column */
+        margin-right: 20px;
+        /* Add some margin between the columns */
+    }
+
+    .col-md-9 {
+        width: 70%;
+        /* Adjust the width of the right column */
+    }
+
+    .input-logo {
+        font-size: 14px;
+        /* Increase font size for better readability */
+    }
+
+    .img-user {
+        width: 150px;
+        /* Adjust the width of the user image */
+    }
+}

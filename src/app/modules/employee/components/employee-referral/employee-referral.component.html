@@ -1,0 +1,34 @@
+ <div class="row content-container">
+    <div class="container">
+     <div class="row">
+        <div class="col-4">
+            <app-awaiting-status  (statusSelected)="onStatusSelected($event)"></app-awaiting-status>
+        </div>
+        <div class="col-md-8">
+            <div class="row">
+                <div class="col-md-12">
+                    <app-referral-stepper></app-referral-stepper>
+                </div>
+
+                <div class="col-md-12">
+                    <ng-container *ngIf="selectedStatus === 'AWAITING'; else otherStatus">
+                        <app-employee-referral-details></app-employee-referral-details>
+                    </ng-container>
+                   
+                    <ng-template #otherStatus>
+                        <app-employee-referral-details  *ngIf="selectedStatus === 'REJECTED'"></app-employee-referral-details>
+                        <app-referral-done  *ngIf="selectedStatus === 'DONE'"></app-referral-done>
+                        <app-referral-cancelled *ngIf="selectedStatus === 'CANCELLED'"></app-referral-cancelled>>
+
+                    </ng-template>
+                   
+                </div>
+            </div>
+        </div>
+     </div>
+   
+</div> 
+
+
+
+   
