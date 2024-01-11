@@ -1219,7 +1219,7 @@ footer {
         }
     }
 }
-
+// candidate-dash -----------------------------------------------------------------------------//
 .btn-light-blue {
     background: #57E1FF;
     color: #FFF;
@@ -1245,15 +1245,24 @@ footer {
 }
 
 .issue-btn {
-    background-color: transparent;
-    font-size: 13px;
-    display: flex;
-    align-items: center;
-    color: white;
-    border-radius: 100px;
+    // background-color: transparent;
+    // font-size: 13px;
+    // display: flex;
+    // align-items: center;
+    // color: white;
+    // border-radius: 100px;
+    // background: #0A111C;
+    // border: 1px solid transparent;
+    // gap: 10px;
+
+    background-color:transparent;
+    width: 118px;
+    height: 35px;
     background: #0A111C;
-    border: 1px solid transparent;
-    gap: 10px;
+    border-radius: 22px;
+    border: unset;
+    font-size: 10px;
+    color: white;
 
 }
 
@@ -1277,3 +1286,23 @@ footer {
     flex: 2;
     height: 100%;
   }
+  .img-user {
+    width: 106px;
+}
+
+  // Employee-dashboard css -----------------------------------------------------------------------//
+
+  .employee-reject-btn{
+    border-radius: 100px;
+    border: 1px solid #36D0FF;
+    background: #0A111C;
+    color: white;
+    width: 91px;
+}
+.employee-accept-btn{
+    border-radius: 100px;
+border: 1px solid #36D0FF;
+background: #2D8EC2;
+width: 91px;
+color: white;
+}

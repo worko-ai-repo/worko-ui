@@ -38,6 +38,8 @@ import { UploadComponent } from '../shared/components/user-interface/edit-profil
  import { FormControl, NgModel} from '@angular/forms';
  import { FormsModule } from '@angular/forms';
 import { EmployeeModule } from '../employee/employee.module';
+import { ReferralDoneComponent } from '../shared/components/user-interface/employee/referral/referral-done/referral-done.component';
+
 
 export const routes: Routes = [
 
@@ -46,32 +48,32 @@ export const routes: Routes = [
     component: CandidateComponent,
     children: [
       {
-        path: 'dashboard',
+        path: 'cdashboard',
         component: CandidateDashboardComponent,
         canActivate: [ candidateGuard]
       },
       {
-        path: 'referral',
+        path: 'creferral',
         component: ReferralComponent,
        
       },
       {
-        path: 'service',
+        path: 'cservice',
         component: ServiceComponent,
        
       },
       {
-        path: 'subscription',
+        path: 'csubscription',
         component: SubscriptionComponent,
        
       },
       {
-        path: 'refer&earn',
+        path: 'crefer&earn',
         component: ReferEarnComponent,
        
       },
       {
-        path: 'edit-profile',
+        path: 'cedit-profile',
         component: EditProfileComponent,
        
       },
@@ -120,10 +122,11 @@ export const routes: Routes = [
   PersonalInformationComponent,
   PersonalDetailsComponent,
   UploadComponent,
-   AcceptedReferralComponent
+   AcceptedReferralComponent,
+   ReferralStepperComponent,
   ],
   imports: [
-    CommonModule,
+  CommonModule,
     FormsModule,
     
     
@@ -134,6 +137,10 @@ export const routes: Routes = [
     UserNavbarComponent,
     UserDetailsComponent,
     UserProfileCompleteComponent,
+    AwaitingStatusComponent,
+    ReferralStepperComponent,
+    ReferralCancelledComponent,
+    
 
   ]
 })

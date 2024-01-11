@@ -11,6 +11,10 @@ import { JobHistoryComponent } from '../shared/components/user-interface/employe
 import { ServicePackageComponent } from '../shared/components/user-interface/employee/dashboard/service-package/service-package.component';
 import { BankDetailsComponent } from '../shared/components/user-interface/employee/dashboard/bank-details/bank-details.component';
 import { EmployeeDetailsComponent } from '../shared/components/user-interface/employee/dashboard/employee-details/employee-details.component';
+import { EmployeeReferralComponent } from './components/employee-referral/employee-referral.component';
+// import { AwaitingStatusComponent } from '../shared/components/user-interface/referral/awaiting-status/awaiting-status.component';
+import { SharedModule } from '../shared/shared.module';
+import { EmployeeReferralDetailsComponent } from '../shared/components/user-interface/employee/referral/employee-referral-details/employee-referral-details.component';
 
 
 export const routes: Routes = [
@@ -20,19 +24,19 @@ export const routes: Routes = [
     component: EmployeeComponent,
     children: [
       {
-        path: 'dashboards',
+        path: 'edashboard',
         component: EmployeeDashboardComponent
       },
       {
-        path: 'referral',
+        path: 'ereferral',
+        component: EmployeeReferralComponent
+      },
+      {
+        path: 'eservice',
         component: EmployeeDashboardComponent
       },
       {
-        path: 'service',
-        component: EmployeeDashboardComponent
-      },
-      {
-        path: 'packages ',
+        path: 'epackages ',
         component: EmployeeDashboardComponent
       },
       
@@ -54,12 +58,16 @@ export const routes: Routes = [
     ServicePackageComponent,
     BankDetailsComponent,
     EmployeeDetailsComponent,
+    EmployeeReferralComponent,
+    EmployeeReferralDetailsComponent,
     
-  
+    
   ],
   imports: [
     CommonModule,
     CandidateModule,
+    SharedModule,
+    
     
     RouterModule.forChild(routes),
   ]

@@ -32,27 +32,27 @@ export class UserMenubarComponent {
       this.menuItems = [
         {
           name: 'Dashboard',
-          router: "candidate/dashboard", 
+          router: "candidate/cdashboard", 
         },
         {
           name: 'Referral',
-          router: "candidate/referral",
+          router: "candidate/creferral",
         },
         {
           name: 'Service',
-          router: "candidate/service",
+          router: "candidate/cservice",
         },
         {
           name: 'Subscription',
-          router: "candidate/subscription"
+          router: "candidate/csubscription"
         },
         {
           name: 'Refer & Earn',
-          router: "candidate/refer&earn"
+          router: "candidate/crefer&earn"
         },
         {
           name: 'Settings',
-          router: "candidate/refer&earn"
+          router: "candidate/crefer&earn"
         },
       ]
     }
@@ -61,27 +61,27 @@ export class UserMenubarComponent {
       this.menuItems = [
         {
           name: 'Dashboard',
-          router: "employee/dashboard"
+          router: "employee/edashboard"
         },
         {
           name: 'Referral',
-          router: "employee/referral"
+          router: "employee/ereferral"
         },
         {
           name: 'Service',
-          router: "employee/service"
+          router: "employee/eservice"
         },
         {
           name: 'Packages',
-          router: "employee/packages"
+          router: "employee/epackages"
         },
         {
           name: 'Refer & Earn',
-          router: "employee/refer&earn"
+          router: "employee/erefer&earn"
         },
         {
           name: 'Settings',
-          router: "employee/refer&earn"
+          router: "employee/erefer&earn"
         },
       ]
     }
