@@ -1289,6 +1289,69 @@ footer {
   .img-user {
     width: 106px;
 }
+.mentor-card{
+    border-radius: 12px;
+background: #132C52;
+}
+.mentor-content{
+    color: #FFF;
+font-family: Poppins;
+font-size: 14px;
+font-style: italic;
+font-weight: 400;
+line-height: normal;
+text-align: center;
+}
+.mentor-img{
+    width: 100px;
+    text-align: center;
+}
+.company-content{
+    color: #FFF;
+    font-family: Poppins;
+    font-size: 10.198px;
+    font-style: normal;
+    font-weight: 400;
+    line-height: normal;
+}
+.designation-content{
+    color: #FFF;
+font-family: Poppins;
+font-size: 11.198px;
+font-style: normal;
+font-weight: 400;
+line-height: normal;
+}
+.profile-link{
+    color: #69DCFF;
+font-family: Poppins;
+font-size: 10.958px;
+font-style: italic;
+font-weight: 300;
+line-height: normal;
+text-decoration-line: underline;
+}
+.about-content{
+    color: #FFF;
+font-family: Poppins;
+font-size: 19.244px;
+font-style: normal;
+font-weight: 600;
+line-height: normal;
+}
+.about-details{
+    color: #FFF;
+text-align: center;
+font-family: Poppins;
+font-size: 9.958px;
+font-style: normal;
+font-weight: 400;
+line-height: normal;
+}
+.mentor-text{
+    color: white;
+    font-size: 8px;
+}
 
   // Employee-dashboard css -----------------------------------------------------------------------//
 
@@ -1305,4 +1368,15 @@ border: 1px solid #36D0FF;
 background: #2D8EC2;
 width: 91px;
 color: white;
+}
+.btn-mark-done{
+    background-color:transparent;
+    
+    border-radius: 22px;
+    // border: unset;
+    font-size: 10px;
+    color: grey;
+    // border-radius: 100px;
+border: 1px solid #36D0FF;
+opacity: 0.5;
 }

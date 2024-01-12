@@ -16,6 +16,7 @@ import { EmployeeReferralComponent } from './components/employee-referral/employ
 import { SharedModule } from '../shared/shared.module';
 import { EmployeeReferralDetailsComponent } from '../shared/components/user-interface/employee/referral/employee-referral-details/employee-referral-details.component';
 import { EmployeeServiceComponent } from './components/employee-service/employee-service.component';
+import { ReviewPopupComponent } from '../shared/components/user-interface/employee/services/review-popup/review-popup.component';
 
 
 export const routes: Routes = [
@@ -62,6 +63,7 @@ export const routes: Routes = [
     EmployeeReferralComponent,
     EmployeeReferralDetailsComponent,
     EmployeeServiceComponent,
+    
     
     
   ],
