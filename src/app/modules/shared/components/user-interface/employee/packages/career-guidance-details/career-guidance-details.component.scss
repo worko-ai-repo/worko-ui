@@ -1,0 +1,91 @@
+.career-text{
+    color: #FFF;
+    font-family: Poppins;
+    font-size: 15.915px;
+    font-style: normal;
+    font-weight: 400;
+    align-items: center;
+    // line-height: 119.25%; /* 22.556px */
+}
+.key-points , li{
+    color: #FFF;
+    // font-family: Montserrat;
+    font-size: 14px;
+    font-style: normal;
+    font-weight: 300;
+    line-height: normal;
+}
+.card{
+    border-radius: 8px;
+    background: #132C52;
+}
+.day-text{
+    color: #FFF;
+    font-family: Poppins;
+    font-size: 11.5px;
+    font-style: normal;
+    font-weight: 500;
+    line-height: normal;
+}
+.price-text{
+    color: #36D0FF;
+    font-family: Poppins;
+    font-size: 12px;
+    font-style: italic;
+    font-weight: 300;
+    line-height: normal;
+}
+.selector{
+    border-radius: 8px;
+    border: 1.047px solid #E5EAF1;
+    background: #0A1E35;
+    // display: flex;
+    width: 140px;
+    height: 30.492px;
+    // padding: 11.513px 16.746px;
+    justify-content: center;
+    align-items: center;
+    // gap: -23.025px;
+    color: #FFF;
+    font-size: 12px;
+}
+::placeholder{
+    color: white;
+}
+
+.add-btn{
+    border-radius: 104.661px;
+    border: 2.454px solid #36D0FF;
+    background: #2D8EC2;
+    display: flex;
+    width: 140px;
+    height: 30.678px;
+    padding: 12.559px 20.932px;
+    justify-content: center;
+    align-items: center;
+    align-content: center;
+    gap: 10.466px;
+    flex-wrap: wrap;
+    color: white;
+
+}
+.btn-earning{
+    border-radius: 100px;
+    border: 1px solid #36D0FF;
+    background: #2D8EC2;
+    // font-size: px;
+    color: #FFF;
+    font-size: 13px;
+    text-align: center;
+    width: 150px;
+    line-height: normal;
+}
+.btn-pause{
+    border-radius: 100px;
+    border: 1.5px solid #2D8EC2;
+    background-color: transparent;
+    font-size:13px;
+    color: white;
+    width: 130px;
+    
+}
