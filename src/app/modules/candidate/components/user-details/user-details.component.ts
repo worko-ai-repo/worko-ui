@@ -28,4 +28,13 @@ export class UserDetailsComponent implements OnInit {
 //       console.log('Education Details is not an array or is null/undefined.');
 //     }
 }
+
+
+ngOnChanges(): void {
+  console.log(this.workExperienceDetails, "workExperienceDetails");
+
+  if(this.workExperienceDetails.length){
+    this.workExperienceDetails = this.workExperienceDetails[0];
+  }
+}
 }
