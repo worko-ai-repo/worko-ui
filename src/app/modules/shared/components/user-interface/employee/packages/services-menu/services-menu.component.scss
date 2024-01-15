@@ -1,0 +1,53 @@
+.services-btn{
+    border-radius: 10px;
+    border: 1px solid #57E1FF;
+    background: #0A1E35;
+    color: #57E1FF;
+    // text-align: center;
+    // font-family: Montserrat;
+    font-size: 22px;
+    font-style: normal;
+    font-weight: 700;
+    line-height: normal;
+    width: 280px;
+}
+
+.btn-add{
+    border-radius: 10px;
+    border: 1px solid #FFF;
+    background-color: transparent;
+    color: white;
+    
+}
+
+
+
+
+
+
+
+
+.card {
+    position: absolute;
+    top: 100%;
+    left: 0;
+    padding: 10px;
+    border-radius: 10px;
+    background: #57E1FF;
+    width: 280px;
+    height: 130px;
+    flex-shrink: 0;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    // display: none;
+    transition: all 3s ease;
+    // transition: cubic-bezier(0.075, 0.82, 0.165, 1);
+  }
+  
+  
+//   .card-hover:hover .card {
+//     display: block;
+//   }
+//   .card-hover {
+//     position: relative;
+//     display: inline-block;
+//   }

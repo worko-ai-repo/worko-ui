@@ -33,6 +33,12 @@ import { EmployeeDetailsComponent } from './components/user-interface/employee/d
 import { EmployeeReferralDetailsComponent } from './components/user-interface/employee/referral/employee-referral-details/employee-referral-details.component';
 import { ReferralDoneComponent } from './components/user-interface/employee/referral/referral-done/referral-done.component';
 import { RequestAwaitingComponent } from './components/user-interface/employee/services/request-awaiting/request-awaiting.component';
+import { ReviewPopupComponent } from './components/user-interface/employee/services/review-popup/review-popup.component';
+import { SelectServiceComponent } from './components/user-interface/employee/services/select-service/select-service.component';
+import { ServiceRejectComponent } from './components/user-interface/employee/services/service-reject/service-reject.component';
+import { ServiceAddHeaderComponent } from './components/user-interface/employee/packages/service-add-header/service-add-header.component';
+import { ServicesMenuComponent } from './components/user-interface/employee/packages/services-menu/services-menu.component';
+import { CareerGuidanceDetailsComponent } from './components/user-interface/employee/packages/career-guidance-details/career-guidance-details.component';
 
 
 export const routes: Routes = [
@@ -46,6 +52,12 @@ export const routes: Routes = [
     ModalComponent,
     ReferralDoneComponent,
     RequestAwaitingComponent,
+    ReviewPopupComponent,
+    SelectServiceComponent,
+    ServiceRejectComponent,
+    ServiceAddHeaderComponent,
+    ServicesMenuComponent,
+    CareerGuidanceDetailsComponent,
     
 
     
@@ -71,6 +83,12 @@ export const routes: Routes = [
   // AwaitingStatusComponent,
   ReferralDoneComponent,
   RequestAwaitingComponent,
+  ReviewPopupComponent,
+  SelectServiceComponent,
+  ServiceRejectComponent,
+  ServiceAddHeaderComponent,
+  ServicesMenuComponent,
+  CareerGuidanceDetailsComponent,
   ],
 
 })
