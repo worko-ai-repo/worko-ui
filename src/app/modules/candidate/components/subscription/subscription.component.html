@@ -1,9 +1,9 @@
 <div class="row content-container">
     <div class="divide-55">
         <div class="row" style="height:100%">
-            <app-package></app-package>
+            <app-package [packageDetails]="packageDetails" [subscriptionList]="subscriptionList"></app-package>
             <div class="subscription-container">
-                <app-subscription-plan></app-subscription-plan>
+                <app-subscription-plan  [subscriptionList]="subscriptionList"></app-subscription-plan>
             </div>
         </div>
     </div>

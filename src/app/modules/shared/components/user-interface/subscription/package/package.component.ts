@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, Input } from '@angular/core';
 
 @Component({
   selector: 'app-package',
@@ -6,5 +6,16 @@ import { Component } from '@angular/core';
   styleUrls: ['./package.component.scss']
 })
 export class PackageComponent {
+  @Input() packageDetails: any;
+  @Input() subscriptionList: any;
 
+  ngOnInit(): void {
+   
+    // this.emailAddress = this.storage.get("useremail");
+
+  }
+
+  ngOnChanges(): void {
+    
+  }
 }

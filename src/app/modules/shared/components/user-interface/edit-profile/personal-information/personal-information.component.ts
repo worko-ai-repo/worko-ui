@@ -13,10 +13,16 @@ export class PersonalInformationComponent implements OnInit {
   @Input() candidateList: any;
   @Input() educationList: any;
   @Input() candidateSocial: any;
+  @Output() onSuccess = new EventEmitter<void>();
+
+
+  fileToUpload: File | null = null;
+  fileName: string = "";
+  fileType: string = "";
   emailAddress: any = "";
   candidateDetailsList: any = "";
-  
-  
+  profilePicUrl: string = "/assets/public/candidate-img.png";
+
   @Input() candidatePersonalDetails: any = {
     name: "",
     email: "",
@@ -32,6 +38,8 @@ export class PersonalInformationComponent implements OnInit {
     socialLinkGithub: "",
     socialLinklinkdin: "",
     socialLinktwitter: "",
+    socialSk: "",
+    socialPk: ""
 
 
 
@@ -45,17 +53,23 @@ export class PersonalInformationComponent implements OnInit {
 
   ngOnInit(): void {
     console.log(this.candidateList);
-    
+
   }
 
   ngOnChanges(): void {
-    console.log(this.candidateList, "candidateList");
-    console.log(this.educationList, "educationList");
-    console.log(this.candidateSocial, "candidateSocial");
-    this.getData();
-    console.log( this.candidatePersonalDetails )
+    // console.log(this.candidateList, "candidateList");
+    // console.log(this.educationList, "educationList");
+    // console.log(this.candidateSocial, "candidateSocial");
+
+    if (this.candidatePersonalDetails.name && this.candidatePersonalDetails.collegeName && this.candidatePersonalDetails.socialLinkGithub) {
+
+    } else {
+      this.getData();
+    }
+
+    console.log(this.candidatePersonalDetails)
   }
-  getData(){
+  getData() {
     this.candidatePersonalDetails = {
       name: this.candidateList?.name,
       email: this.candidateList?.emailList?.primary,
@@ -64,119 +78,60 @@ export class PersonalInformationComponent implements OnInit {
       collegeName: this.educationList[0]?.collage,
       collegeDegree: this.educationList[0]?.degree,
       passingYear: this.educationList[0]?.passingYear,
-      collegeName1:this.educationList[1]?.collage,
+      SK: this.educationList[0]?.SK,
+      PK: this.educationList[0]?.PK,
+      collegeName1: this.educationList[1]?.collage,
       collegeDegree1: this.educationList[1]?.degree,
       passingYear1: this.educationList[1]?.passingYear,
+      SK1: this.educationList[1]?.SK,
+      PK1: this.educationList[1]?.PK,
       about: this.candidateList?.about,
       socialLinkGithub: this.candidateSocial?.github,
-      socialLinklinkdin:this.candidateSocial?.linkedin,
+      socialLinklinkdin: this.candidateSocial?.linkedin,
       socialLinktwitter: this.candidateSocial?.twitter,
+      socialSk: this.candidateSocial?.SK,
+      socialPk: this.candidateSocial?.PK
     }
   }
 
   async createEducation(form: any): Promise<void> {
     // console.log(this.candidatePersonalDetails)
-    this.nextStep.emit(this.candidatePersonalDetails)
+    // this.nextStep.emit(this.candidatePersonalDetails)
+    this.onSuccess.emit(this.candidatePersonalDetails);
   }
-  // let data={
-  //   "collegeDegree" : "",
-  //   "passingYear":"",
-  // }
-  // this.candidateSrv.createEducation(this.emailAddress , data).then(async(response)=>{
-  //   if(response){
-  //     this.candidatePersonalDetails = this.candidateDetailsList
-  //     
-  //   }
-  // })
 
-  // async createEducation(form: any): Promise<void> {
-  //   // Extract data from the form
-  //   const educationData = {
-  //     collegeName: form.collegeName,
-  //     collegeDegree: form.collegeDegree,
-  //     passingYear: form.passingYear,
-  //   };
+  handleFileInput(event: Event): void {
+    const inputElement = event.target as HTMLInputElement;
 
+    if (inputElement && inputElement.files) {
+      const files: FileList | null = inputElement.files;
 
-  //   const email = this.candidatePersonalDetails.email;
-  //   try {
-  //     const response = await this.candidateSrv.createEducation(email, educationData);
-  //     console.log('API response:', response);
+      if (files && files.length > 0) {
+        const file: File = files[0];
 
-  //   } catch (error) {
+        var reader = new FileReader();
+        reader.readAsDataURL(file); // read file as data URL
 
-  //     console.error('Error creating education:', error);
-  //   }
-  // }
+        reader.onload = (event) => { // called once readAsDataURL is completed
+          this.profilePicUrl = event.target?.result as string;
+        }
 
-
-
-  // async createCandidate(form: any): Promise<void> {
-  //   try {
-  //     this.setErrorMessage("");
-  //     this.confirmationEmail = this.maskEmail(this.candidateForm.emailId);
-
-  //     const { response, error } = await this.createUser(this.candidateForm);
-  //     console.log(response);
-  //     console.log(error);
-
-  //     if (response) {
-  //       try {
-  //         let candidateData = {
-  //           name: this.candidateForm.name,
-  //           email: this.candidateForm.emailId,
-  //           number: Number(this.candidateForm.phoneNumber),
-  //           linkedinUrl: this.candidateForm.linkdinProfile,
-  //           ECTC: Number(this.candidateForm.expectedCtc),
-  //           YOE: Number(this.candidateForm.experience),
-  //           userId: response.userId
-  //         }
-  //         this.authService.createCandidate(candidateData).then(async () => {
-  //           try {
-  //             if (response && response.userId && this.fileName) {
-
-  //               let documentDetails = {
-  //                 userId: this.userId,
-  //                 resumeUserFileName: this.fileName,
-  //                 resumeFileMimeType: this.fileType
-  //               }
-  //               let docResult = await this.authService.uploadCV(documentDetails);
-  //               console.log(docResult);
-
-  //               this.uploadedCvName = docResult.cloudFileName;
-  //               this.uploadCVonS3Bucket(docResult);
-
-  //             }
-  //           } catch (error) {
-  //             console.log(error);
-  //           }
-  //         })
-  //           .catch(error => {
-  //             this.setErrorMessage(error.error?.errors.message);
-  //             console.error('File upload error:', error);
-
-
-
-  //           });
-
-
-  //       } catch (error: any) {
-  //         this.setErrorMessage(error.error?.errors.message);
-  //         console.error('File upload error:', error);
-  //       }
-
-
-  //     }
-
-  //     if (error && error.message) {
-  //       this.errorMessage = error.message;
-  //     }
-
-  //   } catch (error) {
-  //     console.log('Error signing up candidate createCandidate:', error);
-  //   }
-
-
-  // }
+        // Check if the file type is PDF
+        if (file.type === 'image/jpeg' || file.type === 'image/jpg' || file.type === 'image/png') {
+          // Process the PDF file as needed
+          this.fileToUpload = file;
+          this.fileName = file.name;
+          this.fileType = file.type;
+          console.log('Selected file type:', file);
+        } else {
+          // Display an error for an invalid file type
+          console.error('Invalid file type. Please upload a supported file.');
+          // Optionally, you can reset the input to clear the invalid selection
+          inputElement.value = '';
+          this.fileToUpload = null;
+        }
+      }
+    }
+  }
 
 }
