@@ -235,7 +235,7 @@
                         <div class="col-md-10 d-flex justify-content-end">
                             <!-- (click)="previousStep.emit()" -->
                             <button class="btn btn-next me-2" (click)="goBack()">Previous</button>
-                            <button class="btn btn-next" type="submit">Next</button>
+                            <button class="btn btn-next" type="submit"    [disabled]="!candidateProfessionalDetails.companyName ||!candidateProfessionalDetails.officialEmail ||!candidateProfessionalDetails.department || !candidateProfessionalDetails.desigination || !candidateProfessionalDetails.ctc ||!candidateProfessionalDetails.ectc ||!candidateProfessionalDetails.noticePeriod" >Next</button>
                         </div>
 
                     </div>

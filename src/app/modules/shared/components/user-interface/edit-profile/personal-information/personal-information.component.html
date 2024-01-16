@@ -154,7 +154,9 @@
                     </div>
                     <div class="row">
                         <div class="col-md-10 mt-3">
-                            <button class="btn btn-next float-end" type="submit">Next</button>
+                            <button class="btn btn-next float-end" type="submit" 
+                            [disabled]="!candidatePersonalDetails.socialLinktwitter || !candidatePersonalDetails.socialLinkGithub || !candidatePersonalDetails.socialLinklinkdin || !candidatePersonalDetails.about || !candidatePersonalDetails.email || !candidatePersonalDetails.location || !candidatePersonalDetails.name || !candidatePersonalDetails.phoneNo || !candidatePersonalDetails.collegeDegree  || !candidatePersonalDetails.collegeDegree1  || !candidatePersonalDetails.collegeName  || !candidatePersonalDetails.collegeName1  || !candidatePersonalDetails.passingYear  || !candidatePersonalDetails.passingYear1"
+                            >Next</button>
                         </div>
 
                     </div>

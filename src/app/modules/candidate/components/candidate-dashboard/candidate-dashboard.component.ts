@@ -19,6 +19,7 @@ export class CandidateDashboardComponent {
   softSkillsLists: any;
   workExperienceDetails: any;
   userDescription: string = "";
+  profileCompletion: any;
   constructor(private candidateSrv: CandidateProfileService, private storage: StorageService) { }
 
   ngOnInit(): void {
@@ -88,7 +89,20 @@ export class CandidateDashboardComponent {
          this.certificationList=response[0];
          this.coreSkillsLists = response[0].coreSkills;
          this.softSkillsLists = response[0].softSkills;
+         this.userProfileComplete();
+         
          console.log(  this.coreSkillsLists);
+         
+       }
+     })
+   }
+
+   async userProfileComplete(){
+    await this.candidateSrv.getProfileComplete(this.emailAddress).then(async(response)=>{
+       if(response){
+         this.profileCompletion=response;
+         
+         console.log(  this.profileCompletion);
          
        }
      })

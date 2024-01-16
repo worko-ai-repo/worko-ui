@@ -55,14 +55,14 @@ export class EditProfileComponent implements OnInit {
   async updateWorkExperience() {
     let workExperience =
       [{
-        "companyName": this.secondStepData.companyName,
-        "emailId": this.secondStepData.officialEmail,
-        "designation": this.secondStepData.desigination,
-        "department": this.secondStepData.department,
-        "SK": this.workExperienceDetails.SK,
-        "PK": this.workExperienceDetails.PK
+        "companyName": this.secondStepData?.companyName,
+        "emailId": this.secondStepData?.officialEmail,
+        "designation": this.secondStepData?.desigination,
+        "department": this.secondStepData?.department,
+        "SK": this.workExperienceDetails?.SK,
+        "PK": this.workExperienceDetails?.PK
       }
-      ]
+]
     await this.candidateSrv.createWorkExperience(this.emailAddress, workExperience).then(async (response) => {
 
       // if (response) {
@@ -149,7 +149,7 @@ export class EditProfileComponent implements OnInit {
     let userDetails: any = {
       "ECTC": this.secondStepData.ectc,
       "location": this.firstStepData.location,
-      "coverLetter": this.firstStepData.coverLetter,
+      "coverLetter": this.thirdStepData.coverLetter,
       "name": this.firstStepData.name,
       "CTC": this.secondStepData.ctc,
       "emailList": {
