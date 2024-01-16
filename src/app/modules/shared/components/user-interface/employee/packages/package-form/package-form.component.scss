@@ -1,0 +1,79 @@
+.career-text{
+    color: #FFF;
+    font-family: Poppins;
+    font-size: 13.915px;
+    font-style: normal;
+    font-weight: 400;
+    align-items: center;
+    // line-height: 119.25%; /* 22.556px */
+}
+.key-points , li{
+    color: #FFF;
+    // font-family: Montserrat;
+    font-size: 14px;
+    font-style: normal;
+    font-weight: 300;
+    line-height: normal;
+}
+.edit-icon{
+    font-size: 13px;
+}
+.selector{
+    width: 190px;
+}
+::placeholder{
+    color: #FFF;
+}
+.form-content-small{
+    color: rgba(255, 255, 255, 0.50);
+    font-family: Poppins;
+    font-size: 9px;
+    font-style: normal;
+    font-weight: 400;
+    line-height: 119.25%; /* 16.695px */
+}
+.input-time{
+    border-radius: 8px;
+    border: 1.047px solid #E5EAF1;
+    background: rgba(87, 225, 255, 0.50);
+    color: #FFF;
+    font-size: 12px;
+
+}
+.availability-content{
+     font-size: 14px;
+}
+.add-icon{
+    border: 2px solid rgba(87, 225, 255, 1);
+    border-radius: 50%;
+    background-color: transparent;
+    font-size: 12px;
+}
+.apply-text{
+    color: #57E1FF;
+    text-align: right;
+    font-family: Poppins;
+    font-size: 8px;
+    font-style: normal;
+    font-weight: 600;
+    line-height: 119.25%; /* 9.54px */
+    text-decoration-line: underline;
+}
+.font-size-text{
+    font-size: 11px;
+}
+.save-btn{
+    border-radius: 100px;
+    border: 1px solid #36D0FF;
+    opacity: 0.7;
+    background: #2D8EC2;
+    color: white;
+    font-size: 15px;
+}
+.pause-btn{
+    border-radius: 100px;
+    border: 1.5px solid #2D8EC2;
+    background-color: transparent;
+    font-size: 15px;
+    color: white;
+}

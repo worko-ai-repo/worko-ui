@@ -39,6 +39,10 @@ import { ServiceRejectComponent } from './components/user-interface/employee/ser
 import { ServiceAddHeaderComponent } from './components/user-interface/employee/packages/service-add-header/service-add-header.component';
 import { ServicesMenuComponent } from './components/user-interface/employee/packages/services-menu/services-menu.component';
 import { CareerGuidanceDetailsComponent } from './components/user-interface/employee/packages/career-guidance-details/career-guidance-details.component';
+import { ShowCareerGuidanceDetailsComponent } from './components/user-interface/employee/packages/show-career-guidance-details/show-career-guidance-details.component';
+import { DoneCareerGuidanceComponent } from './components/user-interface/employee/packages/done-career-guidance/done-career-guidance.component';
+import { TotalEarningComponent } from './components/user-interface/employee/packages/total-earning/total-earning.component';
+import { PackageFormComponent } from './components/user-interface/employee/packages/package-form/package-form.component';
 
 
 export const routes: Routes = [
@@ -58,6 +62,10 @@ export const routes: Routes = [
     ServiceAddHeaderComponent,
     ServicesMenuComponent,
     CareerGuidanceDetailsComponent,
+    ShowCareerGuidanceDetailsComponent,
+    DoneCareerGuidanceComponent,
+    TotalEarningComponent,
+    PackageFormComponent,
     
 
     
@@ -89,6 +97,10 @@ export const routes: Routes = [
   ServiceAddHeaderComponent,
   ServicesMenuComponent,
   CareerGuidanceDetailsComponent,
+  ShowCareerGuidanceDetailsComponent,
+  DoneCareerGuidanceComponent,
+  TotalEarningComponent,
+  PackageFormComponent,
   ],
 
 })
