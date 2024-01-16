@@ -7,36 +7,81 @@ import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 })
 export class UploadComponent implements OnInit {
   @Output() previousStep = new EventEmitter<void>();
-  @Output() onSucess = new EventEmitter<void>();
+  @Output() onSuccess = new EventEmitter<void>();
   @Input() candidateList: any;
-  @Input() candidateUploadDetails:any={
-    uploadCV:"",
-    coverLetter:"",
-  }
-  form:any={
+  @Input() candidateUploadDetails: any;
+  // {
+  //   uploadCV: "",
+  //   coverLetter: "",
+  // }
+  form: any = {
 
   }
-  constructor(){}
+  fileToUpload: File | null = null;
+  fileName: string = "";
+  fileType: string = "";
+  constructor() { }
   ngOnInit(): void {
-      
+
   }
 
-  async uploadDetails(form:any){
-    this.onSucess.emit(this.candidateUploadDetails)
+  async uploadDetails(form: any) {
+    this.onSuccess.emit(this.candidateUploadDetails)
     // console.log(this.candidateUploadDetails)
   }
 
   ngOnChanges(): void {
-    console.log(this.candidateList, "candidateList");
+    // console.log(this.candidateList, "candidateList");
+    if (this.candidateUploadDetails.coverLetter) {
 
-    this.getData();
-    console.log( this.candidateUploadDetails )
+    } else {
+      this.getData();
+    }
+
+    // console.log(this.candidateUploadDetails)
   }
-  getData(){
-   this.candidateUploadDetails ={
-      uploadCV:"",
-      coverLetter:this.candidateList.coverLetter,
+  getData() {
+    this.candidateUploadDetails = {
+      uploadCV: this.candidateList.CV,
+      coverLetter: this.candidateList.coverLetter,
+      fileName: "",
+      fileToUpload: "",
+      fileType: ""
+    }
+    this.fileName = this.candidateList.CV;
+  }
+
+  goBack() {
+    this.previousStep.emit(this.candidateUploadDetails);
+  }
+
+  handleFileInput(event: Event): void {
+    const inputElement = event.target as HTMLInputElement;
+
+    if (inputElement.files) {
+      const files: FileList | null = inputElement.files;
+
+      if (files && files.length > 0) {
+        const file: File = files[0];
+
+        // Check if the file type is PDF
+        if (file.type === 'application/pdf') {
+          // Process the PDF file as needed
+          this.fileToUpload = file;
+          this.fileName = file.name;
+          this.fileType = file.type;
+          this.candidateUploadDetails.fileName = this.fileName,
+            this.candidateUploadDetails.fileToUpload = this.fileToUpload,
+            this.candidateUploadDetails.fileType = this.fileType
+        }
+        console.log('Selected PDF file:', file);
+      } else {
+        // Display an error for invalid file type
+        console.error('Invalid file type. Please upload a PDF file.');
+        // Optionally, you can reset the input to clear the invalid selection
+        inputElement.value = '';
+        this.fileToUpload = null;
+      }
     }
   }
-
 }

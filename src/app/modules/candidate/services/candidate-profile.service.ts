@@ -68,6 +68,13 @@ export class CandidateProfileService {
     return this.http.post(API_URL + `user/${emailAddress}/skill`, data , this.authService.getHttpOptions()).toPromise();
   }
 
+  createWorkExperience(emailAddress:string , data:any):Promise<any>{
+    return this.http.post(API_URL + `user/${emailAddress}/experience`, data , this.authService.getHttpOptions()).toPromise();
+  }
+
+  getSubscription(emailAddress:string):Promise<any>{
+    return this.http.get(API_URL + `user/${emailAddress}/subscription` , this.authService.getHttpOptions()).toPromise();
+  }
   // createReferralRequest(emailId: string, data: any): Promise<any> {
   //   return this.http.post(API_URL + `user/${emailId}/referral/request`, data, this.authService.getHttpOptions()).toPromise();
   // }

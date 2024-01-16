@@ -7,24 +7,30 @@
             [candidateList]="candidateList"
             [educationList]="educationList"
             [candidateSocial]="candidateSocial"
-            *ngIf="currentStep === 2"
-            (nextStep)="nextStep()"
+            *ngIf="currentStep === 1"
+            (onSuccess)="getCandidateListData($event)"
         >
         </app-personal-information>
            
                 <app-personal-details [candidateProfessionalDetails]="candidateProfessionalDetails"
                 *ngIf="currentStep === 2" 
                 (nextStep)="nextStep()"
-                (previousStep)="previousStep()"
+                (previousStep)="previousStepFirst($event)"
                 [candidateList]="candidateList"
                 [workExperienceDetails]="workExperienceDetails"
                 [certificationList]="certificationList"
+                [achievementsList]="achievementsList"
+                (onSuccess)="getProfessionalData($event)"
+                
                 ></app-personal-details>
            
-                <app-upload [candidateUploadDetails]="candidateUploadDetails"
+                <app-upload 
+                [candidateUploadDetails]="candidateUploadDetails"
                 [candidateList]="candidateList"
-                *ngIf="currentStep === 1"
-                (previousStep)="previousStep()" (onSucess)="onSuccess()"></app-upload>
+                *ngIf="currentStep === 3"
+                (previousStep)="previousStepSecond($event)"
+                 (onSuccess)="onSuccess($event)">
+                </app-upload>
         </div>
     </div>
 </div>
