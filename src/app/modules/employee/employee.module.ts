@@ -10,7 +10,6 @@ import { CandidateComponent } from '../candidate/candidate.component';
 import { JobHistoryComponent } from '../shared/components/user-interface/employee/dashboard/job-history/job-history.component';
 import { ServicePackageComponent } from '../shared/components/user-interface/employee/dashboard/service-package/service-package.component';
 import { BankDetailsComponent } from '../shared/components/user-interface/employee/dashboard/bank-details/bank-details.component';
-import { EmployeeDetailsComponent } from '../shared/components/user-interface/employee/dashboard/employee-details/employee-details.component';
 import { EmployeeReferralComponent } from './components/employee-referral/employee-referral.component';
 // import { AwaitingStatusComponent } from '../shared/components/user-interface/referral/awaiting-status/awaiting-status.component';
 import { SharedModule } from '../shared/shared.module';
@@ -18,6 +17,11 @@ import { EmployeeReferralDetailsComponent } from '../shared/components/user-inte
 import { EmployeeServiceComponent } from './components/employee-service/employee-service.component';
 import { ReviewPopupComponent } from '../shared/components/user-interface/employee/services/review-popup/review-popup.component';
 import { EmployeePackagesComponent } from './components/employee-packages/employee-packages.component';
+import { EmployeeEditComponent } from './components/employee-edit/employee-edit.component';
+import { EmployeeDetailsComponent } from '../shared/components/user-interface/employee/dashboard/employee-details/employee-details.component';
+import { EmployeeEditDetailsComponent } from '../shared/components/user-interface/employee/employee-edit/employee-edit-details/employee-edit-details.component';
+import { EmployeeProfessionalDetailsComponent } from '../shared/components/user-interface/employee/employee-edit/employee-professional-details/employee-professional-details.component';
+import { AddBankDetailsComponent } from '../shared/components/user-interface/employee/employee-edit/add-bank-details/add-bank-details.component';
 
 
 export const routes: Routes = [
@@ -42,6 +46,10 @@ export const routes: Routes = [
         path: 'epackages',
         component: EmployeePackagesComponent
       },
+      {
+        path: 'eEdit-profile',
+        component: EmployeeEditComponent
+      },
       
       
       
@@ -65,7 +73,10 @@ export const routes: Routes = [
     EmployeeReferralDetailsComponent,
     EmployeeServiceComponent,
     EmployeePackagesComponent,
-    
+    EmployeeEditComponent,
+    EmployeeEditDetailsComponent,
+    EmployeeProfessionalDetailsComponent,
+    AddBankDetailsComponent,
     
     
   ],

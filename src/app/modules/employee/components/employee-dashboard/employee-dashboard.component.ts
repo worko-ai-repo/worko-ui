@@ -6,5 +6,5 @@ import { Component } from '@angular/core';
   styleUrls: ['./employee-dashboard.component.scss']
 })
 export class EmployeeDashboardComponent {
- 
+  userType : string = "Employee";
 }

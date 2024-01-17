@@ -19,6 +19,8 @@ export class CandidateDashboardComponent {
   softSkillsLists: any;
   workExperienceDetails: any;
   userDescription: string = "";
+  userType : string = "Candidate";
+
   constructor(private candidateSrv: CandidateProfileService, private storage: StorageService) { }
 
   ngOnInit(): void {

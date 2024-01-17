@@ -1234,8 +1234,10 @@ footer {
     border-radius: 9px;
     border: unset;
     text-align: center;
+    
 
 }
+
 
 .candidate-card {
     border-radius: 20px;
@@ -1352,7 +1354,30 @@ line-height: normal;
     color: white;
     font-size: 8px;
 }
+.edit-profile-text{
+    color: #FFF;
+    text-align: center;
+    font-family: Poppins;
+    font-size: 20px;
+    font-style: normal;
+    font-weight: 600;
+    line-height: normal;
+}
+.candidate-img{
+    width: 150px;
+}
+.about-textarea{
+    border: 1px solid white;
+    border-radius: 12px;
+// border: 1px solid #E5EAF1;
+background: #0A1E35;
+color: #FFF;
+  }
 
+  .form-lable{
+    font-size: 12px;
+    color: #FFF;
+  }
   // Employee-dashboard css -----------------------------------------------------------------------//
 
   .employee-reject-btn{

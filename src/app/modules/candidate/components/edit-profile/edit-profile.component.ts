@@ -34,6 +34,7 @@ export class EditProfileComponent implements OnInit {
   achievements: any;
   uploadedCvName: string = "";
   userId: string | undefined;
+  // userType: string = "Candidate";
 
   constructor(private router: Router, private candidateSrv: CandidateProfileService, private storage: StorageService, private authService: AuthService) { }
   ngOnInit(): void {
