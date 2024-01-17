@@ -15,7 +15,7 @@ export class UserProfileCompleteComponent implements OnInit {
   // emailAddress: string = "";
   activeRoute: string = '';
   userLoggedIn: boolean = false;
-  menuItems: any;
+  userRole: any;
   isEmployee: boolean = true; // You can initialize it to the appropriate value based on your logic
   
   /**
@@ -28,7 +28,7 @@ export class UserProfileCompleteComponent implements OnInit {
   ngOnInit(): void {
     this.activeRoute = this.router.url;
     if (this.userType == "Candidate") {
-      this.menuItems = [
+      this.userRole = [
         {
           name: 'Edit',
           router: "/candidate/cedit-profile", 
@@ -39,7 +39,7 @@ export class UserProfileCompleteComponent implements OnInit {
     }
 
     if (this.userType == "Employee") {
-      this.menuItems = [
+      this.userRole = [
         {
           name: 'Edit',
           router: "/employee/eEdit-profile"
