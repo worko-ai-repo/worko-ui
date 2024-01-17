@@ -50,6 +50,10 @@ export class CandidateProfileService {
     return this.http.get(`${API_URL}user/${emailAddress}/service?status=${status}`, this.authService.getHttpOptions()).toPromise();
   }
 
+  getProfileComplete(emailAddress:string):Promise<any>{
+    return this.http.get(API_URL + `user/${emailAddress}/profilePercentage/group` , this.authService.getHttpOptions()).toPromise();
+  }
+
   
   createEducation(emailAddress:string, data:any):Promise<any>{
     return this.http.post(API_URL + `user/${emailAddress}/education`, data,this.authService.getHttpOptions() ).toPromise();
