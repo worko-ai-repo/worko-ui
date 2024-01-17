@@ -53,14 +53,15 @@ export class EditProfileComponent implements OnInit {
   // post //
 
   async updateWorkExperience() {
+   
     let workExperience =
       [{
         "companyName": this.secondStepData?.companyName,
         "emailId": this.secondStepData?.officialEmail,
         "designation": this.secondStepData?.desigination,
         "department": this.secondStepData?.department,
-        "SK": this.workExperienceDetails?.SK,
-        "PK": this.workExperienceDetails?.PK
+        "SK": this.workExperienceDetails ? this.workExperienceDetails.SK : "",
+        "PK": this.workExperienceDetails? this.workExperienceDetails.PK : ""
       }
 ]
     await this.candidateSrv.createWorkExperience(this.emailAddress, workExperience).then(async (response) => {
@@ -116,18 +117,23 @@ export class EditProfileComponent implements OnInit {
   }
 
   async createAchievements() {
-    let userAchievements =
-    {
-      "achievements": this.secondStepData.achievements,
-      "SK": this.achievements.SK,
-      "PK": this.achievements.PK
-    }
-    await this.candidateSrv.createAchievments(this.emailAddress, userAchievements).then(async (response) => {
-      // if (response) {
+    if(this.secondStepData.achievements){
+      let userAchievements =
+      {
+        "achievements": this.secondStepData.achievements,
+        "SK": this.achievements ? this.achievements?.SK: "",
+        "PK": this.achievements ? this.achievements?.PK: ""
+      }
+      await this.candidateSrv.createAchievments(this.emailAddress, userAchievements).then(async (response) => {
+        // if (response) {
+        this.creatSocialProfile();
+        // this.createUserDetails();
+        // }
+      })
+    }else{
       this.creatSocialProfile();
-      // this.createUserDetails();
-      // }
-    })
+    }
+  
   }
   async creatSocialProfile() {
     let socialProfile =
