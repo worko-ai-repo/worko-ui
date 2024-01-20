@@ -1,306 +1,141 @@
-<div class="candidate-card mt-2">
-  <div class="container-fluid">
-    <div class="row pt-4">
-      <div class="col-md-12">
+
+
+<!-- Modal -->
+<div id="myModalEdit" class="modal fade mt-5 pt-5 ms-5 ps-5" role="dialog">
+  <div class="modal-dialog  modal-lg">
+
+    <!-- Modal content-->
+    <div class="modal-content package-dropdown">
+    
+      <div class="modal-body mt-2 mb-2">
         <div class="row">
-          <div class="col-md-3">
-            <h3 class="pe-0 me-0 ps-4">Title</h3>
+          <div class="col-md-4 ps-5 d-flex justify-content-between">
+            <h3>Title</h3>
+            <b class=" pt-1">-</b>
           </div>
-          <div class="col-md-1 text-center">-</div>
-          <div class="col-md-8">
-            <h4>
-              Career guidance
-              <span class="ps-1 edit-icon"
-                ><i class="fa-solid fa-pen-to-square" style="color: #edeff2"></i
-              ></span>
-            </h4>
-          </div>
-        </div>
-
-        <div class="row mt-4">
-          <div class="col-md-3">
-            <h6 class="pe-0 me-0 ps-4 career-text">Key Points/ Description</h6>
-          </div>
-          <div class="col-md-1 text-center">-</div>
-          <div class="col-md-8 p-0 m-0">
-            <ul class="key-points">
-              <li>Referee Career Guidance</li>
-              <li>Tailored advice and mentorship</li>
-              <li>Skill development support</li>
-              <li>
-                Navigate officiating challenges
-                <span class="ps-1 edit-icon"
-                  ><i
-                    class="fa-solid fa-pen-to-square"
-                    style="color: #edeff2"
-                  ></i
-                ></span>
-              </li>
-            </ul>
-          </div>
-        </div>
-
-        <div class="row mt-4">
-          <div class="col-md-3">
-            <h6 class="pe-0 me-0 ps-4 career-text">Choose Duration & Price</h6>
-          </div>
-          <div class="col-md-1 text-center">-</div>
           <div class="col-md-8">
             <div class="d-flex">
-              <select name="" id="" class="selector me-2">
-                <option value="">Duration</option>
-              </select>
-              <input type="text" class="selector p-2" placeholder="Price" />
-            </div>
+              <h4>Career Guidance</h4> 
+              <span>
+                <i class="fa-solid fa-sm fa-pen-to-square pt-2 ps-2"></i>
+              </span>
 
-            <div class="d-flex pt-2">
-              <select name="" id="" class="selector me-2 ps-2">
-                <option value="">Duration</option>
-              </select>
-              <input type="text" class="selector p-2" placeholder="Price" />
             </div>
           </div>
+        </div>
+        <div class="row mt-2">
+          <div class="col-md-4 ps-5 d-flex justify-content-between">
+            <small>Key Points/ <br>
+              Description</small>
+            <b class=" pt-1">-</b>
+          </div>
+          <div class="col-md-8">
+            <div class="d-flex">
+              <ul>
+                <li>Referee Career Guidance</li>
+                <li>Tailored advice and mentorship</li>
+                <li>Skill development support</li>
+                <li>Navigate officiating challenges
+                  <span>
+                    <i class="fa-solid fa-sm fa-pen-to-square pt-2 ps-2"></i>
+                  </span>
+                </li>
+              </ul>
+              
 
-          <div class="row mt-4">
-            <div class="col-md-3">
-              <h6 class="pe-0 me-0 ps-4 career-text">Booking Period</h6>
-              <h6 class="form-content-small pe-0 me-0 ps-4 m-0">
-                How far in the future can <br />
-                attendees book
-              </h6>
             </div>
-            <div class="col-md-1 text-center ps-4">-</div>
-            <div class="col-md-8">
-              <div class="">
-                <select name="" id="" class="selector me-2 ps-2 ms-2">
-                  <option value="">Monthly</option>
-                </select>
-              </div>
-            </div>
+          </div>
+        </div>
+        <div class="row d-flex justify-content-center">
+          <div class="col-md-4 ps-5 d-flex justify-content-between mt-2">
+            <small>Choose Duration <br>
+              & Price</small>
+            <b class=" pt-1">-</b>
+          </div>
+          <div class="col-md-8">
+            <div class="mt-2">
+              <select name="" id="" class="selector ps-2 me-2">
+                <option value="">12:00 PM</option>
+              </select>
 
-            <div class="row mt-4">
-              <div class="col-md-3">
-                <h6 class="pe-0 me-0 ps-4 career-text">Booking Period</h6>
-                <h6 class="form-content-small pe-0 me-0 ps-4 m-0">
-                  How far in the future can attendees book
-                </h6>
-              </div>
-              <div class="col-md-1 text-center ps-4">
-                <span class="ps-2">-</span>
-              </div>
-              <div class="col-md-8">
-                <div>
-                  <input
-                    type="text"
-                    class="selector me-2 ps-2 ms-3"
-                    placeholder="240"
-                  />
-                  <select name="" id="" class="input-time p-1">
-                    <option value="" class="">Minutes</option>
-                  </select>
-                </div>
-              </div>
-
-              <div class="row mt-4">
-                <div class="col-md-4 d-flex">
-                  <h6 class="availability-content ps-2">Choose Availability</h6>
-                  <span class="ps-3">-</span>
-                </div>
-              </div>
-
-              <div class="row d-flex justify-content-center ms-3">
-                <div class="col-md-3">
-                  <div class="ps-3 pt-2">
-                    <input type="checkbox"/>
-                    <span class="ps-1 font-size-text">Monday</span>
-                    <span class="ps-4">-</span>
-                  </div>
-                </div>
-                <div class="col-md-8 d-flex">
-                  <div class="d-flex">
-                    <select name="" id="" class="selector ps-2">
-                      <option value="">12:00 PM</option>
-                    </select>
-
-                    <select name="" id="" class="selector ps-2 ms-3 me-0 pe-0">
-                      <option value="">12:00 PM</option>
-                    </select>
-                   
-                  </div>
-                </div>
-                <div class="col-md-1">
-                    <i class="fa-solid fa-circle-plus m-0 m-2 ms-3 add-icon"></i>
-                </div>
-              </div>
-
-              <div class="row d-flex justify-content-center ms-3">
-                <div class="col-md-3">
-                  <div class="ps-3 pt-2">
-                    <input type="checkbox"/>
-                    <span class="ps-1 font-size-text">tuesday</span>
-                    <span class="ps-4">-</span>
-                  </div>
-                </div>
-                <div class="col-md-8 d-flex">
-                  <div class="mt-2">
-                    <select name="" id="" class="selector ps-2">
-                      <option value="">12:00 PM</option>
-                    </select>
-
-                    <select name="" id="" class="selector ps-2 me-0 pe-0 mt-2">
-                      <option value="">12:00 PM</option>
-                    </select>
-                   
-                  </div>
-                  <div class="mt-2 ps-3">
-                    <select name="" id="" class="selector ps-0">
-                        <option value="">12:00 PM</option>
-                      </select>
-    
-                      <select name="" id="" class="selector ps-2 mt-2  me-0 pe-0">
-                        <option value="">12:00 PM</option>
-                      </select>
-                      <small class="float-end apply-text">Apply To All</small>
-                  </div>
-                                    
-                </div>
-
-                <div class="col-md-1">
-                    <i class="fa-solid fa-circle-plus m-0 m-2 ms-3 add-icon"></i>
-                    <i class="fa-solid fa-circle-plus m-0 m-2 ms-3 add-icon"></i>
-
-                </div>
-              </div>
-
-              <div class="row d-flex justify-content-center mt-2">
-                <div class="col-md-3">
-                  <div class="ps-3 pt-2">
-                    <input type="checkbox"/>
-                    <span class="ps-1 font-size-text">Wednesday</span>
-                    <span class="ps-2">-</span>
-                  </div>
-                </div>
-                <div class="col-md-8 d-flex">
-                  <div class="d-flex">
-                    <select name="" id="" class="selector ps-2 ms-1">
-                      <option value="">Unavailable </option>
-                    </select>
-
-                    <select name="" id="" class="selector ps-2 ms-3 me-0 pe-0">
-                      <option value="">Unavailable </option>
-                    </select>
-                   
-                  </div>
-                </div>
-                
-              </div>
-
-              <div class="row d-flex justify-content-center mt-2">
-                <div class="col-md-3">
-                  <div class="ps-3 pt-2">
-                    <input type="checkbox"/>
-                    <span class="ps-1 font-size-text">thursday</span>
-                    <span class="ps-2">-</span>
-                  </div>
-                </div>
-                <div class="col-md-8 d-flex">
-                  <div class="d-flex">
-                    <select name="" id="" class="selector ps-2 ms-1">
-                      <option value="">Unavailable </option>
-                    </select>
-
-                    <select name="" id="" class="selector ps-2 ms-3 me-0 pe-0">
-                      <option value="">Unavailable </option>
-                    </select>
-                   
-                  </div>
-                </div>
-                
-              </div>
-              <div class="row d-flex justify-content-center mt-2">
-                <div class="col-md-3">
-                  <div class="ps-3 pt-2">
-                    <input type="checkbox"/>
-                    <span class="ps-1 font-size-text">Friday</span>
-                    <span class="ps-2">-</span>
-                  </div>
-                </div>
-                <div class="col-md-8 d-flex">
-                  <div class="d-flex">
-                    <select name="" id="" class="selector ps-2 ms-1">
-                      <option value="">Unavailable </option>
-                    </select>
-
-                    <select name="" id="" class="selector ps-2 ms-3 me-0 pe-0">
-                      <option value="">Unavailable </option>
-                    </select>
-                   
-                  </div>
-                </div>
-                
-              </div>
-              <div class="row d-flex justify-content-center mt-2">
-                <div class="col-md-3">
-                  <div class="ps-3 pt-2">
-                    <input type="checkbox"/>
-                    <span class="ps-1 font-size-text">Saturday</span>
-                    <span class="ps-2">-</span>
-                  </div>
-                </div>
-                <div class="col-md-8 d-flex">
-                  <div class="d-flex">
-                    <select name="" id="" class="selector ps-2 ms-1">
-                      <option value="">Unavailable </option>
-                    </select>
-
-                    <select name="" id="" class="selector ps-2 ms-3 me-0 pe-0">
-                      <option value="">Unavailable </option>
-                    </select>
-                   
-                  </div>
-                </div>
-                
-              </div>
-              <div class="row d-flex justify-content-center mt-2">
-                <div class="col-md-3">
-                  <div class="ps-3 pt-2">
-                    <input type="checkbox"/>
-                    <span class="ps-1 font-size-text">Sunday</span>
-                    <span class="ps-2">-</span>
-                  </div>
-                </div>
-                <div class="col-md-8 d-flex">
-                  <div class="d-flex">
-                    <select name="" id="" class="selector ps-2 ms-1">
-                      <option value="">Unavailable </option>
-                    </select>
-
-                    <select name="" id="" class="selector ps-2 ms-3 me-0 pe-0">
-                      <option value="">Unavailable </option>
-                    </select>
-                   
-                  </div>
-                </div>
-                
-              </div>
-
-              <div class="row d-flex justify-content-center mt-4">
-                <div class="col-md-4">
-                    <button class="save-btn float-end p-1 ps-5 pe-5">Save All</button>
-                </div>
-                <div class="col-md-8">
-                    <button class="float-end pause-btn p-1 ps-4 pe-4">Pause Service</button>
-                </div>
-              </div>
-
+              <select name="" id="" class="selector ps-2 me-0 pe-0 mt-2 ms-2">
+                <option value="">12:00 PM</option>
+              </select>
              
-
-
-
+            
             </div>
+            <div class="mt-2">
+              <select name="" id="" class="selector ps-2 me-2">
+                <option value="">12:00 PM</option>
+              </select>
+
+              <select name="" id="" class="selector ps-2 me-0 pe-0 mt-2 ms-2">
+                <option value="">12:00 PM</option>
+              </select>            
+            </div>
+                              
           </div>
+
+          
+        </div>
+      </div>
+      
+    </div>
+
+  </div>
+</div>
+
+
+<div class="card candidate-card mt-2" *ngFor="let package of packageForm ">
+    <div class="row mb-0 pb-0">
+      <div class="col-md-10 service-border-right pb-0 mb-0">
+        <div class="row p-3">
+          <div class="col-md-8 ps-5">
+            <h3 class="  package-content pt-1">{{package.sName}}</h3>
+              <small class="scop-of-service-text p-0 ps-1">Scop Of Services</small>
+            <div class="scope-services ps-1">
+            <div>1. Free Career Insights</div>
+            <div>2. Free Module Interaction</div>
+            <div>3. Free One on One Conversation</div>
+            </div>
+
+          </div>
+          <div class="col-md-3 text-white mt-2">
+            <small >{{package.duration}}</small> | <i class="fa-solid fa-indian-rupee-sign fa-sm pe-1"></i> <small>{{package.amount}}/-</small>
+           
+          </div>
+
+
+          <div class="col-md-1 mt-2">
+            <button class="btn btn-sm float-end services-btn ps-4 pe-4 p-1"  data-toggle="modal" data-target="#myModalEdit">
+              Edit
+            </button>
+            
+            
+          </div>
+          <!-- <div class="row text-white ps-5 pt-2">
+            <div class="col-md-8">
+              <h4 >{{package.duration}}</h4>
+              
+            </div>
+            <div class="col-md-4">
+             <h4> <small>{{package.amount}}/-</small></h4>
+            </div>
+          </div> -->
+        </div>
+        
+      </div>
+
+      <div class="col-md-2 mt-2 ps-0">
+        <div class=" service-border-bottom pb-2 mt-2">
+          <div class="scop-of-service-text text-center">Views</div>
+          <div class="text-white text-center pt-1">0</div>
+        </div>
+        <div class="mt-2">
+          <div class="scop-of-service-text text-center">Booking</div>
+          <div class="text-white text-center pt-1">0</div>
         </div>
       </div>
     </div>
-  </div>
 </div>
+
