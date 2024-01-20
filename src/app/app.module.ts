@@ -21,7 +21,7 @@ import { MatTooltipModule } from '@angular/material/tooltip';
     FormsModule,
     NgbModule,
     HttpClientModule,
-    MatTooltipModule,
+    MatTooltipModule
 
     
 

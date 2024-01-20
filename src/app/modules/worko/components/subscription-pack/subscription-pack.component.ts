@@ -48,8 +48,7 @@ export class SubscriptionPackComponent implements OnInit {
             console.log(this.subscriptionList,"Hello")
         },
         error: (error) => {
-          debugger;
-          console.error(error);
+                   console.error(error);
           
           
         },

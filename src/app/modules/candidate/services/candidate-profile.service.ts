@@ -26,7 +26,7 @@ export class CandidateProfileService {
      return this.http.get(`${API_URL}user/${emailAddress}/socialprofile`,this.authService.getHttpOptions()).toPromise();
 }
   getUserDetails(emailAddress:string): Promise<any> {
-    return this.http.get(`${API_URL}user/${emailAddress}`,this.authService.getHttpOptions()).toPromise();
+    return this.http.get(`${API_URL}user/${emailAddress}/details`,this.authService.getHttpOptions()).toPromise();
   }
 
   getCandidateSkills(emailAddress:string):Promise<any>{
@@ -51,7 +51,7 @@ export class CandidateProfileService {
   }
 
   getProfileComplete(emailAddress:string):Promise<any>{
-    return this.http.get(API_URL + `user/${emailAddress}/profilePercentage/group` , this.authService.getHttpOptions()).toPromise();
+    return this.http.get(API_URL + `user/${emailAddress}/profilePercentage ` , this.authService.getHttpOptions()).toPromise();
   }
 
   
@@ -66,7 +66,7 @@ export class CandidateProfileService {
 }
 
   createUserDetails(emailAddress:string , data:any): Promise<any> {
-  return this.http.put(API_URL + `user/${emailAddress}`, data , this.authService.getHttpOptions()).toPromise();
+  return this.http.put(API_URL + `user/${emailAddress}/details`, data , this.authService.getHttpOptions()).toPromise();
 }
   createUserSkills(emailAddress:string , data:any):Promise<any>{
     return this.http.post(API_URL + `user/${emailAddress}/skill`, data , this.authService.getHttpOptions()).toPromise();
@@ -78,6 +78,12 @@ export class CandidateProfileService {
 
   getSubscription(emailAddress:string):Promise<any>{
     return this.http.get(API_URL + `user/${emailAddress}/subscription` , this.authService.getHttpOptions()).toPromise();
+  }
+
+  uploadProfilePic(documentDetails: any): Promise<any> {
+    return this.http.post(API_URL + `file/gsu2u/USER_PROFILE_PIC`, documentDetails, this.authService.getHttpOptions())
+      .toPromise()
+      .then(response => response as ArrayBuffer);
   }
   // createReferralRequest(emailId: string, data: any): Promise<any> {
   //   return this.http.post(API_URL + `user/${emailId}/referral/request`, data, this.authService.getHttpOptions()).toPromise();

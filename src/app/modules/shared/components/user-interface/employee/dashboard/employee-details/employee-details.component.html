@@ -32,14 +32,14 @@
             <div class="col-md-7">
                 <div class="row employee-details">
                     <div class="col-md-12">
-                        <h6 class="mb-0 pb-0">Rohan Sharma</h6>
+                        <h6 class="mb-0 pb-0">{{candidateDetails.name}}</h6>
                     </div>
                     <div class="col-md-12 user-small-text">
                         <div class="m-0 p-0">Public Name : ananymous</div>
-                        <div class="mt-2">Phone no: 9416XXXXXX</div>
-                        <div class="mt-1">Email: 123@gmail.com</div>
-                        <div class="mt-1">Collage Degree: B.E(C.S.E)</div>
-                        <div class="mt-1">Location: Delhi</div>
+                        <div class="mt-2">Phone no: {{candidateDetails.number}}</div>
+                        <div class="mt-1">Email: {{candidateDetails?.emailList?.primary}}</div>
+                        <div class="mt-1">Collage Degree: {{educationDetails.degree}}</div>
+                        <div class="mt-1">Location: {{candidateDetails.location}}</div>
                     </div>
 
                     <div class="col-md-12 mt-2">
@@ -47,7 +47,7 @@
                     </div>
                     <div class="col-md-12">
                         <h5>
-                            Lorem ipsum dolor sit amet, consectetur adipiscing elit. Etiam eu turpis molestie, dictum est a, mattis tellus. Sed dignissim, metus nec fringilla Show more...
+                            {{candidateDetails.about}}
                         </h5>
                     </div>
                     <div class="col-md-12">

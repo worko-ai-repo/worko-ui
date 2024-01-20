@@ -1,7 +1,5 @@
 import { Component, OnInit, Input } from '@angular/core';
-import { CandidateProfileService } from '../../services/candidate-profile.service';
-import { StorageService } from 'src/app/modules/app-core/services/storage.service';
-// import { StorageService } from 'src/app/modules/app-core/services/storage.service';
+
 
 @Component({
   selector: 'app-user-details',
@@ -14,7 +12,7 @@ export class UserDetailsComponent implements OnInit {
   @Input() workExperienceDetails: any = "";
   
   recentGraduation: any;
-  constructor(private candidateSrv: CandidateProfileService, private Storage: StorageService) { }
+  constructor() { }
 
   ngOnInit(): void {
     console.log('Education Details:', this.educationDetails);
