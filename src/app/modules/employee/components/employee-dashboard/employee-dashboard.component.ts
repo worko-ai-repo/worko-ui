@@ -7,6 +7,7 @@ import { StorageService } from 'src/app/modules/app-core/services/storage.servic
   styleUrls: ['./employee-dashboard.component.scss']
 })
 export class EmployeeDashboardComponent {
+
   candidateList: any[] = [];
   educationList: any = "";
   emailAddress: string = "";
@@ -83,4 +84,5 @@ export class EmployeeDashboardComponent {
     })
 
   }
+
 }

@@ -4,7 +4,7 @@
     <div id="content-wrapper" class="d-flex flex-column w-100">
       <div id="content">
         <!-- <app-topbar [isSidebarExpanded]="isSidebarExpanded" (onToggleSidebar)="toggleSidebar()"></app-topbar> -->
-        <app-user-navbar></app-user-navbar>
+        <app-user-navbar  [userType]="userType"></app-user-navbar>
         <div class="container-fluid routing-container">
           <router-outlet></router-outlet>
         </div>

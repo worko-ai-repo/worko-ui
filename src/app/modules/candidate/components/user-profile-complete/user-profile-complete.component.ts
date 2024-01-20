@@ -2,6 +2,8 @@ import { Component, OnInit, Input } from '@angular/core';
 import { CandidateProfileService } from '../../services/candidate-profile.service';
 import { StorageService } from 'src/app/modules/app-core/services/storage.service';
 import { Chart, DoughnutController, ArcElement, Legend, Tooltip } from 'chart.js';
+import { Router } from '@angular/router';
+
 
 @Component({
   selector: 'app-user-profile-complete',
@@ -18,12 +20,37 @@ export class UserProfileCompleteComponent implements OnInit {
   candidateProfile: any;
   isChartLoaded: boolean = false;
   backgroundColor: any =['#1ED6FF', ' #268AFF', '#11489A', '#295CA8'];
-  constructor(private candidateSrv: CandidateProfileService, private Storage: StorageService) { }
+  activeRoute: string = '';
+  userLoggedIn: boolean = false;
+  userRole: any;
+  isEmployee: boolean = true; // You can initialize it to the appropriate value based on your logic
+  
+  constructor( private router : Router, private candidateSrv : CandidateProfileService , private Storage : StorageService){}
 
   ngOnInit(): void {
     console.log(this.candidateSocial);
     console.log(this.profileCompletion)
+    this.activeRoute = this.router.url;
+    if (this.userType == "Candidate") {
+      this.userRole = [
+        {
+          name: 'Edit',
+          router: "/candidate/cedit-profile", 
+         
+        },
+       
+      ]
+    }
 
+    if (this.userType == "Employee") {
+      this.userRole = [
+        {
+          name: 'Edit',
+          router: "/employee/eEdit-profile"
+        },
+       
+      ]
+    }
 
   }
 
@@ -38,6 +65,14 @@ export class UserProfileCompleteComponent implements OnInit {
     }
 
   }
+  // user():void {
+  //   if(this.userRole =='Employee'){
+  //     this.router.navigateByUrl('/employee/eEdit-profile')
+
+  //   } else{
+  //     this.router.navigateByUrl('/candidate/cEdit-profile')
+  //   }
+  // }
 
 
   drawDonutChart(jsonData: any) {

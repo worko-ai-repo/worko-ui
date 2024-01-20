@@ -19,7 +19,9 @@ export class CandidateDashboardComponent {
   softSkillsLists: any;
   workExperienceDetails: any;
   userDescription: string = "";
-  profileCompletion: any;
+  profileCompletion:any="";
+  userType="Candidate";
+
   constructor(private candidateSrv: CandidateProfileService, private storage: StorageService) { }
 
   ngOnInit(): void {
