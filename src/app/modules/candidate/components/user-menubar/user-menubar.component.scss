@@ -31,3 +31,29 @@
 .logout-container {
     margin-top:3.5rem;
 }
+.active {
+    color: #fff;
+    /* Add any other styling for the active state */
+  }
+  .nav-link-text{
+    color: #999999;
+  }
+  .active-navbar svg {
+    fill: #FFFFFF !important; /* Change this to your desired color */
+    /* You can also use 'stroke' property if your SVG has stroke */
+  }
+  .active-navbar{
+    color:#FFF;
+  }
+  .nav-link-text svg{
+    fill: #999999;
+  }
+//   .nav-link-text path {
+//     stroke: #999;
+//     fill:#999;
+//   }
+
+  .active-navbar path {
+    stroke: #999;
+    fill: white;
+  }

@@ -34,7 +34,7 @@ export class CompanyListingService {
     if (lastKey) {
       params.lastKey = lastKey;
     }
-    return this.http.get(API_URL + 'company/list?pageSize='+pageSize +'&lastKey='+ lastKey, this.authService.getHttpOptions()).toPromise();
+    return this.http.get(API_URL + 'company?pageSize='+pageSize +'&lastKey='+ lastKey, this.authService.getHttpOptions()).toPromise();
   }
 
   /**

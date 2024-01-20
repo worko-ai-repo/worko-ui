@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, Input } from '@angular/core';
 
 @Component({
   selector: 'app-employee-details',
@@ -6,5 +6,15 @@ import { Component } from '@angular/core';
   styleUrls: ['./employee-details.component.scss']
 })
 export class EmployeeDetailsComponent {
+  @Input() candidateDetails: any = "";
+  @Input() educationDetails: any = "";
+  @Input() workExperienceDetails: any = "";
 
+  ngOnChanges(): void {
+    // console.log(this.workExperienceDetails, "workExperienceDetails");
+  
+    if(this.workExperienceDetails?.length){
+      this.workExperienceDetails = this.workExperienceDetails[0];
+    }
+  }
 }

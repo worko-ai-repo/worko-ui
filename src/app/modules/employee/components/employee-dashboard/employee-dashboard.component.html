@@ -50,10 +50,11 @@
     <div class="col-md-12">
       <div class="row">
         <div class="col-md-6">
-          <app-employee-details></app-employee-details>
+          <app-employee-details [candidateDetails]=" candidateDetails" [educationDetails]="educationDetails" [workExperienceDetails]="workExperienceDetails"></app-employee-details>
         </div>
         <div class="col-md-5">
-          <app-user-profile-complete [userType]="userType" ></app-user-profile-complete>
+          <app-user-profile-complete [profileCompletion]="profileCompletion" [userType]="'Employee'" [candidateSocial]="candidateSocial"></app-user-profile-complete>
+
         </div>
       </div>
 

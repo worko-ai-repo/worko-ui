@@ -34,7 +34,7 @@ export class EditProfileComponent implements OnInit {
   achievements: any;
   uploadedCvName: string = "";
   userId: string | undefined;
-  // userType: string = "Candidate";
+  uploadedProfilePicName: string = "";
 
   constructor(private router: Router, private candidateSrv: CandidateProfileService, private storage: StorageService, private authService: AuthService) { }
   ngOnInit(): void {
@@ -175,7 +175,8 @@ export class EditProfileComponent implements OnInit {
       "YOE": this.candidateList.YOE,
       "lastAccessedDash": this.candidateList.lastAccessedDash,
       "SK": this.candidateList.SK,
-      "PK": this.candidateList.PK
+      "PK": this.candidateList.PK,
+      "profileImage": this.uploadedProfilePicName ? this.uploadedProfilePicName: this.candidateList.profileImage
     }
 
     await this.candidateSrv.createUserDetails(this.emailAddress, userDetails).then(async (response) => {
@@ -311,7 +312,6 @@ export class EditProfileComponent implements OnInit {
     try {
       // if (this.userId && this.thirdStepData.fileType && this.thirdStepData.fileName) {
       if (this.thirdStepData.fileType && this.thirdStepData.fileName) {
-        debugger;
         let documentDetails = {
           // userId: this.userId,
           userId: this.candidateList.SK.split("#")[1],
@@ -324,6 +324,31 @@ export class EditProfileComponent implements OnInit {
         this.uploadedCvName = docResult.cloudFileName;
         this.candidatePersonalDetails.CV = docResult.cloudFileName;
         this.uploadCVonS3Bucket(docResult);
+
+      } else {
+        this.updateProfilePic();
+      }
+    } catch (error) {
+      console.log(error);
+    }
+  }
+
+  async updateProfilePic(): Promise<void> {
+    try {
+      // if (this.userId && this.thirdStepData.fileType && this.thirdStepData.fileName) {
+      if (this.firstStepData.fileType && this.firstStepData.fileName) {
+        let documentDetails = {
+          // userId: this.userId,
+          userId: this.candidateList.SK.split("#")[1],
+          profileUserFileName: this.firstStepData.fileName,
+          profileFileMimeType: this.firstStepData.fileType
+        }
+        let docResult = await this.candidateSrv.uploadProfilePic(documentDetails);
+        console.log(docResult);
+
+        this.uploadedProfilePicName = docResult.cloudFileName;
+        this.candidatePersonalDetails.profileImage = docResult.cloudFileName;
+        this.uploadProfilePiconS3Bucket(docResult);
 
       } else {
         this.updateWorkExperience();
@@ -341,6 +366,42 @@ export class EditProfileComponent implements OnInit {
           console.log('File uploaded successfully.');
           try {
             let a = await this.authService.linkResumewithUser(this.emailAddress, this.uploadedCvName);
+            if (this.firstStepData.fileType && this.firstStepData.fileName) {
+              this.updateProfilePic();
+            }else{
+              await this.updateWorkExperience();
+            }
+            
+
+          } catch (error: any) {
+
+            if (error && error.error.message) {
+              // this.errorMessage = error.error.message;
+              // this.setErrorMessage('File Link error linkResumewithUser:- '+ error.error.message);
+            }
+            console.error('File Link error linkResumewithUser:', error);
+          }
+
+        })
+        .catch(error => {
+
+          console.error('File upload error:', error);
+
+
+        });
+
+    } catch (error) {
+      console.log(error)
+    }
+  }
+
+  uploadProfilePiconS3Bucket(docResult: any) {
+    try {
+      this.authService.uploadFileOnS3Bucket(this.firstStepData.fileToUpload!, docResult.awsS3SignedUrl, docResult.awsS3Tag)
+        .then(async () => {
+          console.log('File uploaded successfully.');
+          try {
+            // let a = await this.authService.linkResumewithUser(this.emailAddress, this.uploadedProfilePicName);
 
             await this.updateWorkExperience();
 

@@ -39,8 +39,10 @@ export class PersonalInformationComponent implements OnInit {
     socialLinklinkdin: "",
     socialLinktwitter: "",
     socialSk: "",
-    socialPk: ""
-
+    socialPk: "",
+    fileName: "",
+    fileToUpload: "",
+    fileType: ""
 
 
   };
@@ -122,6 +124,9 @@ export class PersonalInformationComponent implements OnInit {
           this.fileToUpload = file;
           this.fileName = file.name;
           this.fileType = file.type;
+          this.candidatePersonalDetails.fileName = this.fileName,
+            this.candidatePersonalDetails.fileToUpload = this.fileToUpload,
+            this.candidatePersonalDetails.fileType = this.fileType
           console.log('Selected file type:', file);
         } else {
           // Display an error for an invalid file type
@@ -129,6 +134,11 @@ export class PersonalInformationComponent implements OnInit {
           // Optionally, you can reset the input to clear the invalid selection
           inputElement.value = '';
           this.fileToUpload = null;
+          this.fileName = "";
+          this.fileType = "";
+          this.candidatePersonalDetails.fileName = this.fileName,
+          this.candidatePersonalDetails.fileToUpload = this.fileToUpload,
+          this.candidatePersonalDetails.fileType = this.fileType
         }
       }
     }

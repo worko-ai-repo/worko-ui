@@ -115,7 +115,6 @@ export class RequestGuidenceComponent implements OnInit {
         this.selectedService = "";
         this.isButtonScreen = false;
         this.showSideImage = false;
-        debugger;
       } else {
         console.log('Hiii')
       }
