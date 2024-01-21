@@ -59,6 +59,13 @@ export class CandidateProfileService {
   markasDoneReferral(emailAddress:string, status: string, referralId: string){
     return this.http.patch(`${API_URL}user/${emailAddress}/referral/${referralId}/${status}`, {} , this.authService.getHttpOptions()).toPromise();
   }
+
+
+  /*************Services API */
+
+  markasDoneService(emailAddress:string, status: string, serviceId: string){
+    return this.http.patch(`${API_URL}user/${emailAddress}/service/${serviceId}/${status}`, {} , this.authService.getHttpOptions()).toPromise();
+  }
   
   createEducation(emailAddress:string, data:any):Promise<any>{
     return this.http.post(API_URL + `user/${emailAddress}/education`, data,this.authService.getHttpOptions() ).toPromise();

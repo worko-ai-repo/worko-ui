@@ -45,6 +45,9 @@ import { TotalEarningComponent } from './components/user-interface/employee/pack
 import { PackageFormComponent } from './components/user-interface/employee/packages/package-form/package-form.component';
 import { EmployeeProfessionalDetailsComponent } from './components/user-interface/employee/employee-edit/employee-professional-details/employee-professional-details.component';
 import { AddBankDetailsComponent } from './components/user-interface/employee/employee-edit/add-bank-details/add-bank-details.component';
+import { AwaitingServiceComponent } from './components/user-interface/service/awaiting-service/awaiting-service.component';
+import { CancelledServiceComponent } from './components/user-interface/service/cancelled-service/cancelled-service.component';
+import { DoneServiceComponent } from './components/user-interface/service/done-service/done-service.component';
 
 
 export const routes: Routes = [
@@ -68,6 +71,9 @@ export const routes: Routes = [
     DoneCareerGuidanceComponent,
     TotalEarningComponent,
     PackageFormComponent,
+    // DoneServiceComponent,
+    // CancelledServiceComponent,
+    // AwaitingServiceComponent,
     
     
     

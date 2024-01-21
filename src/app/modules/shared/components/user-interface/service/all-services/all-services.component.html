@@ -33,7 +33,7 @@
               
               <ng-template #serviceListContent>
               <div class="d-flex service-list" *ngFor="let referral of awaitingList">
-                <div class="d-flex">
+                <div class="d-flex"  (click)="showServiceData(referral)">
                   <div class="d-flex align-items-center cursor-pointer">
                     <svg xmlns="http://www.w3.org/2000/svg" width="19" height="19" viewBox="0 0 19 19" fill="none">
                       <path
@@ -50,7 +50,7 @@
                       #{{getSlicedValue(referral.SK)}}
                     </div>
                     <div class="text-size p-0">
-                      <span class="p-0 m-0 text-white">Career Guidance </span>
+                      <span class="p-0 m-0 text-white">Career Guidance</span>
                     </div>
                   </div>
                 </div>
@@ -68,17 +68,17 @@
                   Payment Due
                 </button>
                 <div>
-                  <i class="fa-solid fa-angle-down text-white arrow-icon" (click)="toggleAccordion('PAYMENY_DUE')"></i>
+                  <i class="fa-solid fa-angle-down text-white arrow-icon" (click)="toggleAccordion('PAYMENT_DUE')"></i>
                 </div>
               </div>
             </h2>
-            <div class="accordion-collapse" [ngClass]="{'collapse': currentAccordion !== 'PAYMENY_DUE'}"
+            <div class="accordion-collapse" [ngClass]="{'collapse': currentAccordion !== 'PAYMENT_DUE'}"
               aria-labelledby="headingPaymentDue">
-              <div *ngIf="paymentDueList.length === 0; else serviceListContent" class="no-items-message  p-3 text-white">
+              <div *ngIf="paymentDueList.length === 0; else serviceListContent1" class="no-items-message  p-3 text-white">
                 No service requests available.
               </div>
               
-              <ng-template #serviceListContent>
+              <ng-template #serviceListContent1>
               <div class="d-flex service-list" *ngFor="let referral of paymentDueList">
                 <div class="d-flex">
                   <div class="d-flex align-items-center cursor-pointer">
@@ -97,7 +97,7 @@
                       #{{getSlicedValue(referral.SK)}}
                     </div>
                     <div class="text-size p-0">
-                      <span class="p-0 m-0 text-white">Career Guidance </span>
+                      <span class="p-0 m-0 text-white">Career Guidance</span>
                     </div>
                   </div>
                 </div>
@@ -121,11 +121,11 @@
             </h2>
             <div class="accordion-collapse" [ngClass]="{'collapse': currentAccordion !== 'ACCEPTED'}"
               aria-labelledby="headingAccepted">
-              <div *ngIf="acceptedList.length === 0; else serviceListContent" class="no-items-message  p-3 text-white">
+              <div *ngIf="acceptedList.length === 0; else serviceListContent2" class="no-items-message  p-3 text-white">
                 No service requests available.
               </div>
               
-              <ng-template #serviceListContent>
+              <ng-template #serviceListContent2>
               <div class="d-flex service-list" *ngFor="let referral of acceptedList">
                 <div class="d-flex">
                   <div class="d-flex align-items-center cursor-pointer">
@@ -144,7 +144,7 @@
                       #{{getSlicedValue(referral.SK)}}
                     </div>
                     <div class="text-size p-0">
-                      <span class="p-0 m-0 text-white">Career Guidance </span>
+                      <span class="p-0 m-0 text-white">Career Guidance</span>
                     </div>
                   </div>
                 </div>
@@ -168,11 +168,11 @@
             </h2>
             <div class="accordion-collapse" [ngClass]="{'collapse': currentAccordion !== 'REJECTED'}"
               aria-labelledby="headingRejected">
-              <div *ngIf="rejectedList.length === 0; else serviceListContent" class="no-items-message  p-3 text-white">
+              <div *ngIf="rejectedList.length === 0; else serviceListContent4" class="no-items-message  p-3 text-white">
                 No service requests available.
               </div>
               
-              <ng-template #serviceListContent>
+              <ng-template #serviceListContent4>
               <div class="d-flex service-list" *ngFor="let referral of rejectedList">
                 <div class="d-flex">
                   <div class="d-flex align-items-center cursor-pointer">
@@ -191,7 +191,7 @@
                       #{{getSlicedValue(referral.SK)}}
                     </div>
                     <div class="text-size p-0">
-                      <span class="p-0 m-0 text-white">Career Guidance </span>
+                      <span class="p-0 m-0 text-white">Career Guidance</span>
                     </div>
                   </div>
                 </div>
@@ -215,11 +215,11 @@
             </h2>
             <div class="accordion-collapse" [ngClass]="{'collapse': currentAccordion !== 'CANCELLED'}"
               aria-labelledby="headingCancelled">
-              <div *ngIf="cancelledList.length === 0; else serviceListContent" class="no-items-message  p-3 text-white">
+              <div *ngIf="cancelledList.length === 0; else serviceListContent5" class="no-items-message  p-3 text-white">
                 No service requests available.
               </div>
               
-              <ng-template #serviceListContent>
+              <ng-template #serviceListContent5>
               <div class="d-flex service-list" *ngFor="let referral of cancelledList">
                 <div class="d-flex">
                   <div class="d-flex align-items-center cursor-pointer">
@@ -238,7 +238,7 @@
                       #{{getSlicedValue(referral.SK)}}
                     </div>
                     <div class="text-size p-0">
-                      <span class="p-0 m-0 text-white">Career Guidance </span>
+                      <span class="p-0 m-0 text-white">Career Guidance</span>
                     </div>
                   </div>
                 </div>
@@ -262,11 +262,11 @@
             </h2>
             <div class="accordion-collapse" [ngClass]="{'collapse': currentAccordion !== 'DONE'}"
               aria-labelledby="headingDone">
-              <div *ngIf="doneList.length === 0; else serviceListContent" class="no-items-message  p-3 text-white">
+              <div *ngIf="doneList.length === 0; else serviceListContent6" class="no-items-message  p-3 text-white">
                 No service requests available.
               </div>
               
-              <ng-template #serviceListContent>
+              <ng-template #serviceListContent6>
               <div class="d-flex service-list" *ngFor="let referral of doneList">
                 <div class="d-flex">
                   <div class="d-flex align-items-center cursor-pointer">
