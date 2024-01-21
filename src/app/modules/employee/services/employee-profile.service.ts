@@ -23,8 +23,8 @@ export class EmployeeProfileService {
     return this.http.post(`${API_URL}user/${emailAddress}/bankDetail`,data,this.authService.getHttpOptions()).toPromise();
   }
 
-  getEmployeeReferral(emailAddress:string, companySK: string): Promise<any> {
-    return this.http.get(`${API_URL}referral/company/${companySK}`,this.authService.getHttpOptions()).toPromise();
+  getEmployeeReferral(emailAddress:string, companySK: string, status: string): Promise<any> {
+    return this.http.get(`${API_URL}referral/company/${companySK}?status=${status}`,this.authService.getHttpOptions()).toPromise();
   }
 
 }
