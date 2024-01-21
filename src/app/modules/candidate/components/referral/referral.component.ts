@@ -1,6 +1,6 @@
 import { HttpClient } from '@angular/common/http';
 import { Component, OnInit } from '@angular/core';
-import { CandidateDropdownService } from 'src/app/modules/services/candidate-dropdown.service';
+// import { CandidateDropdownService } from 'src/app/modules/services/candidate-dropdown.service';
 import { CandidateProfileService } from '../../services/candidate-profile.service';
 import { StorageService } from 'src/app/modules/app-core/services/storage.service';
 
@@ -37,4 +37,19 @@ export class ReferralComponent implements OnInit {
     this.selectedReferral = data;
   }
 
+  getSlicedValue(value: string): string {
+    const parts = value.split('#');
+    return parts.length > 2 ? parts[2] : '';
+  }
+
+
+  async referralMarkAsDone(data: any){
+    let referralId = this.getSlicedValue(data.SK);
+    await this.candidateSrv.markasDoneReferral(this.emailAddress, "DONE", referralId).then(async (response) => {
+      if (response) {
+        // this.referralList = response;
+        // console.log(this.referralList + '123');
+      }
+    })
+  }
 }
