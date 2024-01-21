@@ -21,11 +21,11 @@ export class ReferralStepperComponent {
   constructor() {}
 
   ngOnInit(): void {
-    console.log(this.selectedReferral, "selectedReferral");
+    // console.log(this.selectedReferral, "selectedReferral");
   }
 
   ngOnChanges(): void {
-    console.log(this.selectedReferral, "selectedReferral");
+    // console.log(this.selectedReferral, "selectedReferral");
   }
 
   getSlicedValue(value: string): string {

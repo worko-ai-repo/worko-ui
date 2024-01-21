@@ -2,7 +2,7 @@
     <div class="container">
      <div class="row">
         <div class="col-4">
-            <app-awaiting-status  (statusSelected)="onStatusSelected($event)"></app-awaiting-status>
+            <app-awaiting-status  (statusSelected)="onStatusSelected($event)" [referralList]="empReferralList"  (showReferralDetails)="showReferralDetails($event)"></app-awaiting-status>
         </div>
         <div class="col-md-8">
             <div class="row">

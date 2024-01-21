@@ -1,10 +1,8 @@
 import { Injectable } from '@angular/core';
 import { environment } from '../../../../environment/environment';
-import { param } from 'jquery';
 import { HttpClient } from '@angular/common/http';
-import { Observable } from 'rxjs';
 import { AuthService } from '../../worko/services/auth.service';
-import * as data from 'src/assets/data/data.json';
+
 
 
 const API_URL = environment.apiUrl;
@@ -42,9 +40,7 @@ export class CandidateProfileService {
   getWorkExperience(emailAddress:string){
     return this.http.get(`${API_URL}user/${emailAddress}/experience`, this.authService.getHttpOptions()).toPromise();
   }
-  getReferral(emailAddress:string, status: string){
-    return this.http.get(`${API_URL}user/${emailAddress}/referral?status=${status}`, this.authService.getHttpOptions()).toPromise();
-  }
+
 
   getServices(emailAddress:string, status: string){
     return this.http.get(`${API_URL}user/${emailAddress}/service?status=${status}`, this.authService.getHttpOptions()).toPromise();
@@ -54,6 +50,15 @@ export class CandidateProfileService {
     return this.http.get(API_URL + `user/${emailAddress}/profilePercentage ` , this.authService.getHttpOptions()).toPromise();
   }
 
+  /*************REferral APIS */
+
+  getReferral(emailAddress:string, status: string){
+    return this.http.get(`${API_URL}user/${emailAddress}/referral?status=${status}`, this.authService.getHttpOptions()).toPromise();
+  }
+
+  markasDoneReferral(emailAddress:string, status: string, referralId: string){
+    return this.http.patch(`${API_URL}user/${emailAddress}/referral/${referralId}/${status}`, {} , this.authService.getHttpOptions()).toPromise();
+  }
   
   createEducation(emailAddress:string, data:any):Promise<any>{
     return this.http.post(API_URL + `user/${emailAddress}/education`, data,this.authService.getHttpOptions() ).toPromise();
