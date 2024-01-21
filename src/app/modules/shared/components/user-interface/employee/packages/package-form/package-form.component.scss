@@ -77,3 +77,75 @@
     font-size: 15px;
     color: white;
 }
+.services-btn{
+    border-radius: 10px;
+    border: 1px solid #57E1FF;
+    background: #0A1E35;
+    color: #57E1FF;
+    // text-align: center;
+    // font-family: Montserrat;
+    font-size: 16px;
+    font-style: normal;
+    font-weight: 500;
+    // line-height: normal;
+    // width: 100%;
+}
+.service-card{
+    border-radius: 10px;
+    background: #57E1FF;
+    color: #0A1E35;
+}
+.service-text{
+    color: #0A1E36;
+    // text-align: center;
+    // font-family: Montserrat;
+    font-size: 12px;
+    font-style: italic;
+    font-weight: 600;
+    // line-height: normal;
+}
+
+.package-content{
+    color: #57E1FF;
+    font-size: 27px;
+}
+.card-header{
+    border-bottom:2px solid #2D8EC2;
+}
+.scope-services{
+    color: white;
+    // font-family: Montserrat;
+    font-size: 14px;
+    font-style: normal;
+    font-weight: 400;
+    // line-height: normal;
+
+}
+.service-border-bottom{
+    border-bottom: 1px solid #2D8EC2;
+    
+}
+.service-border-right{
+    border-right: 1px solid #2D8EC2; 
+    
+}
+
+.view-border-bottom{
+    border-bottom: 1px solid #2D8EC2 ;
+}
+.btn-view{
+    border-radius: 100px;
+    border: 1px solid #36D0FF;
+    opacity: 0.7;
+    background: #2D8EC2;
+    color: white;
+    font-size: 15px;
+}
+.duration-box{
+     border: 1px solid #2D8EC2;
+     color: white;
+}
+.scop-of-service-text{
+    color: #57E1FF;
+    font-size: 16px;
+}
