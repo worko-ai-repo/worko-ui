@@ -45,6 +45,9 @@ import { TotalEarningComponent } from './components/user-interface/employee/pack
 import { PackageFormComponent } from './components/user-interface/employee/packages/package-form/package-form.component';
 import { EmployeeProfessionalDetailsComponent } from './components/user-interface/employee/employee-edit/employee-professional-details/employee-professional-details.component';
 import { AddBankDetailsComponent } from './components/user-interface/employee/employee-edit/add-bank-details/add-bank-details.component';
+import { MatDatepickerModule } from '@angular/material/datepicker';
+import { MatIconModule } from '@angular/material/icon';
+import { MatNativeDateModule } from '@angular/material/core';
 
 
 export const routes: Routes = [
@@ -86,6 +89,13 @@ export const routes: Routes = [
     MatFormFieldModule,
     MatInputModule,
     MatButtonModule,
+    MatDatepickerModule,  
+    MatButtonModule,
+     
+    MatIconModule,
+    
+    MatNativeDateModule, 
+
     
     
   ],
