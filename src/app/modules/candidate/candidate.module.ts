@@ -39,7 +39,9 @@ import { UploadComponent } from '../shared/components/user-interface/edit-profil
  import { FormsModule } from '@angular/forms';
 import { EmployeeModule } from '../employee/employee.module';
 import { ReferralDoneComponent } from '../shared/components/user-interface/employee/referral/referral-done/referral-done.component';
-
+import { AwaitingServiceComponent } from '../shared/components/user-interface/service/awaiting-service/awaiting-service.component';
+import { CancelledServiceComponent } from '../shared/components/user-interface/service/cancelled-service/cancelled-service.component';
+import { DoneServiceComponent } from '../shared/components/user-interface/service/done-service/done-service.component';
 
 export const routes: Routes = [
 
@@ -124,6 +126,9 @@ export const routes: Routes = [
   UploadComponent,
    AcceptedReferralComponent,
    ReferralStepperComponent,
+   AwaitingServiceComponent,
+   CancelledServiceComponent,
+   DoneServiceComponent
   ],
   imports: [
   CommonModule,

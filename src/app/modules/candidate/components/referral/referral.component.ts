@@ -15,10 +15,12 @@ export class ReferralComponent implements OnInit {
   selectedStatus: string = 'AWAITING';
   selectedReferral: any;
   constructor(private candidateSrv: CandidateProfileService, private storage: StorageService) { }
+ 
   ngOnInit(): void {
     this.emailAddress = this.storage.get("useremail");
     this.getReferral();
   }
+  
   async getReferral() {
     await this.candidateSrv.getReferral(this.emailAddress, this.selectedStatus).then(async (response) => {
       if (response) {

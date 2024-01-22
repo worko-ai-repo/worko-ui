@@ -20,6 +20,7 @@ export class EmployeeReferralComponent {
   }
   onStatusSelected(status: string): void {
     this.selectedStatus = status;
+    this.getEmpReferral();
   }
 
   getSlicedValue(value: string): string {
@@ -30,7 +31,7 @@ export class EmployeeReferralComponent {
 
   async getEmpReferral() {
     let companySK = "01HH1S22K46FFMS7D2RNK2K2SX";
-    await this.empService.getEmployeeReferral(this.emailAddress, companySK).then(async (response) => {
+    await this.empService.getEmployeeReferral(this.emailAddress, companySK,  this.selectedStatus ).then(async (response) => {
       if (response) {
         this.empReferralList = response;
         console.log(this.empReferralList + '123');
