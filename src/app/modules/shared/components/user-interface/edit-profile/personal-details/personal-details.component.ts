@@ -82,8 +82,13 @@ export class PersonalDetailsComponent implements OnInit {
 
   addAchievement() {
     // Check if both title and date are provided
-    if (!this.achievementsList) {
-      this.achievementsList = [];
+    // debugger;
+    // if (!this.achievementsList) {
+    //   this.achievementsList = [];
+    // }
+
+    if (! this.candidateProfessionalDetails.achievements) {
+      this.candidateProfessionalDetails.achievements = [];
     }
     if (this.title && this.date) {
       // Create a new achievement object
@@ -92,7 +97,7 @@ export class PersonalDetailsComponent implements OnInit {
         achievDate: this.date
       };
       // Push the new achievement object to the achievements array
-      this.achievementsList.push(newAchievement);
+      this.candidateProfessionalDetails.achievements.push(newAchievement);
       console.log(this.achievementsList);
       // Clear the input fields
       this.title = '';
@@ -108,11 +113,11 @@ export class PersonalDetailsComponent implements OnInit {
   // Function to remove an achievement by title
   removeAchievement(title: string) {
     // Find the index of the achievement with the specified title
-    const indexToRemove = this.achievementsList.findIndex((achievement: any) => achievement.title === title);
+    const indexToRemove =  this.candidateProfessionalDetails.achievements.findIndex((achievement: any) => achievement.title === title);
 
     // If the achievement is found, remove it
     if (indexToRemove !== -1) {
-      this.achievementsList.splice(indexToRemove, 1);
+      this.candidateProfessionalDetails.achievements.splice(indexToRemove, 1);
     }
   }
 
@@ -164,9 +169,10 @@ export class PersonalDetailsComponent implements OnInit {
   }
 
   addCertificate() {
-
+    if (! this.candidateProfessionalDetails.certificationNames) {
+      this.candidateProfessionalDetails.certificationNames = [];
+    }
   const certNamesArray = this.newCertName.split(',');
-
   certNamesArray.forEach((certName:any) => {
     const trimmedCertName = certName.trim();
     if (trimmedCertName !== '') {
@@ -186,6 +192,9 @@ export class PersonalDetailsComponent implements OnInit {
   }
 
   addSoftSkill(){
+    if (! this.candidateProfessionalDetails.softSkills) {
+      this.candidateProfessionalDetails.softSkills = [];
+    }
     const skillsArray = this.newSoftSkill.split(',');
 
     skillsArray.forEach((skillName:any) => {

@@ -54,7 +54,7 @@ export class EditProfileComponent implements OnInit {
   // post //
 
   async updateWorkExperience() {
-   
+
     let workExperience =
       [{
         "companyName": this.secondStepData?.companyName,
@@ -62,9 +62,9 @@ export class EditProfileComponent implements OnInit {
         "designation": this.secondStepData?.desigination,
         "department": this.secondStepData?.department,
         "SK": this.workExperienceDetails ? this.workExperienceDetails.SK : "",
-        "PK": this.workExperienceDetails? this.workExperienceDetails.PK : ""
+        "PK": this.workExperienceDetails ? this.workExperienceDetails.PK : ""
       }
-]
+      ]
     await this.candidateSrv.createWorkExperience(this.emailAddress, workExperience).then(async (response) => {
 
       // if (response) {
@@ -80,16 +80,16 @@ export class EditProfileComponent implements OnInit {
           "passingYear": this.firstStepData.passingYear,
           "collage": this.firstStepData.collegeName,
           "degree": this.firstStepData.collegeDegree,
-          "SK": this.firstStepData.SK,
-          "PK": this.firstStepData.PK,
+          "SK": this.firstStepData?.SK,
+          "PK": this.firstStepData?.PK,
         },
 
         {
           "passingYear": this.firstStepData.passingYear1,
           "collage": this.firstStepData.collegeName1,
           "degree": this.firstStepData.collegeDegree1,
-          "SK": this.firstStepData.SK1,
-          "PK": this.firstStepData.PK1,
+          "SK": this.firstStepData?.SK1,
+          "PK": this.firstStepData?.PK1,
         }
       ];
 
@@ -107,8 +107,8 @@ export class EditProfileComponent implements OnInit {
       "softSkills": this.secondStepData.softSkills,
       "certifications": this.secondStepData.certificationNames,
       "coreSkills": this.secondStepData.coreSkillList,
-      "SK": this.certificationList.SK,
-      "PK": this.certificationList.PK
+      "SK": this.certificationList?.SK,
+      "PK": this.certificationList?.PK
     }
     await this.candidateSrv.createUserSkills(this.emailAddress, skills).then(async (response) => {
       // if (response) {
@@ -118,12 +118,12 @@ export class EditProfileComponent implements OnInit {
   }
 
   async createAchievements() {
-    if(this.secondStepData.achievements){
+    if (this.secondStepData.achievements) {
       let userAchievements =
       {
         "achievements": this.secondStepData.achievements,
-        "SK": this.achievements ? this.achievements?.SK: "",
-        "PK": this.achievements ? this.achievements?.PK: ""
+        "SK": this.achievements ? this.achievements?.SK : "",
+        "PK": this.achievements ? this.achievements?.PK : ""
       }
       await this.candidateSrv.createAchievments(this.emailAddress, userAchievements).then(async (response) => {
         // if (response) {
@@ -131,19 +131,44 @@ export class EditProfileComponent implements OnInit {
         // this.createUserDetails();
         // }
       })
-    }else{
+    } else {
       this.creatSocialProfile();
     }
-  
+
   }
   async creatSocialProfile() {
+    var twitterArray = this.firstStepData.socialLinktwitter;
+    var linkedinArray = this.firstStepData.socialLinklinkdin;
+    var githubArray = this.firstStepData.socialLinkGithub;
+    // Check if twitterArray is an array
+    if (Array.isArray(twitterArray)) {
+      console.log('twitterArray is already an array');
+    } else {
+      console.log('twitterArray is not an array');
+      twitterArray = [this.firstStepData.socialLinktwitter];
+    }
+
+      // Check if twitterArray is an array
+      if (Array.isArray(linkedinArray)) {
+        console.log('twitterArray is already an array');
+      } else {
+        console.log('twitterArray is not an array');
+        linkedinArray = [this.firstStepData.socialLinklinkdin];
+      }
+
+      if (Array.isArray(githubArray)) {
+        console.log('twitterArray is already an array');
+      } else {
+        console.log('twitterArray is not an array');
+        githubArray = [this.firstStepData.socialLinkGithub];
+      }
     let socialProfile =
     {
-      twitter:  this.firstStepData.socialLinktwitter,
-      github:  this.firstStepData.socialLinkGithub,
-      linkedin:  this.firstStepData.socialLinklinkdin,
-      SK: this.firstStepData.socialSk,
-      PK: this.firstStepData.socialPk
+      twitter: twitterArray,
+      github: githubArray,
+      linkedin: linkedinArray,
+      SK: this.firstStepData?.socialSk,
+      PK: this.firstStepData?.socialPk
     }
     await this.candidateSrv.createUserProfile(this.emailAddress, socialProfile).then(async (response) => {
       // if (response) {
@@ -174,9 +199,9 @@ export class EditProfileComponent implements OnInit {
       "referralCount": this.candidateList.referralCount,
       "YOE": this.candidateList.YOE,
       "lastAccessedDash": this.candidateList.lastAccessedDash,
-      "SK": this.candidateList.SK,
-      "PK": this.candidateList.PK,
-      "profileImage": this.uploadedProfilePicName ? this.uploadedProfilePicName: this.candidateList.profileImage
+      "SK": this.candidateList?.SK,
+      "PK": this.candidateList?.PK,
+      "profileImage": this.uploadedProfilePicName ? this.uploadedProfilePicName : this.candidateList.profileImage
     }
 
     await this.candidateSrv.createUserDetails(this.emailAddress, userDetails).then(async (response) => {
@@ -209,15 +234,6 @@ export class EditProfileComponent implements OnInit {
     })
   }
 
-  async getAchievements() {
-    await this.candidateSrv.getCandidateAchievements(this.emailAddress).then(async (response) => {
-      if (response) {
-        this.achievements = response[0];
-        this.achievementsList = response[0].achievements;
-      }
-    })
-  }
-
   async getSocialProfile() {
     await this.candidateSrv.getUserProfile(this.emailAddress).then(async (response) => {
       if (response) {
@@ -227,26 +243,43 @@ export class EditProfileComponent implements OnInit {
     });
   }
 
+  async userCertifications() {
+    await this.candidateSrv.getCandidateSkills(this.emailAddress).then(async (response) => {
+      if (Array.isArray(response) && response.length > 0) {
+        this.certificationList = response[0];
+        this.coreSkillsLists = response[0].coreSkills;
+        this.softSkillsLists = response[0].softSkills;
+
+      }
+      this.getWorkExperienceDetails();
+    })
+  }
+
   async getWorkExperienceDetails() {
     await this.candidateSrv.getWorkExperience(this.emailAddress).then(async (response) => {
       if (Array.isArray(response) && response.length > 0 && response[0].hasOwnProperty('SK')) {
         // Assuming 'SK' is a property that indicates the response structure
         this.workExperienceDetails = response[0];
-        this.getAchievements();
+
+      }
+      this.getAchievements();
+    })
+  }
+
+
+  async getAchievements() {
+    await this.candidateSrv.getCandidateAchievements(this.emailAddress).then(async (response) => {
+      if (Array.isArray(response) && response.length > 0) {
+        this.achievements = response[0];
+        this.achievementsList = response[0].achievements;
       }
     })
   }
 
-  async userCertifications() {
-    await this.candidateSrv.getCandidateSkills(this.emailAddress).then(async (response) => {
-      if (response) {
-        this.certificationList = response[0];
-        this.coreSkillsLists = response[0].coreSkills;
-        this.softSkillsLists = response[0].softSkills;
-        this.getWorkExperienceDetails();
-      }
-    })
-  }
+
+
+
+
 
   nextStep() {
     // console.log(this.candidateList)
@@ -368,10 +401,10 @@ export class EditProfileComponent implements OnInit {
             let a = await this.authService.linkResumewithUser(this.emailAddress, this.uploadedCvName);
             if (this.firstStepData.fileType && this.firstStepData.fileName) {
               this.updateProfilePic();
-            }else{
+            } else {
               await this.updateWorkExperience();
             }
-            
+
 
           } catch (error: any) {
 

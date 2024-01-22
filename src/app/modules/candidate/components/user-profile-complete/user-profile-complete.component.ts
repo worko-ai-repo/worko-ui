@@ -58,6 +58,7 @@ export class UserProfileCompleteComponent implements OnInit {
     // console.log(this.workExperienceDetails, "workExperienceDetails");
     // console.log(this.candidateSocial);
     // console.log(this.profileCompletion);
+ 
     if (this.profileCompletion && this.userType == "Candidate") {
       this.candidateProfile = this.profileCompletion?.candidate;
 

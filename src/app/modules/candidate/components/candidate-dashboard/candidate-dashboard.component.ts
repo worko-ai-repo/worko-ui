@@ -36,7 +36,6 @@ export class CandidateDashboardComponent {
         this.candidateList = response
         this.candidateDetails = this.candidateList[0];
         this.userDescription = this.candidateList[0].about;
-        console.log(response);
         await this.getEducationDetails();
       }
     })
@@ -44,69 +43,61 @@ export class CandidateDashboardComponent {
 
   async getEducationDetails() {
     await this.candidateSrv.getCandidateEducation(this.emailAddress).then(async (response) => {
-      if (response) {
+      if (Array.isArray(response) && response.length > 0 ) {
         this.educationList = response;
         this.educationDetails = this.educationList[0];
-        console.log(response + "1");
+      }
       this.getWorkExperienceDetails();
-          }
     })
   }
 
   async getWorkExperienceDetails() {
     await this.candidateSrv.getWorkExperience(this.emailAddress).then(async (response) => {
-      if (response) {
+      if (Array.isArray(response) && response.length > 0 ) {
         this.workExperienceDetails = response;
-        this.getAchievements();
+       
       }
+      this.getAchievements();
     })
   }
 
 
   async getAchievements() {
     await this.candidateSrv.getCandidateAchievements(this.emailAddress).then(async (response) => {
-      if (response) {
-        this.achievementsList = response[0].achievements;
-        console.log(  this.achievementsList);
-        this.getSocialProfile();
+      if (Array.isArray(response) && response.length > 0 ) {
+        this.achievementsList = response[0]?.achievements;
       }
+      this.getSocialProfile();
     })
   }
 
   async getSocialProfile() {
     await this.candidateSrv.getUserProfile(this.emailAddress).then(async (response) => {
-      if (response) {
-        this.candidateSocial = response;
-        console.log(response);
-        this.userCertifications();
+      if (Array.isArray(response) && response.length > 0 ) {
+        this.candidateSocial = response; 
       }
-
+      this.userCertifications();
     })
 
   }
 
   async userCertifications(){
     await this.candidateSrv.getCandidateSkills(this.emailAddress).then(async(response)=>{
-       if(response){
+      if (Array.isArray(response) && response.length > 0 ) {
          this.certificationList=response[0];
-         this.coreSkillsLists = response[0].coreSkills;
-         this.softSkillsLists = response[0].softSkills;
-         this.userProfileComplete();
-         
-         console.log(  this.coreSkillsLists);
-         
+         this.coreSkillsLists = response[0]?.coreSkills;
+         this.softSkillsLists = response[0]?.softSkills;
        }
+       this.userProfileComplete();
      })
    }
 
    async userProfileComplete(){
     await this.candidateSrv.getProfileComplete(this.emailAddress).then(async(response)=>{
-       if(response){
+      // if (Array.isArray(response) ) {
          this.profileCompletion=response;
-         
          console.log(  this.profileCompletion);
-         
-       }
+      //  }
      })
    }
 }
