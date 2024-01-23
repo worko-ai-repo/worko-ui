@@ -2,7 +2,7 @@
 
 <div class="row">
     <div class="col-md-12">
-        <div class="row mt-2">
+        <div class="row mt-3">
             <div class="col-md-2">
                 <svg xmlns="http://www.w3.org/2000/svg" width="40" height="40" viewBox="0 0 52 52" fill="none"
                     routerLink="/employee/edashboard">
@@ -20,14 +20,16 @@
 
 </div>
 
-<div class="main-div">
+<div class="main-div mt-3">
     <div class="container">
       <div class="progress-container">
         <div class="progress" id="progress"></div>
-        <div *ngFor="let circle of circles; let i = index" class="circle" [ngClass]="{'active': i + 1 === currentStep}">
-          {{ i + 1 }}
+        <div *ngFor="let circle of circles; let i = index" class="circle" [ngClass]="{'active': i + 1 <= currentStep}">
+              {{ i + 1 }}
         </div>
+       
       </div>
     </div>
   </div>
+  
   

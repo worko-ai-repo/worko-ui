@@ -1,36 +1,45 @@
 <div class="row content-container">
-    <div class="divide-45">
-        <div class="row" style="height:100%">
-           
-        <app-personal-information 
-            [candidatePersonalDetails]="candidatePersonalDetails"
-            [candidateList]="candidateList"
-            [educationList]="educationList"
-            [candidateSocial]="candidateSocial"
-            *ngIf="currentStep === 1"
-            (onSuccess)="getCandidateListData($event)"
-        >
-        </app-personal-information>
-           
-                <app-personal-details [candidateProfessionalDetails]="candidateProfessionalDetails"
-                *ngIf="currentStep === 2" 
-                (nextStep)="nextStep()"
-                (previousStep)="previousStepFirst($event)"
+   <div class="col-md-12">
+    <div class="candidate-card">
+        <div class="row">
+           <div class="col-md-12">
+            <app-user-stepper  [currentStep]="currentStep" (nextStep)="nextStep()" (previousStep)="previousStep()"></app-user-stepper>
+           </div>
+        </div>
+        <div class="divide-45">
+            <div class="row" style="height:100%">
+               
+            <app-personal-information 
+                [candidatePersonalDetails]="candidatePersonalDetails"
                 [candidateList]="candidateList"
-                [workExperienceDetails]="workExperienceDetails"
-                [certificationList]="certificationList"
-                [achievementsList]="achievementsList"
-                (onSuccess)="getProfessionalData($event)"
-                
-                ></app-personal-details>
-           
-                <app-upload 
-                [candidateUploadDetails]="candidateUploadDetails"
-                [candidateList]="candidateList"
-                *ngIf="currentStep === 3"
-                (previousStep)="previousStepSecond($event)"
-                 (onSuccess)="onSuccess($event)">
-                </app-upload>
+                [educationList]="educationList"
+                [candidateSocial]="candidateSocial"
+                *ngIf="currentStep === 1"
+                (onSuccess)="getCandidateListData($event)"
+            >
+            </app-personal-information>
+               
+                    <app-personal-details [candidateProfessionalDetails]="candidateProfessionalDetails"
+                    *ngIf="currentStep === 2" 
+                    (nextStep)="nextStep()"
+                    (previousStep)="previousStepFirst($event)"
+                    [candidateList]="candidateList"
+                    [workExperienceDetails]="workExperienceDetails"
+                    [certificationList]="certificationList"
+                    [achievementsList]="achievementsList"
+                    (onSuccess)="getProfessionalData($event)"
+                    
+                    ></app-personal-details>
+               
+                    <app-upload 
+                    [candidateUploadDetails]="candidateUploadDetails"
+                    [candidateList]="candidateList"
+                    *ngIf="currentStep === 3"
+                    (previousStep)="previousStepSecond($event)"
+                     (onSuccess)="onSuccess($event)">
+                    </app-upload>
+            </div>
         </div>
     </div>
+   </div>
 </div>

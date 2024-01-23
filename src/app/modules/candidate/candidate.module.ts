@@ -43,6 +43,7 @@ import { AwaitingServiceComponent } from '../shared/components/user-interface/se
 import { CancelledServiceComponent } from '../shared/components/user-interface/service/cancelled-service/cancelled-service.component';
 import { DoneServiceComponent } from '../shared/components/user-interface/service/done-service/done-service.component';
 import { UserStepperComponent } from '../shared/components/user-interface/employee/employee-edit/user-stepper/user-stepper.component';
+import { SharedModule } from '../shared/shared.module';
 
 export const routes: Routes = [
 
@@ -129,11 +130,15 @@ export const routes: Routes = [
    ReferralStepperComponent,
    AwaitingServiceComponent,
    CancelledServiceComponent,
-   DoneServiceComponent
+   DoneServiceComponent,
+   
+   
+   
   ],
   imports: [
   CommonModule,
     FormsModule,
+    SharedModule,
     
     
 
@@ -147,6 +152,7 @@ export const routes: Routes = [
     ReferralStepperComponent,
     ReferralCancelledComponent,
     AllServicesComponent,
+    
     
 
   ]

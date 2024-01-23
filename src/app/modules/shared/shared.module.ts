@@ -73,7 +73,7 @@ export const routes: Routes = [
     DoneCareerGuidanceComponent,
     TotalEarningComponent,
     PackageFormComponent,
-    
+    UserStepperComponent,
     // DoneServiceComponent,
     // CancelledServiceComponent,
     // AwaitingServiceComponent,
@@ -119,6 +119,9 @@ export const routes: Routes = [
   DoneCareerGuidanceComponent,
   TotalEarningComponent,
   PackageFormComponent,
+  UserStepperComponent,
+  
+  
   
   
   ],
