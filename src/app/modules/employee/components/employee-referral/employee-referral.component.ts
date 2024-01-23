@@ -30,7 +30,7 @@ export class EmployeeReferralComponent {
 
 
   async getEmpReferral() {
-    let companySK = "01HH1S22K46FFMS7D2RNK2K2SX";
+    let companySK = "01HMR3G2QNYYM47YZ2P9ZVZBPR";
     await this.empService.getEmployeeReferral(this.emailAddress, companySK,  this.selectedStatus ).then(async (response) => {
       if (response) {
         this.empReferralList = response;
