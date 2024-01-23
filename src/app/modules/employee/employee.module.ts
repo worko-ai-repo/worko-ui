@@ -78,6 +78,7 @@ export const routes: Routes = [
     EmployeeEditDetailsComponent,
     EmployeeProfessionalDetailsComponent,
     AddBankDetailsComponent,
+    UserStepperComponent
     
     
     
