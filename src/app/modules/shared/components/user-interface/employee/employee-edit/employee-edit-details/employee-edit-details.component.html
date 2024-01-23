@@ -19,7 +19,20 @@
             </div>
 
         </div>
-
+      
+        <div class="row">
+            <div class="col-md-12">
+                <div class="container">
+                    <div class="stepper">
+                        <div class="step" *ngFor="let step of steps; let i = index" (click)="setActiveStep(i + 1)" [class.active]="i + 1 === currentStep">
+                            {{ step }}
+                      </div>
+                    </div>
+                  </div>
+            </div>
+        </div>
+        
+   
         <div class="row mt-4">
             <div class="col-md-3">
                 <img src="/assets/public/candidate-img.png" class="candidate-img float-end" alt="">

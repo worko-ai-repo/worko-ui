@@ -50,6 +50,7 @@ import { CancelledServiceComponent } from './components/user-interface/service/c
 import { DoneServiceComponent } from './components/user-interface/service/done-service/done-service.component';
 
 
+
 export const routes: Routes = [
 
   
@@ -89,6 +90,13 @@ export const routes: Routes = [
     MatStepperModule,
     FormsModule,
     ReactiveFormsModule,
+    MatStepperModule,
+    MatButtonModule,
+    MatStepperModule,
+    FormsModule,
+    ReactiveFormsModule,
+    MatFormFieldModule,
+    MatInputModule,
     
     
     
