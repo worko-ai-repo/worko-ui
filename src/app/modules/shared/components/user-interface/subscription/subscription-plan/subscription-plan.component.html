@@ -14,7 +14,7 @@
                         <div class="row  mt-3">
                             <div class="d-flex justify-content-center">
                                 <div class="col-md-6">
-                                    <h6 class="basic-text ps-2">{{subscriptionList[1].name}}</h6>
+                                    <h6 class="basic-text ps-2">{{filteredPackages[0]?.name}}</h6>
                                 </div>
                                 <div class="col-md-6 ms-3 mt-1">
                                     <button class="btn btn-chosen float-end">Chosen plan</button>
@@ -23,7 +23,7 @@
                                 
                             </div>
                             <div class="col-md-6">
-                                <h2 class="plan-rupees ps-3">{{subscriptionList[1].amount}}</h2>
+                                <h2 class="plan-rupees ps-3">{{filteredPackages[0]?.amount}}</h2>
                             </div>
                             <div class="col-md-12">
                                 <ul class="ps-3 pt-2">
@@ -31,13 +31,13 @@
                                         <svg xmlns="http://www.w3.org/2000/svg" width="18" height="22" viewBox="0 0 25 24" fill="none">
                                             <path d="M12.5398 0.479736C10.2451 0.479736 8.00188 1.1602 6.0939 2.43507C4.18591 3.70994 2.69882 5.52197 1.82068 7.64201C0.942527 9.76205 0.712763 12.0949 1.16044 14.3455C1.60812 16.5961 2.71312 18.6634 4.33573 20.286C5.95834 21.9087 8.02566 23.0137 10.2763 23.4613C12.5269 23.909 14.8597 23.6792 16.9798 22.8011C19.0998 21.923 20.9118 20.4359 22.1867 18.5279C23.4616 16.6199 24.142 14.3767 24.142 12.082C24.142 9.00489 22.9197 6.05381 20.7438 3.87796C18.568 1.70211 15.6169 0.479736 12.5398 0.479736ZM10.8823 16.7146L6.73864 12.571L8.05633 11.2533L10.8823 14.0793L17.0232 7.93834L18.3459 9.25271L10.8823 16.7146Z" fill="white"/>
                                           </svg>
-                                          <span class="ps-2 pt-1">No. of Referral: {{subscriptionList[1].referralCount}}</span>
+                                          <span class="ps-2 pt-1">No. of Referral: {{filteredPackages[0]?.referralCount}}</span>
                                     </li>
                                     <li class="plan-details">
                                         <svg xmlns="http://www.w3.org/2000/svg" width="18" height="22" viewBox="0 0 25 24" fill="none">
                                             <path d="M12.5398 0.479736C10.2451 0.479736 8.00188 1.1602 6.0939 2.43507C4.18591 3.70994 2.69882 5.52197 1.82068 7.64201C0.942527 9.76205 0.712763 12.0949 1.16044 14.3455C1.60812 16.5961 2.71312 18.6634 4.33573 20.286C5.95834 21.9087 8.02566 23.0137 10.2763 23.4613C12.5269 23.909 14.8597 23.6792 16.9798 22.8011C19.0998 21.923 20.9118 20.4359 22.1867 18.5279C23.4616 16.6199 24.142 14.3767 24.142 12.082C24.142 9.00489 22.9197 6.05381 20.7438 3.87796C18.568 1.70211 15.6169 0.479736 12.5398 0.479736ZM10.8823 16.7146L6.73864 12.571L8.05633 11.2533L10.8823 14.0793L17.0232 7.93834L18.3459 9.25271L10.8823 16.7146Z" fill="white"/>
                                           </svg>
-                                          <span class="ps-2 pt-1">Validity:  {{subscriptionList[1].duration}} days</span>
+                                          <span class="ps-2 pt-1">Validity:  {{filteredPackages[0]?.duration}} days</span>
                                     </li>
                                     <li class="plan-details">
                                         <svg xmlns="http://www.w3.org/2000/svg" width="18" height="22" viewBox="0 0 25 24" fill="none">
@@ -66,14 +66,14 @@
                         <div class="row  mt-3">
                             <div class="d-flex justify-content-center">
                                 <div class="col-md-12">
-                                    <h6 class="basic-text"> {{subscriptionList[2].name}}</h6>
+                                    <h6 class="basic-text"> {{filteredPackages[1]?.name}}</h6>
                                 </div>
                                 
 
                                 
                             </div>
                             <div class="col-md-6">
-                                <h2 class="plan-rupees ps-3">{{subscriptionList[2].amount}}</h2>
+                                <h2 class="plan-rupees ps-3">{{filteredPackages[1]?.amount}}</h2>
                             </div>
                             <div class="col-md-12">
                                 <ul class="ps-3 pt-2">
@@ -81,13 +81,13 @@
                                         <svg xmlns="http://www.w3.org/2000/svg" width="18" height="22" viewBox="0 0 25 24" fill="none">
                                             <path d="M12.5398 0.479736C10.2451 0.479736 8.00188 1.1602 6.0939 2.43507C4.18591 3.70994 2.69882 5.52197 1.82068 7.64201C0.942527 9.76205 0.712763 12.0949 1.16044 14.3455C1.60812 16.5961 2.71312 18.6634 4.33573 20.286C5.95834 21.9087 8.02566 23.0137 10.2763 23.4613C12.5269 23.909 14.8597 23.6792 16.9798 22.8011C19.0998 21.923 20.9118 20.4359 22.1867 18.5279C23.4616 16.6199 24.142 14.3767 24.142 12.082C24.142 9.00489 22.9197 6.05381 20.7438 3.87796C18.568 1.70211 15.6169 0.479736 12.5398 0.479736ZM10.8823 16.7146L6.73864 12.571L8.05633 11.2533L10.8823 14.0793L17.0232 7.93834L18.3459 9.25271L10.8823 16.7146Z" fill="white"/>
                                           </svg>
-                                          <span class="ps-2 pt-1">No. of Referral: {{subscriptionList[2].referralCount}}</span>
+                                          <span class="ps-2 pt-1">No. of Referral: {{filteredPackages[1]?.referralCount}}</span>
                                     </li>
                                     <li class="plan-details">
                                         <svg xmlns="http://www.w3.org/2000/svg" width="18" height="22" viewBox="0 0 25 24" fill="none">
                                             <path d="M12.5398 0.479736C10.2451 0.479736 8.00188 1.1602 6.0939 2.43507C4.18591 3.70994 2.69882 5.52197 1.82068 7.64201C0.942527 9.76205 0.712763 12.0949 1.16044 14.3455C1.60812 16.5961 2.71312 18.6634 4.33573 20.286C5.95834 21.9087 8.02566 23.0137 10.2763 23.4613C12.5269 23.909 14.8597 23.6792 16.9798 22.8011C19.0998 21.923 20.9118 20.4359 22.1867 18.5279C23.4616 16.6199 24.142 14.3767 24.142 12.082C24.142 9.00489 22.9197 6.05381 20.7438 3.87796C18.568 1.70211 15.6169 0.479736 12.5398 0.479736ZM10.8823 16.7146L6.73864 12.571L8.05633 11.2533L10.8823 14.0793L17.0232 7.93834L18.3459 9.25271L10.8823 16.7146Z" fill="white"/>
                                           </svg>
-                                          <span class="ps-2 pt-1">Validity: {{subscriptionList[2].duration}} days</span>
+                                          <span class="ps-2 pt-1">Validity: {{filteredPackages[1]?.duration}} days</span>
                                     </li>
                                     <li class="plan-details">
                                         <svg xmlns="http://www.w3.org/2000/svg" width="18" height="22" viewBox="0 0 25 24" fill="none">
@@ -129,14 +129,14 @@
                         <div class="row  mt-3">
                             <div class="d-flex justify-content-center">
                                 <div class="col-md-12">
-                                    <h6 class="basic-text">{{subscriptionList[3].name}}</h6>
+                                    <h6 class="basic-text">{{filteredPackages[2]?.name}}</h6>
                                 </div>
                                 
 
                                 
                             </div>
                             <div class="col-md-6">
-                                <h2 class="plan-rupees ps-3">{{subscriptionList[3].amount}}</h2>
+                                <h2 class="plan-rupees ps-3">{{filteredPackages[2]?.amount}}</h2>
                             </div>
                             <div class="col-md-12">
                                 <ul class="ps-3 pt-2">
@@ -144,13 +144,13 @@
                                         <svg xmlns="http://www.w3.org/2000/svg" width="18" height="22" viewBox="0 0 25 24" fill="none">
                                             <path d="M12.5398 0.479736C10.2451 0.479736 8.00188 1.1602 6.0939 2.43507C4.18591 3.70994 2.69882 5.52197 1.82068 7.64201C0.942527 9.76205 0.712763 12.0949 1.16044 14.3455C1.60812 16.5961 2.71312 18.6634 4.33573 20.286C5.95834 21.9087 8.02566 23.0137 10.2763 23.4613C12.5269 23.909 14.8597 23.6792 16.9798 22.8011C19.0998 21.923 20.9118 20.4359 22.1867 18.5279C23.4616 16.6199 24.142 14.3767 24.142 12.082C24.142 9.00489 22.9197 6.05381 20.7438 3.87796C18.568 1.70211 15.6169 0.479736 12.5398 0.479736ZM10.8823 16.7146L6.73864 12.571L8.05633 11.2533L10.8823 14.0793L17.0232 7.93834L18.3459 9.25271L10.8823 16.7146Z" fill="white"/>
                                           </svg>
-                                          <span class="ps-2 pt-1">No. of Referral: {{subscriptionList[3].referralCount}}</span>
+                                          <span class="ps-2 pt-1">No. of Referral: {{filteredPackages[2]?.referralCount}}</span>
                                     </li>
                                     <li class="plan-details">
                                         <svg xmlns="http://www.w3.org/2000/svg" width="18" height="22" viewBox="0 0 25 24" fill="none">
                                             <path d="M12.5398 0.479736C10.2451 0.479736 8.00188 1.1602 6.0939 2.43507C4.18591 3.70994 2.69882 5.52197 1.82068 7.64201C0.942527 9.76205 0.712763 12.0949 1.16044 14.3455C1.60812 16.5961 2.71312 18.6634 4.33573 20.286C5.95834 21.9087 8.02566 23.0137 10.2763 23.4613C12.5269 23.909 14.8597 23.6792 16.9798 22.8011C19.0998 21.923 20.9118 20.4359 22.1867 18.5279C23.4616 16.6199 24.142 14.3767 24.142 12.082C24.142 9.00489 22.9197 6.05381 20.7438 3.87796C18.568 1.70211 15.6169 0.479736 12.5398 0.479736ZM10.8823 16.7146L6.73864 12.571L8.05633 11.2533L10.8823 14.0793L17.0232 7.93834L18.3459 9.25271L10.8823 16.7146Z" fill="white"/>
                                           </svg>
-                                          <span class="ps-2 pt-1">Validity: {{subscriptionList[3].duration}} days</span>
+                                          <span class="ps-2 pt-1">Validity: {{filteredPackages[2]?.duration}} days</span>
                                     </li>
                                     <li class="plan-details">
                                         <svg xmlns="http://www.w3.org/2000/svg" width="18" height="22" viewBox="0 0 25 24" fill="none">
