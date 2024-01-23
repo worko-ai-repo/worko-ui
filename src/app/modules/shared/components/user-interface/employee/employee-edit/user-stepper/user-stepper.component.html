@@ -21,15 +21,13 @@
 </div>
 
 <div class="main-div">
-               
     <div class="container">
-        <div class="progress-container">
-          <div class="progress" id="progress"></div>
-          <div *ngFor="let circle of circles; let i = index" class="circle" [ngClass]="{'active': i < currentValue}">{{ i + 1 }}</div>
+      <div class="progress-container">
+        <div class="progress" id="progress"></div>
+        <div *ngFor="let circle of circles; let i = index" class="circle" [ngClass]="{'active': i + 1 === currentStep}">
+          {{ i + 1 }}
         </div>
-        <button class="btn" id="btnPrev" [disabled]="currentValue <= 1" (click)="prev()">Prev</button>
-        <button class="btn" id="btnNext" [disabled]="currentValue === circles.length" (click)="next()">Next</button>
       </div>
-      
-      
-</div>
+    </div>
+  </div>
+  

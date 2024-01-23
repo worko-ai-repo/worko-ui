@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 
 @Component({
   selector: 'app-user-stepper',
@@ -6,6 +6,9 @@ import { Component, OnInit } from '@angular/core';
   styleUrls: ['./user-stepper.component.scss']
 })
 export class UserStepperComponent implements OnInit {
+  @Input() currentStep!: number;
+  @Output() nextStep = new EventEmitter<void>();
+  @Output() previousStep = new EventEmitter<void>();
 
   // currentValue = 0;
   // circles = Array.from({ length: 3 }); // Adjust the length based on the number of circles

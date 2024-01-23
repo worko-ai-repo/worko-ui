@@ -13,7 +13,7 @@ import { MatStepperModule } from '@angular/material/stepper';
   
 })
 export class EmployeeEditDetailsComponent {
-   
+  
   @Output() nextStep = new EventEmitter<void>();
   
   fileToUpload: File | null = null;

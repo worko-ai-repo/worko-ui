@@ -1,17 +1,15 @@
 <div class="row">
     <div class="col-md-12">
-    <div class="candidate-card">
+      <div class="candidate-card">
         <div class="col-md-12">
-            <app-user-stepper></app-user-stepper>
+          <app-user-stepper [currentStep]="currentStep" (nextStep)="nextStep()" (previousStep)="previousStep()"></app-user-stepper>
         </div>
         <div class="col-md-12">
-            <app-employee-edit-details  *ngIf="currentStep === 1" (nextStep)="nextStep()"></app-employee-edit-details>
-            <app-employee-professional-details *ngIf="currentStep === 2" 
-            (nextStep)="nextStep()" (previousStep)="previousStep()" ></app-employee-professional-details>
-            <app-add-bank-details *ngIf="currentStep === 3" (previousStep)="previousStep()"></app-add-bank-details>
+          <app-employee-edit-details *ngIf="currentStep === 1" (nextStep)="nextStep()"></app-employee-edit-details>
+          <app-employee-professional-details *ngIf="currentStep === 2" (nextStep)="nextStep()" (previousStep)="previousStep()"></app-employee-professional-details>
+          <app-add-bank-details *ngIf="currentStep === 3" (previousStep)="previousStep()"></app-add-bank-details>
         </div>
+      </div>
     </div>
-</div>
-    
-   
-</div>
+  </div>
+  
