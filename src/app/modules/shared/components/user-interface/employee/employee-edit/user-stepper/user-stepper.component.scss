@@ -9,7 +9,7 @@
     flex-direction: column;
     justify-content: center;
     align-items: center;
-    height: 20vh;
+    height: 17vh;
   }
   
   .container {
@@ -32,12 +32,12 @@
   
   .progress-container:before {
     content: "";
-    width: 100%;
-    background-color: #36D0FF; /* Step line color */
-    height: 2px;
-    position: absolute;
-    z-index: -1;
-    border-radius: 2.5px; /* To make it look like dotted */
+  width: 100%;
+  background-color: #36d0ff; /* Change color to your desired color */
+  height: 2px;
+  position: absolute;
+  z-index: -1;
+  transition: height 0.4s ease-in-out; /* Updated transition property */
   }
   
   .progress {
@@ -89,10 +89,30 @@
     color: #fff;
     cursor: pointer;
   }
+  // .active {
+  //   border-color: #36d0ff; /* Change color to your desired color */
+  //   transition: 0.6s ease-in;
+  // }
+  .active {
+    border-color: #36d0ff; /* Change color to your desired color */
+    transition: border-width 0.4s ease-in-out; /* Updated transition property */
+    border-width: 5px; /* Initial border width */
+  }
   
   .btn:disabled {
     background: #f1f1f1;
     color: #000;
     cursor: not-allowed;
   }
+
+
+
+  .step-text {
+    font-size: 12px;
+    margin-top: 50px;
+    color: #666; /* Adjust the color as needed */
+    text-align: center;
+  }
   
+  
+ 

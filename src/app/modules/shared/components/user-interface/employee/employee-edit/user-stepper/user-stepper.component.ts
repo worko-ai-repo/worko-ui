@@ -9,15 +9,29 @@ export class UserStepperComponent implements OnInit {
   @Input() currentStep!: number;
   @Output() nextStep = new EventEmitter<void>();
   @Output() previousStep = new EventEmitter<void>();
+  currentValue = 1;
+  circles = Array.from({ length: 3 });
 
   // currentValue = 0;
   // circles = Array.from({ length: 3 }); // Adjust the length based on the number of circles
   ngOnInit() {
      // Automatically click "Next" on component initialization to move to the first step
   }
-  
-    currentValue = 1;
-    circles = Array.from({ length: 3 });
+
+  // Inside your component class
+getStepText(step: number): string {
+  switch (step) {
+    case 1:
+      return "Personal Information";
+    case 2:
+      return "Professional Details";
+    case 3:
+      return "Add Bank Details";
+    default:
+      return "";
+  }
+}
+
   
     next() {
       this.currentValue++;

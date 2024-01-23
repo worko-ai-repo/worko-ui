@@ -11,6 +11,7 @@ import { Router } from '@angular/router';
   styleUrls: ['./edit-profile.component.scss']
 })
 export class EditProfileComponent implements OnInit {
+ 
   candidateList: any;
   educationList: any = "";
   emailAddress: string = "";
@@ -35,6 +36,7 @@ export class EditProfileComponent implements OnInit {
   uploadedCvName: string = "";
   userId: string | undefined;
   uploadedProfilePicName: string = "";
+
 
   constructor(private router: Router, private candidateSrv: CandidateProfileService, private storage: StorageService, private authService: AuthService) { }
   ngOnInit(): void {
