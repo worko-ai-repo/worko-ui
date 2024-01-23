@@ -1,4 +1,4 @@
-import { Component, EventEmitter, Output } from '@angular/core';
+import { Component, ElementRef, EventEmitter, Output, Renderer2 } from '@angular/core';
 import { FormBuilder, FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { MatButtonModule } from '@angular/material/button';
 import { MatFormFieldModule } from '@angular/material/form-field';
@@ -13,13 +13,13 @@ import { MatStepperModule } from '@angular/material/stepper';
   
 })
 export class EmployeeEditDetailsComponent {
- 
+   
   @Output() nextStep = new EventEmitter<void>();
   
   fileToUpload: File | null = null;
   fileName: string = "";
   fileType: string = "";
-  constructor(private _formBuilder: FormBuilder) {}
+  constructor(private _formBuilder: FormBuilder, private renderer: Renderer2, private el: ElementRef) {}
 
 
   handleFileInput(event: Event): void {
@@ -29,17 +29,28 @@ export class EmployeeEditDetailsComponent {
   onNextClick() {
     this.nextStep.emit();
   }
-  steps = ['Step 1', 'Step 2', 'Step 3'];
-  currentStep = 1;
+  
 
   ngOnInit() {
     // Set the first step as active
-    this.setActiveStep(this.currentStep);
+    // this.setActiveStep(this.currentStep);
+   
   }
+    }
+  
+  
+  
+
+ 
+
+  // stepper.component.ts
+
+
+ 
 
   
 
-  setActiveStep(stepIndex: number) {
-    this.currentStep = stepIndex;
-  }
-}
+  
+  
+
+

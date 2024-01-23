@@ -48,6 +48,7 @@ import { AddBankDetailsComponent } from './components/user-interface/employee/em
 import { AwaitingServiceComponent } from './components/user-interface/service/awaiting-service/awaiting-service.component';
 import { CancelledServiceComponent } from './components/user-interface/service/cancelled-service/cancelled-service.component';
 import { DoneServiceComponent } from './components/user-interface/service/done-service/done-service.component';
+import { UserStepperComponent } from './components/user-interface/employee/employee-edit/user-stepper/user-stepper.component';
 
 
 
@@ -72,6 +73,7 @@ export const routes: Routes = [
     DoneCareerGuidanceComponent,
     TotalEarningComponent,
     PackageFormComponent,
+    UserStepperComponent,
     // DoneServiceComponent,
     // CancelledServiceComponent,
     // AwaitingServiceComponent,
@@ -117,6 +119,7 @@ export const routes: Routes = [
   DoneCareerGuidanceComponent,
   TotalEarningComponent,
   PackageFormComponent,
+  UserStepperComponent,
   ],
 
 })

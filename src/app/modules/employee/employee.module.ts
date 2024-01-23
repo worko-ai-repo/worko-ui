@@ -22,6 +22,7 @@ import { EmployeeDetailsComponent } from '../shared/components/user-interface/em
 import { EmployeeEditDetailsComponent } from '../shared/components/user-interface/employee/employee-edit/employee-edit-details/employee-edit-details.component';
 import { EmployeeProfessionalDetailsComponent } from '../shared/components/user-interface/employee/employee-edit/employee-professional-details/employee-professional-details.component';
 import { AddBankDetailsComponent } from '../shared/components/user-interface/employee/employee-edit/add-bank-details/add-bank-details.component';
+import { UserStepperComponent } from '../shared/components/user-interface/employee/employee-edit/user-stepper/user-stepper.component';
 
 
 export const routes: Routes = [
@@ -77,6 +78,8 @@ export const routes: Routes = [
     EmployeeEditDetailsComponent,
     EmployeeProfessionalDetailsComponent,
     AddBankDetailsComponent,
+    
+    
     
     
   ],
