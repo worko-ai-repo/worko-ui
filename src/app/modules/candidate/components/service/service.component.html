@@ -6,12 +6,12 @@
         <div class="row" style="height:100%">
             <app-referral-stepper [selectedReferral]="selectedService"  *ngIf="servicesList.length"></app-referral-stepper>
             <div class="status-container">
-                <app-awaiting-service  *ngIf="selectedStatus === 'AWAITING' && servicesList.length" [selectedService]="selectedService" (markAsDone)="referralMarkAsDone($event)"></app-awaiting-service>
-                <app-payment-due  *ngIf="selectedStatus === 'PAYMENT_DUE' && servicesList.length" [selectedService]="selectedService"></app-payment-due>
-                <app-accepted  *ngIf="selectedStatus === 'ACCEPTED' && servicesList.length" [selectedService]="selectedService" (markAsDone)="referralMarkAsDone($event)"></app-accepted>
-                <app-service-rejected  *ngIf="selectedStatus === 'REJECTED' && servicesList.length" [selectedService]="selectedService"></app-service-rejected>
-                <app-cancelled-service  *ngIf="selectedStatus === 'CANCELLED' && servicesList.length" [selectedService]="selectedService"></app-cancelled-service>
-                <app-done-service  *ngIf="selectedStatus === 'DONE' && servicesList.length" [selectedService]="selectedService"></app-done-service>
+                <app-awaiting-service  *ngIf="selectedStatus === 'AWAITING' " [selectedService]="selectedService" (markAsDone)="referralMarkAsDone($event)"></app-awaiting-service>
+                <app-payment-due  *ngIf="selectedStatus === 'PAYMENT_DUE'" [selectedService]="selectedService"></app-payment-due>
+                <app-accepted  *ngIf="selectedStatus === 'ACCEPTED'" [selectedService]="selectedService" (markAsDone)="referralMarkAsDone($event)"></app-accepted>
+                <app-service-rejected  *ngIf="selectedStatus === 'REJECTED'" [selectedService]="selectedService"></app-service-rejected>
+                <app-cancelled-service  *ngIf="selectedStatus === 'CANCELLED'" [selectedService]="selectedService"></app-cancelled-service>
+                <app-done-service  *ngIf="selectedStatus === 'DONE'" [selectedService]="selectedService"></app-done-service>
             </div>
         </div>
     </div>
