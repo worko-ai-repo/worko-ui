@@ -20,16 +20,24 @@
 
 </div>
 
-<div class="main-div mt-3">
-    <div class="container">
-      <div class="progress-container">
-        <div class="progress" id="progress"></div>
-        <div *ngFor="let circle of circles; let i = index" class="circle" [ngClass]="{'active': i + 1 <= currentStep}">
-              {{ i + 1 }}
+
+<div class="main-div mt-2 mb-0 pb-0">
+    <div class="container mb-0 pb-0">
+        <div class="progress-container">
+            <div class="progress" [style.width]="((currentStep - 1) / (circles.length - 1)) * 100 + '%'"></div>
+            <div *ngFor="let circle of circles; let i = index" class="circle" [ngClass]="{'active': i + 1 <= currentStep}">
+                {{ i + 1 }}
+            </div>
         </div>
-       
-      </div>
+        <div class=" row step-names mt-0 pt-0">
+            <!-- <div class=" col-md-4 step-names">
+                <div *ngFor="let circle of circles; let i = index" class="step-name" [ngClass]="{'active': i + 1 === currentStep }">
+                    {{ getStepName(i + 1) }}
+                </div>
+            </div> -->
+            
+          </div>
     </div>
-  </div>
-  
+</div>
+
   
