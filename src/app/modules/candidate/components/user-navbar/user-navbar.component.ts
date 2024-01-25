@@ -1,5 +1,6 @@
 import { Component, Input, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
+import { NavbarToggleSwitchService } from '../../services/navbar-toggle-switch.service';
 
 @Component({
   selector: 'app-user-navbar',
@@ -10,7 +11,11 @@ export class UserNavbarComponent implements OnInit{
   @Input() userType: string = "";
   userRole: any;
   activeRoute: string = '';
-  constructor( private router : Router){}
+  navbarToggleSwitchService: NavbarToggleSwitchService;
+  constructor( private router : Router, navbarToggleSwitchService : NavbarToggleSwitchService,){
+
+    this.navbarToggleSwitchService = navbarToggleSwitchService;
+  }
 
   ngOnInit(): void {
     this.activeRoute = this.router.url;
@@ -35,4 +40,15 @@ export class UserNavbarComponent implements OnInit{
       ]
     }
   }
+  toggleDashboard() {
+    this.navbarToggleSwitchService.toggleDashboard();
+
+    if (this.navbarToggleSwitchService.getIsEmployeeDashboard()) {
+      this.router.navigate(['/employee/edashboard']);
+    } else {
+      this.router.navigate(['/candidate/cdashboard']);
+    }
+  
+}
+
 }
