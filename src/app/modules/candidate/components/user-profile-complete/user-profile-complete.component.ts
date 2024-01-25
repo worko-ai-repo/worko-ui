@@ -102,7 +102,7 @@ export class UserProfileCompleteComponent implements OnInit {
         plugins: {
           legend: {
             display: false,
-            // position: 'right', or 'left'
+            // position: 'center'
 
           },
           
@@ -116,7 +116,7 @@ export class UserProfileCompleteComponent implements OnInit {
         circumference: 360, // Angle in degrees to control the arc's size
         rotation: -0.5 * Math.PI, // Angle in degrees to rotate the doughnut
         spacing: 3, // S
-        radius: 60
+        radius: 100
       },
       
     });

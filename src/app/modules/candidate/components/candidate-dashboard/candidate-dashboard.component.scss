@@ -8,6 +8,18 @@
     flex-direction: row;
   }
 
+
+.container-top {
+  height: calc(42vh - 35px);
+    display: flex;
+    flex-direction: row;
+  }
+
+  .container-bottom {
+    height: calc(58vh - 35px);
+      display: flex;
+      flex-direction: row;
+    }
   .divide-60 {
      flex:2;
     // padding: 10px;
