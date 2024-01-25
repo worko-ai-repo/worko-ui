@@ -6,6 +6,18 @@ import { AuthService } from '../../services/auth.service';
 import { StorageService } from 'src/app/modules/app-core/services/storage.service';
 // import { getCurrentUser, fetchAuthSession  } from 'aws-amplify/auth';
 import { getCurrentUser, fetchAuthSession } from 'aws-amplify/auth';
+// import { map, startWith } from 'rxjs/operators';
+// import { NgFor, AsyncPipe } from '@angular/common';
+// import { MatAutocompleteModule, MatAutocompleteTrigger } from '@angular/material/autocomplete';
+// import { MatInputModule } from '@angular/material/input';
+// import { MatFormFieldModule } from '@angular/material/form-field';
+import { FormControl, FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { Observable } from 'rxjs';
+// import { delay } from 'rxjs/operators';
+// import { of } from 'rxjs';
+import { debounceTime, distinctUntilChanged, switchMap } from 'rxjs/operators';
+import { Subscription } from 'rxjs';
+import { ChangeDetectorRef } from '@angular/core';
 @Component({
   selector: 'app-login-page',
   templateUrl: './login-page.component.html',
@@ -15,8 +27,13 @@ import { getCurrentUser, fetchAuthSession } from 'aws-amplify/auth';
 export class LoginPageComponent {
   @Output() userTypeSelected = new EventEmitter<string>();
   @Output() onSuccess: EventEmitter<void> = new EventEmitter<void>();
+  // @ViewChild('autocompleteInput') autocompleteInput: any; 
+  // @ViewChild('autoCompleteInput', { static: false, read: MatAutocompleteTrigger }) trigger!: MatAutocompleteTrigger;
+  myControl = new FormControl<any>('');
+  filteredOptions!: Observable<any[]>;
+  allOptions: any[] = [];
 
-  selectedUserType: string = 'candidate'; // Default to 'employee'
+  selectedUserType: string = 'candidate'; // Default to 'candidate'
   showSignInRow: boolean = true;
   isCandidateEmailVerified: boolean = false;
   isEmployeeEmailVerified: boolean = false;
@@ -57,7 +74,8 @@ export class LoginPageComponent {
     designation: '',
     confirmPassword: '',
     password: '',
-    designationTag: ''
+    designationTag: '',
+    companySK:""
 
   }
   fileString: string = "";
@@ -99,13 +117,78 @@ export class LoginPageComponent {
       value: "25"
     },
   ]
-
+  selectedCompany: any; // Update the type based on your data structure
   userId: string = "";
   fileName: string = "";
   fileType: string = "";
   uploadedCvName: string = "";
-  constructor(private storage: StorageService, private amplify: CognitoService, private router: Router, private authService: AuthService) { }
+  companyName: string = "";
+  companySK: string="";
+  subscription: Subscription = new Subscription();
+  constructor(private cdr: ChangeDetectorRef,private storage: StorageService, private amplify: CognitoService, private router: Router, private authService: AuthService) {
 
+
+  
+ 
+  }
+
+  
+
+  onOptionSelected(event: any): void {
+    this.selectedCompany = event.option.value;
+  }
+  // onInputChange(): void {
+  //   // Check if the input value matches any of the options
+  //   const inputValue = this.autocompleteInput.nativeElement.value;
+  //   const matchingOption = this.allOptions.find((option:any) => option.name === inputValue);
+
+  //   if (!matchingOption) {
+  //     // Clear the input value if no matching option is found
+  //     this.autocompleteInput.nativeElement.value = '';
+  //   }
+  // }
+
+  // ngAfterViewInit(): void {
+  //   this.trigger.panelClosingActions
+  //     .pipe(
+  //       switchMap(() => this.filteredOptions),
+  //       filter((filteredOptions: any) => !filteredOptions.some((option: any) => option.name === this.selectedCompany.name))
+  //     )
+  //     .subscribe(() => {
+  //       debugger;
+  //       this.myControl.setValue(null);
+  //     });
+  // }
+  
+ 
+  ngOnInit() {
+    this.filteredOptions = this.myControl.valueChanges.pipe(
+      debounceTime(300),
+      distinctUntilChanged(),
+      switchMap((value: any) => {
+        if (value && value.length >= 1) {
+          return this.authService.getCompanyName(value);
+        } else {
+          // If value.length is less than 1, return an empty array or null
+          return [];
+        }
+      })
+    
+    );
+  
+}
+
+
+
+  displayFn(option: any): string {
+    if (option) {
+      this.companyName = option.name;
+      this.companySK = option.SK;
+      return option.name;
+    } else {
+      return '';
+    }
+  }
 
 
   selectUserType(userType: string) {
@@ -192,7 +275,8 @@ export class LoginPageComponent {
           designation: this.employeeForm.designation,
           department: this.employeeForm.department,
           companyEmailId: this.employeeForm.companyEmailID,
-          companyName: this.employeeForm.companyName,
+          companyName: this.selectedCompany.name,
+          companySK: this.selectedCompany.SK,
           userId: response.userId,
           designationTag: Number(this.employeeForm.designationTag)
         }
@@ -303,7 +387,7 @@ export class LoginPageComponent {
             debugger;
             if (error && error.error.message) {
               // this.errorMessage = error.error.message;
-              this.setErrorMessage('File Link error linkResumewithUser:- '+ error.error.message);
+              this.setErrorMessage('File Link error linkResumewithUser:- ' + error.error.message);
             }
             console.error('File Link error linkResumewithUser:', error);
           }

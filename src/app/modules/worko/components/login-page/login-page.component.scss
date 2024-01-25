@@ -51,7 +51,7 @@ input, select {
   background-color: transparent;
 }
 .select__group .material-select__group{
-    padding: 5px 0px 3px 22px;
+     padding: 5px 0px -1px 22px !important;
 }
 option{
   color: #FFF;
@@ -446,3 +446,64 @@ a{
 input.ng-invalid {
 border-bottom:  1px solid red
 }
+::ng-deep .cdk-overlay-container {
+  position: fixed;
+  z-index: 1099;
+}
+
+::ng-deep .cdk-overlay-container, ::ng-deep .cdk-overlay-pane { z-index: 9999 !important; }
+
+::ng-deep .mat-select-panel{
+  background: red !important;
+} 
+
+.topunit.mat-select-panel
+{
+  background-color: red;
+
+}
+
+.mat-select {
+  width:200px !important;
+}
+
+.mat-option {
+  background-color: black;
+ 
+}
+
+.mat-select-panel,
+.mat-select-panel,
+.mat-select-panel,
+.mat-select-panel-done-animating {
+  min-width: 0 !important;
+}
+
+//Add below
+::ng-deep .cdk-overlay-pane
+{
+  min-width: auto !important;
+}
+
+::ng-deep .cdk-overlay-container
+{
+  display:inline-block;
+}
+
+// ::ng-deep .ng-animating .mat-option {
+//   margin-right: -32px;
+// }
+// ::ng-deep .mat-select-arrow {
+//   color: white;  // Set the color to white or your desired color
+// }
+
+// ::ng-deep .mat-mdc-select-arrow {
+//   width: 0;
+//   height: 0;
+//   border-left: 5px solid transparent;
+//   border-right: 5px solid transparent;
+//   border-top: 5px solid;
+//   margin: 0 4px;
+//   // color:#FFF;
+//   // background-color:#FFF;
+// }

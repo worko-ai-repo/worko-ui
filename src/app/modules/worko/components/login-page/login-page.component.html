@@ -212,16 +212,26 @@
                               </div>
                             </div>
 
+                           
                             <div class="col-md-6">
                               <div class="material-input__group">
                                 <i class="fa-regular fa-building" style="color: #eff1f5; font-size: 12px;"></i>
-                                <input type="text" placeholder="Company name "
+                                <!-- <input type="text" placeholder="Company name "
                                   class="text-white material-input__group__input" #companyName="ngModel"
-                                  [(ngModel)]="employeeForm.companyName" name="companyName" id="companyName" />
+                                  [(ngModel)]="employeeForm.companyName" name="companyName" id="companyName" /> -->
+                                  <!-- <mat-form-field> -->
+                                    <input matInput   #autoCompleteInput="matAutocompleteTrigger"  class="text-white material-input__group__input" [formControl]="myControl" [matAutocomplete]="auto" placeholder="Select Company Name" />
+                                    <mat-autocomplete #auto="matAutocomplete" [displayWith]="displayFn" (optionSelected)="onOptionSelected($event)">
+                                      <mat-option *ngFor="let option of filteredOptions | async" [value]="option">
+                                        {{ option.name }}
+                                      </mat-option>
+                                    </mat-autocomplete>
+                                  <!-- </mat-form-field> -->
+                                 
 
+                               
                               </div>
                             </div>
-
 
                             <div class="col-md-6">
                               <div class="material-input__group">
@@ -233,13 +243,13 @@
                                   pattern="^(?!.*@(gmail\.com|outlook\.com|aol\.com|yahoo\.com|icloud\.com|protonmail\.com|zoho\.com|yandex\.com|gmx\.com|hubspot\.com|mail\.com|tutanota\.com|10minutemail\.com)$)[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$" />
                               </div>
                             </div>
-
+                            <!-- pattern="^https:\/\/www\.linkedin\.com\/(?:\w+\/)?(?:in\/)?([a-zA-Z0-9-]+)\/?$" -->
                             <div class="col-md-6">
                               <div class="material-input__group">
                                 <i class="fa-brands fa-linkedin" style="color: #f6f7f9; font-size: 12px"></i>
                                 <input type="text" placeholder="LinkdIn Profile"
                                   class="text-white material-input__group__input" #linkdinProfile="ngModel"
-                                  pattern="^https:\/\/www\.linkedin\.com\/(?:\w+\/)?(?:in\/)?([a-zA-Z0-9-]+)\/?$"
+                                
                                   [title]="linkdinProfile.errors?.['pattern'] ? 'Linkedin URL is invalid' : ''"
                                   [(ngModel)]="employeeForm.linkdinProfile" name="linkdinProfile" id="linkdinProfile" />
                               </div>
@@ -269,7 +279,7 @@
                             <div class="col-md-6">
                               <div class="material-input__group select__group">
                                 <i class="fa-regular fa-file" style="color: #f0f2f4; font-size: 12px;"></i>
-                                <select name="designationTag" id="designationTag" #designationTag="ngModel"
+                                <!-- <select name="designationTag" id="designationTag" #designationTag="ngModel"
                                   class="text-white material-input__group__input material-select__group"
                                   [(ngModel)]="employeeForm.designationTag" [class.invalid]="
                                       (employee.submitted || designationTag.touched) &&
@@ -279,7 +289,21 @@
                                   <option *ngFor="let item of designationTagList" value="{{ item.value }}">
                                     {{ item.name }}
                                   </option>
-                                </select>
+                                </select> -->
+
+                                <!-- <mat-form-field> -->
+                                  <!-- <mat-label>Favorite food</mat-label> -->
+                                  <mat-select  panelClass="topunit"  placeholder="Select Designation Tag"  name="designationTag" id="designationTag" #designationTag="ngModel"
+                                  class="text-white material-input__group__input material-select__group"
+                                  [(ngModel)]="employeeForm.designationTag" [class.invalid]="
+                                      (employee.submitted || designationTag.touched) &&
+                                      designationTag.invalid
+                                    ">
+                                    <mat-option *ngFor="let item of designationTagList" [value]="item.value">
+                                      {{item.name}}
+                                    </mat-option>
+                                  </mat-select>
+                                <!-- </mat-form-field> -->
                               </div>
                             </div>
 
@@ -322,9 +346,10 @@
                                   id="confirmPassword" />
                               </div>
                             </div>
+                         
                             <div class="col-md-12 mt-4 ms-2 d-flex justify-content-center">
                               <button class="btn btn-signUp" type="submit"
-                                [disabled]="(!employee.form.valid || !employeeForm.name || !employeeForm.designationTag || !employeeForm.emailId || !employeeForm.companyName  || !employeeForm.phoneNumber || !employeeForm.companyEmailID || !employeeForm.linkdinProfile || !employeeForm.experience || !employeeForm.department  || !employeeForm.designation  || !employeeForm.confirmPassword || !(employeeForm.password === employeeForm.confirmPassword) )">SIGN
+                                [disabled]="(!employee.form.valid || !employeeForm.name || !employeeForm.designationTag || !employeeForm.emailId || !selectedCompany.name   || !selectedCompany.SK  || !employeeForm.phoneNumber || !employeeForm.companyEmailID || !employeeForm.linkdinProfile || !employeeForm.experience || !employeeForm.department  || !employeeForm.designation  || !employeeForm.confirmPassword || !(employeeForm.password === employeeForm.confirmPassword) )">SIGN
                                 UP</button>
                             </div>
 

@@ -43,7 +43,8 @@ import { MatListModule } from '@angular/material/list';
 import { MatNativeDateModule } from '@angular/material/core';
 import {MatDatepickerModule} from '@angular/material/datepicker';
 import {MatIconModule} from '@angular/material/icon';
-
+import { MatAutocompleteModule } from '@angular/material/autocomplete';
+// import { MatInputModule } from '@angular/material/input';
 export const routes: Routes = [
   {
     path: '',
@@ -190,6 +191,7 @@ export const routes: Routes = [
     MatNativeDateModule,
     MatInputModule,
     MatIconModule,
+    MatAutocompleteModule
 
   ]
 })
