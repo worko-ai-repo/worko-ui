@@ -8,9 +8,11 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { HttpClientModule } from '@angular/common/http';
 import { MatTooltipModule } from '@angular/material/tooltip';
+import { NavbarToggleSwitchService } from './modules/candidate/services/navbar-toggle-switch.service';
 
 
 @NgModule({
+  providers: [NavbarToggleSwitchService],
   declarations: [
     AppComponent
   ],
@@ -27,7 +29,7 @@ import { MatTooltipModule } from '@angular/material/tooltip';
 
     
   ],
-  providers: [],
+  
   bootstrap: [AppComponent]
 })
 export class AppModule { }

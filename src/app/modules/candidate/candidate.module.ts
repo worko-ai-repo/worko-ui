@@ -44,6 +44,7 @@ import { CancelledServiceComponent } from '../shared/components/user-interface/s
 import { DoneServiceComponent } from '../shared/components/user-interface/service/done-service/done-service.component';
 import { UserStepperComponent } from '../shared/components/user-interface/employee/employee-edit/user-stepper/user-stepper.component';
 import { SharedModule } from '../shared/shared.module';
+import { NavbarToggleSwitchService } from './services/navbar-toggle-switch.service';
 
 export const routes: Routes = [
 
@@ -93,6 +94,7 @@ export const routes: Routes = [
 ]
 
 @NgModule({
+  
   declarations: [
    CandidateDashboardComponent,
   CandidateComponent,
@@ -152,6 +154,7 @@ export const routes: Routes = [
     ReferralStepperComponent,
     ReferralCancelledComponent,
     AllServicesComponent,
+    
     
     
 

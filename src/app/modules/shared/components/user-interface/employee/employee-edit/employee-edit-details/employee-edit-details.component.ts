@@ -1,4 +1,4 @@
-import { Component, ElementRef, EventEmitter, Output, Renderer2 } from '@angular/core';
+import { Component, ElementRef, EventEmitter, Input, Output, Renderer2 } from '@angular/core';
 import { FormBuilder, FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { MatButtonModule } from '@angular/material/button';
 import { MatFormFieldModule } from '@angular/material/form-field';
@@ -13,7 +13,7 @@ import { MatStepperModule } from '@angular/material/stepper';
   
 })
 export class EmployeeEditDetailsComponent {
-  
+  @Input() employeeList:any;
   @Output() nextStep = new EventEmitter<void>();
   
   fileToUpload: File | null = null;
@@ -21,6 +21,23 @@ export class EmployeeEditDetailsComponent {
   fileType: string = "";
   constructor(private _formBuilder: FormBuilder, private renderer: Renderer2, private el: ElementRef) {}
 
+
+
+  @Input() employeeDetails:any = {
+    name: "",
+    email: "",
+    phoneNo: "",
+    about: "",
+    socialLinkGithub: "",
+    socialLinklinkdin: "",
+    socialLinktwitter: "",
+    socialSk: "",
+    socialPk: "",
+    fileName: "",
+    fileToUpload: "",
+    fileType: ""
+
+  };
 
   handleFileInput(event: Event): void {
     const inputElement = event.target as HTMLInputElement;
