@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { environment } from '../../../../environment/environment';
-import { Observable } from 'rxjs';
+import { Observable, catchError } from 'rxjs';
 import { candidateInfo, employeeInfo } from '../interfaces/auth.interface';
 import { CognitoService } from '../../services/cognito.service';
 const API_URL = environment.apiUrl;
@@ -64,6 +64,16 @@ export class AuthService {
     return this.http.get(API_URL + `user/${emailId}/profile`, this.getHttpOptions())
       .toPromise()
       .then(response => response as ArrayBuffer);
+  }
+
+  getCompanyName(value: any): Observable<any> {
+    return this.http.get(API_URL + `company/${value}`, this.getHttpOptions())
+      .pipe(
+        catchError(error => {
+          console.error('Error:', error);
+          throw error;
+        })
+      );
   }
 
 
