@@ -23,6 +23,7 @@ import { EmployeeEditDetailsComponent } from '../shared/components/user-interfac
 import { EmployeeProfessionalDetailsComponent } from '../shared/components/user-interface/employee/employee-edit/employee-professional-details/employee-professional-details.component';
 import { AddBankDetailsComponent } from '../shared/components/user-interface/employee/employee-edit/add-bank-details/add-bank-details.component';
 import { UserStepperComponent } from '../shared/components/user-interface/employee/employee-edit/user-stepper/user-stepper.component';
+import { FormsModule } from '@angular/forms';
 
 
 export const routes: Routes = [
@@ -89,6 +90,7 @@ export const routes: Routes = [
     CommonModule,
     CandidateModule,
     SharedModule,
+    FormsModule,
     
     
     RouterModule.forChild(routes),

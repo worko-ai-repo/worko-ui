@@ -81,25 +81,45 @@
                 </div>
             </div>
 
-            <div class="row pt-3">
-                <div class="col-md-6">
-                    <h5 class="input-logo">Designation: {{workExperienceDetails?.designation}}</h5>
+            <div class="row pt-2">
+           
+                <div class="col-md-6" style="border-right: 1px dotted white;">
+                    <div class="">
+                        <span class="input-logo">Designation :</span>
+                        <span class="input-logo float-right pt-1">{{workExperienceDetails?.designation}}</span>     
+                    </div>
+
+                    <div class="">
+                        <span class="input-logo">CTC :</span>
+                        <span class="input-logo float-right pt-1">{{candidateDetails.CTC}} LAKH</span>     
+                    </div>
+                    <div class="">
+                        <span class="input-logo">ECTC :</span>
+                        <span class="input-logo float-right pt-1">{{candidateDetails.ECTC}} LAKH</span>     
+                    </div>
+    
                 </div>
+
                 <div class="col-md-6">
-                    <h5 class="input-logo">Department: {{workExperienceDetails?.department}}</h5>
+                    <div class="">
+                        <span class="input-logo">Department :</span>
+                        <span class="input-logo float-right pt-1">{{workExperienceDetails?.department}}</span>     
+                    </div>    
+                    <div class="">
+                        <span class="input-logo">Notice Period :</span>
+                        <span class="input-logo float-right pt-1">{{candidateDetails.noticePeriod}} Days</span>     
+                    </div>
+                    <div class="">
+                        <span class="input-logo">Location :</span>
+                        <span class="input-logo float-right pt-1">{{candidateDetails.location}}</span>     
+                    </div>
                 </div>
-                <div class="col-md-6">
-                    <h5 class="input-logo ">CTC: {{candidateDetails.CTC}} LAKH</h5>
-                </div>
-                <div class="col-md-6">
-                    <h5 class="input-logo">ECTC: {{candidateDetails.ECTC}} LAKH</h5>
-                </div>
-                <div class="col-md-6">
-                    <h5 class="input-logo ">Notice Period: {{candidateDetails.noticePeriod}} Days</h5>
-                </div>
-                <div class="col-md-6">
-                    <h5 class="input-logo">Location: {{candidateDetails.location}}</h5>
-                </div>
+            
+                
+
+                
+
+                
             </div>
         </div>
     </div>

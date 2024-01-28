@@ -31,6 +31,7 @@ export class EmployeeEditDetailsComponent {
     socialLinkGithub: "",
     socialLinklinkdin: "",
     socialLinktwitter: "",
+    location:"",
     socialSk: "",
     socialPk: "",
     fileName: "",
@@ -38,6 +39,9 @@ export class EmployeeEditDetailsComponent {
     fileType: ""
 
   };
+  form:any={
+
+  }
 
   handleFileInput(event: Event): void {
     const inputElement = event.target as HTMLInputElement;
@@ -53,7 +57,14 @@ export class EmployeeEditDetailsComponent {
     // this.setActiveStep(this.currentStep);
    
   }
+
+      createEmployee(form:any){}
+
+
+
+
     }
+
   
   
   

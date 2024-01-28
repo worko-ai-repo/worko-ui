@@ -9,16 +9,13 @@
                     {{userDescription}}
                 </p>
             </div>
-            <div class="certification-content text-white d-flex">
-                <div class="certification-heading">Certifications:</div>
-                <div class="p-1 certificate-label" *ngFor="let certificate of certificationList?.certifications">
-                    <span class="certification-boxes">{{certificate.certName}}</span>
+            <h5 class="certification-heading mt-4">Certifications:</h5>
+            <div class="certification-content d-flex">
+               
+                <div class="p-1  certificate-label" *ngFor="let certificate of certificationList?.certifications">
+                    <span class="certification-boxes ps-2 pe-2">{{certificate.certName}}</span>
                 </div>
             </div>
-            <!-- <div class="row" > -->
-            <!-- <div class="p-1" *ngFor="let certificate of certificationList?.certifications">
-                <span class="certification-boxes">{{certificate.certName}}</span>
-            </div> -->
-            <!-- </div> -->
+          
         </div>
     </div>

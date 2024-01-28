@@ -25,18 +25,18 @@
                
             </div>
             <div class="col-md-9">
-                <form>
+                <form (ngSubmit)="candidate.form.valid && createEmployee(form)" #candidate="ngForm" novalidate>
                     <div class="row">
                         <div class="col-md-5">
                             <label for="" class="form-lable">Name</label>
                             <input type="text" class="form-control form-input" placeholder="Name" 
-                                 name="name" id="name">
+                                 name="name" id="name" [(ngModel)]="employeeDetails.name">
                         </div>
                         <div class="col-md-5">
                             <label for="" class="form-lable">Email</label>
                             <input type="text" class="form-control form-input" placeholder="123@gmail.com"
                                 pattern="^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,4}$" 
-                                 name="email" id="email">
+                                 name="email" id="email" [(ngModel)]="employeeDetails.email">
 
                         </div>
                     </div>
@@ -46,12 +46,12 @@
                             <label for="" class="form-lable">Phone no</label>
                             <input type="text" class="form-control form-input" placeholder="9416XXXXXX"
                                 name="phoneNo"
-                                id="phoneNo">
+                                id="phoneNo" [(ngModel)]="employeeDetails.phoneNo">
                         </div>
                         <div class="col-md-5">
                             <label for="" class="form-lable">Location</label>
                             <input type="text" class="form-control form-input" placeholder="Delhi" 
-                                name="location" id="location">
+                                name="location" id="location"  [(ngModel)]="employeeDetails.location" >
 
                         </div>
                     </div>
@@ -59,8 +59,8 @@
                         <div class="col-md-10 mt-1">
                             <label for="" class="form-lable">About</label>
                             <textarea class="about-textarea form-control" placeholder="About" cols="10" rows="3"
-                                name="about" id="about">
-                                    </textarea>
+                                name="about" id="about"  [(ngModel)]="employeeDetails.about">
+                            </textarea>
                         </div>
                     </div>
 
@@ -71,13 +71,13 @@
                         <div class="col-md-10">
                             <div class="d-flex">
                                 <input type="text" placeholder="Github" class="form-input form-control me-2"
-                                 name="socialLinkGithub" id="socialLinksGithub">
+                                 name="socialLinkGithub" id="socialLinksGithub"  [(ngModel)]="employeeDetails.socialLinkGithub">
 
                                  <input type="text" placeholder="LinkdIn" class="form-input form-control me-2"
-                                name="socialLinklinkdin" id="socialLinklinkdin">
+                                name="socialLinklinkdin" id="socialLinklinkdin"  [(ngModel)]="employeeDetails.socialLinklinkdin">
 
                                 <input type="text" placeholder="Twitter" class="form-input form-control"
-                                 name="socialLinktwitter" id="socialLinktwitter">
+                                 name="socialLinktwitter" id="socialLinktwitter"  [(ngModel)]="employeeDetails.socialLinktwitter">
                             
                             </div>
                         </div>
