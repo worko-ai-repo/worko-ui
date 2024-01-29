@@ -1,5 +1,5 @@
 
-import { Component, EventEmitter, Output } from '@angular/core';
+import { Component, EventEmitter, Output, ViewChild } from '@angular/core';
 import { CognitoService } from 'src/app/modules/services/cognito.service';
 import { Router } from '@angular/router';
 import { AuthService } from '../../services/auth.service';
@@ -8,14 +8,14 @@ import { StorageService } from 'src/app/modules/app-core/services/storage.servic
 import { getCurrentUser, fetchAuthSession } from 'aws-amplify/auth';
 // import { map, startWith } from 'rxjs/operators';
 // import { NgFor, AsyncPipe } from '@angular/common';
-// import { MatAutocompleteModule, MatAutocompleteTrigger } from '@angular/material/autocomplete';
+import { MatAutocompleteModule, MatAutocompleteTrigger } from '@angular/material/autocomplete';
 // import { MatInputModule } from '@angular/material/input';
 // import { MatFormFieldModule } from '@angular/material/form-field';
 import { FormControl, FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { Observable } from 'rxjs';
 // import { delay } from 'rxjs/operators';
 // import { of } from 'rxjs';
-import { debounceTime, distinctUntilChanged, switchMap } from 'rxjs/operators';
+import { debounceTime, distinctUntilChanged, switchMap, filter } from 'rxjs/operators';
 import { Subscription } from 'rxjs';
 import { ChangeDetectorRef } from '@angular/core';
 @Component({
@@ -28,7 +28,7 @@ export class LoginPageComponent {
   @Output() userTypeSelected = new EventEmitter<string>();
   @Output() onSuccess: EventEmitter<void> = new EventEmitter<void>();
   // @ViewChild('autocompleteInput') autocompleteInput: any; 
-  // @ViewChild('autoCompleteInput', { static: false, read: MatAutocompleteTrigger }) trigger!: MatAutocompleteTrigger;
+  @ViewChild('autoCompleteInput', { static: false, read: MatAutocompleteTrigger }) trigger!: MatAutocompleteTrigger;
   myControl = new FormControl<any>('');
   filteredOptions!: Observable<any[]>;
   allOptions: any[] = [];
@@ -150,15 +150,29 @@ export class LoginPageComponent {
 
   // ngAfterViewInit(): void {
   //   this.trigger.panelClosingActions
-  //     .pipe(
-  //       switchMap(() => this.filteredOptions),
-  //       filter((filteredOptions: any) => !filteredOptions.some((option: any) => option.name === this.selectedCompany.name))
-  //     )
+  //     // .pipe(
+  //     //   switchMap(() => this.filteredOptions),
+  //     //   filter((filteredOptions: any) => !filteredOptions.some((option: any) => option.name === this.selectedCompany.name))
+  //     // )
   //     .subscribe(() => {
   //       debugger;
   //       this.myControl.setValue(null);
   //     });
+
+  //     // ngAfterViewInit() {
+  //     //   this.trigger.panelClosingActions
+  //     //     .subscribe(e => {
+  //     //       this.selectedData.setValue(null);
+  //     //     });
+  //     // }
   // }
+
+  ngAfterViewInit() {
+    this.trigger.panelClosingActions
+      .subscribe(e => {
+        this.myControl.setValue(null);
+      });
+  }
   
  
   ngOnInit() {

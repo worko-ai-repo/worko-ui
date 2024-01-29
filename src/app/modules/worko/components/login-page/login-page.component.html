@@ -110,7 +110,7 @@
                               <i class="fa-brands fa-linkedin" style="color: #f6f7f9;"></i>
                               <input type="text" placeholder="LinkdIn Profile"
                                 class="text-white material-input__group__input" #linkdinProfile="ngModel"
-                                pattern="^https:\/\/www\.linkedin\.com\/(?:\w+\/)?(?:in\/)?([a-zA-Z0-9-]+)\/?$"
+                                pattern="/^(https?:\/\/(www\.)?linkedin\.com\/in\/[a-zA-Z0-9_\-]+\/?)$/,"
                                 [title]="linkdinProfile.errors?.['pattern'] ? 'Linkedin URL is invalid' : ''"
                                 [(ngModel)]="candidateForm.linkdinProfile" name="linkdinProfile" id="linkdinProfile" />
                             </div>
@@ -249,7 +249,7 @@
                                 <i class="fa-brands fa-linkedin" style="color: #f6f7f9; font-size: 12px"></i>
                                 <input type="text" placeholder="LinkdIn Profile"
                                   class="text-white material-input__group__input" #linkdinProfile="ngModel"
-                                
+                                  pattern="/^(https?:\/\/(www\.)?linkedin\.com\/in\/[a-zA-Z0-9_\-]+\/?)$/,"
                                   [title]="linkdinProfile.errors?.['pattern'] ? 'Linkedin URL is invalid' : ''"
                                   [(ngModel)]="employeeForm.linkdinProfile" name="linkdinProfile" id="linkdinProfile" />
                               </div>

@@ -489,7 +489,14 @@ border-bottom:  1px solid red
 {
   display:inline-block;
 }
+.mat-select-panel
+{
+  background-color: red;
 
+}
+::ng-deep .mat-select-panel{
+  background: red !important;
+}
 // ::ng-deep .ng-animating .mat-option {
 //   margin-right: -32px;
 // }
