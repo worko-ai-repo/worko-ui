@@ -20,6 +20,7 @@ export class EmployeeEditComponent {
   ngOnInit(): void {
     this.emailAddress = this.storage.get("useremail");
     this.getEmployeeDetails();
+   
 
   }
 
@@ -76,7 +77,7 @@ export class EmployeeEditComponent {
     };
     await this.empService.createBankDetails(this.emailAddress, data).then(async (response) => {
       if (response) {
-
+ 
         console.log(response);
       }
     })
