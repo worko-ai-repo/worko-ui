@@ -10,11 +10,9 @@ export class BankDetailsComponent {
 
   ngOnChanges(): void {
     // console.log(this.workExperienceDetails, "workExperienceDetails");
-  
-    // if(this.bankInfo){
-    //   debugger;
-    //   this.bankInfo = this.bankInfo[0];
-    // }
+    if(this.bankInfo){
+      this.bankInfo = this.bankInfo[0];
+    }
   }
 
 }

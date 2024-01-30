@@ -11,9 +11,9 @@ import { CandidateProfileService } from 'src/app/modules/candidate/services/cand
 export class EmployeeEditComponent {
   currentStep: number = 1;
   emailAddress: string = "";
-  employeeList:any[]=[];
+  // employeeList:any[]=[];
   employeeSocial:any[]=[];
-  employeeDetails:any={};
+  employeeDetails:any[]=[];
 
   constructor(private empService: EmployeeProfileService, private candidateSrv: CandidateProfileService, private storage: StorageService) { }
 
@@ -39,7 +39,7 @@ export class EmployeeEditComponent {
   async getEmployeeDetails() {
     await this.candidateSrv.getUserDetails(this.emailAddress).then(async (response) => {
       if (response) {
-        this.employeeList = response[0];
+        this.employeeDetails = response[0];
         await this.getSocialProfile();
         
       }

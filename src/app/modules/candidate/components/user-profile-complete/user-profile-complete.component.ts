@@ -65,6 +65,12 @@ export class UserProfileCompleteComponent implements OnInit {
       this.drawDonutChart(this.candidateProfile);
     }
 
+    if (this.profileCompletion && this.userType == "Employee") {
+      this.candidateProfile = this.profileCompletion?.employee;
+
+      this.drawDonutChart(this.candidateProfile);
+    }
+
   }
   // user():void {
   //   if(this.userRole =='Employee'){
