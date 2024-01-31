@@ -44,6 +44,8 @@ import { MatNativeDateModule } from '@angular/material/core';
 import {MatDatepickerModule} from '@angular/material/datepicker';
 import {MatIconModule} from '@angular/material/icon';
 import { MatAutocompleteModule } from '@angular/material/autocomplete';
+import { PublicProfileComponent } from './components/public-profile/public-profile.component';
+import { PublicSidebarComponent } from '../shared/components/public-profile/public-sidebar/public-sidebar.component';
 // import { MatInputModule } from '@angular/material/input';
 export const routes: Routes = [
   {
@@ -135,6 +137,10 @@ export const routes: Routes = [
         path : 'req-guidence',
         component: RequestGuidenceComponent
       },
+      {
+        path : 'public-profile',
+        component: PublicProfileComponent
+      },
       
       
       
@@ -167,6 +173,8 @@ export const routes: Routes = [
     ReferralProgressBarComponent,
     RequestGuidenceComponent,
     CircleChartComponent,
+    PublicProfileComponent,
+    
     
   ],
   imports: [

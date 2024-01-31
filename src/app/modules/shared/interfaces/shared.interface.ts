@@ -13,6 +13,8 @@ export enum ModalCloseResult {
     
     MESSAGE = 4,
     REQUEST_GUIDANCE=5,
+    SUBSCRIPTION_CHECKOUT=6,
+    
  
   }
   

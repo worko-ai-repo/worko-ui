@@ -49,6 +49,9 @@ import { AwaitingServiceComponent } from './components/user-interface/service/aw
 import { CancelledServiceComponent } from './components/user-interface/service/cancelled-service/cancelled-service.component';
 import { DoneServiceComponent } from './components/user-interface/service/done-service/done-service.component';
 import { UserStepperComponent } from './components/user-interface/employee/employee-edit/user-stepper/user-stepper.component';
+import { PublicSidebarComponent } from './components/public-profile/public-sidebar/public-sidebar.component';
+import { PublicServicePackagesComponent } from './components/public-profile/public-service-packages/public-service-packages.component';
+import { PublicReviewsComponent } from './components/public-profile/public-reviews/public-reviews.component';
 
 
 
@@ -74,6 +77,9 @@ export const routes: Routes = [
     TotalEarningComponent,
     PackageFormComponent,
     UserStepperComponent,
+    PublicSidebarComponent,
+    PublicServicePackagesComponent,
+    PublicReviewsComponent,
     // DoneServiceComponent,
     // CancelledServiceComponent,
     // AwaitingServiceComponent,
@@ -120,6 +126,9 @@ export const routes: Routes = [
   TotalEarningComponent,
   PackageFormComponent,
   UserStepperComponent,
+  PublicSidebarComponent,
+  PublicServicePackagesComponent,
+  PublicReviewsComponent,
   
   
   

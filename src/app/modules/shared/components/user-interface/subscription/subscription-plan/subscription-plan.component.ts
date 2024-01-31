@@ -1,4 +1,6 @@
-import { Component, Input } from '@angular/core';
+import { Component, Input, ViewChild } from '@angular/core';
+import { ModalType } from 'src/app/modules/shared/interfaces/shared.interface';
+import { ModalComponent } from '../../../modal/modal.component';
 
 @Component({
   selector: 'app-subscription-plan',
@@ -6,8 +8,16 @@ import { Component, Input } from '@angular/core';
   styleUrls: ['./subscription-plan.component.scss']
 })
 export class SubscriptionPlanComponent {
+  @ViewChild(ModalComponent) modal!: ModalComponent;
   @Input() subscriptionList: any;
+  modalType = ModalType;
+  modalMessage: string = "";
+  modalTitle: string = "";
+  showModal: ModalType | undefined;
   filteredPackages: any;
+  selectedData:any;
+  selectedPackage: any; 
+
 
   // constructor(private router: Router, private candidateSrv: CandidateProfileService, private storage: StorageService, private authService: AuthService) { }
   ngOnInit(): void {
@@ -32,4 +42,51 @@ export class SubscriptionPlanComponent {
       // console.log( this.filteredPackages);
     }
   }
+
+  calculateTotal(): { total: number; gst: number } {
+    if (this.selectedPackage) {
+      const packageAmount = parseFloat(this.selectedPackage.amount);
+  
+      // GST calculation
+      const gst = (18 / 100) * packageAmount;
+  
+      // Total amount calculation
+      const totalAmount = packageAmount + gst;
+  
+      return { total: totalAmount, gst: gst };
+    }
+  
+    return { total: 0, gst: 0 }; 
+  }
+  
+  openCheckout(packageData:any){
+    this.selectedPackage = packageData;
+    this.openModal(ModalType.SUBSCRIPTION_CHECKOUT);
+  }
+
+/**
+    * Open modal.
+    *
+    * @param {ModalType} modalType
+    * @param {string} [message = ""]
+    * @param {string} [title = ""]
+    * @returns {void}
+    */
+  openModal(modalType: ModalType, message: string = "", title: string = ""): void {
+    this.showModal = modalType;
+    this.modalMessage = message;
+    this.modalTitle = title;
+    this.modal.open();
+  }
+  /**
+   * Close modal.
+   *
+   * @returns {void}
+   */
+  closeModal(): void {
+    // this.referrralComponent.showReferrelRow = true;
+    this.modal.cancel();
+ 
+}
+
 }
