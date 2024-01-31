@@ -27,7 +27,7 @@ export class EmployeeDashboardComponent {
 
   ngOnInit(): void {
     // this.emailAddress = this.storage.get("useremail");
-    this.emailAddress = "prashant@worko.ai";
+    this.emailAddress = this.storage.get("useremail");
     this.getCandidateDetails();
 
   }
@@ -65,16 +65,7 @@ export class EmployeeDashboardComponent {
     })
   }
 
-  async userProfileComplete(){
-    await this.candidateSrv.getProfileComplete(this.emailAddress).then(async(response)=>{
-       if(response){
-         this.profileCompletion=response;
-         this.getSocialProfile();
-         console.log(  this.profileCompletion);
-         
-       }
-     })
-   }
+
    async getSocialProfile() {
     await this.candidateSrv.getUserProfile(this.emailAddress).then(async (response) => {
       if (response) {
@@ -90,9 +81,19 @@ export class EmployeeDashboardComponent {
       if (response) {
         this.bankDetails = response;
         console.log(response);
+        this.userProfileComplete();
       }
     })
   }
-
+  async userProfileComplete(){
+    await this.candidateSrv.getProfileComplete(this.emailAddress).then(async(response)=>{
+       if(response){
+         this.profileCompletion=response;
+        //  this.getSocialProfile();
+         console.log(  this.profileCompletion);
+         
+       }
+     })
+   }
 
 }

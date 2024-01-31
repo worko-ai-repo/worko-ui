@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, Input } from '@angular/core';
 
 @Component({
   selector: 'app-job-history',
@@ -6,5 +6,12 @@ import { Component } from '@angular/core';
   styleUrls: ['./job-history.component.scss']
 })
 export class JobHistoryComponent {
+  @Input() workExperienceDetails: any;
 
+  ngOnChanges(): void {
+    // console.log(this.workExperienceDetails, "workExperienceDetails");
+    // if(this.bankInfo){
+    //   this.bankInfo = this.bankInfo[0];
+    // }
+  }
 }

@@ -1,94 +1,58 @@
 <div class="candidate-card">
     <div class="body pb-4">
         <div class="row pt-3">
-            
-                <div class="col-md-8">
-                    <h6 class="job-history-text">Past Job History</h6>
-                </div>
-                <div class="col-md-4 text-center">
-                    <a href="" class="current-job-text">Current Job <span><i class="fa-solid fa-arrow-right" style="color: #eeeff2;"></i></span></a>
-                </div>
-        </div>
-       <div class="container-fluid">
-        <div class="row">
-            <div class="col-md-12 d-flex justify-content-center mb-2 ">
-                <div class="company-box m-3 mb-0">
-                    <div class="row">
-                        <div class="col-md-6">
-                            <div class="row">
-                                <div class="d-flex">
-                                    <div class="col-md-3 mt-2 ms-1">
-                                        <img class="google-img" src="/assets/public/employee-google-img.png" alt="">
-                                    </div>
-                                    <div class="col-md-8 ms-4">
-                                        <small class="current-job-text">Current Job</small>
-                                        <h6 class="company-name">Google</h6>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
 
-                        <div class="col-md-6">
-                            <div class="row">
-                                <div class="col-md-1">
-                                    <small class="current-job-text">Joined</small>
-                                    <h6 class="number-style pt-2">2021</h6>
-                                </div>
-                                <div class="col-md-1 ms-4">
-                                    <small class="current-job-text">Exp.</small>
-                                    <h6 class="number-style pt-2">-0-</h6>
-                                </div>
-                                <div class="col-md-1 ms-2">
-                                    <small class="current-job-text">Resigned</small>
-                                    <h6 class="number-style pt-2 text-center ps-3">-</h6>
-                                </div>
-                            </div>
-                        </div>
-                       
-                    </div>
-                </div>
-
-                
+            <div class="col-md-8">
+                <h6 class="job-history-text">Past Job History</h6>
             </div>
-
-          <div class="col-md-12 d-flex justify-content-center">
-            <div class="company-box m-3 mt-0">
-                <div class="row">
-                    <div class="col-md-6">
+            <div class="col-md-4 text-center">
+                <a href="" class="current-job-text">Current Job <span><i class="fa-solid fa-arrow-right"
+                            style="color: #eeeff2;"></i></span></a>
+            </div>
+        </div>
+        <div class="container-fluid">
+            <div class="row">
+                <div class="col-md-12 d-flex justify-content-center mb-2"
+                    *ngFor="let workExperience of workExperienceDetails; let i = index">
+                    <div class="company-box m-3 mb-0">
                         <div class="row">
-                            <div class="d-flex">
-                                <div class="col-md-3 mt-2 ms-1">
-                                    <img class="google-img" src="/assets/public/employee-amazon-img.png" alt="">
+                            <div class="col-md-6">
+                                <div class="row">
+                                    <div class="d-flex">
+                                        <div class="col-md-3 mt-2 ms-1">
+                                            <img class="google-img" src="/assets/public/employee-amazon-img.png" alt="">
+                                        </div>
+                                        <div class="col-md-8 ms-4">
+                                            <small class="current-job-text">Current Job</small>
+                                            <h6 class="company-name">{{workExperience.companyName}}</h6>
+                                        </div>
+                                    </div>
                                 </div>
-                                <div class="col-md-8 ms-4">
-                                    <small class="current-job-text">Current Job</small>
-                                    <h6 class="company-name">Amazon</h6>
+                            </div>
+
+                            <div class="col-md-6">
+                                <div class="row">
+                                    <div class="col-md-1">
+                                        <small class="current-job-text">Joined</small>
+                                        <h6 class="number-style pt-2">2021</h6>
+                                    </div>
+                                    <div class="col-md-1 ms-4">
+                                        <small class="current-job-text">Exp.</small>
+                                        <h6 class="number-style pt-2">-0-</h6>
+                                    </div>
+                                    <div class="col-md-1 ms-2">
+                                        <small class="current-job-text">Resigned</small>
+                                        <h6 class="number-style pt-2 text-center ps-3">-</h6>
+                                    </div>
                                 </div>
-                               </div>
+                            </div>
+
                         </div>
                     </div>
 
-                    <div class="col-md-6">
-                        <div class="row">
-                            <div class="col-md-1">
-                                <small class="current-job-text">Joined</small>
-                                <h6 class="number-style pt-2">2021</h6>
-                            </div>
-                            <div class="col-md-1 ms-4">
-                                <small class="current-job-text">Exp.</small>
-                                <h6 class="number-style pt-2">-0-</h6>
-                            </div>
-                            <div class="col-md-1 ms-2">
-                                <small class="current-job-text">Resigned</small>
-                                <h6 class="number-style pt-2 text-center ps-3">-</h6>
-                            </div>
-                        </div>
-                    </div>
-                   
+
                 </div>
             </div>
-          </div>
         </div>
-       </div>
     </div>
 </div>
