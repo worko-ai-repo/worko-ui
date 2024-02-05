@@ -23,7 +23,9 @@ import { NavbarToggleSwitchService } from './modules/candidate/services/navbar-t
     FormsModule,
     NgbModule,
     HttpClientModule,
-    MatTooltipModule
+    MatTooltipModule,
+    
+ 
 
     
 

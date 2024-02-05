@@ -14,6 +14,8 @@ export enum ModalCloseResult {
     MESSAGE = 4,
     REQUEST_GUIDANCE=5,
     SUBSCRIPTION_CHECKOUT=6,
+    EMPLOYEE_PACKAGE_FORM=7,
+    EMPLOYEE_SERVICE_ADD=8,
     
  
   }

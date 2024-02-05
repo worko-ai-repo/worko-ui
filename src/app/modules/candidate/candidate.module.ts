@@ -45,6 +45,7 @@ import { DoneServiceComponent } from '../shared/components/user-interface/servic
 import { UserStepperComponent } from '../shared/components/user-interface/employee/employee-edit/user-stepper/user-stepper.component';
 import { SharedModule } from '../shared/shared.module';
 import { NavbarToggleSwitchService } from './services/navbar-toggle-switch.service';
+import { AdminModule } from '../admin/admin.module';
 
 export const routes: Routes = [
 
@@ -141,6 +142,7 @@ export const routes: Routes = [
   CommonModule,
     FormsModule,
     SharedModule,
+    
     
     
 

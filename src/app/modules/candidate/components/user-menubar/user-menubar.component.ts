@@ -85,6 +85,47 @@ export class UserMenubarComponent {
         },
       ]
     }
+    if (this.userType == "Admin") {
+      this.menuItems = [
+        {
+          name: 'Dashboard',
+          router: "admin/aDashboard"
+        },
+        {
+          name: 'Candidate',
+          router: "admin/aCandidate"
+        },
+        {
+          name: 'Employee',
+          router: "admin/aEmployee"
+        },
+        {
+          name: 'Referral',
+          router: "admin/aReferral"
+        },
+        {
+          name: 'Service',
+          router: "admin/aService"
+        },
+        {
+          name: 'Issues',
+          router: "admin/aIssues"
+        },
+        {
+          name: 'Payment',
+          router: "admin/aPayment"
+        },
+        
+        {
+          name: 'Refer & Earn',
+          router: "admin/aRefer-Earn"
+        },
+        {
+          name: 'Settings',
+          router: "admin/aSetting"
+        },
+      ]
+    }
   }
 
   /**

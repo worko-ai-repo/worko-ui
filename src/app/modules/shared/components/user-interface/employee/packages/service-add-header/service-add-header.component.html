@@ -1,318 +1,319 @@
 <div class="candidate-card">
-    <div class="row">
-        <div class="col-md-4 p-3 ps-5 pe-0 me-0">
-            <h5 class="service-add-text">Select your availability </h5>
-        </div>
-         <div class="col-md-8 p-4">
-            <!--<button _ngcontent-ng-c3796539428="" class="btn-add text-center float-end ms-2 pe-3">
+  <div class="row">
+    <div class="col-md-4 p-3 ps-5 pe-0 me-0">
+      <h5 class="service-add-text">Select your availability</h5>
+    </div>
+    <div class="col-md-8 p-4">
+      <!--<button _ngcontent-ng-c3796539428="" class="btn-add text-center float-end ms-2 pe-3">
               <svg _ngcontent-ng-c3796539428="" xmlns="http://www.w3.org/2000/svg" width="30" height="30" viewBox="0 0 47 46" fill="none"><path _ngcontent-ng-c3796539428="" d="M35.4167 25.3333H25.8333V34.9167C25.8333 35.425 25.6314 35.9125 25.272 36.272C24.9125 36.6314 24.425 36.8333 23.9167 36.8333C23.4083 36.8333 22.9208 36.6314 22.5614 36.272C22.2019 35.9125 22 35.425 22 34.9167V25.3333H12.4167C11.9083 25.3333 11.4208 25.1314 11.0614 24.772C10.7019 24.4125 10.5 23.925 10.5 23.4167C10.5 22.9083 10.7019 22.4208 11.0614 22.0614C11.4208 21.7019 11.9083 21.5 12.4167 21.5H22V11.9167C22 11.4083 22.2019 10.9208 22.5614 10.5614C22.9208 10.2019 23.4083 10 23.9167 10C24.425 10 24.9125 10.2019 25.272 10.5614C25.6314 10.9208 25.8333 11.4083 25.8333 11.9167V21.5H35.4167C35.925 21.5 36.4125 21.7019 36.772 22.0614C37.1314 22.4208 37.3333 22.9083 37.3333 23.4167C37.3333 23.925 37.1314 24.4125 36.772 24.772C36.4125 25.1314 35.925 25.3333 35.4167 25.3333Z" fill="white"></path><path _ngcontent-ng-c3796539428="" d="M35.4167 25.3333H25.8333V34.9167C25.8333 35.425 25.6314 35.9125 25.272 36.272C24.9125 36.6314 24.425 36.8333 23.9167 36.8333C23.4083 36.8333 22.9208 36.6314 22.5614 36.272C22.2019 35.9125 22 35.425 22 34.9167V25.3333H12.4167C11.9083 25.3333 11.4208 25.1314 11.0614 24.772C10.7019 24.4125 10.5 23.925 10.5 23.4167C10.5 22.9083 10.7019 22.4208 11.0614 22.0614C11.4208 21.7019 11.9083 21.5 12.4167 21.5H22V11.9167C22 11.4083 22.2019 10.9208 22.5614 10.5614C22.9208 10.2019 23.4083 10 23.9167 10C24.425 10 24.9125 10.2019 25.272 10.5614C25.6314 10.9208 25.8333 11.4083 25.8333 11.9167V21.5H35.4167C35.925 21.5 36.4125 21.7019 36.772 22.0614C37.1314 22.4208 37.3333 22.9083 37.3333 23.4167C37.3333 23.925 37.1314 24.4125 36.772 24.772C36.4125 25.1314 35.925 25.3333 35.4167 25.3333Z" stroke="white"></path></svg>
                ADD SERVICES
                </button> -->
-        <button type="button" class="btn btn-info float-end btn-select btn-sm" data-toggle="modal" data-target="#myModal">Choose Availability
+      <button
+        type="button"
+        class="btn btn-info float-end btn-select btn-sm"
+       (click)=" serviceAdd()"
+      >
+        Choose Availability
+      </button>
+    </div>
+  </div>
+</div>
+
+<app-modal [theme]="'theme-k'" [centered]="true" [showHeader]="showModal === modalType.MESSAGE"
+[showFooter]="showModal === modalType.MESSAGE" [title]="modalTitle" [message]="modalMessage"
+[bodyClass]="modalMessage ? 'p-5' : 'p-0'">
+
+<div class="row candidate-card ">
+  <div class="col-md-12">
+      <div class="row mt-4">
+          <div class="col-md-4">
+          <div class="d-flex justify-content-between">
+              <h6 class="pe-0  ps-4 career-text">Booking Period</h6>
+              <span class=""><b>-</b></span>
+          </div>
+            <h6 class="form-content-small pe-0 me-0 ps-4 m-0">
+              How far in the future can <br />
+              attendees book
+            </h6>
           
-        </button>
-        
+          </div>
+          
+          <div class="col-md-8">
+            <div class="">
+              <select name="" id="" class="selector me-2 ps-2 ms-2">
+                <option value="">Monthly</option>
+              </select>
+            </div>
+          </div>
 
-<!-- Modal -->
-        <div id="myModal" class="modal fade mt-5 pt-5 ms-5 ps-5" role="dialog">
-          <div class="modal-dialog  modal-lg">
-
-            <!-- Modal content-->
-            <div class="modal-content package-card">
+          <div class="row mt-4">
+            <div class="col-md-4">
+              <div class="d-flex justify-content-between">
+                  <h6 class="pe-0  ps-4 career-text">Notice Period</h6>
+                  <span class=""><b>-</b></span>
+              </div>
+              
+              <h6 class="form-content-small pe-0 me-0 ps-4 m-0">
+                  Set the minimum amount <br> of notice that is required
+              </h6>
+            </div>
             
-              <div class="modal-body">
-                <div class="row">
-                    <div class="col-md-12">
-                        <div class="row mt-4">
-                            <div class="col-md-4">
-                            <div class="d-flex justify-content-between">
-                                <h6 class="pe-0  ps-4 career-text">Booking Period</h6>
-                                <span class=""><b>-</b></span>
-                            </div>
-                              <h6 class="form-content-small pe-0 me-0 ps-4 m-0">
-                                How far in the future can <br />
-                                attendees book
-                              </h6>
-                            
-                            </div>
-                            
-                            <div class="col-md-8">
-                              <div class="">
-                                <select name="" id="" class="selector me-2 ps-2 ms-2">
-                                  <option value="">Monthly</option>
-                                </select>
-                              </div>
-                            </div>
-                
-                            <div class="row mt-4">
-                              <div class="col-md-4">
-                                <div class="d-flex justify-content-between">
-                                    <h6 class="pe-0  ps-4 career-text">Notice Period</h6>
-                                    <span class=""><b>-</b></span>
-                                </div>
-                                
-                                <h6 class="form-content-small pe-0 me-0 ps-4 m-0">
-                                    Set the minimum amount <br> of notice that is required
-                                </h6>
-                              </div>
-                              
-                              <div class="col-md-8">
-                                <div>
-                                  <input
-                                    type="text"
-                                    class="selector me-2 ps-2 ms-3"
-                                    placeholder="240"
-                                  />
-                                  <select name="" id="" class="input-time p-1 ps-2 pe-2">
-                                    <option value="" class="">Minutes</option>
-                                  </select>
-                                </div>
-                              </div>
-                
-                              <div class="row mt-4">
-                                <div class="col-md-4 d-flex justify-content-between">
-                                  <h6 class="availability-content ps-2">Choose Availability</h6>
-                                  <span class="">-</span>
-                                </div>
-                              </div>
-                
-                              <div class="row d-flex justify-content-center ms-3">
-                                <div class="col-md-1">
-                                  <span class="ps-4"><input type="checkbox"/></span>
-                                </div>
-                                <div class="col-md-2 ps-0">
-                                  
-                                    
-                                    <span class="d-flex justify-content-between">
-                                      <span class="font-size-text">Monday</span>
-                                      <span class=""><b>-</b></span>
-                                    
-                                  </span>
-                                </div>
-                                <div class="col-md-9 d-flex">
-                                  <div class="d-flex">
-                                    <select name="" id="" class="selector ps-2">
-                                      <option value="">12:00 PM</option>
-                                    </select>
-                
-                                    <select name="" id="" class="selector ps-2 ms-3 me-0 pe-0">
-                                      <option value="">12:00 PM</option>
-                                    </select>
-                                    <i class="fa-solid fa-circle-plus m-0 m-2 ms-3 add-icon"></i>
-                
-                                  
-                                  </div>
-                                </div>
-                                
-                              </div>
-                
-                              <div class="row d-flex justify-content-center ms-3">
-                                <div class="col-md-1">
-                                  <span class="ps-4"><input type="checkbox"/></span>
-                                </div>
-                                <div class="col-md-2 ps-0">
-                                  
-                                    
-                                    <span class="d-flex justify-content-between">
-                                      <span class="font-size-text">Tuesday</span>
-                                      <span class=""><b>-</b></span>
-                                    
-                                  </span>
-                                </div>
-                                <div class="col-md-9">
-                                  <div class="mt-2">
-                                    <select name="" id="" class="selector ps-2 me-2">
-                                      <option value="">12:00 PM</option>
-                                    </select>
-                
-                                    <select name="" id="" class="selector ps-2 me-0 pe-0 mt-2 ms-2">
-                                      <option value="">12:00 PM</option>
-                                    </select>
-                                    <i class="fa-solid fa-circle-plus m-0 m-2 ms-3 add-icon"></i>
-                                  
-                                  </div>
-                                  <div class="mt-2">
-                                    <select name="" id="" class="selector ps-2 me-2">
-                                      <option value="">12:00 PM</option>
-                                    </select>
-                
-                                    <select name="" id="" class="selector ps-2 me-0 pe-0 mt-2 ms-2">
-                                      <option value="">12:00 PM</option>
-                                    </select>
-                                    <i class="fa-solid fa-circle-plus m-0 m-2 ms-3 add-icon"></i>
-                                  
-                                  </div>
-                                                    
-                                </div>
-                
-                                
-                              </div>
-                              <div class="row d-flex justify-content-center ms-3 mt-2">
-                                <div class="col-md-1">
-                                  <span class="ps-4"><input type="checkbox"/></span>
-                                </div>
-                                <div class="col-md-2 ps-0">
-                                  
-                                    
-                                    <span class="d-flex justify-content-between">
-                                      <span class="font-size-text">Wednesday</span>
-                                      <span class=""><b>-</b></span>
-                                    
-                                  </span>
-                                </div>
-                                <div class="col-md-9 d-flex">
-                                  <div class="d-flex">
-                                    <select name="" id="" class="selector ps-2">
-                                      <option value="">Unavailable</option>
-                                    </select>
-                
-                                    <select name="" id="" class="selector ps-2 ms-3 me-0 pe-0">
-                                      <option value="">Unavailable</option>
-                                    </select>
-                                    
-                                  
-                                  </div>
-                                </div>
-                                
-                              </div>
-                            
-                              <div class="row d-flex justify-content-center ms-3 mt-2">
-                                <div class="col-md-1">
-                                  <span class="ps-4"><input type="checkbox"/></span>
-                                </div>
-                                <div class="col-md-2 ps-0">
-                                  
-                                    
-                                    <span class="d-flex justify-content-between">
-                                      <span class="font-size-text">Thursday</span>
-                                      <span class=""><b>-</b></span>
-                                    
-                                  </span>
-                                </div>
-                                <div class="col-md-9 d-flex">
-                                  <div class="d-flex">
-                                    <select name="" id="" class="selector ps-2">
-                                      <option value="">Unavailable</option>
-                                    </select>
-                
-                                    <select name="" id="" class="selector ps-2 ms-3 me-0 pe-0">
-                                      <option value="">Unavailable</option>
-                                    </select>
-                                    
-                                  
-                                  </div>
-                                </div>
-                                
-                              </div>
+            <div class="col-md-8">
+              <div>
+                <input
+                  type="text"
+                  class="selector me-2 ps-2 ms-3"
+                  placeholder="240"
+                />
+                <select name="" id="" class="input-time p-1 ps-2 pe-2">
+                  <option value="" class="">Minutes</option>
+                </select>
+              </div>
+            </div>
 
-                              <div class="row d-flex justify-content-center ms-3 mt-2">
-                                <div class="col-md-1">
-                                  <span class="ps-4"><input type="checkbox"/></span>
-                                </div>
-                                <div class="col-md-2 ps-0">
-                                  
-                                    
-                                    <span class="d-flex justify-content-between">
-                                      <span class="font-size-text">Friday</span>
-                                      <span class=""><b>-</b></span>
-                                    
-                                  </span>
-                                </div>
-                                <div class="col-md-9 d-flex">
-                                  <div class="d-flex">
-                                    <select name="" id="" class="selector ps-2">
-                                      <option value="">Unavailable</option>
-                                    </select>
+            <div class="row mt-4">
+              <div class="col-md-4 d-flex justify-content-between">
+                <h6 class="availability-content ps-2">Choose Availability</h6>
+                <span class="">-</span>
+              </div>
+            </div>
+
+            <div class="row d-flex justify-content-center ms-3">
+              <div class="col-md-1">
+                <span class="ps-4"><input type="checkbox"/></span>
+              </div>
+              <div class="col-md-2 ps-0">
                 
-                                    <select name="" id="" class="selector ps-2 ms-3 me-0 pe-0">
-                                      <option value="">Unavailable</option>
-                                    </select>
-                                    
-                                  
-                                  </div>
-                                </div>
-                                
-                              </div>
-                              <div class="row d-flex justify-content-center ms-3 mt-2">
-                                <div class="col-md-1">
-                                  <span class="ps-4"><input type="checkbox"/></span>
-                                </div>
-                                <div class="col-md-2 ps-0">
-                                  
-                                    
-                                    <span class="d-flex justify-content-between">
-                                      <span class="font-size-text">Saturday</span>
-                                      <span class=""><b>-</b></span>
-                                    
-                                  </span>
-                                </div>
-                                <div class="col-md-9 d-flex">
-                                  <div class="d-flex">
-                                    <select name="" id="" class="selector ps-2">
-                                      <option value="">Unavailable</option>
-                                    </select>
+                  
+                  <span class="d-flex justify-content-between">
+                    <span class="font-size-text">Monday</span>
+                    <span class=""><b>-</b></span>
+                  
+                </span>
+              </div>
+              <div class="col-md-9 d-flex">
+                <div class="d-flex">
+                  <select name="" id="" class="selector ps-2">
+                    <option value="">12:00 PM</option>
+                  </select>
+
+                  <select name="" id="" class="selector ps-2 ms-3 me-0 pe-0">
+                    <option value="">12:00 PM</option>
+                  </select>
+                  <i class="fa-solid fa-circle-plus m-0 m-2 ms-3 add-icon"></i>
+
                 
-                                    <select name="" id="" class="selector ps-2 ms-3 me-0 pe-0">
-                                      <option value="">Unavailable</option>
-                                    </select>
-                                    
-                                  
-                                  </div>
-                                </div>
-                                
-                              </div>
-                              <div class="row d-flex justify-content-center ms-3 mt-2">
-                                <div class="col-md-1">
-                                  <span class="ps-4"><input type="checkbox"/></span>
-                                </div>
-                                <div class="col-md-2 ps-0">
-                                  
-                                    
-                                    <span class="d-flex justify-content-between">
-                                      <span class="font-size-text">Sunday</span>
-                                      <span class=""><b>-</b></span>
-                                    
-                                  </span>
-                                </div>
-                                <div class="col-md-9 d-flex">
-                                  <div class="d-flex">
-                                    <select name="" id="" class="selector ps-2">
-                                      <option value="">Unavailable</option>
-                                    </select>
-                
-                                    <select name="" id="" class="selector ps-2 ms-3 me-0 pe-0">
-                                      <option value="">Unavailable</option>
-                                    </select>
-                                    
-                                  
-                                  </div>
-                                </div>
-                                
-                              </div>
-                
-                              <div class="row d-flex justify-content-center mt-4">
-                                <div class="col-md-4">
-                                    <button class="save-btn float-end p-1 ps-5 pe-5">Save All</button>
-                                </div>
-                                <div class="col-md-8">
-                                    <button class="float-end pause-btn p-1 ps-4 pe-4">Pause Service</button>
-                                </div>
-                              </div>
-                
-                            
-                
-                
-                
-                            </div>
-                          </div>
-                    </div>
                 </div>
               </div>
               
             </div>
 
+            <div class="row d-flex justify-content-center ms-3">
+              <div class="col-md-1">
+                <span class="ps-4"><input type="checkbox"/></span>
+              </div>
+              <div class="col-md-2 ps-0">
+                
+                  
+                  <span class="d-flex justify-content-between">
+                    <span class="font-size-text">Tuesday</span>
+                    <span class=""><b>-</b></span>
+                  
+                </span>
+              </div>
+              <div class="col-md-9">
+                <div class="mt-2">
+                  <select name="" id="" class="selector ps-2 me-2">
+                    <option value="">12:00 PM</option>
+                  </select>
+
+                  <select name="" id="" class="selector ps-2 me-0 pe-0 mt-2 ms-2">
+                    <option value="">12:00 PM</option>
+                  </select>
+                  <i class="fa-solid fa-circle-plus m-0 m-2 ms-3 add-icon"></i>
+                
+                </div>
+                <div class="mt-2">
+                  <select name="" id="" class="selector ps-2 me-2">
+                    <option value="">12:00 PM</option>
+                  </select>
+
+                  <select name="" id="" class="selector ps-2 me-0 pe-0 mt-2 ms-2">
+                    <option value="">12:00 PM</option>
+                  </select>
+                  <i class="fa-solid fa-circle-plus m-0 m-2 ms-3 add-icon"></i>
+                
+                </div>
+                                  
+              </div>
+
+              
+            </div>
+            <div class="row d-flex justify-content-center ms-3 mt-2">
+              <div class="col-md-1">
+                <span class="ps-4"><input type="checkbox"/></span>
+              </div>
+              <div class="col-md-2 ps-0">
+                
+                  
+                  <span class="d-flex justify-content-between">
+                    <span class="font-size-text">Wednesday</span>
+                    <span class=""><b>-</b></span>
+                  
+                </span>
+              </div>
+              <div class="col-md-9 d-flex">
+                <div class="d-flex">
+                  <select name="" id="" class="selector ps-2">
+                    <option value="">Unavailable</option>
+                  </select>
+
+                  <select name="" id="" class="selector ps-2 ms-3 me-0 pe-0">
+                    <option value="">Unavailable</option>
+                  </select>
+                  
+                
+                </div>
+              </div>
+              
+            </div>
+          
+            <div class="row d-flex justify-content-center ms-3 mt-2">
+              <div class="col-md-1">
+                <span class="ps-4"><input type="checkbox"/></span>
+              </div>
+              <div class="col-md-2 ps-0">
+                
+                  
+                  <span class="d-flex justify-content-between">
+                    <span class="font-size-text">Thursday</span>
+                    <span class=""><b>-</b></span>
+                  
+                </span>
+              </div>
+              <div class="col-md-9 d-flex">
+                <div class="d-flex">
+                  <select name="" id="" class="selector ps-2">
+                    <option value="">Unavailable</option>
+                  </select>
+
+                  <select name="" id="" class="selector ps-2 ms-3 me-0 pe-0">
+                    <option value="">Unavailable</option>
+                  </select>
+                  
+                
+                </div>
+              </div>
+              
+            </div>
+
+            <div class="row d-flex justify-content-center ms-3 mt-2">
+              <div class="col-md-1">
+                <span class="ps-4"><input type="checkbox"/></span>
+              </div>
+              <div class="col-md-2 ps-0">
+                
+                  
+                  <span class="d-flex justify-content-between">
+                    <span class="font-size-text">Friday</span>
+                    <span class=""><b>-</b></span>
+                  
+                </span>
+              </div>
+              <div class="col-md-9 d-flex">
+                <div class="d-flex">
+                  <select name="" id="" class="selector ps-2">
+                    <option value="">Unavailable</option>
+                  </select>
+
+                  <select name="" id="" class="selector ps-2 ms-3 me-0 pe-0">
+                    <option value="">Unavailable</option>
+                  </select>
+                  
+                
+                </div>
+              </div>
+              
+            </div>
+            <div class="row d-flex justify-content-center ms-3 mt-2">
+              <div class="col-md-1">
+                <span class="ps-4"><input type="checkbox"/></span>
+              </div>
+              <div class="col-md-2 ps-0">
+                
+                  
+                  <span class="d-flex justify-content-between">
+                    <span class="font-size-text">Saturday</span>
+                    <span class=""><b>-</b></span>
+                  
+                </span>
+              </div>
+              <div class="col-md-9 d-flex">
+                <div class="d-flex">
+                  <select name="" id="" class="selector ps-2">
+                    <option value="">Unavailable</option>
+                  </select>
+
+                  <select name="" id="" class="selector ps-2 ms-3 me-0 pe-0">
+                    <option value="">Unavailable</option>
+                  </select>
+                  
+                
+                </div>
+              </div>
+              
+            </div>
+            <div class="row d-flex justify-content-center ms-3 mt-2">
+              <div class="col-md-1">
+                <span class="ps-4"><input type="checkbox"/></span>
+              </div>
+              <div class="col-md-2 ps-0">
+                
+                  
+                  <span class="d-flex justify-content-between">
+                    <span class="font-size-text">Sunday</span>
+                    <span class=""><b>-</b></span>
+                  
+                </span>
+              </div>
+              <div class="col-md-9 d-flex">
+                <div class="d-flex">
+                  <select name="" id="" class="selector ps-2">
+                    <option value="">Unavailable</option>
+                  </select>
+
+                  <select name="" id="" class="selector ps-2 ms-3 me-0 pe-0">
+                    <option value="">Unavailable</option>
+                  </select>
+                  
+                
+                </div>
+              </div>
+              
+            </div>
+
+            <div class="row d-flex justify-content-center mt-4 mb-3">
+              <div class="col-md-4">
+                  <button class="save-btn float-end p-1 ps-5 pe-5">Save All</button>
+              </div>
+              <div class="col-md-8">
+                  <button class="float-end pause-btn p-1 ps-4 pe-4">Pause Service</button>
+              </div>
+            </div>
+
+          
+
+
+
           </div>
         </div>
-        </div>
-    </div>
+  </div>
 </div>
+    
+  
+  
+
+
+</app-modal>
+
+

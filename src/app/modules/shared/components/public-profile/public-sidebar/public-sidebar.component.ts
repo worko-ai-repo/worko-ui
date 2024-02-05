@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, Input } from '@angular/core';
 
 @Component({
   selector: 'app-public-sidebar',
@@ -6,5 +6,7 @@ import { Component } from '@angular/core';
   styleUrls: ['./public-sidebar.component.scss']
 })
 export class PublicSidebarComponent {
-
+  @Input() publicUserDetails:any="";
+  @Input()publicUserExperienceDetails:any="";
+  @Input()publicUserSocialDetails:any="";
 }

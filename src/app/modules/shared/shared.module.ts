@@ -52,7 +52,11 @@ import { UserStepperComponent } from './components/user-interface/employee/emplo
 import { PublicSidebarComponent } from './components/public-profile/public-sidebar/public-sidebar.component';
 import { PublicServicePackagesComponent } from './components/public-profile/public-service-packages/public-service-packages.component';
 import { PublicReviewsComponent } from './components/public-profile/public-reviews/public-reviews.component';
-
+import { SlickCarouselModule } from 'ngx-slick-carousel';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import { AdminChartComponent } from './components/Admin/Dashboard/admin-chart/admin-chart.component';
+import { PaymentTrendComponent } from './components/Admin/Dashboard/payment-trend/payment-trend.component';
+import { AdminTotalAmountComponent } from './components/Admin/Dashboard/admin-total-amount/admin-total-amount.component';
 
 
 export const routes: Routes = [
@@ -80,6 +84,9 @@ export const routes: Routes = [
     PublicSidebarComponent,
     PublicServicePackagesComponent,
     PublicReviewsComponent,
+    AdminChartComponent,
+    PaymentTrendComponent,
+    AdminTotalAmountComponent,
     // DoneServiceComponent,
     // CancelledServiceComponent,
     // AwaitingServiceComponent,
@@ -105,6 +112,8 @@ export const routes: Routes = [
     ReactiveFormsModule,
     MatFormFieldModule,
     MatInputModule,
+    SlickCarouselModule,
+    // BrowserAnimationsModule,
     
     
     
@@ -129,6 +138,10 @@ export const routes: Routes = [
   PublicSidebarComponent,
   PublicServicePackagesComponent,
   PublicReviewsComponent,
+  AdminChartComponent,
+  PaymentTrendComponent,
+  AdminTotalAmountComponent,
+  
   
   
   
