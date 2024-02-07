@@ -15,6 +15,12 @@ import { SharedModule } from '../shared/shared.module';
 import { UserMenubarComponent } from '../candidate/components/user-menubar/user-menubar.component';
 import { CandidateModule } from '../candidate/candidate.module';
 import { EmployeeModule } from '../employee/employee.module';
+// import { MatPaginatorModule } from '@angular/material/paginator';
+import {MatPaginator, MatPaginatorModule} from '@angular/material/paginator';
+import {MatSort, MatSortModule} from '@angular/material/sort';
+import {MatTableDataSource, MatTableModule} from '@angular/material/table';
+import {MatInputModule} from '@angular/material/input';
+import {MatFormFieldModule} from '@angular/material/form-field';
 
 
 export const routes: Routes = [
@@ -98,6 +104,7 @@ export const routes: Routes = [
     SharedModule,
     CandidateModule,
     EmployeeModule,
+    MatFormFieldModule, MatInputModule, MatTableModule, MatSortModule, MatPaginatorModule,
     RouterModule.forChild(routes)
   ]
 })

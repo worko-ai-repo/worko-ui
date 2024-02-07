@@ -4,11 +4,11 @@
   </div>
   <div class="col-md-12">
     <div class="row d-flex justify-content-center">
-      <div class="col-md-5 ms-4 mt-3" *ngFor="let package of packageForm;  let i = index;">
+      <div class="col-md-5 ms-4 mt-3" *ngFor="let package of publicServiceList;  let i = index;">
 
         <div class="package-card">
           <div class="d-flex p-3 ps-0  justify-content-between">
-            <h6 class="card-text fw-bold ps-3">{{i+1}} {{package.sName}}</h6>
+            <h6 class="card-text fw-bold ps-3">{{i+1}} {{package.serviceName}}</h6>
             <div class="rating-card text-center ps-3 pe-3">
               <div class="pt-1 pb-0 mb-0">4.2/5</div>
               <div class="pb-1 pt-0 mt-0 rating-text">178 RATING</div>
@@ -17,16 +17,13 @@
 
           <div>
             <ul class="ms-3 referral-text">
-              <li>Referee Career Guidance</li>
-              <li>Tailored advice and mentorship</li>
-              <li>Skill development support</li>
-              <li>Navigate officiating challenges</li>
+              <li *ngFor="let points of package.serviceScope">{{ points }}</li>
             </ul>
           </div>
           <div class="card-footer">
             <div class="d-flex p-2  justify-content-between">
-                <div class="ps-2">{{package.duration}}</div>
-                <div class="float-end pe-2">{{package.amount}}<b>/-</b>  </div>
+                <div class="ps-2">{{package.durationAndPrices[0].durationInMinutes}}</div>
+                <div class="float-end pe-2">{{package.durationAndPrices[0].rate}}<b>/-</b>  </div>
             </div>
           </div>
 

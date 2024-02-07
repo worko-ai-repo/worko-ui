@@ -4,30 +4,26 @@
 
 
 
-<div class="card package-tiles  shadow-lg rounded mt-2" *ngFor="let package of packageForm ">
+<div class="card package-tiles  shadow-lg rounded mt-2" *ngFor="let package of packageList ">
     <div class="row mb-0 pb-0">
       <div class="col-md-10  pb-0 mb-0">
         <div class="row">
           <div class="col-md-8 package-main p-3 ps-5">
             <div class="service-border-right">
-            <h3 class="  package-content">{{package.sName}}</h3>
+            <h3 class="  package-content">{{package.serviceName}}</h3>
               <small class="scop-of-service-text p-0 ps-1 service-border-bottom">Scop Of Services :</small>
             <div class="scope-services ps-1 pt-1">
-            <div>1. Free Career Insights</div>
-            <div>2. Free Module Interaction</div>
-            <div>3. Free One on One Conversation</div>
+            <div *ngFor="let points of package.serviceScope">{{points}}</div>
             <div class="ps-3 p-0 m-0">....</div>
             </div>
           </div>
           </div>
           <div class="col-md-3 text-white mt-3 ms-0 ps-0">
-            <div>
-              <small >{{package.duration}}</small> | <i class="fa-solid fa-indian-rupee-sign fa-sm pe-1"></i> <small>{{package.amount}}/-</small>
+            <div *ngFor="let duration of package.durationAndPrices" >
+              <small>{{duration.durationInMinutes}}</small> | <i class="fa-solid fa-indian-rupee-sign fa-sm pe-1"></i> <small>{{duration.rate}}/-</small>
 
             </div>
-              <div>
-                 <small >{{package.duration}}</small> | <i class="fa-solid fa-indian-rupee-sign fa-sm pe-1"></i> <small>{{package.amount}}/-</small>
-              </div>
+             
           </div>
 
 
@@ -67,7 +63,7 @@
       </div>
     </div>
 
-    <app-modal [theme]="'theme-k'" [centered]="true" [showHeader]="showModal === modalType.MESSAGE"
+    <app-modal [theme]="'theme-k'"  [centered]="true" [showHeader]="showModal === modalType.MESSAGE"
   [showFooter]="showModal === modalType.MESSAGE" [title]="modalTitle" [message]="modalMessage"
   [bodyClass]="modalMessage ? 'p-5' : 'p-0'">
   

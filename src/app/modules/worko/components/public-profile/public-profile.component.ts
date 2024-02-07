@@ -1,6 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { StorageService } from 'src/app/modules/app-core/services/storage.service';
 import { CandidateProfileService } from 'src/app/modules/candidate/services/candidate-profile.service';
+import { PublicProfileService } from '../../services/public-profile.service';
+import { ReqGuidanceService } from '../../services/req-guidance.service';
 
 @Component({
   selector: 'app-public-profile',
@@ -12,15 +14,22 @@ export class PublicProfileComponent implements OnInit {
   publicUserList:any[]=[];
   publicUserExperience:any="";
   publicUserSocial:any="";
+  publicServiceList:any="";
+  
+
+  publicServiceDetails:any={};
   publicUserSocialDetails:any={};
   publicUserExperienceDetails:any={};
   publicUserDetails:any={};
  
+ 
 
-  constructor(private candidateSrv:CandidateProfileService , private storage: StorageService){}
+  constructor(private candidateSrv:CandidateProfileService , private publicSrv:PublicProfileService, private storage: StorageService){}
   ngOnInit(): void {
     this.emailAddress = this.storage.get("useremail");
+    
     this.getPubllicUserDetails();
+    
   }
 
   async getPubllicUserDetails(){
@@ -45,6 +54,17 @@ export class PublicProfileComponent implements OnInit {
       this.publicUserSocialDetails=this.publicUserSocial[0];
       
     })
+    this.publicServices();
   }
+  async publicServices(){
+    await this.publicSrv.getPublicServices(this.emailAddress).then(async(response)=>{
+      this.publicServiceList=response;
+      this.publicServiceDetails=this.publicServiceList[0];
+     
+    })
+    
+    
+  }
+  
   
 }
