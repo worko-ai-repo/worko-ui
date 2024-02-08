@@ -1,4 +1,6 @@
-import { Component } from '@angular/core';
+import { Component, Input, ViewChild } from '@angular/core';
+import { ModalComponent } from '../../../../modal/modal.component';
+import { ModalType } from 'src/app/modules/shared/interfaces/shared.interface';
 
 
 @Component({
@@ -7,12 +9,58 @@ import { Component } from '@angular/core';
   styleUrls: ['./package-form.component.scss']
 })
 export class PackageFormComponent {
- packageForm:any[]=[
-  {sName:"Career Guidance", duration:"15 min", amount:"1000" },
-  {sName:"Mock Interview", duration:"30 min", amount:"2000" },
-  {sName:"Interview Guidance", duration:"30 min", amount:"3000" },
-  {sName:"Resume Review", duration:"15 min", amount:"1000" }
- ];
+  @Input()packageList:any=[]=[];
+  @Input() packageDetails:any={};
+  @ViewChild(ModalComponent) modal!: ModalComponent;
+  modalType = ModalType;
+  modalMessage: string = "";
+  modalTitle: string = "";
+  showModal: ModalType | undefined;
+
 
  exampleHeader = "";
+
+ editPackage(){
+  this.openModal(ModalType.EMPLOYEE_PACKAGE_FORM);
+  
+ }
+
+ /**
+    * Open modal.
+    *
+    * @param {ModalType} modalType
+    * @param {string} [message = ""]
+    * @param {string} [title = ""]
+    * @returns {void}
+    */
+ openModal(modalType: ModalType, message: string = "", title: string = ""): void {
+  this.showModal = modalType;
+  this.modalMessage = message;
+  this.modalTitle = title;
+  this.modal.open();
 }
+/**
+ * Close modal.
+ *
+ * @returns {void}
+ */
+closeModal(): void {
+  
+  this.modal.cancel();
+
+}
+
+
+
+
+
+
+
+
+
+
+
+
+}
+
+

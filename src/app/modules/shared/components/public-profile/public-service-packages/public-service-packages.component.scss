@@ -1,0 +1,43 @@
+
+.card-text{
+    display: flex;
+    font-size: 20px;
+    flex-direction: column;
+    justify-content: center;
+    flex-shrink: 0;
+}
+.rating-card{
+    font-size: 16px;
+    border-radius: 5px;
+    background: #295CA8;
+    font-style: normal;
+    font-weight: 700;
+    // font-family: Montserrat;
+    line-height: normal;
+}
+.package-card, .rating-text{
+    font-size: 10px;
+    font-weight: 100;
+}
+.referral-text{
+    color: #FFF;
+    // font-family: Montserrat;
+    font-size: 12px;
+    font-style: normal;
+    font-weight: 500;
+    line-height: normal;
+}
+.card-footer{
+    border-top: 2px solid #295CA8;
+    color: #FFF;
+    text-align: center;
+    // font-family: Montserrat;
+    font-size: 24px;
+    font-style: normal;
+    font-weight: 700;
+    line-height: normal;
+}
+
+// slider//
+
+  

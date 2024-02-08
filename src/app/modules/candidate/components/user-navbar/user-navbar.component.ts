@@ -39,6 +39,15 @@ export class UserNavbarComponent implements OnInit{
        
       ]
     }
+    if (this.userType == "Admin") {
+      this.userRole = [
+        {
+          name: 'Admin Dashboard',
+         
+        },
+       
+      ]
+    }
   }
   toggleDashboard() {
     this.navbarToggleSwitchService.toggleDashboard();
@@ -47,7 +56,7 @@ export class UserNavbarComponent implements OnInit{
       this.router.navigate(['/employee/edashboard']);
     } else {
       this.router.navigate(['/candidate/cdashboard']);
-    }
+    }  
   
 }
 

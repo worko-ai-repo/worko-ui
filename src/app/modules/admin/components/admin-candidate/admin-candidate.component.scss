@@ -1,0 +1,78 @@
+table {
+    width: 100%;
+  }
+  
+  .mat-mdc-form-field {
+    font-size: 14px;
+    width: 100%;
+  }
+  .mat-form-field .mat-input-element {
+    background-color: transparent; /* Change the background color of the input field to red */
+    border: 5px solid red;
+  }
+  
+  td, th {
+    width: 25%;
+    // color: white;
+  
+  }
+  .small-column {
+    width: 50px;
+    // color: white;
+   
+     
+  }
+  .cdk-overlay-transparent-backdrop.cdk-overlay-backdrop-showing{
+    background-color: white;
+    border: white;
+  }
+  .mat-mdc-text-field-wrapper .mdc-text-field .mdc-text-field--filled{
+    background-color: red;
+  }
+  /* Apply transparent background color to the table */
+// .mat-table {
+//   background-color: transparent;
+// }
+
+// /* Apply border color to the table */
+// .mat-table {
+//   border: 2px solid #295CA8;
+// }
+
+/* Apply white color to table text */
+// .mat-cell,
+// // .mat-header-cell {
+// //   color: white;
+// // }
+.mat-paginator {
+    background-color: transparent !important;
+    border-left: 2px solid #1ED6FF !important;
+    border-right: 2px solid #1ED6FF !important;
+    border-bottom: 2px solid #1ED6FF !important;
+  }
+  ::ng-deep .mat-paginator {
+    background-color: red;
+    border-left: 2px solid #1ED6FF;
+    border-right: 2px solid #1ED6FF;
+    border-bottom: 2px solid #1ED6FF;
+  }
+  
+  ::ng-deep .mat-paginator-page-size {
+    color: white; /* Change text color */
+  }
+  
+//   .mat-paginator .mat-select {
+//     color: white !important;
+//   }
+  
+  ::ng-deep .mat-paginator {
+    background-color: transparent !important;
+    border-left: 2px solid #1ED6FF !important;
+    border-right: 2px solid #1ED6FF !important;
+    border-bottom: 2px solid #1ED6FF !important;
+  }
+  
+  ::ng-deep .mat-paginator .mat-select {
+    color: white !important;
+  }
+  

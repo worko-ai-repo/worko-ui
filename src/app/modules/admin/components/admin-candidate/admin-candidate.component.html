@@ -1,0 +1,132 @@
+ <div class="row">
+    <div class="candidate-card">
+      <div class="row p-4">
+        <div class="col-md-12 ">
+            
+          <mat-form-field >
+            <mat-label>Search</mat-label>
+            <input matInput (keyup)="applyFilter($event, 'Name')"  placeholder="Candidate details" #input>
+          </mat-form-field>
+  
+          <div class="mat-elevation-z8">
+            <table class="  table-light table-bordered" mat-table [dataSource]="dataSource" matSort  >
+                
+             
+              <ng-container matColumnDef="name">
+                <th mat-header-cell *matHeaderCellDef mat-sort-header> Name </th>
+                <td mat-cell *matCellDef="let row"> {{row.Name}} </td>
+              </ng-container>
+  
+              
+              <ng-container matColumnDef="candidateId">
+                <th mat-header-cell *matHeaderCellDef mat-sort-heade class="small-column">ID </th>
+                <td mat-cell *matCellDef="let row" class="small-column"> {{row.CandidateID}} </td>
+              </ng-container>
+  
+                     <ng-container matColumnDef="employeeId">
+                <th mat-header-cell *matHeaderCellDef mat-sort-header class="small-column"> Emp ID </th>
+                <td mat-cell *matCellDef="let row" class="small-column"> {{row.EmployeeID}} </td>
+              </ng-container>
+  
+              <ng-container matColumnDef="date">
+                <th mat-header-cell *matHeaderCellDef mat-sort-header> Date </th>
+                <td mat-cell *matCellDef="let row"> {{row.Date | date:'dd/mm/yyyy'}} </td>
+              </ng-container>
+  
+                        <ng-container matColumnDef="packageStatus">
+                <th mat-header-cell *matHeaderCellDef mat-sort-header> Package Status </th>
+                <td mat-cell *matCellDef="let row"> {{row.packagestatus}} </td>
+              </ng-container>
+  
+                        <ng-container matColumnDef="paymentStatus">
+                <th mat-header-cell *matHeaderCellDef mat-sort-header> Payment Status </th>
+                <td mat-cell *matCellDef="let row"> {{row.Paymentstatus}} </td>
+              </ng-container>
+  
+              <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+              <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+  
+             
+              <tr class="mat-row" *matNoDataRow>
+                <td class="mat-cell" colspan="6">No data matching the filter "{{input.value}}"</td>
+              </tr>
+    
+            </table>
+            <mat-paginator  class="table" [pageSizeOptions]="[5, 10, 25, 100]" aria-label="Select page of users"></mat-paginator>
+
+  
+          </div>
+        </div>
+      </div>
+    </div>
+</div> 
+  
+
+
+
+
+<!-- <div class="row">
+    <div class="candidate-card">
+      <div class="row p-4">
+        <div class="col-md-12 ">
+          <mat-form-field style="background-color: transparent;" >
+            <mat-label>Search</mat-label>
+            <input matInput (keyup)="applyFilter($event, 'Name')"  placeholder="Candidate details" #input>
+          </mat-form-field>
+  
+          <div class="mat-elevation-z8">
+            <table mat-table [dataSource]="dataSource" matSort style="background-color: transparent; border-radius: 10px; border-bottom: none; border: 2px solid #1ED6FF; color: white;">
+                <th style="background-color: transparent; border-radius: 10px; border-bottom: none; border: 2px solid #1ED6FF; color: white;" >
+              
+              <ng-container matColumnDef="name">
+                <th mat-header-cell *matHeaderCellDef mat-sort-header> Name </th>
+                <td mat-cell *matCellDef="let row"> {{row.Name}} </td>
+              </ng-container>
+  
+              
+              <ng-container matColumnDef="candidateId">
+                <th mat-header-cell *matHeaderCellDef mat-sort-heade class="small-column">ID </th>
+                <td mat-cell *matCellDef="let row" class="small-column"> {{row.CandidateID}} </td>
+              </ng-container>
+  
+             
+              <ng-container matColumnDef="employeeId">
+                <th mat-header-cell *matHeaderCellDef mat-sort-header class="small-column"> Emp ID </th>
+                <td mat-cell *matCellDef="let row" class="small-column"> {{row.EmployeeID}} </td>
+              </ng-container>
+  
+             
+              <ng-container matColumnDef="date">
+                <th mat-header-cell *matHeaderCellDef mat-sort-header> Date </th>
+                <td mat-cell *matCellDef="let row"> {{row.Date | date:'dd/mm/yyyy'}} </td>
+              </ng-container>
+  
+             
+              <ng-container matColumnDef="packageStatus">
+                <th mat-header-cell *matHeaderCellDef mat-sort-header> Package Status </th>
+                <td mat-cell *matCellDef="let row"> {{row.packagestatus}} </td>
+              </ng-container>
+  
+             
+              <ng-container matColumnDef="paymentStatus">
+                <th mat-header-cell *matHeaderCellDef mat-sort-header> Payment Status </th>
+                <td mat-cell *matCellDef="let row"> {{row.Paymentstatus}} </td>
+              </ng-container>
+  
+              <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+              <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+  
+              
+              <tr class="mat-row" *matNoDataRow>
+                <td class="mat-cell" colspan="6">No data matching the filter "{{input.value}}"</td>
+              </tr>
+            </th>
+           
+            </table>
+  
+            <mat-paginator style="background-color: transparent; border-left: 2px solid #1ED6FF;  border-right: 2px solid #1ED6FF; border-bottom: 2px solid #1ED6FF;" class="text-white" [pageSizeOptions]="[5, 10, 25, 100]" aria-label="Select page of users"></mat-paginator>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div> -->
