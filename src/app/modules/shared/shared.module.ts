@@ -49,9 +49,10 @@ import { AwaitingServiceComponent } from './components/user-interface/service/aw
 import { CancelledServiceComponent } from './components/user-interface/service/cancelled-service/cancelled-service.component';
 import { DoneServiceComponent } from './components/user-interface/service/done-service/done-service.component';
 import { UserStepperComponent } from './components/user-interface/employee/employee-edit/user-stepper/user-stepper.component';
-
-
-
+import { MatAutocompleteModule } from '@angular/material/autocomplete';
+import { MatSelectModule } from '@angular/material/select';
+import { FormControl, NgModel } from '@angular/forms';
+import { EditBankDetailsComponent } from './components/user-interface/employee/edit-bank-details/edit-bank-details.component';
 export const routes: Routes = [
 
   
@@ -74,6 +75,7 @@ export const routes: Routes = [
     TotalEarningComponent,
     PackageFormComponent,
     UserStepperComponent,
+    EditBankDetailsComponent,
     // DoneServiceComponent,
     // CancelledServiceComponent,
     // AwaitingServiceComponent,
@@ -91,17 +93,15 @@ export const routes: Routes = [
     CommonModule,
     MatStepperModule,
     FormsModule,
-    ReactiveFormsModule,
     MatStepperModule,
     MatButtonModule,
     MatStepperModule,
     FormsModule,
-    ReactiveFormsModule,
     MatFormFieldModule,
     MatInputModule,
-    
-    
-    
+    MatAutocompleteModule,
+    MatSelectModule,
+    ReactiveFormsModule,
   ],
 
   exports: [
@@ -120,6 +120,9 @@ export const routes: Routes = [
   TotalEarningComponent,
   PackageFormComponent,
   UserStepperComponent,
+  MatAutocompleteModule,
+  ReactiveFormsModule,
+  EditBankDetailsComponent
   
   
   

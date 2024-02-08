@@ -1,0 +1,73 @@
+
+    <div class="card-body">
+        <div class="row">
+            <div class="col-md-12">
+               
+                <div class="row  d-flex justify-content-center ">
+                    <div class="col-md-3">
+                        <label for="" class="form-lable">Bank Name</label>
+                        <input type="text" class="form-control form-input" placeholder="Bank Name"
+                            name="bankName"
+                            id="bankName" [(ngModel)]="employeeBankDetails.bankName">
+                    </div>
+                    <div class="col-md-3">
+                        <label for="" class="form-lable">UPI ID</label>
+                        <input type="text" class="form-control form-input" placeholder="UPI ID" 
+                            name="upiId" id="upiId" [(ngModel)]="employeeBankDetails.upiId">
+
+                    </div>
+                </div>
+                <div class="row mt-1 d-flex justify-content-center ">
+                    <div class="col-md-3">
+                        <label for="" class="form-lable">IFSC Code</label>
+                        <input type="text" class="form-control form-input" placeholder="IFSC Code"
+                            name="ifscCode"
+                            id="ifscCode" [(ngModel)]="employeeBankDetails.ifscCode">
+                    </div>
+                    <div class="col-md-3">
+                        <label for="" class="form-lable">Account Holder Name</label>
+                        <input type="text" class="form-control form-input" placeholder="Account Holder Name" 
+                            name="holderName" id="holderName" [(ngModel)]="employeeBankDetails.holderName">
+
+                    </div>
+                </div>
+                <div class="row mt-1 d-flex justify-content-center">
+                    <div class="col-md-3">
+                        <label for="" class="form-lable">Account Number</label>
+                        <input type="text" class="form-control form-input" placeholder="Account Number"
+                            name="accNumber"
+                            id="accNumber" [(ngModel)]="employeeBankDetails.accNumber">
+
+                           <div class="row">
+                            <div class="col-md-12">
+                        
+                                <label for="" class="form-lable">Account Type</label>
+                                <select name="" class="form-control account-selector form-input" id=""
+                                name="accType" id="accType"  [(ngModel)]="employeeBankDetails.accType">
+                                    <option value="Saving">Saving</option>
+                                    <option value="Current">Current</option>
+                                </select>
+                                
+                                
+                            </div>
+                           </div>
+                    </div>
+                    <div class="col-md-3">
+                        <label for="" class="form-lable">Account Number Conformation</label>
+                        <input type="text" class="form-control form-input m-0" placeholder="Account Number Confirmation" 
+                            name="confirmAccNumber" id="confirmAccNumber" [(ngModel)]="employeeBankDetails.confirmAccNumber">
+                           
+                    </div>
+                    
+                    
+                </div>
+                <div class="row mt-5 mb-3">
+                    <div class="col-md-11 d-flex justify-content-end">
+                        <button class="btn btn-next" (click)="completeStep()">Update</button>
+                    </div>
+        
+                </div>
+                
+            </div>
+        </div>
+    </div> 

@@ -8,12 +8,12 @@
                         <label for="" class="form-lable">Bank Name</label>
                         <input type="text" class="form-control form-input" placeholder="Bank Name"
                             name="bankName"
-                            id="bankName">
+                            id="bankName" [(ngModel)]="employeeBankDetails.bankName">
                     </div>
                     <div class="col-md-3">
                         <label for="" class="form-lable">UPI ID</label>
                         <input type="text" class="form-control form-input" placeholder="UPI ID" 
-                            name="upiId" id="upiId">
+                            name="upiId" id="upiId" [(ngModel)]="employeeBankDetails.upiId">
 
                     </div>
                 </div>
@@ -22,12 +22,12 @@
                         <label for="" class="form-lable">IFSC Code</label>
                         <input type="text" class="form-control form-input" placeholder="IFSC Code"
                             name="ifscCode"
-                            id="ifscCode">
+                            id="ifscCode" [(ngModel)]="employeeBankDetails.ifscCode">
                     </div>
                     <div class="col-md-3">
                         <label for="" class="form-lable">Account Holder Name</label>
                         <input type="text" class="form-control form-input" placeholder="Account Holder Name" 
-                            name="accHolderName" id="accHolderName">
+                            name="holderName" id="holderName" [(ngModel)]="employeeBankDetails.holderName">
 
                     </div>
                 </div>
@@ -36,15 +36,16 @@
                         <label for="" class="form-lable">Account Number</label>
                         <input type="text" class="form-control form-input" placeholder="Account Number"
                             name="accNumber"
-                            id="accNumber">
+                            id="accNumber" [(ngModel)]="employeeBankDetails.accNumber">
 
                            <div class="row">
                             <div class="col-md-12">
                         
                                 <label for="" class="form-lable">Account Type</label>
                                 <select name="" class="form-control account-selector form-input" id=""
-                                name="accNoConformation" id="accNoConformation">
-                                    <option value="">Saving</option>
+                                name="accType" id="accType"  [(ngModel)]="employeeBankDetails.accType">
+                                    <option value="Saving">Saving</option>
+                                    <option value="Current">Current</option>
                                 </select>
                                 
                                 
@@ -53,8 +54,8 @@
                     </div>
                     <div class="col-md-3">
                         <label for="" class="form-lable">Account Number Conformation</label>
-                        <input type="text" class="form-control form-input m-0" placeholder="Account Number Conformation" 
-                            name="accNoConformation" id="accNoConformation">
+                        <input type="text" class="form-control form-input m-0" placeholder="Account Number Confirmation" 
+                            name="confirmAccNumber" id="confirmAccNumber" [(ngModel)]="employeeBankDetails.confirmAccNumber">
                            
                     </div>
                     
@@ -64,7 +65,7 @@
                     <div class="col-md-11 d-flex justify-content-end">
                         <!-- (click)="previousStep.emit()" -->
                         <button class="btn btn-next me-2" (click)="onPreviousClick()">Previous</button>
-                        <button class="btn btn-next">Complite</button>
+                        <button class="btn btn-next" (click)="completeStep()">Complete</button>
                     </div>
         
                 </div>
