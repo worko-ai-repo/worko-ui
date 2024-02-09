@@ -221,8 +221,8 @@ export class LoginPageComponent {
   }
 
   passwordChange() {
-    this.currentAuthenticatedUser();
-    this.currentSession();
+    // this.currentAuthenticatedUser();
+    // this.currentSession();
     console.log(this.resetForm)
   }
 
@@ -255,9 +255,11 @@ export class LoginPageComponent {
 
   toggleSignInRow() {
     this.setErrorMessage("");
-    this.currentSession();
-    this.currentAuthenticatedUser();
+    // this.currentSession();
+    // this.currentAuthenticatedUser();
     this.showSignInRow = false;
+    this.displayResetPassword = false;
+    this.resetVerificationScreen= false;
   }
 
   toggleSignUpRow() {

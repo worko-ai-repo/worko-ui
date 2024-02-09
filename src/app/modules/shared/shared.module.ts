@@ -49,6 +49,11 @@ import { AwaitingServiceComponent } from './components/user-interface/service/aw
 import { CancelledServiceComponent } from './components/user-interface/service/cancelled-service/cancelled-service.component';
 import { DoneServiceComponent } from './components/user-interface/service/done-service/done-service.component';
 import { UserStepperComponent } from './components/user-interface/employee/employee-edit/user-stepper/user-stepper.component';
+import { MatAutocompleteModule } from '@angular/material/autocomplete';
+import { MatSelectModule } from '@angular/material/select';
+import { FormControl, NgModel } from '@angular/forms';
+import { EditBankDetailsComponent } from './components/user-interface/employee/edit-bank-details/edit-bank-details.component';
+
 import { PublicSidebarComponent } from './components/public-profile/public-sidebar/public-sidebar.component';
 import { PublicServicePackagesComponent } from './components/public-profile/public-service-packages/public-service-packages.component';
 import { PublicReviewsComponent } from './components/public-profile/public-reviews/public-reviews.component';
@@ -57,7 +62,6 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { AdminChartComponent } from './components/Admin/Dashboard/admin-chart/admin-chart.component';
 import { PaymentTrendComponent } from './components/Admin/Dashboard/payment-trend/payment-trend.component';
 import { AdminTotalAmountComponent } from './components/Admin/Dashboard/admin-total-amount/admin-total-amount.component';
-
 
 export const routes: Routes = [
 
@@ -81,12 +85,14 @@ export const routes: Routes = [
     TotalEarningComponent,
     PackageFormComponent,
     UserStepperComponent,
+    EditBankDetailsComponent,
     PublicSidebarComponent,
     PublicServicePackagesComponent,
     PublicReviewsComponent,
     AdminChartComponent,
     PaymentTrendComponent,
     AdminTotalAmountComponent,
+
     // DoneServiceComponent,
     // CancelledServiceComponent,
     // AwaitingServiceComponent,
@@ -104,19 +110,17 @@ export const routes: Routes = [
     CommonModule,
     MatStepperModule,
     FormsModule,
-    ReactiveFormsModule,
     MatStepperModule,
     MatButtonModule,
     MatStepperModule,
     FormsModule,
-    ReactiveFormsModule,
     MatFormFieldModule,
     MatInputModule,
+    MatAutocompleteModule,
+    MatSelectModule,
+    ReactiveFormsModule,
     SlickCarouselModule,
     // BrowserAnimationsModule,
-    
-    
-    
   ],
 
   exports: [
@@ -135,17 +139,16 @@ export const routes: Routes = [
   TotalEarningComponent,
   PackageFormComponent,
   UserStepperComponent,
+  MatAutocompleteModule,
+  ReactiveFormsModule,
+  EditBankDetailsComponent,
   PublicSidebarComponent,
   PublicServicePackagesComponent,
   PublicReviewsComponent,
   AdminChartComponent,
   PaymentTrendComponent,
   AdminTotalAmountComponent,
-  
-  
-  
-  
-  
+
   ],
 
 })

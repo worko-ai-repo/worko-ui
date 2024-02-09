@@ -67,7 +67,8 @@
                             <div class="material-input__group">
                               <i class="fa-solid fa-user" style="color: #f4f5f5; font-size: 12px"></i>
                               <input type="text" placeholder="Name" class="text-white material-input__group__input"
-                                #name="ngModel" [(ngModel)]="candidateForm.name" name="name" id="name" />
+                              pattern="^([ \u00c0-\u01ffa-zA-Z'-])+$" 
+                              #name="ngModel" [(ngModel)]="candidateForm.name" name="name" id="name" />
                             </div>
                           </div>
 
@@ -144,6 +145,7 @@
                               <i class="fa-solid fa-phone" style="color: #ffffff; font-size: 12px"></i>
                               <input type="otp" placeholder="Phone number"
                                 class="text-white material-input__group__input" #phoneNumber="ngModel"
+                                pattern="^(?:(?:\+|0{0,2})91(\s*[\ -]\s*)?|[0]?)?[789]\d{9}|(\d[ -]?){10}\d$"  maxlength="15"
                                 [(ngModel)]="candidateForm.phoneNumber" name="phoneNumber" id="phoneNumber" />
                             </div>
                           </div>
@@ -182,7 +184,7 @@
                           </div>
 
                           <div class="col-md-12 text-center mt-2 fx-12">
-                            <p class="text-white">Already have an account? <a (click)="toggleSignInRow()"
+                            <p class="text-white">Already have an account? <a  class="-pointer" (click)="toggleSignInRow()"
                                 style="color: #68DBFF;;">Sign in now</a></p>
                           </div>
                         </form>
@@ -199,7 +201,8 @@
                               <div class="material-input__group">
                                 <i class="fa-solid fa-user" style="color: #f4f5f5; font-size: 12px"></i>
                                 <input type="text" placeholder="Name" class="text-white material-input__group__input"
-                                  #name="ngModel" [(ngModel)]="employeeForm.name" name="name" id="name" />
+                                pattern="^([ \u00c0-\u01ffa-zA-Z'-])+$"   
+                                #name="ngModel" [(ngModel)]="employeeForm.name" name="name" id="name" />
                               </div>
                             </div>
                             <div class="col-md-6">
@@ -321,6 +324,7 @@
                                 <i class="fa-solid fa-phone" style="color: #ffffff; font-size: 12px"></i>
                                 <input type="text" placeholder="Phone number"
                                   class="text-white material-input__group__input" #phoneNumber="ngModel"
+                                  pattern="^(?:(?:\+|0{0,2})91(\s*[\ -]\s*)?|[0]?)?[789]\d{9}|(\d[ -]?){10}\d$" maxlength="15"
                                   [(ngModel)]="employeeForm.phoneNumber" name="phoneNumber" id="phoneNumber" />
                               </div>
                             </div>
@@ -360,7 +364,7 @@
                               <button class="btn btn-signUpLinkdin text-white fs-11"> Sign Up with LinkedIn</button>
                             </div>
                             <div class="col-md-12 text-center mt-2 fx-12">
-                              <p class="text-white">Already have an account? <a (click)="toggleSignInRow()"
+                              <p class="text-white">Already have an account? <a class="-pointer" (click)="toggleSignInRow()"
                                   style="color: #68DBFF;">Sign in now</a></p>
                             </div>
                           </div>
@@ -479,14 +483,14 @@
 
                       <div class="col-md-12 text-center text-white mt-2 mb-5 "
                         style="font-size: 14px; padding-left: initial; ">
-                        Don't have any account? <a style="color: #68DBFF;" (click)="toggleSignUpRow()">Sign up now</a>
+                        Don't have any account? <a style="color: #68DBFF;" class="-pointer" (click)="toggleSignUpRow()">Sign up now</a>
                       </div>
                       <!-- <div class="col-md-12 mt-3">
                         <button class="btn signInButton" (click)="signOut()" type="button"> Sign out</button>
                       </div> -->
                     </div>
                   </div>
-                  <div class="col-md-5 px-5 d-flex align-self-center" *ngIf="displayResetPassword">
+                  <div class="col-md-5 px-4 d-flex align-self-center pt-4" *ngIf="displayResetPassword">
 
                     <div class="row">
                       <div class="col-md-12 text-white" style="font-size: 18px">
@@ -558,11 +562,15 @@
                           </button>
 
 
-                          <button class="btn btn-signUp" type="submit" *ngIf="!resetVerificationScreen"
+                          <button class="btn btn-signUp reset-button" type="submit" *ngIf="!resetVerificationScreen"
                             [disabled]="(!reset.form.valid || !resetForm.emailId)">
                             Reset my password
 
                           </button>
+                        </div>
+                        <div class="col-md-12 text-center mt-2 fx-12">
+                          <p class="text-white">Already have an account? <a  class="-pointer" (click)="toggleSignInRow()"
+                              style="color: #68DBFF;;">Sign in now</a></p>
                         </div>
                       </form>
                     </div>
