@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, Input } from '@angular/core';
 
 @Component({
   selector: 'app-public-service-packages',
@@ -6,6 +6,8 @@ import { Component } from '@angular/core';
   styleUrls: ['./public-service-packages.component.scss']
 })
 export class PublicServicePackagesComponent {
+  @Input()publicServiceDetails:any={};
+  @Input()publicServiceList:any="";
   packageForm:any[]=[
     {sName:"Career Guidance", duration:"15 min", amount:"1000" },
     {sName:"Mock Interview", duration:"30 min", amount:"2000" },

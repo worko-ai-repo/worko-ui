@@ -182,7 +182,6 @@ export const routes: Routes = [
     SharedModule,
     RouterModule.forChild(routes),
     MatFormFieldModule,
-    MatInputModule,
     MatSelectModule,
     ReactiveFormsModule,
     FormsModule,

@@ -27,4 +27,6 @@ export class EmployeeProfileService {
     return this.http.get(`${API_URL}referral/company/${companySK}?status=${status}`,this.authService.getHttpOptions()).toPromise();
   }
 
+  
+
 }

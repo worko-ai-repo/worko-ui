@@ -9,8 +9,8 @@
 
   <div class="navbar-container">
     <div class="d-flex service-list" *ngFor="let menu of menuItems">
-      <div class="menu-bar py-2">
-        <span class="ms-2 nav-link-text" routerLink="/{{menu.router}}" routerLinkActive="active-navbar">
+      <div class="menu-bar py-2 ">
+        <span class="ms-2 nav-link-text -pointer" routerLink="/{{menu.router}}" routerLinkActive="active-navbar">
           <span *ngIf="menu.name === 'Dashboard'">
             <svg xmlns='http://www.w3.org/2000/svg' width='21' height='31' viewBox='0 0 31 31' fill='none'>
               <path
