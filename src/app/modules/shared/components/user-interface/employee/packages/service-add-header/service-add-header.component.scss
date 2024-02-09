@@ -71,8 +71,15 @@
 .btn-add{
     font-size: 11px;
     border-radius: 10px;
-    border: 1px solid #FFF;
+    border: 1px solid #57E1FF;
     background-color: transparent;
     color: white;
 }
 
+.selector[disabled] {
+    border: 1px solid #cccccc59; /* Change border color to gray */
+  }
+
+  .error{
+    border: 1px solid red; /* Change border color to gray */
+  }
