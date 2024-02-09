@@ -91,11 +91,11 @@
         <div formArrayName="selectOptions">
           <div *ngFor="let selectOption of getSelectOptionsFormArray(i).controls; let j = index" >
             <div [formGroupName]="j"  class="d-flex">
-              <select formControlName="startTime"  class="selector ps-2 mt-2"  [disabled]="!data.checkboxClicked">
+              <select formControlName="startTime"  class="selector ps-2 "  [disabled]="!data.checkboxClicked">
                 <option value="" disabled selected hidden>From</option>
                 <option *ngFor="let timing of data.timings" [value]="timing.startTime">{{ timing.startTime }}</option>
               </select>
-              <select formControlName="endTime" class="selector ps-2 ms-3 me-0 pe-0 mt-2"  [disabled]="!data.checkboxClicked"  (focus)="getSelectOptionsFormArray(i).controls[j].get('endTime')?.markAsTouched()"
+              <select formControlName="endTime" class="selector ps-2 ms-3 me-0 pe-0 "  [disabled]="!data.checkboxClicked"  (focus)="getSelectOptionsFormArray(i).controls[j].get('endTime')?.markAsTouched()"
               >
                 <option value="" disabled selected hidden>To</option>
                 <option *ngFor="let timing of data.timings" [value]="timing.endTime">{{ timing.endTime }}</option>
