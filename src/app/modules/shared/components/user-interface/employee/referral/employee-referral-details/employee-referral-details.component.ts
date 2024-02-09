@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, Input } from '@angular/core';
 
 @Component({
   selector: 'app-employee-referral-details',
@@ -6,7 +6,16 @@ import { Component } from '@angular/core';
   styleUrls: ['./employee-referral-details.component.scss']
 })
 export class EmployeeReferralDetailsComponent {
-
+  @Input()empdetailsList:any="";
+  @Input()empEducationList:any="";
+  @Input()empExperienceList:any="";
+  @Input()empCoreSkillsList:any="";
+  @Input()empAchievmentsList:any="";
+  @Input() empDetails:any={};
+  @Input()empEducationDetails:any={};
+  @Input()empAchievmentsDetails:any={};
+  @Input()empCoreSkillsDetails:any={};
+  @Input()empExperienceDetails:any={};
   showCard: boolean = false;
 
   selectedStatus!: string; 
