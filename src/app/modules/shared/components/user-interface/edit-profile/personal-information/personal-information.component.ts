@@ -21,8 +21,8 @@ export class PersonalInformationComponent implements OnInit {
   fileType: string = "";
   emailAddress: any = "";
   candidateDetailsList: any = "";
-  profilePicUrl: string = "/assets/public/candidate-img.png";
-
+  // profilePicUrl: string = "/assets/public/candidate-img.png";
+  picErrorMessage: string = "";
   @Input() candidatePersonalDetails: any = {
     name: "",
     email: "",
@@ -42,7 +42,8 @@ export class PersonalInformationComponent implements OnInit {
     socialPk: "",
     fileName: "",
     fileToUpload: "",
-    fileType: ""
+    fileType: "",
+    profilePicUrl: "/assets/public/candidate-img.png"
 
 
   };
@@ -59,9 +60,6 @@ export class PersonalInformationComponent implements OnInit {
   }
 
   ngOnChanges(): void {
-    // console.log(this.candidateList, "candidateList");
-    // console.log(this.educationList, "educationList");
-    // console.log(this.candidateSocial, "candidateSocial");
 
     if (this.candidatePersonalDetails.name && this.candidatePersonalDetails.collegeName && this.candidatePersonalDetails.socialLinkGithub) {
 
@@ -92,7 +90,9 @@ export class PersonalInformationComponent implements OnInit {
       socialLinklinkdin: this.candidateSocial?.linkedin,
       socialLinktwitter: this.candidateSocial?.twitter,
       socialSk: this.candidateSocial?.SK,
-      socialPk: this.candidateSocial?.PK
+      socialPk: this.candidateSocial?.PK,
+      profilePicUrl: "/assets/public/candidate-img.png"
+
     }
   }
 
@@ -114,9 +114,6 @@ export class PersonalInformationComponent implements OnInit {
         var reader = new FileReader();
         reader.readAsDataURL(file); // read file as data URL
 
-        reader.onload = (event) => { // called once readAsDataURL is completed
-          this.profilePicUrl = event.target?.result as string;
-        }
 
         // Check if the file type is PDF
         if (file.type === 'image/jpeg' || file.type === 'image/jpg' || file.type === 'image/png') {
@@ -125,8 +122,12 @@ export class PersonalInformationComponent implements OnInit {
           this.fileName = file.name;
           this.fileType = file.type;
           this.candidatePersonalDetails.fileName = this.fileName,
-            this.candidatePersonalDetails.fileToUpload = this.fileToUpload,
-            this.candidatePersonalDetails.fileType = this.fileType
+          this.candidatePersonalDetails.fileToUpload = this.fileToUpload,
+          this.candidatePersonalDetails.fileType = this.fileType;
+          reader.onload = (event) => { // called once readAsDataURL is completed
+            this.candidatePersonalDetails.profilePicUrl = event.target?.result as string;
+          }
+          this.picErrorMessage = ""
           console.log('Selected file type:', file);
         } else {
           // Display an error for an invalid file type
@@ -138,7 +139,8 @@ export class PersonalInformationComponent implements OnInit {
           this.fileType = "";
           this.candidatePersonalDetails.fileName = this.fileName,
           this.candidatePersonalDetails.fileToUpload = this.fileToUpload,
-          this.candidatePersonalDetails.fileType = this.fileType
+          this.candidatePersonalDetails.fileType = this.fileType;
+          this.picErrorMessage = "Please upload a jpg, png image only."
         }
       }
     }

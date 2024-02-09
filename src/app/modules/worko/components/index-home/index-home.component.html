@@ -279,9 +279,12 @@
       <app-testimonial></app-testimonial>
       <app-footer></app-footer>
 </div>
-<app-modal>
+
+<app-modal [theme]="'theme-k'" [centered]="false" [showHeader]="true" [showClose]="true"
+  [showFooter]="showModal === modalType.MESSAGE" [title]="modalTitle" [message]="modalMessage"
+  [bodyClass]="modalMessage ? 'p-4' : 'p-0'">
   <ng-container *ngIf="showModal === modalType.LOGIN_SIGNUP">
     <app-login-page></app-login-page> 
   </ng-container>
 </app-modal>
-<!-- <app-login-page></app-login-page> -->
+

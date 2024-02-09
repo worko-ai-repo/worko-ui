@@ -131,6 +131,7 @@
 </div>
 
 <app-modal [theme]="'theme-k'" [centered]="true" [showHeader]="showModal === modalType.MESSAGE"
+[showClose]="true"
   [showFooter]="showModal === modalType.MESSAGE" [title]="modalTitle" [message]="modalMessage"
   [bodyClass]="modalMessage ? 'p-4' : 'p-0'">
 
