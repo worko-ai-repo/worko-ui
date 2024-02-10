@@ -67,7 +67,7 @@
                             <div class="material-input__group">
                               <i class="fa-solid fa-user" style="color: #f4f5f5; font-size: 12px"></i>
                               <input type="text" placeholder="Name" class="text-white material-input__group__input"
-                              pattern="^([ \u00c0-\u01ffa-zA-Z'-])+$" 
+                              pattern="^([ \u00c0-\u01ffa-zA-Z'.-])+$" 
                               #name="ngModel" [(ngModel)]="candidateForm.name" name="name" id="name" />
                             </div>
                           </div>
@@ -201,7 +201,7 @@
                               <div class="material-input__group">
                                 <i class="fa-solid fa-user" style="color: #f4f5f5; font-size: 12px"></i>
                                 <input type="text" placeholder="Name" class="text-white material-input__group__input"
-                                pattern="^([ \u00c0-\u01ffa-zA-Z'-])+$"   
+                                pattern="^([ \u00c0-\u01ffa-zA-Z'.-])+$" 
                                 #name="ngModel" [(ngModel)]="employeeForm.name" name="name" id="name" />
                               </div>
                             </div>
@@ -253,7 +253,7 @@
                                 <i class="fa-brands fa-linkedin" style="color: #f6f7f9; font-size: 12px"></i>
                                 <input type="text" placeholder="LinkdIn Profile"
                                   class="text-white material-input__group__input" #linkdinProfile="ngModel"
-                                  pattern="/^(https?:\/\/(www\.)?linkedin\.com\/in\/[a-zA-Z0-9_\-]+\/?)$/"
+                                  pattern="^(https?:\/\/(www\.)?linkedin\.com\/in\/[a-zA-Z0-9_\-]+\/?)$"
                                   [title]="linkdinProfile.errors?.['pattern'] ? 'Linkedin URL is invalid' : ''"
                                   [(ngModel)]="employeeForm.linkdinProfile" name="linkdinProfile" id="linkdinProfile" />
                               </div>

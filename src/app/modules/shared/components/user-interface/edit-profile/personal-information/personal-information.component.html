@@ -34,7 +34,7 @@
                         <div class="col-md-5">
                             <label for="" class="form-lable">Name</label>
                             <input type="text" class="form-control form-input" placeholder="Name" #name="ngModel"
-                                [(ngModel)]="candidatePersonalDetails.name" name="name" id="name">
+                            pattern="^([ \u00c0-\u01ffa-zA-Z'.-])+$"  [(ngModel)]="candidatePersonalDetails.name" name="name" id="name">
                         </div>
                         <div class="col-md-5">
                             <label for="" class="form-lable">Email</label>
@@ -134,7 +134,7 @@
                         <div class="col-md-3">
                             <input type="text" placeholder="LinkdIn" class="form-input form-control"
                                 #socialLinklinkdin="ngModel" [(ngModel)]="candidatePersonalDetails.socialLinklinkdin"
-                                name="socialLinklinkdin" id="socialLinklinkdin">
+                                pattern="/^(https?:\/\/(www\.)?linkedin\.com\/in\/[a-zA-Z0-9_\-]+\/?)$/" name="socialLinklinkdin" id="socialLinklinkdin">
                             
                         </div>
                         <div class="col-md-3">
