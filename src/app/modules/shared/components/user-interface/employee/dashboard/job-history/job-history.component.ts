@@ -14,4 +14,9 @@ export class JobHistoryComponent {
     //   this.bankInfo = this.bankInfo[0];
     // }
   }
+  showCurrentJob: boolean = true;
+
+  toggleCard() {
+    this.showCurrentJob = !this.showCurrentJob;
+  }
 }

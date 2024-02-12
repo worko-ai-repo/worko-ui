@@ -62,6 +62,7 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { AdminChartComponent } from './components/Admin/Dashboard/admin-chart/admin-chart.component';
 import { PaymentTrendComponent } from './components/Admin/Dashboard/payment-trend/payment-trend.component';
 import { AdminTotalAmountComponent } from './components/Admin/Dashboard/admin-total-amount/admin-total-amount.component';
+import { EmployeeAboutComponent } from './components/user-interface/employee/dashboard/employee-about/employee-about.component';
 
 export const routes: Routes = [
 
@@ -92,6 +93,7 @@ export const routes: Routes = [
     AdminChartComponent,
     PaymentTrendComponent,
     AdminTotalAmountComponent,
+    EmployeeAboutComponent,
 
     // DoneServiceComponent,
     // CancelledServiceComponent,
@@ -148,6 +150,7 @@ export const routes: Routes = [
   AdminChartComponent,
   PaymentTrendComponent,
   AdminTotalAmountComponent,
+  EmployeeAboutComponent,
 
   ],
 

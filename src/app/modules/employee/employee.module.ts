@@ -24,6 +24,7 @@ import { EmployeeProfessionalDetailsComponent } from '../shared/components/user-
 import { AddBankDetailsComponent } from '../shared/components/user-interface/employee/employee-edit/add-bank-details/add-bank-details.component';
 import { UserStepperComponent } from '../shared/components/user-interface/employee/employee-edit/user-stepper/user-stepper.component';
 import { FormsModule } from '@angular/forms';
+import { EmployeeAboutComponent } from '../shared/components/user-interface/employee/dashboard/employee-about/employee-about.component';
 
 
 export const routes: Routes = [
@@ -79,6 +80,7 @@ export const routes: Routes = [
     EmployeeEditDetailsComponent,
     EmployeeProfessionalDetailsComponent,
     AddBankDetailsComponent,
+    
     
     
     
