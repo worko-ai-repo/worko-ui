@@ -10,6 +10,7 @@
     width: 120px;
     border-radius: 18px;
     height: 30px;
+    margin-top: 50%;
 }
 
 .candidate-worko-logo {
@@ -23,9 +24,15 @@
 }
 
 .sidebar {
-    width: 6.5rem;
-    min-height: 100%;
-    flex-direction: column;
+ height: 100%;
+  width: 160px;
+  position: fixed;
+  z-index: 1;
+  top: 0;
+  left: 0;
+  
+  overflow-x: hidden;
+  padding-top: 20px;
 }
 
 .logout-container {

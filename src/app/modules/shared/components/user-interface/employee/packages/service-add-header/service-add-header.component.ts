@@ -2,6 +2,8 @@ import { Component, ViewChild } from '@angular/core';
 import { ModalComponent } from '../../../../modal/modal.component';
 import { ModalType } from 'src/app/modules/shared/interfaces/shared.interface';
 import { AbstractControl, FormArray, FormBuilder, FormGroup, ValidationErrors, Validators } from '@angular/forms';
+import { EmployeeProfileService } from 'src/app/modules/employee/services/employee-profile.service';
+import { HttpClient } from '@angular/common/http';
 
 
 @Component({
@@ -17,7 +19,9 @@ export class ServiceAddHeaderComponent {
   showModal: ModalType | undefined;
   mondayStartTime: string = ''; // Variable to store the selected start time from Monday
   mondayEndTime: string = ''; // Variable to store the selected end time from Monday
-
+  availabilityList:any[]=[];
+  availabilityDetails:any={};
+  emailAddress:any="";
   availabilityData = [
     { day: 'Monday', available: true, timings: [{ startTime: '12:00 PM', endTime: '12:00 PM' }, { startTime: '12:15 PM', endTime: '12:15 PM' }, { startTime: '12:30 PM', endTime: '12:30 PM' }, { startTime: '12:45 PM', endTime: '12:45 PM' }, { startTime: '1:00 PM', endTime: '1:00 PM' }, { startTime: '1:15 PM', endTime: '1:15 PM' }], checkboxClicked: false, selectedStartTime: '', selectedEndTime: '' },
     { day: 'Tuesday', available: false, timings: [{ startTime: '12:00 PM', endTime: '12:00 PM' }, { startTime: '12:15 PM', endTime: '12:15 PM' }, { startTime: '12:30 PM', endTime: '12:30 PM' }, { startTime: '12:45 PM', endTime: '12:45 PM' }, { startTime: '1:00 PM', endTime: '1:00 PM' }, { startTime: '1:15 PM', endTime: '1:15 PM' }], checkboxClicked: false, selectedStartTime: '', selectedEndTime: '' },
@@ -33,7 +37,7 @@ export class ServiceAddHeaderComponent {
   selectForm: FormGroup;
   selectOptions!: FormArray;
   selectForms: FormGroup[] = [];
-  constructor(private formBuilder: FormBuilder) {
+  constructor(private formBuilder: FormBuilder,private empService:EmployeeProfileService) {
     this.selectForm = this.formBuilder.group({
       startTime: ['', Validators.required],
       endTime: ['', [Validators.required, this.endTimeValidator]]
@@ -54,32 +58,39 @@ export class ServiceAddHeaderComponent {
       });
       this.selectForms.push(selectForm);
     });
+
+    this.getChooseAvailabilitys();
   }
 
-
+  async getChooseAvailabilitys(){
+    await this.empService.getChooseAvailability(this.emailAddress).then(async(response)=>{
+      this.availabilityList = response;
+      this.availabilityDetails = this.availabilityList[0];
+      console.log(this.availabilityList,'zuber data')
+    })
+  }
 
   applyTimeToAll(): void {
-    // Get the start and end times of Monday
-    const mondaySelectOptions = this.getSelectOptionsFormArray(0).controls;
-    const mondayStartTime = mondaySelectOptions[0].get('startTime')?.value;
-    const mondayEndTime = mondaySelectOptions[0].get('endTime')?.value;
+    const mondayTimes = this.availabilityList[0].availability.find((day: any) => day.day === 'Monday')?.times || []; 
+    this.availabilityList[0].availability.forEach((day: any, i: number) => {
+        if (day.dayEnabled && day.day !== 'Monday') {
+            const selectedTimes = mondayTimes.length > 0 ? [mondayTimes[i % mondayTimes.length]] : day.times;
+            day.times = selectedTimes.map((time: any) => ({ startTime: time.startTime, endTime: time.endTime }));
+            this.updateSelectFormControls(i, day.times[0].startTime, day.times[0].endTime);
+        }
+    });
+}
+updateSelectFormControls(index: number, startTime: string, endTime: string): void {
+    const selectFormArray = this.selectForms[index].get('selectOptions') as FormArray;
+    selectFormArray.controls.forEach((control: AbstractControl) => {
+        control.get('startTime')?.setValue(startTime);
+        control.get('endTime')?.setValue(endTime);
+    });
+}
 
-    // Iterate through each day's time slots starting from Tuesday (index 1)
-    for (let i = 1; i < this.availabilityData.length; i++) {
-      const day = this.availabilityData[i];
-      const selectOptionsArray = this.getSelectOptionsFormArray(i);
 
-      // Remove existing time slots and add the time slots from Monday
-      selectOptionsArray.clear();
-      for (const option of mondaySelectOptions) {
-        selectOptionsArray.push(this.formBuilder.group({
-          startTime: [option.get('startTime')?.value],
-          endTime: [option.get('endTime')?.value]
-        }));
-      }
 
-    }
-  }
+  
 
 
 
@@ -143,7 +154,7 @@ export class ServiceAddHeaderComponent {
 
 
   isAddButtonVisible(day: any): boolean {
-    return day.available;
+    return day.dayEnabled;
   }
 
   serviceAdd() {

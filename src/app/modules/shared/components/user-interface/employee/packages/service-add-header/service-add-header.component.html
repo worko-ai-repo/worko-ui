@@ -75,7 +75,7 @@
   
 </div>
 
-<div class="row d-flex justify-content-center ms-3 mt-2" *ngFor="let data of availabilityData; let i = index">
+<div class="row d-flex justify-content-center ms-3 mt-2" *ngFor="let data of availabilityList[0]?.availability let i = index">
   <div class="col-md-1 mt-2">
     <span class="ps-4"><input type="checkbox" [(ngModel)]="data.checkboxClicked" (click)="toggleCheckbox(i)" /></span>
   </div>
@@ -87,40 +87,43 @@
   </div>
   <div class="col-md-9 d-flex">
     <div class="d-flex">
-      <div [formGroup]="selectForms[i]" class="col-md-6 d-flex mt-2">
-        <div formArrayName="selectOptions">
-          <div *ngFor="let selectOption of getSelectOptionsFormArray(i).controls; let j = index" >
-            <div [formGroupName]="j"  class="d-flex">
-              <select formControlName="startTime"  class="selector ps-2 "  [disabled]="!data.checkboxClicked">
-                <option value="" disabled selected hidden>From</option>
-                <option *ngFor="let timing of data.timings" [value]="timing.startTime">{{ timing.startTime }}</option>
-              </select>
-              <select formControlName="endTime" class="selector ps-2 ms-3 me-0 pe-0 "  [disabled]="!data.checkboxClicked"  (focus)="getSelectOptionsFormArray(i).controls[j].get('endTime')?.markAsTouched()"
-              >
-                <option value="" disabled selected hidden>To</option>
-                <option *ngFor="let timing of data.timings" [value]="timing.endTime">{{ timing.endTime }}</option>
-              </select>
-              <button class="ml-3 btn btn-add" type="button" (click)="addSelectOption(i)" *ngIf="isAddButtonVisible(data) && j === 0" [disabled]="!data.checkboxClicked">+</button>
-              <button type="button" (click)="removeSelectOption(i, j)" class="ml-3 btn btn-add" *ngIf="getSelectOptionsFormArray(i).controls.length > 1 && j !== 0">X</button>
-             
-              
+      <ng-container *ngIf="data.checkboxClicked; else unavailable">
+        <div [formGroup]="selectForms[i]" class="col-md-6 d-flex mt-2">
+          <div formArrayName="selectOptions">
+            <div *ngFor="let selectOption of getSelectOptionsFormArray(i).controls; let j = index">
+              <div [formGroupName]="j" class="d-flex">
+                <select formControlName="startTime" class="selector ps-2 " [disabled]="!data.checkboxClicked">
+                  <option value="" disabled selected hidden>From</option>
+                  <option *ngFor="let timing of data.times" [value]="timing.startTime">{{ timing.startTime | date: 'h:mm a' }}</option>
+                </select>
+                <select formControlName="endTime" class="selector ps-2 ms-3 me-0 pe-0 " [disabled]="!data.checkboxClicked" (focus)="getSelectOptionsFormArray(i).controls[j].get('endTime')?.markAsTouched()">
+                  <option value="" disabled selected hidden>To</option>
+                  <option *ngFor="let timing of data.times" [value]="timing.endTime">{{ timing.endTime | date: 'h:mm a'}}</option>
+                </select>
+                <button class="ml-3 btn btn-add" type="button" (click)="addSelectOption(i)"  [disabled]="!data.checkboxClicked">+</button>
+                <button type="button" (click)="removeSelectOption(i, j)" class="ml-3 btn btn-add" *ngIf="getSelectOptionsFormArray(i).controls.length > 1 && j !== 0">X</button>
+              </div>
+              <div *ngIf="getSelectOptionsFormArray(i).controls[j].get('endTime')?.hasError('endTimeSameAsStartTime') && getSelectOptionsFormArray(i).controls[j].get('endTime')?.touched && getSelectOptionsFormArray(i).controls[j].get('endTime')?.value !== null" class="text-danger">
+                End time cannot be the same as start time.
+              </div>
             </div>
-            <!-- <div *ngIf="getSelectOptionsFormArray(i).controls[j].get('endTime')?.hasError('endTimeSameAsStartTime') && getSelectOptionsFormArray(i).controls[j].get('endTime')?.touched" class="text-danger">
-              End time cannot be the same as start time.
-            </div> -->
-            <div *ngIf="getSelectOptionsFormArray(i).controls[j].get('endTime')?.hasError('endTimeSameAsStartTime') && getSelectOptionsFormArray(i).controls[j].get('endTime')?.touched && getSelectOptionsFormArray(i).controls[j].get('endTime')?.value !== null" class="text-danger">
-              End time cannot be the same as start time.
-            </div>
-     
           </div>
         </div>
-      </div>
+      </ng-container>
+      <ng-template #unavailable>
+        <div class="col-md-6 mt-2">
+          <span class="ps-4">Unavailable</span>
+        </div>
+        
+      </ng-template>
     </div>
-  </div>
+  </div>  
   <!-- Place the Apply Time to All button below Monday -->
-  <div class="col-md-9 offset-md-10 d-flex mt-2" *ngIf="data.day === 'Monday'">
-    <button class="ml-3 btn btn-primary" type="button" (click)="applyTimeToAll()">Apply Time to All</button>
-  </div>
+  <ng-container *ngIf="data.day === 'Monday'">
+    <div class="col-md-9 offset-md-10 d-flex mt-2" *ngIf="data.checkboxClicked">
+      <button class="ml-3 btn btn-primary" type="button" (click)="applyTimeToAll()">Apply Time to All</button>
+    </div>
+  </ng-container>
 </div>
 
           <div class="row d-flex justify-content-center mt-4 mb-3">

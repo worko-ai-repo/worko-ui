@@ -170,7 +170,12 @@
                               </label>
                             </div>
                           </div>
-
+                          <div class="form-check">
+                            <input class="form-check-input" type="checkbox" value="" id="flexCheckDefault">
+                            <label class="form-check-label" for="flexCheckDefault">
+                              By checking this you are agreeing to our <span style="color:#5CC3E6">terms of use</span>.
+                            </label>
+                          </div>
                           <div class="col-md-12 mt-4 ms-2 d-flex justify-content-center">
                             <button class="btn btn-signUp" type="submit"
                               [disabled]="(!fileName || !candidate.form.valid || !candidateForm.name || !candidateForm.emailId || !candidateForm.expectedCtc  || !candidateForm.password || !candidateForm.linkdinProfile || !candidateForm.experience || !candidateForm.confirmPassword || !(candidateForm.password === candidateForm.confirmPassword) || !candidateForm.phoneNumber)">SIGN
@@ -248,69 +253,7 @@
                               </div>
                             </div>
                             <!-- pattern="^https:\/\/www\.linkedin\.com\/(?:\w+\/)?(?:in\/)?([a-zA-Z0-9-]+)\/?$" -->
-                            <div class="col-md-6">
-                              <div class="material-input__group">
-                                <i class="fa-brands fa-linkedin" style="color: #f6f7f9; font-size: 12px"></i>
-                                <input type="text" placeholder="LinkdIn Profile"
-                                  class="text-white material-input__group__input" #linkdinProfile="ngModel"
-                                  pattern="^(https?:\/\/(www\.)?linkedin\.com\/in\/[a-zA-Z0-9_\-]+\/?)$"
-                                  [title]="linkdinProfile.errors?.['pattern'] ? 'Linkedin URL is invalid' : ''"
-                                  [(ngModel)]="employeeForm.linkdinProfile" name="linkdinProfile" id="linkdinProfile" />
-                              </div>
-                            </div>
-                            <div class="col-md-6">
-                              <div class="material-input__group">
-                                <i class="fa-regular fa-file" style="color: #f0f2f4; font-size: 12px;"></i>
-                                <input type="text" placeholder="Total year of Experience"
-                                  class="text-white material-input__group__input" #experience="ngModel"
-                                  pattern="^[1-9]\d*(\.\d{1,2})?$" [(ngModel)]="employeeForm.experience"
-                                  [title]="experience.errors?.['pattern'] ? 'Total year of Experience is invalid' : ''"
-                                  name="experience" id="experience" />
-                              </div>
-                            </div>
-
-                            <div class="col-md-6">
-                              <div class="material-input__group">
-                                <i class="fa-regular fa-file" style="color: #f0f2f4; font-size: 12px;"></i>
-                                <input type="text" placeholder="Designation"
-                                  class="text-white material-input__group__input" #designation="ngModel"
-                                  pattern="^[a-zA-Z0-9\s.,()-]+$" [(ngModel)]="employeeForm.designation"
-                                  [title]="designation.errors?.['pattern'] ? 'Designation is invalid' : ''"
-                                  name="designation" id="designation" />
-                              </div>
-                            </div>
-
-                            <div class="col-md-6">
-                              <div class="material-input__group select__group">
-                                <i class="fa-regular fa-file" style="color: #f0f2f4; font-size: 12px;"></i>
-                                <!-- <select name="designationTag" id="designationTag" #designationTag="ngModel"
-                                  class="text-white material-input__group__input material-select__group"
-                                  [(ngModel)]="employeeForm.designationTag" [class.invalid]="
-                                      (employee.submitted || designationTag.touched) &&
-                                      designationTag.invalid
-                                    ">
-                                  <option value=""> Designation Tag</option>
-                                  <option *ngFor="let item of designationTagList" value="{{ item.value }}">
-                                    {{ item.name }}
-                                  </option>
-                                </select> -->
-
-                                <!-- <mat-form-field> -->
-                                  <!-- <mat-label>Favorite food</mat-label> -->
-                                  <mat-select  panelClass="topunit"  placeholder="Select Designation Tag"  name="designationTag" id="designationTag" #designationTag="ngModel"
-                                  class="text-white material-input__group__input material-select__group"
-                                  [(ngModel)]="employeeForm.designationTag" [class.invalid]="
-                                      (employee.submitted || designationTag.touched) &&
-                                      designationTag.invalid
-                                    ">
-                                    <mat-option *ngFor="let item of designationTagList" [value]="item.value">
-                                      {{item.name}}
-                                    </mat-option>
-                                  </mat-select>
-                                <!-- </mat-form-field> -->
-                              </div>
-                            </div>
-
+                         
                             <div class="col-md-6">
                               <div class="material-input__group">
                                 <i class="fa-regular fa-file" style="color: #f0f2f4; font-size: 12px;"></i>
@@ -351,7 +294,13 @@
                                   id="confirmPassword" />
                               </div>
                             </div>
-                         
+                            <div class="form-check">
+                              <input class="form-check-input" type="checkbox" value="" id="flexCheckDefault">
+                              <label class="form-check-label" for="flexCheckDefault" >
+                                  By checking this you are agreeing to our <span style="color:#5CC3E6">terms of use</span>.
+                              </label>
+                          </div>
+                          
                             <div class="col-md-12 mt-4 ms-2 d-flex justify-content-center">
                               <button class="btn btn-signUp" type="submit"
                                 [disabled]="(!employee.form.valid || !employeeForm.name || !employeeForm.designationTag || !employeeForm.emailId || !selectedCompany.name   || !selectedCompany.SK  || !employeeForm.phoneNumber || !employeeForm.companyEmailID || !employeeForm.linkdinProfile || !employeeForm.experience || !employeeForm.department  || !employeeForm.designation  || !employeeForm.confirmPassword || !(employeeForm.password === employeeForm.confirmPassword) )">SIGN
@@ -482,7 +431,7 @@
                       </div>
 
                       <div class="col-md-12 text-center text-white mt-2 mb-5 "
-                        style="font-size: 14px; padding-left: initial; ">
+                        style="font-size: 11px; padding-left: initial; ">
                         Don't have any account? <a style="color: #68DBFF;" class="-pointer" (click)="toggleSignUpRow()">Sign up now</a>
                       </div>
                       <!-- <div class="col-md-12 mt-3">
