@@ -27,6 +27,8 @@ export class EmployeeProfileService {
     return this.http.get(`${API_URL}referral/company/${companySK}?status=${status}`,this.authService.getHttpOptions()).toPromise();
   }
 
-  
+  getChooseAvailability(emailAddress:string): Promise<any> {
+    return this.http.get(`${API_URL}user/prashant@worko.ai/availability`,this.authService.getHttpOptions()).toPromise();
+  }
 
 }
