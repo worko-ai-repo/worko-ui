@@ -100,7 +100,7 @@
                   <option value="" disabled selected hidden>To</option>
                   <option *ngFor="let timing of data.times" [value]="timing.endTime">{{ timing.endTime | date: 'h:mm a'}}</option>
                 </select>
-                <button class="ml-3 btn btn-add" type="button" (click)="addSelectOption(i)" *ngIf="isAddButtonVisible(data) && j === 0" [disabled]="!data.checkboxClicked">+</button>
+                <button class="ml-3 btn btn-add" type="button" (click)="addSelectOption(i)"  [disabled]="!data.checkboxClicked">+</button>
                 <button type="button" (click)="removeSelectOption(i, j)" class="ml-3 btn btn-add" *ngIf="getSelectOptionsFormArray(i).controls.length > 1 && j !== 0">X</button>
               </div>
               <div *ngIf="getSelectOptionsFormArray(i).controls[j].get('endTime')?.hasError('endTimeSameAsStartTime') && getSelectOptionsFormArray(i).controls[j].get('endTime')?.touched && getSelectOptionsFormArray(i).controls[j].get('endTime')?.value !== null" class="text-danger">

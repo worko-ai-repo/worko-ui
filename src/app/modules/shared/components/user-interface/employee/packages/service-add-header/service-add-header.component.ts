@@ -71,46 +71,23 @@ export class ServiceAddHeaderComponent {
   }
 
   applyTimeToAll(): void {
-    // Find Monday's times
-    const monday = this.availabilityList[0].availability.find((day: any) => day.day === 'Monday');
-    
-    if (!monday || !monday.times || monday.times.length === 0) {
-      return; // Handle the case where Monday has no times
-    }
-    
-    // Extract the user's selection for Monday
-    const mondaySelectedTimes = monday.times.filter((time: any) => time.startTime && time.endTime);
-    const numMondayTimes = mondaySelectedTimes.length;
-    
-    // Get the total number of enabled days excluding Monday
-    const numEnabledDays = this.availabilityList[0].availability.filter((day: any) => day.dayEnabled && day.day !== 'Monday').length;
-    
-    // Iterate through each day starting from Tuesday
-    let mondayIndex = 0; // Track the index of Monday's selected times
-    for (let i = 0; i < this.availabilityList[0].availability.length; i++) {
-      const day = this.availabilityList[0].availability[i];
-      if (day.dayEnabled && day.day !== 'Monday') {
-        // Apply Monday's selected times to other days equally
-        if (numMondayTimes > 0) {
-          // Calculate the index of Monday's selected times to be applied to this day
-          const index = mondayIndex % numMondayTimes;
-          day.times = [{ startTime: mondaySelectedTimes[index].startTime, endTime: mondaySelectedTimes[index].endTime }];
-          mondayIndex++; // Move to the next index for the next day
-        } else {
-          // If no specific times were selected for Monday, copy all available times
-          day.times = monday.times.map((time: any) => ({ startTime: time.startTime, endTime: time.endTime }));
+    const mondayTimes = this.availabilityList[0].availability.find((day: any) => day.day === 'Monday')?.times || []; 
+    this.availabilityList[0].availability.forEach((day: any, i: number) => {
+        if (day.dayEnabled && day.day !== 'Monday') {
+            const selectedTimes = mondayTimes.length > 0 ? [mondayTimes[i % mondayTimes.length]] : day.times;
+            day.times = selectedTimes.map((time: any) => ({ startTime: time.startTime, endTime: time.endTime }));
+            this.updateSelectFormControls(i, day.times[0].startTime, day.times[0].endTime);
         }
-    
-        // Update the selected time for the current day's form controls
-        const selectFormArray = this.selectForms[i].get('selectOptions') as FormArray;
-        selectFormArray.controls.forEach((control: AbstractControl, index: number) => {
-          control.get('startTime')?.setValue(day.times[0].startTime);
-          control.get('endTime')?.setValue(day.times[0].endTime);
-        });
-      }
-    }
-  }
-  
+    });
+}
+updateSelectFormControls(index: number, startTime: string, endTime: string): void {
+    const selectFormArray = this.selectForms[index].get('selectOptions') as FormArray;
+    selectFormArray.controls.forEach((control: AbstractControl) => {
+        control.get('startTime')?.setValue(startTime);
+        control.get('endTime')?.setValue(endTime);
+    });
+}
+
 
 
   
