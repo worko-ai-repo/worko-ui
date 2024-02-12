@@ -15,7 +15,7 @@ export class BankDetailsComponent {
   modalTitle: string = "";
   showModal: ModalType | undefined;
   ngOnChanges(): void {
-    // console.log(this.workExperienceDetails, "workExperienceDetails");
+    console.log(this.bankInfo, "bankInfo");
     if(this.bankInfo){
       this.bankInfo = this.bankInfo[0];
     }
