@@ -1,58 +1,112 @@
-<div class="candidate-card">
-    <div class="body pb-4">
-        <div class="row pt-3">
 
-            <div class="col-md-8">
+    <div *ngIf="showCurrentJob">
+        <div class="candidate-card">
+          <div class="body pb-4">
+            <div class="row pt-3">
+              <div class="col-md-8">
                 <h6 class="job-history-text">Past Job History</h6>
+              </div>
+              <div class="col-md-4 text-center">
+                <a class="current-job-text" (click)="toggleCard()">Current Job <span><i class="fa-solid fa-arrow-right" style="color: #eeeff2;"></i></span></a>
+              </div>
             </div>
-            <div class="col-md-4 text-center">
-                <a href="" class="current-job-text">Current Job <span><i class="fa-solid fa-arrow-right"
-                            style="color: #eeeff2;"></i></span></a>
-            </div>
-        </div>
-        <div class="container-fluid">
-            <div class="row">
-                <div class="col-md-12 d-flex justify-content-center mb-2"
-                    *ngFor="let workExperience of workExperienceDetails; let i = index">
-                    <div class="company-box m-3 mb-0">
-                        <div class="row">
-                            <div class="col-md-6">
-                                <div class="row">
-                                    <div class="d-flex">
-                                        <div class="col-md-3 mt-2 ms-1">
-                                            <img class="google-img" src="/assets/public/employee-amazon-img.png" alt="">
-                                        </div>
-                                        <div class="col-md-8 ms-4">
-                                            <small class="current-job-text">Current Job</small>
-                                            <h6 class="company-name">{{workExperience.companyName}}</h6>
-                                        </div>
-                                    </div>
-                                </div>
+            <div class="container-fluid">
+              <div class="row">
+                <div class="col-md-12 d-flex justify-content-center mb-2" *ngFor="let workExperience of workExperienceDetails; let i = index">
+                  <div class="company-box p-2">
+                    <div class="row">
+                        <div class="col-md-6 d-flex justify-content-between">
+                            <img class="google-img" src="/assets/public/employee-amazon-img.png" alt="">
+                            
+                            <div>
+                                <small class="current-job-text">Current Job</small>
+                                <h6 class="company-name">{{workExperience.companyName}}</h6>
                             </div>
-
-                            <div class="col-md-6">
-                                <div class="row">
-                                    <div class="col-md-1">
-                                        <small class="current-job-text">Joined</small>
-                                        <h6 class="number-style pt-2">2021</h6>
-                                    </div>
-                                    <div class="col-md-1 ms-4">
-                                        <small class="current-job-text">Exp.</small>
-                                        <h6 class="number-style pt-2">-0-</h6>
-                                    </div>
-                                    <div class="col-md-1 ms-2">
-                                        <small class="current-job-text">Resigned</small>
-                                        <h6 class="number-style pt-2 text-center ps-3">-</h6>
-                                    </div>
-                                </div>
-                            </div>
-
                         </div>
+                        <div class="col-md-6">
+                            <div class="d-flex justify-content-between">
+                                <div class="">
+                                    <small class="current-job-text">Joined</small>
+                                    <h6 class="number-style pt-2">2021</h6>
+                                </div>
+                                <div class="">
+                                    <small class="current-job-text">Exp.</small>
+                                    <h6 class="number-style pt-2">-0-</h6>
+                                </div>
+                                  <div>
+                                    <small class="current-job-text">Resigned</small>
+                                    <h6 class="number-style pt-2">-</h6>
+                                  </div>
+                            </div>
+                        </div>
+                      <!-- <div class="col-md-6">
+                        <div class="d-flex align-items-center">
+                          <img class="google-img" src="/assets/public/employee-amazon-img.png" alt="">
+                          <div class="ms-3">
+                            <small class="current-job-text">Current Job</small>
+                            <h6 class="company-name">{{workExperience.companyName}}</h6>
+                          </div>
+                        </div>
+                      </div>
+                      <div class="col-md-6">
+                        <div class="d-flex">
+                          <div class="me-4">
+                            <small class="current-job-text">Joined</small>
+                            <h6 class="number-style pt-2">2021</h6>
+                          </div>
+                          <div class="me-4">
+                            <small class="current-job-text">Exp.</small>
+                            <h6 class="number-style pt-2">-0-</h6>
+                          </div>
+                          <div>
+                            <small class="current-job-text">Resigned</small>
+                            <h6 class="number-style pt-2">-</h6>
+                          </div>
+                        </div>
+                      </div> -->
                     </div>
-
-
+                  </div>
                 </div>
+              </div>
             </div>
+          </div>
         </div>
+      </div>
+      
+  
+    <div *ngIf="!showCurrentJob">
+      <div class="candidate-card">
+        <div class="row">
+          <div class="col-md-12">
+            <div class="d-flex justify-content-between p-3 pb-2 border-line">
+              <h5>Current Job</h5>
+              <small (click)="toggleCard()">Past Job History <i class="fa-solid fa-arrow-right" style="color: #eeeff2;"></i></small>
+            </div>
+          </div>
+          <div class="col-md-12">
+            <div class="p-3 d-flex justify-content-between">
+              <div>
+                <div class="p-0">Company Name </div>
+                <div class="company-text p-0">Google
+                  <span class="exp-text">Experience: 20 Years</span>
+                </div>
+              </div>
+              <div class="img-back-circle p-2">
+                <img src="/assets/public/company-logo.png" class="logo-img p-1" alt="">
+              </div>
+            </div>
+          </div>
+          <div class="col-md-12 job-details">
+            <div class="p-3">
+              <div class="d-flex justify-content-between ">
+                <div>Official Email: 123@gmail.com</div>
+                <div>Designation: SDE-1(Backend)</div>
+              </div>
+              <div>Department : IT(Cloud)</div>
+            </div>
+          </div>
+        </div>
+      </div>
     </div>
-</div>
+ 
+  

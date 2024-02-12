@@ -39,3 +39,35 @@ line-height: normal;
 .number-style{
     font-size: 13px;
 }
+.border-line{
+    border-bottom:1px solid #1ED6FF;
+}
+.company-text{
+    font-size: 28px;
+}
+.exp-text{
+    color: #50D5FF;
+    font-family: Poppins;
+    font-size: 12px;
+    font-style: italic;
+    font-weight: 300;
+    line-height: normal;
+}
+.img-back-circle{
+    color: #50D5FF;
+font-family: Poppins;
+font-size: 14px;
+font-style: italic;
+font-weight: 300;
+line-height: normal;
+border-radius: 310.286px;
+background: #FFF;
+}
+.logo-img{
+    width: 51.429px;
+    height: 50.939px;
+    flex-shrink: 0;
+}
+.job-details{
+    font-size: 11px;
+}

@@ -21,6 +21,21 @@
                     </div>
                 </div>
             </div>
+            <div class="col-md-7">
+                <form (ngSubmit)="employee.form.valid && createEmployee(form)" #employee="ngForm" novalidate>
+                    <div class="row">
+                        <div class="col-md-6">
+                            <label for="" class="form-lable">Name</label>
+                            <input type="text" class="form-control form-input" placeholder="Name" 
+                                 name="name" id="name" [(ngModel)]="employeePersonalData.name"
+                                 pattern="^([ \u00c0-\u01ffa-zA-Z'.-])+$"
+                                 >
+                        </div>
+                        <div class="col-md-5">
+                            <label for="" class="form-lable">Personal/Communication Email</label>
+                            <input type="text" class="form-control form-input" placeholder="123@gmail.com"
+                                pattern="^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,4}$" 
+                                 name="email" id="email" [(ngModel)]="employeePersonalData.email">
 
         </div>
         <div class="col-md-7">
@@ -37,6 +52,25 @@
                             pattern="^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,4}$" name="email" id="email"
                             [(ngModel)]="employeePersonalData.email">
 
+                    <div class="row mt-1">
+                        <div class="col-md-6">
+                            <label for="" class="form-lable">Phone no</label>
+                            <input type="text" class="form-control form-input" placeholder="+91 -1234567890"  
+                                name="number"
+                                id="number" [(ngModel)]="employeePersonalData.number">
+                        </div>
+                        <div class="col-md-2">
+                            <label for="" class="form-lable">Country</label>
+                            <input type="text" class="form-control form-input" placeholder="Country Name" 
+                                name="location" id="location"  [(ngModel)]="employeePersonalData.location" >
+
+                        </div>
+                        <div class="col-md-2">
+                            <label for="" class="form-lable">City</label>
+                            <input type="text" class="form-control form-input" placeholder="City Name" 
+                                name="location" id="location"  [(ngModel)]="employeePersonalData.location" >
+
+                        </div>
                     </div>
                 </div>
 

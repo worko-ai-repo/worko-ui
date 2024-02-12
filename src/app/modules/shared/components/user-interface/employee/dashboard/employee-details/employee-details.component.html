@@ -1,66 +1,89 @@
-
 <div class="card candidate-card">
-    <div class="card-body">
-       
-        <div class="row">
-            <div class="col-md-5">
-                <div class="row">
-                    <div class="col-md-12">
-                        <img src="/assets/public/candidate-img.png" class="img-user m-2"  alt="">
-                    </div>
-                    <div class="col-md-12">
-                        <div class="payment-card">
-                            <div class="row payment-card-text">
-                                <div class="col-md-12">
-                                    <h6 class=" mb-0 pt-2 pb-0 text-center">Total Earnings: 20k</h6>
-                                    <small class="p-0 ms-4 mt-0 pt-0 m-0">Payment To be Paid: </small>
-                                </div>
-                                <div class="d-flex m-2">
-                                    <div class="col-md-6">
-                                        <span class="">INR 10,000</span>
-                                    </div>
-                                    <div class="col-md-4">
-                                        <button class="btn btn-sm">Redeem</button>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
+  <div class="card-body">
+    <div class="row">
+      <div class="col-md-12 d-flex">
+        <div class="">
+          <div class="row">
+            <div class="col-md-12">
+              <img
+                src="/assets/public/candidate-img.png"
+                class="img-user m-2"
+                alt=""
+              />
+            </div>
+          </div>
+        </div>
+
+        <div class="ps-2">
+          <div class="row employee-details">
+            <div class="col-md-12">
+              <h6 class="mb-0 pb-0">{{ candidateDetails.name }}</h6>
+            </div>
+            <div class="col-md-12 user-small-text">
+              <div class="m-0 p-0">
+                Public Name : {{ candidateDetails.name }}
+              </div>
+              <div class="mt-2">Phone no: {{ candidateDetails.number }}</div>
+              <div class="mt-1">
+                Email: {{ candidateDetails?.emailList?.primary }}
+              </div>
+              <div class="mt-1">
+                Collage Degree: {{ educationDetails.degree }}
+              </div>
+              <div class="mt-1">Location: {{ candidateDetails.location }}</div>
             </div>
 
-            <div class="col-md-7">
-                <div class="row employee-details">
-                    <div class="col-md-12">
-                        <h6 class="mb-0 pb-0">{{candidateDetails.name}}</h6>
-                    </div>
-                    <div class="col-md-12 user-small-text">
-                        <div class="m-0 p-0">Public Name : ananymous</div>
-                        <div class="mt-2">Phone no: {{candidateDetails.number}}</div>
-                        <div class="mt-1">Email: {{candidateDetails?.emailList?.primary}}</div>
-                        <div class="mt-1">Collage Degree: {{educationDetails.degree}}</div>
-                        <div class="mt-1">Location: {{candidateDetails.location}}</div>
-                    </div>
-
-                    <div class="col-md-12 mt-2">
+            <!-- <div class="col-md-12 mt-2">
                         <small class="">About</small>
                     </div>
                     <div class="col-md-12">
                         <h5>
-                            {{candidateDetails.about}}
+                           <ul>
+                            <li> {{candidateDetails.about}}</li>
+                           </ul>
                         </h5>
-                    </div>
-                    <div class="col-md-12">
-                        <button class="btn btn-sm float-end" routerLink="/public-profile">
-                         <span><svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 23 23" fill="none">
-                            <path d="M16.6917 20.4163C15.9323 20.4163 15.2869 20.1563 14.7553 19.6361C14.2238 19.116 13.958 18.4844 13.958 17.7413C13.958 17.6373 13.9656 17.5294 13.9808 17.4177C13.996 17.3059 14.0188 17.2057 14.0491 17.1172L7.62507 13.4613C7.3669 13.6843 7.07834 13.859 6.75942 13.9856C6.44049 14.1123 6.10638 14.1753 5.75708 14.1747C4.99774 14.1747 4.35229 13.9146 3.82075 13.3945C3.28921 12.8743 3.02344 12.2427 3.02344 11.4997C3.02344 10.7566 3.28921 10.125 3.82075 9.60488C4.35229 9.08474 4.99774 8.82467 5.75708 8.82467C6.10638 8.82467 6.44049 8.88798 6.75942 9.0146C7.07834 9.14122 7.3669 9.31569 7.62507 9.53801L14.0491 5.88217C14.0188 5.79301 13.996 5.69284 13.9808 5.58168C13.9656 5.47052 13.958 5.36263 13.958 5.25801C13.958 4.51495 14.2238 3.88335 14.7553 3.36322C15.2869 2.84308 15.9323 2.58301 16.6917 2.58301C17.451 2.58301 18.0965 2.84308 18.628 3.36322C19.1595 3.88335 19.4253 4.51495 19.4253 5.25801C19.4253 6.00106 19.1595 6.63266 18.628 7.1528C18.0965 7.67294 17.451 7.93301 16.6917 7.93301C16.3424 7.93301 16.0083 7.87 15.6893 7.74397C15.3704 7.61795 15.0818 7.44318 14.8237 7.21967L8.39961 10.8755C8.42998 10.9647 8.45276 11.0651 8.46795 11.1769C8.48313 11.2886 8.49073 11.3962 8.49073 11.4997C8.49073 11.6037 8.48313 11.7116 8.46795 11.8233C8.45276 11.9351 8.42998 12.0353 8.39961 12.1238L14.8237 15.7797C15.0818 15.5568 15.3704 15.3823 15.6893 15.2563C16.0083 15.1302 16.3424 15.0669 16.6917 15.0663C17.451 15.0663 18.0965 15.3264 18.628 15.8465C19.1595 16.3667 19.4253 16.9983 19.4253 17.7413C19.4253 18.4844 19.1595 19.116 18.628 19.6361C18.0965 20.1563 17.451 20.4163 16.6917 20.4163Z" fill="#0A1E35"/>
-                          </svg>
-                         
-                        </span> Share your Profile</button>
-                    </div>
+                    </div> -->
+            <div class="col-md-12">
+              <button class="btn btn-sm float-end" routerLink="/public-profile">
+                <span
+                  ><svg
+                    xmlns="http://www.w3.org/2000/svg"
+                    width="20"
+                    height="20"
+                    viewBox="0 0 23 23"
+                    fill="none"
+                  >
+                    <path
+                      d="M16.6917 20.4163C15.9323 20.4163 15.2869 20.1563 14.7553 19.6361C14.2238 19.116 13.958 18.4844 13.958 17.7413C13.958 17.6373 13.9656 17.5294 13.9808 17.4177C13.996 17.3059 14.0188 17.2057 14.0491 17.1172L7.62507 13.4613C7.3669 13.6843 7.07834 13.859 6.75942 13.9856C6.44049 14.1123 6.10638 14.1753 5.75708 14.1747C4.99774 14.1747 4.35229 13.9146 3.82075 13.3945C3.28921 12.8743 3.02344 12.2427 3.02344 11.4997C3.02344 10.7566 3.28921 10.125 3.82075 9.60488C4.35229 9.08474 4.99774 8.82467 5.75708 8.82467C6.10638 8.82467 6.44049 8.88798 6.75942 9.0146C7.07834 9.14122 7.3669 9.31569 7.62507 9.53801L14.0491 5.88217C14.0188 5.79301 13.996 5.69284 13.9808 5.58168C13.9656 5.47052 13.958 5.36263 13.958 5.25801C13.958 4.51495 14.2238 3.88335 14.7553 3.36322C15.2869 2.84308 15.9323 2.58301 16.6917 2.58301C17.451 2.58301 18.0965 2.84308 18.628 3.36322C19.1595 3.88335 19.4253 4.51495 19.4253 5.25801C19.4253 6.00106 19.1595 6.63266 18.628 7.1528C18.0965 7.67294 17.451 7.93301 16.6917 7.93301C16.3424 7.93301 16.0083 7.87 15.6893 7.74397C15.3704 7.61795 15.0818 7.44318 14.8237 7.21967L8.39961 10.8755C8.42998 10.9647 8.45276 11.0651 8.46795 11.1769C8.48313 11.2886 8.49073 11.3962 8.49073 11.4997C8.49073 11.6037 8.48313 11.7116 8.46795 11.8233C8.45276 11.9351 8.42998 12.0353 8.39961 12.1238L14.8237 15.7797C15.0818 15.5568 15.3704 15.3823 15.6893 15.2563C16.0083 15.1302 16.3424 15.0669 16.6917 15.0663C17.451 15.0663 18.0965 15.3264 18.628 15.8465C19.1595 16.3667 19.4253 16.9983 19.4253 17.7413C19.4253 18.4844 19.1595 19.116 18.628 19.6361C18.0965 20.1563 17.451 20.4163 16.6917 20.4163Z"
+                      fill="#0A1E35"
+                    />
+                  </svg>
+                </span>
+                Share your Profile
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="col-md-12 pt-1 ">
+        <div class="payment-card p-2 pb-2">
+            <div class="row payment-card-text">
+                <div class="col-md-12">
+                   <div class="d-flex justify-content-between">
+                    <div> <h6 class=" mb-0 pt-2  pb-1 text-center fs-6">Total Earnings: INR 20,000</h6>
+                        <h6 class="p-0 ms-4 mt-0 pt-0 m-0 fs-6 text-center pt-2">Pending Payment: <span class=" fs-6 ps-2">INR 10,000</span> </h6></div>
+                        
+                        <div class="mt-4">
+                            <button class=" btn employee-dash-btn mt-2">Redeem</button>
+                        </div>
+                   </div>
                 </div>
+            
+               
             </div>
         </div>
-       
+</div> 
     </div>
+  </div>
 </div>
