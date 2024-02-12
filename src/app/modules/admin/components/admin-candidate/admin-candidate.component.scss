@@ -1,20 +1,154 @@
+
+.admin-table-main{
 table {
     width: 100%;
   }
+  .table-wrapper {
+    width: 100%; /* Set the desired width */
+    overflow-x: auto; /* Enable horizontal scrollbar when necessary */
+    opacity: 10px;
+    background-color: #0A1E35;
+  }
   
+  /* Adjust the style for the table if needed */
+  .table-style {
+    /* Your existing table styles */
+  }
+  .table-wrapper::-webkit-scrollbar-thumb {
+    background-color: rgba(41, 92, 168, 0.7); /* Color with opacity */
+    border-radius: 6px; /* Roundness of the scrollbar thumb */
+  }
+  
+  .table-wrapper::-webkit-scrollbar-track {
+    background: transparent; /* Background of the scrollbar track */
+  }
   .mat-mdc-form-field {
-    font-size: 14px;
+    font-size: 6px;
     width: 100%;
   }
-  .mat-form-field .mat-input-element {
-    background-color: transparent; /* Change the background color of the input field to red */
-    border: 5px solid red;
-  }
   
+   .mat-mdc-paginator-outer-container{
+    color: cornflowerblue;
+    background: #0A1E35;
+  }
+  .mat-mdc-paginator-page-size-select {
+    margin: 0 4px;
+    width: 83px;
+    border: 2px solid #295CA8;
+    
+    border-radius: 3px;
+}
+.mat-mdc-table tbody, .mat-mdc-table tfoot, .mat-mdc-table thead, .mat-mdc-cell, .mat-mdc-footer-cell, .mat-mdc-header-row, .mat-mdc-row, .mat-mdc-footer-row, .mat-mdc-table .mat-mdc-header-cell {
+  // background: inherit;
+  color: white;
+}
+
+.mat-mdc-text-field-wrapper, .mdc-text-field , .ng-tns-c1205077789-0, .mdc-text-field--filled {
+background-color: #0A1E35;
+}
+.mat-mdc-text-field-wrapper, .mdc-text-field, .ng-tns-c1205077789-0, .mdc-text-field--filled{
+  color: white;
+  background-color: #0A1E35;
+  
+}
+.mat-mdc-paginator-icon svg {
+  display: inline-block;
+  width: 100px;
+  fill: #295CA8;
+  
+}
+.mat-mdc-paginator-icon{
+fill:#295CA8 ;
+}
+
+.mat-mdc-icon-button svg {
+  fill: #295CA8;
+}
+
+.mat-mdc-table {
+  // --mat-table-row-item-outline-width: 1px;
+  // table-layout: auto;
+  // white-space: normal;
+  /* background-color: var(--mat-table-background-color); */
+  background-color: #0A1E35;
+} 
+.mat-mdc-icon-button .mat-mdc-paginator-icon {
+  fill: #295CA8;
+}
+.mat-mdc-paginator-range-label{
+  color: cornflowerblue;
+}
+.mat-mdc-select-value {
+  color:  cornflowerblue;
+}
+  ::ng-deep .mat-mdc-select-arrow {
+    color: cornflowerblue;
+  }
+  .ng-tns{
+    color:  cornflowerblue;
+  }
+  .mat-mdc-select-arrow svg {
+    //  fill: currentColor;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    // transform: translate(-50%, -50%);
+    color: cornflowerblue;
+}
+.mat-mdc-header-row .mdc-data-table__header-row .cdk-header-row .ng-star-inserted{
+  border: 2px solid  #476baf !important;
+}
+.table-color{
+  background-color:   #0A1E35 !important;
+}
   td, th {
     width: 25%;
     // color: white;
+    background-color: #0A1E35;
   
+  }
+  .dropdown-btn{
+    background-color: transparent;
+    border: 2px solid #295CA8;
+    color: white;
+  }
+  .dropdown-menu, .show {
+    background-color:#0A1E35;
+    border: 2px solid #295CA8;
+    color: white;
+  }
+  .dropdown-item{
+    color: white;
+  }
+  .dropdown-menu, li{
+    font-size: small;
+  }
+  .table-tabs, .active{
+    color: white;
+    font-size: 14px;
+    // background-color: #50D5FF !important;
+  }
+  .table-tabs{
+    border: 2px solid #295CA8 !important;
+    font-size: 14px;
+    // background-color: #0A1E35 !important;
+  }
+  
+  
+  .serachInput{
+    background-color: #0A1E35 !important;
+    border: 2px solid #295CA8 !important;
+    padding: 5px;
+    border-radius: 3px;
+    font-size: small;
+    color: white !important;
+   }
+  .content-style{
+    font-size: 8x !important;
+  }
+  
+  .mdc-data-table__content{
+    background-color: #0A1E35;
   }
   .small-column {
     width: 50px;
@@ -22,57 +156,40 @@ table {
    
      
   }
-  .cdk-overlay-transparent-backdrop.cdk-overlay-backdrop-showing{
-    background-color: white;
-    border: white;
-  }
-  .mat-mdc-text-field-wrapper .mdc-text-field .mdc-text-field--filled{
-    background-color: red;
-  }
-  /* Apply transparent background color to the table */
-// .mat-table {
-//   background-color: transparent;
-// }
+  .mdc-text-field--filled:not(.mdc-text-field--disabled) {
+    background-color: transparent !important; 
+    border:2px solid #476baf;
+    color: white;
+}
+ .mat-mdc-input-element, .ng-tns-c1205077789-0, .mat-mdc-form-field-input-control, .mdc-text-field__input, .cdk-text-field-autofill-monitored{
+  color: white !important;
+ }
+ ::placeholder{
+  color: white !important;
+ }
+ .mat-mdc-select-panel-above div.mat-mdc-select-panel {
+ border: 2px solid #295CA8 !important;
+ color: white !important;
+  transform-origin: bottom center;
+  background: transparent;
+}
+.searchButton{
+background-color: #50D5FF !important;
+border: 2px solid #0A1E35 !important;
+padding: 4px;
+border-radius: 5px;
 
-// /* Apply border color to the table */
-// .mat-table {
-//   border: 2px solid #295CA8;
-// }
 
-/* Apply white color to table text */
-// .mat-cell,
-// // .mat-header-cell {
-// //   color: white;
-// // }
-.mat-paginator {
-    background-color: transparent !important;
-    border-left: 2px solid #1ED6FF !important;
-    border-right: 2px solid #1ED6FF !important;
-    border-bottom: 2px solid #1ED6FF !important;
+}
+.mat-mdc-option.mdc-list-item {
+  align-items: center;
+  color: white !important;
+}
+.mat-mdc-row,  .cdk-row{
+  border-top: 2px solid #295CA8;
+  border-bottom: 2px solid #295CA8;
+}
+  .mat-sort-header-arrow, .ng-trigger, .ng-trigger-arrowPosition, .ng-tns-c1267148319-3, .ng-star-inserted{
+    color: white;
   }
-  ::ng-deep .mat-paginator {
-    background-color: red;
-    border-left: 2px solid #1ED6FF;
-    border-right: 2px solid #1ED6FF;
-    border-bottom: 2px solid #1ED6FF;
-  }
-  
-  ::ng-deep .mat-paginator-page-size {
-    color: white; /* Change text color */
-  }
-  
-//   .mat-paginator .mat-select {
-//     color: white !important;
-//   }
-  
-  ::ng-deep .mat-paginator {
-    background-color: transparent !important;
-    border-left: 2px solid #1ED6FF !important;
-    border-right: 2px solid #1ED6FF !important;
-    border-bottom: 2px solid #1ED6FF !important;
-  }
-  
-  ::ng-deep .mat-paginator .mat-select {
-    color: white !important;
-  }
-  
+}

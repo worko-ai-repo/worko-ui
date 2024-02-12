@@ -56,5 +56,31 @@
     /* Firefox */
   }
 
- 
+  .material-input__group {
+    position: relative;
+    margin-bottom: 25px;
+  }
+  .material-input__group__input {
+    font-family: 'Ubuntu', sans-serif;
+    padding: 0px 0px 3px 25px;
+    display: block;
+    width: 100%;
+    border-bottom: 1px solid #fff;
+    font-size: 12px;
+  }
+  .material-input__group {
+    position: relative;
+    margin-bottom: 15px;
+  }
+  
+  .material-input__group i {
+    position: absolute;
+    top: 7px;
+    left: 5px;
+    color: #6b33ee;
+    font-size: 12px;
+  }
+  
+  
+  
 // stepper//

@@ -1,5 +1,5 @@
 import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
-
+import { Router } from '@angular/router';
 @Component({
   selector: 'app-user-stepper',
   templateUrl: './user-stepper.component.html',
@@ -9,14 +9,26 @@ export class UserStepperComponent implements OnInit {
   @Input() currentStep!: number;
   @Output() nextStep = new EventEmitter<void>();
   @Output() previousStep = new EventEmitter<void>();
+  @Input() userType: any = "";
   currentValue = 1;
   circles = Array.from({ length: 3 });
-
- 
+  userRole: any;
+ url: string = "";
+ constructor(private router: Router) {}
   ngOnInit() {
+    if (this.userType == "Candidate") {
+      this.url =  "/candidate/cdashboard";
+    }
+
+    if (this.userType == "Employee") {
+      this.url =  "/employee/edashboard";
+    }
     
   }
 
+  navigateToUrl() {
+    this.router.navigateByUrl(this.url);
+  }
   getStepName(step: number): string {
     switch (step) {
         case 1:

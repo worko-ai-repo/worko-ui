@@ -21,6 +21,7 @@ import {MatSort, MatSortModule} from '@angular/material/sort';
 import {MatTableDataSource, MatTableModule} from '@angular/material/table';
 import {MatInputModule} from '@angular/material/input';
 import {MatFormFieldModule} from '@angular/material/form-field';
+import { FormsModule } from '@angular/forms';
 
 
 export const routes: Routes = [
@@ -102,6 +103,7 @@ export const routes: Routes = [
   imports: [
     CommonModule,
     SharedModule,
+    FormsModule ,
     CandidateModule,
     EmployeeModule,
     MatFormFieldModule, MatInputModule, MatTableModule, MatSortModule, MatPaginatorModule,

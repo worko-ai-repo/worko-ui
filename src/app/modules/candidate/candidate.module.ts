@@ -56,7 +56,7 @@ export const routes: Routes = [
       {
         path: 'cdashboard',
         component: CandidateDashboardComponent,
-        canActivate: [ candidateGuard]
+        // canActivate: [ candidateGuard]
       },
       {
         path: 'creferral',

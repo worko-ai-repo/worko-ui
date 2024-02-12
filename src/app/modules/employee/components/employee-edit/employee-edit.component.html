@@ -2,7 +2,7 @@
     <div class="col-md-12">
       <div class="candidate-card">
         <div class="col-md-12">
-          <app-user-stepper [currentStep]="currentStep" (nextStep)="nextStep()" (previousStep)="previousStep()"></app-user-stepper>
+          <app-user-stepper [currentStep]="currentStep" (nextStep)="nextStep()" (previousStep)="previousStep()"  [userType]="'Employee'"></app-user-stepper>
         </div>
         <div class="col-md-12">
           <app-employee-edit-details [employeeDetails]="employeeDetails" [employeeSocial]="employeeSocial" [employeePersonalData]="employeePersonalData" *ngIf="currentStep === 1" (nextStepSecond)="nextStepSecond($event)"></app-employee-edit-details>

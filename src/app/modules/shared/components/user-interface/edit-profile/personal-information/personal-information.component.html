@@ -34,7 +34,7 @@
                         <div class="col-md-5">
                             <label for="" class="form-lable">Name</label>
                             <input type="text" class="form-control form-input" placeholder="Name" #name="ngModel"
-                                [(ngModel)]="candidatePersonalDetails.name" name="name" id="name">
+                            pattern="^([ \u00c0-\u01ffa-zA-Z'.-])+$"  [(ngModel)]="candidatePersonalDetails.name" name="name" id="name">
                         </div>
                         <div class="col-md-5">
                             <label for="" class="form-lable">Email</label>
@@ -126,21 +126,30 @@
                             <label for="" class="form-lable">Social Links</label>
                         </div>
                         <div class="col-md-3">
-                            <input type="text" placeholder="Github" class="form-input form-control"
+                            <div class="material-input__group">
+                            <i class="fa-brands fa-github" style="color: #f6f7f9; font-size: 16px"></i>
+                            <input type="text" placeholder="Github"  class="text-white material-input__group__input form-input form-control"
                                 #socialLinkGithub="ngModel" [(ngModel)]="candidatePersonalDetails.socialLinkGithub"
                                 name="socialLinkGithub" id="socialLinksGithub">
-                            
+                            </div>
                         </div>
                         <div class="col-md-3">
-                            <input type="text" placeholder="LinkdIn" class="form-input form-control"
+                            <div class="material-input__group">
+                            <i class="fa-brands fa-linkedin" style="color: #f6f7f9; font-size: 16px"></i>
+                            <input type="text" placeholder="LinkdIn"  class="text-white material-input__group__input form-input form-control"
                                 #socialLinklinkdin="ngModel" [(ngModel)]="candidatePersonalDetails.socialLinklinkdin"
-                                name="socialLinklinkdin" id="socialLinklinkdin">
-                            
+                                pattern="/^(https?:\/\/(www\.)?linkedin\.com\/in\/[a-zA-Z0-9_\-]+\/?)$/" name="socialLinklinkdin" id="socialLinklinkdin">
+                            </div>
                         </div>
                         <div class="col-md-3">
-                            <input type="text" placeholder="Twitter" class="form-input form-control"
-                                #socialLinktwitter="ngModel" [(ngModel)]="candidatePersonalDetails.socialLinktwitter"
-                                name="socialLinktwitter" id="socialLinktwitter">
+                            <div class="material-input__group">
+                                <i class="fa-brands fa-twitter" style="color: #f6f7f9; font-size: 16px"></i>
+                                <input type="text" placeholder="Twitter"
+                                class="text-white material-input__group__input form-input form-control"
+                                    #socialLinktwitter="ngModel" [(ngModel)]="candidatePersonalDetails.socialLinktwitter"
+                                    name="socialLinktwitter" id="socialLinktwitter">
+                            </div>
+                           
                             
                         </div>
                     </div>
