@@ -17,7 +17,7 @@
 
       
             <div class="col-md-12 mt-4">
-              <label for="" class="form-lable  required-form-field">Enter job URL for {{selectedCompany.name}} *</label>
+              <label for="" class="form-lable  required-form-field">Enter job URL for {{selectedCompany.name}} </label>
               <input type="text" #jobUrl="ngModel"
                 [ngClass]="{'is-invalid': (requestReferral.submitted || jobUrl.touched) && jobUrl.invalid}"
                 [(ngModel)]="requestForm.jobUrl" name="jobUrl" id="jobUrl" required
@@ -28,11 +28,11 @@
             </div>
             
             <div class="col-md-12">
-              <label for="" class="form-lable  required-form-field">Enter job description *</label>
-              <input type="text" #jobDescription="ngModel"
-                [ngClass]="{'is-invalid': (requestReferral.submitted || jobDescription.touched) && jobDescription.invalid}"
-                [(ngModel)]="requestForm.jobDescription" name="jobDescription" id="jobDescription" required
-                class="form-control text-white input-jobDescription" />
+              <label for="" class="form-lable  required-form-field">Enter job description </label>
+              <textarea #jobDescription="ngModel"
+              [ngClass]="{'is-invalid': (requestReferral.submitted || jobDescription.touched) && jobDescription.invalid}"
+              [(ngModel)]="requestForm.jobDescription" name="jobDescription" id="jobDescription" required
+              class="form-control text-white input-jobDescription"></textarea>
               <div *ngIf="(requestReferral.submitted || jobDescription.touched) && jobDescription.invalid" class="text-danger">
                 Please enter a job description.
               </div></div>

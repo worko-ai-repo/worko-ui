@@ -9,6 +9,7 @@ import { StorageService } from 'src/app/modules/app-core/services/storage.servic
 })
 export class ReferralRequestComponent implements OnInit {
   @ViewChild('largeModal') largeModal!: ElementRef;
+
   @Input() selectedCompany: any;
   // @Input() showReferrelRow!: boolean;
 
