@@ -27,7 +27,7 @@ import { NavbarToggleSwitchService } from './modules/candidate/services/navbar-t
     NgbModule,
     HttpClientModule,
     MatTooltipModule,
-    NgxSpinnerModule.forRoot({ type: 'ball-scale-multiple' })
+    NgxSpinnerModule.forRoot({ type: 'timer' })
   ],
   exports: [
     NgxSpinnerModule,
