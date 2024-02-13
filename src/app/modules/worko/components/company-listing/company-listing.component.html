@@ -37,6 +37,12 @@
      
       </div>
     </div>
+    <div *ngIf="filteredCompanyList.length === 0 && searchTerm.trim() !== ''" class="row mt-4">
+      <div class="col-8 ms-5 text-white my-2">
+        Company "{{ searchTerm }}" not found!.
+      </div>
+    </div>
+  
    
     <div class="row p-3  company-box-container d-flex justify-content-center">
     
