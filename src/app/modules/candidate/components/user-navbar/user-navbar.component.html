@@ -1,7 +1,7 @@
 <div class="container-fluid">
-    <div class="row">
-        <div class="col-md-6 mt-4"  *ngFor="let user of userRole">
-            <h5 style="margin-left: 270px;">{{user.name}}</h5>
+    <div class="row " *ngFor="let user of userRole">
+        <div class="col-md-6 mt-4" >
+            <h5 class="ps-3">{{user.name}}</h5>
         </div>
         <div class="col-md-6 mt-4 font-logo pe-4">
             <div class="row nav-logo">
@@ -14,7 +14,7 @@
                 </div>
                 <div class="col-md-1 pt-1">
                     <div class="form-check form-switch">
-                        <input class="form-check-input check-box" type="checkbox" id="flexSwitchCheckDefault" 
+                        <input class="form-check-input check-box" title="{{user.name}}" type="checkbox" id="flexSwitchCheckDefault" 
                         (change)="toggleDashboard()" [checked]="navbarToggleSwitchService.getIsEmployeeDashboard()">
                     </div>
 

@@ -36,6 +36,8 @@ export class PersonalDetailsComponent implements OnInit {
   skillYears: string = "";
   newCertName: string = '';
   newSoftSkill: string = "";
+  certificateCompany: string = "";
+  certificateYear: string ="";
   constructor() { }
   ngOnInit(): void {
 

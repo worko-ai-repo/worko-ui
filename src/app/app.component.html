@@ -1,7 +1,8 @@
-<!-- <div *ngIf="loading" class="loading-overlay">
-  <div class="loading-content">
-    <span class="loading-spinner"></span>
-  </div>
-</div> -->
 
+<!-- <ngx-spinner bdColor="rgba(51,51,51,0.8)" size="medium" color="#3abdfa" type="ball-fussion">
+  <p class="loading-message">
+   Loading...
+  </p>
+</ngx-spinner> -->
+<ngx-spinner bdColor = "rgba(0, 0, 0, 0.8)" size = "small" color = "#fff" type = "line-spin-fade-rotating" [fullScreen] = "true" ><p style="color: white" > Loading... </p></ngx-spinner>
 <router-outlet></router-outlet>

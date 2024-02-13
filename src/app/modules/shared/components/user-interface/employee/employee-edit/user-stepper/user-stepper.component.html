@@ -1,20 +1,17 @@
-
-
 <div class="row">
     <div class="col-md-12">
         <div class="row mt-3 pb-5">
-            <div class="col-md-2 ms-3 -pointer" (click)="navigateToUrl()" >
-          
-                <svg xmlns="http://www.w3.org/2000/svg" width="40" height="40" viewBox="0 0 52 52" fill="none"
-                    >
+            <div class="col-md-2 ms-3 -pointer" (click)="navigateToUrl()">
+
+                <svg xmlns="http://www.w3.org/2000/svg" width="40" height="40" viewBox="0 0 52 52" fill="none">
                     <path
                         d="M38.2673 24.2955H18.9128L27.3685 15.9341C28.0442 15.2659 28.0442 14.1693 27.3685 13.5011C27.2082 13.3422 27.0178 13.2162 26.8082 13.1302C26.5985 13.0443 26.3738 13 26.1469 13C25.92 13 25.6953 13.0443 25.4857 13.1302C25.276 13.2162 25.0856 13.3422 24.9253 13.5011L13.5067 24.7924C13.3461 24.9509 13.2187 25.1392 13.1317 25.3465C13.0448 25.5538 13 25.776 13 26.0004C13 26.2248 13.0448 26.447 13.1317 26.6542C13.2187 26.8615 13.3461 27.0498 13.5067 27.2083L24.9253 38.4997C25.0858 38.6583 25.2762 38.7841 25.4858 38.87C25.6954 38.9558 25.92 39 26.1469 39C26.3738 39 26.5984 38.9558 26.808 38.87C27.0176 38.7841 27.2081 38.6583 27.3685 38.4997C27.5289 38.341 27.6561 38.1527 27.743 37.9454C27.8298 37.7382 27.8745 37.516 27.8745 37.2917C27.8745 37.0674 27.8298 36.8452 27.743 36.638C27.6561 36.4307 27.5289 36.2424 27.3685 36.0837L18.9128 27.7223H38.2673C39.2203 27.7223 40 26.9513 40 26.0089C40 25.0666 39.2203 24.2955 38.2673 24.2955Z"
                         fill="#F8F8F8" />
                 </svg>
-         
+
             </div>
             <div class="col-md-8">
-                <h6 class="edit-profile-text">Edit Profile 1</h6>
+                <h6 class="edit-profile-text">Edit Profile</h6>
             </div>
         </div>
     </div>
@@ -26,9 +23,12 @@
     <div class="container mb-0 pb-0">
         <div class="progress-container">
             <div class="progress" [style.width]="((currentStep - 1) / (circles.length - 1)) * 100 + '%'"></div>
-            <div *ngFor="let circle of circles; let i = index" class="circle" [ngClass]="{'active': i + 1 <= currentStep}">
+            <div *ngFor="let circle of circles; let i = index" class="circle"
+                [ngClass]="{'active': i + 1 <= currentStep}">
                 {{ i + 1 }}
+                <!-- <div>Hello1</div>  -->
             </div>
+            
         </div>
         <!-- <div class=" row step-names mt-0 pt-0">
             <div class=" col-md-4 step-names">
@@ -40,5 +40,3 @@
           </div> -->
     </div>
 </div>
-
-  

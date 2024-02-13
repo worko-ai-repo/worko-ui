@@ -77,10 +77,14 @@
     position: absolute;
     top: 7px;
     left: 5px;
-    color: #6b33ee;
+
     font-size: 12px;
   }
   
+  .form-control:focus{
+    background-color: transparent !important;
+    color:#FFF !important;
+  }
   
   
 // stepper//

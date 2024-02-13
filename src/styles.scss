@@ -1391,7 +1391,18 @@ color: #FFF;
   }
   // Employee-dashboard css -----------------------------------------------------------------------//
 
-
+  .employee-dash-btn
+  {
+     border-radius: 3.364px;
+     background: #50D5FF;
+     font-size: 12px;
+     // width:200px;
+ }
+ .employee-dash-btn , .btn:hover {
+    color: none !important;
+     background-color: none !important;
+    border-color: none !important;
+}
 .employee-reject-btn {
     border-radius: 100px;
     border: 1px solid #36D0FF;

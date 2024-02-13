@@ -1,59 +1,74 @@
+<div class="card-body mb-2">
+    <div class="row">
+        <div class="col-md-3 mt-2 ">
+            <div class="row d-flex justify-content-center ">
+                <div class="col-md-12  d-flex justify-content-center">
+                    <img src="{{profilePicUrl}}" class="candidate-img " alt="">
+                </div>
+                <div class="col-md-12  d-flex justify-content-center">
+                    <div class="file-container">
+                        <label for="file" class="file-label">
 
-    <div class="card-body mb-2">
-        <div class="row">
-            <div class="col-md-3 mt-2 ">
-                <div class="row d-flex justify-content-center ">
-                    <div class="col-md-12  d-flex justify-content-center">
-                        <img src="{{profilePicUrl}}" class="candidate-img " alt="">
+                            <div class="upload-text w-100" *ngIf="fileName; else defaultText">
+                                <!-- {{ fileName }} -->
+                                Uploaded
+                            </div>
+                            <ng-template #defaultText>
+                                <div class="upload-text w-100">Upload Image</div>
+                            </ng-template>
+                            <input type="file" id="file" class="file-input" (change)="handleFileInput($event)">
+                        </label>
                     </div>
-                    <div class="col-md-12  d-flex justify-content-center">
-                        <div class="file-container">
-                            <label for="file" class="file-label">
-        
-                                <div class="upload-text w-100" *ngIf="fileName; else defaultText">
-                                    <!-- {{ fileName }} -->
-                                    Uploaded
-                                </div>
-                                <ng-template #defaultText>
-                                    <div class="upload-text w-100">Upload Image</div>
-                                </ng-template>
-                                <input type="file" id="file" class="file-input" (change)="handleFileInput($event)">
-                            </label>
+                </div>
+            </div>
+        </div>
+
+
+        <div class="col-md-7">
+            <form (ngSubmit)="employee.form.valid && createEmployee(form)" #employee="ngForm" novalidate>
+                <div class="row">
+                    <div class="col-md-6">
+                        <label for="" class="form-lable">Name</label>
+                        <input type="text" class="form-control form-input" placeholder="Name" name="name" id="name"
+                            [(ngModel)]="employeePersonalData.name" pattern="^([ \u00c0-\u01ffa-zA-Z'.-])+$">
+                    </div>
+                    <div class="col-md-6">
+                        <label for="" class="form-lable">Email</label>
+                        <input type="text" class="form-control form-input" placeholder="123@gmail.com"
+                            pattern="^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,4}$" name="email" id="email"
+                            [(ngModel)]="employeePersonalData.email">
+
+                        <div class="row mt-1">
+                            <div class="col-md-6">
+                                <label for="" class="form-lable">Phone no</label>
+                                <input type="text" class="form-control form-input" placeholder="+91 -1234567890"
+                                    name="number" id="number" [(ngModel)]="employeePersonalData.number">
+                            </div>
+                            <div class="col-md-2">
+                                <label for="" class="form-lable">Country</label>
+                                <input type="text" class="form-control form-input" placeholder="Country Name"
+                                    name="location" id="location" [(ngModel)]="employeePersonalData.location">
+
+                            </div>
+                            <div class="col-md-2">
+                                <label for="" class="form-lable">City</label>
+                                <input type="text" class="form-control form-input" placeholder="City Name"
+                                    name="location" id="location" [(ngModel)]="employeePersonalData.location">
+
+                            </div>
                         </div>
                     </div>
                 </div>
-               
-            </div>
-            <div class="col-md-7">
-                <form (ngSubmit)="employee.form.valid && createEmployee(form)" #employee="ngForm" novalidate>
-                    <div class="row">
-                        <div class="col-md-6">
-                            <label for="" class="form-lable">Name</label>
-                            <input type="text" class="form-control form-input" placeholder="Name" 
-                                 name="name" id="name" [(ngModel)]="employeePersonalData.name"
-                                 pattern="^([ \u00c0-\u01ffa-zA-Z'.-])+$"
-                                 >
-                        </div>
-                        <div class="col-md-6">
-                            <label for="" class="form-lable">Email</label>
-                            <input type="text" class="form-control form-input" placeholder="123@gmail.com"
-                                pattern="^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,4}$" 
-                                 name="email" id="email" [(ngModel)]="employeePersonalData.email">
-
-                        </div>
-                    </div>
-
                     <div class="row mt-1">
                         <div class="col-md-6">
                             <label for="" class="form-lable">Phone no</label>
-                            <input type="text" class="form-control form-input" placeholder="9416XXXXXX"
-                                name="number"
+                            <input type="text" class="form-control form-input" placeholder="9416XXXXXX" name="number"
                                 id="number" [(ngModel)]="employeePersonalData.number">
                         </div>
                         <div class="col-md-6">
                             <label for="" class="form-lable">Location</label>
-                            <input type="text" class="form-control form-input" placeholder="Delhi" 
-                                name="location" id="location"  [(ngModel)]="employeePersonalData.location" >
+                            <input type="text" class="form-control form-input" placeholder="Delhi" name="location"
+                                id="location" [(ngModel)]="employeePersonalData.location">
 
                         </div>
                     </div>
@@ -61,7 +76,7 @@
                         <div class="col-md-12 mt-1">
                             <label for="" class="form-lable">About</label>
                             <textarea class="about-textarea form-control" placeholder="About" cols="10" rows="3"
-                                name="about" id="about"  [(ngModel)]="employeePersonalData.about">
+                                name="about" id="about" [(ngModel)]="employeePersonalData.about">
                             </textarea>
                         </div>
                     </div>
@@ -71,7 +86,7 @@
                             <label for="" class="form-lable">Social Links</label>
                         </div>
                         <!-- <div class="col-md-10"> -->
-                            <!-- <div class="d-flex">
+                        <!-- <div class="d-flex">
                                 <input type="text" placeholder="Github" class="form-input form-control me-2"
                                  name="socialLinkGithub" id="socialLinksGithub"  [(ngModel)]="employeePersonalData.socialLinkGithub">
 
@@ -83,44 +98,50 @@
                                  name="socialLinktwitter" id="socialLinktwitter"  [(ngModel)]="employeePersonalData.socialLinktwitter">
                             
                             </div> -->
-                            <div class="col-md-4">
-                                <div class="material-input__group">
+                        <div class="col-md-4">
+                            <div class="material-input__group">
                                 <i class="fa-brands fa-github" style="color: #f6f7f9; font-size: 16px"></i>
-                                <input type="text" placeholder="Github"  class="text-white material-input__group__input form-input form-control"
+                                <input type="text" placeholder="Github"
+                                    class="text-white material-input__group__input form-input form-control"
                                     #socialLinkGithub="ngModel" [(ngModel)]="employeePersonalData.socialLinkGithub"
                                     name="socialLinkGithub" id="socialLinksGithub">
-                                </div>
                             </div>
-                            <div class="col-md-4">
-                                <div class="material-input__group">
+                        </div>
+                        <div class="col-md-4">
+                            <div class="material-input__group">
                                 <i class="fa-brands fa-linkedin" style="color: #f6f7f9; font-size: 16px"></i>
-                                <input type="text" placeholder="LinkdIn"  class="text-white material-input__group__input form-input form-control"
-                                    #socialLinklinkdin="ngModel" [(ngModel)]="employeePersonalData.socialLinklinkdin"
-                                    pattern="/^(https?:\/\/(www\.)?linkedin\.com\/in\/[a-zA-Z0-9_\-]+\/?)$/" name="socialLinklinkdin" id="socialLinklinkdin">
-                                </div>
-                            </div>
-                            <div class="col-md-4">
-                                <div class="material-input__group">
-                                    <i class="fa-brands fa-twitter" style="color: #f6f7f9; font-size: 16px"></i>
-                                    <input type="text" placeholder="Twitter"
+                                <input type="text" placeholder="LinkdIn"
                                     class="text-white material-input__group__input form-input form-control"
-                                        #socialLinktwitter="ngModel" [(ngModel)]="employeePersonalData.socialLinktwitter"
-                                        name="socialLinktwitter" id="socialLinktwitter">
-                                </div>
-                               
-                                
+                                    #socialLinklinkdin="ngModel" [(ngModel)]="employeePersonalData.socialLinklinkdin"
+                                    pattern="^(https?:\/\/(www\.)?linkedin\.com\/in\/[a-zA-Z0-9_\-]+\/?)$"
+                                    [title]="socialLinklinkdin.errors?.['pattern'] ? 'Linkedin URL is invalid' : ''"
+                                    name="socialLinklinkdin" id="socialLinklinkdin">
                             </div>
+                        </div>
+                        <div class="col-md-4">
+                            <div class="material-input__group">
+                                <i class="fa-brands fa-twitter" style="color: #f6f7f9; font-size: 16px"></i>
+                                <input type="text" placeholder="Twitter"
+                                    class="text-white material-input__group__input form-input form-control"
+                                    #socialLinktwitter="ngModel" [(ngModel)]="employeePersonalData.socialLinktwitter"
+                                    name="socialLinktwitter" id="socialLinktwitter">
+                            </div>
+
+
+                        </div>
                         <!-- </div> -->
-                       
+
                     </div>
                     <div class="row">
                         <div class="col-md-10 mt-5 mb-3">
-                            <button class="btn btn-next float-end" type="submit"  [disabled]="!employee.form.valid || !employeePersonalData.socialLinklinkdin" >Next</button>
+                            <button class="btn btn-next float-end" type="submit"
+                                [disabled]="!employee.form.valid || !employeePersonalData.socialLinklinkdin">Next</button>
                         </div>
 
                     </div>
+                  
 
-                </form>
-            </div>
+            </form>
         </div>
-    </div> 
+    </div>
+</div>
