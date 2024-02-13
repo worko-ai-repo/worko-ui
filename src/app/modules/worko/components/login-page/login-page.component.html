@@ -65,12 +65,17 @@
                           <div class="error text-danger py-2" *ngIf="errorMessage">{{errorMessage}}</div>
                           <div class="col-md-6">
                             <div class="material-input__group">
-                              <i class="fa-solid fa-user" style="color: #f4f5f5; font-size: 12px"></i>
-                              <input type="text" placeholder="Name" class="text-white material-input__group__input"
-                              pattern="^([ \u00c0-\u01ffa-zA-Z'.-])+$" 
-                              #name="ngModel" [(ngModel)]="candidateForm.name" name="name" id="name" />
+                                <i class="fa-solid fa-user" style="color: #f4f5f5; font-size: 12px"></i>
+                                <input type="text" placeholder="Name" class="text-white material-input__group__input"
+                                    pattern="^([ \u00c0-\u01ffa-zA-Z'.-])+$" 
+                                    #nameInput="ngModel" [(ngModel)]="candidateForm.name" name="name" id="name"
+                                    (blur)="validateName()" />
+                                <div *ngIf="(nameInput.touched || candidate.submitted) && nameInput.invalid" class="required-error">
+                                  <i class="fa-solid fa-asterisk" style="color: red;"></i>
+                                </div>
                             </div>
-                          </div>
+                        </div>
+                        
 
                           <div class="col-md-6">
 
@@ -83,7 +88,7 @@
                             </div>
                           </div>
 
-                          <div class="col-md-6">
+                          <div class="col-md-6 d-flex">
                             <div class="material-input__group">
                               <i class="fas fa-lock" style="color: #ffffff; font-size: 12px"></i>
                               <input type="password" placeholder="Password"
@@ -91,6 +96,26 @@
                                 pattern="^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$"
                                 [title]="password.errors?.['pattern'] ? 'Password is invalid' : ''"
                                 [(ngModel)]="candidateForm.password" name="password" id="password" />
+                                
+                               
+                            </div>
+                            <div class="">
+                              <div class="tooltip-container">
+                                <div class="">
+                                    <i class="fa-solid fa-circle-info"></i>
+                                </div>
+                                <div class="tooltip-text">
+                                  <ul>
+                                    <li>Your Password Must Contain At Least One Uppercase And Lowercase</li>
+                                    <li>Your Password Must Contain At Least One Number</li>
+                                    <li>Your Password Must Contain At Least 8 Or More Characters</li>
+
+                                    
+
+                                  </ul>
+                                </div>
+                            </div>
+                              
                             </div>
                           </div>
 
@@ -145,8 +170,12 @@
                               <i class="fa-solid fa-phone" style="color: #ffffff; font-size: 12px"></i>
                               <input type="otp" placeholder="Phone number"
                                 class="text-white material-input__group__input" #phoneNumber="ngModel"
-                                pattern="^(?:(?:\+|0{0,2})91(\s*[\ -]\s*)?|[0]?)?[789]\d{9}|(\d[ -]?){10}\d$"  maxlength="15"
+                                pattern="^\+(?:[0-9] ?){6,14}[0-9]$" maxlength="17"
                                 [(ngModel)]="candidateForm.phoneNumber" name="phoneNumber" id="phoneNumber" />
+                                <div *ngIf="phoneNumber.invalid && (phoneNumber.dirty || phoneNumber.touched)" class="text-danger">
+                                  <div *ngIf="phoneNumber.errors && phoneNumber.errors['required']">Phone number is required</div>
+                                  <div *ngIf="phoneNumber.errors && phoneNumber.errors['pattern']">Phone number is invalid</div>
+                                </div>
                             </div>
                           </div>
 

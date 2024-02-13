@@ -1,5 +1,5 @@
 
-import { Component, EventEmitter, Output, ViewChild } from '@angular/core';
+import { Component, EventEmitter, Output, ViewChild, AfterViewInit  } from '@angular/core';
 import { CognitoService } from 'src/app/modules/services/cognito.service';
 import { Router } from '@angular/router';
 import { AuthService } from '../../services/auth.service';
@@ -11,20 +11,22 @@ import { getCurrentUser, fetchAuthSession } from 'aws-amplify/auth';
 import { MatAutocompleteModule, MatAutocompleteTrigger } from '@angular/material/autocomplete';
 // import { MatInputModule } from '@angular/material/input';
 // import { MatFormFieldModule } from '@angular/material/form-field';
-import { FormControl, FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { FormControl, FormsModule, NgModel, ReactiveFormsModule } from '@angular/forms';
 import { Observable } from 'rxjs';
 // import { delay } from 'rxjs/operators';
 // import { of } from 'rxjs';
 import { debounceTime, distinctUntilChanged, switchMap, filter } from 'rxjs/operators';
 import { Subscription } from 'rxjs';
 import { ChangeDetectorRef } from '@angular/core';
+declare var bootstrap: any;
+
 @Component({
   selector: 'app-login-page',
   templateUrl: './login-page.component.html',
   styleUrls: ['./login-page.component.scss'],
 })
 
-export class LoginPageComponent {
+export class LoginPageComponent implements AfterViewInit  {
   @Output() userTypeSelected = new EventEmitter<string>();
   @Output() onSuccess: EventEmitter<void> = new EventEmitter<void>();
   // @ViewChild('autocompleteInput') autocompleteInput: any; 
@@ -32,7 +34,6 @@ export class LoginPageComponent {
   myControl = new FormControl<any>('');
   filteredOptions!: Observable<any[]>;
   allOptions: any[] = [];
-
   selectedUserType: string = 'candidate'; // Default to 'candidate'
   showSignInRow: boolean = true;
   isCandidateEmailVerified: boolean = false;
@@ -131,9 +132,19 @@ export class LoginPageComponent {
   
  
   }
+  candidate = {
+    submitted: false
+};
+@ViewChild('nameInput') nameInput!: NgModel;
+
+validateName() {
+    if (!this.candidateForm.name) {
+        this.nameInput.control.setErrors({ 'required': true });
+    }
+}
 
   
-
+ 
   onOptionSelected(event: any): void {
     this.selectedCompany = event.option.value;
   }
@@ -172,6 +183,10 @@ export class LoginPageComponent {
       .subscribe(e => {
         this.myControl.setValue(null);
       });
+      var tooltipTriggerList = [].slice.call(document.querySelectorAll('[data-bs-toggle="tooltip"]'))
+      var tooltipList = tooltipTriggerList.map(function (tooltipTriggerEl) {
+        return new bootstrap.Tooltip(tooltipTriggerEl)
+      })
   }
   
  
