@@ -11,6 +11,7 @@ import { MatTooltipModule } from '@angular/material/tooltip';
 import { NavbarToggleSwitchService } from './modules/candidate/services/navbar-toggle-switch.service';
 import { NgxSpinnerModule } from 'ngx-spinner';
 
+
 @NgModule({
   providers: [NavbarToggleSwitchService],
   declarations: [
@@ -25,7 +26,6 @@ import { NgxSpinnerModule } from 'ngx-spinner';
     HttpClientModule,
     MatTooltipModule,
     NgxSpinnerModule
- 
 
     
 

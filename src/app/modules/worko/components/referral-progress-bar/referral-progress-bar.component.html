@@ -1,12 +1,18 @@
 <!-- <mat-card> -->
 <!-- <mat-card-title>Original Item Score</mat-card-title> -->
-<div class="row">
+
+<div class="row" *ngIf="!showScore">
+  <div class="d-flex align-self-center justify-content-center">
+    <h2 id="loopedText"></h2>
+  </div>
+</div>
+<div class="row" *ngIf="showScore">
   <div class="d-flex align-self-center justify-content-center">
     <app-circle-chart [chartText]="score.toString()"
       [chartValue]="(this.score / this.possiblePoints) * 100"></app-circle-chart>
   </div>
 </div>
-<div class="row">
+<div class="row" *ngIf="showScore">
   <div class="col-md-12 mt-4">
     <h1 class="yourScore">Your Score</h1>
     <p class="send-cv-text">You are a good match for the job. we are sending your <br> CV to the best suitable Referee who can refer you,</p>
