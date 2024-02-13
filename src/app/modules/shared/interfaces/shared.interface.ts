@@ -16,5 +16,6 @@ export enum ModalCloseResult {
     EMPLOYEE_PACKAGE_FORM=7,
     EMPLOYEE_SERVICE_ADD=8,
     EDIT_BANK_DETAILS=9,
+    OTP_VERIFICATION=10,
   }
   
