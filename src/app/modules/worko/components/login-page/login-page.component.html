@@ -173,8 +173,8 @@
                                 pattern="^\+(?:[0-9] ?){6,14}[0-9]$" maxlength="17"
                                 [(ngModel)]="candidateForm.phoneNumber" name="phoneNumber" id="phoneNumber" />
                                 <div *ngIf="phoneNumber.invalid && (phoneNumber.dirty || phoneNumber.touched)" class="text-danger">
-                                  <div *ngIf="phoneNumber.errors && phoneNumber.errors['required']">Phone number is required</div>
-                                  <div *ngIf="phoneNumber.errors && phoneNumber.errors['pattern']">Phone number is invalid</div>
+                                  <div *ngIf="phoneNumber.errors && phoneNumber.errors['required']"><small>Phone number is required</small></div>
+                                  <div *ngIf="phoneNumber.errors && phoneNumber.errors['pattern']"><small>Phone number is invalid</small></div>
                                 </div>
                             </div>
                           </div>
@@ -296,8 +296,12 @@
                                 <i class="fa-solid fa-phone" style="color: #ffffff; font-size: 12px"></i>
                                 <input type="text" placeholder="Phone number"
                                   class="text-white material-input__group__input" #phoneNumber="ngModel"
-                                  pattern="^(?:(?:\+|0{0,2})91(\s*[\ -]\s*)?|[0]?)?[789]\d{9}|(\d[ -]?){10}\d$" maxlength="15"
+                                  pattern="^\+(?:[0-9] ?){6,14}[0-9]$" maxlength="17"
                                   [(ngModel)]="employeeForm.phoneNumber" name="phoneNumber" id="phoneNumber" />
+                                  <div *ngIf="phoneNumber.invalid && (phoneNumber.dirty || phoneNumber.touched)" class="text-danger">
+                                    <div *ngIf="phoneNumber.errors && phoneNumber.errors['required']"><small>Phone number is required</small></div>
+                                    <div *ngIf="phoneNumber.errors && phoneNumber.errors['pattern']"><small>Phone number is invalid</small></div>
+                                  </div>
                               </div>
                             </div>
                             <div class="col-md-6">
