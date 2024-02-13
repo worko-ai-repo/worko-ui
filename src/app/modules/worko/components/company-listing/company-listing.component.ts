@@ -37,6 +37,9 @@ export class CompanyListingComponent implements OnInit {
     // Handle scroll event
     this.detectScroll();
   }
+  searchTerm: string = '';
+  filteredCompanyList: any[] = [];
+
 
   constructor(private companyListing: CompanyListingService, private cognitoService: CognitoService) {
 
@@ -44,8 +47,15 @@ export class CompanyListingComponent implements OnInit {
   async ngOnInit(): Promise<void> {
     this.userLoggedIn = await this.cognitoService.isLoggedIn();
     this.getCompanyDetails();
+    this.filteredCompanyList = this.companyList;
+   
 
 
+  }
+  filterCompanies(): void {
+    this.filteredCompanyList = this.companyList.filter(company =>
+      company.name.toLowerCase().includes(this.searchTerm.toLowerCase())
+    );
   }
 
   detectScroll(): void {
@@ -76,13 +86,15 @@ export class CompanyListingComponent implements OnInit {
           this.companyList = this.companyList.concat(response.data);
           this.lastKey = response.pagination.lastKey;
           this.loadedOnce = false;
+          this.filterCompanies(); // Filter companies after updating companyList
         }
       })
-        .catch(error => {
-          console.error('Display Company Listing Error:', error);
-        });
+      .catch(error => {
+        console.error('Display Company Listing Error:', error);
+      });
     }
   }
+  
   // onMouseOver(item: any, event: any) {
   //   this.showdiv = true;
   //   this.selectedItem = item;
