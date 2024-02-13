@@ -16,7 +16,7 @@
       </p>
     </div>
     <div class="col-8 ms-5 text-white my-2">
-      <input class="searchInput" placeholder="Search by company name..."/>
+      <input class="searchInput" placeholder="Search by company name..."  [(ngModel)]="searchTerm"  (ngModelChange)="filterCompanies()"/>
     </div>
 
     <div class="row my-4">
@@ -37,49 +37,16 @@
      
       </div>
     </div>
-    <!-- d-flex justify-content-center align-items-center -->
+    <div *ngIf="filteredCompanyList.length === 0 && searchTerm.trim() !== ''" class="row mt-4">
+      <div class="col-8 ms-5 text-white my-2">
+        Company "{{ searchTerm }}" not found!.
+      </div>
+    </div>
+  
+   
     <div class="row p-3  company-box-container d-flex justify-content-center">
-      <!-- <div class="company-detail-container pb-3" *ngFor="let item of companyList">
-        <div class="company-info d-flex justify-content-center">
-          <div class="logo-image">
-            <div class="brand-image d-flex justify-content-center align-items-center">
-              <img src="{{ item.logoUrl }}" alt="" />
-            </div>
-          </div>
-
-          <div class="company-box">
-            <div class="row card-view card d-flex justify-content-center">
-              <div class="col-6 d-flex align-items-center">
-                <div class="float-left">
-                  <img src="{{ item.logoUrl }}" alt="Brand Image">
-                </div>
-                <div class="vertical-bar"></div>
-              </div>
-              <div class="col-6 p-3">
-                <div class="anchor-button">
-                  <a href="{{ item.linkedIn }}" target="_blank">Linkedin page</a>
-                </div>
-                <div class="anchor-button">
-                  <a href="{{ item.carrierPage }}" target="_blank">Career page</a>
-                </div>
-              </div>
-            </div>
-            <div class="row buttons-referral">
-              <div class="d-flex p-0">
-                <div class="col-md-6 p-0">
-                  <button class="btn btn-sm bg-white request-button listing-button"
-                    (click)="openReferralPage(item)">Request Referral</button>
-                </div>
-                <div class="col-md-6 p-0">
-                  <button class="btn btn-sm bg-white long-button listing-button" (click)="openGuidancePage(item)">Request Guidance</button>
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
-      </div> -->
-
-      <div class="company-detail-container pb-3" *ngFor="let item of companyList">
+    
+      <div class="company-detail-container pb-3" *ngFor="let item of filteredCompanyList">
         <div class="company-info d-flex justify-content-center">
           <div class="company-box">
             <div class="row card-view card d-flex justify-content-center">

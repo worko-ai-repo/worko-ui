@@ -69,8 +69,16 @@
                 <div class="row mt-1">
                     <div class="col-md-6">
                         <label for="" class="form-lable required-form-field">Phone no</label>
-                        <input type="text" class="form-control form-input" placeholder="+91-0000000000" name="number"
-                            id="number" [(ngModel)]="employeePersonalData.number">
+                        <input type="text" class="form-control form-input" placeholder="+91 -1234567890"
+                        pattern="^\+(?:[0-9] ?){6,14}[0-9]$" maxlength="17"
+                       name="number" id="number" [(ngModel)]="employeePersonalData.number"  #number="ngModel"
+                       [ngClass]="{ 'is-invalid': number.invalid && (number.dirty || number.touched) }"
+                       >
+                       
+                       <!-- <div *ngIf="number.invalid && (number.dirty || number.touched)" class="text-danger">
+                           <div *ngIf="number.errors && number.errors['required']"><small>Phone number is required</small></div>
+                           <div *ngIf="number.errors && number.errors['pattern']"><small>Phone number is invalid</small></div>
+                         </div> -->
                     </div>
 
                 </div>

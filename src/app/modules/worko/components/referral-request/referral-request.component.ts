@@ -26,6 +26,7 @@ export class ReferralRequestComponent implements OnInit {
 
   requestForm = {
     jobUrl: '',
+    jobDescription:''
   }
   showScore: boolean = false;
   // subscriptionObj:any={

@@ -538,7 +538,7 @@ validateName() {
         password: form.password,
         username: form.emailId,
         name: form.name,
-        phone_number: "+91" + form.phoneNumber
+        phone_number: form.phoneNumber
       }
       const { response, error } = await this.amplify.handleSignUp(signupform);
 

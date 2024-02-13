@@ -13,6 +13,7 @@ import { MatTooltipModule } from '@angular/material/tooltip';
 import { NavbarToggleSwitchService } from './modules/candidate/services/navbar-toggle-switch.service';
 
 
+
 @NgModule({
   providers: [NavbarToggleSwitchService],
   declarations: [
@@ -27,11 +28,6 @@ import { NavbarToggleSwitchService } from './modules/candidate/services/navbar-t
     HttpClientModule,
     MatTooltipModule,
     NgxSpinnerModule.forRoot({ type: 'ball-scale-multiple' })
- 
-
-    
-
-    
   ],
   exports: [
     NgxSpinnerModule,
