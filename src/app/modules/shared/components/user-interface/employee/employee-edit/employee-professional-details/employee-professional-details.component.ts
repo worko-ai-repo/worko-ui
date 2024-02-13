@@ -12,6 +12,7 @@ import { debounceTime, distinctUntilChanged, switchMap, filter } from 'rxjs/oper
 import { Subscription } from 'rxjs';
 import { ChangeDetectorRef } from '@angular/core';
 import { AuthService } from 'src/app/modules/worko/services/auth.service';
+import { TimeScale } from 'chart.js';
 @Component({
   selector: 'app-employee-professional-details',
   templateUrl: './employee-professional-details.component.html',
@@ -32,19 +33,27 @@ export class EmployeeProfessionalDetailsComponent {
     designation: "",
     workingSince: "",
     officialEmail: "",
-    companySk: ""
+    companySk: "",
+    previousCompanies: ""
 
   }
-
+form:any;
   filteredOptions!: Observable<any[]>;
   companyName: string = "";
   companySK: string = "";
   subscription: Subscription = new Subscription();
   selectedCompany: any;
+  PreviousCompanyName: string = "";
+  previousExpYear: string = "";
+  previousDesignation: string = "";
+  fields: { previousCompanyName: string, previousDesignation: string, previousExperience: string }[] = [];
+  // Property to store the values entered in the fields
+  savedValues: { previousCompanyName: string, previousDesignation: string, previousExperience: string }[] = [];
   constructor(private authService: AuthService) { }
 
-
   ngOnInit() {
+    
+ 
     this.filteredOptions = this.myControl.valueChanges.pipe(
       debounceTime(300),
       distinctUntilChanged(),
@@ -60,6 +69,22 @@ export class EmployeeProfessionalDetailsComponent {
     );
 
   }
+
+  addField() {
+    if (this.fields.length < 6) {
+      this.fields.push({ previousCompanyName: '', previousDesignation: '', previousExperience: '' });
+    }
+  }
+  // Method to check if all previous fields are filled
+  areAllPreviousFieldsFilled(): boolean {
+    return this.fields.every(field => field.previousCompanyName.trim() !== '' && field.previousDesignation.trim() !== '' && field.previousExperience.trim() !== '' && /^[0-9]+$/.test(field.previousExperience.trim()));
+  }
+
+  removeField(index: number) {
+    this.fields.splice(index, 1);
+  }
+
+
   onOptionSelected(event: any): void {
     this.selectedCompany = event.option.value;
   }
@@ -73,18 +98,21 @@ export class EmployeeProfessionalDetailsComponent {
       return '';
     }
   }
-  ngOnChanges(): void {
-    // console.log(this.candidateList, "candidateList");
-    //  console.log(this.workExperienceDetails, "workExperienceDetails");
-    // console.log(this.certificationList, "certificationList");
-    // this.getData();
-    if (this.employeeProfessionalData && this.employeeProfessionalData.companyName && this.employeeProfessionalData.department && this.employeeProfessionalData.designation) {
 
+  ngOnChanges(): void {
+    if (this.employeeProfessionalData && this.employeeProfessionalData.companyName && this.employeeProfessionalData.department && this.employeeProfessionalData.designation) {
+      this.fields = this.employeeProfessionalData.previousCompanies;
+      if(this.employeeProfessionalData && this.employeeProfessionalData.previousCompanies.length == 0){
+        this.addField();
+      }
     } else {
       this.getData();
+      if(this.employeeProfessionalData && this.employeeProfessionalData.previousCompanies.length == 0){
+        this.addField();
+      }
     }
-    // console.log(this.candidateProfessionalDetails)
   }
+
   getData() {
     this.employeeProfessionalData = {
       companyName: this.workExperienceDetails.companyName,
@@ -92,21 +120,38 @@ export class EmployeeProfessionalDetailsComponent {
       designation: this.workExperienceDetails.designation,
       workingSince: this.workExperienceDetails?.designation,
       officialEmail: this.workExperienceDetails.emailId,
-      companySK: this.selectedCompany?.SK ? this.selectedCompany?.SK : this.workExperienceDetails?.SK
+      companySK: this.selectedCompany?.SK ? this.selectedCompany?.SK : this.workExperienceDetails?.SK,
+      previousCompanies: ""
 
     }
   }
 
+  //Method for next step
   updateProfessionalDetails() {
+    const nonBlankFields = this.fields.filter(field => field.previousCompanyName.trim() !== '' || field.previousDesignation.trim() !== '' || field.previousExperience.trim() !== '');
+
+    // Save the non-blank fields
+    this.savedValues = [...nonBlankFields];
+    this.employeeProfessionalData.previousCompanies = this.savedValues;
     this.employeeProfessionalData.companyName = this.selectedCompany.name ? this.selectedCompany?.name : this.workExperienceDetails?.companyName
     this.employeeProfessionalData.companySK = this.selectedCompany.SK ? this.selectedCompany?.SK : this.workExperienceDetails?.SK
     this.nextStepThird.emit(this.employeeProfessionalData);
   }
 
-  onNextClick() {
-    this.nextStep.emit();
+  createEmployeeOfficial(form: any){
+    const nonBlankFields = this.fields.filter(field => field.previousCompanyName.trim() !== '' || field.previousDesignation.trim() !== '' || field.previousExperience.trim() !== '');
+
+    // Save the non-blank fields
+    this.savedValues = [...nonBlankFields];
+    this.employeeProfessionalData.previousCompanies = this.savedValues;
+    this.employeeProfessionalData.companyName = this.selectedCompany.name ? this.selectedCompany?.name : this.workExperienceDetails?.companyName
+    this.employeeProfessionalData.companySK = this.selectedCompany.SK ? this.selectedCompany?.SK : this.workExperienceDetails?.SK
+    this.nextStepThird.emit(this.employeeProfessionalData);
   }
+
   onPreviousClick() {
     this.previousStep.emit();
   }
+
+
 }

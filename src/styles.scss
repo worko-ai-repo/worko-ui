@@ -1685,3 +1685,9 @@ color: #FFF;
         color: white;
       }
     }
+
+    .required-form-field:before {
+        content: "*";
+        color: red;
+        padding-right: 5px;
+      }

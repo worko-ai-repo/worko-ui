@@ -1,16 +1,36 @@
 <!-- <mat-card> -->
 <!-- <mat-card-title>Original Item Score</mat-card-title> -->
-<div class="row">
+
+<div class="row" *ngIf="!showScore && !showEmailContent">
+  <div class="d-flex align-self-center justify-content-center">
+    <div class="row">
+      <div class="col-md-12">
+        <img src="/assets/public/gif-img.gif" class="gif-img" alt="searching">
+      </div>
+      <div class="col-md-12 mt-2 animate">
+    <h2 id="loopedText"></h2>
+      </div>
+    </div>
+  </div>
+</div>
+<div class="row" *ngIf="showScore && !showEmailContent">
   <div class="d-flex align-self-center justify-content-center">
     <app-circle-chart [chartText]="score.toString()"
       [chartValue]="(this.score / this.possiblePoints) * 100"></app-circle-chart>
   </div>
 </div>
-<div class="row">
+<div class="row" *ngIf="showScore && !showEmailContent">
   <div class="col-md-12 mt-4">
     <h1 class="yourScore">Your Score</h1>
     <p class="send-cv-text">You are a good match for the job. we are sending your <br> CV to the best suitable Referee who can refer you,</p>
-    <button class="btn btn-light-blue view-more-btn mb-2">View More</button>
+    <button class="btn btn-light-blue view-more-btn mb-2" (click)="onViewMore()">View More</button>
+  </div>
+</div>
+
+<div class="row" *ngIf="showEmailContent"> <!-- Show email content when the button is clicked -->
+  <div class="col-md-12 mt-4">
+    <h3 class="email-sent">We have sent you an email with our assessment.</h3>
+ 
   </div>
 </div>
 

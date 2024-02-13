@@ -1,73 +1,73 @@
 <div class="row">
-<div class="body main-div">
-  <div class="row" *ngIf="showReferrelRow">
+  <div class="body main-div">
+    <div class="row" *ngIf="showReferrelRow">
+      <div class="col-md-6">
+        <div class="refeeral-img"></div>
+        <img src="/assets/public/referral-main1.png" class="hand-img ms-1" alt="" />
+      </div>
 
-    <div class="col-md-6">
-      <div class="refeeral-img"></div>
-      <img src="/assets/public/referral-main1.png" class="hand-img ms-1" alt="" />
-    </div>
+      <div class="col-md-6 d-flex align-self-center">
+        <div class="row h-100">
+          <div class="col-md-12 mt-3">
+            <h1 class="ref-req-text">Referral Request</h1>
+          </div>
 
-    <div class="col-md-6 d-flex align-self-center">
-      <div class="row h-100">
-        <div class="col-md-12">
-          <h1 class="ref-req-text">Referral Request</h1>
+          <form (ngSubmit)="requestReferral.form.valid && checkRequestReferral(requestReferral)" #requestReferral="ngForm"
+            class="p-0" novalidate>
+
+      
+            <div class="col-md-12 mt-4">
+              <label for="" class="form-lable  required-form-field">Enter job URL for {{selectedCompany.name}} </label>
+              <input type="text" #jobUrl="ngModel"
+                [ngClass]="{'is-invalid': (requestReferral.submitted || jobUrl.touched) && jobUrl.invalid}"
+                [(ngModel)]="requestForm.jobUrl" name="jobUrl" id="jobUrl" required
+                pattern="^https:\/\/.*$" class="form-control text-white input-jobUrl" />
+              <div *ngIf="(requestReferral.submitted || jobUrl.touched) && jobUrl.invalid" class="text-danger">
+                Please enter a valid URL .
+              </div>
+            </div>
+            
+            <div class="col-md-12">
+              <label for="" class="form-lable  required-form-field">Enter job description </label>
+              <textarea #jobDescription="ngModel"
+              [ngClass]="{'is-invalid': (requestReferral.submitted || jobDescription.touched) && jobDescription.invalid}"
+              [(ngModel)]="requestForm.jobDescription" name="jobDescription" id="jobDescription" required
+              class="form-control text-white input-jobDescription"></textarea>
+              <div *ngIf="(requestReferral.submitted || jobDescription.touched) && jobDescription.invalid" class="text-danger">
+                Please enter a job description.
+              </div></div>
+            <div class="col-md-12 py-4">
+              <button class="btn req-btn" type="submit" [disabled]="(!requestReferral.form.valid || !requestForm.jobUrl || !requestForm.jobDescription)">
+                REQUEST NOW
+              </button>
+            </div>
+          </form>
         </div>
-
-        <form (ngSubmit)="requestReferral.form.valid && checkRequestReferral(requestReferral)" #requestReferral="ngForm"
-          class="p-0" novalidate>
-
-          <div class="col-md-12 pt-4">
-            <p class="job-url-text">Enter job Url</p>
-          </div>
-          <!-- patter="/^(https?:\/\/)?([\w.-]+)\.([a-z]{2,})(\/\S*)?$/i;" -->
-          <div class="col-md-12">
-            <input type="text" #jobUrl="ngModel"
-              [class.invalid]="(requestReferral.submitted || jobUrl.touched) && jobUrl.invalid"
-              [(ngModel)]="requestForm.jobUrl" name="jobUrl" id="jobUrl"
-              [title]="jobUrl.errors?.['pattern'] ? 'Job Url is invalid' : ''"
-              class="form-control text-white input-jobUrl" />
-          </div>
-          <div class="col-md-12 py-4">
-            <button class="btn req-btn" type="submit" [disabled]="(!requestReferral.form.valid || !requestForm.jobUrl)" >
-              REQUEST NOW  
-              
-            </button>
-
-
-          </div>
-        </form>
       </div>
     </div>
-  </div>
-  
-   
- 
 
-
-  <div class="col-md-12" *ngIf="showSubscription">
-    <div class="row">
-      <div class="col-md-12 mt-4">
-        <h1 class="subscrip-text">
-          Select the <br/>
-          Subscription Plan
-        </h1>
-      </div>
-      <div class="col-md-12">
-        <app-subscription-pack  (onSuccess)="receiveDataFromChild($event)" (onError)="receieveError($event)"></app-subscription-pack> 
+    <div class="col-md-12" *ngIf="showSubscription">
+      <div class="row">
+        <div class="col-md-12 mt-4">
+          <h1 class="subscrip-text">
+            Select the <br/>
+            Subscription Plan
+          </h1>
+        </div>
+        <div class="col-md-12">
+          <app-subscription-pack  (onSuccess)="receiveDataFromChild($event)" (onError)="receieveError($event)"></app-subscription-pack> 
+        </div>
       </div>
     </div>
-  </div>
 
-  <div class="row" *ngIf="showLoading">
-    <div class="col-md-12 text-center mt-5" *ngIf="showLoading">
-      <img src="/assets/public/gif-img.gif" class="gif-img" alt="searching">
+    <div class="row" *ngIf="showLoading">
+      <div class="col-md-12 text-center mt-5" *ngIf="showLoading">
+        <img src="/assets/public/gif-img.gif" class="gif-img" alt="searching">
+      </div>
+    </div>
+
+    <div class="progress-bar" *ngIf="showScore">
+      <app-referral-progress-bar [score]="matchingScore"></app-referral-progress-bar>
     </div>
   </div>
-
-  <div class="progress-bar" *ngIf="showScore">
-    <app-referral-progress-bar [score]="matchingScore"></app-referral-progress-bar>
-   
-  </div>
-
-</div>
 </div>

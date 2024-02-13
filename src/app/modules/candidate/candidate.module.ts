@@ -47,6 +47,7 @@ import { SharedModule } from '../shared/shared.module';
 import { NavbarToggleSwitchService } from './services/navbar-toggle-switch.service';
 import { AdminModule } from '../admin/admin.module';
 
+
 export const routes: Routes = [
 
   {
@@ -142,11 +143,10 @@ export const routes: Routes = [
   CommonModule,
     FormsModule,
     SharedModule,
-    
+    RouterModule.forChild(routes)
     
     
 
-    RouterModule.forChild(routes)
   ],
   exports: [UserMenubarComponent,
     UserNavbarComponent,

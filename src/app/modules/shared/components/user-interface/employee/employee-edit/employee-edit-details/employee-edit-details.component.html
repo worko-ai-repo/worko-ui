@@ -28,123 +28,120 @@
             <form (ngSubmit)="employee.form.valid && createEmployee(form)" #employee="ngForm" novalidate>
                 <div class="row">
                     <div class="col-md-6">
-                        <label for="" class="form-lable">Name</label>
+                        <label for="" class="form-lable required-form-field">Name</label>
                         <input type="text" class="form-control form-input" placeholder="Name" name="name" id="name"
-                            [(ngModel)]="employeePersonalData.name" pattern="^([ \u00c0-\u01ffa-zA-Z'.-])+$">
+                        #name="ngModel"  [(ngModel)]="employeePersonalData.name" pattern="^([ \u00c0-\u01ffa-zA-Z'.-])+$" 
+                        [title]="name.errors?.['pattern'] ? 'Name is invalid' : ''"
+                        [ngClass]="{ 'is-invalid': name.invalid && (name.dirty || name.touched) }"
+                        
+                            >
                     </div>
                     <div class="col-md-6">
-                        <label for="" class="form-lable">Email</label>
+                        <label for="" class="form-lable required-form-field">Personal/Communication Email</label>
                         <input type="text" class="form-control form-input" placeholder="123@gmail.com"
                             pattern="^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,4}$" name="email" id="email"
-                            [(ngModel)]="employeePersonalData.email">
-
-                       
-                    </div>
-                    <div class="row mt-1">
-                        <div class="col-md-12 d-flex justify-content-between">
-                            <div>
-                                <label for="" class="form-lable">Phone no</label>
-                            
-                                <input type="text" class="form-control form-input" placeholder="+91 -1234567890"
-                                     pattern="^\+(?:[0-9] ?){6,14}[0-9]$" maxlength="17"
-                                    name="number" id="number" [(ngModel)]="employeePersonalData.number"  #number="ngModel" >
-                                    <div *ngIf="number.invalid && (number.dirty || number.touched)" class="text-danger">
-                                        <div *ngIf="number.errors && number.errors['required']"><small>Phone number is required</small></div>
-                                        <div *ngIf="number.errors && number.errors['pattern']"><small>Phone number is invalid</small></div>
-                                      </div>
-                            </div>
-                            <div>
-                                <label for="" class="form-lable">Country</label>
-                            <input type="text" class="form-control form-input" placeholder="Country Name"
-                                name="location" id="location" [(ngModel)]="employeePersonalData.location">
-
-                            </div>
-                            <div>
-                                <label for="" class="form-lable">City</label>
-                            <input type="text" class="form-control form-input" placeholder="City Name"
-                                name="location" id="location" [(ngModel)]="employeePersonalData.location">
-                            </div>
-                        </div>
-                       
+                            [(ngModel)]="employeePersonalData.email"
+                            [title]="email.errors?.['pattern'] ? 'Personal/Communication Email is invalid' : ''"
+                            [ngClass]="{ 'is-invalid': email.invalid && (email.dirty || email.touched) }"
+                            #email="ngModel"
+                        >
                     </div>
                 </div>
-                    <div class="row mt-1">
+
+
+                <div class="row mt-1">
+
+
+                    <div class="col-md-6">
+                        <label for="" class="form-lable required-form-field">City</label>
+                        <input type="text" class="form-control form-input" placeholder="City Name" name="location"
+                            id="location" [(ngModel)]="employeePersonalData.location">
+
+                    </div>
+                    <div class="col-md-6">
+                        <label for="" class="form-lable required-form-field">Country</label>
+                        <input type="text" class="form-control form-input" placeholder="Country Name" name="country"
+                            id="country" [(ngModel)]="employeePersonalData.country">
+
+                    </div>
+                </div>
+
+                <div class="row mt-1">
+                    <div class="col-md-6">
+                        <label for="" class="form-lable required-form-field">Phone no</label>
+                        <input type="text" class="form-control form-input" placeholder="+91 -1234567890"
+                        pattern="^\+(?:[0-9] ?){6,14}[0-9]$" maxlength="17"
+                       name="number" id="number" [(ngModel)]="employeePersonalData.number"  #number="ngModel"
+                       [ngClass]="{ 'is-invalid': number.invalid && (number.dirty || number.touched) }"
+                       >
                        
-                        <div class="col-md-6">
-                            <label for="" class="form-lable">Location</label>
-                            <input type="text" class="form-control form-input" placeholder="Delhi" name="location"
-                                id="location" [(ngModel)]="employeePersonalData.location">
-
-                        </div>
+                       <!-- <div *ngIf="number.invalid && (number.dirty || number.touched)" class="text-danger">
+                           <div *ngIf="number.errors && number.errors['required']"><small>Phone number is required</small></div>
+                           <div *ngIf="number.errors && number.errors['pattern']"><small>Phone number is invalid</small></div>
+                         </div> -->
                     </div>
-                    <div class="row">
-                        <div class="col-md-12 mt-1">
-                            <label for="" class="form-lable">About</label>
-                            <textarea class="about-textarea form-control" placeholder="About" cols="10" rows="3"
-                                name="about" id="about" [(ngModel)]="employeePersonalData.about">
+
+                </div>
+
+                <div class="row">
+                    <div class="col-md-12 mt-1">
+                        <label for="" class="form-lable required-form-field">About</label>
+                        <textarea class="about-textarea form-control" placeholder="About" cols="10" rows="3"
+                            name="about" id="about" [(ngModel)]="employeePersonalData.about">
                             </textarea>
+                    </div>
+                </div>
+
+                <div class="row">
+                    <div class="col-md-12 mt-2">
+                        <label for="" class="form-lable">Social Links</label>
+                    </div>
+              
+                    <div class="col-md-4">
+                        <div class="material-input__group">
+                            <label for="" class="form-lable">Github</label>
+                            <i class="fa-brands fa-github" style="color: #f6f7f9; font-size: 16px"></i>
+                            <input type="text" placeholder="Github"
+                                class="text-white material-input__group__input form-input form-control"
+                                #socialLinkGithub="ngModel" [(ngModel)]="employeePersonalData.socialLinkGithub"
+                                name="socialLinkGithub" id="socialLinksGithub">
                         </div>
                     </div>
-
-                    <div class="row">
-                        <div class="col-md-12">
-                            <label for="" class="form-lable">Social Links</label>
+                    <div class="col-md-4">
+                        <div class="material-input__group">
+                            <label for="" class="form-lable required-form-field">LinkedIn</label>
+                            <i class="fa-brands fa-linkedin" style="color: #f6f7f9; font-size: 16px"></i>
+                            <input type="text" placeholder="LinkdIn"
+                                class="text-white material-input__group__input form-input form-control"
+                                #socialLinklinkdin="ngModel" [(ngModel)]="employeePersonalData.socialLinklinkdin"
+                                pattern="^(https?:\/\/(www\.)?linkedin\.com\/in\/[a-zA-Z0-9_\-]+\/?)$"
+                                [title]="socialLinklinkdin.errors?.['pattern'] ? 'Linkedin URL is invalid' : ''"
+                                name="socialLinklinkdin" id="socialLinklinkdin">
                         </div>
-                        <!-- <div class="col-md-10"> -->
-                        <!-- <div class="d-flex">
-                                <input type="text" placeholder="Github" class="form-input form-control me-2"
-                                 name="socialLinkGithub" id="socialLinksGithub"  [(ngModel)]="employeePersonalData.socialLinkGithub">
-
-                                 <input type="text" placeholder="LinkdIn" class="form-input form-control me-2"
-                                 pattern="^(https?:\/\/(www\.)?linkedin\.com\/in\/[a-zA-Z0-9_\-]+\/?)$"
-                                name="socialLinklinkdin" id="socialLinklinkdin"  [(ngModel)]="employeePersonalData.socialLinklinkdin">
-
-                                <input type="text" placeholder="Twitter" class="form-input form-control"
-                                 name="socialLinktwitter" id="socialLinktwitter"  [(ngModel)]="employeePersonalData.socialLinktwitter">
-                            
-                            </div> -->
-                        <div class="col-md-4">
-                            <div class="material-input__group">
-                                <i class="fa-brands fa-github" style="color: #f6f7f9; font-size: 16px"></i>
-                                <input type="text" placeholder="Github"
-                                    class="text-white material-input__group__input form-input form-control"
-                                    #socialLinkGithub="ngModel" [(ngModel)]="employeePersonalData.socialLinkGithub"
-                                    name="socialLinkGithub" id="socialLinksGithub">
-                            </div>
+                    </div>
+                    <div class="col-md-4">
+                        <div class="material-input__group">
+                            <label for="" class="form-lable">Twitter</label>
+                            <i class="fa-brands fa-twitter" style="color: #f6f7f9; font-size: 16px"></i>
+                            <input type="text" placeholder="Twitter"
+                                class="text-white material-input__group__input form-input form-control"
+                                #socialLinktwitter="ngModel" [(ngModel)]="employeePersonalData.socialLinktwitter"
+                                name="socialLinktwitter" id="socialLinktwitter">
                         </div>
-                        <div class="col-md-4">
-                            <div class="material-input__group">
-                                <i class="fa-brands fa-linkedin" style="color: #f6f7f9; font-size: 16px"></i>
-                                <input type="text" placeholder="LinkdIn"
-                                    class="text-white material-input__group__input form-input form-control"
-                                    #socialLinklinkdin="ngModel" [(ngModel)]="employeePersonalData.socialLinklinkdin"
-                                    pattern="^(https?:\/\/(www\.)?linkedin\.com\/in\/[a-zA-Z0-9_\-]+\/?)$"
-                                    [title]="socialLinklinkdin.errors?.['pattern'] ? 'Linkedin URL is invalid' : ''"
-                                    name="socialLinklinkdin" id="socialLinklinkdin">
-                            </div>
-                        </div>
-                        <div class="col-md-4">
-                            <div class="material-input__group">
-                                <i class="fa-brands fa-twitter" style="color: #f6f7f9; font-size: 16px"></i>
-                                <input type="text" placeholder="Twitter"
-                                    class="text-white material-input__group__input form-input form-control"
-                                    #socialLinktwitter="ngModel" [(ngModel)]="employeePersonalData.socialLinktwitter"
-                                    name="socialLinktwitter" id="socialLinktwitter">
-                            </div>
 
-
-                        </div>
-                        <!-- </div> -->
 
                     </div>
-                    <div class="row">
-                        <div class="col-md-10 mt-5 mb-3">
-                            <button class="btn btn-next float-end" type="submit"
-                                [disabled]="!employee.form.valid || !employeePersonalData.socialLinklinkdin">Next</button>
-                        </div>
+                    <!-- </div> -->
 
+                </div>
+                <div class="row">
+                    <div class="col-md-12 mt-5 mb-3">
+                        <button class="btn btn-next float-end" type="submit"
+                            [disabled]="!employee.form.valid  || !employeePersonalData.about || !employeePersonalData.socialLinklinkdin || !employeePersonalData.name || !employeePersonalData.email || !employeePersonalData.country || !employeePersonalData.location || !employeePersonalData.number">Next</button>
                     </div>
-                  
+
+                </div>
+
 
             </form>
         </div>
