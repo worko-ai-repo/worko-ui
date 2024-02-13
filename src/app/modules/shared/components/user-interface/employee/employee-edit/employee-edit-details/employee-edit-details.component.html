@@ -38,33 +38,38 @@
                             pattern="^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,4}$" name="email" id="email"
                             [(ngModel)]="employeePersonalData.email">
 
-                        <div class="row mt-1">
-                            <div class="col-md-6">
+                       
+                    </div>
+                    <div class="row mt-1">
+                        <div class="col-md-12 d-flex justify-content-between">
+                            <div>
                                 <label for="" class="form-lable">Phone no</label>
+                            
                                 <input type="text" class="form-control form-input" placeholder="+91 -1234567890"
-                                    name="number" id="number" [(ngModel)]="employeePersonalData.number">
+                                     pattern="^\+(?:[0-9] ?){6,14}[0-9]$" maxlength="17"
+                                    name="number" id="number" [(ngModel)]="employeePersonalData.number"  #number="ngModel" >
+                                    <div *ngIf="number.invalid && (number.dirty || number.touched)" class="text-danger">
+                                        <div *ngIf="number.errors && number.errors['required']"><small>Phone number is required</small></div>
+                                        <div *ngIf="number.errors && number.errors['pattern']"><small>Phone number is invalid</small></div>
+                                      </div>
                             </div>
-                            <div class="col-md-2">
+                            <div>
                                 <label for="" class="form-lable">Country</label>
-                                <input type="text" class="form-control form-input" placeholder="Country Name"
-                                    name="location" id="location" [(ngModel)]="employeePersonalData.location">
+                            <input type="text" class="form-control form-input" placeholder="Country Name"
+                                name="location" id="location" [(ngModel)]="employeePersonalData.location">
 
                             </div>
-                            <div class="col-md-2">
+                            <div>
                                 <label for="" class="form-lable">City</label>
-                                <input type="text" class="form-control form-input" placeholder="City Name"
-                                    name="location" id="location" [(ngModel)]="employeePersonalData.location">
-
+                            <input type="text" class="form-control form-input" placeholder="City Name"
+                                name="location" id="location" [(ngModel)]="employeePersonalData.location">
                             </div>
                         </div>
+                       
                     </div>
                 </div>
                     <div class="row mt-1">
-                        <div class="col-md-6">
-                            <label for="" class="form-lable">Phone no</label>
-                            <input type="text" class="form-control form-input" placeholder="9416XXXXXX" name="number"
-                                id="number" [(ngModel)]="employeePersonalData.number">
-                        </div>
+                       
                         <div class="col-md-6">
                             <label for="" class="form-lable">Location</label>
                             <input type="text" class="form-control form-input" placeholder="Delhi" name="location"
