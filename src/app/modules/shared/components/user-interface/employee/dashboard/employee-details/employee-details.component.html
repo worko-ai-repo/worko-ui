@@ -27,9 +27,9 @@
               <div class="mt-1">
                 Email: {{ candidateDetails?.emailList?.primary }}
               </div>
-              <div class="mt-1">
+              <!-- <div class="mt-1">
                 Collage Degree: {{ educationDetails.degree }}
-              </div>
+              </div> -->
               <div class="mt-1">Location: {{ candidateDetails.location }}</div>
             </div>
 
@@ -44,8 +44,7 @@
                         </h5>
                     </div> -->
             <div class="col-md-12">
-              <button class="btn btn-sm float-end" routerLink="/public-profile">
-                <span
+              <a class="btn btn-sm float-end" href="/public-profile" target="_blank">  <span
                   ><svg
                     xmlns="http://www.w3.org/2000/svg"
                     width="20"
@@ -60,7 +59,7 @@
                   </svg>
                 </span>
                 Share your Profile
-              </button>
+              </a>
             </div>
           </div>
         </div>
