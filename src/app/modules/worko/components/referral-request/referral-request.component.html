@@ -8,17 +8,16 @@
 
       <div class="col-md-6 d-flex align-self-center">
         <div class="row h-100">
-          <div class="col-md-12">
+          <div class="col-md-12 mt-3">
             <h1 class="ref-req-text">Referral Request</h1>
           </div>
 
           <form (ngSubmit)="requestReferral.form.valid && checkRequestReferral(requestReferral)" #requestReferral="ngForm"
             class="p-0" novalidate>
 
-            <div class="col-md-12 pt-4">
-              <p class="job-url-text">Enter job URL</p>
-            </div>
-            <div class="col-md-12">
+      
+            <div class="col-md-12 mt-4">
+              <p class="job-url-text">Enter job URL for {{selectedCompany.name}} *</p>
               <input type="text" #jobUrl="ngModel"
                 [ngClass]="{'is-invalid': (requestReferral.submitted || jobUrl.touched) && jobUrl.invalid}"
                 [(ngModel)]="requestForm.jobUrl" name="jobUrl" id="jobUrl" required
@@ -27,10 +26,9 @@
                 Please enter a valid URL .
               </div>
             </div>
-            <div class="col-md-12 pt-4">
-              <p class="job-description-text">Enter job description</p>
-            </div>
+            
             <div class="col-md-12">
+              <p class="job-url-text mt-2">Enter job description *</p>
               <input type="text" #jobDescription="ngModel"
                 [ngClass]="{'is-invalid': (requestReferral.submitted || jobDescription.touched) && jobDescription.invalid}"
                 [(ngModel)]="requestForm.jobDescription" name="jobDescription" id="jobDescription" required
