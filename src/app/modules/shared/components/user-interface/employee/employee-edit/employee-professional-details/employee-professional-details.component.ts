@@ -34,7 +34,8 @@ export class EmployeeProfessionalDetailsComponent {
     workingSince: "",
     officialEmail: "",
     companySk: "",
-    previousCompanies: ""
+    previousCompanies: "",
+    isEmailVerified: true,
 
   }
 form:any;
@@ -153,5 +154,7 @@ form:any;
     this.previousStep.emit();
   }
 
+  openOtpModal(){
 
+  }
 }
