@@ -6,19 +6,32 @@
     height: 400px;
     width: 100%; 
 }
+// .refeeral-img{
+//     height: 117%;
+//     width: 80%;
+//     // background-color: yellow;
+//     position: absolute;
+//     left: 47px;
+//     top: 6px;
+//     margin-left: auto;
+//     background-image: url(/assets/public/referral-bg-img.png);
+//     background-size: 100% 100%;
+//     background-repeat: no-repeat;
+//     mix-blend-mode: exclusion;
+//    animation: rotate 10s infinite linear;
+// }
 .refeeral-img{
-    height: 117%;
-    width: 80%;
-    // background-color: yellow;
-    position: absolute;
-    left: 47px;
-    top: 6px;
-    margin-left: auto;
-    background-image: url(/assets/public/referral-bg-img.png);
-    background-size: 100% 100%;
-    background-repeat: no-repeat;
-    mix-blend-mode: exclusion;
-   animation: rotate 10s infinite linear;
+height: 100%;
+width: 69%;
+position: absolute;
+left: 73px;
+top: 23px;
+margin-left: auto;
+background-image: url(/assets/public/referral-bg-img.png);
+background-size: 100% 100%;
+background-repeat: no-repeat;
+mix-blend-mode: exclusion;
+animation: _ngcontent-ng-c1282794088_rotate 10s infinite linear;
 }
 @keyframes rotate {
     0%{
