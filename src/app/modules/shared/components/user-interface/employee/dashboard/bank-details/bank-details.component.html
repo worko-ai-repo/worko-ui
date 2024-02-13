@@ -40,11 +40,12 @@
 </div>
 
 <app-modal [theme]="'theme-k'" [centered]="true" [showHeader]="showModal === modalType.MESSAGE"
+[showClose]="true"
   [showFooter]="showModal === modalType.MESSAGE" [title]="modalTitle" [message]="modalMessage"
   [bodyClass]="modalMessage ? 'p-4' : 'p-0'">
 <div class="blue" style="background-color: #0A1E35;">
     <ng-container *ngIf="showModal === modalType.EDIT_BANK_DETAILS">
-        <app-edit-bank-details *ngIf="showModal === modalType.EDIT_BANK_DETAILS"   ></app-edit-bank-details>
+        <app-edit-bank-details *ngIf="showModal === modalType.EDIT_BANK_DETAILS"   [bankInfo]="bankInfo" ></app-edit-bank-details>
       </ng-container>
 </div>
 

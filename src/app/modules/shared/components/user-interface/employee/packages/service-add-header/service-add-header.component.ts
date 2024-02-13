@@ -33,6 +33,109 @@ export class ServiceAddHeaderComponent {
   ];
 
 
+  timingOptions = [
+    { startTime: '12:00 AM', endTime: '12:00 AM' },
+    { startTime: '12:15 AM', endTime: '12:15 AM' },
+    { startTime: '12:30 AM', endTime: '12:30 AM' },
+    { startTime: '12:45 AM', endTime: '12:45 AM' },
+    { startTime: '1:00 AM', endTime: '1:00 AM' },
+    { startTime: '1:15 AM', endTime: '1:15 AM' },
+    { startTime: '1:30 AM', endTime: '1:30 AM' },
+    { startTime: '1:45 AM', endTime: '1:45 AM' },
+    { startTime: '2:00 AM', endTime: '2:00 AM' },
+    { startTime: '2:15 AM', endTime: '2:15 AM' },
+    { startTime: '2:30 AM', endTime: '2:30 AM' },
+    { startTime: '2:45 AM', endTime: '2:45 AM' },
+    { startTime: '3:00 AM', endTime: '3:00 AM' },
+    { startTime: '3:15 AM', endTime: '3:15 AM' },
+    { startTime: '3:30 AM', endTime: '3:30 AM' },
+    { startTime: '3:45 AM', endTime: '3:45 AM' },
+    { startTime: '4:00 AM', endTime: '4:00 AM' },
+    { startTime: '4:15 AM', endTime: '4:15 AM' },
+    { startTime: '4:30 AM', endTime: '4:30 AM' },
+    { startTime: '4:45 AM', endTime: '4:45 AM' },
+    { startTime: '5:00 AM', endTime: '5:00 AM' },
+    { startTime: '5:15 AM', endTime: '5:15 AM' },
+    { startTime: '5:30 AM', endTime: '5:30 AM' },
+    { startTime: '5:45 AM', endTime: '5:45 AM' },
+    { startTime: '6:00 AM', endTime: '6:00 AM' },
+    { startTime: '6:15 AM', endTime: '6:15 AM' },
+    { startTime: '6:30 AM', endTime: '6:30 AM' },
+    { startTime: '6:45 AM', endTime: '6:45 AM' },
+    { startTime: '7:00 AM', endTime: '7:00 AM' },
+    { startTime: '7:15 AM', endTime: '7:15 AM' },
+    { startTime: '7:30 AM', endTime: '7:30 AM' },
+    { startTime: '7:45 AM', endTime: '7:45 AM' },
+    { startTime: '8:00 AM', endTime: '8:00 AM' },
+    { startTime: '8:15 AM', endTime: '8:15 AM' },
+    { startTime: '8:30 AM', endTime: '8:30 AM' },
+    { startTime: '8:45 AM', endTime: '8:45 AM' },
+    { startTime: '9:00 AM', endTime: '9:00 AM' },
+    { startTime: '9:15 AM', endTime: '9:15 AM' },
+    { startTime: '9:30 AM', endTime: '9:30 AM' },
+    { startTime: '9:45 AM', endTime: '9:45 AM' },
+    { startTime: '10:00 AM', endTime: '10:00 AM' },
+    { startTime: '10:15 AM', endTime: '10:15 AM' },
+    { startTime: '10:30 AM', endTime: '10:30 AM' },
+    { startTime: '10:45 AM', endTime: '10:45 AM' },
+    { startTime: '11:00 AM', endTime: '11:00 AM' },
+    { startTime: '11:15 AM', endTime: '11:15 AM' },
+    { startTime: '11:30 AM', endTime: '11:30 AM' },
+    { startTime: '11:45 AM', endTime: '11:45 AM' },
+    { startTime: '12:00 PM', endTime: '12:00 PM' },
+    
+    { startTime: '12:15 PM', endTime: '12:15 PM' },
+    { startTime: '12:30 PM', endTime: '12:30 PM' },
+    { startTime: '12:45 PM', endTime: '12:45 PM' },
+    { startTime: '1:00 PM', endTime: '1:00 PM' },
+    { startTime: '1:15 PM', endTime: '1:15 PM' },
+    { startTime: '1:30 PM', endTime: '1:30 PM' },
+    { startTime: '1:45 PM', endTime: '1:45 PM' },
+    { startTime: '2:00 PM', endTime: '2:00 PM' },
+    { startTime: '2:15 PM', endTime: '2:15 PM' },
+    { startTime: '2:30 PM', endTime: '2:30 PM' },
+    { startTime: '2:45 PM', endTime: '2:45 PM' },
+    { startTime: '3:00 PM', endTime: '3:00 PM' },
+    { startTime: '3:15 PM', endTime: '3:15 PM' },
+    { startTime: '3:30 PM', endTime: '3:30 PM' },
+    { startTime: '3:45 PM', endTime: '3:45 PM' },
+    { startTime: '4:00 PM', endTime: '4:00 PM' },
+    { startTime: '4:15 PM', endTime: '4:15 PM' },
+    { startTime: '4:30 PM', endTime: '4:30 PM' },
+    { startTime: '4:45 PM', endTime: '4:45 PM' },
+    { startTime: '5:00 PM', endTime: '5:00 PM' },
+    { startTime: '5:15 PM', endTime: '5:15 PM' },
+    { startTime: '5:30 PM', endTime: '5:30 PM' },
+    { startTime: '5:45 PM', endTime: '5:45 PM' },
+    { startTime: '6:00 PM', endTime: '6:00 PM' },
+    { startTime: '6:15 PM', endTime: '6:15 PM' },
+    { startTime: '6:30 PM', endTime: '6:30 PM' },
+    { startTime: '6:45 PM', endTime: '6:45 PM' },
+    { startTime: '7:00 PM', endTime: '7:00 PM' },
+    { startTime: '7:15 PM', endTime: '7:15 PM' },
+    { startTime: '7:30 PM', endTime: '7:30 PM' },
+    { startTime: '7:45 PM', endTime: '7:45 PM' },
+    { startTime: '8:00 PM', endTime: '8:00 PM' },
+    { startTime: '8:15 PM', endTime: '8:15 PM' },
+    { startTime: '8:30 PM', endTime: '8:30 PM' },
+    { startTime: '8:45 PM', endTime: '8:45 PM' },
+    { startTime: '9:00 PM', endTime: '9:00 PM' },
+    { startTime: '9:15 PM', endTime: '9:15 PM' },
+    { startTime: '9:30 PM', endTime: '9:30 PM' },
+    { startTime: '9:45 PM', endTime: '9:45 PM' },
+    { startTime: '10:00 PM', endTime: '10:00 PM' },
+    { startTime: '10:15 PM', endTime: '10:15 PM' },
+    { startTime: '10:30 PM', endTime: '10:30 PM' },
+    { startTime: '10:45 PM', endTime: '10:45 PM' },
+    { startTime: '11:00 PM', endTime: '11:00 PM' },
+    { startTime: '11:15 PM', endTime: '11:15 PM' },
+    { startTime: '11:30 PM', endTime: '11:30 PM' },
+    { startTime: '11:45 PM', endTime: '11:45 PM' },
+  ];
+  
+
+  
+  
 
   selectForm: FormGroup;
   selectOptions!: FormArray;
@@ -61,25 +164,40 @@ export class ServiceAddHeaderComponent {
 
     this.getChooseAvailabilitys();
   }
-
+d:any;
   async getChooseAvailabilitys(){
     await this.empService.getChooseAvailability(this.emailAddress).then(async(response)=>{
       this.availabilityList = response;
       this.availabilityDetails = this.availabilityList[0];
       console.log(this.availabilityList,'zuber data')
+      this.d=this.availabilityList[0]?.availability;
+      
     })
   }
 
   applyTimeToAll(): void {
-    const mondayTimes = this.availabilityList[0].availability.find((day: any) => day.day === 'Monday')?.times || []; 
-    this.availabilityList[0].availability.forEach((day: any, i: number) => {
-        if (day.dayEnabled && day.day !== 'Monday') {
-            const selectedTimes = mondayTimes.length > 0 ? [mondayTimes[i % mondayTimes.length]] : day.times;
-            day.times = selectedTimes.map((time: any) => ({ startTime: time.startTime, endTime: time.endTime }));
-            this.updateSelectFormControls(i, day.times[0].startTime, day.times[0].endTime);
+    const mondaySelectOptions = this.getSelectOptionsFormArray(0).controls;
+    for (let i = 1; i < this.availabilityList[0]?.availability.length; i++) {
+      const availabilityData = this.availabilityList[0]?.availability[i];
+      
+      if (availabilityData.checkboxClicked) {
+        const selectOptionsArray = this.getSelectOptionsFormArray(i);
+        selectOptionsArray.clear();
+        for (const option of mondaySelectOptions) {
+          selectOptionsArray.push(this.formBuilder.group({
+            startTime: [option.get('startTime')?.value],
+            endTime: [option.get('endTime')?.value]
+          }));
         }
-    });
+      }
+    }
 }
+
+
+
+
+
+
 updateSelectFormControls(index: number, startTime: string, endTime: string): void {
     const selectFormArray = this.selectForms[index].get('selectOptions') as FormArray;
     selectFormArray.controls.forEach((control: AbstractControl) => {
@@ -156,6 +274,19 @@ updateSelectFormControls(index: number, startTime: string, endTime: string): voi
   isAddButtonVisible(day: any): boolean {
     return day.dayEnabled;
   }
+
+   convertIsoToTime(isoDate:any) {
+    const date = new Date(isoDate);
+    let hours = date.getHours();
+    const minutes = date.getMinutes();
+    const period = hours >= 12 ? 'PM' : 'AM';
+    hours = hours % 12;
+    hours = hours ? hours : 12; // Handle midnight (0 hours)
+    const formattedTime = `${hours}:${String(minutes).padStart(2, '0')} ${period}`;
+    return formattedTime;
+}
+
+
 
   serviceAdd() {
     this.openModal(ModalType.EMPLOYEE_SERVICE_ADD);

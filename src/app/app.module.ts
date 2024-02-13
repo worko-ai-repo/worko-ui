@@ -9,7 +9,7 @@ import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { HttpClientModule } from '@angular/common/http';
 import { MatTooltipModule } from '@angular/material/tooltip';
 import { NavbarToggleSwitchService } from './modules/candidate/services/navbar-toggle-switch.service';
-
+import { NgxSpinnerModule } from 'ngx-spinner';
 
 @NgModule({
   providers: [NavbarToggleSwitchService],
@@ -24,12 +24,15 @@ import { NavbarToggleSwitchService } from './modules/candidate/services/navbar-t
     NgbModule,
     HttpClientModule,
     MatTooltipModule,
-    
+    NgxSpinnerModule
  
 
     
 
     
+  ],
+  exports: [
+    NgxSpinnerModule,
   ],
   
   bootstrap: [AppComponent]

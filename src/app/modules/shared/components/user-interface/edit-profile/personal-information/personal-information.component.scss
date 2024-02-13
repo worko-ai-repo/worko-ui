@@ -95,4 +95,7 @@
   font-size: 12px;
 }
 
-
+.form-control:focus{
+  background-color: transparent !important;
+  color:#FFF !important;
+}
