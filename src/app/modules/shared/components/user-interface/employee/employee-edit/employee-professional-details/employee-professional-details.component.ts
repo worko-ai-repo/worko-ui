@@ -1,18 +1,12 @@
 import { Component, EventEmitter, Input, Output, ViewChild } from '@angular/core';
-// import { map, startWith } from 'rxjs/operators';
-// import { NgFor, AsyncPipe } from '@angular/common';
 import { MatAutocompleteModule, MatAutocompleteTrigger } from '@angular/material/autocomplete';
-// import { MatInputModule } from '@angular/material/input';
-// import { MatFormFieldModule } from '@angular/material/form-field';
 import { FormControl, FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { Observable } from 'rxjs';
-// import { delay } from 'rxjs/operators';
-// import { of } from 'rxjs';
 import { debounceTime, distinctUntilChanged, switchMap, filter } from 'rxjs/operators';
 import { Subscription } from 'rxjs';
-import { ChangeDetectorRef } from '@angular/core';
 import { AuthService } from 'src/app/modules/worko/services/auth.service';
-import { TimeScale } from 'chart.js';
+import { ModalComponent } from '../../../../modal/modal.component';
+import { ModalType } from 'src/app/modules/shared/interfaces/shared.interface';
 @Component({
   selector: 'app-employee-professional-details',
   templateUrl: './employee-professional-details.component.html',
@@ -20,6 +14,7 @@ import { TimeScale } from 'chart.js';
 })
 export class EmployeeProfessionalDetailsComponent {
   @ViewChild('autoCompleteInput', { static: false, read: MatAutocompleteTrigger }) trigger!: MatAutocompleteTrigger;
+  @ViewChild(ModalComponent) modal!: ModalComponent;
 
   @Output() nextStep = new EventEmitter<void>();
   @Output() nextStepThird = new EventEmitter<void>();
@@ -34,7 +29,8 @@ export class EmployeeProfessionalDetailsComponent {
     workingSince: "",
     officialEmail: "",
     companySk: "",
-    previousCompanies: ""
+    previousCompanies: "",
+    isEmailVerified: true,
 
   }
 form:any;
@@ -49,6 +45,12 @@ form:any;
   fields: { previousCompanyName: string, previousDesignation: string, previousExperience: string }[] = [];
   // Property to store the values entered in the fields
   savedValues: { previousCompanyName: string, previousDesignation: string, previousExperience: string }[] = [];
+  
+  modalType = ModalType;
+  modalMessage: string = "";
+  modalTitle: string = "";
+  showModal: ModalType | undefined;
+
   constructor(private authService: AuthService) { }
 
   ngOnInit() {
@@ -153,5 +155,35 @@ form:any;
     this.previousStep.emit();
   }
 
+  openOtpModal(){
+    this.openModal(ModalType.OTP_VERIFICATION);
+  }
 
+    /**
+    * Open modal.
+    *
+    * @param {ModalType} modalType
+    * @param {string} [message = ""]
+    * @param {string} [title = ""]
+    * @returns {void}
+    */
+    openModal(modalType: ModalType, message: string = "", title: string = ""): void {
+      this.showModal = modalType;
+      this.modalMessage = message;
+      this.modalTitle = title;
+      this.modal.open();
+    }
+    /**
+     * Close modal.
+     *
+     * @returns {void}
+     */
+    closeModal(): void {
+      // this.referrralComponent.showReferrelRow = true;
+      this.modal.cancel();
+    }
+
+    receiveDataFromChild(data: any){
+      this.modal.cancel();
+    }
 }

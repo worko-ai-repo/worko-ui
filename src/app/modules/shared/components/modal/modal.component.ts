@@ -29,7 +29,7 @@ export class ModalComponent implements OnInit {
   @Input() theme: string = '';
   @Input() title: string = 'MODAL_TITLE.ERROR';
   @Input() showClose: boolean = false;
-
+  @Input() modalSize: string = 'lg';
   /**
    * ModalComponent constructor.
    *
@@ -38,6 +38,7 @@ export class ModalComponent implements OnInit {
   constructor(private modalService: NgbModal) { }
 
   ngOnInit(): void {
+   
     console.log(this.showHeader);
   }
 
@@ -51,7 +52,7 @@ export class ModalComponent implements OnInit {
       ariaLabelledBy: this.ariaLabelledBy,
       windowClass: `${this.theme} ${this.class}`.trim(),
       centered: this.centered,
-      size: 'lg',
+      size:  this.modalSize,
       backdrop: 'static'
     };
 
@@ -91,7 +92,7 @@ export class ModalComponent implements OnInit {
     this.modalService.dismissAll('button');
   }
 
-  redirectClick(): void{
+  redirectClick(): void {
     this.onClick.emit();
   }
 }

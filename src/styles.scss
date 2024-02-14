@@ -1233,16 +1233,14 @@ footer {
 }
 
 // Candidate-dashboard//
-.btn-next {
-    // background-color: 36D0FF;
+.btn-next, .btn-secondary, .btn-secondary:hover, .btn-next:hover  {
     background-color: #36D0FF;
     width: 108px;
     height: 35px;
     border-radius: 9px;
     border: unset;
     text-align: center;
-    
-
+    color:#000
 }
 
 
@@ -1398,7 +1396,7 @@ color: #FFF;
      font-size: 12px;
      // width:200px;
  }
- .employee-dash-btn , .btn:hover {
+ .employee-dash-btn {
     color: none !important;
      background-color: none !important;
     border-color: none !important;

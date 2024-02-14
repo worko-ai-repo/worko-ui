@@ -63,6 +63,7 @@ import { AdminChartComponent } from './components/Admin/Dashboard/admin-chart/ad
 import { PaymentTrendComponent } from './components/Admin/Dashboard/payment-trend/payment-trend.component';
 import { AdminTotalAmountComponent } from './components/Admin/Dashboard/admin-total-amount/admin-total-amount.component';
 import { EmployeeAboutComponent } from './components/user-interface/employee/dashboard/employee-about/employee-about.component';
+import { OtpVerificationModalComponent } from './components/otp-verification-modal/otp-verification-modal.component';
 
 export const routes: Routes = [
 
@@ -94,6 +95,7 @@ export const routes: Routes = [
     PaymentTrendComponent,
     AdminTotalAmountComponent,
     EmployeeAboutComponent,
+    OtpVerificationModalComponent,
 
     // DoneServiceComponent,
     // CancelledServiceComponent,
@@ -151,6 +153,7 @@ export const routes: Routes = [
   PaymentTrendComponent,
   AdminTotalAmountComponent,
   EmployeeAboutComponent,
+  OtpVerificationModalComponent
 
   ],
 

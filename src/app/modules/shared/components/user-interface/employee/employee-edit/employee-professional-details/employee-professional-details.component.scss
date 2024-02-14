@@ -3,31 +3,6 @@
     /* Firefox */
   }
 
-  .core-skills-input {
-    color: white;
-    background-color: transparent;
-    font-size: 11px;
-    border-radius: 10px;
-    border: 1px solid;
-    height: 30px;
-    width: 190px;
-  }
-
-  .btn-add {
-    border: 1px solid rgb(30, 214, 255);
-    color: white;
-    background-color: transparent;
-    width: 114px;
-    height: 34px;
-    text-align: center;
-  }
-  .close-icon-company {
-    background: #36D0FF;
-    padding: 2px;
-    margin-left: 10px;
-    border-radius: 5px;
-    cursor: pointer;
-  }
 
   .circular-button {
     width: 32px;
@@ -39,13 +14,23 @@
     font-size: 15px;
     font-weight: bold;
   }
+
   .field-text-label{
     position: absolute;
     top: 35px;
     right: 17px;
   }
+
   .field-text-without-label{
     position: absolute;
     top: 5px;
     right: 17px;
+  }
+  
+  .verify-text-label{
+    color:green;
+    position: absolute;
+    top: 35px;
+    right: 17px;
+    cursor:pointer;
   }
