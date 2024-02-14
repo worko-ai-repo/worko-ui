@@ -36,16 +36,16 @@
           *ngIf="selectedService === 'Career guidance' || selectedService === 'Mock Interview' || selectedService === 'Resume Review'">
           <form (ngSubmit)="f.form.valid && submit(reqGuidanceForm)" #f="ngForm" novalidate>
             <div class="row">
-              <div class="col-md-12">
-                <h3 class="text-white bold">
+              <div class="col-md-12 ">
+                <h3 class="text-white bold mt-3">
                   Career Guidance
                 </h3>
               </div>
 
-              <div class="col-md-12">
+              <div class="col-md-12 ml-3">
                 <p class="text-white">Select from below options</p>
               </div>
-              <div class="col-md-6">
+              <div class="col-md-6 ml-3">
                 <select class="selector" style="border-radius: 4.676px" #mentorLevel="ngModel"
                   [(ngModel)]="reqGuidanceForm.mentorLevel" name="mentorLevel">
                   <option value="0">Level of mentor</option>
@@ -57,7 +57,7 @@
                 </select>
 
               </div>
-              <div class="col-md-12 mt-3 mb-2">
+              <div class="col-md-10 mt-3 mb-2 ml-3">
                 Select the 3 Suitable Time Slots
               </div>
               <div class="row">
@@ -67,7 +67,7 @@
                     <div class="col-md-5 mb-2 p-0">
                       <input class="selector-date" type="date" #slot1Date="ngModel" matInput
                         [(ngModel)]="reqGuidanceForm.slot1Date" name="slot1Date" id="slot1Date"
-                        placeholder="Choose date">
+                        placeholder="Choose date"  [min]="getTomorrowDate()">
                       <!-- <input type="text" class="selector-date" (click)="picker1.open()" #slot1Date="ngModel" matInput
                           [matDatepicker]="picker1" [(ngModel)]="reqGuidanceForm.slot1.date1" name="slot1Date"
                           id="slot1Date" placeholder="Choose date" />
@@ -89,7 +89,7 @@
 
                       <input class="selector-date" type="date" #slot2Date="ngModel" matInput
                         [(ngModel)]="reqGuidanceForm.slot2Date" name="slot2Date" id="slot2Date"
-                        placeholder="Choose date">
+                        placeholder="Choose date" [min]="getTomorrowDate()">
 
                       <!-- <input type="text" class="selector-date" (click)="picker2.open()" #slot2Date="ngModel" matInput
                           [matDatepicker]="picker2" [(ngModel)]="reqGuidanceForm.slot2.date2" name="slot2Date"
@@ -112,7 +112,7 @@
 
                       <input class="selector-date" type="date" #slot3Date="ngModel" matInput
                         [(ngModel)]="reqGuidanceForm.slot3Date" name="slot3Date" id="slot3Date"
-                        placeholder="Choose date">
+                        placeholder="Choose date" [min]="getTomorrowDate()">
 
                       <!-- <input type="text" class="selector-date" (click)="picker3.open()" #slot3Date="ngModel" matInput
                           [matDatepicker]="picker3" [(ngModel)]="reqGuidanceForm.slot2.date2" name="slot3Date"
@@ -124,17 +124,22 @@
                         </mat-datepicker> -->
                     </div>
                     <div class="col-md-5 p-0">
+                     
                       <input class="selector-time" type="time" #slot2Time="ngModel" matInput
                         [(ngModel)]="reqGuidanceForm.slot3Time" name="slot3Time" id="slot2Time"
                         placeholder="Choose time">
                     </div>
+                    <div class="col-md-10  mb-2">
+                      Explain your requirement
+                    </div>
                     <div class="col-md-10 p-0">
-                      <textarea name="" id="" cols="39" rows="2" class="selector-date" #details="ngModel"
+                      <!-- <label for="" class="form-lable">Explain your requirement </label> -->
+                      <textarea name="" id="" placeholder="Enter your requirements" cols="39" rows="2" class="selector-date" #details="ngModel"
                         [(ngModel)]="reqGuidanceForm.details" name="details">
                     </textarea>
                     </div>
 
-                    <div class="com-md-12 text-center mt-2 mb-3">
+                    <div class="com-md-12 text-center mt-2 mb-5">
                       <button class="req-now-button" type="submit">REQUEST NOW</button>
                     </div>
                   </div>
