@@ -51,13 +51,14 @@
                         <div class="col-md-5">
                             <label for="" class="form-lable">Phone no</label>
                             <input type="text" class="form-control form-input" placeholder="+91 XXXXXXXXXX"
-                            pattern="^\+(?:[0-9] ?){6,14}[0-9]$" maxlength="17"
+                                pattern="^\+(?:[0-9] ?){6,14}[0-9]$" maxlength="17"
                                 #phoneNo="ngModel" [(ngModel)]="candidatePersonalDetails.phoneNo" name="phoneNo"
+                                [ngClass]="{ 'is-invalid': phoneNo.invalid && (phoneNo.dirty || phoneNo.touched) }"
                                 id="phoneNo">
-                                <div *ngIf="phoneNo.invalid && (phoneNo.dirty || phoneNo.touched)" class="text-danger">
+                                <!-- <div *ngIf="phoneNo.invalid && (phoneNo.dirty || phoneNo.touched)" class="text-danger">
                                     <div *ngIf="phoneNo.errors && phoneNo.errors['required']"><small>Phone number is required</small></div>
                                     <div *ngIf="phoneNo.errors && phoneNo.errors['pattern']"><small>Phone number is invalid</small></div>
-                                  </div>
+                                  </div> -->
                         </div>
                         <div class="col-md-5">
                             <label for="" class="form-lable">Location</label>
