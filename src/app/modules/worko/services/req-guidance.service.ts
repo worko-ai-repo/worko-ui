@@ -32,7 +32,7 @@ getMasters(): Observable<any> {
  * @returns {Promise<any>}
  */
  setInterviewGuidance( data:any, emailAddress:string ):Promise<any>{
-  return this.http.post(API_URL + `user/${emailAddress}/service/interview`, data, this.authService.getHttpOptions()).toPromise();
+  return this.http.post(API_URL + `user/${emailAddress}/mservice/interview`, data, this.authService.getHttpOptions()).toPromise();
  }
 
   /**
