@@ -152,7 +152,7 @@
 
 .progress-container {
   display: flex;
-  margin: 0 auto 15px;
+  margin: 0 auto 11px;
   align-items: center;
   justify-content: space-between;
   position: relative;
@@ -219,14 +219,14 @@
 }
 
 .step-name {
-  font-size: 13px;
-  color: #666;
+  font-size: 15px;
+  color: #36D0FF;
   font-weight: bold;
-  // text-align: center;
-  // flex: 1;
+  text-align: center;
+  width: 151px;
   
 }
 
-.step-name.active {
-  color: #36D0FF;
-}
+// .step-name.active {
+//   color: #36D0FF;
+// }
