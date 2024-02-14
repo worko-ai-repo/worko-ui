@@ -152,4 +152,12 @@ export class RequestGuidenceComponent implements OnInit {
     this.rejectedScreen = false;
   }
 
+  getTomorrowDate(): string {
+    const today = new Date();
+    const tomorrow = new Date(today);
+    tomorrow.setDate(tomorrow.getDate() + 1);
+    const tomorrowDate = tomorrow.toISOString().split('T')[0];
+    return tomorrowDate;
+  }
+
 }
