@@ -11,7 +11,6 @@ export class ReferralRequestComponent implements OnInit {
   @ViewChild('largeModal') largeModal!: ElementRef;
 
   @Input() selectedCompany: any;
-  // @Input() showReferrelRow!: boolean;
 
   showSubscription:boolean=false;
   showReferrelRow: boolean = true;
@@ -48,20 +47,6 @@ export class ReferralRequestComponent implements OnInit {
     this.emailId = this.storage.get("useremail");
   }
 
-  // ngOnChanges(changes: SimpleChanges) {
-  //   debugger;
-  //   // Check if the value of showReferrelRow has changed
-  //   if (changes['showReferrelRow']) {
-  //     // Reset the internal state based on the new value
-  //     this.resetInternalState();
-  //   }
-  // }
-
-  // resetInternalState() {
-  //   this.showReferrelRow = true;
-  //   // ... reset other internal states if needed
-  // }
-
   checkRequestReferral(form: any) {
     console.log(this.requestForm);
     console.log(this.selectedCompany);
@@ -71,6 +56,7 @@ export class ReferralRequestComponent implements OnInit {
         // let count = 0;
         if (count) {
           this.createRequest();
+          form.resetForm();
           
         } else {
           this.showsubscriptionPlan = true;
@@ -79,14 +65,14 @@ export class ReferralRequestComponent implements OnInit {
       }
     })
       .catch(error => {
-        // this.setErrorMessage(error.error?.errors[0].message);
+        
         console.error('Create Employee Error:', error);
       });
   }
 
 
   createRequest() {
-    // "jobUrl":"https://jobs.netflix.com/jobs/306631088"
+    
     let data = {
       "companySK": this.selectedCompany.SK,
       "jobUrl": this.requestForm.jobUrl

@@ -30,7 +30,7 @@
                     <div class="col-md-6">
                         <label for="" class="form-lable required-form-field">Name</label>
                         <input type="text" class="form-control form-input" placeholder="Name" name="name" id="name"
-                        #name="ngModel"  [(ngModel)]="employeePersonalData.name" pattern="^([ \u00c0-\u01ffa-zA-Z'.-])+$" 
+                        #name="ngModel"  [(ngModel)]="employeePersonalData.name" pattern="^([ \u00c0-\u01ffa-zA-Z'.])+$" 
                         [title]="name.errors?.['pattern'] ? 'Name is invalid' : ''"
                         [ngClass]="{ 'is-invalid': name.invalid && (name.dirty || name.touched) }"
                         

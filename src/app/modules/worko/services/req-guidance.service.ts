@@ -21,7 +21,7 @@ export class ReqGuidanceService {
 * @returns {Promise<any>}
 */
 getMasters(): Observable<any> {
-  return this.http.get( API_URL + 'service', this.authService.getHttpOptions());
+  return this.http.get( API_URL + 'mservice', this.authService.getHttpOptions());
 }
 
 
