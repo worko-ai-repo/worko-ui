@@ -46,6 +46,9 @@ import {MatIconModule} from '@angular/material/icon';
 import { MatAutocompleteModule } from '@angular/material/autocomplete';
 import { PublicProfileComponent } from './components/public-profile/public-profile.component';
 import { PublicSidebarComponent } from '../shared/components/public-profile/public-sidebar/public-sidebar.component';
+import { HomeAboutUsComponent } from './components/home-about-us/home-about-us.component';
+import { HomeFaqComponent } from './components/home-faq/home-faq.component';
+import { HomeCorporateComponent } from './components/home-corporate/home-corporate.component';
 // import { MatInputModule } from '@angular/material/input';
 export const routes: Routes = [
   {
@@ -141,7 +144,18 @@ export const routes: Routes = [
         path : 'public-profile',
         component: PublicProfileComponent
       },
-      
+      {
+        path : 'about-us',
+        component: HomeAboutUsComponent
+      },
+      {
+        path : 'faq',
+        component: HomeFaqComponent
+      },
+      {
+        path : 'corporate',
+        component: HomeCorporateComponent
+      },
       
       
       
@@ -174,6 +188,9 @@ export const routes: Routes = [
     RequestGuidenceComponent,
     CircleChartComponent,
     PublicProfileComponent,
+    HomeAboutUsComponent,
+    HomeFaqComponent,
+    HomeCorporateComponent,
     
     
   ],
