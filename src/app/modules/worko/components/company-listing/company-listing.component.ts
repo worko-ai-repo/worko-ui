@@ -140,7 +140,7 @@ export class CompanyListingComponent implements OnInit {
 
   async receiveDataFromChild(data: any){
     this.userLoggedIn = await this.cognitoService.isLoggedIn();
-    this.closeModal();
+    // this.closeModal();
     if(this.triggerReferral && this.userLoggedIn){
       this.openModal(ModalType.REQUEST_REFERRAL);
     }
@@ -158,18 +158,24 @@ export class CompanyListingComponent implements OnInit {
     * @returns {void}
     */
   openModal(modalType: ModalType, message: string = "", title: string = ""): void {
+    if (this.referrralComponent) {
+      this.referrralComponent.showReferrelRow = true;
+      this.referrralComponent.showScore = false;
+    }
     this.showModal = modalType;
     this.modalMessage = message;
     this.modalTitle = title;
     this.modal.open();
+    
   }
   /**
    * Close modal.
    *
    * @returns {void}
    */
-  closeModal(): void {
-    // this.referrralComponent.showReferrelRow = true;
-    this.modal.cancel();
-  }
+  // closeModal(): void {
+  //   // Show referral request form after closing the modal
+  
+  //   this.modal.cancel();
+  // }
 }
