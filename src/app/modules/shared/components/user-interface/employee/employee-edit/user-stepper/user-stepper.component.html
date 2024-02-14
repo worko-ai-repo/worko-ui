@@ -21,15 +21,37 @@
 
 <div class="main-div mt-2 mb-0 pb-0">
     <div class="container mb-0 pb-0">
-        <div class="progress-container">
-            <div class="progress" [style.width]="((currentStep - 1) / (circles.length - 1)) * 100 + '%'"></div>
-            <div *ngFor="let circle of circles; let i = index" class="circle"
-                [ngClass]="{'active': i + 1 <= currentStep}">
-                {{ i + 1 }}
-                <!-- <div>Hello1</div>  -->
+        <div class="row">
+            <div class="col-md-12">
+                <div class="progress-container">
+                    <div class="progress" [style.width]="((currentStep - 1) / (circles.length - 1)) * 100 + '%'"></div>
+                    <div *ngFor="let circle of circles; let i = index" class="circle"
+                        [ngClass]="{'active': i + 1 <= currentStep}">
+                        {{ i + 1 }}
+                        
+                    </div>
+                    
+                </div>
+                  <div class=" row step-names mt-0 pt-0">
+            <div class=" col-md-7 d-flex  align-items-center">
+                <div class="" *ngFor="let circle of circles; let i = index" class="step-name" [ngClass]="{'active': i + 1 === currentStep }">
+                   <span class="ps-5"> {{ getStepName(i + 1) }}</span>
+                </div>
             </div>
             
+          </div> 
+                
+            </div>
         </div>
+        <!-- <div class="row ">
+            <div class="col-md-12   d-flex  align-items-center justify-content-center flex-column">
+                <div class="d-flex justify-content-between">
+                    <div class="">sdfsds</div>
+                <div>sdfsds</div>
+                <div>sdfsds</div>
+                </div>
+            </div>
+        </div> -->
         <!-- <div class=" row step-names mt-0 pt-0">
             <div class=" col-md-4 step-names">
                 <div *ngFor="let circle of circles; let i = index" class="step-name" [ngClass]="{'active': i + 1 === currentStep }">

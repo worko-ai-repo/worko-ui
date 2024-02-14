@@ -4,3 +4,14 @@
     display: flex;
     justify-content: space-evenly;
 }
+.active-logo path {
+    fill: rgb(30, 214, 255); /* Change the color to whatever you want for highlighting */
+  }
+  
+//   .check-box:checked + .form-check-input .active-logo path {
+//     fill: #00ff00; /* Change the color to whatever you want for highlighting when checkbox is checked */
+//   }
+// .form-switch .form-check-input {
+//    color: white;
+//     // background-color: transparent;
+// }

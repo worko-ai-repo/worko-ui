@@ -23,7 +23,7 @@ export class UserNavbarComponent implements OnInit{
       this.userRole = [
         {
           name: 'Candidate Dashboard',
-        
+          togglName:'Switch To Employee Dashboard'
          
         },
        
@@ -34,7 +34,7 @@ export class UserNavbarComponent implements OnInit{
       this.userRole = [
         {
           name: 'Employee Dashboard',
-         
+          togglName:'Switch To Candidate Dashboard'
         },
        
       ]
