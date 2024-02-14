@@ -1,3 +1,4 @@
+import { style } from '@angular/animations';
 import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { Router } from '@angular/router';
 @Component({
@@ -30,17 +31,33 @@ export class UserStepperComponent implements OnInit {
     this.router.navigateByUrl(this.url);
   }
   getStepName(step: number): string {
-    switch (step) {
-        case 1:
-            return "Personal Information";
-        case 2:
-            return "Professional Details";
-        case 3:
-            return "Add Bank Details";
-        default:
-            return "";
+    if (this.userType === "Candidate") {
+        switch (step) {
+            case 1:
+                return "Personal Information";
+            case 2:
+                return "Professional Details";
+            case 3:
+                return "Upload";
+            default:
+                return "";
+        }
+    } else if (this.userType === "Employee") {
+        switch (step) {
+            case 1:
+              case 1:
+                return "Personal Information";
+            case 2:
+                return "Professional Details";
+            case 3:
+                return "Add Bank Details";
+            default:
+                return "";
+        }
     }
+    return "";
 }
+
 
 
   next() {
