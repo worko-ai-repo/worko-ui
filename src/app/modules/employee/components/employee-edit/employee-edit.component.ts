@@ -4,6 +4,7 @@ import { StorageService } from 'src/app/modules/app-core/services/storage.servic
 import { CandidateProfileService } from 'src/app/modules/candidate/services/candidate-profile.service';
 import { AuthService } from 'src/app/modules/worko/services/auth.service';
 import { Router } from '@angular/router';
+import { NgxSpinnerService } from 'ngx-spinner';
 @Component({
   selector: 'app-employee-edit',
   templateUrl: './employee-edit.component.html',
@@ -19,11 +20,12 @@ export class EmployeeEditComponent {
   secondStepData: any;
   thirdStepData: any;
   employeePersonalData: any;
+  employeeBankDetails: any;
   employeeProfessionalData: any;
   workExperienceDetails: any;
   bankDetails: any;
   uploadedProfilePicName: string = "";
-  constructor(private router: Router, private authService: AuthService, private empService: EmployeeProfileService, private candidateSrv: CandidateProfileService, private storage: StorageService) { }
+  constructor(private spinner: NgxSpinnerService, private router: Router, private authService: AuthService, private empService: EmployeeProfileService, private candidateSrv: CandidateProfileService, private storage: StorageService) { }
 
   ngOnInit(): void {
     this.emailAddress = this.storage.get("useremail");
@@ -54,6 +56,15 @@ export class EmployeeEditComponent {
     this.employeePersonalData = data;
   }
   previousStep() {
+
+    if (this.currentStep > 1) {
+      this.currentStep--;
+    }
+  }
+
+  previousStepSecond(data: any) {
+    this.thirdStepData = data;
+    this.employeeBankDetails = data;
     if (this.currentStep > 1) {
       this.currentStep--;
     }
@@ -70,7 +81,7 @@ export class EmployeeEditComponent {
   }
   onSuccess(data: any) {
     this.thirdStepData = data;
-  this.updateProfilePic();
+    this.updateProfilePic();
     // this.updateWorkExperience();
   }
   async getSocialProfile() {
@@ -84,12 +95,13 @@ export class EmployeeEditComponent {
   }
 
   async updateProfilePic(): Promise<void> {
+    this.spinner.show();
     try {
       // if (this.userId && this.thirdStepData.fileType && this.thirdStepData.fileName) {
       if (this.firstStepData.fileType && this.firstStepData.fileName) {
         let documentDetails = {
           // userId: this.userId,
-           userId: this.employeeDetails.SK.split("#")[1],
+          userId: this.employeeDetails.SK.split("#")[1],
           profileUserFileName: this.firstStepData.fileName,
           profileFileMimeType: this.firstStepData.fileType
         }
@@ -235,8 +247,8 @@ export class EmployeeEditComponent {
 
     await this.candidateSrv.createUserDetails(this.emailAddress, userDetails).then(async (response) => {
       if (response) {
-         this.addBankDetails();
-        
+        this.addBankDetails();
+
       }
     })
   };
@@ -270,7 +282,7 @@ export class EmployeeEditComponent {
     let data = {
       "upiIds": [
         {
-          "upiId":  this.thirdStepData.upiId
+          "upiId": this.thirdStepData.upiId
         }
       ],
       SK: this.bankDetails[0]?.SK,
@@ -278,16 +290,17 @@ export class EmployeeEditComponent {
       "bankDetails": [
         {
           "holderName": this.thirdStepData.holderName,
-          "accNumber":  this.thirdStepData.accNumber,
-          "bankName":  this.thirdStepData.bankName,
-          "accType":  this.thirdStepData.accType,
-          "ifscCode":  this.thirdStepData.ifscCode
+          "accNumber": this.thirdStepData.accNumber,
+          "bankName": this.thirdStepData.bankName,
+          "accType": this.thirdStepData.accType,
+          "ifscCode": this.thirdStepData.ifscCode
         }
       ]
     };
     await this.empService.createBankDetails(this.emailAddress, data).then(async (response) => {
       if (response) {
-this.router.navigate(['/employee/edashboard']);
+        this.spinner.hide();
+        this.router.navigate(['/employee/edashboard']);
         console.log(response);
       }
     })
