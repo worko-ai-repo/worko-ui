@@ -22,7 +22,7 @@
     border: 1px solid rgba(87, 225, 255, 0.58);
     background: #0A1E36;
     backdrop-filter: blur(18.149999618530273px);
-    height: 500px;
+    height: 650px;
     width: 100%;
     display:flex;
     align-items: center;
@@ -30,8 +30,9 @@
     padding:0px;
 }
 .images {
-    height: 100%;
-    width: 80%;
+    height: 80%;
+    width: 70%;
+    margin-top: 18%;
 }
 
 .ref-page {
@@ -44,7 +45,9 @@
 .button {
     display: flex;
     // width: 224px;
-    height: 35px;
+    height: 55px;
+    font-size: 18px;
+    padding-top: 14px;
     justify-content: center;
     color: rgba(87, 225, 255, 0.58);
     background-color: transparent;
@@ -311,3 +314,10 @@
 //   ::ng-deep .mat-calendar-arrow {
 //     fill: white; /* Set the icon color */
 //   }
+
+
+.zz{
+    margin-bottom: 10%;
+}
+
+  

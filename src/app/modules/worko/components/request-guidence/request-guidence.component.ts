@@ -14,7 +14,7 @@ import { StorageService } from 'src/app/modules/app-core/services/storage.servic
 export class RequestGuidenceComponent implements OnInit {
   @ViewChild('largeModal') largeModal!: ElementRef;
   @Input() selectedCompany: any;
-
+serviceText=''
   isDivOpen: boolean = true;
   reqGuidenceArray: any[] = [];
   isDivShow: boolean = true
@@ -63,6 +63,7 @@ export class RequestGuidenceComponent implements OnInit {
   ngOnInit(): void {
     this.emailAddress = this.storage.get("useremail");
     this.getmasterService()
+ 
   }
 
   getmasterService() {
@@ -141,6 +142,14 @@ export class RequestGuidenceComponent implements OnInit {
     // this.isFormVisible = true;
     this.isButtonScreen = false;
     this.showSideImage = true;
+    if(this.selectedService==='Career guidance'){
+      this.serviceText=`Unlock your potential with personalized career insights and actionable plans tailored to your aspirations.<br>Receive guidance from industry experts with firsthand experience in your desired field or role.`;
+    } else if(this.selectedService==='Mock Interview'){
+      this.serviceText=`Sharpen your interview skills with realistic simulations and expert feedback to ace your next opportunity.<br>Conduct mock interviews with industry experts who understand the intricacies of your field or role.`;
+    } else if(this.selectedService==='Resume Review'){
+      this.serviceText=`Craft a standout resume that showcases your achievements and skills with our expert review and optimization services.<br>Receive feedback and recommendations from industry experts who understand what recruiters seek in your field or role.`;
+    }
+   
   }
 
   resetForm(){
@@ -166,5 +175,12 @@ export class RequestGuidenceComponent implements OnInit {
     const futureDateString = futureDate.toISOString().split('T')[0];
     return futureDateString;
   }
+
+  goBack() {
+    // Handle the click event, for example, navigate back in history
+    this.selectedService=''
+    this.isButtonScreen=true;
+  }
+  
   
 }
