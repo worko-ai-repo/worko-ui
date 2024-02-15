@@ -67,7 +67,7 @@
                     <div class="col-md-5 mb-2 p-0">
                       <input class="selector-date" type="date" #slot1Date="ngModel" matInput
                         [(ngModel)]="reqGuidanceForm.slot1Date" name="slot1Date" id="slot1Date"
-                        placeholder="Choose date"  [min]="getTomorrowDate()">
+                        placeholder="Choose date"  [min]="getTomorrowDate()" [max]="getFutureDate()">
                       <!-- <input type="text" class="selector-date" (click)="picker1.open()" #slot1Date="ngModel" matInput
                           [matDatepicker]="picker1" [(ngModel)]="reqGuidanceForm.slot1.date1" name="slot1Date"
                           id="slot1Date" placeholder="Choose date" />
@@ -89,7 +89,7 @@
 
                       <input class="selector-date" type="date" #slot2Date="ngModel" matInput
                         [(ngModel)]="reqGuidanceForm.slot2Date" name="slot2Date" id="slot2Date"
-                        placeholder="Choose date" [min]="getTomorrowDate()">
+                        placeholder="Choose date" [min]="getTomorrowDate()" [max]="getFutureDate()">
 
                       <!-- <input type="text" class="selector-date" (click)="picker2.open()" #slot2Date="ngModel" matInput
                           [matDatepicker]="picker2" [(ngModel)]="reqGuidanceForm.slot2.date2" name="slot2Date"
@@ -112,7 +112,7 @@
 
                       <input class="selector-date" type="date" #slot3Date="ngModel" matInput
                         [(ngModel)]="reqGuidanceForm.slot3Date" name="slot3Date" id="slot3Date"
-                        placeholder="Choose date" [min]="getTomorrowDate()">
+                        placeholder="Choose date" [min]="getTomorrowDate()" [max]="getFutureDate()">
 
                       <!-- <input type="text" class="selector-date" (click)="picker3.open()" #slot3Date="ngModel" matInput
                           [matDatepicker]="picker3" [(ngModel)]="reqGuidanceForm.slot2.date2" name="slot3Date"
@@ -155,7 +155,7 @@
 
 
         <!-- Interview-handholding -->
-        <div class="col-md-12 text-white" *ngIf="selectedService == 'Interview Guidance'">
+        <div class="col-md-12 text-white" *ngIf="selectedService == 'Interview Mentorship'">
           <form (ngSubmit)="f.form.valid && submitInterviewGuidance(interviewGuidanceForm)" #f="ngForm" novalidate>
             <div class="row">
               <div class="col-md-12" style="top: 18px">

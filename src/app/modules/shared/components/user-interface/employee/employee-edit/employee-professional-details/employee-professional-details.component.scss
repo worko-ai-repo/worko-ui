@@ -28,9 +28,11 @@
   }
   
   .verify-text-label{
-    color:green;
+    color:red;
     position: absolute;
     top: 35px;
     right: 17px;
-    cursor:pointer;
+  }
+  .text-green{
+    color:green;
   }

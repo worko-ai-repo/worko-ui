@@ -19,6 +19,7 @@
                 </mat-autocomplete>
 
             </div>
+        
             <div class="col">
                 <label for="" class="form-lable  required-form-field">Company Email</label>
                 <input type="text" class="form-control form-input" placeholder="abcd@Offcial.com" name="email"
@@ -26,7 +27,8 @@
                     pattern="^(?!.*@(gmail\.com|outlook\.com|aol\.com|yahoo\.com|icloud\.com|protonmail\.com|zoho\.com|yandex\.com|gmx\.com|hubspot\.com|mail\.com|tutanota\.com|10minutemail\.com)$)[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$"
                     [title]="email.errors?.['pattern'] ? 'Official Email is invalid' : ''"
                     [ngClass]="{ 'is-invalid': email.invalid && (email.dirty || email.touched) }" #email="ngModel">
-                <h2 *ngIf="!employeeProfessionalData.isEmailVerified && !email.invalid" (click)="openOtpModal()" class="badge  verify-text-label">Verify</h2>
+                <h2 *ngIf="!employeeProfessionalData.isEmailVerified && !email.invalid" (click)="openOtpModal()" class="badge  verify-text-label -pointer">Verify</h2>
+                <h2 *ngIf="employeeProfessionalData.isEmailVerified && !email.invalid" class="badge  verify-text-label text-green">Verified</h2>
             </div>
         </div>
         <div class="row mt-3">

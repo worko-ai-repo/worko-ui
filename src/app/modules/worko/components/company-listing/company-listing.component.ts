@@ -4,6 +4,7 @@ import { ModalType } from 'src/app/modules/shared/interfaces/shared.interface';
 import { ModalComponent } from 'src/app/modules/shared/components/modal/modal.component';
 import { CognitoService } from 'src/app/modules/services/cognito.service';
 import { ReferralRequestComponent } from '../referral-request/referral-request.component';
+import { RequestGuidenceComponent } from '../request-guidence/request-guidence.component';
 @Component({
   selector: 'app-company-listing',
   templateUrl: './company-listing.component.html',
@@ -12,6 +13,7 @@ import { ReferralRequestComponent } from '../referral-request/referral-request.c
 export class CompanyListingComponent implements OnInit {
   @ViewChild(ModalComponent) modal!: ModalComponent;
   @ViewChild(ReferralRequestComponent) referrralComponent! : ReferralRequestComponent;
+  @ViewChild(RequestGuidenceComponent) referrralguidanceComponent! : RequestGuidenceComponent;
 
   modalType = ModalType;
   modalMessage: string = "";
@@ -161,6 +163,12 @@ export class CompanyListingComponent implements OnInit {
     if (this.referrralComponent) {
       this.referrralComponent.showReferrelRow = true;
       this.referrralComponent.showScore = false;
+    }
+    if(ModalType.REQUEST_GUIDANCE){
+if(this.referrralguidanceComponent){
+  this.referrralguidanceComponent.isButtonScreen=true;
+  this.referrralguidanceComponent.selectedService='';
+}
     }
     this.showModal = modalType;
     this.modalMessage = message;

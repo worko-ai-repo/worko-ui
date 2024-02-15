@@ -159,5 +159,12 @@ export class RequestGuidenceComponent implements OnInit {
     const tomorrowDate = tomorrow.toISOString().split('T')[0];
     return tomorrowDate;
   }
-
+  getFutureDate(): string {
+    const today = new Date();
+    const futureDate = new Date(today);
+    futureDate.setDate(futureDate.getDate() + 45); // Adding 45 days
+    const futureDateString = futureDate.toISOString().split('T')[0];
+    return futureDateString;
+  }
+  
 }
