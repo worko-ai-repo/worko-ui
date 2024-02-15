@@ -18,6 +18,7 @@ export class UserNavbarComponent implements OnInit{
   }
 
   ngOnInit(): void {
+   
     this.activeRoute = this.router.url;
     if (this.userType == "Candidate") {
       this.userRole = [
@@ -48,6 +49,7 @@ export class UserNavbarComponent implements OnInit{
        
       ]
     }
+    
   }
   toggleDashboard() {
     this.navbarToggleSwitchService.toggleDashboard();
