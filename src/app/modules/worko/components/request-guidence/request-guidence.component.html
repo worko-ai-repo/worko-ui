@@ -3,23 +3,49 @@
     <!-- <div class="container"> -->
 
     <div class="row">
-      <div class="col-md-6" *ngIf="showSideImage">
+      <div class="col-md-12">
+        <h2 class="text-white bold ms-4 text-center" style="letter-spacing: 0.4px" *ngIf="selectedService==''">
+          Request Guidance
+        </h2><br>
+        <p class="text-white bold ms-4 text-center" style="letter-spacing: 0.4px;" *ngIf="selectedService==''">
+          Our career services provide personalized support from industry professionals with firsthand experience in your desired field. You'll get career assessments, insights, and guidance on interviews and resumes to help you achieve your professional goals.
+        </p>
+      </div>
+      <div class="col-md-5" *ngIf="showSideImage">
         <div class="row">
-          <div class="col-md-12">
-            <img src="/assets/public/ref-raq-img1-removebg-preview.png" alt="" class="images ref-page ms-3" />
+          <div class="back-arrow" (click)="goBack()" *ngIf="selectedService === 'Interview Mentorship'">
+            <img src="/assets/public/back-ar.png" alt="Back Arrow Icon" width="40px" height="40px" class="ml-3">
           </div>
+          <div class="col-md-12 "  *ngIf="selectedService === 'Interview Mentorship'">
+            <h3 class="text-white bold" style="margin-left: 15%; margin-top: 4%;" >
+              {{selectedService}}
+            </h3>
+          </div>
+          <div class="back-arrow" (click)="goBack()" *ngIf="selectedService === 'Career guidance' || selectedService === 'Mock Interview' || selectedService === 'Resume Review'">
+            <img src="/assets/public/back-ar.png" alt="Back Arrow Icon" width="40px" height="40px" class="ml-3">
+          </div>
+          
+          <div class="col-md-12 "  *ngIf="selectedService === 'Career guidance' || selectedService === 'Mock Interview' || selectedService === 'Resume Review'">
+            <h3 class="text-white bold" style="margin-left: 15%; margin-top: 14%;" >
+              {{selectedService}}
+            </h3>
+          </div>
+          <div class="col-md-12" *ngIf="selectedService ==''">
+            <img src="/assets/public/i.png" alt="" class="images ref-page ms-3"  style="margin-top: 7%; width: 400px; height:400px"/>
+          </div>
+          <div class="col-md-12" *ngIf="selectedService === 'Career guidance' || selectedService === 'Mock Interview' || selectedService === 'Resume Review' || selectedService === 'Interview Mentorship'">
+            <img src="/assets/public/ref-raq-img1-removebg-preview.png" alt="" class="images ref-page ms-3"  style="margin-top: 28%;"/>
+          </div>
+         
         </div>
       </div>
 
       <div class="col-md-6" *ngIf="isButtonScreen">
         <div class="row">
-          <div class="col-md-12">
-            <h2 class="text-white bold ms-4" style="letter-spacing: 0.4px">
-              Guidance Request
-            </h2>
-          </div>
-          <p class="text-white ms-4">Select the Type of service</p>
+      
+          
           <div class="col-md-8">
+            <p class="text-white mt-5" style="margin-left: 20%; font-size: medium;">Select the Type of service</p>
             <button *ngFor="let master of masterSrvList" class="button m-2 ms-5 form-control"
               (click)="selectService(master)">
               {{master.name}}
@@ -29,23 +55,24 @@
       </div>
 
 
-      <div class="col-md-6 mt-2">
+      <div class="col-md-7 mt-2">
 
         <!-- career-guidance -->
         <div class="col-md-12 text-white"
           *ngIf="selectedService === 'Career guidance' || selectedService === 'Mock Interview' || selectedService === 'Resume Review'">
           <form (ngSubmit)="f.form.valid && submit(reqGuidanceForm)" #f="ngForm" novalidate>
             <div class="row">
+            
               <div class="col-md-12 ">
-                <h3 class="text-white bold mt-3">
-                  Career Guidance
-                </h3>
+                <p class="text-white  mt-3 ml-5" [innerHTML]="serviceText">
+                  
+                </p>
               </div>
 
-              <div class="col-md-12 ml-3">
-                <p class="text-white">Select from below options</p>
+              <div class="col-md-12 ml-5 mt-4">
+                Select from below options
               </div>
-              <div class="col-md-6 ml-3">
+              <div class="col-md-6 ml-5">
                 <select class="selector" style="border-radius: 4.676px" #mentorLevel="ngModel"
                   [(ngModel)]="reqGuidanceForm.mentorLevel" name="mentorLevel">
                   <option value="0">Level of mentor</option>
@@ -57,17 +84,17 @@
                 </select>
 
               </div>
-              <div class="col-md-10 mt-3 mb-2 ml-3">
+              <div class="col-md-10 mt-2 mb-2 ml-5">
                 Select the 3 Suitable Time Slots
               </div>
               <div class="row">
 
-                <div class="container">
+                <div class="container ml-4">
                   <div class="row d-flex justify-content-center">
                     <div class="col-md-5 mb-2 p-0">
                       <input class="selector-date" type="date" #slot1Date="ngModel" matInput
                         [(ngModel)]="reqGuidanceForm.slot1Date" name="slot1Date" id="slot1Date"
-                        placeholder="Choose date"  [min]="getTomorrowDate()" [max]="getFutureDate()">
+                        placeholder="Choose date"  [min]="getTomorrowDate()" [max]="getFutureDate()" >
                       <!-- <input type="text" class="selector-date" (click)="picker1.open()" #slot1Date="ngModel" matInput
                           [matDatepicker]="picker1" [(ngModel)]="reqGuidanceForm.slot1.date1" name="slot1Date"
                           id="slot1Date" placeholder="Choose date" />
@@ -81,7 +108,7 @@
                     <div class="col-md-5 p-0">
                       <input class="selector-time" type="time" #slot1Time="ngModel" matInput
                         [(ngModel)]="reqGuidanceForm.slot1Time" name="slot1Time" id="slot1Time"
-                        placeholder="Choose time">
+                        placeholder="Choose time"  >
 
                     </div>
 
@@ -104,7 +131,7 @@
 
                       <input class="selector-time" type="time" #slot2Time="ngModel" matInput
                         [(ngModel)]="reqGuidanceForm.slot2Time" name="slot2Time" id="slot2Time"
-                        placeholder="Choose time">
+                        placeholder="Choose time" >
 
                     </div>
 
@@ -129,13 +156,13 @@
                         [(ngModel)]="reqGuidanceForm.slot3Time" name="slot3Time" id="slot2Time"
                         placeholder="Choose time">
                     </div>
-                    <div class="col-md-10  mb-2">
+                    <div class="col-md-10  mb-2" style="margin-right: 25px !important;">
                       Explain your requirement
                     </div>
                     <div class="col-md-10 p-0">
                       <!-- <label for="" class="form-lable">Explain your requirement </label> -->
                       <textarea name="" id="" placeholder="Enter your requirements" cols="39" rows="2" class="selector-date" #details="ngModel"
-                        [(ngModel)]="reqGuidanceForm.details" name="details">
+                        [(ngModel)]="reqGuidanceForm.details" name="details" style="height: 120px;">
                     </textarea>
                     </div>
 
@@ -158,20 +185,21 @@
         <div class="col-md-12 text-white" *ngIf="selectedService == 'Interview Mentorship'">
           <form (ngSubmit)="f.form.valid && submitInterviewGuidance(interviewGuidanceForm)" #f="ngForm" novalidate>
             <div class="row">
-              <div class="col-md-12" style="top: 18px">
-                <h3 class="text-white bold">
-                  Interview Handholding
-                </h3>
+
+              <div class="col-md-12 ">
+                <p class="text-white  mb-2 " >
+                  Navigate the interview process confidently with personalized guidance and support at every step. <br>  Receive hands-on assistance from industry experts who have successfully navigated interviews in your field, role, or company you will be interviewed for.
+                </p>
+              </div>
+              <div class="col-md-12  mt-5">
+                Select from below options
               </div>
 
-              <div class="col-md-12 pt-3">
-                <p class="text-white">Select from below options</p>
-              </div>
-
-              <div class="row">
+              <div class="row zz">
+                
                 <div class="col-md-6">
                   <select class="selector" style="border-radius: 4.676px" #mentorLevel="ngModel"
-                    [(ngModel)]="interviewGuidanceForm.mentorLevel" name="mentorLevel">
+                  [(ngModel)]="reqGuidanceForm.mentorLevel" name="mentorLevel">
                     <option value="0">Level of mentor</option>
                     <option value="1">Manager / Sr. Manager</option>
                     <option value="2">Asst. GM / GM</option>
@@ -180,21 +208,28 @@
                     <option value="5">VP / CXO</option>
                   </select>
                 </div>
-
+                <div class="col-md-10  mb-2 ">
+                  Select Interview Start Date
+                </div>
                 <div class="col-md-12 mb-2">
                   <input class="selector-interview-date" type="date" #slot1="ngModel" matInput
                     [(ngModel)]="interviewGuidanceForm.slot1" name="slot1" id="slot1"
-                    placeholder="Choose your interview date">
+                    placeholder="Choose your interview date" [min]="getTomorrowDate()" [max]="getFutureDate()">
                 </div>
-
+                <div class="col-md-10  mb-2 ">
+                  Role you are being interviewed
+                </div>
                 <div class="col-md-12 mb-2">
                   <input class="selector-interview-date" type="text" #role="ngModel"
                     [(ngModel)]="interviewGuidanceForm.role" name="role" id="role"
-                    placeholder="Role you are being interviwed for">
+                    placeholder="Role you are being interviewed for">
+                </div>
+                <div class="col-md-10  mb-2 ">
+                  Explain your requirement
                 </div>
                 <div class="col-md-12">
-                  <textarea name="" id="" cols="39" rows="2" class="selector-date" #details="ngModel"
-                    [(ngModel)]="interviewGuidanceForm.details" name="details">
+                  <textarea name="" placeholder="Explain your requirement" id="" cols="39" rows="2" class="selector-date" #details="ngModel"
+                    [(ngModel)]="interviewGuidanceForm.details" name="details" style="height: 120px;">
             </textarea>
                 </div>
                 <div class="com-md-12 text-center mt-2 mb-3">

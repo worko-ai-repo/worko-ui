@@ -12,7 +12,7 @@
   </div>
 
   <!-- [class]="bodyClass" -->
-  <div class="modal-body" >
+  <div class="modal-body" [class]="bodyClass" >
     <div *ngIf="message; else contentBlock" [class.text-center]="textCenter" [innerHTML]="message"></div>
     <ng-template #contentBlock>
       <ng-content></ng-content>
