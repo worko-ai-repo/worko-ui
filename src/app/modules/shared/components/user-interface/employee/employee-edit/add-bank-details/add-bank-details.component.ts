@@ -9,19 +9,15 @@ export class AddBankDetailsComponent {
   @Output() previousStep = new EventEmitter<void>();
   @Input() bankInfo: any;
   @Output() onSuccess = new EventEmitter<void>();
-  employeeBankDetails: any;
+  @Input() employeeBankDetails: any;
 
   ngOnChanges(): void {
-    // console.log(this.candidateList, "candidateList");
-    //  console.log(this.workExperienceDetails, "workExperienceDetails");
-    // console.log(this.certificationList, "certificationList");
-    // this.getData();
-    this.getData();
-    // if (this.employeeBankDetails && this.employeeBankDetails.ifscCode && this.employeeBankDetails.holderName  && this.employeeBankDetails.accNumber) {
 
-    // } else {
-    //   this.getData();
-    // }
+    if (this.employeeBankDetails && this.employeeBankDetails.ifscCode && this.employeeBankDetails.holderName  && this.employeeBankDetails.accNumber) {
+
+    } else {
+      this.getData();
+    }
     // console.log(this.candidateProfessionalDetails)
   }
   getData() {
@@ -41,7 +37,7 @@ export class AddBankDetailsComponent {
 
 
   onPreviousClick() {
-    this.previousStep.emit();
+    this.previousStep.emit(this.employeeBankDetails);
   }
 
   completeStep() {

@@ -46,6 +46,10 @@ export class LoginPageComponent implements AfterViewInit  {
   isDivClose: boolean = true
   hideDiv: boolean = true
   errorMessage: string = "";
+  // checkboxChecked:boolean=false;
+  agreeTerms:boolean=false;
+  auto: any;
+
   form = {
     email: '',
     password: ''
@@ -60,7 +64,8 @@ export class LoginPageComponent implements AfterViewInit  {
     experience: '',
     expectedCtc: '',
     phoneNumber: '',
-    confirmPassword: ''
+    confirmPassword: '',
+    checkboxChecked:false
   }
   employeeForm = {
     name: '',
@@ -76,7 +81,9 @@ export class LoginPageComponent implements AfterViewInit  {
     confirmPassword: '',
     password: '',
     designationTag: '',
-    companySK:""
+    companySK:"",
+    agreeTerms: false,
+    
 
   }
   fileString: string = "";
@@ -300,7 +307,7 @@ validateName() {
         let employeeData = {
           name: this.employeeForm.name,
           email: this.employeeForm.emailId,
-          number: Number(this.employeeForm.phoneNumber),
+          number: this.employeeForm.phoneNumber,
           linkedinUrl: this.employeeForm.linkdinProfile,
           YOE: Number(this.employeeForm.experience),
           designation: this.employeeForm.designation,
@@ -351,7 +358,7 @@ validateName() {
           let candidateData = {
             name: this.candidateForm.name,
             email: this.candidateForm.emailId,
-            number: Number(this.candidateForm.phoneNumber),
+            number: this.candidateForm.phoneNumber,
             linkedinUrl: this.candidateForm.linkdinProfile,
             ECTC: Number(this.candidateForm.expectedCtc),
             YOE: Number(this.candidateForm.experience),

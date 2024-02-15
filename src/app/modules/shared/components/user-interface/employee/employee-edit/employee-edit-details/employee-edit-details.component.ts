@@ -38,12 +38,13 @@ export class EmployeeEditDetailsComponent {
     fileName: "",
     fileToUpload: "",
     fileType: "",
+    profilePicUrl: "/assets/public/candidate-img.png"
   
   };
   form: any;
- profilePicUrl: string = "/assets/public/candidate-img.png";
+//  profilePicUrl: string = "/assets/public/candidate-img.png";
 
-
+picErrorMessage: string = ""
 
 
   ngOnInit() {
@@ -77,6 +78,7 @@ export class EmployeeEditDetailsComponent {
       socialLinklinkdin: this.employeeSocial?.linkedin,
       socialLinktwitter: this.employeeSocial?.twitter,
       location: this.employeeDetails?.location,
+      profilePicUrl: "/assets/public/candidate-img.png"
 
     }
   }
@@ -93,9 +95,9 @@ export class EmployeeEditDetailsComponent {
         var reader = new FileReader();
         reader.readAsDataURL(file); // read file as data URL
 
-        reader.onload = (event) => { // called once readAsDataURL is completed
-          this.profilePicUrl = event.target?.result as string;
-        }
+        // reader.onload = (event) => { // called once readAsDataURL is completed
+        //   this.profilePicUrl = event.target?.result as string;
+        // }
 
         // Check if the file type is PDF
         if (file.type === 'image/jpeg' || file.type === 'image/jpg' || file.type === 'image/png') {
@@ -106,6 +108,11 @@ export class EmployeeEditDetailsComponent {
           this.employeePersonalData.fileName = this.fileName,
             this.employeePersonalData.fileToUpload = this.fileToUpload,
             this.employeePersonalData.fileType = this.fileType
+
+          reader.onload = (event) => { // called once readAsDataURL is completed
+            this.employeePersonalData.profilePicUrl = event.target?.result as string;
+          }
+          this.picErrorMessage = ""
           console.log('Selected file type:', file);
         } else {
           // Display an error for an invalid file type
@@ -117,7 +124,8 @@ export class EmployeeEditDetailsComponent {
           this.fileType = "";
           this.employeePersonalData.fileName = this.fileName,
           this.employeePersonalData.fileToUpload = this.fileToUpload,
-          this.employeePersonalData.fileType = this.fileType
+          this.employeePersonalData.fileType = this.fileType;
+          this.picErrorMessage = "Please upload a jpg, png image only."
         }
       }
     }

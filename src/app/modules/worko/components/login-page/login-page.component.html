@@ -6,564 +6,1047 @@
         Large modal
       </button> -->
 
-   
-              <div class="body">
-                <div class="row" *ngIf="showSignInRow"
-                  style="min-height:450px;background: radial-gradient( circle at 0% 50%,#034c7f 4%, #77c9dc 10%, #034c7f 32%, #034c7f 41%,#0A1E36 50%);">
-                  <div class="col-md-6 first-div d-flex p-0">
-                    <div class="d-flex align-self-center" style="width: 110px">
-                      <img src="/assets/image-login/g8%2097.png" alt="" />
-                    </div>
-                    <div *ngIf="selectedUserType === 'candidate'" class="d-flex align-self-center">
-                      <div class="login-side-heading">
-                        <h2 class="unlockText text-white1">
-                          Unlock Dream <br />
-                          Referrals: Join Now!
-                        </h2>
-                        <h5 class="sub-heading m-0">
-                          Interview Guidance
-                        </h5>
-                      </div>
-
-                    </div>
-                    <div *ngIf="selectedUserType === 'employee'" class="d-flex align-self-center">
-                      <div class="login-side-heading">
-
-
-                        <h2 class="unlockText text-white1">
-                          Ready to Refer? <br />
-                          Lets Get Started!
-                        </h2>
-                        <div class="sub-heading m-0">
-                          Refferals
-                        </div>
-                      </div>
-                    </div>
-                  </div>
-
-                  <div class="col-md-6 second-div d-flex align-self-center p-0">
-                    <div class="whole-row">
-                      <div class="p-0" *ngIf="!confirmationCodeScreen">
-                        <div class="col-md-12 text-white p-0 mt-4" style="font-size: 18px">
-                          <p>Create your account as</p>
-                        </div>
-                        <div class="col-md-6 option p-0" style="justify-content: space-between">
-                          <a href="javascript:void(0);" [class.selected]="selectedUserType === 'candidate'"
-                            class="text-white fs-12" (click)="selectUserType('candidate')">Candidate</a>
-                          <a href="javascript:void(0);" [class.selected]="selectedUserType === 'employee'"
-                            (click)="selectUserType('employee')" class="fs-12 text-white ms-2">Employee</a>
-                        </div>
-                      </div>
-
-
-                      <!-- candidate-form -->
-
-                      <div class="row p-0" *ngIf="selectedUserType === 'candidate' && !confirmationCodeScreen">
-
-                        <form (ngSubmit)="candidate.form.valid && createCandidate(form)" #candidate="ngForm" novalidate
-                          class="row mt-4">
-                          <div class="error text-danger py-2" *ngIf="errorMessage">{{errorMessage}}</div>
-                          <div class="col-md-6">
-                            <div class="material-input__group">
-                                <i class="fa-solid fa-user" style="color: #f4f5f5; font-size: 12px"></i>
-                                <input type="text" placeholder="Name" class="text-white material-input__group__input"
-                                    pattern="^([ \u00c0-\u01ffa-zA-Z'.])+$" 
-                                    #nameInput="ngModel" [(ngModel)]="candidateForm.name" name="name" id="name"
-                                    (blur)="validateName()" />
-                                <div *ngIf="(nameInput.touched || candidate.submitted) && nameInput.invalid" class="required-error">
-                                  <i class="fa-solid fa-asterisk" style="color: red;"></i>
-                                </div>
-                            </div>
-                        </div>
-                        
-
-                          <div class="col-md-6">
-
-                            <div class="material-input__group">
-                              <i class="fa-solid fa-envelope" style="color: #f5f5f5; font-size: 12px"></i>
-                              <input type="text" placeholder="Email ID" class="text-white material-input__group__input"
-                                pattern="^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,4}$"
-                                [title]="emailId.errors?.['pattern'] ? 'Email is invalid' : ''" #emailId="ngModel"
-                                [(ngModel)]="candidateForm.emailId" name="emailId" id="emailId" />
-                            </div>
-                          </div>
-
-                          <div class="col-md-6 d-flex">
-                            <div class="material-input__group">
-                              <i class="fas fa-lock" style="color: #ffffff; font-size: 12px"></i>
-                              <input type="password" placeholder="Password"
-                                class="text-white material-input__group__input" #password="ngModel"
-                                pattern="^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$"
-                                [title]="password.errors?.['pattern'] ? 'Password is invalid' : ''"
-                                [(ngModel)]="candidateForm.password" name="password" id="password" />
-                                
-                               
-                            </div>
-                            <div class="">
-                              <div class="tooltip-container">
-                                <div class="">
-                                    <i class="fa-solid fa-circle-info"></i>
-                                </div>
-                                <div class="tooltip-text">
-                                  <ul>
-                                    <li>Your Password Must Contain At Least One Uppercase And Lowercase</li>
-                                    <li>Your Password Must Contain At Least One Number</li>
-                                    <li>Your Password Must Contain At Least 8 Or More Characters</li>
-
-                                    
-
-                                  </ul>
-                                </div>
-                            </div>
-                              
-                            </div>
-                          </div>
-
-                          <div class="col-md-6">
-                            <div class="material-input__group">
-                              <i class="fas fa-lock" style="color: #ffffff; font-size: 12px"></i>
-                              <input type="password" placeholder="Confirm Password"
-                                class="text-white material-input__group__input" #confirmPassword="ngModel"
-                                [class.ng-invalid]="candidateForm.confirmPassword !== candidateForm.password && (password.dirty || password.touched)"
-                                [title]="candidateForm.confirmPassword !== candidateForm.password ? 'Confirm Password should match with password field' : ''"
-                                [(ngModel)]="candidateForm.confirmPassword" name="confirmPassword"
-                                id="confirmPassword" />
-                            </div>
-                          </div>
-
-                          <div class="col-md-6">
-                            <div class="material-input__group">
-                              <i class="fa-brands fa-linkedin" style="color: #f6f7f9;"></i>
-                              <input type="text" placeholder="LinkdIn Profile"
-                                class="text-white material-input__group__input" #linkdinProfile="ngModel"
-                                pattern="^(https?:\/\/(www\.)?linkedin\.com\/in\/[a-zA-Z0-9_\-]+\/?)$"
-                                       
-                                [title]="linkdinProfile.errors?.['pattern'] ? 'Linkedin URL is invalid' : ''"
-                                [(ngModel)]="candidateForm.linkdinProfile" name="linkdinProfile" id="linkdinProfile" />
-                            </div>
-                          </div>
-
-                          <div class="col-md-6">
-                            <div class="material-input__group">
-                              <i class="fa-solid fa-graduation-cap" style="color: #fafcff;"></i>
-                              <input type="text" placeholder="Total year of experience"
-                                class="text-white material-input__group__input" #experience="ngModel"
-                                pattern="^[1-9]\d*(\.\d{1,2})?$" [(ngModel)]="candidateForm.experience"
-                                [title]="experience.errors?.['pattern'] ? 'Total year of experience is invalid' : ''"
-                                name="experience" id="experience" />
-                            </div>
-                          </div>
-
-                          <div class="col-md-6">
-                            <div class="material-input__group">
-                              <i class="fa-regular fa-money-bill-1" style="color: #ffffff;"></i>
-                              <input type="text" placeholder="Expected CTC(in LPA)"
-                                class="text-white material-input__group__input" #expectedCtc="ngModel"
-                                pattern="^\d{1,3}(?:,\d{3})*(?:\.\d{1,2})?$" [(ngModel)]="candidateForm.expectedCtc"
-                                [title]="expectedCtc.errors?.['pattern'] ? 'Expected CTC is invalid' : ''"
-                                name="expectedCtc" id="expectedCtc" />
-                            </div>
-
-                          </div>
-                          <div class="col-md-6">
-                            <div class="material-input__group">
-                              <i class="fa-solid fa-phone" style="color: #ffffff; font-size: 12px"></i>
-                              <input type="otp" placeholder="Phone number"
-                                class="text-white material-input__group__input" #phoneNumber="ngModel"
-                                pattern="^\+(?:[0-9] ?){6,14}[0-9]$" maxlength="17"
-                                [(ngModel)]="candidateForm.phoneNumber" name="phoneNumber" id="phoneNumber" />
-                                <div *ngIf="phoneNumber.invalid && (phoneNumber.dirty || phoneNumber.touched)" class="text-danger">
-                                  <div *ngIf="phoneNumber.errors && phoneNumber.errors['required']"><small>Phone number is required</small></div>
-                                  <div *ngIf="phoneNumber.errors && phoneNumber.errors['pattern']"><small>Phone number is invalid</small></div>
-                                </div>
-                            </div>
-                          </div>
-
-                          <div class="col-md-6">
-                            <div class="file-container">
-                              <label for="file" class="file-label">
-                                <div style="width: 10px;">
-                                  <img src="assets/images/Group.png" alt="" />
-                                </div>
-                                <div class="upload-text w-100" *ngIf="fileName; else defaultText">
-                                  {{ fileName }}
-                                </div>
-                                <ng-template #defaultText>
-                                  <div class="upload-text w-100">Upload CV</div>
-                                </ng-template>
-                                <input type="file" id="file" class="file-input" (change)="handleFileInput($event)">
-                                <div class="doc-icon">
-                                  <img src="assets/images/mingcute_upload-line.png" alt="" class="upload-icon">
-                                </div>
-
-                              </label>
-                            </div>
-                          </div>
-                          <div class="form-check">
-                            <input class="form-check-input" type="checkbox" value="" id="flexCheckDefault">
-                            <label class="form-check-label" for="flexCheckDefault">
-                              By checking this you are agreeing to our <span style="color:#5CC3E6">terms of use</span>.
-                            </label>
-                          </div>
-                          <div class="col-md-12 mt-4 ms-2 d-flex justify-content-center">
-                            <button class="btn btn-signUp" type="submit"
-                              [disabled]="(!fileName || !candidate.form.valid || !candidateForm.name || !candidateForm.emailId || !candidateForm.expectedCtc  || !candidateForm.password || !candidateForm.linkdinProfile || !candidateForm.experience || !candidateForm.confirmPassword || !(candidateForm.password === candidateForm.confirmPassword) || !candidateForm.phoneNumber)">SIGN
-                              UP</button>
-                          </div>
-
-                          <div class="col-md-12 d-flex justify-content-center ms-2  mt-2">
-                            <img src="/assets/public/devicon_linkedin.svg" class="linkedin-button-image" alt="">
-                            <button class="btn btn-signUpLinkdin text-white fs-11"> Sign Up with LinkedIn</button>
-
-                          </div>
-
-                          <div class="col-md-12 text-center mt-2 fs-12">
-                            <p class="text-white">Already have an account? <a  class="-pointer" (click)="toggleSignInRow()"
-                                style="color: #68DBFF;;">Sign in now</a></p>
-                          </div>
-                        </form>
-                      </div>
-
-
-                      <!-- Employee-form -->
-                      <div class="row" *ngIf="selectedUserType === 'employee' && !confirmationCodeScreen">
-                        <form class="row p-0 mt-4 " (ngSubmit)="employee.form.valid && createEmployee(form)"
-                          #employee="ngForm" novalidate>
-                          <div class="error text-danger py-2" *ngIf="errorMessage">{{errorMessage}}</div>
-                          <div class="row">
-                            <div class="col-md-6">
-                              <div class="material-input__group">
-                                <i class="fa-solid fa-user" style="color: #f4f5f5; font-size: 12px"></i>
-                                <input type="text" placeholder="Name" class="text-white material-input__group__input"
-                                pattern="^([ \u00c0-\u01ffa-zA-Z'.])+$"
-                                #name="ngModel" [(ngModel)]="employeeForm.name" name="name" id="name" />
-                              </div>
-                            </div>
-                            <div class="col-md-6">
-                              <div class="material-input__group">
-                                <i class="fa-solid fa-user" style="color: #f4f5f5; font-size: 12px"></i>
-                                <input type="text" placeholder="Communication Email id"
-                                  class="text-white material-input__group__input" #emailId="ngModel"
-                                  pattern="^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,4}$"
-                                  [title]="emailId.errors?.['pattern'] ? 'Email is invalid' : ''"
-                                  [(ngModel)]="employeeForm.emailId" name="emailId" id="emailId" />
-                              </div>
-                            </div>
-
-                           
-                            <div class="col-md-6">
-                              <div class="material-input__group">
-                                <i class="fa-regular fa-building" style="color: #eff1f5; font-size: 12px;"></i>
-                                <!-- <input type="text" placeholder="Company name "
-                                  class="text-white material-input__group__input" #companyName="ngModel"
-                                  [(ngModel)]="employeeForm.companyName" name="companyName" id="companyName" /> -->
-                                  <!-- <mat-form-field> -->
-                                    <input matInput   #autoCompleteInput="matAutocompleteTrigger"  class="text-white material-input__group__input" [formControl]="myControl" [matAutocomplete]="auto" placeholder="Select Company Name" />
-                                    <mat-autocomplete #auto="matAutocomplete" [displayWith]="displayFn" (optionSelected)="onOptionSelected($event)">
-                                      <mat-option *ngFor="let option of filteredOptions | async" [value]="option">
-                                        {{ option.name }}
-                                      </mat-option>
-                                    </mat-autocomplete>
-                                  <!-- </mat-form-field> -->
-                                 
-
-                               
-                              </div>
-                            </div>
-
-                            <div class="col-md-6">
-                              <div class="material-input__group">
-                                <i class="fa-solid fa-envelope" style="color: #fafafa; font-size: 12px;"></i>
-                                <input type="text" placeholder="Company Email ID"
-                                  class="text-white material-input__group__input iconic" #companyEmailID="ngModel"
-                                  [title]="companyEmailID.errors?.['pattern'] ? 'Company Email is invalid' : ''"
-                                  [(ngModel)]="employeeForm.companyEmailID" name="companyEmailID" id="companyEmailID"
-                                  pattern="^(?!.*@(gmail\.com|outlook\.com|aol\.com|yahoo\.com|icloud\.com|protonmail\.com|zoho\.com|yandex\.com|gmx\.com|hubspot\.com|mail\.com|tutanota\.com|10minutemail\.com)$)[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$" />
-                              </div>
-                            </div>
-                            <!-- pattern="^https:\/\/www\.linkedin\.com\/(?:\w+\/)?(?:in\/)?([a-zA-Z0-9-]+)\/?$" -->
-                         
-                            <div class="col-md-6">
-                              <div class="material-input__group">
-                                <i class="fa-regular fa-file" style="color: #f0f2f4; font-size: 12px;"></i>
-                                <input type="text" placeholder="Department"
-                                  class="text-white material-input__group__input" #department="ngModel"
-                                  [(ngModel)]="employeeForm.department" name="department" id="department" />
-                              </div>
-                            </div>
-                            <div class="col-md-6">
-                              <div class="material-input__group">
-                                <i class="fa-solid fa-phone" style="color: #ffffff; font-size: 12px"></i>
-                                <input type="text" placeholder="Phone number"
-                                  class="text-white material-input__group__input" #phoneNumber="ngModel"
-                                  pattern="^\+(?:[0-9] ?){6,14}[0-9]$" maxlength="17"
-                                  [(ngModel)]="employeeForm.phoneNumber" name="phoneNumber" id="phoneNumber" />
-                                  <div *ngIf="phoneNumber.invalid && (phoneNumber.dirty || phoneNumber.touched)" class="text-danger">
-                                    <div *ngIf="phoneNumber.errors && phoneNumber.errors['required']"><small>Phone number is required</small></div>
-                                    <div *ngIf="phoneNumber.errors && phoneNumber.errors['pattern']"><small>Phone number is invalid</small></div>
-                                  </div>
-                              </div>
-                            </div>
-                            <div class="col-md-6">
-                              <div class="material-input__group">
-
-                                <i class="fas fa-lock" style="color: #ffffff; font-size: 12px"></i>
-                                <input type="password" placeholder="Password"
-                                  class="text-white material-input__group__input" #password="ngModel"
-                                  pattern="^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$"
-                                  [title]="password.errors?.['pattern'] ? 'Password is invalid' : ''"
-                                  [(ngModel)]="employeeForm.password" name="password" id="password" />
-                              </div>
-                            </div>
-
-                            <div class="col-md-6">
-                              <div class="material-input__group">
-                                <i class="fas fa-lock" style="color: #ffffff; font-size: 12px"></i>
-                                <input type="password" placeholder="Confirm Password"
-                                  class="text-white material-input__group__input" #confirmPassword="ngModel"
-                                  [class.ng-invalid]="employeeForm.confirmPassword !== employeeForm.password && (password.dirty || password.touched)"
-                                  [title]="employeeForm.confirmPassword !== employeeForm.password ? 'Confirm Password should match with password field' : ''"
-                                  [(ngModel)]="employeeForm.confirmPassword" name="confirmPassword"
-                                  id="confirmPassword" />
-                              </div>
-                            </div>
-                            <div class="form-check">
-                              <input class="form-check-input" type="checkbox" value="" id="flexCheckDefault">
-                              <label class="form-check-label" for="flexCheckDefault" >
-                                  By checking this you are agreeing to our <span style="color:#5CC3E6">terms of usddde</span>.
-                              </label>
-                          </div>
-                          
-                            <div class="col-md-12 mt-4 ms-2 d-flex justify-content-center">
-                              <button class="btn btn-signUp" type="submit"
-                                [disabled]="(!employee.form.valid || !employeeForm.name || !employeeForm.designationTag || !employeeForm.emailId || !selectedCompany.name   || !selectedCompany.SK  || !employeeForm.phoneNumber || !employeeForm.companyEmailID || !employeeForm.linkdinProfile || !employeeForm.experience || !employeeForm.department  || !employeeForm.designation  || !employeeForm.confirmPassword || !(employeeForm.password === employeeForm.confirmPassword) )">SIGN
-                                UP</button>
-                            </div>
-
-
-                            <div class="col-md-12 d-flex justify-content-center ms-2 mt-2">
-                              <img src="/assets/public/devicon_linkedin.svg" class="linkedin-button-image" alt="">
-                              <button class="btn btn-signUpLinkdin text-white fs-11"> Sign Up with LinkedIn</button>
-                            </div>
-                            <div class="col-md-12 text-center mt-2 fs-12">
-                              <p class="text-white">Already have an account? <a class="-pointer" (click)="toggleSignInRow()"
-                                  style="color: #68DBFF;">Sign in now</a></p>
-                            </div>
-                          </div>
-                        </form>
-                      </div>
-
-                      <!--Confirmation Code Form -->
-                      <div *ngIf="confirmationCodeScreen" class="row px-4">
-                        <div class="row">
-                          <div class="col-md-12 text-white" style="font-size: 18px">
-                            <p>Confirm your account</p>
-                          </div>
-                          <div class="text-white">
-                            We have sent a code by email to {{confirmationEmail}}. Enter it below to confirm your
-                            account.
-                          </div>
-
-                          <form (ngSubmit)="verification.form.valid && confirmSignUp(form)" #verification="ngForm"
-                            novalidate>
-                            <div class="error text-danger py-2" *ngIf="errorMessage">{{errorMessage}}</div>
-                            <div class="row">
-                              <div class="col-md-12 pt-3">
-                                <div class="material-input__group field-wrapper">
-                                  <i class="fa-solid fa-user" style="color: #f4f5f5; font-size: 12px"></i>
-                                  <input type="text" placeholder="Verification code"
-                                    class="text-white material-input__group__input" #code="ngModel" pattern="^[0-9]{6}$"
-                                    [class.invalid]="(verification.submitted || code.touched) && code.invalid"
-                                    [(ngModel)]="verificationForm.code" name="code" id="code"
-                                    [title]="code.errors?.['pattern'] ? 'Code is invalid' : ''" />
-                                </div>
-                              </div>
-                            </div>
-                            <div class="col-md-12 mt-4 ms-2 d-flex justify-content-center">
-                              <button class="btn btn-signUp" type="submit"
-                                [disabled]="(!verification.form.valid || !verificationForm.code )">Confirm account
-                              </button>
-                            </div>
-                          </form>
-                        </div>
-                      </div>
-
-
-
-                    </div>
-                  </div>
-                </div>
-
-                <!-- Signin Now form -->
-
-
-                <div class="row" *ngIf="!showSignInRow" style="background: radial-gradient( circle at 0% 50%,#034c7f 4%, #77c9dc 10%, #034c7f 62%, #034c7f 68%,#0A1E36 79%);
-                  min-height:450px">
-                  <div class="col-md-7">
-                    <div
-                      style=" background-image:url(/assets/public/eart-signup1.png); background-size: cover; margin-left: -15px; height:  100%;"
-                      alt="">
-                      <img src="/assets/public/workologoai-2@2x.png" alt="logo" class="worko-logo-signup">
-                      <p class="para-div">An equitable job market where job seekers meet the company seeking
-                        exceptional
-                        talent! Liked the idea, but please share few other options to chose from</p>
-                    </div>
-                  </div>
-
-
-                  <div class="col-md-5 px-5" *ngIf="!displayResetPassword">
-                    <div class="col-md-12">
-                      <p class="text-white mt-5 your-referral">Your Referral <br> Universe Awaits: <br> Sign In!</p>
-                    </div>
-                    <div>
-
-
-                      <form (ngSubmit)="f.form.valid && submit(form)" #f="ngForm" novalidate>
-                        <div class="error text-danger py-2" *ngIf="errorMessage">{{errorMessage}}</div>
-                        <div class="col-md-12 p-0">
-                          <div class="material-input__group">
-                            <i class="fa-solid fa-envelope" style="color: #f5f5f5; font-size: 12px"></i>
-                            <input type="text" class="text-white mt-4 material-input__group__input" #email="ngModel"
-                              [(ngModel)]="form.email" name="email" id="email" placeholder="Enter Email" />
-                          </div>
-                        </div>
-
-                        <div class="col-md-12 p-0">
-                          <div class="material-input__group">
-                            <i class="fa-solid fa-lock" style="color: #f5f5f5; font-size: 12px"></i>
-                            <input type="password" class="text-white mt-4 material-input__group__input "
-                              pattern="^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$"
-                              [title]="password.errors?.['pattern'] ? 'Password is invalid' : ''" #password="ngModel"
-                              [(ngModel)]="form.password" name="password" id="password" placeholder="Enter Password" />
-                          </div>
-                        </div>
-
-                        <div class="row">
-                          <div class="col-md-6 text-white fs-11 p-0">
-                            <input type="checkbox" class="ms-3" style="border-radius: 5px; 
-                     "> Remember me
-                          </div>
-
-                          <div class="col-md-6 fs-11">
-                            <!-- <a href="">Forgot password?</a> -->
-                            <a href="javascript:void(0);" class=" fs-11" (click)="resetPasswordScreen()">Forgot
-                              password?</a>
-                          </div>
-                        </div>
-
-                        <div class="col-md-12 d-flex justify-content-center ms-2 mt-2 p-0">
-                          <button class="btn btn-signUp w-100" type="submit"> Sign in</button>
-                        </div>
-
-                      </form>
-
-                      <div class="col-md-12 d-flex justify-content-center ms-2 mt-2 p-0">
-                        <img src="/assets/public/devicon_linkedin.svg" class="linkedin-button-image" alt="">
-                        <button class="btn btn-signUpLinkdin text-white fs-11 sign-in-linkedin "> Sign Up with
-                          LinkedIn</button>
-                      </div>
-
-                      <div class="col-md-12 text-center text-white mt-2 mb-5 fs-11"
-                        style=" padding-left: initial; ">
-                        Don't have any account? <a style="color: #68DBFF;" class="-pointer" (click)="toggleSignUpRow()">Sign up now</a>
-                      </div>
-                      <!-- <div class="col-md-12 mt-3">
-                        <button class="btn signInButton" (click)="signOut()" type="button"> Sign out</button>
-                      </div> -->
-                    </div>
-                  </div>
-                  <div class="col-md-5 px-4 d-flex align-self-center pt-4" *ngIf="displayResetPassword">
-
-                    <div class="row">
-                      <div class="col-md-12 text-white" style="font-size: 18px">
-                        <p>Forgot your password?</p>
-                      </div>
-                      <div class="text-white" *ngIf="!resetVerificationScreen">
-                        Enter your Email below and we will send a message to reset your password
-
-                      </div>
-                      <div class="text-white" *ngIf="resetVerificationScreen">
-                        We have sent a password reset code by email to {{confirmationEmail}}. Enter it below to reset your password.
-
-                      </div>
-
-                      <form (ngSubmit)="reset.form.valid && resetPassword(form)" #reset="ngForm" novalidate>
-                        <div class="error text-danger py-2" *ngIf="errorMessage">{{errorMessage}}</div>
-                        <div class="row">
-                          <div class="col-md-12 pt-3" *ngIf="!resetVerificationScreen">
-                            <div class="material-input__group field-wrapper">
-                              <i class="fa-solid fa-user" style="color: #f4f5f5; font-size: 12px"></i>
-                              <input type="text" placeholder="Enter your email"
-                                class="text-white material-input__group__input" #emailId="ngModel"
-                                pattern="^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,4}$"
-                                [class.invalid]="(reset.submitted || emailId.touched) && emailId.invalid"
-                                [(ngModel)]="resetForm.emailId" name="emailId" id="emailId"
-                                [title]="emailId.errors?.['pattern'] ? 'Email is invalid' : ''" />
-
-                            </div>
-                          </div>
-
-                          <div class="col-md-12 pt-3" *ngIf="resetVerificationScreen">
-                            <div class="material-input__group field-wrapper">
-                              <i class="fa-solid fa-user" style="color: #f4f5f5; font-size: 12px"></i>
-                              <input type="text" placeholder="Verification code"
-                                class="text-white material-input__group__input" #code="ngModel" pattern="^[0-9]{6}$"
-                                [class.invalid]="(reset.submitted || code.touched) && code.invalid"
-                                [(ngModel)]="resetForm.code" name="code" id="code"
-                                [title]="code.errors?.['pattern'] ? 'Code is invalid' : ''" />
-                            </div>
-                          </div>
-
-                          <div class="col-md-12 pt-3" *ngIf="resetVerificationScreen">
-                            <div class="material-input__group">
-                              <i class="fas fa-lock" style="color: #ffffff; font-size: 12px"></i>
-                              <input type="password" placeholder="Password"
-                                class="text-white material-input__group__input" #password="ngModel"
-                                pattern="^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$"
-                                [title]="reset.errors?.['pattern'] ? 'Password is invalid' : ''"
-                                [(ngModel)]="resetForm.password" name="password" id="password" />
-                            </div>
-                          </div>
-
-                          <div class="col-md-12 pt-3" *ngIf="resetVerificationScreen">
-                            <div class="material-input__group">
-                              <i class="fas fa-lock" style="color: #ffffff; font-size: 12px"></i>
-                              <input type="password" placeholder="Confirm Password"
-                                class="text-white material-input__group__input" #confirmPassword="ngModel"
-                                [title]="resetForm.confirmPassword !== resetForm.password ? 'Confirm Password should match with password field' : ''"
-                                [(ngModel)]="resetForm.confirmPassword" name="confirmPassword" id="confirmPassword" />
-                            </div>
-                          </div>
-
-                        </div>
-
-                        <div class="col-md-12 mt-4 ms-2 d-flex justify-content-center">
-                          <button class="btn btn-signUp" type="button" *ngIf="resetVerificationScreen" (click)="passwordChange()"
-                            [disabled]="(!reset.form.valid ||  ( !resetVerificationScreen && !resetForm.code ||  !resetForm.password ||  !resetForm.confirmPassword ||  !(resetForm.password === resetForm.confirmPassword)))">
-                            Change Password
-                          </button>
-
-
-                          <button class="btn btn-signUp reset-button" type="submit" *ngIf="!resetVerificationScreen"
-                            [disabled]="(!reset.form.valid || !resetForm.emailId)">
-                            Reset my password
-
-                          </button>
-                        </div>
-                        <div class="col-md-12 text-center mt-2 fs-12">
-                          <p class="text-white">Already have an account? <a  class="-pointer" (click)="toggleSignInRow()"
-                              style="color: #68DBFF;;">Sign in now</a></p>
-                        </div>
-                      </form>
-                    </div>
-
-                  </div>
-
-                </div>
-
-
+      <div class="body">
+        <div
+          class="row"
+          *ngIf="showSignInRow"
+          style="
+            min-height: 450px;
+            background: radial-gradient(
+              circle at 0% 50%,
+              #034c7f 4%,
+              #77c9dc 10%,
+              #034c7f 32%,
+              #034c7f 41%,
+              #0a1e36 50%
+            );
+          "
+        >
+          <div class="col-md-6 first-div d-flex p-0">
+            <div class="d-flex align-self-center" style="width: 110px">
+              <img src="/assets/image-login/g8%2097.png" alt="" />
+            </div>
+            <div
+              *ngIf="selectedUserType === 'candidate'"
+              class="d-flex align-self-center"
+            >
+              <div class="login-side-heading">
+                <h2 class="unlockText text-white1">
+                  Unlock Dream <br />
+                  Referrals: Join Now!
+                </h2>
+                <h5 class="sub-heading m-0">Interview Guidance</h5>
               </div>
             </div>
+            <div
+              *ngIf="selectedUserType === 'employee'"
+              class="d-flex align-self-center"
+            >
+              <div class="login-side-heading">
+                <h2 class="unlockText text-white1">
+                  Ready to Refer? <br />
+                  Lets Get Started!
+                </h2>
+                <div class="sub-heading m-0">Refferals</div>
+              </div>
+            </div>
+          </div>
 
+          <div class="col-md-6 second-div d-flex align-self-center p-0">
+            <div class="whole-row">
+              <div class="p-0" *ngIf="!confirmationCodeScreen">
+                <div
+                  class="col-md-12 text-white p-0 mt-4"
+                  style="font-size: 18px"
+                >
+                  <p>Create your account as</p>
+                </div>
+                <div
+                  class="col-md-6 option p-0"
+                  style="justify-content: space-between"
+                >
+                  <a
+                    href="javascript:void(0);"
+                    [class.selected]="selectedUserType === 'candidate'"
+                    class="text-white fs-12"
+                    (click)="selectUserType('candidate')"
+                    >Candidate</a
+                  >
+                  <a
+                    href="javascript:void(0);"
+                    [class.selected]="selectedUserType === 'employee'"
+                    (click)="selectUserType('employee')"
+                    class="fs-12 text-white ms-2"
+                    >Employee</a
+                  >
+                </div>
+              </div>
+
+              <!-- candidate-form -->
+
+              <div
+                class="row p-0"
+                *ngIf="
+                  selectedUserType === 'candidate' && !confirmationCodeScreen
+                "
+              >
+                <form
+                  (ngSubmit)="candidate.form.valid && createCandidate(form)"
+                  #candidate="ngForm"
+                  novalidate
+                  class="row mt-4"
+                >
+                  <div class="error text-danger py-2" *ngIf="errorMessage">
+                    {{ errorMessage }}
+                  </div>
+                  <div class="col-md-6">
+                    <div class="material-input__group">
+                      <i
+                        class="fa-solid fa-user"
+                        style="color: #f4f5f5; font-size: 12px"
+                      ></i>
+                      <input
+                        type="text"
+                        placeholder="Name"
+                        class="text-white material-input__group__input"
+                        pattern="^([ \u00c0-\u01ffa-zA-Z'.])+$"
+                        #nameInput="ngModel"
+                        [(ngModel)]="candidateForm.name"
+                        name="name"
+                        id="name"
+                        (blur)="validateName()"
+                      />
+                      <div
+                        *ngIf="
+                          (nameInput.touched || candidate.submitted) &&
+                          nameInput.invalid
+                        "
+                        class="required-error"
+                      >
+                        <!-- <i class="fa-solid fa-asterisk" style="color: red;"></i> -->
+                      </div>
+                    </div>
+                  </div>
+
+                  <div class="col-md-6">
+                    <div class="material-input__group">
+                      <i
+                        class="fa-solid fa-envelope"
+                        style="color: #f5f5f5; font-size: 12px"
+                      ></i>
+                      <input
+                        type="text"
+                        placeholder="Email ID"
+                        class="text-white material-input__group__input"
+                        pattern="^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,4}$"
+                        [title]="emailId.errors?.['pattern'] ? 'Email is invalid' : ''"
+                        #emailId="ngModel"
+                        [(ngModel)]="candidateForm.emailId"
+                        name="emailId"
+                        id="emailId"
+                      />
+                    </div>
+                  </div>
+
+                  <div class="col-md-6 d-flex align-items-center"> <!-- Added align-items-center -->
+                    <div class="material-input__group">
+                        <i class="fas fa-lock" style="color: #ffffff; font-size: 12px"></i>
+                        <input type="password" placeholder="Password" class="text-white material-input__group__input" #password="ngModel" pattern="^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$" [title]="password.errors?.['pattern'] ? 'Password is invalid' : ''" [(ngModel)]="candidateForm.password" name="password" id="password"/>
+                    </div>
+                    <div class="tooltip-container">
+                        <div class="tooltip-style">
+                            <i class="fa-solid fa-circle-info"></i>
+                        </div>
+                        <div class="tooltip-text pt-2 text-center p-2">
+                            <small>should contain at least one Uppercase, one Lowercase, one Number and 8 or more Characters.</small>
+                        </div>
+                    </div>
+                </div>
+                
+
+                  <div class="col-md-6">
+                    <div class="material-input__group">
+                      <i
+                        class="fas fa-lock"
+                        style="color: #ffffff; font-size: 12px"
+                      ></i>
+                      <input
+                        type="password"
+                        placeholder="Confirm Password"
+                        class="text-white material-input__group__input"
+                        #confirmPassword="ngModel"
+                        [class.ng-invalid]="
+                          candidateForm.confirmPassword !==
+                            candidateForm.password &&
+                          (password.dirty || password.touched)
+                        "
+                        [title]="
+                          candidateForm.confirmPassword !==
+                          candidateForm.password
+                            ? 'Confirm Password should match with password field'
+                            : ''
+                        "
+                        [(ngModel)]="candidateForm.confirmPassword"
+                        name="confirmPassword"
+                        id="confirmPassword"
+                      />
+                    </div>
+                  </div>
+
+                  <div class="col-md-6">
+                    <div class="material-input__group">
+                      <i
+                        class="fa-brands fa-linkedin"
+                        style="color: #f6f7f9"
+                      ></i>
+                      <input
+                        type="text"
+                        placeholder="LinkdIn Profile"
+                        class="text-white material-input__group__input"
+                        #linkdinProfile="ngModel"
+                        pattern="^(https?:\/\/(www\.)?linkedin\.com\/in\/[a-zA-Z0-9_\-]+\/?)$"
+                        [title]="linkdinProfile.errors?.['pattern'] ? 'Linkedin URL is invalid' : ''"
+                        [(ngModel)]="candidateForm.linkdinProfile"
+                        name="linkdinProfile"
+                        id="linkdinProfile"
+                      />
+                    </div>
+                  </div>
+
+                  <div class="col-md-6">
+                    <div class="material-input__group">
+                      <i
+                        class="fa-solid fa-graduation-cap"
+                        style="color: #fafcff"
+                      ></i>
+                      <input
+                        type="text"
+                        placeholder="Total year of experience"
+                        class="text-white material-input__group__input"
+                        #experience="ngModel"
+                        pattern="^[1-9]\d*(\.\d{1,2})?$"
+                        [(ngModel)]="candidateForm.experience"
+                        [title]="experience.errors?.['pattern'] ? 'Total year of experience is invalid' : ''"
+                        name="experience"
+                        id="experience"
+                      />
+                    </div>
+                  </div>
+
+                  <div class="col-md-6">
+                    <div class="material-input__group">
+                      <i
+                        class="fa-regular fa-money-bill-1"
+                        style="color: #ffffff"
+                      ></i>
+                      <input
+                        type="text"
+                        placeholder="Expected CTC(in LPA)"
+                        class="text-white material-input__group__input"
+                        #expectedCtc="ngModel"
+                        pattern="^\d{1,3}(?:,\d{3})*(?:\.\d{1,2})?$"
+                        [(ngModel)]="candidateForm.expectedCtc"
+                        [title]="expectedCtc.errors?.['pattern'] ? 'Expected CTC is invalid' : ''"
+                        name="expectedCtc"
+                        id="expectedCtc"
+                      />
+                    </div>
+                  </div>
+                  <div class="col-md-6">
+                    <div class="material-input__group">
+                      <i
+                        class="fa-solid fa-phone"
+                        style="color: #ffffff; font-size: 12px"
+                      ></i>
+                      <input
+                        type="otp"
+                        placeholder="Phone number"
+                        class="text-white material-input__group__input"
+                        #phoneNumber="ngModel"
+                        pattern="^\+(?:[0-9] ?){6,14}[0-9]$"
+                        maxlength="17"
+                        [(ngModel)]="candidateForm.phoneNumber"
+                        name="phoneNumber"
+                        id="phoneNumber"
+                      />
+                      <div
+                        *ngIf="
+                          phoneNumber.invalid &&
+                          (phoneNumber.dirty || phoneNumber.touched)
+                        "
+                        class="text-danger"
+                      >
+                        <div
+                          *ngIf="
+                            phoneNumber.errors && phoneNumber.errors['required']
+                          "
+                        >
+                         
+                        </div>
+                        <div
+                          *ngIf="
+                            phoneNumber.errors && phoneNumber.errors['pattern']
+                          "
+                        >
+                          
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+
+                  <div class="col-md-6">
+                    <div class="file-container">
+                      <label for="file" class="file-label">
+                        <div style="width: 10px">
+                          <img src="assets/images/Group.png" alt="" />
+                        </div>
+                        <div
+                          class="upload-text w-100"
+                          *ngIf="fileName; else defaultText"
+                        >
+                          {{ fileName }}
+                        </div>
+                        <ng-template #defaultText>
+                          <div class="upload-text w-100">Upload CV</div>
+                        </ng-template>
+                        <input
+                          type="file"
+                          id="file"
+                          class="file-input"
+                          (change)="handleFileInput($event)"
+                        />
+                        <div class="doc-icon">
+                          <img
+                            src="assets/images/mingcute_upload-line.png"
+                            alt=""
+                            class="upload-icon"
+                          />
+                        </div>
+                      </label>
+                    </div>
+                  </div>
+                  <div class="form-check">
+                    <input
+                      class="form-check-input"
+                      type="checkbox"
+                      value=""
+                      id="flexCheckDefault"
+                      [(ngModel)]="candidateForm.checkboxChecked"
+                      name="checkboxChecked"
+                    />
+                    <label class="form-check-label" for="flexCheckDefault">
+                      By checking this you are agreeing to our
+                      <span style="color: #5cc3e6"><a href="">terms of use ?</a></span>
+                    </label>
+                  </div>
+                  <div class="col-md-12 mt-4 ms-2 d-flex justify-content-center">
+                    <button
+                      class="btn btn-signUp"
+                      type="submit"
+                      [disabled]="
+                        !fileName ||
+                        !candidate.form.valid ||
+                        !candidateForm.name ||
+                        !candidateForm.emailId ||
+                        !candidateForm.expectedCtc ||
+                        !candidateForm.password ||
+                        !candidateForm.linkdinProfile ||
+                        !candidateForm.experience ||
+                        !candidateForm.confirmPassword ||
+                        !(
+                          candidateForm.password ===
+                          candidateForm.confirmPassword
+                        ) ||
+                        !candidateForm.phoneNumber ||
+                        !candidateForm.checkboxChecked 
+                      "
+                    >
+                      SIGN UP
+                    </button>
+                  </div>
+
+                  <div
+                    class="col-md-12 d-flex justify-content-center ms-2 mt-2"
+                  >
+                    <img
+                      src="/assets/public/devicon_linkedin.svg"
+                      class="linkedin-button-image"
+                      alt=""
+                    />
+                    <button class="btn btn-signUpLinkdin text-white fs-11">
+                      Sign Up with LinkedIn
+                    </button>
+                  </div>
+
+                  <div class="col-md-12 text-center mt-2 fs-12">
+                    <p class="text-white">
+                      Already have an account?
+                      <a
+                        class="-pointer"
+                        (click)="toggleSignInRow()"
+                        style="color: #68dbff"
+                        >Sign in now</a
+                      >
+                    </p>
+                  </div>
+                </form>
+              </div>
+
+              <!-- Employee-form -->
+              <div
+                class="row"
+                *ngIf="
+                  selectedUserType === 'employee' && !confirmationCodeScreen
+                "
+              >
+                <form
+                  class="row p-0 mt-4"
+                  (ngSubmit)="employee.form.valid && createEmployee(form)"
+                  #employee="ngForm"
+                  novalidate
+                >
+                  <div class="error text-danger py-2" *ngIf="errorMessage">
+                    {{ errorMessage }}
+                  </div>
+                  <div class="row">
+                    <div class="col-md-6">
+                      <div class="material-input__group">
+                        <i
+                          class="fa-solid fa-user"
+                          style="color: #f4f5f5; font-size: 12px"
+                        ></i>
+                        <input
+                          type="text"
+                          placeholder="Name"
+                          class="text-white material-input__group__input"
+                          pattern="^([ \u00c0-\u01ffa-zA-Z'.])+$"
+                          #name="ngModel"
+                          [(ngModel)]="employeeForm.name"
+                          name="name"
+                          id="name"
+                        />
+                      </div>
+                    </div>
+                    <div class="col-md-6">
+                      <div class="material-input__group">
+                        <i
+                          class="fa-solid fa-user"
+                          style="color: #f4f5f5; font-size: 12px"
+                        ></i>
+                        <input
+                          type="text"
+                          placeholder="Communication Email id"
+                          class="text-white material-input__group__input"
+                          #emailId="ngModel"
+                          pattern="^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,4}$"
+                          [title]="emailId.errors?.['pattern'] ? 'Email is invalid' : ''"
+                          [(ngModel)]="employeeForm.emailId"
+                          name="emailId"
+                          id="emailId"
+                        />
+                      </div>
+                    </div>
+                    
+                  
+                  
+
+                     <div class="col-md-6">
+                      <div class="material-input__group">
+                        <i
+                          class="fa-regular fa-building"
+                          style="color: #eff1f5; font-size: 12px"
+                        ></i>
+
+                        <input
+                          matInput
+                          #autoCompleteInput="matAutocompleteTrigger"
+                          class="text-white material-input__group__input"
+                          [formControl]="myControl"
+                          [matAutocomplete]="auto"
+                          placeholder="Select Company Name"
+                        />
+                        <mat-autocomplete 
+                          #auto="matAutocomplete"
+                          [displayWith]="displayFn"
+                          (optionSelected)="onOptionSelected($event)"
+                        >
+                          <mat-option class="custom-mat-option" 
+                            *ngFor="let option of filteredOptions | async"
+                            [value]="option"
+                          >
+                            {{ option.name }}
+                          </mat-option>
+                        </mat-autocomplete>
+                      </div>
+                    </div> 
+
+                    <div class="col-md-6">
+                      <div class="material-input__group">
+                        <i
+                          class="fa-solid fa-envelope"
+                          style="color: #fafafa; font-size: 12px"
+                        ></i>
+                        <input
+                          type="text"
+                          placeholder="Company Email ID"
+                          class="text-white material-input__group__input iconic"
+                          #companyEmailID="ngModel"
+                          [title]="companyEmailID.errors?.['pattern'] ? 'Company Email is invalid' : ''"
+                          [(ngModel)]="employeeForm.companyEmailID"
+                          name="companyEmailID"
+                          id="companyEmailID"
+                          pattern="^(?!.*@(gmail\.com|outlook\.com|aol\.com|yahoo\.com|icloud\.com|protonmail\.com|zoho\.com|yandex\.com|gmx\.com|hubspot\.com|mail\.com|tutanota\.com|10minutemail\.com)$)[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$"
+                        />
+                      </div>
+                    </div>
+                    <!-- pattern="^https:\/\/www\.linkedin\.com\/(?:\w+\/)?(?:in\/)?([a-zA-Z0-9-]+)\/?$" -->
+
+                    <div class="col-md-6">
+                      <div class="material-input__group">
+                        <i
+                          class="fa-regular fa-file"
+                          style="color: #f0f2f4; font-size: 12px"
+                        ></i>
+                        <input
+                          type="text"
+                          placeholder="Department"
+                          class="text-white material-input__group__input"
+                          #department="ngModel"
+                          [(ngModel)]="employeeForm.department"
+                          name="department"
+                          id="department"
+                        />
+                      </div>
+                    </div>
+                    <div class="col-md-6">
+                      <div class="material-input__group">
+                        <i
+                          class="fa-solid fa-phone"
+                          style="color: #ffffff; font-size: 12px"
+                        ></i>
+                        <input
+                          type="text"
+                          placeholder="Phone number"
+                          class="text-white material-input__group__input"
+                          #phoneNumber="ngModel"
+                          pattern="^\+(?:[0-9] ?){6,14}[0-9]$"
+                          maxlength="17"
+                          [(ngModel)]="employeeForm.phoneNumber"
+                          name="phoneNumber"
+                          id="phoneNumber"
+                        />
+                        <div
+                          *ngIf="
+                            phoneNumber.invalid &&
+                            (phoneNumber.dirty || phoneNumber.touched)
+                          "
+                          class="text-danger"
+                        >
+                          <div
+                            *ngIf="
+                              phoneNumber.errors &&
+                              phoneNumber.errors['required']
+                            "
+                          >
+                            
+                          </div>
+                          <div
+                            *ngIf="
+                              phoneNumber.errors &&
+                              phoneNumber.errors['pattern']
+                            "
+                          >
+                         
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                    <div class="col-md-6 d-flex align-items-center">
+                      <div class="material-input__group">
+                          <i class="fas fa-lock" style="color: #ffffff; font-size: 12px"></i>
+                          <input type="password" placeholder="Password" class="text-white material-input__group__input" #password="ngModel" pattern="^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$" [title]="password.errors?.['pattern'] ? 'Password is invalid' : ''" [(ngModel)]="employeeForm.password" name="password" id="password"/>
+                      </div>
+                      <div class="tooltip-container">
+                          <div class="tooltip-style">
+                              <i class="fa-solid fa-circle-info"></i>
+                          </div>
+                          <div class="tooltip-text pt-2 text-center p-2">
+                              <small>should contain at least one Uppercase, one Lowercase, one Number and 8 or more Characters.</small>
+                          </div>
+                      </div>
+                  </div>
+                  
+
+                    <div class="col-md-6">
+                      <div class="material-input__group">
+                        <i
+                          class="fas fa-lock"
+                          style="color: #ffffff; font-size: 12px"
+                        ></i>
+                        <input
+                          type="password"
+                          placeholder="Confirm Password"
+                          class="text-white material-input__group__input"
+                          #confirmPassword="ngModel"
+                          [class.ng-invalid]="
+                            employeeForm.confirmPassword !==
+                              employeeForm.password &&
+                            (password.dirty || password.touched)
+                          "
+                          [title]="
+                            employeeForm.confirmPassword !==
+                            employeeForm.password
+                              ? 'Confirm Password should match with password field'
+                              : ''
+                          "
+                          [(ngModel)]="employeeForm.confirmPassword"
+                          name="confirmPassword"
+                          id="confirmPassword"
+                        />
+                      </div>
+                    </div>
+                    <div class="form-check">
+                      <input class="form-check-input" type="checkbox" value="" id="flexCheckEmployee" [(ngModel)]="employeeForm.agreeTerms">
+                      <label class="form-check-label" for="flexCheckEmployee">
+                        By checking this you are agreeing to our <span style="color: #5cc3e6"><a href="">terms of use ?</a></span>
+                      </label>
+                    </div>
+
+                    <div
+                      class="col-md-12 mt-4 ms-2 d-flex justify-content-center"
+                    >
+                    <div class="col-md-12 mt-4 ms-2 d-flex justify-content-center">
+                      <button class="btn btn-signUp" type="submit"
+                        [disabled]="
+                          !employee.form.valid ||
+                          !employeeForm.name ||
+                          !employeeForm.designationTag || 
+                          !employeeForm.emailId ||
+                          !selectedCompany.name ||
+                          !selectedCompany.SK ||
+                          !employeeForm.phoneNumber ||
+                          !employeeForm.companyEmailID ||
+                          !employeeForm.linkdinProfile ||
+                          !employeeForm.experience ||
+                          !employeeForm.department ||
+                          !employeeForm.designation ||
+                          !employeeForm.confirmPassword ||
+                          !(employeeForm.password === employeeForm.confirmPassword) ||
+                          !employeeForm.agreeTerms 
+                        "
+                      >
+                        SIGN UP
+                      </button>
+                    </div>
+                    </div>
+
+                    <div
+                      class="col-md-12 d-flex justify-content-center ms-2 mt-2"
+                    >
+                      <img
+                        src="/assets/public/devicon_linkedin.svg"
+                        class="linkedin-button-image"
+                        alt=""
+                      />
+                      <button class="btn btn-signUpLinkdin text-white fs-11">
+                        Sign Up with LinkedIn
+                      </button>
+                    </div>
+                    <div class="col-md-12 text-center mt-2 fs-12">
+                      <p class="text-white">
+                        Already have an account?
+                        <a
+                          class="-pointer"
+                          (click)="toggleSignInRow()"
+                          style="color: #68dbff"
+                          >Sign in now</a
+                        >
+                      </p>
+                    </div>
+                  </div>
+                </form>
+              </div>
+
+              <!--Confirmation Code Form -->
+              <div *ngIf="confirmationCodeScreen" class="row px-4">
+                <div class="row">
+                  <div class="col-md-12 text-white" style="font-size: 18px">
+                    <p>Confirm your account</p>
+                  </div>
+                  <div class="text-white">
+                    We have sent a code by email to {{ confirmationEmail }}.
+                    Enter it below to confirm your account.
+                  </div>
+
+                  <form
+                    (ngSubmit)="verification.form.valid && confirmSignUp(form)"
+                    #verification="ngForm"
+                    novalidate
+                  >
+                    <div class="error text-danger py-2" *ngIf="errorMessage">
+                      {{ errorMessage }}
+                    </div>
+                    <div class="row">
+                      <div class="col-md-12 pt-3">
+                        <div class="material-input__group field-wrapper">
+                          <i
+                            class="fa-solid fa-user"
+                            style="color: #f4f5f5; font-size: 12px"
+                          ></i>
+                          <input
+                            type="text"
+                            placeholder="Verification code"
+                            class="text-white material-input__group__input"
+                            #code="ngModel"
+                            pattern="^[0-9]{6}$"
+                            [class.invalid]="
+                              (verification.submitted || code.touched) &&
+                              code.invalid
+                            "
+                            [(ngModel)]="verificationForm.code"
+                            name="code"
+                            id="code"
+                            [title]="code.errors?.['pattern'] ? 'Code is invalid' : ''"
+                          />
+                        </div>
+                      </div>
+                    </div>
+                    <div
+                      class="col-md-12 mt-4 ms-2 d-flex justify-content-center"
+                    >
+                      <button
+                        class="btn btn-signUp"
+                        type="submit"
+                        [disabled]="
+                          !verification.form.valid || !verificationForm.code
+                        "
+                      >
+                        Confirm account
+                      </button>
+                    </div>
+                  </form>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Signin Now form -->
+
+        <div
+          class="row"
+          *ngIf="!showSignInRow"
+          style="
+            background: radial-gradient(
+              circle at 0% 50%,
+              #034c7f 4%,
+              #77c9dc 10%,
+              #034c7f 62%,
+              #034c7f 68%,
+              #0a1e36 79%
+            );
+            min-height: 450px;
+          "
+        >
+          <div class="col-md-7">
+            <div
+              style="
+                background-image: url(/assets/public/eart-signup1.png);
+                background-size: cover;
+                margin-left: -15px;
+                height: 100%;
+              "
+              alt=""
+            >
+              <img
+                src="/assets/public/workologoai-2@2x.png"
+                alt="logo"
+                class="worko-logo-signup"
+              />
+              <p class="para-div">
+                An equitable job market where job seekers meet the company
+                seeking exceptional talent! Liked the idea, but please share few
+                other options to chose from
+              </p>
+            </div>
+          </div>
+
+          <div class="col-md-5 px-5" *ngIf="!displayResetPassword">
+            <div class="col-md-12">
+              <p class="text-white mt-5 your-referral">
+                Your Referral <br />
+                Universe Awaits: <br />
+                Sign In!
+              </p>
+            </div>
+            <div>
+              <form
+                (ngSubmit)="f.form.valid && submit(form)"
+                #f="ngForm"
+                novalidate
+              >
+                <div class="error text-danger py-2" *ngIf="errorMessage">
+                  {{ errorMessage }}
+                </div>
+                <div class="col-md-12 p-0">
+                  <div class="material-input__group">
+                    <i
+                      class="fa-solid fa-envelope"
+                      style="color: #f5f5f5; font-size: 12px"
+                    ></i>
+                    <input
+                      type="text"
+                      class="text-white mt-4 material-input__group__input"
+                      #email="ngModel"
+                      [(ngModel)]="form.email"
+                      name="email"
+                      id="email"
+                      placeholder="Enter Email"
+                    />
+                  </div>
+                </div>
+
+                <div class="col-md-12 p-0">
+                  <div class="material-input__group">
+                    <i
+                      class="fa-solid fa-lock"
+                      style="color: #f5f5f5; font-size: 12px"
+                    ></i>
+                    <input
+                      type="password"
+                      class="text-white mt-4 material-input__group__input"
+                      pattern="^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$"
+                      [title]="password.errors?.['pattern'] ? 'Password is invalid' : ''"
+                      #password="ngModel"
+                      [(ngModel)]="form.password"
+                      name="password"
+                      id="password"
+                      placeholder="Enter Password"
+                    />
+                  </div>
+                </div>
+
+                <div class="row">
+                  <div class="col-md-6 text-white fs-11 p-0">
+                    <input
+                      type="checkbox"
+                      class="ms-3"
+                      style="border-radius: 5px"
+                    />
+                    Remember me
+                  </div>
+
+                  <div class="col-md-6 fs-11">
+                    <!-- <a href="">Forgot password?</a> -->
+                    <a
+                      href="javascript:void(0);"
+                      class="fs-11"
+                      (click)="resetPasswordScreen()"
+                      >Forgot password?</a
+                    >
+                  </div>
+                </div>
+
+                <div
+                  class="col-md-12 d-flex justify-content-center ms-2 mt-2 p-0"
+                >
+                  <button class="btn btn-signUp w-100" type="submit">
+                    Sign in
+                  </button>
+                </div>
+              </form>
+
+              <div
+                class="col-md-12 d-flex justify-content-center ms-2 mt-2 p-0"
+              >
+                <img
+                  src="/assets/public/devicon_linkedin.svg"
+                  class="linkedin-button-image"
+                  alt=""
+                />
+                <button
+                  class="btn btn-signUpLinkdin text-white fs-11 sign-in-linkedin"
+                >
+                  Sign Up with LinkedIn
+                </button>
+              </div>
+
+              <div
+                class="col-md-12 text-center text-white mt-2 mb-5 fs-11"
+                style="padding-left: initial"
+              >
+                Don't have any account?
+                <a
+                  style="color: #68dbff"
+                  class="-pointer"
+                  (click)="toggleSignUpRow()"
+                  >Sign up now</a
+                >
+              </div>
+              <!-- <div class="col-md-12 mt-3">
+                        <button class="btn signInButton" (click)="signOut()" type="button"> Sign out</button>
+                      </div> -->
+            </div>
+          </div>
+          <div
+            class="col-md-5 px-4 d-flex align-self-center pt-4"
+            *ngIf="displayResetPassword"
+          >
+            <div class="row">
+              <div class="col-md-12 text-white" style="font-size: 18px">
+                <p>Forgot your password?</p>
+              </div>
+              <div class="text-white" *ngIf="!resetVerificationScreen">
+                Enter your Email below and we will send a message to reset your
+                password
+              </div>
+              <div class="text-white" *ngIf="resetVerificationScreen">
+                We have sent a password reset code by email to
+                {{ confirmationEmail }}. Enter it below to reset your password.
+              </div>
+
+              <form
+                (ngSubmit)="reset.form.valid && resetPassword(form)"
+                #reset="ngForm"
+                novalidate
+              >
+                <div class="error text-danger py-2" *ngIf="errorMessage">
+                  {{ errorMessage }}
+                </div>
+                <div class="row">
+                  <div class="col-md-12 pt-3" *ngIf="!resetVerificationScreen">
+                    <div class="material-input__group field-wrapper">
+                      <i
+                        class="fa-solid fa-user"
+                        style="color: #f4f5f5; font-size: 12px"
+                      ></i>
+                      <input
+                        type="text"
+                        placeholder="Enter your email"
+                        class="text-white material-input__group__input"
+                        #emailId="ngModel"
+                        pattern="^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,4}$"
+                        [class.invalid]="
+                          (reset.submitted || emailId.touched) &&
+                          emailId.invalid
+                        "
+                        [(ngModel)]="resetForm.emailId"
+                        name="emailId"
+                        id="emailId"
+                        [title]="emailId.errors?.['pattern'] ? 'Email is invalid' : ''"
+                      />
+                    </div>
+                  </div>
+
+                  <div class="col-md-12 pt-3" *ngIf="resetVerificationScreen">
+                    <div class="material-input__group field-wrapper">
+                      <i
+                        class="fa-solid fa-user"
+                        style="color: #f4f5f5; font-size: 12px"
+                      ></i>
+                      <input
+                        type="text"
+                        placeholder="Verification code"
+                        class="text-white material-input__group__input"
+                        #code="ngModel"
+                        pattern="^[0-9]{6}$"
+                        [class.invalid]="
+                          (reset.submitted || code.touched) && code.invalid
+                        "
+                        [(ngModel)]="resetForm.code"
+                        name="code"
+                        id="code"
+                        [title]="code.errors?.['pattern'] ? 'Code is invalid' : ''"
+                      />
+                    </div>
+                  </div>
+
+                  <div class="col-md-12 pt-3" *ngIf="resetVerificationScreen">
+                    <div class="material-input__group">
+                      <i
+                        class="fas fa-lock"
+                        style="color: #ffffff; font-size: 12px"
+                      ></i>
+                      <input
+                        type="password"
+                        placeholder="Password"
+                        class="text-white material-input__group__input"
+                        #password="ngModel"
+                        pattern="^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$"
+                        [title]="reset.errors?.['pattern'] ? 'Password is invalid' : ''"
+                        [(ngModel)]="resetForm.password"
+                        name="password"
+                        id="password"
+                      />
+                    </div>
+                  </div>
+
+                  <div class="col-md-12 pt-3" *ngIf="resetVerificationScreen">
+                    <div class="material-input__group">
+                      <i
+                        class="fas fa-lock"
+                        style="color: #ffffff; font-size: 12px"
+                      ></i>
+                      <input
+                        type="password"
+                        placeholder="Confirm Password"
+                        class="text-white material-input__group__input"
+                        #confirmPassword="ngModel"
+                        [title]="
+                          resetForm.confirmPassword !== resetForm.password
+                            ? 'Confirm Password should match with password field'
+                            : ''
+                        "
+                        [(ngModel)]="resetForm.confirmPassword"
+                        name="confirmPassword"
+                        id="confirmPassword"
+                      />
+                    </div>
+                  </div>
+                </div>
+
+                <div class="col-md-12 mt-1 ms-2 d-flex justify-content-center">
+                  <button
+                    class="btn btn-signUp"
+                    type="button"
+                    *ngIf="resetVerificationScreen"
+                    (click)="passwordChange()"
+                    [disabled]="
+                      !reset.form.valid ||
+                      (!resetVerificationScreen && !resetForm.code) ||
+                        !resetForm.password ||
+                        !resetForm.confirmPassword ||
+                        !(resetForm.password === resetForm.confirmPassword)
+                    "
+                  >
+                    Change Password
+                  </button>
+
+                  <button
+                    class="btn btn-signUp reset-button"
+                    type="submit"
+                    *ngIf="!resetVerificationScreen"
+                    [disabled]="!reset.form.valid || !resetForm.emailId"
+                  >
+                    Reset my password
+                  </button>
+                </div>
+                <div class="col-md-12 text-center mt-2 fs-12">
+                  <p class="text-white">
+                    Already have an account?
+                    <a
+                      class="-pointer"
+                      (click)="toggleSignInRow()"
+                      style="color: #68dbff"
+                      >Sign in now</a
+                    >
+                  </p>
+                </div>
+              </form>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
   </div>
 </div>

@@ -30,7 +30,7 @@ export class EmployeeProfessionalDetailsComponent {
     officialEmail: "",
     companySk: "",
     previousCompanies: "",
-    isEmailVerified: true,
+    isEmailVerified: false,
 
   }
 form:any;
@@ -123,7 +123,8 @@ form:any;
       workingSince: this.workExperienceDetails?.designation,
       officialEmail: this.workExperienceDetails.emailId,
       companySK: this.selectedCompany?.SK ? this.selectedCompany?.SK : this.workExperienceDetails?.SK,
-      previousCompanies: ""
+      previousCompanies: "",
+      isEmailVerified: false,
 
     }
   }
@@ -152,6 +153,13 @@ form:any;
   }
 
   onPreviousClick() {
+    const nonBlankFields = this.fields.filter(field => field.previousCompanyName.trim() !== '' || field.previousDesignation.trim() !== '' || field.previousExperience.trim() !== '');
+
+    // Save the non-blank fields
+    this.savedValues = [...nonBlankFields];
+    this.employeeProfessionalData.previousCompanies = this.savedValues;
+    this.employeeProfessionalData.companyName = this.selectedCompany?.name ? this.selectedCompany?.name : this.workExperienceDetails?.companyName
+    this.employeeProfessionalData.companySK = this.selectedCompany?.SK ? this.selectedCompany?.SK : this.workExperienceDetails?.SK
     this.previousStep.emit();
   }
 
