@@ -44,50 +44,50 @@
 
                     </div> -->
 
-                    <div class="row d-flex justify-content-center mt-2">
+                    <div class="row d-flex mt-2">
+                        <div class="col-md-3 ms-3 ">
+                            <label class="form-check-label float-end">
+                                <input type="checkbox" (click)="userFresher()"> Fresher
+                            </label>
+                        </div>
+                    </div>
+                    
+                    <div class="row d-flex justify-content-center mt-2" *ngIf="!isFresher">
                         <div class="col-md-3">
-                            <label for="" class="form-lable">Company Name</label>
+                            <label for="" class="form-label">Company Name</label>
                             <input type="text" class="form-control form-input" placeholder="Company Name"
-                                #companyName="ngModel" [(ngModel)]="candidateProfessionalDetails.companyName"
-                                name="companyName" id="companyName">
+                                [(ngModel)]="candidateProfessionalDetails.companyName" name="companyName" id="companyName">
                         </div>
                         <div class="col-md-3">
-                            <label for="" class="form-lable">Desigination</label>
-                            <input type="text" class="form-control form-input" placeholder="Desigination"
-                                #desigination="ngModel" [(ngModel)]="candidateProfessionalDetails.desigination"
-                                name="desigination" id="desigination">
+                            <label for="" class="form-label">Designation</label>
+                            <input type="text" class="form-control form-input" placeholder="Designation"
+                                [(ngModel)]="candidateProfessionalDetails.designation" name="designation" id="designation">
                         </div>
                         <div class="col-md-2">
-                            <label for="" class="form-lable">Department</label>
+                            <label for="" class="form-label">Department</label>
                             <input type="text" class="form-control form-input" placeholder="Department"
-                                #department="ngModel" [(ngModel)]="candidateProfessionalDetails.department"
-                                name="department" id="department">
-
+                                [(ngModel)]="candidateProfessionalDetails.department" name="department" id="department">
                         </div>
-
                     </div>
-
-                    <div class="row d-flex justify-content-center mt-2">
+                    
+                    <div class="row d-flex justify-content-center mt-2" *ngIf="!isFresher">
                         <div class="col-md-3">
-                            <label for="" class="form-lable">CTC</label>
-                            <input type="text" class="form-control form-ctc" placeholder="CTC" #ctc="ngModel"
-                                [(ngModel)]="candidateProfessionalDetails.ctc" name="ctc" id="ctc">
+                            <label for="" class="form-label">CTC</label>
+                            <input type="text" class="form-control form-ctc" placeholder="CTC" [(ngModel)]="candidateProfessionalDetails.ctc"
+                                name="ctc" id="ctc">
                         </div>
                         <div class="col-md-3">
-                            <label for="" class="form-lable">ECTC</label>
-                            <input type="text" class="form-control form-ctc" placeholder="ECTC" #ectc="ngModel"
+                            <label for="" class="form-label">ECTC</label>
+                            <input type="text" class="form-control form-ctc" placeholder="ECTC"
                                 [(ngModel)]="candidateProfessionalDetails.ectc" name="ectc" id="ectc">
-
                         </div>
                         <div class="col-md-2">
-                            <label for="" class="form-lable">Notice period</label>
+                            <label for="" class="form-label">Notice period</label>
                             <input type="text" class="form-control form-ctc" placeholder="Notice period"
-                                #noticePeriod="ngModel" [(ngModel)]="candidateProfessionalDetails.noticePeriod"
-                                name="noticePeriod" id="noticePeriod">
-
+                                [(ngModel)]="candidateProfessionalDetails.noticePeriod" name="noticePeriod" id="noticePeriod">
                         </div>
-
                     </div>
+                    
                     <div class="row d-flex justify-content-center mt-2">
                         <!-- <div class="col-md-4">
                             <label for="" class="form-lable">Certificate Names</label>

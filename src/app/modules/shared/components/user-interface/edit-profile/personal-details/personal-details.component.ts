@@ -13,6 +13,9 @@ export class PersonalDetailsComponent implements OnInit {
   @Output() previousStep = new EventEmitter<void>();
   @Output() onSuccess = new EventEmitter<void>();
   @Input() achievementsList: any;
+  isFresher: boolean = false;
+  
+
   @Input() candidateProfessionalDetails: any = {
     companyName: "",
     officialEmail: "",
@@ -38,6 +41,7 @@ export class PersonalDetailsComponent implements OnInit {
   newSoftSkill: string = "";
   certificateCompany: string = "";
   certificateYear: string ="";
+  
   constructor() { }
   ngOnInit(): void {
 
@@ -58,6 +62,9 @@ export class PersonalDetailsComponent implements OnInit {
   goBack() {
     this.previousStep.emit(this.candidateProfessionalDetails);
   }
+  userFresher() {
+    this.isFresher = !this.isFresher;
+}
 
   getData() {
     this.candidateProfessionalDetails = {
