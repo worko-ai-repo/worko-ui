@@ -1,6 +1,26 @@
 // #myDiv{
 //   display: none;
 // }
+
+
+
+.cdk-overlay-pane:not(.mat-mdc-autocomplete-panel-above) .div.mat-mdc-autocomplete-panel {
+  /* border-top-left-radius: 0; */
+  /* border-top-right-radius: 0; */
+  background-color: #0076B2 !important;
+}
+::ng-deep .mat-mdc-autocomplete-panel.mat-mdc-autocomplete-visible {
+  // visibility: visible;
+  background-color: #0A1E36 !important;
+}
+div.mat-mdc-autocomplete-panel, .mat-mdc-option.mdc-list-item {
+  align-items: center;
+  // background-color: #0A1E36 !important;
+  color: white !important;
+ 
+}
+ 
+
 .modal-content {
   position: relative;
   display: -ms-flexbox;
@@ -106,6 +126,7 @@ option{
 .material-input__group {
   position: relative;
   margin-bottom: 25px;
+  width: 100%;
 }
 
 
@@ -537,17 +558,27 @@ border-bottom:  1px solid red
 .tooltip-container {
   position: relative;
   display: inline-block;
+  background-color: #0A1E36;
+  
+}
+.tooltip-style{
+  font-size: 10px;
+  color: grey;
+  
+  
+
 }
 
 .tooltip-text {
   visibility: hidden;
-  width: 200px;
-  background-color: white;
-  color: black;
+  width: 231px;
+  background-color: #0A1E36;
+  color: white;
+  border: 1px solid #0076B2;
   // text-align: center;
   border-radius: 6px;
   padding: 5px;
-  font-size: 9px;
+  font-size: 8px;
   position: absolute;
   z-index: 1;
   bottom: 125%;
@@ -564,4 +595,8 @@ border-bottom:  1px solid red
 
 .tooltip-text span {
   display: block;
+}
+.div.mat-mdc-autocomplete-panel.mat-mdc-autocomplete-visible {
+  // visibility: visible;
+  background: transparent !important;
 }

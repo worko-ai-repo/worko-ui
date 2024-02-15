@@ -46,6 +46,10 @@ export class LoginPageComponent implements AfterViewInit  {
   isDivClose: boolean = true
   hideDiv: boolean = true
   errorMessage: string = "";
+  // checkboxChecked:boolean=false;
+  agreeTerms:boolean=false;
+  auto: any;
+
   form = {
     email: '',
     password: ''
@@ -60,7 +64,8 @@ export class LoginPageComponent implements AfterViewInit  {
     experience: '',
     expectedCtc: '',
     phoneNumber: '',
-    confirmPassword: ''
+    confirmPassword: '',
+    checkboxChecked:false
   }
   employeeForm = {
     name: '',
@@ -76,7 +81,9 @@ export class LoginPageComponent implements AfterViewInit  {
     confirmPassword: '',
     password: '',
     designationTag: '',
-    companySK:""
+    companySK:"",
+    agreeTerms: false,
+    
 
   }
   fileString: string = "";
