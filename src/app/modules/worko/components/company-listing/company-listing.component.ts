@@ -167,6 +167,7 @@ export class CompanyListingComponent implements OnInit {
     if(ModalType.REQUEST_GUIDANCE){
 if(this.referrralguidanceComponent){
   this.referrralguidanceComponent.isButtonScreen=true;
+  this.referrralguidanceComponent.requestSentScreen=false;
   this.referrralguidanceComponent.selectedService='';
 }
     }

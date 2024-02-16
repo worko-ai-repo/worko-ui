@@ -4,10 +4,10 @@
 
     <div class="row">
       <div class="col-md-12">
-        <h2 class="text-white bold ms-4 text-center" style="letter-spacing: 0.4px" *ngIf="selectedService==''">
+        <h2 class="text-white bold ms-4 text-center" style="letter-spacing: 0.4px" *ngIf="selectedService=='' && this.isButtonScreen">
           Request Guidance
         </h2><br>
-        <p class="text-white bold ms-4 text-center" style="letter-spacing: 0.4px;" *ngIf="selectedService==''">
+        <p class="text-white bold ms-4 text-center" style="letter-spacing: 0.4px;" *ngIf="selectedService=='' && this.isButtonScreen">
           Our career services provide personalized support from industry professionals with firsthand experience in your desired field. You'll get career assessments, insights, and guidance on interviews and resumes to help you achieve your professional goals.
         </p>
       </div>
@@ -245,7 +245,7 @@
 
 
 
-    <div *ngIf="requestSentScreen" class=" content-center">
+    <div *ngIf="requestSentScreen" class="content-center">
       <!-- backgroundImg -->
 
 
