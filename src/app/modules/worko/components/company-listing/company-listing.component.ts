@@ -161,10 +161,7 @@ export class CompanyListingComponent implements OnInit {
   openModal(modalType: ModalType, message: string = "", title: string = ""): void {
     if (this.referrralComponent) {
       this.referrralComponent.showReferrelRow = true;   
-      this.referrralComponent.requestForm={
-        jobUrl: '',
-        jobDescription:''
-      }
+      this.referrralComponent.requestForm.reset();   
       this.referrralComponent.showScore = false;
     }
     if(ModalType.REQUEST_GUIDANCE){

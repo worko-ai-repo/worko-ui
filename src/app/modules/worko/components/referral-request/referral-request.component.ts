@@ -2,6 +2,7 @@ import { Component, ElementRef, OnInit, ViewChild, Input, SimpleChanges  } from 
 import { CompanyListingService } from '../../services/company-listing.service';
 import { SubscriptionPackService } from '../../services/subscription-pack.service';
 import { StorageService } from 'src/app/modules/app-core/services/storage.service';
+import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 @Component({
   selector: 'app-referral-request',
   templateUrl: './referral-request.component.html',
@@ -24,10 +25,7 @@ export class ReferralRequestComponent implements OnInit {
   //   { "packageName": "Premium", "packageRupees": 499, "packageDuration": "25 referral / Month", isPopular: "no" },
   // ];
 
-  requestForm = {
-    jobUrl: '',
-    jobDescription:''
-  }
+  requestForm!: FormGroup;
   showScore: boolean = false;
   // subscriptionObj:any={
   //   SK:"",
@@ -41,41 +39,42 @@ export class ReferralRequestComponent implements OnInit {
   matchingScore: number = 0;
   referralRequestId: string = "";
   emailId: string = "";
-  constructor(private companyListing: CompanyListingService , private subscriptionPack : SubscriptionPackService, private storage: StorageService) { }
+  constructor(private companyListing: CompanyListingService , private subscriptionPack : SubscriptionPackService, private storage: StorageService,private formBuilder: FormBuilder,) { }
   ngOnInit(): void {
     // this.getSubcriptionPack();
+    this.initializeForm();
     this.emailId = this.storage.get("useremail");
   }
-
-  checkRequestReferral(form: any) {
-    console.log(this.requestForm);
-    console.log(this.selectedCompany);
-    this.companyListing.getReferralCount(this.emailId).then(async (response) => {
-      if (response.isSubscribed) {
-        let count = response.referralCount;
-        // let count = 0;
-        if (count) {
-          this.createRequest();
-          form.resetForm();
-          
-        } else {
-          this.showsubscriptionPlan = true;
-          this.showReferrelRow = false;
-        }
-      }
-    })
-      .catch(error => {
-        
-        console.error('Create Employee Error:', error);
-      });
+  initializeForm(): void {
+    this.requestForm = this.formBuilder.group({
+      jobUrl: ['', [Validators.required, Validators.pattern('^https:\/\/.*$')]],
+      jobDescription: ['', Validators.required]
+    });
   }
-
+  checkRequestReferral(): void {
+    if (this.requestForm.valid) {
+      this.companyListing.getReferralCount(this.emailId).then(async (response) => {
+        if (response.isSubscribed) {
+          let count = response.referralCount;
+          if (count) {
+            this.createRequest();
+            this.requestForm.reset();
+          } else {
+            this.showsubscriptionPlan = true;
+            this.showReferrelRow = false;
+          }
+        }
+      }).catch(error => {
+        console.error('Error:', error);
+      });
+    }
+  }
 
   createRequest() {
     
     let data = {
       "companySK": this.selectedCompany.SK,
-      "jobUrl": this.requestForm.jobUrl
+      "jobUrl": this.requestForm.value.jobUrl
     }
 
     this.companyListing.createReferralRequest(this.emailId, data).then(async (response) => {
