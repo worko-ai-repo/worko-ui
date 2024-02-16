@@ -1,4 +1,5 @@
-<ul
+<div class="gt">
+  <ul
   class="navbar-nav bg-color p-3 d-flex sidebar sidebar-dark accordion navbar-nav bg-gradient-primary sidebar sidebar-dark accordion"
   [class.toggled]="!isSidebarExpanded" >
   <a routerLink="/" class="sidebar-brand d-flex align-items-center justify-content-center position: fixed;">
@@ -7,7 +8,7 @@
     </div>
   </a>
 
-  <div class="navbar-container ">
+  <div class="navbar-container">
     <div class="d-flex service-list" *ngFor="let menu of menuItems">
       <div class="menu-bar py-2 ">
         <span class="ms-2 nav-link-text -pointer" routerLink="/{{menu.router}}" routerLinkActive="active-navbar">
@@ -153,3 +154,4 @@
     </button>
   </div> -->
 </ul>
+</div>
