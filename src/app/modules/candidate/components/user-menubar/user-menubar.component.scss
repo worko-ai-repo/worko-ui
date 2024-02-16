@@ -23,14 +23,17 @@
   top: 0;
   left: 0;
   overflow-x: hidden;
+  overflow-y: hidden;
   padding-top: 20px;
 }
 
 .logout-container {
   display: flex;
+  
   flex-direction: column;
   justify-content: flex-end; /* Align items at the end of the container */
   min-height: calc(43vh - 4.3rem); /* Set min-height to ensure the container takes up at least the height of the viewport minus the margin */
+  
 }
 .btn-logOut {
   background-color: transparent;
@@ -65,6 +68,6 @@
     fill: white;
   }
 
-  .gt ::-webkit-scrollbar{
-display: none;
-  }
+//   .main-div ::-webkit-scrollbar{
+// display: none;
+//   }
