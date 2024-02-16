@@ -3,3 +3,6 @@
     overflow-y: auto;
 
 }
+.row ::-webkit-scrollbar{
+    display: none;
+}
