@@ -455,7 +455,8 @@ div#globeViz {
 
     .text-area {
         .main-head {
-            font-size: 42px;
+            // height: 178px;
+            font-size: 39px;
             line-height: 65px;
             font-weight: 700;
             background: -webkit-linear-gradient(45deg, #4FC3F5 9%, #D1E4FB 90%);
@@ -472,6 +473,7 @@ div#globeViz {
             }
 
         }
+        
     }
 
     .counters {
