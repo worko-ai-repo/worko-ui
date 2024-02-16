@@ -14,7 +14,6 @@ export class CompanyListingComponent implements OnInit {
   @ViewChild(ModalComponent) modal!: ModalComponent;
   @ViewChild(ReferralRequestComponent) referrralComponent! : ReferralRequestComponent;
   @ViewChild(RequestGuidenceComponent) referrralguidanceComponent! : RequestGuidenceComponent;
-
   modalType = ModalType;
   modalMessage: string = "";
   modalTitle: string = "";
@@ -161,7 +160,8 @@ export class CompanyListingComponent implements OnInit {
     */
   openModal(modalType: ModalType, message: string = "", title: string = ""): void {
     if (this.referrralComponent) {
-      this.referrralComponent.showReferrelRow = true;
+      this.referrralComponent.showReferrelRow = true;   
+      this.referrralComponent.requestForm.reset();   
       this.referrralComponent.showScore = false;
     }
     if(ModalType.REQUEST_GUIDANCE){
@@ -169,6 +169,26 @@ if(this.referrralguidanceComponent){
   this.referrralguidanceComponent.isButtonScreen=true;
   this.referrralguidanceComponent.requestSentScreen=false;
   this.referrralguidanceComponent.selectedService='';
+  this.referrralguidanceComponent.reqGuidanceForm = {
+    mentorLevel: 0,
+    slot1Date: '',
+    slot1Time: '',
+    slot2Date: '',
+    slot2Time: '',
+    slot3Date: '',
+    slot3Time: '',
+    details: '',
+    masterServiceId: ''
+};
+
+this.referrralguidanceComponent.interviewGuidanceForm= {
+  mentorLevel:0,
+  slot1:'',
+  details:'',
+  masterServiceId: '',
+  companySK:'',
+  role:'',
+};
 }
     }
     this.showModal = modalType;
