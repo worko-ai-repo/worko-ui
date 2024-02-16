@@ -177,6 +177,28 @@ serviceText=''
   }
 
   goBack() {
+      // Reset requestGuidanceForm
+      this.reqGuidanceForm = {
+        mentorLevel: 0,
+        slot1Date: '',
+        slot1Time: '',
+        slot2Date: '',
+        slot2Time: '',
+        slot3Date: '',
+        slot3Time: '',
+        details: '',
+        masterServiceId: ''
+    };
+
+    this.interviewGuidanceForm= {
+      mentorLevel:0,
+      slot1:'',
+      details:'',
+      masterServiceId: '',
+      companySK:'',
+      role:'',
+    };
+
     // Handle the click event, for example, navigate back in history
     this.selectedService=''
     this.isButtonScreen=true;

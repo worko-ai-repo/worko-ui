@@ -167,7 +167,28 @@ export class CompanyListingComponent implements OnInit {
     if(ModalType.REQUEST_GUIDANCE){
 if(this.referrralguidanceComponent){
   this.referrralguidanceComponent.isButtonScreen=true;
+  this.referrralguidanceComponent.requestSentScreen=false;
   this.referrralguidanceComponent.selectedService='';
+  this.referrralguidanceComponent.reqGuidanceForm = {
+    mentorLevel: 0,
+    slot1Date: '',
+    slot1Time: '',
+    slot2Date: '',
+    slot2Time: '',
+    slot3Date: '',
+    slot3Time: '',
+    details: '',
+    masterServiceId: ''
+};
+
+this.referrralguidanceComponent.interviewGuidanceForm= {
+  mentorLevel:0,
+  slot1:'',
+  details:'',
+  masterServiceId: '',
+  companySK:'',
+  role:'',
+};
 }
     }
     this.showModal = modalType;
