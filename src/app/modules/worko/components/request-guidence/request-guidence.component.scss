@@ -321,4 +321,10 @@
     margin-bottom: 10%;
 }
 
-  
+input[type="date"]::-webkit-calendar-picker-indicator {
+    filter: invert(100%);
+  }
+
+  .selector-time::-webkit-calendar-picker-indicator {
+    filter: invert(100%);
+}
