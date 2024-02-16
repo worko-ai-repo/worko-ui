@@ -33,9 +33,22 @@ export class NavbarComponent {
     this.userLoggedIn = await this.cognitoService.isLoggedIn();
     if(this.userLoggedIn){
       if (userType == "CAND") {
-        this.router.navigate(['/candidate/cdashboard']);
+        if (this.router.url.includes('/company-listing')) {
+          // Redirect to the company listing page
+          this.router.navigate(['/company-listing']);
+          this.modal.cancel();
+        }else{
+          this.router.navigate(['/candidate/cdashboard']);
+        }
+        
       } else {
-        this.router.navigate(['/employee/edashboard']);
+        if (this.router.url.includes('/company-listing')) {
+          // Redirect to the company listing page
+          this.router.navigate(['/company-listing']);
+          this.modal.cancel();
+        }else{
+          this.router.navigate(['/employee/edashboard']);
+        }
       }
     }
   }
