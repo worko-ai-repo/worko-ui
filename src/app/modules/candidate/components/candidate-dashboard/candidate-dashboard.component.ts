@@ -27,12 +27,13 @@ export class CandidateDashboardComponent {
 
   ngOnInit(): void {
     this.emailAddress = this.storage.get("useremail");
-    // this.spinner.show();
+    
     this.getCandidateDetails()
 
   }
 
   async getCandidateDetails() {
+    this.spinner.show();
     await this.candidateSrv.getUserDetails(this.emailAddress).then(async (response) => {
       if (response) {
         this.candidateList = response
@@ -98,7 +99,8 @@ export class CandidateDashboardComponent {
     await this.candidateSrv.getProfileComplete(this.emailAddress).then(async(response)=>{
       // if (Array.isArray(response) ) {
          this.profileCompletion=response;
-         console.log(  this.profileCompletion);
+         this.spinner.hide();
+        //  console.log(  this.profileCompletion);
       //  }
      })
    }

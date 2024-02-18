@@ -464,6 +464,7 @@
                           [formControl]="myControl"
                           [matAutocomplete]="auto"
                           placeholder="Select Company Name"
+                          name="companyName"
                         />
                         <mat-autocomplete 
                           #auto="matAutocomplete"
@@ -529,6 +530,7 @@
                           placeholder="Phone number"
                           class="text-white material-input__group__input"
                           #phoneNumber="ngModel"
+                          [title]="phoneNumber.errors?.['pattern'] ? 'Phone number is invalid' : ''"
                           pattern="^\+(?:[0-9] ?){6,14}[0-9]$"
                           maxlength="17"
                           [(ngModel)]="employeeForm.phoneNumber"
@@ -606,7 +608,7 @@
                       </div>
                     </div>
                     <div class="form-check">
-                      <input class="form-check-input" type="checkbox" value="" id="flexCheckEmployee" [(ngModel)]="employeeForm.agreeTerms">
+                      <input class="form-check-input" type="checkbox" value="" id="flexCheckEmployee" [(ngModel)]="employeeForm.agreeTerms" name="agreeTerms">
                       <label class="form-check-label" for="flexCheckEmployee">
                         By checking this you are agreeing to our <span style="color: #5cc3e6"><a href="">terms of use ?</a></span>
                       </label>
@@ -615,31 +617,17 @@
                     <div
                       class="col-md-12 mt-4 ms-2 d-flex justify-content-center"
                     >
+                   
                     <div class="col-md-12 mt-4 ms-2 d-flex justify-content-center">
                       <button class="btn btn-signUp" type="submit"
-                        [disabled]="
-                          !employee.form.valid ||
-                          !employeeForm.name ||
-                          !employeeForm.designationTag || 
-                          !employeeForm.emailId ||
-                          !selectedCompany.name ||
-                          !selectedCompany.SK ||
-                          !employeeForm.phoneNumber ||
-                          !employeeForm.companyEmailID ||
-                          !employeeForm.linkdinProfile ||
-                          !employeeForm.experience ||
-                          !employeeForm.department ||
-                          !employeeForm.designation ||
-                          !employeeForm.confirmPassword ||
-                          !(employeeForm.password === employeeForm.confirmPassword) ||
-                          !employeeForm.agreeTerms 
-                        "
+                     [disabled]="!employee.form.valid || !employeeForm.name || !employeeForm.emailId || !employeeForm.phoneNumber ||!employeeForm.companyEmailID ||!employeeForm.department || !employeeForm.confirmPassword ||!(employeeForm.password === employeeForm.confirmPassword) ||!employeeForm.agreeTerms ||!selectedCompany?.name ||!selectedCompany?.SK"
+                   
                       >
                         SIGN UP
                       </button>
                     </div>
                     </div>
-
+  
                     <div
                       class="col-md-12 d-flex justify-content-center ms-2 mt-2"
                     >

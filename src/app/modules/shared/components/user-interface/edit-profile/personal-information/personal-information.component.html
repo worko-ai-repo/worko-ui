@@ -1,19 +1,16 @@
 <div class="">
     <div class="card-body">
-       
         <div class="row">
             <div class="col-md-3">
-                
-              
                 <div class="row">
-                    <div class="col-md-12 mt-2"> 
-                    <img src="{{candidatePersonalDetails.profilePicUrl}}" class="candidate-img float-end" alt="">
+                    <div class="col-md-12 mt-2">
+                        <img src="{{candidatePersonalDetails.profilePicUrl}}" class="candidate-img float-end" alt="">
                     </div>
                     <span class="error-message upload-error">{{picErrorMessage}}</span>
                     <div class="col-md-12">
                         <div class="file-container">
                             <label for="file" class="file-label">
-        
+
                                 <div class="upload-text w-100" *ngIf="fileName; else defaultText">
                                     <!-- {{ fileName }} -->
                                     Uploaded
@@ -26,44 +23,49 @@
                         </div>
                     </div>
                 </div>
-                
+
             </div>
             <div class="col-md-9">
                 <form (ngSubmit)="candidate.form.valid && createEducation(form)" #candidate="ngForm" novalidate>
                     <div class="row">
                         <div class="col-md-5">
-                            <label for="" class="form-lable">Name</label>
+                            <label for="" class="form-lable required-form-field">Name</label>
                             <input type="text" class="form-control form-input" placeholder="Name" #name="ngModel"
-                            pattern="^([ \u00c0-\u01ffa-zA-Z'.])+$" [(ngModel)]="candidatePersonalDetails.name" name="name" id="name">
+                                pattern="^([ \u00c0-\u01ffa-zA-Z'.])+$" [(ngModel)]="candidatePersonalDetails.name"
+                                name="name" id="name">
                         </div>
                         <div class="col-md-5">
-                            <label for="" class="form-lable">Email</label>
+                            <label for="" class="form-lable required-form-field">Email</label>
                             <input type="text" class="form-control form-input" placeholder="123@gmail.com"
                                 pattern="^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,4}$"
                                 [title]="email.errors?.['pattern'] ? 'Email is invalid' : ''" #email="ngModel"
                                 [(ngModel)]="candidatePersonalDetails.email" name="email" id="email">
-
+                                <h2 *ngIf="!candidatePersonalDetails.isEmailVerified && !email.invalid" (click)="openOtpModal()" class="badge  verify-text-label -pointer">Verify</h2>
+                                <h2 *ngIf="candidatePersonalDetails.isEmailVerified && !email.invalid" class="badge  verify-text-label text-green">Verified</h2>
                         </div>
 
 
                     </div>
                     <div class="row mt-1">
                         <div class="col-md-5">
-                            <label for="" class="form-lable">Phone no</label>
+                            <label for="" class="form-lable required-form-field">Phone no</label>
                             <input type="text" class="form-control form-input" placeholder="+91 XXXXXXXXXX"
-                                pattern="^\+(?:[0-9] ?){6,14}[0-9]$" maxlength="17"
-                                #phoneNo="ngModel" [(ngModel)]="candidatePersonalDetails.phoneNo" name="phoneNo"
+                                pattern="^\+(?:[0-9] ?){6,14}[0-9]$" maxlength="17" #phoneNo="ngModel"
+                                [(ngModel)]="candidatePersonalDetails.phoneNo" name="phoneNo"
                                 [ngClass]="{ 'is-invalid': phoneNo.invalid && (phoneNo.dirty || phoneNo.touched) }"
                                 id="phoneNo">
-                                <!-- <div *ngIf="phoneNo.invalid && (phoneNo.dirty || phoneNo.touched)" class="text-danger">
+                                <h2 *ngIf="!candidatePersonalDetails.isNumberVerified && !phoneNo.invalid" (click)="openOtpModal()" class="badge  verify-text-label -pointer">Verify</h2>
+                                <h2 *ngIf="candidatePersonalDetails.isNumberVerified && !phoneNo.invalid" class="badge  verify-text-label text-green">Verified</h2>
+                            <!-- <div *ngIf="phoneNo.invalid && (phoneNo.dirty || phoneNo.touched)" class="text-danger">
                                     <div *ngIf="phoneNo.errors && phoneNo.errors['required']"><small>Phone number is required</small></div>
                                     <div *ngIf="phoneNo.errors && phoneNo.errors['pattern']"><small>Phone number is invalid</small></div>
                                   </div> -->
                         </div>
                         <div class="col-md-5">
-                            <label for="" class="form-lable">Location</label>
-                            <input type="text" class="form-control form-input" placeholder="Enter address" #location="ngModel"
-                                [(ngModel)]="candidatePersonalDetails.location" name="location" id="location">
+                            <label for="" class="form-lable required-form-field">Location</label>
+                            <input type="text" class="form-control form-input" placeholder="Enter address"
+                                #location="ngModel" [(ngModel)]="candidatePersonalDetails.location" name="location"
+                                id="location">
 
                         </div>
                     </div>
@@ -86,8 +88,8 @@
                         <div class="col-md-2">
                             <label for="" class="form-lable">Passing Year</label>
                             <input type="text" class="form-control form-input" placeholder="passing Year"
-                               pattern="^(19|20)\d{2}$" #passingYear="ngModel" [(ngModel)]="candidatePersonalDetails.passingYear"
-                                name="passingYear" id="passingYear">
+                                pattern="^(19|20)\d{2}$" #passingYear="ngModel"
+                                [(ngModel)]="candidatePersonalDetails.passingYear" name="passingYear" id="passingYear">
 
 
                         </div>
@@ -104,7 +106,7 @@
                         <div class="col-md-2">
                             <label for="" class="form-lable">College Degree</label>
                             <input type="text" class="form-control form-input" placeholder="College Degree"
-                            #collegeDegree1="ngModel" [(ngModel)]="candidatePersonalDetails.collegeDegree1"
+                                #collegeDegree1="ngModel" [(ngModel)]="candidatePersonalDetails.collegeDegree1"
                                 name="collegeDegree1" id="collegeDegree1">
 
 
@@ -112,8 +114,9 @@
                         <div class="col-md-2">
                             <label for="" class="form-lable">Passing Year </label>
                             <input type="text" class="form-control form-input" placeholder="passing Year"
-                            pattern="^(19|20)\d{2}$" #passingYear1="ngModel" [(ngModel)]="candidatePersonalDetails.passingYear1"
-                                name="passingYear1" id="passingYear1">
+                                pattern="^(19|20)\d{2}$" #passingYear1="ngModel"
+                                [(ngModel)]="candidatePersonalDetails.passingYear1" name="passingYear1"
+                                id="passingYear1">
 
 
                         </div>
@@ -121,7 +124,7 @@
                     </div>
                     <div class="row">
                         <div class="col-md-10 mt-1">
-                            <label for="" class="form-lable">About</label>
+                            <label for="" class="form-lable required-form-field">About</label>
                             <textarea class="about-textarea form-control" placeholder="About" cols="10" rows="3"
                                 #about="ngModel" [(ngModel)]="candidatePersonalDetails.about" name="about" id="about">
                                     </textarea>
@@ -133,36 +136,45 @@
                         </div>
                         <div class="col-md-3">
                             <div class="material-input__group">
-                            <i class="fa-brands fa-github" style="color: #f6f7f9; font-size: 16px"></i>
-                            <input type="text" placeholder="Github"  class="text-white material-input__group__input form-input form-control"
-                                #socialLinkGithub="ngModel" [(ngModel)]="candidatePersonalDetails.socialLinkGithub"
-                                name="socialLinkGithub" id="socialLinksGithub">
+                                <label for="" class="form-lable">Github</label>
+                                <i class="fa-brands fa-github" style="color: #f6f7f9; font-size: 16px"></i>
+                                <input type="text" placeholder="Github"
+                                    class="text-white material-input__group__input form-input form-control"
+                                    #socialLinkGithub="ngModel" [(ngModel)]="candidatePersonalDetails.socialLinkGithub"
+                                    name="socialLinkGithub" id="socialLinksGithub">
                             </div>
                         </div>
                         <div class="col-md-3">
                             <div class="material-input__group">
-                            <i class="fa-brands fa-linkedin" style="color: #f6f7f9; font-size: 16px"></i>
-                            <input type="text" placeholder="LinkdIn"  class="text-white material-input__group__input form-input form-control"
-                                #socialLinklinkdin="ngModel" [(ngModel)]="candidatePersonalDetails.socialLinklinkdin"
-                                pattern="^(https?:\/\/(www\.)?linkedin\.com\/in\/[a-zA-Z0-9_\-]+\/?)$"
-                                [title]="socialLinklinkdin.errors?.['pattern'] ? 'Linkedin URL is invalid' : ''" name="socialLinklinkdin" id="socialLinklinkdin">
+                                <label for="" class="form-lable required-form-field">LinkedIn</label>
+                                <i class="fa-brands fa-linkedin" style="color: #f6f7f9; font-size: 16px"></i>
+                                <input type="text" placeholder="LinkdIn"
+                                    class="text-white material-input__group__input form-input form-control"
+                                    #socialLinklinkdin="ngModel"
+                                    [(ngModel)]="candidatePersonalDetails.socialLinklinkdin"
+                                    pattern="^(https?:\/\/(www\.)?linkedin\.com\/in\/[a-zA-Z0-9_\-]+\/?)$"
+                                    [title]="socialLinklinkdin.errors?.['pattern'] ? 'Linkedin URL is invalid' : ''"
+                                    name="socialLinklinkdin" id="socialLinklinkdin">
                             </div>
                         </div>
                         <div class="col-md-3">
                             <div class="material-input__group">
+                                <label for="" class="form-lable">Twitter</label>
                                 <i class="fa-brands fa-twitter" style="color: #f6f7f9; font-size: 16px"></i>
                                 <input type="text" placeholder="Twitter"
-                                class="text-white material-input__group__input form-input form-control"
-                                    #socialLinktwitter="ngModel" [(ngModel)]="candidatePersonalDetails.socialLinktwitter"
-                                    name="socialLinktwitter" id="socialLinktwitter">
+                                    class="text-white material-input__group__input form-input form-control"
+                                    #socialLinktwitter="ngModel"
+                                    [(ngModel)]="candidatePersonalDetails.socialLinktwitter" name="socialLinktwitter"
+                                    id="socialLinktwitter">
                             </div>
-                           
-                            
+
+
                         </div>
                     </div>
                     <div class="row">
                         <div class="col-md-10 mt-3">
-                            <button class="btn btn-next float-end" type="submit"    [disabled]="( !candidate.form.valid )">Next</button>
+                            <button class="btn btn-next float-end" type="submit"
+                                [disabled]="( !candidate.form.valid || !candidatePersonalDetails.socialLinklinkdin || !candidatePersonalDetails.phoneNo || !candidatePersonalDetails.email || !candidatePersonalDetails.name || !candidatePersonalDetails.location  || !candidatePersonalDetails.about )">Next</button>
                         </div>
 
                     </div>
@@ -171,3 +183,15 @@
         </div>
     </div>
 </div>
+
+<app-modal [theme]="'theme-k'" [centered]="true" [showHeader]="showModal === modalType.MESSAGE"
+[showClose]="true" [modalSize]="'md'"
+  [showFooter]="showModal === modalType.MESSAGE" [title]="modalTitle" [message]="modalMessage"
+  [bodyClass]="modalMessage ? 'p-4' : 'p-0'">
+
+  <ng-container *ngIf="showModal === modalType.OTP_VERIFICATION">
+    <app-otp-verification-modal *ngIf="showModal === modalType.OTP_VERIFICATION"  (onSuccess)="receiveDataFromChild($event)"  ></app-otp-verification-modal>
+  </ng-container>
+
+
+</app-modal>
