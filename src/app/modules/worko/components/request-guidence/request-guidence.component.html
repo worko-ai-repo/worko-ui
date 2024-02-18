@@ -30,7 +30,7 @@
               {{selectedService}}
             </h3>
           </div>
-          <div class="col-md-12" *ngIf="selectedService =='' && this.isButtonScreen">
+          <div class="col-md-12" *ngIf="this.isButtonScreen">
             <img src="/assets/public/i.png" alt="" class="images ref-page ms-3"  style="margin-top: 7%; width: 400px; height:400px"/>
           </div>
           <div class="col-md-12" *ngIf="selectedService === 'Career guidance' || selectedService === 'Mock Interview' || selectedService === 'Resume Review' || selectedService === 'Interview Mentorship'">

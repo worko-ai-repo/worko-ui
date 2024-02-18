@@ -23,13 +23,13 @@
           
             <div class="col-md-12">
               <label for="jobDescription" class="form-lable required-form-field">Enter job description</label>
-              <textarea formControlName="jobDescription" id="jobDescription" class="form-control text-white input-jobDescription"></textarea>
+              <textarea formControlName="jobDescription" id="jobDescription" class="form-control text-white input-jobDescription"  style="max-height: 100px;"></textarea>
               <div *ngIf="requestForm.get('jobDescription')?.invalid && (requestForm.get('jobDescription')?.dirty || requestForm.get('jobDescription')?.touched)" class="text-danger">
                 Please enter a job description.
               </div>
             </div>
           
-            <div class="col-md-12 py-4">
+            <div class="col-md-12 py-3">
               <button class="btn req-btn" type="submit" [disabled]="!requestForm.valid">REQUEST NOW</button>
             </div>
           </form>

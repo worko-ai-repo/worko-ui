@@ -168,7 +168,11 @@ export class CompanyListingComponent implements OnInit {
 if(this.referrralguidanceComponent){
   this.referrralguidanceComponent.isButtonScreen=true;
   this.referrralguidanceComponent.requestSentScreen=false;
-  this.referrralguidanceComponent.selectedService='';
+  this.referrralguidanceComponent.scheduleScreen = false;
+    this.referrralguidanceComponent.pendingScreen = false;
+    this.referrralguidanceComponent.rejectedScreen = false;
+    this.referrralguidanceComponent.isFormVisible = false;
+  // this.referrralguidanceComponent.selectedService='';
   this.referrralguidanceComponent.reqGuidanceForm = {
     mentorLevel: 0,
     slot1Date: '',
