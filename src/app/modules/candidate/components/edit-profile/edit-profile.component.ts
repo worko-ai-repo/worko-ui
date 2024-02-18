@@ -5,6 +5,7 @@ import { StorageService } from 'src/app/modules/app-core/services/storage.servic
 import { error } from 'jquery';
 import { AuthService } from 'src/app/modules/worko/services/auth.service';
 import { Router } from '@angular/router';
+import { NgxSpinnerService } from 'ngx-spinner';
 @Component({
   selector: 'app-edit-profile',
   templateUrl: './edit-profile.component.html',
@@ -38,7 +39,7 @@ export class EditProfileComponent implements OnInit {
   uploadedProfilePicName: string = "";
 
 
-  constructor(private router: Router, private candidateSrv: CandidateProfileService, private storage: StorageService, private authService: AuthService) { }
+  constructor(private spinner: NgxSpinnerService, private router: Router, private candidateSrv: CandidateProfileService, private storage: StorageService, private authService: AuthService) { }
   ngOnInit(): void {
     console.log(this.firstStepData)
     this.emailAddress = this.storage.get("useremail");
@@ -60,8 +61,9 @@ export class EditProfileComponent implements OnInit {
     let workExperience =
       [{
         "companyName": this.secondStepData?.companyName,
+        "companySK": this.secondStepData?.companySK,
         "emailId": this.secondStepData?.officialEmail,
-        "designation": this.secondStepData?.desigination,
+        "designation": this.secondStepData?.designation,
         "department": this.secondStepData?.department,
         "SK": this.workExperienceDetails ? this.workExperienceDetails.SK : "",
         "PK": this.workExperienceDetails ? this.workExperienceDetails.PK : ""
@@ -209,6 +211,7 @@ export class EditProfileComponent implements OnInit {
     await this.candidateSrv.createUserDetails(this.emailAddress, userDetails).then(async (response) => {
       if (response) {
         // this.createUserDetails();
+        this.spinner.hide();
         this.router.navigate(['/candidate/cdashboard']);
       }
     })
@@ -218,6 +221,7 @@ export class EditProfileComponent implements OnInit {
 
 
   async getCandidateDetails() {
+    this.spinner.show();
     await this.candidateSrv.getUserDetails(this.emailAddress).then(async (response) => {
       if (response) {
         this.candidateList = response[0];
@@ -274,6 +278,7 @@ export class EditProfileComponent implements OnInit {
       if (Array.isArray(response) && response.length > 0) {
         this.achievements = response[0];
         this.achievementsList = response[0].achievements;
+        this.spinner.hide();
       }
     })
   }
@@ -322,6 +327,7 @@ export class EditProfileComponent implements OnInit {
 
   //When uer click on "Complete" on 3rd step
   onSuccess(data: any) {
+    this.spinner.show();
     this.thirdStepData = data;
     this.uploadUserCV();
   }

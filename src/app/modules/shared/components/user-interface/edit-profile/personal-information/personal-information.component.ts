@@ -1,6 +1,7 @@
-import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
+import { Component, EventEmitter, Input, OnInit, Output, ViewChild} from '@angular/core';
 import { CandidateProfileService } from 'src/app/modules/candidate/services/candidate-profile.service';
-
+import { ModalComponent } from '../../../modal/modal.component'; 
+import { ModalType } from 'src/app/modules/shared/interfaces/shared.interface';
 @Component({
   selector: 'app-personal-information',
   templateUrl: './personal-information.component.html',
@@ -9,6 +10,7 @@ import { CandidateProfileService } from 'src/app/modules/candidate/services/cand
 
 })
 export class PersonalInformationComponent implements OnInit {
+  @ViewChild(ModalComponent) modal!: ModalComponent;
   @Output() nextStep = new EventEmitter<void>();
   @Input() candidateList: any;
   @Input() educationList: any;
@@ -47,6 +49,11 @@ export class PersonalInformationComponent implements OnInit {
 
 
   };
+
+  modalType = ModalType;
+  modalMessage: string = "";
+  modalTitle: string = "";
+  showModal: ModalType | undefined;
   form = {
 
   }
@@ -91,7 +98,9 @@ export class PersonalInformationComponent implements OnInit {
       socialLinktwitter: this.candidateSocial?.twitter,
       socialSk: this.candidateSocial?.SK,
       socialPk: this.candidateSocial?.PK,
-      profilePicUrl: "/assets/public/candidate-img.png"
+      profilePicUrl: "/assets/public/candidate-img.png",
+      isEmailVerified: this.candidateList?.isEmailVerified,
+      isNumberVerified: this.candidateList?.isEmailVerified,
 
     }
   }
@@ -145,5 +154,35 @@ export class PersonalInformationComponent implements OnInit {
       }
     }
   }
+  openOtpModal(){
+    this.openModal(ModalType.OTP_VERIFICATION);
+  }
 
+    /**
+    * Open modal.
+    *
+    * @param {ModalType} modalType
+    * @param {string} [message = ""]
+    * @param {string} [title = ""]
+    * @returns {void}
+    */
+    openModal(modalType: ModalType, message: string = "", title: string = ""): void {
+      this.showModal = modalType;
+      this.modalMessage = message;
+      this.modalTitle = title;
+      this.modal.open();
+    }
+    /**
+     * Close modal.
+     *
+     * @returns {void}
+     */
+    closeModal(): void {
+      // this.referrralComponent.showReferrelRow = true;
+      this.modal.cancel();
+    }
+
+    receiveDataFromChild(data: any){
+      this.modal.cancel();
+    }
 }

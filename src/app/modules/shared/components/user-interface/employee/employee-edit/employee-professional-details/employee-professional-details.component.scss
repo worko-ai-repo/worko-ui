@@ -36,3 +36,19 @@
   .text-green{
     color:green;
   }
+  .cdk-overlay-pane:not(.mat-mdc-autocomplete-panel-above) .div.mat-mdc-autocomplete-panel {
+    /* border-top-left-radius: 0; */
+    /* border-top-right-radius: 0; */
+    background-color: #0076B2 !important;
+  }
+  ::ng-deep .mat-mdc-autocomplete-panel.mat-mdc-autocomplete-visible {
+    // visibility: visible;
+    background-color: #0A1E36 !important;
+  }
+  div.mat-mdc-autocomplete-panel, .mat-mdc-option.mdc-list-item {
+    align-items: center;
+    min-height: 30px !important;
+    // background-color: #0A1E36 !important;
+    color: white !important;
+   
+  }
