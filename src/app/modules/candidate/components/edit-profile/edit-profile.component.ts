@@ -222,12 +222,25 @@ export class EditProfileComponent implements OnInit {
 
   async getCandidateDetails() {
     this.spinner.show();
-    await this.candidateSrv.getUserDetails(this.emailAddress).then(async (response) => {
+    try {
+      const response = await this.candidateSrv.getUserDetails(this.emailAddress);
       if (response) {
         this.candidateList = response[0];
         await this.getEducationDetails();
       }
-    })
+    } catch (error:any) {
+      if (error.status === 401) {
+        this.spinner.hide();
+        this.router.navigate(['/']);
+        // Handle unauthorized or forbidden error
+        console.error('Unauthorized or Forbidden:', error);
+        // For example, you can redirect the user to a login page or display an error message
+      } else {
+        // Handle other errors
+        console.error('An error occurred:', error);
+        // For example, display an error message to the user
+      }
+    }
   }
 
   async getEducationDetails() {
