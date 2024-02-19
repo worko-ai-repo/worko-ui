@@ -30,7 +30,7 @@
               {{selectedService}}
             </h3>
           </div>
-          <div class="col-md-12" *ngIf="selectedService ==''">
+          <div class="col-md-12" *ngIf="this.isButtonScreen">
             <img src="/assets/public/i.png" alt="" class="images ref-page ms-3"  style="margin-top: 7%; width: 400px; height:400px"/>
           </div>
           <div class="col-md-12" *ngIf="selectedService === 'Career guidance' || selectedService === 'Mock Interview' || selectedService === 'Resume Review' || selectedService === 'Interview Mentorship'">
@@ -92,7 +92,7 @@
                 <div class="container ml-4">
                   <div class="row d-flex justify-content-center">
                     <div class="col-md-5 mb-2 p-0">
-                      <input class="selector-date" type="date" #slot1Date="ngModel" matInput
+                      <input class="selector-date" type="date" #slot1Date="ngModel" 
                         [(ngModel)]="reqGuidanceForm.slot1Date" name="slot1Date" id="slot1Date"
                         placeholder="Choose date"  [min]="getTomorrowDate()" [max]="getFutureDate()" >
                       <!-- <input type="text" class="selector-date" (click)="picker1.open()" #slot1Date="ngModel" matInput
@@ -106,7 +106,7 @@
                     </div>
 
                     <div class="col-md-5 p-0">
-                      <input class="selector-time" type="time" #slot1Time="ngModel" matInput
+                      <input class="selector-time" type="time" #slot1Time="ngModel" 
                         [(ngModel)]="reqGuidanceForm.slot1Time" name="slot1Time" id="slot1Time"
                         placeholder="Choose time"  >
 
@@ -160,9 +160,9 @@
                       Explain your requirement
                     </div>
                     <div class="col-md-10 p-0">
-                      <!-- <label for="" class="form-lable">Explain your requirement </label> -->
-                      <textarea name="" id="" placeholder="Enter your requirements" cols="39" rows="2" class="selector-date" #details="ngModel"
-                        [(ngModel)]="reqGuidanceForm.details" name="details" style="height: 120px;">
+                      
+                      <textarea name="" id="" placeholder="Explain your requirements" cols="39" rows="2" class="selector-date" #details="ngModel"
+                        [(ngModel)]="reqGuidanceForm.details" name="details" style="height: 120px; padding-left: 10px; text-align: left;">
                     </textarea>
                     </div>
 
@@ -229,7 +229,7 @@
                 </div>
                 <div class="col-md-12">
                   <textarea name="" placeholder="Explain your requirement" id="" cols="39" rows="2" class="selector-date" #details="ngModel"
-                    [(ngModel)]="interviewGuidanceForm.details" name="details" style="height: 120px;">
+                    [(ngModel)]="interviewGuidanceForm.details" name="details" style="height: 120px; padding-left: 10px; text-align: left;">
             </textarea>
                 </div>
                 <div class="com-md-12 text-center mt-2 mb-3">

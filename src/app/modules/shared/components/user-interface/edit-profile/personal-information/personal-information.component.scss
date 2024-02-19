@@ -76,7 +76,7 @@
 }
 .material-input__group__input {
   font-family: 'Ubuntu', sans-serif;
-  padding: 0px 0px 3px 25px;
+  padding: 0px 15px 3px 25px;
   display: block;
   width: 100%;
   border-bottom: 1px solid #fff;
@@ -89,13 +89,21 @@
 
 .material-input__group i {
   position: absolute;
-  top: 7px;
-  left: 5px;
-  color: #6b33ee;
+  top: 37px;
+  left: 7px;
   font-size: 12px;
 }
-
 .form-control:focus{
   background-color: transparent !important;
   color:#FFF !important;
+}
+ 
+.verify-text-label{
+  color:red;
+  position: absolute;
+  top: 35px;
+  right: 17px;
+}
+.text-green{
+  color:green;
 }

@@ -161,17 +161,18 @@ export class CompanyListingComponent implements OnInit {
   openModal(modalType: ModalType, message: string = "", title: string = ""): void {
     if (this.referrralComponent) {
       this.referrralComponent.showReferrelRow = true;   
-      this.referrralComponent.requestForm={
-        jobUrl: '',
-        jobDescription:''
-      }
+      this.referrralComponent.requestForm.reset();   
       this.referrralComponent.showScore = false;
     }
     if(ModalType.REQUEST_GUIDANCE){
 if(this.referrralguidanceComponent){
   this.referrralguidanceComponent.isButtonScreen=true;
   this.referrralguidanceComponent.requestSentScreen=false;
-  this.referrralguidanceComponent.selectedService='';
+  this.referrralguidanceComponent.scheduleScreen = false;
+    this.referrralguidanceComponent.pendingScreen = false;
+    this.referrralguidanceComponent.rejectedScreen = false;
+    this.referrralguidanceComponent.isFormVisible = false;
+  // this.referrralguidanceComponent.selectedService='';
   this.referrralguidanceComponent.reqGuidanceForm = {
     mentorLevel: 0,
     slot1Date: '',

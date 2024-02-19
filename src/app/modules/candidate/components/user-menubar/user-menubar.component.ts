@@ -64,11 +64,11 @@ export class UserMenubarComponent {
           router: "employee/edashboard"
         },
         {
-          name: 'Referral',
+          name: 'Referral request',
           router: "employee/ereferral"
         },
         {
-          name: 'Service',
+          name: 'Service request',
           router: "employee/eservice"
         },
         {

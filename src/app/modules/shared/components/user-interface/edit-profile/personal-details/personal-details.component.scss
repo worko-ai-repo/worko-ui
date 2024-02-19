@@ -84,6 +84,7 @@
   border: 1px solid;
   height: 30px;
   width: 190px;
+  display:inline;
 }
 
 .btn-add {
@@ -161,3 +162,20 @@
 .btn:hover {
   background-color: #36D0FF;
 }
+
+.cdk-overlay-pane:not(.mat-mdc-autocomplete-panel-above) .div.mat-mdc-autocomplete-panel {
+  /* border-top-left-radius: 0; */
+  /* border-top-right-radius: 0; */
+  background-color: #0076B2 !important;
+}
+::ng-deep .mat-mdc-autocomplete-panel.mat-mdc-autocomplete-visible {
+  // visibility: visible;
+  background-color: #0A1E36 !important;
+}
+div.mat-mdc-autocomplete-panel, .mat-mdc-option.mdc-list-item {
+  align-items: center;
+  // background-color: #0A1E36 !important;
+  color: white !important;
+ 
+}
+ 

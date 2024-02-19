@@ -308,15 +308,15 @@ validateName() {
           name: this.employeeForm.name,
           email: this.employeeForm.emailId,
           number: this.employeeForm.phoneNumber,
-          linkedinUrl: this.employeeForm.linkdinProfile,
+          // linkedinUrl: this.employeeForm.linkdinProfile,
           YOE: Number(this.employeeForm.experience),
-          designation: this.employeeForm.designation,
+          // designation: this.employeeForm.designation,
           department: this.employeeForm.department,
           companyEmailId: this.employeeForm.companyEmailID,
           companyName: this.selectedCompany.name,
           companySK: this.selectedCompany.SK,
           userId: response.userId,
-          designationTag: Number(this.employeeForm.designationTag)
+          // designationTag: Number(this.employeeForm.designationTag)
         }
 
         this.authService.createEmployee(employeeData).then(async () => {
