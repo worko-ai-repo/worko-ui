@@ -221,16 +221,17 @@ export class EditProfileComponent implements OnInit {
 
 
   async getCandidateDetails() {
-    this.spinner.show();
     try {
+      this.spinner.show();
       const response = await this.candidateSrv.getUserDetails(this.emailAddress);
       if (response) {
         this.candidateList = response[0];
         await this.getEducationDetails();
       }
-    } catch (error:any) {
+      this.spinner.hide(); // Hide the spinner after successful API call
+    } catch (error: any) {
+      this.spinner.hide(); // Hide the spinner in case of error as well
       if (error.status === 401) {
-        this.spinner.hide();
         this.router.navigate(['/']);
         // Handle unauthorized or forbidden error
         console.error('Unauthorized or Forbidden:', error);
@@ -242,6 +243,7 @@ export class EditProfileComponent implements OnInit {
       }
     }
   }
+  
 
   async getEducationDetails() {
     await this.candidateSrv.getCandidateEducation(this.emailAddress).then(async (response) => {
