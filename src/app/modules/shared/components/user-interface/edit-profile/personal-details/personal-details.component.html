@@ -43,15 +43,13 @@
             
                                 </div> -->
             
-                            <div class="row d-flex text-center mt-2">
-                                <div class="col-md-5">
-                                    <label class="form-check-label text-center ps-3">
-                                        <input class="" id="isFresher" name="isFresher" type="checkbox" (click)="userFresher()"
-                                            [checked]="candidateProfessionalDetails.isFresher">Fresher
-                                    </label>
+                                <div class="row d-flex justify-content-center mt-2">
+                                    <div class="col-md-8">
+                                        <label class="form-check-label text-center">
+                                            <input class="" type="checkbox" (click)="userFresher()"> Are you a fresher ?
+                                        </label>
+                                    </div>
                                 </div>
-                            </div>
-            
                             <div class="row d-flex justify-content-center mt-2" *ngIf="!candidateProfessionalDetails.isFresher">
                                 <div class="col-md-3">
                                     <label for="" class="form-label required-form-field">Current Company Name</label>
