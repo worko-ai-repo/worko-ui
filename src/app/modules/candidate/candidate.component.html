@@ -1,9 +1,8 @@
 
 <div id="wrapper">
-    <app-user-menubar [userType]="userType" [isSidebarExpanded]="isSidebarExpanded" (onToggleSidebar)="toggleSidebar()"></app-user-menubar>
-    <div id="content-wrapper" class="d-flex flex-column w-100">
+    <app-user-menubar id="user-menubar" [userType]="userType" [isSidebarExpanded]="isSidebarExpanded" (onToggleSidebar)="toggleSidebar()"></app-user-menubar>
+    <div id="content-wrapper" class="d-flex flex-column">
       <div id="content">
-        <!-- <app-topbar [isSidebarExpanded]="isSidebarExpanded" (onToggleSidebar)="toggleSidebar()"></app-topbar> -->
         <app-user-navbar  [userType]="userType"></app-user-navbar>
         <div class="container-fluid routing-container">
           <router-outlet></router-outlet>
