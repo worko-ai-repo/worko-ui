@@ -6,10 +6,17 @@
 
 .dropdown .dropdown-menu {
     background-color: #0A1E35;
+    border:2px solid #4FAFCB;
 }
 
 .dropdown-menu::after {
     all: unset;
+}
+.dropdown-menu, li {
+    border-bottom: 1px solid #0E3877;
+}
+.dropdown-item{
+    border-bottom: 2px solid #4FAFCB;
 }
 
 .dropdown ul {
