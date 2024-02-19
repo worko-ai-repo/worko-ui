@@ -118,11 +118,12 @@ export class UserProfileCompleteComponent implements OnInit {
 
         },
         
-        cutout: 60, // Radius of the hole in the center of the doughnut (in percentage)
+        cutout: 50, // Reduce the size of the hole in the center
+        radius: '70%', // Radius of the hole in the center of the doughnut (in percentage)
         circumference: 360, // Angle in degrees to control the arc's size
         rotation: -0.5 * Math.PI, // Angle in degrees to rotate the doughnut
         spacing: 3, // S
-        radius: 100
+        // radius: 100
       },
       
     });

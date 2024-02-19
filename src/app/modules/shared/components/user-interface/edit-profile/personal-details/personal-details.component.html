@@ -44,15 +44,17 @@
 
                     </div> -->
 
-                    <div class="row d-flex text-center mt-2">
-                        <div class="col-md-5">
-                            <label class="form-check-label text-center ps-3">
-                                <input class="" type="checkbox" (click)="userFresher()"> Fresher
+                    <div class="row d-flex justify-content-center mt-2">
+                        <div class="col-md-8">
+                            <label class="form-check-label text-center">
+                                <input class="" type="checkbox" (click)="userFresher()"> Are you a fresher ?
                             </label>
                         </div>
                     </div>
                     
+                    
                     <div class="row d-flex justify-content-center mt-2" *ngIf="!isFresher">
+                       
                         <div class="col-md-3">
                             <label for="" class="form-label">Company Name</label>
                             <input type="text" class="form-control form-input" placeholder="Company Name"
