@@ -294,3 +294,22 @@ export class PersonalDetailsComponent implements OnInit {
 
 
 }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
