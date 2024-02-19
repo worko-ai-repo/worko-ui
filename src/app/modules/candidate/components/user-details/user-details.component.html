@@ -24,20 +24,14 @@
                                     <span class="ps-1">{{candidateDetails.number}}</span>
                                 </div>
 
-                                <div class="col-md-2 p-2">
-                                    <img src="/assets/public/dash-logo-2.png" alt="">
-                                    
-                                </div>
-                                <div class="col-md-9 mt-2 p-0">
-                                    <span class="ps-2">{{educationDetails.degree}}</span>
-                                </div>
-                                <div class="col-md-2">
+                                
+                                <div class="col-md-2 mt-2">
                                     <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14"  fill="none">
                                         <path d="M13.855 11.9953H12.3155V13.5348H13.855M13.855 8.91628H12.3155V10.4558H13.855M15.3945 15.0743H9.23654V13.5348H10.776V11.9953H9.23654V10.4558H10.776V8.91628H9.23654V7.37679H15.3945M7.69704 5.83729H6.15755V4.2978H7.69704M7.69704 8.91628H6.15755V7.37679H7.69704M7.69704 11.9953H6.15755V10.4558H7.69704M7.69704 15.0743H6.15755V13.5348H7.69704M4.61805 5.83729H3.07856V4.2978H4.61805M4.61805 8.91628H3.07856V7.37679H4.61805M4.61805 11.9953H3.07856V10.4558H4.61805M4.61805 15.0743H3.07856V13.5348H4.61805M9.23654 5.83729V2.7583H1.53906V16.6138H16.934V5.83729H9.23654Z" fill="white"/>
                                       </svg>
                                     
                                 </div>
-                                <div class="col-md-9 p-0">
+                                <div class="col-md-9 p-0 mt-2">
                                     <span class="ps-2">{{workExperienceDetails?.companyName}}</span>
                                 </div>
                             </div>
@@ -47,14 +41,14 @@
                         <div class="col-md-6 p-0">
                             <div class="row  input-logo">
                                 <div class="col-md-2">
-                                    <i class="fa-regular fa-envelope"></i>
+                                    <img src="/assets/public/dash-logo-2.png" style="width: 14px;" alt="">
                                     
                                 </div>
                                 <div class="col-md-9 p-0">
-                                    <span class="ps-1">{{candidateDetails?.emailList?.primary}}</span>
+                                    <span class="ps-2">{{educationDetails.degree}}</span>
                                 </div>
-
-                                <div class="col-md-2 p-2">
+                            
+                                <div class="col-md-2 mt-2">
                                     <svg xmlns="http://www.w3.org/2000/svg" width="19" height="17" viewBox="0 0 20 19" fill="none">
                                         <g clip-path="url(#clip0_3099_2376)">
                                           <path d="M1.39453 7.0845L9.48535 3.85156L17.5762 7.0845L9.48535 10.3174L1.39453 7.0845Z" stroke="white" stroke-width="1.47535" stroke-linejoin="round"/>
@@ -68,8 +62,8 @@
                                       </svg>
                                     
                                 </div>
-                                <div class="col-md-9 mt-2 p-0">
-                                    <span class="ps-1">{{educationDetails.passingYear}}</span>
+                                <div class="col-md-9 mt-2">
+                                    <span class="pt-1">{{educationDetails.passingYear}}</span>
                                 </div>
                             </div>
                         </div>
@@ -108,8 +102,8 @@
                         <span class="input-logo float-right pt-1">{{candidateDetails.noticePeriod}} Days</span>     
                     </div>
                     <div class="">
-                        <span class="input-logo">Location :</span>
-                        <span class="input-logo float-right pt-1">{{candidateDetails.location}}</span>     
+                        <span class="input-logo">Previous Company :</span>
+                        <span class="input-logo float-right pt-1">-</span>     
                     </div>
                 </div>
             
