@@ -19,7 +19,7 @@ export class PersonalDetailsComponent implements OnInit {
   @Output() previousStep = new EventEmitter<void>();
   @Output() onSuccess = new EventEmitter<void>();
   @Input() achievementsList: any;
-  isFresher: boolean = false;
+ 
   
   myControl = new FormControl<any>('');
   filteredOptions!: Observable<any[]>;
@@ -39,7 +39,7 @@ export class PersonalDetailsComponent implements OnInit {
     softSkills: "",
     coreSkillList: "",
     achievements: "",
-    isFresher: false
+
   }
   form: any = {
 
@@ -249,8 +249,13 @@ export class PersonalDetailsComponent implements OnInit {
     // Check if there is at least one non-empty certificate name
     return this.newCertName.split(',').some(certName => certName.trim() !== '');
   }
-
+  
+  onEnter(event: any) {
+    event.preventDefault(); // Prevent default form submission behavior
+    this.addSoftSkill();    // Call your method to add soft skill
+}
   addSoftSkill(){
+    debugger;
     if (! this.candidateProfessionalDetails.softSkills) {
       this.candidateProfessionalDetails.softSkills = [];
     }
