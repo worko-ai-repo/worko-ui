@@ -1,22 +1,5 @@
-
+<!-- 
     <div class="card-body">
-        <!-- <div class="row">
-            <div class="col-md-12">
-                <div class="row mt-2">
-                    <div class="col-md-2" (click)="goBack()">
-                        <svg xmlns="http://www.w3.org/2000/svg" width="40" height="40" viewBox="0 0 52 52" fill="none"
-                            routerLink="/candidate/candidate-dashboard">
-                            <path
-                                d="M38.2673 24.2955H18.9128L27.3685 15.9341C28.0442 15.2659 28.0442 14.1693 27.3685 13.5011C27.2082 13.3422 27.0178 13.2162 26.8082 13.1302C26.5985 13.0443 26.3738 13 26.1469 13C25.92 13 25.6953 13.0443 25.4857 13.1302C25.276 13.2162 25.0856 13.3422 24.9253 13.5011L13.5067 24.7924C13.3461 24.9509 13.2187 25.1392 13.1317 25.3465C13.0448 25.5538 13 25.776 13 26.0004C13 26.2248 13.0448 26.447 13.1317 26.6542C13.2187 26.8615 13.3461 27.0498 13.5067 27.2083L24.9253 38.4997C25.0858 38.6583 25.2762 38.7841 25.4858 38.87C25.6954 38.9558 25.92 39 26.1469 39C26.3738 39 26.5984 38.9558 26.808 38.87C27.0176 38.7841 27.2081 38.6583 27.3685 38.4997C27.5289 38.341 27.6561 38.1527 27.743 37.9454C27.8298 37.7382 27.8745 37.516 27.8745 37.2917C27.8745 37.0674 27.8298 36.8452 27.743 36.638C27.6561 36.4307 27.5289 36.2424 27.3685 36.0837L18.9128 27.7223H38.2673C39.2203 27.7223 40 26.9513 40 26.0089C40 25.0666 39.2203 24.2955 38.2673 24.2955Z"
-                                fill="#F8F8F8" />
-                        </svg>
-                    </div>
-                    <div class="col-md-8">
-                        <h6 class="edit-profile-text">Edit Profile</h6>
-                    </div>
-                </div>
-            </div>
-        </div> -->
         <div class="row">
             <form (ngSubmit)="candidate.form.valid && uploadDetails(form)" #candidate="ngForm" novalidate>
                 <div class="col-md-10">
@@ -60,8 +43,10 @@
                                     </ng-template>
                                     <input type="file" id="file" class="file-input" (change)="handleFileInput($event)">
                                 </label>
-                                <!-- <h6 class="mt-2">Drag & Drop</h6> -->
+                               
+                           
                             </div>
+                            <div>please upload a pdf/docx file format only.</div>
                         </div>
                         <div class="col-md-8">
                             <textarea class="cover-latter p-3 mt-2" id="" cols="65" rows="5" #coverLetter="ngModel"
@@ -76,4 +61,63 @@
                 </div>
             </form>
         </div>
+    </div> -->
+
+    <div class="card-body">
+        <form (ngSubmit)="candidate.form.valid && uploadDetails(form)" #candidate="ngForm" novalidate>
+        <div class="row d-flex justify-content-center">
+                <div class="col-md-9">
+                    <div class="row m-0">
+                        <div class="col-md-3">
+                            <label for="" class="form-lable-cv pt-1">Upload CV</label>
+                            <div class="drag-drop mt-2">
+                                <label for="file" class="file-label">
+                                    <svg xmlns="http://www.w3.org/2000/svg" class="mt-1" width="60" height="60"
+                                        viewBox="0 0 112 112" fill="none">
+                                        <path
+                                            d="M36.4016 69.9999C35.659 69.9999 34.9468 69.7049 34.4217 69.1798C33.8966 68.6547 33.6016 67.9425 33.6016 67.1999C33.6016 66.4573 33.8966 65.7451 34.4217 65.22C34.9468 64.6949 35.659 64.3999 36.4016 64.3999H75.6016C76.3442 64.3999 77.0564 64.6949 77.5815 65.22C78.1066 65.7451 78.4016 66.4573 78.4016 67.1999C78.4016 67.9425 78.1066 68.6547 77.5815 69.1798C77.0564 69.7049 76.3442 69.9999 75.6016 69.9999H36.4016ZM36.4016 83.9999C35.659 83.9999 34.9468 83.7049 34.4217 83.1798C33.8966 82.6547 33.6016 81.9425 33.6016 81.1999C33.6016 80.4573 33.8966 79.7451 34.4217 79.22C34.9468 78.6949 35.659 78.3999 36.4016 78.3999H75.6016C76.3442 78.3999 77.0564 78.6949 77.5815 79.22C78.1066 79.7451 78.4016 80.4573 78.4016 81.1999C78.4016 81.9425 78.1066 82.6547 77.5815 83.1798C77.0564 83.7049 76.3442 83.9999 75.6016 83.9999H36.4016Z"
+                                            fill="#1ED6FF" />
+                                        <path fill-rule="evenodd" clip-rule="evenodd"
+                                            d="M62.6368 5.6001H25.2008C22.973 5.6001 20.8364 6.4851 19.2611 8.0604C17.6858 9.63571 16.8008 11.7723 16.8008 14.0001V98.0001C16.8008 100.228 17.6858 102.364 19.2611 103.94C20.8364 105.515 22.973 106.4 25.2008 106.4H86.8008C89.0286 106.4 91.1652 105.515 92.7405 103.94C94.3158 102.364 95.2008 100.228 95.2008 98.0001V40.3313C95.2002 38.2283 94.4109 36.2021 92.9888 34.6529L68.8304 8.3217C68.0431 7.46347 67.0859 6.77834 66.0197 6.30981C64.9534 5.84128 63.8014 5.5996 62.6368 5.6001ZM22.4008 14.0001C22.4008 13.2575 22.6958 12.5453 23.2209 12.0202C23.746 11.4951 24.4582 11.2001 25.2008 11.2001H62.6368C63.0253 11.1997 63.4097 11.2801 63.7654 11.4363C64.1212 11.5925 64.4405 11.821 64.7032 12.1073L88.8616 38.4385C89.3363 38.9546 89.6001 39.6301 89.6008 40.3313V98.0001C89.6008 98.7427 89.3058 99.4549 88.7807 99.98C88.2556 100.505 87.5434 100.8 86.8008 100.8H25.2008C24.4582 100.8 23.746 100.505 23.2209 99.98C22.6958 99.4549 22.4008 98.7427 22.4008 98.0001V14.0001Z"
+                                            fill="#1ED6FF" />
+                                        <path d="M64.4023 11.7603V38.0803H90.7223" stroke="#1ED6FF"
+                                            stroke-linecap="round" stroke-linejoin="round" />
+                                        <path
+                                            d="M45.5501 34.3451C46.3498 34.3696 47.1463 34.2332 47.8923 33.9441C48.6383 33.6549 49.3186 33.219 49.8929 32.6619C50.4673 32.1049 50.9239 31.4383 51.2357 30.7015C51.5475 29.9647 51.7082 29.1727 51.7082 28.3727C51.7082 27.5726 51.5475 26.7807 51.2357 26.0439C50.9239 25.3071 50.4673 24.6404 49.8929 24.0834C49.3186 23.5264 48.6383 23.0904 47.8923 22.8013C47.1463 22.5121 46.3498 22.3758 45.5501 22.4003C43.9978 22.4478 42.525 23.0979 41.4437 24.2127C40.3625 25.3276 39.7578 26.8196 39.7578 28.3727C39.7578 29.9257 40.3625 31.4177 41.4437 32.5326C42.525 33.6475 43.9978 34.2975 45.5501 34.3451Z"
+                                            fill="#1ED6FF" />
+                                        <path fill-rule="evenodd" clip-rule="evenodd"
+                                            d="M57.4912 47.2864C57.4912 40.936 52.1432 36.3384 45.5464 36.3384C38.9496 36.3384 33.6016 40.9304 33.6016 47.2864V50.2768C33.603 50.8045 33.8137 51.3102 34.1875 51.6828C34.5612 52.0555 35.0674 52.2648 35.5952 52.2648H55.5032C56.03 52.2633 56.5348 52.0534 56.9073 51.6809C57.2798 51.3084 57.4897 50.8036 57.4912 50.2768V47.2864Z"
+                                            fill="#1ED6FF" />
+                                    </svg>
+                                    <div class="upload-text w-100"
+                                        *ngIf="candidateUploadDetails.fileName; else defaultText">
+
+                                        {{candidateUploadDetails.fileName}}
+                                    </div>
+                                    <ng-template #defaultText>
+
+                                        <div class="upload-text w-100">Upload Image</div>
+                                    </ng-template>
+                                    <input type="file" id="file" class="file-input" (change)="handleFileInput($event)">
+                                </label>
+                            </div>
+                            <div class="error-message-file" *ngIf="showfileError">please upload a pdf/docx file format only.</div>
+                        </div>
+                        <div class="col-md-9">
+                            <!-- Cover letter field -->
+                            <label for="" class="form-lable-cv">Cover letter</label>
+                            <textarea class="cover-latter p-3 mt-2" id="" rows="5" #coverLetter="ngModel"
+                            [(ngModel)]="candidateUploadDetails.coverLetter" name="coverLetter"
+                            id="coverLetter"></textarea>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-11 mt-3 d-flex justify-content-end">
+                    <button class="btn btn-next me-2" (click)="goBack()">Previous</button>
+                    <button class="btn btn-next" type="submit">Complete</button>
+                </div>
+   
+        </div>
+    </form>
     </div>
+    
