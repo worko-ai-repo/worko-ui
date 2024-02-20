@@ -44,6 +44,7 @@ export class PersonalDetailsComponent implements OnInit {
   form: any = {
 
   }
+  maxCertificate: boolean = false;
   title: string = '';
   date: string = '';
   instituteName: string= "";
@@ -217,30 +218,49 @@ export class PersonalDetailsComponent implements OnInit {
   //     this.newCertName = ''; // Clear the input field
   //   }
   // }
+  isDateInPast(dateString: string): boolean {
+    const today = new Date();
+    const inputDate = new Date(dateString);
+    return inputDate <= today;
+}
 
   addCertificate() {
-    if (! this.candidateProfessionalDetails.certificationNames) {
+    if (!this.candidateProfessionalDetails.certificationNames) {
       this.candidateProfessionalDetails.certificationNames = [];
     }
 
     if (this.newCertName && this.certificateCompany && this.certificateYear) {
-      // Create a new achievement object
-      const newCertificate = {
-        certName: this.newCertName,
-        certificateYear: this.certificateYear,
-        certificateCompany: this.certificateCompany
-      };
-      // Push the new achievement object to the achievements array
-      this.candidateProfessionalDetails.certificationNames.push(newCertificate);
-      console.log(this.achievementsList);
-      // Clear the input fields
-      this.certificateCompany = '';
-      this.certificateYear = '';
-      this.newCertName = "";
 
+      // const isValidDate = this.isDateInPast(`01/${this.certificateYear}`);
+      // if (!isValidDate) {
+      //   console.error('Completion date must be in the past.');
+      //   return; // Do not add the certificate if the date is in the future
+      // }
+
+      // Check if the number of certificates is less than 10
+      if (this.candidateProfessionalDetails.certificationNames.length < 5) {
+        // Create a new achievement object
+        const newCertificate = {
+          certName: this.newCertName,
+          certificateYear: this.certificateYear,
+          certificateCompany: this.certificateCompany
+        };
+        // Push the new achievement object to the achievements array
+        this.candidateProfessionalDetails.certificationNames.push(newCertificate);
+        console.log(this.achievementsList);
+        // Clear the input fields
+        this.certificateCompany = '';
+        this.certificateYear = '';
+        this.newCertName = "";
+        this.maxCertificate= false;
+      } else {
+        // Alert or handle the case where the limit is reached
+        console.error('Cannot add more than 10 certificates.');
+        this.maxCertificate = true;
+      }
     }
-  
-  }
+}
+
   isValidCertificateForm(): boolean {
     // Return true if both title and date have values, otherwise false
     return !!this.newCertName && !!this.certificateYear && !!this.certificateCompany;

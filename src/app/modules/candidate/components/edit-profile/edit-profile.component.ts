@@ -24,7 +24,7 @@ export class EditProfileComponent implements OnInit {
   coreSkillsLists: any;
   softSkillsLists: any;
   userDescription: string = "";
-  currentStep: number = 3;
+  currentStep: number = 1;
   // emailAddress:any="";
   candidatePersonalDetails: any = {};
   candidateProfessionalDetails: any = {};
