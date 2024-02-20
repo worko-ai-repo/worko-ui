@@ -327,13 +327,13 @@
                   </div>
                   <div class="form-check">
                     <input
-                      class="form-check-input"
-                      type="checkbox"
-                      value=""
-                      id="flexCheckDefault"
-                      [(ngModel)]="candidateForm.checkboxChecked"
-                      name="checkboxChecked"
-                    />
+   class="form-check-input"
+  type="checkbox"
+  value=""
+  id="flexCheckDefault"
+  [(ngModel)]="candidateForm.acceptedTermsAndConditions"
+  name="acceptedTermsAndConditions"
+/>    
                     <label class="form-check-label" for="flexCheckDefault">
                       By checking this you are agreeing to our
                       <span style="color: #5cc3e6"><a href="">terms of use ?</a></span>
@@ -358,7 +358,7 @@
                           candidateForm.confirmPassword
                         ) ||
                         !candidateForm.phoneNumber ||
-                        !candidateForm.checkboxChecked 
+                        !candidateForm.acceptedTermsAndConditions 
                       "
                     >
                       SIGN UP
@@ -608,7 +608,7 @@
                       </div>
                     </div>
                     <div class="form-check">
-                      <input class="form-check-input" type="checkbox" value="" id="flexCheckEmployee" [(ngModel)]="employeeForm.agreeTerms" name="agreeTerms">
+                      <input class="form-check-input" type="checkbox" value="" id="flexCheckEmployee" [(ngModel)]="employeeForm.acceptedTermsAndConditions" name="acceptedTermsAndConditions">
                       <label class="form-check-label" for="flexCheckEmployee">
                         By checking this you are agreeing to our <span style="color: #5cc3e6"><a href="">terms of use ?</a></span>
                       </label>
@@ -620,7 +620,7 @@
                    
                     <div class="col-md-12 mt-4 ms-2 d-flex justify-content-center">
                       <button class="btn btn-signUp" type="submit"
-                     [disabled]="!employee.form.valid || !employeeForm.name || !employeeForm.emailId || !employeeForm.phoneNumber ||!employeeForm.companyEmailID ||!employeeForm.department || !employeeForm.confirmPassword ||!(employeeForm.password === employeeForm.confirmPassword) ||!employeeForm.agreeTerms ||!selectedCompany?.name ||!selectedCompany?.SK"
+                     [disabled]="!employee.form.valid || !employeeForm.name || !employeeForm.emailId || !employeeForm.phoneNumber ||!employeeForm.companyEmailID ||!employeeForm.department || !employeeForm.confirmPassword ||!(employeeForm.password === employeeForm.confirmPassword) ||!employeeForm.acceptedTermsAndConditions ||!selectedCompany?.name ||!selectedCompany?.SK"
                    
                       >
                         SIGN UP

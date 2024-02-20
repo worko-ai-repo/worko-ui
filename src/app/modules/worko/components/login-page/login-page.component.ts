@@ -41,11 +41,14 @@ export class LoginPageComponent implements AfterViewInit  {
   confirmationCodeScreen: boolean = false;
   confirmationEmail: string = '';
   displayResetPassword: boolean = false;
+  acceptedTermsAndConditions:boolean=false;
   resetVerificationScreen: boolean = false;
   isDivOpen: boolean = false;
   isDivClose: boolean = true
   hideDiv: boolean = true
   errorMessage: string = "";
+  
+
   // checkboxChecked:boolean=false;
   agreeTerms:boolean=false;
   auto: any;
@@ -65,7 +68,10 @@ export class LoginPageComponent implements AfterViewInit  {
     expectedCtc: '',
     phoneNumber: '',
     confirmPassword: '',
-    checkboxChecked:false
+    checkboxChecked:false,
+    acceptedTermsAndConditions: false 
+
+
   }
   employeeForm = {
     name: '',
@@ -83,6 +89,7 @@ export class LoginPageComponent implements AfterViewInit  {
     designationTag: '',
     companySK:"",
     agreeTerms: false,
+    acceptedTermsAndConditions: false ,
     
 
   }
@@ -316,6 +323,9 @@ validateName() {
           companyName: this.selectedCompany.name,
           companySK: this.selectedCompany.SK,
           userId: response.userId,
+          acceptedTermsAndConditions: this.employeeForm.acceptedTermsAndConditions // Include the acceptedTermsAndConditions field
+
+
           // designationTag: Number(this.employeeForm.designationTag)
         }
 
@@ -362,7 +372,9 @@ validateName() {
             linkedinUrl: this.candidateForm.linkdinProfile,
             ECTC: Number(this.candidateForm.expectedCtc),
             YOE: Number(this.candidateForm.experience),
-            userId: response.userId
+            userId: response.userId,
+            acceptedTermsAndConditions: this.candidateForm.acceptedTermsAndConditions
+
           }
           this.authService.createCandidate(candidateData).then(async () => {
             try {
