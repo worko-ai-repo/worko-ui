@@ -1,4 +1,9 @@
 
+
+.content-container{
+  height: calc(100vh - 45px);
+    overflow:auto;
+}
 .container {
     height: calc(50vh - 35px);
       display: flex;

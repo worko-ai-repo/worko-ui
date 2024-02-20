@@ -1274,9 +1274,9 @@ footer {
     border-radius: 10px;
 }
 
-.content-container {
-    height: calc(100vh - 60px);
-}
+// .content-container {
+//     height: calc(100vh - 60px);
+// }
 
 .divide-45 {
     flex: 1;
@@ -1690,4 +1690,7 @@ color: #FFF;
         content: "*";
         color: red;
         padding-right: 5px;
+      }
+      .fs-12{
+        font-size:12px;
       }
