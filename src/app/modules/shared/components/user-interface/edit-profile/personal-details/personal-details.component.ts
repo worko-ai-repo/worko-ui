@@ -242,8 +242,8 @@ export class PersonalDetailsComponent implements OnInit {
         // Create a new achievement object
         const newCertificate = {
           certName: this.newCertName,
-          certificateYear: this.certificateYear,
-          certificateCompany: this.certificateCompany
+          completionDate: this.certificateYear + "-01T00:00:00Z",
+          issuedInstitution: this.certificateCompany
         };
         // Push the new achievement object to the achievements array
         this.candidateProfessionalDetails.certificationNames.push(newCertificate);

@@ -124,7 +124,7 @@
                                             <div class="col-md-12">
                                                 <input type="text" class="form-control borderless-field" [(ngModel)]="newSoftSkill"
                                                     name="newSoftSkill" id="newSoftSkill" placeholder="Enter Soft Skils"
-                                                    (blur)="addSoftSkill()" (keyup.enter)="addSoftSkill()">
+                                                    (blur)="addSoftSkill()" (keydown.enter)="addSoftSkill()">
                                             </div>
                                         </div>
                                     </div>
@@ -187,7 +187,7 @@
                                         [ngClass]="{ 'is-invalid': certificateCompany1.invalid && (certificateCompany1.dirty || certificateCompany1.touched) }">
                                     <input type="text" class="core-skills-input ms-2 form-control"
                                         placeholder="Completion Date(MM/YYYY)" [(ngModel)]="certificateYear" name="completionyear"
-                                        id="completionyear" pattern="^(0[1-9]|1[0-2])\/(19|20)\d{2}$"
+                                        id="completionyear" pattern="^(19|20)\d{2}-(0[1-9]|1[0-2])$"
                                         #completionyear="ngModel" [title]="completionyear.errors?.['pattern'] ? 'Certification year is invalid' : ''"
                                         [ngClass]="{ 'is-invalid': completionyear.invalid && (completionyear.dirty || completionyear.touched) }"
                                         
@@ -206,7 +206,7 @@
                                 <div class="float-left achievments-list d-flex"
                                     *ngFor="let certificates of candidateProfessionalDetails.certificationNames">
             
-                                    <div class=" m-1 text-in-box">{{certificates.certName}} - {{certificates.certificateCompany}}
+                                    <div class=" m-1 text-in-box">{{certificates.certName}} - {{certificates.issuedInstitution}}
                                         <span class="text-in-box-close-icon" (click)="removeCertifiates(certificates.certName)">
                                             <svg width="16" height="16" viewBox="0 0 16 16" fill="none"
                                                 xmlns="http://www.w3.org/2000/svg">

@@ -260,7 +260,7 @@
                       ></i>
                       <input
                         type="otp"
-                        placeholder="Phone number"
+                        placeholder="+91 XXXXXXXXXX"
                         class="text-white material-input__group__input"
                         #phoneNumber="ngModel"
                         pattern="^\+(?:[0-9] ?){6,14}[0-9]$"
@@ -335,8 +335,8 @@
   name="acceptedTermsAndConditions"
 />    
                     <label class="form-check-label" for="flexCheckDefault">
-                      By checking this you are agreeing to our
-                      <span style="color: #5cc3e6"><a href="">terms of use ?</a></span>
+                      I accept the 
+                      <span style="color: #5cc3e6"><a href="">Terms of Service</a></span>
                     </label>
                   </div>
                   <div class="col-md-12 mt-4 ms-2 d-flex justify-content-center">
@@ -527,7 +527,7 @@
                         ></i>
                         <input
                           type="text"
-                          placeholder="Phone number"
+                          placeholder="+91 XXXXXXXXXX"
                           class="text-white material-input__group__input"
                           #phoneNumber="ngModel"
                           [title]="phoneNumber.errors?.['pattern'] ? 'Phone number is invalid' : ''"
@@ -610,7 +610,8 @@
                     <div class="form-check">
                       <input class="form-check-input" type="checkbox" value="" id="flexCheckEmployee" [(ngModel)]="employeeForm.acceptedTermsAndConditions" name="acceptedTermsAndConditions">
                       <label class="form-check-label" for="flexCheckEmployee">
-                        By checking this you are agreeing to our <span style="color: #5cc3e6"><a href="">terms of use ?</a></span>
+                        I accept the 
+                        <span style="color: #5cc3e6"><a href="">Terms of Service</a></span>
                       </label>
                     </div>
 

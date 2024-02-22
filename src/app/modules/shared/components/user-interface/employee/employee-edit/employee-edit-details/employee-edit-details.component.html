@@ -70,7 +70,7 @@
                 <div class="row mt-1">
                     <div class="col-md-6">
                         <label for="" class="form-lable required-form-field">Phone no</label>
-                        <input type="text" class="form-control form-input" placeholder="+91 -1234567890"
+                        <input type="text" class="form-control form-input" placeholder="+91 XXXXXXXXXX"
                         pattern="^\+(?:[0-9] ?){6,14}[0-9]$" maxlength="17"
                        name="number" id="number" [(ngModel)]="employeePersonalData.number"  #number="ngModel"
                        [ngClass]="{ 'is-invalid': number.invalid && (number.dirty || number.touched) }"
@@ -100,9 +100,10 @@
               
                     <div class="col-md-4">
                         <div class="material-input__group">
-                            <label for="" class="form-lable">Github</label>
+                            <label for="" class="form-lable required-form-field">Github</label>
                             <i class="fa-brands fa-github" style="color: #f6f7f9; font-size: 16px"></i>
                             <input type="text" placeholder="Github"
+                            pattern="^(https?:\/\/(www\.)?github\.com\/[a-zA-Z0-9_\-]+\/?)$"
                                 class="text-white material-input__group__input form-input form-control"
                                 #socialLinkGithub="ngModel" [(ngModel)]="employeePersonalData.socialLinkGithub"
                                 name="socialLinkGithub" id="socialLinksGithub">
@@ -122,10 +123,11 @@
                     </div>
                     <div class="col-md-4">
                         <div class="material-input__group">
-                            <label for="" class="form-lable">Twitter</label>
+                            <label for="" class="form-lable required-form-field">Twitter</label>
                             <i class="fa-brands fa-twitter" style="color: #f6f7f9; font-size: 16px"></i>
                             <input type="text" placeholder="Twitter"
                                 class="text-white material-input__group__input form-input form-control"
+                                pattern="^(https?:\/\/(www\.)?twitter\.com\/[a-zA-Z0-9_\-]+\/?)$"
                                 #socialLinktwitter="ngModel" [(ngModel)]="employeePersonalData.socialLinktwitter"
                                 name="socialLinktwitter" id="socialLinktwitter">
                         </div>
@@ -138,7 +140,7 @@
                 <div class="row">
                     <div class="col-md-12 mt-5 mb-3">
                         <button class="btn btn-next float-end" type="submit"
-                            [disabled]="!employee.form.valid  || !employeePersonalData.about || !employeePersonalData.socialLinklinkdin || !employeePersonalData.name || !employeePersonalData.email || !employeePersonalData.country || !employeePersonalData.location || !employeePersonalData.number">Next</button>
+                            [disabled]="!employee.form.valid  || !employeePersonalData.socialLinktwitter || !employeePersonalData.socialLinkGithub || !employeePersonalData.about || !employeePersonalData.socialLinklinkdin || !employeePersonalData.name || !employeePersonalData.email || !employeePersonalData.country || !employeePersonalData.location || !employeePersonalData.number">Next</button>
                     </div>
 
                 </div>

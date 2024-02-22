@@ -49,6 +49,7 @@ import { PublicSidebarComponent } from '../shared/components/public-profile/publ
 import { HomeAboutUsComponent } from './components/home-about-us/home-about-us.component';
 import { HomeFaqComponent } from './components/home-faq/home-faq.component';
 import { HomeCorporateComponent } from './components/home-corporate/home-corporate.component';
+import { TermsOfServiceComponent } from './components/terms-of-service/terms-of-service.component';
 // import { MatInputModule } from '@angular/material/input';
 export const routes: Routes = [
   {
@@ -191,6 +192,7 @@ export const routes: Routes = [
     HomeAboutUsComponent,
     HomeFaqComponent,
     HomeCorporateComponent,
+    TermsOfServiceComponent,
     
     
   ],

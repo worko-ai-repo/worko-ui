@@ -2,12 +2,12 @@
     <div class="card-body">
         <div class="row">
             <div class="col-md-3">
-                <div class="row">
-                    <div class="col-md-12 mt-2">
+                <div class="row d-flex justify-content-center">
+                    <div class="col-md-12 mt-2  d-flex justify-content-center">
                         <img src="{{candidatePersonalDetails.profilePicUrl}}" class="candidate-img float-end" alt="">
                     </div>
                     <span class="error-message upload-error">{{picErrorMessage}}</span>
-                    <div class="col-md-12">
+                    <div class="col-md-12  d-flex justify-content-center">
                         <div class="file-container">
                             <label for="file" class="file-label">
 
@@ -136,10 +136,11 @@
                         </div>
                         <div class="col-md-3">
                             <div class="material-input__group">
-                                <label for="" class="form-lable">Github</label>
+                                <label for="" class="form-lable required-form-field">Github</label>
                                 <i class="fa-brands fa-github" style="color: #f6f7f9; font-size: 16px"></i>
                                 <input type="text" placeholder="Github"
                                     class="text-white material-input__group__input form-input form-control"
+                                    pattern="^(https?:\/\/(www\.)?github\.com\/[a-zA-Z0-9_\-]+\/?)$"
                                     #socialLinkGithub="ngModel" [(ngModel)]="candidatePersonalDetails.socialLinkGithub"
                                     name="socialLinkGithub" id="socialLinksGithub">
                             </div>
@@ -159,11 +160,12 @@
                         </div>
                         <div class="col-md-3">
                             <div class="material-input__group">
-                                <label for="" class="form-lable">Twitter</label>
+                                <label for="" class="form-lable required-form-field">Twitter</label>
                                 <i class="fa-brands fa-twitter" style="color: #f6f7f9; font-size: 16px"></i>
                                 <input type="text" placeholder="Twitter"
                                     class="text-white material-input__group__input form-input form-control"
                                     #socialLinktwitter="ngModel"
+                                    pattern="^(https?:\/\/(www\.)?twitter\.com\/[a-zA-Z0-9_\-]+\/?)$"
                                     [(ngModel)]="candidatePersonalDetails.socialLinktwitter" name="socialLinktwitter"
                                     id="socialLinktwitter">
                             </div>
@@ -174,7 +176,7 @@
                     <div class="row">
                         <div class="col-md-10 mt-3">
                             <button class="btn btn-next float-end" type="submit"
-                                [disabled]="( !candidate.form.valid || !candidatePersonalDetails.socialLinklinkdin || !candidatePersonalDetails.phoneNo || !candidatePersonalDetails.email || !candidatePersonalDetails.name || !candidatePersonalDetails.location  || !candidatePersonalDetails.about )">Next</button>
+                                [disabled]="( !candidate.form.valid || !candidatePersonalDetails.socialLinktwitter || !candidatePersonalDetails.socialLinklinkdin || !candidatePersonalDetails.socialLinkGithub || !candidatePersonalDetails.phoneNo || !candidatePersonalDetails.email || !candidatePersonalDetails.name || !candidatePersonalDetails.location  || !candidatePersonalDetails.about )">Next</button>
                         </div>
 
                     </div>
