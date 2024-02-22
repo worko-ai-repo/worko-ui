@@ -270,19 +270,15 @@ export class PersonalDetailsComponent implements OnInit {
     return this.newCertName.split(',').some(certName => certName.trim() !== '');
   }
 
-  addSoftSkill(){
-    if (! this.candidateProfessionalDetails.softSkills) {
-      this.candidateProfessionalDetails.softSkills = [];
-    }
-    const skillsArray = this.newSoftSkill.split(',');
-
-    skillsArray.forEach((skillName:any) => {
-      const trimmedskillName = skillName.trim();
-      if (trimmedskillName !== '') {
-        const newSkill = {
-          "skillName": trimmedskillName,
-        };
-        this.candidateProfessionalDetails.softSkills.push(newSkill);
+  addSoftSkill(event: any) {
+    const input = this.elRef.nativeElement.querySelector('.soft-skill-input');
+    const value = input.value.trim();
+    if (value) {
+      const newSkill = {
+        "skillName": value,
+      };
+      if (!this.candidateProfessionalDetails.softSkills) {
+        this.candidateProfessionalDetails.softSkills = [];
       }
       this.candidateProfessionalDetails.softSkills.push(newSkill);
       input.value = ''; // Clear the input field
