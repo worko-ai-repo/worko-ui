@@ -65,6 +65,11 @@ export class AuthService {
       .toPromise()
       .then(response => response as ArrayBuffer);
   }
+  otpVerification(emailId: string): Promise<any> {
+    return this.http.patch(API_URL + `user/${emailId}/verify`, this.getHttpOptions())
+      .toPromise()
+      .then(response => response as ArrayBuffer);
+  }
 
   getCompanyName(value: any): Observable<any> {
     return this.http.get(API_URL + `company/${value}`, this.getHttpOptions())

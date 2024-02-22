@@ -157,7 +157,23 @@ validateName() {
     }
 }
 
-  
+otpVerification(emailId: string, otp: string): void {
+  if (this.resetForm && this.resetForm.code && this.resetForm.code === otp) {
+    this.authService.otpVerification(emailId)
+      .then(response => {
+        console.log('OTP verification successful');
+        
+      })
+      .catch(error => {
+        console.error('OTP verification failed:', error);
+      });
+  } else {
+    console.log('OTP is not valid');
+  }
+}
+
+
+
  
   onOptionSelected(event: any): void {
     this.selectedCompany = event.option.value;

@@ -292,6 +292,14 @@
                         </div>
                       </div>
                     </div>
+                    <!-- <div class="tooltip-container">
+                      <div class="tooltip-style">
+                          <i class="fa-solid fa-circle-info"></i>
+                      </div>
+                      <div class="tooltip-text pt-2 text-center p-2">
+                        <small>Add + and country code before phone number.</small>
+                      </div>
+                  </div> -->
                   </div>
 
                   <div class="col-md-6">
@@ -562,6 +570,14 @@
                           </div>
                         </div>
                       </div>
+                      <!-- <div class="tooltip-container">
+                        <div class="tooltip-style">
+                            <i class="fa-solid fa-circle-info"></i>
+                        </div>
+                        <div class="tooltip-text pt-2 text-center p-2">
+                          <small>Add + and country code before phone number.</small>
+                        </div>
+                    </div> -->
                     </div>
                     <div class="col-md-6 d-flex align-items-center">
                       <div class="material-input__group">
@@ -702,7 +718,7 @@
                     <div
                       class="col-md-12 mt-4 ms-2 d-flex justify-content-center"
                     >
-                      <button
+                      <button (click)="otpVerification(resetForm.emailId, resetForm.code)"
                         class="btn btn-signUp"
                         type="submit"
                         [disabled]="
