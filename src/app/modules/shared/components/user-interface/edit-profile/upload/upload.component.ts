@@ -20,6 +20,7 @@ export class UploadComponent implements OnInit {
   fileToUpload: File | null = null;
   fileName: string = "";
   fileType: string = "";
+  showfileError: boolean =false;
   constructor() { }
   ngOnInit(): void {
 
@@ -57,31 +58,37 @@ export class UploadComponent implements OnInit {
 
   handleFileInput(event: Event): void {
     const inputElement = event.target as HTMLInputElement;
-
+  
     if (inputElement.files) {
       const files: FileList | null = inputElement.files;
-
+  
       if (files && files.length > 0) {
         const file: File = files[0];
-
-        // Check if the file type is PDF
-        if (file.type === 'application/pdf') {
-          // Process the PDF file as needed
+  
+        // Check if the file type is PDF or DOCX
+        if (file.type === 'application/pdf' || file.type === 'application/vnd.openxmlformats-officedocument.wordprocessingml.document') {
+          // Process the file as needed
           this.fileToUpload = file;
           this.fileName = file.name;
           this.fileType = file.type;
-          this.candidateUploadDetails.fileName = this.fileName,
-            this.candidateUploadDetails.fileToUpload = this.fileToUpload,
-            this.candidateUploadDetails.fileType = this.fileType
+          this.candidateUploadDetails.fileName = this.fileName;
+          this.candidateUploadDetails.fileToUpload = this.fileToUpload;
+          this.candidateUploadDetails.fileType = this.fileType;
+          this.showfileError = false;
+          console.log('Selected file:', file);
+        } else {
+          // Display an error for invalid file type
+          console.error('Invalid file type. Please upload a PDF or DOCX file.');
+          // Optionally, you can reset the input to clear the invalid selection
+          this.showfileError = true;
+          inputElement.value = '';
+          this.fileToUpload = null;
+          this.fileName = "";
+          this.fileType = "";
+    
         }
-        console.log('Selected PDF file:', file);
-      } else {
-        // Display an error for invalid file type
-        console.error('Invalid file type. Please upload a PDF file.');
-        // Optionally, you can reset the input to clear the invalid selection
-        inputElement.value = '';
-        this.fileToUpload = null;
       }
     }
   }
+  
 }

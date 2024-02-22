@@ -53,7 +53,7 @@
                             <div class="row d-flex justify-content-center mt-2" *ngIf="!candidateProfessionalDetails.isFresher">
                                 <div class="col-md-3">
                                     <label for="" class="form-label required-form-field">Current Company Name</label>
-                                    <input matInput #autoCompleteInput="matAutocompleteTrigger" class="form-control form-input"
+                                    <input matInput #autoCompleteInput="matAutocompleteTrigger" class="form-control form-input" 
                                         [formControl]="myControl" [matAutocomplete]="auto" placeholder="Select Company Name" />
                                     <mat-autocomplete #auto="matAutocomplete" [displayWith]="displayFn"
                                         (optionSelected)="onOptionSelected($event)">
@@ -190,11 +190,16 @@
                                         id="completionyear" pattern="^(0[1-9]|1[0-2])\/(19|20)\d{2}$"
                                         #completionyear="ngModel" [title]="completionyear.errors?.['pattern'] ? 'Certification year is invalid' : ''"
                                         [ngClass]="{ 'is-invalid': completionyear.invalid && (completionyear.dirty || completionyear.touched) }"
+                                        
                                         >
             
                                     <button class="float-end btn btn-add" type="button" [disabled]="!isValidCertificateForm()"
                                         (click)="addCertificate()">Add</button>
+                                        <div class="certificate-error-message" *ngIf="maxCertificate">
+                                            You can not add more than 5 certificates.
+                                        </div>
                                 </div>
+
             
                             </div>
                             <div class="d-flex justify-content-center mt-4 p-0 mb-3">
@@ -252,21 +257,22 @@
                                     </div>
                                 </div>
                             </div>
-           
+                        
                             <div class="row">
                                 <!-- [disabled]="(!isFresher && !candidateProfessionalDetails.companyName  ||!candidateProfessionalDetails.department || !candidateProfessionalDetails.designation || !candidateProfessionalDetails.ctc ||!candidateProfessionalDetails.ectc ||!candidateProfessionalDetails.noticePeriod)" -->
                                 <div class="col-md-10 d-flex justify-content-end">
                                     <button class="btn btn-next me-2" (click)="goBack()">Previous</button>
                                     <button class="btn btn-next" type="submit" [disabled]="
-                                        (!isFresher && (
-                                          !candidateProfessionalDetails.companyName ||
+                                        (!candidateProfessionalDetails.isFresher && (
+                                         
+                                          !selectedCompany?.name ||
                                           !candidateProfessionalDetails.department ||
                                           !candidateProfessionalDetails.designation ||
                                           !candidateProfessionalDetails.ctc ||
                                           !candidateProfessionalDetails.ectc ||
                                           !candidateProfessionalDetails.noticePeriod
                                         )) || 
-                                        (isFresher && !candidateProfessionalDetails.coreSkillList)">Next</button>
+                                        (candidateProfessionalDetails.isFresher && !candidateProfessionalDetails.coreSkillList)">Next</button>
                                 </div>
             
                             </div>

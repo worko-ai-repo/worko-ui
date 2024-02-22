@@ -12,12 +12,19 @@
   border-radius: 10px;
   border: 3px solid #1ED6FF;
   background: #0A1E35;
-  width: 150px;
+  min-width: 150px;
   text-align: center;
   display: flex;
   justify-content: center;
   align-items: end;
   height: 150px;
+  max-width:170px;
+}
+.error-message-file{
+  color: red;
+  font-size: 12px;
+  text-align: left;
+  padding: 5px 0px;
 }
 
 .drag-drop,
@@ -38,6 +45,7 @@ h6 {
   border: 1px solid #E5EAF1;
   background: #0A1E35;
   color: #FFF;
+  width:100%;
 }
 
 /* Style for the file input */
@@ -69,6 +77,10 @@ h6 {
 
 .upload-text {
   text-align: center;
+  white-space: nowrap;
+    text-overflow: ellipsis;
+    overflow: hidden;
+    padding: 0 5px;
 }
 
 .btn:hover {

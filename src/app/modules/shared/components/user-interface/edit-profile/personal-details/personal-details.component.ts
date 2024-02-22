@@ -19,7 +19,7 @@ export class PersonalDetailsComponent implements OnInit {
   @Output() previousStep = new EventEmitter<void>();
   @Output() onSuccess = new EventEmitter<void>();
   @Input() achievementsList: any;
-  isFresher: boolean = false;
+ 
   
   myControl = new FormControl<any>('');
   filteredOptions!: Observable<any[]>;
@@ -39,11 +39,12 @@ export class PersonalDetailsComponent implements OnInit {
     softSkills: "",
     coreSkillList: "",
     achievements: "",
-    isFresher: false
+
   }
   form: any = {
 
   }
+  maxCertificate: boolean = false;
   title: string = '';
   date: string = '';
   instituteName: string= "";
@@ -217,30 +218,49 @@ export class PersonalDetailsComponent implements OnInit {
   //     this.newCertName = ''; // Clear the input field
   //   }
   // }
+  isDateInPast(dateString: string): boolean {
+    const today = new Date();
+    const inputDate = new Date(dateString);
+    return inputDate <= today;
+}
 
   addCertificate() {
-    if (! this.candidateProfessionalDetails.certificationNames) {
+    if (!this.candidateProfessionalDetails.certificationNames) {
       this.candidateProfessionalDetails.certificationNames = [];
     }
 
     if (this.newCertName && this.certificateCompany && this.certificateYear) {
-      // Create a new achievement object
-      const newCertificate = {
-        certName: this.newCertName,
-        certificateYear: this.certificateYear,
-        certificateCompany: this.certificateCompany
-      };
-      // Push the new achievement object to the achievements array
-      this.candidateProfessionalDetails.certificationNames.push(newCertificate);
-      console.log(this.achievementsList);
-      // Clear the input fields
-      this.certificateCompany = '';
-      this.certificateYear = '';
-      this.newCertName = "";
 
+      // const isValidDate = this.isDateInPast(`01/${this.certificateYear}`);
+      // if (!isValidDate) {
+      //   console.error('Completion date must be in the past.');
+      //   return; // Do not add the certificate if the date is in the future
+      // }
+
+      // Check if the number of certificates is less than 10
+      if (this.candidateProfessionalDetails.certificationNames.length < 5) {
+        // Create a new achievement object
+        const newCertificate = {
+          certName: this.newCertName,
+          certificateYear: this.certificateYear,
+          certificateCompany: this.certificateCompany
+        };
+        // Push the new achievement object to the achievements array
+        this.candidateProfessionalDetails.certificationNames.push(newCertificate);
+        console.log(this.achievementsList);
+        // Clear the input fields
+        this.certificateCompany = '';
+        this.certificateYear = '';
+        this.newCertName = "";
+        this.maxCertificate= false;
+      } else {
+        // Alert or handle the case where the limit is reached
+        console.error('Cannot add more than 10 certificates.');
+        this.maxCertificate = true;
+      }
     }
-  
-  }
+}
+
   isValidCertificateForm(): boolean {
     // Return true if both title and date have values, otherwise false
     return !!this.newCertName && !!this.certificateYear && !!this.certificateCompany;
@@ -250,15 +270,19 @@ export class PersonalDetailsComponent implements OnInit {
     return this.newCertName.split(',').some(certName => certName.trim() !== '');
   }
 
-  addSoftSkill(event: any) {
-    const input = this.elRef.nativeElement.querySelector('.soft-skill-input');
-    const value = input.value.trim();
-    if (value) {
-      const newSkill = {
-        "skillName": value,
-      };
-      if (!this.candidateProfessionalDetails.softSkills) {
-        this.candidateProfessionalDetails.softSkills = [];
+  addSoftSkill(){
+    if (! this.candidateProfessionalDetails.softSkills) {
+      this.candidateProfessionalDetails.softSkills = [];
+    }
+    const skillsArray = this.newSoftSkill.split(',');
+
+    skillsArray.forEach((skillName:any) => {
+      const trimmedskillName = skillName.trim();
+      if (trimmedskillName !== '') {
+        const newSkill = {
+          "skillName": trimmedskillName,
+        };
+        this.candidateProfessionalDetails.softSkills.push(newSkill);
       }
       this.candidateProfessionalDetails.softSkills.push(newSkill);
       input.value = ''; // Clear the input field
