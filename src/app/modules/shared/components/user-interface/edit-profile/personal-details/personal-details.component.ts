@@ -1,4 +1,4 @@
-import { Component, EventEmitter, Input, OnInit, Output, ViewChild } from '@angular/core';
+import { Component, ElementRef, EventEmitter, Input, OnInit, Output, ViewChild } from '@angular/core';
 import { MatAutocompleteModule, MatAutocompleteTrigger } from '@angular/material/autocomplete';
 import { FormControl, FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { Observable } from 'rxjs';
@@ -56,7 +56,7 @@ export class PersonalDetailsComponent implements OnInit {
   certificateCompany: string = "";
   certificateYear: string ="";
   
-  constructor(private authService: AuthService) { }
+  constructor(private authService: AuthService , private elRef: ElementRef) { }
   ngOnInit(): void {
     this.filteredOptions = this.myControl.valueChanges.pipe(
       debounceTime(300),
@@ -269,30 +269,24 @@ export class PersonalDetailsComponent implements OnInit {
     // Check if there is at least one non-empty certificate name
     return this.newCertName.split(',').some(certName => certName.trim() !== '');
   }
-  
-  onEnter(event: any) {
-    event.preventDefault(); // Prevent default form submission behavior
-    this.addSoftSkill();    // Call your method to add soft skill
-}
-  addSoftSkill(){
-    debugger;
-    if (! this.candidateProfessionalDetails.softSkills) {
-      this.candidateProfessionalDetails.softSkills = [];
-    }
-    const skillsArray = this.newSoftSkill.split(',');
 
-    skillsArray.forEach((skillName:any) => {
-      const trimmedskillName = skillName.trim();
-      if (trimmedskillName !== '') {
-        const newSkill = {
-          "skillName": trimmedskillName,
-        };
-        this.candidateProfessionalDetails.softSkills.push(newSkill);
+  addSoftSkill(event: any) {
+    const input = this.elRef.nativeElement.querySelector('.soft-skill-input');
+    const value = input.value.trim();
+    if (value) {
+      const newSkill = {
+        "skillName": value,
+      };
+      if (!this.candidateProfessionalDetails.softSkills) {
+        this.candidateProfessionalDetails.softSkills = [];
       }
-     
-    });
-    this.newSoftSkill = ''; // Clear the input field
+      this.candidateProfessionalDetails.softSkills.push(newSkill);
+      input.value = ''; // Clear the input field
+    }
+    event.preventDefault(); // Prevent the default action (form navigation)
   }
+
+
 
   removeSoftSkill(title: string) {
 
