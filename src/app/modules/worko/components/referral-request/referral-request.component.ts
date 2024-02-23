@@ -74,7 +74,8 @@ export class ReferralRequestComponent implements OnInit {
     
     let data = {
       "companySK": this.selectedCompany.SK,
-      "jobUrl": this.requestForm.value.jobUrl
+      "jobUrl": this.requestForm.value.jobUrl,
+      "jdExtracted": this.requestForm.value.jobDescription
     }
 
     this.companyListing.createReferralRequest(this.emailId, data).then(async (response) => {
