@@ -1,9 +1,6 @@
 import { Component, ElementRef, EventEmitter, Input, Output, Renderer2 } from '@angular/core';
 import { FormBuilder, FormsModule, ReactiveFormsModule } from '@angular/forms';
-// import { MatButtonModule } from '@angular/material/button';
-// import { MatFormFieldModule } from '@angular/material/form-field';
-// import { MatInputModule } from '@angular/material/input';
-// import { MatStepperModule } from '@angular/material/stepper';
+import { CountryCodes} from 'src/app/modules/shared/data/country.data';
 
 @Component({
   selector: 'app-employee-edit-details',
@@ -43,7 +40,7 @@ export class EmployeeEditDetailsComponent {
   };
   form: any;
 //  profilePicUrl: string = "/assets/public/candidate-img.png";
-
+countryCodes: any = CountryCodes;
 picErrorMessage: string = ""
 
 
@@ -59,6 +56,8 @@ picErrorMessage: string = ""
 
     } else {
       this.getData();
+      // this.employeePersonalData.country = this.employeeDetails?.country;
+      // console.log(this.employeePersonalData.country)
     }
     // console.log(this.candidateProfessionalDetails)
   }
@@ -78,6 +77,7 @@ picErrorMessage: string = ""
       socialLinklinkdin: this.employeeSocial?.linkedin,
       socialLinktwitter: this.employeeSocial?.twitter,
       location: this.employeeDetails?.location,
+      country: this.employeeDetails?.country ? this.employeeDetails?.country : "",
       profilePicUrl: "/assets/public/candidate-img.png"
 
     }

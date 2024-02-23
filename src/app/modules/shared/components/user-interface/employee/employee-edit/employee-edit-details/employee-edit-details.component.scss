@@ -91,3 +91,12 @@
     color: red;
   }
 // stepper//
+.selector {
+  width: 100%;
+  background-color: #0A1E36;
+  color: #fff;
+}
+::placeholder {
+  color: gray;
+  /* Firefox */
+}

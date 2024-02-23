@@ -2,6 +2,7 @@ import { Component, EventEmitter, Input, OnInit, Output, ViewChild} from '@angul
 import { CandidateProfileService } from 'src/app/modules/candidate/services/candidate-profile.service';
 import { ModalComponent } from '../../../modal/modal.component'; 
 import { ModalType } from 'src/app/modules/shared/interfaces/shared.interface';
+import { CountryCodes } from 'src/app/modules/shared/data/country.data';
 @Component({
   selector: 'app-personal-information',
   templateUrl: './personal-information.component.html',
@@ -58,7 +59,7 @@ export class PersonalInformationComponent implements OnInit {
 
   }
 
-
+  countryCodes: any = CountryCodes;
   constructor(private candidateSrv: CandidateProfileService) { }
 
   ngOnInit(): void {
@@ -101,7 +102,7 @@ export class PersonalInformationComponent implements OnInit {
       profilePicUrl: "/assets/public/candidate-img.png",
       isEmailVerified: this.candidateList?.isEmailVerified,
       isNumberVerified: this.candidateList?.isEmailVerified,
-
+      country: this.candidateList?.country ? this.candidateList?.country : ""
     }
   }
 

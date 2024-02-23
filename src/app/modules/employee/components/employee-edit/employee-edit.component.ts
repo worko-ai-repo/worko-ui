@@ -164,7 +164,9 @@ export class EmployeeEditComponent {
         "designation": this.secondStepData?.designation,
         "department": this.secondStepData?.department,
         "SK": this.workExperienceDetails ? this.workExperienceDetails.SK : "",
-        "PK": this.workExperienceDetails ? this.workExperienceDetails.PK : ""
+        "PK": this.workExperienceDetails ? this.workExperienceDetails.PK : "",
+        "experienceInMonths": this.secondStepData?.workingSince,
+        "userType":"EMP",
       }
       ]
     await this.candidateSrv.createWorkExperience(this.emailAddress, workExperience).then(async (response) => {
@@ -242,7 +244,10 @@ export class EmployeeEditComponent {
       "lastAccessedDash": this.employeeDetails.lastAccessedDash,
       "SK": this.employeeDetails?.SK,
       "PK": this.employeeDetails?.PK,
-      "profileImage": this.uploadedProfilePicName ? this.uploadedProfilePicName : this.employeeDetails.profileImage
+      "country":this.firstStepData?.country,
+      "profileImage": this.uploadedProfilePicName ? this.uploadedProfilePicName : this.employeeDetails.profileImage,
+      "acceptedTermsAndConditions": true //Will remove once remove from API
+    
     }
 
     await this.candidateSrv.createUserDetails(this.emailAddress, userDetails).then(async (response) => {

@@ -66,7 +66,10 @@ export class EditProfileComponent implements OnInit {
         "designation": this.secondStepData?.designation,
         "department": this.secondStepData?.department,
         "SK": this.workExperienceDetails ? this.workExperienceDetails.SK : "",
-        "PK": this.workExperienceDetails ? this.workExperienceDetails.PK : ""
+        "PK": this.workExperienceDetails ? this.workExperienceDetails.PK : "",
+        "userType":"CAND",
+        
+        
       }
       ]
     await this.candidateSrv.createWorkExperience(this.emailAddress, workExperience).then(async (response) => {
@@ -205,7 +208,9 @@ export class EditProfileComponent implements OnInit {
       "lastAccessedDash": this.candidateList.lastAccessedDash,
       "SK": this.candidateList?.SK,
       "PK": this.candidateList?.PK,
-      "profileImage": this.uploadedProfilePicName ? this.uploadedProfilePicName : this.candidateList.profileImage
+      "country":this.firstStepData?.country,
+      "profileImage": this.uploadedProfilePicName ? this.uploadedProfilePicName : this.candidateList.profileImage,
+      "acceptedTermsAndConditions": true //Will remove once remove from API
     }
 
     await this.candidateSrv.createUserDetails(this.emailAddress, userDetails).then(async (response) => {

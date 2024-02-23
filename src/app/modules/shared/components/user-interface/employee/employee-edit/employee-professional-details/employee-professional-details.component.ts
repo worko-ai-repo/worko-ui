@@ -120,7 +120,7 @@ form:any;
       companyName: this.workExperienceDetails.companyName,
       department: this.workExperienceDetails.department,
       designation: this.workExperienceDetails.designation,
-      workingSince: this.workExperienceDetails?.designation,
+      workingSince: this.workExperienceDetails?.experienceInMonths,
       officialEmail: this.workExperienceDetails.emailId,
       companySK: this.selectedCompany?.SK ? this.selectedCompany?.SK : this.workExperienceDetails?.SK,
       previousCompanies: "",

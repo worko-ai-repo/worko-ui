@@ -143,8 +143,8 @@ export class PersonalDetailsComponent implements OnInit {
       // Create a new achievement object
       const newAchievement = {
         title: this.title,
-        achievDate: this.date,
-        instituteName: this.instituteName
+        achievDate: new Date(this.date).toISOString() ,
+        acquiredFrom: this.instituteName
       };
       // Push the new achievement object to the achievements array
       this.candidateProfessionalDetails.achievements.push(newAchievement);
@@ -242,7 +242,7 @@ export class PersonalDetailsComponent implements OnInit {
         // Create a new achievement object
         const newCertificate = {
           certName: this.newCertName,
-          completionDate: this.certificateYear + "-01T00:00:00Z",
+          completionDate: new Date(this.certificateYear).toISOString() ,
           issuedInstitution: this.certificateCompany
         };
         // Push the new achievement object to the achievements array
@@ -281,6 +281,7 @@ export class PersonalDetailsComponent implements OnInit {
         this.candidateProfessionalDetails.softSkills = [];
       }
       this.candidateProfessionalDetails.softSkills.push(newSkill);
+      console.log(this.candidateProfessionalDetails.softSkills );
       input.value = ''; // Clear the input field
     }
     event.preventDefault(); // Prevent the default action (form navigation)

@@ -44,10 +44,10 @@
             </div>
             <div class="col">
                 <label for="" class="form-lable  required-form-field">Working since</label>
-                <input type="text" class="form-control form-input" placeholder="In months" name="wsince" id="wsince"
-                    #wsince="ngModel" [(ngModel)]="employeeProfessionalData.workingSince" pattern="[0-9]+"
-                    [title]="wsince.errors?.['pattern'] ? 'Working Since is invalid' : ''"
-                    [ngClass]="{ 'is-invalid': wsince.invalid && (wsince.dirty || wsince.touched) }">
+                <input type="text" class="form-control form-input" placeholder="In months" name="workingSince" id="workingSince"
+                    #workingSince="ngModel" [(ngModel)]="employeeProfessionalData.workingSince" pattern="[0-9]+"
+                    [title]="workingSince.errors?.['pattern'] ? 'Working Since is invalid' : ''"
+                    [ngClass]="{ 'is-invalid': workingSince.invalid && (workingSince.dirty || workingSince.touched) }">
                 <h2 class="badge badge-primary field-text-label" style="background: #57E1FF;">Months</h2>
             </div>
         </div>
@@ -82,7 +82,7 @@
             <div class="col-md-12 d-flex justify-content-end">
                 <button class="btn btn-next me-2" (click)="onPreviousClick()">Previous</button>
                 <button class="btn btn-next" (click)="updateProfessionalDetails()" type="button"
-                    [disabled]="!employeeProfessionalData.workingSince || wsince.invalid || email.invalid || !employeeProfessionalData.department || !employeeProfessionalData.designation">Next</button>
+                    [disabled]="!employeeProfessionalData.workingSince || workingSince.invalid || email.invalid || !employeeProfessionalData.department || !employeeProfessionalData.designation">Next</button>
             </div>
         </div>
     </div>
