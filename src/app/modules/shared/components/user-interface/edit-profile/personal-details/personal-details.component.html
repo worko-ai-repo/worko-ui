@@ -189,7 +189,7 @@
                                         [title]="certificateCompany1.errors?.['pattern'] ? 'Institute Name is invalid' : ''"
                                         [ngClass]="{ 'is-invalid': certificateCompany1.invalid && (certificateCompany1.dirty || certificateCompany1.touched) }">
                                     <input type="text" class="core-skills-input ms-2 form-control"
-                                        placeholder="Completion Date(MM/YYYY)" [(ngModel)]="certificateYear" name="completionyear"
+                                        placeholder="Completion Date(YYYY-MM)" [(ngModel)]="certificateYear" name="completionyear"
                                         id="completionyear" pattern="^(19|20)\d{2}-(0[1-9]|1[0-2])$"
                                         #completionyear="ngModel" [title]="completionyear.errors?.['pattern'] ? 'Certification year is invalid' : ''"
                                         [ngClass]="{ 'is-invalid': completionyear.invalid && (completionyear.dirty || completionyear.touched) }"
@@ -234,8 +234,8 @@
                                     <input type="text" class="core-skills-input ms-2 form-control"
                                         pattern="^([ \u00c0-\u01ffa-zA-Z'.])+$" placeholder="Where did you acquire this"
                                         [(ngModel)]="instituteName" name="instituteName" id="instituteName">
-                                    <input type="text" class="core-skills-input ms-2 form-control" placeholder="Year of achievement(MM/YYYY)"
-                                        [(ngModel)]="date" name="achievementdate" id="achievementdate"  pattern="^(0[1-9]|1[0-2])\/(19|20)\d{2}$"
+                                    <input type="text" class="core-skills-input ms-2 form-control" placeholder="Year of achievement(YYYY-MM)"
+                                        [(ngModel)]="date" name="achievementdate" id="achievementdate"  pattern="^(19|20)\d{2}-(0[1-9]|1[0-2])$"
                                         #achievementdate="ngModel" [title]="achievementdate.errors?.['pattern'] ? 'Achievement date is invalid' : ''"
                                         [ngClass]="{ 'is-invalid': achievementdate.invalid && (achievementdate.dirty || achievementdate.touched) }">
             
