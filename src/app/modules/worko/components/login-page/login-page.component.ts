@@ -157,8 +157,8 @@ validateName() {
     }
 }
 
-otpVerification(emailId: string, otp: string): void {
-  if (this.resetForm && this.resetForm.code && this.resetForm.code === otp) {
+otpVerification(emailId: string): void {
+  // if (this.resetForm && this.resetForm.code && this.resetForm.code === otp) {
     this.authService.otpVerification(emailId)
       .then(response => {
         console.log('OTP verification successful');
@@ -167,9 +167,9 @@ otpVerification(emailId: string, otp: string): void {
       .catch(error => {
         console.error('OTP verification failed:', error);
       });
-  } else {
-    console.log('OTP is not valid');
-  }
+  // } else {
+  //   console.log('OTP is not valid');
+  // }
 }
 
 
@@ -504,6 +504,8 @@ otpVerification(emailId: string, otp: string): void {
       if (this.selectedUserType === "candidate") {
         const { response, error } = await this.createUserWithConfirmation(this.candidateForm, this.verificationForm);
         if (response) {
+         
+         this.otpVerification(this.candidateForm.emailId);
           this.toggleSignInRow();
         }
 
