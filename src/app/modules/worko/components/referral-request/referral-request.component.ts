@@ -86,7 +86,8 @@ export class ReferralRequestComponent implements OnInit {
           this.referralRequestId = response.referralRequestId;
           this.showLoading = true;
           this.showReferrelRow = false;
-          this.getScore(this.referralRequestId);
+          this.showScore = true;
+          // this.getScore(this.referralRequestId);
         }
       }
     })
