@@ -35,7 +35,7 @@ export class ReferralProgressBarComponent {
       } else {
         clearInterval(interval);
         setTimeout(() => {
-          this.showScore = true; // Show the score after 30 seconds
+          // this.showScore = true; // Show the score after 30 seconds
           this.getScore();
         }, 30000); // Wait for 5 seconds after the loop ends
       }
@@ -52,10 +52,19 @@ export class ReferralProgressBarComponent {
     this.companyListing.getMatchingScore(this.emailId, this.referralId).then(async (response) => {
       if (response) {
         console.log("Matchingscore");
-        this.score = response.matchingScore;
+        if(response.matchingScore){
+          this.score = response.matchingScore;
         
-        // this.showLoading = false;
-        this.showScore = true;
+          // this.showLoading = false;
+          this.showScore = true;
+        }else{
+          setTimeout(() => {
+
+            this.getScore();
+          }, 20000); 
+        
+        }
+        
       }
     })
       .catch(error => {
