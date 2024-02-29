@@ -24,7 +24,7 @@ export class CompanyListingComponent implements OnInit {
   hidediv: boolean = true;
   isDivOpen: boolean = false;
   selectedData: any;
-  pageSize = 100;
+  pageSize = 20;
   lastKey: string | undefined = undefined;
   loadedOnce: boolean = true;
   reqGuidanceData: any
@@ -33,9 +33,11 @@ export class CompanyListingComponent implements OnInit {
   triggerReferral: boolean = false;
   triggerGuidance: boolean = false;
   showReferrelRow: boolean= false;
+  appliedFilter: boolean = false;
   filterData: any = {
     teamSize: "",
-    industryType: ""
+    industryType: "",
+    companyName:""
   }
   teamSizeOptions: any = [
     {
@@ -68,7 +70,7 @@ export class CompanyListingComponent implements OnInit {
     },
     {
       name: "100000+",
-      value: "100000-0"
+      value: "100000"
     },
   ]
 
@@ -120,13 +122,17 @@ export class CompanyListingComponent implements OnInit {
 
   async getCompanyDetails() {
     if (this.lastKey || this.loadedOnce) {
-      await this.companyListing.getCompanyListing(this.pageSize, this.lastKey).then(async (response) => {
+      await this.companyListing.getCompanyListing(this.pageSize, this.lastKey, this.filterData.teamSize, this.filterData.industryType, this.filterData.companyName).then(async (response) => {
         if (response) {
           console.log("Helo11");
+          if( this.loadedOnce ){
+            this.companyList = [];
+          }
           this.companyList = this.companyList.concat(response.data);
           this.lastKey = response.pagination.lastKey;
           this.loadedOnce = false;
-          this.filterCompanies(); // Filter companies after updating companyList
+          
+          //  this.filterCompanies(); // Filter companies after updating companyList
         }
       })
       .catch(error => {
@@ -136,13 +142,32 @@ export class CompanyListingComponent implements OnInit {
   }
 
   async onTeamSizeChange(selectedTeamSize: string) {
-    // Assuming selectedTeamSize is a string representation of the selected team size value
-    const [min, max] = selectedTeamSize.split('-').map(Number); // Assuming team size format is 'min-max'
-    // Update the filterData object with the new teamSize values
-    this.filterData.teamSize = { min, max };
+     this.lastKey = "";
+     this.loadedOnce = true;
+     this.filterData.teamSize = selectedTeamSize;
+    // if(selectedTeamSize){
+    //    // Assuming selectedTeamSize is a string representation of the selected team size value
+    //    const [min, max] = selectedTeamSize.split('-').map(Number); // Assuming team size format is 'min-max'
+    //    // Update the filterData object with the new teamSize values
+    //    this.filterData.teamSize = { min, max };   
+    // }else{
+    //   this.filterData.teamSize = "";
+    // }
+
     // Call getCompanyDetails to fetch filtered companies
     await this.getCompanyDetails();
   }
+
+   async onIndustryNameChange(selectedIndustryName: string) {
+   this.lastKey = "";
+ 
+   this.loadedOnce = true;
+    // this.appliedFilter = true;
+    this.filterData.industryName = selectedIndustryName;
+    // Call getCompanyDetails to fetch filtered companies
+    await this.getCompanyDetails();
+  }
+
   
   
   // onMouseOver(item: any, event: any) {
