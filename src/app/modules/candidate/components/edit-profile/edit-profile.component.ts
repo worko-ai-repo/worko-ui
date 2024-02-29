@@ -75,6 +75,7 @@ export class EditProfileComponent implements OnInit {
     await this.candidateSrv.createWorkExperience(this.emailAddress, workExperience).then(async (response) => {
 
       // if (response) {
+        this.router.navigate(['/candidate/cdashboard']);
       this.createEducationDetails();
       // }
     })
@@ -179,7 +180,8 @@ export class EditProfileComponent implements OnInit {
     }
     await this.candidateSrv.createUserProfile(this.emailAddress, socialProfile).then(async (response) => {
       // if (response) {
-      this.createUserDetails();
+      // this.createUserDetails();
+      this.updateWorkExperience();
       // }
     })
   }
@@ -216,8 +218,9 @@ export class EditProfileComponent implements OnInit {
     await this.candidateSrv.createUserDetails(this.emailAddress, userDetails).then(async (response) => {
       if (response) {
         // this.createUserDetails();
+        this.createEducationDetails();
         this.spinner.hide();
-        this.router.navigate(['/candidate/cdashboard']);
+      
       }
     })
   };
@@ -412,7 +415,8 @@ export class EditProfileComponent implements OnInit {
         this.uploadProfilePiconS3Bucket(docResult);
 
       } else {
-        this.updateWorkExperience();
+        // this.updateWorkExperience();
+        this.createUserDetails();
       }
     } catch (error) {
       console.log(error);
@@ -430,7 +434,8 @@ export class EditProfileComponent implements OnInit {
             if (this.firstStepData.fileType && this.firstStepData.fileName) {
               this.updateProfilePic();
             } else {
-              await this.updateWorkExperience();
+              // await this.updateWorkExperience();
+              await this.createUserDetails();
             }
 
 
@@ -464,8 +469,8 @@ export class EditProfileComponent implements OnInit {
           try {
             // let a = await this.authService.linkResumewithUser(this.emailAddress, this.uploadedProfilePicName);
 
-            await this.updateWorkExperience();
-
+            // await this.updateWorkExperience();
+            await this.createUserDetails();
           } catch (error: any) {
 
             if (error && error.error.message) {

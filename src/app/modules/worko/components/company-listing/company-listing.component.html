@@ -24,14 +24,20 @@
         Companies
       </div>
       <div class="col-8 d-flex justify-content-end">
-        <div class=" me-3 p-1 d-flex filter-field">
-          <select name="" id="" class="select-filter-field">
-            <option value="">Industry</option>
-          </select>
+        <div class=" me-3 p-1 d-flex">
+          <select class=" selector form-select" name="industryType" id="industryType"
+          [(ngModel)]="filterData.industryType">
+          <option value="">Select industryType</option>
+          <option *ngFor="let item of teamSizeOptions" value="{{ item.value }}">
+              {{ item.name }}
+          </option>
+      </select>
         </div>
-        <div class=" me-3 p-1  d-flex filter-field">
-          <select name="" id=""  class="select-filter-field">
-            <option value="">Team Size</option>
+        <div class="me-3 p-1 d-flex">
+          <select class="selector form-select" name="teamSize" id="teamSize"
+            [(ngModel)]="filterData.teamSize" (ngModelChange)="onTeamSizeChange($event)">
+            <option value="">Select TeamSize</option>
+            <option *ngFor="let item of teamSizeOptions" [value]="item.value">{{ item.name }}</option>
           </select>
         </div>
      

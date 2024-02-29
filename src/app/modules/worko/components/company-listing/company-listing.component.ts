@@ -33,6 +33,45 @@ export class CompanyListingComponent implements OnInit {
   triggerReferral: boolean = false;
   triggerGuidance: boolean = false;
   showReferrelRow: boolean= false;
+  filterData: any = {
+    teamSize: "",
+    industryType: ""
+  }
+  teamSizeOptions: any = [
+    {
+      name: "<100",
+      value: "0-100"
+    },
+    {
+      name: "100-500",
+      value: "100-500"
+    },
+    {
+      name: "500-1000",
+      value: "500-1000"
+    },
+    {
+      name: "1000-5000",
+      value: "1000-5000"
+    },
+    {
+      name: "5000-10000",
+      value: "5000-10000"
+    },
+    {
+      name: "10000-50000",
+      value: "10000-50000"
+    },
+    {
+      name: "50000-100000",
+      value: "50000-100000"
+    },
+    {
+      name: "100000+",
+      value: "100000-0"
+    },
+  ]
+
   @HostListener('window:scroll', ['$event'])
   onScroll(event: Event): void {
     // Handle scroll event
@@ -95,6 +134,16 @@ export class CompanyListingComponent implements OnInit {
       });
     }
   }
+
+  async onTeamSizeChange(selectedTeamSize: string) {
+    // Assuming selectedTeamSize is a string representation of the selected team size value
+    const [min, max] = selectedTeamSize.split('-').map(Number); // Assuming team size format is 'min-max'
+    // Update the filterData object with the new teamSize values
+    this.filterData.teamSize = { min, max };
+    // Call getCompanyDetails to fetch filtered companies
+    await this.getCompanyDetails();
+  }
+  
   
   // onMouseOver(item: any, event: any) {
   //   this.showdiv = true;
