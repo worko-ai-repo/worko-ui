@@ -28,15 +28,29 @@ export class CompanyListingService {
    *
    * @returns {Promise<any>}
    */
-  getCompanyListing(pageSize: number,  lastKey?: string): Promise<any> {
-    const params: any = { pageSize };
+  async getCompanyListing(pageSize: number, lastKey?: string, teamSize?: any, industryName?: any, companyName?: string): Promise<any> {
+    let url = `${API_URL}company?pageSize=${pageSize}`;
 
     if (lastKey) {
-      params.lastKey = lastKey;
+      url += `&lastKey=${lastKey}`;
     }
-    return this.http.get(API_URL + 'company?pageSize='+pageSize +'&lastKey='+ lastKey, this.authService.getHttpOptions()).toPromise();
-  }
 
+    if (teamSize) {
+      url += `&teamSize=${teamSize}`;
+    }
+    if (industryName) {
+      url += `&industry=${industryName}`;
+    }
+    if (companyName) {
+      url += `&companyName=${companyName}`;
+    }
+    try {
+      return await this.http.get(url, this.authService.getHttpOptions()).toPromise();
+    } catch (error) {
+      console.error('Error fetching company listing:', error);
+      throw error; // Rethrow the error to be handled by the caller
+    }
+  }
   /**
  * Get Company Listing.
  *
@@ -51,18 +65,18 @@ export class CompanyListingService {
 *
 * @returns {Promise<any>}
 */
-getReferralCount(emailId: string): Promise<any> {
-  return this.http.get(`${API_URL}user/${emailId}/subscription/status`, this.authService.getHttpOptions()).toPromise();
-}
+  getReferralCount(emailId: string): Promise<any> {
+    return this.http.get(`${API_URL}user/${emailId}/subscription/status`, this.authService.getHttpOptions()).toPromise();
+  }
 
   /**
 * GetMatching Score
 *
 * @returns {Promise<any>}
 */
-getMatchingScore(emailId: string, referralId: string): Promise<any> {
-  return this.http.get(`${API_URL}user/${emailId}/referral/${referralId}/score`, this.authService.getHttpOptions()).toPromise();
-}
+  getMatchingScore(emailId: string, referralId: string): Promise<any> {
+    return this.http.get(`${API_URL}user/${emailId}/referral/${referralId}/score`, this.authService.getHttpOptions()).toPromise();
+  }
 
 
 }

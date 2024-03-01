@@ -16,7 +16,19 @@
       </p>
     </div>
     <div class="col-8 ms-5 text-white my-2">
-      <input class="searchInput" placeholder="Search by company name..."  [(ngModel)]="searchTerm"  (ngModelChange)="filterCompanies()"/>
+      <input class="searchInput" placeholder="Search by company name..."  name="companyName" id="companyName"
+      [(ngModel)]="searchQuery"
+      (input)="onSearchInputChange()"/>
+      <button
+      mat-button
+      *ngIf="searchQuery"
+      matSuffix
+      mat-icon-button
+      (click)="clearSearchInput()"
+      class="custom-clear-button"
+    >
+      <mat-icon>clear</mat-icon>
+    </button>
     </div>
 
     <div class="row my-4">
@@ -25,16 +37,20 @@
       </div>
       <div class="col-8 d-flex justify-content-end">
         <div class=" me-3 p-1 d-flex">
-          <select class=" selector form-select" name="industryType" id="industryType"
-          [(ngModel)]="filterData.industryType">
+          <select class="selector form-select" name="industryType" id="industryType"
+          [(ngModel)]="filterData.industryType" (ngModelChange)="onIndustryNameChange($event)">
           <option value="">Select industryType</option>
-          <option *ngFor="let item of teamSizeOptions" value="{{ item.value }}">
+          <option value="tech">Tech</option>
+          <option value="e-commerce">Ecommerce</option>
+          <option value="Automobile">Automobile</option>
+          
+          <!-- <option *ngFor="let item of teamSizeOptions" value="{{ item.value }}">
               {{ item.name }}
-          </option>
+          </option> -->
       </select>
         </div>
         <div class="me-3 p-1 d-flex">
-          <select class="selector form-select" name="teamSize" id="teamSize"
+          <select class=" selector form-select" name="teamSize" id="teamSize"
             [(ngModel)]="filterData.teamSize" (ngModelChange)="onTeamSizeChange($event)">
             <option value="">Select TeamSize</option>
             <option *ngFor="let item of teamSizeOptions" [value]="item.value">{{ item.name }}</option>
@@ -43,16 +59,16 @@
      
       </div>
     </div>
-    <div *ngIf="filteredCompanyList.length === 0 && searchTerm.trim() !== ''" class="row mt-4">
+    <div *ngIf="companyList.length === 0" class="row mt-4">
       <div class="col-8 ms-5 text-white my-2">
-        Company "{{ searchTerm }}" not found!.
+        Company not found!.
       </div>
     </div>
   
    
     <div class="row p-3  company-box-container d-flex justify-content-center">
     
-      <div class="company-detail-container pb-3" *ngFor="let item of filteredCompanyList">
+      <div class="company-detail-container pb-3" *ngFor="let item of companyList">
         <div class="company-info d-flex justify-content-center">
           <div class="company-box">
             <div class="row card-view card d-flex justify-content-center">

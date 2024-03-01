@@ -49,7 +49,7 @@
                     <div class="row mt-1">
                         <div class="col-md-5">
                             <label for="" class="form-lable required-form-field">Country</label>
-                            <select class=" selector form-select" name="country" id="country"
+                            <select class="selector form-select" name="country" id="country"
                                 [(ngModel)]="candidatePersonalDetails.country">
                                 <option value="">Select Country</option>
                                 <option *ngFor="let item of countryCodes" value="{{ item.iso3 }}">

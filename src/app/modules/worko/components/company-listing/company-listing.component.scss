@@ -33,6 +33,7 @@
     backdrop-filter: blur(300px);
     color: white;
     background: linear-gradient(148deg, #000 5.99%, #182b45 70.16%);
+    padding: 10px;
 }
 
 .text-white {
@@ -135,3 +136,13 @@ img {
     color: #333; /* Adjust color as needed */
     margin-top: 10px; /* Adjust margin as needed */
   }
+
+  .custom-clear-button {
+    background-color: transparent;
+    color: #FFFFFF;
+    border: none;
+    border-radius: 50%;
+    position: absolute;
+    top:6px;
+    right: 15px;
+}
