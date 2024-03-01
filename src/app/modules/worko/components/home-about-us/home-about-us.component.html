@@ -7,41 +7,43 @@
         <img src="assets/public/logo_bg.png" alt="">
     </div>
 
-    <!-- <div class="header-vector-wrap">
+    <div class="header-vector-wrap">
         <img class="final-macbook-pro-16-38-child2" alt="" src="assets/public/vector-3.svg" />
         <img class="final-macbook-pro-16-38-child3" alt="" src="assets/public/vector-4.svg" />
         <div class="final-macbook-pro-16-38-child4"></div>
         <div class="final-macbook-pro-16-38-child5"></div>
-    </div> -->
+    </div>
 
     <app-navbar></app-navbar>
 
-    <div class="rows">
-        <div class="intro d-flex align-items-center">
-            <div class="content">
+    <div class="rows" >
+        <div class="intro d-flex align-items-center ">
+            <div class="content w-50 position-absolute">
                 <div class="content-heading">
                     Introductions
                 </div>
-                <p class="content-paragraph">
+                <p class="content-paragraph w-75">
                     Welcome to Worko.ai, where the future of hiring is reimagined, and connections 
                     are forged with purpose. As a beacon of innovation in the recruitment landscape, 
                     Worko.ai is more than a platform; it's a community that transcends traditional 
                     hiring norms.
                 </p>
             </div>
-            <div class="intro-image">
-                <img src="assets/about-images-KA/intro.png" alt="intro image">
+            <div class="intro-image w-100 mr-4 d-flex justify-content-end">
+                <img class="img-fluid" src="assets/about-images-KA/intro.png" alt="intro image" style="width: 70%;">
             </div>
         </div>
 
-        <div class="story d-flex flex-row-reverse align-items-center">
-            <div class="content">
+        <div class="story d-flex flex-row-reverse align-items-center position-relative" style="padding-right: 9.31vw;">
+            <div class="content" style="width: 50%; ">
                 <div class="content-heading d-flex align-items-end">
                     <div class="h1">Our </div>
                     <div class="h2"> Story</div>
-                    <img src="assets/about-images-KA/story-icon.png" alt="story icon">
+                    <div class="content-icon">
+                        <img class="img-fluid w-75" src="assets/about-images-KA/story-icon.png" alt="story icon">
+                    </div>    
                 </div>
-                <p class="content-para">
+                <p class="content-para text-center">
                     Founded on the principles of efficiency, transparency, and empowerment, Worko.ai
                     was born from the idea that hiring could be a collaborative, seamless, and 
                     rewarding experience for everyone involved. We set out to bridge the gap between
@@ -49,19 +51,22 @@
                 </p>
             </div>
             
-            <div class="story-image">
+            <div class="story-image position-absolute" style="left: -10%;">
                 <img src="assets/about-images-KA/story.png" alt="intro image">
             </div>
 
         </div>
 
-        <div class="mission d-flex align-items-center ">
+        <div class="mission d-flex align-items-center " style="padding-right: 9.31vw;">
 
             <div class="content">
                 <div class="content-heading d-flex align-items-end">
                     <div class="h1">Our </div>
                     <div class="h2"> Mission</div>
-                    <img src="assets/about-images-KA/mission-icon.png" alt="">
+                    <div class="content-icon">
+                        <img src="assets/about-images-KA/mission-icon.png" class="w-75" alt="content-icon">
+                    </div>
+                    
                 </div>
                 <p class="content-para">
                     Empower job seekers to achieve their career goals through an inclusive and 
@@ -76,13 +81,15 @@
 
         </div>
 
-        <div class="vision d-flex flex-row-reverse align-items-center">
+        <div class="vision d-flex flex-row-reverse align-items-center" style="padding-right: 9.31vw;">
 
             <div class="content">
                 <div class="content-heading d-flex align-items-end">
                     <div class="h1">Our </div>
                     <div class="h2"> Vision</div> 
-                    <img src="assets/about-images-KA/vision-icon.png" alt="vision icon">
+                    <div class="content-icon" >
+                        <img  class="w-75" src="assets/about-images-KA/vision-icon.png" alt="vision icon">
+                    </div>
                 </div>
                 <p class="content-para">
                     We aim to be the world's most trusted pay-for-performance staffing platform. We 
@@ -97,9 +104,9 @@
 
         </div>
 
-        <div class="apart d-flex flex-column align-items-center align-items-center">
+        <div class="apart w-75 d-flex flex-column align-items-center align-items-center">
             <div class="apart-image"> 
-                <img src="assets/about-images-KA/apart.png" alt="intro image">
+                <img class="w-75" src="assets/about-images-KA/apart.png" alt="intro image">
             </div>
 
             <div class="content">
@@ -119,9 +126,11 @@
         </div>
     </div>
 
-    <div class="features-card row">
-        <div class="feature-card col-xxl-4">
-            <div class="card-img">
+<!--------------------------- Features section --------------------------->
+
+    <div class="feature-cards mx-auto d-flex flex-wrap justify-content-around" style="width: 60%"> 
+        <div class="feature-card">
+            <div class="fcard-img d-flex justify-content-center align-items-center">
                 <img src="assets/about-images-KA/fcard1.png" alt="feature-icon">
             </div>
             <div class="card-title">
@@ -130,8 +139,8 @@
             </div>
         </div>
 
-        <div class="feature-card col-xxl-4">
-            <div class="card-img">
+        <div class="feature-card">
+            <div class="fcard-img d-flex justify-content-center align-items-center">
                 <img src="assets/about-images-KA/fcard2.png" alt="feature-icon">
             </div>
             <div class="card-title">
@@ -140,8 +149,8 @@
             </div>
         </div>
 
-        <div class="feature-card col-xxl-4">
-            <div class="card-img">
+        <div class="feature-card">
+            <div class="fcard-img d-flex justify-content-center align-items-center">
                 <img src="assets/about-images-KA/fcard3.png" alt="feature-icon">
             </div>
             <div class="card-title">
@@ -150,8 +159,8 @@
             </div>
         </div>
 
-        <div class="feature-card col-xxl-4">
-            <div class="card-img">
+        <div class="feature-card">
+            <div class="fcard-img d-flex justify-content-center align-items-center">
                 <img src="assets/about-images-KA/fcard4.png" alt="feature-icon">
             </div>
             <div class="card-title">
@@ -160,8 +169,8 @@
             </div>
         </div>
 
-        <div class="feature-card col-xxl-4">
-            <div class="card-img">
+        <div class="feature-card">
+            <div class="fcard-img d-flex justify-content-center align-items-center">
                 <img src="assets/about-images-KA/fcard5.png" alt="feature-icon">
             </div>
             <div class="card-title">
@@ -170,8 +179,8 @@
             </div>
         </div>
 
-        <div class="feature-card col-xxl-4">
-            <div class="card-img">
+        <div class="feature-card">
+            <div class="fcard-img d-flex justify-content-center align-items-center ">
                 <img src="assets/about-images-KA/fcard6.png" alt="feature-icon">
             </div>
             <div class="card-title">
@@ -180,6 +189,9 @@
             </div>
         </div>
     </div>
+
+
+<!--------------------------- team section ---------------------------->
 
     <div class="team-section">
         <div class="team-header d-flex flex-column align-items-center">
@@ -195,25 +207,29 @@
                 <!--  -->
             </div>
         </div>
-        
 
-
-        <div class="team-cards">
+        <div class="team-cards mx-auto d-flex flex-wrap justify-content-around" style="width: 80%">
             <div class="team-card" *ngFor="let index of [0,1,2,3,4,5,6,7]">
-              <div class="card-img"></div>
-              <div class="name">Jeetesh Kumar</div>
-              <div class="role">Founder</div>
-              <br>
-              <div class="links">
-                <div class="linkedin-logo"></div>
-                <div class="x-logo"></div>
-              </div>
+                <img src="/assets/about-images-KA/tcard1.png" alt="team member photo">
+                <div class="name">Jeetesh Kumar</div>
+                <div class="role">Founder</div>
+                <!-- <hr style="border-color: #09111C; width: 100%; height: 2.5px; background-color: #09111C;"> -->
+                <hr style="height: 2px; width: 100%; background-color: #09111C; border: none;">
+                <div class="links d-flex">
+                    <div class="linkedin-logo">
+                        <img src="/assets/about-images-KA/inlogo.png" alt="linkedin logo">
+                    </div>
+                    <div class="x-logo ms-3">
+                        <img src="/assets/about-images-KA/xlogo.png" alt="x logo">
+                    </div>
+                </div>
             </div>
         </div>
-
     </div>
 
-    <div class="form">
+<!-------------------------- form section --------------------------->
+
+    <div class="form d-flex flex-column align-items-center" style="width: 85%;margin: auto;">
         <div class="form-header">
             <div class="font1">Become a Part of</div>
             <div class="font-2">Worko.ai</div>
@@ -226,18 +242,23 @@
             shaping the future of hiring.
         </p>
         <form action="sumbit">
-            <div class="input-row">
-                <input type="text" placeholder="Name">
-                <input type="text" placeholder="Contact Number">
-                <input type="text" placeholder="Email">
-                <input type="text" placeholder="Upload your CV "><!-- img -->
+            <div class="input-row d-flex">
+                <input type="text" class="input" placeholder="Name">
+                <input type="text" class="input" placeholder="Contact Number">
+                <input type="text" class="input" placeholder="Email">
+                <div class="cv position-relative" style="width: 20%; display: flex; align-items: center;">
+                    <input type="button" class="input cv-button" style="padding-right: 20%; width: 100%;" value="Upload your CV">
+                    <img class="position-absolute" src="/assets/about-images-KA/cv-icon.png" alt="" style="left: 70%; top: 17%">
+                </div>
             </div>
 
-            <input type="text-area">
+            <textarea class="w-100" style="height: 200px; padding: 10px" placeholder="What you will bring on the table"></textarea>
 
-            <button class="form-button">
-                Send Message
-            </button>
+            <div class="d-flex justify-content-end">
+                <button class="form-button" >
+                    Send Message
+                </button>
+            </div>            
         </form>
     </div>
 
