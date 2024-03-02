@@ -1,12 +1,105 @@
+// ---------------------utilities------------------------
 
-
-.rows{
-    padding-left: 19.6vw;
+.para{
+    font-size: 25px;
+    font-weight: 400;
+    line-height: 40px;
+    letter-spacing: 0em;
+    text-align: left;
 }
 
 .about-section{
     position: relative;
+    background-color: #000000;
 }
+
+.head1{
+    font-weight: 400;
+}
+
+
+// ------------------ Gradient CSS --------------------
+.gradient-left1{
+    top: 384px;
+}
+
+.gradient-left2{
+    top: 970px;
+}
+
+.gradient-left3{
+    top: 2314px;
+}
+
+.gradient-left4{
+    top: 4883px
+}
+
+.gradient-left5{
+    top: 6107px
+}
+
+.gradient-right1 {
+    right: 0;
+    top: 240px;
+}
+
+.gradient-right2 {
+    right: 0;
+    top: 2874px;
+}
+
+.gradient-right3 {
+    right: 0;
+    top: 4177px;
+}
+
+.gradient-right4 {
+    right: 0;
+    top: 5410px;
+}
+
+
+// -------rows CSS---------
+
+.rows{
+    padding-left: 12.5vw;
+}
+
+.section-head{
+    font-size: 55px;
+}
+
+.intro .content{
+    width: 65%;
+    padding-top: 15%;
+}
+
+.story{
+    padding-right: 9.32vw;
+    padding-top: 150px;
+}
+
+.mission{
+    padding-right: 9.32vw;
+    padding-top: 275px;
+}
+
+.vision{
+    padding-top: 100px;    
+}
+
+.apart{
+    padding-top: 100px;
+    padding-left: 7vw;
+    width: 80%;
+}
+
+// -------------------Feature section-----------------
+.feature-cards{
+    padding-top: 65px;
+}
+
 
 .top-header-bg{
     position:absolute;
@@ -20,6 +113,7 @@
     display: flex;
     flex-wrap: wrap;
     justify-content: space-around;
+    width: 65%;
 }
 
 .feature-card{
@@ -40,7 +134,7 @@
 .fcard-img {
     width: 70.5px;
     height: 69px;
-    background-color: #f0f0f0;
+    background-color: #CDE4FB;
     border-radius: 50%;
     display: flex;
     justify-content: center;
@@ -54,7 +148,18 @@
     border-radius: 50%;
 }
 
-// ------------team-card css-----------
+.feature-card .card-title{
+    font-size: 24px;
+    text-align: center;
+    padding-top: 10px;
+}   
+
+
+// ------------team section css-----------
+
+.team-section{
+    padding-top: 225px;
+}
 
 .team-card{
     display: flex;
@@ -70,7 +175,6 @@
     border-radius: 12px;
     padding: 21px 26px;
 }
-
 
 .input-row input {
     width: 375px;
