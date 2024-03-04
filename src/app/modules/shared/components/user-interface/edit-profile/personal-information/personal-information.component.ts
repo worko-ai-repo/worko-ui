@@ -1,6 +1,6 @@
 import { Component, EventEmitter, Input, OnInit, Output, ViewChild} from '@angular/core';
 import { CandidateProfileService } from 'src/app/modules/candidate/services/candidate-profile.service';
-import { ModalComponent } from '../../../modal/modal.component'; 
+import { ModalComponent } from '../../../modal/modal.component';
 import { ModalType } from 'src/app/modules/shared/interfaces/shared.interface';
 import { CountryCodes } from 'src/app/modules/shared/data/country.data';
 @Component({
@@ -34,6 +34,11 @@ export class PersonalInformationComponent implements OnInit {
     collegeName: "",
     collegeDegree: "",
     passingYear: "",
+    collegeData : [{
+      collage: "",
+      degree: "",
+      passingYear: ""
+    }],
     collegeName1: "",
     collegeDegree1: "",
     passingYear1: "",
@@ -76,6 +81,11 @@ export class PersonalInformationComponent implements OnInit {
     }
 
     console.log(this.candidatePersonalDetails)
+    this.candidatePersonalDetails['collegeData'] = [{
+      collage: "",
+      degree: "",
+      passingYear: ""
+    }]
   }
   getData() {
     this.candidatePersonalDetails = {
@@ -83,6 +93,7 @@ export class PersonalInformationComponent implements OnInit {
       email: this.candidateList?.emailList?.primary,
       phoneNo: this.candidateList?.number,
       location: this.candidateList?.location,
+      collegeData: this.educationList,
       collegeName: this.educationList[0]?.collage,
       collegeDegree: this.educationList[0]?.degree,
       passingYear: this.educationList[0]?.passingYear,
@@ -132,8 +143,8 @@ export class PersonalInformationComponent implements OnInit {
           this.fileName = file.name;
           this.fileType = file.type;
           this.candidatePersonalDetails.fileName = this.fileName,
-          this.candidatePersonalDetails.fileToUpload = this.fileToUpload,
-          this.candidatePersonalDetails.fileType = this.fileType;
+            this.candidatePersonalDetails.fileToUpload = this.fileToUpload,
+            this.candidatePersonalDetails.fileType = this.fileType;
           reader.onload = (event) => { // called once readAsDataURL is completed
             this.candidatePersonalDetails.profilePicUrl = event.target?.result as string;
           }
@@ -148,8 +159,8 @@ export class PersonalInformationComponent implements OnInit {
           this.fileName = "";
           this.fileType = "";
           this.candidatePersonalDetails.fileName = this.fileName,
-          this.candidatePersonalDetails.fileToUpload = this.fileToUpload,
-          this.candidatePersonalDetails.fileType = this.fileType;
+            this.candidatePersonalDetails.fileToUpload = this.fileToUpload,
+            this.candidatePersonalDetails.fileType = this.fileType;
           this.picErrorMessage = "Please upload a jpg, png image only."
         }
       }
@@ -159,31 +170,51 @@ export class PersonalInformationComponent implements OnInit {
     this.openModal(ModalType.OTP_VERIFICATION);
   }
 
-    /**
-    * Open modal.
-    *
-    * @param {ModalType} modalType
-    * @param {string} [message = ""]
-    * @param {string} [title = ""]
-    * @returns {void}
-    */
-    openModal(modalType: ModalType, message: string = "", title: string = ""): void {
-      this.showModal = modalType;
-      this.modalMessage = message;
-      this.modalTitle = title;
-      this.modal.open();
-    }
-    /**
-     * Close modal.
-     *
-     * @returns {void}
-     */
-    closeModal(): void {
-      // this.referrralComponent.showReferrelRow = true;
-      this.modal.cancel();
-    }
+  /**
+  * Open modal.
+  *
+  * @param {ModalType} modalType
+  * @param {string} [message = ""]
+  * @param {string} [title = ""]
+  * @returns {void}
+  */
+  openModal(modalType: ModalType, message: string = "", title: string = ""): void {
+    this.showModal = modalType;
+    this.modalMessage = message;
+    this.modalTitle = title;
+    this.modal.open();
+  }
+  /**
+   * Close modal.
+   *
+   * @returns {void}
+   */
+  closeModal(): void {
+    // this.referrralComponent.showReferrelRow = true;
+    this.modal.cancel();
+  }
 
-    receiveDataFromChild(data: any){
-      this.modal.cancel();
+  receiveDataFromChild(data: any){
+    this.modal.cancel();
+  }
+
+  addCollege() {
+    if (this.candidatePersonalDetails.collegeData.length < 5) {
+      this.candidatePersonalDetails.collegeData.push({ collage: "", degree: "", passingYear: "" });
     }
+  }
+
+  validateAddButton() {
+    let status = false;
+    this.candidatePersonalDetails.collegeData.forEach((element: { collage: string; degree: string; passingYear: string; }) => {
+      if(element.collage.trim().length>0 && element.degree.trim().length>0 && element.passingYear.trim().length>0)
+      {
+
+        status = true;
+
+      }
+    });
+    return status;
+  }
+
 }
