@@ -12,7 +12,6 @@ export class UserNavbarComponent implements OnInit{
   userRole: any;
   activeRoute: string = '';
   navbarToggleSwitchService: NavbarToggleSwitchService;
-  private localStoragekey = 'isEmployeeDashboardEnabled';
   constructor( private router : Router, navbarToggleSwitchService : NavbarToggleSwitchService,){
 
     this.navbarToggleSwitchService = navbarToggleSwitchService;
