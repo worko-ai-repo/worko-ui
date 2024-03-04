@@ -110,7 +110,7 @@ export class PersonalInformationComponent implements OnInit {
       socialLinktwitter: this.candidateSocial?.twitter,
       socialSk: this.candidateSocial?.SK,
       socialPk: this.candidateSocial?.PK,
-      profilePicUrl: "/assets/public/candidate-img.png",
+      profilePicUrl: this.candidateList?.profileImageAwsS3SignedUrl? this.candidateList?.profileImageAwsS3SignedUrl : "/assets/public/candidate-img.png",
       isEmailVerified: this.candidateList?.isEmailVerified,
       isNumberVerified: this.candidateList?.isEmailVerified,
       country: this.candidateList?.country ? this.candidateList?.country : ""

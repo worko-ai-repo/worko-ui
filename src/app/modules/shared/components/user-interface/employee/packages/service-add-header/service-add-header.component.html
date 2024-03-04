@@ -15,7 +15,7 @@
   </div>
 </div>
 
-<app-modal [theme]="'theme-k'" [centered]="true" [showHeader]="showModal === modalType.MESSAGE"
+<app-modal [theme]="'theme-k'" [centered]="true" [showClose]= "true" [showHeader]="showModal === modalType.MESSAGE"
   [showFooter]="showModal === modalType.MESSAGE" [title]="modalTitle" [message]="modalMessage"
   [bodyClass]="modalMessage ? 'p-5' : 'p-0'">
 
@@ -36,7 +36,7 @@
 
         <div class="col-md-8">
           <div class="">
-            <select name="" id="" class="selector me-2 ps-2 ms-2">
+            <select name="" id="" class="form-select selector me-2 ps-2 ms-2">
               <option value="">7 days</option>
               <option value="">15 days</option>
               <option value="">30 days</option>
@@ -59,7 +59,7 @@
 
           <div class="col-md-8">
             <div>
-              <input type="text" class="selector me-2 ps-2 ms-3" placeholder="240" />
+              <input type="text" class="selector-input me-2 ps-2 ms-3" placeholder="240" />
               <!-- <select name="" id="" class="input-time p-1 ps-2 pe-2">
                   <option value="" class="">Hours</option>
                 </select> -->

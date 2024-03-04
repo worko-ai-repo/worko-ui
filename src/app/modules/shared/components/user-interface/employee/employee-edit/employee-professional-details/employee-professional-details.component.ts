@@ -106,6 +106,7 @@ form:any;
       this.fields = this.employeeProfessionalData.previousCompanies;
       if(this.employeeProfessionalData && this.employeeProfessionalData.previousCompanies.length == 0){
         this.addField();
+        debugger;
       }
     } else {
       this.getData();
@@ -117,11 +118,11 @@ form:any;
 
   getData() {
     this.employeeProfessionalData = {
-      companyName: this.workExperienceDetails.companyName,
-      department: this.workExperienceDetails.department,
-      designation: this.workExperienceDetails.designation,
+      companyName: this.workExperienceDetails?.companyName,
+      department: this.workExperienceDetails?.department,
+      designation: this.workExperienceDetails?.designation,
       workingSince: this.workExperienceDetails?.experienceInMonths,
-      officialEmail: this.workExperienceDetails.emailId,
+      officialEmail: this.workExperienceDetails?.emailId ? this.workExperienceDetails?.emailId : "",
       companySK: this.selectedCompany?.SK ? this.selectedCompany?.SK : this.workExperienceDetails?.SK,
       previousCompanies: "",
       isEmailVerified: false,
