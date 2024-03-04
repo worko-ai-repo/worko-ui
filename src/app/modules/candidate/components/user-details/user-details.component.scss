@@ -56,7 +56,16 @@
     }
 
     .img-user {
-        width: 150px;
+        // width: 150px;
+        max-width:100%;
         /* Adjust the width of the user image */
     }
+}
+.image-area{
+    width: 160px;
+    text-align: center;
+}
+
+.details-area{
+    width: calc(100%  - 160px);
 }

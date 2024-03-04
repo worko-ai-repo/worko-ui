@@ -11,10 +11,15 @@
     width: 100%;
 }
 
-.img-user {
-    width: 150px;
+// .img-user {
+//     width: 150px;
+// }
+.image-area{
+    width:160px;
 }
-
+.employee-details{
+    width:calc(100% - 160px);
+}
 .payment-card {
     border-radius: 12px;
     background: #132C52;

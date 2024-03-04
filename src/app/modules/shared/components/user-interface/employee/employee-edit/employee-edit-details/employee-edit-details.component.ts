@@ -35,7 +35,7 @@ export class EmployeeEditDetailsComponent {
     fileName: "",
     fileToUpload: "",
     fileType: "",
-    profilePicUrl: "/assets/public/candidate-img.png"
+    profileImageAwsS3SignedUrl: ""
   
   };
   form: any;
@@ -78,7 +78,7 @@ picErrorMessage: string = ""
       socialLinktwitter: this.employeeSocial?.twitter,
       location: this.employeeDetails?.location,
       country: this.employeeDetails?.country ? this.employeeDetails?.country : "",
-      profilePicUrl: "/assets/public/candidate-img.png"
+      profilePicUrl: this.employeeDetails?.profileImageAwsS3SignedUrl? this.employeeDetails?.profileImageAwsS3SignedUrl : "/assets/public/candidate-img.png"
 
     }
   }

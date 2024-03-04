@@ -12,19 +12,11 @@ export class UserDetailsComponent implements OnInit {
   @Input() workExperienceDetails: any = "";
   
   recentGraduation: any;
+  profileImage: string = "/assets/public/candidate-img.png";
   constructor() { }
 
   ngOnInit(): void {
-    console.log('Education Details:', this.educationDetails);
 
-//     if (this.educationDetails && Array.isArray(this.educationDetails)) {
-//       this.recentGraduation = this.educationDetails.reduce((acc: any, current: any) => {
-//         return current.passingYear > acc.passingYear ? current : acc;
-//       }, { passingYear: 0 });
-//       console.log('Recent Graduation:', this.recentGraduation);
-//     } else {
-//       console.log('Education Details is not an array or is null/undefined.');
-//     }
 }
 
 
@@ -34,5 +26,6 @@ ngOnChanges(): void {
   if(this.workExperienceDetails?.length){
     this.workExperienceDetails = this.workExperienceDetails[0];
   }
+this.profileImage = this.candidateDetails?.profileImageAwsS3SignedUrl ?this.candidateDetails?.profileImageAwsS3SignedUrl : '/assets/public/candidate-img.png'
 }
 }
