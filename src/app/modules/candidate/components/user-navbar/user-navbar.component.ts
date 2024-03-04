@@ -1,4 +1,4 @@
-import { Component, Input, OnInit } from '@angular/core';
+import { Component, Input, OnDestroy, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { NavbarToggleSwitchService } from '../../services/navbar-toggle-switch.service';
 
@@ -49,8 +49,14 @@ export class UserNavbarComponent implements OnInit{
        
       ]
     }
-    
+
+    this.getToggleStatus();
   }
+
+  getToggleStatus() {
+    return this.navbarToggleSwitchService.getIsEmployeeDashboard();
+  }
+
   toggleDashboard() {
     this.navbarToggleSwitchService.toggleDashboard();
 
@@ -59,7 +65,6 @@ export class UserNavbarComponent implements OnInit{
     } else {
       this.router.navigate(['/candidate/cdashboard']);
     }  
-  
-}
+  }
 
 }
