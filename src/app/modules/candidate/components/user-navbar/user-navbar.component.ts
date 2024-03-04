@@ -1,4 +1,4 @@
-import { Component, Input, OnInit } from '@angular/core';
+import { Component, Input, OnDestroy, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { NavbarToggleSwitchService } from '../../services/navbar-toggle-switch.service';
 
@@ -7,11 +7,12 @@ import { NavbarToggleSwitchService } from '../../services/navbar-toggle-switch.s
   templateUrl: './user-navbar.component.html',
   styleUrls: ['./user-navbar.component.scss']
 })
-export class UserNavbarComponent implements OnInit{
+export class UserNavbarComponent implements OnInit, OnDestroy{
   @Input() userType: string = "";
   userRole: any;
   activeRoute: string = '';
   navbarToggleSwitchService: NavbarToggleSwitchService;
+  private localStoragekey = 'isEmployeeDashboardEnabled';
   constructor( private router : Router, navbarToggleSwitchService : NavbarToggleSwitchService,){
 
     this.navbarToggleSwitchService = navbarToggleSwitchService;
@@ -49,8 +50,14 @@ export class UserNavbarComponent implements OnInit{
        
       ]
     }
-    
+
+    this.getToggleStatus();
   }
+
+  getToggleStatus() {
+    return this.navbarToggleSwitchService.getIsEmployeeDashboard();
+  }
+
   toggleDashboard() {
     this.navbarToggleSwitchService.toggleDashboard();
 
@@ -59,7 +66,10 @@ export class UserNavbarComponent implements OnInit{
     } else {
       this.router.navigate(['/candidate/cdashboard']);
     }  
-  
-}
+  }
+
+  ngOnDestroy(): void {
+    localStorage.removeItem(this.localStoragekey);
+  }
 
 }
