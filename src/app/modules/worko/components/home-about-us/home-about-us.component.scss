@@ -18,52 +18,59 @@
 }
 
 
+// ------------------ Side Timeline ------------------
+.side-timeline{
+    left: 8.5%
+}
+
+
+
 // ------------------ Gradient CSS --------------------
 .gradient-left1{
-    top: 384px;
+    top: 334px;
 }
 
 .gradient-left2{
-    top: 970px;
+    top: 920px;
 }
 
 .gradient-left3{
-    top: 2314px;
+    top: 2264px;
 }
 
 .gradient-left4{
-    top: 4883px
+    top: 4833px;
 }
 
 .gradient-left5{
-    top: 6107px
+    top: 6057px;
 }
 
 .gradient-right1 {
     right: 0;
-    top: 240px;
+    top: 190px;
 }
 
 .gradient-right2 {
     right: 0;
-    top: 2874px;
+    top: 2824px;
 }
 
 .gradient-right3 {
     right: 0;
-    top: 4177px;
+    top: 4127px;
 }
 
 .gradient-right4 {
     right: 0;
-    top: 5410px;
+    top: 5360px;
 }
 
 
 // -------rows CSS---------
 
 .rows{
-    padding-left: 12.5vw;
+    padding-left: 15vw;
 }
 
 .section-head{
@@ -72,12 +79,21 @@
 
 .intro .content{
     width: 65%;
-    padding-top: 15%;
+    padding-top: 240px;
+    // margin-left: 3%;
 }
 
 .story{
-    padding-right: 9.32vw;
+    padding-right: 4vw;
     padding-top: 150px;
+}
+
+.story-img img{
+    width: 53%;
+}
+
+.story .content{
+    width: 52%;
 }
 
 .mission{
@@ -85,8 +101,22 @@
     padding-top: 275px;
 }
 
+.mission .content{
+    width: 56%;
+    margin-left: 5vw;
+    padding-top: 220px;
+}
+
+.mission-image{
+    left: 50%;
+}
+
 .vision{
-    padding-top: 100px;    
+    padding-top: 190px;    
+}
+
+.vision .content{
+    padding-top: 50px;
 }
 
 .apart{
@@ -113,7 +143,8 @@
     display: flex;
     flex-wrap: wrap;
     justify-content: space-around;
-    width: 65%;
+    width: 60%;
+    margin-left: 22%;
 }
 
 .feature-card{
@@ -126,8 +157,8 @@
     background-color: #004054;
     margin-left: 3%;
     margin-bottom: 3%;
-    height: 219px;
-    padding: 3%;
+    height: 220px;
+    padding: 2%;
     border-radius: 12px;
 }
 
@@ -149,16 +180,32 @@
 }
 
 .feature-card .card-title{
+    display: flex;
+    flex-wrap: wrap;
     font-size: 24px;
     text-align: center;
     padding-top: 10px;
+    line-height: 36px;
+    justify-content: center;
+
+
+    .title1{
+        padding-right: 10px;
+    }
 }   
 
 
 // ------------team section css-----------
 
 .team-section{
-    padding-top: 225px;
+    padding-top: 160px;
+    padding-left: 5%;
+}
+
+.team-cards{
+    padding-top: 190px;
+    width: 87%;
+    padding-left: 5%;
 }
 
 .team-card{
@@ -188,4 +235,71 @@
     color: #09111C;
 }
 
+.team-content{
+    width: 65%;
+}
 
+
+// ------------------Form Section-------------------
+
+.form{
+    padding-top: 170px;
+    padding-bottom: 40px;
+    .form-header{
+        padding-bottom: 50px;
+    }
+    .form-contents{
+        padding-top: 10px;
+    }
+    .form-button{
+        width: 123px;
+        height: 41px;
+        font-size: 14px;
+        line-height: 16.8px;
+        padding: 0;
+        border-radius: 6px;
+        color: white;
+        background-color: #57E1FF;
+    }
+}
+
+
+
+
+
+
+// ---------------Responsive for ipads---------------
+
+@media (max-width: 850px) {
+    .para{
+        font-size: 16px;
+        line-height: 21px;
+    }
+    .section-head{
+        font-size: 26px;
+        line-height: 63px;
+    }
+
+    .feature-cards{
+        width: 80%;
+        margin-left: 13%;
+    }
+
+    .feature-card{
+        height: 150px;
+    }
+    
+    .feature-card .card-title{
+        font-size: 16px;
+        line-height: 24px;
+    }
+
+    .fcard-img{
+        width: 53px;
+        height: 52px;
+        img{
+            width: 50%;
+        }
+    }
+
+}
