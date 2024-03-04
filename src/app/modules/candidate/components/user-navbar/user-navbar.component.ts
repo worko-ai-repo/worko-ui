@@ -7,7 +7,7 @@ import { NavbarToggleSwitchService } from '../../services/navbar-toggle-switch.s
   templateUrl: './user-navbar.component.html',
   styleUrls: ['./user-navbar.component.scss']
 })
-export class UserNavbarComponent implements OnInit, OnDestroy{
+export class UserNavbarComponent implements OnInit{
   @Input() userType: string = "";
   userRole: any;
   activeRoute: string = '';
@@ -66,10 +66,6 @@ export class UserNavbarComponent implements OnInit, OnDestroy{
     } else {
       this.router.navigate(['/candidate/cdashboard']);
     }  
-  }
-
-  ngOnDestroy(): void {
-    localStorage.removeItem(this.localStoragekey);
   }
 
 }
