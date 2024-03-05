@@ -109,9 +109,9 @@
                             </div>
 
                             <div class="col-md-2 d-flex align-items-end">
-                            <button type="button" class="float-end btn circular-button" *ngIf="i === 0" (click)="addCollege()"
-                            [disabled]="!areAllPreviousFieldsFilled() || candidatePersonalDetails.collegeData.length >= 5">+</button>
-                            <button type="button" class="float-end btn circular-button" *ngIf="i > 0" (click)="removeField(i)">x</button>
+                                <button type="button" class="float-end btn circular-button" *ngIf="i === 0" (click)="addCollege()"
+                                    [disabled]="!areAllPreviousFieldsFilled() || candidatePersonalDetails.collegeData.length >= 5">+</button>
+                                <button type="button" class="float-end btn circular-button" *ngIf="i > 0" (click)="removeField(i)">x</button>
                             </div>
 
                     </div>
@@ -171,7 +171,7 @@
                     </div>
                     <div class="row">
                         <div class="col-md-10 mt-3">
-                            <button class="btn btn-next float-end" (click)="updateProfessionalDetails()" type="submit"
+                            <button class="btn btn-next float-end" (click)="updateEducationDetails()" type="submit"
                                 [disabled]="( !candidate.form.valid || !candidatePersonalDetails.socialLinklinkdin || !candidatePersonalDetails.phoneNo || !candidatePersonalDetails.email || !candidatePersonalDetails.name || !candidatePersonalDetails.location  || !candidatePersonalDetails.about )">Next</button>
                         </div>
 
