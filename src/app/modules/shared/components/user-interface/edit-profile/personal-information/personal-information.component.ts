@@ -65,6 +65,7 @@ export class PersonalInformationComponent implements OnInit {
   }
 
   countryCodes: any = CountryCodes;
+  savedValues!: any[];
   constructor(private candidateSrv: CandidateProfileService) { }
 
   ngOnInit(): void {
@@ -74,18 +75,25 @@ export class PersonalInformationComponent implements OnInit {
 
   ngOnChanges(): void {
 
-    if (this.candidatePersonalDetails.name && this.candidatePersonalDetails.collegeName && this.candidatePersonalDetails.socialLinkGithub) {
-
+    if (this.candidatePersonalDetails.name && this.candidatePersonalDetails.collegeName && this.candidatePersonalDetails.socialLinkGithub)  {
+      if(this.candidatePersonalDetails && this.candidatePersonalDetails.collegeData.length == 0){
+        this.addCollege();
+        debugger;
+    }
     } else {
       this.getData();
+      if(this.candidatePersonalDetails && this.candidatePersonalDetails.collegeData.length == 0){
+        this.addCollege();
+      }
     }
 
     console.log(this.candidatePersonalDetails)
-    this.candidatePersonalDetails['collegeData'] = [{
-      collage: "",
-      degree: "",
-      passingYear: ""
-    }]
+    // this.candidatePersonalDetails['collegeData'] = [{
+    //   collage: "",
+    //   degree: "",
+    //   passingYear: ""
+    // }]
+    
   }
   getData() {
     this.candidatePersonalDetails = {
@@ -94,14 +102,14 @@ export class PersonalInformationComponent implements OnInit {
       phoneNo: this.candidateList?.number,
       location: this.candidateList?.location,
       collegeData: this.educationList,
-      collegeName: this.educationList[0]?.collage,
-      collegeDegree: this.educationList[0]?.degree,
-      passingYear: this.educationList[0]?.passingYear,
+      // collegeName: this.educationList[0]?.collage,
+      // collegeDegree: this.educationList[0]?.degree,
+      // passingYear: this.educationList[0]?.passingYear,
       SK: this.educationList[0]?.SK,
       PK: this.educationList[0]?.PK,
-      collegeName1: this.educationList[1]?.collage,
-      collegeDegree1: this.educationList[1]?.degree,
-      passingYear1: this.educationList[1]?.passingYear,
+      // collegeName1: this.educationList[1]?.collage,
+      // collegeDegree1: this.educationList[1]?.degree,
+      // passingYear1: this.educationList[1]?.passingYear,
       SK1: this.educationList[1]?.SK,
       PK1: this.educationList[1]?.PK,
       about: this.candidateList?.about,
@@ -115,6 +123,14 @@ export class PersonalInformationComponent implements OnInit {
       isNumberVerified: this.candidateList?.isEmailVerified,
       country: this.candidateList?.country ? this.candidateList?.country : ""
     }
+  }
+
+  updateProfessionalDetails() {
+    const nonBlankFields = this.candidatePersonalDetails.collegeData.filter((field: { collage: string; degree: string; passingYear: string; }) => field.collage.trim() !== '' || field.degree.trim() !== '' || field.passingYear.trim() !== '');
+
+    // Save the non-blank fields
+    this.savedValues = [...nonBlankFields];
+    this.candidatePersonalDetails.collegeData = this.savedValues;
   }
 
   async createEducation(form: any): Promise<void> {
@@ -204,17 +220,26 @@ export class PersonalInformationComponent implements OnInit {
     }
   }
 
-  validateAddButton() {
-    let status = false;
-    this.candidatePersonalDetails.collegeData.forEach((element: { collage: string; degree: string; passingYear: string; }) => {
-      if(element.collage.trim().length>0 && element.degree.trim().length>0 && element.passingYear.trim().length>0)
-      {
-
-        status = true;
-
-      }
-    });
-    return status;
+  // Method to check if all previous fields are filled
+  areAllPreviousFieldsFilled(): boolean {
+    return this.candidatePersonalDetails.collegeData.every((field: { collage: string; degree: string; passingYear: string; }) => field.collage.trim() !== '' && field.degree.trim() !== '' && field.passingYear.trim() !== '' && /^[0-9]+$/.test(field.passingYear.trim()));
   }
+
+  removeField(index: number) {
+    this.candidatePersonalDetails.collegeData.splice(index, 1);
+  }
+
+  // validateAddButton() {
+  //   let status = false;
+  //   this.candidatePersonalDetails.collegeData.forEach((element: { collage: string; degree: string; passingYear: string; }) => {
+  //     if(element.collage.trim().length>0 && element.degree.trim().length>0 && element.passingYear.trim().length>0)
+  //     {
+
+  //       status = true;
+
+  //     }
+  //   });
+  //   return status;
+  // }
 
 }
