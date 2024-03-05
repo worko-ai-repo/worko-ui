@@ -50,10 +50,10 @@ export class UserMenubarComponent {
           name: 'Refer & Earn',
           router: "candidate/crefer&earn"
         },
-        {
-          name: 'Settings',
-          router: "candidate/crefer&earn"
-        },
+        // {
+        //   name: 'Settings',
+        //   router: "candidate/crefer&earn"
+        // },
       ]
     }
 
@@ -79,10 +79,10 @@ export class UserMenubarComponent {
           name: 'Refer & Earn',
           router: "employee/erefer&earn"
         },
-        {
-          name: 'Settings',
-          router: "employee/erefer&earn"
-        },
+        // {
+        //   name: 'Settings',
+        //   router: "employee/erefer&earn"
+        // },
       ]
     }
     if (this.userType == "Admin") {
