@@ -1,11 +1,13 @@
 // ---------------------utilities------------------------
 
 .para{
-    font-size: 25px;
+    font-size: calc(7px + 1vw);
     font-weight: 400;
-    line-height: 40px;
+    line-height: 160%;
     letter-spacing: 0em;
     text-align: left;
+    
+
 }
 
 .about-section{
@@ -18,52 +20,70 @@
 }
 
 
-// ------------------ Side Timeline ------------------
-.side-timeline{
-    left: 8.5%
+.top-header-bg{
+    position:absolute;
+    width: 36%;
+    img {
+        width: 100%;
+    }
 }
 
+// ------------------ Side Timeline ------------------
+.side-timeline{
+    left: 8.5%;
+    img{
+        width: calc(70px + 14vw);
+    }
+}
 
+// 311  13: 224.64, 
 
 // ------------------ Gradient CSS --------------------
 .gradient-left1{
-    top: 334px;
+    top: 0;
+    left: 0;
 }
 
 .gradient-left2{
-    top: 920px;
+    top: 700px;
+    left: -5vw;
 }
 
 .gradient-left3{
-    top: 2264px;
+    left: -15vw;
 }
 
 .gradient-left4{
-    top: 4833px;
+    left: 0;
 }
 
 .gradient-left5{
-    top: 6057px;
+    top: 14px;
+    left: -9%;
+}
+
+.gradient-img{
+    opacity: 75%;
 }
 
 .gradient-right1 {
     right: 0;
-    top: 190px;
+    top: 50px;
 }
 
 .gradient-right2 {
     right: 0;
-    top: 2824px;
+    top: 284px;
 }
 
 .gradient-right3 {
-    right: 0;
-    top: 4127px;
+    right: -30%;
+    top: 0;
 }
 
 .gradient-right4 {
-    right: 0;
-    top: 5360px;
+    right: -8.5%;
+    top: 60px;
 }
 
 
@@ -74,18 +94,18 @@
 }
 
 .section-head{
-    font-size: 55px;
+    font-size: 3.2vw;
 }
 
 .intro .content{
     width: 65%;
-    padding-top: 240px;
+    padding-top: 21vh;
     // margin-left: 3%;
 }
 
 .story{
     padding-right: 4vw;
-    padding-top: 150px;
+    padding-top: 20vh;
 }
 
 .story-img img{
@@ -98,13 +118,14 @@
 
 .mission{
     padding-right: 9.32vw;
-    padding-top: 275px;
+    padding-top: 22vh;
+    min-height: 650px;
 }
 
 .mission .content{
     width: 56%;
     margin-left: 5vw;
-    padding-top: 220px;
+    padding-top: 19.7vh;
 }
 
 .mission-image{
@@ -112,32 +133,24 @@
 }
 
 .vision{
-    padding-top: 190px;    
+    padding-top: 17vh;    
 }
 
 .vision .content{
-    padding-top: 50px;
+    padding-top: 4.5vh;
 }
 
 .apart{
-    padding-top: 100px;
+    padding-top: 8.9vh;
     padding-left: 7vw;
     width: 80%;
 }
 
 // -------------------Feature section-----------------
 .feature-cards{
-    padding-top: 65px;
+    padding-top: 5.8vh;
 }
 
-
-.top-header-bg{
-    position:absolute;
-    width: 625px;
-    img {
-        width: 80%;
-    }
-}
 
 .feature-cards{
     display: flex;
@@ -151,19 +164,16 @@
     display: flex;
     flex-direction: column;
     align-items: center;
-    flex: 1; 
-    flex-basis: 17.94vw;
-    width: 25%;
+    width: 30%;
     background-color: #004054;
     margin-left: 3%;
     margin-bottom: 3%;
-    height: 220px;
     padding: 2%;
     border-radius: 12px;
 }
 
 .fcard-img {
-    width: 70.5px;
+    width: 30%;
     height: 69px;
     background-color: #CDE4FB;
     border-radius: 50%;
@@ -182,10 +192,10 @@
 .feature-card .card-title{
     display: flex;
     flex-wrap: wrap;
-    font-size: 24px;
+    font-size: calc(7px + 1vw);
     text-align: center;
     padding-top: 10px;
-    line-height: 36px;
+    line-height: 150%;
     justify-content: center;
 
 
@@ -228,10 +238,10 @@
 }
 
 .input-row input {
-    width: 375px;
+    width: 26.6%;
     height: 60px;
-    padding: 10px;
-    margin-right: 15px;
+    padding: 0.58%;
+    margin-right: 0.86%;
     font-size: 16px;
     margin-bottom: 20px;
     border-radius: 4px;
@@ -240,7 +250,7 @@
 }
 
 .cv{
-    width: 20%;
+    width: 17.5%;
 }
 .team-content{
     width: 58%;
@@ -263,15 +273,14 @@
 .form-button{
     width: 123px;
     height: 41px;
-    font-size: 14px;
+    font-size: calc(7px + 0.5vw) ;
     line-height: 16.8px;
     padding: 0;
     border-radius: 6px;
     color: white;
     background-color: #57E1FF;
+    margin-top: 15px;
 }
-
-
 
 
 
@@ -333,8 +342,8 @@
     }
     
     .feature-card .card-title{
-        font-size: 16px;
-        line-height: 24px;
+        font-size: calc(0.5vw + 7px);
+        line-height: calc(7px + 1vw);
     }
 
     .fcard-img{
@@ -359,6 +368,10 @@
         }
     }
 
+    .content-icon img{
+        
+    }
+
     .form-header {
     
         padding-bottom: 0;
@@ -373,7 +386,7 @@
         margin-right: 2%;
     }
     .cv{
-        width: 48%;
+        width: 50%;
  
     }
 }
