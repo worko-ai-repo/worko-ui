@@ -46,13 +46,6 @@ export class EditProfileComponent implements OnInit {
     this.getCandidateDetails();
   }
 
-  // ngOnChanges(): void {
-  //   debugger;
-  //   console.log(this.candidateList, "candidateList");
-  //    console.log(this.workExperienceDetails, "workExperienceDetails");
-  //   console.log(this.certificationList, "certificationList");
-  //   console.log( this.candidateProfessionalDetails )
-  // }
 
   // post //
 
@@ -76,7 +69,7 @@ export class EditProfileComponent implements OnInit {
 
       // if (response) {
         this.router.navigate(['/candidate/cdashboard']);
-      this.createEducationDetails();
+      // this.createEducationDetails();
       // }
     })
   }
@@ -127,6 +120,7 @@ export class EditProfileComponent implements OnInit {
 
   async createAchievements() {
     if (this.secondStepData.achievements) {
+      
       let userAchievements =
       {
         "achievements": this.secondStepData.achievements,
@@ -145,30 +139,34 @@ export class EditProfileComponent implements OnInit {
 
   }
   async creatSocialProfile() {
-    var twitterArray = this.firstStepData.socialLinktwitter;
-    var linkedinArray = this.firstStepData.socialLinklinkdin;
-    var githubArray = this.firstStepData.socialLinkGithub;
+    var twitterArray : string[]= this.firstStepData.socialLinktwitter;
+    var linkedinArray : string[]= this.firstStepData.socialLinklinkdin;
+    var githubArray : string[]= this.firstStepData.socialLinkGithub;
     // Check if twitterArray is an array
     if (Array.isArray(twitterArray)) {
       console.log('twitterArray is already an array');
+      twitterArray = this.firstStepData.socialLinktwitter;
     } else {
       console.log('twitterArray is not an array');
-      twitterArray = [this.firstStepData.socialLinktwitter];
+      twitterArray = [];
     }
 
       // Check if twitterArray is an array
       if (Array.isArray(linkedinArray)) {
+        linkedinArray = this.firstStepData.socialLinklinkdin;
         console.log('twitterArray is already an array');
       } else {
         console.log('twitterArray is not an array');
-        linkedinArray = [this.firstStepData.socialLinklinkdin];
+        linkedinArray = [];
       }
 
       if (Array.isArray(githubArray)) {
         console.log('twitterArray is already an array');
+    
+        githubArray = this.firstStepData.socialLinkGithub;
       } else {
         console.log('twitterArray is not an array');
-        githubArray = [this.firstStepData.socialLinkGithub];
+        githubArray = [];
       }
     let socialProfile =
     {
