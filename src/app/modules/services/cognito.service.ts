@@ -4,6 +4,7 @@ import { fetchAuthSession, SignInOutput, getCurrentUser, signIn, type SignInInpu
 import { Amplify } from 'aws-amplify';
 import * as awsamplify from './../../../../amplify-config'
 import { StorageService } from '../app-core/services/storage.service';
+import { NavbarToggleSwitchService } from '../candidate/services/navbar-toggle-switch.service';
 
 // import { confirmSignUp, ConfirmSignUpInput } from 'aws-amplify/auth';
 export interface IUser {
@@ -26,7 +27,7 @@ export class CognitoService {
 
   private authenticationSubject: BehaviorSubject<any>;
 
-  constructor(private storage: StorageService) {
+  constructor(private storage: StorageService, private navbarToggleSwitch:NavbarToggleSwitchService) {
 
     Amplify.configure(awsamplify.config);
 
@@ -90,6 +91,7 @@ export class CognitoService {
       await signOut();
       this.storage.remove("useremail");
       this.removeAccessToken();
+      this.removeEmployeeDashboardToggleStatus();
 
     } catch (error) {
       console.log('error signing out: ', error);
@@ -189,4 +191,8 @@ export class CognitoService {
     this.storage.remove('accessToken');
   }
 
+  removeEmployeeDashboardToggleStatus() {
+    this.storage.remove("isEmployeeDashboardEnabled");
+    this.navbarToggleSwitch.toggleStatusFalse();
+  }
 }
