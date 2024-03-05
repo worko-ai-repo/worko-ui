@@ -221,6 +221,10 @@
     margin-bottom: 46px;
     border-radius: 12px;
     padding: 21px 26px;
+
+    img{
+        width: 100%;
+    }
 }
 
 .input-row input {
@@ -235,8 +239,11 @@
     color: #09111C;
 }
 
+.cv{
+    width: 20%;
+}
 .team-content{
-    width: 65%;
+    width: 58%;
 }
 
 
@@ -245,24 +252,24 @@
 .form{
     padding-top: 170px;
     padding-bottom: 40px;
-    .form-header{
-        padding-bottom: 50px;
-    }
-    .form-contents{
-        padding-top: 10px;
-    }
-    .form-button{
-        width: 123px;
-        height: 41px;
-        font-size: 14px;
-        line-height: 16.8px;
-        padding: 0;
-        border-radius: 6px;
-        color: white;
-        background-color: #57E1FF;
-    }
-}
 
+}
+.form-header{
+    padding-bottom: 50px;
+}
+.form-contents{
+    padding-top: 10px;
+}
+.form-button{
+    width: 123px;
+    height: 41px;
+    font-size: 14px;
+    line-height: 16.8px;
+    padding: 0;
+    border-radius: 6px;
+    color: white;
+    background-color: #57E1FF;
+}
 
 
 
@@ -271,13 +278,49 @@
 // ---------------Responsive for ipads---------------
 
 @media (max-width: 850px) {
+
     .para{
         font-size: 16px;
         line-height: 21px;
     }
+
+
+    .side-timeline{
+        top: 20px;
+    }
+
     .section-head{
         font-size: 26px;
         line-height: 63px;
+    }
+
+    .top-header-bg{
+        width: 400px;
+    }
+
+    .intro .content{
+        padding-top: 100px;
+    }
+
+    .story{
+        padding-top: 40px;
+    }
+
+    .mission{
+        padding-top: 140px;
+        .content{
+            padding-top: 70px;
+        }
+    }
+
+    .vision{
+        .content{
+            padding-top: 0;
+        }
+    }
+
+    .apart{
+        padding-top: 180px;
     }
 
     .feature-cards{
@@ -302,4 +345,35 @@
         }
     }
 
+    .team-cards{
+        padding-top: 110px;
+    }
+
+    .team-card{
+        height: 185px;
+        font-size: 12px;
+        padding-top: 15px;
+
+        .name{
+            font-weight: 700;
+        }
+    }
+
+    .form-header {
+    
+        padding-bottom: 0;
+
+        .section-head{
+            line-height: 30px;
+            padding-bottom: 10px;
+        }
+    }
+    .input-row input {
+        width: 48%;
+        margin-right: 2%;
+    }
+    .cv{
+        width: 48%;
+ 
+    }
 }
