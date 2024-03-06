@@ -96,11 +96,11 @@
         <div *ngIf="j < data.times.length">
           <!-- Access the correct time slot using the index 'j' -->
           <div [formGroupName]="j" class="d-flex">
-            <select formControlName="startTime" class="selector ps-2" [disabled]="!data.checkboxClicked" [ngModel]="convertIsoToTime(data.times[j]?.startTime)">
+            <select formControlName="startTime" style="background-image: none;" class="selector ps-2" [disabled]="!data.checkboxClicked" [ngModel]="convertIsoToTime(data.times[j]?.startTime)">
               <option value="" disabled selected hidden>From</option>
               <option *ngFor="let timing of timingOptions" [value]="timing.startTime" [selected]="timing.startTime === convertIsoToTime(data.times[j]?.startTime)">{{ timing.startTime }}</option>
             </select>
-            <select formControlName="endTime" class="selector ps-2 ms-3 me-0 pe-0" [disabled]="!data.checkboxClicked" (focus)="getSelectOptionsFormArray(i).controls[j].get('endTime')?.markAsTouched()" [ngModel]="convertIsoToTime(data.times[j]?.endTime)">
+            <select formControlName="endTime" style="background-image: none;" class="selector ps-2 ms-3 me-0 pe-0" [disabled]="!data.checkboxClicked" (focus)="getSelectOptionsFormArray(i).controls[j].get('endTime')?.markAsTouched()" [ngModel]="convertIsoToTime(data.times[j]?.endTime)">
               <option value="" disabled selected hidden>To</option>
               <option *ngFor="let timing of timingOptions" [value]="timing.endTime" [selected]="timing.endTime === convertIsoToTime(data.times[j]?.endTime)">{{ timing.endTime }}</option>
             </select>
@@ -112,10 +112,10 @@
         <div *ngIf="j >= data.times.length" class="d-flex">
           <!-- Render empty form fields -->
           <div [formGroupName]="j" class="d-flex">
-            <select formControlName="startTime" class="selector ps-2" [disabled]="!data.checkboxClicked">
+            <select formControlName="startTime" style="background-image: none;" class="selector ps-2" [disabled]="!data.checkboxClicked">
               <option value="" disabled selected hidden>From</option>
             </select>
-            <select formControlName="endTime" class="selector ps-2 ms-3 me-0 pe-0" [disabled]="!data.checkboxClicked">
+            <select formControlName="endTime" style="background-image: none;" class="selector ps-2 ms-3 me-0 pe-0" [disabled]="!data.checkboxClicked">
               <option value="" disabled selected hidden>To</option>
             </select>
             <button class="ml-3 btn btn-add" type="button" (click)="addSelectOption(i)" [disabled]="!data.checkboxClicked && j === 0">+</button>
