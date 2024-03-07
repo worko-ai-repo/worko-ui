@@ -19,7 +19,7 @@ div.mat-mdc-autocomplete-panel, .mat-mdc-option.mdc-list-item {
   color: white !important;
  
 }
- 
+
 
 .modal-content {
   position: relative;
@@ -305,6 +305,7 @@ option{
   color: var(--white-ffffff, #FFF);
   border-radius: 0px 5px 5px 0px;
   margin-left: 1px;
+  display: flex;
 }
 .btn-signUpLinkdin.sign-in-linkedin{
   width: 200px !important;
@@ -381,7 +382,11 @@ option{
   line-height: 23px;
   letter-height: 35rem;
   font-weight: 500;
+  display: flex;
+
+  
 }
+
 
 .signInButton {
   border-radius: 4.5px;
@@ -403,16 +408,29 @@ img.worko-logo-signup {
   top: 7rem;
   left: 3rem;
   width: 213px;
+  height: auto;
 }
 
 .para-div {
   color: white;
-  position: absolute;
+  position: relative;
   height: 10px;
   width: 256px;
   top: 184px;
   font-size: 11px;
-  left: 4rem
+  left: 4rem;
+
+  
+}
+// @media screen and (max-width:767px){
+//   .login-div{
+//  display: none;
+//   }
+// }
+@media screen and (max-width:767px){
+  .login-div,.para-div{
+ display: none;
+  }
 }
 
 
@@ -437,6 +455,7 @@ img {
 .font-size-11, .fs-11{
   font-size:11px;
 }
+
 a{
   text-decoration:none;
 }
