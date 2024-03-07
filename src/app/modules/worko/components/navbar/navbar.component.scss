@@ -24,7 +24,44 @@
 
 // ---------------Edited by KA--------------
 
+
+
 .navbar-brand{
     margin-left: 3vw;
-    margin-top: 40px;
+    margin-top: 3vh;
+
+    img{
+        width: calc(6vw + 95px);
+    }
+}
+
+@media (max-width: 1030px) and (min-width: 500px) {
+
+    hr {
+        margin-top: 0; 
+        margin-bottom: 0; 
+        padding: 0; 
+      }
+
+    .navbar-brand {
+        margin-left: 3vw;
+        margin-top: 17px;
+
+        img{
+            width: 85px;
+        }
+    }
+}
+
+@media (max-width: 480px) {
+
+    .navbar-brand {
+        margin-left: 1vw;
+        margin-top: 0px;
+
+        img{
+            width: 70px;
+        }
+    }
+
 }

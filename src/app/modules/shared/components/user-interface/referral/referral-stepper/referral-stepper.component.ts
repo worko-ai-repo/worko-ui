@@ -19,6 +19,7 @@ export class ReferralStepperComponent {
   {name:'done',status:'notcompleted'}];
 
   
+  
   // firstFormGroup = this._formBuilder.group({
   //   firstCtrl: ['', Validators.required],
   // });
