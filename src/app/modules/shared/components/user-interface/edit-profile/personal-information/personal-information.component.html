@@ -80,17 +80,18 @@
                     </div>
 
                     <div *ngFor="let details of candidatePersonalDetails.collegeData; let i = index" class="row mt-1">
-                            <div class="col-md-5">
+                     
+                        <div class="col-md-5">
                                 <label for="" class="form-lable">College Name</label>   
                                 <input type="text" class="form-control form-input" placeholder="College Name"
-                                    [(ngModel)]="candidatePersonalDetails.collegeData[i].collage"
+                                    [(ngModel)]="details.collage"
                                     [ngModelOptions]="{standalone: true}"
                                     id="collegeName">
                             </div>
                             <div class="col-md-2">
                                 <label for="" class="form-lable">College Degree</label>
                                 <input type="text" class="form-control form-input" placeholder="College Degree"
-                                    [(ngModel)]="candidatePersonalDetails.collegeData[i].degree"
+                                    [(ngModel)]="details.degree"
                                     [ngModelOptions]="{standalone: true}"
                                     id="collegeDegree">
 
@@ -99,7 +100,7 @@
                             <div class="col-md-2">
                                 <label for="" class="form-lable">Passing Year</label>
                                 <input type="text" class="form-control form-input" placeholder="passing Year"
-                                    pattern="^(19|20)\d{2}$" [(ngModel)]="candidatePersonalDetails.collegeData[i].passingYear"
+                                    pattern="^(19|20)\d{2}$" [(ngModel)]="details.passingYear"
                                     #passingYear="ngModel"
                                     [ngModelOptions]="{standalone: true}"
                                     [title]="passingYear.errors?.['pattern'] ? 'Passing year is invalid' : ''"
@@ -107,10 +108,18 @@
                                     name="passingYear" id="passingYear">
 
                             </div>
+                            <input type="hidden" class="form-control form-input"
+                            [(ngModel)]="details.SK"
+                            [ngModelOptions]="{standalone: true}"
+                            id="SK">
+                            <input type="hidden" class="form-control form-input"
+                            [(ngModel)]="details.PK"
+                            [ngModelOptions]="{standalone: true}"
+                            id="PK">
 
                             <div class="col-md-2 d-flex align-items-end">
                                 <button type="button" class="float-end btn circular-button" *ngIf="i === 0" (click)="addCollege()"
-                                    [disabled]="!areAllPreviousFieldsFilled() || candidatePersonalDetails.collegeData.length >= 5">+</button>
+                                    [disabled]="!areAllPreviousFieldsFilled() || candidatePersonalDetails.collegeData.length >= 4">+</button>
                                 <button type="button" class="float-end btn circular-button" *ngIf="i > 0" (click)="removeField(i)">x</button>
                             </div>
 
