@@ -1,0 +1,65 @@
+.cop-section{
+    position: relative;
+    //  background-color: #000000;
+}
+
+.cop-top-header-bg{
+    position:absolute;
+    width: 625px;
+   
+    img {
+        width: 80%;
+    }
+}
+
+
+
+.cop-rows{
+    padding-left: 15vw;
+
+}
+
+.cop-section-head{
+    font-size: 50px;
+   
+    padding-right: 15vw;
+    
+    
+}
+
+
+.cop-intro .content{
+    width: 50%;
+    font-size: 20px;
+}
+
+.cop-row2{
+    padding-top: 250px;
+    padding-left: 30vw;
+
+}
+
+
+
+.emp{
+display: flex;
+flex-direction: column;
+align-items: flex-start;
+padding: 0px;
+gap: 10px;
+position: absolute;
+width: 617.7px;
+height: 322px;
+left: 914.57px;
+top: 1000.5px;
+}
+
+.image{
+
+position: absolute;
+width: 387.69px;
+height: 287.43px;
+left: 214.5px;
+top: 1302.48px;
+
+}

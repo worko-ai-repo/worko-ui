@@ -79,58 +79,45 @@
                         </div>
                     </div>
 
-                    <div class="row mt-1">
-                        <div class="col-md-5">
-                            <label for="" class="form-lable">College Name</label>
-                            <input type="text" class="form-control form-input" placeholder="College Name"
-                                #collegeName="ngModel" [(ngModel)]="candidatePersonalDetails.collegeName"
-                                name="collegeName" id="collegeName">
-                        </div>
-                        <div class="col-md-2">
-                            <label for="" class="form-lable">College Degree</label>
-                            <input type="text" class="form-control form-input" placeholder="College Degree"
-                                #collegeDegree="ngModel" [(ngModel)]="candidatePersonalDetails.collegeDegree"
-                                name="collegeDegree" id="collegeDegree">
+                    <div *ngFor="let details of candidatePersonalDetails.collegeData; let i = index" class="row mt-1">
+                            <div class="col-md-5">
+                                <label for="" class="form-lable">College Name</label>   
+                                <input type="text" class="form-control form-input" placeholder="College Name"
+                                    [(ngModel)]="candidatePersonalDetails.collegeData[i].collage"
+                                    [ngModelOptions]="{standalone: true}"
+                                    id="collegeName">
+                            </div>
+                            <div class="col-md-2">
+                                <label for="" class="form-lable">College Degree</label>
+                                <input type="text" class="form-control form-input" placeholder="College Degree"
+                                    [(ngModel)]="candidatePersonalDetails.collegeData[i].degree"
+                                    [ngModelOptions]="{standalone: true}"
+                                    id="collegeDegree">
 
 
-                        </div>
-                        <div class="col-md-2">
-                            <label for="" class="form-lable">Passing Year</label>
-                            <input type="text" class="form-control form-input" placeholder="passing Year"
-                                pattern="^(19|20)\d{2}$" #passingYear="ngModel"
-                                [(ngModel)]="candidatePersonalDetails.passingYear" name="passingYear" id="passingYear">
+                            </div>
+                            <div class="col-md-2">
+                                <label for="" class="form-lable">Passing Year</label>
+                                <input type="text" class="form-control form-input" placeholder="passing Year"
+                                    pattern="^(19|20)\d{2}$" [(ngModel)]="candidatePersonalDetails.collegeData[i].passingYear"
+                                    #passingYear="ngModel"
+                                    [ngModelOptions]="{standalone: true}"
+                                    [title]="passingYear.errors?.['pattern'] ? 'Passing year is invalid' : ''"
+                                    [ngClass]="{ 'is-invalid': passingYear.invalid && (passingYear.dirty || passingYear.touched) }"
+                                    name="passingYear" id="passingYear">
 
+                            </div>
 
-                        </div>
-
-                    </div>
-                    <div class="row mt-1">
-                        <div class="col-md-5">
-                            <label for="" class="form-lable">College Name</label>
-                            <input type="text" class="form-control form-input" placeholder="College Name"
-                                #collegeName1="ngModel" [(ngModel)]="candidatePersonalDetails.collegeName1"
-                                name="collegeName1" id="collegeName1">
-
-                        </div>
-                        <div class="col-md-2">
-                            <label for="" class="form-lable">College Degree</label>
-                            <input type="text" class="form-control form-input" placeholder="College Degree"
-                                #collegeDegree1="ngModel" [(ngModel)]="candidatePersonalDetails.collegeDegree1"
-                                name="collegeDegree1" id="collegeDegree1">
-
-
-                        </div>
-                        <div class="col-md-2">
-                            <label for="" class="form-lable">Passing Year </label>
-                            <input type="text" class="form-control form-input" placeholder="passing Year"
-                                pattern="^(19|20)\d{2}$" #passingYear1="ngModel"
-                                [(ngModel)]="candidatePersonalDetails.passingYear1" name="passingYear1"
-                                id="passingYear1">
-
-
-                        </div>
+                            <div class="col-md-2 d-flex align-items-end">
+                                <button type="button" class="float-end btn circular-button" *ngIf="i === 0" (click)="addCollege()"
+                                    [disabled]="!areAllPreviousFieldsFilled() || candidatePersonalDetails.collegeData.length >= 5">+</button>
+                                <button type="button" class="float-end btn circular-button" *ngIf="i > 0" (click)="removeField(i)">x</button>
+                            </div>
 
                     </div>
+
+                    <!-- <button type="button" class="btn btn-primary mt-3" (click)="addCollege()" [disabled]="candidatePersonalDetails.collegeData.length >= 5 || !validateAddButton()">ADD</button> -->
+
                     <div class="row">
                         <div class="col-md-10 mt-1">
                             <label for="" class="form-lable required-form-field">About</label>
@@ -184,7 +171,7 @@
                     </div>
                     <div class="row">
                         <div class="col-md-10 mt-3">
-                            <button class="btn btn-next float-end" type="submit"
+                            <button class="btn btn-next float-end" (click)="updateEducationDetails()" type="submit"
                                 [disabled]="( !candidate.form.valid || !candidatePersonalDetails.socialLinklinkdin || !candidatePersonalDetails.phoneNo || !candidatePersonalDetails.email || !candidatePersonalDetails.name || !candidatePersonalDetails.location  || !candidatePersonalDetails.about )">Next</button>
                         </div>
 
@@ -202,7 +189,7 @@
 
   <ng-container *ngIf="showModal === modalType.OTP_VERIFICATION">
     <app-otp-verification-modal *ngIf="showModal === modalType.OTP_VERIFICATION"  (onSuccess)="receiveDataFromChild($event)"  ></app-otp-verification-modal>
-  </ng-container>
+    </ng-container>
 
 
 </app-modal>
