@@ -3,10 +3,21 @@
     <div class="row">
       <div class="text-white">
         <h6>Request ID #{{ selectedReferral?.SK ? getSlicedValue(selectedReferral?.SK) : '' }}</h6>
-      </div>
-      <div class="col-md-6">
-      </div>
-    </div>
+         <div class="stepper-wrapper">
+         
+          <div class="ref-startline"> </div>
+          <div class="stepper-item" *ngFor="let item of statusitem,let i = index;">
+            <div class="step-name">{{item.name}} </div>
+            
+            <div class="circle-outline" >
+              <div class="circle  " *ngIf="item.status==='completed'"></div>
+          </div>
+           
+          <div class="ref-line" *ngIf="i<(statusitem.length-1)"> </div>
+          </div>
+          
+        </div>
+      </div>   
 
   </div>
 </div>

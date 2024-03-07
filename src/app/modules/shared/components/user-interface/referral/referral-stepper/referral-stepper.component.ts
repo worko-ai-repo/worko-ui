@@ -11,6 +11,14 @@ import { Component, Input } from '@angular/core';
 export class ReferralStepperComponent {
   @Input() selectedReferral: any;
 
+// statusitem:any[]=[]
+  date:string='dec 2 2023';
+  statusitem=[{name:'accepting',status:'completed'},
+  {name:'accepted',status:'completed'},
+  {name:'ongoing',status:'notcompleted'},
+  {name:'done',status:'notcompleted'}];
+
+  
   // firstFormGroup = this._formBuilder.group({
   //   firstCtrl: ['', Validators.required],
   // });
@@ -32,4 +40,6 @@ export class ReferralStepperComponent {
     const parts = value.split('#');
     return parts.length > 2 ? parts[2] : '';
   }
+
+  
 }
