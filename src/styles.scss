@@ -1051,6 +1051,11 @@ div#globeViz {
     overflow: hidden;
     padding-top: 100px;
 
+    // Edited by KA
+
+    padding-bottom: 180px;
+    // End of edit by KA
+
     .rectangle_one {
         right: auto;
         left: -100px;
@@ -1182,9 +1187,12 @@ div#globeViz {
 footer {
     overflow: hidden;
     position: relative;
-    padding-top: 180px;
 
+    // Edited by KA
+    
+    // padding-top: 180px;
 
+    //End of edit: Commented out the padding 
 
     .footer-content {
         background-color: #fff;

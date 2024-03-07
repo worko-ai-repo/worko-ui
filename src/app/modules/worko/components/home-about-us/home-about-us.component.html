@@ -28,15 +28,28 @@
         
         <!-- Side timeline for larger screens -->
 
-        <div *ngIf="isSmallScreen" class="side-timeline position-absolute">
+        <!-- <div *ngIf="isSmallScreen" class="side-timeline side-timeline-sm position-absolute">
             <img src="assets/about-images-KA/side-timeline-sm.png" alt="">
         </div>
 
-        <div *ngIf="isMediumScreen" class="side-timeline position-absolute">
+        <div *ngIf="isMediumScreen" class="side-timeline side-timeline-md position-absolute">
             <img src="assets/about-images-KA/side-timeline-md.png" alt="">
         </div>
 
-        <div *ngIf="isLargeScreen" class="side-timeline position-absolute">
+        <div *ngIf="isLargeScreen" class="side-timeline side-timeline-lg position-absolute">
+            <img src="assets/about-images-KA/side-timeline.png" alt="">
+        </div> -->
+
+
+        <div class="side-timeline side-timeline-sm position-absolute">
+            <img src="assets/about-images-KA/side-timeline-sm.png" alt="">
+        </div>
+
+        <div class="side-timeline side-timeline-md position-absolute">
+            <img src="assets/about-images-KA/side-timeline-md.png" alt="">
+        </div>
+
+        <div class="side-timeline side-timeline-lg position-absolute">
             <img src="assets/about-images-KA/side-timeline.png" alt="">
         </div>
 
@@ -149,7 +162,7 @@
                     <img class="img-fluid" src="assets/about-images-KA/mission.png" alt="intro image" >
                 </div>
     
-                <div *ngIf="isMediumScreen" class="gradient gradient-rightmd position-absolute">
+                <div class="gradient gradient-rightmd position-absolute">
                     <img class="gradient-img" src="assets/about-images-KA/gradient-rightmd.png" alt="Gradient Right 2">
                 </div>
             </div>
@@ -276,7 +289,7 @@
     
         <div class="team-section position-relative">
 
-            <div *ngIf="isMediumScreen" class="gradient gradient-left-md position-absolute">
+            <div class="gradient gradient-left-md position-absolute">
                 <img class="gradient-img" src="assets/about-images-KA/gradient-left4.png" alt="Gradient Left 4">
             </div>
 
@@ -287,7 +300,7 @@
             <div class="team-header d-flex flex-column align-items-center">
     
                 <div class="heading section-head d-flex">
-                    Meet our <div class="head1 section-head pl-3">team</div>
+                    Meet our <div class="head1 section-head">team</div>
                 </div>
                 <p class="team-content para text-center">
                     Behind every innovation at Worko.ai is a team of dedicated individuals passionate about 
@@ -439,7 +452,7 @@
     
     <!-------------------------- form section --------------------------->
     
-        <div class="form d-flex flex-column align-items-center position-relative" style="width: 85%;margin: auto;">
+        <div class="form d-flex flex-column align-items-center position-relative">
             <div class="gradient gradient-left5 position-absolute">
                 <img class="gradient-img" src="assets/about-images-KA/gradient-left5.png" alt="Gradient Left 5">
             </div>
@@ -470,7 +483,7 @@
     
                 <textarea class="w-100" placeholder="What you will bring on the table"></textarea>
     
-                <div class="d-flex justify-content-end">
+                <div class="d-flex form-button-container">
                     <button class="form-button" >
                         Send Message
                     </button>
