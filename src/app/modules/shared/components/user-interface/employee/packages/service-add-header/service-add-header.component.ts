@@ -177,21 +177,35 @@ d:any;
 
   applyTimeToAll(): void {
     const mondaySelectOptions = this.getSelectOptionsFormArray(0).controls;
+  
     for (let i = 1; i < this.availabilityList[0]?.availability.length; i++) {
       const availabilityData = this.availabilityList[0]?.availability[i];
-      
+  
       if (availabilityData.checkboxClicked) {
         const selectOptionsArray = this.getSelectOptionsFormArray(i);
         selectOptionsArray.clear();
+        this.availabilityList[0].availability[i].times = [];
+  
+        const mondayData = this.availabilityList[0].availability[0].times;
+        for (const element of mondayData) {
+          this.availabilityList[0].availability[i].times.push({
+            startTime: element.startTime,
+            endTime: element.endTime
+          });
+        }
+  
         for (const option of mondaySelectOptions) {
           selectOptionsArray.push(this.formBuilder.group({
             startTime: [option.get('startTime')?.value],
             endTime: [option.get('endTime')?.value]
           }));
         }
+  
+        // this.selectForms[i].get('selectOptions')?.patchValue(selectOptionsArray);
       }
     }
-}
+  }
+  
 
 
 
