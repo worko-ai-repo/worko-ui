@@ -26,13 +26,46 @@
 
 
 
+
 .navbar-brand{
     margin-left: 3vw;
-    margin-top: 3rem;
+    margin-top: 2rem;
 
     img{
         width: calc(6vw + 95px);
     }
+}
+
+nav{
+    button{
+        border: none;
+    }
+}
+
+.navbar-toggler {
+    border: none;
+    z-index: 1; 
+}
+
+.navbar-toggler:focus {
+    box-shadow: none;
+    background-color: #0c1522;
+    padding: 0;
+    margin-right: 0.6rem;
+}
+
+
+li{
+    .nav-link{
+        font-size: 30px;
+        font-weight: 700;
+        padding-right: 0px;
+    }
+}
+
+.user-icon-container{
+    padding-left: 3rem;
+    padding-right: 1rem;
 }
 
 @media (max-width: 1030px) and (min-width: 500px) {
@@ -50,6 +83,22 @@
         img{
             width: 85px;
         }
+    }
+
+    .nav-link{
+        font-size: calc(10px + 1vw);
+    }
+
+    .user-icon{
+        width: 27px;
+    }
+
+}
+
+@media (max-width: 575px) {
+    .navbar-bg{
+        background-color: #182b45; 
+        margin-top: -3.1rem;
     }
 }
 
