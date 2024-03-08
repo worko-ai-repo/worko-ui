@@ -23,6 +23,7 @@ export class UserProfileCompleteComponent implements OnInit {
   activeRoute: string = '';
   userLoggedIn: boolean = false;
   userRole: any;
+  totalPercentage:any;
   isEmployee: boolean = true; // You can initialize it to the appropriate value based on your logic
   
   constructor( private router : Router, private candidateSrv : CandidateProfileService , private Storage : StorageService){}
@@ -69,6 +70,13 @@ export class UserProfileCompleteComponent implements OnInit {
       this.candidateProfile = this.profileCompletion?.employee;
 
       this.drawDonutChart(this.candidateProfile);
+    }
+
+    if (this.candidateProfile) {
+
+      this.totalPercentage = 0;
+      this.totalPercentage = this.candidateProfile.reduce((sum:any, element:any) => sum + element.curPerc, 0);
+
     }
 
   }
@@ -119,7 +127,7 @@ export class UserProfileCompleteComponent implements OnInit {
         },
         
         cutout: 50, // Reduce the size of the hole in the center
-        radius: '70%', // Radius of the hole in the center of the doughnut (in percentage)
+        radius: '80%', // Radius of the hole in the center of the doughnut (in percentage)
         circumference: 360, // Angle in degrees to control the arc's size
         rotation: -0.5 * Math.PI, // Angle in degrees to rotate the doughnut
         spacing: 3, // S
