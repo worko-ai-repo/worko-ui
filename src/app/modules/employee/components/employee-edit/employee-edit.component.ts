@@ -88,6 +88,7 @@ export class EmployeeEditComponent {
     await this.candidateSrv.getUserProfile(this.emailAddress).then(async (response) => {
       if (response) {
         this.employeeSocial = response[0];
+        console.log(this.employeeSocial)
 
       }
       this.getWorkExperienceDetails();
@@ -176,7 +177,7 @@ export class EmployeeEditComponent {
       // }
     })
   }
-
+  
   async creatSocialProfile() {
     var twitterArray = this.firstStepData.socialLinktwitter;
     var linkedinArray = this.firstStepData.socialLinklinkdin;
@@ -186,14 +187,21 @@ export class EmployeeEditComponent {
       console.log('twitterArray is already an array');
     } else {
       console.log('twitterArray is not an array');
-      twitterArray = [this.firstStepData.socialLinktwitter];
+      if(twitterArray<0){
+        console.log("data")
+        twitterArray=[];
+      }else{
+        twitterArray = [this.firstStepData.socialLinktwitter];
+        
+      }
+    
     }
 
     // Check if twitterArray is an array
     if (Array.isArray(linkedinArray)) {
-      console.log('twitterArray is already an array');
+      console.log('linkedinArray is already an array');
     } else {
-      console.log('twitterArray is not an array');
+      console.log('linkedinArray is not an array');
       linkedinArray = [this.firstStepData.socialLinklinkdin];
     }
 
@@ -201,7 +209,12 @@ export class EmployeeEditComponent {
       console.log('twitterArray is already an array');
     } else {
       console.log('twitterArray is not an array');
-      githubArray = [this.firstStepData.socialLinkGithub];
+      if(githubArray>0){
+        githubArray = [this.firstStepData.socialLinkGithub];
+        }else{
+          githubArray=[];
+        }
+      
     }
     let socialProfile =
     {
@@ -213,6 +226,7 @@ export class EmployeeEditComponent {
     }
     await this.candidateSrv.createUserProfile(this.emailAddress, socialProfile).then(async (response) => {
       // if (response) {
+        // console.log(socialProfile)
       this.createUserDetails();
       // }
     })

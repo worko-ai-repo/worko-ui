@@ -52,7 +52,8 @@ picErrorMessage: string = ""
 
   ngOnChanges(): void {
 
-    if (this.employeePersonalData && this.employeePersonalData.about && this.employeePersonalData.location  && this.employeePersonalData.socialLinklinkdin) {
+    if (this.employeePersonalData && this.employeePersonalData.about && this.employeePersonalData.location  && this.employeePersonalData.socialLinklinkdin 
+     ) {
 
     } else {
       this.getData();

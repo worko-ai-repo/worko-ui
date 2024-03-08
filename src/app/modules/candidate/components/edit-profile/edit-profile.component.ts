@@ -12,7 +12,7 @@ import { NgxSpinnerService } from 'ngx-spinner';
   styleUrls: ['./edit-profile.component.scss']
 })
 export class EditProfileComponent implements OnInit {
- 
+
   candidateList: any;
   educationList: any = "";
   emailAddress: string = "";
@@ -55,50 +55,50 @@ export class EditProfileComponent implements OnInit {
       [{
         "companyName": this.secondStepData?.companyName,
         "companySK": this.secondStepData?.companySK,
-        "emailId": this.secondStepData?.officialEmail,
+        // "emailId": this.secondStepData?.officialEmail,
         "designation": this.secondStepData?.designation,
         "department": this.secondStepData?.department,
         "SK": this.workExperienceDetails ? this.workExperienceDetails.SK : "",
         "PK": this.workExperienceDetails ? this.workExperienceDetails.PK : "",
-        "userType":"CAND",
-        
-        
+        "userType": "CAND",
+
+
       }
       ]
     await this.candidateSrv.createWorkExperience(this.emailAddress, workExperience).then(async (response) => {
 
       // if (response) {
-        this.router.navigate(['/candidate/cdashboard']);
+      this.router.navigate(['/candidate/cdashboard']);
       // this.createEducationDetails();
       // }
     })
   }
 
   async createEducationDetails() {
-    let data =
-      [
-        {
-          "passingYear": this.firstStepData.passingYear,
-          "collage": this.firstStepData.collegeName,
-          "degree": this.firstStepData.collegeDegree,
-          "SK": this.firstStepData?.SK,
-          "PK": this.firstStepData?.PK,
-        },
+    // let data =
+    //   [
+    //     {
+    //       "passingYear": this.firstStepData.passingYear,
+    //       "collage": this.firstStepData.collegeName,
+    //       "degree": this.firstStepData.collegeDegree,
+    //       "SK": this.firstStepData?.SK,
+    //       "PK": this.firstStepData?.PK,
+    //     },
 
-        {
-          "passingYear": this.firstStepData.passingYear1,
-          "collage": this.firstStepData.collegeName1,
-          "degree": this.firstStepData.collegeDegree1,
-          "SK": this.firstStepData?.SK1,
-          "PK": this.firstStepData?.PK1,
-        }
-      ];
+    //     {
+    //       "passingYear": this.firstStepData.passingYear1,
+    //       "collage": this.firstStepData.collegeName1,
+    //       "degree": this.firstStepData.collegeDegree1,
+    //       "SK": this.firstStepData?.SK1,
+    //       "PK": this.firstStepData?.PK1,
+    //     }
+    //   ];
+    if (this.firstStepData.collegeData) {
+      await this.candidateSrv.createEducation(this.emailAddress, this.firstStepData.collegeData).then(async (response) => {
+        this.createSkills();
+      })
 
-    await this.candidateSrv.createEducation(this.emailAddress, data).then(async (response) => {
-      // if (response) {
-      this.createSkills();
-      // }
-    })
+    }
 
   };
 
@@ -120,7 +120,7 @@ export class EditProfileComponent implements OnInit {
 
   async createAchievements() {
     if (this.secondStepData.achievements) {
-      
+
       let userAchievements =
       {
         "achievements": this.secondStepData.achievements,
@@ -139,9 +139,9 @@ export class EditProfileComponent implements OnInit {
 
   }
   async creatSocialProfile() {
-    var twitterArray : string[]= this.firstStepData.socialLinktwitter;
-    var linkedinArray : string[]= this.firstStepData.socialLinklinkdin;
-    var githubArray : string[]= this.firstStepData.socialLinkGithub;
+    var twitterArray: string[] = this.firstStepData.socialLinktwitter;
+    var linkedinArray: string[] = this.firstStepData.socialLinklinkdin;
+    var githubArray: string[] = this.firstStepData.socialLinkGithub;
     // Check if twitterArray is an array
     if (Array.isArray(twitterArray)) {
       console.log('twitterArray is already an array');
@@ -151,23 +151,23 @@ export class EditProfileComponent implements OnInit {
       twitterArray = [];
     }
 
-      // Check if twitterArray is an array
-      if (Array.isArray(linkedinArray)) {
-        linkedinArray = this.firstStepData.socialLinklinkdin;
-        console.log('twitterArray is already an array');
-      } else {
-        console.log('twitterArray is not an array');
-        linkedinArray = [];
-      }
+    // Check if twitterArray is an array
+    if (Array.isArray(linkedinArray)) {
+      linkedinArray = this.firstStepData.socialLinklinkdin;
+      console.log('twitterArray is already an array');
+    } else {
+      console.log('twitterArray is not an array');
+      linkedinArray = [];
+    }
 
-      if (Array.isArray(githubArray)) {
-        console.log('twitterArray is already an array');
-    
-        githubArray = this.firstStepData.socialLinkGithub;
-      } else {
-        console.log('twitterArray is not an array');
-        githubArray = [];
-      }
+    if (Array.isArray(githubArray)) {
+      console.log('twitterArray is already an array');
+
+      githubArray = this.firstStepData.socialLinkGithub;
+    } else {
+      console.log('twitterArray is not an array');
+      githubArray = [];
+    }
     let socialProfile =
     {
       twitter: twitterArray,
@@ -208,7 +208,7 @@ export class EditProfileComponent implements OnInit {
       "lastAccessedDash": this.candidateList.lastAccessedDash,
       "SK": this.candidateList?.SK,
       "PK": this.candidateList?.PK,
-      "country":this.firstStepData?.country,
+      "country": this.firstStepData?.country,
       "profileImage": this.uploadedProfilePicName ? this.uploadedProfilePicName : this.candidateList.profileImage,
       "acceptedTermsAndConditions": true //Will remove once remove from API
     }
@@ -218,7 +218,7 @@ export class EditProfileComponent implements OnInit {
         // this.createUserDetails();
         this.createEducationDetails();
         this.spinner.hide();
-      
+
       }
     })
   };
@@ -249,7 +249,7 @@ export class EditProfileComponent implements OnInit {
       }
     }
   }
-  
+
 
   async getEducationDetails() {
     await this.candidateSrv.getCandidateEducation(this.emailAddress).then(async (response) => {

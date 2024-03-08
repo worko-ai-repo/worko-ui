@@ -82,6 +82,7 @@ export class PersonalInformationComponent implements OnInit {
     }
     } else {
       this.getData();
+      console.log( this.educationList)
       if(this.candidatePersonalDetails && this.candidatePersonalDetails.collegeData.length == 0){
         this.addCollege();
       }
@@ -105,13 +106,13 @@ export class PersonalInformationComponent implements OnInit {
       // collegeName: this.educationList[0]?.collage,
       // collegeDegree: this.educationList[0]?.degree,
       // passingYear: this.educationList[0]?.passingYear,
-      SK: this.educationList[0]?.SK,
-      PK: this.educationList[0]?.PK,
+      // SK: this.educationList[0]?.SK,
+      // PK: this.educationList[0]?.PK,
       // collegeName1: this.educationList[1]?.collage,
       // collegeDegree1: this.educationList[1]?.degree,
       // passingYear1: this.educationList[1]?.passingYear,
-      SK1: this.educationList[1]?.SK,
-      PK1: this.educationList[1]?.PK,
+      // SK1: this.educationList[1]?.SK,
+      // PK1: this.educationList[1]?.PK,
       about: this.candidateList?.about,
       socialLinkGithub: this.candidateSocial?.github,
       socialLinklinkdin: this.candidateSocial?.linkedin,
@@ -126,8 +127,9 @@ export class PersonalInformationComponent implements OnInit {
   }
 
   updateEducationDetails() {
-    const nonBlankFields = this.candidatePersonalDetails.collegeData.filter((field: { collage: string; degree: string; passingYear: string; }) => field.collage.trim() !== '' || field.degree.trim() !== '' || field.passingYear.trim() !== '');
-
+    // || field.passingYear.trim() !== ''
+    const nonBlankFields = this.candidatePersonalDetails.collegeData.filter((field: { collage: string; degree: string; passingYear: string; }) => field.collage.trim() !== '' || field.degree.trim() !== '' );
+debugger;
     // Save the non-blank fields
     this.savedValues = [...nonBlankFields];
     this.candidatePersonalDetails.collegeData = this.savedValues;
@@ -215,16 +217,20 @@ export class PersonalInformationComponent implements OnInit {
   }
 
   addCollege() {
-    if (this.candidatePersonalDetails.collegeData.length < 5) {
+    if (this.candidatePersonalDetails.collegeData.length < 4) {
       this.candidatePersonalDetails.collegeData.push({ collage: "", degree: "", passingYear: "" });
     }
   }
 
   // Method to check if all previous fields are filled
   areAllPreviousFieldsFilled(): boolean {
-    return this.candidatePersonalDetails.collegeData.every((field: { collage: string; degree: string; passingYear: string; }) => field.collage.trim() !== '' && field.degree.trim() !== '' && field.passingYear.trim() !== '' && /^[0-9]+$/.test(field.passingYear.trim()));
+    return this.candidatePersonalDetails.collegeData.every((field: { collage: string; degree: string; passingYear: string; }) => {
+      const { collage, degree, passingYear } = field;
+      // Check if all fields are filled and passingYear is a valid year
+      return collage !== '' && degree !== '' && passingYear !== '' && /^[0-9]+$/.test(passingYear);
+    });
   }
-
+  
   removeField(index: number) {
     this.candidatePersonalDetails.collegeData.splice(index, 1);
   }

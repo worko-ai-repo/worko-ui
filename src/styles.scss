@@ -1233,6 +1233,25 @@ footer {
     }
 }
 
+
+// Edited by KA
+.footer-contact{
+    padding-left: 30%;
+}
+.footer-container{
+    max-width: 2200px;
+  margin: auto;
+}
+
+@media (max-width: 992px) {
+    .footer-contact{
+        padding-left: 0px;
+    }
+}
+
+//-------- End of edit: -------- 
+
+
 // candidate-dash -----------------------------------------------------------------------------//
 .btn-light-blue {
     background: #57E1FF;
