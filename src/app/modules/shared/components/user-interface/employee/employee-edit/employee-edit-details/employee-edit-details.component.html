@@ -38,7 +38,7 @@
                     </div>
                     <div class="col-md-6">
                         <label for="" class="form-lable required-form-field">Personal/Communication Email</label>
-                        <input type="text" class="form-control form-input" placeholder="123@gmail.com"
+                        <input type="text" class="form-control form-input" placeholder="Email ID"
                             pattern="^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,4}$" name="email" id="email"
                             [(ngModel)]="employeePersonalData.email"
                             [title]="email.errors?.['pattern'] ? 'Personal/Communication Email is invalid' : ''"

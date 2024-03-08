@@ -36,9 +36,10 @@
                         </div>
                         <div class="col-md-5">
                             <label for="" class="form-lable required-form-field">Email</label>
-                            <input type="text" class="form-control form-input" placeholder="123@gmail.com"
+                            <input type="text" class="form-control form-input" placeholder="Email ID"
                                 pattern="^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,4}$"
                                 [title]="email.errors?.['pattern'] ? 'Email is invalid' : ''" #email="ngModel"
+                                [ngClass]="{ 'is-invalid': email.invalid && (email.dirty || email.touched) }"
                                 [(ngModel)]="candidatePersonalDetails.email" name="email" id="email">
                                 <h2 *ngIf="!candidatePersonalDetails.isEmailVerified && !email.invalid" (click)="openOtpModal()" class="badge  verify-text-label -pointer">Verify</h2>
                                 <h2 *ngIf="candidatePersonalDetails.isEmailVerified && !email.invalid" class="badge  verify-text-label text-green">Verified</h2>
