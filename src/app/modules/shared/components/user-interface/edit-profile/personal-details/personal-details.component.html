@@ -50,7 +50,7 @@
                                         </label>
                                     </div>
                                 </div>
-                            <div class="row d-flex justify-content-center mt-2" *ngIf="!candidateProfessionalDetails.isFresher">
+                            <div class="row d-flex justify-content-center mt-2" *ngIf="!candidateProfessionalDetails.isCandidateFresher">
                                 <div class="col-md-3">
                                     <label for="" class="form-label required-form-field">Current Company Name</label>
                                     <input matInput #autoCompleteInput="matAutocompleteTrigger" class="form-control form-input" 
@@ -74,7 +74,7 @@
                                 </div>
                             </div>
             
-                            <div class="row d-flex justify-content-center mt-2" *ngIf="!candidateProfessionalDetails.isFresher">
+                            <div class="row d-flex justify-content-center mt-2" *ngIf="!candidateProfessionalDetails.isCandidateFresher">
                                 <div class="col-md-3">
                                     <label for="" class="form-label  required-form-field">CTC</label>
                                     <input type="text" class="form-control form-ctc" placeholder="CTC(in LPA)" pattern="[0-9]+"
@@ -262,11 +262,11 @@
                             </div>
                         
                             <div class="row">
-                                <!-- [disabled]="(!isFresher && !candidateProfessionalDetails.companyName  ||!candidateProfessionalDetails.department || !candidateProfessionalDetails.designation || !candidateProfessionalDetails.ctc ||!candidateProfessionalDetails.ectc ||!candidateProfessionalDetails.noticePeriod)" -->
+                                <!-- [disabled]="(!isCandidateFresher && !candidateProfessionalDetails.companyName  ||!candidateProfessionalDetails.department || !candidateProfessionalDetails.designation || !candidateProfessionalDetails.ctc ||!candidateProfessionalDetails.ectc ||!candidateProfessionalDetails.noticePeriod)" -->
                                 <div class="col-md-10 d-flex justify-content-end">
                                     <button class="btn btn-next me-2" (click)="goBack()">Previous</button>
                                     <button class="btn btn-next" type="submit" [disabled]="
-                                        (!candidateProfessionalDetails.isFresher && (
+                                        (!candidateProfessionalDetails.isCandidateFresher && (
                                          
                                           !selectedCompany?.name ||
                                           !candidateProfessionalDetails.department ||
@@ -275,7 +275,7 @@
                                           !candidateProfessionalDetails.ectc ||
                                           !candidateProfessionalDetails.noticePeriod
                                         )) || 
-                                        (candidateProfessionalDetails.isFresher && !candidateProfessionalDetails.coreSkillList)">Next</button>
+                                        (candidateProfessionalDetails.isCandidateFresher && !candidateProfessionalDetails.coreSkillList)">Next</button>
                                 </div>
             
                             </div>

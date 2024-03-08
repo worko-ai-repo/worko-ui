@@ -55,14 +55,12 @@ export class EditProfileComponent implements OnInit {
       [{
         "companyName": this.secondStepData?.companyName,
         "companySK": this.secondStepData?.companySK,
-        // "emailId": this.secondStepData?.officialEmail,
         "designation": this.secondStepData?.designation,
         "department": this.secondStepData?.department,
         "SK": this.workExperienceDetails ? this.workExperienceDetails.SK : "",
         "PK": this.workExperienceDetails ? this.workExperienceDetails.PK : "",
         "userType": "CAND",
-
-
+        "isCurrent": this.secondStepData?.isCurrent ? this.secondStepData?.isCurrent : true
       }
       ]
     await this.candidateSrv.createWorkExperience(this.emailAddress, workExperience).then(async (response) => {
@@ -177,10 +175,12 @@ export class EditProfileComponent implements OnInit {
       PK: this.firstStepData?.socialPk
     }
     await this.candidateSrv.createUserProfile(this.emailAddress, socialProfile).then(async (response) => {
-      // if (response) {
-      // this.createUserDetails();
-      this.updateWorkExperience();
-      // }
+      if (!this.secondStepData.isCandidateFresher) {
+        // this.createUserDetails();
+        this.updateWorkExperience();
+      } else {
+        this.router.navigate(['/candidate/cdashboard']);
+      }
     })
   }
 
@@ -210,7 +210,8 @@ export class EditProfileComponent implements OnInit {
       "PK": this.candidateList?.PK,
       "country": this.firstStepData?.country,
       "profileImage": this.uploadedProfilePicName ? this.uploadedProfilePicName : this.candidateList.profileImage,
-      "acceptedTermsAndConditions": true //Will remove once remove from API
+      "isCandidateFresher": this.secondStepData.isCandidateFresher
+      // "acceptedTermsAndConditions": true //Will remove once remove from API
     }
 
     await this.candidateSrv.createUserDetails(this.emailAddress, userDetails).then(async (response) => {

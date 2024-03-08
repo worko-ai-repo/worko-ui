@@ -121,7 +121,7 @@ export class UserProfileCompleteComponent implements OnInit {
           },
           
           tooltip: {
-            enabled: true,
+            enabled: false,
           },
 
         },

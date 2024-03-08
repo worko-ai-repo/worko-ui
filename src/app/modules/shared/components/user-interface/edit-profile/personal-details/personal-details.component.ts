@@ -106,7 +106,7 @@ export class PersonalDetailsComponent implements OnInit {
     this.previousStep.emit(this.candidateProfessionalDetails);
   }
   userFresher() {
-    this.candidateProfessionalDetails.isFresher = !this.candidateProfessionalDetails.isFresher;
+    this.candidateProfessionalDetails.isCandidateFresher = !this.candidateProfessionalDetails.isCandidateFresher;
 }
 
   getData() {
@@ -123,7 +123,7 @@ export class PersonalDetailsComponent implements OnInit {
       coreSkillList: this.certificationList?.coreSkills,
       achievements: this.achievementsList,
       companySK: this.selectedCompany?.SK ? this.selectedCompany?.SK : this.workExperienceDetails?.SK,
-      isFresher: this.candidateProfessionalDetails.isFresher
+      isCandidateFresher: this.candidateProfessionalDetails.isCandidateFresher
     }
   }
 
