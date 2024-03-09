@@ -50,6 +50,8 @@ import { HomeAboutUsComponent } from './components/home-about-us/home-about-us.c
 import { HomeFaqComponent } from './components/home-faq/home-faq.component';
 import { HomeCorporateComponent } from './components/home-corporate/home-corporate.component';
 import { TermsOfServiceComponent } from './components/terms-of-service/terms-of-service.component';
+import { PrivacyPolicyComponent } from './components/privacy-policy/privacy-policy.component';
+import { RefundPolicyComponent } from './components/refund-policy/refund-policy.component';
 // import { MatInputModule } from '@angular/material/input';
 export const routes: Routes = [
   {
@@ -161,6 +163,14 @@ export const routes: Routes = [
         path : 'terms-of-service',
         component: TermsOfServiceComponent
       },
+      {
+        path : 'refund-policy',
+        component:RefundPolicyComponent 
+      },
+      {
+        path : 'privacy-policy',
+        component: PrivacyPolicyComponent
+      },
       
       
       
@@ -196,6 +206,8 @@ export const routes: Routes = [
     HomeFaqComponent,
     HomeCorporateComponent,
     TermsOfServiceComponent,
+    PrivacyPolicyComponent,
+    RefundPolicyComponent,
     
     
   ],
