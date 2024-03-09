@@ -139,6 +139,7 @@ export class PersonalDetailsComponent implements OnInit {
     if (! this.candidateProfessionalDetails.achievements) {
       this.candidateProfessionalDetails.achievements = [];
     }
+    
     if (this.title && this.date && this.instituteName) {
       // Create a new achievement object
       const newAchievement = {
@@ -265,10 +266,11 @@ export class PersonalDetailsComponent implements OnInit {
     // Return true if both title and date have values, otherwise false
     return !!this.newCertName && !!this.certificateYear && !!this.certificateCompany;
   }
-  isCertNameValid(): boolean {
-    // Check if there is at least one non-empty certificate name
-    return this.newCertName.split(',').some(certName => certName.trim() !== '');
-  }
+
+  // isCertNameValid(): boolean {
+  //   // Check if there is at least one non-empty certificate name
+  //   return this.newCertName.split(',').some(certName => certName.trim() !== '');
+  // }
 
   addSoftSkill(event: any) {
     const input = this.elRef.nativeElement.querySelector('.soft-skill-input');

@@ -195,8 +195,8 @@
                                         [ngClass]="{ 'is-invalid': completionyear.invalid && (completionyear.dirty || completionyear.touched) }"
                                         
                                         >
-            
-                                    <button class="float-end btn btn-add" type="button" [disabled]="!isValidCertificateForm()"
+           
+                                    <button class="float-end btn btn-add" type="button" [disabled]="!isValidCertificateForm() || completionyear.invalid"
                                         (click)="addCertificate()">Add</button>
                                         <div class="certificate-error-message" *ngIf="maxCertificate">
                                             You can not add more than 5 certificates.
@@ -239,7 +239,7 @@
                                         #achievementdate="ngModel" [title]="achievementdate.errors?.['pattern'] ? 'Achievement date is invalid' : ''"
                                         [ngClass]="{ 'is-invalid': achievementdate.invalid && (achievementdate.dirty || achievementdate.touched) }">
             
-                                    <button class="float-end btn btn-add" type="button" [disabled]="!isValidForm()"
+                                    <button class="float-end btn btn-add" type="button" [disabled]="!isValidForm() || achievementdate.invalid"
                                         (click)="addAchievement()">Add</button>
                                 </div>
             
