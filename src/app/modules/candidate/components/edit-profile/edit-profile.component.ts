@@ -1,18 +1,20 @@
-import { Component, Input, OnInit } from '@angular/core';
+import { Component, OnInit, ViewChild } from '@angular/core';
 import { CandidateProfileService } from '../../services/candidate-profile.service';
-import * as data from 'src/assets/data/data.json';
+// import * as data from 'src/assets/data/data.json';
 import { StorageService } from 'src/app/modules/app-core/services/storage.service';
-import { error } from 'jquery';
+// import { error } from 'jquery';
 import { AuthService } from 'src/app/modules/worko/services/auth.service';
 import { Router } from '@angular/router';
 import { NgxSpinnerService } from 'ngx-spinner';
+import { ModalComponent } from 'src/app/modules/shared/components/modal/modal.component';
+import { ModalType } from 'src/app/modules/shared/interfaces/shared.interface';
 @Component({
   selector: 'app-edit-profile',
   templateUrl: './edit-profile.component.html',
   styleUrls: ['./edit-profile.component.scss']
 })
 export class EditProfileComponent implements OnInit {
-
+  @ViewChild(ModalComponent) modal!: ModalComponent;
   candidateList: any;
   educationList: any = "";
   emailAddress: string = "";
@@ -38,12 +40,16 @@ export class EditProfileComponent implements OnInit {
   userId: string | undefined;
   uploadedProfilePicName: string = "";
 
-
+  modalType = ModalType;
+  modalMessage: string = "";
+  modalTitle: string = "";
+  showModal: ModalType | undefined;
   constructor(private spinner: NgxSpinnerService, private router: Router, private candidateSrv: CandidateProfileService, private storage: StorageService, private authService: AuthService) { }
   ngOnInit(): void {
     console.log(this.firstStepData)
     this.emailAddress = this.storage.get("useremail");
     this.getCandidateDetails();
+    // this.openModal(this.modalType.MESSAGE, "Title", "Conteny");
   }
 
 
@@ -492,4 +498,27 @@ export class EditProfileComponent implements OnInit {
     }
   }
 
+  /**
+   * Open modal.
+   *
+   * @param {ModalType} modalType
+   * @param {string} [message = ""]
+   * @param {string} [title = ""]
+   * @returns {void}
+   */
+  openModal(modalType: ModalType, message: string = "", title: string = ""): void {
+
+    this.showModal = modalType;
+    this.modalMessage = message;
+    this.modalTitle = title;
+    this.modal.open();
+  }
+    /**
+   * Close modal.
+   *
+   * @returns {void}
+   */
+    closeModal(): void {
+      this.modal.cancel();
+    }
 }
