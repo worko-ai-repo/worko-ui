@@ -52,6 +52,7 @@ import { HomeCorporateComponent } from './components/home-corporate/home-corpora
 import { TermsOfServiceComponent } from './components/terms-of-service/terms-of-service.component';
 import { PrivacyPolicyComponent } from './components/privacy-policy/privacy-policy.component';
 import { RefundPolicyComponent } from './components/refund-policy/refund-policy.component';
+import { IndexComponent } from './components/index/index.component';
 // import { MatInputModule } from '@angular/material/input';
 export const routes: Routes = [
   {
@@ -171,7 +172,10 @@ export const routes: Routes = [
         path : 'privacy-policy',
         component: PrivacyPolicyComponent
       },
-      
+      {
+        path: 'index',
+        component: IndexComponent
+      }
       
       
     ]
@@ -208,6 +212,7 @@ export const routes: Routes = [
     TermsOfServiceComponent,
     PrivacyPolicyComponent,
     RefundPolicyComponent,
+    IndexComponent,
     
     
   ],
