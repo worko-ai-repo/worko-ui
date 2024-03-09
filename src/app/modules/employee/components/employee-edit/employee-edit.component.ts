@@ -186,37 +186,29 @@ export class EmployeeEditComponent {
     // Check if twitterArray is an array
     if (Array.isArray(twitterArray)) {
       console.log('twitterArray is already an array');
+      twitterArray = this.firstStepData.socialLinktwitter;
     } else {
       console.log('twitterArray is not an array');
-      if(twitterArray<0){
-        console.log("data")
-        twitterArray=[];
-      }else{
-        twitterArray = [this.firstStepData.socialLinktwitter];
-        
-      }
-    
-    }
+      twitterArray=[];
+     }
 
     // Check if twitterArray is an array
     if (Array.isArray(linkedinArray)) {
       console.log('linkedinArray is already an array');
+      linkedinArray = this.firstStepData.socialLinklinkdin;
     } else {
       console.log('linkedinArray is not an array');
-      linkedinArray = [this.firstStepData.socialLinklinkdin];
+      linkedinArray=[];
+     
     }
 
     if (Array.isArray(githubArray)) {
       console.log('twitterArray is already an array');
+      githubArray = this.firstStepData.socialLinkGithub;
     } else {
       console.log('twitterArray is not an array');
-      if(githubArray>0){
-        githubArray = [this.firstStepData.socialLinkGithub];
-        }else{
-          githubArray=[];
-        }
-      
-    }
+       githubArray=[];
+      }
     let socialProfile =
     {
       twitter: twitterArray,
