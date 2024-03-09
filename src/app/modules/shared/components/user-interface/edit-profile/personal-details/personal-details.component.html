@@ -50,7 +50,7 @@
                                         </label>
                                     </div>
                                 </div>
-                            <div class="row d-flex justify-content-center mt-2" *ngIf="!candidateProfessionalDetails.isFresher">
+                            <div class="row d-flex justify-content-center mt-2" *ngIf="!candidateProfessionalDetails.isCandidateFresher">
                                 <div class="col-md-3">
                                     <label for="" class="form-label required-form-field">Current Company Name</label>
                                     <input matInput #autoCompleteInput="matAutocompleteTrigger" class="form-control form-input" 
@@ -74,10 +74,10 @@
                                 </div>
                             </div>
             
-                            <div class="row d-flex justify-content-center mt-2" *ngIf="!candidateProfessionalDetails.isFresher">
+                            <div class="row d-flex justify-content-center mt-2" *ngIf="!candidateProfessionalDetails.isCandidateFresher">
                                 <div class="col-md-3">
                                     <label for="" class="form-label  required-form-field">CTC</label>
-                                    <input type="text" class="form-control form-ctc" placeholder="CTC(in LPA)" pattern="^(?!0*\.?0*$)0*([1-9][0-9]*)(\.[0-9]+)?$"
+                                    <input type="text" class="form-control form-ctc" placeholder="CTC(in LPA)" pattern="^(?!0*\.?0*$)0*([1-9][0-9]*)(\.[0-9]{1,2})?$"
                                         #ctc="ngModel" [title]="ctc.errors?.['pattern'] ? 'CTC is invalid' : ''"
                                         [ngClass]="{ 'is-invalid': ctc.invalid && (ctc.dirty || ctc.touched) }"
                                         [(ngModel)]="candidateProfessionalDetails.ctc" name="ctc" id="ctc">
@@ -85,7 +85,7 @@
                                 <div class="col-md-3">
                                     <label for="" class="form-label  required-form-field">ECTC</label>
                                     <input type="text" class="form-control form-ctc" placeholder="Expected CTC(in LPA)"
-                                        pattern="^(?!0*\.?0*$)0*([1-9][0-9]*)(\.[0-9]+)?$" #ectc="ngModel"
+                                        pattern="^(?!0*\.?0*$)0*([1-9][0-9]*)(\.[0-9]{1,2})?$" #ectc="ngModel"
                                         [title]="ectc.errors?.['pattern'] ? 'Expected CTC is invalid' : ''"
                                         [ngClass]="{ 'is-invalid': ectc.invalid && (ectc.dirty || ectc.touched) }"
                                         [(ngModel)]="candidateProfessionalDetails.ectc" name="ectc" id="ectc">
@@ -195,8 +195,8 @@
                                         [ngClass]="{ 'is-invalid': completionyear.invalid && (completionyear.dirty || completionyear.touched) }"
                                         
                                         >
-            
-                                    <button class="float-end btn btn-add" type="button" [disabled]="!isValidCertificateForm()"
+           
+                                    <button class="float-end btn btn-add" type="button" [disabled]="!isValidCertificateForm() || completionyear.invalid"
                                         (click)="addCertificate()">Add</button>
                                         <div class="certificate-error-message" *ngIf="maxCertificate">
                                             You can not add more than 5 certificates.
@@ -239,7 +239,7 @@
                                         #achievementdate="ngModel" [title]="achievementdate.errors?.['pattern'] ? 'Achievement date is invalid' : ''"
                                         [ngClass]="{ 'is-invalid': achievementdate.invalid && (achievementdate.dirty || achievementdate.touched) }">
             
-                                    <button class="float-end btn btn-add" type="button" [disabled]="!isValidForm()"
+                                    <button class="float-end btn btn-add" type="button" [disabled]="!isValidForm() || achievementdate.invalid"
                                         (click)="addAchievement()">Add</button>
                                 </div>
             
@@ -262,11 +262,11 @@
                             </div>
                         
                             <div class="row">
-                                <!-- [disabled]="(!isFresher && !candidateProfessionalDetails.companyName  ||!candidateProfessionalDetails.department || !candidateProfessionalDetails.designation || !candidateProfessionalDetails.ctc ||!candidateProfessionalDetails.ectc ||!candidateProfessionalDetails.noticePeriod)" -->
+                                <!-- [disabled]="(!isCandidateFresher && !candidateProfessionalDetails.companyName  ||!candidateProfessionalDetails.department || !candidateProfessionalDetails.designation || !candidateProfessionalDetails.ctc ||!candidateProfessionalDetails.ectc ||!candidateProfessionalDetails.noticePeriod)" -->
                                 <div class="col-md-10 d-flex justify-content-end">
                                     <button class="btn btn-next me-2" (click)="goBack()">Previous</button>
                                     <button class="btn btn-next" type="submit" [disabled]="
-                                        (!candidateProfessionalDetails.isFresher && (
+                                        (!candidateProfessionalDetails.isCandidateFresher && (
                                          
                                           !selectedCompany?.name ||
                                           !candidateProfessionalDetails.department ||
@@ -275,7 +275,7 @@
                                           !candidateProfessionalDetails.ectc ||
                                           !candidateProfessionalDetails.noticePeriod
                                         )) || 
-                                        (candidateProfessionalDetails.isFresher && !candidateProfessionalDetails.coreSkillList)">Next</button>
+                                        (candidateProfessionalDetails.isCandidateFresher && !candidateProfessionalDetails.coreSkillList)">Next</button>
                                 </div>
             
                             </div>

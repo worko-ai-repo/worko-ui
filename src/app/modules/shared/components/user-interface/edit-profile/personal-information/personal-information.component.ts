@@ -129,7 +129,6 @@ export class PersonalInformationComponent implements OnInit {
   updateEducationDetails() {
     // || field.passingYear.trim() !== ''
     const nonBlankFields = this.candidatePersonalDetails.collegeData.filter((field: { collage: string; degree: string; passingYear: string; }) => field.collage.trim() !== '' || field.degree.trim() !== '' );
-debugger;
     // Save the non-blank fields
     this.savedValues = [...nonBlankFields];
     this.candidatePersonalDetails.collegeData = this.savedValues;

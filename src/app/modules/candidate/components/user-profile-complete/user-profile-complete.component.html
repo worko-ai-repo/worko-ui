@@ -24,12 +24,15 @@
             </div> -->
         </div>
         <div class="row">
-            <div class="col-md-12 d-flex justify-content-center ">
+            <div class="col-md-12 d-flex justify-content-center wrapper-div">
                 <div class="canvas" [hidden]="!chart">
-                    <canvas id="canvas"></canvas>
+                    <div class="canvas-inner-class">
+                        <canvas id="canvas"></canvas>
+                        <h5 class="total-percentage">{{this.totalPercentage}}%</h5>
+                    </div>
                 </div>
                 <div >
-                    <div class="row">
+                    <div class="row right-section">
                         <div class="col-md-12 profile-option mt-2" *ngFor="let profileDetails of candidateProfile; let i=index">
                             <div class="row">
                                 <div class="col-md-8 d-flex chart-labels">
@@ -41,7 +44,7 @@
                                 </div>
                             </div>
                         </div>
-                        <div class="col-md-12 mt-2" *ngFor="let menu of userRole">
+                        <div class="col-md-12 d-flex justify-content-center" style="margin-top: 2vw;" *ngFor="let menu of userRole">
                             <a class="float-right text-white fs-5" routerLink="/{{menu.router}}">Edit Profile
                                 <svg xmlns="http://www.w3.org/2000/svg" width="33" height="33" viewBox="0 0 33 33" fill="none">
                                     <path

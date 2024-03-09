@@ -106,7 +106,7 @@ export class PersonalDetailsComponent implements OnInit {
     this.previousStep.emit(this.candidateProfessionalDetails);
   }
   userFresher() {
-    this.candidateProfessionalDetails.isFresher = !this.candidateProfessionalDetails.isFresher;
+    this.candidateProfessionalDetails.isCandidateFresher = !this.candidateProfessionalDetails.isCandidateFresher;
 }
 
   getData() {
@@ -123,7 +123,7 @@ export class PersonalDetailsComponent implements OnInit {
       coreSkillList: this.certificationList?.coreSkills,
       achievements: this.achievementsList,
       companySK: this.selectedCompany?.SK ? this.selectedCompany?.SK : this.workExperienceDetails?.SK,
-      isFresher: this.candidateProfessionalDetails.isFresher
+      isCandidateFresher: this.candidateProfessionalDetails.isCandidateFresher
     }
   }
 
@@ -139,6 +139,7 @@ export class PersonalDetailsComponent implements OnInit {
     if (! this.candidateProfessionalDetails.achievements) {
       this.candidateProfessionalDetails.achievements = [];
     }
+    
     if (this.title && this.date && this.instituteName) {
       // Create a new achievement object
       const newAchievement = {
@@ -265,10 +266,11 @@ export class PersonalDetailsComponent implements OnInit {
     // Return true if both title and date have values, otherwise false
     return !!this.newCertName && !!this.certificateYear && !!this.certificateCompany;
   }
-  isCertNameValid(): boolean {
-    // Check if there is at least one non-empty certificate name
-    return this.newCertName.split(',').some(certName => certName.trim() !== '');
-  }
+
+  // isCertNameValid(): boolean {
+  //   // Check if there is at least one non-empty certificate name
+  //   return this.newCertName.split(',').some(certName => certName.trim() !== '');
+  // }
 
   addSoftSkill(event: any) {
     const input = this.elRef.nativeElement.querySelector('.soft-skill-input');

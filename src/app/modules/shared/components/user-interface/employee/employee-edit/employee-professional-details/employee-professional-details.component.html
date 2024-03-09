@@ -27,8 +27,14 @@
                     pattern="^(?!.*@(gmail\.com|outlook\.com|aol\.com|yahoo\.com|icloud\.com|protonmail\.com|zoho\.com|yandex\.com|gmx\.com|hubspot\.com|mail\.com|tutanota\.com|10minutemail\.com)$)[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$"
                     [title]="email.errors?.['pattern'] ? 'Official Email is invalid' : ''"
                     [ngClass]="{ 'is-invalid': email.invalid && (email.dirty || email.touched) }" #email="ngModel">
-                <h2 *ngIf="!employeeProfessionalData.isEmailVerified && !email.invalid" (click)="openOtpModal()" class="badge  verify-text-label -pointer">Verify</h2>
-                <h2 *ngIf="employeeProfessionalData.isEmailVerified && !email.invalid" class="badge  verify-text-label text-green">Verified</h2>
+                <h2 *ngIf="!employeeProfessionalData.isEmailVerified && !email.invalid" (click)="openOtpModal()" class="badge  verify-text-label-unverified -pointer">Verify</h2>
+                <h2 *ngIf="employeeProfessionalData.isEmailVerified && !email.invalid" class="badge  verify-text-label text-green">
+
+                    <svg width="20" height="20" viewBox="0 0 27 27" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <rect width="27" height="27" rx="13.5" fill="#4ECB71"/>
+                        <path d="M18.6056 6.75L21.375 9.62727L11.1638 20.25L5.625 14.4886L8.39438 11.6114L11.1638 14.4886L18.6056 6.75ZM18.6056 8.65909L11.1638 16.4045L8.39438 13.5614L7.46906 14.4886L11.1638 18.3205L19.5309 9.62727L18.6056 8.65909Z" fill="black"/>
+                      </svg>
+                </h2>
             </div>
         </div>
         <div class="row mt-3">
