@@ -1,0 +1,136 @@
+// ---------------------utilities------------------------
+
+.para{
+    font-size: calc(7px + 1vw);
+    font-weight: 400;
+    line-height: 160%;
+    letter-spacing: 0em;
+    text-align: left;
+}
+
+hr{
+    height: 2px; width: 100%; background-color: #09111C; border: none;
+}
+.about-section{
+    position: relative;
+    background-color: #000000;
+}
+
+.head1{
+    font-weight: 400;
+}
+
+
+.top-header-bg{
+    position:absolute;
+    top: 0;
+    left: 0;
+    width: 36%;
+    img {
+        width: 100%;
+    }
+}
+
+.content-icon img{
+    width: 100%;
+}
+
+.slider-img{
+    width: 47px;
+    display: flex;
+    justify-content: space-between;
+    .btn1{
+        width: 19px;
+        height: 19px;
+        border-radius: 50%;
+        background-color: #004054;
+        border-color: #004054;
+    }
+
+    .btn2{
+        width: 19px;
+        height: 19px;
+        border-radius: 50%;
+        background-color: #D9D9D9;
+        border-color: #D9D9D9;
+        
+    }
+}
+
+// ------------------ Side Timeline ------------------
+
+.side-timeline{
+    left: 8.5%;
+    margin-top: 5px;
+    img{
+        width: calc(156px + 9vw);
+    }
+}
+
+.side-timeline-md{
+    display: none;
+}
+
+.side-timeline-sm{
+    display: none;
+}
+
+
+// ------------------ Gradient CSS --------------------
+.gradient-left1{
+    top: 0;
+    left: 0;
+}
+
+.gradient-left2{
+    top: 700px;
+    left: -5vw;
+}
+
+.gradient-left3{
+    left: -16vw;
+}
+
+.gradient-left4{
+    left: 0;
+}
+
+.gradient-left5{
+    bottom: 0;
+    left: -9%;
+}
+
+.gradient-left-md{
+    display: none;
+}
+
+.gradient-img{
+    opacity: 50%;
+}
+
+.gradient-right1 {
+    right: 0;
+    top: 50px;
+}
+
+.gradient-right2 {
+    right: 0;
+    top: 284px;
+}
+
+.gradient-right3 {
+    right: -30%;
+    top: 0;
+}
+
+.gradient-right4 {
+    right: -8.5%;
+    top: 0;
+}
+
+.gradient-rightmd{
+    display: none;
+    right: 0;
+    top: 0;
+    opacity: 75%;
+}
