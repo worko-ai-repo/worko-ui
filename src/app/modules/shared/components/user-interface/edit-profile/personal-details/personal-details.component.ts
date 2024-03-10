@@ -127,10 +127,7 @@ setFutureMonthRestriction(completionyear:any) {
     }
   }
   ngOnChanges(): void {
-    // console.log(this.candidateList, "candidateList");
-    //  console.log(this.workExperienceDetails, "workExperienceDetails");
-    // console.log(this.certificationList, "certificationList");
-   
+
     if(  this.candidateProfessionalDetails.ctc && this.candidateProfessionalDetails.certificationNames && this.candidateProfessionalDetails.achievements){
 
     }else{
@@ -162,7 +159,7 @@ setFutureMonthRestriction(completionyear:any) {
       coreSkillList: this.certificationList?.coreSkills,
       achievements: this.achievementsList,
       companySK: this.selectedCompany?.SK ? this.selectedCompany?.SK : this.workExperienceDetails?.SK,
-      isCandidateFresher: this.candidateProfessionalDetails.isCandidateFresher
+      isCandidateFresher: this.candidateList.isCandidateFresher
     }
   }
 
@@ -188,7 +185,6 @@ setFutureMonthRestriction(completionyear:any) {
       };
       // Push the new achievement object to the achievements array
       this.candidateProfessionalDetails.achievements.push(newAchievement);
-      console.log(this.achievementsList);
       // Clear the input fields
       this.title = '';
       this.date = '';
@@ -224,7 +220,7 @@ setFutureMonthRestriction(completionyear:any) {
       };
       // Push the new achievement object to the achievements array
       this.candidateProfessionalDetails.coreSkillList.push(newCoreSkill);
-      console.log(this.candidateProfessionalDetails.coreSkillList);
+
       // Clear the input fields
       this.coreSkill = '';
       this.skillYears = '';
@@ -287,7 +283,6 @@ setFutureMonthRestriction(completionyear:any) {
         };
         // Push the new achievement object to the achievements array
         this.candidateProfessionalDetails.certificationNames.push(newCertificate);
-        console.log(this.achievementsList);
         // Clear the input fields
         this.certificateCompany = '';
         this.certificateYear = '';
@@ -322,7 +317,6 @@ setFutureMonthRestriction(completionyear:any) {
         this.candidateProfessionalDetails.softSkills = [];
       }
       this.candidateProfessionalDetails.softSkills.push(newSkill);
-      console.log(this.candidateProfessionalDetails.softSkills );
       input.value = ''; // Clear the input field
     }
     event.preventDefault(); // Prevent the default action (form navigation)
