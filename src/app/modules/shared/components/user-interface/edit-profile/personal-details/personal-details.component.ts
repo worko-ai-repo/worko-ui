@@ -1,6 +1,6 @@
 import { Component, ElementRef, EventEmitter, Input, OnInit, Output, ViewChild } from '@angular/core';
 import { MatAutocompleteModule, MatAutocompleteTrigger } from '@angular/material/autocomplete';
-import { FormControl, FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { FormControl, FormsModule, NgModel, ReactiveFormsModule } from '@angular/forms';
 import { Observable } from 'rxjs';
 import { debounceTime, distinctUntilChanged, switchMap, filter } from 'rxjs/operators';
 import { Subscription } from 'rxjs';
@@ -11,6 +11,41 @@ import { AuthService } from 'src/app/modules/worko/services/auth.service';
   styleUrls: ['./personal-details.component.scss']
 })
 export class PersonalDetailsComponent implements OnInit {
+
+   currentYear = new Date().getFullYear().toString();
+ currentMonth = (new Date().getMonth() + 1).toString();
+  maxDate = this.currentYear + "-"+(this.currentMonth.length === 1 ? '0' + this.currentMonth : this.currentMonth);
+// acheivementyear: any;
+setFutureMonthRestriction(completionyear:any) {
+  completionyear.control.setValidators(this.validateCompletionYear(this.maxDate));
+}
+  validateCompletionYear(maxDate: string): any {
+    return (control: any) => {
+      const completionYear = control.value;
+      if (completionYear > maxDate) {
+        return { futureMonth: true };
+      }
+      return null;
+    };
+  }
+
+  setFutureMonth(achievementdate:any) {
+    achievementdate.control.setValidators(this.validateAchievementYear(this.maxDate));
+    }
+
+  // setFutureMonth(achievementyear:any) {
+  //   achievementyear.control.setValidators(this.validateAchievementYear(this.maxDate));
+  // }
+  validateAchievementYear(maxDate: string): any {
+      return (control: any) => {
+        const achievementdate = control.value;
+        if (achievementdate > maxDate) {
+          return { futureMonth: true };
+        }
+        return null;
+      };
+    }
+
   @ViewChild('autoCompleteInput', { static: false, read: MatAutocompleteTrigger }) trigger!: MatAutocompleteTrigger;
   @Input() candidateList: any;
   @Input() workExperienceDetails: any;
@@ -20,7 +55,11 @@ export class PersonalDetailsComponent implements OnInit {
   @Output() onSuccess = new EventEmitter<void>();
   @Input() achievementsList: any;
  
-  
+//   currentYear = new Date().getFullYear();
+//   currentMonth = new Date().getMonth() + 1;
+//  currentYearMonth = this.currentYear + '-' + (this.currentMonth < 10 ? '0' : '') + this.currentMonth;
+  // today = new Date().toISOString().split('T')[0];
+ 
   myControl = new FormControl<any>('');
   filteredOptions!: Observable<any[]>;
   companyName: string = "";
@@ -316,6 +355,8 @@ export class PersonalDetailsComponent implements OnInit {
 
 
 }
+
+
 
 
 
