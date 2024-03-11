@@ -1,5 +1,5 @@
 
-import { Component, EventEmitter, Output, ViewChild, AfterViewInit  } from '@angular/core';
+import { Component, EventEmitter, Output, ViewChild, AfterViewInit, OnDestroy  } from '@angular/core';
 import { CognitoService } from 'src/app/modules/services/cognito.service';
 import { Router } from '@angular/router';
 import { AuthService } from '../../services/auth.service';
@@ -26,7 +26,7 @@ declare var bootstrap: any;
   styleUrls: ['./login-page.component.scss'],
 })
 
-export class LoginPageComponent implements AfterViewInit  {
+export class LoginPageComponent implements AfterViewInit, OnDestroy  {
   @Output() userTypeSelected = new EventEmitter<string>();
   @Output() onSuccess: EventEmitter<void> = new EventEmitter<void>();
   // @ViewChild('autocompleteInput') autocompleteInput: any; 
@@ -47,7 +47,13 @@ export class LoginPageComponent implements AfterViewInit  {
   isDivClose: boolean = true
   hideDiv: boolean = true
   errorMessage: string = "";
-  
+  fileErr: string = "";
+  CandidateWords = ["Referral", "Career Guidance", "Interview Mentorship", "Mock Interview"];
+  EmployeeWords = ["Reward", "Sell Services", "Earn Money", "Priority Job Access"];
+  currentWordIndex = 0;
+  currentWord = '';
+  isBlinking = true;
+  blinkTimer: any; //timer reference
 
   // checkboxChecked:boolean=false;
   agreeTerms:boolean=false;
@@ -221,6 +227,7 @@ otpVerification(emailId: string): void {
   
  
   ngOnInit() {
+    this.blinkAndChangeWord()
     this.filteredOptions = this.myControl.valueChanges.pipe(
       debounceTime(300),
       distinctUntilChanged(),
@@ -254,6 +261,9 @@ otpVerification(emailId: string): void {
     this.selectedUserType = userType;
     this.errorMessage = "";
     this.userTypeSelected.emit(userType);
+    this.clearBlinkTimer();
+    this.currentWordIndex = 0;
+    this.blinkAndChangeWord();
   }
 
   toggleHover(fieldName: string, isHovered: boolean) {
@@ -483,6 +493,7 @@ otpVerification(emailId: string): void {
         // Check if the file type is PDF
         if (file.type === 'application/pdf') {
           // Process the PDF file as needed
+          this.fileErr = "";
           this.fileToUpload = file;
           this.fileName = file.name;
           this.fileType = file.type;
@@ -490,6 +501,8 @@ otpVerification(emailId: string): void {
         } else {
           // Display an error for invalid file type
           console.error('Invalid file type. Please upload a PDF file.');
+          this.fileErr = "Invalid file type. Please upload a PDF file."
+          this.fileName = "";
           // Optionally, you can reset the input to clear the invalid selection
           inputElement.value = '';
           this.fileToUpload = null;
@@ -649,5 +662,30 @@ otpVerification(emailId: string): void {
 
     return `${maskedUsername}@${maskedDomain}`;
   }
+
+  blinkAndChangeWord() 
+  { 
+    const words = this.selectedUserType === "candidate" ? this.CandidateWords : this.EmployeeWords;
+    this.currentWord = words[this.currentWordIndex];
+    this.isBlinking = false;
+    
+    this.blinkTimer = setTimeout(() => {
+    this.isBlinking = true;
+    this.currentWordIndex = (this.currentWordIndex + 1) % words.length;
+    this.blinkAndChangeWord();
+   }, 3000); // timeout based on our animation duration
+  }
+
+  clearBlinkTimer() {
+   if (this.blinkTimer) {
+    clearTimeout(this.blinkTimer);
+   }
+  }
+
+  ngOnDestroy() {
+   this.clearBlinkTimer();
+  }
+
+
 
 }
