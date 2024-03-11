@@ -1,11 +1,15 @@
 // ---------------------utilities------------------------
 
 .para{
-    font-size: calc(7px + 1vw);
+    font-size: calc(13px + 1vw);
     font-weight: 400;
     line-height: 160%;
     letter-spacing: 0em;
     text-align: left;
+}
+
+.para2{
+    font-size: 24px;
 }
 
 hr{
@@ -157,3 +161,142 @@ hr{
     right: 0;
 }
 
+.stats-section{
+    justify-content: center;
+    padding-top: 14rem;
+}
+
+.stat{
+    width: 25%;
+    text-align: center;
+
+    .stat-title{
+        font-size: 90px;
+        font-weight: 500;
+    }
+    .stat-content{
+        padding-top: 0.5rem;
+        text-align: center;
+    }
+}
+
+.title2{
+    font-weight: 700;
+    font-size: 40px;
+}
+
+
+.purpose-section{
+    padding-left: 18%;
+    padding-top: 16rem;
+
+    .purpose-header{
+        width: 68%;
+    }
+    .purpose-content{
+        font-size: 24px;
+    }
+}
+
+.peer{
+    justify-content: space-around;
+    padding-top: 5rem;
+    .contents{
+        width: 58%;
+    }
+}
+
+.interview-title{
+    padding-top: 15rem;
+}
+
+.feedback{
+    padding-top: 12rem;
+
+    
+}
+
+.career-section{
+    padding-top: 15rem;
+    width: 120%;
+}
+.career-content{
+}
+
+.feedback img{
+    margin-right: -10%;
+}
+
+.smart{
+    position: relative;
+
+    .contents{
+        width: 60%;
+    }
+    .smart-title{
+        padding-top: 10rem;
+    }
+
+    .smart-img{
+        position: absolute;
+        right: 3rem;
+        top: 15rem;
+    }
+}
+
+.access-title{
+    padding-top: 10rem;
+}
+
+.access-content{
+    width: 88%;
+    margin: auto;
+}
+
+// Benefits Section
+
+.benefits-section{
+    padding-left: 16%;
+    padding-top: 17rem;
+
+    .benefits-content{
+        padding-top: 3rem;
+        width: 90%;
+    }
+}
+
+.referee-section{
+    padding-top: 6rem;
+}
+
+.ref{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+    border: none;
+    border-radius: 100px;
+    width: 48%;
+    height: 79px;
+    padding: 0 5%;
+
+    font-size: 22px;
+    line-height: 27px;
+
+}
+
+.ref1, .ref2{
+    background-color: #5BAABE;
+}
+
+.ref3{
+    background-color: #3A7683;
+}
+
+.ref4{
+    background-color: #004759
+}
+
+.ref5{
+    background-color: #09758B;
+}

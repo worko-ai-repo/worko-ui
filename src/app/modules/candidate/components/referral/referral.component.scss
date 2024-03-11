@@ -1,25 +1,22 @@
 .content-container {
-  height: calc(100vh - 45px);
-overflow:auto;
-  // margin-left: 220px;
+  height: calc(100vh - 60px);
+  overflow: auto;
 }
 
 .divide-45 {
   flex: 1;
- // padding: 10px;
-  /* Optional: Add padding for better visual appearance */
 }
 
 .divide-55 {
   flex: 2;
   height: 100%;
- // padding: 10px;
-  /* Optional: Add padding for better visual appearance */
 }
 
 .status-container {
-  height: calc(100vh - 150px);
+  height: calc(100vh - 140px);
 }
- .left-container-content{
+
+.left-container-content {
   width: 350px;
+  padding-right:0px;
 }

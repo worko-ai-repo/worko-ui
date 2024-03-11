@@ -1,7 +1,7 @@
 <div class="card candidate-card">
     <div class="card-body">
-        <div class="row">
-            <!-- <div class="col-md-12">
+        <!-- <div class="row"> -->
+        <!-- <div class="col-md-12">
                 <h5 class="text-white">About</h5>
             </div>
             <div class="col-md-12">
@@ -9,13 +9,11 @@
                     {{userDescription}}
                 </p>
             </div> -->
-            <h5 class="certification-heading mt-4">Certifications:</h5>
-            <div class="certification-content d-flex">
-               
-                <div class="p-1  certificate-label" *ngFor="let certificate of certificationList?.certifications">
-                    <span class="certification-boxes ps-2 pe-2">{{certificate.certName}}</span>
-                </div>
+        <h5 class="certification-heading">Certifications:</h5>
+        <div class="certification-content d-flex">
+            <div class="p-1  certificate-label" *ngFor="let certificate of certificationList?.certifications">
+                <span class="certification-boxes ps-2 pe-2">{{certificate.certName}}</span>
             </div>
-          
         </div>
     </div>
+</div>
