@@ -12,39 +12,7 @@ import { AuthService } from 'src/app/modules/worko/services/auth.service';
 })
 export class PersonalDetailsComponent implements OnInit {
 
-   currentYear = new Date().getFullYear().toString();
- currentMonth = (new Date().getMonth() + 1).toString();
-  maxDate = this.currentYear + "-"+(this.currentMonth.length === 1 ? '0' + this.currentMonth : this.currentMonth);
-// acheivementyear: any;
-setFutureMonthRestriction(completionyear:any) {
-  completionyear.control.setValidators(this.validateCompletionYear(this.maxDate));
-}
-  validateCompletionYear(maxDate: string): any {
-    return (control: any) => {
-      const completionYear = control.value;
-      if (completionYear > maxDate) {
-        return { futureMonth: true };
-      }
-      return null;
-    };
-  }
-
-  setFutureMonth(achievementdate:any) {
-    achievementdate.control.setValidators(this.validateAchievementYear(this.maxDate));
-    }
-
-  // setFutureMonth(achievementyear:any) {
-  //   achievementyear.control.setValidators(this.validateAchievementYear(this.maxDate));
-  // }
-  validateAchievementYear(maxDate: string): any {
-      return (control: any) => {
-        const achievementdate = control.value;
-        if (achievementdate > maxDate) {
-          return { futureMonth: true };
-        }
-        return null;
-      };
-    }
+  
 
   @ViewChild('autoCompleteInput', { static: false, read: MatAutocompleteTrigger }) trigger!: MatAutocompleteTrigger;
   @Input() candidateList: any;
@@ -55,11 +23,7 @@ setFutureMonthRestriction(completionyear:any) {
   @Output() onSuccess = new EventEmitter<void>();
   @Input() achievementsList: any;
  
-//   currentYear = new Date().getFullYear();
-//   currentMonth = new Date().getMonth() + 1;
-//  currentYearMonth = this.currentYear + '-' + (this.currentMonth < 10 ? '0' : '') + this.currentMonth;
-  // today = new Date().toISOString().split('T')[0];
- 
+
   myControl = new FormControl<any>('');
   filteredOptions!: Observable<any[]>;
   companyName: string = "";
@@ -162,6 +126,44 @@ setFutureMonthRestriction(completionyear:any) {
       isCandidateFresher: this.candidateList.isCandidateFresher
     }
   }
+
+  currentYear = new Date().getFullYear().toString();
+  currentMonth = (new Date().getMonth() + 1).toString();
+   maxDate = this.currentYear + "-"+(this.currentMonth.length === 1 ? '0' + this.currentMonth : this.currentMonth);
+ 
+   /*code to block the future month and month less than 1900-01*/
+ setFutureMonthRestriction(completionyear:any) {
+  
+   completionyear.control.setValidators(this.validateCompletionYear(this.maxDate));
+  
+ 
+ }
+   validateCompletionYear(maxDate: string): any {
+     return (control: any) => {
+       const completionYear = control.value;
+       if (completionYear > maxDate || completionYear<'1900-01') {
+         return { futureMonth: true };
+       }
+       return null;
+     };
+   }
+ 
+   /*code to block the achievement month and month less than 1900-01*/
+   setFutureMonth(achievementdate:any) {
+     achievementdate.control.setValidators(this.validateAchievementYear(this.maxDate));
+ 
+     }
+ 
+ 
+   validateAchievementYear(maxDate: string): any {
+       return (control: any) => {
+         const achievementdate = control.value;
+         if (achievementdate > maxDate || achievementdate<'1900-01') {
+           return { futureMonth: true };
+         }
+         return null;
+       };
+     }
 
   async createProfessionalDetails(form: any) {
     // console.log(this.candidateProfessionalDetails)
