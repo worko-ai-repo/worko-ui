@@ -1,11 +1,15 @@
 // ---------------------utilities------------------------
 
 .para{
-    font-size: calc(7px + 1vw);
+    font-size: calc(13px + 1vw);
     font-weight: 400;
     line-height: 160%;
     letter-spacing: 0em;
     text-align: left;
+}
+
+.para2{
+    font-size: 24px;
 }
 
 hr{
@@ -184,21 +188,115 @@ hr{
 
 .purpose-section{
     padding-left: 18%;
-    padding-top: 22rem;
+    padding-top: 16rem;
 
     .purpose-header{
         width: 68%;
     }
-
-    .peer{
-        padding-top: 5rem;
+    .purpose-content{
+        font-size: 24px;
     }
 }
 
-.peer-content{
-    width: 50%;
+.peer{
+    justify-content: space-around;
+    padding-top: 5rem;
+    .contents{
+        width: 58%;
+    }
 }
 
-.peer-img{
-    padding-left: 45px;
+.interview-title{
+    padding-top: 15rem;
+}
+
+.feedback{
+    padding-top: 12rem;
+
+    
+}
+
+.career-section{
+    padding-top: 15rem;
+    width: 120%;
+}
+.career-content{
+}
+
+.feedback img{
+    margin-right: -10%;
+}
+
+.smart{
+    position: relative;
+
+    .contents{
+        width: 60%;
+    }
+    .smart-title{
+        padding-top: 10rem;
+    }
+
+    .smart-img{
+        position: absolute;
+        right: 3rem;
+        top: 15rem;
+    }
+}
+
+.access-title{
+    padding-top: 10rem;
+}
+
+.access-content{
+    width: 88%;
+    margin: auto;
+}
+
+// Benefits Section
+
+.benefits-section{
+    padding-left: 16%;
+    padding-top: 17rem;
+
+    .benefits-content{
+        padding-top: 3rem;
+        width: 90%;
+    }
+}
+
+.referee-section{
+    padding-top: 6rem;
+}
+
+.ref{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+    border: none;
+    border-radius: 100px;
+    width: 48%;
+    height: 79px;
+    padding: 0 5%;
+
+    font-size: 22px;
+    line-height: 27px;
+
+}
+
+.ref1, .ref2{
+    background-color: #5BAABE;
+}
+
+.ref3{
+    background-color: #3A7683;
+}
+
+.ref4{
+    background-color: #004759
+}
+
+.ref5{
+    background-color: #09758B;
 }
