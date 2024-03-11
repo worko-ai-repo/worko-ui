@@ -113,7 +113,9 @@
                                     [ngModelOptions]="{standalone: true}"
                                     [title]="passingYear.errors?.['pattern'] ? 'Passing year is invalid' : ''"
                                     [ngClass]="{ 'is-invalid': passingYear.invalid && (passingYear.dirty || passingYear.touched) }"
-                                    name="passingYear" id="passingYear" (focus)="setFutureMonthRestriction(passingYear)">
+                                    name="passingYear" id="passingYear" (focus)="setFutureMonthRestriction(passingYear)" 
+                                     >
+        
 
                             </div>
                             <input type="hidden" class="form-control form-input"

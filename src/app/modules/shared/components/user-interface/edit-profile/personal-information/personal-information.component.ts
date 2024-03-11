@@ -3,6 +3,7 @@ import { CandidateProfileService } from 'src/app/modules/candidate/services/cand
 import { ModalComponent } from '../../../modal/modal.component';
 import { ModalType } from 'src/app/modules/shared/interfaces/shared.interface';
 import { CountryCodes } from 'src/app/modules/shared/data/country.data';
+
 @Component({
   selector: 'app-personal-information',
   templateUrl: './personal-information.component.html',
@@ -67,7 +68,10 @@ export class PersonalInformationComponent implements OnInit {
 
   countryCodes: any = CountryCodes;
   savedValues!: any[];
-  constructor(private candidateSrv: CandidateProfileService) { }
+ 
+  constructor(private candidateSrv: CandidateProfileService) {
+   
+   }
 
   ngOnInit(): void {
     console.log(this.candidateList);
@@ -99,16 +103,19 @@ export class PersonalInformationComponent implements OnInit {
   }
   setFutureMonthRestriction(passingYear:any) {
     passingYear.control.setValidators(this.validateCompletionYear(this.maxyear));
+    passingYear.control.updateValueAndValidity();
+
   }
     validateCompletionYear(maxyear: string): any {
       return (control: any) => {
         const passingYear = control.value;
-        if (passingYear > maxyear) {
+        if (passingYear > maxyear || passingYear<1900) {
           return { futureMonth: true };
         }
         return null;
       };
     }
+   
   
   getData() {
     this.candidatePersonalDetails = {

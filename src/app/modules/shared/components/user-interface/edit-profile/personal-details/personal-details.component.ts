@@ -17,12 +17,15 @@ export class PersonalDetailsComponent implements OnInit {
   maxDate = this.currentYear + "-"+(this.currentMonth.length === 1 ? '0' + this.currentMonth : this.currentMonth);
 // acheivementyear: any;
 setFutureMonthRestriction(completionyear:any) {
+ 
   completionyear.control.setValidators(this.validateCompletionYear(this.maxDate));
+ 
+
 }
   validateCompletionYear(maxDate: string): any {
     return (control: any) => {
       const completionYear = control.value;
-      if (completionYear > maxDate) {
+      if (completionYear > maxDate || completionYear<'1900-01') {
         return { futureMonth: true };
       }
       return null;
@@ -31,6 +34,8 @@ setFutureMonthRestriction(completionyear:any) {
 
   setFutureMonth(achievementdate:any) {
     achievementdate.control.setValidators(this.validateAchievementYear(this.maxDate));
+    achievementdate.control.updateValueAndValidity();
+
     }
 
   // setFutureMonth(achievementyear:any) {
@@ -39,7 +44,7 @@ setFutureMonthRestriction(completionyear:any) {
   validateAchievementYear(maxDate: string): any {
       return (control: any) => {
         const achievementdate = control.value;
-        if (achievementdate > maxDate) {
+        if (achievementdate > maxDate || achievementdate<'1900-01') {
           return { futureMonth: true };
         }
         return null;
