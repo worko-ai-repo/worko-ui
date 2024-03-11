@@ -11,15 +11,15 @@
               </div>
             </div>
             <div class="container-fluid">
-              <div class="row">
-                <div class="col-md-12 d-flex justify-content-center mb-2" *ngFor="let workExperience of workExperienceDetails; let i = index">
+              <div class="row" >
+                <div class="col-md-12 d-flex justify-content-center mb-2" *ngFor="let workExperience of workExperienceDetails" >
                   <div class="company-box p-2">
                     <div class="row">
                         <div class="col-md-6 d-flex justify-content-between">
                             <img class="google-img" src="/assets/public/employee-amazon-img.png" alt="">
                             
                             <div>
-                                <small class="current-job-text">Current Job</small>
+                                <small class="current-job-text" >Current Job</small>
                                 <h6 class="company-name">{{workExperience.companyName}}</h6>
                             </div>
                         </div>
@@ -31,7 +31,7 @@
                                 </div>
                                 <div class="">
                                     <small class="current-job-text">Exp.</small>
-                                    <h6 class="number-style pt-2">-0-</h6>
+                                    <h6 class="number-style pt-2">{{workExperience.experienceInMonths}}</h6>
                                 </div>
                                   <div>
                                     <small class="current-job-text">Resigned</small>
@@ -83,12 +83,12 @@
               <small (click)="toggleCard()">Past Job History <i class="fa-solid fa-arrow-right" style="color: #eeeff2;"></i></small>
             </div>
           </div>
-          <div class="col-md-12">
+          <div class="col-md-12 " *ngFor="let workExperience of workExperienceDetails; let i = index">
             <div class="p-3 d-flex justify-content-between">
               <div>
                 <div class="p-0">Company Name </div>
-                <div class="company-text p-0">Google
-                  <span class="exp-text">Experience: 20 Years</span>
+                <div class="company-text p-0">{{workExperience.companyName}}
+                  <span class="exp-text">Experience:{{workExperience.experienceInMonths}}</span>
                 </div>
               </div>
               <div class="img-back-circle p-2">
@@ -96,13 +96,13 @@
               </div>
             </div>
           </div>
-          <div class="col-md-12 job-details">
+          <div class="col-md-12 job-details" *ngFor="let workExperience of workExperienceDetails">
             <div class="p-3">
               <div class="d-flex justify-content-between ">
-                <div>Official Email: 123@gmail.com</div>
-                <div>Designation: SDE-1(Backend)</div>
+                <div>Official Email:{{workExperience.emailId}}</div>
+                <div>Designation:{{workExperience.designation}}</div>
               </div>
-              <div>Department : IT(Cloud)</div>
+              <div>Department : {{workExperience.department}}</div>
             </div>
           </div>
         </div>

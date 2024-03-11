@@ -62,6 +62,7 @@ form:any;
       switchMap((value: any) => {
         if (value && value.length >= 1) {
           return this.authService.getCompanyName(value);
+         
         } else {
           // If value.length is less than 1, return an empty array or null
           return [];

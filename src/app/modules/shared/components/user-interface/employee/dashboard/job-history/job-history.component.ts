@@ -7,6 +7,7 @@ import { Component, Input } from '@angular/core';
 })
 export class JobHistoryComponent {
   @Input() workExperienceDetails: any;
+  // filteredData:any=[];
 
   ngOnChanges(): void {
     // console.log(this.workExperienceDetails, "workExperienceDetails");
@@ -16,7 +17,12 @@ export class JobHistoryComponent {
   }
   showCurrentJob: boolean = true;
 
+
+
+
   toggleCard() {
+
     this.showCurrentJob = !this.showCurrentJob;
+    // const filteredData = this.workExperienceDetails.filter((item: { isCurrent: boolean }) => !item.isCurrent);
   }
 }

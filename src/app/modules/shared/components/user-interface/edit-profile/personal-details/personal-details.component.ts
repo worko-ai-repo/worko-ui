@@ -141,7 +141,7 @@ export class PersonalDetailsComponent implements OnInit {
    validateCompletionYear(maxDate: string): any {
      return (control: any) => {
        const completionYear = control.value;
-       if (completionYear > maxDate || completionYear<'1900-01') {
+       if (completionYear > maxDate || completionYear<'1900-01' || completionYear.length>7) {
          return { futureMonth: true };
        }
        return null;
@@ -158,7 +158,7 @@ export class PersonalDetailsComponent implements OnInit {
    validateAchievementYear(maxDate: string): any {
        return (control: any) => {
          const achievementdate = control.value;
-         if (achievementdate > maxDate || achievementdate<'1900-01') {
+         if (achievementdate > maxDate || achievementdate<'1900-01' || achievementdate.length>7) {
            return { futureMonth: true };
          }
          return null;

@@ -10,9 +10,10 @@
             <div class="col">
                 <label for="" class="form-lable  required-form-field">Current Company Name</label>
                 <input matInput #autoCompleteInput="matAutocompleteTrigger" class="form-control form-input"
-                    [formControl]="myControl" [matAutocomplete]="auto" placeholder="Select Company Name" />
+                    [formControl]="myControl" [matAutocomplete]="auto" placeholder="Select Company Name" 
+                    />
                 <mat-autocomplete #auto="matAutocomplete" [displayWith]="displayFn"
-                    (optionSelected)="onOptionSelected($event)">
+                    (optionSelected)="onOptionSelected($event)" autoActiveFirstOption="workExperienceDetails.companyName" >
                     <mat-option *ngFor="let option of filteredOptions | async" [value]="option">
                         {{ option.name }}
                     </mat-option>
