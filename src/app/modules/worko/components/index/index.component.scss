@@ -157,3 +157,48 @@ hr{
     right: 0;
 }
 
+.stats-section{
+    justify-content: center;
+    padding-top: 14rem;
+}
+
+.stat{
+    width: 25%;
+    text-align: center;
+
+    .stat-title{
+        font-size: 90px;
+        font-weight: 500;
+    }
+    .stat-content{
+        padding-top: 0.5rem;
+        text-align: center;
+    }
+}
+
+.title2{
+    font-weight: 700;
+    font-size: 40px;
+}
+
+
+.purpose-section{
+    padding-left: 18%;
+    padding-top: 22rem;
+
+    .purpose-header{
+        width: 68%;
+    }
+
+    .peer{
+        padding-top: 5rem;
+    }
+}
+
+.peer-content{
+    width: 50%;
+}
+
+.peer-img{
+    padding-left: 45px;
+}
