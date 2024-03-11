@@ -1,6 +1,6 @@
 import { Component, ElementRef, EventEmitter, Input, OnInit, Output, ViewChild } from '@angular/core';
 import { MatAutocompleteModule, MatAutocompleteTrigger } from '@angular/material/autocomplete';
-import { FormControl, FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { FormControl, FormsModule, NgModel, ReactiveFormsModule } from '@angular/forms';
 import { Observable } from 'rxjs';
 import { debounceTime, distinctUntilChanged, switchMap, filter } from 'rxjs/operators';
 import { Subscription } from 'rxjs';
@@ -11,6 +11,41 @@ import { AuthService } from 'src/app/modules/worko/services/auth.service';
   styleUrls: ['./personal-details.component.scss']
 })
 export class PersonalDetailsComponent implements OnInit {
+
+   currentYear = new Date().getFullYear().toString();
+ currentMonth = (new Date().getMonth() + 1).toString();
+  maxDate = this.currentYear + "-"+(this.currentMonth.length === 1 ? '0' + this.currentMonth : this.currentMonth);
+// acheivementyear: any;
+setFutureMonthRestriction(completionyear:any) {
+  completionyear.control.setValidators(this.validateCompletionYear(this.maxDate));
+}
+  validateCompletionYear(maxDate: string): any {
+    return (control: any) => {
+      const completionYear = control.value;
+      if (completionYear > maxDate) {
+        return { futureMonth: true };
+      }
+      return null;
+    };
+  }
+
+  setFutureMonth(achievementdate:any) {
+    achievementdate.control.setValidators(this.validateAchievementYear(this.maxDate));
+    }
+
+  // setFutureMonth(achievementyear:any) {
+  //   achievementyear.control.setValidators(this.validateAchievementYear(this.maxDate));
+  // }
+  validateAchievementYear(maxDate: string): any {
+      return (control: any) => {
+        const achievementdate = control.value;
+        if (achievementdate > maxDate) {
+          return { futureMonth: true };
+        }
+        return null;
+      };
+    }
+
   @ViewChild('autoCompleteInput', { static: false, read: MatAutocompleteTrigger }) trigger!: MatAutocompleteTrigger;
   @Input() candidateList: any;
   @Input() workExperienceDetails: any;
@@ -20,7 +55,11 @@ export class PersonalDetailsComponent implements OnInit {
   @Output() onSuccess = new EventEmitter<void>();
   @Input() achievementsList: any;
  
-  
+//   currentYear = new Date().getFullYear();
+//   currentMonth = new Date().getMonth() + 1;
+//  currentYearMonth = this.currentYear + '-' + (this.currentMonth < 10 ? '0' : '') + this.currentMonth;
+  // today = new Date().toISOString().split('T')[0];
+ 
   myControl = new FormControl<any>('');
   filteredOptions!: Observable<any[]>;
   companyName: string = "";
@@ -88,10 +127,7 @@ export class PersonalDetailsComponent implements OnInit {
     }
   }
   ngOnChanges(): void {
-    // console.log(this.candidateList, "candidateList");
-    //  console.log(this.workExperienceDetails, "workExperienceDetails");
-    // console.log(this.certificationList, "certificationList");
-   
+
     if(  this.candidateProfessionalDetails.ctc && this.candidateProfessionalDetails.certificationNames && this.candidateProfessionalDetails.achievements){
 
     }else{
@@ -123,7 +159,7 @@ export class PersonalDetailsComponent implements OnInit {
       coreSkillList: this.certificationList?.coreSkills,
       achievements: this.achievementsList,
       companySK: this.selectedCompany?.SK ? this.selectedCompany?.SK : this.workExperienceDetails?.SK,
-      isCandidateFresher: this.candidateProfessionalDetails.isCandidateFresher
+      isCandidateFresher: this.candidateList.isCandidateFresher
     }
   }
 
@@ -149,7 +185,6 @@ export class PersonalDetailsComponent implements OnInit {
       };
       // Push the new achievement object to the achievements array
       this.candidateProfessionalDetails.achievements.push(newAchievement);
-      console.log(this.achievementsList);
       // Clear the input fields
       this.title = '';
       this.date = '';
@@ -185,7 +220,7 @@ export class PersonalDetailsComponent implements OnInit {
       };
       // Push the new achievement object to the achievements array
       this.candidateProfessionalDetails.coreSkillList.push(newCoreSkill);
-      console.log(this.candidateProfessionalDetails.coreSkillList);
+
       // Clear the input fields
       this.coreSkill = '';
       this.skillYears = '';
@@ -248,7 +283,6 @@ export class PersonalDetailsComponent implements OnInit {
         };
         // Push the new achievement object to the achievements array
         this.candidateProfessionalDetails.certificationNames.push(newCertificate);
-        console.log(this.achievementsList);
         // Clear the input fields
         this.certificateCompany = '';
         this.certificateYear = '';
@@ -283,7 +317,6 @@ export class PersonalDetailsComponent implements OnInit {
         this.candidateProfessionalDetails.softSkills = [];
       }
       this.candidateProfessionalDetails.softSkills.push(newSkill);
-      console.log(this.candidateProfessionalDetails.softSkills );
       input.value = ''; // Clear the input field
     }
     event.preventDefault(); // Prevent the default action (form navigation)
@@ -316,6 +349,8 @@ export class PersonalDetailsComponent implements OnInit {
 
 
 }
+
+
 
 
 

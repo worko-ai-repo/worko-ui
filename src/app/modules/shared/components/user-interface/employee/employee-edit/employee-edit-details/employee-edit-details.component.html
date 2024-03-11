@@ -38,7 +38,7 @@
                     </div>
                     <div class="col-md-6">
                         <label for="" class="form-lable required-form-field">Personal/Communication Email</label>
-                        <input type="text" class="form-control form-input" placeholder="123@gmail.com"
+                        <input type="text" class="form-control form-input" placeholder="Email ID"
                             pattern="^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,4}$" name="email" id="email"
                             [(ngModel)]="employeePersonalData.email"
                             [title]="email.errors?.['pattern'] ? 'Personal/Communication Email is invalid' : ''"
@@ -142,7 +142,7 @@
                 <div class="row">
                     <div class="col-md-12 mt-5 mb-3">
                         <button class="btn btn-next float-end" type="submit"
-                            [disabled]="!employee.form.valid || !employeePersonalData.about || !employeePersonalData.socialLinklinkdin || !employeePersonalData.name || !employeePersonalData.email || !employeePersonalData.country || !employeePersonalData.location || !employeePersonalData.number">Next</button>
+                            [disabled]="!employee.form.valid || !employeePersonalData.about || !employeePersonalData.socialLinklinkdin || !employeePersonalData.name || !employeePersonalData.email || !employeePersonalData.country || !employeePersonalData.location || !employeePersonalData.number ||!employeePersonalData.socialLinkGithub ||!employeePersonalData.socialLinktwitter">Next</button>
                     </div>
 
                 </div>

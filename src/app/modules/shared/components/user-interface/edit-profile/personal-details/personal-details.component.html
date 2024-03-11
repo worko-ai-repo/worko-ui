@@ -46,7 +46,7 @@
                                 <div class="row d-flex justify-content-center mt-2">
                                     <div class="col-md-8">
                                         <label class="form-check-label text-center">
-                                            <input class="" type="checkbox" (click)="userFresher()"> Are you a fresher ?
+                                            <input class="" type="checkbox" checked="candidateProfessionalDetails.isCandidateFresher" (click)="userFresher()"> Are you a fresher ?
                                         </label>
                                     </div>
                                 </div>
@@ -77,7 +77,7 @@
                             <div class="row d-flex justify-content-center mt-2" *ngIf="!candidateProfessionalDetails.isCandidateFresher">
                                 <div class="col-md-3">
                                     <label for="" class="form-label  required-form-field">CTC</label>
-                                    <input type="text" class="form-control form-ctc" placeholder="CTC(in LPA)" pattern="[0-9]+"
+                                    <input type="text" class="form-control form-ctc" placeholder="CTC(in LPA)" pattern="^(?!0*\.?0*$)0*([1-9][0-9]*)(\.[0-9]{1,2})?$"
                                         #ctc="ngModel" [title]="ctc.errors?.['pattern'] ? 'CTC is invalid' : ''"
                                         [ngClass]="{ 'is-invalid': ctc.invalid && (ctc.dirty || ctc.touched) }"
                                         [(ngModel)]="candidateProfessionalDetails.ctc" name="ctc" id="ctc">
@@ -85,7 +85,7 @@
                                 <div class="col-md-3">
                                     <label for="" class="form-label  required-form-field">ECTC</label>
                                     <input type="text" class="form-control form-ctc" placeholder="Expected CTC(in LPA)"
-                                        pattern="[0-9]+" #ectc="ngModel"
+                                        pattern="^(?!0*\.?0*$)0*([1-9][0-9]*)(\.[0-9]{1,2})?$" #ectc="ngModel"
                                         [title]="ectc.errors?.['pattern'] ? 'Expected CTC is invalid' : ''"
                                         [ngClass]="{ 'is-invalid': ectc.invalid && (ectc.dirty || ectc.touched) }"
                                         [(ngModel)]="candidateProfessionalDetails.ectc" name="ectc" id="ectc">
@@ -189,12 +189,13 @@
                                         [title]="certificateCompany1.errors?.['pattern'] ? 'Institute Name is invalid' : ''"
                                         [ngClass]="{ 'is-invalid': certificateCompany1.invalid && (certificateCompany1.dirty || certificateCompany1.touched) }">
                                     <input type="text" class="core-skills-input ms-2 form-control"
-                                        placeholder="Completion Date(YYYY-MM)" [(ngModel)]="certificateYear" name="completionyear"
-                                        id="completionyear" pattern="^(19|20)\d{2}-(0[1-9]|1[0-2])$"
+                                        placeholder="Completion Date(YYYY-MM)" [(ngModel)]="certificateYear" name="completionyear" 
+                                        id="completionyear" pattern="^(19|20)\d{2}-(0[1-9]|1[0-2])$" max="currentYearMonth"
                                         #completionyear="ngModel" [title]="completionyear.errors?.['pattern'] ? 'Certification year is invalid' : ''"
                                         [ngClass]="{ 'is-invalid': completionyear.invalid && (completionyear.dirty || completionyear.touched) }"
+                                        (focus)="setFutureMonthRestriction(completionyear)"
+                                        >  
                                         
-                                        >
            
                                     <button class="float-end btn btn-add" type="button" [disabled]="!isValidCertificateForm() || completionyear.invalid"
                                         (click)="addCertificate()">Add</button>
@@ -235,9 +236,11 @@
                                         pattern="^([ \u00c0-\u01ffa-zA-Z'.])+$" placeholder="Where did you acquire this"
                                         [(ngModel)]="instituteName" name="instituteName" id="instituteName">
                                     <input type="text" class="core-skills-input ms-2 form-control" placeholder="Year of achievement(YYYY-MM)"
-                                        [(ngModel)]="date" name="achievementdate" id="achievementdate"  pattern="^(19|20)\d{2}-(0[1-9]|1[0-2])$"
+                                        [(ngModel)]="date" name="achievementdate" id="achievementdate"  pattern="^(19|20)\d{2}-(0[1-9]|1[0-2])$" 
                                         #achievementdate="ngModel" [title]="achievementdate.errors?.['pattern'] ? 'Achievement date is invalid' : ''"
-                                        [ngClass]="{ 'is-invalid': achievementdate.invalid && (achievementdate.dirty || achievementdate.touched) }">
+                                        [ngClass]="{ 'is-invalid': achievementdate.invalid && (achievementdate.dirty || achievementdate.touched) }"
+                                        (focus)="setFutureMonth(achievementdate)">
+                                       
             
                                     <button class="float-end btn btn-add" type="button" [disabled]="!isValidForm() || achievementdate.invalid"
                                         (click)="addAchievement()">Add</button>

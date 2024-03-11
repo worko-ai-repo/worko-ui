@@ -19,6 +19,7 @@ export class PersonalInformationComponent implements OnInit {
   @Output() onSuccess = new EventEmitter<void>();
 
 
+  maxyear=new Date().getFullYear().toString();
   fileToUpload: File | null = null;
   fileName: string = "";
   fileType: string = "";
@@ -96,6 +97,19 @@ export class PersonalInformationComponent implements OnInit {
     // }]
     
   }
+  setFutureMonthRestriction(passingYear:any) {
+    passingYear.control.setValidators(this.validateCompletionYear(this.maxyear));
+  }
+    validateCompletionYear(maxyear: string): any {
+      return (control: any) => {
+        const passingYear = control.value;
+        if (passingYear > maxyear) {
+          return { futureMonth: true };
+        }
+        return null;
+      };
+    }
+  
   getData() {
     this.candidatePersonalDetails = {
       name: this.candidateList?.name,

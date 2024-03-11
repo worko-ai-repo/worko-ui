@@ -88,6 +88,7 @@ export class EmployeeEditComponent {
     await this.candidateSrv.getUserProfile(this.emailAddress).then(async (response) => {
       if (response) {
         this.employeeSocial = response[0];
+        console.log(this.employeeSocial)
 
       }
       this.getWorkExperienceDetails();
@@ -177,7 +178,7 @@ export class EmployeeEditComponent {
       // }
     })
   }
-
+  
   async creatSocialProfile() {
     var twitterArray = this.firstStepData.socialLinktwitter;
     var linkedinArray = this.firstStepData.socialLinklinkdin;
@@ -185,25 +186,29 @@ export class EmployeeEditComponent {
     // Check if twitterArray is an array
     if (Array.isArray(twitterArray)) {
       console.log('twitterArray is already an array');
+      twitterArray = this.firstStepData.socialLinktwitter;
     } else {
       console.log('twitterArray is not an array');
-      twitterArray = [this.firstStepData.socialLinktwitter];
-    }
+      twitterArray=[];
+     }
 
     // Check if twitterArray is an array
     if (Array.isArray(linkedinArray)) {
-      console.log('twitterArray is already an array');
+      console.log('linkedinArray is already an array');
+      linkedinArray = this.firstStepData.socialLinklinkdin;
     } else {
-      console.log('twitterArray is not an array');
-      linkedinArray = [this.firstStepData.socialLinklinkdin];
+      console.log('linkedinArray is not an array');
+      linkedinArray=[];
+     
     }
 
     if (Array.isArray(githubArray)) {
       console.log('twitterArray is already an array');
+      githubArray = this.firstStepData.socialLinkGithub;
     } else {
       console.log('twitterArray is not an array');
-      githubArray = [this.firstStepData.socialLinkGithub];
-    }
+       githubArray=[];
+      }
     let socialProfile =
     {
       twitter: twitterArray,
@@ -214,6 +219,7 @@ export class EmployeeEditComponent {
     }
     await this.candidateSrv.createUserProfile(this.emailAddress, socialProfile).then(async (response) => {
       // if (response) {
+        // console.log(socialProfile)
       this.createUserDetails();
       // }
     })

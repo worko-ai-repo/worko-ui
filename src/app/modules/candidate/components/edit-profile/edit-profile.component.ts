@@ -46,7 +46,6 @@ export class EditProfileComponent implements OnInit {
   showModal: ModalType | undefined;
   constructor(private spinner: NgxSpinnerService, private router: Router, private candidateSrv: CandidateProfileService, private storage: StorageService, private authService: AuthService) { }
   ngOnInit(): void {
-    console.log(this.firstStepData)
     this.emailAddress = this.storage.get("useremail");
     this.getCandidateDetails();
     // this.openModal(this.modalType.MESSAGE, "Title", "Conteny");
@@ -191,6 +190,7 @@ export class EditProfileComponent implements OnInit {
   }
 
   async createUserDetails() {
+    console.log(this.secondStepData, "this.secondStepD")
     let userDetails: any = {
       "ECTC": this.secondStepData.ectc,
       "location": this.firstStepData.location,
@@ -317,19 +317,12 @@ export class EditProfileComponent implements OnInit {
 
 
   nextStep() {
-    // console.log(this.candidateList)
-    // console.log(this.candidateProfessionalDetails)
-    // console.log(this.firstStepData)
-    // this.candidateList =  this.firstStepData;
     if (this.currentStep < 3) {
       this.currentStep++;
     }
   }
 
   previousStep() {
-    // console.log(this.candidatePersonalDetails)
-    // console.log(this.candidateProfessionalDetails)
-    // console.log(this.firstStepData)
     this.candidatePersonalDetails = this.firstStepData;
     this.candidateProfessionalDetails = this.secondStepData;
     if (this.currentStep > 1) {
@@ -361,8 +354,6 @@ export class EditProfileComponent implements OnInit {
   }
 
   getCandidateListData(data: any) {
-    // console.log(this.candidateList)
-    // console.log(this.candidateProfessionalDetails)
     this.firstStepData = data;
     if (this.currentStep < 3) {
       this.currentStep++;
@@ -388,7 +379,6 @@ export class EditProfileComponent implements OnInit {
           resumeFileMimeType: this.thirdStepData.fileType
         }
         let docResult = await this.authService.uploadCV(documentDetails);
-        console.log(docResult);
 
         this.uploadedCvName = docResult.cloudFileName;
         this.candidatePersonalDetails.CV = docResult.cloudFileName;

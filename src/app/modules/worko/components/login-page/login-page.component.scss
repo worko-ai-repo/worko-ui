@@ -414,6 +414,12 @@ img.worko-logo-signup {
   font-size: 11px;
   left: 4rem
 }
+@media screen and (max-width:767px){
+  .login-div,.para-div{
+ display: none;
+  }
+}
+
 
 
 img {
