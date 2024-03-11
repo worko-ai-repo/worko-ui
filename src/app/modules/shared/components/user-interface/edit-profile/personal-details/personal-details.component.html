@@ -189,7 +189,8 @@
                                         [title]="certificateCompany1.errors?.['pattern'] ? 'Institute Name is invalid' : ''"
                                         [ngClass]="{ 'is-invalid': certificateCompany1.invalid && (certificateCompany1.dirty || certificateCompany1.touched) }">
                                     <input type="text" class="core-skills-input ms-2 form-control"
-                                        placeholder="Completion Date(YYYY-MM)" [(ngModel)]="certificateYear" name="completionyear" 
+                                        placeholder="Completion Date(YYYY-MM)" pattern="^(19|20)\d{2}-(0[1-9]|1[0-2])$"
+                                        [(ngModel)]="certificateYear" name="completionyear" 
                                         id="completionyear"  
                                         #completionyear="ngModel" [title]="completionyear.errors?.['pattern'] ? 'Certification year is invalid' : ''"
                                         [ngClass]="{ 'is-invalid': completionyear.invalid && (completionyear.dirty || completionyear.touched) }"
