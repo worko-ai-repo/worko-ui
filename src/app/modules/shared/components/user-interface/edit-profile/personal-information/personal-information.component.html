@@ -108,7 +108,7 @@
                             <div class="col-md-2">
                                 <label for="" class="form-lable">Passing Year</label>
                                 <input type="text" class="form-control form-input" placeholder="passing Year"
-                                    pattern="^(19|20)\d{2}$" [(ngModel)]="details.passingYear"
+                                     [(ngModel)]="details.passingYear"
                                     #passingYear="ngModel"
                                     [ngModelOptions]="{standalone: true}"
                                     [title]="passingYear.errors?.['pattern'] ? 'Passing year is invalid' : ''"

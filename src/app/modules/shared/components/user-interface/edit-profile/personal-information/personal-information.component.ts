@@ -101,6 +101,7 @@ export class PersonalInformationComponent implements OnInit {
     // }]
     
   }
+  /* code to block the future passed out year and less than 1900*/
   setFutureMonthRestriction(passingYear:any) {
     passingYear.control.setValidators(this.validateCompletionYear(this.maxyear));
     passingYear.control.updateValueAndValidity();
