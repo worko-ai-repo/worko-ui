@@ -110,7 +110,10 @@ export class PersonalInformationComponent implements OnInit {
     validateCompletionYear(maxyear: string): any {
       return (control: any) => {
         const passingYear = control.value;
-        if (passingYear > maxyear || passingYear<1900) {
+        if (!passingYear || passingYear.trim() === '') {
+          return null;
+        }
+        if (passingYear > maxyear || passingYear<1900 || passingYear.length>4) {
           return { futureMonth: true };
         }
         return null;

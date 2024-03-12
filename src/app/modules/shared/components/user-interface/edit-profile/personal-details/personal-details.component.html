@@ -54,7 +54,9 @@
                                 <div class="col-md-3">
                                     <label for="" class="form-label required-form-field">Current Company Name</label>
                                     <input matInput #autoCompleteInput="matAutocompleteTrigger" class="form-control form-input" 
-                                        [formControl]="myControl" [matAutocomplete]="auto" placeholder="Select Company Name" />
+                                        [formControl]="myControl" [matAutocomplete]="auto" placeholder="Select Company Name"
+                                        [(ngModel)]="candidateProfessionalDetails.companyName"
+                                        />
                                     <mat-autocomplete #auto="matAutocomplete" [displayWith]="displayFn"
                                         (optionSelected)="onOptionSelected($event)">
                                         <mat-option *ngFor="let option of filteredOptions | async" [value]="option">
@@ -189,7 +191,8 @@
                                         [title]="certificateCompany1.errors?.['pattern'] ? 'Institute Name is invalid' : ''"
                                         [ngClass]="{ 'is-invalid': certificateCompany1.invalid && (certificateCompany1.dirty || certificateCompany1.touched) }">
                                     <input type="text" class="core-skills-input ms-2 form-control"
-                                        placeholder="Completion Date(YYYY-MM)" [(ngModel)]="certificateYear" name="completionyear" 
+                                        placeholder="Completion Date(YYYY-MM)"
+                                        [(ngModel)]="certificateYear" name="completionyear" 
                                         id="completionyear"  
                                         #completionyear="ngModel" [title]="completionyear.errors?.['pattern'] ? 'Certification year is invalid' : ''"
                                         [ngClass]="{ 'is-invalid': completionyear.invalid && (completionyear.dirty || completionyear.touched) }"
@@ -271,7 +274,7 @@
                                     <button class="btn btn-next" type="submit" [disabled]="
                                         (!candidateProfessionalDetails.isCandidateFresher && (
                                          
-                                          !selectedCompany?.name ||
+                                          !candidateProfessionalDetails?.companyName ||
                                           !candidateProfessionalDetails.department ||
                                           !candidateProfessionalDetails.designation ||
                                           !candidateProfessionalDetails.ctc ||
