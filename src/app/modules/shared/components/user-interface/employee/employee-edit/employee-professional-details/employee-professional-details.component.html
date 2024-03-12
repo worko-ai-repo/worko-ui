@@ -90,7 +90,7 @@
             <div class="col-md-12 d-flex justify-content-end">
                 <button class="btn btn-next me-2" (click)="onPreviousClick()">Previous</button>
                 <button class="btn btn-next" (click)="updateProfessionalDetails()" type="button"
-                    [disabled]="!employeeProfessionalData.workingSince || workingSince.invalid || email.invalid || !employeeProfessionalData.department || !employeeProfessionalData.designation ">Next</button>
+                    [disabled]="!employeeProfessionalData.workingSince || workingSince.invalid || email.invalid || !employeeProfessionalData.department || !employeeProfessionalData.designation ||!employeeProfessionalData.companyName ">Next</button>
             </div>
         </div>
     </div>

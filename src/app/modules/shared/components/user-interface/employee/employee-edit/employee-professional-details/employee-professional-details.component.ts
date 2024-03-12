@@ -96,32 +96,12 @@ form:any;
   onOptionSelected(event: any): void {
     console.log("on optionselect")
    
+   
     this.selectedCompany = event.option.value;
-  //   if (this.selectedCompany.name === this.employeeProfessionalData.companyName) {
-  //     // If the names match, keep the existing company name and SK
-  //     return ;
-  //   }
   
-  //   // If the names don't match, update companyName and companySK with the selected option's values
-  //   this.employeeProfessionalData.companyName = this.selectedCompany.name;
-  //   this.employeeProfessionalData.companySK = this.selectedCompany.SK;
-  // }
   }
  
-  
-
-  // displayFn(option: any): string {
-  
-  //   if (option) {
-  //     this.companyName = option.name;
-  //     this.companySK = option.SK;
-      
-  //     return option.name;
-  //   } else{
-  //     return "";
-  //   }
-    
-  // }
+ 
   displayFn(option: any): string {
     if (typeof option === 'string') {
      
@@ -129,9 +109,9 @@ form:any;
     // this.companySK ="";
       return option;
     } else if (typeof option === 'object' && option.name) {
-      // If option is an object with a name property
+     
       this.companyName = option.name;
-      this.companySK = option.SK; // Assuming SK property may not always be available
+      this.companySK = option.SK; 
       return option.name;
     } else {
       
@@ -177,7 +157,8 @@ isValue:boolean=true;
     // Save the non-blank fields
     this.savedValues = [...nonBlankFields];
     this.employeeProfessionalData.previousCompanies = this.savedValues;
-    if (this.selectedCompany && this.selectedCompany.name === this.workExperienceDetails.companyName && this.selectedCompany.SK === this.workExperienceDetails.SK) {
+    console.log()
+    if (this.employeeProfessionalData.companyName === this.workExperienceDetails.companyName &&  this.employeeProfessionalData.companySK=== this.workExperienceDetails.SK) {
      
       this.employeeProfessionalData.companyName = this.workExperienceDetails.companyName;
       this.employeeProfessionalData.companySK = this.workExperienceDetails.SK;
