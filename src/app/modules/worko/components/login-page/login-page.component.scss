@@ -30,6 +30,17 @@ div.mat-mdc-autocomplete-panel, .mat-mdc-option.mdc-list-item {
       #0a1e36 50%);
 }
 
+.login-bg-image {
+  min-height: 450px;
+  background: radial-gradient(
+              circle at 0% 50%,
+              #034c7f 4%,
+              #77c9dc 10%,
+              #034c7f 62%,
+              #034c7f 68%,
+              #0a1e36 79%);           
+}
+
 .modal-content {
   position: relative;
   display: -ms-flexbox;
@@ -616,6 +627,15 @@ input.ng-invalid {
   background: transparent !important;
 }
 
+.sign-in-earth-image
+{
+  object-fit: cover;
+  height: 100%;
+  margin-left: -15px;
+}
+
+
+
 @media (max-width: 992px) {
   .bg-image {
     background: radial-gradient(circle at 0% 10%,
@@ -626,4 +646,28 @@ input.ng-invalid {
         #0a1e36 50%);
   }
 
+  .login-bg-image {
+    min-height: 450px;
+    background: radial-gradient(
+                circle at 0% 15%,
+                #034c7f 4%,
+                #77c9dc 10%,
+                #034c7f 62%,
+                #034c7f 68%,
+                #0a1e36 79%);           
+  }
+
+}
+
+@media (max-width: 768px) {
+  .login-bg-image {
+    min-height: 450px;
+    background: radial-gradient(
+                circle at 0% 50%,
+                #034c7f 4%,
+                #77c9dc 10%,
+                #034c7f 62%,
+                #034c7f 68%,
+                #0a1e36 79%);           
+  }
 }
