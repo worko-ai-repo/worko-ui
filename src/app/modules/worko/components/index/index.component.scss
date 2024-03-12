@@ -41,6 +41,39 @@ hr{
 }
 
 
+.grad{
+    position: absolute;
+    
+}
+
+.grad-left1{
+    left: -19%;
+}
+
+.grad-right1{
+    top: 0;
+    right: 0;
+}
+
+.grad-left2{
+    left: 0;
+}
+
+.grad-right2{
+    right: 0;
+    top: -17rem;
+}
+
+.grad-right3{
+    right: 0;
+    top: -5rem;
+}
+
+.grad-right4{
+    top: 0;
+    top: -22rem;
+}
+
 .top-header-bg{
     position:absolute;
     top: 0;
@@ -199,6 +232,7 @@ hr{
 }
 
 .peer{
+    position: relative;
     justify-content: space-around;
     padding-top: 5rem;
     .contents{
@@ -212,7 +246,7 @@ hr{
 
 .feedback{
     padding-top: 12rem;
-
+    position: relative;
     
 }
 
@@ -479,7 +513,7 @@ hr{
         margin-top: 8rem;
         width: 30%;
         font-size: 28px;
-        margin-left: 30%;
+        margin-left: 34%;
         border-radius: 8px;
     }
 }
@@ -497,4 +531,107 @@ hr{
 .info-title{
     font-size: 40px;
     font-weight: 700;
+}
+
+.reviews-section{
+    background-color: #E7F4FC;
+    color: #182B45;
+    margin-top: 3rem;
+    width: 93%;
+    margin-left: 3%;
+    border-radius: 30px;
+    padding-bottom: 5rem;
+    margin-bottom: 2.5rem;
+    .review-img{
+        width: 27%;
+        img{
+            width: 100%;
+        }
+    }
+    overflow: hidden;
+}
+
+.reviews-content{
+    display: flex;
+    flex-direction: column;
+    width: 80%;
+    padding-left: 12%;
+    text-align: center;
+    padding-top: 6rem;
+    
+    .title{
+        font-size: 24px;
+        line-height: 40px;
+    }
+
+    .sub-title{
+        font-size: 55px;
+        font-weight: 700;
+    }
+
+    .text{
+        width: 80%;
+        margin: 2rem auto;
+    }
+}
+
+.review-cards{
+    overflow: hidden;
+    width: 100vw;
+    padding-top: 4rem;
+}
+
+.review-card{
+    background-color: #fff;
+    border-radius: 33px;
+    margin-right: 3.3%;
+    width: 542px;
+    padding: 4rem 3%;
+
+    .card-img{
+        top: -4rem;
+        left: 35%;
+    }
+
+    .card-content{
+        font-size: 14px;
+        text-align: center;
+    }
+    
+}
+
+.reviewer{
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+    justify-content: center;
+    text-align: center;
+    .name{
+        font-weight: 700;
+        font-size: 20px;
+        padding-top: 2rem;
+    }
+}
+
+.review-card1{
+    margin-left: -3%;
+}
+
+.review-button{
+    display: flex;
+    width: 100%;
+}
+
+.arrow-button{
+    border-radius: 50%;
+    background-color: #000;
+    margin-top: 5rem;
+    padding: 1% 1.5rem;
+}
+
+.right{
+    margin-left: 45%;
+}
+.left{
+    margin-left: 2%;
 }
