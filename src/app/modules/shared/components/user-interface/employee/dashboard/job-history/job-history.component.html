@@ -1,42 +1,70 @@
+<div *ngIf="!showCurrentJob && previousCompanies.length==0 ">
+  <div class="candidate-card " >
+    <div class="body pb-4"  >
+      <div class="row pt-3">
+        <div class="col-md-12 ">
+          <div class="d-flex justify-content-between p-3 pb-2 ">
+            <!-- <h6 class="job-history-text">Past Job History</h6> -->
+            <h5>Past Job History</h5>
+          <!-- </div> -->
+          <!-- <div class="col-md-4 text-center"> -->
+            <small  (click)="toggleCard()">Current Job <span><i class="fa-solid fa-arrow-right" style="color: #eeeff2;"></i></span></small>
+         </div>
+          </div>
+        </div>
+        <div class="container-fluid">
+          <h5> no past job available</h5>
+      </div>
+      </div>
+      </div>
+      </div>
+      
 
-    <div *ngIf="showCurrentJob">
-        <div class="candidate-card">
-          <div class="body pb-4">
+
+
+      <div *ngIf="!showCurrentJob &&  previousCompanies.length>=1">
+    <!-- <div *ngIf="!showCurrentJob && hidedata "> -->
+        <div class="candidate-card " >
+          <div class="body pb-4"  >
             <div class="row pt-3">
-              <div class="col-md-8">
-                <h6 class="job-history-text">Past Job History</h6>
-              </div>
-              <div class="col-md-4 text-center">
-                <a class="current-job-text" (click)="toggleCard()">Current Job <span><i class="fa-solid fa-arrow-right" style="color: #eeeff2;"></i></span></a>
+              <div class="col-md-12">
+                <div class="d-flex justify-content-between p-3 pb-2 ">
+                <!-- <h6 class="job-history-text">Past Job History</h6> -->
+                <h5>Past Job History</h5>
+              <!-- </div> -->
+              <!-- <div class="col-md-4 text-center"> -->
+                <small  (click)="toggleCard()">Current Job <span><i class="fa-solid fa-arrow-right" style="color: #eeeff2;"></i></span></small>
+             </div>
               </div>
             </div>
             <div class="container-fluid">
               <div class="row" >
-                <div class="col-md-12 d-flex justify-content-center mb-2" *ngFor="let workExperience of workExperienceDetails" >
+                <div class="col-md-12 d-flex justify-content-center mb-2" *ngFor="let workExperience of previousCompanies" >
                   <div class="company-box p-2">
                     <div class="row">
                         <div class="col-md-6 d-flex justify-content-between">
-                            <img class="google-img" src="/assets/public/employee-amazon-img.png" alt="">
+                            <img class="google-img" src="/assets/public/workologoai-8@2x.png"  alt="">
                             
+                            <!-- src="/assets/public/employee-amazon-img.png" -->
                             <div>
                                 <small class="current-job-text" >Current Job</small>
                                 <h6 class="company-name">{{workExperience.companyName}}</h6>
                             </div>
                         </div>
                         <div class="col-md-6">
-                            <div class="d-flex justify-content-between">
-                                <div class="">
+                            <div class="d-flex justify-content-end">
+                                <!-- <div class="">
                                     <small class="current-job-text">Joined</small>
                                     <h6 class="number-style pt-2">2021</h6>
-                                </div>
+                                </div> -->
                                 <div class="">
                                     <small class="current-job-text">Exp.</small>
                                     <h6 class="number-style pt-2">{{workExperience.experienceInMonths}}</h6>
                                 </div>
-                                  <div>
+                                  <!-- <div>
                                     <small class="current-job-text">Resigned</small>
                                     <h6 class="number-style pt-2">-</h6>
-                                  </div>
+                                  </div> -->
                             </div>
                         </div>
                       <!-- <div class="col-md-6">
@@ -74,7 +102,7 @@
       </div>
       
   
-    <div *ngIf="!showCurrentJob">
+    <div *ngIf="showCurrentJob">
       <div class="candidate-card">
         <div class="row">
           <div class="col-md-12">
@@ -83,12 +111,13 @@
               <small (click)="toggleCard()">Past Job History <i class="fa-solid fa-arrow-right" style="color: #eeeff2;"></i></small>
             </div>
           </div>
-          <div class="col-md-12 " *ngFor="let workExperience of workExperienceDetails; let i = index">
+          <div class="col-md-12 " >
             <div class="p-3 d-flex justify-content-between">
               <div>
                 <div class="p-0">Company Name </div>
-                <div class="company-text p-0">{{workExperience.companyName}}
-                  <span class="exp-text">Experience:{{workExperience.experienceInMonths}}</span>
+                <div class="company-text p-0" *ngFor="let workExperience of currentCompany">
+                  {{workExperience.companyName}}
+                  <!-- <span class="exp-text">Experience:{{workExperience.experienceInMonths}}</span> -->
                 </div>
               </div>
               <div class="img-back-circle p-2">
@@ -96,13 +125,19 @@
               </div>
             </div>
           </div>
-          <div class="col-md-12 job-details" *ngFor="let workExperience of workExperienceDetails">
+          <div class="col-md-12 job-details" *ngFor="let workExperience of currentCompany">
             <div class="p-3">
               <div class="d-flex justify-content-between ">
                 <div>Official Email:{{workExperience.emailId}}</div>
+                <div>department :{{workExperience.department}}</div>
+               
+              </div>
+              <div class="d-flex justify-content-between ">
+                <div>Experience :{{workExperience.experience}}</div>
+                
                 <div>Designation:{{workExperience.designation}}</div>
               </div>
-              <div>Department : {{workExperience.department}}</div>
+              <!-- <div>Department : {{workExperience.department}}</div> -->
             </div>
           </div>
         </div>

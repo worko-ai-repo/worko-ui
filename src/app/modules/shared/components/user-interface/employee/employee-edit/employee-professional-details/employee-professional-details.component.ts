@@ -1,4 +1,4 @@
-import { Component, EventEmitter, Input, Output, ViewChild } from '@angular/core';
+import { ChangeDetectorRef, Component, EventEmitter, Input, Output, ViewChild } from '@angular/core';
 import { MatAutocompleteModule, MatAutocompleteTrigger } from '@angular/material/autocomplete';
 import { FormControl, FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { Observable } from 'rxjs';
@@ -13,6 +13,7 @@ import { ModalType } from 'src/app/modules/shared/interfaces/shared.interface';
   styleUrls: ['./employee-professional-details.component.scss']
 })
 export class EmployeeProfessionalDetailsComponent {
+
   @ViewChild('autoCompleteInput', { static: false, read: MatAutocompleteTrigger }) trigger!: MatAutocompleteTrigger;
   @ViewChild(ModalComponent) modal!: ModalComponent;
 
@@ -50,16 +51,20 @@ form:any;
   modalMessage: string = "";
   modalTitle: string = "";
   showModal: ModalType | undefined;
-
+  selectedCompanyName: string ="";
+  data:any|undefined;
   constructor(private authService: AuthService) { }
 
   ngOnInit() {
+  console.log(this.employeeProfessionalData)
+    //  this.selectedCompanyName=this.employeeProfessionalData.companyName;
     
- 
+    // console.log(this.selectedCompanyName)
     this.filteredOptions = this.myControl.valueChanges.pipe(
       debounceTime(300),
       distinctUntilChanged(),
       switchMap((value: any) => {
+        console.log(value)
         if (value && value.length >= 1) {
           return this.authService.getCompanyName(value);
          
@@ -89,24 +94,58 @@ form:any;
 
 
   onOptionSelected(event: any): void {
+    console.log("on optionselect")
+   
     this.selectedCompany = event.option.value;
+  //   if (this.selectedCompany.name === this.employeeProfessionalData.companyName) {
+  //     // If the names match, keep the existing company name and SK
+  //     return ;
+  //   }
+  
+  //   // If the names don't match, update companyName and companySK with the selected option's values
+  //   this.employeeProfessionalData.companyName = this.selectedCompany.name;
+  //   this.employeeProfessionalData.companySK = this.selectedCompany.SK;
+  // }
   }
+ 
+  
 
+  // displayFn(option: any): string {
+  
+  //   if (option) {
+  //     this.companyName = option.name;
+  //     this.companySK = option.SK;
+      
+  //     return option.name;
+  //   } else{
+  //     return "";
+  //   }
+    
+  // }
   displayFn(option: any): string {
-    if (option) {
+    if (typeof option === 'string') {
+     
+    //   this.companyName = option;
+    // this.companySK ="";
+      return option;
+    } else if (typeof option === 'object' && option.name) {
+      // If option is an object with a name property
       this.companyName = option.name;
-      this.companySK = option.SK;
+      this.companySK = option.SK; // Assuming SK property may not always be available
       return option.name;
     } else {
+      
       return '';
     }
   }
-
+  
+isValue:boolean=true;
   ngOnChanges(): void {
     if (this.employeeProfessionalData && this.employeeProfessionalData.companyName && this.employeeProfessionalData.department && this.employeeProfessionalData.designation) {
       this.fields = this.employeeProfessionalData.previousCompanies;
       if(this.employeeProfessionalData && this.employeeProfessionalData.previousCompanies.length == 0){
         this.addField();
+        
         debugger;
       }
     } else {
@@ -138,8 +177,14 @@ form:any;
     // Save the non-blank fields
     this.savedValues = [...nonBlankFields];
     this.employeeProfessionalData.previousCompanies = this.savedValues;
+    if (this.selectedCompany && this.selectedCompany.name === this.workExperienceDetails.companyName && this.selectedCompany.SK === this.workExperienceDetails.SK) {
+     
+      this.employeeProfessionalData.companyName = this.workExperienceDetails.companyName;
+      this.employeeProfessionalData.companySK = this.workExperienceDetails.SK;
+    } else {
     this.employeeProfessionalData.companyName = this.selectedCompany.name ? this.selectedCompany?.name : this.workExperienceDetails?.companyName
     this.employeeProfessionalData.companySK = this.selectedCompany.SK ? this.selectedCompany?.SK : this.workExperienceDetails?.SK
+    }
     this.nextStepThird.emit(this.employeeProfessionalData);
   }
 

@@ -7,13 +7,8 @@ import { Component, Input } from '@angular/core';
 })
 export class JobHistoryComponent {
   @Input() workExperienceDetails: any;
-<<<<<<< HEAD
-  // filteredData:any=[];
-
-=======
-  currentCompany: any = {};
+  currentCompany: any ;
   previousCompanies: any ={};
->>>>>>> 1c0ecf3417bc6c4e98741f7a0ae1192bd76f67d9
   ngOnChanges(): void {
     // console.log(this.workExperienceDetails, "workExperienceDetails");
     // if(this.bankInfo){
@@ -21,9 +16,47 @@ export class JobHistoryComponent {
     // }'
      this.currentCompany = this.workExperienceDetails.filter((company:any) => company.isCurrent);
     this.previousCompanies = this.workExperienceDetails.filter((company: any) => !company.isCurrent);
-    console.log(  this.currentCompany );
-    console.log(  this.previousCompanies );
-  }
+    this.currentCompany.forEach((company: any) => {
+      company.experience = this.calculateExperience(company.experienceInMonths);
+  });
+
+  this.previousCompanies.forEach((company: any) => {
+      company.experience = this.calculateExperience(company.totalMonths);
+  });
+
+  console.log(this.currentCompany);
+  console.log(this.previousCompanies);
+}
+
+calculateExperience(totalMonths: number): string {
+  const years = Math.floor(totalMonths / 12);
+  const months = totalMonths % 12;
+
+  if (years ==1 && months ==1) {
+      return `${years} year and ${months} month`;
+  }else if (years >=2 && months >=2) {
+    return `${years} years and ${months} months`;
+} else if (years ==1 && months >=2) {
+  return `${years} year and ${months} months`;
+}  else if (years >=2 && months ==1) {
+  return `${years} years and ${months} month`;
+} 
+  else if (years >=2) {
+      return `${years} years`;
+  }  else if (years ==1) {
+    return `${years} year`;
+}else if (months ==1) {
+      return `${months} month`;
+  } 
+  else if (months >=2) {
+    return `${months} months`;
+}else{
+  return `${months} month`; 
+}
+}
+
+
+
   showCurrentJob: boolean = true;
 
 
@@ -32,11 +65,9 @@ export class JobHistoryComponent {
   toggleCard() {
 
     this.showCurrentJob = !this.showCurrentJob;
-<<<<<<< HEAD
-    // const filteredData = this.workExperienceDetails.filter((item: { isCurrent: boolean }) => !item.isCurrent);
-=======
 
 
->>>>>>> 1c0ecf3417bc6c4e98741f7a0ae1192bd76f67d9
   }
 }
+
+

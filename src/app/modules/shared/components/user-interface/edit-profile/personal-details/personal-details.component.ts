@@ -152,6 +152,9 @@ export class PersonalDetailsComponent implements OnInit {
        let completionYear = control.value;
       
       this.month=completionYear.split('-')[1]
+      if (!completionYear || completionYear.trim() === '') {
+        return null;
+      }
       
       if (!completionYear.includes('-')) {
         return { missingDash: true };
@@ -181,6 +184,10 @@ export class PersonalDetailsComponent implements OnInit {
         return { missingDash: true };
       }
       this.achmonth=achievementdate.split('-')[1]
+
+      if (!achievementdate || achievementdate.trim() === '') {
+        return null;
+      }
     
          if (achievementdate > maxDate || achievementdate<'1900-01' || achievementdate.length>7  || this.achmonth>12 || this.achmonth==0) {
            return { futureMonth: true };
