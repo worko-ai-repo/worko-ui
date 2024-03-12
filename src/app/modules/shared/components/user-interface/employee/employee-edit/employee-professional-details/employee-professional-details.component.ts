@@ -34,7 +34,7 @@ export class EmployeeProfessionalDetailsComponent {
     isEmailVerified: false,
 
   }
-form:any;
+  form: any;
   filteredOptions!: Observable<any[]>;
   companyName: string = "";
   companySK: string = "";
@@ -46,19 +46,19 @@ form:any;
   fields: { previousCompanyName: string, previousDesignation: string, previousExperience: string }[] = [];
   // Property to store the values entered in the fields
   savedValues: { previousCompanyName: string, previousDesignation: string, previousExperience: string }[] = [];
-  
+
   modalType = ModalType;
   modalMessage: string = "";
   modalTitle: string = "";
   showModal: ModalType | undefined;
-  selectedCompanyName: string ="";
-  data:any|undefined;
+  selectedCompanyName: string = "";
+  data: any | undefined;
   constructor(private authService: AuthService) { }
 
   ngOnInit() {
-  console.log(this.employeeProfessionalData)
+    console.log(this.employeeProfessionalData)
     //  this.selectedCompanyName=this.employeeProfessionalData.companyName;
-    
+
     // console.log(this.selectedCompanyName)
     this.filteredOptions = this.myControl.valueChanges.pipe(
       debounceTime(300),
@@ -67,7 +67,7 @@ form:any;
         console.log(value)
         if (value && value.length >= 1) {
           return this.authService.getCompanyName(value);
-         
+
         } else {
           // If value.length is less than 1, return an empty array or null
           return [];
@@ -95,42 +95,42 @@ form:any;
 
   onOptionSelected(event: any): void {
     console.log("on optionselect")
-   
-   
+
+
     this.selectedCompany = event.option.value;
-  
+
   }
- 
- 
+
+
   displayFn(option: any): string {
     if (typeof option === 'string') {
-     
-    //   this.companyName = option;
-    // this.companySK ="";
+
+      //   this.companyName = option;
+      // this.companySK ="";
       return option;
     } else if (typeof option === 'object' && option.name) {
-     
+
       this.companyName = option.name;
-      this.companySK = option.SK; 
+      this.companySK = option.SK;
       return option.name;
     } else {
-      
+
       return '';
     }
   }
-  
-isValue:boolean=true;
+
+  isValue: boolean = true;
   ngOnChanges(): void {
     if (this.employeeProfessionalData && this.employeeProfessionalData.companyName && this.employeeProfessionalData.department && this.employeeProfessionalData.designation) {
       this.fields = this.employeeProfessionalData.previousCompanies;
-      if(this.employeeProfessionalData && this.employeeProfessionalData.previousCompanies.length == 0){
+      if (this.employeeProfessionalData && this.employeeProfessionalData.previousCompanies.length == 0) {
         this.addField();
-        
+
         debugger;
       }
     } else {
       this.getData();
-      if(this.employeeProfessionalData && this.employeeProfessionalData.previousCompanies.length == 0){
+      if (this.employeeProfessionalData && this.employeeProfessionalData.previousCompanies.length == 0) {
         this.addField();
       }
     }
@@ -158,18 +158,18 @@ isValue:boolean=true;
     this.savedValues = [...nonBlankFields];
     this.employeeProfessionalData.previousCompanies = this.savedValues;
     console.log()
-    if (this.employeeProfessionalData.companyName === this.workExperienceDetails.companyName &&  this.employeeProfessionalData.companySK=== this.workExperienceDetails.SK) {
-     
+    if (this.employeeProfessionalData.companyName === this.workExperienceDetails.companyName && this.employeeProfessionalData.companySK === this.workExperienceDetails.SK) {
+
       this.employeeProfessionalData.companyName = this.workExperienceDetails.companyName;
       this.employeeProfessionalData.companySK = this.workExperienceDetails.SK;
     } else {
-    this.employeeProfessionalData.companyName = this.selectedCompany.name ? this.selectedCompany?.name : this.workExperienceDetails?.companyName
-    this.employeeProfessionalData.companySK = this.selectedCompany.SK ? this.selectedCompany?.SK : this.workExperienceDetails?.SK
+      this.employeeProfessionalData.companyName = this.selectedCompany.name ? this.selectedCompany?.name : this.workExperienceDetails?.companyName
+      this.employeeProfessionalData.companySK = this.selectedCompany.SK ? this.selectedCompany?.SK : this.workExperienceDetails?.SK
     }
     this.nextStepThird.emit(this.employeeProfessionalData);
   }
 
-  createEmployeeOfficial(form: any){
+  createEmployeeOfficial(form: any) {
     const nonBlankFields = this.fields.filter(field => field.previousCompanyName.trim() !== '' || field.previousDesignation.trim() !== '' || field.previousExperience.trim() !== '');
 
     // Save the non-blank fields
@@ -191,35 +191,35 @@ isValue:boolean=true;
     this.previousStep.emit();
   }
 
-  openOtpModal(){
+  openOtpModal() {
     this.openModal(ModalType.OTP_VERIFICATION);
   }
 
-    /**
-    * Open modal.
-    *
-    * @param {ModalType} modalType
-    * @param {string} [message = ""]
-    * @param {string} [title = ""]
-    * @returns {void}
-    */
-    openModal(modalType: ModalType, message: string = "", title: string = ""): void {
-      this.showModal = modalType;
-      this.modalMessage = message;
-      this.modalTitle = title;
-      this.modal.open();
-    }
-    /**
-     * Close modal.
-     *
-     * @returns {void}
-     */
-    closeModal(): void {
-      // this.referrralComponent.showReferrelRow = true;
-      this.modal.cancel();
-    }
+  /**
+  * Open modal.
+  *
+  * @param {ModalType} modalType
+  * @param {string} [message = ""]
+  * @param {string} [title = ""]
+  * @returns {void}
+  */
+  openModal(modalType: ModalType, message: string = "", title: string = ""): void {
+    this.showModal = modalType;
+    this.modalMessage = message;
+    this.modalTitle = title;
+    this.modal.open();
+  }
+  /**
+   * Close modal.
+   *
+   * @returns {void}
+   */
+  closeModal(): void {
+    // this.referrralComponent.showReferrelRow = true;
+    this.modal.cancel();
+  }
 
-    receiveDataFromChild(data: any){
-      this.modal.cancel();
-    }
+  receiveDataFromChild(data: any) {
+    this.modal.cancel();
+  }
 }
