@@ -260,13 +260,15 @@ hr{
     padding-top: 17rem;
 
     .benefits-content{
-        padding-top: 3rem;
+        padding-top: 2rem;
         width: 90%;
     }
 }
 
 .referee-section{
-    padding-top: 6rem;
+    position: relative;
+    padding-top: 3rem;
+    padding-left: 3%;
 }
 
 .ref{
@@ -276,17 +278,24 @@ hr{
     text-align: center;
     border: none;
     border-radius: 100px;
-    width: 48%;
-    height: 79px;
+    width: 47%;
+    height: 78px;
     padding: 0 5%;
 
+    margin-top: 3rem;
     font-size: 22px;
     line-height: 27px;
 
 }
 
-.ref1, .ref2{
+.ref1{
     background-color: #5BAABE;
+    margin-left: 7%;
+}
+
+.ref2{
+    background-color: #5BAABE;
+    margin-left: 3%;
 }
 
 .ref3{
@@ -294,9 +303,198 @@ hr{
 }
 
 .ref4{
-    background-color: #004759
+    background-color: #004759;
+    margin-left: 3%;
 }
 
 .ref5{
     background-color: #09758B;
+    margin-left: 7%;
+}
+
+.right-col{
+    width: 45%;
+    display: flex;
+    position: absolute;
+    right: 2%;
+    top: 9rem;
+}
+
+.semi{
+    position: absolute;
+    right: 15%;
+}
+
+.refer-circle{
+    width: 331px;
+    border-radius: 50%;
+    background-color: #09758B;
+    margin-top: 4rem;
+    position: absolute;
+    right: 26%;
+    top: 1rem;
+    padding-bottom: 320px;
+    p{
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+        margin: 0;
+        font-size: 34px;
+        font-weight: 700;
+        width: 65%;
+    }
+}
+
+.options{
+    font-size: 36px;
+    font-weight: 700;
+    margin-top: -1rem;
+    padding-left: 55%;
+    .opt{
+        padding-bottom: 4rem;
+        
+    }
+
+    .opt1{
+        color: #50D5FF;
+        padding-left: 10%;
+    }
+    .opt2{
+        color: #50D5FF;
+        padding-left: 81%;
+    }
+    .opt3{
+        color: #7B898B;
+        padding-left: 102%;
+    }
+    .opt4{
+        color: #313738;
+        padding-left: 81%;
+    }
+    .opt5{
+        color: #7B898B;
+        padding-left: 10%;
+    }
+}
+
+.candidate-section{
+    padding-top: 10rem;
+    padding-left: 16%;
+    position: relative;
+    .benefits-content{
+        padding-top: 2rem;
+        width: 90%;
+    }
+}
+
+.candidate-col{
+    width: 45%;
+    display: flex;
+    position: absolute;
+    right: 2%;
+    top: 9rem;
+    width: 65%;
+    padding-top: 7rem;
+
+    .refer-circle{
+        top: 8rem;
+        right: 21%;
+    }
+}
+
+.candidate-options{
+    font-size: 36px;
+    font-weight: 700;
+    margin-top: -4rem;
+    padding-left: 65%;
+    width: 100%;
+    .opt{
+        padding-bottom: 1.5rem;
+        
+    }
+
+    .opt1, .opt2, .opt3{
+        opacity: 40%;
+    } 
+    .opt1{
+        color: #00C2FF;
+        padding-left: 10%;
+    }
+    .opt2{
+        color: #00C2FF;
+        padding-left: 37%;
+    }
+    .opt3{
+        color: #00C2FF;
+        padding-left: 60%;
+    }
+    .opt4{
+        color: #313738;
+        padding-left: 81%;
+    }
+    .opt5{
+        color: #313738;
+        padding-left: 91%;
+    }
+    .opt6{
+        color: #313738;
+        padding-left: 63%;
+    }
+    .opt7{
+        color: #7B898B;
+        padding-left: 39%;
+    }
+    .opt8{
+        color: #7B898B;
+        padding-left: 10%;
+    }
+
+}
+
+.companies-section{
+    padding-top: 11rem;
+
+    .company-content{
+        .title, .para{
+            text-align: center;
+            font-size: 36px;
+        }
+        
+    }
+
+    .company-slides{
+        background-color: #fff;
+        margin-top: 19rem;
+        height: 10rem;
+        width: 100%;
+        overflow: hidden;
+        img{
+            padding: 1rem 1.5rem;
+        }
+    }
+
+    button{
+        padding: 0.5rem 10%;
+        margin-top: 8rem;
+        width: 30%;
+        font-size: 28px;
+        margin-left: 30%;
+        border-radius: 8px;
+    }
+}
+
+.info-section{
+    padding-top: 7rem;
+    padding-left: 4%;
+    justify-content: space-around;
+}
+
+.info{
+    padding-left: 2%;
+}
+
+.info-title{
+    font-size: 40px;
+    font-weight: 700;
 }
