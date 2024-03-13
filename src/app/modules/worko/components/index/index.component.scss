@@ -31,11 +31,15 @@ hr{
     font-size: calc(1vw + 14px);
     padding: 0.8rem 6%;
 }
-.bnt-light{
+.btn-light{
     font-size: calc(1vw + 14px);
     padding: 0.8rem 6%;
+    margin-left: 0px;
 }
 
+.left-btn{
+    margin-right: 30px;
+}
 .title{
     font-size: 3.2vw;
     font-weight: 700;
@@ -100,7 +104,7 @@ hr{
     left: 8.5%;
     margin-top: 5px;
     img{
-        width: calc(242px + 4vw);
+        width: calc(225px + 5vw);
     }
 }
 
@@ -190,7 +194,7 @@ hr{
     position: relative;
 
     .content{
-        width: 62%;
+        width: 65%;
         padding-top: 10rem;
     }
 }
@@ -204,9 +208,13 @@ hr{
     }
 }
 
+.intro-ul{
+    padding: 2rem 5%;
+    width: 110%;
+}
 .stats-section{
     justify-content: center;
-    padding-top: 14rem;
+    padding-top: 11rem;
 }
 
 .stat{
@@ -319,7 +327,7 @@ hr{
 
 .benefits-section{
     padding-left: 16%;
-    padding-top: 17rem;
+    padding-top: 15rem;
 
     .benefits-content{
         padding-top: 2rem;
@@ -527,6 +535,7 @@ hr{
 
 .companies-section{
     padding-top: 11rem;
+    overflow: hidden;
 
     .company-content{
         .title, .para{
@@ -539,22 +548,110 @@ hr{
     .company-slides{
         background-color: #fff;
         margin-top: 19rem;
-        height: calc(7vw + 70px);
-        width: 100%;
-        overflow: hidden;
-        img{
-            padding: 1rem 1.5rem;
+        height: calc(7vw + 40px);
+        width: 126%;
+        margin-left: -9%;
+        display: flex;
+        align-items: center;
+        .company{
+            position: relative;
+            width: 12%;
+            margin-right: 2%;
+            .hover{
+                position: absolute;
+                background: white;
+                width: 264%;
+                top: -155%;
+                left: -36%;
+                z-index: 1;
+                border-radius: 8px;
+                padding: 12% 0;
+                display: none;
+                img{
+                    width: 45%;
+                    padding: 0;
+                    padding-top: 3%;
+                    margin-left: 25%;
+                    margin-bottom: 4%;
+                }
+
+                .button{
+                    font-size: calc(1vw + 8px);
+                    width: 68%;
+                    padding: 4%;
+                    margin: 0;
+                    color: #fff;
+                    background-color: #194561;
+                    margin-top: 5%;
+                    margin-left: 15%;
+                }
+            }
+
+            img{
+                padding: 7% 1.61%;
+                width: 86%;
+            }
         }
     }
-
     button{
         padding: 0.5rem 10%;
-        margin-top: 8rem;
+        margin-top: 10rem;
         width: 30%;
         font-size: calc(1.2vw + 7px);
         margin-left: 34%;
         border-radius: 8px;
     }
+}
+
+.company1:hover{
+    .hover1{
+        display: block !important;
+    }
+}
+
+
+.company2:hover{
+    .hover2{
+        display: block !important;
+    }
+}
+
+
+.company3:hover{
+    .hover3{
+        display: block !important;
+    }
+}
+
+
+.company4:hover{
+    .hover4{
+        display: block !important;
+    }
+}
+
+
+.company5:hover{
+    .hover5{
+        display: block !important;
+    }
+}
+
+
+.company6:hover{
+    .hover6{
+        display: block !important;
+    }
+}
+
+.company7:hover{
+    .hover7{
+        display: block !important;
+    }
+}
+
+.hover3{
+    display: block;
 }
 
 .info-section{
@@ -674,7 +771,7 @@ hr{
     border-radius: 50%;
     background-color: #000;
     margin-top: 5rem;
-    padding: 1rem;
+    padding: 1rem 1.3rem;
 }
 
 .right{
