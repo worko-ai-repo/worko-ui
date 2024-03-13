@@ -1,7 +1,8 @@
 // ---------------------utilities------------------------
 
 .para{
-    font-size: calc(13px + 1vw);
+    // font-size: calc(13px + 1vw);
+    font-size: calc(1.3vw + 8px);
     font-weight: 400;
     line-height: 160%;
     letter-spacing: 0em;
@@ -27,23 +28,32 @@ hr{
 .btn-dark{
     background-color: rgb(87, 225, 225);
     color: #182b45;
+    font-size: calc(1vw + 14px);
+    padding: 0.8rem 6%;
+}
+.btn-light{
+    font-size: calc(1vw + 14px);
+    padding: 0.8rem 6%;
+    margin-left: 0px;
 }
 
+.left-btn{
+    margin-right: 30px;
+}
 .title{
-    font-size: 54px;
-  font-weight: 700;
-  line-height: 90px;
-  letter-spacing: 0em;
-  background: -webkit-linear-gradient(270deg, #50D5FF 12.5%, #D1E4FB 76.04%);
-    background-clip: border-box;
-  -webkit-background-clip: text;
-  -webkit-text-fill-color: transparent;
+    font-size: 3.2vw;
+    font-weight: 700;
+    line-height: 140%;
+    letter-spacing: 0em;
+    background: -webkit-linear-gradient(270deg, #50D5FF 12.5%, #D1E4FB 76.04%);
+        background-clip: border-box;
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
 }
 
 
 .grad{
     position: absolute;
-    
 }
 
 .grad-left1{
@@ -70,7 +80,7 @@ hr{
 }
 
 .grad-right4{
-    top: 0;
+    right: -8%;
     top: -22rem;
 }
 
@@ -94,7 +104,7 @@ hr{
     left: 8.5%;
     margin-top: 5px;
     img{
-        width: calc(156px + 9vw);
+        width: calc(225px + 5vw);
     }
 }
 
@@ -107,64 +117,64 @@ hr{
 }
 
 
-// ------------------ Gradient CSS --------------------
-.gradient-left1{
-    top: 0;
-    left: 0;
-}
+// // ------------------ Gradient CSS --------------------
+// .gradient-left1{
+//     top: 0;
+//     left: 0;
+// }
 
-.gradient-left2{
-    top: 700px;
-    left: -5vw;
-}
+// .gradient-left2{
+//     top: 700px;
+//     left: -5vw;
+// }
 
-.gradient-left3{
-    left: -16vw;
-}
+// .gradient-left3{
+//     left: -16vw;
+// }
 
-.gradient-left4{
-    left: 0;
-}
+// .gradient-left4{
+//     left: 0;
+// }
 
-.gradient-left5{
-    bottom: 0;
-    left: -9%;
-}
+// .gradient-left5{
+//     bottom: 0;
+//     left: -9%;
+// }
 
-.gradient-left-md{
-    display: none;
-}
+// .gradient-left-md{
+//     display: none;
+// }
 
-.gradient-img{
-    opacity: 50%;
-}
+// .gradient-img{
+//     opacity: 50%;
+// }
 
-.gradient-right1 {
-    right: 0;
-    top: 50px;
-}
+// .gradient-right1 {
+//     right: 0;
+//     top: 50px;
+// }
 
-.gradient-right2 {
-    right: 0;
-    top: 284px;
-}
+// .gradient-right2 {
+//     right: 0;
+//     top: 284px;
+// }
 
-.gradient-right3 {
-    right: -30%;
-    top: 0;
-}
+// .gradient-right3 {
+//     right: -30%;
+//     top: 0;
+// }
 
-.gradient-right4 {
-    right: -8.5%;
-    top: 0;
-}
+// .gradient-right4 {
+//     right: -8.5%;
+//     top: 0;
+// }
 
-.gradient-rightmd{
-    display: none;
-    right: 0;
-    top: 0;
-    opacity: 75%;
-}
+// .gradient-rightmd{
+//     display: none;
+//     right: 0;
+//     top: 0;
+//     opacity: 75%;
+// }
 
 
 // Index CSS 
@@ -184,7 +194,7 @@ hr{
     position: relative;
 
     .content{
-        width: 62%;
+        width: 65%;
         padding-top: 10rem;
     }
 }
@@ -192,11 +202,19 @@ hr{
 .intro-image{
     position: absolute;
     right: 0;
+    width: 28.2%;
+    img{
+        width: 100%;
+    }
 }
 
+.intro-ul{
+    padding: 2rem 5%;
+    width: 110%;
+}
 .stats-section{
     justify-content: center;
-    padding-top: 14rem;
+    padding-top: 11rem;
 }
 
 .stat{
@@ -204,7 +222,7 @@ hr{
     text-align: center;
 
     .stat-title{
-        font-size: 90px;
+        font-size: calc(45px + 2.6vw);
         font-weight: 500;
     }
     .stat-content{
@@ -215,7 +233,8 @@ hr{
 
 .title2{
     font-weight: 700;
-    font-size: 40px;
+    font-size: calc(16px + 1.5vw);
+
 }
 
 
@@ -227,7 +246,8 @@ hr{
         width: 68%;
     }
     .purpose-content{
-        font-size: 24px;
+        text-align: center;
+        font-size: calc(1vw + 7px);
     }
 }
 
@@ -238,6 +258,13 @@ hr{
     .contents{
         width: 58%;
     }
+
+    .peer-img{
+        width: 39%;
+        img{
+            width: 100%;
+        }
+    }
 }
 
 .interview-title{
@@ -247,6 +274,12 @@ hr{
 .feedback{
     padding-top: 12rem;
     position: relative;
+    .image{
+        width: 150%;
+        img{
+            width: 100%;
+        }
+    }
     
 }
 
@@ -273,8 +306,12 @@ hr{
 
     .smart-img{
         position: absolute;
-        right: 3rem;
+        right: 3%;
         top: 15rem;
+        width: 38%;
+        img{
+            width: 100%;
+        }
     }
 }
 
@@ -291,12 +328,16 @@ hr{
 
 .benefits-section{
     padding-left: 16%;
-    padding-top: 17rem;
+    padding-top: 15rem;
 
     .benefits-content{
         padding-top: 2rem;
         width: 90%;
     }
+}
+
+.left-col{
+    padding-left: 2.5%;
 }
 
 .referee-section{
@@ -316,9 +357,9 @@ hr{
     height: 78px;
     padding: 0 5%;
 
-    margin-top: 3rem;
-    font-size: 22px;
-    line-height: 27px;
+    margin-top: 3.4%;
+    font-size: calc(1vw + 5px);
+    line-height: 123%;
 
 }
 
@@ -355,38 +396,43 @@ hr{
 }
 
 .semi{
+    width: 75%;
     position: absolute;
     right: 15%;
+
+    img{
+        width: 100%;
+    }
 }
 
 .refer-circle{
-    width: 331px;
+    width: 50%;
     border-radius: 50%;
     background-color: #09758B;
-    margin-top: 4rem;
+    margin-top: 9%;
     position: absolute;
-    right: 26%;
+    right: 27%;
     top: 1rem;
-    padding-bottom: 320px;
+    padding-bottom: 50%;
     p{
         position: absolute;
         top: 50%;
         left: 50%;
         transform: translate(-50%, -50%);
         margin: 0;
-        font-size: 34px;
+        font-size: calc(1.5vw + 8px);
         font-weight: 700;
         width: 65%;
     }
 }
 
 .options{
-    font-size: 36px;
+    font-size: calc(10px + 1.5vw);
     font-weight: 700;
     margin-top: -1rem;
     padding-left: 55%;
     .opt{
-        padding-bottom: 4rem;
+        padding-bottom: 40%;
         
     }
 
@@ -412,6 +458,8 @@ hr{
     }
 }
 
+
+// Candidate CSS
 .candidate-section{
     padding-top: 10rem;
     padding-left: 16%;
@@ -426,25 +474,25 @@ hr{
     width: 45%;
     display: flex;
     position: absolute;
-    right: 2%;
-    top: 9rem;
-    width: 65%;
-    padding-top: 7rem;
+    right: 1%;
+    top: 30%;
 
-    .refer-circle{
-        top: 8rem;
-        right: 21%;
+    .candidate-circle{
+        right: 27%;
+        top: 3.5%;
+        p{
+            width: 58%;
+            text-align: center;
+        }
     }
 }
 
 .candidate-options{
-    font-size: 36px;
-    font-weight: 700;
     margin-top: -4rem;
-    padding-left: 65%;
+    padding-left: 48%;
     width: 100%;
     .opt{
-        padding-bottom: 1.5rem;
+        padding-bottom: 10%;
         
     }
 
@@ -453,46 +501,47 @@ hr{
     } 
     .opt1{
         color: #00C2FF;
-        padding-left: 10%;
+        padding-left: 7%;
     }
     .opt2{
         color: #00C2FF;
-        padding-left: 37%;
+        padding-left: 24%;
     }
     .opt3{
         color: #00C2FF;
-        padding-left: 60%;
+        padding-left: 50%;
     }
     .opt4{
         color: #313738;
-        padding-left: 81%;
+        padding-left: 71%;
     }
     .opt5{
         color: #313738;
-        padding-left: 91%;
+        padding-left: 81%;
     }
     .opt6{
         color: #313738;
-        padding-left: 63%;
+        padding-left: 54%;
     }
     .opt7{
         color: #7B898B;
-        padding-left: 39%;
+        padding-left: 32%;
     }
     .opt8{
         color: #7B898B;
-        padding-left: 10%;
+        padding-left: 7%;
     }
 
 }
 
 .companies-section{
     padding-top: 11rem;
+    overflow: hidden;
 
     .company-content{
         .title, .para{
             text-align: center;
-            font-size: 36px;
+            font-size: calc(1.5vw + 10px);
         }
         
     }
@@ -500,28 +549,123 @@ hr{
     .company-slides{
         background-color: #fff;
         margin-top: 19rem;
-        height: 10rem;
-        width: 100%;
-        overflow: hidden;
-        img{
-            padding: 1rem 1.5rem;
+        height: calc(7vw + 40px);
+        width: 126%;
+        margin-left: -9%;
+        display: flex;
+        align-items: center;
+        .company{
+            position: relative;
+            width: 12%;
+            margin-right: 2%;
+            .hover{
+                position: absolute;
+                background: white;
+                width: 264%;
+                top: -155%;
+                left: -36%;
+                z-index: 1;
+                border-radius: 8px;
+                padding: 12% 0;
+                display: none;
+                img{
+                    width: 45%;
+                    padding: 0;
+                    padding-top: 3%;
+                    margin-left: 25%;
+                    margin-bottom: 4%;
+                }
+
+                .button{
+                    font-size: calc(1vw + 8px);
+                    width: 68%;
+                    padding: 4%;
+                    margin: 0;
+                    color: #fff;
+                    background-color: #194561;
+                    margin-top: 5%;
+                    margin-left: 15%;
+                }
+            }
+
+            img{
+                padding: 7% 1.61%;
+                width: 86%;
+            }
         }
     }
-
     button{
         padding: 0.5rem 10%;
-        margin-top: 8rem;
+        margin-top: 10rem;
         width: 30%;
-        font-size: 28px;
+        font-size: calc(1.2vw + 7px);
         margin-left: 34%;
         border-radius: 8px;
     }
+}
+
+.company1:hover{
+    .hover1{
+        display: block !important;
+    }
+}
+
+
+.company2:hover{
+    .hover2{
+        display: block !important;
+    }
+}
+
+
+.company3:hover{
+    .hover3{
+        display: block !important;
+    }
+}
+
+
+.company4:hover{
+    .hover4{
+        display: block !important;
+    }
+}
+
+
+.company5:hover{
+    .hover5{
+        display: block !important;
+    }
+}
+
+
+.company6:hover{
+    .hover6{
+        display: block !important;
+    }
+}
+
+.company7:hover{
+    .hover7{
+        display: block !important;
+    }
+}
+
+.hover3{
+    display: block;
 }
 
 .info-section{
     padding-top: 7rem;
     padding-left: 4%;
     justify-content: space-around;
+
+    .video-img{
+        width: 70%;
+        img{
+            width: 100%;
+        }
+    }
 }
 
 .info{
@@ -529,7 +673,7 @@ hr{
 }
 
 .info-title{
-    font-size: 40px;
+    font-size: calc(1.5vw + 14px);
     font-weight: 700;
 }
 
@@ -560,12 +704,12 @@ hr{
     padding-top: 6rem;
     
     .title{
-        font-size: 24px;
-        line-height: 40px;
+        font-size: calc(1vw + 7px);
+        line-height: 167%;
     }
 
     .sub-title{
-        font-size: 55px;
+        font-size: calc(2vw + 20px);
         font-weight: 700;
     }
 
@@ -579,13 +723,15 @@ hr{
     overflow: hidden;
     width: 100vw;
     padding-top: 4rem;
+    justify-content: space-between;
+    margin-left: -3%;
 }
 
 .review-card{
     background-color: #fff;
     border-radius: 33px;
-    margin-right: 3.3%;
-    width: 542px;
+    // margin-right: 3.3%;
+    width: 31.5%;
     padding: 4rem 3%;
 
     .card-img{
@@ -614,7 +760,7 @@ hr{
 }
 
 .review-card1{
-    margin-left: -3%;
+    // margin-left: -3%;
 }
 
 .review-button{
@@ -626,7 +772,7 @@ hr{
     border-radius: 50%;
     background-color: #000;
     margin-top: 5rem;
-    padding: 1% 1.5rem;
+    padding: 1rem 1.3rem;
 }
 
 .right{
@@ -635,3 +781,377 @@ hr{
 .left{
     margin-left: 2%;
 }
+
+// ---------------Responsive for ipads---------------
+
+@media (max-width: 1025px) and (min-width: 480px){
+
+    .side-timeline{
+        display: none;
+    }
+    
+    .side-timeline-md{
+        display: block;
+        left: 4%;
+        margin-top: 2rem;
+        img{
+            width: 197px;
+        }
+    }
+    
+    .side-timeline-sm{
+        display: none;
+    }
+    
+    .top-header-bg{
+        width: 50%;
+        img {
+            width: 100%;
+        }
+    }
+
+    .para{
+        // font-size: calc(13px + 1vw);
+        font-size: calc(1vw + 8px);
+    }
+    
+    
+    .title{
+        font-size: calc(9.4px + 2vw);
+    }
+
+
+    .para2{
+        font-size: calc(8px + 1vw);
+    }
+    
+    hr{
+        height: 2px; width: 100%; background-color: #09111C; border: none;
+    }
+    .about-section{
+        position: relative;
+        background-color: #000000;
+    }
+    
+    .head1{
+        font-weight: 400;
+    }
+    
+    .btn-dark{
+        background-color: rgb(87, 225, 225);
+        color: #182b45;
+        font-size: calc(1vw + 6px);
+        border: 1px solid rgb(87, 225, 255);
+        padding: 0.5rem 6%;
+        border-radius: 8px;
+    }
+    .btn-light{
+        font-size: calc(1vw + 6px);
+        padding: 0.5rem 6%;
+        margin-left: 0px;
+        border: 1px solid rgb(87, 225, 255);
+        border-radius: 8px;
+    }
+
+    .grad{
+        display: none;
+    }
+
+    // .rows{
+    //     padding-left: 16%;
+    // }
+    
+    .intro{
+
+        .content{
+            width: 65%;
+            padding-top: 9rem;
+        }
+    }
+    
+    .intro-image{
+        position: absolute;
+        right: 0;
+        width: 28.2%;
+        img{
+            width: 100%;
+        }
+    }
+    
+    .intro-ul{
+        padding: 1rem 5%;
+        width: 110%;
+        margin-bottom: 0;
+    }
+    .stats-section{
+        justify-content: flex-start;
+        padding-top: 4rem;
+    }
+    
+    .stat{
+        width: 30%;
+        text-align: center;
+    
+        .stat-title{
+            font-size: calc(16px + 3vw);
+            font-weight: 700;
+        }
+        .stat-content{
+            padding-top: 0.5rem;
+            text-align: center;
+        }
+    }
+    
+    .title2{
+        font-weight: 700;
+        font-size: calc(10px + 2vw);
+    
+    }
+    
+    
+    .purpose-section{
+        padding-left: 14%;
+        padding-top: 10rem;
+    
+        .purpose-header{
+            width: 84%;
+        }
+        .purpose-content{
+            text-align: left;
+            font-size: calc(1vw + 7px);
+        }
+    }
+    
+    .peer{
+        position: relative;
+        justify-content: space-around;
+        padding-top: 12rem;
+        .contents{
+            width: 60%;
+        }
+    
+        .peer-img{
+            width: 39%;
+            padding-top: 5rem;
+            img{
+                width: 100%;
+            }
+        }
+    }
+    
+    .interview-title{
+        padding-top: 12rem;
+    }
+    
+    .feedback{
+        padding-top: 9rem;
+        position: relative;
+        .contents{
+            width: 170%;
+            .feedback-content{
+                width: 110%;
+            }
+        }
+        .image{
+            padding-top: 7rem;
+            width: 150%;
+            img{
+                width: 100%;
+            }
+        }
+        
+    }
+
+    .career-section{
+        padding-top: 10rem;
+        padding-left: 9%;
+        width: 100%;
+    }
+
+    
+    .feedback img{
+        margin-right: -10%;
+    }
+    
+    .smart{
+        position: relative;
+    
+        .contents{
+            width: 60%;
+        }
+        .smart-title{
+            padding-top: 8rem;
+        }
+    
+        .smart-img{
+            position: absolute;
+            right: 3%;
+            top: 15rem;
+            width: 38%;
+            img{
+                width: 100%;
+            }
+        }
+    }
+    
+    .access-title{
+        padding-top: 10rem;
+    }
+    
+    .access-content{
+        width: 88%;
+        margin: auto;
+    }
+    
+    // Benefits Section
+    
+    .benefits-section{
+        padding-left: 14%;
+        padding-top: 6rem;
+    
+        .benefits-title{
+            font-size: calc(10px + 2vw);
+        }
+        .benefits-content{
+            padding-top: 0.5rem;
+            width: 90%;
+        }
+    }
+    
+    .left-col{
+        padding-left: 0;
+    }
+    
+    .referee-section{
+        position: relative;
+        padding-top: 11rem;
+        padding-left: 2%;
+    }
+    
+    .ref{
+        // display: flex;
+        // justify-content: center;
+        // align-items: center;
+        // text-align: center;
+        // border: none;
+        border-radius: 30px;
+        width: 50%;
+        height: 49px;
+        padding: 0 3%;
+    
+        margin-top: 3.4%;
+        font-size: calc(1vw + 5px);
+        line-height: 123%;
+    
+    }
+    
+    // .ref1{
+    //     background-color: #5BAABE;
+    //     margin-left: 7%;
+    // }
+    
+    // .ref2{
+    //     background-color: #5BAABE;
+    //     margin-left: 3%;
+    // }
+    
+    // .ref3{
+    //     background-color: #3A7683;
+    // }
+    
+    // .ref4{
+    //     background-color: #004759;
+    //     margin-left: 3%;
+    // }
+    
+    // .ref5{
+    //     background-color: #09758B;
+    //     margin-left: 7%;
+    // }
+    
+    .right-col{
+        width: 45%;
+        display: flex;
+        position: absolute;
+        right: 6%;
+        top: 16rem;
+    }
+    
+    .semi-lg{
+        display: none;
+    }
+
+    .semi{
+        width: 75%;
+        position: absolute;
+        right: 15%;
+    
+        img{
+            width: 100%;
+        }
+    }
+    
+    .refer-circle{
+        width: 50%;
+        border-radius: 50%;
+        background-color: #09758B;
+        margin-top: 9%;
+        position: absolute;
+        right: 27%;
+        top: 0.7rem;
+        padding-bottom: 50%;
+        p{
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            margin: 0;
+            font-size: calc(1vw + 10px);
+            font-weight: 700;
+            width: 70%;
+        }
+    }
+    
+    .options{
+        font-size: calc(10px + 1vw);
+        font-weight: 700;
+        margin-top: -2rem;
+        padding-left: 62%;
+        .opt{
+            padding-bottom: 48%;
+        }
+    
+        .opt1{
+            color: #50D5FF;
+            padding-left: 10%;
+        }
+        .opt2{
+            color: #50D5FF;
+            padding-left: 81%;
+        }
+        .opt3{
+            color: #7B898B;
+            padding-left: 102%;
+        }
+        .opt4{
+            color: #313738;
+            padding-left: 81%;
+        }
+        .opt5{
+            color: #7B898B;
+            padding-left: 10%;
+        }
+    }
+  
+}
+
+
+// ---------------Responsive for Mobile---------------
+
+@media (max-width: 480px) {
+
+
+
+}
+
+

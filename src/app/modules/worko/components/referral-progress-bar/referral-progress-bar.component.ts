@@ -14,6 +14,9 @@ export class ReferralProgressBarComponent {
   showEmailContent: boolean = false;
   originalPoints = 2.1;
   possiblePoints = 10;
+  startTime: number = Date.now();
+  cvNotFoundError: boolean = false;
+  maxDuration: number = 2 * 60 * 1000;
   texts: string[] = [
     "Matching your educational qualification",
     "Checking your responsibilities and experiences",
@@ -21,7 +24,7 @@ export class ReferralProgressBarComponent {
     "We are almost done"
   ];
   emailId: string = "";
-  constructor(private companyListing: CompanyListingService , private storage: StorageService) { }
+  constructor(private companyListing: CompanyListingService, private storage: StorageService) { }
   ngOnInit(): void {
     this.emailId = this.storage.get("useremail");
     let index = 0;
@@ -34,12 +37,37 @@ export class ReferralProgressBarComponent {
         }
       } else {
         clearInterval(interval);
-        setTimeout(() => {
-          // this.showScore = true; // Show the score after 30 seconds
-          this.getScore();
-        }, 30000); // Wait for 5 seconds after the loop ends
+        setTimeout(async () => {
+          await this.fetchScore();
+        }, 300); //30000
       }
-    }, 7000); // Display each message for 5 seconds
+    }, 700); //7000
+  }
+ 
+  async fetchScore() {
+   
+  
+    const response = await this.companyListing.getMatchingScore(this.emailId, this.referralId);
+    if (response && response.matchingScore !== undefined) {
+      if (response.matchingScore === 0) {
+        const elapsedTime = Date.now() - this.startTime;
+        // console.log(this.maxDuration, "maxDuration");
+        // console.log(this.startTime, "startTime");
+        // console.log(elapsedTime, "elapsedTime");
+        if (elapsedTime < this.maxDuration) {
+          setTimeout(async () => {
+            await this.fetchScore();
+          }, 20000);
+        } else {
+          // alert("No score found after 2 minutes");
+          this.cvNotFoundError = true;
+          this.showScore = false;
+        }
+      } else {
+        this.score = response.matchingScore;
+        this.showScore = true;
+      }
+    }
   }
   
 
@@ -48,27 +76,52 @@ export class ReferralProgressBarComponent {
     this.showEmailContent = true;
   }
 
-  getScore() {
-    this.companyListing.getMatchingScore(this.emailId, this.referralId).then(async (response) => {
-      if (response) {
-        console.log("Matchingscore");
-        if(response.matchingScore){
-          this.score = response.matchingScore;
-        
-          // this.showLoading = false;
-          this.showScore = true;
-        }else{
-          setTimeout(() => {
+  //   getScore() {
+  //     this.companyListing.getMatchingScore(this.emailId, this.referralId).then(async (response) => {
+  //       if (response) {
+  //         console.log("Matchingscore");
+  //         if(response.matchingScore){
+  //           this.score = response.matchingScore;
 
-            this.getScore();
-          }, 20000); 
-        
-        }
-        
-      }
-    })
-      .catch(error => {
-        console.error('Create Employee Error:', error);
-      });
+  //           // this.showLoading = false;
+  //           this.showScore = true;
+  //         }else{
+  //           setTimeout(() => {
+
+  //             this.getScore();
+  //           }, 20000); 
+
+  //         }
+
+  //       }
+  //     })
+  //       .catch(error => {
+  //         console.error('Create Employee Error:', error);
+  //       });
+  //   }
+  // }
+
+  // getScore() {
+  //   const startTime = Date.now();
+  //   const maxDuration = 2 * 60 * 1000; // 2 minutes
+  //   this.fetchScore(startTime, maxDuration)
+  // }
+
+  //  async  fetchScore(startTime: any, maxDuration: any){
+  //     const response = await this.companyListing.getMatchingScore(this.emailId, this.referralId);
+  //     if (response && response.matchingScore !== undefined) {
+  //       if (response.matchingScore === 0) {
+  //         const elapsedTime = Date.now() - startTime;
+  //         if (elapsedTime < maxDuration) {
+  //           setTimeout(this.fetchScore, 20000); // Retry after 20 seconds
+  //         } else {
+  //           // this.showScoreError = true;
+  //           alert("No Score FOubnd")
+  //         }
+  //       } else {
+  //         this.score = response.matchingScore;
+  //         this.showScore = true;
+  //       }
+  //     }
+  //   };
   }
-}

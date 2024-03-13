@@ -13,7 +13,7 @@
           </div>
         </div>
         <div class="container-fluid">
-          <h5> no past job available</h5>
+          <h5> There is no past job available.</h5>
       </div>
       </div>
       </div>
@@ -42,11 +42,11 @@
                 <div class="col-md-12 d-flex justify-content-center mb-2" *ngFor="let workExperience of previousCompanies" >
                   <div class="company-box p-2">
                     <div class="row">
-                        <div class="col-md-6 d-flex justify-content-between">
-                            <img class="google-img" src="/assets/public/workologoai-8@2x.png"  alt="">
+                        <div class="col-md-6 d-flex">
+                            <img class="google-img" src="/assets/public/missing_company_logo_white.png"  alt="">
                             
                             <!-- src="/assets/public/employee-amazon-img.png" -->
-                            <div>
+                            <div class="ps-2">
                                 <small class="current-job-text" >Current Job</small>
                                 <h6 class="company-name">{{workExperience.companyName}}</h6>
                             </div>
@@ -58,7 +58,7 @@
                                     <h6 class="number-style pt-2">2021</h6>
                                 </div> -->
                                 <div class="">
-                                    <small class="current-job-text">Exp.</small>
+                                    <small class="current-job-text">Experience</small>
                                     <h6 class="number-style pt-2">{{workExperience.experienceInMonths}}</h6>
                                 </div>
                                   <!-- <div>
@@ -120,22 +120,22 @@
                   <!-- <span class="exp-text">Experience:{{workExperience.experienceInMonths}}</span> -->
                 </div>
               </div>
-              <div class="img-back-circle p-2">
-                <img src="/assets/public/company-logo.png" class="logo-img p-1" alt="">
+              <div class="p-2">
+                <img src="/assets/public/missing_company_logo_white.png" class="logo-img p-1" alt="">
               </div>
             </div>
           </div>
           <div class="col-md-12 job-details" *ngFor="let workExperience of currentCompany">
             <div class="p-3">
               <div class="d-flex justify-content-between ">
-                <div>Official Email:{{workExperience.emailId}}</div>
-                <div>department :{{workExperience.department}}</div>
+                <div>Official Email : {{workExperience.emailId}}</div>
+                <div>department : {{workExperience.department}}</div>
                
               </div>
               <div class="d-flex justify-content-between ">
-                <div>Experience :{{workExperience.experience}}</div>
+                <div>Experience : {{workExperience.experience}}</div>
                 
-                <div>Designation:{{workExperience.designation}}</div>
+                <div>Designation : {{workExperience.designation}}</div>
               </div>
               <!-- <div>Department : {{workExperience.department}}</div> -->
             </div>
