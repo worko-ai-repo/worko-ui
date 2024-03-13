@@ -323,7 +323,7 @@ export class PersonalDetailsComponent implements OnInit {
       // }
 
       // Check if the number of certificates is less than 10
-      if (this.candidateProfessionalDetails.certificationNames.length < 5) {
+      if (this.candidateProfessionalDetails.certificationNames.length < 10) {
         // Create a new achievement object
         const newCertificate = {
           certName: this.newCertName,
