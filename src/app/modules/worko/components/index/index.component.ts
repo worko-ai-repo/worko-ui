@@ -13,7 +13,7 @@ export class IndexComponent {
   ngOnInit(): void {
     setInterval(() => {
       this.swapValues();
-    }, 3000);
+    }, 113000);
   }
 
   swapValues() {
