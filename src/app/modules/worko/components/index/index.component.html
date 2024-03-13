@@ -31,7 +31,7 @@
         <div class="rows">
             <div class="intro d-flex">
                 <div class="grad grad-left1"><img src="assets/index-images-KA/gradient-left1.png" alt=""></div>
-                <div class="content">
+                <div class="content get-content" *ngIf="getReferral">
                     <div class="title title1">
                         Supercharge your job search with Worko - Where Connection leads to Career
                     </div>
@@ -45,8 +45,27 @@
                         </li>
                     </ul>
                     <div class="buttons">
-                        <button class="btn btn-dark font-inria"> Get Referral </button>
+                        <button class="left-btn btn btn-dark font-inria"> Get Referral </button>
                         <button class="btn btn-light font-inria"> Give Referral </button>
+                    </div>
+                </div>
+
+                <div class="content" *ngIf="giveReferral">
+                    <div class="title title1">
+                        Discover success with Worko, where Referrals lead to rewarding outcomes.
+                    </div>
+                    <ul class="intro-ul">
+                        <li class="para text">
+                            AI-powered P2P hiring platform for flawless matching and thorough
+                            vetting, boosting referral success rate.
+                        </li>
+                        <li class="para text">
+                            Help someone land their dream job
+                        </li>
+                    </ul>
+                    <div class="buttons">
+                        <button class="left-btn btn btn-light font-inria"> Get Referral </button>
+                        <button class="btn btn-dark font-inria"> Give Referral </button>
                     </div>
                 </div>
                 <div class="intro-image">
@@ -304,18 +323,102 @@
 
 
         <div class="companies-section">
-            <div class="company-content">
+             <div class="company-content">
                 <div class="title">Join Our Platform And Work</div>
                 <div class="para">Alongside Employees At Top Companies</div>
             </div>
-            <div class="company-slides">
-                <img src="/assets/index-images-KA/reliance.png" class="company-img" alt="">
-                <img src="/assets/index-images-KA/zoho.png" class="company-img" alt="">
-                <img src="/assets/index-images-KA/adobe.png" class="company-img" alt="">
-                <img src="/assets/index-images-KA/google.png" class="company-img" alt="">
-                <img src="/assets/index-images-KA/meta.png" class="company-img" alt="">
-                <img src="/assets/index-images-KA/amazon.png" class="company-img" alt="">
-                <img src="/assets/index-images-KA/cult-logo.png" class="company-img" alt="">
+            <div class="company-slides d-flex">
+                <!--<div class="company company1">
+                    <img src="/assets/index-images-KA/reliance.png" class="company-img" alt="">
+                </div>
+                <div class="company company2">
+                    <img src="/assets/index-images-KA/zoho.png" class="company-img" alt="">
+                </div>
+                <div class="company company3">
+                    <img src="/assets/index-images-KA/adobe.png" class="company-img" alt="">
+                </div>
+                <div class="company company4">
+                    <div class="hover hover1">
+                        <img src="/assets/index-images-KA/google.png" alt="google">
+                        <button class="referral button">Request Referral</button>
+                        <button class="referral button">Request Guidance</button>
+                    </div>
+                    <img src="/assets/index-images-KA/google.png" class="company-img" alt="">
+                </div>
+                <div class="company company5">
+                    <img src="/assets/index-images-KA/meta.png" class="company-img" alt="">
+                </div>
+                <div class="company company6">
+                    <img src="/assets/index-images-KA/amazon.png" class="company-img" alt="">
+                </div>
+                <div class="company company7">
+                    <img src="/assets/index-images-KA/cult-logo.png" class="company-img" alt="">
+                </div> -->
+
+
+                <div class="company company1">
+                    <img src="/assets/index-images-KA/reliance.png" class="company-img" alt="">
+                    <div class="hover hover1">
+                        <img src="/assets/index-images-KA/reliance.png" alt="reliance">
+                        <button class="referral button">Request Referral</button>
+                        <button class="referral button">Request Guidance</button>
+                    </div>
+                </div>
+                
+                <div class="company company2">
+                    <img src="/assets/index-images-KA/zoho.png" class="company-img" alt="">
+                    <div class="hover hover2">
+                        <img src="/assets/index-images-KA/zoho.png" alt="zoho">
+                        <button class="referral button">Request Referral</button>
+                        <button class="referral button">Request Guidance</button>
+                    </div>
+                </div>
+                
+                <div class="company company3">
+                    <img src="/assets/index-images-KA/adobe.png" class="company-img" alt="">
+                    <div class="hover hover3">
+                        <img src="/assets/index-images-KA/adobe.png" alt="adobe">
+                        <button class="referral button">Request Referral</button>
+                        <button class="referral button">Request Guidance</button>
+                    </div>
+                </div>
+                
+                <div class="company company4">
+                    <img src="/assets/index-images-KA/google.png" class="company-img" alt="">
+                    <div class="hover hover4">
+                        <img src="/assets/index-images-KA/google.png" alt="google">
+                        <button class="referral button">Request Referral</button>
+                        <button class="referral button">Request Guidance</button>
+                    </div>
+                </div>
+                
+                <div class="company company5">
+                    <img src="/assets/index-images-KA/meta.png" class="company-img" alt="">
+                    <div class="hover hover5">
+                        <img src="/assets/index-images-KA/meta.png" alt="meta">
+                        <button class="referral button">Request Referral</button>
+                        <button class="referral button">Request Guidance</button>
+                    </div>
+                </div>
+                
+                <div class="company company6">
+                    <img src="/assets/index-images-KA/amazon.png" class="company-img" alt="">
+                    <div class="hover hover6">
+                        <img src="/assets/index-images-KA/amazon.png" alt="amazon">
+                        <button class="referral button">Request Referral</button>
+                        <button class="referral button">Request Guidance</button>
+                    </div>
+                </div>
+                
+                <div class="company company7">
+                    <img src="/assets/index-images-KA/cult-logo.png" class="company-img" alt="">
+                    <div class="hover hover7">
+                        <img src="/assets/index-images-KA/cult-logo.png" alt="cult-logo">
+                        <button class="referral button">Request Referral</button>
+                        <button class="referral button">Request Guidance</button>
+                    </div>
+                </div>
+
             </div>
             <button class="btn btn-dark font-inria">View More...</button>
         </div>

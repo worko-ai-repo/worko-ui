@@ -7,4 +7,18 @@ import { Component } from '@angular/core';
 })
 export class IndexComponent {
 
+  getReferral:boolean = false;
+  giveReferral:boolean = true;
+
+  ngOnInit(): void {
+    setInterval(() => {
+      this.swapValues();
+    }, 3000);
+  }
+
+  swapValues() {
+    const temp = this.getReferral;
+    this.getReferral = this.giveReferral;
+    this.giveReferral = temp;
+  }
 }
