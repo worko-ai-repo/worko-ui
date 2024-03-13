@@ -3,6 +3,8 @@ import { CognitoService } from 'src/app/modules/services/cognito.service';
 import { ModalType } from 'src/app/modules/shared/interfaces/shared.interface';
 import { ModalComponent } from 'src/app/modules/shared/components/modal/modal.component';
 import { Router } from '@angular/router';
+import { CandidateProfileService } from 'src/app/modules/candidate/services/candidate-profile.service';
+import { StorageService } from 'src/app/modules/app-core/services/storage.service';
 @Component({
   selector: 'app-navbar',
   templateUrl: './navbar.component.html',
@@ -15,10 +17,16 @@ export class NavbarComponent {
   modalTitle: string = "";
   showModal: ModalType | undefined;
   userLoggedIn: boolean = false;
-  constructor(private cognitoService: CognitoService, private router: Router) { }
+  emailAddress: string = "";
+  profileCompletion:any="";
+  employeeTotalPercentage:any;
+  candidateTotalPercentage:any;
+  candidateProfile: any;
+  constructor(private cognitoService: CognitoService, private router: Router, private candidateSrv: CandidateProfileService, private storage: StorageService) { }
 
 
   async ngOnInit(): Promise<void> {
+    this.emailAddress = this.storage.get("useremail");
     this.userLoggedIn = await this.cognitoService.isLoggedIn();
 
 
@@ -37,25 +45,37 @@ export class NavbarComponent {
   async receiveDataFromChild(userType: any){
     this.userLoggedIn = await this.cognitoService.isLoggedIn();
     if(this.userLoggedIn){
-      if (userType == "CAND") {
-        if (this.router.url.includes('/company-listing')) {
-          // Redirect to the company listing page
-          this.router.navigate(['/company-listing']);
-          this.modal.cancel();
-        }else{
-          this.router.navigate(['/candidate/cdashboard']);
-        }
-        
-      } else {
-        if (this.router.url.includes('/company-listing')) {
-          // Redirect to the company listing page
-          this.router.navigate(['/company-listing']);
-          this.modal.cancel();
-        }else{
-          this.router.navigate(['/employee/edashboard']);
+      if (this.router.url.includes('/company-listing')) {
+        // Redirect to the company listing page
+        this.router.navigate(['/company-listing']);
+        this.modal.cancel();
+      } 
+     else{
+      const response = await this.candidateSrv.getProfileComplete(this.emailAddress);
+
+      if (response) {
+        this.profileCompletion = response;
+        console.log(this.profileCompletion);
+
+
+        if (this.profileCompletion) {
+          const profileType = userType === "CAND" ? this.profileCompletion.candidate : this.profileCompletion.employee;
+          const totalPercentage = profileType.reduce((sum: any, element: any) => sum + element.curPerc, 0);
+
+          if (userType === "CAND" && totalPercentage > 60) {
+            this.router.navigate(['/candidate/cdashboard']);
+          } else if (userType === "CAND" && totalPercentage < 60) {
+            this.router.navigate(['/candidate/cedit-profile']);
+          } else if (userType !== "CAND" && totalPercentage > 60) {
+            this.router.navigate(['/employee/edashboard']);
+          } else if (userType !== "CAND" && totalPercentage < 60) {
+            this.router.navigate(['/employee/eEdit-profile']);
+          }
         }
       }
     }
+  }
+ 
   }
 
   async openLogin() {

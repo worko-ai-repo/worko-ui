@@ -1,9 +1,10 @@
 
-import { Component, EventEmitter, Output, ViewChild, AfterViewInit  } from '@angular/core';
+import { Component, EventEmitter, Output, ViewChild, AfterViewInit, OnDestroy  } from '@angular/core';
 import { CognitoService } from 'src/app/modules/services/cognito.service';
 import { Router } from '@angular/router';
 import { AuthService } from '../../services/auth.service';
 import { StorageService } from 'src/app/modules/app-core/services/storage.service';
+import { NgxSpinnerService } from 'ngx-spinner';
 // import { getCurrentUser, fetchAuthSession  } from 'aws-amplify/auth';
 import { getCurrentUser, fetchAuthSession } from 'aws-amplify/auth';
 // import { map, startWith } from 'rxjs/operators';
@@ -26,7 +27,7 @@ declare var bootstrap: any;
   styleUrls: ['./login-page.component.scss'],
 })
 
-export class LoginPageComponent implements AfterViewInit  {
+export class LoginPageComponent implements AfterViewInit, OnDestroy  {
   @Output() userTypeSelected = new EventEmitter<string>();
   @Output() onSuccess: EventEmitter<void> = new EventEmitter<void>();
   // @ViewChild('autocompleteInput') autocompleteInput: any; 
@@ -47,7 +48,13 @@ export class LoginPageComponent implements AfterViewInit  {
   isDivClose: boolean = true
   hideDiv: boolean = true
   errorMessage: string = "";
-  
+  fileErr: string = "";
+  CandidateWords = ["Referral", "Career Guidance", "Interview Mentorship", "Mock Interview"];
+  EmployeeWords = ["Reward", "Sell Services", "Earn Money", "Priority Job Access"];
+  currentWordIndex = 0;
+  currentWord = '';
+  isBlinking = true;
+  blinkTimer: any; //timer reference
 
   // checkboxChecked:boolean=false;
   agreeTerms:boolean=false;
@@ -140,7 +147,7 @@ export class LoginPageComponent implements AfterViewInit  {
   companyName: string = "";
   companySK: string="";
   subscription: Subscription = new Subscription();
-  constructor(private cdr: ChangeDetectorRef,private storage: StorageService, private amplify: CognitoService, private router: Router, private authService: AuthService) {
+  constructor(private cdr: ChangeDetectorRef,private storage: StorageService, private amplify: CognitoService, private router: Router, private authService: AuthService, private spinner: NgxSpinnerService) {
 
 
   
@@ -221,6 +228,7 @@ otpVerification(emailId: string): void {
   
  
   ngOnInit() {
+    this.blinkAndChangeWord()
     this.filteredOptions = this.myControl.valueChanges.pipe(
       debounceTime(300),
       distinctUntilChanged(),
@@ -254,6 +262,9 @@ otpVerification(emailId: string): void {
     this.selectedUserType = userType;
     this.errorMessage = "";
     this.userTypeSelected.emit(userType);
+    this.clearBlinkTimer();
+    this.currentWordIndex = 0;
+    this.blinkAndChangeWord();
   }
 
   toggleHover(fieldName: string, isHovered: boolean) {
@@ -322,6 +333,7 @@ otpVerification(emailId: string): void {
 
 
   async createEmployee(form: any): Promise<void> {
+    this.spinner.show();
     try {
       this.setErrorMessage("");
       this.confirmationEmail = this.maskEmail(this.employeeForm.emailId);
@@ -348,11 +360,14 @@ otpVerification(emailId: string): void {
         this.authService.createEmployee(employeeData).then(async () => {
           try {
             this.confirmationCodeScreen = true;
+            this.spinner.hide();
           } catch (error: any) {
+            this.spinner.hide();
             console.log(error);
           }
         })
           .catch(error => {
+            this.spinner.hide();
             this.setErrorMessage(error.error?.errors[0].message);
             console.error('Create Employee Error:', error);
 
@@ -360,17 +375,20 @@ otpVerification(emailId: string): void {
       }
 
       if (error && error.message) {
+        this.spinner.hide();
         this.errorMessage = error.message;
       }
 
 
     } catch (error) {
+      this.spinner.hide();
       console.log('Error signing up candidate createEmployee:', error);
     }
   }
 
 
   async createCandidate(form: any): Promise<void> {
+    this.spinner.show();
     try {
       this.setErrorMessage("");
       this.confirmationEmail = this.maskEmail(this.candidateForm.emailId);
@@ -409,11 +427,13 @@ otpVerification(emailId: string): void {
 
               }
             } catch (error) {
+              this.spinner.hide();
               console.log(error);
             }
           })
             .catch(error => {
               this.setErrorMessage(error.error?.errors[0].message);
+              this.spinner.hide();
               console.error('File upload error:', error);
 
 
@@ -423,6 +443,7 @@ otpVerification(emailId: string): void {
 
         } catch (error: any) {
           this.setErrorMessage(error.error?.errors[0].message);
+          this.spinner.hide();
           console.error('File upload error:', error);
         }
 
@@ -431,9 +452,11 @@ otpVerification(emailId: string): void {
 
       if (error && error.message) {
         this.errorMessage = error.message;
+        this.spinner.hide();
       }
 
     } catch (error) {
+      this.spinner.hide();
       console.log('Error signing up candidate createCandidate:', error);
     }
 
@@ -449,10 +472,12 @@ otpVerification(emailId: string): void {
           try {
             let a = await this.authService.linkResumewithUser(this.candidateForm.emailId, this.uploadedCvName);
             this.confirmationCodeScreen = true;
+            this.spinner.hide();
           } catch (error: any) {
             debugger;
             if (error && error.error.message) {
               // this.errorMessage = error.error.message;
+              this.spinner.hide();
               this.setErrorMessage('File Link error linkResumewithUser:- ' + error.error.message);
             }
             console.error('File Link error linkResumewithUser:', error);
@@ -483,6 +508,7 @@ otpVerification(emailId: string): void {
         // Check if the file type is PDF
         if (file.type === 'application/pdf') {
           // Process the PDF file as needed
+          this.fileErr = "";
           this.fileToUpload = file;
           this.fileName = file.name;
           this.fileType = file.type;
@@ -490,6 +516,8 @@ otpVerification(emailId: string): void {
         } else {
           // Display an error for invalid file type
           console.error('Invalid file type. Please upload a PDF file.');
+          this.fileErr = "Invalid file type. Please upload a PDF file."
+          this.fileName = "";
           // Optionally, you can reset the input to clear the invalid selection
           inputElement.value = '';
           this.fileToUpload = null;
@@ -500,17 +528,20 @@ otpVerification(emailId: string): void {
 
 
   async confirmSignUp(form: any): Promise<void> {
+    this.spinner.show();
     try {
       if (this.selectedUserType === "candidate") {
         const { response, error } = await this.createUserWithConfirmation(this.candidateForm, this.verificationForm);
         if (response) {
          
          this.otpVerification(this.candidateForm.emailId);
-          this.toggleSignInRow();
+         this.toggleSignInRow();
+         this.spinner.hide();
         }
 
         if (error) {
           this.errorMessage = error.message;
+          this.spinner.hide();
         }
       }
 
@@ -519,25 +550,35 @@ otpVerification(emailId: string): void {
 
         if (response) {
           this.toggleSignInRow();
+          this.spinner.hide();
         }
 
         if (error) {
           this.errorMessage = error.message;
+          this.spinner.hide();
         }
       }
     } catch (error) {
       console.log('Error signing up candidate confirmSignUp:', error);
+      this.spinner.hide();
     }
   }
 
 
   async submit(form: any): Promise<void> {
+    this.spinner.show();
     const loginData = {
       email: this.form.email,
       password: this.form.password
     }
     let login = await this.amplify.handleSignIn(loginData);
+    if(login.response?.nextStep?.signInStep === "CONFIRM_SIGN_UP")
+    {
+      this.spinner.hide();
+      this.setErrorMessage("User is not confirmed.");
+    }
     if (login && login.error && login.error.message) {
+      this.spinner.hide();
       this.setErrorMessage(login.error.message);
     }
     if (login!.response!.isSignedIn) {
@@ -547,6 +588,7 @@ otpVerification(emailId: string): void {
         this.currentSession();
         this.currentAuthenticatedUser();
         this.onSuccess.emit(userType);
+        this.spinner.hide();
         // if (userType == "CAND") {
         //   this.router.navigate(['/candidate/candidate-dashboard']);
         // } else {
@@ -556,6 +598,7 @@ otpVerification(emailId: string): void {
       })
         .catch(error => {
           console.error('Create Employee Error:', error);
+          this.spinner.hide();
         });
     }
   }
@@ -649,5 +692,30 @@ otpVerification(emailId: string): void {
 
     return `${maskedUsername}@${maskedDomain}`;
   }
+
+  blinkAndChangeWord() 
+  { 
+    const words = this.selectedUserType === "candidate" ? this.CandidateWords : this.EmployeeWords;
+    this.currentWord = words[this.currentWordIndex];
+    this.isBlinking = false;
+    
+    this.blinkTimer = setTimeout(() => {
+    this.isBlinking = true;
+    this.currentWordIndex = (this.currentWordIndex + 1) % words.length;
+    this.blinkAndChangeWord();
+   }, 3000); // timeout based on our animation duration
+  }
+
+  clearBlinkTimer() {
+   if (this.blinkTimer) {
+    clearTimeout(this.blinkTimer);
+   }
+  }
+
+  ngOnDestroy() {
+   this.clearBlinkTimer();
+  }
+
+
 
 }

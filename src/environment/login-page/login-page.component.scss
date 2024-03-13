@@ -36,9 +36,14 @@
   color: rgba(255, 255, 255, 0.58);
   font-size: medium;
   letter-spacing: 1px;
-  animation: blinker 10s linear infinite;
-  
+  opacity: 0;
+  transition: opacity 0.5s ease-in-out;
 }
+
+.blink {
+  animation: blinker 2s linear infinite;
+}
+
 @keyframes blinker {
   50% {
     opacity: 0;
