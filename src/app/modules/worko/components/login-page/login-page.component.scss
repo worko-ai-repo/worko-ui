@@ -17,9 +17,29 @@ div.mat-mdc-autocomplete-panel, .mat-mdc-option.mdc-list-item {
   align-items: center;
   // background-color: #0A1E36 !important;
   color: white !important;
- 
+
 }
- 
+
+.bg-image {
+  min-height: 450px;
+  background: radial-gradient(circle at 0% 50%,
+      #034c7f 4%,
+      #77c9dc 10%,
+      #034c7f 32%,
+      #034c7f 41%,
+      #0a1e36 50%);
+}
+
+.login-bg-image {
+  min-height: 450px;
+  background: radial-gradient(
+              circle at 0% 50%,
+              #034c7f 4%,
+              #77c9dc 10%,
+              #034c7f 62%,
+              #034c7f 68%,
+              #0a1e36 79%);           
+}
 
 .modal-content {
   position: relative;
@@ -80,7 +100,7 @@ input, select {
   background-color: transparent;
 }
 .select__group .material-select__group{
-     padding: 5px 0px -1px 22px !important;
+  padding: 5px 0px -1px 22px !important;
 }
 option{
   color: #FFF;
@@ -416,7 +436,7 @@ img.worko-logo-signup {
 }
 @media screen and (max-width:767px){
   .login-div,.para-div{
- display: none;
+    display: none;
   }
 }
 
@@ -483,7 +503,7 @@ a{
 }
 
 input.ng-invalid {
-border-bottom:  1px solid red
+  border-bottom:  1px solid red
 }
 ::ng-deep .cdk-overlay-container {
   position: fixed;
@@ -494,9 +514,9 @@ border-bottom:  1px solid red
 
 ::ng-deep .mat-select-panel{
   background: red !important;
-} 
+}
 
-.topunit.mat-select-panel
+.topunit.mat-select-panel 
 {
   background-color: red;
 
@@ -508,7 +528,7 @@ border-bottom:  1px solid red
 
 .mat-option {
   background-color: black;
- 
+
 }
 
 .mat-select-panel,
@@ -565,9 +585,9 @@ border-bottom:  1px solid red
   position: absolute;
   display: inline-block;
   background-color: #0A1E36;
-  top:2px;
-  right:12px;
-  
+  top: 2px;
+  right: 12px;
+
 }
 .tooltip-style{
   font-size: 12px;
@@ -601,7 +621,53 @@ border-bottom:  1px solid red
 .tooltip-text span {
   display: block;
 }
+
 .div.mat-mdc-autocomplete-panel.mat-mdc-autocomplete-visible {
   // visibility: visible;
   background: transparent !important;
+}
+
+.sign-in-earth-image
+{
+  object-fit: cover;
+  height: 100%;
+  margin-left: -15px;
+}
+
+
+
+@media (max-width: 992px) {
+  .bg-image {
+    background: radial-gradient(circle at 0% 10%,
+        #034c7f 4%,
+        #77c9dc 10%,
+        #034c7f 32%,
+        #034c7f 41%,
+        #0a1e36 50%);
+  }
+
+  .login-bg-image {
+    min-height: 450px;
+    background: radial-gradient(
+                circle at 0% 15%,
+                #034c7f 4%,
+                #77c9dc 10%,
+                #034c7f 62%,
+                #034c7f 68%,
+                #0a1e36 79%);           
+  }
+
+}
+
+@media (max-width: 768px) {
+  .login-bg-image {
+    min-height: 450px;
+    background: radial-gradient(
+                circle at 0% 50%,
+                #034c7f 4%,
+                #77c9dc 10%,
+                #034c7f 62%,
+                #034c7f 68%,
+                #0a1e36 79%);           
+  }
 }
