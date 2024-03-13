@@ -90,10 +90,8 @@ export class UploadComponent implements OnInit {
       }
     }
   }
-  // openfile(filename:any){
-  //   let blob:Blob=filename.body as Blob;
-  //   console.log(filename)
-  //   let url=window.URL.createObjectURL(blob);
-  //   window.open(url)
-  // }
+  openfile(filename:any){
+    
+    window.open(filename,'_blank')
+  }
 }
