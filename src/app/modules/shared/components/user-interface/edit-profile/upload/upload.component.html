@@ -94,6 +94,7 @@
 
                                         {{candidateUploadDetails.fileName}}
                                     </div>
+                                    
                                     <ng-template #defaultText>
 
                                         <div class="upload-text w-100">Upload CV</div>
@@ -101,8 +102,11 @@
                                     <input type="file" id="file" class="file-input" (change)="handleFileInput($event)">
                                 </label>
                             </div>
+
                             <div class="error-message-file" *ngIf="showfileError">please upload a pdf/docx file format only.</div>
+                            <div> <button class="btn btn-next" *ngIf="candidateUploadDetails.fileName" ><a href="candidateUploadDetails.fileName" target="_blank"></a>view CV</button></div>
                         </div>
+                        
                         <div class="col-md-9">
                             <!-- Cover letter field -->
                             <label for="" class="form-lable-cv">Cover letter</label>

@@ -28,9 +28,10 @@ export class EmployeeEditComponent {
   constructor(private spinner: NgxSpinnerService, private router: Router, private authService: AuthService, private empService: EmployeeProfileService, private candidateSrv: CandidateProfileService, private storage: StorageService) { }
 
   ngOnInit(): void {
+
     this.emailAddress = this.storage.get("useremail");
     this.getEmployeeDetails();
-
+    
 
   }
 
@@ -156,6 +157,8 @@ export class EmployeeEditComponent {
   }
 
   async updateWorkExperience() {
+    // console.log(this.workExperienceDetails)
+    // console.log(this.employeeProfessionalData)
 
     let workExperience =
       [{
@@ -168,7 +171,8 @@ export class EmployeeEditComponent {
         "PK": this.workExperienceDetails ? this.workExperienceDetails.PK : "",
         "experienceInMonths": this.secondStepData?.workingSince,
         "userType":"EMP",
-        "isCurrent": this.secondStepData?.isCurrent ? this.secondStepData?.isCurrent : true
+         "isCurrent": this.secondStepData?.isCurrent ? this.secondStepData?.isCurrent : true
+       
       }
       ]
     await this.candidateSrv.createWorkExperience(this.emailAddress, workExperience).then(async (response) => {
