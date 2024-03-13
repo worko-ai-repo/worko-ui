@@ -572,6 +572,11 @@ otpVerification(emailId: string): void {
       password: this.form.password
     }
     let login = await this.amplify.handleSignIn(loginData);
+    if(login.response?.nextStep?.signInStep === "CONFIRM_SIGN_UP")
+    {
+      this.spinner.hide();
+      this.setErrorMessage("User is not confirmed.");
+    }
     if (login && login.error && login.error.message) {
       this.spinner.hide();
       this.setErrorMessage(login.error.message);
