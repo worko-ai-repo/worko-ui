@@ -117,66 +117,6 @@ hr{
 }
 
 
-// // ------------------ Gradient CSS --------------------
-// .gradient-left1{
-//     top: 0;
-//     left: 0;
-// }
-
-// .gradient-left2{
-//     top: 700px;
-//     left: -5vw;
-// }
-
-// .gradient-left3{
-//     left: -16vw;
-// }
-
-// .gradient-left4{
-//     left: 0;
-// }
-
-// .gradient-left5{
-//     bottom: 0;
-//     left: -9%;
-// }
-
-// .gradient-left-md{
-//     display: none;
-// }
-
-// .gradient-img{
-//     opacity: 50%;
-// }
-
-// .gradient-right1 {
-//     right: 0;
-//     top: 50px;
-// }
-
-// .gradient-right2 {
-//     right: 0;
-//     top: 284px;
-// }
-
-// .gradient-right3 {
-//     right: -30%;
-//     top: 0;
-// }
-
-// .gradient-right4 {
-//     right: -8.5%;
-//     top: 0;
-// }
-
-// .gradient-rightmd{
-//     display: none;
-//     right: 0;
-//     top: 0;
-//     opacity: 75%;
-// }
-
-
 // Index CSS 
 .index-section{
     background-color: #000;
@@ -665,10 +605,6 @@ hr{
     }
 }
 
-// .hover3{
-//     display: block;
-// }
-
 .info-section{
     padding-top: 7rem;
     padding-left: 4%;
@@ -777,10 +713,6 @@ hr{
     }
 }
 
-.review-card1{
-    // margin-left: -3%;
-}
-
 .review-button{
     display: flex;
     width: 100%;
@@ -846,10 +778,6 @@ hr{
     
     hr{
         height: 2px; width: 100%; background-color: #09111C; border: none;
-    }
-    .about-section{
-        position: relative;
-        background-color: #000000;
     }
     
     .head1{
@@ -948,8 +876,6 @@ hr{
     }
     
     .peer{
-        position: relative;
-        justify-content: space-around;
         padding-top: 12rem;
         .contents{
             width: 60%;
@@ -958,9 +884,6 @@ hr{
         .peer-img{
             width: 39%;
             padding-top: 5rem;
-            img{
-                width: 100%;
-            }
         }
     }
     
@@ -970,7 +893,6 @@ hr{
     
     .feedback{
         padding-top: 9rem;
-        position: relative;
         .contents{
             width: 170%;
             .feedback-content{
@@ -979,10 +901,6 @@ hr{
         }
         .image{
             padding-top: 7rem;
-            width: 150%;
-            img{
-                width: 100%;
-            }
         }
         
     }
@@ -999,33 +917,12 @@ hr{
     }
     
     .smart{
-        position: relative;
-    
         .contents{
             width: 60%;
         }
         .smart-title{
             padding-top: 8rem;
         }
-    
-        .smart-img{
-            position: absolute;
-            right: 3%;
-            top: 15rem;
-            width: 38%;
-            img{
-                width: 100%;
-            }
-        }
-    }
-    
-    .access-title{
-        padding-top: 10rem;
-    }
-    
-    .access-content{
-        width: 88%;
-        margin: auto;
     }
     
     // Benefits Section
@@ -1048,17 +945,11 @@ hr{
     }
     
     .referee-section{
-        position: relative;
         padding-top: 11rem;
         padding-left: 2%;
     }
     
     .ref{
-        // display: flex;
-        // justify-content: center;
-        // align-items: center;
-        // text-align: center;
-        // border: none;
         border-radius: 30px;
         width: 50%;
         height: 49px;
@@ -1070,34 +961,9 @@ hr{
     
     }
     
-    // .ref1{
-    //     background-color: #5BAABE;
-    //     margin-left: 7%;
-    // }
-    
-    // .ref2{
-    //     background-color: #5BAABE;
-    //     margin-left: 3%;
-    // }
-    
-    // .ref3{
-    //     background-color: #3A7683;
-    // }
-    
-    // .ref4{
-    //     background-color: #004759;
-    //     margin-left: 3%;
-    // }
-    
-    // .ref5{
-    //     background-color: #09758B;
-    //     margin-left: 7%;
-    // }
     
     .right-col{
         width: 45%;
-        display: flex;
-        position: absolute;
         right: 6%;
         top: 16rem;
     }
@@ -1110,40 +976,17 @@ hr{
         display: none;
     }
 
-    .semi{
-        width: 75%;
-        position: absolute;
-        right: 15%;
-    
-        img{
-            width: 100%;
-        }
-    }
-
     .refer-circle{
-        width: 50%;
-        border-radius: 50%;
-        background-color: #09758B;
-        margin-top: 9%;
-        position: absolute;
         right: 27%;
         top: 0.7rem;
-        padding-bottom: 50%;
         p{
-            position: absolute;
-            top: 50%;
-            left: 50%;
-            transform: translate(-50%, -50%);
-            margin: 0;
             font-size: calc(1vw + 10px);
-            font-weight: 700;
             width: 70%;
         }
     }
     
     .options{
         font-size: calc(10px + 1vw);
-        font-weight: 700;
         margin-top: -2rem;
         padding-left: 62%;
         .opt{
@@ -1151,23 +994,18 @@ hr{
         }
     
         .opt1{
-            color: #50D5FF;
             padding-left: 10%;
         }
         .opt2{
-            color: #50D5FF;
             padding-left: 81%;
         }
         .opt3{
-            color: #7B898B;
             padding-left: 102%;
         }
         .opt4{
-            color: #313738;
             padding-left: 81%;
         }
         .opt5{
-            color: #7B898B;
             padding-left: 10%;
         }
     }
@@ -1185,8 +1023,6 @@ hr{
 
     .candidate-col{
         width: 43%;
-        display: flex;
-        position: absolute;
         right: 0%;
         top: 42%;
 
@@ -1195,11 +1031,9 @@ hr{
         }
 
         .candidate-circle{
-            right: 27%;
             top: 4%;
             p{
                 width: 58%;
-                text-align: center;
             }
         }
     }
@@ -1207,7 +1041,6 @@ hr{
     .candidate-options{
         margin-top: 0;
         padding-left: 48%;
-        width: 100%;
         .opt{
             padding-bottom: 48%;
         }
@@ -1223,44 +1056,6 @@ hr{
         .opt8{
             padding-left: 31%;
         }
-
-        
-
-        // .opt1, .opt2, .opt3{
-        //     opacity: 40%;
-        // } 
-        // .opt1{
-        //     color: #00C2FF;
-        //     padding-left: 7%;
-        // }
-        // .opt2{
-        //     color: #00C2FF;
-        //     padding-left: 24%;
-        // }
-        // .opt3{
-        //     color: #00C2FF;
-        //     padding-left: 50%;
-        // }
-        // .opt4{
-        //     color: #313738;
-        //     padding-left: 71%;
-        // }
-        // .opt5{
-        //     color: #313738;
-        //     padding-left: 81%;
-        // }
-        // .opt6{
-        //     color: #313738;
-        //     padding-left: 54%;
-        // }
-        // .opt7{
-        //     color: #7B898B;
-        //     padding-left: 32%;
-        // }
-        // .opt8{
-        //     color: #7B898B;
-        //     padding-left: 7%;
-        // }
 
     }
     .options-md{
@@ -1291,32 +1086,6 @@ hr{
             .company{
                 width: 12%;
                 margin-right: 2%;
-                .hover{
-                    width: 264%;
-                    top: -200%;
-                    left: -36%;
-                    z-index: 1;
-                    border-radius: 8px;
-                    padding: 12% 0;
-                    img{
-                        width: 45%;
-                        padding: 0;
-                        padding-top: 3%;
-                        margin-left: 25%;
-                        margin-bottom: 4%;
-                    }
-
-                    .button{
-                        font-size: calc(1vw + 8px);
-                        width: 68%;
-                        padding: 4%;
-                        margin: 0;
-                        color: #fff;
-                        background-color: #194561;
-                        margin-top: 5%;
-                        margin-left: 15%;
-                    }
-                }
 
                 img{
                     padding: 7% 1.61%;
@@ -1333,62 +1102,9 @@ hr{
         }
     }
 
-    // .hover1, .hover2, .hover3, .hover4, .hover5, .hover6, .hover7{
-    //     display: none;
-    // }
-
-    .company1:hover{
-        .hover1{
-            display: block !important;
-        }
-    }
-
-
-    .company2:hover{
-        .hover2{
-            display: block !important;
-        }
-    }
-
-
-    .company3:hover{
-        .hover3{
-            display: block !important;
-        }
-    }
-
-
-    .company4:hover{
-        .hover4{
-            display: block !important;
-        }
-    }
-
-
-    .company5:hover{
-        .hover5{
-            display: block !important;
-        }
-    }
-
-
-    .company6:hover{
-        .hover6{
-            display: block !important;
-        }
-    }
-
-    .company7:hover{
-        .hover7{
-            display: block !important;
-        }
-    }
-
 
     .info-section{
         padding-top: 3rem;
-        padding-left: 4%;
-        justify-content: space-around;
 
         .video-img{
             width: 50%;
@@ -1398,13 +1114,13 @@ hr{
         }
     }
 
-.video-img-md{
-    display: block;
-}    
+    .video-img-md{
+        display: block;
+    }    
 
-.video-img-lg{
-    display: none;
-}
+    .video-img-lg{
+        display: none;
+    }
 
     .info{
         padding-left: 2%;
@@ -1444,8 +1160,6 @@ hr{
     }
 
     .reviews-content{
-        display: flex;
-        flex-direction: column;
         width: 65%;
         padding-left: 11%;
         padding-top: 4rem;
@@ -1491,42 +1205,9 @@ hr{
             top: -4rem;
             left: 38%;
         }
-
-        .card-content{
-            font-size: 14px;
-            text-align: center;
-        }
         
     }
 
-    .reviewer{
-        display: flex;
-        flex-direction: column;
-        width: 100%;
-        justify-content: center;
-        text-align: center;
-        .name{
-            font-weight: 700;
-            font-size: 20px;
-            padding-top: 2rem;
-        }
-    }
-
-    // .review-card1{
-    //     // margin-left: -3%;
-    // }
-
-    .review-button{
-        display: flex;
-        width: 100%;
-    }
-
-    .arrow-button{
-        border-radius: 50%;
-        background-color: #000;
-        margin-top: 5rem;
-        padding: 1rem 1.3rem;
-    }
 
     .right{
         margin-left: 45%;
@@ -1541,8 +1222,6 @@ hr{
 // ---------------Responsive for Mobile---------------
 
 @media (max-width: 480px) {
-
-// ---------------Responsive for ipads---------------
 
 .side-timeline{
     display: none;
@@ -1814,11 +1493,6 @@ hr{
     }
     
     .ref{
-        // display: flex;
-        // justify-content: center;
-        // align-items: center;
-        // text-align: center;
-        // border: none;
         border-radius: 30px;
         width: 44%;
         height: 31px;
@@ -1829,30 +1503,6 @@ hr{
         line-height: 123%;
     
     }
-    
-    // .ref1{
-    //     background-color: #5BAABE;
-    //     margin-left: 7%;
-    // }
-    
-    // .ref2{
-    //     background-color: #5BAABE;
-    //     margin-left: 3%;
-    // }
-    
-    // .ref3{
-    //     background-color: #3A7683;
-    // }
-    
-    // .ref4{
-    //     background-color: #004759;
-    //     margin-left: 3%;
-    // }
-    
-    // .ref5{
-    //     background-color: #09758B;
-    //     margin-left: 7%;
-    // }
     
     .right-col{
         width: 45%;
@@ -1984,44 +1634,6 @@ hr{
             padding-left: 31%;
         }
 
-        
-
-        // .opt1, .opt2, .opt3{
-        //     opacity: 40%;
-        // } 
-        // .opt1{
-        //     color: #00C2FF;
-        //     padding-left: 7%;
-        // }
-        // .opt2{
-        //     color: #00C2FF;
-        //     padding-left: 24%;
-        // }
-        // .opt3{
-        //     color: #00C2FF;
-        //     padding-left: 50%;
-        // }
-        // .opt4{
-        //     color: #313738;
-        //     padding-left: 71%;
-        // }
-        // .opt5{
-        //     color: #313738;
-        //     padding-left: 81%;
-        // }
-        // .opt6{
-        //     color: #313738;
-        //     padding-left: 54%;
-        // }
-        // .opt7{
-        //     color: #7B898B;
-        //     padding-left: 32%;
-        // }
-        // .opt8{
-        //     color: #7B898B;
-        //     padding-left: 7%;
-        // }
-
     }
     .options-md{
         display: block;
@@ -2092,10 +1704,6 @@ hr{
             margin-left: 18%;
         }
     }
-
-    // .hover1, .hover2, .hover3, .hover4, .hover5, .hover6, .hover7{
-    //     display: none;
-    // }
 
     .company1:hover{
         .hover1{
@@ -2303,7 +1911,3 @@ hr{
         margin-left: 6%;
     }
 }
-
-
-
-
