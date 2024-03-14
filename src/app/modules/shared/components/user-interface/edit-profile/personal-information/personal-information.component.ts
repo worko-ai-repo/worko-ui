@@ -83,7 +83,7 @@ export class PersonalInformationComponent implements OnInit {
     if (this.candidatePersonalDetails.name && this.candidatePersonalDetails.collegeName && this.candidatePersonalDetails.socialLinkGithub)  {
       if(this.candidatePersonalDetails && this.candidatePersonalDetails.collegeData.length == 0){
         this.addCollege();
-        debugger;
+        //debugger;
     }
     } else {
       this.getData();
@@ -239,15 +239,21 @@ export class PersonalInformationComponent implements OnInit {
   receiveDataFromChild(data: any){
     this.modal.cancel();
   }
-
+isEnable:boolean=false;
   addCollege() {
+    console.log("addcoll")
     if (this.candidatePersonalDetails.collegeData.length < 4) {
       this.candidatePersonalDetails.collegeData.push({ collage: "", degree: "", passingYear: "" });
     }
   }
+// nextButtonEnable():boolean{
+//   if(this.candidateDetailsList.collegeData.length==0 ){
 
+//   }
+// }
   // Method to check if all previous fields are filled
   areAllPreviousFieldsFilled(): boolean {
+    
     return this.candidatePersonalDetails.collegeData.every((field: { collage: string; degree: string; passingYear: string; }) => {
       const { collage, degree, passingYear } = field;
       // Check if all fields are filled and passingYear is a valid year

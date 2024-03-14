@@ -90,5 +90,8 @@ export class UploadComponent implements OnInit {
       }
     }
   }
-  
+  openfile(filename:any){
+    
+    window.open(filename,'_blank')
+  }
 }

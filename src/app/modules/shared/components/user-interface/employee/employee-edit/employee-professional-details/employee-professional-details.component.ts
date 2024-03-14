@@ -1,6 +1,6 @@
 import { ChangeDetectorRef, Component, EventEmitter, Input, Output, ViewChild } from '@angular/core';
 import { MatAutocompleteModule, MatAutocompleteTrigger } from '@angular/material/autocomplete';
-import { FormControl, FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { FormArray, FormBuilder, FormControl, FormGroup, FormsModule, ReactiveFormsModule, Validators } from '@angular/forms';
 import { Observable } from 'rxjs';
 import { debounceTime, distinctUntilChanged, switchMap, filter } from 'rxjs/operators';
 import { Subscription } from 'rxjs';
@@ -22,6 +22,9 @@ export class EmployeeProfessionalDetailsComponent {
   @Output() previousStep = new EventEmitter<void>();
 
   myControl = new FormControl<any>('');
+  // myControl1 = new FormControl<any>('');
+  Form3:FormGroup | undefined;
+  
   @Input() workExperienceDetails: any
   @Input() employeeProfessionalData: any = {
     companyName: "",
@@ -36,6 +39,7 @@ export class EmployeeProfessionalDetailsComponent {
   }
   form: any;
   filteredOptions!: Observable<any[]>;
+  filteredOption!: Observable<any[]>;
   companyName: string = "";
   companySK: string = "";
   subscription: Subscription = new Subscription();
@@ -76,8 +80,34 @@ export class EmployeeProfessionalDetailsComponent {
 
     );
 
+
   }
 
+  
+ 
+  // get perviousfields(){
+
+  //   return this.form1.controls["perviousfields"] as FormArray;
+  // }
+ 
+//   addField(){
+    
+// const Form3=this.formBuilder.group({
+// PreviousCompanyName:[""],
+// previousDesignation:[""],
+// previousExpYear:[""]
+
+
+// });
+// this.perviousfields.push(Form3);
+
+//   }
+//   removeField(index: number) {
+//     this.perviousfields.removeAt(index);
+
+//   }
+
+ 
   addField() {
     if (this.fields.length < 6) {
       this.fields.push({ previousCompanyName: '', previousDesignation: '', previousExperience: '' });
@@ -103,6 +133,7 @@ export class EmployeeProfessionalDetailsComponent {
 
 
   displayFn(option: any): string {
+    console.log(option)
     if (typeof option === 'string') {
 
       //   this.companyName = option;
@@ -114,9 +145,25 @@ export class EmployeeProfessionalDetailsComponent {
       this.companySK = option.SK;
       return option.name;
     } else {
-
+      
       return '';
     }
+  }
+  displayPastFn(job:any): string{
+    if (typeof job === 'string') {
+     
+      //   this.companyName = option;
+      // this.companySK ="";
+        return job;
+      } else if (typeof job === 'object' && job.name) {
+       
+        this.companyName = job.name;
+        this.companySK = job.SK; 
+        return job.name;
+      } else {
+        
+        return '';
+      }
   }
 
   isValue: boolean = true;
@@ -152,8 +199,8 @@ export class EmployeeProfessionalDetailsComponent {
 
   //Method for next step
   updateProfessionalDetails() {
-    const nonBlankFields = this.fields.filter(field => field.previousCompanyName.trim() !== '' || field.previousDesignation.trim() !== '' || field.previousExperience.trim() !== '');
-
+    const nonBlankFields = this.fields.filter(field => field.previousCompanyName.trim() !== '' || field.previousDesignation.trim() !== '' || field.previousExperience.trim() !== '' );
+    // const isCurrent=false
     // Save the non-blank fields
     this.savedValues = [...nonBlankFields];
     this.employeeProfessionalData.previousCompanies = this.savedValues;
@@ -171,13 +218,14 @@ export class EmployeeProfessionalDetailsComponent {
 
   createEmployeeOfficial(form: any) {
     const nonBlankFields = this.fields.filter(field => field.previousCompanyName.trim() !== '' || field.previousDesignation.trim() !== '' || field.previousExperience.trim() !== '');
-
+    // console.log(this.savedValues)
     // Save the non-blank fields
     this.savedValues = [...nonBlankFields];
     this.employeeProfessionalData.previousCompanies = this.savedValues;
     this.employeeProfessionalData.companyName = this.selectedCompany.name ? this.selectedCompany?.name : this.workExperienceDetails?.companyName
     this.employeeProfessionalData.companySK = this.selectedCompany.SK ? this.selectedCompany?.SK : this.workExperienceDetails?.SK
     this.nextStepThird.emit(this.employeeProfessionalData);
+    console.log(this.savedValues)
   }
 
   onPreviousClick() {

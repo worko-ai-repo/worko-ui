@@ -21,7 +21,7 @@
 
             </div>
 
-        
+
             <div class="col">
                 <label for="" class="form-lable  required-form-field">Company Email</label>
                 <input type="text" class="form-control form-input" placeholder="abcd@Offcial.com" name="email"
@@ -29,13 +29,17 @@
                     pattern="^(?!.*@(gmail\.com|outlook\.com|aol\.com|yahoo\.com|icloud\.com|protonmail\.com|zoho\.com|yandex\.com|gmx\.com|hubspot\.com|mail\.com|tutanota\.com|10minutemail\.com)$)[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$"
                     [title]="email.errors?.['pattern'] ? 'Official Email is invalid' : ''"
                     [ngClass]="{ 'is-invalid': email.invalid && (email.dirty || email.touched) }" #email="ngModel">
-                <h2 *ngIf="!employeeProfessionalData.isEmailVerified && !email.invalid" (click)="openOtpModal()" class="badge  verify-text-label-unverified -pointer">Verify</h2>
-                <h2 *ngIf="employeeProfessionalData.isEmailVerified && !email.invalid" class="badge  verify-text-label text-green">
+                <h2 *ngIf="!employeeProfessionalData.isEmailVerified && !email.invalid" (click)="openOtpModal()"
+                    class="badge  verify-text-label-unverified -pointer">Verify</h2>
+                <h2 *ngIf="employeeProfessionalData.isEmailVerified && !email.invalid"
+                    class="badge  verify-text-label text-green">
 
                     <svg width="20" height="20" viewBox="0 0 27 27" fill="none" xmlns="http://www.w3.org/2000/svg">
-                        <rect width="27" height="27" rx="13.5" fill="#4ECB71"/>
-                        <path d="M18.6056 6.75L21.375 9.62727L11.1638 20.25L5.625 14.4886L8.39438 11.6114L11.1638 14.4886L18.6056 6.75ZM18.6056 8.65909L11.1638 16.4045L8.39438 13.5614L7.46906 14.4886L11.1638 18.3205L19.5309 9.62727L18.6056 8.65909Z" fill="black"/>
-                      </svg>
+                        <rect width="27" height="27" rx="13.5" fill="#4ECB71" />
+                        <path
+                            d="M18.6056 6.75L21.375 9.62727L11.1638 20.25L5.625 14.4886L8.39438 11.6114L11.1638 14.4886L18.6056 6.75ZM18.6056 8.65909L11.1638 16.4045L8.39438 13.5614L7.46906 14.4886L11.1638 18.3205L19.5309 9.62727L18.6056 8.65909Z"
+                            fill="black" />
+                    </svg>
                 </h2>
             </div>
         </div>
@@ -52,39 +56,101 @@
             </div>
             <div class="col">
                 <label for="" class="form-lable  required-form-field">Working since</label>
-                <input type="text" class="form-control form-input" placeholder="In months" name="workingSince" id="workingSince"
-                    #workingSince="ngModel" [(ngModel)]="employeeProfessionalData.workingSince" pattern="[0-9]+"
-                    [title]="workingSince.errors?.['pattern'] ? 'Working Since is invalid' : ''"
+                <input type="text" class="form-control form-input" placeholder="In months" name="workingSince"
+                    id="workingSince" #workingSince="ngModel" [(ngModel)]="employeeProfessionalData.workingSince"
+                    pattern="[0-9]+" [title]="workingSince.errors?.['pattern'] ? 'Working Since is invalid' : ''"
                     [ngClass]="{ 'is-invalid': workingSince.invalid && (workingSince.dirty || workingSince.touched) }">
                 <h2 class="badge badge-primary field-text-label" style="background: #57E1FF;">Months</h2>
             </div>
         </div>
 
-        <div class="row mt-3">
-            <h5>Previous Employer Details</h5>
+<!-- <div class="row mt-3">
+    <h5>Previous Employer Details</h5>
+</div>
+<div [formGroup]="form1">
+    <div formArrayName="perviousfields">
+        <div class="row mt-3" *ngFor="let Form3 of perviousfields.controls; let i = index">
+            <div [formGroup]="Form3">
+            <div class="col-md-5">
+                <label for="" class="form-lable  ">past Company Name</label>
+                 <input matInput #autoCompleteInput="matAutocompleteTrigger" class="form-control form-input"
+                  [matAutocomplete]="myJobControl" placeholder="Select Company Name"
+                 formControlName="previousCompanyName" />
+                 <mat-autocomplete #myJobControl="matAutocomplete" [displayWith]="displayPastFn"
+                 (optionSelected)="onSelectedPastJob($event)">
+                 <mat-option *ngFor="let job of filteredOptions | async" [value]="job"> {{ job.name }}
+                 </mat-option>
+                </mat-autocomplete>
+            </div>
+            <div class="col-md-3">
+                <label for="" class="form-lable  ">Designation</label>
+                <input type="text" class="form-control form-input" formControlName="form3.previousDesignation" placeholder="Designation">
+            </div>
+            <div class="col-md-3">
+                <label for="" class="form-lable  ">Experience</label>
+                <input type="text" class="form-control form-input" formControlName="form3.previousExperience" placeholder="In months">
+                         pattern="[0-9]+" #previousExperience="ngModel"
+                        [title]="previousExperience.errors?.['pattern'] ? 'Year of Experience is invalid' : ''"
+                        [ngClass]="{ 'is-invalid': previousExperience.invalid && (previousExperience.dirty ||
+                        previousExperience.touched) }" 
+                        <h2 class="badge badge-primary field-text-label" style="background: #57E1FF;">Months</h2>
+                    </div>
+
+
+                    <div class="col-md-1 d-flex align-items-end">
+
+                        <button class="float-end btn circular-button" (click)="addField()"
+                            [disabled]="!areAllPreviousFieldsFilled()">+</button>
+                        <button class="float-end btn circular-button" (click)="removeField(i)">x</button>
+                    </div>
+                </div>
+                </div>
+            </div>
         </div>
 
-        <div class="row mt-3" *ngFor="let field of fields; let i = index">
-            <div class="col">
-                <input type="text" class="form-control form-input" [(ngModel)]="field.previousCompanyName"
-                    placeholder="Company Name">
-            </div>
-            <div class="col">
-                <input type="text" class="form-control form-input" [(ngModel)]="field.previousDesignation"
-                    placeholder="Designation">
-            </div>
-            <div class="col position-relative">
+</div> -->
 
-                <input type="text" class="form-control form-input" [(ngModel)]="field.previousExperience"
-                    placeholder="Year of Experience" pattern="[0-9]+" #previousExperience="ngModel"
-                    [title]="previousExperience.errors?.['pattern'] ? 'Year of Experience is invalid' : ''"
-                    [ngClass]="{ 'is-invalid': previousExperience.invalid && (previousExperience.dirty || previousExperience.touched) }">
-                <h2 class="badge badge-primary field-text-without-label" style="background: #57E1FF;">Months</h2>
-            </div>
-            <button class="float-end btn circular-button" *ngIf="i === 0" (click)="addField()"
-                [disabled]="!areAllPreviousFieldsFilled()">+</button>
-            <button class="float-end btn circular-button" *ngIf="i > 0" (click)="removeField(i)">x</button>
-        </div>
+
+      
+ <div class="row mt-3">
+    <h5>Previous Employer Details</h5>
+</div>
+
+<div class="row mt-3" *ngFor="let field of fields; let i = index">
+    <div class="col-md-5">
+        <label for="" class="form-lable  ">past Company Name</label> 
+        <!-- <input matInput #autoCompleteInput="matAutocompleteTrigger" class="form-control form-input"
+            [formControl]="myControl" [matAutocomplete]="myJobControl" placeholder="Select Company Name"
+            [(ngModel)]="field.previousCompanyName" />
+        <mat-autocomplete #myJobControl="matAutocomplete" [displayWith]="displayPastFn"
+            (optionSelected)="onSelectedPastJob($event)">
+            <mat-option *ngFor="let job of filteredOptions | async" [value]="job">
+                {{ job.name }}
+            </mat-option>
+        </mat-autocomplete> -->
+         <input type="text" class="form-control form-input" [(ngModel)]="field.previousCompanyName"
+            placeholder="Company Name">
+    </div>
+    <div class="col-md-3">
+        <label for="" class="form-lable  ">Designation</label>
+        <input type="text" class="form-control form-input" [(ngModel)]="field.previousDesignation"
+            placeholder="Designation">
+    </div>
+    <div class="col-md-3">
+        <label for="" class="form-lable  ">Experience</label>
+        <input type="text" class="form-control form-input" [(ngModel)]="field.previousExperience"
+            placeholder="In months" pattern="[0-9]+" #previousExperience="ngModel"
+            [title]="previousExperience.errors?.['pattern'] ? 'Year of Experience is invalid' : ''"
+            [ngClass]="{ 'is-invalid': previousExperience.invalid && (previousExperience.dirty || previousExperience.touched) }">
+        <h2 class="badge badge-primary field-text-label" style="background: #57E1FF;">Months</h2>
+    </div>
+    <div class="col-md-1 d-flex align-items-end">
+
+    <button class="float-end btn circular-button" *ngIf="i === 0" (click)="addField()"
+        [disabled]="!areAllPreviousFieldsFilled()">+</button>
+    <button class="float-end btn circular-button" *ngIf="i > 0" (click)="removeField(i)">x</button>
+    </div>
+</div> 
 
         <div class="row mt-5 mb-3">
             <div class="col-md-12 d-flex justify-content-end">
@@ -93,18 +159,17 @@
                     [disabled]="!employeeProfessionalData.workingSince || workingSince.invalid || email.invalid || !employeeProfessionalData.department || !employeeProfessionalData.designation ||!employeeProfessionalData.companyName ">Next</button>
             </div>
         </div>
-    </div>
-</div>
 
 
-<app-modal [theme]="'theme-k'" [centered]="true" [showHeader]="showModal === modalType.MESSAGE"
-[showClose]="true" [modalSize]="'md'"
-  [showFooter]="showModal === modalType.MESSAGE" [title]="modalTitle" [message]="modalMessage"
-  [bodyClass]="modalMessage ? 'p-4' : 'p-0'">
 
-  <ng-container *ngIf="showModal === modalType.OTP_VERIFICATION">
-    <app-otp-verification-modal *ngIf="showModal === modalType.OTP_VERIFICATION"  (onSuccess)="receiveDataFromChild($event)"  ></app-otp-verification-modal>
-  </ng-container>
+        <app-modal [theme]="'theme-k'" [centered]="true" [showHeader]="showModal === modalType.MESSAGE"
+            [showClose]="true" [modalSize]="'md'" [showFooter]="showModal === modalType.MESSAGE" [title]="modalTitle"
+            [message]="modalMessage" [bodyClass]="modalMessage ? 'p-4' : 'p-0'">
+
+            <ng-container *ngIf="showModal === modalType.OTP_VERIFICATION">
+                <app-otp-verification-modal *ngIf="showModal === modalType.OTP_VERIFICATION"
+                    (onSuccess)="receiveDataFromChild($event)"></app-otp-verification-modal>
+            </ng-container>
 
 
-</app-modal>
+        </app-modal>
