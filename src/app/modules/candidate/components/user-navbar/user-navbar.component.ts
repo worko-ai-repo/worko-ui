@@ -63,7 +63,7 @@ export class UserNavbarComponent implements OnInit{
     if (this.navbarToggleSwitchService.getIsEmployeeDashboard()) {
       this.router.navigate(['/employee/edashboard']);
     } else {
-      this.router.navigate(['/candidate/cdashboard']);
+      this.router.navigate(['/candidate/dashboard']);
     }  
   }
 

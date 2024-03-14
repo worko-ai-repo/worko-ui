@@ -337,7 +337,7 @@ export class HomeComponent {
     this.userLoggedIn = await this.cognitoService.isLoggedIn();
     if (this.userLoggedIn) {
       if (userType == "CAND") {
-        this.router.navigate(['/candidate/cdashboard']);
+        this.router.navigate(['/candidate/dashboard']);
       } else {
         this.router.navigate(['/employee/edashboard']);
       }

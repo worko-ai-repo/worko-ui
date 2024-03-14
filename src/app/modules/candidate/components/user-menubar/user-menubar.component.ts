@@ -32,7 +32,7 @@ export class UserMenubarComponent {
       this.menuItems = [
         {
           name: 'Dashboard',
-          router: "candidate/cdashboard", 
+          router: "candidate/dashboard", 
         },
         {
           name: 'Referral',

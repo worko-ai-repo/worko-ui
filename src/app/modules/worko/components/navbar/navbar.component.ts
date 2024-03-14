@@ -63,7 +63,7 @@ export class NavbarComponent {
           const totalPercentage = profileType.reduce((sum: any, element: any) => sum + element.curPerc, 0);
 
           if (userType === "CAND" && totalPercentage > 60) {
-            this.router.navigate(['/candidate/cdashboard']);
+            this.router.navigate(['/candidate/dashboard']);
           } else if (userType === "CAND" && totalPercentage < 60) {
             this.router.navigate(['/candidate/cedit-profile']);
           } else if (userType !== "CAND" && totalPercentage > 60) {

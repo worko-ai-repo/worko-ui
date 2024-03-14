@@ -10,6 +10,7 @@ export class UploadComponent implements OnInit {
   @Output() onSuccess = new EventEmitter<void>();
   @Input() candidateList: any;
   @Input() candidateUploadDetails: any;
+  @Input() docResult:any;
   // {
   //   uploadCV: "",
   //   coverLetter: "",
@@ -28,7 +29,7 @@ export class UploadComponent implements OnInit {
 
   async uploadDetails(form: any) {
     this.onSuccess.emit(this.candidateUploadDetails)
-    // console.log(this.candidateUploadDetails)
+     console.log(this.candidateUploadDetails)
   }
 
   ngOnChanges(): void {
@@ -90,8 +91,12 @@ export class UploadComponent implements OnInit {
       }
     }
   }
-  openfile(filename:any){
+
+  openfile(){
+   console.log(this.docResult.awsS3SignedUrl)
+   
+   
+    window.open(this.docResult.awsS3SignedUrl,'_blank')
     
-    window.open(filename,'_blank')
   }
 }

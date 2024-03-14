@@ -28,6 +28,7 @@ export class EditProfileComponent implements OnInit {
   userDescription: string = "";
   currentStep: number = 1;
   // emailAddress:any="";
+  docResult:any={};
   candidatePersonalDetails: any = {};
   candidateProfessionalDetails: any = {};
   candidateUploadDetails: any = {};
@@ -71,7 +72,7 @@ export class EditProfileComponent implements OnInit {
     await this.candidateSrv.createWorkExperience(this.emailAddress, workExperience).then(async (response) => {
 
       // if (response) {
-      this.router.navigate(['/candidate/cdashboard']);
+      this.router.navigate(['/candidate/dashboard']);
       // this.createEducationDetails();
       // }
     })
@@ -145,8 +146,12 @@ export class EditProfileComponent implements OnInit {
     var twitterArray: string[] = this.firstStepData.socialLinktwitter;
     var linkedinArray: string[] = this.firstStepData.socialLinklinkdin;
     var githubArray: string[] = this.firstStepData.socialLinkGithub;
+  
     // Check if twitterArray is an array
-    if (Array.isArray(twitterArray)) {
+    if ( twitterArray.length>2) {
+      console.log('twitterArray is already an array');
+      twitterArray = [this.firstStepData.socialLinktwitter];
+    } else if ( twitterArray.length==1) {
       console.log('twitterArray is already an array');
       twitterArray = this.firstStepData.socialLinktwitter;
     } else {
@@ -155,20 +160,27 @@ export class EditProfileComponent implements OnInit {
     }
 
     // Check if twitterArray is an array
-    if (Array.isArray(linkedinArray)) {
-      linkedinArray = this.firstStepData.socialLinklinkdin;
-      console.log('twitterArray is already an array');
-    } else {
-      console.log('twitterArray is not an array');
+    console.log(linkedinArray.length)
+    if ( linkedinArray.length>2) {
+      linkedinArray = [this.firstStepData.socialLinklinkdin];
+      console.log('linkedinArray is already an array');
+    } else if(linkedinArray.length==1){
+      linkedinArray=this.firstStepData.socialLinklinkdin;
+    }else {
+      console.log('linkedinArray is not an array');
       linkedinArray = [];
+      
+     
     }
+    console.log(githubArray.length)
+    if ( githubArray.length>2) {
+      console.log('githubArray is already an array');
 
-    if (Array.isArray(githubArray)) {
-      console.log('twitterArray is already an array');
-
-      githubArray = this.firstStepData.socialLinkGithub;
+      githubArray = [this.firstStepData.socialLinkGithub];
+    }else if(githubArray.length==1){
+      githubArray=this.firstStepData.socialLinkGithub;
     } else {
-      console.log('twitterArray is not an array');
+      console.log('githubArray is not an array');
       githubArray = [];
     }
     let socialProfile =
@@ -179,6 +191,7 @@ export class EditProfileComponent implements OnInit {
       SK: this.firstStepData?.socialSk,
       PK: this.firstStepData?.socialPk
     }
+    console.log(socialProfile)
     await this.candidateSrv.createUserProfile(this.emailAddress, socialProfile).then(async (response) => {
       if (!this.secondStepData.isCandidateFresher) {
         // this.createUserDetails();
@@ -319,12 +332,14 @@ export class EditProfileComponent implements OnInit {
   nextStep() {
     if (this.currentStep < 3) {
       this.currentStep++;
+    
     }
   }
 
   previousStep() {
     this.candidatePersonalDetails = this.firstStepData;
     this.candidateProfessionalDetails = this.secondStepData;
+  
     if (this.currentStep > 1) {
       this.currentStep--;
     }
@@ -383,6 +398,9 @@ export class EditProfileComponent implements OnInit {
         this.uploadedCvName = docResult.cloudFileName;
         this.candidatePersonalDetails.CV = docResult.cloudFileName;
         this.uploadCVonS3Bucket(docResult);
+        
+       
+        
 
       } else {
         this.updateProfilePic();
@@ -403,7 +421,7 @@ export class EditProfileComponent implements OnInit {
           profileFileMimeType: this.firstStepData.fileType
         }
         let docResult = await this.candidateSrv.uploadProfilePic(documentDetails);
-        console.log(docResult);
+       
 
         this.uploadedProfilePicName = docResult.cloudFileName;
         this.candidatePersonalDetails.profileImage = docResult.cloudFileName;
@@ -423,7 +441,10 @@ export class EditProfileComponent implements OnInit {
     try {
       this.authService.uploadFileOnS3Bucket(this.thirdStepData.fileToUpload!, docResult.awsS3SignedUrl, docResult.awsS3Tag)
         .then(async () => {
+         
           console.log('File uploaded successfully.');
+        
+          
           try {
             let a = await this.authService.linkResumewithUser(this.emailAddress, this.uploadedCvName);
             if (this.firstStepData.fileType && this.firstStepData.fileName) {
@@ -442,24 +463,27 @@ export class EditProfileComponent implements OnInit {
             }
             console.error('File Link error linkResumewithUser:', error);
           }
-
+         
         })
         .catch(error => {
 
           console.error('File upload error:', error);
 
 
-        });
+        }
+        );
 
     } catch (error) {
       console.log(error)
     }
+    
   }
 
   uploadProfilePiconS3Bucket(docResult: any) {
     try {
       this.authService.uploadFileOnS3Bucket(this.firstStepData.fileToUpload!, docResult.awsS3SignedUrl, docResult.awsS3Tag)
         .then(async () => {
+         
           console.log('File uploaded successfully.');
           try {
             // let a = await this.authService.linkResumewithUser(this.emailAddress, this.uploadedProfilePicName);

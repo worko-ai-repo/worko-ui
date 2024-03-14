@@ -55,7 +55,7 @@ export const routes: Routes = [
     component: CandidateComponent,
     children: [
       {
-        path: 'cdashboard',
+        path: 'dashboard',
         component: CandidateDashboardComponent,
         // canActivate: [ candidateGuard]
       },

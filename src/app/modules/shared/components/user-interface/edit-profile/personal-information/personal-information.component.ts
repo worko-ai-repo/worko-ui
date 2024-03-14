@@ -74,7 +74,7 @@ export class PersonalInformationComponent implements OnInit {
    }
 
   ngOnInit(): void {
-    console.log(this.candidateList);
+   
 
   }
 
@@ -110,7 +110,7 @@ export class PersonalInformationComponent implements OnInit {
     validateCompletionYear(maxyear: string): any {
       return (control: any) => {
         const passingYear = control.value;
-        if (!passingYear || passingYear.trim() === '') {
+        if (!passingYear ) {
           return null;
         }
         if (passingYear > maxyear || passingYear<1900 || passingYear.length>4) {
@@ -149,6 +149,7 @@ export class PersonalInformationComponent implements OnInit {
       isNumberVerified: this.candidateList?.isEmailVerified,
       country: this.candidateList?.country ? this.candidateList?.country : ""
     }
+    console.log(this.candidateSocial.socialLinkGithub)
   }
 
   updateEducationDetails() {
@@ -257,7 +258,7 @@ isEnable:boolean=false;
     return this.candidatePersonalDetails.collegeData.every((field: { collage: string; degree: string; passingYear: string; }) => {
       const { collage, degree, passingYear } = field;
       // Check if all fields are filled and passingYear is a valid year
-      return collage !== '' && degree !== '' && passingYear !== '' && /^[0-9]+$/.test(passingYear);
+      return collage !== '' && degree !== '' && passingYear !== '' && /^[0-9]+$/.test(passingYear) ;
     });
   }
   

@@ -36,6 +36,7 @@
                     <app-upload 
                     [candidateUploadDetails]="candidateUploadDetails"
                     [candidateList]="candidateList"
+                    [docResult]="docResult"
                     *ngIf="currentStep === 3"
                     (previousStep)="previousStepSecond($event)"
                      (onSuccess)="onSuccess($event)">
