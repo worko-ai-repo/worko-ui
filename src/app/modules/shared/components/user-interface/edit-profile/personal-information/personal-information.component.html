@@ -30,15 +30,21 @@
                     <div class="row">
                         <div class="col-md-5">
                             <label for="" class="form-lable required-form-field">Name</label>
-                            <input type="text" class="form-control form-input" placeholder="Name" #name="ngModel"
+                            <input type="text" class="form-control form-input" placeholder="Name" required #name="ngModel"
                                 pattern="^([ \u00c0-\u01ffa-zA-Z'.])+$" [(ngModel)]="candidatePersonalDetails.name"
+                                [title]="name.errors?.['pattern'] ? 'name is invalid' : ''"
+                                [title]="name.errors?.['required'] ? 'name is required' : ''"
+                                [ngClass]="{ 'is-invalid': name.invalid && (name.dirty || name.touched) }"
                                 name="name" id="name">
                         </div>
                         <div class="col-md-5">
                             <label for="" class="form-lable required-form-field">Email</label>
-                            <input type="text" class="form-control form-input" placeholder="Email ID"
+                            <input type="text" class="form-control form-input" placeholder="Email ID" required
+                            #email="ngModel"
                                 pattern="^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,4}$"
-                                [title]="email.errors?.['pattern'] ? 'Email is invalid' : ''" #email="ngModel"
+                                [title]="email.errors?.['required'] ? 'Email is required' : ''"
+                                [title]="email.errors?.['pattern'] ? 'Email is invalid' : ''" 
+                               
                                 [ngClass]="{ 'is-invalid': email.invalid && (email.dirty || email.touched) }"
                                 [(ngModel)]="candidatePersonalDetails.email" name="email" id="email">
                                 <!-- <h2 *ngIf="!candidatePersonalDetails.isEmailVerified && !email.invalid" (click)="openOtpModal()" class="badge  verify-text-label -pointer">Verify</h2> -->
@@ -66,9 +72,12 @@
                         </div>
                         <div class="col-md-5">
                             <label for="" class="form-lable required-form-field">Location</label>
-                            <input type="text" class="form-control form-input" placeholder="Enter address"
+                            <input type="text" class="form-control form-input" placeholder="Enter address" required
+                            [title]="location.errors?.['required'] ? 'location is required':''"
+                            [ngClass]="{ 'is-invalid': location.invalid && (location.dirty || location.touched) }"
                                 #location="ngModel" [(ngModel)]="candidatePersonalDetails.location" name="location"
-                                id="location">
+                                id="location"  [title]="location.errors?.['pattern'] ? 'location is invalid' : ''" 
+                                [ngClass]="{ 'is-invalid': location.invalid && (location.dirty || location.touched) }">
 
                         </div>
                     </div>
@@ -78,7 +87,9 @@
                             <label for="" class="form-lable required-form-field">Phone no</label>
                             <input type="text" class="form-control form-input" placeholder="+91 XXXXXXXXXX"
                                 pattern="^\+(?:[0-9] ?){6,14}[0-9]$" maxlength="17" #phoneNo="ngModel"
-                                [(ngModel)]="candidatePersonalDetails.phoneNo" name="phoneNo"
+                                [(ngModel)]="candidatePersonalDetails.phoneNo" name="phoneNo" required
+                                [title]="phoneNo.errors?.['pattern'] ? 'phoneNo is invalid' : ''"
+                                [title]="phoneNo.errors?.['required'] ? 'phoneNo is required':''"
                                 [ngClass]="{ 'is-invalid': phoneNo.invalid && (phoneNo.dirty || phoneNo.touched) }"
                                 id="phoneNo">
                                 
@@ -93,8 +104,9 @@
                                 <label for="" class="form-lable">College Name</label>   
                                 <input type="text" class="form-control form-input" placeholder="College Name"
                                     [(ngModel)]="details.collage"
+                                    
                                     [ngModelOptions]="{standalone: true}"
-                                    id="collegeName">
+                                    id="collegeName" >
                             </div>
                             <div class="col-md-2">
                                 <label for="" class="form-lable">College Degree</label>
@@ -111,6 +123,7 @@
                                 maxlength="4"
                                      [(ngModel)]="details.passingYear"
                                     #passingYear="ngModel"
+                                    pattern="^(19|20)[0-9]{2}$"
                                     [ngModelOptions]="{standalone: true}"
                                     [title]="passingYear.errors?.['pattern'] ? 'Passing year is invalid' : ''"
                                     [ngClass]="{ 'is-invalid': passingYear.invalid && (passingYear.dirty || passingYear.touched) }"
@@ -142,7 +155,9 @@
                         <div class="col-md-10 mt-1">
                             <label for="" class="form-lable required-form-field">About</label>
                             <textarea class="about-textarea form-control" placeholder="About" cols="10" rows="3"
-                                #about="ngModel" [(ngModel)]="candidatePersonalDetails.about" name="about" id="about">
+                                #about="ngModel" [(ngModel)]="candidatePersonalDetails.about" name="about" id="about" 
+                                required [title]="about.errors?.['required'] ? 'About is required' : ''"
+                                [ngClass]="{ 'is-invalid': about.invalid && (about.dirty || about.touched) }">
                                     </textarea>
                         </div>
                     </div>
@@ -157,6 +172,8 @@
                                 <input type="text" placeholder="Github"
                                     class="text-white material-input__group__input form-input form-control"
                                     pattern="^(https?:\/\/(www\.)?github\.com\/[a-zA-Z0-9_\-]+\/?)$"
+                                    [title]="socialLinkGithub.errors?.['pattern'] ? 'Github URL is invalid' : ''"
+                                    [ngClass]="{ 'is-invalid': socialLinkGithub.invalid && (socialLinkGithub.dirty || socialLinkGithub.touched) }"
                                     #socialLinkGithub="ngModel" [(ngModel)]="candidatePersonalDetails.socialLinkGithub"
                                     name="socialLinkGithub" id="socialLinksGithub">
                             </div>
@@ -165,12 +182,14 @@
                             <div class="material-input__group">
                                 <label for="" class="form-lable required-form-field">LinkedIn</label>
                                 <i class="fa-brands fa-linkedin" style="color: #f6f7f9; font-size: 16px"></i>
-                                <input type="text" placeholder="LinkdIn"
+                                <input type="text" placeholder="LinkdIn" required
                                     class="text-white material-input__group__input form-input form-control"
                                     #socialLinklinkdin="ngModel"
                                     [(ngModel)]="candidatePersonalDetails.socialLinklinkdin"
                                     pattern="^(https?:\/\/(www\.)?linkedin\.com\/in\/[a-zA-Z0-9_\-]+\/?)$"
                                     [title]="socialLinklinkdin.errors?.['pattern'] ? 'Linkedin URL is invalid' : ''"
+                                    [title]="socialLinklinkdin.errors?.['required'] ? 'Linkedin URL is required':''"
+                                    [ngClass]="{ 'is-invalid': socialLinklinkdin.invalid && (socialLinklinkdin.dirty || socialLinklinkdin.touched) }"
                                     name="socialLinklinkdin" id="socialLinklinkdin">
                             </div>
                         </div>
@@ -182,6 +201,8 @@
                                     class="text-white material-input__group__input form-input form-control"
                                     #socialLinktwitter="ngModel"
                                     pattern="^(https?:\/\/(www\.)?twitter\.com\/[a-zA-Z0-9_\-]+\/?)$"
+                                    [title]="socialLinktwitter.errors?.['pattern'] ? 'twitter URL is invalid' : ''"
+                                    [ngClass]="{ 'is-invalid': socialLinktwitter.invalid && (socialLinktwitter.dirty || socialLinktwitter.touched) }"
                                     [(ngModel)]="candidatePersonalDetails.socialLinktwitter" name="socialLinktwitter"
                                     id="socialLinktwitter">
                             </div>
@@ -192,7 +213,7 @@
                     <div class="row">
                         <div class="col-md-10 mt-3">
                             <button class="btn btn-next float-end" (click)="updateEducationDetails()" type="submit"
-                                [disabled]="( !candidate.form.valid || !candidatePersonalDetails.socialLinklinkdin || !candidatePersonalDetails.phoneNo || !candidatePersonalDetails.email || !candidatePersonalDetails.name || !candidatePersonalDetails.location  || !candidatePersonalDetails.about || !areAllPreviousFieldsFilled()  )">Next</button>
+                                [disabled]="( !candidate.form.valid || !candidatePersonalDetails.socialLinklinkdin || !candidatePersonalDetails.phoneNo || !candidatePersonalDetails.email || !candidatePersonalDetails.name || !candidatePersonalDetails.location  || !candidatePersonalDetails.about || !areAllPreviousFieldsFilled()   )">Next</button>
                         </div>
 
                     </div>

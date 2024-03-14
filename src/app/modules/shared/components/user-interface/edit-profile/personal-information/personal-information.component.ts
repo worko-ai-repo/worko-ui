@@ -12,6 +12,7 @@ import { CountryCodes } from 'src/app/modules/shared/data/country.data';
 
 })
 export class PersonalInformationComponent implements OnInit {
+
   @ViewChild(ModalComponent) modal!: ModalComponent;
   @Output() nextStep = new EventEmitter<void>();
   @Input() candidateList: any;
@@ -101,25 +102,36 @@ export class PersonalInformationComponent implements OnInit {
     // }]
     
   }
+  // isEnable:boolean =true;
+  flag:number=0;
   /* code to block the future passed out year and less than 1900*/
   setFutureMonthRestriction(passingYear:any) {
-    passingYear.control.setValidators(this.validateCompletionYear(this.maxyear));
-    passingYear.control.updateValueAndValidity();
+    
+   passingYear.control.setValidators(this.validateCompletionYear(this.maxyear))
+   passingYear.control.updateValueAndValidity();
 
   }
     validateCompletionYear(maxyear: string): any {
+   // this.flag=0;
       return (control: any) => {
         const passingYear = control.value;
-        if (!passingYear ) {
-          return null;
+        if (!passingYear || passingYear.trim() === '') {
+          this.flag=0;
+          return false;
         }
-        if (passingYear > maxyear || passingYear<1900 || passingYear.length>4) {
-          return { futureMonth: true };
+        else if (passingYear > maxyear || passingYear<1900 || passingYear.length>4) {
+        this.flag=1;
+          return { futureMonth: true } ;
+
+        }else{
+          this.flag=0;
+          return false;
         }
-        return null;
+        
       };
     }
-   
+
+  
   
   getData() {
     this.candidatePersonalDetails = {
@@ -240,7 +252,7 @@ export class PersonalInformationComponent implements OnInit {
   receiveDataFromChild(data: any){
     this.modal.cancel();
   }
-isEnable:boolean=false;
+
   addCollege() {
     console.log("addcoll")
     if (this.candidatePersonalDetails.collegeData.length < 4) {
@@ -258,13 +270,14 @@ isEnable:boolean=false;
     return this.candidatePersonalDetails.collegeData.every((field: { collage: string; degree: string; passingYear: string; }) => {
       const { collage, degree, passingYear } = field;
       // Check if all fields are filled and passingYear is a valid year
-      return collage !== '' && degree !== '' && passingYear !== '' && /^[0-9]+$/.test(passingYear) ;
-    });
+      return collage !== '' && degree !== '' && passingYear !== '' && /^(19|20)[0-9]{2}$/.test(passingYear) && this.flag==0});
   }
   
   removeField(index: number) {
     this.candidatePersonalDetails.collegeData.splice(index, 1);
   }
+
+  
 
   // validateAddButton() {
   //   let status = false;
