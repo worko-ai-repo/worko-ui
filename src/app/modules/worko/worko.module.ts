@@ -59,10 +59,10 @@ export const routes: Routes = [
     path: '',
     component: WorkoComponent,
     children: [
-      {
-        path: '',
-        component: HomeComponent
-      },
+      // {
+      //   path: '',
+      //   component: HomeComponent
+      // },
       {
         path: 'contact',
         component: ContactComponent
@@ -173,7 +173,7 @@ export const routes: Routes = [
         component: PrivacyPolicyComponent
       },
       {
-        path: 'index',
+        path: '',
         component: IndexComponent
       }
       
