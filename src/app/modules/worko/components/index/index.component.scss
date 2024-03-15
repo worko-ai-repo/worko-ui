@@ -726,10 +726,10 @@ hr{
     padding: 1rem 1.3rem;
 }
 
-.right{
+.left{
     margin-left: 45%;
 }
-.left{
+.right{
     margin-left: 2%;
 }
 
@@ -845,6 +845,7 @@ hr{
         width: 115%;
         margin-bottom: 0;
     }
+
     .stats-section{
         justify-content: flex-start;
         padding-top: 4rem;
@@ -1219,12 +1220,12 @@ hr{
     }
 
 
-    .right{
-        margin-left: 45%;
-    }
-    .left{
-        margin-left: 2%;
-    }
+    // .right{
+    //     margin-left: 45%;
+    // }
+    // .left{
+    //     margin-left: 2%;
+    // }
   
 }
 

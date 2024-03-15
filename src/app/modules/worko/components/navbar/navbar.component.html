@@ -1,5 +1,5 @@
 <header>
-  <nav class="navbar navbar-dark font-inria navbar-expand-sm">
+  <!-- <nav class="navbar navbar-dark font-inria navbar-expand-sm">
     <div class="container-fluid">
       <a class="navbar-brand" href="/"><img class="worko-logo-ai-2-icon" alt=""
           src="assets/public/workologoai-2@2x.png" /></a>
@@ -12,20 +12,20 @@
         <ul class="navbar-nav">
           <li class="nav-item">
             <a class="nav-link active" aria-current="page" href="/about-us" (click)="isCollapsed = !isCollapsed">About Us</a>
-          </li>
+          </li> -->
           <!-- dropdown -->
-          <li class="nav-item dropdown">
-            <!-- dropdown-toggle -->
+          <!-- <li class="nav-item dropdown">
+            
             <a class="nav-link dropdown-toggle" href="/faq" role="button" (click)="isCollapsed = !isCollapsed"
             [attr.aria-expanded]="isCollapsed ? 'true' : 'false'" data-bs-toggle="dropdown" aria-haspopup="true"
             aria-expanded="false">
               FAQ’s
-            </a>
+            </a> -->
 
                <!-- role="button" (click)="isCollapsed = !isCollapsed"
               [attr.aria-expanded]="isCollapsed ? 'true' : 'false'" data-bs-toggle="dropdown" aria-haspopup="true"
               aria-expanded="false" -->
-            <ul class="dropdown-menu">
+            <!-- <ul class="dropdown-menu">
               <li><a class="dropdown-item" href="#">FAQ</a></li>
               <li><a class="dropdown-item" href="#">FAQ</a></li>
             </ul>
@@ -42,7 +42,73 @@
         </div>
       </div>
     </div>
-  </nav>
+  </nav> -->
+
+  <!-- Edited by KA -->
+
+  <!-- <nav class="navbar">
+    <div class="navbar-container container">
+        <input type="checkbox" name="" id="">
+        <div class="hamburger-lines">
+            <span class="line line1"></span>
+            <span class="line line2"></span>
+            <span class="line line3"></span>
+        </div>
+        <ul class="menu-items">
+            <li><a href="/about-us">About Us</a></li>
+            <li><a class="dropdown-toggle">FAQ's</a></li>
+            <li><a href="#">Corporate</a></li>
+            <li>
+              <div class="d-flex -pointer user-icon-container" *ngIf="!userLoggedIn" (click)="openLogin()">
+                <img class="user-icon" _ngcontent-ng-c280476550="" alt="" src="assets/public/iconamoonprofilecirclefill.svg">
+              </div>
+            </li>
+        </ul>
+        <h1 class="navbar-brand"><img class="worko-logo-ai-2-icon" alt=""
+          src="assets/public/workologoai-2@2x.png" />
+        </h1>
+
+    </div>
+</nav> -->
+
+
+
+<!-- Dropdown add -->
+
+<nav class="navbar">
+  <div class="navbar-container container">
+      <input type="checkbox" name="" id="">
+      <div class="hamburger-lines">
+          <span class="line line1"></span>
+          <span class="line line2"></span>
+          <span class="line line3"></span>
+      </div>
+      <ul class="menu-items">
+          <li><a href="/about-us">About Us</a></li>
+          <li class="has-children" (click)="toggleSubMenu()">
+            FAQ's<span class="caret"></span>
+            <ul class="children" [hidden]="!showSubMenu">
+              <li><a href="#">FAQ's for Candidate</a></li>
+              <li><a href="#">FAQ's for Referee</a></li>
+
+            </ul>
+          </li>
+          
+          <li><a href="#">Corporate</a></li>
+          <li>
+            <div class="d-flex -pointer user-icon-container" *ngIf="!userLoggedIn" (click)="openLogin()">
+              <img class="user-icon" _ngcontent-ng-c280476550="" alt="" src="assets/public/iconamoonprofilecirclefill.svg">
+            </div>
+          </li>
+      </ul>
+      <h1 class="navbar-brand"><img class="worko-logo-ai-2-icon" alt=""
+        src="assets/public/workologoai-2@2x.png" />
+      </h1>
+
+  </div>
+</nav>
+
+
 </header>
 <app-modal [theme]="'theme-k'" [centered]="true" [showHeader]="showModal === modalType.MESSAGE" [showClose]="true"
   [showFooter]="showModal === modalType.MESSAGE" [title]="modalTitle" [message]="modalMessage"
