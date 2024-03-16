@@ -101,4 +101,14 @@ export class CandidateProfileService {
   //   return this.http.post(API_URL + `user/${emailId}/referral/request`, data, this.authService.getHttpOptions()).toPromise();
   // }
  
+
+
+  deleteUserCollege(emailAddress:string,sk:any):Promise<any>{
+    return this.http.delete(API_URL+`user/${emailAddress}/education/${sk}`,this.authService.getHttpOptions()).toPromise();
+  }
 }
+
+
+
+
+

@@ -3,6 +3,7 @@ import { CandidateProfileService } from 'src/app/modules/candidate/services/cand
 import { ModalComponent } from '../../../modal/modal.component';
 import { ModalType } from 'src/app/modules/shared/interfaces/shared.interface';
 import { CountryCodes } from 'src/app/modules/shared/data/country.data';
+import { StorageService } from 'src/app/modules/app-core/services/storage.service';
 
 @Component({
   selector: 'app-personal-information',
@@ -13,6 +14,7 @@ import { CountryCodes } from 'src/app/modules/shared/data/country.data';
 })
 export class PersonalInformationComponent implements OnInit {
 
+  
   @ViewChild(ModalComponent) modal!: ModalComponent;
   @Output() nextStep = new EventEmitter<void>();
   @Input() candidateList: any;
@@ -20,7 +22,7 @@ export class PersonalInformationComponent implements OnInit {
   @Input() candidateSocial: any;
   @Output() onSuccess = new EventEmitter<void>();
 
-
+  emailid:any="";
   maxyear=new Date().getFullYear().toString();
   fileToUpload: File | null = null;
   fileName: string = "";
@@ -70,12 +72,13 @@ export class PersonalInformationComponent implements OnInit {
   countryCodes: any = CountryCodes;
   savedValues!: any[];
  
-  constructor(private candidateSrv: CandidateProfileService) {
+  constructor(private candidateSrv: CandidateProfileService,private storage: StorageService) {
    
    }
 
   ngOnInit(): void {
    
+  this.emailid = this.storage.get("useremail");
 
   }
 
@@ -272,9 +275,43 @@ export class PersonalInformationComponent implements OnInit {
       // Check if all fields are filled and passingYear is a valid year
       return collage !== '' && degree !== '' && passingYear !== '' && /^(19|20)[0-9]{2}$/.test(passingYear) && this.flag==0});
   }
+  // areAllPreviousFieldsFilled(): boolean {
+  //   const isFirstCollegeDataFilled = this.candidatePersonalDetails.collegeData[0].collage !== '' &&
+  //                                    this.candidatePersonalDetails.collegeData[0].degree !== '' &&
+  //                                    this.candidatePersonalDetails.collegeData[0].passingYear !== '' &&
+  //                                    /^(19|20)[0-9]{2}$/.test(this.candidatePersonalDetails.collegeData[0].passingYear &&
+  //                                     this.flag==0);
   
-  removeField(index: number) {
+  //   if (!isFirstCollegeDataFilled) {
+     
+  //     return false;
+  //   }
+  
+   
+  //   const hasOtherCollegesData = this.candidatePersonalDetails.collegeData.length > 1;
+  
+  //   if (hasOtherCollegesData) {
+      
+  //     return this.candidatePersonalDetails.collegeData.slice(1).every((field: { collage: string; degree: string; passingYear: string; }) => {
+  //       const { collage, degree, passingYear } = field;
+  //       return (collage !== '' && degree !== '' && passingYear !== '' && /^(19|20)[0-9]{2}$/.test(passingYear) &&this.flag==0) ||(collage !== '' && degree !== '' && passingYear !== '' );
+  //     });
+  //   } else {
+      
+  //     return isFirstCollegeDataFilled;
+  //   }
+  // }
+  
+  
+  newsk:any;
+  removeField(index: number,sk:any) {
+    this.newsk=sk.substring(7);
+    console.log(this.newsk)
+    
+    index=1;
+this.candidateSrv.deleteUserCollege(this.emailid,this.newsk)
     this.candidatePersonalDetails.collegeData.splice(index, 1);
+    
   }
 
   

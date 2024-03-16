@@ -36,12 +36,14 @@ export class EmployeeEditComponent {
   }
 
   nextStep() {
+    debugger
     if (this.currentStep < 3) {
       this.currentStep++;
     }
 
   }
   nextStepThird(data: any) {
+    debugger
     if (this.currentStep < 3) {
       this.currentStep++;
     }
@@ -50,6 +52,7 @@ export class EmployeeEditComponent {
   }
 
   nextStepSecond(data: any) {
+    debugger
     if (this.currentStep < 3) {
       this.currentStep++;
     }
@@ -57,13 +60,14 @@ export class EmployeeEditComponent {
     this.employeePersonalData = data;
   }
   previousStep() {
-
+ debugger
     if (this.currentStep > 1) {
       this.currentStep--;
     }
   }
 
   previousStepSecond(data: any) {
+    debugger
     this.thirdStepData = data;
     this.employeeBankDetails = data;
     if (this.currentStep > 1) {

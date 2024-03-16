@@ -65,6 +65,7 @@ import { AdminTotalAmountComponent } from './components/Admin/Dashboard/admin-to
 import { EmployeeAboutComponent } from './components/user-interface/employee/dashboard/employee-about/employee-about.component';
 import { OtpVerificationModalComponent } from './components/otp-verification-modal/otp-verification-modal.component';
 
+
 export const routes: Routes = [
 
   
@@ -96,6 +97,7 @@ export const routes: Routes = [
     AdminTotalAmountComponent,
     EmployeeAboutComponent,
     OtpVerificationModalComponent,
+
 
     // DoneServiceComponent,
     // CancelledServiceComponent,
@@ -153,7 +155,8 @@ export const routes: Routes = [
   PaymentTrendComponent,
   AdminTotalAmountComponent,
   EmployeeAboutComponent,
-  OtpVerificationModalComponent
+  OtpVerificationModalComponent,
+
 
   ],
 

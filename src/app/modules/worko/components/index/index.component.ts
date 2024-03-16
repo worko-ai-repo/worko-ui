@@ -16,6 +16,8 @@ export class IndexComponent {
     }, 8000);
   }
 
+
+
   swapValues() {
     const temp = this.getReferral;
     this.getReferral = this.giveReferral;

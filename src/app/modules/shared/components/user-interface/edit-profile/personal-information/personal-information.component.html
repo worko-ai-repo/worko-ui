@@ -73,6 +73,8 @@
                         <div class="col-md-5">
                             <label for="" class="form-lable required-form-field">Location</label>
                             <input type="text" class="form-control form-input" placeholder="Enter address" required
+                            pattern="^([ \u00c0-\u01ffa-zA-Z'.])+$" 
+                            [title]="location.errors?.['pattern'] ? 'location is invalid' : ''"
                             [title]="location.errors?.['required'] ? 'location is required':''"
                             [ngClass]="{ 'is-invalid': location.invalid && (location.dirty || location.touched) }"
                                 #location="ngModel" [(ngModel)]="candidatePersonalDetails.location" name="location"
@@ -102,7 +104,10 @@
                      
                         <div class="col-md-5">
                                 <label for="" class="form-lable">College Name</label>   
-                                <input type="text" class="form-control form-input" placeholder="College Name"
+                                <input type="text" class="form-control form-input" placeholder="College Name" #collegename="ngModel"
+                                pattern="^([ \u00c0-\u01ffa-zA-Z'.])+$" 
+                                [title]="collegename.errors?.['pattern'] ? 'college name is invalid' : ''"
+                                
                                     [(ngModel)]="details.collage"
                                     
                                     [ngModelOptions]="{standalone: true}"
@@ -110,7 +115,9 @@
                             </div>
                             <div class="col-md-2">
                                 <label for="" class="form-lable">College Degree</label>
-                                <input type="text" class="form-control form-input" placeholder="College Degree"
+                                <input type="text" class="form-control form-input" placeholder="College Degree" #collegedegree="ngModel"
+                                pattern="^([ \u00c0-\u01ffa-zA-Z'.])+$" 
+                                [title]="collegedegree.errors?.['pattern'] ? 'college degree is invalid' : ''"
                                     [(ngModel)]="details.degree"
                                     [ngModelOptions]="{standalone: true}"
                                     id="collegeDegree">
@@ -144,7 +151,7 @@
                             <div class="col-md-2 d-flex align-items-end">
                                 <button type="button" class="float-end btn circular-button" *ngIf="i === 0" (click)="addCollege()"
                                     [disabled]="!areAllPreviousFieldsFilled() || candidatePersonalDetails.collegeData.length >= 4">+</button>
-                                <button type="button" class="float-end btn circular-button" *ngIf="i > 0" (click)="removeField(i)">x</button>
+                                <button type="button" class="float-end btn circular-button" *ngIf="i > 0" (click)="removeField(i,details.SK)">x</button>
                             </div>
 
                     </div>

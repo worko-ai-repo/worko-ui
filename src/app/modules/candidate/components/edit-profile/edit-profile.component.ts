@@ -14,7 +14,10 @@ import { ModalType } from 'src/app/modules/shared/interfaces/shared.interface';
   styleUrls: ['./edit-profile.component.scss']
 })
 export class EditProfileComponent implements OnInit {
+
+
   @ViewChild(ModalComponent) modal!: ModalComponent;
+  
   candidateList: any;
   educationList: any = "";
   emailAddress: string = "";
@@ -41,10 +44,13 @@ export class EditProfileComponent implements OnInit {
   userId: string | undefined;
   uploadedProfilePicName: string = "";
 
+  successmessage:string="";
+  successtitle:string="";
   modalType = ModalType;
   modalMessage: string = "";
   modalTitle: string = "";
   showModal: ModalType | undefined;
+  details: any;
   constructor(private spinner: NgxSpinnerService, private router: Router, private candidateSrv: CandidateProfileService, private storage: StorageService, private authService: AuthService) { }
   ngOnInit(): void {
     this.emailAddress = this.storage.get("useremail");
@@ -70,13 +76,17 @@ export class EditProfileComponent implements OnInit {
       }
       ]
     await this.candidateSrv.createWorkExperience(this.emailAddress, workExperience).then(async (response) => {
-
+      
       // if (response) {
-      this.router.navigate(['/candidate/dashboard']);
-      // this.createEducationDetails();
+       
+        //this.router.navigate(['/candidate/dashboard']);
+      
+     this.createEducationDetails();
       // }
     })
   }
+
+
 
   async createEducationDetails() {
     // let data =
@@ -107,6 +117,7 @@ export class EditProfileComponent implements OnInit {
   };
 
   async createSkills() {
+    console.log(this.secondStepData.softSkills,this.certificationList?.SK,this.certificationList.pk)
     let skills =
     {
       "softSkills": this.secondStepData.softSkills,
@@ -197,9 +208,23 @@ export class EditProfileComponent implements OnInit {
         // this.createUserDetails();
         this.updateWorkExperience();
       } else {
-        this.router.navigate(['/candidate/cdashboard']);
+        // this.router.navigate(['/candidate/dashboard']);
+        this.successmessage="Edit Profile Successful! Profile has been updated."
+        this.successtitle="success"
+     
+          this.openModal(ModalType.SUCCESS_MESSAGE)
+        
+          this.router.navigate(['/candidate/dashboard']);
       }
     })
+  }
+  continue(){
+    this.router.navigate(['/candidate/dashboard']);
+    this.closeModal();
+  }
+  cancel(){
+    this.router.navigate(['/']);
+    this.closeModal();
   }
 
   async createUserDetails() {
@@ -252,18 +277,25 @@ export class EditProfileComponent implements OnInit {
       const response = await this.candidateSrv.getUserDetails(this.emailAddress);
       if (response) {
         this.candidateList = response[0];
+       
         await this.getEducationDetails();
       }
       this.spinner.hide(); // Hide the spinner after successful API call
     } catch (error: any) {
       this.spinner.hide(); // Hide the spinner in case of error as well
       if (error.status === 401) {
-        this.router.navigate(['/']);
+        //this.router.navigate(['/']);
         // Handle unauthorized or forbidden error
+        this.successmessage="Unauthorized or Forbidden"+error
+        this.successtitle="error"
+        this.openModal(ModalType.SUCCESS_MESSAGE)
         console.error('Unauthorized or Forbidden:', error);
         // For example, you can redirect the user to a login page or display an error message
       } else {
         // Handle other errors
+        this.successmessage="An error occurred:"+error
+        this.successtitle="error"
+        this.openModal(ModalType.SUCCESS_MESSAGE)
         console.error('An error occurred:', error);
         // For example, display an error message to the user
       }
@@ -337,14 +369,17 @@ export class EditProfileComponent implements OnInit {
   }
 
   previousStep() {
+    debugger
     this.candidatePersonalDetails = this.firstStepData;
     this.candidateProfessionalDetails = this.secondStepData;
+    
   
     if (this.currentStep > 1) {
       this.currentStep--;
     }
   }
   previousStepSecond(data: any) {
+    debugger
     this.thirdStepData = data;
     this.candidateUploadDetails = data;
     if (this.currentStep > 1) {
@@ -353,6 +388,7 @@ export class EditProfileComponent implements OnInit {
   }
 
   previousStepFirst(data: any) {
+    debugger
     this.secondStepData = data;
     this.candidateProfessionalDetails = data;
     this.candidatePersonalDetails = this.firstStepData;
@@ -364,11 +400,16 @@ export class EditProfileComponent implements OnInit {
   //When uer click on "Complete" on 3rd step
   onSuccess(data: any) {
     this.spinner.show();
+    this.successmessage="Edit Profile Successful! Profile has been updated."
+    this.successtitle="success"
+ 
+      this.openModal(ModalType.SUCCESS_MESSAGE)
     this.thirdStepData = data;
     this.uploadUserCV();
   }
 
   getCandidateListData(data: any) {
+    debugger
     this.firstStepData = data;
     if (this.currentStep < 3) {
       this.currentStep++;
@@ -376,6 +417,7 @@ export class EditProfileComponent implements OnInit {
   }
 
   getProfessionalData(data: any) {
+    debugger
     this.secondStepData = data;
     this.candidateProfessionalDetails = data;
     this.candidatePersonalDetails = this.firstStepData;
@@ -406,6 +448,9 @@ export class EditProfileComponent implements OnInit {
         this.updateProfilePic();
       }
     } catch (error) {
+      this.successmessage="error"+error
+        this.successtitle="error"
+        this.openModal(ModalType.SUCCESS_MESSAGE)
       console.log(error);
     }
   }
@@ -432,6 +477,9 @@ export class EditProfileComponent implements OnInit {
         this.createUserDetails();
       }
     } catch (error) {
+      this.successmessage="error"+error
+      this.successtitle="error"
+      this.openModal(ModalType.SUCCESS_MESSAGE)
       console.log(error);
     }
   }
@@ -460,13 +508,22 @@ export class EditProfileComponent implements OnInit {
             if (error && error.error.message) {
               // this.errorMessage = error.error.message;
               // this.setErrorMessage('File Link error linkResumewithUser:- '+ error.error.message);
+              this.successmessage="File Link error linkResumewithUser:"+error
+              this.successtitle="error"
+              this.openModal(ModalType.SUCCESS_MESSAGE)
             }
-            console.error('File Link error linkResumewithUser:', error);
+            this.successmessage="File Link error linkResumewithUser:"+error
+              this.successtitle="error"
+              this.openModal(ModalType.SUCCESS_MESSAGE)
+            // console.error('File Link error linkResumewithUser:', error);
           }
          
         })
         .catch(error => {
 
+          this.successmessage="File upload error:"+error
+          this.successtitle="error"
+          this.openModal(ModalType.SUCCESS_MESSAGE)
           console.error('File upload error:', error);
 
 
@@ -474,6 +531,9 @@ export class EditProfileComponent implements OnInit {
         );
 
     } catch (error) {
+      this.successmessage=" error:"+error
+          this.successtitle="error"
+          this.openModal(ModalType.SUCCESS_MESSAGE)
       console.log(error)
     }
     
@@ -495,12 +555,21 @@ export class EditProfileComponent implements OnInit {
             if (error && error.error.message) {
               // this.errorMessage = error.error.message;
               // this.setErrorMessage('File Link error linkResumewithUser:- '+ error.error.message);
+              this.successmessage="File Link error linkResumewithUser:"+error
+          this.successtitle="error"
+          this.openModal(ModalType.SUCCESS_MESSAGE)
             }
-            console.error('File Link error linkResumewithUser:', error);
+            this.successmessage="File Link error linkResumewithUser:"+error
+            this.successtitle="error"
+            this.openModal(ModalType.SUCCESS_MESSAGE)
+            //console.error('File Link error linkResumewithUser:', error);
           }
 
         })
         .catch(error => {
+          this.successmessage="File upload error:"+error
+          this.successtitle="error"
+          this.openModal(ModalType.SUCCESS_MESSAGE)
 
           console.error('File upload error:', error);
 
@@ -508,6 +577,9 @@ export class EditProfileComponent implements OnInit {
         });
 
     } catch (error) {
+      this.successmessage=" error:"+error
+          this.successtitle="error"
+          this.openModal(ModalType.SUCCESS_MESSAGE)
       console.log(error)
     }
   }
@@ -520,7 +592,7 @@ export class EditProfileComponent implements OnInit {
    * @param {string} [title = ""]
    * @returns {void}
    */
-  openModal(modalType: ModalType, message: string = "", title: string = ""): void {
+  openModal(modalType: ModalType, message: string ="", title: string="" ): void {
 
     this.showModal = modalType;
     this.modalMessage = message;
@@ -535,4 +607,8 @@ export class EditProfileComponent implements OnInit {
     closeModal(): void {
       this.modal.cancel();
     }
+
+
 }
+
+

@@ -32,6 +32,12 @@ export class NavbarComponent {
 
   }
   
+  showSubMenu: boolean = false;
+
+  toggleSubMenu() {
+    this.showSubMenu = !this.showSubMenu;
+  }
+
   isCollapsed: boolean = true;
 
   toggleCollapse() {
