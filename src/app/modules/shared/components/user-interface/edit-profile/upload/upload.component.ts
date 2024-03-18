@@ -107,7 +107,7 @@ export class UploadComponent implements OnInit {
 
   openfile(event: { preventDefault: () => void; }){
     event.preventDefault(); 
-   console.log(this.docResult.awsS3SignedUrl)
+  // console.log(this.docResult.awsS3SignedUrl)
    
    
     //window.open(this.docResult.awsS3SignedUrl,'_blank')

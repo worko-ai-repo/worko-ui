@@ -261,6 +261,7 @@ export class PersonalInformationComponent implements OnInit {
     if (this.candidatePersonalDetails.collegeData.length < 4) {
       this.candidatePersonalDetails.collegeData.push({ collage: "", degree: "", passingYear: "" });
     }
+    console.log(this.candidatePersonalDetails.collegeData)
   }
 // nextButtonEnable():boolean{
 //   if(this.candidateDetailsList.collegeData.length==0 ){
@@ -308,7 +309,7 @@ export class PersonalInformationComponent implements OnInit {
     this.newsk=sk.substring(7);
     console.log(this.newsk)
     
-    index=1;
+  
 this.candidateSrv.deleteUserCollege(this.emailid,this.newsk)
     this.candidatePersonalDetails.collegeData.splice(index, 1);
     

@@ -22,8 +22,9 @@ export class EmployeeProfessionalDetailsComponent {
   @Output() previousStep = new EventEmitter<void>();
 
   myControl = new FormControl<any>('');
-  // myControl1 = new FormControl<any>('');
-  Form3:FormGroup | undefined;
+  //myJobControl1 = new FormControl<any>('');
+  //Form3:FormGroup =new FormGroup<any>('');
+  // Form1:FormGroup | undefined;
   
   @Input() workExperienceDetails: any
   @Input() employeeProfessionalData: any = {
@@ -50,14 +51,25 @@ export class EmployeeProfessionalDetailsComponent {
   fields: { previousCompanyName: string, previousDesignation: string, previousExperience: string }[] = [];
   // Property to store the values entered in the fields
   savedValues: { previousCompanyName: string, previousDesignation: string, previousExperience: string }[] = [];
-
+  perviousjobs: { previousCompanyName: string, previousDesignation: string, previousExperience: string }[] = [];
+  
   modalType = ModalType;
   modalMessage: string = "";
   modalTitle: string = "";
   showModal: ModalType | undefined;
   selectedCompanyName: string = "";
   data: any | undefined;
-  constructor(private authService: AuthService) { }
+ Form1:any; 
+  constructor(private authService: AuthService,private fb:FormBuilder) {
+     }
+    
+//  Form1=new FormGroup({
+//   perviousjob:new FormGroup({
+//     PreviousCompanyName:new FormControl(''),
+//     previousDesignation:new FormControl(''),
+//     previousExpYear:new FormControl(''),
+//   })
+//  });
 
   ngOnInit() {
     console.log(this.employeeProfessionalData)
@@ -79,33 +91,47 @@ export class EmployeeProfessionalDetailsComponent {
       })
 
     );
-
-
-  }
-
+  //  this. Form1=this.fb.group
+  //   ({
+  //     perviousjob:this.fb.array([
+  //       this.addPastFormGroup()
+  //     ])
   
- 
-  // get perviousfields(){
+  
+  //   });
+      
+   }
 
-  //   return this.form1.controls["perviousfields"] as FormArray;
+  // addPastFormGroup():FormGroup{
+  //   return this.fb.group({
+  //     PreviousCompanyName:["job"],
+  //     previousDesignation:["job"],
+  //     previousExpYear:["job"]})
+  // }
+
+  // logValidation(group:FormGroup=this.Form1):void{
+  //   Object.keys(group.controls).forEach(key:String)=>{
+  //     const abstractControl=group.get(key);
+  //   }
+  //   this.formErrors[key]="";
+
   // }
  
-//   addField(){
+  // get perviousjob(){
+
+  //   return this.Form1.controls["perviousjob"] as FormArray;
+  // }
+ 
+  // addField(){
+  //  (<FormArray> this.Form1.get('perviousjob')).push(this.addPastFormGroup());
     
-// const Form3=this.formBuilder.group({
-// PreviousCompanyName:[""],
-// previousDesignation:[""],
-// previousExpYear:[""]
 
 
-// });
-// this.perviousfields.push(Form3);
+  // }
+  // removeField(index: number) {
+  //   this.perviousjob.removeAt(index);
 
-//   }
-//   removeField(index: number) {
-//     this.perviousfields.removeAt(index);
-
-//   }
+  // }
 
  
   addField() {
@@ -129,6 +155,9 @@ export class EmployeeProfessionalDetailsComponent {
 
     this.selectedCompany = event.option.value;
 
+  }
+  onSelectedPastJob(event: any):void{
+    this.selectedCompany = event.option.value;
   }
 
 

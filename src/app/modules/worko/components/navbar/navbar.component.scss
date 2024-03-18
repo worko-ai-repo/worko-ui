@@ -32,7 +32,7 @@
     margin-top: 2rem;
 
     img{
-        width: calc(6vw + 95px);
+        width: 193px;
     }
 }
 
@@ -72,6 +72,48 @@ li{
     cursor: pointer;
 }
 
+.has-children .caret::after {
+    content: '\25BE'; 
+    display: inline-block;
+    margin-left: 5px;
+    font-size: 0.8em; 
+    transition: transform 0.3s ease; 
+}
+
+
+.has-children.show-submenu .caret::after {
+  transform: rotate(90deg); 
+}
+
+.children{
+    position: absolute;
+    // width: 25%;
+    // margin-top: 1%;
+    // background-color: #1c1c42;
+    // margin-top: 1%;
+    // height: 90px;
+
+    position: absolute;
+    width: 25%;
+    // background-color: #0D1929;
+    max-width: 372px;
+    height: auto;
+    padding-top: 1%;
+
+    li{
+        padding-top: 4%;
+        padding-left: 1.5rem;
+        font-size: calc(1.2vw + 9px);
+        padding-right: 2%;
+        background-color: #0D1929;
+        padding-bottom: 0.5rem;
+    }
+}
+
+.text-sm{
+    display: none;
+}
+
 @media (max-width: 1030px) and (min-width: 550px) {
 
     hr {
@@ -85,7 +127,7 @@ li{
         margin-top: 17px;
 
         img{
-            width: 85px;
+            width: 120px;
         }
     }
 
@@ -156,10 +198,10 @@ li{
 }
 
 .navbar-container{
+    height: calc(50px + 5vw);
     max-width: 100%;
     display: flex;
     justify-content: space-between;
-    height: 64px;
     align-items: center;
 }
 
@@ -169,6 +211,7 @@ li{
     align-items: center;
     width: 65%;
     justify-content: flex-end;
+    
 }
 
 .logo{
@@ -200,32 +243,42 @@ li{
 //     color: #117964;
 // }
 
-.children{
-    position: absolute;
-    width: 25%;
-    padding-top: 1%;
-    // background-color: #17172f;
-}
+// .children{
+//     position: absolute;
+//     width: 25%;
+//     padding-top: 1%;
+//     background-color: #1c1c42;;
+// }
+
+  
 
 
-@media (max-width: 1030px) and (min-width: 550px) {
+
+@media (max-width: 1030px) and (min-width: 675px) {
 
     .menu-items li{
         margin-left: 1.5rem;
         font-size: calc(1.2vw + 9px);
-        margin-right: 4%;
+        margin-right: 2%;
     }
 
     .children{
         width: 30%;
     }
+    .navbar-container{
+        height: calc(38px + 4vw);
+    }
 
 }
 
-@media (max-width: 550px){
+@media (max-width: 675px){
     // .navbar{
     //     opacity: 0.95;
     // }
+
+    .navbar{
+        height: 30px;
+    }
 
     .navbar-container input[type="checkbox"],
     .navbar-container .hamburger-lines{
@@ -342,9 +395,9 @@ li{
     .navbar .menu-items{
         padding-top: 65px;
         background: #0D1929;
-        height: 44vh;
-        width: 70%;
-        transform: translate(200%);
+        // height: 44vh;
+        // width: 70%;
+        transform: translate(100%);
         display: flex;
         flex-direction: column;
         margin-left: -1px;
@@ -357,6 +410,8 @@ li{
         justify-content: space-evenly;
         align-items: flex-start;
         padding-left: 3%;
+        max-height: 410px;
+        max-width: 300px;
     }
 
     .children{
@@ -366,7 +421,7 @@ li{
     }
 
     .navbar .menu-items li{
-        width: 85%;
+        width: 90%;
         margin-bottom: 1.8rem;
         font-size: 1rem;
         font-weight: 500;
@@ -383,13 +438,18 @@ li{
     //     font-size: 2.5rem;
     // }
 
-
-
     .children{
         position: relative;
         width: 90%;
         padding-top: 1%;
         // background-color: #17172f;
+        background: none;
+
+        li{
+            padding-top: 3%;
+            padding-left: 0;
+            padding-bottom: 0;
+        }
     }
 
 
@@ -413,8 +473,17 @@ li{
         align-items: center;
     }
 
+    .navbar-container{
+        overflow: hidden;
+        position: absolute;
+        top: 0;
+        height: 410px;
+    }
+
+
     .navbar-container input[type="checkbox"]:checked ~ .menu-items{
         transform: translateX(0%);
+        overflow: visible;
     }
 
     .navbar-container input[type="checkbox"]:checked ~ .hamburger-lines .line1{
@@ -429,37 +498,13 @@ li{
         transform: rotate(-45deg);
     }
 
-    // // Transition effect on FAQ:
-    // .children {
-    //     max-height: 0;
-    //     overflow: hidden;
-    //     transition: max-height 0.3s ease, opacity 0.3s ease; 
-    // }
-    
-    // .children.show {
-    //     max-height: 1000px; 
-    //     opacity: 1;
-    // }
+   .icon-lg{
+        display: none;
+   } 
 
-
-    // .children {
-    //     max-height: 0;
-    //     overflow: hidden;
-    //     opacity: 0;
-    //     transition: max-height 2s ease, opacity 0.3s ease; /* Adding transition for max-height and opacity */
-    //   }
-      
-    //   .children[hidden] {
-    //     max-height: 0;
-    //     opacity: 0;
-    //     overflow: hidden;
-    //   }
-      
-    //   .children:not([hidden]) {
-    //     max-height: 200px; /* Adjust this value based on your content */
-    //     opacity: 1;
-    //   }
-    
+   .text-sm{
+        display: block;
+    }
 
 }
 

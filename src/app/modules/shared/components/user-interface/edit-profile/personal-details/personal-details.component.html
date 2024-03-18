@@ -68,7 +68,7 @@
                                     <label for="" class="form-label  required-form-field">Designation</label>
                                     <input type="text" class="form-control form-input" placeholder="Designation"
                                     #designation="ngModel" required
-                                    pattern="^([ \u00c0-\u01ffa-zA-Z'.])+$" 
+                                    pattern="^[A-Za-z0-9\s()/.-]+$" minlength="4" maxlength="30"
                                     [title]="designation.errors?.['pattern'] ? 'designation is invalid' : ''"
                                      [title]="designation.errors?.['required'] ? 'designation is required':''"
                                     [ngClass]="{ 'is-invalid': designation.invalid && (designation.dirty || designation.touched) }"
@@ -78,7 +78,7 @@
                                     <label for="" class="form-label  required-form-field">Department</label>
                                     <input type="text" class="form-control form-input" placeholder="Department"
                                     #Department="ngModel" required
-                                    pattern="^([ \u00c0-\u01ffa-zA-Z'.])+$" 
+                                    pattern="^[A-Za-z0-9\s()/.-]+$" minlength="4" maxlength="30"
                                     [title]="Department.errors?.['pattern'] ? 'Department is invalid' : ''"
                                     [title]="Department.errors?.['required'] ? 'Department is required':''"
                                     [ngClass]="{ 'is-invalid': Department.invalid && (Department.dirty || Department.touched) }"

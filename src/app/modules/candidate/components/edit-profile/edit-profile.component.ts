@@ -80,8 +80,9 @@ export class EditProfileComponent implements OnInit {
       // if (response) {
        
         //this.router.navigate(['/candidate/dashboard']);
-      
+   
      this.createEducationDetails();
+     console.log(this.candidatePersonalDetails)
       // }
     })
   }
@@ -108,11 +109,13 @@ export class EditProfileComponent implements OnInit {
     //     }
     //   ];
     if (this.firstStepData.collegeData) {
+      console.log(this.firstStepData.collegeData)
       await this.candidateSrv.createEducation(this.emailAddress, this.firstStepData.collegeData).then(async (response) => {
         this.createSkills();
       })
 
     }
+    console.log(this.firstStepData.collegeData)
 
   };
 
@@ -208,19 +211,30 @@ export class EditProfileComponent implements OnInit {
         // this.createUserDetails();
         this.updateWorkExperience();
       } else {
-        // this.router.navigate(['/candidate/dashboard']);
-        this.successmessage="Edit Profile Successful! Profile has been updated."
-        this.successtitle="success"
-     
-          this.openModal(ModalType.SUCCESS_MESSAGE)
+        this.router.navigate(['/candidate/dashboard']);
+      //   window.location.reload();
+      //  await this.modelOpen();
+          
         
-          this.router.navigate(['/candidate/dashboard']);
+          //this.router.navigate(['/candidate/dashboard']);
       }
     })
   }
+  modelOpen(){
+  
+    this.successmessage="Edit Profile Successful! Profile has been updated."
+    this.successtitle="success"
+    this.openModal(ModalType.SUCCESS_MESSAGE)
+  }
+  
+
+   
   continue(){
-    this.router.navigate(['/candidate/dashboard']);
+    
+     this.router.navigate(['/candidate/dashboard']);
     this.closeModal();
+     //window.location.reload();
+ 
   }
   cancel(){
     this.router.navigate(['/']);
@@ -369,7 +383,7 @@ export class EditProfileComponent implements OnInit {
   }
 
   previousStep() {
-    debugger
+   // debugger
     this.candidatePersonalDetails = this.firstStepData;
     this.candidateProfessionalDetails = this.secondStepData;
     
@@ -379,7 +393,7 @@ export class EditProfileComponent implements OnInit {
     }
   }
   previousStepSecond(data: any) {
-    debugger
+    //debugger
     this.thirdStepData = data;
     this.candidateUploadDetails = data;
     if (this.currentStep > 1) {
@@ -388,7 +402,7 @@ export class EditProfileComponent implements OnInit {
   }
 
   previousStepFirst(data: any) {
-    debugger
+    //debugger
     this.secondStepData = data;
     this.candidateProfessionalDetails = data;
     this.candidatePersonalDetails = this.firstStepData;
@@ -400,16 +414,22 @@ export class EditProfileComponent implements OnInit {
   //When uer click on "Complete" on 3rd step
   onSuccess(data: any) {
     this.spinner.show();
+   
+    this.thirdStepData = data;
+     //window.location.reload()
+    
+    this.uploadUserCV();
+    //this.modelOpen();
+
     this.successmessage="Edit Profile Successful! Profile has been updated."
     this.successtitle="success"
  
       this.openModal(ModalType.SUCCESS_MESSAGE)
-    this.thirdStepData = data;
-    this.uploadUserCV();
+      
   }
 
   getCandidateListData(data: any) {
-    debugger
+    //debugger
     this.firstStepData = data;
     if (this.currentStep < 3) {
       this.currentStep++;
@@ -417,7 +437,7 @@ export class EditProfileComponent implements OnInit {
   }
 
   getProfessionalData(data: any) {
-    debugger
+    //debugger
     this.secondStepData = data;
     this.candidateProfessionalDetails = data;
     this.candidatePersonalDetails = this.firstStepData;
@@ -489,8 +509,10 @@ export class EditProfileComponent implements OnInit {
     try {
       this.authService.uploadFileOnS3Bucket(this.thirdStepData.fileToUpload!, docResult.awsS3SignedUrl, docResult.awsS3Tag)
         .then(async () => {
-         
+          
           console.log('File uploaded successfully.');
+         
+
         
           
           try {

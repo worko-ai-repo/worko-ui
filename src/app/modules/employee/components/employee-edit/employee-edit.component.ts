@@ -1,16 +1,21 @@
-import { Component } from '@angular/core';
+import { Component, ViewChild } from '@angular/core';
 import { EmployeeProfileService } from '../../services/employee-profile.service';
 import { StorageService } from 'src/app/modules/app-core/services/storage.service';
 import { CandidateProfileService } from 'src/app/modules/candidate/services/candidate-profile.service';
 import { AuthService } from 'src/app/modules/worko/services/auth.service';
 import { Router } from '@angular/router';
 import { NgxSpinnerService } from 'ngx-spinner';
+import { ModalType } from 'src/app/modules/shared/interfaces/shared.interface';
+import { ModalComponent } from 'src/app/modules/shared/components/modal/modal.component';
 @Component({
   selector: 'app-employee-edit',
   templateUrl: './employee-edit.component.html',
   styleUrls: ['./employee-edit.component.scss']
 })
 export class EmployeeEditComponent {
+
+  @ViewChild(ModalComponent) modal!: ModalComponent;
+
   currentStep: number = 1;
   emailAddress: string = "";
   // employeeList:any[]=[];
@@ -25,6 +30,14 @@ export class EmployeeEditComponent {
   workExperienceDetails: any;
   bankDetails: any;
   uploadedProfilePicName: string = "";
+
+
+  successmessage:string="";
+  successtitle:string="";
+  modalType = ModalType;
+  modalMessage: string = "";
+  modalTitle: string = "";
+  showModal: ModalType | undefined;
   constructor(private spinner: NgxSpinnerService, private router: Router, private authService: AuthService, private empService: EmployeeProfileService, private candidateSrv: CandidateProfileService, private storage: StorageService) { }
 
   ngOnInit(): void {
@@ -36,14 +49,14 @@ export class EmployeeEditComponent {
   }
 
   nextStep() {
-    debugger
+    //debugger
     if (this.currentStep < 3) {
       this.currentStep++;
     }
 
   }
   nextStepThird(data: any) {
-    debugger
+   // debugger
     if (this.currentStep < 3) {
       this.currentStep++;
     }
@@ -52,7 +65,7 @@ export class EmployeeEditComponent {
   }
 
   nextStepSecond(data: any) {
-    debugger
+   // debugger
     if (this.currentStep < 3) {
       this.currentStep++;
     }
@@ -60,14 +73,14 @@ export class EmployeeEditComponent {
     this.employeePersonalData = data;
   }
   previousStep() {
- debugger
+ //debugger
     if (this.currentStep > 1) {
       this.currentStep--;
     }
   }
 
   previousStepSecond(data: any) {
-    debugger
+    //debugger
     this.thirdStepData = data;
     this.employeeBankDetails = data;
     if (this.currentStep > 1) {
@@ -88,6 +101,8 @@ export class EmployeeEditComponent {
     this.thirdStepData = data;
     this.updateProfilePic();
     // this.updateWorkExperience();
+   
+  
   }
   async getSocialProfile() {
     await this.candidateSrv.getUserProfile(this.emailAddress).then(async (response) => {
@@ -122,6 +137,9 @@ export class EmployeeEditComponent {
         this.updateWorkExperience();
       }
     } catch (error) {
+      this.successmessage="error:"+error
+        this.successtitle="error"
+        this.openModal(ModalType.SUCCESS_MESSAGE)
       console.log(error);
     }
   }
@@ -141,14 +159,23 @@ export class EmployeeEditComponent {
           } catch (error: any) {
 
             if (error && error.error.message) {
+              this.successmessage="error:"+error
+              this.successtitle="error"
+              this.openModal(ModalType.SUCCESS_MESSAGE)
               // this.errorMessage = error.error.message;
               // this.setErrorMessage('File Link error linkResumewithUser:- '+ error.error.message);
             }
+            this.successmessage="File Link error linkResumewithUser:"+error
+            this.successtitle="error"
+            this.openModal(ModalType.SUCCESS_MESSAGE)
             console.error('File Link error linkResumewithUser:', error);
           }
 
         })
         .catch(error => {
+          this.successmessage="File upload error:"+error
+          this.successtitle="error"
+          this.openModal(ModalType.SUCCESS_MESSAGE)
 
           console.error('File upload error:', error);
 
@@ -156,6 +183,9 @@ export class EmployeeEditComponent {
         });
 
     } catch (error) {
+      this.successmessage="error:"+error
+      this.successtitle="error"
+      this.openModal(ModalType.SUCCESS_MESSAGE)
       console.log(error)
     }
   }
@@ -320,9 +350,51 @@ export class EmployeeEditComponent {
     await this.empService.createBankDetails(this.emailAddress, data).then(async (response) => {
       if (response) {
         this.spinner.hide();
-        this.router.navigate(['/employee/edashboard']);
+       // this.router.navigate(['/employee/edashboard']);
+       this.modalopen();
         console.log(response);
       }
     })
   }
+  modalopen(){
+    this.successmessage="Edit Profile Successful! Profile has been updated."
+    this.successtitle="success"
+    this.openModal(ModalType.SUCCESS_MESSAGE)
+  }
+
+  continue(){
+    this.router.navigate(['/employee/edashboard']);
+    this.closeModal();
+  }
+  cancel(){
+    this.router.navigate(['/']);
+    this.closeModal();
+  }
+
+
+  /**
+   * Open modal.
+   *
+   * @param {ModalType} modalType
+   * @param {string} [message = ""]
+   * @param {string} [title = ""]
+   * @returns {void}
+   */
+  openModal(modalType: ModalType, message: string ="", title: string="" ): void {
+
+    this.showModal = modalType;
+    this.modalMessage = message;
+    this.modalTitle = title;
+    this.modal.open();
+  }
+    /**
+   * Close modal.
+   *
+   * @returns {void}
+   */
+    closeModal(): void {
+      this.modal.cancel();
+    }
+
+
 }

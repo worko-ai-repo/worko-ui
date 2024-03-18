@@ -85,25 +85,35 @@
       </div>
       <ul class="menu-items">
           <li><a href="/about-us">About Us</a></li>
-          <li class="has-children" (click)="toggleSubMenu()">
+          <li class="has-children" (click)="toggleSubMenu()" (mouseenter)="showSubMenuOnHover()" (mouseleave)="hideSubMenuOnHover()" >
             FAQ's<span class="caret"></span>
-            <ul class="children" [hidden]="!showSubMenu">
+            <ul class="children" [hidden]="!showSubMenu" (mouseenter)="showSubMenuOnHover()" (mouseleave)="hideSubMenuOnHover()">
+          
               <li><a href="#">FAQ's for Candidate</a></li>
               <li><a href="#">FAQ's for Referee</a></li>
 
             </ul>
           </li>
-          
+
           <li><a href="#">Corporate</a></li>
-          <li>
+          <li class="icon-lg">
             <div class="d-flex -pointer user-icon-container" *ngIf="!userLoggedIn" (click)="openLogin()">
               <img class="user-icon" _ngcontent-ng-c280476550="" alt="" src="assets/public/iconamoonprofilecirclefill.svg">
             </div>
           </li>
+
+          <li class="text-sm" *ngIf="!this.userLoggedIn">
+            <a (click)="openLogin()" style="cursor: pointer;">Signin</a>
+          </li>
+
+          
+          <li class="text-sm" *ngIf="this.userLoggedIn">
+            <a style="cursor: pointer;" (click)="logout()">Log Out</a>
+          </li>
       </ul>
-      <h1 class="navbar-brand"><img class="worko-logo-ai-2-icon" alt=""
+      <a class="navbar-brand" href="/"><img class="worko-logo-ai-2-icon" alt=""
         src="assets/public/workologoai-2@2x.png" />
-      </h1>
+      </a>
 
   </div>
 </nav>

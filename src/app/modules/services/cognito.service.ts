@@ -67,11 +67,12 @@ export class CognitoService {
 
       if (signInDetails) {
         console.log('The signInDetails:', signInDetails);
+   
+        console.log(this.storage.get("useremail"), "Before")
         if(!this.storage.get("useremail")){
           this.storage.set("useremail", signInDetails.loginId);
         }
-    
-         console.log( this.storage.get("useremail"))
+         console.log(this.storage.get("useremail"), "After")
         return true;
       } else {
         console.log('No signInDetails:');
