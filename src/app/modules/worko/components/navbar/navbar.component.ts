@@ -38,6 +38,20 @@ export class NavbarComponent {
     this.showSubMenu = !this.showSubMenu;
   }
 
+  showSubMenuOnHover() {
+    if (window.innerWidth >= 550) {
+      this.showSubMenu = true;
+    }
+  }
+
+  hideSubMenuOnHover() {
+    if (window.innerWidth >= 550) {
+      this.showSubMenu = false;
+    }
+  }
+
+
+
   isCollapsed: boolean = true;
 
   toggleCollapse() {
