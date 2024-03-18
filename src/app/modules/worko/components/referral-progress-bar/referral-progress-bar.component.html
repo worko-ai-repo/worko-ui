@@ -1,7 +1,7 @@
 <!-- <mat-card> -->
 <!-- <mat-card-title>Original Item Score</mat-card-title> -->
 
-<div class="row" *ngIf="!showScore && !showEmailContent && !cvNotFoundError">
+<div class="row" *ngIf="!showScore && !showEmailContent && !errorFound">
   <div class="d-flex align-self-center justify-content-center">
     <div class="row">
       <div class="col-md-12">
@@ -35,9 +35,10 @@
   </div>
 </div>
 
-<div class="cv-not-found" *ngIf="cvNotFoundError"> <!-- Show email content when the button is clicked -->
-  <div> Apologies, we couldn't find your CV to match with the job description. Please ensure your CV is uploaded
+<div class="cv-not-found" *ngIf="errorFound"> <!-- Show email content when the button is clicked -->
+  <div *ngIf="cvError"> Apologies, we couldn't find your CV to match with the job description. Please ensure your CV is uploaded
     correctly, or you can try again after some time.</div>
+    <div *ngIf="jobDescription"> The job description provided is not valid. Please enter a valid job description to proceed.</div>
 </div>
 
 <!-- <div class="form-container">
