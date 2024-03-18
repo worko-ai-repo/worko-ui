@@ -78,10 +78,10 @@ export class EditProfileComponent implements OnInit {
     await this.candidateSrv.createWorkExperience(this.emailAddress, workExperience).then(async (response) => {
       
       // if (response) {
-       
+       this.modelOpen();
         //this.router.navigate(['/candidate/dashboard']);
    
-     this.createEducationDetails();
+     //this.createEducationDetails();
      console.log(this.candidatePersonalDetails)
       // }
     })
@@ -210,13 +210,10 @@ export class EditProfileComponent implements OnInit {
       if (!this.secondStepData.isCandidateFresher) {
         // this.createUserDetails();
         this.updateWorkExperience();
+      
       } else {
         this.router.navigate(['/candidate/dashboard']);
-      //   window.location.reload();
-      //  await this.modelOpen();
-          
-        
-          //this.router.navigate(['/candidate/dashboard']);
+      
       }
     })
   }
@@ -414,17 +411,11 @@ export class EditProfileComponent implements OnInit {
   //When uer click on "Complete" on 3rd step
   onSuccess(data: any) {
     this.spinner.show();
-   
+   //debugger
     this.thirdStepData = data;
-     //window.location.reload()
     
     this.uploadUserCV();
-    //this.modelOpen();
 
-    this.successmessage="Edit Profile Successful! Profile has been updated."
-    this.successtitle="success"
- 
-      this.openModal(ModalType.SUCCESS_MESSAGE)
       
   }
 
@@ -492,7 +483,8 @@ export class EditProfileComponent implements OnInit {
         this.candidatePersonalDetails.profileImage = docResult.cloudFileName;
         this.uploadProfilePiconS3Bucket(docResult);
 
-      } else {
+       }
+       else {
         // this.updateWorkExperience();
         this.createUserDetails();
       }
@@ -519,7 +511,8 @@ export class EditProfileComponent implements OnInit {
             let a = await this.authService.linkResumewithUser(this.emailAddress, this.uploadedCvName);
             if (this.firstStepData.fileType && this.firstStepData.fileName) {
               this.updateProfilePic();
-            } else {
+            } 
+            else {
               // await this.updateWorkExperience();
               await this.createUserDetails();
             }
@@ -570,7 +563,7 @@ export class EditProfileComponent implements OnInit {
           try {
             // let a = await this.authService.linkResumewithUser(this.emailAddress, this.uploadedProfilePicName);
 
-            // await this.updateWorkExperience();
+             //await this.updateWorkExperience();
             await this.createUserDetails();
           } catch (error: any) {
 
