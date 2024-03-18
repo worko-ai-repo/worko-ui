@@ -1,5 +1,6 @@
 // ---------------------utilities------------------------
 
+
 .para{
     // font-size: calc(13px + 1vw);
     font-size: calc(1.3vw + 8px);
@@ -23,6 +24,11 @@ hr{
 
 .head1{
     font-weight: 400;
+}
+
+.buttons{
+    z-index: 1;
+    position: relative;
 }
 
 .btn-dark{
