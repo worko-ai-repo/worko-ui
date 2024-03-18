@@ -10,6 +10,7 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { MatButtonModule } from '@angular/material/button';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
+import { NgbRatingModule} from '@ng-bootstrap/ng-bootstrap'
 import { ReferralCancelledComponent } from './components/user-interface/referral/referral-cancelled/referral-cancelled.component';
 import { ReferralReqRejectedComponent } from './components/user-interface/referral/referral-req-rejected/referral-req-rejected.component';
 import { AllServicesComponent } from './components/user-interface/service/all-services/all-services.component';
@@ -124,6 +125,7 @@ export const routes: Routes = [
     MatSelectModule,
     ReactiveFormsModule,
     SlickCarouselModule,
+    NgbRatingModule
     // BrowserAnimationsModule,
   ],
 

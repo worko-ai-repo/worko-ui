@@ -1,4 +1,5 @@
 import { Component } from '@angular/core';
+import { FormControl } from '@angular/forms';
 
 @Component({
   selector: 'app-review-popup',
@@ -6,5 +7,11 @@ import { Component } from '@angular/core';
   styleUrls: ['./review-popup.component.scss']
 })
 export class ReviewPopupComponent {
+
+  ratingControl = new FormControl(0);
+
+  getRating() {
+    console.log(this.ratingControl.value);
+  }
 
 }
