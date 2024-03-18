@@ -61,6 +61,7 @@ export class NavbarComponent {
   toggleCollapse() {
     this.isCollapsed = !this.isCollapsed;
   }
+  
   async logout(): Promise<void> {
     await this.cognitoService.handleSignOut();
     this.userLoggedIn = await this.cognitoService.isLoggedIn();
