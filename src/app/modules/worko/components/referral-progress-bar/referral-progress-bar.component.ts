@@ -64,15 +64,18 @@ export class ReferralProgressBarComponent {
           this.jobDescription = true;
           this.errorFound = true;
           this.showScore = false;
+          this.score = 0;
         } else if (response.matchingScore === 251) {
           this.cvError = true;
           this.errorFound = true;
           this.showScore = false;
+          this.score = 0;
         } else {
           // alert("No score found after 2 minutes");
           this.cvError = true;
           this.errorFound = true;
           this.showScore = false;
+          this.score = 0;
         }
       } else {
         this.score = response.matchingScore;
