@@ -15,7 +15,9 @@ export class ReferralProgressBarComponent {
   originalPoints = 2.1;
   possiblePoints = 10;
   startTime: number = Date.now();
-  cvNotFoundError: boolean = false;
+  errorFound: boolean = false;
+  cvError: boolean = false;
+  jobDescription: boolean = false;
   maxDuration: number = 2 * 60 * 1000;
   texts: string[] = [
     "Matching your educational qualification",
@@ -43,10 +45,10 @@ export class ReferralProgressBarComponent {
       }
     }, 700); //7000
   }
- 
+
   async fetchScore() {
-   
-  
+
+
     const response = await this.companyListing.getMatchingScore(this.emailId, this.referralId);
     if (response && response.matchingScore !== undefined) {
       if (response.matchingScore === 0) {
@@ -58,9 +60,18 @@ export class ReferralProgressBarComponent {
           setTimeout(async () => {
             await this.fetchScore();
           }, 20000);
+        } else if (response.matchingScore === 250) {
+          this.jobDescription = true;
+          this.errorFound = true;
+          this.showScore = false;
+        } else if (response.matchingScore === 251) {
+          this.cvError = true;
+          this.errorFound = true;
+          this.showScore = false;
         } else {
           // alert("No score found after 2 minutes");
-          this.cvNotFoundError = true;
+          this.cvError = true;
+          this.errorFound = true;
           this.showScore = false;
         }
       } else {
@@ -69,7 +80,7 @@ export class ReferralProgressBarComponent {
       }
     }
   }
-  
+
 
   onViewMore(): void {
     // Toggle the visibility of the email content
@@ -124,4 +135,4 @@ export class ReferralProgressBarComponent {
   //       }
   //     }
   //   };
-  }
+}
