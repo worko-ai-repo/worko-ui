@@ -24,13 +24,13 @@ export class StorageService {
    */
   set(key: string, value: any): void {
     this.secureStorageService.secureStorage.setItem(key, value);
-    //Check for detect the change in the "isRequesterSelected" localStorage only
-    if(key == "isRequesterSelected"){
+    //Check for detect the change in the "useremail" localStorage only
+    if(key == "useremail"){
       this.localStorageSubject.next(value);
     }
-    if(key == "requesterRequests"){
-      this.notificationStorageSubject.next(value);
-    }
+    // if(key == "requesterRequests"){
+    //   this.notificationStorageSubject.next(value);
+    // }
   }
 
   /**
