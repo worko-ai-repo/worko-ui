@@ -254,7 +254,7 @@ li{
 
 
 
-@media (max-width: 1030px) and (min-width: 550px) {
+@media (max-width: 1030px) and (min-width: 675px) {
 
     .menu-items li{
         margin-left: 1.5rem;
@@ -271,7 +271,7 @@ li{
 
 }
 
-@media (max-width: 550px){
+@media (max-width: 675px){
     // .navbar{
     //     opacity: 0.95;
     // }
@@ -395,9 +395,9 @@ li{
     .navbar .menu-items{
         padding-top: 65px;
         background: #0D1929;
-        height: 44vh;
-        width: 70%;
-        transform: translate(200%);
+        // height: 44vh;
+        // width: 70%;
+        transform: translate(100%);
         display: flex;
         flex-direction: column;
         margin-left: -1px;
@@ -411,6 +411,7 @@ li{
         align-items: flex-start;
         padding-left: 3%;
         max-height: 410px;
+        max-width: 300px;
     }
 
     .children{
@@ -420,7 +421,7 @@ li{
     }
 
     .navbar .menu-items li{
-        width: 85%;
+        width: 90%;
         margin-bottom: 1.8rem;
         font-size: 1rem;
         font-weight: 500;
@@ -445,7 +446,7 @@ li{
         background: none;
 
         li{
-            padding-top: 1%;
+            padding-top: 3%;
             padding-left: 0;
             padding-bottom: 0;
         }
