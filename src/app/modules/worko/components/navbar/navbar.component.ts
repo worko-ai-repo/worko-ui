@@ -5,11 +5,13 @@ import { ModalComponent } from 'src/app/modules/shared/components/modal/modal.co
 import { Router } from '@angular/router';
 import { CandidateProfileService } from 'src/app/modules/candidate/services/candidate-profile.service';
 import { StorageService } from 'src/app/modules/app-core/services/storage.service';
+
 @Component({
   selector: 'app-navbar',
   templateUrl: './navbar.component.html',
   styleUrls: ['./navbar.component.scss']
 })
+
 export class NavbarComponent {
   @ViewChild(ModalComponent) modal!: ModalComponent;
   modalType = ModalType;
@@ -42,11 +44,24 @@ export class NavbarComponent {
     this.showSubMenu = !this.showSubMenu;
   }
 
+  showSubMenuOnHover() {
+    if (window.innerWidth >= 675) {
+      this.showSubMenu = true;
+    }
+  }
+
+  hideSubMenuOnHover() {
+    if (window.innerWidth >= 675) {
+      this.showSubMenu = false;
+    }
+  }
+
   isCollapsed: boolean = true;
 
   toggleCollapse() {
     this.isCollapsed = !this.isCollapsed;
   }
+
   async logout(): Promise<void> {
     await this.cognitoService.handleSignOut();
     this.userLoggedIn = await this.cognitoService.isLoggedIn();

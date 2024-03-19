@@ -45,8 +45,8 @@
                         </li>
                     </ul>
                     <div class="buttons">
-                        <button class="left-btn btn btn-dark font-inria"> Get Referral </button>
-                        <button class="btn btn-light font-inria"> Give Referral </button>
+                        <button  class="left-btn btn btn-dark font-inria" (click)="openGetReferral()"> Get Referral </button>
+                        <button class="btn btn-light font-inria" (click)="openGetReferral()" > Give Referral </button>
                     </div>
                 </div>
 
@@ -64,8 +64,8 @@
                         </li>
                     </ul>
                     <div class="buttons">
-                        <button class="left-btn btn btn-light font-inria"> Get Referral </button>
-                        <button class="btn btn-dark font-inria"> Give Referral </button>
+                        <button (click)="openGetReferral()" class="left-btn btn btn-light font-inria" (click)="openGetReferral()"> Get Referral </button>
+                        <button (click)="openGetReferral()" class="btn btn-dark font-inria" (click)="openGetReferral()"> Give Referral </button>
                     </div>
                 </div>
                 <div class="intro-image">
@@ -447,7 +447,7 @@
                 </div>
 
             </div>
-            <button class="btn btn-dark font-inria">View More...</button>
+            <button (click)="redirectToCompanyListing()" class="btn btn-dark font-inria">View More...</button>
         </div>
 
         <div class="info-section d-flex">
@@ -547,6 +547,17 @@
         </div>
 
         <app-footer></app-footer>
+
+        <app-modal [theme]="'theme-k'" [centered]="true" [showHeader]="showModal === modalType.MESSAGE"
+[showClose]="true"
+  [showFooter]="showModal === modalType.MESSAGE" [title]="modalTitle" [message]="modalMessage"
+  [bodyClass]="modalMessage ? 'p-4' : 'p-0'">
+
+  <ng-container *ngIf="showModal === modalType.LOGIN_SIGNUP">
+    <app-login-page (onSuccess)="receiveDataFromChild($event)" ></app-login-page>
+  </ng-container>
+
+</app-modal>
     </div>
 
 </div>

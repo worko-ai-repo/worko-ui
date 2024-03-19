@@ -30,15 +30,12 @@ export class HomeComponent {
   @ViewChild('slickModal1') public slickModal1: any;
   @ViewChild('slickModal2') public slickModal2: any;
 
-  constructor(private router: Router, private cognitoService: CognitoService) {
-
-  }
+  constructor(private router: Router, private cognitoService: CognitoService) {}
 
   private readonly preventDefault = function (e: any) {
     e.preventDefault();
     e.stopPropagation();
     return false;
-
   };
 
 
@@ -342,8 +339,6 @@ export class HomeComponent {
         this.router.navigate(['/employee/edashboard']);
       }
     }
-
-
   }
 
   clientInfo(): void {
@@ -401,7 +396,6 @@ export class HomeComponent {
   }
 
   openGetReferral() {
-
     if (this.userLoggedIn) {
       // alert("User is Logged In")
       this.redirectToCompanyListing();
