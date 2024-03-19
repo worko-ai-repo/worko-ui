@@ -25,7 +25,7 @@ export class IndexComponent {
   async ngOnInit(): Promise<void> {
     setInterval(() => {
       this.swapValues();
-    }, 118000);
+    }, 5000);
 
     this.userLoggedIn = await this.cognitoService.isLoggedIn();
   }
