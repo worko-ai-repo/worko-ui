@@ -37,12 +37,12 @@ export class IndexComponent {
   }
 
   openGetReferral() {
-    console.log("clicked");
+    // console.log("clicked");
     if (this.userLoggedIn) {
       // alert("User is Logged In")
       this.redirectToCompanyListing();
     } else {
-      console.log("Modal open");
+      // console.log("Modal open");
       this.openModal(ModalType.LOGIN_SIGNUP);
     }
   }
