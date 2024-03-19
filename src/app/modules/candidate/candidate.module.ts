@@ -49,6 +49,7 @@ import { AdminModule } from '../admin/admin.module';
 import { MarkAsDoneComponent } from 'src/app/src/app/modules/shared/components/user-interface/referral/referral-reusable-button/mark-as-done/mark-as-done.component';
 import { RaiseIssueComponent } from 'src/app/src/app/modules/shared/components/user-interface/referral/referral-reusable-button/raise-issue/raise-issue.component';
 import { NewRequestBtnComponent } from 'src/app/src/app/modules/shared/components/user-interface/referral/referral-reusable-button/new-request-btn/new-request-btn.component';
+import { ReferralReqDoneComponent } from 'src/app/src/app/src/app/modules/shared/components/user-interface/referral/referral-req-done/referral-req-done.component';
 
 
 export const routes: Routes = [
@@ -116,6 +117,7 @@ export const routes: Routes = [
   NewRequestComponent,
   ReferralCancelledComponent,
   ReferralReqRejectedComponent,
+  ReferralReqDoneComponent,
   ServiceComponent,
   AllServicesComponent,
   PaymentDueComponent,
