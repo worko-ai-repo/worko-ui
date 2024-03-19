@@ -60,8 +60,30 @@ export class EmployeeProfessionalDetailsComponent {
   selectedCompanyName: string = "";
   data: any | undefined;
  Form1:any; 
+ formGroup: any;
   constructor(private authService: AuthService,private fb:FormBuilder) {
+    this.formGroup = this.fb.group({
+      fields: this.fb.array([])
+    });
      }
+     addField(): void {
+      const fields = this.formGroup.get('fields') as FormArray;
+      fields.push(this.createField());
+      console.log(fields)
+    }
+  
+    createField(): FormGroup {
+      return this.fb.group({
+        previousCompanyName: [''],
+        previousDesignation: [''],
+        previousExperience: ['']
+      });
+    }
+  
+    removeField(index: number): void {
+      const fields = this.formGroup.get('fields') as FormArray;
+      fields.removeAt(index);
+    }
     
 //  Form1=new FormGroup({
 //   perviousjob:new FormGroup({
@@ -134,19 +156,19 @@ export class EmployeeProfessionalDetailsComponent {
   // }
 
  
-  addField() {
-    if (this.fields.length < 6) {
-      this.fields.push({ previousCompanyName: '', previousDesignation: '', previousExperience: '' });
-    }
-  }
+  // addField() {
+  //   if (this.fields.length < 6) {
+  //     this.fields.push({ previousCompanyName: '', previousDesignation: '', previousExperience: '' });
+  //   }
+  // }
   // Method to check if all previous fields are filled
   areAllPreviousFieldsFilled(): boolean {
     return this.fields.every(field => field.previousCompanyName.trim() !== '' && field.previousDesignation.trim() !== '' && field.previousExperience.trim() !== '' && /^[0-9]+$/.test(field.previousExperience.trim()));
   }
 
-  removeField(index: number) {
-    this.fields.splice(index, 1);
-  }
+  // removeField(index: number) {
+  //   this.fields.splice(index, 1);
+  // }
 
 
   onOptionSelected(event: any): void {

@@ -36,19 +36,19 @@ export class UserMenubarComponent {
         },
         {
           name: 'Referral',
-          router: "candidate/creferral",
+          router: "candidate/referral",
         },
         {
           name: 'Service',
-          router: "candidate/cservice",
+          router: "candidate/service",
         },
         {
           name: 'Subscription',
-          router: "candidate/csubscription"
+          router: "candidate/subscription"
         },
         {
           name: 'Refer & Earn',
-          router: "candidate/crefer&earn"
+          router: "candidate/refer&earn"
         },
         // {
         //   name: 'Settings',

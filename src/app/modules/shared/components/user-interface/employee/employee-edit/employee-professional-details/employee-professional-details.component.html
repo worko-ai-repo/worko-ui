@@ -130,18 +130,10 @@
     <h5>Previous Employer Details</h5>
 </div>
 
-<div class="row mt-3" *ngFor="let field of fields; let i = index">
+<!-- <div class="row mt-3" *ngFor="let field of fields; let i = index">
     <div class="col-md-5">
         <label for="" class="form-lable  ">past Company Name</label>  
-        <!-- <input matInput #autoCompleteInput="matAutocompleteTrigger" class="form-control form-input"
-            [formControl]="myControl" [matAutocomplete]="myJobControl" placeholder="Select Company Name"
-            [(ngModel)]="field.previousCompanyName" />
-        <mat-autocomplete #myJobControl="matAutocomplete" [displayWith]="displayPastFn"
-            (optionSelected)="onSelectedPastJob($event)">
-            <mat-option *ngFor="let job of filteredOptions | async" [value]="job">
-                {{ job.name }}
-            </mat-option>
-        </mat-autocomplete> -->
+       
         <input type="text" class="form-control form-input" [(ngModel)]="field.previousCompanyName"
             placeholder="Company Name">
     </div>
@@ -164,7 +156,46 @@
         [disabled]="!areAllPreviousFieldsFilled()">+</button>
     <button class="float-end btn circular-button" *ngIf="i > 0" (click)="removeField(i)">x</button>
     </div>
-</div> 
+</div>  -->
+<!-- your-component.component.html -->
+
+<form [formGroup]="formGroup">
+    <div formArrayName="fields">
+      <div *ngFor="let field of formGroup.get('fields').controls; let i = index" [formGroupName]="i">
+        <div class="row mt-3">
+          <div class="col-md-5">
+            <label for="previousCompanyName{{ i }}" class="form-lable">Past Company Name</label>
+            <input matInput #autoCompleteInput="matAutocompleteTrigger" class="form-control form-input"
+                   [formControl]="field.get('previousCompanyName')" [matAutocomplete]="auto"
+                   placeholder="Select Company Name" />
+            <mat-autocomplete [displayWith]="displayPastFn" [id]="'autoCompleteOptions' + i"
+                              (optionSelected)="onSelectedPastJob($event)" #auto="matAutocomplete">
+              <mat-option *ngFor="let job of filteredOptions | async" [value]="job">
+                {{ job.name }}
+              </mat-option>
+            </mat-autocomplete>
+          </div>
+          <div class="col-md-3">
+            <label for="previousDesignation{{ i }}" class="form-lable">Designation</label>
+            <input type="text" class="form-control form-input" [formControl]="field.get('previousDesignation')"
+                   placeholder="Designation" />
+          </div>
+          <div class="col-md-3">
+            <label for="previousExperience{{ i }}" class="form-lable">Experience</label>
+            <input type="text" class="form-control form-input" [formControl]="field.get('previousExperience')"
+                   placeholder="In months" >
+            <h2 class="badge badge-primary field-text-label" style="background: #57E1FF;">Months</h2>
+          </div>
+          <div class="col-md-1 d-flex align-items-end">
+            <button class="float-end btn circular-button" *ngIf="i === 0" (click)="addField()"
+                    [disabled]="!areAllPreviousFieldsFilled()">+</button>
+            <button class="float-end btn circular-button" *ngIf="i > 0" (click)="removeField(i)">x</button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </form>
+  
 
         <div class="row mt-5 mb-3">
             <div class="col-md-12 d-flex justify-content-end">

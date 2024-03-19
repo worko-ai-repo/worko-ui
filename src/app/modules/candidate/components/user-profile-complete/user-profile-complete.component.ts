@@ -36,7 +36,7 @@ export class UserProfileCompleteComponent implements OnInit {
       this.userRole = [
         {
           name: 'Edit',
-          router: "/candidate/cedit-profile", 
+          router: "/candidate/edit-profile", 
          
         },
        

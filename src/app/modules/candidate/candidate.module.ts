@@ -60,27 +60,27 @@ export const routes: Routes = [
         // canActivate: [ candidateGuard]
       },
       {
-        path: 'creferral',
+        path: 'referral',
         component: ReferralComponent,
        
       },
       {
-        path: 'cservice',
+        path: 'service',
         component: ServiceComponent,
        
       },
       {
-        path: 'csubscription',
+        path: 'subscription',
         component: SubscriptionComponent,
        
       },
       {
-        path: 'crefer&earn',
+        path: 'refer&earn',
         component: ReferEarnComponent,
        
       },
       {
-        path: 'cedit-profile',
+        path: 'edit-profile',
         component: EditProfileComponent,
        
       },

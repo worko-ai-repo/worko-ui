@@ -221,32 +221,42 @@ export class EmployeeEditComponent {
     var twitterArray = this.firstStepData.socialLinktwitter;
     var linkedinArray = this.firstStepData.socialLinklinkdin;
     var githubArray = this.firstStepData.socialLinkGithub;
-    // Check if twitterArray is an array
-    if (Array.isArray(twitterArray)) {
+     // Check if twitterArray is an array
+     if ( twitterArray.length>2) {
+      console.log('twitterArray is already an array');
+      twitterArray = [this.firstStepData.socialLinktwitter];
+    } else if ( twitterArray.length==1) {
       console.log('twitterArray is already an array');
       twitterArray = this.firstStepData.socialLinktwitter;
     } else {
       console.log('twitterArray is not an array');
-      twitterArray=[];
-     }
-
-    // Check if twitterArray is an array
-    if (Array.isArray(linkedinArray)) {
-      console.log('linkedinArray is already an array');
-      linkedinArray = this.firstStepData.socialLinklinkdin;
-    } else {
-      console.log('linkedinArray is not an array');
-      linkedinArray=[];
-     
+      twitterArray = [];
     }
 
-    if (Array.isArray(githubArray)) {
-      console.log('twitterArray is already an array');
-      githubArray = this.firstStepData.socialLinkGithub;
+    // Check if twitterArray is an array
+    console.log(linkedinArray.length)
+    if ( linkedinArray.length>2) {
+      linkedinArray = [this.firstStepData.socialLinklinkdin];
+      console.log('linkedinArray is already an array');
+    } else if(linkedinArray.length==1){
+      linkedinArray=this.firstStepData.socialLinklinkdin;
+    }else {
+      console.log('linkedinArray is not an array');
+      linkedinArray = [];
+      
+     
+    }
+    console.log(githubArray.length)
+    if ( githubArray.length>2) {
+      console.log('githubArray is already an array');
+
+      githubArray = [this.firstStepData.socialLinkGithub];
+    }else if(githubArray.length==1){
+      githubArray=this.firstStepData.socialLinkGithub;
     } else {
-      console.log('twitterArray is not an array');
-       githubArray=[];
-      }
+      console.log('githubArray is not an array');
+      githubArray = [];
+    }
     let socialProfile =
     {
       twitter: twitterArray,
