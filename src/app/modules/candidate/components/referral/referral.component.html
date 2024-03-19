@@ -11,7 +11,7 @@
                     <app-new-request  (markAsDone)="referralMarkAsDone($event)" [selectedReferral]="selectedReferral"></app-new-request>
                 </ng-container>
                 <ng-template #otherStatus>
-                    <app-referral-cancelled *ngIf="selectedStatus === 'CANCELLED'"></app-referral-cancelled>
+                    <app-referral-cancelled *ngIf="selectedStatus === 'CANCELLED'" [selectedReferral]="selectedReferral"></app-referral-cancelled>
                     <app-referral-req-rejected *ngIf="selectedStatus === 'REJECTED'" (markAsDone)="referralMarkAsDone($event)" [selectedReferral]="selectedReferral"></app-referral-req-rejected>
                     <app-accepted-referral *ngIf="selectedStatus === 'ACCEPTED'" (markAsDone)="referralMarkAsDone($event)" [selectedReferral]="selectedReferral"></app-accepted-referral>
                     <app-accepted-referral *ngIf="selectedStatus === 'DONE'" (markAsDone)="referralMarkAsDone($event)" [selectedReferral]="selectedReferral"></app-accepted-referral>

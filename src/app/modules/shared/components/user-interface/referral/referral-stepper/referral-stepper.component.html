@@ -1,7 +1,7 @@
 <div class="card candidate-card ">
   <div class="card-body">
     <div class="row">
-      <div class="text-white parent-div">
+      <div *ngIf="selectedReferral" class="text-white parent-div">
         <h6 class="col-sm-4 request-heading">Request ID #{{ selectedReferral?.SK ? getSlicedValue(selectedReferral?.SK) : '' }}</h6>
         <div class="col-sm-8 stepper-wrapper">
 

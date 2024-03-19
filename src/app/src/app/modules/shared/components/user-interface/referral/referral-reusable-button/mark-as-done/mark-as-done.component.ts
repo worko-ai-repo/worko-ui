@@ -1,0 +1,54 @@
+import { Component, EventEmitter, Output, ViewChild } from '@angular/core';
+import { ModalComponent } from 'src/app/modules/shared/components/modal/modal.component';
+import { ModalType } from 'src/app/modules/shared/interfaces/shared.interface';
+
+@Component({
+  selector: 'app-mark-as-done',
+  templateUrl: './mark-as-done.component.html',
+  styleUrls: ['./mark-as-done.component.scss']
+})
+export class MarkAsDoneComponent {
+
+  @Output() markAsDone1 = new EventEmitter<string>();
+  @ViewChild(ModalComponent) modal!: ModalComponent;
+  modalType = ModalType;
+  modalMessage: string = "";
+  modalTitle: string = "";
+  showModal: ModalType | undefined;
+
+  referralMarkAsDone(){
+    this.markAsDone1.emit();
+    // this.showReferralDetails.emit(item);
+    this.openModal(ModalType.REFERRAL_RATING);
+  }
+
+  /**
+   * Open modal.
+   *
+   * @param {ModalType} modalType
+   * @param {string} [message = ""]
+   * @param {string} [title = ""]
+   * @returns {void}
+   */
+ openModal(modalType: ModalType, message: string = "", title: string = ""): void {
+  this.showModal = modalType;
+  this.modalMessage = message;
+  this.modalTitle = title;
+  this.modal.open();
+}
+/**
+ * Close modal.
+ *
+ * @returns {void}
+ */
+closeModal(): void {
+  this.modal.cancel();
+}
+
+async receiveDataFromChild(userType: any) {
+  console.log(userType);
+  this.closeModal();
+
+}
+
+}

@@ -17,5 +17,6 @@ export enum ModalCloseResult {
     EMPLOYEE_SERVICE_ADD=8,
     EDIT_BANK_DETAILS=9,
     OTP_VERIFICATION=10,
+    REFERRAL_RATING=11
   }
   

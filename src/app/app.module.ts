@@ -11,6 +11,7 @@ import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { HttpClientModule } from '@angular/common/http';
 import { MatTooltipModule } from '@angular/material/tooltip';
 import { NavbarToggleSwitchService } from './modules/candidate/services/navbar-toggle-switch.service';
+import { MarkAsDoneComponent } from './src/app/modules/shared/components/user-interface/referral/referral-reusable-button/mark-as-done/mark-as-done.component';
 
 
 
