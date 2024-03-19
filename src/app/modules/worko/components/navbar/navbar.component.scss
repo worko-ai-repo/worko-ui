@@ -116,6 +116,8 @@ li{
 
 @media (max-width: 1030px) and (min-width: 550px) {
 
+    
+
     hr {
         margin-top: 0; 
         margin-bottom: 0; 
@@ -127,7 +129,7 @@ li{
         margin-top: 17px;
 
         img{
-            width: 120px;
+            width: 160px;
         }
     }
 
@@ -138,7 +140,6 @@ li{
     .user-icon{
         width: 35px;
     }
-
 }
 
 @media (max-width: 575px) {
@@ -148,16 +149,45 @@ li{
     }
 }
 
-@media (max-width: 550px) {
+@media (max-width: 550px) and (min-width: 480px) {
+    .navbar-brand {
+        margin-left: 3vw;
+        margin-top: 17px;
+
+        img{
+            width: 160px;
+        }
+    }
+
+    .hamburger-lines{
+        height: 21px;
+        width: 31px;
+        top: 40px;
+        right: 23px;
+    }
+
+    
+}
+
+@media (max-width: 480px) {
+
+    .hamburger-lines{
+        height: 20px;
+        width: 29px;
+        top: 24px;
+        right: 23px;
+    }
 
     .navbar-brand {
-        margin-left: 3%;
+        margin-left: 2%;
         margin-top: 1rem;
 
         img{
-            width: 70px;
+            width: 87px;
         }
     }
+
+    
 
 }
 
@@ -305,11 +335,11 @@ li{
 
     .navbar-container .hamburger-lines{
         display: block;
-        height: 20px;
-        width: 27px;
+        // height: 20px;
+        // width: 27px;
         position: absolute;
-        top: 20px;
-        right: 20px;
+        // top: 20px;
+        // right: 20px;
         z-index: 2;
         display: flex;
         flex-direction: column;
@@ -506,6 +536,15 @@ li{
         display: block;
     }
 
+}
+
+@media (max-width: 675px) and (min-width: 480px) {
+    .hamburger-lines{
+        height: 23px;
+        width: 34px;
+        top: 35px;
+        right: 23px;
+    }
 }
 
 // @media (max-width: 500px){
