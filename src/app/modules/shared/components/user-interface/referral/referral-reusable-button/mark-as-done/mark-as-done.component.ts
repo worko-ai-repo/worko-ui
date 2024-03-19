@@ -1,4 +1,4 @@
-import { Component, EventEmitter, Output, ViewChild } from '@angular/core';
+import { Component, EventEmitter, Input, Output, ViewChild } from '@angular/core';
 import { ModalComponent } from 'src/app/modules/shared/components/modal/modal.component';
 import { ModalType } from 'src/app/modules/shared/interfaces/shared.interface';
 
@@ -8,7 +8,7 @@ import { ModalType } from 'src/app/modules/shared/interfaces/shared.interface';
   styleUrls: ['./mark-as-done.component.scss']
 })
 export class MarkAsDoneComponent {
-
+  @Input() userType:any;
   @Output() markAsDone1 = new EventEmitter<string>();
   @ViewChild(ModalComponent) modal!: ModalComponent;
   modalType = ModalType;
