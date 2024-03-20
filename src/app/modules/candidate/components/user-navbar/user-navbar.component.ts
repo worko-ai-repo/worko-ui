@@ -18,6 +18,9 @@ export class UserNavbarComponent implements OnInit{
   }
 
   ngOnInit(): void {
+   console.log(this.userType)
+   
+   //debugger
    
     this.activeRoute = this.router.url;
     if (this.userType == "Candidate") {
@@ -58,12 +61,18 @@ export class UserNavbarComponent implements OnInit{
   }
 
   toggleDashboard() {
+
     this.navbarToggleSwitchService.toggleDashboard();
 
     if (this.navbarToggleSwitchService.getIsEmployeeDashboard()) {
-      this.router.navigate(['/employee/edashboard']);
+      console.log(this.userType)
+      this.router.navigate(['/employee/Dashboard']);
+     
+      //debugger
     } else {
+      console.log(this.userType)
       this.router.navigate(['/candidate/dashboard']);
+      
     }  
   }
 

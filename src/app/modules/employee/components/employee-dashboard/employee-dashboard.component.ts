@@ -23,6 +23,7 @@ export class EmployeeDashboardComponent {
   userDescription: string = "";
   profileCompletion: any;
   bankDetails: any;
+  userType = "Employee"
   constructor(private candidateSrv: CandidateProfileService, private storage: StorageService, private empService: EmployeeProfileService) { }
 
   ngOnInit(): void {

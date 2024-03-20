@@ -336,7 +336,7 @@ export class HomeComponent {
       if (userType == "CAND") {
         this.router.navigate(['/candidate/dashboard']);
       } else {
-        this.router.navigate(['/employee/edashboard']);
+        this.router.navigate(['/employee/Dashboard']);
       }
     }
   }

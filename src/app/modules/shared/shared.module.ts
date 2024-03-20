@@ -24,7 +24,7 @@ import { SubscriptionPlanComponent } from './components/user-interface/subscript
 import { PersonalInformationComponent } from './components/user-interface/edit-profile/personal-information/personal-information.component';
 import { PersonalDetailsComponent } from './components/user-interface/edit-profile/personal-details/personal-details.component';
 import { UploadComponent } from './components/user-interface/edit-profile/upload/upload.component';
-import { Routes } from '@angular/router';
+import { RouterModule, Routes } from '@angular/router';
 import { AcceptedReferralComponent } from './components/user-interface/candidate/accepted-referral/accepted-referral.component';
 import { JobHistoryComponent } from './components/user-interface/employee/dashboard/job-history/job-history.component';
 import { ServicePackageComponent } from './components/user-interface/employee/dashboard/service-package/service-package.component';
@@ -64,6 +64,7 @@ import { PaymentTrendComponent } from './components/Admin/Dashboard/payment-tren
 import { AdminTotalAmountComponent } from './components/Admin/Dashboard/admin-total-amount/admin-total-amount.component';
 import { EmployeeAboutComponent } from './components/user-interface/employee/dashboard/employee-about/employee-about.component';
 import { OtpVerificationModalComponent } from './components/otp-verification-modal/otp-verification-modal.component';
+import { UserMenubarComponent } from './components/user-menubar/user-menubar.component';
 
 
 export const routes: Routes = [
@@ -97,6 +98,7 @@ export const routes: Routes = [
     AdminTotalAmountComponent,
     EmployeeAboutComponent,
     OtpVerificationModalComponent,
+    UserMenubarComponent,
 
 
     // DoneServiceComponent,
@@ -126,6 +128,7 @@ export const routes: Routes = [
     MatSelectModule,
     ReactiveFormsModule,
     SlickCarouselModule,
+    RouterModule,
     // BrowserAnimationsModule,
   ],
 
@@ -156,7 +159,7 @@ export const routes: Routes = [
   AdminTotalAmountComponent,
   EmployeeAboutComponent,
   OtpVerificationModalComponent,
-
+  UserMenubarComponent,
 
   ],
 

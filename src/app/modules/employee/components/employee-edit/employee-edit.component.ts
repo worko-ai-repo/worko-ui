@@ -194,27 +194,74 @@ export class EmployeeEditComponent {
     // console.log(this.workExperienceDetails)
     // console.log(this.employeeProfessionalData)
 
-    let workExperience =
-      [{
-        "companyName": this.secondStepData?.companyName,
-        "companySK": this.secondStepData?.companySK,
-        "emailId": this.secondStepData?.officialEmail,
-        "designation": this.secondStepData?.designation,
-        "department": this.secondStepData?.department,
-        "SK": this.workExperienceDetails ? this.workExperienceDetails.SK : "",
-        "PK": this.workExperienceDetails ? this.workExperienceDetails.PK : "",
-        "experienceInMonths": this.secondStepData?.workingSince,
-        "userType":"EMP",
-         "isCurrent": this.secondStepData?.isCurrent ? this.secondStepData?.isCurrent : true
+    // let workExperience =
+    //   [{
+    //     "companyName": this.secondStepData?.companyName,
+    //     "companySK": this.secondStepData?.companySK,
+    //     "emailId": this.secondStepData?.officialEmail,
+    //     "designation": this.secondStepData?.designation,
+    //     "department": this.secondStepData?.department,
+    //     "SK": this.workExperienceDetails ? this.workExperienceDetails.SK : "",
+    //     "PK": this.workExperienceDetails ? this.workExperienceDetails.PK : "",
+    //     "experienceInMonths": this.secondStepData?.workingSince,
+    //     "userType":"EMP",
+    //      "isCurrent": this.secondStepData?.isCurrent ? this.secondStepData?.isCurrent : true
        
-      }
-      ]
-    await this.candidateSrv.createWorkExperience(this.emailAddress, workExperience).then(async (response) => {
+    //   }
+    //   ]
+    // await this.candidateSrv.createWorkExperience(this.emailAddress, workExperience).then(async (response) => {
 
-      // if (response) {
-      this.creatSocialProfile();
-      // }
-    })
+    //   // if (response) {
+    //   this.creatSocialProfile();
+    //   // }
+    // })
+    console.log(this.employeeProfessionalData.previousCompanies)
+
+    try {
+      let workExperience = [];
+  
+      // Add current company details
+      if (this.secondStepData) {
+        workExperience.push({
+          "companyName": this.secondStepData.companyName,
+          "companySK": this.secondStepData.companySK,
+          "emailId": this.secondStepData.officialEmail,
+          "designation": this.secondStepData.designation,
+          "department": this.secondStepData.department,
+          "SK": this.workExperienceDetails ? this.workExperienceDetails.SK : "",
+          "PK": this.workExperienceDetails ? this.workExperienceDetails.PK : "",
+          "experienceInMonths": this.secondStepData.workingSince,
+          "userType": "EMP",
+          "isCurrent": this.secondStepData.isCurrent !== undefined ? this.secondStepData.isCurrent : true
+        });
+      }
+  
+      // Add previous company details
+     
+      if (this.employeeProfessionalData.previousCompanies) {
+        workExperience.push(...this.employeeProfessionalData.previousCompanies.map((previousCompany: any) => {
+          return {
+            "companyName": previousCompany.previousCompanyName,
+            "designation": previousCompany.previousDesignation,
+            "companySK": this.secondStepData.companySK,
+            "SK": this.workExperienceDetails ? this.workExperienceDetails.SK : "",
+          "PK": this.workExperienceDetails ? this.workExperienceDetails.PK : "",
+          "department": 'frontend' ,
+            "emailId": this.secondStepData.officialEmail,
+            "experienceInMonths": previousCompany.previousExperience,
+            "userType": "EMP",
+            "isCurrent": false // Assuming isCurrent is always false for previous companies
+          };
+        }));
+      }
+  
+      await this.candidateSrv.createWorkExperience(this.emailAddress, workExperience).then(async (response) => {
+        this.creatSocialProfile();
+      });
+    } catch (error) {
+      console.error('Error updating work experience:', error);
+      // Handle error appropriately
+    }
   }
   
   async creatSocialProfile() {
@@ -373,7 +420,7 @@ export class EmployeeEditComponent {
   }
 
   continue(){
-    this.router.navigate(['/employee/edashboard']);
+    this.router.navigate(['/employee/Dashboard']);
     this.closeModal();
   }
   cancel(){

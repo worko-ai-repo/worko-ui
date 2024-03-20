@@ -5,7 +5,7 @@ import { RouterModule, Routes } from '@angular/router';
 import { CandidateComponent } from './candidate.component';
 import { candidateGuard } from './guards/candidate.guard';
 import { UserNavbarComponent } from './components/user-navbar/user-navbar.component';
-import { UserMenubarComponent } from './components/user-menubar/user-menubar.component';
+
 import { UserDetailsComponent } from './components/user-details/user-details.component';
 import { UserProfileCompleteComponent } from './components/user-profile-complete/user-profile-complete.component';
 import { UserSoftSkillsComponent } from './components/user-soft-skills/user-soft-skills.component';
@@ -101,7 +101,7 @@ export const routes: Routes = [
    CandidateDashboardComponent,
   CandidateComponent,
   UserNavbarComponent,
-  UserMenubarComponent,
+ 
   UserDetailsComponent,
   UserProfileCompleteComponent,
   UserSoftSkillsComponent,
@@ -148,7 +148,7 @@ export const routes: Routes = [
     
 
   ],
-  exports: [UserMenubarComponent,
+  exports: [
     UserNavbarComponent,
     UserDetailsComponent,
     UserProfileCompleteComponent,

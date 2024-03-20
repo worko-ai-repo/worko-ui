@@ -1,4 +1,4 @@
-import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
+import { Component, EventEmitter, Input, Output } from '@angular/core';
 import { Router } from '@angular/router';
 import { CognitoService } from 'src/app/modules/services/cognito.service';
 
@@ -28,6 +28,7 @@ export class UserMenubarComponent {
 
   ngOnInit(): void {
     this.activeRoute = this.router.url;
+    console.log(this.userType)
     if (this.userType == "Candidate") {
       this.menuItems = [
         {
@@ -61,23 +62,23 @@ export class UserMenubarComponent {
       this.menuItems = [
         {
           name: 'Dashboard',
-          router: "employee/edashboard"
+          router: "employee/Dashboard"
         },
         {
           name: 'Referral request',
-          router: "employee/ereferral"
+          router: "employee/Referral"
         },
         {
           name: 'Service request',
-          router: "employee/eservice"
+          router: "employee/Service"
         },
         {
           name: 'Packages',
-          router: "employee/epackages"
+          router: "employee/Packages"
         },
         {
           name: 'Refer & Earn',
-          router: "employee/erefer&earn"
+          router: "employee/Refer&earn"
         },
         // {
         //   name: 'Settings',
