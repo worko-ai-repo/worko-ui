@@ -25,6 +25,7 @@ import { AddBankDetailsComponent } from '../shared/components/user-interface/emp
 import { UserStepperComponent } from '../shared/components/user-interface/employee/employee-edit/user-stepper/user-stepper.component';
 import { FormsModule } from '@angular/forms';
 import { EmployeeAboutComponent } from '../shared/components/user-interface/employee/dashboard/employee-about/employee-about.component';
+import { NgbRatingModule} from '@ng-bootstrap/ng-bootstrap'
 import { EmployeeDashboardComponent } from './components/employee-dashboard/employee-dashboard.component';
 
 
@@ -94,6 +95,7 @@ export const routes: Routes = [
     CandidateModule,
     SharedModule,
     FormsModule,
+    NgbRatingModule,
     
     
     RouterModule.forChild(routes),

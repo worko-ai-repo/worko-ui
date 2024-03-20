@@ -30,6 +30,8 @@ export class PersonalInformationComponent implements OnInit {
   emailAddress: any = "";
   candidateDetailsList: any = "";
   // profilePicUrl: string = "/assets/public/candidate-img.png";
+  successmessage:string="";
+  successtitle:string="";
   picErrorMessage: string = "";
   @Input() candidatePersonalDetails: any = {
     name: "",
@@ -210,8 +212,12 @@ export class PersonalInformationComponent implements OnInit {
           console.log('Selected file type:', file);
         } else {
           // Display an error for an invalid file type
-          console.error('Invalid file type. Please upload a supported file.');
+         // console.error('Invalid file type. Please upload a supported file.');
           // Optionally, you can reset the input to clear the invalid selection
+          this.successmessage="Please upload a jpg, png image only."
+          this.successtitle="Error"
+          this.openModal(ModalType.SUCCESS_MESSAGE)
+          
           inputElement.value = '';
           this.fileToUpload = null;
           this.fileName = "";
@@ -227,7 +233,9 @@ export class PersonalInformationComponent implements OnInit {
   openOtpModal(){
     this.openModal(ModalType.OTP_VERIFICATION);
   }
-
+  cancel(){
+    this.closeModal();
+  }
   /**
   * Open modal.
   *
@@ -306,19 +314,20 @@ export class PersonalInformationComponent implements OnInit {
   
   newsk:any;
   removeField(index: number,sk:any) {
-  
+  console.log(index,sk);
     
-    const isCollegeDataFilled = this.candidatePersonalDetails.collegeData[index].collage !== '' &&
-                                       this.candidatePersonalDetails.collegeData[index].degree !== '' &&
-                                       this.candidatePersonalDetails.collegeData[index].passingYear !== '' 
-    if(isCollegeDataFilled) {   
+    // const isCollegeDataFilled = (this.candidatePersonalDetails.collegeData[index].collage !== '' &&
+    //                                    this.candidatePersonalDetails.collegeData[index].degree !== '' &&
+    //                                    this.candidatePersonalDetails.collegeData[index].passingYear !== '')
+                            
+     if(sk) {   
       this.newsk=sk.substring(7);
       console.log(this.newsk)                               
 this.candidateSrv.deleteUserCollege(this.emailid,this.newsk)
 this.candidatePersonalDetails.collegeData.splice(index, 1);
-    }else{
-    this.candidatePersonalDetails.collegeData.splice(index, 1);
-  }
+     }else{
+   this.candidatePersonalDetails.collegeData.splice(index, 1);
+   }
   }
 
   

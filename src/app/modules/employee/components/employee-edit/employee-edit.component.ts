@@ -89,6 +89,7 @@ export class EmployeeEditComponent {
   }
   // Get API //
   async getEmployeeDetails() {
+    try{
     await this.candidateSrv.getUserDetails(this.emailAddress).then(async (response) => {
       if (response) {
         this.employeeDetails = response[0];
@@ -96,6 +97,15 @@ export class EmployeeEditComponent {
 
       }
     })
+  }catch(error:any ){
+      if(error.status==401){
+       this.router.navigate(['/']);
+     }else {
+       this.successmessage= "Something went wrong. Please try again after sometime"
+       this.successtitle="Error"
+       this.openModal(ModalType.SUCCESS_MESSAGE)
+     }
+   }
   }
   onSuccess(data: any) {
     this.thirdStepData = data;
@@ -105,6 +115,7 @@ export class EmployeeEditComponent {
   
   }
   async getSocialProfile() {
+    try{
     await this.candidateSrv.getUserProfile(this.emailAddress).then(async (response) => {
       if (response) {
         this.employeeSocial = response[0];
@@ -113,10 +124,19 @@ export class EmployeeEditComponent {
       }
       this.getWorkExperienceDetails();
     });
+  }catch(error:any ){
+    if(error.status==401){
+     this.router.navigate(['/']);
+   }else {
+     this.successmessage= "Something went wrong. Please try again after sometime"
+     this.successtitle="Error"
+     this.openModal(ModalType.SUCCESS_MESSAGE)
+   }
+ }
   }
 
   async updateProfilePic(): Promise<void> {
-    this.spinner.show();
+    //this.spinner.show();
     try {
       // if (this.userId && this.thirdStepData.fileType && this.thirdStepData.fileName) {
       if (this.firstStepData.fileType && this.firstStepData.fileName) {
@@ -136,12 +156,15 @@ export class EmployeeEditComponent {
       } else {
         this.updateWorkExperience();
       }
-    } catch (error) {
-      this.successmessage="error:"+error
-        this.successtitle="error"
-        this.openModal(ModalType.SUCCESS_MESSAGE)
-      console.log(error);
-    }
+    }catch(error:any ){
+      if(error.status==401){
+       this.router.navigate(['/']);
+     }else {
+       this.successmessage= "Something went wrong. Please try again after sometime"
+       this.successtitle="Error"
+       this.openModal(ModalType.SUCCESS_MESSAGE)
+     }
+   }
   }
 
 
@@ -159,22 +182,22 @@ export class EmployeeEditComponent {
           } catch (error: any) {
 
             if (error && error.error.message) {
-              this.successmessage="error:"+error
-              this.successtitle="error"
+              this.successmessage= "Something went wrong. Please try again after sometime"
+              this.successtitle="Error"
               this.openModal(ModalType.SUCCESS_MESSAGE)
               // this.errorMessage = error.error.message;
               // this.setErrorMessage('File Link error linkResumewithUser:- '+ error.error.message);
             }
-            this.successmessage="File Link error linkResumewithUser:"+error
-            this.successtitle="error"
+            this.successmessage= "Something went wrong. Please try again after sometime"
+            this.successtitle="Error"
             this.openModal(ModalType.SUCCESS_MESSAGE)
             console.error('File Link error linkResumewithUser:', error);
           }
 
         })
         .catch(error => {
-          this.successmessage="File upload error:"+error
-          this.successtitle="error"
+          this.successmessage= "Something went wrong. Please try again after sometime"
+          this.successtitle="Error"
           this.openModal(ModalType.SUCCESS_MESSAGE)
 
           console.error('File upload error:', error);
@@ -183,8 +206,8 @@ export class EmployeeEditComponent {
         });
 
     } catch (error) {
-      this.successmessage="error:"+error
-      this.successtitle="error"
+      this.successmessage= "Something went wrong. Please try again after sometime"
+      this.successtitle="Error"
       this.openModal(ModalType.SUCCESS_MESSAGE)
       console.log(error)
     }
@@ -258,10 +281,15 @@ export class EmployeeEditComponent {
       await this.candidateSrv.createWorkExperience(this.emailAddress, workExperience).then(async (response) => {
         this.creatSocialProfile();
       });
-    } catch (error) {
-      console.error('Error updating work experience:', error);
-      // Handle error appropriately
-    }
+    }catch(error:any ){
+      if(error.status==401){
+       this.router.navigate(['/']);
+     }else {
+       this.successmessage= "Something went wrong. Please try again after sometime"
+       this.successtitle="Error"
+       this.openModal(ModalType.SUCCESS_MESSAGE)
+     }
+   }
   }
   
   async creatSocialProfile() {
@@ -312,12 +340,22 @@ export class EmployeeEditComponent {
       SK: this.employeeSocial?.SK,
       PK: this.employeeSocial?.PK
     }
+    try{
     await this.candidateSrv.createUserProfile(this.emailAddress, socialProfile).then(async (response) => {
       // if (response) {
         // console.log(socialProfile)
       this.createUserDetails();
       // }
     })
+  }catch(error:any ){
+    if(error.status==401){
+     this.router.navigate(['/']);
+   }else {
+     this.successmessage= "Something went wrong. Please try again after sometime"
+     this.successtitle="Error"
+     this.openModal(ModalType.SUCCESS_MESSAGE)
+   }
+ }
   }
 
 
@@ -351,16 +389,26 @@ export class EmployeeEditComponent {
       "isCandidateFresher" : false
       // "acceptedTermsAndConditions": true //Will remove once remove from API
     }
-
+try{
     await this.candidateSrv.createUserDetails(this.emailAddress, userDetails).then(async (response) => {
       if (response) {
         this.addBankDetails();
 
       }
     })
+  }catch(error:any ){
+    if(error.status==401){
+     this.router.navigate(['/']);
+   }else {
+     this.successmessage= "Something went wrong. Please try again after sometime"
+     this.successtitle="Error"
+     this.openModal(ModalType.SUCCESS_MESSAGE)
+   }
+ }
   };
 
   async getWorkExperienceDetails() {
+    try{
     await this.candidateSrv.getWorkExperience(this.emailAddress).then(async (response) => {
       if (Array.isArray(response) && response.length > 0 && response[0].hasOwnProperty('SK')) {
         // Assuming 'SK' is a property that indicates the response structure
@@ -369,15 +417,34 @@ export class EmployeeEditComponent {
       }
       this.getBankDetails();
     })
+  }catch(error:any ){
+    if(error.status==401){
+     this.router.navigate(['/']);
+   }else {
+     this.successmessage= "Something went wrong. Please try again after sometime"
+     this.successtitle="Error"
+     this.openModal(ModalType.SUCCESS_MESSAGE)
+   }
+ }
   }
 
   async getBankDetails() {
+    try{
     await this.empService.getBankDetails(this.emailAddress).then(async (response) => {
       if (response) {
         this.bankDetails = response;
 
       }
     })
+  }catch(error:any ){
+    if(error.status==401){
+     this.router.navigate(['/']);
+   }else {
+     this.successmessage= "Something went wrong. Please try again after sometime"
+     this.successtitle="Error"
+     this.openModal(ModalType.SUCCESS_MESSAGE)
+   }
+ }
   }
 
 
@@ -404,14 +471,24 @@ export class EmployeeEditComponent {
         }
       ]
     };
+    try{
     await this.empService.createBankDetails(this.emailAddress, data).then(async (response) => {
       if (response) {
-        this.spinner.hide();
+       // this.spinner.hide();
        // this.router.navigate(['/employee/edashboard']);
        this.modalopen();
         console.log(response);
       }
     })
+   }catch(error:any ){
+    if(error.status==401){
+     this.router.navigate(['/']);
+   }else {
+     this.successmessage= "Something went wrong. Please try again after sometime"
+     this.successtitle="Error"
+     this.openModal(ModalType.SUCCESS_MESSAGE)
+   }
+ }
   }
   modalopen(){
     this.successmessage="Your profile has been updated successfully.";
@@ -424,7 +501,7 @@ export class EmployeeEditComponent {
     this.closeModal();
   }
   cancel(){
-    this.router.navigate(['/']);
+    this.router.navigate(['/employee/Dashboard']);
     this.closeModal();
   }
 

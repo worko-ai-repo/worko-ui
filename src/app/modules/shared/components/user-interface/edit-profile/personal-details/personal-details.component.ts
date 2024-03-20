@@ -246,7 +246,7 @@ export class PersonalDetailsComponent implements OnInit {
 
     }else{
       this.successmessage="You cannot add more than 10 Achievements."
-      this.successtitle="error"
+      this.successtitle="Error"
       this.openModal(ModalType.SUCCESS_MESSAGE)
 
     }
@@ -294,7 +294,7 @@ export class PersonalDetailsComponent implements OnInit {
       // Alert or handle the case where the limit is reached
       //console.error('Cannot add more than 10 certificates.');
       this.successmessage="you cannot add more than 10 core skils."
-      this.successtitle="error"
+      this.successtitle="Error"
       this.openModal(ModalType.SUCCESS_MESSAGE)
     }
     }
@@ -364,7 +364,7 @@ export class PersonalDetailsComponent implements OnInit {
         // Alert or handle the case where the limit is reached
         //console.error('Cannot add more than 10 certificates.');
         this.successmessage="you cannot add more than 10 certificates."
-        this.successtitle="error"
+        this.successtitle="Error"
         this.openModal(ModalType.SUCCESS_MESSAGE)
         
 

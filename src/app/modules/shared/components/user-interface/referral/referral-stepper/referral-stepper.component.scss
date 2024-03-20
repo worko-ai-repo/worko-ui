@@ -1,7 +1,7 @@
 .candidate-card{
-    border-radius: 10px;
-background: #0A1E35;
-width: 100%;
+  border-radius: 10px;
+  background: #0A1E35;
+  width: 100%;
 
 }
 // .ref{
@@ -13,75 +13,75 @@ width: 100%;
 // }
 
 .stepper-wrapper {
-    display: flex;
-    width: 480.16px;
-  justify-content: center;
-   
- 
-  }
-  .h6{
-    width: Hug (250px);
-    height: Hug (63px)
+  display: flex;
+  width: 100%;
+  // width: 480.16px;
+  // justify-content: center;
+  justify-content: end; 
+  position: relative;
+}
+.h6{
+  width: Hug (250px);
+  height: Hug (63px)
 
-  }
-  
-  
-  .stepper-item {
-    position: relative;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    flex: 2;
-    top: 5.73px;
-     left: 422px
+}
 
-    
-  
-  }
-  .ref-startline{
-    position: absolute;
-    content: "";
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    //   border-bottom: 2px #1ED6FF;
-    border: 1.18283px solid #1ED6FF;
-    width: 33.8px;
-  bottom:21% ;
-    left: 50.6%;
-    z-index: 3;
-  }
-  
-  .stepper-item .step-counter {
-    position: relative;
-  //   z-index: 2.5;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    width: 40px;
-    height: 30px;
-    border-radius: 50% ;
-   background:transparent;
-   border: 1.18px solid #1ED6FF;
-  //   margin-bottom: 3px;
-  }
 
-  
-  .stepper-item .ref-line{
+.stepper-item {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  flex: 2;
+  top: 5.73px;
+   left: 422px
+}
+.ref-startline{
   position: absolute;
   content: "";
   display: flex;
   justify-content: center;
   align-items: center;
   //   border-bottom: 2px #1ED6FF;
-  border: 1.18283px dashed #1ED6FF;
-  width: 82%;
-bottom:24% ;
-  left:58.7%;
+  border: 1.18283px solid #1ED6FF;
+  width: 33.8px;
+  // bottom:21% ;
+  // left: 50.6%;
+  top: 50%;
+  left: 0;
   z-index: 3;
-  
-  
-  }
+}
+
+.stepper-item .step-counter {
+  position: relative;
+//   z-index: 2.5;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 40px;
+  height: 30px;
+  border-radius: 50% ;
+ background:transparent;
+ border: 1.18px solid #1ED6FF;
+//   margin-bottom: 3px;
+}
+
+
+.stepper-item .ref-line{
+position: absolute;
+content: "";
+display: flex;
+justify-content: center;
+align-items: center;
+//   border-bottom: 2px #1ED6FF;
+border: 1.18283px dashed #1ED6FF;
+width: 82%;
+bottom:24% ;
+left:58.7%;
+z-index: 3;
+
+
+}
 .step-name{
 height: 14px;
 top: 6.64px;
@@ -97,28 +97,101 @@ text-align: left;
 
 
 .stepper-item .circle-outline {
-    width: 20px; 
-    height: 20px; 
-    border-radius: 50%; 
-    border: 2px solid  #1ED6FF; 
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    position: relative;
+  width: 20px; 
+  height: 20px; 
+  border-radius: 50%; 
+  border: 2px solid  #1ED6FF; 
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  position: relative;
 }
 
 
 .stepper-item .circle {
-    width: 10px; 
-    height: 10px; 
-    border-radius: 50%;
-    background-color:  #1ED6FF; 
-    
+  width: 10px; 
+  height: 10px; 
+  border-radius: 50%;
+  background-color:  #1ED6FF; 
+  
 }
 
+.parent-div {
+display: flex;
+}
 
+.timeline {
+  display: flex;
+  // flex-grow: 1;
+  flex-direction: row;
+  padding: 1rem;
+}
 
-  
-  
+.timeline-event {
+  display: flex;
+  position: relative;
+  flex-direction: column;
+  min-width: 100px;
+}
 
+.timeline-event:last-child {
+  min-height: 0;
+}
 
+// .timeline-content {
+//   flex: 1;
+//   padding: 0 0;
+//   display: flex;
+//   flex-direction: column;
+// }
+
+.timeline-point-track-container {
+  flex: 0;
+  display: flex;
+  align-items: center;
+}
+
+.timeline-point {
+  display: flex;
+  align-self: baseline;
+  border: 2px solid #1b7ff3;
+  border-radius: 50%;
+  width: 1.5rem;
+  height: 1.5rem;
+  background-color: #fff;
+}
+
+.timeline-track {
+  flex-grow: 1;
+  background-color: #dee2e6;
+  height: 2px;
+}
+
+.timeline-date {
+  font-size: 10px;
+  position: absolute;
+  bottom: -75%;
+  left: -12%;
+}
+
+.highlight {
+  background-color: #1b7ff3;
+  box-shadow: 0 4px 8px #8db8e4;
+}
+
+.event-title {
+  position: absolute;
+  font-size: 10px;
+  top: -75%;
+  left: -12%;
+}
+
+.last-event-title {
+  position: absolute;
+  top: -75%;
+  left: -3%;
+}
+
+.remove-extra-track {
+  display: none;
+}

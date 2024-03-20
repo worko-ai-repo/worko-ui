@@ -6,7 +6,7 @@
                     <div class="col-md-12 mt-2  d-flex justify-content-center">
                         <img src="{{candidatePersonalDetails.profilePicUrl}}" class="candidate-img float-end" alt="">
                     </div>
-                    <span class="error-message upload-error">{{picErrorMessage}}</span>
+                    <!-- <span class="error-message upload-error">{{picErrorMessage}}</span> -->
                     <div class="col-md-12  d-flex justify-content-center">
                         <div class="file-container">
                             <label for="file" class="file-label">
@@ -220,7 +220,7 @@
                     <div class="row">
                         <div class="col-md-10 mt-3">
                             <button class="btn btn-next float-end" (click)="updateEducationDetails()" type="submit"
-                                [disabled]="( !candidate.form.valid || !candidatePersonalDetails.socialLinklinkdin || !candidatePersonalDetails.phoneNo || !candidatePersonalDetails.email || !candidatePersonalDetails.name || !candidatePersonalDetails.location  || !candidatePersonalDetails.about || !areAllPreviousFieldsFilled()  ||!candidatePersonalDetails.country  )">Next</button>
+                                [disabled]="(  !candidatePersonalDetails.socialLinklinkdin || !candidatePersonalDetails.phoneNo || !candidatePersonalDetails.name || !candidatePersonalDetails.location  || !candidatePersonalDetails.about || !areAllPreviousFieldsFilled()  ||!candidatePersonalDetails.country  )">Next</button>
                         </div>
 
                     </div>
@@ -231,13 +231,27 @@
 </div>
 
 <app-modal [theme]="'theme-k'" [centered]="true" [showHeader]="showModal === modalType.MESSAGE"
-[showClose]="true" [modalSize]="'md'"
+[showClose]="false" [modalSize]="'md'"
   [showFooter]="showModal === modalType.MESSAGE" [title]="modalTitle" [message]="modalMessage"
-  [bodyClass]="modalMessage ? 'p-4' : 'p-0'">
+  [bodyClass]="modalMessage ? 'p-4' : 'p-0'" [modalSize]="'md'">
 
   <ng-container *ngIf="showModal === modalType.OTP_VERIFICATION">
     <app-otp-verification-modal *ngIf="showModal === modalType.OTP_VERIFICATION"  (onSuccess)="receiveDataFromChild($event)"  ></app-otp-verification-modal>
     </ng-container>
+
+    <div class="row message-card px-sm-3 p-4">
+        <div class="font-weight-bold text-color-red mb-3 d-flex justify-content-center" style="color: #e40707; font-size: medium;" *ngIf="successtitle === 'Error'">
+            {{successtitle}}
+        </div>
+    <!-- <h2 class="d-flex justify-content-center">{{successtitle}}</h2> -->
+        <div class="d-flex justify-content-center"><span>{{successmessage}}</span> </div>
+      
+        <div class=" mt-3 d-flex justify-content-center" > 
+          <button class="btn btn-next"  (click)="cancel()" *ngIf="successtitle === 'Error'"> cancel</button>
+          
+      </div>
+  </div>
+
 
 
 </app-modal>

@@ -1,6 +1,7 @@
 import { Component, EventEmitter, Input, OnInit, Output, ViewChild } from '@angular/core';
 import { ModalComponent } from '../../../modal/modal.component';
 import { ModalType } from 'src/app/modules/shared/interfaces/shared.interface';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-upload',
@@ -32,7 +33,7 @@ export class UploadComponent implements OnInit {
   showModal: ModalType | undefined;
   successmessage: string="";
   successtitle: string="";
-  constructor() { }
+  constructor(private router: Router) { }
   ngOnInit(): void {
 
   }
@@ -89,7 +90,7 @@ export class UploadComponent implements OnInit {
           console.log('Selected file:', file);
         } else {
           this.successmessage="Invalid file type. Please upload a PDF or DOCX file."
-          this.successtitle="error"
+          this.successtitle="Error"
           this.openModal(ModalType.SUCCESS_MESSAGE)
           // Display an error for invalid file type
          // console.error('Invalid file type. Please upload a PDF or DOCX file.');

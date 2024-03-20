@@ -62,7 +62,7 @@ export class EditProfileComponent implements OnInit {
   // post //
 
   async updateWorkExperience() {
-
+try{
     let workExperience =
       [{
         "companyName": this.secondStepData?.companyName,
@@ -85,6 +85,15 @@ export class EditProfileComponent implements OnInit {
      console.log(this.candidatePersonalDetails)
       // }
     })
+  }catch(error:any ){
+    if(error.status==401){
+     this.router.navigate(['/']);
+   }else {
+     this.successmessage= "Something went wrong. Please try again after sometime"
+     this.successtitle="Error"
+     this.openModal(ModalType.SUCCESS_MESSAGE)
+   }
+ }
   }
 
 
@@ -108,6 +117,7 @@ export class EditProfileComponent implements OnInit {
     //       "PK": this.firstStepData?.PK1,
     //     }
     //   ];
+    try{
     if (this.firstStepData.collegeData) {
       console.log(this.firstStepData.collegeData)
       await this.candidateSrv.createEducation(this.emailAddress, this.firstStepData.collegeData).then(async (response) => {
@@ -115,12 +125,22 @@ export class EditProfileComponent implements OnInit {
       })
 
     }
+  }catch(error:any ){
+    if(error.status==401){
+     this.router.navigate(['/']);
+   }else {
+     this.successmessage= "Something went wrong. Please try again after sometime"
+     this.successtitle="Error"
+     this.openModal(ModalType.SUCCESS_MESSAGE)
+   }
+ }
     console.log(this.firstStepData.collegeData)
 
   };
 
   async createSkills() {
     console.log(this.secondStepData.softSkills,this.certificationList?.SK,this.certificationList.pk)
+    try{
     let skills =
     {
       "softSkills": this.secondStepData.softSkills,
@@ -134,11 +154,21 @@ export class EditProfileComponent implements OnInit {
       this.createAchievements();
       // }
     })
+  }catch(error:any ){
+    if(error.status==401){
+     this.router.navigate(['/']);
+   }else {
+     this.successmessage= "Something went wrong. Please try again after sometime"
+     this.successtitle="Error"
+     this.openModal(ModalType.SUCCESS_MESSAGE)
+   }
+ }
   }
 
   async createAchievements() {
+    try{
     if (this.secondStepData.achievements) {
-
+      
       let userAchievements =
       {
         "achievements": this.secondStepData.achievements,
@@ -154,6 +184,15 @@ export class EditProfileComponent implements OnInit {
     } else {
       this.creatSocialProfile();
     }
+  }catch(error:any ){
+    if(error.status==401){
+     this.router.navigate(['/']);
+   }else {
+     this.successmessage= "Something went wrong. Please try again after sometime"
+     this.successtitle="Error"
+     this.openModal(ModalType.SUCCESS_MESSAGE)
+   }
+ }
 
   }
   async creatSocialProfile() {
@@ -206,16 +245,26 @@ export class EditProfileComponent implements OnInit {
       PK: this.firstStepData?.socialPk
     }
     console.log(socialProfile)
+    try{
     await this.candidateSrv.createUserProfile(this.emailAddress, socialProfile).then(async (response) => {
       if (!this.secondStepData.isCandidateFresher) {
         // this.createUserDetails();
         this.updateWorkExperience();
-      
-      } else {
-        this.router.navigate(['/candidate/dashboard']);
-      
       }
+      // } else {
+      //   this.router.navigate(['/candidate/dashboard']);
+      
+      // }
     })
+  }catch(error:any ){
+    if(error.status==401){
+     this.router.navigate(['/']);
+   }else {
+     this.successmessage= "Something went wrong. Please try again after sometime"
+     this.successtitle="Error"
+     this.openModal(ModalType.SUCCESS_MESSAGE)
+   }
+ }
   }
   modelOpen(){
   
@@ -234,12 +283,13 @@ export class EditProfileComponent implements OnInit {
  
   }
   cancel(){
-    this.router.navigate(['/']);
+    this.router.navigate(['/employee/Dashboard']);
     this.closeModal();
   }
 
   async createUserDetails() {
     console.log(this.secondStepData, "this.secondStepD")
+    try{
     let userDetails: any = {
       "ECTC": this.secondStepData.ectc,
       "location": this.firstStepData.location,
@@ -277,6 +327,15 @@ export class EditProfileComponent implements OnInit {
 
       }
     })
+  }catch(error:any ){
+    if(error.status==401){
+     this.router.navigate(['/']);
+   }else {
+     this.successmessage= "Something went wrong. Please try again after sometime"
+     this.successtitle="Error"
+     this.openModal(ModalType.SUCCESS_MESSAGE)
+   }
+ }
   };
 
   // get//
@@ -295,17 +354,14 @@ export class EditProfileComponent implements OnInit {
     } catch (error: any) {
       this.spinner.hide(); // Hide the spinner in case of error as well
       if (error.status === 401) {
-        //this.router.navigate(['/']);
+        this.router.navigate(['/']);
         // Handle unauthorized or forbidden error
-        this.successmessage="Unauthorized or Forbidden"+error
-        this.successtitle="error"
-        this.openModal(ModalType.SUCCESS_MESSAGE)
-        console.error('Unauthorized or Forbidden:', error);
+        
         // For example, you can redirect the user to a login page or display an error message
       } else {
         // Handle other errors
-        this.successmessage="An error occurred:"+error
-        this.successtitle="error"
+        this.successmessage="Something went wrong. Please try again after sometime"
+        this.successtitle="Error"
         this.openModal(ModalType.SUCCESS_MESSAGE)
         console.error('An error occurred:', error);
         // For example, display an error message to the user
@@ -315,6 +371,7 @@ export class EditProfileComponent implements OnInit {
 
 
   async getEducationDetails() {
+    try{
     await this.candidateSrv.getCandidateEducation(this.emailAddress).then(async (response) => {
       if (response) {
         this.educationList = response;
@@ -322,18 +379,54 @@ export class EditProfileComponent implements OnInit {
         this.getSocialProfile();
       }
     })
+  } catch (error: any) {
+    this.spinner.hide(); // Hide the spinner in case of error as well
+    if (error.status === 401) {
+    this.router.navigate(['/']);
+      // Handle unauthorized or forbidden error
+    
+      console.error('Unauthorized or Forbidden:', error);
+      // For example, you can redirect the user to a login page or display an error message
+    } else {
+      // Handle other errors
+      this.successmessage="Something went wrong. Please try again after sometime"
+      this.successtitle="Error"
+      this.openModal(ModalType.SUCCESS_MESSAGE)
+      console.error('An error occurred:', error);
+      // For example, display an error message to the user
+    }
+  }
   }
 
   async getSocialProfile() {
+    try{
     await this.candidateSrv.getUserProfile(this.emailAddress).then(async (response) => {
       if (response) {
         this.candidateSocial = response[0];
         this.userCertifications();
       }
     });
+  } catch (error: any) {
+    this.spinner.hide(); // Hide the spinner in case of error as well
+    if (error.status === 401) {
+      this.router.navigate(['/']);
+      // Handle unauthorized or forbidden error
+     
+      console.error('Unauthorized or Forbidden:', error);
+      // For example, you can redirect the user to a login page or display an error message
+    } else {
+      // Handle other errors
+      this.successmessage="Something went wrong. Please try again after sometime"
+      this.successtitle="Error"
+      this.openModal(ModalType.SUCCESS_MESSAGE)
+      console.error('An error occurred:', error);
+      // For example, display an error message to the user
+    }
+  }
   }
 
   async userCertifications() {
+    try{
     await this.candidateSrv.getCandidateSkills(this.emailAddress).then(async (response) => {
       if (Array.isArray(response) && response.length > 0) {
         this.certificationList = response[0];
@@ -343,9 +436,28 @@ export class EditProfileComponent implements OnInit {
       }
       this.getWorkExperienceDetails();
     })
+   
+  } catch (error: any) {
+    this.spinner.hide(); // Hide the spinner in case of error as well
+    if (error.status === 401) {
+      this.router.navigate(['/']);
+      // Handle unauthorized or forbidden error
+     
+      console.error('Unauthorized or Forbidden:', error);
+      // For example, you can redirect the user to a login page or display an error message
+    } else {
+      // Handle other errors
+      this.successmessage="Something went wrong. Please try again after sometime"
+      this.successtitle="Error"
+      this.openModal(ModalType.SUCCESS_MESSAGE)
+      console.error('An error occurred:', error);
+      // For example, display an error message to the user
+    }
+  }
   }
 
   async getWorkExperienceDetails() {
+    try{
     await this.candidateSrv.getWorkExperience(this.emailAddress).then(async (response) => {
       if (Array.isArray(response) && response.length > 0 && response[0].hasOwnProperty('SK')) {
         // Assuming 'SK' is a property that indicates the response structure
@@ -354,10 +466,28 @@ export class EditProfileComponent implements OnInit {
       }
       this.getAchievements();
     })
+  } catch (error: any) {
+    this.spinner.hide(); // Hide the spinner in case of error as well
+    if (error.status === 401) {
+      this.router.navigate(['/']);
+      // Handle unauthorized or forbidden error
+     
+      console.error('Unauthorized or Forbidden:', error);
+      // For example, you can redirect the user to a login page or display an error message
+    } else {
+      // Handle other errors
+      this.successmessage="Something went wrong. Please try again after sometime"
+      this.successtitle="Error"
+      this.openModal(ModalType.SUCCESS_MESSAGE)
+      console.error('An error occurred:', error);
+      // For example, display an error message to the user
+    }
+  }
   }
 
 
   async getAchievements() {
+    try{
     await this.candidateSrv.getCandidateAchievements(this.emailAddress).then(async (response) => {
       if (Array.isArray(response) && response.length > 0) {
         this.achievements = response[0];
@@ -365,11 +495,24 @@ export class EditProfileComponent implements OnInit {
         this.spinner.hide();
       }
     })
+  } catch (error: any) {
+    this.spinner.hide(); // Hide the spinner in case of error as well
+    if (error.status === 401) {
+      this.router.navigate(['/']);
+      // Handle unauthorized or forbidden error
+     
+      console.error('Unauthorized or Forbidden:', error);
+      // For example, you can redirect the user to a login page or display an error message
+    } else {
+      // Handle other errors
+      this.successmessage="Something went wrong. Please try again after sometime"
+      this.successtitle="Error"
+      this.openModal(ModalType.SUCCESS_MESSAGE)
+      console.error('An error occurred:', error);
+      // For example, display an error message to the user
+    }
   }
-
-
-
-
+  }
 
 
   nextStep() {
@@ -458,12 +601,16 @@ export class EditProfileComponent implements OnInit {
       } else {
         this.updateProfilePic();
       }
-    } catch (error) {
-      this.successmessage="error"+error
-        this.successtitle="error"
-        this.openModal(ModalType.SUCCESS_MESSAGE)
-      console.log(error);
-    }
+    }catch(error:any ){
+      if(error.status==401){
+       this.router.navigate(['/']);
+     }else {
+       this.successmessage= "Something went wrong. Please try again after sometime"
+       this.successtitle="Error"
+       this.openModal(ModalType.SUCCESS_MESSAGE)
+     }
+   }
+    
   }
 
   async updateProfilePic(): Promise<void> {
@@ -488,12 +635,15 @@ export class EditProfileComponent implements OnInit {
         // this.updateWorkExperience();
         this.createUserDetails();
       }
-    } catch (error) {
-      this.successmessage="error"+error
-      this.successtitle="error"
-      this.openModal(ModalType.SUCCESS_MESSAGE)
-      console.log(error);
-    }
+    }catch(error:any ){
+      if(error.status==401){
+       this.router.navigate(['/']);
+     }else {
+       this.successmessage= "Something went wrong. Please try again after sometime"
+       this.successtitle="Error"
+       this.openModal(ModalType.SUCCESS_MESSAGE)
+     }
+   }
   }
 
 
@@ -523,21 +673,21 @@ export class EditProfileComponent implements OnInit {
             if (error && error.error.message) {
               // this.errorMessage = error.error.message;
               // this.setErrorMessage('File Link error linkResumewithUser:- '+ error.error.message);
-              this.successmessage="File Link error linkResumewithUser:"+error
-              this.successtitle="error"
+              this.successmessage="Something went wrong. Please try again after sometime"
+              this.successtitle="Error"
               this.openModal(ModalType.SUCCESS_MESSAGE)
             }
-            this.successmessage="File Link error linkResumewithUser:"+error
-              this.successtitle="error"
+            this.successmessage="Something went wrong. Please try again after sometime"
+              this.successtitle="Error"
               this.openModal(ModalType.SUCCESS_MESSAGE)
-            // console.error('File Link error linkResumewithUser:', error);
+             console.error('File Link error linkResumewithUser:', error);
           }
          
         })
         .catch(error => {
 
-          this.successmessage="File upload error:"+error
-          this.successtitle="error"
+          this.successmessage="Something went wrong. Please try again after sometime"
+          this.successtitle="Error"
           this.openModal(ModalType.SUCCESS_MESSAGE)
           console.error('File upload error:', error);
 
@@ -546,8 +696,8 @@ export class EditProfileComponent implements OnInit {
         );
 
     } catch (error) {
-      this.successmessage=" error:"+error
-          this.successtitle="error"
+      this.successmessage="Something went wrong. Please try again after sometime"
+          this.successtitle="Error"
           this.openModal(ModalType.SUCCESS_MESSAGE)
       console.log(error)
     }
@@ -570,20 +720,20 @@ export class EditProfileComponent implements OnInit {
             if (error && error.error.message) {
               // this.errorMessage = error.error.message;
               // this.setErrorMessage('File Link error linkResumewithUser:- '+ error.error.message);
-              this.successmessage="File Link error linkResumewithUser:"+error
-          this.successtitle="error"
+              this.successmessage="Something went wrong. Please try again after sometime"
+          this.successtitle="Error"
           this.openModal(ModalType.SUCCESS_MESSAGE)
             }
-            this.successmessage="File Link error linkResumewithUser:"+error
-            this.successtitle="error"
+            this.successmessage="Something went wrong. Please try again after sometime"
+            this.successtitle="Error"
             this.openModal(ModalType.SUCCESS_MESSAGE)
-            //console.error('File Link error linkResumewithUser:', error);
+            console.error('File Link error linkResumewithUser:', error);
           }
 
         })
         .catch(error => {
-          this.successmessage="File upload error:"+error
-          this.successtitle="error"
+          this.successmessage="Something went wrong. Please try again after sometime"
+          this.successtitle="Error"
           this.openModal(ModalType.SUCCESS_MESSAGE)
 
           console.error('File upload error:', error);
@@ -592,8 +742,8 @@ export class EditProfileComponent implements OnInit {
         });
 
     } catch (error) {
-      this.successmessage=" error:"+error
-          this.successtitle="error"
+      this.successmessage="Something went wrong. Please try again after sometime"
+          this.successtitle="Error"
           this.openModal(ModalType.SUCCESS_MESSAGE)
       console.log(error)
     }
