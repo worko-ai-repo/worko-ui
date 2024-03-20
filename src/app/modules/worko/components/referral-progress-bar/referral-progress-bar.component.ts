@@ -62,12 +62,12 @@ export class ReferralProgressBarComponent {
             await this.fetchScore();
           }, 20000);
         } 
-      } else if (response.matchingScore === 250) {
+      } else if (response.matchingScore === 251) {
           this.jobDescription = true;
           this.errorFound = true;
           this.showScore = false;
           this.score = 0;
-        } else if (response.matchingScore === 251) {
+        } else if (response.matchingScore === 250) {
           this.cvError = true;
           this.errorFound = true;
           this.showScore = false;
