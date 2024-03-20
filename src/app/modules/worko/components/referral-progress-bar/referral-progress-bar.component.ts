@@ -41,9 +41,9 @@ export class ReferralProgressBarComponent {
         clearInterval(interval);
         setTimeout(async () => {
           await this.fetchScore();
-        }, 300); //30000
+        }, 3000); //30000
       }
-    }, 700); //7000
+    }, 5000); //7000
   }
 
   async fetchScore() {
@@ -51,15 +51,15 @@ export class ReferralProgressBarComponent {
 
     const response = await this.companyListing.getMatchingScore(this.emailId, this.referralId);
     if (response && response.matchingScore !== undefined) {
-      if (response.matchingScore === 0) {
-        const elapsedTime = Date.now() - this.startTime;
-        // console.log(this.maxDuration, "maxDuration");
-        // console.log(this.startTime, "startTime");
-        // console.log(elapsedTime, "elapsedTime");
-        if (elapsedTime < this.maxDuration) {
-          setTimeout(async () => {
-            await this.fetchScore();
-          }, 20000);
+      if (response.matchingScore === 0 || response.matchingScore === 250 || response.matchingScore === 251) {
+        if (response.matchingScore === 0) {
+          const elapsedTime = Date.now() - this.startTime;
+
+          if (elapsedTime < this.maxDuration) {
+            setTimeout(async () => {
+              await this.fetchScore();
+            }, 20000);
+          }
         } else if (response.matchingScore === 250) {
           this.jobDescription = false;
           this.errorFound = true;
@@ -76,18 +76,21 @@ export class ReferralProgressBarComponent {
           this.errorFound = true;
           this.showScore = false;
         }
-      } else {
-        this.score = response.matchingScore;
-        this.showScore = true;
-      }
+
+      
+    } else {
+      this.score = response.matchingScore;
+      this.showScore = true;
     }
+  
   }
+}
 
 
-  onViewMore(): void {
-    // Toggle the visibility of the email content
-    this.showEmailContent = true;
-  }
+onViewMore(): void {
+  // Toggle the visibility of the email content
+  this.showEmailContent = true;
+}
 
   //   getScore() {
   //     this.companyListing.getMatchingScore(this.emailId, this.referralId).then(async (response) => {
