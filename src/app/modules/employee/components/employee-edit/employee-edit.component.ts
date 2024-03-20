@@ -367,8 +367,8 @@ export class EmployeeEditComponent {
     })
   }
   modalopen(){
-    this.successmessage="Edit Profile Successful! Profile has been updated."
-    this.successtitle="success"
+    this.successmessage="Your profile has been updated successfully.";
+    this.successtitle="Congratulations!";
     this.openModal(ModalType.SUCCESS_MESSAGE)
   }
 
