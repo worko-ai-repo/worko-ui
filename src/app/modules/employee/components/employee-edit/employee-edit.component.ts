@@ -238,7 +238,7 @@ export class EmployeeEditComponent {
     //   this.creatSocialProfile();
     //   // }
     // })
-    console.log(this.employeeProfessionalData.previousCompanies)
+    //console.log(this.employeeProfessionalData.previousCompanies)
 
     try {
       let workExperience = [];
@@ -258,7 +258,8 @@ export class EmployeeEditComponent {
           "isCurrent": this.secondStepData.isCurrent !== undefined ? this.secondStepData.isCurrent : true
         });
       }
-  
+  console.log(this.secondStepData)
+  console.log(this.employeeProfessionalData.previousCompanies)
       // Add previous company details
      
       if (this.employeeProfessionalData.previousCompanies) {
@@ -266,9 +267,9 @@ export class EmployeeEditComponent {
           return {
             "companyName": previousCompany.previousCompanyName,
             "designation": previousCompany.previousDesignation,
-            "companySK": this.secondStepData.companySK,
-            "SK": this.workExperienceDetails ? this.workExperienceDetails.SK : "",
-          "PK": this.workExperienceDetails ? this.workExperienceDetails.PK : "",
+            "companySK": previousCompany.previousCompanySk,
+            "SK": previousCompany.sk ?  previousCompany.sk : "",
+          "PK":  previousCompany.pk ? previousCompany.pk  : "",
           "department": 'frontend' ,
             "emailId": this.secondStepData.officialEmail,
             "experienceInMonths": previousCompany.previousExperience,
@@ -277,7 +278,7 @@ export class EmployeeEditComponent {
           };
         }));
       }
-  
+  console.log(workExperience)
       await this.candidateSrv.createWorkExperience(this.emailAddress, workExperience).then(async (response) => {
         this.creatSocialProfile();
       });
@@ -413,7 +414,7 @@ try{
       if (Array.isArray(response) && response.length > 0 && response[0].hasOwnProperty('SK')) {
         // Assuming 'SK' is a property that indicates the response structure
         this.workExperienceDetails = response[0];
-
+console.log(this.workExperienceDetails)
       }
       this.getBankDetails();
     })
