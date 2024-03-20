@@ -5,7 +5,7 @@
                 <div class="col-md-12  d-flex justify-content-center">
                     <img src="{{employeePersonalData.profilePicUrl}}" class="candidate-img float-end" alt="">
                 </div>
-                <span class="error-message upload-error">{{picErrorMessage}}</span>
+                <!-- <span class="error-message upload-error">{{picErrorMessage}}</span> -->
                 <div class="col-md-12  d-flex justify-content-center">
                     <div class="file-container">
                         <label for="file" class="file-label">
@@ -30,16 +30,18 @@
                 <div class="row">
                     <div class="col-md-6">
                         <label for="" class="form-lable required-form-field">Name</label>
-                        <input type="text" class="form-control form-input" placeholder="Name" name="name" id="name"
+                        <input type="text" class="form-control form-input" placeholder="Name" name="name" id="name" 
                             #name="ngModel" [(ngModel)]="employeePersonalData.name"
                             pattern="^([ \u00c0-\u01ffa-zA-Z'.])+$"
                             [title]="name.errors?.['pattern'] ? 'Name is invalid' : ''"
+                            required  [title]="name.errors?.['required'] ? 'Name is invalid' : ''"
                             [ngClass]="{ 'is-invalid': name.invalid && (name.dirty || name.touched) }">
                     </div>
                     <div class="col-md-6">
                         <label for="" class="form-lable required-form-field">Personal/Communication Email</label>
                         <input type="text" class="form-control form-input" placeholder="Email ID"
                             pattern="^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,4}$" name="email" id="email"
+                            required  [title]="email.errors?.['required'] ? 'email is invalid' : ''"
                             [(ngModel)]="employeePersonalData.email"
                             [title]="email.errors?.['pattern'] ? 'Personal/Communication Email is invalid' : ''"
                             [ngClass]="{ 'is-invalid': email.invalid && (email.dirty || email.touched) }"
@@ -53,7 +55,9 @@
 
                     <div class="col-md-6">
                         <label for="" class="form-lable required-form-field">Country</label>
-                        <select class=" selector form-select" name="country" id="country"
+                        <select class=" selector form-select" name="country" id="country" #country="ngModel"
+                        required  [title]="country.errors?.['required'] ? 'country is invalid' : ''"
+                        [ngClass]="{ 'is-invalid': country.invalid && (country.dirty || country.touched) }"
                             [(ngModel)]="employeePersonalData.country">
                             <option value="">Select Country</option>
                             <option *ngFor="let item of countryCodes" value="{{ item.iso3 }}">
@@ -66,16 +70,22 @@
                     <div class="col-md-6">
                         <label for="" class="form-lable required-form-field">City</label>
                         <input type="text" class="form-control form-input" placeholder="City Name" name="location"
-                            id="location" [(ngModel)]="employeePersonalData.location">
+                            id="location" [(ngModel)]="employeePersonalData.location" #location="ngModel"  required  
+                            [title]="location.errors?.['required'] ? 'location is invalid' : ''"
+                            pattern="^([ \u00c0-\u01ffa-zA-Z'.])+$"
+                           [title]="location.errors?.['pattern'] ? 'location is invalid' : ''"
+                           [ngClass]="{ 'is-invalid': location.invalid && (location.dirty || location.touched) }">
                     </div>
                 </div>
 
                 <div class="row mt-1">
                     <div class="col-md-6">
                         <label for="" class="form-lable required-form-field">Phone no</label>
-                        <input type="text" class="form-control form-input" placeholder="+91 XXXXXXXXXX"
-                            pattern="^\+(?:[0-9] ?){6,14}[0-9]$" maxlength="17" name="number" id="number"
+                        <input type="text" class="form-control form-input" placeholder="+91 XXXXXXXXXX" minlength="13"
+                            pattern="^\+(?:[0-9] ?){6,14}[0-9]$" maxlength="17" name="number" id="number" required
                             [(ngModel)]="employeePersonalData.number" #number="ngModel"
+                            [title]="number.errors?.['pattern'] ? 'number is invalid' : ''"
+                            [title]="number.errors?.['required'] ? 'number is invalid' : ''"
                             [ngClass]="{ 'is-invalid': number.invalid && (number.dirty || number.touched) }">
 
                         <!-- <div *ngIf="number.invalid && (number.dirty || number.touched)" class="text-danger">
@@ -89,8 +99,10 @@
                 <div class="row">
                     <div class="col-md-12 mt-1">
                         <label for="" class="form-lable required-form-field">About</label>
-                        <textarea class="about-textarea form-control" placeholder="About" cols="10" rows="3"
-                            name="about" id="about" [(ngModel)]="employeePersonalData.about">
+                        <textarea class="about-textarea form-control" placeholder="About" cols="10" rows="3" minlength="40"
+                            name="about" id="about" [(ngModel)]="employeePersonalData.about" required
+                            #about="ngModel"    [title]="about.errors?.['required'] ? 'about is invalid' : ''"
+                            [ngClass]="{ 'is-invalid': about.invalid && (about.dirty || about.touched) }">
                             </textarea>
                     </div>
                 </div>
@@ -108,6 +120,8 @@
                                 pattern="^(https?:\/\/(www\.)?github\.com\/[a-zA-Z0-9_\-]+\/?)$"
                                 class="text-white material-input__group__input form-input form-control"
                                 #socialLinkGithub="ngModel" [(ngModel)]="employeePersonalData.socialLinkGithub"
+                                [title]="socialLinkGithub.errors?.['pattern'] ? 'Github is invalid' : ''"
+                            [ngClass]="{ 'is-invalid': socialLinkGithub.invalid && (socialLinkGithub.dirty || socialLinkGithub.touched) }"
                                 name="socialLinkGithub" id="socialLinksGithub">
                         </div>
                     </div>
@@ -117,9 +131,11 @@
                             <i class="fa-brands fa-linkedin" style="color: #f6f7f9; font-size: 16px"></i>
                             <input type="text" placeholder="LinkdIn"
                                 class="text-white material-input__group__input form-input form-control"
-                                #socialLinklinkdin="ngModel" [(ngModel)]="employeePersonalData.socialLinklinkdin"
+                                #socialLinklinkdin="ngModel" [(ngModel)]="employeePersonalData.socialLinklinkdin" 
                                 pattern="^(https?:\/\/(www\.)?linkedin\.com\/in\/[a-zA-Z0-9_\-]+\/?)$"
                                 [title]="socialLinklinkdin.errors?.['pattern'] ? 'Linkedin URL is invalid' : ''"
+                                [title]="socialLinklinkdin.errors?.['required'] ? 'Linkedin URL is required' : ''"
+                                [ngClass]="{ 'is-invalid': socialLinklinkdin.invalid && (socialLinklinkdin.dirty || socialLinklinkdin.touched) }"
                                 name="socialLinklinkdin" id="socialLinklinkdin">
                         </div>
                     </div>
@@ -131,6 +147,8 @@
                                 class="text-white material-input__group__input form-input form-control"
                                 pattern="^(https?:\/\/(www\.)?twitter\.com\/[a-zA-Z0-9_\-]+\/?)$"
                                 #socialLinktwitter="ngModel" [(ngModel)]="employeePersonalData.socialLinktwitter"
+                                [title]="socialLinktwitter.errors?.['pattern'] ? 'Twitter URL is required' : ''"
+                                [ngClass]="{ 'is-invalid': socialLinktwitter.invalid && (socialLinktwitter.dirty || socialLinktwitter.touched) }"
                                 name="socialLinktwitter" id="socialLinktwitter">
                         </div>
 
@@ -142,7 +160,7 @@
                 <div class="row">
                     <div class="col-md-12 mt-5 mb-3">
                         <button class="btn btn-next float-end" type="submit"
-                            [disabled]="!employee.form.valid || !employeePersonalData.about || !employeePersonalData.socialLinklinkdin || !employeePersonalData.name || !employeePersonalData.email || !employeePersonalData.country || !employeePersonalData.location || !employeePersonalData.number ||!employeePersonalData.socialLinkGithub ||!employeePersonalData.socialLinktwitter">Next</button>
+                            [disabled]="!employee.form.valid || !employeePersonalData.about || !employeePersonalData.socialLinklinkdin || !employeePersonalData.name || !employeePersonalData.email || !employeePersonalData.country || !employeePersonalData.location || !employeePersonalData.number ">Next</button>
                     </div>
 
                 </div>
@@ -152,3 +170,27 @@
         </div>
     </div>
 </div>
+
+<app-modal [theme]="'theme-k'" [centered]="true" [showHeader]="showModal === modalType.MESSAGE"
+[showClose]="false" [modalSize]="'md'"
+  [showFooter]="showModal === modalType.MESSAGE" [title]="modalTitle" [message]="modalMessage"
+  [bodyClass]="modalMessage ? 'p-4' : 'p-0'" [modalSize]="'md'">
+
+
+
+    <div class="row message-card px-sm-3 p-4">
+        <div class="font-weight-bold text-color-red mb-3 d-flex justify-content-center" style="color: #e40707; font-size: medium;" *ngIf="successtitle === 'Error'">
+            {{successtitle}}
+        </div>
+    <!-- <h2 class="d-flex justify-content-center">{{successtitle}}</h2> -->
+        <div class="d-flex justify-content-center"><span>{{successmessage}}</span> </div>
+      
+        <div class=" mt-3 d-flex justify-content-center" > 
+          <button class="btn btn-next"  (click)="cancel()" *ngIf="successtitle === 'Error'"> cancel</button>
+          
+      </div>
+  </div>
+
+
+
+</app-modal>

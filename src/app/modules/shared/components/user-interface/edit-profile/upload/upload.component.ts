@@ -1,4 +1,7 @@
-import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
+import { Component, EventEmitter, Input, OnInit, Output, ViewChild } from '@angular/core';
+import { ModalComponent } from '../../../modal/modal.component';
+import { ModalType } from 'src/app/modules/shared/interfaces/shared.interface';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-upload',
@@ -6,10 +9,12 @@ import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
   styleUrls: ['./upload.component.scss']
 })
 export class UploadComponent implements OnInit {
+  @ViewChild(ModalComponent) modal!: ModalComponent;
   @Output() previousStep = new EventEmitter<void>();
   @Output() onSuccess = new EventEmitter<void>();
   @Input() candidateList: any;
   @Input() candidateUploadDetails: any;
+  @Input() docResult:any;
   // {
   //   uploadCV: "",
   //   coverLetter: "",
@@ -21,14 +26,21 @@ export class UploadComponent implements OnInit {
   fileName: string = "";
   fileType: string = "";
   showfileError: boolean =false;
-  constructor() { }
+
+  modalType = ModalType;
+  modalMessage: string = "";
+  modalTitle: string = "";
+  showModal: ModalType | undefined;
+  successmessage: string="";
+  successtitle: string="";
+  constructor(private router: Router) { }
   ngOnInit(): void {
 
   }
 
   async uploadDetails(form: any) {
     this.onSuccess.emit(this.candidateUploadDetails)
-    // console.log(this.candidateUploadDetails)
+     console.log(this.candidateUploadDetails)
   }
 
   ngOnChanges(): void {
@@ -77,8 +89,11 @@ export class UploadComponent implements OnInit {
           this.showfileError = false;
           console.log('Selected file:', file);
         } else {
+          this.successmessage="Invalid file type. Please upload a PDF or DOCX file."
+          this.successtitle="Error"
+          this.openModal(ModalType.SUCCESS_MESSAGE)
           // Display an error for invalid file type
-          console.error('Invalid file type. Please upload a PDF or DOCX file.');
+         // console.error('Invalid file type. Please upload a PDF or DOCX file.');
           // Optionally, you can reset the input to clear the invalid selection
           this.showfileError = true;
           inputElement.value = '';
@@ -90,8 +105,47 @@ export class UploadComponent implements OnInit {
       }
     }
   }
-  openfile(filename:any){
+
+  openfile(event: { preventDefault: () => void; }){
+    event.preventDefault(); 
+  // console.log(this.docResult.awsS3SignedUrl)
+   
+   
+    //window.open(this.docResult.awsS3SignedUrl,'_blank')
+    window.open(this.candidateList.cvAwsS3SignedUrl,'_blank')
     
-    window.open(filename,'_blank')
   }
+cancel(){
+  this.closeModal()
+
 }
+
+
+    /**
+   * Open modal.
+   *
+   * @param {ModalType} modalType
+   * @param {string} [message = ""]
+   * @param {string} [title = ""]
+   * @returns {void}
+   */
+    openModal(modalType: ModalType, message: string ="", title: string="" ): void {
+
+      this.showModal = modalType;
+      this.modalMessage = message;
+      this.modalTitle = title;
+      this.modal.open();
+    }
+      /**
+     * Close modal.
+     *
+     * @returns {void}
+     */
+      closeModal(): void {
+        this.modal.cancel();
+      }
+  
+}
+
+
+

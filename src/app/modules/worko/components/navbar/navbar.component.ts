@@ -89,13 +89,13 @@ export class NavbarComponent {
             const totalPercentage = profileType.reduce((sum: any, element: any) => sum + element.curPerc, 0);
 
             if (userType === "CAND" && totalPercentage > 60) {
-              this.router.navigate(['/candidate/cdashboard']);
+              this.router.navigate(['/candidate/dashboard']);
             } else if (userType === "CAND" && totalPercentage < 60) {
-              this.router.navigate(['/candidate/cedit-profile']);
+              this.router.navigate(['/candidate/edit-profile']);
             } else if (userType !== "CAND" && totalPercentage > 60) {
-              this.router.navigate(['/employee/edashboard']);
+              this.router.navigate(['/employee/dashboard']);
             } else if (userType !== "CAND" && totalPercentage < 60) {
-              this.router.navigate(['/employee/eEdit-profile']);
+              this.router.navigate(['/employee/Edit-profile']);
             }
           }
           this.modal.cancel();
