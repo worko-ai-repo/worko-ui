@@ -129,7 +129,8 @@ export const routes: Routes = [
     MatSelectModule,
     ReactiveFormsModule,
     SlickCarouselModule,
-    NgbRatingModule
+    NgbRatingModule,
+    RouterModule
     // BrowserAnimationsModule,
   ],
 
