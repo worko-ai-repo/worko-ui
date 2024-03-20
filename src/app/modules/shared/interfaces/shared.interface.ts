@@ -18,6 +18,7 @@ export enum ModalCloseResult {
     EDIT_BANK_DETAILS=9,
     OTP_VERIFICATION=10,
     REFERRAL_RATING=11,
-    RAISE_ISSUE=12
+    SUCCESS_MESSAGE=12,
+    RAISE_ISSUE=13
   }
   

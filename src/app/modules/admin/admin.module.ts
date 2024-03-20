@@ -12,7 +12,7 @@ import { AdminPaymentComponent } from './components/admin-payment/admin-payment.
 import { AdminReferEarnComponent } from './components/admin-refer-earn/admin-refer-earn.component';
 import { AdminSettingComponent } from './components/admin-setting/admin-setting.component';
 import { SharedModule } from '../shared/shared.module';
-import { UserMenubarComponent } from '../candidate/components/user-menubar/user-menubar.component';
+//import { UserMenubarComponent } from '../candidate/components/user-menubar/user-menubar.component';
 import { CandidateModule } from '../candidate/candidate.module';
 import { EmployeeModule } from '../employee/employee.module';
 // import { MatPaginatorModule } from '@angular/material/paginator';

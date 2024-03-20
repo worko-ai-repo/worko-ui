@@ -5,7 +5,7 @@ import { RouterModule, Routes } from '@angular/router';
 import { CandidateComponent } from './candidate.component';
 import { candidateGuard } from './guards/candidate.guard';
 import { UserNavbarComponent } from './components/user-navbar/user-navbar.component';
-import { UserMenubarComponent } from './components/user-menubar/user-menubar.component';
+
 import { UserDetailsComponent } from './components/user-details/user-details.component';
 import { UserProfileCompleteComponent } from './components/user-profile-complete/user-profile-complete.component';
 import { UserSoftSkillsComponent } from './components/user-soft-skills/user-soft-skills.component';
@@ -59,32 +59,32 @@ export const routes: Routes = [
     component: CandidateComponent,
     children: [
       {
-        path: 'cdashboard',
+        path: 'dashboard',
         component: CandidateDashboardComponent,
         // canActivate: [ candidateGuard]
       },
       {
-        path: 'creferral',
+        path: 'referral',
         component: ReferralComponent,
        
       },
       {
-        path: 'cservice',
+        path: 'service',
         component: ServiceComponent,
        
       },
       {
-        path: 'csubscription',
+        path: 'subscription',
         component: SubscriptionComponent,
        
       },
       {
-        path: 'crefer&earn',
+        path: 'refer&earn',
         component: ReferEarnComponent,
        
       },
       {
-        path: 'cedit-profile',
+        path: 'edit-profile',
         component: EditProfileComponent,
        
       },
@@ -105,7 +105,7 @@ export const routes: Routes = [
    CandidateDashboardComponent,
   CandidateComponent,
   UserNavbarComponent,
-  UserMenubarComponent,
+ 
   UserDetailsComponent,
   UserProfileCompleteComponent,
   UserSoftSkillsComponent,
@@ -156,7 +156,7 @@ export const routes: Routes = [
     
 
   ],
-  exports: [UserMenubarComponent,
+  exports: [
     UserNavbarComponent,
     UserDetailsComponent,
     UserProfileCompleteComponent,

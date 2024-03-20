@@ -12,44 +12,61 @@
                 <div class="row  d-flex justify-content-center ">
                   
                     <div class="col-md-3">
-                        <label for="" class="form-lable">Bank Name</label>
+                        <label for="" class="form-lable required-form-field">Bank Name</label>
                         <input type="text" class="form-control form-input" placeholder="Bank Name"
-                            name="bankName"
-                            id="bankName" [(ngModel)]="employeeBankDetails.bankName">
+                            name="bankName" pattern="^[A-Za-z0-9\s()/.-]+$" #bankname="ngModel"
+                            [title]="bankname.errors?.['pattern'] ? 'Bank Name is invalid' : ''"
+                            id="bankName" [(ngModel)]="employeeBankDetails.bankName"
+                            [ngClass]="{ 'is-invalid': bankname.invalid && (bankname.dirty || bankname.touched) }"
+                            required   [title]="bankname.errors?.['required'] ? 'Bank Name is required' : ''">
                     </div>
                     <div class="col-md-3">
-                        <label for="" class="form-lable">UPI ID</label>
+                        <label for="" class="form-lable required-form-field">UPI ID</label>
                         <input type="text" class="form-control form-input" placeholder="UPI ID" 
-                            name="upiId" id="upiId" [(ngModel)]="employeeBankDetails.upiId">
+                            name="upiId" id="upiId" [(ngModel)]="employeeBankDetails.upiId" 
+                            pattern="^[a-zA-Z0-9.-]{2,256}@[a-zA-Z][a-zA-Z]{2,64}$" #upiId="ngModel"
+                            [title]="upiId.errors?.['pattern'] ? 'UPI ID is invalid' : ''"
+                            [ngClass]="{ 'is-invalid': upiId.invalid && (upiId.dirty || upiId.touched) }"
+                            required  [title]="upiId.errors?.['required'] ? 'UPI ID is required' : ''" >
 
                     </div>
                 </div>
                 <div class="row mt-1 d-flex justify-content-center ">
                     <div class="col-md-3">
-                        <label for="" class="form-lable">IFSC Code</label>
+                        <label for="" class="form-lable required-form-field">IFSC Code</label>
                         <input type="text" class="form-control form-input" placeholder="IFSC Code"
-                            name="ifscCode"
-                            id="ifscCode" [(ngModel)]="employeeBankDetails.ifscCode">
+                            name="ifscCode" pattern="^[A-Z]{4}0[A-Z0-9]{6}$" #ifscCode="ngModel"
+                            id="ifscCode" [(ngModel)]="employeeBankDetails.ifscCode"
+                            [title]="ifscCode.errors?.['pattern'] ? 'IFSC Code is invalid' : ''"
+                            [ngClass]="{ 'is-invalid': ifscCode.invalid && (ifscCode.dirty || ifscCode.touched) }"
+                            required  [title]="ifscCode.errors?.['required'] ? 'IFSC Code is required' : ''">
                     </div>
                     <div class="col-md-3">
-                        <label for="" class="form-lable">Account Holder Name</label>
+                        <label for="" class="form-lable required-form-field">Account Holder Name</label>
                         <input type="text" class="form-control form-input" placeholder="Account Holder Name" 
-                            name="holderName" id="holderName" [(ngModel)]="employeeBankDetails.holderName">
+                            name="holderName" id="holderName" [(ngModel)]="employeeBankDetails.holderName"
+                            pattern="^([ \u00c0-\u01ffa-zA-Z'.])+$" #holderName="ngModel"
+                            [title]="holderName.errors?.['pattern'] ? 'Account Holder Name is invalid' : ''"
+                            [ngClass]="{ 'is-invalid': holderName.invalid && (holderName.dirty || holderName.touched) }"
+                            required   [title]="holderName.errors?.['required'] ? 'Account Holder Name is required' : ''">
 
                     </div>
                 </div>
                 <div class="row mt-1 d-flex justify-content-center">
                     <div class="col-md-3">
-                        <label for="" class="form-lable">Account Number</label>
-                        <input type="text" class="form-control form-input" placeholder="Account Number"
-                            name="accNumber"
-                            id="accNumber" [(ngModel)]="employeeBankDetails.accNumber">
+                        <label for="" class="form-lable required-form-field">Account Number</label>
+                        <input type="text" class="form-control form-input" placeholder="Account Number" required
+                            name="accNumber" pattern="^[0-9]{9,18}$"  #accNumber="ngModel" minlength="9" maxlength="18"
+                            id="accNumber" [(ngModel)]="employeeBankDetails.accNumber"
+                            [title]="accNumber.errors?.['pattern'] ? 'Account number is invalid' : ''"
+                            [ngClass]="{ 'is-invalid': accNumber.invalid && (accNumber.dirty || accNumber.touched) }"
+                            [title]="accNumber.errors?.['required'] ? 'Account number is required' : ''">
 
                            <div class="row">
                             <div class="col-md-12">
                         
-                                <label for="" class="form-lable">Account Type</label>
-                                <select name="" class="form-control selector form-select form-input" 
+                                <label for="" class="form-lable required-form-field">Account Type</label>
+                                <select name="" class="form-control selector form-select form-input" required
                                 name="accType" id="accType"  [(ngModel)]="employeeBankDetails.accType">
                                     <option value="Saving">Saving</option>
                                     <option value="Current">Current</option>
@@ -61,9 +78,15 @@
                            </div>
                     </div>
                     <div class="col-md-3">
-                        <label for="" class="form-lable">Account Number Confirmation</label>
-                        <input type="text" class="form-control form-input m-0" placeholder="Account Number Confirmation" 
-                            name="confirmAccNumber" id="confirmAccNumber" [(ngModel)]="employeeBankDetails.confirmAccNumber">
+                        <label for="" class="form-lable required-form-field">Account Number Confirmation</label>
+                        <input type="text" class="form-control form-input m-0" placeholder="Account Number Confirmation"  minlength="9" maxlength="18"
+                            name="confirmAccNumber" id="confirmAccNumber" [(ngModel)]="employeeBankDetails.confirmAccNumber" #confirmAccNumber="ngModel"
+                            pattern="^[0-9]{9,18}$" [title]="confirmAccNumber.errors?.['pattern'] ? 'Account Number is invalid' : ''"
+                            [ngClass]="{ 'is-invalid': confirmAccNumber.invalid && (confirmAccNumber.dirty || confirmAccNumber.touched) ||
+                            employeeBankDetails.accNumber !== employeeBankDetails.confirmAccNumber }"
+                            
+                        [title]="employeeBankDetails.accNumber!==employeeBankDetails.confirmAccNumber ? 'Confirm Account number should match with Account number field' : ''"
+                            required [title]="confirmAccNumber.errors?.['required'] ? 'Account Number is required' : ''" >
                            
                     </div>
                     
@@ -73,9 +96,11 @@
                     <div class="col-md-11 d-flex justify-content-end">
                         <!-- (click)="previousStep.emit()" -->
                         <button class="btn btn-next me-2" (click)="onPreviousClick()">Previous</button>
-                        <button class="btn btn-next" (click)="completeStep()">Complete</button>
+                        <button class="btn btn-next" (click)="completeStep()"
+                        [disabled]="!employeeBankDetails.bankName ||!employeeBankDetails.ifscCode ||!employeeBankDetails.holderName ||!employeeBankDetails.accNumber ||!employeeBankDetails.accType ||!employeeBankDetails.confirmAccNumber
+                        ||bankname.invalid ||ifscCode.invalid ||holderName.invalid ||accNumber.invalid||confirmAccNumber.invalid ||!(employeeBankDetails.accNumber===employeeBankDetails.confirmAccNumber) ">Complete</button>
                     </div>
-        
+    
                 </div>
                 
             </div>
