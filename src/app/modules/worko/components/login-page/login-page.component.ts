@@ -1,5 +1,5 @@
 
-import { Component, EventEmitter, Output, ViewChild, AfterViewInit, OnDestroy  } from '@angular/core';
+import { Component, EventEmitter, Output, ViewChild, AfterViewInit, OnDestroy } from '@angular/core';
 import { CognitoService } from 'src/app/modules/services/cognito.service';
 import { Router } from '@angular/router';
 import { AuthService } from '../../services/auth.service';
@@ -27,7 +27,7 @@ declare var bootstrap: any;
   styleUrls: ['./login-page.component.scss'],
 })
 
-export class LoginPageComponent implements AfterViewInit, OnDestroy  {
+export class LoginPageComponent implements AfterViewInit, OnDestroy {
   @Output() userTypeSelected = new EventEmitter<string>();
   @Output() onSuccess: EventEmitter<void> = new EventEmitter<void>();
   // @ViewChild('autocompleteInput') autocompleteInput: any; 
@@ -42,7 +42,7 @@ export class LoginPageComponent implements AfterViewInit, OnDestroy  {
   confirmationCodeScreen: boolean = false;
   confirmationEmail: string = '';
   displayResetPassword: boolean = false;
-  acceptedTermsAndConditions:boolean=false;
+  acceptedTermsAndConditions: boolean = false;
   resetVerificationScreen: boolean = false;
   isDivOpen: boolean = false;
   isDivClose: boolean = true
@@ -57,7 +57,7 @@ export class LoginPageComponent implements AfterViewInit, OnDestroy  {
   blinkTimer: any; //timer reference
 
   // checkboxChecked:boolean=false;
-  agreeTerms:boolean=false;
+  agreeTerms: boolean = false;
   auto: any;
 
   form = {
@@ -75,8 +75,8 @@ export class LoginPageComponent implements AfterViewInit, OnDestroy  {
     expectedCtc: '',
     phoneNumber: '',
     confirmPassword: '',
-    checkboxChecked:false,
-    acceptedTermsAndConditions: false 
+    checkboxChecked: false,
+    acceptedTermsAndConditions: false
 
 
   }
@@ -94,10 +94,10 @@ export class LoginPageComponent implements AfterViewInit, OnDestroy  {
     confirmPassword: '',
     password: '',
     designationTag: '',
-    companySK:"",
+    companySK: "",
     agreeTerms: false,
-    acceptedTermsAndConditions: false ,
-    
+    acceptedTermsAndConditions: false,
+
 
   }
   fileString: string = "";
@@ -145,43 +145,43 @@ export class LoginPageComponent implements AfterViewInit, OnDestroy  {
   fileType: string = "";
   uploadedCvName: string = "";
   companyName: string = "";
-  companySK: string="";
+  companySK: string = "";
   subscription: Subscription = new Subscription();
-  constructor(private cdr: ChangeDetectorRef,private storage: StorageService, private amplify: CognitoService, private router: Router, private authService: AuthService, private spinner: NgxSpinnerService) {
+  constructor(private cdr: ChangeDetectorRef, private storage: StorageService, private amplify: CognitoService, private router: Router, private authService: AuthService, private spinner: NgxSpinnerService) {
 
 
-  
- 
+
+
   }
   candidate = {
     submitted: false
-};
-@ViewChild('nameInput') nameInput!: NgModel;
+  };
+  @ViewChild('nameInput') nameInput!: NgModel;
 
-validateName() {
+  validateName() {
     if (!this.candidateForm.name) {
-        this.nameInput.control.setErrors({ 'required': true });
+      this.nameInput.control.setErrors({ 'required': true });
     }
-}
+  }
 
-otpVerification(emailId: string): void {
-  // if (this.resetForm && this.resetForm.code && this.resetForm.code === otp) {
+  otpVerification(emailId: string): void {
+    // if (this.resetForm && this.resetForm.code && this.resetForm.code === otp) {
     this.authService.otpVerification(emailId)
       .then(response => {
         console.log('OTP verification successful');
-        
+
       })
       .catch(error => {
         console.error('OTP verification failed:', error);
       });
-  // } else {
-  //   console.log('OTP is not valid');
-  // }
-}
+    // } else {
+    //   console.log('OTP is not valid');
+    // }
+  }
 
 
 
- 
+
   onOptionSelected(event: any): void {
     this.selectedCompany = event.option.value;
   }
@@ -220,13 +220,13 @@ otpVerification(emailId: string): void {
       .subscribe(e => {
         this.myControl.setValue(null);
       });
-      var tooltipTriggerList = [].slice.call(document.querySelectorAll('[data-bs-toggle="tooltip"]'))
-      var tooltipList = tooltipTriggerList.map(function (tooltipTriggerEl) {
-        return new bootstrap.Tooltip(tooltipTriggerEl)
-      })
+    var tooltipTriggerList = [].slice.call(document.querySelectorAll('[data-bs-toggle="tooltip"]'))
+    var tooltipList = tooltipTriggerList.map(function (tooltipTriggerEl) {
+      return new bootstrap.Tooltip(tooltipTriggerEl)
+    })
   }
-  
- 
+
+
   ngOnInit() {
     this.blinkAndChangeWord()
     this.filteredOptions = this.myControl.valueChanges.pipe(
@@ -240,10 +240,10 @@ otpVerification(emailId: string): void {
           return [];
         }
       })
-    
+
     );
-  
-}
+
+  }
 
 
 
@@ -315,7 +315,7 @@ otpVerification(emailId: string): void {
     // this.currentAuthenticatedUser();
     this.showSignInRow = false;
     this.displayResetPassword = false;
-    this.resetVerificationScreen= false;
+    this.resetVerificationScreen = false;
   }
 
   toggleSignUpRow() {
@@ -533,10 +533,10 @@ otpVerification(emailId: string): void {
       if (this.selectedUserType === "candidate") {
         const { response, error } = await this.createUserWithConfirmation(this.candidateForm, this.verificationForm);
         if (response) {
-         
-         this.otpVerification(this.candidateForm.emailId);
-         this.toggleSignInRow();
-         this.spinner.hide();
+
+          this.otpVerification(this.candidateForm.emailId);
+          this.toggleSignInRow();
+          this.spinner.hide();
         }
 
         if (error) {
@@ -572,8 +572,7 @@ otpVerification(emailId: string): void {
       password: this.form.password
     }
     let login = await this.amplify.handleSignIn(loginData);
-    if(login.response?.nextStep?.signInStep === "CONFIRM_SIGN_UP")
-    {
+    if (login.response?.nextStep?.signInStep === "CONFIRM_SIGN_UP") {
       this.spinner.hide();
       this.setErrorMessage("User is not confirmed.");
     }
@@ -693,29 +692,35 @@ otpVerification(emailId: string): void {
     return `${maskedUsername}@${maskedDomain}`;
   }
 
-  blinkAndChangeWord() 
-  { 
+  blinkAndChangeWord() {
     const words = this.selectedUserType === "candidate" ? this.CandidateWords : this.EmployeeWords;
     this.currentWord = words[this.currentWordIndex];
     this.isBlinking = false;
-    
+
     this.blinkTimer = setTimeout(() => {
-    this.isBlinking = true;
-    this.currentWordIndex = (this.currentWordIndex + 1) % words.length;
-    this.blinkAndChangeWord();
-   }, 3000); // timeout based on our animation duration
+      this.isBlinking = true;
+      this.currentWordIndex = (this.currentWordIndex + 1) % words.length;
+      this.blinkAndChangeWord();
+    }, 3000); // timeout based on our animation duration
   }
 
   clearBlinkTimer() {
-   if (this.blinkTimer) {
-    clearTimeout(this.blinkTimer);
-   }
+    if (this.blinkTimer) {
+      clearTimeout(this.blinkTimer);
+    }
   }
 
   ngOnDestroy() {
-   this.clearBlinkTimer();
+    this.clearBlinkTimer();
   }
 
+  signUpWithLinkedin() {
+    // Show a spinner or perform any other necessary actions
+    this.spinner.show();
 
+    // Redirect to the specified URL
+    window.location.href =
+      "https://worko.auth.ap-south-1.amazoncognito.com/oauth2/authorize?identity_provider=LinkedIn&redirect_uri=http://localhost:4200/&response_type=CODE&client_id=5evf019rrkaijtnjf2j1vvdf33&state=h8HvXvQ2W4QvOE18H68wwcgWh3pIkANy&code_challenge=kI8A-NbOUiZw9Iv14YltZO5iTk6MTkK2Lu1PVAEsOyI&code_challenge_method=S256&scope=email%20openid%20phone";
+  }
 
 }
