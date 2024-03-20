@@ -24,7 +24,7 @@
 
             <div class="col">
                 <label for="" class="form-lable  required-form-field">Company Email</label>
-                <input type="text" class="form-control form-input" placeholder="abcd@Offcial.com" name="email"
+                <input type="text" class="form-control form-input" placeholder="abcd@Offical.com" name="email"
                     id="email" [(ngModel)]="employeeProfessionalData.officialEmail"
                     pattern="^(?!.*@(gmail\.com|outlook\.com|aol\.com|yahoo\.com|icloud\.com|protonmail\.com|zoho\.com|yandex\.com|gmx\.com|hubspot\.com|mail\.com|tutanota\.com|10minutemail\.com)$)[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$"
                     [title]="email.errors?.['pattern'] ? 'Official Email is invalid' : ''"
@@ -170,10 +170,12 @@
                    placeholder="Select Company Name" />
             <mat-autocomplete [displayWith]="displayPastFn" [id]="'autoCompleteOptions' + i"
                               (optionSelected)="onSelectedPastJob($event)" #auto="matAutocomplete">
-              <mat-option *ngFor="let job of filteredOptions | async" [value]="job">
+              <mat-option *ngFor="let job of filteredOption | async" [value]="job">
                 {{ job.name }}
               </mat-option>
             </mat-autocomplete>
+            <!-- <input type="text" class="form-control form-input" [formControl]="field.get('previousCompanyName')"
+            placeholder="Select Company Name" /> -->
           </div>
           <div class="col-md-3">
             <label for="previousDesignation{{ i }}" class="form-lable">Designation</label>
@@ -188,7 +190,7 @@
           </div>
           <div class="col-md-1 d-flex align-items-end">
             <button class="float-end btn circular-button" *ngIf="i === 0" (click)="addField()"
-                    [disabled]="!areAllPreviousFieldsFilled()">+</button>
+                   >+</button>
             <button class="float-end btn circular-button" *ngIf="i > 0" (click)="removeField(i)">x</button>
           </div>
         </div>

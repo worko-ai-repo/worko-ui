@@ -1,9 +1,9 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { EmployeeComponent } from './employee.component';
-import { EmployeeDashboardComponent } from './components/employee-dashboard/employee-dashboard.component';
+
 import { RouterModule, Routes } from '@angular/router';
-import { UserMenubarComponent } from '../candidate/components/user-menubar/user-menubar.component';
+//import { UserMenubarComponent } from '../candidate/components/user-menubar/user-menubar.component';
 import { UserNavbarComponent } from '../candidate/components/user-navbar/user-navbar.component';
 import { CandidateModule } from '../candidate/candidate.module';
 import { CandidateComponent } from '../candidate/candidate.component';
@@ -25,6 +25,7 @@ import { AddBankDetailsComponent } from '../shared/components/user-interface/emp
 import { UserStepperComponent } from '../shared/components/user-interface/employee/employee-edit/user-stepper/user-stepper.component';
 import { FormsModule } from '@angular/forms';
 import { EmployeeAboutComponent } from '../shared/components/user-interface/employee/dashboard/employee-about/employee-about.component';
+import { EmployeeDashboardComponent } from './components/employee-dashboard/employee-dashboard.component';
 
 
 export const routes: Routes = [
@@ -34,23 +35,23 @@ export const routes: Routes = [
     component: EmployeeComponent,
     children: [
       {
-        path: 'edashboard',
-        component: EmployeeDashboardComponent
+        path: 'Dashboard',
+        component: EmployeeDashboardComponent,
       },
       {
-        path: 'ereferral',
+        path: 'Referral',
         component: EmployeeReferralComponent
       },
       {
-        path: 'eservice',
+        path: 'Service',
         component: EmployeeServiceComponent
       },
       {
-        path: 'epackages',
+        path: 'Packages',
         component: EmployeePackagesComponent
       },
       {
-        path: 'eEdit-profile',
+        path: 'Edit-profile',
         component: EmployeeEditComponent
       },
       

@@ -310,13 +310,12 @@ export class PersonalInformationComponent implements OnInit {
     
     const isCollegeDataFilled = this.candidatePersonalDetails.collegeData[index].collage !== '' &&
                                        this.candidatePersonalDetails.collegeData[index].degree !== '' &&
-                                       this.candidatePersonalDetails.collegeData[index].passingYear !== '' &&
-                                       /^(19|20)[0-9]{2}$/.test(this.candidatePersonalDetails.collegeData[index].passingYear &&
-                                        this.flag==0);
+                                       this.candidatePersonalDetails.collegeData[index].passingYear !== '' 
     if(isCollegeDataFilled) {   
       this.newsk=sk.substring(7);
       console.log(this.newsk)                               
 this.candidateSrv.deleteUserCollege(this.emailid,this.newsk)
+this.candidatePersonalDetails.collegeData.splice(index, 1);
     }else{
     this.candidatePersonalDetails.collegeData.splice(index, 1);
   }

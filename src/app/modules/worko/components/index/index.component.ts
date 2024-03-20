@@ -83,7 +83,7 @@ export class IndexComponent {
       if (userType == "CAND") {
         this.router.navigate(['/candidate/dashboard']);
       } else {
-        this.router.navigate(['/employee/dashboard']);
+        this.router.navigate(['/employee/Dashboard']);
       }
     }
   }
