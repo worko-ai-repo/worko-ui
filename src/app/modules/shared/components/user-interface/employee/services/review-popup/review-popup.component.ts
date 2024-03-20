@@ -8,8 +8,6 @@ import { FormControl } from '@angular/forms';
 })
 export class ReviewPopupComponent implements OnChanges {
 
-  @Input() userType:any;
-
   ratingControl = new FormControl(0);
 
   getRating() {
@@ -17,7 +15,7 @@ export class ReviewPopupComponent implements OnChanges {
   }
 
   ngOnChanges() {
-    console.log(this.userType);
+    
   }
   
 }

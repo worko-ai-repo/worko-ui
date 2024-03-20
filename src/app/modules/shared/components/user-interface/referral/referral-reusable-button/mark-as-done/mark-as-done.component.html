@@ -10,7 +10,7 @@
   [bodyClass]="modalMessage ? 'p-4' : 'p-0'">
 
   <ng-container *ngIf="showModal === modalType.REFERRAL_RATING">
-    <app-review-popup [userType]="userType" (onSuccess)="receiveDataFromChild($event)" ></app-review-popup>
+    <app-referral-rating-popup [userType]="userType" (onSuccess)="receiveDataFromChild($event)" ></app-referral-rating-popup>
   </ng-container>
 
 </app-modal>

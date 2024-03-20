@@ -65,6 +65,7 @@ import { PaymentTrendComponent } from './components/Admin/Dashboard/payment-tren
 import { AdminTotalAmountComponent } from './components/Admin/Dashboard/admin-total-amount/admin-total-amount.component';
 import { EmployeeAboutComponent } from './components/user-interface/employee/dashboard/employee-about/employee-about.component';
 import { OtpVerificationModalComponent } from './components/otp-verification-modal/otp-verification-modal.component';
+import { ReferralRatingPopupComponent } from './components/user-interface/referral/referral-rating-popup/referral-rating-popup.component';
 
 export const routes: Routes = [
 
@@ -97,6 +98,7 @@ export const routes: Routes = [
     AdminTotalAmountComponent,
     EmployeeAboutComponent,
     OtpVerificationModalComponent,
+    ReferralRatingPopupComponent,
 
     // DoneServiceComponent,
     // CancelledServiceComponent,
@@ -155,7 +157,8 @@ export const routes: Routes = [
   PaymentTrendComponent,
   AdminTotalAmountComponent,
   EmployeeAboutComponent,
-  OtpVerificationModalComponent
+  OtpVerificationModalComponent,
+  ReferralRatingPopupComponent
 
   ],
 
