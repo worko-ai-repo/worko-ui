@@ -13,8 +13,8 @@
           <li class="nav-item">
             <a class="nav-link active" aria-current="page" href="/about-us" (click)="isCollapsed = !isCollapsed">About Us</a>
           </li> -->
-          <!-- dropdown -->
-          <!-- <li class="nav-item dropdown">
+  <!-- dropdown -->
+  <!-- <li class="nav-item dropdown">
             
             <a class="nav-link dropdown-toggle" href="/faq" role="button" (click)="isCollapsed = !isCollapsed"
             [attr.aria-expanded]="isCollapsed ? 'true' : 'false'" data-bs-toggle="dropdown" aria-haspopup="true"
@@ -22,10 +22,10 @@
               FAQ’s
             </a> -->
 
-               <!-- role="button" (click)="isCollapsed = !isCollapsed"
+  <!-- role="button" (click)="isCollapsed = !isCollapsed"
               [attr.aria-expanded]="isCollapsed ? 'true' : 'false'" data-bs-toggle="dropdown" aria-haspopup="true"
               aria-expanded="false" -->
-            <!-- <ul class="dropdown-menu">
+  <!-- <ul class="dropdown-menu">
               <li><a class="dropdown-item" href="#">FAQ</a></li>
               <li><a class="dropdown-item" href="#">FAQ</a></li>
             </ul>
@@ -73,50 +73,53 @@
 
 
 
-<!-- Dropdown add -->
+  <!-- Dropdown add -->
 
-<nav class="navbar">
-  <div class="navbar-container container">
+  <nav class="navbar">
+    <div class="navbar-container container">
       <input type="checkbox" name="" id="">
       <div class="hamburger-lines">
-          <span class="line line1"></span>
-          <span class="line line2"></span>
-          <span class="line line3"></span>
+        <span class="line line1"></span>
+        <span class="line line2"></span>
+        <span class="line line3"></span>
       </div>
       <ul class="menu-items">
-          <li><a href="/about-us">About Us</a></li>
-          <li class="has-children" (click)="toggleSubMenu()" (mouseenter)="showSubMenuOnHover()" (mouseleave)="hideSubMenuOnHover()" >
-            FAQ's<span class="caret"></span>
-            <ul class="children" [hidden]="!showSubMenu" (mouseenter)="showSubMenuOnHover()" (mouseleave)="hideSubMenuOnHover()">
-          
-              <li><a href="/faq">FAQ's for Candidate</a></li>
-              <li><a href="/faq">FAQ's for Referee</a></li>
+        <li><a href="/about-us">About Us</a></li>
+        <li class="has-children" (click)="toggleSubMenu()" (mouseenter)="showSubMenuOnHover()"
+          (mouseleave)="hideSubMenuOnHover()">
+          FAQ's<span class="caret"></span>
+          <ul class="children" [hidden]="!showSubMenu" (mouseenter)="showSubMenuOnHover()"
+            (mouseleave)="hideSubMenuOnHover()">
 
-            </ul>
-          </li>
+            <li><a href="/faq">FAQ's for Candidate</a></li>
+            <li><a href="/faq">FAQ's for Referee</a></li>
 
-          <li><a href="#">Corporate</a></li>
-          <li class="icon-lg">
-            <div class="d-flex -pointer user-icon-container" *ngIf="!userLoggedIn" (click)="openLogin()">
-              <img class="user-icon" _ngcontent-ng-c280476550="" alt="" src="assets/public/iconamoonprofilecirclefill.svg">
-            </div>
-          </li>
+          </ul>
+        </li>
 
-          <li class="text-sm" *ngIf="!this.userLoggedIn">
-            <a (click)="openLogin()" style="cursor: pointer;">Signin</a>
-          </li>
+        <li><a href="#">Corporate</a></li>
+        <li class="icon-lg">
+          <div class="d-flex -pointer user-icon-container" *ngIf="!userLoggedIn" (click)="openLogin()">
+            <img class="user-icon" _ngcontent-ng-c280476550="" alt=""
+              src="assets/public/iconamoonprofilecirclefill.svg">
+          </div>
+        </li>
 
-          
-          <li class="text-sm" *ngIf="this.userLoggedIn">
-            <a style="cursor: pointer;" (click)="logout()">Log Out</a>
-          </li>
+        <li class="text-sm" *ngIf="!userLoggedIn">
+          <a (click)="openLogin()" style="cursor: pointer;">Signin</a>
+        </li>
+
+
+        <li class="text-sm" *ngIf="userLoggedIn">
+          <a style="cursor: pointer;" (click)="logout()">Log Out</a>
+        </li>
       </ul>
       <a class="navbar-brand" href="/"><img class="worko-logo-ai-2-icon" alt=""
-        src="assets/public/workologoai-2@2x.png" />
+          src="assets/public/workologoai-2@2x.png" />
       </a>
 
-  </div>
-</nav>
+    </div>
+  </nav>
 
 
 </header>
