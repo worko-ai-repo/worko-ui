@@ -13,10 +13,10 @@ export class ReferralStepperComponent {
 
 // statusitem:any[]=[]
   date:string='dec 2 2023';
-  statusitem=[{name:'accepting',status:'completed'},
-  {name:'accepted',status:'completed'},
-  {name:'ongoing',status:'notcompleted'},
-  {name:'done',status:'notcompleted'}];
+  statusitem=[{name:'Awaiting',status:'completed'},
+  {name:'Accepted',status:'completed'},
+  {name:'OnGoing',status:'notcompleted'},
+  {name:'Done',status:'notcompleted'}];
 
   
   

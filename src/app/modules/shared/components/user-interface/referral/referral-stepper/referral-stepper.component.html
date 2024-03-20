@@ -1,24 +1,48 @@
 <div class="card candidate-card ">
   <div class="card-body">
     <div class="row">
-      <div class="text-white">
-        <h6>Request ID #{{ selectedReferral?.SK ? getSlicedValue(selectedReferral?.SK) : '' }}</h6>
-         <!-- <div class="stepper-wrapper">
-         
-          <div class="ref-startline"> </div>
-          <div class="stepper-item" *ngFor="let item of statusitem,let i = index;">
-            <div class="step-name">{{item.name}} </div>
-            
-            <div class="circle-outline" >
-              <div class="circle  " *ngIf="item.status==='completed'"></div>
-          </div>
-           
-          <div class="ref-line" *ngIf="i<(statusitem.length-1)"> </div>
-          </div>
-          
-        </div> -->
-      </div>   
+      <div *ngIf="selectedReferral" class="text-white parent-div">
+        <h6 class="col-sm-4 request-heading">Request ID #{{ selectedReferral?.SK ? getSlicedValue(selectedReferral?.SK) : '' }}</h6>
+        <div class="col-sm-8 stepper-wrapper">
 
-      
+          <div class="timeline">
+            <div *ngFor="let item of statusitem,let i = index;" class="timeline-event">
+              <div class="event-title" [ngClass]="i === statusitem.length - 1 ? 'last-event-title' : '' ">
+                {{item.name}}
+              </div>
+              <div class="timeline-point-track-container">
+                <div class="timeline-point" [ngClass]="item?.status === 'completed' ? 'highlight' : '' "></div>
+                <div class="timeline-track" [ngClass]="{
+                  'remove-extra-track': i === statusitem.length - 1,
+                  'highlight': item?.status === 'completed'
+               }"></div>
+              </div>
+              <!-- <div class="timeline-content">
+                <span class="timeline-date">
+                  {{item.date}}
+                </span>
+              </div> -->
+              <div class="timeline-date">
+                {{date}}
+              </div>
+            </div>
+          </div>
+
+          <!-- <div class="ref-startline"> </div>
+          <div class="stepper-item" *ngFor="let item of statusitem,let i = index;">
+
+            <div class="circle-outline">
+              <div class="circle" *ngIf="item.status==='completed'">
+              </div>
+              <div class="step-name">{{item.name}} </div>
+            </div>
+
+            <div class="ref-line" *ngIf="i<(statusitem.length-1)"> </div>
+          </div> -->
+
+        </div>
+      </div>
+
+
+    </div>
   </div>
-</div>
