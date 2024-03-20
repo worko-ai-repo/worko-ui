@@ -64,11 +64,13 @@ export class ReferralProgressBarComponent {
         } 
       } else if (response.matchingScore === 251) {
           this.jobDescription = true;
+          this.cvError = false;
           this.errorFound = true;
           this.showScore = false;
           this.score = 0;
         } else if (response.matchingScore === 250) {
           this.cvError = true;
+          this.jobDescription = false;
           this.errorFound = true;
           this.showScore = false;
           this.score = 0;
