@@ -8,6 +8,7 @@ import { FormControl } from '@angular/forms';
 })
 export class ReferralRatingPopupComponent implements OnChanges {
   @Output() onSuccess: EventEmitter<any> = new EventEmitter<any>();
+  @Output() onCancel: EventEmitter<any> = new EventEmitter<any>();
   @Input() userType:any;
 
   ratingControl = new FormControl();
@@ -30,6 +31,10 @@ export class ReferralRatingPopupComponent implements OnChanges {
     this.ratingControl.reset();
     this.reviewControl.reset();
     this.onSuccess.emit(reviewRatingData);
+  }
+
+  cancelBtn() {
+    this.onCancel.emit();
   }
 
 }

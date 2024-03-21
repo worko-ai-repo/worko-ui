@@ -68,6 +68,8 @@ import { OtpVerificationModalComponent } from './components/otp-verification-mod
 import { ReferralRatingPopupComponent } from './components/user-interface/referral/referral-rating-popup/referral-rating-popup.component';
 import { ReferralRaiseIssuePopupComponent } from './components/user-interface/referral/referral-raise-issue-popup/referral-raise-issue-popup.component';
 import { UserMenubarComponent } from './components/user-menubar/user-menubar.component';
+import { ReferralSeeReviewPopupComponent } from './components/user-interface/referral/referral-see-review-popup/referral-see-review-popup.component';
+import { ReferralRejectDetailsPopupComponent } from './components/user-interface/referral/referral-reject-details-popup/referral-reject-details-popup.component';
 
 
 export const routes: Routes = [
@@ -104,6 +106,8 @@ export const routes: Routes = [
     ReferralRatingPopupComponent,
     ReferralRaiseIssuePopupComponent,
     UserMenubarComponent,
+    ReferralSeeReviewPopupComponent,
+    ReferralRejectDetailsPopupComponent,
 
 
     // DoneServiceComponent,
@@ -168,6 +172,8 @@ export const routes: Routes = [
   ReferralRatingPopupComponent,
   ReferralRaiseIssuePopupComponent,
   UserMenubarComponent,
+  ReferralSeeReviewPopupComponent,
+  ReferralRejectDetailsPopupComponent
 
 
   ],

@@ -19,6 +19,8 @@ export enum ModalCloseResult {
     OTP_VERIFICATION=10,
     REFERRAL_RATING=11,
     SUCCESS_MESSAGE=12,
-    RAISE_ISSUE=13
+    RAISE_ISSUE=13,
+    SEE_REVIEW=14,
+    REJECT_DETAILS=15
   }
   

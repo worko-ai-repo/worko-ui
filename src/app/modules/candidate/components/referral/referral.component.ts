@@ -62,5 +62,10 @@ export class ReferralComponent implements OnInit {
 
   referralReviewRating(data:any) {
     console.log(data);
+    this.getReferral();
+  }
+
+  cancelReviewRatingPopup() {
+    this.getReferral();
   }
 }

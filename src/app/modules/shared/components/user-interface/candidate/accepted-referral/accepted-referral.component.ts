@@ -10,6 +10,7 @@ export class AcceptedReferralComponent {
   @Output() markAsDone = new EventEmitter<any>();
   @Output() referralRating = new EventEmitter<any>();
   @Output() raiseIssue = new EventEmitter<any>();
+  @Output() cancelRatingPopup = new EventEmitter<any>();
   constructor() {}
 
  ngOnInit(): void {
@@ -31,5 +32,9 @@ export class AcceptedReferralComponent {
 
  referralRaiseIssue(raiseIssueContent:any) {
   this.raiseIssue.emit({selectedReferral: this.selectedReferral, raiseIssueContent:raiseIssueContent});
+ }
+
+ cancelReviewRatingPopup() {
+  this.cancelRatingPopup.emit();
  }
 }
