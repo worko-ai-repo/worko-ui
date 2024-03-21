@@ -7,9 +7,11 @@ import { Component, EventEmitter, Output, Input, } from '@angular/core';
 })
 export class ReferralReqDoneComponent {
 
+  @Input() userType:any;
   @Input() selectedStatus: any;
   @Input() selectedReferral: any;
   @Output() markAsDone = new EventEmitter<string>();
+  @Output() raiseIssue = new EventEmitter<any>();
  constructor() {}
 
  ngOnInit(): void {
@@ -23,6 +25,10 @@ export class ReferralReqDoneComponent {
  referralMarkAsDone(){
    this.markAsDone.emit(this.selectedReferral);
    // this.showReferralDetails.emit(item);
+ }
+
+ referralRaiseIssue(raiseIssueContent:any) {
+  this.raiseIssue.emit({selectedReferral: this.selectedReferral, raiseIssueContent:raiseIssueContent});
  }
 
 }

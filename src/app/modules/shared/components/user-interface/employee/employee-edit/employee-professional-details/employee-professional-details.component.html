@@ -160,7 +160,7 @@
 <!-- your-component.component.html -->
 
 <form [formGroup]="formGroup">
-    <div formArrayName="fields"  >
+    <div formArrayName="previousCompanyName"  >
       <div *ngFor="let field of formGroup.get('fields').controls; let i = index" [formGroupName]="i" >
         <div class="row mt-3">
           <div class="col-md-5">
@@ -180,7 +180,7 @@
           <div class="col-md-3">
             <label for="previousDesignation{{ i }}" class="form-lable">Designation</label>
             <input type="text" class="form-control form-input" [formControl]="field.get('previousDesignation')"
-                   placeholder="Designation"  />{{field.get('previousDesignation').value}}
+                   placeholder="Designation"  />
           </div>
           <div class="col-md-3">
             <label for="previousExperience{{ i }}" class="form-lable">Experience</label>

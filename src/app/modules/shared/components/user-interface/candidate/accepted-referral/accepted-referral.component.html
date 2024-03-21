@@ -9,7 +9,7 @@
                     <!-- <div *ngIf="selectedReferral"> -->
 
                         <div *ngIf="selectedReferral" class="col-md-3">
-                            <app-raise-issue></app-raise-issue>
+                            <app-raise-issue [userType]="userType" (raiseIssue1)="referralRaiseIssue($event)"></app-raise-issue>
                         </div>
                         <div *ngIf="selectedReferral" class="col-md-3 p-0 m-0">
                             <!-- <button class="btn-done text-center" (click)="referralMarkAsDone()">Mark As hello

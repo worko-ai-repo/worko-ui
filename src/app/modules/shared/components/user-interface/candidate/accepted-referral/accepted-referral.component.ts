@@ -8,6 +8,7 @@ export class AcceptedReferralComponent {
   @Input() userType:any;
   @Input() selectedReferral: any;
   @Output() markAsDone = new EventEmitter<string>();
+  @Output() raiseIssue = new EventEmitter<any>();
   constructor() {}
 
  ngOnInit(): void {
@@ -21,5 +22,9 @@ export class AcceptedReferralComponent {
  referralMarkAsDone(){
    this.markAsDone.emit(this.selectedReferral);
    // this.showReferralDetails.emit(item);
+ }
+
+ referralRaiseIssue(raiseIssueContent:any) {
+  this.raiseIssue.emit({selectedReferral: this.selectedReferral, raiseIssueContent:raiseIssueContent});
  }
 }

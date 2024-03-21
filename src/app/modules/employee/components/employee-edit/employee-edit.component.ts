@@ -16,7 +16,8 @@ export class EmployeeEditComponent {
 
   @ViewChild(ModalComponent) modal!: ModalComponent;
 
-  currentStep: number = 1;
+  workExperienceDetailsList:any;
+    currentStep: number = 1;
   emailAddress: string = "";
   // employeeList:any[]=[];
   employeeSocial: any;
@@ -413,6 +414,7 @@ try{
     await this.candidateSrv.getWorkExperience(this.emailAddress).then(async (response) => {
       if (Array.isArray(response) && response.length > 0 && response[0].hasOwnProperty('SK')) {
         // Assuming 'SK' is a property that indicates the response structure
+        this.workExperienceDetailsList=response;
         this.workExperienceDetails = response[0];
 console.log(this.workExperienceDetails)
       }

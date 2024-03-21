@@ -66,6 +66,7 @@ import { AdminTotalAmountComponent } from './components/Admin/Dashboard/admin-to
 import { EmployeeAboutComponent } from './components/user-interface/employee/dashboard/employee-about/employee-about.component';
 import { OtpVerificationModalComponent } from './components/otp-verification-modal/otp-verification-modal.component';
 import { ReferralRatingPopupComponent } from './components/user-interface/referral/referral-rating-popup/referral-rating-popup.component';
+import { ReferralRaiseIssuePopupComponent } from './components/user-interface/referral/referral-raise-issue-popup/referral-raise-issue-popup.component';
 import { UserMenubarComponent } from './components/user-menubar/user-menubar.component';
 
 
@@ -101,6 +102,7 @@ export const routes: Routes = [
     EmployeeAboutComponent,
     OtpVerificationModalComponent,
     ReferralRatingPopupComponent,
+    ReferralRaiseIssuePopupComponent,
     UserMenubarComponent,
 
 
@@ -164,6 +166,7 @@ export const routes: Routes = [
   EmployeeAboutComponent,
   OtpVerificationModalComponent,
   ReferralRatingPopupComponent,
+  ReferralRaiseIssuePopupComponent,
   UserMenubarComponent,
 
 

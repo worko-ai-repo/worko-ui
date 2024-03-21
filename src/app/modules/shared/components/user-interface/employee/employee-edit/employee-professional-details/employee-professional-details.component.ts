@@ -17,6 +17,7 @@ export class EmployeeProfessionalDetailsComponent {
   @ViewChild('autoCompleteInput', { static: false, read: MatAutocompleteTrigger }) trigger!: MatAutocompleteTrigger;
   @ViewChild(ModalComponent) modal!: ModalComponent;
 
+  
   @Output() nextStep = new EventEmitter<void>();
   @Output() nextStepThird = new EventEmitter<void>();
   @Output() previousStep = new EventEmitter<void>();
@@ -26,6 +27,7 @@ export class EmployeeProfessionalDetailsComponent {
   //Form3:FormGroup =new FormGroup<any>('');
   // Form1:FormGroup | undefined;
   
+  @Input() workExperienceDetailsList:any;
   @Input() workExperienceDetails: any
   @Input() employeeProfessionalData: any = {
     companyName: "",
@@ -52,7 +54,7 @@ export class EmployeeProfessionalDetailsComponent {
   //fields: { previousCompanyName: string, previousDesignation: string, previousExperience: string }[] = [];
   // Property to store the values entered in the fields
   savedValues: { previousCompanyName: string, previousDesignation: string, previousExperience: string }[] = [];
-  perviousjobs: { previousCompanyName: string, previousDesignation: string, previousExperience: string }[] = [];
+  //perviousjobs: { previousCompanyName: string, previousDesignation: string, previousExperience: string }[] = [];
   
   modalType = ModalType;
   modalMessage: string = "";
@@ -137,6 +139,10 @@ previousCompanies: any ={};
       })
       
     );
+      
+    // this.previousCompaniesList.forEach((company: any) => {
+    //   this.addField(company.previousCompanyName, company.previousDesignation, company.previousExperience);
+    // });
 
    const previousCompanies = this.employeeProfessionalData.previousCompanies;
 
@@ -235,7 +241,7 @@ previousCompanies: any ={};
         this.addField();
       }
     }
-    //this.previousCompaniesList = this.workExperienceDetails.filter((company: any) => !company.isCurrent);
+    this.previousCompaniesList = this.workExperienceDetails.filter((company: any) => !company.isCurrent);
    
   }
 

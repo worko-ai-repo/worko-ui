@@ -53,7 +53,7 @@
                             <div class="row d-flex justify-content-center mt-2" *ngIf="!candidateProfessionalDetails.isCandidateFresher">
                                 <div class="col-md-3">
                                     <label for="" class="form-label required-form-field">Current Company Name</label>
-                                    <input matInput #autoCompleteInput="matAutocompleteTrigger" class="form-control form-input" 
+                                    <input matInput #autoCompleteInput="matAutocompleteTrigger" class="form-control form-ctc" 
                                         [formControl]="myControl" [matAutocomplete]="auto" placeholder="Select Company Name" required
                                         [(ngModel)]="candidateProfessionalDetails.companyName"
                                         />
@@ -66,7 +66,7 @@
                                 </div>
                                 <div class="col-md-3">
                                     <label for="" class="form-label  required-form-field">Designation</label>
-                                    <input type="text" class="form-control form-input" placeholder="Designation"
+                                    <input type="text" class="form-control form-ctc" placeholder="Designation"
                                     #designation="ngModel" required
                                     pattern="^[A-Za-z0-9\s()/.-]+$" minlength="4" maxlength="30"
                                     [title]="designation.errors?.['pattern'] ? 'designation is invalid' : ''"
@@ -76,7 +76,7 @@
                                 </div>
                                 <div class="col-md-2">
                                     <label for="" class="form-label  required-form-field">Department</label>
-                                    <input type="text" class="form-control form-input" placeholder="Department"
+                                    <input type="text" class="form-control form-ctc" placeholder="Department"
                                     #Department="ngModel" required
                                     pattern="^[A-Za-z0-9\s()/.-]+$" minlength="4" maxlength="30"
                                     [title]="Department.errors?.['pattern'] ? 'Department is invalid' : ''"
@@ -118,7 +118,7 @@
             
                             <div class="row d-flex justify-content-center mt-2">
                                 <div class="col-md-8">
-                                    <label for="" class="form-lable core-skills-lable ps-2">Soft skills</label>
+                                    <label for="" class="form-lable core-skills-lable ps-2 required-form-field">Soft skills</label>
                                     <div class="certific-skill-box">
                                         <div class="skill-container">
                                             <div *ngFor="let softSkill of candidateProfessionalDetails.softSkills">
@@ -152,7 +152,7 @@
             
                             <div class="row d-flex justify-content-center">
                                 <div class="col-md-8 mt-2">
-                                    <label for="" class="form-lable core-skills-lable ps-2">Core Skills & Experience (add max
+                                    <label for="" class="form-lable core-skills-lable ps-2 required-form-field">Core Skills & Experience (add max
                                         10)</label>
                                 </div>
                             </div>
@@ -169,7 +169,8 @@
             
                             </div>
             
-                            <div class="d-flex justify-content-center mt-4 p-0 mb-3">
+                            <div class="d-flex justify-content-center mt-4 p-0 mb-3 ">
+                                <div class="col-md-8">
                                 <div class="float-left achievments-list d-flex"
                                     *ngFor="let coreSkill of candidateProfessionalDetails.coreSkillList">
                                     <div class="ps-3 m-1 text-in-box">{{coreSkill.skillName}} - {{coreSkill.years}}
@@ -184,6 +185,7 @@
                                         </span>
                                     </div>
                                 </div>
+                            </div>
                             </div>
             
                             <!------Certificates Section-->
@@ -223,6 +225,7 @@
             
                             </div>
                             <div class="d-flex justify-content-center mt-4 p-0 mb-3">
+                                <div class="col-md-8">
                                 <div class="float-left achievments-list d-flex"
                                     *ngFor="let certificates of candidateProfessionalDetails.certificationNames">
             
@@ -237,6 +240,7 @@
                                         </span>
                                     </div>
                                 </div>
+                            </div>
                             </div>
             
                             <div class="row d-flex justify-content-center">
@@ -264,6 +268,7 @@
             
                             </div>
                             <div class="d-flex justify-content-center mt-4 p-0 mb-3">
+                                <div class="col-8">
                                 <div class="float-left achievments-list d-flex"
                                     *ngFor="let achievement of candidateProfessionalDetails.achievements">
                                     <div class="ps-3 ms-1 text-in-box">{{achievement.title}}
@@ -279,6 +284,7 @@
                                     </div>
                                 </div>
                             </div>
+                            </div>
                         
                             <div class="row">
                                 <!-- [disabled]="(!isCandidateFresher && !candidateProfessionalDetails.companyName  ||!candidateProfessionalDetails.department || !candidateProfessionalDetails.designation || !candidateProfessionalDetails.ctc ||!candidateProfessionalDetails.ectc ||!candidateProfessionalDetails.noticePeriod)" -->
@@ -292,7 +298,9 @@
                                           !candidateProfessionalDetails.designation ||
                                           !candidateProfessionalDetails.ctc ||
                                           !candidateProfessionalDetails.ectc ||
-                                          !candidateProfessionalDetails.noticePeriod
+                                          !candidateProfessionalDetails.noticePeriod ||
+                                          candidateProfessionalDetails.softSkills.length==0 ||
+                                          candidateProfessionalDetails.coreSkillList.length==0
                                         )) || 
                                         (candidateProfessionalDetails.isCandidateFresher && !candidateProfessionalDetails.coreSkillList)">Next</button>
                                 </div>

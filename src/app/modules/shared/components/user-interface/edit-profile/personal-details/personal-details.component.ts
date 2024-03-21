@@ -67,6 +67,12 @@ export class PersonalDetailsComponent implements OnInit {
   certificateCompany: string = "";
   certificateYear: string = "";
 
+  currentYear = new Date().getFullYear().toString();
+  currentMonth = (new Date().getMonth() + 1).toString();
+  maxDate = this.currentYear + "-" + (this.currentMonth.length === 1 ? '0' + this.currentMonth : this.currentMonth);
+  month: number = 0;
+  achmonth: number = 0;
+
   constructor(private authService: AuthService, private elRef: ElementRef) { }
   ngOnInit(): void {
     this.filteredOptions = this.myControl.valueChanges.pipe(
@@ -118,6 +124,7 @@ export class PersonalDetailsComponent implements OnInit {
   goBack() {
     this.candidateProfessionalDetails.companyName = this.selectedCompany?.name ? this.selectedCompany?.name : this.workExperienceDetails?.companyName
     this.candidateProfessionalDetails.companySK = this.selectedCompany?.SK ? this.selectedCompany?.SK : this.workExperienceDetails?.SK
+    //debugger;
     this.previousStep.emit(this.candidateProfessionalDetails);
   }
   userFresher() {
@@ -142,11 +149,7 @@ export class PersonalDetailsComponent implements OnInit {
     }
   }
 
-  currentYear = new Date().getFullYear().toString();
-  currentMonth = (new Date().getMonth() + 1).toString();
-  maxDate = this.currentYear + "-" + (this.currentMonth.length === 1 ? '0' + this.currentMonth : this.currentMonth);
-  month: number = 0;
-  achmonth: number = 0;
+ 
 
   //  pattern="^(19|20)\d{2}-(0[1-9]|1[0-2])$";
   //   validatePattern(completionyear: any): boolean {
