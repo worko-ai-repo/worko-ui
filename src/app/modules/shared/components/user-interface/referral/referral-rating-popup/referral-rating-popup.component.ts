@@ -7,7 +7,7 @@ import { FormControl } from '@angular/forms';
   styleUrls: ['./referral-rating-popup.component.scss']
 })
 export class ReferralRatingPopupComponent implements OnChanges {
-  @Output() onSuccess: EventEmitter<void> = new EventEmitter<void>();
+  @Output() onSuccess: EventEmitter<any> = new EventEmitter<any>();
   @Input() userType:any;
 
   ratingControl = new FormControl();
@@ -21,15 +21,15 @@ export class ReferralRatingPopupComponent implements OnChanges {
     console.log(this.userType);
   }
 
-  submitReview() {
-    const reviewData = {
+  submitReviewRating() {
+    const reviewRatingData = {
       rating: this.ratingControl.value,
       review: this.reviewControl.value
     };
-    console.log(reviewData); // we will send this reviewData to backend
+    console.log(reviewRatingData); // we will send this reviewData to backend
     this.ratingControl.reset();
     this.reviewControl.reset();
-    this.onSuccess.emit(this.userType);
+    this.onSuccess.emit(reviewRatingData);
   }
 
 }

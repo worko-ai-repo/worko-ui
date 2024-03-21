@@ -19,7 +19,7 @@
                                 
                             </button> -->
 
-                            <app-mark-as-done [userType]="userType" (markAsDone1)="referralMarkAsDone()"></app-mark-as-done>
+                            <app-mark-as-done [userType]="userType" (markAsDone1)="referralMarkAsDone()" (referralRating1)="referralReviewRating($event)"></app-mark-as-done>
                         </div>
                         
                         <div *ngIf="selectedReferral" class="col-md-6">

@@ -13,7 +13,7 @@
                 <ng-template #otherStatus>
                     <app-referral-cancelled *ngIf="selectedStatus === 'CANCELLED'" [selectedReferral]="selectedReferral"></app-referral-cancelled>
                     <app-referral-req-rejected *ngIf="selectedStatus === 'REJECTED'" (markAsDone)="referralMarkAsDone($event)" [selectedReferral]="selectedReferral"></app-referral-req-rejected>
-                    <app-accepted-referral [userType]="userType" *ngIf="selectedStatus === 'ACCEPTED'" (markAsDone)="referralMarkAsDone($event)" (raiseIssue)="referralRaiseIssue($event)" [selectedReferral]="selectedReferral"></app-accepted-referral>
+                    <app-accepted-referral [userType]="userType" *ngIf="selectedStatus === 'ACCEPTED'" (markAsDone)="referralMarkAsDone($event)" (referralRating)="referralReviewRating($event)" (raiseIssue)="referralRaiseIssue($event)" [selectedReferral]="selectedReferral"></app-accepted-referral>
                     <app-referral-req-done *ngIf="selectedStatus === 'DONE'" [userType]="userType" (markAsDone)="referralMarkAsDone($event)" (raiseIssue)="referralRaiseIssue($event)" [selectedReferral]="selectedReferral"></app-referral-req-done>
                 </ng-template>
             </div>

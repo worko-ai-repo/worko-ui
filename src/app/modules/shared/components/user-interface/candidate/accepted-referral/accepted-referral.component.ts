@@ -7,7 +7,8 @@ import { Component, EventEmitter, Output, Input,  } from '@angular/core';
 export class AcceptedReferralComponent {
   @Input() userType:any;
   @Input() selectedReferral: any;
-  @Output() markAsDone = new EventEmitter<string>();
+  @Output() markAsDone = new EventEmitter<any>();
+  @Output() referralRating = new EventEmitter<any>();
   @Output() raiseIssue = new EventEmitter<any>();
   constructor() {}
 
@@ -22,6 +23,10 @@ export class AcceptedReferralComponent {
  referralMarkAsDone(){
    this.markAsDone.emit(this.selectedReferral);
    // this.showReferralDetails.emit(item);
+ }
+
+ referralReviewRating(reviewRatingData:any) {
+  this.referralRating.emit({selectedReferral:this.selectedReferral, reviewRatingData:reviewRatingData});
  }
 
  referralRaiseIssue(raiseIssueContent:any) {

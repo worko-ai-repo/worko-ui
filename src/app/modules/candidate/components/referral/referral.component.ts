@@ -59,4 +59,8 @@ export class ReferralComponent implements OnInit {
   referralRaiseIssue(data:any) {
     console.log(data);
   }
+
+  referralReviewRating(data:any) {
+    console.log(data);
+  }
 }

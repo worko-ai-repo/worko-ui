@@ -9,7 +9,8 @@ import { ModalType } from 'src/app/modules/shared/interfaces/shared.interface';
 })
 export class MarkAsDoneComponent {
   @Input() userType:any;
-  @Output() markAsDone1 = new EventEmitter<string>();
+  @Output() referralRating1 = new EventEmitter<any>();
+  @Output() markAsDone1 = new EventEmitter<any>();
   @ViewChild(ModalComponent) modal!: ModalComponent;
   modalType = ModalType;
   modalMessage: string = "";
@@ -45,10 +46,10 @@ closeModal(): void {
   this.modal.cancel();
 }
 
-async receiveDataFromChild(userType: any) {
-  console.log(userType);
+async receiveDataFromChild(reviewRatingData: any) {
+  this.referralRating1.emit(reviewRatingData);
+  console.log(reviewRatingData);
   this.closeModal();
-
 }
 
 }
