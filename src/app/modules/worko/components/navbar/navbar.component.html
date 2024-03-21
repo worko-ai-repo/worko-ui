@@ -98,6 +98,9 @@
         </li>
 
         <li><a href="#">Corporate</a></li>
+        <li  *ngIf="userLoggedIn">
+          <a style="cursor: pointer;" (click)="logout()">Log Out</a>
+        </li>
         <li class="icon-lg">
           <div class="d-flex -pointer user-icon-container" *ngIf="!userLoggedIn" (click)="openLogin()">
             <img class="user-icon" _ngcontent-ng-c280476550="" alt=""
