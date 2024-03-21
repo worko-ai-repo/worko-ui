@@ -2,8 +2,8 @@
   <div class="card-body">
     <div class="row">
       <div *ngIf="selectedReferral" class="text-white parent-div">
-        <h6 class="col-sm-4 request-heading">Request ID #{{ selectedReferral?.SK ? getSlicedValue(selectedReferral?.SK) : '' }}</h6>
-        <div class="col-sm-8 stepper-wrapper">
+        <h6 class="col-sm-6 request-heading">Request ID #{{ selectedReferral?.SK ? getSlicedValue(selectedReferral?.SK) : '' }}</h6>
+        <div class="col-sm-6 p-0 stepper-wrapper">
 
           <div class="timeline">
             <div *ngFor="let item of statusitem,let i = index;" class="timeline-event">

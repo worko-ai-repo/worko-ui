@@ -12,10 +12,10 @@ export class ReferralStepperComponent {
   @Input() selectedReferral: any;
 
 // statusitem:any[]=[]
-  date:string='dec 2 2023';
+  date:string='Dec 2 2023';
   statusitem=[{name:'Awaiting',status:'completed'},
   {name:'Accepted',status:'completed'},
-  {name:'OnGoing',status:'notcompleted'},
+  {name:'OnGoing',status:'completed'},
   {name:'Done',status:'notcompleted'}];
 
   
