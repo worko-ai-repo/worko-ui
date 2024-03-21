@@ -73,13 +73,12 @@
                         <div class="col-md-5">
                             <label for="" class="form-lable required-form-field">Location</label>
                             <input type="text" class="form-control form-input" placeholder="Enter address" required
-                            pattern="^([ \u00c0-\u01ffa-zA-Z'.])+$"  minlength="3"
+                            pattern="^([ \u00c0-\u01ffa-zA-Z'.])+$"  minlength="3"  
                             [title]="location.errors?.['pattern'] ? 'location is invalid' : ''"
                             [title]="location.errors?.['required'] ? 'location is required':''"
                             [ngClass]="{ 'is-invalid': location.invalid && (location.dirty || location.touched) }"
                                 #location="ngModel" [(ngModel)]="candidatePersonalDetails.location" name="location"
-                                id="location"  [title]="location.errors?.['pattern'] ? 'location is invalid' : ''" 
-                                [ngClass]="{ 'is-invalid': location.invalid && (location.dirty || location.touched) }">
+                                id="location"  >
 
                         </div>
                     </div>
@@ -103,21 +102,22 @@
                     <div *ngFor="let details of candidatePersonalDetails.collegeData; let i = index" class="row mt-1">
                      
                         <div class="col-md-5">
-                                <label for="" class="form-lable">College Name</label>   
+                                <label for="" class="form-lable required-form-field">College Name</label>   
                                 <input type="text" class="form-control form-input" placeholder="College Name" #collegename="ngModel"
                                 pattern="^([ \u00c0-\u01ffa-zA-Z'.])+$"  required
                                 [title]="collegename.errors?.['pattern'] ? 'college name is invalid' : ''"
-                                
+                               
                                     [(ngModel)]="details.collage"
                                     
                                     [ngModelOptions]="{standalone: true}"
                                     id="collegeName" >
                             </div>
                             <div class="col-md-2">
-                                <label for="" class="form-lable">College Degree</label>
+                                <label for="" class="form-lable required-form-field">College Degree</label>
                                 <input type="text" class="form-control form-input" placeholder="College Degree" #collegedegree="ngModel"
-                                pattern="^([ \u00c0-\u01ffa-zA-Z'.])+$" 
+                                pattern="^([ \u00c0-\u01ffa-zA-Z'.])+$"  required
                                 [title]="collegedegree.errors?.['pattern'] ? 'college degree is invalid' : ''"
+                               
                                     [(ngModel)]="details.degree"
                                     [ngModelOptions]="{standalone: true}"
                                     id="collegeDegree">
@@ -125,7 +125,7 @@
 
                             </div>
                             <div class="col-md-2">
-                                <label for="" class="form-lable">Passing Year</label>
+                                <label for="" class="form-lable required-form-field">Passing Year</label>
                                 <input type="text" class="form-control form-input" placeholder="passing Year"
                                 maxlength="4"
                                      [(ngModel)]="details.passingYear"
@@ -172,7 +172,7 @@
                         <div class="col-md-12">
                             <label for="" class="form-lable">Social Links</label>
                         </div>
-                        <div class="col-md-3">
+                        <div class="col-md-3 ">
                             <div class="material-input__group">
                                 <label for="" class="form-lable">Github</label>
                                 <i class="fa-brands fa-github" style="color: #f6f7f9; font-size: 16px"></i>
@@ -185,7 +185,7 @@
                                     name="socialLinkGithub" id="socialLinksGithub">
                             </div>
                         </div>
-                        <div class="col-md-3">
+                        <div class="col-md-4">
                             <div class="material-input__group">
                                 <label for="" class="form-lable required-form-field">LinkedIn</label>
                                 <i class="fa-brands fa-linkedin" style="color: #f6f7f9; font-size: 16px"></i>

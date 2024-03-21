@@ -160,27 +160,27 @@
 <!-- your-component.component.html -->
 
 <form [formGroup]="formGroup">
-    <div formArrayName="fields">
-      <div *ngFor="let field of formGroup.get('fields').controls; let i = index" [formGroupName]="i">
+    <div formArrayName="previousCompanyName"  >
+      <div *ngFor="let field of formGroup.get('fields').controls; let i = index" [formGroupName]="i" >
         <div class="row mt-3">
           <div class="col-md-5">
             <label for="previousCompanyName{{ i }}" class="form-lable">Past Company Name</label>
-            <input matInput #autoCompleteInput="matAutocompleteTrigger" class="form-control form-input"
-                   [formControl]="field.get('previousCompanyName')" [matAutocomplete]="auto"
+           <input matInput #autoCompleteInput="matAutocompleteTrigger" class="form-control form-input"
+                   [formControl]="field.get('previousCompanyName')" [matAutocomplete]="auto" 
                    placeholder="Select Company Name" />
             <mat-autocomplete [displayWith]="displayPastFn" [id]="'autoCompleteOptions' + i"
                               (optionSelected)="onSelectedPastJob($event)" #auto="matAutocomplete">
               <mat-option *ngFor="let job of filteredOption | async" [value]="job">
                 {{ job.name }}
               </mat-option>
-            </mat-autocomplete>
+            </mat-autocomplete> 
             <!-- <input type="text" class="form-control form-input" [formControl]="field.get('previousCompanyName')"
             placeholder="Select Company Name" /> -->
           </div>
           <div class="col-md-3">
             <label for="previousDesignation{{ i }}" class="form-lable">Designation</label>
             <input type="text" class="form-control form-input" [formControl]="field.get('previousDesignation')"
-                   placeholder="Designation" />
+                   placeholder="Designation"  />
           </div>
           <div class="col-md-3">
             <label for="previousExperience{{ i }}" class="form-lable">Experience</label>
@@ -190,7 +190,7 @@
           </div>
           <div class="col-md-1 d-flex align-items-end">
             <button class="float-end btn circular-button" *ngIf="i === 0" (click)="addField()"
-                   >+</button>
+            [disabled]="isAddButtonDisabled(i)" >+</button>
             <button class="float-end btn circular-button" *ngIf="i > 0" (click)="removeField(i)">x</button>
           </div>
         </div>

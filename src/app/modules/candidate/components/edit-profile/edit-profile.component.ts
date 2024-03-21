@@ -513,9 +513,18 @@ try{
     }
   }
   }
+  nextStepSecond(data: any) {
+    // debugger
+     if (this.currentStep < 3) {
+       this.currentStep++;
+     }
+     this.firstStepData = data;
+     this.candidatePersonalDetails = data;
+   }
 
 
   nextStep() {
+     this.candidatePersonalDetails = this.firstStepData;
     if (this.currentStep < 3) {
       this.currentStep++;
     
@@ -536,6 +545,9 @@ try{
     //debugger
     this.thirdStepData = data;
     this.candidateUploadDetails = data;
+    this.candidatePersonalDetails = this.firstStepData;
+    this.candidateProfessionalDetails = this.secondStepData;
+    
     if (this.currentStep > 1) {
       this.currentStep--;
     }
