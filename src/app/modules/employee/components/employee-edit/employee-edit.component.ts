@@ -217,22 +217,22 @@ export class EmployeeEditComponent {
   async updateWorkExperience() {
     // console.log(this.workExperienceDetails)
     // console.log(this.employeeProfessionalData)
-
-    // let workExperience =
-    //   [{
-    //     "companyName": this.secondStepData?.companyName,
-    //     "companySK": this.secondStepData?.companySK,
-    //     "emailId": this.secondStepData?.officialEmail,
-    //     "designation": this.secondStepData?.designation,
-    //     "department": this.secondStepData?.department,
-    //     "SK": this.workExperienceDetails ? this.workExperienceDetails.SK : "",
-    //     "PK": this.workExperienceDetails ? this.workExperienceDetails.PK : "",
-    //     "experienceInMonths": this.secondStepData?.workingSince,
-    //     "userType":"EMP",
-    //      "isCurrent": this.secondStepData?.isCurrent ? this.secondStepData?.isCurrent : true
+try{
+    let workExperience =
+      [{
+        "companyName": this.secondStepData?.companyName,
+        "companySK": this.secondStepData?.companySK,
+        "emailId": this.secondStepData?.officialEmail,
+        "designation": this.secondStepData?.designation,
+        "department": this.secondStepData?.department,
+        "SK": this.workExperienceDetails ? this.workExperienceDetails.SK : "",
+        "PK": this.workExperienceDetails ? this.workExperienceDetails.PK : "",
+        "experienceInMonths": this.secondStepData?.workingSince,
+        "userType":"EMP",
+         "isCurrent": this.secondStepData?.isCurrent ? this.secondStepData?.isCurrent : true
        
-    //   }
-    //   ]
+      }
+      ]
     // await this.candidateSrv.createWorkExperience(this.emailAddress, workExperience).then(async (response) => {
 
     //   // if (response) {
@@ -241,44 +241,44 @@ export class EmployeeEditComponent {
     // })
     //console.log(this.employeeProfessionalData.previousCompanies)
 
-    try {
-      let workExperience = [];
+  //   try {
+  //     let workExperience = [];
   
-      // Add current company details
-      if (this.secondStepData) {
-        workExperience.push({
-          "companyName": this.secondStepData.companyName,
-          "companySK": this.secondStepData.companySK,
-          "emailId": this.secondStepData.officialEmail,
-          "designation": this.secondStepData.designation,
-          "department": this.secondStepData.department,
-          "SK": this.workExperienceDetails ? this.workExperienceDetails.SK : "",
-          "PK": this.workExperienceDetails ? this.workExperienceDetails.PK : "",
-          "experienceInMonths": this.secondStepData.workingSince,
-          "userType": "EMP",
-          "isCurrent": this.secondStepData.isCurrent !== undefined ? this.secondStepData.isCurrent : true
-        });
-      }
-  console.log(this.secondStepData)
-  console.log(this.employeeProfessionalData.previousCompanies)
+  //     // Add current company details
+  //     if (this.secondStepData) {
+  //       workExperience.push({
+  //         "companyName": this.secondStepData.companyName,
+  //         "companySK": this.secondStepData.companySK,
+  //         "emailId": this.secondStepData.officialEmail,
+  //         "designation": this.secondStepData.designation,
+  //         "department": this.secondStepData.department,
+  //         "SK": this.workExperienceDetails ? this.workExperienceDetails.SK : "",
+  //         "PK": this.workExperienceDetails ? this.workExperienceDetails.PK : "",
+  //         "experienceInMonths": this.secondStepData.workingSince,
+  //         "userType": "EMP",
+  //         "isCurrent": this.secondStepData.isCurrent !== undefined ? this.secondStepData.isCurrent : true
+  //       });
+  //     }
+  // console.log(this.secondStepData)
+  // console.log(this.employeeProfessionalData.previousCompanies)
       // Add previous company details
      
-      if (this.employeeProfessionalData.previousCompanies) {
-        workExperience.push(...this.employeeProfessionalData.previousCompanies.map((previousCompany: any) => {
-          return {
-            "companyName": previousCompany.previousCompanyName,
-            "designation": previousCompany.previousDesignation,
-            "companySK": previousCompany.previousCompanySk,
-            "SK": previousCompany.sk ?  previousCompany.sk : "",
-          "PK":  previousCompany.pk ? previousCompany.pk  : "",
-          "department": 'frontend' ,
-            "emailId": this.secondStepData.officialEmail,
-            "experienceInMonths": previousCompany.previousExperience,
-            "userType": "EMP",
-            "isCurrent": false // Assuming isCurrent is always false for previous companies
-          };
-        }));
-      }
+      // if (this.employeeProfessionalData.previousCompanies) {
+      //   workExperience.push(...this.employeeProfessionalData.previousCompanies.map((previousCompany: any) => {
+      //     return {
+      //       "companyName": previousCompany.previousCompanyName,
+      //       "designation": previousCompany.previousDesignation,
+      //       "companySK": previousCompany.previousCompanySk,
+      //       "SK": previousCompany.sk ?  previousCompany.sk : "",
+      //     "PK":  previousCompany.pk ? previousCompany.pk  : "",
+      //     "department": 'frontend' ,
+      //       "emailId": this.secondStepData.officialEmail,
+      //       "experienceInMonths": previousCompany.previousExperience,
+      //       "userType": "EMP",
+      //       "isCurrent": false // Assuming isCurrent is always false for previous companies
+      //     };
+      //   }));
+      // }
   console.log(workExperience)
       await this.candidateSrv.createWorkExperience(this.emailAddress, workExperience).then(async (response) => {
         this.creatSocialProfile();

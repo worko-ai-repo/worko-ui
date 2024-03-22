@@ -302,7 +302,8 @@
                                           candidateProfessionalDetails.softSkills.length==0 ||
                                           candidateProfessionalDetails.coreSkillList.length==0
                                         )) || 
-                                        (candidateProfessionalDetails.isCandidateFresher && !candidateProfessionalDetails.coreSkillList)">Next</button>
+                                        (candidateProfessionalDetails.isCandidateFresher &&(  candidateProfessionalDetails.softSkills.length==0 ||
+                                          candidateProfessionalDetails.coreSkillList.length==0))">Next</button>
                                 </div>
             
                             </div>
