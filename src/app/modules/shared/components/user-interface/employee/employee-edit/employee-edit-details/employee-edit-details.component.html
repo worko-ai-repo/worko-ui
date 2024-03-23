@@ -32,18 +32,20 @@
                         <label for="" class="form-lable required-form-field">Name</label>
                         <input type="text" class="form-control form-input" placeholder="Name" name="name" id="name" 
                             #name="ngModel" [(ngModel)]="employeePersonalData.name"
-                            pattern="^([ \u00c0-\u01ffa-zA-Z'.])+$"
-                            [title]="name.errors?.['pattern'] ? 'Name is invalid' : ''"
+                            pattern="^([ \u00c0-\u01ffa-zA-Z'.])+$" required
+                            [title]="name.errors?.['required'] ? 'Name is required' : ''"
+                            [title]="name.errors?.['required'] ? 'Name is invalid' : ''"
                             required  [title]="name.errors?.['required'] ? 'Name is invalid' : ''"
                             [ngClass]="{ 'is-invalid': name.invalid && (name.dirty || name.touched) }">
                     </div>
                     <div class="col-md-6">
                         <label for="" class="form-lable required-form-field">Personal/Communication Email</label>
-                        <input type="text" class="form-control form-input" placeholder="Email ID"
+                        <input type="text" class="form-control form-input" placeholder="Email ID" required
                             pattern="^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,4}$" name="email" id="email"
                             required  [title]="email.errors?.['required'] ? 'email is invalid' : ''"
                             [(ngModel)]="employeePersonalData.email"
                             [title]="email.errors?.['pattern'] ? 'Personal/Communication Email is invalid' : ''"
+                            [title]="email.errors?.['required'] ? 'Personal/Communication Email is required' : ''"
                             [ngClass]="{ 'is-invalid': email.invalid && (email.dirty || email.touched) }"
                             #email="ngModel">
                     </div>
@@ -71,7 +73,7 @@
                         <label for="" class="form-lable required-form-field">City</label>
                         <input type="text" class="form-control form-input" placeholder="City Name" name="location"
                             id="location" [(ngModel)]="employeePersonalData.location" #location="ngModel"  required  
-                            [title]="location.errors?.['required'] ? 'location is invalid' : ''"
+                            [title]="location.errors?.['required'] ? 'location is required' : ''"
                             pattern="^([ \u00c0-\u01ffa-zA-Z'.])+$"
                            [title]="location.errors?.['pattern'] ? 'location is invalid' : ''"
                            [ngClass]="{ 'is-invalid': location.invalid && (location.dirty || location.touched) }">
@@ -85,7 +87,7 @@
                             pattern="^\+(?:[0-9] ?){6,14}[0-9]$" maxlength="17" name="number" id="number" required
                             [(ngModel)]="employeePersonalData.number" #number="ngModel"
                             [title]="number.errors?.['pattern'] ? 'number is invalid' : ''"
-                            [title]="number.errors?.['required'] ? 'number is invalid' : ''"
+                            [title]="number.errors?.['required'] ? 'number is required' : ''"
                             [ngClass]="{ 'is-invalid': number.invalid && (number.dirty || number.touched) }">
 
                         <!-- <div *ngIf="number.invalid && (number.dirty || number.touched)" class="text-danger">
@@ -101,7 +103,8 @@
                         <label for="" class="form-lable required-form-field">About</label>
                         <textarea class="about-textarea form-control" placeholder="About" cols="10" rows="3" minlength="40"
                             name="about" id="about" [(ngModel)]="employeePersonalData.about" required
-                            #about="ngModel"    [title]="about.errors?.['required'] ? 'about is invalid' : ''"
+                            #about="ngModel"    [title]="about.errors?.['required'] ? 'about is required' : ''"
+                            
                             [ngClass]="{ 'is-invalid': about.invalid && (about.dirty || about.touched) }">
                             </textarea>
                     </div>
@@ -147,7 +150,7 @@
                                 class="text-white material-input__group__input form-input form-control"
                                 pattern="^(https?:\/\/(www\.)?twitter\.com\/[a-zA-Z0-9_\-]+\/?)$"
                                 #socialLinktwitter="ngModel" [(ngModel)]="employeePersonalData.socialLinktwitter"
-                                [title]="socialLinktwitter.errors?.['pattern'] ? 'Twitter URL is required' : ''"
+                                [title]="socialLinktwitter.errors?.['pattern'] ? 'Twitter URL is invalid' : ''"
                                 [ngClass]="{ 'is-invalid': socialLinktwitter.invalid && (socialLinktwitter.dirty || socialLinktwitter.touched) }"
                                 name="socialLinktwitter" id="socialLinktwitter">
                         </div>

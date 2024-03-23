@@ -63,6 +63,10 @@ export class SubscriptionPlanComponent {
     this.selectedPackage = packageData;
     this.openModal(ModalType.SUBSCRIPTION_CHECKOUT);
   }
+  paynow(){
+   
+    this.openModal(ModalType.PAY_CARD_FORM);
+  }
 
 /**
     * Open modal.

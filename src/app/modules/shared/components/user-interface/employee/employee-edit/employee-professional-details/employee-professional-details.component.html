@@ -10,8 +10,11 @@
             <div class="col">
                 <label for="" class="form-lable  required-form-field">Current Company Name</label>
                 <input matInput #autoCompleteInput="matAutocompleteTrigger" class="form-control form-input"
+                
                     [formControl]="myControl" [matAutocomplete]="auto" placeholder="Select Company Name"
-                    [(ngModel)]="employeeProfessionalData.companyName" />
+                    [(ngModel)]="employeeProfessionalData.companyName"
+                    required  [title]="myControl.hasError('required') ? 'Company Name is required' : ''"
+                    [ngClass]="{ 'is-invalid' :myControl.invalid  && (myControl.dirty || myControl.touched)}" >
                 <mat-autocomplete #auto="matAutocomplete" [displayWith]="displayFn"
                     (optionSelected)="onOptionSelected($event)">
                     <mat-option *ngFor="let option of filteredOptions | async" [value]="option">
@@ -25,9 +28,10 @@
             <div class="col">
                 <label for="" class="form-lable  required-form-field">Company Email</label>
                 <input type="text" class="form-control form-input" placeholder="abcd@Offical.com" name="email"
-                    id="email" [(ngModel)]="employeeProfessionalData.officialEmail"
+                    id="email" [(ngModel)]="employeeProfessionalData.officialEmail" required
                     pattern="^(?!.*@(gmail\.com|outlook\.com|aol\.com|yahoo\.com|icloud\.com|protonmail\.com|zoho\.com|yandex\.com|gmx\.com|hubspot\.com|mail\.com|tutanota\.com|10minutemail\.com)$)[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$"
                     [title]="email.errors?.['pattern'] ? 'Official Email is invalid' : ''"
+                    [title]="email.errors?.['required'] ? 'Official Email is required' : ''"
                    
                     [ngClass]="{ 'is-invalid': email.invalid && (email.dirty || email.touched) }" #email="ngModel">
                 <h2 *ngIf="!employeeProfessionalData.isEmailVerified && !email.invalid" (click)="openOtpModal()"

@@ -68,6 +68,7 @@ import { OtpVerificationModalComponent } from './components/otp-verification-mod
 import { ReferralRatingPopupComponent } from './components/user-interface/referral/referral-rating-popup/referral-rating-popup.component';
 import { ReferralRaiseIssuePopupComponent } from './components/user-interface/referral/referral-raise-issue-popup/referral-raise-issue-popup.component';
 import { UserMenubarComponent } from './components/user-menubar/user-menubar.component';
+import { PayCardModalComponent } from './components/pay-card-modal/pay-card-modal.component';
 
 
 export const routes: Routes = [
@@ -104,6 +105,7 @@ export const routes: Routes = [
     ReferralRatingPopupComponent,
     ReferralRaiseIssuePopupComponent,
     UserMenubarComponent,
+    PayCardModalComponent,
 
 
     // DoneServiceComponent,
@@ -168,7 +170,7 @@ export const routes: Routes = [
   ReferralRatingPopupComponent,
   ReferralRaiseIssuePopupComponent,
   UserMenubarComponent,
-
+  PayCardModalComponent,
 
   ],
 
