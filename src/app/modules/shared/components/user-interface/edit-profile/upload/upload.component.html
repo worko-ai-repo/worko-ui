@@ -115,8 +115,8 @@
                         <div class="col-md-9">
                             <!-- Cover letter field -->
                             <label for="" class="form-lable-cv">Cover letter</label>
-                            <textarea class="cover-latter p-3 mt-2" id="" rows="5" #coverLetter="ngModel"
-                            [(ngModel)]="candidateUploadDetails.coverLetter" name="coverLetter"
+                            <textarea class="cover-latter p-3 mt-2" id="" rows="5" #coverLetter="ngModel" minlength="100"
+                            [(ngModel)]="candidateUploadDetails.coverLetter" name="coverLetter"  
                             id="coverLetter"></textarea>
                         </div>
                     </div>
