@@ -260,7 +260,7 @@
                     </button>
                   </div>
 
-                  <div class="col-md-12 text-center mt-2 fs-12">
+                  <div class="col-md-12 text-center d-flex justify-content-center mt-2 ms-2 fs-12">
                     <p class="text-white">
                       Already have an account?
                       <a class="-pointer" (click)="toggleSignInRow()" style="color: #68dbff">Sign in now</a>
@@ -270,15 +270,14 @@
               </div>
 
               <!-- Employee-form -->
-              <div class="row" *ngIf="
+              <div class="row p-0" *ngIf="
                   selectedUserType === 'employee' && !confirmationCodeScreen
                 ">
-                <form class="row p-0 mt-4" (ngSubmit)="employee.form.valid && createEmployee(form)" #employee="ngForm"
+                <form class="row mt-4" (ngSubmit)="employee.form.valid && createEmployee(form)" #employee="ngForm"
                   novalidate>
                   <div class="error text-danger py-2" *ngIf="errorMessage">
                     {{ errorMessage }}
                   </div>
-                  <div class="row">
                     <div class="col-md-6">
                       <div class="material-input__group">
                         <i class="fa-solid fa-user" style="color: #f4f5f5; font-size: 12px"></i>
@@ -421,13 +420,10 @@
                     </div>
 
                     <div class="col-md-12 mt-4 ms-2 d-flex justify-content-center">
-
-                      <div class="col-md-12 mt-4 ms-2 d-flex justify-content-center">
                         <button class="btn btn-signUp" type="submit"
                           [disabled]="!employee.form.valid || !employeeForm.name || !employeeForm.emailId || !employeeForm.phoneNumber ||!employeeForm.companyEmailID ||!employeeForm.department || !employeeForm.confirmPassword ||!(employeeForm.password === employeeForm.confirmPassword) ||!employeeForm.acceptedTermsAndConditions ||!selectedCompany?.name ||!selectedCompany?.SK">
                           SIGN UP
                         </button>
-                      </div>
                     </div>
 
                     <div class="col-md-12 d-flex justify-content-center ms-2 mt-2">
@@ -436,13 +432,12 @@
                         Sign Up with LinkedIn
                       </button>
                     </div>
-                    <div class="col-md-12 text-center mt-2 fs-12">
+                    <div class="col-md-12 text-center d-flex justify-content-center mt-2 ms-2 fs-12">
                       <p class="text-white">
                         Already have an account?
                         <a class="-pointer" (click)="toggleSignInRow()" style="color: #68dbff">Sign in now</a>
                       </p>
                     </div>
-                  </div>
                 </form>
               </div>
 
