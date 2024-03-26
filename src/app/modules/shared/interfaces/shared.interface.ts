@@ -21,6 +21,8 @@ export enum ModalCloseResult {
     SUCCESS_MESSAGE=12,
     RAISE_ISSUE=13,
     SEE_REVIEW=14,
-    REJECT_DETAILS=15
+    REJECT_DETAILS=15,
+    PAY_CARD_FORM=16
+
   }
   
