@@ -91,8 +91,8 @@
           <ul class="children" [hidden]="!showSubMenu" (mouseenter)="showSubMenuOnHover()"
             (mouseleave)="hideSubMenuOnHover()">
 
-            <li><a href="/faq">FAQ's for Candidate</a></li>
-            <li><a href="/faq">FAQ's for Referee</a></li>
+            <li><a href="/faq-candidate">FAQ's for Candidate</a></li>
+            <li><a href="/faq-referee">FAQ's for Referee</a></li>
 
           </ul>
         </li>
@@ -113,9 +113,9 @@
         </li>
 
 
-        <li class="text-sm" *ngIf="userLoggedIn">
+        <!-- <li class="text-sm" *ngIf="userLoggedIn">
           <a style="cursor: pointer;" (click)="logout()">Log Out</a>
-        </li>
+        </li> -->
       </ul>
       <a class="navbar-brand" href="/"><img class="worko-logo-ai-2-icon" alt=""
           src="assets/public/workologoai-2@2x.png" />
