@@ -53,6 +53,8 @@ import { TermsOfServiceComponent } from './components/terms-of-service/terms-of-
 import { PrivacyPolicyComponent } from './components/privacy-policy/privacy-policy.component';
 import { RefundPolicyComponent } from './components/refund-policy/refund-policy.component';
 import { IndexComponent } from './components/index/index.component';
+import { FaqCandidateComponent } from './components/faq-candidate/faq-candidate.component';
+import { FaqRefereeComponent } from './components/faq-referee/faq-referee.component';
 // import { MatInputModule } from '@angular/material/input';
 export const routes: Routes = [
   {
@@ -175,7 +177,15 @@ export const routes: Routes = [
       {
         path: '',
         component: IndexComponent
-      }
+      },
+      {
+        path: 'faq-candidate',
+        component: FaqCandidateComponent
+      },
+      {
+        path: 'faq-referee',
+        component: FaqRefereeComponent
+      },
     ]
   }  
 ]
@@ -211,7 +221,8 @@ export const routes: Routes = [
     PrivacyPolicyComponent,
     RefundPolicyComponent,
     IndexComponent,
-    
+    FaqCandidateComponent,
+    FaqRefereeComponent
     
   ],
   imports: [

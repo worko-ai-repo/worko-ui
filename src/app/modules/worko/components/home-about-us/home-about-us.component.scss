@@ -398,6 +398,10 @@ textarea{
     padding-top: 170px;
     padding-bottom: 40px;
 
+    form{
+        z-index: 1;
+    }
+
 }
 .form-header{
     padding-bottom: 50px;
