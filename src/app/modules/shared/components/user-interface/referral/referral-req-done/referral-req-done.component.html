@@ -1,14 +1,18 @@
 <!-- <div class="container-fluid mt-2">
     <div class="row">
         <div class="col-md-12"> -->
-            <div class="card candidate-card mt-2">
-                <div class="card-body">
-                   <div class="container-fluid" style="height: 100%;">
-                    <div class="row" style="height: 100%;">
-                            <div *ngIf="selectedReferral" class="col-md-6">
-                                <app-raise-issue [userType]="userType" (raiseIssue1)="referralRaiseIssue($event)"></app-raise-issue>
-                            </div>
-                            <!-- <div *ngIf="selectedReferral " class="col-md-3 p-0 m-0">
+<div class="card candidate-card mt-2">
+    <div class="card-body">
+        <div class="container-fluid" style="height: 100%;">
+            <div class="row" style="height: 100%;">
+                <div *ngIf="selectedReferral" class="col-md-3">
+                    <app-raise-issue [userType]="userType" (raiseIssue1)="referralRaiseIssue($event)"></app-raise-issue>
+                </div>
+
+                <div *ngIf="selectedReferral" class="col-md-3 p-0 m-0">
+                    <app-see-review></app-see-review>
+                </div>
+                <!-- <div *ngIf="selectedReferral " class="col-md-3 p-0 m-0">
                                 <button class="btn-done text-center" (click)="referralMarkAsDone()">Mark As hello
                                     <svg xmlns="http://www.w3.org/2000/svg" width="22" height="28" viewBox="0 0 29 28" fill="none">
                                         <path d="M19.3594 8.53125V7.21875C19.3594 7.09844 19.2609 7 19.1406 7H8.64062C8.52031 7 8.42188 7.09844 8.42188 7.21875V8.53125C8.42188 8.65156 8.52031 8.75 8.64062 8.75H19.1406C19.2609 8.75 19.3594 8.65156 19.3594 8.53125ZM8.64062 10.9375C8.52031 10.9375 8.42188 11.0359 8.42188 11.1562V12.4688C8.42188 12.5891 8.52031 12.6875 8.64062 12.6875H13.6719C13.7922 12.6875 13.8906 12.5891 13.8906 12.4688V11.1562C13.8906 11.0359 13.7922 10.9375 13.6719 10.9375H8.64062ZM18.9219 14.1094C15.6598 14.1094 13.0156 16.7535 13.0156 20.0156C13.0156 23.2777 15.6598 25.9219 18.9219 25.9219C22.184 25.9219 24.8281 23.2777 24.8281 20.0156C24.8281 16.7535 22.184 14.1094 18.9219 14.1094ZM21.8613 22.9551C21.0766 23.7398 20.032 24.1719 18.9219 24.1719C17.8117 24.1719 16.7672 23.7398 15.9824 22.9551C15.1977 22.1703 14.7656 21.1258 14.7656 20.0156C14.7656 18.9055 15.1977 17.8609 15.9824 17.0762C16.7672 16.2914 17.8117 15.8594 18.9219 15.8594C20.032 15.8594 21.0766 16.2914 21.8613 17.0762C22.6461 17.8609 23.0781 18.9055 23.0781 20.0156C23.0781 21.1258 22.6461 22.1703 21.8613 22.9551ZM21.3555 17.9375H20.1441C20.073 17.9375 20.0074 17.9703 19.9664 18.0277L18.2301 20.4285L17.5984 19.5562C17.5782 19.5281 17.5515 19.5052 17.5206 19.4895C17.4896 19.4738 17.4554 19.4657 17.4207 19.466H16.2148C16.0371 19.466 15.9332 19.6684 16.0371 19.8133L18.0551 22.6051C18.1426 22.7254 18.3203 22.7254 18.4078 22.6051L21.5305 18.2848C21.6371 18.1398 21.5332 17.9375 21.3555 17.9375ZM12.5781 23.2969H6.23438V4.04688H21.5469V13.4531C21.5469 13.5734 21.6453 13.6719 21.7656 13.6719H23.2969C23.4172 13.6719 23.5156 13.5734 23.5156 13.4531V2.95312C23.5156 2.46914 23.1246 2.07812 22.6406 2.07812H5.14062C4.65664 2.07812 4.26562 2.46914 4.26562 2.95312V24.3906C4.26562 24.8746 4.65664 25.2656 5.14062 25.2656H12.5781C12.6984 25.2656 12.7969 25.1672 12.7969 25.0469V23.5156C12.7969 23.3953 12.6984 23.2969 12.5781 23.2969Z" fill="white"/>
@@ -18,52 +22,52 @@
     
                                 <app-mark-as-done (markAsDone1)="referralMarkAsDone()"></app-mark-as-done>
                             </div> -->
-                            
-                            <div class="col-md-6" *ngIf="selectedReferral">
-                                <!-- <button class="btn-req text-center float-end" routerLink="/company-listing">New Request
+
+                <div class="col-md-6" *ngIf="selectedReferral">
+                    <!-- <button class="btn-req text-center float-end" routerLink="/company-listing">New Request
                                     <svg xmlns="http://www.w3.org/2000/svg" width="22" height="28" viewBox="0 0 29 28" fill="none">
                                         <path d="M19.7969 19.25V24.5H5.79688V3.5H14.5469V1.75H5.79688C5.33275 1.75 4.88763 1.93437 4.55944 2.26256C4.23125 2.59075 4.04688 3.03587 4.04688 3.5V24.5C4.04688 24.9641 4.23125 25.4092 4.55944 25.7374C4.88763 26.0656 5.33275 26.25 5.79688 26.25H19.7969C20.261 26.25 20.7061 26.0656 21.0343 25.7374C21.3625 25.4092 21.5469 24.9641 21.5469 24.5V19.25H19.7969Z" fill="white"/>
                                         <path d="M26.3944 5.04014L23.5069 2.15264C23.2452 1.89612 22.8933 1.75244 22.5269 1.75244C22.1604 1.75244 21.8086 1.89612 21.5469 2.15264L9.29688 14.4026V19.2501H14.1356L26.3856 7.00014C26.6421 6.73844 26.7858 6.3866 26.7858 6.02014C26.7858 5.65369 26.6421 5.30184 26.3856 5.04014H26.3944ZM13.4094 17.5001H11.0469V15.1376L19.3069 6.86889L21.6781 9.24014L13.4094 17.5001ZM22.9119 8.00639L20.5406 5.63514L22.5269 3.64889L24.8981 6.02014L22.9119 8.00639Z" fill="white"/>
                                       </svg>
                                     
                                 </button> -->
-                                <app-new-request-btn></app-new-request-btn>
-                            </div>
-    
-                            <div *ngIf="selectedReferral" class="col-md-12 pt-3 d-flex justify-content-center">
-                                <img src="/assets/public/candidate-referral-img.png" class="referral-img" alt="">
-                                
-                            </div>
-                            <div *ngIf="selectedReferral" class="col-md-12 text-center pb-5">
-                                <span class="text-white">Your Referral Request is done!</span> <br>
-                            </div>
+                    <app-new-request-btn></app-new-request-btn>
+                </div>
 
-                            <div *ngIf="!selectedReferral" class="center-elements">
-                                <div>
-                                    <!-- <button class="btn-req text-center float-end" routerLink="/company-listing">New Request
+                <div *ngIf="selectedReferral" class="col-md-12 pt-3 d-flex justify-content-center">
+                    <img src="/assets/public/candidate-referral-img.png" class="referral-img" alt="">
+
+                </div>
+                <div *ngIf="selectedReferral" class="col-md-12 text-center pb-5">
+                    <span class="text-white">Your Referral Request is done!</span> <br>
+                </div>
+
+                <div *ngIf="!selectedReferral" class="center-elements">
+                    <div>
+                        <!-- <button class="btn-req text-center float-end" routerLink="/company-listing">New Request
                                         <svg xmlns="http://www.w3.org/2000/svg" width="22" height="28" viewBox="0 0 29 28" fill="none">
                                             <path d="M19.7969 19.25V24.5H5.79688V3.5H14.5469V1.75H5.79688C5.33275 1.75 4.88763 1.93437 4.55944 2.26256C4.23125 2.59075 4.04688 3.03587 4.04688 3.5V24.5C4.04688 24.9641 4.23125 25.4092 4.55944 25.7374C4.88763 26.0656 5.33275 26.25 5.79688 26.25H19.7969C20.261 26.25 20.7061 26.0656 21.0343 25.7374C21.3625 25.4092 21.5469 24.9641 21.5469 24.5V19.25H19.7969Z" fill="white"/>
                                             <path d="M26.3944 5.04014L23.5069 2.15264C23.2452 1.89612 22.8933 1.75244 22.5269 1.75244C22.1604 1.75244 21.8086 1.89612 21.5469 2.15264L9.29688 14.4026V19.2501H14.1356L26.3856 7.00014C26.6421 6.73844 26.7858 6.3866 26.7858 6.02014C26.7858 5.65369 26.6421 5.30184 26.3856 5.04014H26.3944ZM13.4094 17.5001H11.0469V15.1376L19.3069 6.86889L21.6781 9.24014L13.4094 17.5001ZM22.9119 8.00639L20.5406 5.63514L22.5269 3.64889L24.8981 6.02014L22.9119 8.00639Z" fill="white"/>
                                           </svg>
                                         
                                     </button> -->
-                                    <app-new-request-btn></app-new-request-btn>
-                                </div>
-        
-                                <div style="margin-top: 5px;">
-                                    <span class="text-white">Get referral now!</span> <br>
-                                </div>
-                            
-                            </div>
-                            
+                        <app-new-request-btn></app-new-request-btn>
                     </div>
-    
-    
-                   </div>
+
+                    <div style="margin-top: 5px;">
+                        <span class="text-white">Get referral now!</span> <br>
+                    </div>
+
                 </div>
-            </div>       
-        
-    
-        <!-- </div>
+
+            </div>
+
+
+        </div>
+    </div>
+</div>
+
+
+<!-- </div>
     </div>
     </div> -->
