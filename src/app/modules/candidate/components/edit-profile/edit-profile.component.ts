@@ -283,7 +283,7 @@ try{
  
   }
   cancel(){
-    this.router.navigate(['/employee/Dashboard']);
+    this.router.navigate(['/candidate/dashboard']);
     this.closeModal();
   }
 
@@ -565,7 +565,7 @@ try{
 
   //When uer click on "Complete" on 3rd step
   onSuccess(data: any) {
-    this.spinner.show();
+    //this.spinner.show();
    //debugger
     this.thirdStepData = data;
     

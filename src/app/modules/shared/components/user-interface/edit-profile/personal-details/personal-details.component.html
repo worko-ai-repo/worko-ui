@@ -162,8 +162,8 @@
                                         [(ngModel)]="coreSkill" name="coreSkill" id="coreSkill">
                                     <input type="text" class="core-skills-input ms-2 form-control" placeholder="No. of years"
                                         [(ngModel)]="skillYears" name="skillYears" id="skillYears" #coreSkillyears="ngModel"
-                                        pattern="^(19|20)([0-9]{2})$" 
-                                        [title]="coreSkillyears.errors?.['pattern'] ? ' Core skill Years is invalid' : ''"
+                                        pattern="^[1-9]\d?$"
+                                         [title]="coreSkillyears.errors?.['pattern'] ? ' Core skill Years is invalid' : ''"
                                         [title]="coreSkillyears.errors?.['required'] ? ' Core skill Years is required' : ''"
                                         [ngClass]="{ 'is-invalid': coreSkillyears.invalid && (coreSkillyears.dirty || coreSkillyears.touched) }">
             

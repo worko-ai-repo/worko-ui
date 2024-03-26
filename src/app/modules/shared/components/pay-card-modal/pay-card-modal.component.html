@@ -1,64 +1,79 @@
-<div class="pay-card d-flex justify-content-center">
-<div class="container">
- 
-  <!-- <form (ngSubmit)="paycard.form.valid && createCard()" #paycard="ngForm" novalidate > -->
-     <form>
-  <div class="row mt-3">
-            
-    <div class="col-md-12">
-      <label class="form-lable">Cardholder Name</label>
-      <input type="text" class="form-control form-input" placeholder="cardholderName"  name="cardholderName"  required
-        >
-    </div>
-     </div>
-     <div class="row mt-3">
-    <div class="input-field col-md-12">
-      <label class="form-lable">Cardholder number </label>
-      <input type="text" class="form-control form-input" placeholder="cardholderNumber"  name="cardholderNumber"
-       
-      >
-    </div>
-    </div>
+<div class=" pay-card d-flex justify-content-center">
+  <div class="container">
+   
+    <form (ngSubmit)="paycard.form.valid && createCard(paycard)" #paycard="ngForm" novalidate >
+   
     <div class="row mt-3">
-    <div class="input-field col-md-6">
-      <label class="form-lable">valid date </label>
-      <input type="text" class="form-control form-input" placeholder="MM/YYYY"  name="validyear" 
+              
+      <div class="col-md-12">
+        <label class="form-lable required-form-field">Cardholder Name</label>
+        <input type="text" class="form-control form-input" placeholder="cardholderName"  name="cardholderName"  [(ngModel)]="cardholderName"
+        required #cardHoldername="ngModel"
+        pattern="^([ \u00c0-\u01ffa-zA-Z'.])+$" [title]="cardHoldername.errors?.['pattern'] ? 'cardholderName is invalid' : ''"
+        [title]="cardHoldername.errors?.['required'] ? 'cardholderName is required' : ''"
+        [ngClass]="{ 'is-invalid': cardHoldername.invalid && (cardHoldername.dirty || cardHoldername.touched) }">
+      </div>
+       </div>
+       <div class="row mt-3">
+      <div class="input-field col-md-12">
+        <label class="form-lable required-form-field">Cardholder number </label>
+        <input type="text" class="form-control form-input" placeholder="cardholderNumber"  name="cardholderNumber"  maxlength="16" [(ngModel)]="cardholderNumber"
+        required #cardholdernumber="ngModel"  [title]="cardholdernumber.errors?.['pattern'] ? 'cardholderNumber is invalid' : ''"
+        pattern="^[1-9]\d{15}$"  [title]="cardholdernumber.errors?.['required'] ? 'cardholderNumber is required' : ''"
+        [ngClass]="{ 'is-invalid': cardholdernumber.invalid && (cardholdernumber.dirty || cardholdernumber.touched) }">
       
-      >
-    </div>
-    <div class="input-field col-md-6">
-      <label class="form-lable">CVV </label>
-      <input type="text" class="form-control form-input" placeholder="CVV"  name="CVV" required maxlength="3"
-     
-      >
-    </div>
-
-    </div>
-
-    <div class="row mt-3">
-    <div class="input-field col-md-12">
-      <label class="form-lable">Billing Address</label>
-      <input type="text" id="billingAddress" name="billingAddress" class="form-control form-input">
-    </div>
-    </div>
-    <div class="row mt-3">
-    <div class="input-field col-md-12">
-      <label for="zipCode" class="form-lable">Zip Code</label>
-      <input type="text" id="zipCode" name="zipCode"  class="form-control form-input">
-    </div>
-    </div>
-    <div class="row mt-3">
-    <div class="input-field col-md-12">
-      <label for="city" class="form-lable">City</label>
-      <input type="text" id="city" name="city" class="form-control form-input">
-    </div>
-    </div>
+      
   
-    <div class="row mt-3 d-flex justify-content-center">
-    <div class="submit-button">
-      <button type="submit" class="btn-pay btn text-white col-md-12 ">Pay Now</button>
-    </div>
-</div>
-  </form>
+      </div>
+      </div>
+      <div class="row mt-3">
+      <div class="input-field col-md-6">
+        <label class="form-lable required-form-field">valid date </label>
+        <input type="text" class="form-control form-input" placeholder="MM/YYYY"  name="validyear"   required
+        pattern="^(0[1-9]|1[0-2])\/(19|20)\d{2}$" [(ngModel)]="validYear" maxlength="7" required #validyear="ngModel"
+      [title]="validyear.errors?.['pattern'] ? 'validyear is invalid' : ''"
+      [title]="validyear.errors?.['required'] ? 'validyear is required' : ''"
+      [ngClass]="{ 'is-invalid': validyear.invalid && (validyear.dirty || validyear.touched) }" >
+      </div>
+      <div class="input-field col-md-6">
+        <label class="form-lable required-form-field">CVV </label>
+        <input type="text" class="form-control form-input" placeholder="CVV"  name="CVV" required maxlength="3" [(ngModel)]="CVV"
+        #cardCVV="ngModel"  pattern="^[1-9]\d{2}$"   [title]="cardCVV.errors?.['pattern'] ? 'validyear is invalid' : ''"
+        [title]="cardCVV.errors?.['required'] ? 'validyear is required' : ''"
+        [ngClass]="{ 'is-invalid': cardCVV.invalid && (cardCVV.dirty || cardCVV.touched) }">
+      </div>
+  
+      </div>
+  
+      <div class="row mt-3">
+      <div class="input-field col-md-12">
+        <label class="form-lable">Billing Address</label>
+        <input type="text" id="billingAddress" name="billingAddress" class="form-control form-input" [(ngModel)]="billingaddress">
+      </div>
+      </div>
+      <div class="row mt-3">
+      <div class="input-field col-md-12">
+        <label for="zipCode" class="form-lable">Zip Code</label>
+        <input type="text" id="zipCode" name="zipCode"  class="form-control form-input" maxlength="6" [(ngModel)]="zipCode"
+        #zipcode="ngModel" pattern="^[1-9]\d{5}$" [title]="zipcode.errors?.['pattern'] ? 'zipcode is invalid' : ''"
+        [title]="zipcode.errors?.['required'] ? 'zipcode is required' : ''"
+        [ngClass]="{ 'is-invalid': zipcode.invalid && (zipcode.dirty || zipcode.touched) }"
+        >
+      </div>
+      </div>
+      <div class="row mt-3">
+      <div class="input-field col-md-12">
+        <label for="city" class="form-lable">City</label>
+        <input type="text" id="city" name="city" class="form-control form-input" [(ngModel)]="city">
+      </div>
+      </div>
+    
+      <div class="row mt-3 d-flex justify-content-center">
+      <div class="submit-button">
+        <button type="submit" class="btn-pay btn text-white col-md-12  "   [disabled]="!paycard.form.valid">Pay Now</button>
+      </div>
   </div>
-</div>
+    </form>
+    </div>
+  </div>
+  

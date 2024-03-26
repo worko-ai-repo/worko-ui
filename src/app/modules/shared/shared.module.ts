@@ -70,6 +70,7 @@ import { ReferralRaiseIssuePopupComponent } from './components/user-interface/re
 import { UserMenubarComponent } from './components/user-menubar/user-menubar.component';
 import { ReferralSeeReviewPopupComponent } from './components/user-interface/referral/referral-see-review-popup/referral-see-review-popup.component';
 import { ReferralRejectDetailsPopupComponent } from './components/user-interface/referral/referral-reject-details-popup/referral-reject-details-popup.component';
+import { PayCardModalComponent } from './components/pay-card-modal/pay-card-modal.component';
 
 
 
@@ -167,7 +168,7 @@ export const routes: Routes = [
   ReferralRaiseIssuePopupComponent,
   UserMenubarComponent,
   ReferralSeeReviewPopupComponent,
-  ReferralRejectDetailsPopupComponent
+  ReferralRejectDetailsPopupComponent,
   PayCardModalComponent,
 
 
