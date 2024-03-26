@@ -10,6 +10,7 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { MatButtonModule } from '@angular/material/button';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
+import { NgbRatingModule} from '@ng-bootstrap/ng-bootstrap'
 import { ReferralCancelledComponent } from './components/user-interface/referral/referral-cancelled/referral-cancelled.component';
 import { ReferralReqRejectedComponent } from './components/user-interface/referral/referral-req-rejected/referral-req-rejected.component';
 import { AllServicesComponent } from './components/user-interface/service/all-services/all-services.component';
@@ -24,7 +25,7 @@ import { SubscriptionPlanComponent } from './components/user-interface/subscript
 import { PersonalInformationComponent } from './components/user-interface/edit-profile/personal-information/personal-information.component';
 import { PersonalDetailsComponent } from './components/user-interface/edit-profile/personal-details/personal-details.component';
 import { UploadComponent } from './components/user-interface/edit-profile/upload/upload.component';
-import { Routes } from '@angular/router';
+import { RouterModule, Routes } from '@angular/router';
 import { AcceptedReferralComponent } from './components/user-interface/candidate/accepted-referral/accepted-referral.component';
 import { JobHistoryComponent } from './components/user-interface/employee/dashboard/job-history/job-history.component';
 import { ServicePackageComponent } from './components/user-interface/employee/dashboard/service-package/service-package.component';
@@ -64,6 +65,10 @@ import { PaymentTrendComponent } from './components/Admin/Dashboard/payment-tren
 import { AdminTotalAmountComponent } from './components/Admin/Dashboard/admin-total-amount/admin-total-amount.component';
 import { EmployeeAboutComponent } from './components/user-interface/employee/dashboard/employee-about/employee-about.component';
 import { OtpVerificationModalComponent } from './components/otp-verification-modal/otp-verification-modal.component';
+import { ReferralRatingPopupComponent } from './components/user-interface/referral/referral-rating-popup/referral-rating-popup.component';
+import { ReferralRaiseIssuePopupComponent } from './components/user-interface/referral/referral-raise-issue-popup/referral-raise-issue-popup.component';
+import { UserMenubarComponent } from './components/user-menubar/user-menubar.component';
+
 
 export const routes: Routes = [
 
@@ -96,6 +101,10 @@ export const routes: Routes = [
     AdminTotalAmountComponent,
     EmployeeAboutComponent,
     OtpVerificationModalComponent,
+    ReferralRatingPopupComponent,
+    ReferralRaiseIssuePopupComponent,
+    UserMenubarComponent,
+
 
     // DoneServiceComponent,
     // CancelledServiceComponent,
@@ -124,6 +133,8 @@ export const routes: Routes = [
     MatSelectModule,
     ReactiveFormsModule,
     SlickCarouselModule,
+    NgbRatingModule,
+    RouterModule
     // BrowserAnimationsModule,
   ],
 
@@ -153,7 +164,11 @@ export const routes: Routes = [
   PaymentTrendComponent,
   AdminTotalAmountComponent,
   EmployeeAboutComponent,
-  OtpVerificationModalComponent
+  OtpVerificationModalComponent,
+  ReferralRatingPopupComponent,
+  ReferralRaiseIssuePopupComponent,
+  UserMenubarComponent,
+
 
   ],
 

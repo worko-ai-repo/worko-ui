@@ -5,10 +5,11 @@ import { Component, EventEmitter, Output, Input,  } from '@angular/core';
   styleUrls: ['./accepted-referral.component.scss']
 })
 export class AcceptedReferralComponent {
-
+  @Input() userType:any;
   @Input() selectedReferral: any;
   @Output() markAsDone = new EventEmitter<string>();
- constructor() {}
+  @Output() raiseIssue = new EventEmitter<any>();
+  constructor() {}
 
  ngOnInit(): void {
    console.log(this.selectedReferral, "selectedReferral");
@@ -21,5 +22,9 @@ export class AcceptedReferralComponent {
  referralMarkAsDone(){
    this.markAsDone.emit(this.selectedReferral);
    // this.showReferralDetails.emit(item);
+ }
+
+ referralRaiseIssue(raiseIssueContent:any) {
+  this.raiseIssue.emit({selectedReferral: this.selectedReferral, raiseIssueContent:raiseIssueContent});
  }
 }

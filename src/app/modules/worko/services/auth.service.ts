@@ -51,7 +51,7 @@ export class AuthService {
   }
 
   uploadFileOnS3Bucket(file: File, signedUrl: string, awsS3Tag: string): Promise<any> {
-    return this.http.put(signedUrl, file, this.getHttpOptions(false, { awsS3Tag: awsS3Tag, "fileType": file.type })).toPromise()
+    return this.http.put(signedUrl, file, this.getHttpOptions(false, { awsS3Tag: awsS3Tag, "fileType": file.type  })).toPromise()
   }
 
   linkResumewithUser(emailId: string, awsS3fileName: string): Promise<any> {
@@ -91,7 +91,11 @@ export class AuthService {
   * @returns {any}
   */
   getHttpOptions(authorization: boolean = true, params: any = {}): any {
-    let headers: any = { 'Content-Type': 'application/json' };
+    let headers: any = {  };
+    if(!params){
+
+     headers={'Content-Type': 'application/json'}
+    }
 
     if (authorization) {
       headers.Authorization = `Bearer ${this.cognitoService.getAccessToken()}`;

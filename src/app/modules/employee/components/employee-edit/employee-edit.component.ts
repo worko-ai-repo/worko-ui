@@ -1,17 +1,23 @@
-import { Component } from '@angular/core';
+import { Component, ViewChild } from '@angular/core';
 import { EmployeeProfileService } from '../../services/employee-profile.service';
 import { StorageService } from 'src/app/modules/app-core/services/storage.service';
 import { CandidateProfileService } from 'src/app/modules/candidate/services/candidate-profile.service';
 import { AuthService } from 'src/app/modules/worko/services/auth.service';
 import { Router } from '@angular/router';
 import { NgxSpinnerService } from 'ngx-spinner';
+import { ModalType } from 'src/app/modules/shared/interfaces/shared.interface';
+import { ModalComponent } from 'src/app/modules/shared/components/modal/modal.component';
 @Component({
   selector: 'app-employee-edit',
   templateUrl: './employee-edit.component.html',
   styleUrls: ['./employee-edit.component.scss']
 })
 export class EmployeeEditComponent {
-  currentStep: number = 1;
+
+  @ViewChild(ModalComponent) modal!: ModalComponent;
+
+  workExperienceDetailsList:any;
+    currentStep: number = 1;
   emailAddress: string = "";
   // employeeList:any[]=[];
   employeeSocial: any;
@@ -25,6 +31,14 @@ export class EmployeeEditComponent {
   workExperienceDetails: any;
   bankDetails: any;
   uploadedProfilePicName: string = "";
+
+
+  successmessage:string="";
+  successtitle:string="";
+  modalType = ModalType;
+  modalMessage: string = "";
+  modalTitle: string = "";
+  showModal: ModalType | undefined;
   constructor(private spinner: NgxSpinnerService, private router: Router, private authService: AuthService, private empService: EmployeeProfileService, private candidateSrv: CandidateProfileService, private storage: StorageService) { }
 
   ngOnInit(): void {
@@ -36,12 +50,14 @@ export class EmployeeEditComponent {
   }
 
   nextStep() {
+    //debugger
     if (this.currentStep < 3) {
       this.currentStep++;
     }
 
   }
   nextStepThird(data: any) {
+   // debugger
     if (this.currentStep < 3) {
       this.currentStep++;
     }
@@ -50,6 +66,7 @@ export class EmployeeEditComponent {
   }
 
   nextStepSecond(data: any) {
+   // debugger
     if (this.currentStep < 3) {
       this.currentStep++;
     }
@@ -57,13 +74,14 @@ export class EmployeeEditComponent {
     this.employeePersonalData = data;
   }
   previousStep() {
-
+ //debugger
     if (this.currentStep > 1) {
       this.currentStep--;
     }
   }
 
   previousStepSecond(data: any) {
+    //debugger
     this.thirdStepData = data;
     this.employeeBankDetails = data;
     if (this.currentStep > 1) {
@@ -72,6 +90,7 @@ export class EmployeeEditComponent {
   }
   // Get API //
   async getEmployeeDetails() {
+    try{
     await this.candidateSrv.getUserDetails(this.emailAddress).then(async (response) => {
       if (response) {
         this.employeeDetails = response[0];
@@ -79,13 +98,25 @@ export class EmployeeEditComponent {
 
       }
     })
+  }catch(error:any ){
+      if(error.status==401){
+       this.router.navigate(['/']);
+     }else {
+       this.successmessage= "Something went wrong. Please try again after sometime"
+       this.successtitle="Error"
+       this.openModal(ModalType.SUCCESS_MESSAGE)
+     }
+   }
   }
   onSuccess(data: any) {
     this.thirdStepData = data;
     this.updateProfilePic();
     // this.updateWorkExperience();
+   
+  
   }
   async getSocialProfile() {
+    try{
     await this.candidateSrv.getUserProfile(this.emailAddress).then(async (response) => {
       if (response) {
         this.employeeSocial = response[0];
@@ -94,10 +125,19 @@ export class EmployeeEditComponent {
       }
       this.getWorkExperienceDetails();
     });
+  }catch(error:any ){
+    if(error.status==401){
+     this.router.navigate(['/']);
+   }else {
+     this.successmessage= "Something went wrong. Please try again after sometime"
+     this.successtitle="Error"
+     this.openModal(ModalType.SUCCESS_MESSAGE)
+   }
+ }
   }
 
   async updateProfilePic(): Promise<void> {
-    this.spinner.show();
+    //this.spinner.show();
     try {
       // if (this.userId && this.thirdStepData.fileType && this.thirdStepData.fileName) {
       if (this.firstStepData.fileType && this.firstStepData.fileName) {
@@ -117,9 +157,15 @@ export class EmployeeEditComponent {
       } else {
         this.updateWorkExperience();
       }
-    } catch (error) {
-      console.log(error);
-    }
+    }catch(error:any ){
+      if(error.status==401){
+       this.router.navigate(['/']);
+     }else {
+       this.successmessage= "Something went wrong. Please try again after sometime"
+       this.successtitle="Error"
+       this.openModal(ModalType.SUCCESS_MESSAGE)
+     }
+   }
   }
 
 
@@ -137,14 +183,23 @@ export class EmployeeEditComponent {
           } catch (error: any) {
 
             if (error && error.error.message) {
+              this.successmessage= "Something went wrong. Please try again after sometime"
+              this.successtitle="Error"
+              this.openModal(ModalType.SUCCESS_MESSAGE)
               // this.errorMessage = error.error.message;
               // this.setErrorMessage('File Link error linkResumewithUser:- '+ error.error.message);
             }
+            this.successmessage= "Something went wrong. Please try again after sometime"
+            this.successtitle="Error"
+            this.openModal(ModalType.SUCCESS_MESSAGE)
             console.error('File Link error linkResumewithUser:', error);
           }
 
         })
         .catch(error => {
+          this.successmessage= "Something went wrong. Please try again after sometime"
+          this.successtitle="Error"
+          this.openModal(ModalType.SUCCESS_MESSAGE)
 
           console.error('File upload error:', error);
 
@@ -152,6 +207,9 @@ export class EmployeeEditComponent {
         });
 
     } catch (error) {
+      this.successmessage= "Something went wrong. Please try again after sometime"
+      this.successtitle="Error"
+      this.openModal(ModalType.SUCCESS_MESSAGE)
       console.log(error)
     }
   }
@@ -159,7 +217,7 @@ export class EmployeeEditComponent {
   async updateWorkExperience() {
     // console.log(this.workExperienceDetails)
     // console.log(this.employeeProfessionalData)
-
+try{
     let workExperience =
       [{
         "companyName": this.secondStepData?.companyName,
@@ -175,44 +233,107 @@ export class EmployeeEditComponent {
        
       }
       ]
-    await this.candidateSrv.createWorkExperience(this.emailAddress, workExperience).then(async (response) => {
+    // await this.candidateSrv.createWorkExperience(this.emailAddress, workExperience).then(async (response) => {
 
-      // if (response) {
-      this.creatSocialProfile();
+    //   // if (response) {
+    //   this.creatSocialProfile();
+    //   // }
+    // })
+    //console.log(this.employeeProfessionalData.previousCompanies)
+
+  //   try {
+  //     let workExperience = [];
+  
+  //     // Add current company details
+  //     if (this.secondStepData) {
+  //       workExperience.push({
+  //         "companyName": this.secondStepData.companyName,
+  //         "companySK": this.secondStepData.companySK,
+  //         "emailId": this.secondStepData.officialEmail,
+  //         "designation": this.secondStepData.designation,
+  //         "department": this.secondStepData.department,
+  //         "SK": this.workExperienceDetails ? this.workExperienceDetails.SK : "",
+  //         "PK": this.workExperienceDetails ? this.workExperienceDetails.PK : "",
+  //         "experienceInMonths": this.secondStepData.workingSince,
+  //         "userType": "EMP",
+  //         "isCurrent": this.secondStepData.isCurrent !== undefined ? this.secondStepData.isCurrent : true
+  //       });
+  //     }
+  // console.log(this.secondStepData)
+  // console.log(this.employeeProfessionalData.previousCompanies)
+      // Add previous company details
+     
+      // if (this.employeeProfessionalData.previousCompanies) {
+      //   workExperience.push(...this.employeeProfessionalData.previousCompanies.map((previousCompany: any) => {
+      //     return {
+      //       "companyName": previousCompany.previousCompanyName,
+      //       "designation": previousCompany.previousDesignation,
+      //       "companySK": previousCompany.previousCompanySk,
+      //       "SK": previousCompany.sk ?  previousCompany.sk : "",
+      //     "PK":  previousCompany.pk ? previousCompany.pk  : "",
+      //     "department": 'frontend' ,
+      //       "emailId": this.secondStepData.officialEmail,
+      //       "experienceInMonths": previousCompany.previousExperience,
+      //       "userType": "EMP",
+      //       "isCurrent": false // Assuming isCurrent is always false for previous companies
+      //     };
+      //   }));
       // }
-    })
+  console.log(workExperience)
+      await this.candidateSrv.createWorkExperience(this.emailAddress, workExperience).then(async (response) => {
+        this.creatSocialProfile();
+      });
+    }catch(error:any ){
+      if(error.status==401){
+       this.router.navigate(['/']);
+     }else {
+       this.successmessage= "Something went wrong. Please try again after sometime"
+       this.successtitle="Error"
+       this.openModal(ModalType.SUCCESS_MESSAGE)
+     }
+   }
   }
   
   async creatSocialProfile() {
     var twitterArray = this.firstStepData.socialLinktwitter;
     var linkedinArray = this.firstStepData.socialLinklinkdin;
     var githubArray = this.firstStepData.socialLinkGithub;
-    // Check if twitterArray is an array
-    if (Array.isArray(twitterArray)) {
+     // Check if twitterArray is an array
+     if ( twitterArray.length>2) {
+      console.log('twitterArray is already an array');
+      twitterArray = [this.firstStepData.socialLinktwitter];
+    } else if ( twitterArray.length==1) {
       console.log('twitterArray is already an array');
       twitterArray = this.firstStepData.socialLinktwitter;
     } else {
       console.log('twitterArray is not an array');
-      twitterArray=[];
-     }
-
-    // Check if twitterArray is an array
-    if (Array.isArray(linkedinArray)) {
-      console.log('linkedinArray is already an array');
-      linkedinArray = this.firstStepData.socialLinklinkdin;
-    } else {
-      console.log('linkedinArray is not an array');
-      linkedinArray=[];
-     
+      twitterArray = [];
     }
 
-    if (Array.isArray(githubArray)) {
-      console.log('twitterArray is already an array');
-      githubArray = this.firstStepData.socialLinkGithub;
+    // Check if twitterArray is an array
+    console.log(linkedinArray.length)
+    if ( linkedinArray.length>2) {
+      linkedinArray = [this.firstStepData.socialLinklinkdin];
+      console.log('linkedinArray is already an array');
+    } else if(linkedinArray.length==1){
+      linkedinArray=this.firstStepData.socialLinklinkdin;
+    }else {
+      console.log('linkedinArray is not an array');
+      linkedinArray = [];
+      
+     
+    }
+    console.log(githubArray.length)
+    if ( githubArray.length>2) {
+      console.log('githubArray is already an array');
+
+      githubArray = [this.firstStepData.socialLinkGithub];
+    }else if(githubArray.length==1){
+      githubArray=this.firstStepData.socialLinkGithub;
     } else {
-      console.log('twitterArray is not an array');
-       githubArray=[];
-      }
+      console.log('githubArray is not an array');
+      githubArray = [];
+    }
     let socialProfile =
     {
       twitter: twitterArray,
@@ -221,12 +342,22 @@ export class EmployeeEditComponent {
       SK: this.employeeSocial?.SK,
       PK: this.employeeSocial?.PK
     }
+    try{
     await this.candidateSrv.createUserProfile(this.emailAddress, socialProfile).then(async (response) => {
       // if (response) {
         // console.log(socialProfile)
       this.createUserDetails();
       // }
     })
+  }catch(error:any ){
+    if(error.status==401){
+     this.router.navigate(['/']);
+   }else {
+     this.successmessage= "Something went wrong. Please try again after sometime"
+     this.successtitle="Error"
+     this.openModal(ModalType.SUCCESS_MESSAGE)
+   }
+ }
   }
 
 
@@ -260,33 +391,63 @@ export class EmployeeEditComponent {
       "isCandidateFresher" : false
       // "acceptedTermsAndConditions": true //Will remove once remove from API
     }
-
+try{
     await this.candidateSrv.createUserDetails(this.emailAddress, userDetails).then(async (response) => {
       if (response) {
         this.addBankDetails();
 
       }
     })
+  }catch(error:any ){
+    if(error.status==401){
+     this.router.navigate(['/']);
+   }else {
+     this.successmessage= "Something went wrong. Please try again after sometime"
+     this.successtitle="Error"
+     this.openModal(ModalType.SUCCESS_MESSAGE)
+   }
+ }
   };
 
   async getWorkExperienceDetails() {
+    try{
     await this.candidateSrv.getWorkExperience(this.emailAddress).then(async (response) => {
       if (Array.isArray(response) && response.length > 0 && response[0].hasOwnProperty('SK')) {
         // Assuming 'SK' is a property that indicates the response structure
+        this.workExperienceDetailsList=response;
         this.workExperienceDetails = response[0];
-
+console.log(this.workExperienceDetails)
       }
       this.getBankDetails();
     })
+  }catch(error:any ){
+    if(error.status==401){
+     this.router.navigate(['/']);
+   }else {
+     this.successmessage= "Something went wrong. Please try again after sometime"
+     this.successtitle="Error"
+     this.openModal(ModalType.SUCCESS_MESSAGE)
+   }
+ }
   }
 
   async getBankDetails() {
+    try{
     await this.empService.getBankDetails(this.emailAddress).then(async (response) => {
       if (response) {
         this.bankDetails = response;
 
       }
     })
+  }catch(error:any ){
+    if(error.status==401){
+     this.router.navigate(['/']);
+   }else {
+     this.successmessage= "Something went wrong. Please try again after sometime"
+     this.successtitle="Error"
+     this.openModal(ModalType.SUCCESS_MESSAGE)
+   }
+ }
   }
 
 
@@ -313,12 +474,64 @@ export class EmployeeEditComponent {
         }
       ]
     };
+    try{
     await this.empService.createBankDetails(this.emailAddress, data).then(async (response) => {
       if (response) {
-        this.spinner.hide();
-        this.router.navigate(['/employee/edashboard']);
+       // this.spinner.hide();
+       // this.router.navigate(['/employee/edashboard']);
+       this.modalopen();
         console.log(response);
       }
     })
+   }catch(error:any ){
+    if(error.status==401){
+     this.router.navigate(['/']);
+   }else {
+     this.successmessage= "Something went wrong. Please try again after sometime"
+     this.successtitle="Error"
+     this.openModal(ModalType.SUCCESS_MESSAGE)
+   }
+ }
   }
+  modalopen(){
+    this.successmessage="Your profile has been updated successfully.";
+    this.successtitle="Congratulations!";
+    this.openModal(ModalType.SUCCESS_MESSAGE)
+  }
+
+  continue(){
+    this.router.navigate(['/employee/Dashboard']);
+    this.closeModal();
+  }
+  cancel(){
+    this.router.navigate(['/employee/Dashboard']);
+    this.closeModal();
+  }
+
+
+  /**
+   * Open modal.
+   *
+   * @param {ModalType} modalType
+   * @param {string} [message = ""]
+   * @param {string} [title = ""]
+   * @returns {void}
+   */
+  openModal(modalType: ModalType, message: string ="", title: string="" ): void {
+
+    this.showModal = modalType;
+    this.modalMessage = message;
+    this.modalTitle = title;
+    this.modal.open();
+  }
+    /**
+   * Close modal.
+   *
+   * @returns {void}
+   */
+    closeModal(): void {
+      this.modal.cancel();
+    }
+
+
 }

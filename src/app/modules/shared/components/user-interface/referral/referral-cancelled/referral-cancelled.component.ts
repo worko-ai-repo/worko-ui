@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, Input, } from '@angular/core';
 
 @Component({
   selector: 'app-referral-cancelled',
@@ -6,5 +6,15 @@ import { Component } from '@angular/core';
   styleUrls: ['./referral-cancelled.component.scss']
 })
 export class ReferralCancelledComponent {
+
+  @Input() selectedReferral: any;
+
+  ngOnInit(): void {
+    console.log(this.selectedReferral, "selectedReferral");
+  }
+ 
+  ngOnChanges(): void {
+    console.log(this.selectedReferral, "selectedReferral");
+  }
 
 }

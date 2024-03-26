@@ -1,0 +1,135 @@
+.candidate-card{
+    border-radius: 10px;
+    background: #0A1E35;
+    width: 100%;
+}
+// .issue-btn{
+//     background-color: transparent;
+//     font-size: 13px;
+//     display: flex;
+//     align-items: center;
+//     color: white;
+//     border-radius: 100px;
+//     background: #0A111C;
+//     border: 1px solid transparent;
+//     gap: 10px;
+   
+// }
+.btn-done{
+    background-color: transparent;
+    /* width: 91%; */
+    font-size: 13px;
+    display: flex;
+    align-items: center;
+    /* border: unset; */
+    /* border-radius: 100px; */
+    border-radius: 100px;
+    border: 1px solid #36D0FF;
+    color: white;
+    gap: 10px;
+}
+
+.btn-req{
+    background-color: rgba(45, 142, 194, 1);
+    font-size: 12px;
+    display: flex;
+    align-items: center;
+    border-radius: 100px;
+    border: 1px solid #36D0FF;
+    color: white;
+    gap: 10px;
+}
+
+.box-border{
+    border-radius: 10px;
+border: 1px solid #1ED6FF;
+}
+
+.req-rejected{
+    color: #FFF;
+text-align: center;
+font-family: Poppins;
+font-size: 17px;
+font-style: normal;
+font-weight: 600;
+line-height: normal;
+}
+
+.req-content{
+    color: white;
+    font-size: 12px;
+}
+
+.reason-box{
+    border-radius: 10px;
+border: 1px solid #1ED6FF;
+width: 100%;
+}
+
+.yourExperience-content{
+    color: #FFF;
+// text-align: center;
+font-family: Poppins;
+font-size: 12px;
+font-style: italic;
+font-weight: 600;
+line-height: normal;
+}
+
+.comment-content{
+    color: #FFF;
+font-family: Poppins;
+font-size: 12px;
+font-style: normal;
+font-weight: 400;
+line-height: normal;
+}
+
+.button-close{
+    border-radius: 8px;
+    border: 1px solid #FFF;
+    background-color: transparent;
+    flex-shrink: 0;
+    width: 93px;
+    height: 32px;
+    color: white;
+}
+
+.content-req-rejected{
+    color: #FFF;
+text-align: center;
+font-family: Poppins;
+font-size: 18.036px;
+font-style: normal;
+font-weight: 400;
+line-height: normal;
+}
+
+.content-experience{
+    color: #E32727;
+font-family: Poppins;
+font-size: 20px;
+font-style: italic;
+font-weight: 600;
+line-height: normal;
+}
+
+.content-experience a{
+    font-size: 12px;
+    font-style: normal;
+    color: #E32727;
+
+}
+
+.referral-img{
+    width: 46%
+}
+
+.center-elements {
+    height: 100%;
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+}

@@ -10,6 +10,7 @@ import { StorageService } from 'src/app/modules/app-core/services/storage.servic
   styleUrls: ['./referral.component.scss']
 })
 export class ReferralComponent implements OnInit {
+  userType="Candidate";
   referralList: any = "";
   emailAddress: any = "";
   selectedStatus: string = 'AWAITING';
@@ -53,5 +54,9 @@ export class ReferralComponent implements OnInit {
         // console.log(this.referralList + '123');
       }
     })
+  }
+
+  referralRaiseIssue(data:any) {
+    console.log(data);
   }
 }

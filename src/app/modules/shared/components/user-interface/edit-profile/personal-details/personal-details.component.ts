@@ -5,6 +5,8 @@ import { Observable } from 'rxjs';
 import { debounceTime, distinctUntilChanged, switchMap, filter } from 'rxjs/operators';
 import { Subscription } from 'rxjs';
 import { AuthService } from 'src/app/modules/worko/services/auth.service';
+import { ModalType } from 'src/app/modules/shared/interfaces/shared.interface';
+import { ModalComponent } from '../../../modal/modal.component';
 @Component({
   selector: 'app-personal-details',
   templateUrl: './personal-details.component.html',
@@ -13,9 +15,10 @@ import { AuthService } from 'src/app/modules/worko/services/auth.service';
 export class PersonalDetailsComponent implements OnInit {
 
 
-
+  @ViewChild(ModalComponent) modal!: ModalComponent;
   @ViewChild('autoCompleteInput', { static: false, read: MatAutocompleteTrigger }) trigger!: MatAutocompleteTrigger;
   @Input() candidateList: any;
+  @Input()  candidatePersonalDetails:any;
   @Input() workExperienceDetails: any;
   @Input() certificationList: any;
   @Output() nextStep = new EventEmitter<void>();
@@ -23,7 +26,12 @@ export class PersonalDetailsComponent implements OnInit {
   @Output() onSuccess = new EventEmitter<void>();
   @Input() achievementsList: any;
 
-
+  successmessage:string="";
+  successtitle:string="";
+  modalType = ModalType;
+  modalMessage: string = "";
+  modalTitle: string = "";
+  showModal: ModalType | undefined;
   myControl = new FormControl<any>('');
   filteredOptions!: Observable<any[]>;
   companyName: string = "";
@@ -49,7 +57,7 @@ export class PersonalDetailsComponent implements OnInit {
   }
   maxCertificate: boolean = false;
   title: string = '';
-  date: string = '';
+  achievementmonth: string = '';
   instituteName: string = "";
   newCoreSkills: any;
   coreSkill: string = "";
@@ -58,6 +66,12 @@ export class PersonalDetailsComponent implements OnInit {
   newSoftSkill: string = "";
   certificateCompany: string = "";
   certificateYear: string = "";
+
+  currentYear = new Date().getFullYear().toString();
+  currentMonth = (new Date().getMonth() + 1).toString();
+  maxDate = this.currentYear + "-" + (this.currentMonth.length === 1 ? '0' + this.currentMonth : this.currentMonth);
+  month: number = 0;
+  achmonth: number = 0;
 
   constructor(private authService: AuthService, private elRef: ElementRef) { }
   ngOnInit(): void {
@@ -110,6 +124,7 @@ export class PersonalDetailsComponent implements OnInit {
   goBack() {
     this.candidateProfessionalDetails.companyName = this.selectedCompany?.name ? this.selectedCompany?.name : this.workExperienceDetails?.companyName
     this.candidateProfessionalDetails.companySK = this.selectedCompany?.SK ? this.selectedCompany?.SK : this.workExperienceDetails?.SK
+    //debugger;
     this.previousStep.emit(this.candidateProfessionalDetails);
   }
   userFresher() {
@@ -134,11 +149,7 @@ export class PersonalDetailsComponent implements OnInit {
     }
   }
 
-  currentYear = new Date().getFullYear().toString();
-  currentMonth = (new Date().getMonth() + 1).toString();
-  maxDate = this.currentYear + "-" + (this.currentMonth.length === 1 ? '0' + this.currentMonth : this.currentMonth);
-  month: number = 0;
-  achmonth: number = 0;
+ 
 
   //  pattern="^(19|20)\d{2}-(0[1-9]|1[0-2])$";
   //   validatePattern(completionyear: any): boolean {
@@ -147,12 +158,8 @@ export class PersonalDetailsComponent implements OnInit {
 
   /*code to block the future month and month less than 1900-01*/
   setFutureMonthRestriction(completionyear: any) {
-
-
-    completionyear.control.setValidators(this.validateCompletionYear(this.maxDate));
-
-
-  }
+        completionyear.control.setValidators(this.validateCompletionYear(this.maxDate));
+      }
 
   validateCompletionYear(maxDate: string): any {
     return (control: any) => {
@@ -181,23 +188,22 @@ export class PersonalDetailsComponent implements OnInit {
     achievementdate.control.setValidators(this.validateAchievementYear(this.maxDate));
 
   }
-
-
   validateAchievementYear(maxDate: string): any {
     return (control: any) => {
-      const achievementdate = control.value;
-
-      if (!achievementdate.includes('-')) {
-        return { missingDash: true };
-      }
-      this.achmonth = achievementdate.split('-')[1]
+      let  achievementdate = control.value;
+	    this.achmonth = achievementdate.split('-')[1]
 
       if (!achievementdate || achievementdate.trim() === '') {
         return null;
       }
 
+      if (!achievementdate.includes('-')) {
+        return { missingDash: true };
+      }
+      
+
       if (achievementdate > maxDate || achievementdate < '1900-01' || achievementdate.length > 7 || this.achmonth > 12 || this.achmonth == 0) {
-        return { futureMonth: true };
+        return { futureMonths: true };
       }
       return null;
     };
@@ -225,26 +231,34 @@ export class PersonalDetailsComponent implements OnInit {
       this.candidateProfessionalDetails.achievements = [];
     }
 
-    if (this.title && this.date && this.instituteName) {
+    if (this.title && this.achievementmonth && this.instituteName) {
       // Create a new achievement object
+
+      if (this.candidateProfessionalDetails.achievements.length < 10) {
       const newAchievement = {
         title: this.title,
-        achievDate: new Date(this.date).toISOString(),
+        achievDate: this.achievementmonth,
         acquiredFrom: this.instituteName
       };
       // Push the new achievement object to the achievements array
       this.candidateProfessionalDetails.achievements.push(newAchievement);
       // Clear the input fields
       this.title = '';
-      this.date = '';
+      this.achievementmonth = '';
       this.instituteName = "";
 
+    }else{
+      this.successmessage="You cannot add more than 10 Achievements."
+      this.successtitle="Error"
+      this.openModal(ModalType.SUCCESS_MESSAGE)
+
     }
+  }
   }
 
   isValidForm(): boolean {
     // Return true if both title and date have values, otherwise false
-    return !!this.title && !!this.date;
+    return !!this.title && !!this.achievementmonth && !!this.instituteName;
   }
   // Function to remove an achievement by title
   removeAchievement(title: string) {
@@ -257,11 +271,17 @@ export class PersonalDetailsComponent implements OnInit {
     }
   }
 
+  cancel() {
+    this.closeModal();
+    }
+    
+
   addCoreSkills() {
     if (!this.candidateProfessionalDetails.coreSkillList) {
       this.candidateProfessionalDetails.coreSkillList = [];
     }
     if (this.coreSkill && this.skillYears) {
+      if (this.candidateProfessionalDetails.coreSkillList.length < 10) {
       // Create a new achievement object
       const newCoreSkill = {
         skillName: this.coreSkill,
@@ -273,7 +293,13 @@ export class PersonalDetailsComponent implements OnInit {
       // Clear the input fields
       this.coreSkill = '';
       this.skillYears = '';
-
+    } else {
+      // Alert or handle the case where the limit is reached
+      //console.error('Cannot add more than 10 certificates.');
+      this.successmessage="you cannot add more than 10 core skils."
+      this.successtitle="Error"
+      this.openModal(ModalType.SUCCESS_MESSAGE)
+    }
     }
   }
 
@@ -339,7 +365,12 @@ export class PersonalDetailsComponent implements OnInit {
         this.maxCertificate = false;
       } else {
         // Alert or handle the case where the limit is reached
-        console.error('Cannot add more than 10 certificates.');
+        //console.error('Cannot add more than 10 certificates.');
+        this.successmessage="you cannot add more than 10 certificates."
+        this.successtitle="Error"
+        this.openModal(ModalType.SUCCESS_MESSAGE)
+        
+
         this.maxCertificate = true;
       }
     }
@@ -395,6 +426,32 @@ export class PersonalDetailsComponent implements OnInit {
       this.candidateProfessionalDetails.certificationNames.splice(indexToRemove, 1);
     }
   }
+
+/**
+   * Open modal.
+   *
+   * @param {ModalType} modalType
+   * @param {string} [message = ""]
+   * @param {string} [title = ""]
+   * @returns {void}
+   */
+openModal(modalType: ModalType, message: string ="", title: string="" ): void {
+
+  this.showModal = modalType;
+  this.modalMessage = message;
+  this.modalTitle = title;
+  this.modal.open();
+}
+  /**
+ * Close modal.
+ *
+ * @returns {void}
+ */
+  closeModal(): void {
+    this.modal.cancel();
+  }
+
+
 
 
 }

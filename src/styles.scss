@@ -1743,3 +1743,214 @@ color: #FFF;
       .fs-12{
         font-size:12px;
       }
+
+      .bg-black{
+        background-color: #000000;
+      }
+
+      /**************CSS FOR TERMS OF SERVICE PAGE START ******************/
+      .individual-page .top-header-bg {
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 36%;
+    
+        img {
+            width: 100%;
+        }
+    }
+    
+    .individual-page .gradient {
+        margin-left: -8.5%;
+        margin-right: -8.1%;
+        opacity: 60%;
+    }
+    
+    .individual-page .gradient-left1 {
+        top: -250px;
+        left: 0;
+    }
+    
+    .individual-page .gradient-left2 {
+        top: 200px;
+        left: 0;
+    }
+    
+    .individual-page .gradient-right1 {
+        right: 0;
+        top: -550px;
+    }
+    
+    .individual-page .gradient-right2 {
+        right: 0;
+        top: 300px;
+    }
+    
+    .individual-page .gradient-left3 {
+        top: 50px;
+        left: 0;
+    }
+    
+    .individual-page .gradient-right3 {
+        right: 0;
+    }
+    
+    .individual-page .gradient-sm {
+        display: none;
+    }
+    
+    // .individual-page .all{
+    //     background-color: #000000;
+    // }
+    
+    
+    .individual-page .section {
+        // background-color: #061221;
+        padding: 6rem 7% 2rem;
+    }
+    
+    
+    
+    .individual-page h1 {
+        padding-bottom: 2rem;
+        letter-spacing: 0em;
+        background: -webkit-linear-gradient(270deg, #50D5FF 12.5%, #D1E4FB 76.04%);
+        background-clip: border-box;
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+        font-weight: 700;
+    }
+    
+    .individual-page h2 {
+        font-size: 20px;
+        line-height: 24px;
+        margin: 0 0 1.5rem;
+        font-weight: 700;
+        padding-top: 1.5rem;
+    }
+    
+    .individual-page .text {
+        font-size: 16px;
+        line-height: 24px;
+        margin: 0 0 16px;
+    }
+    
+    .individual-page ul li {
+        font-size: 16px;
+        line-height: 24px;
+        list-style: none;
+        padding-bottom: 0.8rem;
+    }
+    
+    @media (max-width: 1025px) and (min-width: 480px) {
+    
+        .individual-page .section {
+            padding: 7rem 5% 1rem;
+        }
+    
+        .individual-page .top-header-bg {
+            width: calc(200px + 24vw);
+    
+            img {
+                width: 80%;
+            }
+        }
+    
+        .individual-page h2 {
+            font-size: 19px;
+        }
+    
+        .individual-page .gradient {
+            width: 75%;
+            margin-left: -6.5%;
+            margin-right: -5.55%;
+            opacity: 50%;
+    
+            img {
+                width: 100%;
+            }
+        }
+    
+        .individual-page .gradient-sm {
+            display: none;
+        }
+    
+        .individual-page .gradient-left1 {
+            top: 50px;
+            left: 0;
+        }
+    
+        .individual-page .gradient-left2 {
+            top: 500px;
+            left: 0;
+        }
+    
+        .individual-page .gradient-right1 {
+            right: 0;
+            top: -450px;
+        }
+    
+        .individual-page .gradient-right2 {
+            right: 0;
+            top: 300px;
+        }
+    
+    }
+    
+    @media (max-width: 480px) {
+    
+        .individual-page .top-header-bg {
+            width: 261px;
+    
+            img {
+                width: 80%;
+            }
+        }
+    
+        .individual-page .section {
+            padding: 7rem 5% 1rem;
+        }
+    
+        .individual-page h1 {
+            padding-bottom: 1rem;
+        }
+    
+        .individual-page .gradient {
+            width: 75%;
+            margin-left: -6.5%;
+            margin-right: -5.5%;
+            opacity: 50%;
+    
+            img {
+                width: 100%;
+            }
+        }
+    
+        .individual-page .gradient-left1 {
+            top: 50px;
+            left: 0;
+        }
+    
+        .individual-page .gradient-left2 {
+            // top: 200px;
+            left: 0;
+        }
+    
+        .individual-page .gradient-right1 {
+            right: 0;
+            top: -250px;
+            opacity: 50%;
+        }
+    
+        .individual-page .gradient-right2 {
+            right: 0;
+            top: -100px;
+        }
+    
+        .individual-page .gradient-sm {
+            display: block;
+            opacity: 35%;
+        }
+    
+    }
+      /**************CSS FOR TERMS OF SERVICE PAGE END ******************/

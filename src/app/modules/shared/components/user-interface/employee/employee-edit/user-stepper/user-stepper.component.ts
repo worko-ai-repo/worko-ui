@@ -18,7 +18,7 @@ export class UserStepperComponent implements OnInit {
  constructor(private router: Router) {}
   ngOnInit() {
     if (this.userType == "Candidate") {
-      this.url =  "/candidate/cdashboard";
+      this.url =  "/candidate/dashboard";
     }
 
     if (this.userType == "Employee") {

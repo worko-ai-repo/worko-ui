@@ -5,7 +5,7 @@ import { RouterModule, Routes } from '@angular/router';
 import { CandidateComponent } from './candidate.component';
 import { candidateGuard } from './guards/candidate.guard';
 import { UserNavbarComponent } from './components/user-navbar/user-navbar.component';
-import { UserMenubarComponent } from './components/user-menubar/user-menubar.component';
+
 import { UserDetailsComponent } from './components/user-details/user-details.component';
 import { UserProfileCompleteComponent } from './components/user-profile-complete/user-profile-complete.component';
 import { UserSoftSkillsComponent } from './components/user-soft-skills/user-soft-skills.component';
@@ -46,6 +46,10 @@ import { UserStepperComponent } from '../shared/components/user-interface/employ
 import { SharedModule } from '../shared/shared.module';
 import { NavbarToggleSwitchService } from './services/navbar-toggle-switch.service';
 import { AdminModule } from '../admin/admin.module';
+import { ReferralReqDoneComponent } from '../shared/components/user-interface/referral/referral-req-done/referral-req-done.component';
+import { MarkAsDoneComponent } from '../shared/components/user-interface/referral/referral-reusable-button/mark-as-done/mark-as-done.component';
+import { RaiseIssueComponent } from '../shared/components/user-interface/referral/referral-reusable-button/raise-issue/raise-issue.component';
+import { NewRequestBtnComponent } from '../shared/components/user-interface/referral/referral-reusable-button/new-request-btn/new-request-btn.component';
 
 
 export const routes: Routes = [
@@ -55,32 +59,32 @@ export const routes: Routes = [
     component: CandidateComponent,
     children: [
       {
-        path: 'cdashboard',
+        path: 'dashboard',
         component: CandidateDashboardComponent,
         // canActivate: [ candidateGuard]
       },
       {
-        path: 'creferral',
+        path: 'referral',
         component: ReferralComponent,
        
       },
       {
-        path: 'cservice',
+        path: 'service',
         component: ServiceComponent,
        
       },
       {
-        path: 'csubscription',
+        path: 'subscription',
         component: SubscriptionComponent,
        
       },
       {
-        path: 'crefer&earn',
+        path: 'refer&earn',
         component: ReferEarnComponent,
        
       },
       {
-        path: 'cedit-profile',
+        path: 'edit-profile',
         component: EditProfileComponent,
        
       },
@@ -101,7 +105,7 @@ export const routes: Routes = [
    CandidateDashboardComponent,
   CandidateComponent,
   UserNavbarComponent,
-  UserMenubarComponent,
+ 
   UserDetailsComponent,
   UserProfileCompleteComponent,
   UserSoftSkillsComponent,
@@ -113,6 +117,7 @@ export const routes: Routes = [
   NewRequestComponent,
   ReferralCancelledComponent,
   ReferralReqRejectedComponent,
+  ReferralReqDoneComponent,
   ServiceComponent,
   AllServicesComponent,
   PaymentDueComponent,
@@ -131,6 +136,9 @@ export const routes: Routes = [
   PersonalDetailsComponent,
   UploadComponent,
    AcceptedReferralComponent,
+   MarkAsDoneComponent,
+   RaiseIssueComponent,
+   NewRequestBtnComponent,
    ReferralStepperComponent,
    AwaitingServiceComponent,
    CancelledServiceComponent,
@@ -148,7 +156,7 @@ export const routes: Routes = [
     
 
   ],
-  exports: [UserMenubarComponent,
+  exports: [
     UserNavbarComponent,
     UserDetailsComponent,
     UserProfileCompleteComponent,

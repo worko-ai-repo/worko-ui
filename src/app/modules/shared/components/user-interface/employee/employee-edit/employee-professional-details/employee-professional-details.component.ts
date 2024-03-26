@@ -21,10 +21,12 @@ export class EmployeeProfessionalDetailsComponent {
   @Output() nextStepThird = new EventEmitter<void>();
   @Output() previousStep = new EventEmitter<void>();
 
+  fieldGroup1:any;
   myControl = new FormControl<any>('');
-  // myControl1 = new FormControl<any>('');
-  Form3:FormGroup | undefined;
-  
+  //myJobControl1 = new FormControl<any>('');
+  //Form3:FormGroup =new FormGroup<any>('');
+  // Form1:FormGroup | undefined;
+  @Input() workExperienceDetailsList: any
   @Input() workExperienceDetails: any
   @Input() employeeProfessionalData: any = {
     companyName: "",
@@ -47,18 +49,80 @@ export class EmployeeProfessionalDetailsComponent {
   PreviousCompanyName: string = "";
   previousExpYear: string = "";
   previousDesignation: string = "";
-  fields: { previousCompanyName: string, previousDesignation: string, previousExperience: string }[] = [];
+  //fields: { previousCompanyName: string, previousDesignation: string, previousExperience: string }[] = [];
   // Property to store the values entered in the fields
   savedValues: { previousCompanyName: string, previousDesignation: string, previousExperience: string }[] = [];
-
+  perviousjobs: { previousCompanyName: string, previousDesignation: string, previousExperience: string }[] = [];
+  
   modalType = ModalType;
   modalMessage: string = "";
   modalTitle: string = "";
   showModal: ModalType | undefined;
   selectedCompanyName: string = "";
   data: any | undefined;
-  constructor(private authService: AuthService) { }
+ Form1:any; 
+ formGroup: any;
+ fields:any;
+  constructor(private authService: AuthService,private fb:FormBuilder) {
+    this.formGroup = this.fb.group({
+      fields: this.fb.array([])
+    });
+    
+     }
+     addField(): void {
+     
+      const fieldsArray = this.formGroup.get('fields') as FormArray;
+      const newField = this.createField();
+      fieldsArray.push(newField);
+    
+      // Initialize autocomplete for the newly added field
+      const lastIndex = fieldsArray.length - 1;
+      const newFieldGroup = fieldsArray.at(lastIndex) as FormGroup;
+      this.initializeAutocomplete(newFieldGroup);
+    }
+    previousCompanyNameControl:any;
+    initializeAutocomplete(fieldGroup: FormGroup): void{
+    this. previousCompanyNameControl=fieldGroup.get('previousCompanyName')
+    this.filteredOption = this.previousCompanyNameControl.valueChanges.pipe(
+      debounceTime(300),
+      distinctUntilChanged(),
+      switchMap((value: any) => {
+        console.log(value);
+        if (value && value.length >= 1) {
+          return this.authService.getCompanyName(value);
+        } else {
+          // If value.length is less than 1, return an empty array or null
+          return [];
+        }
+      })
+    );
+    }
+  
+    createField(): FormGroup {
+      return this.fb.group({
+        previousCompanyName: [''],
+        previousDesignation: [''],
+        previousExperience: ['']
+      });
+    }
+  
+    removeField(index: number): void {
+      const fieldsArray = this.formGroup.get('fields') as FormArray;
+      fieldsArray.removeAt(index);
+    }
+    isAddButtonDisabled(index: number): boolean {
+      const fieldsArray = this.formGroup.get('fields') as FormArray;
+     this.fieldGroup1 = fieldsArray.at(index) as FormGroup;
+      const previousCompanyName = this.fieldGroup1.get('previousCompanyName').value;
+      const previousDesignation = this.fieldGroup1.get('previousDesignation').value;
+      const previousExperience = this.fieldGroup1.get('previousExperience').value;
+      return !previousCompanyName || !previousDesignation || !previousExperience;
+    }
+    
 
+    
+
+fieldsGroup:any;
   ngOnInit() {
     console.log(this.employeeProfessionalData)
     //  this.selectedCompanyName=this.employeeProfessionalData.companyName;
@@ -80,47 +144,12 @@ export class EmployeeProfessionalDetailsComponent {
 
     );
 
-
-  }
-
-  
- 
-  // get perviousfields(){
-
-  //   return this.form1.controls["perviousfields"] as FormArray;
-  // }
- 
-//   addField(){
     
-// const Form3=this.formBuilder.group({
-// PreviousCompanyName:[""],
-// previousDesignation:[""],
-// previousExpYear:[""]
-
-
-// });
-// this.perviousfields.push(Form3);
-
-//   }
-//   removeField(index: number) {
-//     this.perviousfields.removeAt(index);
-
-//   }
-
+    console.log(this.fields)
  
-  addField() {
-    if (this.fields.length < 6) {
-      this.fields.push({ previousCompanyName: '', previousDesignation: '', previousExperience: '' });
-    }
-  }
-  // Method to check if all previous fields are filled
-  areAllPreviousFieldsFilled(): boolean {
-    return this.fields.every(field => field.previousCompanyName.trim() !== '' && field.previousDesignation.trim() !== '' && field.previousExperience.trim() !== '' && /^[0-9]+$/.test(field.previousExperience.trim()));
-  }
+      
+   }
 
-  removeField(index: number) {
-    this.fields.splice(index, 1);
-  }
 
 
   onOptionSelected(event: any): void {
@@ -129,6 +158,9 @@ export class EmployeeProfessionalDetailsComponent {
 
     this.selectedCompany = event.option.value;
 
+  }
+  onSelectedPastJob(event: any):void{
+    this.selectedCompany = event.option.value;
   }
 
 
@@ -172,8 +204,9 @@ export class EmployeeProfessionalDetailsComponent {
       this.fields = this.employeeProfessionalData.previousCompanies;
       if (this.employeeProfessionalData && this.employeeProfessionalData.previousCompanies.length == 0) {
         this.addField();
+       
 
-        debugger;
+        //debugger;
       }
     } else {
       this.getData();
@@ -199,9 +232,36 @@ export class EmployeeProfessionalDetailsComponent {
 
   //Method for next step
   updateProfessionalDetails() {
-    const nonBlankFields = this.fields.filter(field => field.previousCompanyName.trim() !== '' || field.previousDesignation.trim() !== '' || field.previousExperience.trim() !== '' );
+   // const nonBlankFields = this.fields.filter(field => field.previousCompanyName.trim() !== '' || field.previousDesignation.trim() !== '' || field.previousExperience.trim() !== '' );
     // const isCurrent=false
-    // Save the non-blank fields
+    // Save the non-blank fields\
+
+    const nonBlankFields = [];
+    const fieldsArray = this.formGroup.get('fields') as FormArray;
+    for (let i = 0; i < fieldsArray.length; i++) {
+      const fieldGroup = fieldsArray.at(i) as FormGroup;
+      const companyNameControl = fieldGroup.get('previousCompanyName');
+      const designationControl = fieldGroup.get('previousDesignation');
+      const experienceControl = fieldGroup.get('previousExperience');
+    
+      // Check if controls are defined and have a value property
+      if (companyNameControl && designationControl && experienceControl &&
+          companyNameControl.value !== null && companyNameControl.value !== undefined &&
+          designationControl.value !== null && designationControl.value !== undefined &&
+          experienceControl.value !== null && experienceControl.value !== undefined) {
+        
+        const companyName = companyNameControl.value.toString().trim();
+        const designation = designationControl.value.toString().trim();
+        const experience = experienceControl.value.toString().trim();
+    
+        if (companyName || designation || experience) {
+          nonBlankFields.push({ previousCompanyName: companyName, previousDesignation: designation, previousExperience: experience });
+        }
+      }
+    }
+    
+    
+    
     this.savedValues = [...nonBlankFields];
     this.employeeProfessionalData.previousCompanies = this.savedValues;
     console.log()
@@ -217,9 +277,37 @@ export class EmployeeProfessionalDetailsComponent {
   }
 
   createEmployeeOfficial(form: any) {
-    const nonBlankFields = this.fields.filter(field => field.previousCompanyName.trim() !== '' || field.previousDesignation.trim() !== '' || field.previousExperience.trim() !== '');
+    //const nonBlankFields = this.fields.filter(field => field.previousCompanyName.trim() !== '' || field.previousDesignation.trim() !== '' || field.previousExperience.trim() !== '');
     // console.log(this.savedValues)
     // Save the non-blank fields
+    const nonBlankFields = [];
+    const fieldsArray = this.formGroup.get('fields') as FormArray;
+    for (let i = 0; i < fieldsArray.length; i++) {
+      const fieldGroup = fieldsArray.at(i) as FormGroup;
+      const companyNameControl = fieldGroup.get('previousCompanyName');
+      const designationControl = fieldGroup.get('previousDesignation');
+      const experienceControl = fieldGroup.get('previousExperience');
+    
+      // Check if controls are defined and have a value property
+      if (companyNameControl && designationControl && experienceControl &&
+          companyNameControl.value !== null && companyNameControl.value !== undefined &&
+          designationControl.value !== null && designationControl.value !== undefined &&
+          experienceControl.value !== null && experienceControl.value !== undefined) {
+        
+        const companyName = companyNameControl.value.toString().trim();
+        const designation = designationControl.value.toString().trim();
+        const experience = experienceControl.value.toString().trim();
+    
+        if (companyName || designation || experience) {
+          nonBlankFields.push({ previousCompanyName: companyName, previousDesignation: designation, previousExperience: experience });
+        }
+      }
+    }
+    
+    
+    
+
+
     this.savedValues = [...nonBlankFields];
     this.employeeProfessionalData.previousCompanies = this.savedValues;
     this.employeeProfessionalData.companyName = this.selectedCompany.name ? this.selectedCompany?.name : this.workExperienceDetails?.companyName
@@ -229,7 +317,19 @@ export class EmployeeProfessionalDetailsComponent {
   }
 
   onPreviousClick() {
-    const nonBlankFields = this.fields.filter(field => field.previousCompanyName.trim() !== '' || field.previousDesignation.trim() !== '' || field.previousExperience.trim() !== '');
+    //const nonBlankFields = this.fields.filter(field => field.previousCompanyName.trim() !== '' || field.previousDesignation.trim() !== '' || field.previousExperience.trim() !== '');
+
+    const nonBlankFields = [];
+    for (let i = 0; i < this.fields.length; i++) {
+      const fieldGroup = this.fields.at(i) as FormGroup;
+      const companyName = fieldGroup.get('previousCompanyName')?.value?.trim() || '';
+      const designation = fieldGroup.get('previousDesignation')?.value?.trim() || '';
+      const experience = fieldGroup.get('previousExperience')?.value?.trim() || '';
+  
+      if (companyName || designation || experience) {
+        nonBlankFields.push({ previousCompanyName: companyName, previousDesignation: designation, previousExperience: experience });
+      }
+    }
 
     // Save the non-blank fields
     this.savedValues = [...nonBlankFields];

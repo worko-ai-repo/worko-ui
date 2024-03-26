@@ -24,10 +24,11 @@
 
             <div class="col">
                 <label for="" class="form-lable  required-form-field">Company Email</label>
-                <input type="text" class="form-control form-input" placeholder="abcd@Offcial.com" name="email"
+                <input type="text" class="form-control form-input" placeholder="abcd@Offical.com" name="email"
                     id="email" [(ngModel)]="employeeProfessionalData.officialEmail"
                     pattern="^(?!.*@(gmail\.com|outlook\.com|aol\.com|yahoo\.com|icloud\.com|protonmail\.com|zoho\.com|yandex\.com|gmx\.com|hubspot\.com|mail\.com|tutanota\.com|10minutemail\.com)$)[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$"
                     [title]="email.errors?.['pattern'] ? 'Official Email is invalid' : ''"
+                   
                     [ngClass]="{ 'is-invalid': email.invalid && (email.dirty || email.touched) }" #email="ngModel">
                 <h2 *ngIf="!employeeProfessionalData.isEmailVerified && !email.invalid" (click)="openOtpModal()"
                     class="badge  verify-text-label-unverified -pointer">Verify</h2>
@@ -47,52 +48,62 @@
             <div class="col">
                 <label for="" class="form-lable  required-form-field">Designation</label>
                 <input type="text" class="form-control form-input" placeholder="Designation" name="designation"
-                    id="designation" [(ngModel)]="employeeProfessionalData.designation">
+                    id="designation" [(ngModel)]="employeeProfessionalData.designation" #designation="ngModel"
+                    pattern="^[A-Za-z0-9\s()/.-]+$" minlength="4" maxlength="30"
+                    [title]="designation.errors?.['minlength'] ? 'designation should have minimum length of 4 characters' : ''"
+                    [title]="designation.errors?.['pattern'] ? 'designation is invalid' : ''"
+                    required  [title]="designation.errors?.['required'] ? 'designation is required' : ''"
+                    [ngClass]="{ 'is-invalid': designation.invalid && (designation.dirty || designation.touched) }">
             </div>
             <div class="col">
                 <label for="" class="form-lable  required-form-field">Department</label>
                 <input type="text" class="form-control form-input" placeholder="Department" name="department"
-                    id="department" [(ngModel)]="employeeProfessionalData.department">
+                    id="department" [(ngModel)]="employeeProfessionalData.department" #department="ngModel"
+                    pattern="^[A-Za-z0-9\s()/.-]+$" minlength="4" maxlength="30"
+                    [title]="designation.errors?.['minlength'] ? 'Department should have minimum length of 4 characters' : ''"
+                    [title]="department.errors?.['pattern'] ? 'department is invalid' : ''"
+                    required  [title]="department.errors?.['required'] ? 'department is required' : ''"
+                    [ngClass]="{ 'is-invalid': department.invalid && (department.dirty || department.touched) }"
+                    >
             </div>
             <div class="col">
                 <label for="" class="form-lable  required-form-field">Working since</label>
                 <input type="text" class="form-control form-input" placeholder="In months" name="workingSince"
-                    id="workingSince" #workingSince="ngModel" [(ngModel)]="employeeProfessionalData.workingSince"
+                    id="workingSince" #workingSince="ngModel" [(ngModel)]="employeeProfessionalData.workingSince" required
                     pattern="[0-9]+" [title]="workingSince.errors?.['pattern'] ? 'Working Since is invalid' : ''"
+                    [title]="workingSince.errors?.['required'] ? 'Working Since is required' : ''"
                     [ngClass]="{ 'is-invalid': workingSince.invalid && (workingSince.dirty || workingSince.touched) }">
                 <h2 class="badge badge-primary field-text-label" style="background: #57E1FF;">Months</h2>
             </div>
         </div>
 
-<!-- <div class="row mt-3">
+ <!-- <div class="row mt-3">
     <h5>Previous Employer Details</h5>
 </div>
-<div [formGroup]="form1">
-    <div formArrayName="perviousfields">
-        <div class="row mt-3" *ngFor="let Form3 of perviousfields.controls; let i = index">
-            <div [formGroup]="Form3">
+<div [formGroup]="Form1">
+    <div formArrayName="perviousjob" *ngFor="let item  of Form1.get('perviousjob').controls;let i=index">
+
+        <div class="row mt-3"  formGroupName="i">
+           
             <div class="col-md-5">
-                <label for="" class="form-lable  ">past Company Name</label>
-                 <input matInput #autoCompleteInput="matAutocompleteTrigger" class="form-control form-input"
+                <label [for]="'previousCompanyName'+i" class="form-lable  ">past Company Name</label>
+                 <input matInput #autoCompleteInput="matAutocompleteTrigger" class="form-control form-input" [id]="'previousCompanyName'+i"
                   [matAutocomplete]="myJobControl" placeholder="Select Company Name"
                  formControlName="previousCompanyName" />
                  <mat-autocomplete #myJobControl="matAutocomplete" [displayWith]="displayPastFn"
                  (optionSelected)="onSelectedPastJob($event)">
-                 <mat-option *ngFor="let job of filteredOptions | async" [value]="job"> {{ job.name }}
+                 <mat-option *ngFor="let job of filteredOptions | async" [value]="job"> {{ job.name}}
                  </mat-option>
                 </mat-autocomplete>
             </div>
             <div class="col-md-3">
                 <label for="" class="form-lable  ">Designation</label>
-                <input type="text" class="form-control form-input" formControlName="form3.previousDesignation" placeholder="Designation">
+                <input type="text" class="form-control form-input" formControlName="previousDesignation" placeholder="Designation">
             </div>
             <div class="col-md-3">
                 <label for="" class="form-lable  ">Experience</label>
-                <input type="text" class="form-control form-input" formControlName="form3.previousExperience" placeholder="In months">
-                         pattern="[0-9]+" #previousExperience="ngModel"
-                        [title]="previousExperience.errors?.['pattern'] ? 'Year of Experience is invalid' : ''"
-                        [ngClass]="{ 'is-invalid': previousExperience.invalid && (previousExperience.dirty ||
-                        previousExperience.touched) }" 
+                <input type="text" class="form-control form-input" formControlName="previousExperience" placeholder="In months">
+                        
                         <h2 class="badge badge-primary field-text-label" style="background: #57E1FF;">Months</h2>
                     </div>
 
@@ -105,30 +116,25 @@
                     </div>
                 </div>
                 </div>
-            </div>
+           
         </div>
 
-</div> -->
-
+ </div>  -->
+ <!-- pattern="[0-9]+" #previousExperience="ngModel"
+                        [title]="previousExperience.errors?.['pattern'] ? 'Year of Experience is invalid' : ''"
+                        [ngClass]="{ 'is-invalid': previousExperience.invalid && (previousExperience.dirty ||
+                        previousExperience.touched) }"  -->
 
       
  <div class="row mt-3">
     <h5>Previous Employer Details</h5>
 </div>
 
-<div class="row mt-3" *ngFor="let field of fields; let i = index">
+<!-- <div class="row mt-3" *ngFor="let field of fields; let i = index">
     <div class="col-md-5">
-        <label for="" class="form-lable  ">past Company Name</label> 
-        <!-- <input matInput #autoCompleteInput="matAutocompleteTrigger" class="form-control form-input"
-            [formControl]="myControl" [matAutocomplete]="myJobControl" placeholder="Select Company Name"
-            [(ngModel)]="field.previousCompanyName" />
-        <mat-autocomplete #myJobControl="matAutocomplete" [displayWith]="displayPastFn"
-            (optionSelected)="onSelectedPastJob($event)">
-            <mat-option *ngFor="let job of filteredOptions | async" [value]="job">
-                {{ job.name }}
-            </mat-option>
-        </mat-autocomplete> -->
-         <input type="text" class="form-control form-input" [(ngModel)]="field.previousCompanyName"
+        <label for="" class="form-lable  ">past Company Name</label>  
+       
+        <input type="text" class="form-control form-input" [(ngModel)]="field.previousCompanyName"
             placeholder="Company Name">
     </div>
     <div class="col-md-3">
@@ -150,13 +156,58 @@
         [disabled]="!areAllPreviousFieldsFilled()">+</button>
     <button class="float-end btn circular-button" *ngIf="i > 0" (click)="removeField(i)">x</button>
     </div>
-</div> 
+</div>  -->
+<!-- your-component.component.html -->
+
+<form [formGroup]="formGroup">
+    <div formArrayName="fields"  >
+      <div *ngFor="let field of formGroup.get('fields').controls; let i = index" [formGroupName]="i" >
+        <div class="row mt-3">
+          <div class="col-md-5">
+            <label for="previousCompanyName{{ i }}" class="form-lable">Past Company Name</label>
+           <input matInput #autoCompleteInput="matAutocompleteTrigger" class="form-control form-input"
+                   [formControl]="field.get('previousCompanyName')" [matAutocomplete]="auto"  
+                   placeholder="Select Company Name" />
+            <mat-autocomplete [displayWith]="displayPastFn" [id]="'autoCompleteOptions' + i"
+                              (optionSelected)="onSelectedPastJob($event)" #auto="matAutocomplete">
+              <mat-option *ngFor="let job of filteredOption | async" [value]="job">
+                {{ job.name }}
+              </mat-option>
+            </mat-autocomplete> 
+            <!-- <input type="text" class="form-control form-input" [formControl]="field.get('previousCompanyName')"
+            placeholder="Select Company Name" /> -->
+          </div>
+          <div class="col-md-3">
+            <label for="previousDesignation{{ i }}" class="form-lable">Designation</label>
+            <input type="text" class="form-control form-input" [formControl]="field.get('previousDesignation')"
+                   placeholder="Designation"  />
+          </div>
+          <div class="col-md-3">
+            <label for="previousExperience{{ i }}" class="form-lable">Experience</label>
+            <input type="text" class="form-control form-input" [formControl]="field.get('previousExperience')"
+                   placeholder="In months" >
+            <h2 class="badge badge-primary field-text-label" style="background: #57E1FF;">Months</h2>
+          </div>
+          <!-- <input type="hidden" class="form-control form-input"
+          [(ngModel)]="previousCompanies.SK"
+          [ngModelOptions]="{standalone: true}"
+          id="SK"> -->
+          <div class="col-md-1 d-flex align-items-end">
+            <button class="float-end btn circular-button" *ngIf="i === 0" (click)="addField()"
+            [disabled]="isAddButtonDisabled(i)" >+</button>
+            <button class="float-end btn circular-button" *ngIf="i > 0" (click)="removeField(i)">x</button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </form>
+  
 
         <div class="row mt-5 mb-3">
             <div class="col-md-12 d-flex justify-content-end">
                 <button class="btn btn-next me-2" (click)="onPreviousClick()">Previous</button>
                 <button class="btn btn-next" (click)="updateProfessionalDetails()" type="button"
-                    [disabled]="!employeeProfessionalData.workingSince || workingSince.invalid || email.invalid || !employeeProfessionalData.department || !employeeProfessionalData.designation ||!employeeProfessionalData.companyName ">Next</button>
+                    [disabled]="!employeeProfessionalData.workingSince || workingSince.invalid || email.invalid || !employeeProfessionalData.department || !employeeProfessionalData.designation ||!employeeProfessionalData.companyName  ||designation.invalid || department.invalid">Next</button>
             </div>
         </div>
 
