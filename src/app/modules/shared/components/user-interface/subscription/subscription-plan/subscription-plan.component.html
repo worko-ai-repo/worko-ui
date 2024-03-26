@@ -361,9 +361,9 @@
 
 <app-modal [theme]="'theme-k'" [centered]="true" [showHeader]="showModal === modalType.MESSAGE"
   [showFooter]="showModal === modalType.MESSAGE" [title]="modalTitle" [message]="modalMessage"
-  [bodyClass]="modalMessage ? 'p-5' : 'p-0'">
+  [bodyClass]="modalMessage ? 'p-5' : 'p-0'" >
   
-  <div class="modal-body candidate-card">
+  <div class="modal-body candidate-card" *ngIf="showModal === modalType.SUBSCRIPTION_CHECKOUT">
 
     <div class="row">
       <div class="col-md-12">
@@ -428,18 +428,17 @@
         
       </div>
       <div class="col-md-10 mt-4 mb-4">
-        <div class="btn-pay btn text-white float-end p-2 ps-4 pe-4 ms-2" >Pay</div>
+        <div class="btn-pay btn text-white float-end p-2 ps-4 pe-4 ms-2" (click)="paynow()">Pay</div>
         <div class=" btn-pay btn text-white float-end p-2 ps-3 pe-3">Cancel</div>
       </div>
-
-      
-
-
      
-
+   
     </div>
 
   </div>
+  <ng-container  *ngIf="showModal === modalType.PAY_CARD_FORM" >
+    <app-pay-card-modal *ngIf="showModal === modalType.PAY_CARD_FORM"></app-pay-card-modal>
+  </ng-container>
 
 </app-modal>
 

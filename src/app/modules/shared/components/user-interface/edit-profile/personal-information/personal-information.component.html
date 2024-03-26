@@ -128,14 +128,14 @@
                                 <label for="" class="form-lable required-form-field">Passing Year</label>
                                 <input type="text" class="form-control form-input" placeholder="passing Year"
                                 maxlength="4"
-                                     [(ngModel)]="details.passingYear"
+                                     [(ngModel)]="details.passingYear" required
                                     #passingYear="ngModel"
                                     pattern="^(19|20)[0-9]{2}$"
                                     [ngModelOptions]="{standalone: true}"
-                                    [title]="passingYear.errors?.['pattern'] ? 'Passing year is invalid' : ''"
+                                    [title]="passingYear.errors?.['required'] ? 'Passing year is required' : ''"
                                     [ngClass]="{ 'is-invalid': passingYear.invalid && (passingYear.dirty || passingYear.touched) }"
                                     name="passingYear" id="passingYear" (focus)="setFutureMonthRestriction(passingYear)" 
-                                     >
+                                    [title]="passingYear.errors?.['futureMonth'] ? 'Passing Year is invalid' : ''">
         
 
                             </div>

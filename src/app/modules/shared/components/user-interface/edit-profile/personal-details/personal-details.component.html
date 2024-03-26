@@ -161,7 +161,11 @@
                                     <input type="text" class="core-skills-input form-control" placeholder="Skill" maxlength="15"
                                         [(ngModel)]="coreSkill" name="coreSkill" id="coreSkill">
                                     <input type="text" class="core-skills-input ms-2 form-control" placeholder="No. of years"
-                                        [(ngModel)]="skillYears" name="skillYears" id="skillYears">
+                                        [(ngModel)]="skillYears" name="skillYears" id="skillYears" #coreSkillyears="ngModel"
+                                        pattern="^(19|20)([0-9]{2})$" 
+                                        [title]="coreSkillyears.errors?.['pattern'] ? ' Core skill Years is invalid' : ''"
+                                        [title]="coreSkillyears.errors?.['required'] ? ' Core skill Years is required' : ''"
+                                        [ngClass]="{ 'is-invalid': coreSkillyears.invalid && (coreSkillyears.dirty || coreSkillyears.touched) }">
             
                                     <button class="float-end btn btn-add" type="button" [disabled]="!isCoreSkillsValidForm()"
                                         (click)="addCoreSkills()">Add</button>
@@ -212,6 +216,7 @@
                                         #completionyear="ngModel" [title]="completionyear.errors?.['pattern'] ? 'Certification year is invalid' : ''"
                                         [ngClass]="{ 'is-invalid': completionyear.invalid && (completionyear.dirty || completionyear.touched) }"
                                         (focus)="setFutureMonthRestriction(completionyear)"
+                                        [title]="completionyear.errors?.['futureMonth'] ? 'Completion year is invalid' : ''"
                                         >  
                                         
            
@@ -259,7 +264,8 @@
                                         [(ngModel)]="achievementmonth" name="achievementdate" id="achievementdate"  
                                         #achievementdate="ngModel" [title]="achievementdate.errors?.['pattern'] ? 'Achievement date is invalid' : ''"
                                         [ngClass]="{ 'is-invalid': achievementdate.invalid && (achievementdate.dirty || achievementdate.touched) }"
-                                        (focus)="setFutureMonth(achievementdate)">
+                                        (focus)="setFutureMonth(achievementdate)"
+                                        [title]="achievementdate.errors?.['futureMonths'] ? 'Achievement date is invalid' : ''">
                                        
             
                                     <button class="float-end btn btn-add" type="button" [disabled]="!isValidForm() || achievementdate.invalid"

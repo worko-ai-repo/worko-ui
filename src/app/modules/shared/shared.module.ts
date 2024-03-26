@@ -72,6 +72,8 @@ import { ReferralSeeReviewPopupComponent } from './components/user-interface/ref
 import { ReferralRejectDetailsPopupComponent } from './components/user-interface/referral/referral-reject-details-popup/referral-reject-details-popup.component';
 
 
+
+
 export const routes: Routes = [
 
   
@@ -108,19 +110,11 @@ export const routes: Routes = [
     UserMenubarComponent,
     ReferralSeeReviewPopupComponent,
     ReferralRejectDetailsPopupComponent,
-
+    PayCardModalComponent,
 
     // DoneServiceComponent,
     // CancelledServiceComponent,
     // AwaitingServiceComponent,
-    
-    
-    
-
-    
-    
-    
-    
   ],
 
   imports: [
@@ -174,6 +168,7 @@ export const routes: Routes = [
   UserMenubarComponent,
   ReferralSeeReviewPopupComponent,
   ReferralRejectDetailsPopupComponent
+  PayCardModalComponent,
 
 
   ],
