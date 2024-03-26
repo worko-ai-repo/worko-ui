@@ -1,206 +1,206 @@
-.top-header-bg{
-    position:absolute;
-    top: 0;
-    left: 0;
-    width: 36%;
-    img {
-        width: 100%;
-    }
-}
+// .top-header-bg{
+//     position:absolute;
+//     top: 0;
+//     left: 0;
+//     width: 36%;
+//     img {
+//         width: 100%;
+//     }
+// }
 
-.gradient {
-    margin-left: -8.5%;
-    margin-right: -8.1%;
-    opacity: 60%;
-}
+// .gradient {
+//     margin-left: -8.5%;
+//     margin-right: -8.1%;
+//     opacity: 60%;
+// }
 
-.gradient-left1 {
-    top: -250px;
-    left: 0;
-}
+// .gradient-left1 {
+//     top: -250px;
+//     left: 0;
+// }
 
-.gradient-left2 {
-    top: 200px;
-    left: 0;
-}
+// .gradient-left2 {
+//     top: 200px;
+//     left: 0;
+// }
 
-.gradient-right1 {
-    right: 0;
-    top: -550px;
-}
+// .gradient-right1 {
+//     right: 0;
+//     top: -550px;
+// }
 
-.gradient-right2 {
-    right: 0;
-    top: 100px;
-}
+// .gradient-right2 {
+//     right: 0;
+//     top: 100px;
+// }
 
-.gradient-left3 {
-    top: 50px;
-    left: 0;
-}
+// .gradient-left3 {
+//     top: 50px;
+//     left: 0;
+// }
 
-.gradient-right3 {
-    right: 0;
-}
+// .gradient-right3 {
+//     right: 0;
+// }
 
-.gradient-sm {
-    display: none;
-}
+// .gradient-sm {
+//     display: none;
+// }
 
-.all {
-    background-color: #000000;
-}
-
-
-.section {
-    // background-color: #061221;
-    padding: 12rem 7% 3rem;
-}
+// .all {
+//     background-color: #000000;
+// }
 
 
+// .section {
+//     // background-color: #061221;
+//     padding: 12rem 7% 3rem;
+// }
 
-h1{
-    padding-bottom: 2rem;
-    letter-spacing: 0em;
-  background: -webkit-linear-gradient(270deg, #50D5FF 12.5%, #D1E4FB 76.04%);
-    background-clip: border-box;
-  -webkit-background-clip: text;
-  -webkit-text-fill-color: transparent;
-  font-weight: 700;
-}
 
-h2{
-    font-size: 20px;
-    line-height: 24px;
-    margin: 0 0 1.5rem;
-    font-weight: 700;
-    padding-top: 1.5rem;
-}
 
-.text{
-    font-size: 16px;
-    line-height: 24px;
-    margin: 0 0 16px;
-}
+// h1{
+//     padding-bottom: 2rem;
+//     letter-spacing: 0em;
+//   background: -webkit-linear-gradient(270deg, #50D5FF 12.5%, #D1E4FB 76.04%);
+//     background-clip: border-box;
+//   -webkit-background-clip: text;
+//   -webkit-text-fill-color: transparent;
+//   font-weight: 700;
+// }
 
-ul li{
-    font-size: 16px;
-    line-height: 24px;
-    // list-style: none;
-    padding-bottom: 0.8rem;
-}
+// h2{
+//     font-size: 20px;
+//     line-height: 24px;
+//     margin: 0 0 1.5rem;
+//     font-weight: 700;
+//     padding-top: 1.5rem;
+// }
 
-ul li{
-    list-style: initial;
-}
+// .text{
+//     font-size: 16px;
+//     line-height: 24px;
+//     margin: 0 0 16px;
+// }
 
-@media (max-width: 1025px) and (min-width: 480px){
+// ul li{
+//     font-size: 16px;
+//     line-height: 24px;
+//     // list-style: none;
+//     padding-bottom: 0.8rem;
+// }
 
-    .section{
-        padding: 7rem 5% 1rem;
-    }
+// ul li{
+//     list-style: initial;
+// }
 
-    .top-header-bg{
-        width: calc(200px + 24vw);
+// @media (max-width: 1025px) and (min-width: 480px){
 
-        img{
-            width: 80%;
-        }
-    } 
+//     .section{
+//         padding: 7rem 5% 1rem;
+//     }
 
-    h2{
-        font-size: 19px;
-    }
+//     .top-header-bg{
+//         width: calc(200px + 24vw);
 
-    .gradient{
-        width: 75%;
-        margin-left: -6.5%;
-        margin-right: -5.55%;
-        opacity: 50%;
+//         img{
+//             width: 80%;
+//         }
+//     } 
 
-        img{
-            width: 100%;
-        }
-    }
+//     h2{
+//         font-size: 19px;
+//     }
 
-    .gradient-sm{
-        display: none;
-    }
-    .gradient-left1{
-        top: 50px;
-        left: 0;
-    }
+//     .gradient{
+//         width: 75%;
+//         margin-left: -6.5%;
+//         margin-right: -5.55%;
+//         opacity: 50%;
+
+//         img{
+//             width: 100%;
+//         }
+//     }
+
+//     .gradient-sm{
+//         display: none;
+//     }
+//     .gradient-left1{
+//         top: 50px;
+//         left: 0;
+//     }
     
-    .gradient-left2{
-        top: 500px;
-        left: 0;
-    }
+//     .gradient-left2{
+//         top: 500px;
+//         left: 0;
+//     }
     
-    .gradient-right1 {
-        right: 0;
-        top: -450px;
-    }
+//     .gradient-right1 {
+//         right: 0;
+//         top: -450px;
+//     }
     
-    .gradient-right2 {
-        right: 0;
-        top: 300px;
-    }
+//     .gradient-right2 {
+//         right: 0;
+//         top: 300px;
+//     }
 
-}
+// }
 
-@media (max-width: 480px) {
+// @media (max-width: 480px) {
 
-    .top-header-bg {
-        width: 261px;
+//     .top-header-bg {
+//         width: 261px;
 
-        img{
-            width: 80%;
-        }
-    }
+//         img{
+//             width: 80%;
+//         }
+//     }
     
-    .section{
-        padding: 7rem 5% 1rem;
-    }
+//     .section{
+//         padding: 7rem 5% 1rem;
+//     }
 
-    h1{
-        padding-bottom: 1rem;
-    }
+//     h1{
+//         padding-bottom: 1rem;
+//     }
 
-    .gradient{
-        width: 75%;
-        margin-left: -6.5%;
-        margin-right: -5.5%;
-        opacity: 50%;
+//     .gradient{
+//         width: 75%;
+//         margin-left: -6.5%;
+//         margin-right: -5.5%;
+//         opacity: 50%;
 
-        img{
-            width: 100%;
-        }
-    }
+//         img{
+//             width: 100%;
+//         }
+//     }
 
-    .gradient-left1{
-        top: 50px;
-        left: 0;
-    }
+//     .gradient-left1{
+//         top: 50px;
+//         left: 0;
+//     }
     
-    .gradient-left2{
-        // top: 200px;
-        left: 0;
-    }
+//     .gradient-left2{
+//         // top: 200px;
+//         left: 0;
+//     }
     
-    .gradient-right1 {
-        right: 0;
-        top: -250px;
-        opacity: 50%;
-    }
+//     .gradient-right1 {
+//         right: 0;
+//         top: -250px;
+//         opacity: 50%;
+//     }
     
-    .gradient-right2 {
-        right: 0;
-        top: -100px;
-    }
+//     .gradient-right2 {
+//         right: 0;
+//         top: -100px;
+//     }
 
-    .gradient-sm{
-        display: block;
-        opacity: 35%;
-    }
+//     .gradient-sm{
+//         display: block;
+//         opacity: 35%;
+//     }
     
-}
+// }
