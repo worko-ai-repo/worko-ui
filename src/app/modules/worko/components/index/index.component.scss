@@ -519,29 +519,29 @@ hr{
             .hover{
                 position: absolute;
                 background: white;
-                width: 264%;
-                top: -200%;
+                width: 150%;
+                top: -120%;
                 left: -36%;
                 z-index: 1;
                 border-radius: 8px;
                 padding: 12% 0;
                 img{
-                    width: 45%;
+                    width: 60%;
                     padding: 0;
                     padding-top: 3%;
-                    margin-left: 25%;
+                    margin-left: 15%;
                     margin-bottom: 4%;
                 }
 
                 .button{
-                    font-size: calc(1vw + 8px);
-                    width: 68%;
+                    font-size: calc(0.5vw + 8px);
+                    width: 80%;
                     padding: 4%;
                     margin: 0;
                     color: #fff;
                     background-color: #194561;
                     margin-top: 5%;
-                    margin-left: 15%;
+                    margin-left: 10%;
                 }
             }
 
@@ -738,6 +738,111 @@ hr{
 .right{
     margin-left: 2%;
 }
+
+// Review section for carousel
+
+// .reviews-section{
+//     background-color: #E7F4FC;
+//     color: #182B45;
+//     margin-top: 3rem;
+//     width: 93%;
+//     margin-left: 3%;
+//     border-radius: 30px;
+//     padding-bottom: 5rem;
+//     margin-bottom: 2.5rem;
+//     .review-img{
+//         width: 27%;
+//         img{
+//             width: 100%;
+//         }
+//     }
+//     overflow: hidden;
+// }
+
+// .reviews-content{
+//     display: flex;
+//     flex-direction: column;
+//     width: 80%;
+//     padding-left: 12%;
+//     text-align: center;
+//     padding-top: 6rem;
+    
+//     .title{
+//         font-size: calc(1vw + 7px);
+//         line-height: 167%;
+//     }
+
+//     .sub-title{
+//         font-size: calc(2vw + 20px);
+//         font-weight: 700;
+//     }
+
+//     .text{
+//         width: 80%;
+//         margin: 2rem auto;
+//     }
+// }
+
+// .review-cards{
+//     overflow: hidden;
+//     width: 200vw;
+//     padding-top: 4rem;
+//     justify-content: space-between;
+//     margin-left: -30%;
+// }
+
+// .review-card{
+//     background-color: #fff;
+//     border-radius: 33px;
+//     // margin-right: 3.3%;
+//     width: 31.5%;
+//     padding: 4rem 3%;
+
+//     margin-right: 1%;
+//     .card-img{
+//         top: -4rem;
+//         left: 35%;
+//     }
+
+//     .card-content{
+//         font-size: 14px;
+//         text-align: center;
+//     }
+    
+// }
+
+// .reviewer{
+//     display: flex;
+//     flex-direction: column;
+//     width: 100%;
+//     justify-content: center;
+//     text-align: center;
+//     .name{
+//         font-weight: 700;
+//         font-size: 20px;
+//         padding-top: 2rem;
+//     }
+// }
+
+// .review-button{
+//     display: flex;
+//     width: 100%;
+// }
+
+// .arrow-button{
+//     border-radius: 50%;
+//     background-color: #000;
+//     margin-top: 5rem;
+//     padding: 1rem 1.3rem;
+// }
+
+// .left{
+//     margin-left: 45%;
+// }
+// .right{
+//     margin-left: 2%;
+// }
+
 
 // ---------------Responsive for ipads---------------
 
@@ -1110,6 +1215,39 @@ hr{
                 }
             }
         }
+
+        .hover{
+            width: 150% !important;
+        }
+
+        .company1:focus .hover1 {
+            display: block !important;
+        }
+        
+        .company2:focus .hover2 {
+            display: block !important;
+        }
+        
+        .company3:focus .hover3 {
+            display: block !important;
+        }
+        
+        .company4:focus .hover4 {
+            display: block !important;
+        }
+        
+        .company5:focus .hover5 {
+            display: block !important;
+        }
+        
+        .company6:focus .hover6 {
+            display: block !important;
+        }
+        
+        .company7:focus .hover7 {
+            display: block !important;
+        }
+
         button{
             padding: 0.5rem 10%;
             margin-top: 4rem;
@@ -1681,37 +1819,29 @@ hr{
             .company{
                 width: 12%;
                 margin-right: 2%;
-                // .hover{
-                //     width: 264%;
-                //     top: -200%;
-                //     left: -36%;
-                //     z-index: 1;
-                //     border-radius: 8px;
-                //     padding: 12% 0;
-                //     img{
-                //         width: 45%;
-                //         padding: 0;
-                //         padding-top: 3%;
-                //         margin-left: 25%;
-                //         margin-bottom: 4%;
-                //     }
-
-                //     .button{
-                //         font-size: calc(1vw + 8px);
-                //         width: 68%;
-                //         padding: 4%;
-                //         margin: 0;
-                //         color: #fff;
-                //         background-color: #194561;
-                //         margin-top: 5%;
-                //         margin-left: 15%;
-                //     }
-                // }
 
                 img{
                     padding: 7% 1.61%;
                     width: 86%;
                 }
+
+
+                .hover{
+                    width: 250%;
+                    top: -120%;
+                    left: -36%;
+                    z-index: 1;
+                    border-radius: 8px;
+                    padding: 12% 0;
+                    img{
+                        width: 60%;
+                        padding: 0;
+                        padding-top: 3%;
+                        margin-left: 15%;
+                        margin-bottom: 4%;
+                    }
+                }
+
             }
         }
         button{
@@ -1723,52 +1853,33 @@ hr{
         }
     }
 
-    // .company1:hover{
-    //     .hover1{
-    //         display: block !important;
-    //     }
-    // }
-
-
-    // .company2:hover{
-    //     .hover2{
-    //         display: block !important;
-    //     }
-    // }
-
-
-    // .company3:hover{
-    //     .hover3{
-    //         display: block !important;
-    //     }
-    // }
-
-
-    // .company4:hover{
-    //     .hover4{
-    //         display: block !important;
-    //     }
-    // }
-
-
-    // .company5:hover{
-    //     .hover5{
-    //         display: block !important;
-    //     }
-    // }
-
-
-    // .company6:hover{
-    //     .hover6{
-    //         display: block !important;
-    //     }
-    // }
-
-    // .company7:hover{
-    //     .hover7{
-    //         display: block !important;
-    //     }
-    // }
+    .company1:focus .hover1 {
+        display: block !important;
+    }
+    
+    .company2:focus .hover2 {
+        display: block !important;
+    }
+    
+    .company3:focus .hover3 {
+        display: block !important;
+    }
+    
+    .company4:focus .hover4 {
+        display: block !important;
+    }
+    
+    .company5:focus .hover5 {
+        display: block !important;
+    }
+    
+    .company6:focus .hover6 {
+        display: block !important;
+    }
+    
+    .company7:focus .hover7 {
+        display: block !important;
+    }
 
 
     .info-section{
