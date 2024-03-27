@@ -1,94 +1,251 @@
 <div class="all">
     <app-navbar></app-navbar>
     <div class="section">
-        <h1>Frequently Asked Questions</h1>
-        <!-- <div class="accordion accordion-flush" id="accordionFlushExample">
-            <div class="accordion-item">
-                <h2 class="accordion-header" id="flush-headingOne">
-                    <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#flush-collapseOne" aria-expanded="false" aria-controls="flush-collapseOne">
-                        1. What does the company do?
-                    </button>
-                </h2>
-                <div id="flush-collapseOne" class="accordion-collapse collapse" aria-labelledby="flush-headingOne" data-bs-parent="#accordionFlushExample">
-                    <div class="accordion-body">
-                        The company provides a platform for connecting job seekers with employers. We offer a range of services aimed at streamlining the job search process and facilitating meaningful connections between candidates and companies.
+        <div class="tabs">
+            <button class="tab-link" (click)="selectTab('tab1')" [ngClass]="{'active': activeTab === 'tab1'}">FAQ's for candidate</button>
+            <button class="tab-link" (click)="selectTab('tab2')" [ngClass]="{'active': activeTab === 'tab2'}">FAQ's for referee</button>
+        </div>
+          
+        <div class="tab-content" *ngIf="activeTab === 'tab1'">
+
+            <div class="all bg-black terms-of-service individual-page">
+
+                <div class="section">
+                    
+                    <h1>
+                        FAQ’s for Candidates
+                    </h1>
+                    <div class="text position-relative">
+                        <div class="position-relative">
+                            <div class="gradient gradient-left1 position-absolute">
+                                <img class="gradient-img" src="assets/about-images-KA/gradient-left1.png" alt="Gradient Left 1" style="opacity: 65%;">
+                            </div>
+                            <h2 class="section-head">1. How to request for a referral?</h2>
+                            <ul>
+                                <li>Look out for relevant openings at the company's career page you are interested in.</li>
+                                <li>Share job URL and raise referral requests.</li>
+                            </ul>
+                            <div class="gradient gradient-right1 position-absolute">
+                                <img class="gradient-img" src="assets/about-images-KA/gradient-right1.png" alt="Gradient Right 1">
+                            </div>
+                        </div>
+                        
+                        <div>
+                            <h2 class="section-head">2. How does matching work?</h2>
+                            <ul>
+                                <li>Based on factors such as Worko assessment score, your designation, location, and role, we carefully match your information with a select group of referrers whom we believe are most suitable to validate your skills for a referral. We have found that this approach greatly enhances the likelihood of receiving a call-back and increases the effectiveness of the referral process.</li>
+                                <li>Referrers hold the discretion to decline your application for a referral. In such cases, we gradually expand the scope of your candidacy to include individuals within the company who may not precisely match your current level, location, and role. However, they may still be willing to refer you, providing you with additional opportunities for consideration.</li>
+                            </ul>
+                        </div>
+                        
+                        <div>
+                            
+                            <h2 class="section-head">3. Referral completion timeline?</h2>
+                            <p>It can depend on the following factors:</p>
+                            <ul>
+                                <li>Your profile and experience.</li>
+                                <li>How aggressively the company is hiring.</li>
+                                <li>Number of Available Referrers for Company.</li>
+                                <li>Referrer Activity (weekends & Holidays tend to be slower).</li>
+                            </ul>
+                            
+                        </div>
+                        
+                        <div >
+                            <h2 class="section-head">4. Why do I have to pay the platform fee to Worko?</h2>
+                            <ul>
+                                <li>A nominal user/platform fee safeguards against spam and ensures the quality and relevance of requests on our platform.</li>
+                                <li>Also, it helps us keep the site up and running for candidates like you and onboard more referees.</li>
+                            </ul>
+                        </div>
+                        
+                        <div>
+                            <h2 class="section-head">5. What is a successful referral, and what should I expect after requesting one?</h2>
+                            <ul>
+                                <li>A successful referral occurs when a referrer accepts and recommends your candidacy in his/her company after evaluating your profile.</li>
+                                <li>You can chat with your referee after they accept your referral request from your dashboard.</li>
+                                <li>The referee may guide you through the company's process, and upon profile shortlisting by the hiring team, expect an interview call.</li>
+                            </ul>
+                        </div>
+                        
+                        <div class="position-relative">
+                            <div class="gradient gradient-left2 position-absolute">
+                                <img class="gradient-img" src="assets/about-images-KA/gradient-left2.png" alt="Gradient Left 2">
+                            </div>
+                            <h2 class="section-head">6. What should I do if the company of my choice is not added to the list?</h2>
+                            <ul>
+                                <li>Please write to us at findreferral@worko.ai & we will try to get the company and referees on board at the earliest.</li>
+                            </ul>
+                            <div class="gradient gradient-right2 position-absolute">
+                                <img class="gradient-img" src="assets/about-images-KA/gradient-right2.png" alt="Gradient Right 2">
+                            </div>
+                        </div>
+                        
+                        <div>
+                            <h2 class="section-head">7. If Worko rejects my referral request, then what should I do?</h2>
+                            <ul>
+                                <li>In an unforeseen scenario, if needed, raise a referral request for more relevant jobs, and we'll gladly connect you with the appropriate referee.</li>
+                            </ul>
+                        </div>
+                        
+                        <div>
+                            <h2 class="section-head">8. Why did the referee reject my profile when Worko approved it?</h2>
+                            <ul>
+                                <li>Referee decisions are independent and subjective. While Worko assesses profiles based on specific criteria, referees may have additional considerations aligned with their team's needs or preferences.</li>
+                                <li>It's essential to recognize that approval from Worko guarantees a different outcome with referees.</li>
+                                <li>We recommend considering alternative job opportunities more closely aligned with your profile.</li>
+                            </ul>
+                        </div>
+                        
+                        <div>
+                            <h2 class="section-head">9. Can I talk to any of the referees before making a request?</h2>
+                            <ul>
+                                <li>As of now, direct communication with referees before making a request needs to be facilitated. You can initiate a chat with the referee once your referral request is accepted.</li>
+                                <li>Feel free to contact our support team if you have specific queries or need assistance refining your referral request.</li>
+                            </ul>
+                        </div>
+                        
+                        <div class="position-relative">
+                            <div class="gradient gradient-left3 position-absolute gradient-sm">
+                                <img class="gradient-img" src="assets/about-images-KA/gradient-left3.png" alt="Gradient Left 3">
+                            </div>
+                            <h2 class="section-head">10. What are different services available on Worko & how can I avail them?</h2>
+                            <ul>
+                                <li>Worko provides various services such as job referrals, career guidance, interview handholding, mock interview, resume review & writing, and more.</li>
+                                <li>To avail of these services, simply create a profile on our platform, navigate to the service section, and choose the ones that meet your needs.</li>
+                                <li>Follow the prompts to initiate and complete the service request process.</li>
+                            </ul>
+                            <div class="gradient gradient-right3 position-absolute gradient-sm">
+                                <img class="gradient-img" src="assets/about-images-KA/gradient-right3.png" alt="Gradient Right 3">
+                            </div>
+                        </div>
+                        
+                        <div>
+                            <h2 class="section-head">11. If my matching score is low, how can I improve it?</h2>
+                            <ul>
+                                <li>To improve your matching score, consider updating your profile with detailed information about your skills, experiences, and achievements.</li>
+                                <li>Stay active on the platform, explore relevant job opportunities, and seek feedback from our support team to maximize your chances of receiving a higher matching score.</li>
+                            </ul>
+                        </div>
+                        
+                        <div class="position-relative">
+                            
+                            <h2 class="section-head">12. Can I request a referral if I've already applied for a role?</h2>
+                            <ul>
+                                <li>Absolutely! Even if you've already applied, you can still request a referral through Worko.</li>
+                                <li>Our platform aims to enhance your chances by connecting you with referees who can advocate for your application.</li>
+                                <li>Simply submit a referral request for the specific job, and we'll take it from there.</li>
+                            </ul>
+                            
+                        </div>
+                    
+                        
                     </div>
                 </div>
             </div>
-            <div class="accordion-item">
-                <h2 class="accordion-header" id="flush-headingTwo">
-                    <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#flush-collapseTwo" aria-expanded="false" aria-controls="flush-collapseTwo">
-                        2. How do the services work?
-                    </button>
-                </h2>
-                <div id="flush-collapseTwo" class="accordion-collapse collapse" aria-labelledby="flush-headingTwo" data-bs-parent="#accordionFlushExample">
-                    <div class="accordion-body">
-                        Our services work by allowing job seekers to create profiles, search for job opportunities, and apply for positions. Employers can post job listings, search for candidates, and manage their recruitment process through our platform.
+          
+        </div>
+          
+        <div class="tab-content" *ngIf="activeTab === 'tab2'">
+
+            <div class="section">
+                
+                <h1>
+                    FAQ’s for Referees
+                </h1>
+                <div class="text position-relative">
+                    <div class="position-relative">
+                        <div class="gradient gradient-left1 position-absolute">
+                            <img class="gradient-img" src="assets/about-images-KA/gradient-left1.png" alt="Gradient Left 1" style="opacity: 65%;">
+                        </div>
+                        <h2 class="section-head">1. How does privacy work?</h2>
+                        <ul>
+                            <li>We do not share your data with anyone externally.</li>
+                            <li>Your information is not shared with candidates you decline.</li>
+                        </ul>
+                        <div class="gradient gradient-right1 position-absolute">
+                            <img class="gradient-img" src="assets/about-images-KA/gradient-right1.png" alt="Gradient Right 1">
+                        </div>
                     </div>
+                    
+                    <div>
+                        <h2 class="section-head">2. Why did we collect your official mail ID?</h2>
+                        <ul>
+                            <li>To authorise your role as a Referee for the company you are joining, we utilise your work email. Please note that this is a one-time process, and we do not use your work email for any communication.</li>
+                        </ul>
+                    </div>
+                    
+                    <div class="position-relative">
+                        <div class="gradient gradient-left2 position-absolute">
+                            <img class="gradient-img" src="assets/about-images-KA/gradient-left2.png" alt="Gradient Left 2">
+                        </div>
+                        <h2 class="section-head">3. Do I have to refer everyone?</h2>
+                        <ul>
+                            <li>Worko utilises a powerful AI algorithm to assess candidates, assigning a matching score for quick and informed referral decision.</li>
+                            <li>Please only refer individuals whom you genuinely believe would be well-suited for the role.</li>
+                        </ul>
+                        <div class="gradient gradient-right2 position-absolute">
+                            <img class="gradient-img" src="assets/about-images-KA/gradient-right2.png" alt="Gradient Right 2">
+                        </div>
+                    </div>
+                    
+                    <div >
+                        <h2 class="section-head">4. What other benefits do I get as a Referee?</h2>
+                        <ul>
+                            <li>Make the most of the rewards offered for Employee Referrals within your organisation.</li>
+                            <li>Earn reward points or coupons by introducing individuals from your network to Worko as Referees. T&C apply</li>
+                            <li>As a Referee, you are not subject to any charges when you seek referrals through Worko.</li>
+                        </ul>
+                    </div>
+                    
+                    <div>
+                        <h2 class="section-head">5. Who can be a Referee?</h2>
+                        <ul>
+                            <li>At Worko, we value the importance of industry expertise and believe in connecting job seekers with experienced professionals who can make well-informed decisions. To ensure the highest level of credibility and relevant insights, we have designed our platform to exclusively onboard employees who have 2+ years of overall experience.</li>
+                        </ul>
+                    </div>
+                    
+                    <div >
+                        
+                        <h2 class="section-head">6. How will I get paid for the Career Guidance / Mock Interview / Interview Consultation?</h2>
+                        <ul>
+                            <li>If a candidate chooses to opt for any of the above services, then you will get paid as per pre-decided consulting fee post the successful completion of the process.</li>
+                        </ul>
+                        
+                    </div>
+                    
+                    <div class="position-relative">
+                        <div class="gradient gradient-left3 position-absolute gradient-sm">
+                            <img class="gradient-img" src="assets/about-images-KA/gradient-left3.png" alt="Gradient Left 3">
+                        </div>
+                        <h2 class="section-head">7. What are the services/expertise I can offer through Worko & how will I get paid for it?</h2>
+                        <ul>
+                            <li>On Worko, provide diverse counselling services, including resume writing, career guidance, interview handholding, mock interviews and many more.</li>
+                            <li>At Worko, set your own professional fee for services and get paid post-completion.</li>
+                        </ul>
+                        <div class="gradient gradient-right3 position-absolute gradient-sm">
+                            <img class="gradient-img" src="assets/about-images-KA/gradient-right3.png" alt="Gradient Right 3">
+                        </div>
+                    </div>
+                    
+                    <div>
+                        <h2 class="section-head">8. I have some unpublished jobs in my company, how can I notify Worko for the same to find a good referral?</h2>
+                        <ul>
+                            <li>We are launching this feature soon to help you find the best referral for internal openings, till then, please write to us at findreferral@worko.ai & we will help you.</li>
+                        </ul>
+                    </div>
+                    
+                    <div>
+                        <h2 class="section-head">9. My company doesn't have a referral policy. How can I benefit by referring candidates?</h2>
+                        <ul>
+                            <li>Collaborate on a referral strategy for mutual benefits! Connect us with your HR head, and we'll reciprocate by offering benefits for candidate referrals and rewarding you when your company joins us.</li>
+                            <li>Create a profile, share/offer your expertise on our platform, help others, and earn extra income.</li>
+                        </ul>
+                    </div>
+                
                 </div>
             </div>
-            <div class="accordion-item">
-                <h2 class="accordion-header" id="flush-headingThree">
-                    <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#flush-collapseThree" aria-expanded="false" aria-controls="flush-collapseThree">
-                        3. How can I contact customer support?
-                    </button>
-                </h2>
-                <div id="flush-collapseThree" class="accordion-collapse collapse" aria-labelledby="flush-headingThree" data-bs-parent="#accordionFlushExample">
-                    <div class="accordion-body">
-                        You can contact our customer support team by emailing support@worko.com or by calling our toll-free number at 1-800-123-4567. Our support representatives are available to assist you with any inquiries or issues you may have.
-                    </div>
-                </div>
-            </div>
-            <div class="accordion-item">
-                <h2 class="accordion-header" id="flush-headingFour">
-                    <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#flush-collapseFour" aria-expanded="false" aria-controls="flush-collapseFour">
-                        4. Is there a free trial available?
-                    </button>
-                </h2>
-                <div id="flush-collapseFour" class="accordion-collapse collapse" aria-labelledby="flush-headingFour" data-bs-parent="#accordionFlushExample">
-                    <div class="accordion-body">
-                        Yes, we offer a free trial period for new users. During the trial, you'll have access to all our premium features so you can experience the full capabilities of our platform before making a commitment.
-                    </div>
-                </div>
-            </div>
-            <div class="accordion-item">
-                <h2 class="accordion-header" id="flush-headingFive">
-                    <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#flush-collapseFive" aria-expanded="false" aria-controls="flush-collapseFive">
-                        5. How do I update my account information?
-                    </button>
-                </h2>
-                <div id="flush-collapseFive" class="accordion-collapse collapse" aria-labelledby="flush-headingFive" data-bs-parent="#accordionFlushExample">
-                    <div class="accordion-body">
-                        You can update your account information by logging into your account and navigating to the settings or profile section. From there, you'll be able to edit your personal details, contact information, and preferences.
-                    </div>
-                </div>
-            </div>
-            <div class="accordion-item">
-                <h2 class="accordion-header" id="flush-headingSix">
-                    <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#flush-collapseSix" aria-expanded="false" aria-controls="flush-collapseSix">
-                        6. How can I reset my password?
-                    </button>
-                </h2>
-                <div id="flush-collapseSix" class="accordion-collapse collapse" aria-labelledby="flush-headingSix" data-bs-parent="#accordionFlushExample">
-                    <div class="accordion-body">
-                        If you need to reset your password, you can do so by clicking on the "Forgot Password" link on the login page. Follow the instructions provided to reset your password securely.
-                    </div>
-                </div>
-            </div>
-            <div class="accordion-item">
-                <h2 class="accordion-header" id="flush-headingSeven">
-                    <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#flush-collapseSeven" aria-expanded="false" aria-controls="flush-collapseSeven">
-                        7. What payment methods do you accept?
-                    </button>
-                </h2>
-                <div id="flush-collapseSeven" class="accordion-collapse collapse" aria-labelledby="flush-headingSeven" data-bs-parent="#accordionFlushExample">
-                    <div class="accordion-body">
-                        We accept various payment methods, including credit cards, debit cards, PayPal, and bank transfers. You can choose the payment option that is most convenient for you during the checkout process.
-                    </div>
-                </div>
-            </div>
-        </div> -->
-    
+        </div>
         
     </div>
 </div>

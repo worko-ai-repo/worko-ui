@@ -7,7 +7,32 @@
     padding: 6rem 7% 3rem;
 }
 
-
+.tabs {
+    margin-bottom: 20px;
+  }
+  
+  .tab-link {
+    background-color: #f1f1f1;
+    border: none;
+    outline: none;
+    cursor: pointer;
+    padding: 10px 20px;
+    transition: background-color 0.3s;
+  }
+  
+  .tab-link:hover {
+    background-color: #ddd;
+  }
+  
+  .tab-link.active {
+    background-color: #ccc;
+  }
+  
+  .tab-content {
+    // padding: 20px;
+    // border: 1px solid #ccc;
+    // border-top: none;
+  }
 
 h1{
     padding-bottom: 2rem;

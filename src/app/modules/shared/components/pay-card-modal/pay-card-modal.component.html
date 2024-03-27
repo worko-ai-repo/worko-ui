@@ -17,11 +17,14 @@
        <div class="row mt-3">
       <div class="input-field col-md-12">
         <label class="form-lable required-form-field">Cardholder number </label>
-        <input type="text" class="form-control form-input" placeholder="cardholderNumber"  name="cardholderNumber"  maxlength="16" [(ngModel)]="cardholderNumber"
-        required #cardholdernumber="ngModel"  [title]="cardholdernumber.errors?.['pattern'] ? 'cardholderNumber is invalid' : ''"
-        pattern="^[1-9]\d{15}$"  [title]="cardholdernumber.errors?.['required'] ? 'cardholderNumber is required' : ''"
+        <input type="text" class="form-control form-input" placeholder="cardholderNumber"  name="cardholderNumber" 
+         maxlength="16" [(ngModel)]="cardholderNumber"  (focus)="onCardNumberChange(cardholdernumber)"
+        required #cardholdernumber="ngModel" 
+        [title]=" cardholdernumber.errors?.['required'] ? 'cardholdernumber is required' : ''" 
+        [title]="cardholdernumber.errors?.['card'] ?'cardholdernumber is invalid' :''"
+       
         [ngClass]="{ 'is-invalid': cardholdernumber.invalid && (cardholdernumber.dirty || cardholdernumber.touched) }">
-      
+        <div *ngIf="!isCardNumberValid" class="text-danger" [class.d-block]="isCardNumberValid">Invalid card number</div>
       
   
       </div>
@@ -30,16 +33,17 @@
       <div class="input-field col-md-6">
         <label class="form-lable required-form-field">valid date </label>
         <input type="text" class="form-control form-input" placeholder="MM/YYYY"  name="validyear"   required
-        pattern="^(0[1-9]|1[0-2])\/(19|20)\d{2}$" [(ngModel)]="validYear" maxlength="7" required #validyear="ngModel"
-      [title]="validyear.errors?.['pattern'] ? 'validyear is invalid' : ''"
+       [(ngModel)]="validYear" maxlength="7" required #validyear="ngModel"
+      [title]="validyear.errors?.['pastDate'] ? 'validyear should be past year' : ''" (focus)="setPastMonthRestriction(validyear)"
       [title]="validyear.errors?.['required'] ? 'validyear is required' : ''"
+      [title]="validyear.errors?.['invalidFormat'] ? 'validyear is invalid' : ''"
       [ngClass]="{ 'is-invalid': validyear.invalid && (validyear.dirty || validyear.touched) }" >
       </div>
       <div class="input-field col-md-6">
         <label class="form-lable required-form-field">CVV </label>
         <input type="text" class="form-control form-input" placeholder="CVV"  name="CVV" required maxlength="3" [(ngModel)]="CVV"
-        #cardCVV="ngModel"  pattern="^[1-9]\d{2}$"   [title]="cardCVV.errors?.['pattern'] ? 'validyear is invalid' : ''"
-        [title]="cardCVV.errors?.['required'] ? 'validyear is required' : ''"
+        #cardCVV="ngModel"  pattern="^[1-9]\d{2}$"   [title]="cardCVV.errors?.['pattern'] ? 'CVV is invalid' : ''"
+        [title]="cardCVV.errors?.['required'] ? 'CVV is required' : ''"
         [ngClass]="{ 'is-invalid': cardCVV.invalid && (cardCVV.dirty || cardCVV.touched) }">
       </div>
   
@@ -70,7 +74,7 @@
     
       <div class="row mt-3 d-flex justify-content-center">
       <div class="submit-button">
-        <button type="submit" class="btn-pay btn text-white col-md-12  "   [disabled]="!paycard.form.valid">Pay Now</button>
+        <button type="submit" class="btn-pay btn text-white col-md-12  "   [disabled]="!paycard.form.valid || !isCardNumberValid">Pay Now</button>
       </div>
   </div>
     </form>

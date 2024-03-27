@@ -85,7 +85,7 @@
       </div>
       <ul class="menu-items">
         <li><a href="/about-us">About Us</a></li>
-        <li class="has-children" (click)="toggleSubMenu()" (mouseenter)="showSubMenuOnHover()"
+        <!-- <li class="has-children" (click)="toggleSubMenu()" (mouseenter)="showSubMenuOnHover()"
           (mouseleave)="hideSubMenuOnHover()">
           FAQ's<span class="caret"></span>
           <ul class="children" [hidden]="!showSubMenu" (mouseenter)="showSubMenuOnHover()"
@@ -94,8 +94,11 @@
             <li><a href="/faq-candidate">FAQ's for Candidate</a></li>
             <li><a href="/faq-referee">FAQ's for Referee</a></li>
 
-          </ul>
+          </ul> -->
+        <li>
+          <a href="/faq">FAQ's</a>
         </li>
+        
 
         <li><a href="#">Corporate</a></li>
         <li  *ngIf="userLoggedIn">

@@ -74,7 +74,6 @@ import { PayCardModalComponent } from './components/pay-card-modal/pay-card-moda
 
 
 
-
 export const routes: Routes = [
 
   
