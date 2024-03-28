@@ -1,6 +1,6 @@
 import { Component, EventEmitter, Input, Output } from '@angular/core';
 // import { NgbModalOptions } from '@ng-bootstrap/ng-bootstrap/modal/modal.module';
-import { Validators } from '@angular/forms';
+import { AbstractControl, NgModel, ValidationErrors, ValidatorFn, Validators } from '@angular/forms';
 
 
 
@@ -33,8 +33,9 @@ form:any={
 currentYear = new Date().getFullYear().toString();
 currentMonth = (new Date().getMonth() + 1).toString();
 maxDate =  (this.currentMonth.length === 1 ? '0' + this.currentMonth : this.currentMonth) + "/"+this.currentYear  ;
-
-
+month:number=0;
+year:number=0;
+isCardNumberValid: boolean = true;
  cardholderName: any;
  cardholderNumber:any;
  validYear:any;
@@ -44,7 +45,10 @@ maxDate =  (this.currentMonth.length === 1 ? '0' + this.currentMonth : this.curr
  city:any;
 
   createCard(form:any){
-    
+    // if (!this.isValidCardNumber(this.cardholderNumber)) {
+    //   // If the card number is invalid, prevent form submission
+    //   return ;
+    // }
     this.cardDetails={
       cardHolderName:this.cardholderName,
       cardholderNumber:this.cardholderNumber,
@@ -71,34 +75,80 @@ console.log(this.cardholderName)
   }
 
 
-//   setPastMonthRestriction(completionyear: any) {
-//     completionyear.control.setValidators(this.validateCompletionYear(this.maxDate));
-//   }
 
-// validateCompletionYear(maxDate: string): any {
-// return (control: any) => {
-//   let completionYear = control.value;
+  onCardNumberChange(cardholdernum: any) {
+    cardholdernum.control.setValidators([
+      this.cardValidator(),
+      Validators.required 
+    ]);
+  }
+  
+  cardValidator(): ValidatorFn {
+    debugger
+    return (control: AbstractControl): ValidationErrors | null => {
+      const cardNumber = control.value;
+      
+      if (!cardNumber) {
+        return {require:true}; 
+      }
+      if (cardNumber.length < 16) {
+        return { minlength: true }; 
+      }
+  
+      if (!this.luhnCheck(cardNumber)) {
+        return { card: true }; 
+      }
+  
+      return null; 
+    };
+  }
+  
+  luhnCheck(num: string): boolean {
+    let arr = num.split("").reverse().map(Number);
+    let lastDigit = arr.splice(0, 1)[0];
+    let sum = arr.reduce((acc, val, i) => (i % 2 !== 0 ? acc + val : acc + ((val * 2) % 9) || 9), 0);
+    sum += lastDigit;
+    console.log(sum)
+    return sum % 10 === 0;
+  }
 
-//   this.month = completionYear.split('/')[0]
-//   console.log(this.month)
-//   console.log(completionYear)
-//   console.log(this.maxDate)
 
-//   if (!completionYear || completionYear.trim() === '') {
-//     return null;
-//   }
+pastDateValidator(): ValidatorFn {
+  return (control: AbstractControl): ValidationErrors | null => {
+    const currentDate = new Date();
 
-//   if (!completionYear.includes('/')) {
-//     return { missingDash: true };
-//   }
+    const requiredError = Validators.required(control);
+    if (requiredError !== null) {
+      return {required: true};
+    }
+    const enteredDateParts = control.value.split('/');
+    
+    // Check if the entered date is in the past
+    if (enteredDateParts.length === 2) {
+      const enteredMonth = parseInt(enteredDateParts[0], 10);
+      const enteredYear = parseInt(enteredDateParts[1], 10);
+      
+      if (enteredYear < currentDate.getFullYear() || 
+          (enteredYear === currentDate.getFullYear() && enteredMonth < currentDate.getMonth() + 1)) {
+        return { pastDate: true }; 
+      }
+    } else {
+      return { invalidFormat: true }; 
+    }
+
+    return null; 
+  };
+}
+setPastMonthRestriction(validyears: NgModel) {
+  validyears.control.setValidators([
+    this.pastDateValidator(),
+    validyears.control.validator || (() => null) 
+  ]);
+  validyears.control.updateValueAndValidity();
+}
 
 
 
-//   if (completionYear > maxDate || completionYear.length > 7 || this.month > 12 || this.month == 0) {
-//     return { futureMonth: true };
-//   }
-//   return null;
-// };
-// }
+
 
 }
