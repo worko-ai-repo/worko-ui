@@ -116,8 +116,6 @@ li{
 
 @media (max-width: 1030px) and (min-width: 550px) {
 
-    
-
     hr {
         margin-top: 0; 
         margin-bottom: 0; 
@@ -510,9 +508,13 @@ li{
         overflow: hidden;
         position: absolute;
         top: 0;
-        height: 410px;
+        height: 64px;
+        transition: height 0.5s ease-in-out;
     }
 
+    .navbar-container.expanded {
+        height: 410px;
+    }
 
     .navbar-container input[type="checkbox"]:checked ~ .menu-items{
         transform: translateX(0%);
