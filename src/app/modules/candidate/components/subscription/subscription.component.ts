@@ -12,6 +12,7 @@ export class SubscriptionComponent {
   packageDetails: any;
   subscriptionList: any[] = [];
   packageDetails1: any;
+  cardDetails:any[]=[];
   constructor(private candidateSrv: CandidateProfileService, private storage: StorageService, private subscriptionPack: SubscriptionPackService) { }
   ngOnInit(): void {
 

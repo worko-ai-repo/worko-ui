@@ -39,21 +39,26 @@ export class UploadComponent implements OnInit {
   }
 
   async uploadDetails(form: any) {
+    console.log("here")
+    console.log(this.candidateUploadDetails)
     this.onSuccess.emit(this.candidateUploadDetails)
-     console.log(this.candidateUploadDetails)
+     
   }
 
   ngOnChanges(): void {
+    debugger
     // console.log(this.candidateList, "candidateList");
     if (this.candidateUploadDetails.coverLetter) {
 
     } else {
+      console.log("here onchange")
       this.getData();
     }
 
     // console.log(this.candidateUploadDetails)
   }
   getData() {
+   
     this.candidateUploadDetails = {
       uploadCV: this.candidateList.CV,
       coverLetter: this.candidateList.coverLetter,
@@ -62,6 +67,7 @@ export class UploadComponent implements OnInit {
       fileType: ""
     }
     this.fileName = this.candidateList.CV;
+   
   }
 
   goBack() {

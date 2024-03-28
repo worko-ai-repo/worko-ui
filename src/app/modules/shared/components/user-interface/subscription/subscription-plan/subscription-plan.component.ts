@@ -10,6 +10,7 @@ import { ModalComponent } from '../../../modal/modal.component';
 export class SubscriptionPlanComponent {
   @ViewChild(ModalComponent) modal!: ModalComponent;
   @Input() subscriptionList: any;
+  @Input() cardDetails:any;
   modalType = ModalType;
   modalMessage: string = "";
   modalTitle: string = "";
@@ -17,7 +18,7 @@ export class SubscriptionPlanComponent {
   filteredPackages: any;
   selectedData:any;
   selectedPackage: any; 
-
+  isFormValid: boolean = false;
 
   // constructor(private router: Router, private candidateSrv: CandidateProfileService, private storage: StorageService, private authService: AuthService) { }
   ngOnInit(): void {
@@ -63,9 +64,15 @@ export class SubscriptionPlanComponent {
     this.selectedPackage = packageData;
     this.openModal(ModalType.SUBSCRIPTION_CHECKOUT);
   }
-  paynow(){
+  cancel(){
+    this.modal.cancel();
+ 
+  }
+  paynow (){
    
+
     this.openModal(ModalType.PAY_CARD_FORM);
+    
   }
 
 /**
