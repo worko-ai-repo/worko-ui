@@ -7,4 +7,10 @@ import { Component } from '@angular/core';
 })
 export class HomeFaqComponent {
 
+  activeTab: string = 'tab1';
+
+  selectTab(tabId: string): void {
+    this.activeTab = tabId;
+  }
+
 }

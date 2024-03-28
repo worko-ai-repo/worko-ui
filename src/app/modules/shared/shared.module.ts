@@ -72,9 +72,6 @@ import { ReferralSeeReviewPopupComponent } from './components/user-interface/ref
 import { ReferralRejectDetailsPopupComponent } from './components/user-interface/referral/referral-reject-details-popup/referral-reject-details-popup.component';
 import { PayCardModalComponent } from './components/pay-card-modal/pay-card-modal.component';
 
-
-
-
 export const routes: Routes = [
 
   

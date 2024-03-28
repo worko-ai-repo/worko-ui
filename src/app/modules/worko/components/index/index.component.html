@@ -383,7 +383,7 @@
                     <img src="/assets/index-images-KA/cult-logo.png" class="company-img" alt="">
                 </div> -->
 
-                <div class="company company1">
+                <div class="company company1" tabindex="0">
                     <img src="/assets/index-images-KA/reliance.png" class="company-img" alt="">
                     <div class="hover hover1">
                         <img src="/assets/index-images-KA/reliance.png" alt="reliance">
@@ -392,7 +392,7 @@
                     </div>
                 </div>
                 
-                <div class="company company2">
+                <div class="company company2" tabindex="0">
                     <img src="/assets/index-images-KA/zoho.png" class="company-img" alt="">
                     <div class="hover hover2">
                         <img src="/assets/index-images-KA/zoho.png" alt="zoho">
@@ -401,7 +401,7 @@
                     </div>
                 </div>
                 
-                <div class="company company3">
+                <div class="company company3" tabindex="0">
                     <img src="/assets/index-images-KA/adobe.png" class="company-img" alt="">
                     <div class="hover hover3">
                         <img src="/assets/index-images-KA/adobe.png" alt="adobe">
@@ -410,7 +410,7 @@
                     </div>
                 </div>
                 
-                <div class="company company4">
+                <div class="company company4" tabindex="0">
                     <img src="/assets/index-images-KA/google.png" class="company-img" alt="">
                     <div class="hover hover4">
                         <img src="/assets/index-images-KA/google.png" alt="google">
@@ -419,7 +419,7 @@
                     </div>
                 </div>
                 
-                <div class="company company5">
+                <div class="company company5" tabindex="0">
                     <img src="/assets/index-images-KA/meta.png" class="company-img" alt="">
                     <div class="hover hover5">
                         <img src="/assets/index-images-KA/meta.png" alt="meta">
@@ -428,7 +428,7 @@
                     </div>
                 </div>
                 
-                <div class="company company6">
+                <div class="company company6" tabindex="0">
                     <img src="/assets/index-images-KA/amazon.png" class="company-img" alt="">
                     <div class="hover hover6">
                         <img src="/assets/index-images-KA/amazon.png" alt="amazon">
@@ -437,7 +437,7 @@
                     </div>
                 </div>
                 
-                <div class="company company7">
+                <div class="company company7" tabindex="0">
                     <img src="/assets/index-images-KA/cult-logo.png" class="company-img" alt="">
                     <div class="hover hover7">
                         <img src="/assets/index-images-KA/cult-logo.png" alt="cult-logo">
@@ -546,6 +546,47 @@
             </div>
         </div>
 
+<!-- Review Section for the carousel -->
+
+        <!-- <div class="reviews-section">
+            <div class="reviews-heading d-flex">
+                <div class="reviews-content">
+                    <div class="title">TESTIMONIALS</div>
+                    <div class="sub-title">What Our Customer Says?</div>
+                    <div class="text">
+                        Lorem ipsum dolor sit amet, consectetur 
+                        adipiscing elit, sed do eiusmod tempor incididunt ut 
+                        labore et dolore magna aliqua. Ut enim a minim veniam, 
+                        quis nostrud exercitation ullamco laboris nisi 
+                    </div>
+                </div>
+                <div class="review-img">
+                    <img src="/assets/index-images-KA/review-img1.png" alt="reviews-img">
+                </div>
+            </div>
+            <div class="review-cards-container">
+                <div class="review-cards d-flex" [style.marginLeft]="marginLeft + '%'">
+                    <div class="review-card position-relative" *ngFor="let review of reviews">
+                        <div class="card-img position-absolute">
+                            <img [src]="review.image" alt="card-img">
+                        </div>
+                        <div class="card-content">
+                            {{ review.content }}
+                        </div>
+                        <div class="reviewer">
+                            <div class="name">{{ review.name }}</div>
+                            <div class="role">{{ review.role }}</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="review-button">
+                <div class="arrow-button left" (click)="previousReview()"><img src="/assets/index-images-KA/left-logo.png" alt="left"></div>
+                <div class="arrow-button right" (click)="nextReview()"><img src="/assets/index-images-KA/right-logo.png" alt="right"></div>
+            </div>
+        </div> -->
+
+        
         <app-footer></app-footer>
 
         <app-modal [theme]="'theme-k'" [centered]="true" [showHeader]="showModal === modalType.MESSAGE"
