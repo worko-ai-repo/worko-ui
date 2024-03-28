@@ -10,12 +10,15 @@ import { ModalType } from 'src/app/modules/shared/interfaces/shared.interface';
 export class SeeReviewComponent {
 
   @ViewChild(ModalComponent) modal!: ModalComponent;
+  @Input() reviewData:any;
   modalType = ModalType;
   modalMessage: string = "";
   modalTitle: string = "";
   showModal: ModalType | undefined;
+  @Output() seeReview1: EventEmitter<any> = new EventEmitter<any>(); 
 
   seeReviewBtn() {
+    this.seeReview1.emit();
     this.openModal(ModalType.SEE_REVIEW);
   }
 

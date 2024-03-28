@@ -38,6 +38,7 @@ export class EmployeeDashboardComponent {
     await this.candidateSrv.getUserDetails(this.emailAddress).then(async (response) => {
       if (response) {
         this.candidateList = response
+        this.storage.set('userId', response[0].SK);
         this.candidateDetails = this.candidateList[0];
         this.userDescription = this.candidateList[0].about;
         console.log(response);

@@ -8,8 +8,10 @@ import { CandidateProfileService } from 'src/app/modules/candidate/services/cand
   styleUrls: ['./employee-referral.component.scss']
 })
 export class EmployeeReferralComponent {
+  
   empReferralList: any = "";
   emailAddress: any = "";
+  userId:any;
   empdetailsList:any="";
   empEducationList:any="";
   empExperienceList:any="";
@@ -27,22 +29,32 @@ export class EmployeeReferralComponent {
 
   ngOnInit(): void {
     this.emailAddress = this.storage.get("useremail");
+    this.userId = this.storage.get("userId");
     this.getEmpReferral();
-    this.getEmpReferralDetails();
+    // this.getEmpReferralDetails();
   }
   onStatusSelected(status: string): void {
     this.selectedStatus = status;
     this.getEmpReferral();
   }
 
+  // getSlicedValue(value: string): string {
+  //   const parts = value?.split('#');
+  //   return parts?.length > 2 ? parts[2] : '';
+  // }
+
   getSlicedValue(value: string): string {
-    const parts = value.split('#');
-    return parts.length > 2 ? parts[2] : '';
+    const parts = value?.split('#');
+    if (parts && parts.length > 1) {
+        return parts.length > 2 ? parts[2] : parts[1];
+    }
+    return '';
   }
 
 
+
   async getEmpReferral() {
-    let companySK = "01HMR3G2QNYYM47YZ2P9ZVZBPR";
+    let companySK = "01HMR3G2QNYYM47YZ2P9ZVZBPR"; 
     await this.empService.getEmployeeReferral(this.emailAddress, companySK,  this.selectedStatus ).then(async (response) => {
       if (response) {
         this.empReferralList = response;
@@ -51,45 +63,79 @@ export class EmployeeReferralComponent {
     })
    
   }
-  async getEmpReferralDetails(){
-    await this.candidateSrv.getUserDetails(this.emailAddress).then(async(response)=>{
+  async getEmpReferralDetails(selectedUserEmail:any){
+    await this.candidateSrv.getUserDetails(selectedUserEmail).then(async(response)=>{
       this.empdetailsList=response;
       this.empDetails=this.empdetailsList;
 
       console.log('Employee details===>',this.empdetailsList);
     })
-    this.getEmpEducationDetails();
+    this.getEmpEducationDetails(selectedUserEmail);
   }
-  async getEmpEducationDetails(){
-    await this.candidateSrv.getCandidateEducation(this.emailAddress).then(async(response)=>{
+  async getEmpEducationDetails(selectedUserEmail:any){
+    await this.candidateSrv.getCandidateEducation(selectedUserEmail).then(async(response)=>{
       this.empEducationList=response;
       this.empEducationDetails=this.empEducationList;
     })
-    this.getWorkExperience();
+    this.getWorkExperience(selectedUserEmail);
   }
-  async getWorkExperience(){
-    await this.candidateSrv.getWorkExperience(this.emailAddress).then(async(response)=>{
+  async getWorkExperience(selectedUserEmail:any){
+    await this.candidateSrv.getWorkExperience(selectedUserEmail).then(async(response)=>{
       this.empExperienceList=response;
       this.empExperienceDetails=this.empExperienceList;
     })
-    this.getCoreSkills();
+    this.getCoreSkills(selectedUserEmail);
   }
-  async getCoreSkills(){
-    await this.candidateSrv.getCandidateSkills(this.emailAddress).then(async(response)=>{
+  async getCoreSkills(selectedUserEmail:any){
+    await this.candidateSrv.getCandidateSkills(selectedUserEmail).then(async(response)=>{
      
       this.empCoreSkillsDetails = response; // Assign response to empCoreSkillsDetails
       console.log(this.empCoreSkillsDetails);
     })
-    this.getEmpAchievments();
+    this.getEmpAchievments(selectedUserEmail);
   }
-  async getEmpAchievments(){
-    await this.candidateSrv.getCandidateAchievements(this.emailAddress).then(async(response)=>{
+  async getEmpAchievments(selectedUserEmail:any){
+    await this.candidateSrv.getCandidateAchievements(selectedUserEmail).then(async(response)=>{
       this.empAchievmentsDetails=response;
     })
   }
 
   showReferralDetails(data:any){
     this.selectedReferral = data;
+    const selectedEmail = this.getSlicedValue(this.selectedReferral.PK);
+    console.log(selectedEmail);
+    this.getEmpReferralDetails(selectedEmail);
   }
+
+  // async referralAccepted() {
+  //   const userId = this.getSlicedValue(this.userId);
+  //   const payload = {
+  //     "userId": userId,
+  //     "action": "ACCEPT",
+  //     "emailId": this.emailAddress
+  //   }
+  //   let referralId = this.getSlicedValue(this.selectedReferral.SK);
+  //   await this.empService.updateReferralStatus(referralId, payload).then(async (response) => {
+  //     if (response) {
+  //       console.log(response);
+  //     }
+  //   })
+  // }
+
+  async referralAction(action: string) {
+    const userId = this.getSlicedValue(this.userId);
+    const payload = {
+        "userId": userId,
+        "action": action,
+        "emailId": this.emailAddress
+    }
+    let referralId = this.getSlicedValue(this.selectedReferral.SK);
+    await this.empService.updateReferralStatus(referralId, payload).then(async (response) => {
+        if (response) {
+            console.log(response);
+        }
+    })
+  }
+
 
 }

@@ -32,11 +32,28 @@ export class CandidateDashboardComponent {
 
   }
 
+  getSlicedValue(value: string): string {
+    const parts = value?.split('#');
+    if (parts && parts.length > 1) {
+        return parts.length > 2 ? parts[2] : parts[1];
+    }
+    return '';
+  }
+
   async getCandidateDetails() {
     this.spinner.show();
     await this.candidateSrv.getUserDetails(this.emailAddress).then(async (response) => {
       if (response) {
         this.candidateList = response
+        if(response[0].id)
+        {
+        this.storage.set('userId', response[0].id);
+        }
+        else
+        {
+          let userId = this.getSlicedValue(response[0].SK);
+          this.storage.set('userId', userId);
+        }
         this.candidateDetails = this.candidateList[0];
         this.userDescription = this.candidateList[0].about;
         await this.getEducationDetails();
