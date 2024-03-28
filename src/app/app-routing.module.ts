@@ -25,8 +25,11 @@ const routes: Routes = [
   {
     path: 'app-core',
     loadChildren: () => import('./modules/app-core/app-core.module').then(m => m.AppCoreModule)
+  },
+  {
+    path: 'auth',
+    loadChildren: () => import('./modules/auth/auth.module').then(m => m.AuthModule)
   }
-
 
 ];
 
