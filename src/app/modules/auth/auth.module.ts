@@ -6,18 +6,18 @@ import { WorkoAuthComponent } from './components/worko-auth/worko-auth.component
 export const routes: Routes = [
   // {
   //   path: 'login',
-  //   component: TranscriptsAuthComponent,
-  //   pathMatch: 'full',
+  //   component: transcriptsauthcomponent,
+  //   pathmatch: 'full',
   //   data: { action: 'login' },
   // },
   {
-    path: 'logout',
+    path: 'checkRedirection',
     component: WorkoAuthComponent,
     pathMatch: 'full',
-    data: { action: 'logout' },
+   
   },
 
-
+ // data: { action: 'logout' },
 
 ];
 

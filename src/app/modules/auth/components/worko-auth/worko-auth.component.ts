@@ -17,7 +17,9 @@ export class WorkoAuthComponent {
     private storage: StorageService,
 
   ) { }
-
+  ngOnInit(): void {
+    this.checkRedirection();
+  }
   /**
  * Logout.
  *
@@ -32,5 +34,10 @@ export class WorkoAuthComponent {
     } catch (error) {
       console.error(error);
     }
+  }
+
+  checkRedirection(){
+    console.log("Hello");
+    alert("Check")
   }
 }
