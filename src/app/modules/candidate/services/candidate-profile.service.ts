@@ -60,6 +60,14 @@ export class CandidateProfileService {
     return this.http.patch(`${API_URL}user/${emailAddress}/referral/${referralId}/${status}`, {} , this.authService.getHttpOptions()).toPromise();
   }
 
+  createReview(userId:string, data:any):Promise<any> {
+    return this.http.post(API_URL + `user/${userId}/review`, data,this.authService.getHttpOptions() ).toPromise();
+  }
+
+  getReview(userId:string, referralId:any):Promise<any> {
+    return this.http.get(`${API_URL}user/${userId}/review/received?referralId=${referralId}`, this.authService.getHttpOptions() ).toPromise();
+  }
+
 
   /*************Services API */
 

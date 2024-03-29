@@ -12,14 +12,14 @@
 
                 <div class="col-md-12">
                     <ng-container *ngIf="selectedStatus === 'AWAITING'; else otherStatus">
-                        <app-employee-referral-details
+                        <app-employee-referral-details (onAccept)="referralAction('ACCEPT')" (onReject)="referralAction('REJECT')" [selectedStatus]="selectedStatus"
                         [empExperienceList]="empExperienceList" [empExperienceDetails]="empExperienceDetails" [empCoreSkillsList]="empCoreSkillsList" [empCoreSkillsDetails]="empCoreSkillsDetails"
                         [empAchievmentsList]="empAchievmentsList" [empAchievmentsDetails]="empAchievmentsDetails" 
                         [empEducationList]="empEducationList" [empEducationDetails]="empEducationDetails"  [empdetailsList]="empdetailsList" [empDetails]="empDetails"></app-employee-referral-details>
                     </ng-container>
                    
                     <ng-template #otherStatus>
-                        <app-employee-referral-details  
+                        <app-employee-referral-details [selectedStatus]="selectedStatus" 
                         [empExperienceList]="empExperienceList" [empExperienceDetails]="empExperienceDetails" [empCoreSkillsList]="empCoreSkillsList" [empCoreSkillsDetails]="empCoreSkillsDetails"
                         [empAchievmentsList]="empAchievmentsList" [empAchievmentsDetails]="empAchievmentsDetails" 
                         [empEducationList]="empEducationList" [empEducationDetails]="empEducationDetails"  [empdetailsList]="empdetailsList" [empDetails]="empDetails"
