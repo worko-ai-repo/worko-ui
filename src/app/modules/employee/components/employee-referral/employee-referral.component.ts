@@ -12,7 +12,7 @@ export class EmployeeReferralComponent {
   empReferralList: any = "";
   emailAddress: any = "";
   userId: any;
-  reviewData: any = "";
+  reviewData:any = [];
   empdetailsList: any = "";
   empEducationList: any = "";
   empExperienceList: any = "";
@@ -102,7 +102,7 @@ export class EmployeeReferralComponent {
   }
 
   showReferralDetails(data: any) {
-    this.reviewData = "";
+    this.reviewData = [];
     this.selectedReferral = data;
     const selectedEmail = this.getSlicedValue(this.selectedReferral.PK);
     console.log(selectedEmail);
@@ -149,7 +149,17 @@ export class EmployeeReferralComponent {
 
     await this.candidateSrv.getReview(forUserId, referralId).then(async (response) => {
       console.log(response);
-      this.reviewData = response;
+      this.reviewData=[];
+      if (response) {
+        console.log(response);
+        response.forEach((element:any) => {
+          if(element.referalId == referralId)
+          {
+            this.reviewData.push(element);          
+          }
+          
+        });
+      }
     })
 
 
