@@ -35,11 +35,13 @@ export class ReferralComponent implements OnInit {
   }
 
   onStatusSelected(status: string): void {
+    this.selectedReferral="";
     this.selectedStatus = status;
     this.getReferral();
   }
 
   showReferralDetails(data:any){
+    this.reviewData = "";
     this.selectedReferral = data;
   }
 
