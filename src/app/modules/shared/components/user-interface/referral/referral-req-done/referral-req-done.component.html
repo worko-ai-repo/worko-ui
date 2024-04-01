@@ -10,7 +10,7 @@
                 </div>
 
                 <div *ngIf="selectedReferral" class="col-md-3 p-0 m-0">
-                    <app-see-review></app-see-review>
+                    <app-see-review [reviewData]="reviewData" (seeReview1)="referralSeeReview()"></app-see-review>
                 </div>
                 <!-- <div *ngIf="selectedReferral " class="col-md-3 p-0 m-0">
                                 <button class="btn-done text-center" (click)="referralMarkAsDone()">Mark As hello

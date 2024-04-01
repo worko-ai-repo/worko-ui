@@ -18,18 +18,34 @@
                                     
                                 </button>
                             </div> -->
-                            <div *ngIf="selectedReferral" class="col-md-12">
+                            <div *ngIf="selectedReferral" class="col-md-12" style="height: fit-content;">
                                 <app-new-request-btn></app-new-request-btn>
                             </div>
 
-                            <div *ngIf="selectedReferral" class="col-md-12 pt-3 d-flex justify-content-center">
-                                <img src="/assets/public/candidate-referral-img.png" class="referral-img" alt="">
-                                
+                            <div *ngIf="selectedReferral" class="col-md-12" style="height: 100%; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 20px;">
+
+                                <div class="col-md-12" style="color: white;">
+                                    <span class="text-white">Job Url :  <a href="{{selectedReferral?.jobUrl}}" target="_blank">Link</a></span> <br>
+                                    <span class="text-white">Company Name :</span> <br>
+                                    <span class="text-white">Matching Score : {{selectedReferral?.matchingScore}}</span>
+                                </div>
+
+                                <div class="col-md-12">
+                                    <div *ngIf="selectedReferral" class="col-md-12  d-flex justify-content-center">
+                                        <img src="/assets/public/candidate-referral-img.png" class="referral-img" alt="">
+                                        
+                                    </div>
+                                    <div *ngIf="selectedReferral" class="col-md-12 text-center pb-5">
+                                        <span class="text-white">Your Referral Request is awaiting!</span> <br>
+                                        <span class="text-white"> We will let you know</span>
+                                    </div>
+                                </div>
+
                             </div>
-                            <div *ngIf="selectedReferral" class="col-md-12 text-center pb-5">
-                                <span class="text-white">Your Referral Request is awaiting!</span> <br>
-                                <span class="text-white"> We will let you know</span>
-                            </div>
+
+
+
+                            
                             <!-- <div *ngIf="!selectedReferral" class="col-md-12 text-center pb-5">
                               <span class="text-white">Get referral now!</span> <br>
                             </div> -->

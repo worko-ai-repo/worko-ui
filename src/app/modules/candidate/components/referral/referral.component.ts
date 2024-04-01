@@ -11,14 +11,17 @@ import { StorageService } from 'src/app/modules/app-core/services/storage.servic
 })
 export class ReferralComponent implements OnInit {
   userType="Candidate";
+  userId:any;
   referralList: any = "";
   emailAddress: any = "";
   selectedStatus: string = 'AWAITING';
   selectedReferral: any;
+  reviewData:any = [];
   constructor(private candidateSrv: CandidateProfileService, private storage: StorageService) { }
  
   ngOnInit(): void {
     this.emailAddress = this.storage.get("useremail");
+    this.userId = this.storage.get("userId");
     this.getReferral();
   }
   
@@ -26,17 +29,19 @@ export class ReferralComponent implements OnInit {
     await this.candidateSrv.getReferral(this.emailAddress, this.selectedStatus).then(async (response) => {
       if (response) {
         this.referralList = response;
-        console.log(this.referralList + '123');
+        console.log(this.referralList);
       }
     })
   }
 
   onStatusSelected(status: string): void {
+    this.selectedReferral="";
     this.selectedStatus = status;
     this.getReferral();
   }
 
   showReferralDetails(data:any){
+    this.reviewData = [];
     this.selectedReferral = data;
   }
 
@@ -56,6 +61,55 @@ export class ReferralComponent implements OnInit {
     })
   }
 
+  async createReview(data:any) {
+
+    const userId = this.userId;
+    let referralId = this.getSlicedValue(this.selectedReferral.SK);
+    const forUserId = data.selectedReferral.acceptedByUserId;
+
+    let payload = {
+      "ratingByUserId": userId,  
+      "ratingForUserType": "EMP", 
+      "rating": data.reviewRatingData.rating, 
+      "reviewText": data.reviewRatingData.review, 
+      "createdByUserId": userId, 
+      "updatedByUserId": userId, 
+      "reviewContext": "EMP_REFERRAL", 
+      "referalId": referralId,
+      // "masterServiceCode": "RESUME_REVIEW", 
+      // "serviceReqId": "req789" 
+    }
+    await this.candidateSrv.createReview(forUserId, payload).then(async (response) => {
+      if (response) {
+          console.log(response);
+      }
+  })
+
+  }
+
+  async getReferralReview(data:any)
+  {
+    let referralId = this.getSlicedValue(this.selectedReferral.SK);
+    const forUserId = data?.acceptedByUserId;
+
+    await this.candidateSrv.getReview(forUserId, referralId).then(async (response) => {
+      console.log(response);
+      this.reviewData=[];
+      if (response) {
+        console.log(response);
+        response.forEach((element:any) => {
+          if(element.referalId == referralId)
+          {
+            this.reviewData.push(element);          
+          }
+          
+        });
+      }
+  })
+
+
+  }
+
   referralRaiseIssue(data:any) {
     console.log(data);
   }
@@ -63,6 +117,7 @@ export class ReferralComponent implements OnInit {
   referralReviewRating(data:any) {
     console.log(data);
     this.getReferral();
+    this.createReview(data);
   }
 
   cancelReviewRatingPopup() {

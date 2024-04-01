@@ -6,27 +6,49 @@
     border: unset;
     font-size: 10px;
 }
-.ref-candidate-text{
+
+.ref-candidate-text {
     color: #FFF;
-text-align: center;
-// font-family: Montserrat;
-font-size: 22px;
-font-style: normal;
-font-weight: 600;
-// line-height: normal;
+    text-align: center;
+    // font-family: Montserrat;
+    font-size: 22px;
+    font-style: normal;
+    font-weight: 600;
+    // line-height: normal;
 }
-.ref-candidate-card{
+
+.ref-candidate-card {
     border-radius: 20px;
     background: #0A1E35;
     border-radius: 10px;
-border: 2px solid #295CA8;
+    border: 2px solid #295CA8;
 }
-.ref-candidate-para{
+
+.ref-candidate-para {
     color: #FFF;
-text-align: center;
-// font-family: Montserrat;
-font-size: 14px;
-font-style: normal;
-font-weight: 500;
-line-height: normal;
+    text-align: center;
+    // font-family: Montserrat;
+    font-size: 14px;
+    font-style: normal;
+    font-weight: 500;
+    line-height: normal;
+}
+
+.review-rating {
+    width: 100%;
+    display: flex;
+    justify-content: center;
+}
+
+ngb-rating {
+    color: #FFC107;
+    font-size: 45px;
+}
+
+.circle-image {
+    border-radius: 50%;
+    width: 170px;
+    height: 170px;
+    border: 2px solid #295CA8;
+    // box-shadow: 0 0 5px rgba(0, 0, 0, 0.3);
 }

@@ -38,23 +38,31 @@ export class NavbarComponent {
 
   }
 
-  showSubMenu: boolean = false;
+  isMenuOpen: boolean = false;
 
-  toggleSubMenu() {
-    this.showSubMenu = !this.showSubMenu;
+  toggleMenu(event: any) {
+    this.isMenuOpen = event.target.checked;
   }
 
-  showSubMenuOnHover() {
-    if (window.innerWidth >= 675) {
-      this.showSubMenu = true;
-    }
-  }
 
-  hideSubMenuOnHover() {
-    if (window.innerWidth >= 675) {
-      this.showSubMenu = false;
-    }
-  }
+
+  // showSubMenu: boolean = false;
+
+  // toggleSubMenu() {
+  //   this.showSubMenu = !this.showSubMenu;
+  // }
+
+  // showSubMenuOnHover() {
+  //   if (window.innerWidth >= 675) {
+  //     this.showSubMenu = true;
+  //   }
+  // }
+
+  // hideSubMenuOnHover() {
+  //   if (window.innerWidth >= 675) {
+  //     this.showSubMenu = false;
+  //   }
+  // }
 
   isCollapsed: boolean = true;
 
@@ -82,7 +90,6 @@ export class NavbarComponent {
         if (response) {
           this.profileCompletion = response;
           console.log(this.profileCompletion);
-
 
           if (this.profileCompletion) {
             const profileType = userType === "CAND" ? this.profileCompletion.candidate : this.profileCompletion.employee;
