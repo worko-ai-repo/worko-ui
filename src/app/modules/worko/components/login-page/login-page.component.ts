@@ -1,12 +1,12 @@
 
 import { Component, EventEmitter, Output, ViewChild, AfterViewInit, OnDestroy } from '@angular/core';
-import { CognitoService } from 'src/app/modules/services/cognito.service';
+// import { CognitoService } from 'src/app/modules/services/cognito.service';
 import { Router } from '@angular/router';
 import { AuthService } from '../../services/auth.service';
 import { StorageService } from 'src/app/modules/app-core/services/storage.service';
 import { NgxSpinnerService } from 'ngx-spinner';
 // import { getCurrentUser, fetchAuthSession  } from 'aws-amplify/auth';
-import { getCurrentUser, fetchAuthSession } from 'aws-amplify/auth';
+import { getCurrentUser, fetchAuthSession, signInWithRedirect } from 'aws-amplify/auth';
 // import { map, startWith } from 'rxjs/operators';
 // import { NgFor, AsyncPipe } from '@angular/common';
 import { MatAutocompleteModule, MatAutocompleteTrigger } from '@angular/material/autocomplete';
@@ -19,6 +19,7 @@ import { Observable } from 'rxjs';
 import { debounceTime, distinctUntilChanged, switchMap, filter } from 'rxjs/operators';
 import { Subscription } from 'rxjs';
 import { ChangeDetectorRef } from '@angular/core';
+import { CognitoService } from '../../../services/cognito.service';
 declare var bootstrap: any;
 
 @Component({
@@ -717,10 +718,15 @@ export class LoginPageComponent implements AfterViewInit, OnDestroy {
   signUpWithLinkedin() {
     // Show a spinner or perform any other necessary actions
     this.spinner.show();
-
+//"https://worko.auth.ap-south-1.amazoncognito.com/oauth2/authorize?identity_provider=LinkedIn&redirect_uri=https://localhost:4200/&response_type=CODE&client_id=5evf019rrkaijtnjf2j1vvdf33&state=h8HvXvQ2W4QvOE18H68wwcgWh3pIkANy&code_challenge=kI8A-NbOUiZw9Iv14YltZO5iTk6MTkK2Lu1PVAEsOyI&code_challenge_method=S256&scope=email%20openid%20phone";
     // Redirect to the specified URL
-    window.location.href =
-      "https://worko.auth.ap-south-1.amazoncognito.com/oauth2/authorize?identity_provider=LinkedIn&redirect_uri=http://localhost:4200/&response_type=CODE&client_id=5evf019rrkaijtnjf2j1vvdf33&state=h8HvXvQ2W4QvOE18H68wwcgWh3pIkANy&code_challenge=kI8A-NbOUiZw9Iv14YltZO5iTk6MTkK2Lu1PVAEsOyI&code_challenge_method=S256&scope=email%20openid%20phone";
+   window.location.href = "https://worko.auth.ap-south-1.amazoncognito.com/oauth2/authorize?identity_provider=LinkedIn&redirect_uri=http://localhost:4200/auth/checkRedirection&response_type=CODE&client_id=5evf019rrkaijtnjf2j1vvdf33&state=h8HvXvQ2W4QvOE18H68wwcgWh3pIkANy&code_challenge=kI8A-NbOUiZw9Iv14YltZO5iTk6MTkK2Lu1PVAEsOyI&code_challenge_method=S256&scope=email%20openid%20phone"
+  //  const provider = {
+  //   custom: 'LinkedIn'
+  // }
+  //  signInWithRedirect({provider})
+  //this.amplify.handleRedirectSignIn();
+      
   }
 
 }

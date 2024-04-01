@@ -1,10 +1,11 @@
 import { Injectable } from '@angular/core';
 import { BehaviorSubject } from 'rxjs';
-import { fetchAuthSession, SignInOutput, getCurrentUser, signIn, type SignInInput, signOut, signUp, confirmSignUp, type ConfirmSignUpInput, AuthError } from 'aws-amplify/auth';
-import { Amplify } from 'aws-amplify';
+import { fetchAuthSession, SignInOutput, getCurrentUser, signIn, type SignInInput, signOut, signUp, confirmSignUp, type ConfirmSignUpInput, AuthError, signInWithRedirect } from 'aws-amplify/auth';
+import { Amplify} from 'aws-amplify';
 import * as awsamplify from './../../../../amplify-config'
 import { StorageService } from '../app-core/services/storage.service';
 import { NavbarToggleSwitchService } from '../candidate/services/navbar-toggle-switch.service';
+import axios from 'axios';
 
 // import { confirmSignUp, ConfirmSignUpInput } from 'aws-amplify/auth';
 export interface IUser {
@@ -34,6 +35,7 @@ export class CognitoService {
     this.authenticationSubject = new BehaviorSubject<boolean>(false);
   }
 
+  
 
   async handleSignIn(user: IUser): Promise<{ response?: SignInOutput; error?: AuthError }> {
     try {
@@ -196,4 +198,7 @@ export class CognitoService {
     this.storage.remove("isEmployeeDashboardEnabled");
     this.navbarToggleSwitch.toggleStatusFalse();
   }
+
+
+  
 }
