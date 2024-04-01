@@ -11,18 +11,11 @@ export class ReferralSeeReviewPopupComponent implements OnChanges {
   @Input() reviewData:any;
 
   finalRating: number = 0;
-  reviewText:any;
+  noReviewReceived:string = "No review received for this referral!!";
 
   ngOnChanges() {
-    if(this.reviewData?.length > 0)
-    {
       console.log(this.reviewData);
-      this.finalRating = this.reviewData[0].rating;
-      this.reviewText = this.reviewData[0].reviewText;
-    }
   }
-
-
 
   closePopup() {
     this.onSuccess.emit();

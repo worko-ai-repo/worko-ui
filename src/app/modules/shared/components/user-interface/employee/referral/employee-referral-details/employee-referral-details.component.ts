@@ -20,6 +20,7 @@ export class EmployeeReferralDetailsComponent implements OnChanges {
   @Output() onAccept = new EventEmitter<any>();
   @Output() onReject = new EventEmitter<any>();
   showCard: boolean = false;
+  profileImage:any;
 
   // selectedStatus!: string; 
 
@@ -53,6 +54,14 @@ export class EmployeeReferralDetailsComponent implements OnChanges {
       console.log(this.empCoreSkillsDetails[0]?.coreSkills);
       console.log(this.empCoreSkillsDetails[0]?.certifications);
       console.log(this.selectedStatus);
+
+      if(this.empdetailsList?.length>0)
+      {
+
+      this.profileImage = this.empdetailsList[0].profileImageAwsS3SignedUrl ?this.empdetailsList[0]?.profileImageAwsS3SignedUrl : '/assets/public/candidate-img.png'
+
+      }
+
     }
 
 }

@@ -24,7 +24,7 @@
                         [empAchievmentsList]="empAchievmentsList" [empAchievmentsDetails]="empAchievmentsDetails" 
                         [empEducationList]="empEducationList" [empEducationDetails]="empEducationDetails"  [empdetailsList]="empdetailsList" [empDetails]="empDetails"
                         *ngIf="selectedStatus === 'REJECTED'"></app-employee-referral-details>
-                        <app-referral-done  *ngIf="selectedStatus === 'DONE'"></app-referral-done>
+                        <app-referral-done  *ngIf="selectedStatus === 'DONE'" [reviewData]="reviewData" [empdetailsList]="empdetailsList" [selectedReferral]="selectedReferral"></app-referral-done>
                         <app-referral-cancelled *ngIf="selectedStatus === 'CANCELLED'"></app-referral-cancelled>
 
                     </ng-template>

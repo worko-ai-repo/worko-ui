@@ -38,6 +38,8 @@ export class WorkoAuthComponent {
 
   checkRedirection(){
     console.log("Hello");
-    alert("Check")
+    alert("Check");
+    let a  = this.cognitoService.isLoggedIn();
+    console.log(a, "dddd")
   }
 }

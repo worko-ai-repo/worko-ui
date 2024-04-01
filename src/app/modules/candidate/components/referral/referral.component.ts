@@ -16,7 +16,7 @@ export class ReferralComponent implements OnInit {
   emailAddress: any = "";
   selectedStatus: string = 'AWAITING';
   selectedReferral: any;
-  reviewData:any;
+  reviewData:any = [];
   constructor(private candidateSrv: CandidateProfileService, private storage: StorageService) { }
  
   ngOnInit(): void {
@@ -35,11 +35,13 @@ export class ReferralComponent implements OnInit {
   }
 
   onStatusSelected(status: string): void {
+    this.selectedReferral="";
     this.selectedStatus = status;
     this.getReferral();
   }
 
   showReferralDetails(data:any){
+    this.reviewData = [];
     this.selectedReferral = data;
   }
 
@@ -92,9 +94,16 @@ export class ReferralComponent implements OnInit {
 
     await this.candidateSrv.getReview(forUserId, referralId).then(async (response) => {
       console.log(response);
+      this.reviewData=[];
       if (response) {
-          console.log(response);
-          this.reviewData = response;
+        console.log(response);
+        response.forEach((element:any) => {
+          if(element.referalId == referralId)
+          {
+            this.reviewData.push(element);          
+          }
+          
+        });
       }
   })
 

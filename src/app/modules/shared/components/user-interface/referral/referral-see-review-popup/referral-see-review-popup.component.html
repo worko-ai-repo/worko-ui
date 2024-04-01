@@ -8,12 +8,20 @@
                     <h6 style="font-size: 18px;" class="mt-2">How do you rated this request</h6>
                 </div>
 
-                <div class="review-rating">
+                <div class="review-rating" *ngIf="reviewData?.length>0">
+                    <ngb-rating [max]="5" [rate]="reviewData[0]?.rating" [readonly]="true"></ngb-rating>
+                </div>
+
+                <div class="review-comments mt-3" *ngIf="reviewData?.length>0">
+                    <h6 style="color: gray; font-size: 16px; text-align: center;">{{reviewData[0]?.reviewText}}</h6>
+                </div>
+
+                <div class="review-rating" *ngIf="!(reviewData?.length>0)">
                     <ngb-rating [max]="5" [rate]="finalRating" [readonly]="true"></ngb-rating>
                 </div>
 
-                <div class="review-comments mt-3">
-                    <h6 style="color: gray; font-size: 16px; text-align: center;">{{reviewText}}</h6>
+                <div class="review-comments mt-3" *ngIf="!(reviewData?.length>0)">
+                    <h6 style="color: gray; font-size: 16px; text-align: center;">{{noReviewReceived}}</h6>
                 </div>
 
                 <div class="mt-3">
