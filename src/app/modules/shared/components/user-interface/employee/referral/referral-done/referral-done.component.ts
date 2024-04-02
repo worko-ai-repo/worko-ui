@@ -8,9 +8,11 @@ import { Component, EventEmitter, Input, Output } from '@angular/core';
 export class ReferralDoneComponent {
 
   @Output() onSuccess: EventEmitter<any> = new EventEmitter<any>();
+  @Output() raiseIssue: EventEmitter<any> = new EventEmitter<any>();
   @Input() reviewData:any = "";
   @Input() selectedReferral:any;
   @Input() empdetailsList:any="";
+  @Input() userType:any;
   profileImage:any;
 
 
@@ -24,6 +26,10 @@ export class ReferralDoneComponent {
       this.candidateName = this.empdetailsList[0].name;
       this.profileImage = this.empdetailsList[0].profileImageAwsS3SignedUrl ?this.empdetailsList[0]?.profileImageAwsS3SignedUrl : '/assets/public/candidate-img.png'    
     }
+  }
+
+  referralRaiseIssue(data:any) {
+    this.raiseIssue.emit(data);
   }
 
 

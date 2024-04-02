@@ -22,6 +22,7 @@ export class CandidateDashboardComponent {
   userDescription: string = "";
   profileCompletion:any="";
   userType="Candidate";
+  userName:any;
 
   constructor( private candidateSrv: CandidateProfileService, private storage: StorageService,private spinner: NgxSpinnerService) { }
 
@@ -55,6 +56,8 @@ export class CandidateDashboardComponent {
           this.storage.set('userId', userId);
         }
         this.candidateDetails = this.candidateList[0];
+        this.userName = this.candidateDetails.name;
+        this.storage.set('userName', this.userName);
         this.userDescription = this.candidateList[0].about;
         await this.getEducationDetails();
       }

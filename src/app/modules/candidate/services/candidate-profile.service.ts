@@ -68,6 +68,10 @@ export class CandidateProfileService {
     return this.http.get(`${API_URL}user/${userId}/review/received?referralId=${referralId}`, this.authService.getHttpOptions() ).toPromise();
   }
 
+  raiseIssue(data:any):Promise<any> {
+    return this.http.post(API_URL + `support/`, data,this.authService.getHttpOptions() ).toPromise();
+  }
+
 
   /*************Services API */
 

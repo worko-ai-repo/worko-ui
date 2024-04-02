@@ -34,7 +34,7 @@ export class ReferralStepperComponent {
   }
 
   ngOnChanges(): void {
-    // console.log(this.selectedReferral, "selectedReferral");
+    console.log(this.selectedReferral);
   }
 
   getSlicedValue(value: string): string {

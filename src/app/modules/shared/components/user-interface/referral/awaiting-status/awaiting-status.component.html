@@ -30,8 +30,8 @@
         </div>
 
         <!-- Repeat this block for each card -->
-        <div class="d-flex referral-list" *ngFor="let referral of referralList">
-            <div class="d-flex" (click)="showReferralData(referral)">
+        <div class="d-flex referral-list" *ngFor="let referral of referralList" [ngClass]="{'referral-list-clicked-item': referral.SK === selectedReferralSK}">
+            <div class="d-flex" (click)="showReferralData(referral) ">
 
            
             <div class="d-flex align-items-center cursor-pointer">

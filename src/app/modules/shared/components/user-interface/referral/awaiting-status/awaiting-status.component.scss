@@ -64,6 +64,17 @@
     border-bottom: 1px solid #132A4C;
     padding: 0.5rem;
     justify-content: center;
+    cursor: pointer;
+}
+
+.candidate-card {
+    height: 558px;
+    overflow-y: auto;
+}
+
+.candidate-card::-webkit-scrollbar {
+    width: 5px;
+    display: none; 
 }
 
 .text-size {
@@ -80,4 +91,8 @@
     font-weight: 100;
     line-height: normal;
 
+}
+
+.referral-list-clicked-item {
+    background-color: #061634
 }

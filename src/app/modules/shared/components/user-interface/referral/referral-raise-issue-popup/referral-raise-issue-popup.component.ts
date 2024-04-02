@@ -11,8 +11,12 @@ export class ReferralRaiseIssuePopupComponent {
   @Output() onSuccess: EventEmitter<any> = new EventEmitter<any>();
   @Input() userType:any;
 
-  issueTitle = new FormControl();
   issueDescription = new FormControl();
+  selectedOption: string;
+
+  constructor() {
+    this.selectedOption = "";
+  }
 
   ngOnChanges() {
     console.log(this.userType);
@@ -20,11 +24,11 @@ export class ReferralRaiseIssuePopupComponent {
 
   raiseIssueSubmitBtn() {
     const issueData = {
-      issueTitle: this.issueTitle.value,
+      issueTitle: this.selectedOption,
       issueDescription: this.issueDescription.value
     };
     console.log(issueData); // we will send this reviewData to backend
-    this.issueTitle.reset();
+    this.selectedOption = "";
     this.issueDescription.reset();
     this.onSuccess.emit(issueData);
   }

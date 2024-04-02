@@ -24,13 +24,21 @@ export class EmployeeDashboardComponent {
   profileCompletion: any;
   bankDetails: any;
   userType = "Employee"
+  userName:any;
   constructor(private candidateSrv: CandidateProfileService, private storage: StorageService, private empService: EmployeeProfileService) { }
 
   ngOnInit(): void {
     // this.emailAddress = this.storage.get("useremail");
     this.emailAddress = this.storage.get("useremail");
     this.getCandidateDetails();
+  }
 
+  getSlicedValue(value: string): string {
+    const parts = value?.split('#');
+    if (parts && parts.length > 1) {
+        return parts.length > 2 ? parts[2] : parts[1];
+    }
+    return '';
   }
 
   
@@ -38,8 +46,18 @@ export class EmployeeDashboardComponent {
     await this.candidateSrv.getUserDetails(this.emailAddress).then(async (response) => {
       if (response) {
         this.candidateList = response
-        this.storage.set('userId', response[0].SK);
+        if(response[0].id)
+        {
+        this.storage.set('userId', response[0].id);
+        }
+        else
+        {
+          let userId = this.getSlicedValue(response[0].SK);
+          this.storage.set('userId', userId);
+        }
         this.candidateDetails = this.candidateList[0];
+        this.userName = this.candidateDetails.name;
+        this.storage.set('userName', this.userName);
         this.userDescription = this.candidateList[0].about;
         console.log(response);
         await this.getEducationDetails();

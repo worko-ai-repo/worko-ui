@@ -7,12 +7,12 @@
         <div class="col-md-8">
             <div class="row">
                 <div class="col-md-12">
-                    <app-referral-stepper></app-referral-stepper>
+                    <app-referral-stepper [selectedReferral]="selectedReferral"></app-referral-stepper>
                 </div>
 
                 <div class="col-md-12">
                     <ng-container *ngIf="selectedStatus === 'AWAITING'; else otherStatus">
-                        <app-employee-referral-details (onAccept)="referralAction('ACCEPT')" (onReject)="referralAction('REJECT')" [selectedStatus]="selectedStatus"
+                        <app-employee-referral-details (onAccept)="referralAction('ACCEPT')" (onReject)="rejectAction('REJECT', $event)" [selectedStatus]="selectedStatus"
                         [empExperienceList]="empExperienceList" [empExperienceDetails]="empExperienceDetails" [empCoreSkillsList]="empCoreSkillsList" [empCoreSkillsDetails]="empCoreSkillsDetails"
                         [empAchievmentsList]="empAchievmentsList" [empAchievmentsDetails]="empAchievmentsDetails" 
                         [empEducationList]="empEducationList" [empEducationDetails]="empEducationDetails"  [empdetailsList]="empdetailsList" [empDetails]="empDetails"></app-employee-referral-details>
@@ -24,7 +24,7 @@
                         [empAchievmentsList]="empAchievmentsList" [empAchievmentsDetails]="empAchievmentsDetails" 
                         [empEducationList]="empEducationList" [empEducationDetails]="empEducationDetails"  [empdetailsList]="empdetailsList" [empDetails]="empDetails"
                         *ngIf="selectedStatus === 'REJECTED'"></app-employee-referral-details>
-                        <app-referral-done  *ngIf="selectedStatus === 'DONE'" [reviewData]="reviewData" [empdetailsList]="empdetailsList" [selectedReferral]="selectedReferral"></app-referral-done>
+                        <app-referral-done  *ngIf="selectedStatus === 'DONE'" [userType]="userType" (raiseIssue)="referralRaiseIssue($event)" [reviewData]="reviewData" [empdetailsList]="empdetailsList" [selectedReferral]="selectedReferral"></app-referral-done>
                         <app-referral-cancelled *ngIf="selectedStatus === 'CANCELLED'"></app-referral-cancelled>
 
                     </ng-template>

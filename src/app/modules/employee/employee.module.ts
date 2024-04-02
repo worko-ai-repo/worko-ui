@@ -27,6 +27,7 @@ import { FormsModule } from '@angular/forms';
 import { EmployeeAboutComponent } from '../shared/components/user-interface/employee/dashboard/employee-about/employee-about.component';
 import { NgbRatingModule} from '@ng-bootstrap/ng-bootstrap'
 import { EmployeeDashboardComponent } from './components/employee-dashboard/employee-dashboard.component';
+import { ReferralRejectedPopupComponent } from '../shared/components/user-interface/employee/referral/referral-rejected-popup/referral-rejected-popup.component';
 
 
 export const routes: Routes = [
@@ -82,6 +83,7 @@ export const routes: Routes = [
     EmployeeEditDetailsComponent,
     EmployeeProfessionalDetailsComponent,
     AddBankDetailsComponent,
+    ReferralRejectedPopupComponent
     
     
     
