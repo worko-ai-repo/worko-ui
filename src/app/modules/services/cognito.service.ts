@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { BehaviorSubject } from 'rxjs';
-import { fetchAuthSession, SignInOutput, getCurrentUser, signIn, type SignInInput, signOut, signUp, confirmSignUp, type ConfirmSignUpInput, AuthError } from 'aws-amplify/auth';
+import { signInWithRedirect, fetchAuthSession, SignInOutput, getCurrentUser, signIn, type SignInInput, signOut, signUp, confirmSignUp, type ConfirmSignUpInput, AuthError } from 'aws-amplify/auth';
 import { Amplify } from 'aws-amplify';
 import * as awsamplify from './../../../../amplify-config'
 import { StorageService } from '../app-core/services/storage.service';
@@ -34,6 +34,13 @@ export class CognitoService {
     this.authenticationSubject = new BehaviorSubject<boolean>(false);
   }
 
+  async handleRedirectSignIn(){
+    const provider = {
+      custom: 'LinkedIn'
+    }
+    signInWithRedirect({provider})
+  }
+
 
   async handleSignIn(user: IUser): Promise<{ response?: SignInOutput; error?: AuthError }> {
     try {
@@ -62,8 +69,8 @@ export class CognitoService {
   async isLoggedIn() {
     try {
       const { username, userId, signInDetails } = await getCurrentUser();
-      // console.log(`The username: ${username}`);
-      // console.log(`The userId: ${userId}`);
+       console.log(`The username: ${username}`);
+       console.log(`The userId: ${userId}`);
 
       if (signInDetails) {
         console.log('The signInDetails:', signInDetails);

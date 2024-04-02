@@ -107,7 +107,7 @@ hr{
 // ------------------ Side Timeline ------------------
 
 .side-timeline{
-    left: 8.5%;
+    left: 7.5%;
     margin-top: 5px;
     img{
         width: calc(225px + 5vw);
@@ -1562,7 +1562,6 @@ hr{
     
     .feedback{
         padding-top: 1rem;
-        position: relative;
         .contents{
             width: 170%;
             .feedback-content{
@@ -1573,9 +1572,6 @@ hr{
             padding-top: 0.8rem;
             width: 50%;
             margin-left: 20%;
-            img{
-                width: 100%;
-            }
         }
         
     }
@@ -1592,7 +1588,7 @@ hr{
     }
     
     .smart{
-        position: relative;
+        // position: relative;
     
         .contents{
             padding-left: 0;
@@ -1604,10 +1600,8 @@ hr{
         }
     
         .smart-img{
-            position: absolute;
             right: 32%;
             top: 10rem;
-            width: 38%;
             img{
                 width: 100%;
             }
@@ -1624,7 +1618,6 @@ hr{
     }
     
     // Benefits Section
-    
     .benefits-section{
         padding-left: 14%;
         padding-top: 2rem;
@@ -1643,27 +1636,18 @@ hr{
     }
     
     .referee-section{
-        position: relative;
         padding-top: 1rem;
         padding-left: 2%;
     }
     
     .ref{
-        border-radius: 30px;
         width: 44%;
         height: 31px;
         padding: 0 3%;
-    
-        margin-top: 3.4%;
         font-size: 7px;
-        line-height: 123%;
-    
     }
     
     .right-col{
-        width: 45%;
-        display: flex;
-        position: absolute;
         right: 13%;
         top: 4rem;
     }
@@ -1676,40 +1660,25 @@ hr{
         display: none;
     }
 
-    .semi{
-        width: 75%;
-        position: absolute;
-        right: 15%;
+    // .semi{
+    //     // width: 75%;
+    //     // position: absolute;
+    //     // right: 15%;
     
-        img{
-            width: 100%;
-        }
-    }
+    //     img{
+    //         width: 100%;
+    //     }
+    // }
 
     .refer-circle{
-        width: 50%;
-        border-radius: 50%;
-        background-color: #09758B;
-        margin-top: 9%;
-        position: absolute;
-        right: 27%;
         top: 0.7rem;
-        padding-bottom: 50%;
         p{
-            position: absolute;
-            top: 50%;
-            left: 50%;
-            transform: translate(-50%, -50%);
-            margin: 0;
-            font-size: 10px;
             font-weight: 700;
-            width: 70%;
         }
     }
     
     .options{
         font-size: calc(10px + 1vw);
-        font-weight: 700;
         margin-top: -2rem;
         padding-left: 48%;
         .opt{
@@ -1740,9 +1709,7 @@ hr{
 
     // Candidate CSS
     .candidate-section{
-        padding-top: 1rem;
         padding-left: 16%;
-        position: relative;
         .benefits-content{
             padding-top: 2rem;
             width: 90%;
@@ -1751,8 +1718,6 @@ hr{
 
     .candidate-col{
         width: 43%;
-        display: flex;
-        position: absolute;
         right: 0%;
         top: 24%;
 
@@ -1884,14 +1849,9 @@ hr{
 
     .info-section{
         padding-top: 3rem;
-        padding-left: 4%;
-        justify-content: space-around;
-
+        
         .video-img{
             width: 50%;
-            img{
-                width: 100%;
-            }
         }
     }
 
@@ -1903,9 +1863,6 @@ hr{
         display: none;
     }
 
-    .info{
-        padding-left: 2%;
-    }
 
     .info-title{
         font-size: calc(1vw + 10px);
@@ -1919,30 +1876,21 @@ hr{
     .info{
         font-size: calc(1vw + 6px);
         padding-bottom: 2%;
+        .info{
+            padding-left: 2%;
+        }
+    
     }
 
     .reviews-section{
-        position: relative;
-        background-color: #E7F4FC;
-        color: #182B45;
-        margin-top: 3rem;
-        width: 93%;
-        margin-left: 3%;
-        border-radius: 30px;
-        padding-bottom: 2rem;
-        margin-bottom: 2.5rem;
         .review-img{
-            width: 27%;
             img{
                 width: 125%;
             }
         }
-        overflow: hidden;
     }
 
     .reviews-content{
-        display: flex;
-        flex-direction: column;
         width: 65%;
         padding-left: 11%;
         padding-top: 4rem;
@@ -2017,10 +1965,6 @@ hr{
         }
     }
 
-    .review-card1{
-        // margin-left: -3%;
-    }
-
     .review-button{
         display: flex;
         width: 100%;
@@ -2043,7 +1987,7 @@ hr{
 
 @media (min-width: 1750px){
     .side-timeline{
-        left: 8.5%;
+        left: 7.5%;
         margin-top: 5px;
         img{
             width: calc(225px + 5vw);
