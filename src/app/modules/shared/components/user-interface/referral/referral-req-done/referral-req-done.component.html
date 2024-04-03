@@ -45,10 +45,19 @@
 
                 <div *ngIf="selectedReferral" class="col-md-12" style="margin-top: 15px; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 10px;">
 
-                    <div class="col-md-12" style="color: white;">
-                        <span class="text-white">Job Url :  <a href="{{selectedReferral?.jobUrl}}" target="_blank">Link</a></span> <br>
-                        <span class="text-white">Company Name : {{selectedReferral?.companyName}}</span> <br>
-                        <span class="text-white">Matching Score : {{selectedReferral?.matchingScore}}</span>
+                    <div class="col-md-12" style="color: white; display: flex; gap: 20px    ;">
+                        <div>
+                            <span class="text-white">Job Url : <a href="{{selectedReferral?.jobUrl}}"
+                                    target="_blank">Link</a></span> <br>
+                            <span class="text-white">Company Name : {{selectedReferral?.companyName}}</span> <br>
+                            <span class="text-white">Matching Score : {{selectedReferral?.matchingScore}}</span>
+                        </div>
+
+                        <div *ngIf="refereeDetails">
+                            <span class="text-white">Referee Name : {{refereeDetails[0]?.name}}</span> <br>
+                            <span class="text-white">Referee Designation : {{refereeDetails[0]?.userExperienceDetails?.designation}}</span> <br>
+                            <span class="text-white">Referee Department : {{refereeDetails[0]?.userExperienceDetails?.department}}</span>
+                        </div>
                     </div>
 
                     <div class="col-md-12">

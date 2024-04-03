@@ -41,7 +41,7 @@ export class ReferralComponent implements OnInit {
   }
 
   async getRefereeDetials(data: any) {
-    if (data.acceptedByUserId && this.selectedStatus == 'ACCEPTED') {
+    if (data.acceptedByUserId && (this.selectedStatus == 'ACCEPTED' || this.selectedStatus == 'DONE')) {
       await this.candidateSrv.getUserDetailsById(data.acceptedByUserId).then(async (response) => {
         if (response) {
           this.refereeDetails = response;
