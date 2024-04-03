@@ -17,7 +17,7 @@
     </div>
     <div class="row" *ngIf="empdetailsList">
         <div class="col-md-3">
-            <img class="p-image" src="{{profileImage}}" alt="" >
+            <img class="p-image" src="{{profileImage}}" alt="">
         </div>
         <div class="col-md-5">
             <div class="row">
@@ -107,6 +107,16 @@
 
 
     </div>
+
+    <app-modal [theme]="'theme-k'" [centered]="true" [showHeader]="showModal === modalType.MESSAGE" [showClose]="true"
+        [showFooter]="showModal === modalType.MESSAGE" [modalSize]="'md'" [title]="modalTitle" [message]="modalMessage"
+        [bodyClass]="modalMessage ? 'p-4' : 'p-0'">
+
+        <ng-container *ngIf="showModal === modalType.REJECTED_REQUEST">
+            <app-referral-rejected-popup (onSuccess)="receiveDataFromChild($event)"></app-referral-rejected-popup>
+        </ng-container>
+
+    </app-modal>
 
 
 

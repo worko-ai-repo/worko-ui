@@ -2,6 +2,9 @@ import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { CognitoService } from 'src/app/modules/services/cognito.service';
 import { StorageService } from 'src/app/modules/app-core/services/storage.service';
+import { Hub } from 'aws-amplify/utils';
+import 'aws-amplify/auth/enable-oauth-listener';
+import {  getCurrentUser, AuthUser} from 'aws-amplify/auth';
 
 
 
@@ -10,10 +13,14 @@ import { StorageService } from 'src/app/modules/app-core/services/storage.servic
   templateUrl: './worko-auth.component.html',
   styleUrls: ['./worko-auth.component.scss']
 })
-export class WorkoAuthComponent {
+export class WorkoAuthComponent  {
 
   accessToken:any;
  
+  // Payload = {
+  //   event: ""
+    
+  // };
 
   constructor(
     private router: Router,
@@ -22,28 +29,113 @@ export class WorkoAuthComponent {
     private storage: StorageService,
     private route: ActivatedRoute,
 
-  ) { }
+
+  ) {
+   
+
+    
+    // Hub.listen("auth", async (data) => {
+    //   debugger
+    //   const { payload } = data;
+    //   switch (payload.event) {
+    //     case "signInWithRedirect":
+    //       const user = await getCurrentUser();
+    //       console.log(user.username);
+    //       break;
+    //     case "signInWithRedirect_failure":
+    //       // handle sign in failure
+    //       break;
+    //       case "signedIn":
+    //         break;
+
+    //     case "customOAuthState":
+    //       const state = payload.data; // this will be customState provided on signInWithRedirect function
+    //       console.log(state);
+    //       break;
+    //   }
+    //   });
+    // Hub.listen("auth", ({ payload: { event } }) => {
+    //   if (event === "signInWithRedirect" || event === "signedIn") {
+    //     console.log(event);
+    //   }
+    // });
+  }
+  
+ 
   code:any;
    oAuthTokenEndpoint ='https://' + 'worko.auth.ap-south-1.amazoncognito.com' + '/oauth2/token';
     _cognitoClientId='5evf019rrkaijtnjf2j1vvdf33'
+   
   ngOnInit(): void {
     
     //this.currentSession();
-    this.route.queryParams.subscribe(params => {
+    this.route.queryParams.subscribe(async params => {
      this.code = params['code'];
       console.log('Code:', this.code);
-     
+      
+      debugger
+      Hub.listen("auth", async ({ payload }) => {
+        switch (payload.event) {
+          case "signInWithRedirect":
+            const user = await getCurrentUser();
+            console.log(user.username);
+            break;
+          case "signInWithRedirect_failure":
+            // handle sign in failure
+            break;
+          case "customOAuthState":
+            const state = payload.data; // this will be customState provided on signInWithRedirect function
+            console.log(state);
+            break;
+        }
+        });
+        
+    
 
      
+     
+
+
       
     });
-    this.checkRedirection();
+    debugger
+  
+    const data="hi"
+    const listener = (data: any) => {
+      console.log(data);
+    };
+    
+    Hub.listen('auth', listener =>{
+      if(data==='hi'){
+        console.log("hi")
+      }
+    });
+    
+  // this.checkRedirection();
 
  }
 
- 
 
- 
+  async linkdinlogin(){
+   
+  Hub.listen("auth", async ({ payload }) => {
+    switch (payload.event) {
+      case "signInWithRedirect":
+        const user = await getCurrentUser();
+        console.log(user.username);
+        break;
+      case "signInWithRedirect_failure":
+        // handle sign in failure
+        break;
+      case "customOAuthState":
+        const state = payload.data; // this will be customState provided on signInWithRedirect function
+        console.log(state);
+        break;
+    }
+    });
+}
+
+
   /**
  * Logout.
  *
@@ -97,8 +189,9 @@ export class WorkoAuthComponent {
     console.error('Error during logout:', error);
     // Handle network errors or other exceptions
 }
-}
-
+}  
+ 
+ 
 
 
 
@@ -107,9 +200,9 @@ export class WorkoAuthComponent {
   async checkRedirection(){
     console.log("Hello");
    
-  await  this.handleCodeFlow();
+  //await  this.handleCodeFlow();
  // this.performLogout()
- 
+ //this.onAuthEvent(JSON.parse(this._cognitoClientId))
    
     alert("Check")
   }

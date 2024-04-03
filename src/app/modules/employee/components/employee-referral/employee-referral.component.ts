@@ -9,10 +9,14 @@ import { CandidateProfileService } from 'src/app/modules/candidate/services/cand
 })
 export class EmployeeReferralComponent {
 
+  userType = "Employee";
   empReferralList: any = "";
   emailAddress: any = "";
   userId: any;
-  reviewData:any = [];
+  userName: any;
+  firstName:any;
+  lastName:any;
+  reviewData: any = [];
   empdetailsList: any = "";
   empEducationList: any = "";
   empExperienceList: any = "";
@@ -31,6 +35,7 @@ export class EmployeeReferralComponent {
   ngOnInit(): void {
     this.emailAddress = this.storage.get("useremail");
     this.userId = this.storage.get("userId");
+    this.userName = this.storage.get("userName");
     this.getEmpReferral();
     // this.getEmpReferralDetails();
   }
@@ -107,8 +112,7 @@ export class EmployeeReferralComponent {
     const selectedEmail = this.getSlicedValue(this.selectedReferral.PK);
     console.log(selectedEmail);
     this.getEmpReferralDetails(selectedEmail);
-    if(this.selectedStatus == 'DONE')
-    {
+    if (this.selectedStatus == 'DONE') {
       this.getReferralReview(this.selectedReferral);
     }
   }
@@ -129,7 +133,7 @@ export class EmployeeReferralComponent {
   // }
 
   async referralAction(action: string) {
-    const userId = this.getSlicedValue(this.userId);
+    const userId = this.userId;
     const payload = {
       "userId": userId,
       "action": action,
@@ -143,26 +147,86 @@ export class EmployeeReferralComponent {
     })
   }
 
+  async rejectAction(action: string, data: any) {
+    let rejectReasonsData = data;
+    console.log("rejectReasonsData");
+    // const userId = this.userId;
+    // const payload = {
+    //   "userId": userId,
+    //   "action": action,
+    //   "emailId": this.emailAddress
+    // }
+    // let referralId = this.getSlicedValue(this.selectedReferral.SK);
+    // await this.empService.updateReferralStatus(referralId, payload).then(async (response) => {
+    //   if (response) {
+    //     console.log(response);
+    //   }
+    // })
+
+  }
+
+  splitName(userName:any) {
+    const splitName = userName.split(' ');
+    this.firstName = splitName[0];
+    this.lastName = splitName.length > 1 ? splitName[splitName.length - 1] : null;
+  }
+
+  async rasieIssue(data: any) {
+
+    this.splitName(this.userName);
+    const firstName = this.firstName;
+    const lastName = this.lastName;
+    const userId = this.userId;
+    const emailAddress = this.emailAddress;
+    let referralId = this.getSlicedValue(this.selectedReferral.SK);
+    // const forUserId = data.selectedReferral.acceptedByUserId;
+
+    let payload = {
+
+      "userId": userId, // ID of the user raising the concern
+      "userEmail": emailAddress, // Email of the user raising the concern
+      "userFirstName": firstName, // First name of the user raising the concern
+      "userLastName": lastName, // Last name of the user raising the concern
+      "userRole": "EMP", // Role of the user raising the concern (should be one of the UserType enum values)
+      "userSupportType": data.issueTitle,   // Type of support requested
+      "userMessage": data.issueDescription,
+      "contextType": "REFERRAL",
+      "contextId": referralId,
+      "createdByUserId": userId
+
+    }
+    await this.candidateSrv.raiseIssue(payload).then(async (response) => {
+      if (response) {
+        console.log(response);
+      }
+    })
+
+  }
+
   async getReferralReview(data: any) {
     let referralId = this.getSlicedValue(data.SK);
     const forUserId = data?.acceptedByUserId;
 
     await this.candidateSrv.getReview(forUserId, referralId).then(async (response) => {
       console.log(response);
-      this.reviewData=[];
+      this.reviewData = [];
       if (response) {
         console.log(response);
-        response.forEach((element:any) => {
-          if(element.referalId == referralId)
-          {
-            this.reviewData.push(element);          
+        response.forEach((element: any) => {
+          if (element.referalId == referralId) {
+            this.reviewData.push(element);
           }
-          
+
         });
       }
     })
 
 
+  }
+
+  referralRaiseIssue(data: any) {
+    console.log(data);
+    this.rasieIssue(data);
   }
 
 

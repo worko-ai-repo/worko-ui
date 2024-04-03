@@ -1,22 +1,25 @@
-.popup-card{
+.popup-card {
     // border-radius: 12.69px;
     height: 100%;
     width: 100%;
-// border: 0.634px solid rgba(87, 225, 255, 0.18);
-background: rgba(10, 30, 54, 0.96);
-backdrop-filter: blur(11.516115188598633px);
+    // border: 0.634px solid rgba(87, 225, 255, 0.18);
+    background: rgba(10, 30, 54, 0.96);
+    backdrop-filter: blur(11.516115188598633px);
 }
-.popup-card , h6{
+
+.popup-card,
+h6 {
     color: #FFF;
-text-align: center;
-font-feature-settings: 'clig' off, 'liga' off;
-// font-family: Nunito;
-font-size: 20.689px;
-font-style: normal;
-font-weight: 600;
-line-height: normal;
+    text-align: center;
+    font-feature-settings: 'clig' off, 'liga' off;
+    // font-family: Nunito;
+    font-size: 20.689px;
+    font-style: normal;
+    font-weight: 600;
+    line-height: normal;
 }
-.write-title{
+
+.write-title {
     border-radius: 11px;
     border: 1px solid #E5EAF1;
     background: #0A1E35;
@@ -24,8 +27,23 @@ line-height: normal;
     color: white;
     width: 203px;
 }
+
 .write-title ::placeholder {
     color: grey;
+}
+
+.select-options {
+    border-radius: 11px;
+    border: 1px solid white;
+    background: #0A1E35;
+    font-size: 15px;
+    color: white;
+    width: 203px;
+}
+
+.select-options:focus {
+    outline: none;
+    border: 1px solid white;
 }
 
 .write-issue {
@@ -34,14 +52,15 @@ line-height: normal;
     background: #0A1E35;
     font-size: 15px;
     color: white;
-    width: 203px;  
-    height: 70px; 
+    width: 203px;
+    height: 70px;
 }
 
 .write-issue ::placeholder {
-    color: grey;  
+    color: grey;
 }
-.btn-submit{
+
+.btn-submit {
     border-radius: 10px;
     background: #2371CB;
     width: max-content;
@@ -59,7 +78,7 @@ ngb-rating {
 .card-content {
     height: 100%;
     width: 100%;
-    padding: 80px;
+    padding: 70px;
 }
 
 .card-title {

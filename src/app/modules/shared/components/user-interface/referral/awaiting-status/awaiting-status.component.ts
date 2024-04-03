@@ -10,7 +10,8 @@ export class AwaitingStatusComponent implements OnChanges {
   @Output() showReferralDetails = new EventEmitter<string>();
 
   selectedStatus: string = 'Awaiting';
-  activeReferral: any;
+  selectedReferralSK:any;
+
   getSlicedValue(value: string): string {
     const parts = value.split('#');
     return parts.length > 2 ? parts[2] : '';
@@ -35,15 +36,15 @@ export class AwaitingStatusComponent implements OnChanges {
     console.log(this.referralList);
     if(this.referralList?.length>0)
     {
-      this.activeReferral = this.referralList[0];
+      this.selectedReferralSK = this.referralList[0].SK;
       this.showReferralDetails.emit(this.referralList[0]);
     }
     // this.showReferralDetails.emit(this.referralList?.length>0?this.referralList[0]:'');
   }
 
   showReferralData(item: any) {
+    this.selectedReferralSK = item.SK;
     console.log(item);
-    this.activeReferral = item;
     this.showReferralDetails.emit(item);
   }
 

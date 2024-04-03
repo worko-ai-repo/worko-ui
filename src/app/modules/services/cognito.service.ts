@@ -1,11 +1,12 @@
 import { Injectable } from '@angular/core';
 import { BehaviorSubject } from 'rxjs';
-import { signInWithRedirect, fetchAuthSession, SignInOutput, getCurrentUser, signIn, type SignInInput, signOut, signUp, confirmSignUp, type ConfirmSignUpInput, AuthError } from 'aws-amplify/auth';
+import { signInWithRedirect,fetchAuthSession, SignInOutput, getCurrentUser, signIn, type SignInInput, signOut, signUp, confirmSignUp, type ConfirmSignUpInput, AuthError } from 'aws-amplify/auth';
 import { Amplify } from 'aws-amplify';
 import * as awsamplify from './../../../../amplify-config'
 import { StorageService } from '../app-core/services/storage.service';
 import { NavbarToggleSwitchService } from '../candidate/services/navbar-toggle-switch.service';
 import axios from 'axios';
+import { Hub } from 'aws-amplify/utils';
 
 // import { confirmSignUp, ConfirmSignUpInput } from 'aws-amplify/auth';
 export interface IUser {
@@ -35,14 +36,51 @@ export class CognitoService {
     this.authenticationSubject = new BehaviorSubject<boolean>(false);
   }
 
-  async handleRedirectSignIn(){
-    const provider = {
+//   async handleRedirectSignIn(){
+//     const provider = {
+//       custom: 'LinkedIn'
+//     }
+//  signInWithRedirect({provider})
+//  this.login()
+
+//   }
+
+
+
+   handleSocialSignIn = () => {
+       const provider = {
       custom: 'LinkedIn'
     }
-    signInWithRedirect({provider})
+   const res= signInWithRedirect({provider}).then(()=>{
+      Hub.dispatch('auth', { event: 'signInWithRedirect_success',data:res})
+    });
+
+  
+
+    // Trigger an event indicating successful sign-in with redirect
+   
+ 
+}
+  //}
+   fetchAuthSessionOptions : any = {
+    redirectUri: 'http://localhost:4200/auth/checkRedirection',
+    clientId: '5evf019rrkaijtnjf2j1vvdf33',
+    responseType: 'token',
+    scope: 'openid',
+    state: 'state',
+    nonce: 'nonce',
+    codeVerifier: 'codeVerifier',
+    codeChallenge: 'codeChallenge',
+    codeChallengeMethod: 'codeChallengeMethod',
+    provider: 'custom',
+    customProvider: 'LinkedIn'
   }
+  
 
-
+async login(){
+ const authSession = await fetchAuthSession(this.fetchAuthSessionOptions);
+  console.log(authSession)
+}
   async handleSignIn(user: IUser): Promise<{ response?: SignInOutput; error?: AuthError }> {
     try {
       const login: SignInInput = {

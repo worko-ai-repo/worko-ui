@@ -21,6 +21,7 @@
     "@angular/platform-browser-dynamic": "^16.2.0",
     "@angular/router": "^16.2.0",
     "@aws-amplify/auth": "^6.0.25",
+    
     "@ng-bootstrap/ng-bootstrap": "^15.1.2",
     "@popperjs/core": "^2.11.6",
     "@types/jquery": "^3.5.29",
