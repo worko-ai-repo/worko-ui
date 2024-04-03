@@ -14,9 +14,9 @@ export class EmployeeReferralComponent {
   emailAddress: any = "";
   userId: any;
   userName: any;
-  firstName:any;
-  lastName:any;
-  reviewData: any = [];
+  firstName: any;
+  lastName: any;
+  reviewData: any = null;
   empdetailsList: any = "";
   empEducationList: any = "";
   empExperienceList: any = "";
@@ -107,7 +107,7 @@ export class EmployeeReferralComponent {
   }
 
   showReferralDetails(data: any) {
-    this.reviewData = [];
+    this.reviewData = null;
     this.selectedReferral = data;
     const selectedEmail = this.getSlicedValue(this.selectedReferral.PK);
     console.log(selectedEmail);
@@ -150,22 +150,24 @@ export class EmployeeReferralComponent {
   async rejectAction(action: string, data: any) {
     let rejectReasonsData = data;
     console.log("rejectReasonsData");
-    // const userId = this.userId;
-    // const payload = {
-    //   "userId": userId,
-    //   "action": action,
-    //   "emailId": this.emailAddress
-    // }
-    // let referralId = this.getSlicedValue(this.selectedReferral.SK);
-    // await this.empService.updateReferralStatus(referralId, payload).then(async (response) => {
-    //   if (response) {
-    //     console.log(response);
-    //   }
-    // })
+    const userId = this.userId;
+    const payload = {
+      "userId": userId,
+      "action": action,
+      "emailId": this.emailAddress,
+      "reason": rejectReasonsData.rejectTitle,
+      "userComment": rejectReasonsData.rejectComments
+    }
+    let referralId = this.getSlicedValue(this.selectedReferral.SK);
+    await this.empService.updateReferralStatus(referralId, payload).then(async (response) => {
+      if (response) {
+        console.log(response);
+      }
+    })
 
   }
 
-  splitName(userName:any) {
+  splitName(userName: any) {
     const splitName = userName.split(' ');
     this.firstName = splitName[0];
     this.lastName = splitName.length > 1 ? splitName[splitName.length - 1] : null;
@@ -219,7 +221,12 @@ export class EmployeeReferralComponent {
 
         });
       }
-    })
+    }).catch((error: any) => {
+      this.reviewData = [];
+
+      console.log(error);
+    }
+    );
 
 
   }

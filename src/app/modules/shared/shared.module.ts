@@ -73,6 +73,9 @@ import { ReferralRejectDetailsPopupComponent } from './components/user-interface
 import { PayCardModalComponent } from './components/pay-card-modal/pay-card-modal.component';
 import { ReferralRejectedPopupComponent } from './components/user-interface/employee/referral/referral-rejected-popup/referral-rejected-popup.component';
 import { RaiseIssueComponent } from './components/user-interface/referral/referral-reusable-button/raise-issue/raise-issue.component';
+import { WithdrawReferralComponent } from './components/user-interface/referral/referral-reusable-button/withdraw-referral/withdraw-referral.component';
+import { WithdrawReferralPopupComponent } from './components/user-interface/referral/withdraw-referral-popup/withdraw-referral-popup.component';
+import { ProvideFeedbackComponent } from './components/user-interface/referral/referral-reusable-button/provide-feedback/provide-feedback.component';
 
 export const routes: Routes = [
 
@@ -111,7 +114,8 @@ export const routes: Routes = [
     ReferralSeeReviewPopupComponent,
     ReferralRejectDetailsPopupComponent,
     PayCardModalComponent,
-    RaiseIssueComponent
+    RaiseIssueComponent,
+    WithdrawReferralPopupComponent,
 
     // DoneServiceComponent,
     // CancelledServiceComponent,
@@ -170,7 +174,8 @@ export const routes: Routes = [
   ReferralSeeReviewPopupComponent,
   ReferralRejectDetailsPopupComponent,
   PayCardModalComponent,
-  RaiseIssueComponent
+  RaiseIssueComponent,
+  WithdrawReferralPopupComponent
 
 
   ],

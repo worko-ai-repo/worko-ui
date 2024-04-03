@@ -1,0 +1,106 @@
+.popup-card {
+    // border-radius: 12.69px;
+    height: 100%;
+    width: 100%;
+    // border: 0.634px solid rgba(87, 225, 255, 0.18);
+    background: rgba(10, 30, 54, 0.96);
+    backdrop-filter: blur(11.516115188598633px);
+}
+
+.popup-card,
+h6 {
+    color: #FFF;
+    text-align: center;
+    font-feature-settings: 'clig' off, 'liga' off;
+    // font-family: Nunito;
+    font-size: 20.689px;
+    font-style: normal;
+    font-weight: 600;
+    line-height: normal;
+}
+
+.select-options {
+    border-radius: 11px;
+    border: 1px solid rgba(87, 225, 255, 1) !important;
+    background: #0A1E35;
+    font-size: 15px;
+    color: white;
+    width: 203px;
+}
+
+.select-options:focus {
+    outline: none;
+    border: 1px solid rgba(87, 225, 255, 1) !important;
+}
+
+
+.write-comment {
+    border-radius: 11px;
+    border: 1px solid rgba(87, 225, 255, 1);
+    background: #0A1E35;
+    font-size: 15px;
+    color: white;
+    width: 203px;
+    height: 70px;
+}
+
+.write-comment::placeholder {
+    color: white;
+}
+
+.write-comment:focus {
+    outline: none;
+    border: 1px solid rgba(87, 225, 255, 1) !important;
+}
+
+.btn-div {
+    display: flex;
+    justify-content: center;
+}
+
+.btn-submit {
+    border-radius: 10px;
+    border: 2px solid #E64B4D;
+    color: #E64B4D;
+    background: transparent;
+    width: max-content;
+    font-size: 15px;
+    width: 120px;
+    color: #E64B4D;
+}
+
+ngb-rating {
+    color: #FFC107;
+    font-size: 45px;
+}
+
+.card-content {
+    height: 100%;
+    width: 100%;
+    padding: 40px;
+}
+
+.card-title {
+    display: flex;
+    justify-content: center;
+    text-align: center;
+    line-height: 27px;
+    margin-top: 8px;
+}
+
+.input-heading {
+    display: flex;
+    justify-content: flex-start;
+}
+
+.warning-icon-div {
+    width: 100%;
+    height: fit-content;
+    display: flex;
+    justify-content: center;
+}
+
+.warning-icon-div img {
+    height: 70px;
+    width: 70px;
+}

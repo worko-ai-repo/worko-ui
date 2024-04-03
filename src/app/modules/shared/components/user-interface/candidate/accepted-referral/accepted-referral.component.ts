@@ -6,7 +6,8 @@ import { Component, EventEmitter, Output, Input,  } from '@angular/core';
 })
 export class AcceptedReferralComponent {
   @Input() userType:any;
-  @Input() selectedReferral: any;
+  @Input() selectedReferral:any;
+  @Input() refereeDetails:any;
   @Output() markAsDone = new EventEmitter<any>();
   @Output() referralRating = new EventEmitter<any>();
   @Output() raiseIssue = new EventEmitter<any>();

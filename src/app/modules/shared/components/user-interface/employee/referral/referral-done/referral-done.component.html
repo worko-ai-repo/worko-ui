@@ -14,7 +14,7 @@
         <div class="row d-flex justify-content-center mb-5">
             <div class="col-md-10 mt-3">
                 <div class="ref-candidate-card">
-                        <div class="row">
+                        <div class="row" style="height: 185px;">
                             <div class="col-md-6">
                                 <div>
                                     <img style="height: 100px; width: 100px; border-radius: 50%; object-fit: cover;" class="m-2
@@ -36,7 +36,21 @@
                                 </p>
                             </div>
 
-                            <div class="col-md-6" *ngIf="!(reviewData?.length>0)">
+                            <!-- <div class="col-md-6" *ngIf="!reviewData" style="height: 70px;">
+                                <div class="ms-5 mt-3">
+                                    <div class="review-rating">
+                                        
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="col-md-12" *ngIf="!reviewData" style="height: 70px;">
+                                <p class="ref-candidate-para d-flex justify-content-center p-3">
+                                    
+                                </p>
+                            </div> -->
+
+                            <div class="col-md-6" *ngIf="reviewData?.length === 0">
                                 <div class="ms-5 mt-3">
                                     <div class="review-rating">
                                         <ngb-rating [max]="5" [rate]="finalRating" [readonly]="true"></ngb-rating>
@@ -44,7 +58,7 @@
                                 </div>
                             </div>
 
-                            <div class="col-md-12" *ngIf="!(reviewData?.length>0)">
+                            <div class="col-md-12" *ngIf="reviewData?.length === 0">
                                 <p class="ref-candidate-para d-flex justify-content-center p-3">
                                     “ {{noReviewReceived}} ” 
                                 </p>

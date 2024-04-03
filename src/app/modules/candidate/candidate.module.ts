@@ -51,6 +51,9 @@ import { MarkAsDoneComponent } from '../shared/components/user-interface/referra
 import { RaiseIssueComponent } from '../shared/components/user-interface/referral/referral-reusable-button/raise-issue/raise-issue.component';
 import { NewRequestBtnComponent } from '../shared/components/user-interface/referral/referral-reusable-button/new-request-btn/new-request-btn.component';
 import { SeeReviewComponent } from '../shared/components/user-interface/referral/referral-reusable-button/see-review/see-review.component';
+import { WithdrawReferralComponent } from '../shared/components/user-interface/referral/referral-reusable-button/withdraw-referral/withdraw-referral.component';
+import { ProvideFeedbackComponent } from '../shared/components/user-interface/referral/referral-reusable-button/provide-feedback/provide-feedback.component';
+
 
 
 export const routes: Routes = [
@@ -140,6 +143,8 @@ export const routes: Routes = [
    MarkAsDoneComponent,
    NewRequestBtnComponent,
    SeeReviewComponent,
+   ProvideFeedbackComponent,
+   WithdrawReferralComponent,
    ReferralStepperComponent,
    AwaitingServiceComponent,
    CancelledServiceComponent,
