@@ -4,9 +4,8 @@ import { CognitoService } from 'src/app/modules/services/cognito.service';
 import { StorageService } from 'src/app/modules/app-core/services/storage.service';
 import { Hub } from 'aws-amplify/utils';
 import 'aws-amplify/auth/enable-oauth-listener';
-import {  getCurrentUser, AuthUser} from 'aws-amplify/auth';
-
-
+// import {  getCurrentUser, AuthUser} from 'aws-amplify/auth';
+import { signInWithRedirect,fetchAuthSession, SignInOutput, getCurrentUser, signIn, type SignInInput, signOut, signUp, confirmSignUp, type ConfirmSignUpInput, AuthError } from 'aws-amplify/auth';
 
 @Component({
   selector: 'app-worko-auth',
@@ -31,34 +30,7 @@ export class WorkoAuthComponent  {
 
 
   ) {
-   
 
-    
-    // Hub.listen("auth", async (data) => {
-    //   debugger
-    //   const { payload } = data;
-    //   switch (payload.event) {
-    //     case "signInWithRedirect":
-    //       const user = await getCurrentUser();
-    //       console.log(user.username);
-    //       break;
-    //     case "signInWithRedirect_failure":
-    //       // handle sign in failure
-    //       break;
-    //       case "signedIn":
-    //         break;
-
-    //     case "customOAuthState":
-    //       const state = payload.data; // this will be customState provided on signInWithRedirect function
-    //       console.log(state);
-    //       break;
-    //   }
-    //   });
-    // Hub.listen("auth", ({ payload: { event } }) => {
-    //   if (event === "signInWithRedirect" || event === "signedIn") {
-    //     console.log(event);
-    //   }
-    // });
   }
   
  
@@ -73,67 +45,60 @@ export class WorkoAuthComponent  {
      this.code = params['code'];
       console.log('Code:', this.code);
       
-      debugger
-      Hub.listen("auth", async ({ payload }) => {
-        switch (payload.event) {
-          case "signInWithRedirect":
-            const user = await getCurrentUser();
-            console.log(user.username);
-            break;
-          case "signInWithRedirect_failure":
-            // handle sign in failure
-            break;
-          case "customOAuthState":
-            const state = payload.data; // this will be customState provided on signInWithRedirect function
-            console.log(state);
-            break;
-        }
-        });
-        
-    
-
-     
-     
-
-
+      // debugger
+      // Hub.listen("auth", async ({ payload }) => {
+      //   switch (payload.event) {
+      //     case "signInWithRedirect":
+      //       const user = await getCurrentUser();
+      //       console.log(user.username);
+      //       break;
+      //     case "signInWithRedirect_failure":
+      //       // handle sign in failure
+      //       break;
+      //     case "customOAuthState":
+      //       const state = payload.data; // this will be customState provided on signInWithRedirect function
+      //       console.log(state);
+      //       break;
+      //   }
+      //   });
       
     });
-    debugger
+    // debugger
   
-    const data="hi"
-    const listener = (data: any) => {
-      console.log(data);
-    };
+    // const data="hi"
+    // const listener = (data: any) => {
+    //   console.log(data);
+    // };
     
-    Hub.listen('auth', listener =>{
-      if(data==='hi'){
-        console.log("hi")
-      }
-    });
+    // Hub.listen('auth', listener =>{
+    //   if(data==='hi'){
+    //     console.log("hi")
+    //   }
+    // });
     
   // this.checkRedirection();
 
  }
 
 
-  async linkdinlogin(){
+//   async linkdinlogin(){
    
-  Hub.listen("auth", async ({ payload }) => {
-    switch (payload.event) {
-      case "signInWithRedirect":
-        const user = await getCurrentUser();
-        console.log(user.username);
-        break;
-      case "signInWithRedirect_failure":
-        // handle sign in failure
-        break;
-      case "customOAuthState":
-        const state = payload.data; // this will be customState provided on signInWithRedirect function
-        console.log(state);
-        break;
-    }
-    });
-}
+//   Hub.listen("auth", async ({ payload }) => {
+//     switch (payload.event) {
+//       case "signInWithRedirect":
+//         const user = await getCurrentUser();
+//         console.log(user.username);
+//         break;
+//       case "signInWithRedirect_failure":
+//         // handle sign in failure
+//         break;
+//       case "customOAuthState":
+//         const state = payload.data; // this will be customState provided on signInWithRedirect function
+//         console.log(state);
+//         break;
+//     }
+//     });
+// }
 
 
   /**

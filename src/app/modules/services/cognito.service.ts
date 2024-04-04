@@ -8,7 +8,27 @@ import { NavbarToggleSwitchService } from '../candidate/services/navbar-toggle-s
 import axios from 'axios';
 import { Hub } from 'aws-amplify/utils';
 
-// import { confirmSignUp, ConfirmSignUpInput } from 'aws-amplify/auth';
+
+Hub.listen("auth", async ({ payload }) => {
+  switch (payload.event) {
+    case "signInWithRedirect":
+      const user = await getCurrentUser();
+      console.log("inside hub cognito service - signInWithRedirect");
+      console.log(user);
+      const { accessToken, idToken } = (await fetchAuthSession()).tokens ?? {};
+      console.log(accessToken);
+      console.log(idToken);
+      break;
+    case "signInWithRedirect_failure":
+      // handle sign in failure
+      break;
+    case "customOAuthState":
+      const state = payload.data; // this will be customState provided on signInWithRedirect function
+      console.log(state);
+      break;
+  }
+});
+
 export interface IUser {
   email: string;
   password: string;
@@ -34,6 +54,8 @@ export class CognitoService {
     Amplify.configure(awsamplify.config);
 
     this.authenticationSubject = new BehaviorSubject<boolean>(false);
+    
+    
   }
 
 //   async handleRedirectSignIn(){
@@ -54,11 +76,6 @@ export class CognitoService {
    const res= signInWithRedirect({provider}).then(()=>{
       Hub.dispatch('auth', { event: 'signInWithRedirect_success',data:res})
     });
-
-  
-
-    // Trigger an event indicating successful sign-in with redirect
-   
  
 }
   //}
@@ -242,7 +259,5 @@ async login(){
     this.storage.remove("isEmployeeDashboardEnabled");
     this.navbarToggleSwitch.toggleStatusFalse();
   }
-
-
   
 }

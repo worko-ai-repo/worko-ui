@@ -732,10 +732,7 @@ export class LoginPageComponent implements AfterViewInit, OnDestroy {
 //   }
 // });]
 
-this.amplify.handleSocialSignIn()
-
-
-
+  this.amplify.handleSocialSignIn()
 
   }
 
