@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { BehaviorSubject } from 'rxjs';
-import { signInWithRedirect,fetchAuthSession, SignInOutput, getCurrentUser, signIn, type SignInInput, signOut, signUp, confirmSignUp, type ConfirmSignUpInput, AuthError } from 'aws-amplify/auth';
+import { signInWithRedirect,fetchAuthSession,SignInOutput, getCurrentUser, signIn, type SignInInput, signOut, signUp, confirmSignUp, type ConfirmSignUpInput, AuthError } from 'aws-amplify/auth';
 import { Amplify } from 'aws-amplify';
 import * as awsamplify from './../../../../amplify-config'
 import { StorageService } from '../app-core/services/storage.service';
@@ -9,25 +9,29 @@ import axios from 'axios';
 import { Hub } from 'aws-amplify/utils';
 
 
-Hub.listen("auth", async ({ payload }) => {
-  switch (payload.event) {
-    case "signInWithRedirect":
-      const user = await getCurrentUser();
-      console.log("inside hub cognito service - signInWithRedirect");
-      console.log(user);
-      const { accessToken, idToken } = (await fetchAuthSession()).tokens ?? {};
-      console.log(accessToken);
-      console.log(idToken);
-      break;
-    case "signInWithRedirect_failure":
-      // handle sign in failure
-      break;
-    case "customOAuthState":
-      const state = payload.data; // this will be customState provided on signInWithRedirect function
-      console.log(state);
-      break;
-  }
-});
+// Hub.listen("auth", async ({ payload }) => {
+//   switch (payload.event) {
+//     case "signInWithRedirect" :
+//       const user = await getCurrentUser();
+//       console.log("inside hub cognito service - signInWithRedirect");
+//       console.log(user);
+//       const { accessToken, idToken } = (await fetchAuthSession()).tokens ?? {};
+//       console.log(accessToken);
+//       console.log(idToken);
+      
+      
+//       break;
+//     case "signInWithRedirect_failure":
+//       // handle sign in failure
+     
+//       break;
+//     case "customOAuthState":
+//       const state = payload.data; // this will be customState provided on signInWithRedirect function
+//       console.log(state);
+//       break;
+//   }
+// });
+
 
 export interface IUser {
   email: string;
@@ -54,6 +58,30 @@ export class CognitoService {
     Amplify.configure(awsamplify.config);
 
     this.authenticationSubject = new BehaviorSubject<boolean>(false);
+    Hub.listen("auth", async ({ payload }) => {
+        switch (payload.event) {
+          case "signInWithRedirect" :
+            const user = await getCurrentUser();
+            console.log("inside hub cognito service - signInWithRedirect");
+            console.log(user);
+            const { accessToken, idToken } = (await fetchAuthSession()).tokens ?? {};
+            console.log(accessToken);
+            console.log(idToken);
+            this.storage
+            
+            
+            break;
+          case "signInWithRedirect_failure":
+            // handle sign in failure
+           
+            break;
+          case "customOAuthState":
+            const state = payload.data; // this will be customState provided on signInWithRedirect function
+            console.log(state);
+            break;
+        }
+      });
+      
     
     
   }
@@ -236,7 +264,7 @@ async login(){
     // const accessToken = await this.keycloakService.getToken();
     // const accessToken = (await fetchAuthSession()).tokens?.idToken?.toString();
     const { accessToken, idToken } = (await fetchAuthSession()).tokens ?? {};
-
+    console.log(accessToken)
     if (!accessToken) {
       this.storage.remove('accessToken');
       return false;
