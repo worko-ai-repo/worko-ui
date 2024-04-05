@@ -61,7 +61,6 @@ export class WorkoAuthComponent  {
     _cognitoClientId='5evf019rrkaijtnjf2j1vvdf33'
    
   ngOnInit(): void {
-    debugger
    const usertype=this.storage.get('LinkedinUserType') ;
    console.log(usertype)
    if(usertype==='employeeSignUp'){
@@ -77,14 +76,16 @@ export class WorkoAuthComponent  {
  }
 
  employeeSignUp(){
-  const getUserAttributes = async ({ userAttributes}: { userAttributes: any }) => {
-    // Note that return type has changed from array to object
-    const attributes = await fetchUserAttributes();
-    console.log(attributes)
-  }
+  // const getUserAttributes = async ({ userAttributes}: { userAttributes: any }) => {
+  //   // Note that return type has changed from array to object
+  //   const attributes = await fetchUserAttributes();
+  //   console.log(attributes)
+
+  // }
+  this.router.navigate(['/auth/employeecompleteSignUp']);
  }
  async candidateSignUp(){
-  debugger
+  this.router.navigate(['/auth/candidatecompleteSignUp']);
   
   // const getCurrentUserInfo = async () => {
     

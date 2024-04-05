@@ -3,6 +3,8 @@ import { CommonModule } from '@angular/common';
 import { RouterModule, Routes } from '@angular/router';
 import { WorkoAuthComponent } from './components/worko-auth/worko-auth.component';
 import { CreateUserComponent } from './components/create-user/create-user.component';
+import { CreateCandidateComponent } from './components/create-candidate/create-candidate.component';
+import { CreateEmployeeForLinkedinComponent } from './components/create-employee-for-linkedin/create-employee-for-linkedin.component';
 
 export const routes: Routes = [
   // {
@@ -23,6 +25,16 @@ export const routes: Routes = [
    
   },
  
+  {
+    path: 'candidatecompleteSignUp',
+    component: CreateCandidateComponent,
+   
+  },
+  {
+    path: 'employeecompleteSignUp',
+    component: CreateEmployeeForLinkedinComponent,
+   
+  },
 
  {
   path: 'logout',
@@ -35,6 +47,8 @@ export const routes: Routes = [
   declarations: [
     WorkoAuthComponent,
     CreateUserComponent,
+    CreateCandidateComponent,
+    CreateEmployeeForLinkedinComponent,
 
   ],
   imports: [
