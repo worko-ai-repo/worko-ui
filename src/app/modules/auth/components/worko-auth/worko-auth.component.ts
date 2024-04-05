@@ -1,10 +1,10 @@
-import { Component, OnInit } from '@angular/core';
+import { Attribute, Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { CognitoService } from 'src/app/modules/services/cognito.service';
 import { StorageService } from 'src/app/modules/app-core/services/storage.service';
 import { Hub } from 'aws-amplify/utils';
 import 'aws-amplify/auth/enable-oauth-listener';
-import {  getCurrentUser, AuthUser} from 'aws-amplify/auth';
+import {  getCurrentUser, AuthUser, fetchUserAttributes, fetchAuthSession} from 'aws-amplify/auth';
 
 
 
@@ -15,12 +15,6 @@ import {  getCurrentUser, AuthUser} from 'aws-amplify/auth';
 })
 export class WorkoAuthComponent  {
 
-  accessToken:any;
- 
-  // Payload = {
-  //   event: ""
-    
-  // };
 
   constructor(
     private router: Router,
@@ -67,11 +61,66 @@ export class WorkoAuthComponent  {
     _cognitoClientId='5evf019rrkaijtnjf2j1vvdf33'
    
   ngOnInit(): void {
-    
+    debugger
+   const usertype=this.storage.get('LinkedinUserType') ;
+   console.log(usertype)
+   if(usertype==='employeeSignUp'){
+    this.employeeSignUp()
+   }else if(usertype==='candidateSignUp'){
+    this.candidateSignUp()
+
+   }else{
+    this.signIn()
+   }
   
 
  }
 
+ employeeSignUp(){
+  const getUserAttributes = async ({ userAttributes}: { userAttributes: any }) => {
+    // Note that return type has changed from array to object
+    const attributes = await fetchUserAttributes();
+    console.log(attributes)
+  }
+ }
+ async candidateSignUp(){
+  debugger
+  
+  // const getCurrentUserInfo = async () => {
+    
+  //   const {
+  //     username,
+  //     userId: id
+  //   } = await getCurrentUser();
+  
+  //   const attributes = fetchUserAttributes();
+  
+  //   return {
+  //     id,
+  //     username,
+  //     attributes
+  //   };
+  // }
+
+ 
+   
+      const {
+          tokens,
+         
+          userSub
+      } = await fetchAuthSession();
+  
+     console.log(tokens?.idToken?.payload['email'])
+    
+  }
+
+ signIn(){
+  const getUserAttributes = async ({ }) => {
+    // Note that return type has changed from array to object
+    const attributes = await fetchUserAttributes();
+    console.log(attributes)
+  }
+ }
 
 
 
@@ -150,50 +199,50 @@ export class WorkoAuthComponent  {
 
 
 	
-  private async handleCodeFlow() {
-    const oAuthTokenEndpoint = `https://worko.auth.ap-south-1.amazoncognito.com/oauth2/token`;
-    const body = new URLSearchParams({
-        grant_type: 'authorization_code',
-        code:this.code,
-        client_id: this._cognitoClientId ,
+//   private async handleCodeFlow() {
+//     const oAuthTokenEndpoint = `https://worko.auth.ap-south-1.amazoncognito.com/oauth2/token`;
+//     const body = new URLSearchParams({
+//         grant_type: 'authorization_code',
+//         code:this.code,
+//         client_id: this._cognitoClientId ,
        
-        redirect_uri:'http://localhost:4200/auth/checkRedirection' 
+//         redirect_uri:'http://localhost:4200/auth/checkRedirection' 
         
        
-      });
+//       });
 
-const response = await fetch(oAuthTokenEndpoint, {
-  method: 'POST',
-  headers: {
-      'Content-Type': 'application/x-www-form-urlencoded',
-    },
-  body: body
-});
+// const response = await fetch(oAuthTokenEndpoint, {
+//   method: 'POST',
+//   headers: {
+//       'Content-Type': 'application/x-www-form-urlencoded',
+//     },
+//   body: body
+// });
 
-const responseData = await response.json();
-if (response.ok) {
-  const { access_token, refresh_token, id_token } = responseData;
-  //this.storage.set('accessToken', this.accessToken);
-  this.accessToken=await this.storage.set('accessToken', access_token)
-  console.log(this.accessToken)
+// const responseData = await response.json();
+// if (response.ok) {
+//   const { access_token, refresh_token, id_token } = responseData;
+//   //this.storage.set('accessToken', this.accessToken);
+//   this.accessToken=await this.storage.set('accessToken', access_token)
+//   console.log(this.accessToken)
 
-  // this.fetchLinkedinData();
-  this.router.navigate(['/auth/fetch-data']);
-  return {
-      accessToken: access_token,
-      refreshToken: refresh_token,
-      idToken: id_token,
+//   // this.fetchLinkedinData();
+//   this.router.navigate(['/auth/fetch-data']);
+//   return {
+//       accessToken: access_token,
+//       refreshToken: refresh_token,
+//       idToken: id_token,
      
      
-  };
+//   };
  
   
-} else {
-  throw new Error(responseData.error);
-}
+// } else {
+//   throw new Error(responseData.error);
+// }
 
  
-}
+// }
 
 
 

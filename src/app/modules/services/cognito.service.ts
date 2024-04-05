@@ -64,10 +64,17 @@ export class CognitoService {
             const user = await getCurrentUser();
             console.log("inside hub cognito service - signInWithRedirect");
             console.log(user);
-            const { accessToken, idToken } = (await fetchAuthSession()).tokens ?? {};
-            console.log(accessToken);
-            console.log(idToken);
-            this.storage
+            this.setAccessToken()
+            // const { accessToken, idToken } = (await fetchAuthSession()).tokens ?? {};
+            // console.log(accessToken);
+            // console.log(idToken);
+            // if (!accessToken) {
+            //   this.storage.remove('accessToken');
+            //   return false;
+            // }
+        
+            // this.storage.set('accessToken', accessToken.toString());
+            // return true;
             
             
             break;
