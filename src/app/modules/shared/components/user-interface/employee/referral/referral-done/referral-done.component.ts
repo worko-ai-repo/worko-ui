@@ -1,11 +1,11 @@
-import { Component, EventEmitter, Input, Output } from '@angular/core';
+import { Component, EventEmitter, Input, OnChanges, Output } from '@angular/core';
 
 @Component({
   selector: 'app-referral-done',
   templateUrl: './referral-done.component.html',
   styleUrls: ['./referral-done.component.scss']
 })
-export class ReferralDoneComponent {
+export class ReferralDoneComponent implements OnChanges {
 
   @Output() onSuccess: EventEmitter<any> = new EventEmitter<any>();
   @Output() raiseIssue: EventEmitter<any> = new EventEmitter<any>();
@@ -21,6 +21,7 @@ export class ReferralDoneComponent {
   candidateName:any;
 
   ngOnChanges() {
+    console.log(this.selectedReferral);
     if(this.empdetailsList?.length > 0)
     {
       this.candidateName = this.empdetailsList[0].name;

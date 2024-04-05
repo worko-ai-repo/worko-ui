@@ -28,7 +28,8 @@
                     <div>{{empEducationList[0]?.degree}} , {{empEducationList[0]?.collage}} </div>
                     <div class="pt-1">Role Applied : SDE-1(Backend)</div>
                     <div class="pt-1">Experience: 2+ years</div>
-                    <div class="pt-1">Job Description: Link</div>
+                    <div class="pt-1">Job Description: <span class="text-white"><a href="{{selectedReferral?.jobUrl}}"
+                        target="_blank">Link</a></span></div>
                 </div>
             </div>
         </div>
@@ -43,7 +44,8 @@
                         </svg>
                         <div class="m-0 p-0 referral-text">Referral Score : {{empdetailsList[0]?.referralCount}} </div>
                         <div href="" class="m-0 p-0 view-details">View detailed Analysis</div>
-                        <button class="btn-cv mt-2">View CV</button>
+                        <button class="btn-cv mt-2" [hidden]="!empdetailsList[0].cvAwsS3SignedUrl" (click)="openfile($event)">view CV</button>
+                        
                     </div>
                 </div>
             </div>
@@ -100,12 +102,6 @@
             </div>
         </div>
 
-
-
-
-
-
-
     </div>
 
     <app-modal [theme]="'theme-k'" [centered]="true" [showHeader]="showModal === modalType.MESSAGE" [showClose]="true"
@@ -114,6 +110,10 @@
 
         <ng-container *ngIf="showModal === modalType.REJECTED_REQUEST">
             <app-referral-rejected-popup (onSuccess)="receiveDataFromChild($event)"></app-referral-rejected-popup>
+        </ng-container>
+
+        <ng-container *ngIf="showModal === modalType.CONFIRMATION_DIALOG">
+            <app-confirmation-dialog-popup [action]="action" (onSuccess)="acceptRequest()" (onCancel)="closeModal()"></app-confirmation-dialog-popup>
         </ng-container>
 
     </app-modal>

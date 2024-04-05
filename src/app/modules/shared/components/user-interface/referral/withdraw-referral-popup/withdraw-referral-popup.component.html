@@ -6,7 +6,8 @@
             <h4 class="card-title mb-4">Withdraw Referral Request!</h4>
 
             <div>
-                <h6 class="input-heading">Reason<span style="color: white;">*</span></h6>
+                <!-- <h6 class="input-heading">Reason<span style="color: white;">*</span></h6> -->
+                <h6 for="" class="input-heading form-lable required-form-field">Reason</h6>
                 <select style="width: 100%;" class="select-options p-2" [formControl]="reasonControl">
                     <option value="" disabled selected>Select Reason</option>
                     <option value="Got referral from somewhere else">Got referral from somewhere else</option>
@@ -25,8 +26,8 @@
                 </div>
             </div>
 
-            <div class="btn-div mt-3" style="width: 100%;">
-                <button class="btn-submit p-2" (click)="withdrawSubmitBtn()" [disabled]="!reasonControl.valid">Submit</button>
+            <div class="mt-2">
+                <button style="width: 100%;" class="btn-submit p-2" (click)="withdrawSubmitBtn()" [disabled]="!reasonControl.valid">Submit</button>
             </div>
 
         </div>

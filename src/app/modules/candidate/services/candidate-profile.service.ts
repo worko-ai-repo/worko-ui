@@ -76,6 +76,9 @@ export class CandidateProfileService {
     return this.http.post(API_URL + `support/`, data,this.authService.getHttpOptions() ).toPromise();
   }
 
+  withdrawReferral(emailAddress:string, status: string, referralId: string, data:any) {
+    return this.http.put(`${API_URL}user/${emailAddress}/referral/${referralId}/${status}`, data,this.authService.getHttpOptions() ).toPromise();
+  }
 
   /*************Services API */
 

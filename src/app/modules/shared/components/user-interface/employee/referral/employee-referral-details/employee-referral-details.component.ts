@@ -19,15 +19,18 @@ export class EmployeeReferralDetailsComponent implements OnChanges {
   @Input() empCoreSkillsDetails: any = {};
   @Input() empExperienceDetails: any = {};
   @Input() selectedStatus: any;
+  @Input() selectedReferral:any;
   @Output() onAccept = new EventEmitter<any>();
   @Output() onReject = new EventEmitter<any>();
   showCard: boolean = false;
+  action:string = "";
   profileImage: any;
   @ViewChild(ModalComponent) modal!: ModalComponent;
   modalType = ModalType;
   modalMessage: string = "";
   modalTitle: string = "";
   showModal: ModalType | undefined;
+  
 
   // selectedStatus!: string; 
 
@@ -38,8 +41,9 @@ export class EmployeeReferralDetailsComponent implements OnChanges {
   //   }
 
   acceptBtn() {
-    // Handle the accept logic
-    this.onAccept.emit();
+    // Handling the accept logic here
+    this.action = "accept";
+    this.openModal(ModalType.CONFIRMATION_DIALOG);
     console.log('Accepted');
   }
 
@@ -60,6 +64,7 @@ export class EmployeeReferralDetailsComponent implements OnChanges {
     console.log(this.empdetailsList[0]?.ECTC);
     console.log(this.empCoreSkillsDetails[0]?.coreSkills);
     console.log(this.empCoreSkillsDetails[0]?.certifications);
+    console.log(this.selectedReferral);
     console.log(this.selectedStatus);
 
     if (this.empdetailsList?.length > 0) {
@@ -94,8 +99,24 @@ export class EmployeeReferralDetailsComponent implements OnChanges {
   }
 
   receiveDataFromChild(data:any) {
-    this.onReject.emit(data);
     this.closeModal();
+    this.onReject.emit(data);
+  }
+
+  acceptRequest() {
+    this.closeModal();
+    this.action = "";
+    this.onAccept.emit();
+  }
+
+  openfile(event: { preventDefault: () => void; }){
+    event.preventDefault(); 
+  // console.log(this.docResult.awsS3SignedUrl)
+   
+   
+    //window.open(this.docResult.awsS3SignedUrl,'_blank')
+    window.open(this.empdetailsList[0]?.cvAwsS3SignedUrl,'_blank')
+    
   }
 
 }

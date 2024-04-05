@@ -64,7 +64,9 @@ export class ReferralComponent implements OnInit {
     this.selectedReferral = data;
     this.refereeDetails = "";
     this.getRefereeDetials(this.selectedReferral);
+    if(this.selectedStatus == 'DONE') {
     this.getReferralReview(this.selectedReferral);
+    }
   }
 
   getSlicedValue(value: string): string {
@@ -176,8 +178,28 @@ export class ReferralComponent implements OnInit {
 
   }
 
+  async withdrawReferralRequest(data: any) {
+    
+    let referralId = this.getSlicedValue(this.selectedReferral.SK);
+    let payload = {
+      "reason": data.withdrawReason,
+      "userComment": data.withdrawComments, 
+    }
+
+    await this.candidateSrv.withdrawReferral(this.emailAddress, "WITHDRAWN", referralId, payload).then(async (response) => {
+      if (response) {
+        this.getReferral();
+        console.log(response);
+      }
+    })
+
+  }
+
+
+
   referralWithdraw(data: any) {
     console.log(data);
+    this.withdrawReferralRequest(data);
   }
 
   referralRaiseIssue(data: any) {

@@ -5,6 +5,8 @@ import { Component, EventEmitter, Output, Input, OnInit, OnChanges } from '@angu
   styleUrls: ['./awaiting-status.component.scss']
 })
 export class AwaitingStatusComponent implements OnChanges {
+
+  @Input() userType:any;
   @Output() statusSelected = new EventEmitter<string>();
   @Input() referralList:any;
   @Output() showReferralDetails = new EventEmitter<string>();

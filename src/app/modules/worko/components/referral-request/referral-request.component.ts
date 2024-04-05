@@ -1,4 +1,4 @@
-import { Component, ElementRef, OnInit, ViewChild, Input, SimpleChanges  } from '@angular/core';
+import { Component, ElementRef, OnInit, ViewChild, Input, OnChanges, SimpleChanges } from '@angular/core';
 import { CompanyListingService } from '../../services/company-listing.service';
 import { SubscriptionPackService } from '../../services/subscription-pack.service';
 import { StorageService } from 'src/app/modules/app-core/services/storage.service';
@@ -8,12 +8,12 @@ import { FormBuilder, FormGroup, Validators } from '@angular/forms';
   templateUrl: './referral-request.component.html',
   styleUrls: ['./referral-request.component.scss']
 })
-export class ReferralRequestComponent implements OnInit {
+export class ReferralRequestComponent implements OnInit, OnChanges {
   @ViewChild('largeModal') largeModal!: ElementRef;
 
   @Input() selectedCompany: any;
 
-  showSubscription:boolean=false;
+  showSubscription: boolean = false;
   showReferrelRow: boolean = true;
   showContent: boolean = true;
   showLoading: boolean = false;
@@ -39,11 +39,15 @@ export class ReferralRequestComponent implements OnInit {
   matchingScore: number = 0;
   referralRequestId: string = "";
   emailId: string = "";
-  constructor(private companyListing: CompanyListingService , private subscriptionPack : SubscriptionPackService, private storage: StorageService,private formBuilder: FormBuilder,) { }
+  constructor(private companyListing: CompanyListingService, private subscriptionPack: SubscriptionPackService, private storage: StorageService, private formBuilder: FormBuilder,) { }
   ngOnInit(): void {
     // this.getSubcriptionPack();
     this.initializeForm();
     this.emailId = this.storage.get("useremail");
+  }
+
+  ngOnChanges() {
+    console.log(this.selectedCompany);
   }
   initializeForm(): void {
     this.requestForm = this.formBuilder.group({
@@ -70,10 +74,17 @@ export class ReferralRequestComponent implements OnInit {
     }
   }
 
+  getSlicedValue(value: string): string {
+    let parts = value.split('#');
+    return parts.length > 1 ? parts[1] : '';
+  }
+
   createRequest() {
-    
+
+    let companyId = this.getSlicedValue(this.selectedCompany.SK);
+
     let data = {
-      "companySK": this.selectedCompany.SK,
+      "companyId": companyId,
       "jobUrl": this.requestForm.value.jobUrl,
       "jdExtracted": this.requestForm.value.jobDescription
     }
@@ -115,25 +126,25 @@ export class ReferralRequestComponent implements OnInit {
   //       next: (response) => {
   //         console.log(response);
   //          this.subscriptionList = response.data;
-          
+
   //       },
   //       error: (error) => {
   //         debugger;
   //         console.error(error);
-          
-          
+
+
   //       },
   //       complete: () => {
-         
+
   //       }
   //     });
   //   }
 
-  receiveDataFromChild(data: any){
+  receiveDataFromChild(data: any) {
     alert("payment done")
   }
 
-  receieveError(data: any){
+  receieveError(data: any) {
     alert("payment failed")
   }
 
