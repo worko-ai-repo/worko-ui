@@ -1,0 +1,21 @@
+<div class="candidate-card" style="border-radius: 6px;">
+    <div class="row">
+
+        <div class="card-content">
+
+            <div class="popup-card">
+
+                <div style="display: flex; justify-content: center; text-align: center;">
+                    <h6 style="font-size: 19px" class="mt-2">Are you sure you want to {{action}}?</h6>
+                </div>
+
+                <div class="mt-3" style="width: 100%; display: flex; justify-content: center; gap: 5px;">
+                    <button class="btn-submit" (click)="actionBtn()">Yes</button>
+                    <button class="btn-cancel" (click)="cancelBtn()">Cancel</button>
+                </div>
+
+            </div>
+        </div>
+
+    </div>
+</div>

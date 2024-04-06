@@ -1,1 +1,157 @@
-<p>create-employee-for-linkedin works!</p>
+<div class="container">
+<form class="row mt-4" (ngSubmit)="employee.form.valid && createEmployee(form)" #employee="ngForm"
+novalidate>
+<div class="error text-danger py-2" *ngIf="errorMessage">
+  {{ errorMessage }}
+</div>
+  <div class="col-md-6">
+    <div class="material-input__group">
+      <i class="fa-solid fa-user" style="color: #f4f5f5; font-size: 12px"></i>
+      <input type="text" placeholder="Name" class="text-white material-input__group__input"
+        pattern="^([ \u00c0-\u01ffa-zA-Z'.])+$" #name="ngModel" [(ngModel)]="userName"
+        name="name" id="name" />
+    </div>
+  </div>
+  <div class="col-md-6">
+    <div class="material-input__group">
+      <i class="fa-solid fa-user" style="color: #f4f5f5; font-size: 12px"></i>
+      <input type="text" placeholder="Communication Email id"
+        class="text-white material-input__group__input" #emailId="ngModel"
+        pattern="^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,4}$"
+        [title]="emailId.errors?.['pattern'] ? 'Email is invalid' : ''"
+        [(ngModel)]="userEmail" name="emailId" id="emailId" />
+    </div>
+  </div>
+
+
+
+
+  <div class="col-md-6">
+    <div class="material-input__group">
+      <i class="fa-regular fa-building" style="color: #eff1f5; font-size: 12px"></i>
+
+      <input matInput #autoCompleteInput="matAutocompleteTrigger"
+        class="text-white material-input__group__input" [formControl]="myControl"
+        [matAutocomplete]="auto" placeholder="Select Company Name" name="companyName" />
+      <mat-autocomplete #auto="matAutocomplete" [displayWith]="displayFn"
+        (optionSelected)="onOptionSelected($event)">
+        <mat-option class="custom-mat-option" *ngFor="let option of filteredOptions | async"
+          [value]="option">
+          {{ option.name }}
+        </mat-option>
+      </mat-autocomplete>
+    </div>
+  </div>
+
+  <div class="col-md-6">
+    <div class="material-input__group">
+      <i class="fa-solid fa-envelope" style="color: #fafafa; font-size: 12px"></i>
+      <input type="text" placeholder="Company Email ID"
+        class="text-white material-input__group__input iconic" #companyEmailID="ngModel"
+        [title]="companyEmailID.errors?.['pattern'] ? 'Company Email is invalid' : ''"
+        [(ngModel)]="employeeForm.companyEmailID" name="companyEmailID" id="companyEmailID"
+        pattern="^(?!.*@(gmail\.com|outlook\.com|aol\.com|yahoo\.com|icloud\.com|protonmail\.com|zoho\.com|yandex\.com|gmx\.com|hubspot\.com|mail\.com|tutanota\.com|10minutemail\.com)$)[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$" />
+    </div>
+  </div>
+  <!-- pattern="^https:\/\/www\.linkedin\.com\/(?:\w+\/)?(?:in\/)?([a-zA-Z0-9-]+)\/?$" -->
+
+  <div class="col-md-6">
+    <div class="material-input__group">
+      <i class="fa-regular fa-file" style="color: #f0f2f4; font-size: 12px"></i>
+      <input type="text" placeholder="Department" class="text-white material-input__group__input"
+        #department="ngModel" [(ngModel)]="employeeForm.department" name="department"
+        id="department" />
+    </div>
+  </div>
+  <div class="col-md-6">
+    <div class="material-input__group">
+      <i class="fa-solid fa-phone" style="color: #ffffff; font-size: 12px"></i>
+      <input type="text" placeholder="+91 XXXXXXXXXX" class="text-white material-input__group__input"
+        #phoneNumber="ngModel"
+        [title]="phoneNumber.errors?.['pattern'] ? 'Phone number is invalid' : ''"
+        pattern="^\+(?:[0-9] ?){6,14}[0-9]$" maxlength="17" [(ngModel)]="employeeForm.phoneNumber"
+        name="phoneNumber" id="phoneNumber" />
+      <div *ngIf="
+          phoneNumber.invalid &&
+          (phoneNumber.dirty || phoneNumber.touched)
+        " class="text-danger">
+        <div *ngIf="
+            phoneNumber.errors &&
+            phoneNumber.errors['required']
+          ">
+
+        </div>
+        <div *ngIf="
+            phoneNumber.errors &&
+            phoneNumber.errors['pattern']
+          ">
+
+        </div>
+      </div>
+    </div>
+    <!-- <div class="tooltip-container">
+      <div class="tooltip-style">
+          <i class="fa-solid fa-circle-info"></i>
+      </div>
+      <div class="tooltip-text pt-2 text-center p-2">
+        <small>Add + and country code before phone number.</small>
+      </div>
+  </div> -->
+  </div>
+  <div class="col-md-6 d-flex align-items-center">
+    <div class="material-input__group">
+      <i class="fas fa-lock" style="color: #ffffff; font-size: 12px"></i>
+      <input type="password" placeholder="Password" class="text-white material-input__group__input"
+        #password="ngModel"
+        pattern="^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$"
+        [title]="password.errors?.['pattern'] ? 'Password is invalid' : ''"
+        [(ngModel)]="employeeForm.password" name="password" id="password" />
+    </div>
+    <div class="tooltip-container">
+      <div class="tooltip-style">
+        <i class="fa-solid fa-circle-info"></i>
+      </div>
+      <div class="tooltip-text pt-2 text-center p-2">
+        <small>should contain at least one Uppercase, one Lowercase, one Special Character one Number
+          and 8 or more Characters.</small>
+      </div>
+    </div>
+  </div>
+
+
+  <div class="col-md-6">
+    <div class="material-input__group">
+      <i class="fas fa-lock" style="color: #ffffff; font-size: 12px"></i>
+      <input type="password" placeholder="Confirm Password"
+        class="text-white material-input__group__input" #confirmPassword="ngModel" [class.ng-invalid]="
+          employeeForm.confirmPassword !==
+            employeeForm.password &&
+          (password.dirty || password.touched)
+        " [title]="
+          employeeForm.confirmPassword !==
+          employeeForm.password
+            ? 'Confirm Password should match with password field'
+            : ''
+        " [(ngModel)]="employeeForm.confirmPassword" name="confirmPassword" id="confirmPassword" />
+    </div>
+  </div>
+  <div class="form-check">
+    <input class="form-check-input" type="checkbox" value="" id="flexCheckEmployee"
+      [(ngModel)]="employeeForm.acceptedTermsAndConditions" name="acceptedTermsAndConditions">
+    <label class="form-check-label" for="flexCheckEmployee">
+      I accept the
+      <span style="color: #5cc3e6"><a href="/terms-of-service" target="_blank">Terms of
+          Service</a></span>
+    </label>
+  </div>
+
+  <div class="col-md-12 mt-4 ms-2 d-flex justify-content-center">
+      <button class="btn btn-signUp" type="submit"
+        [disabled]="!employee.form.valid  || userName.length<=0 ||userEmail.length<=0  || !employeeForm.phoneNumber ||!employeeForm.companyEmailID ||!employeeForm.department || !employeeForm.confirmPassword ||!(employeeForm.password === employeeForm.confirmPassword) ||!employeeForm.acceptedTermsAndConditions ||!selectedCompany?.name ||!selectedCompany?.SK">
+        SIGN UP
+      </button>
+  </div>
+
+
+</form>
+</div>

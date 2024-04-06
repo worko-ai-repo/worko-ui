@@ -5,6 +5,8 @@ import { WorkoAuthComponent } from './components/worko-auth/worko-auth.component
 import { CreateUserComponent } from './components/create-user/create-user.component';
 import { CreateEmployeeForLinkedinComponent } from './components/create-employee-for-linkedin/create-employee-for-linkedin.component';
 import { CreateCandidateForLinkedinComponent } from './components/create-candidate-for-linkedin/create-candidate-for-linkedin.component';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { MatAutocompleteModule } from '@angular/material/autocomplete';
 
 export const routes: Routes = [
   // {
@@ -53,7 +55,10 @@ export const routes: Routes = [
   ],
   imports: [
     CommonModule,
-    RouterModule.forChild(routes)
+    RouterModule.forChild(routes),
+    FormsModule,
+    MatAutocompleteModule,
+    ReactiveFormsModule,
   ]
 })
 export class AuthModule { }

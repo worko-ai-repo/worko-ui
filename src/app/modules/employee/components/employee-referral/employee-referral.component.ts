@@ -1,22 +1,26 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ViewChild } from '@angular/core';
 import { StorageService } from 'src/app/modules/app-core/services/storage.service';
 import { EmployeeProfileService } from '../../services/employee-profile.service';
 import { CandidateProfileService } from 'src/app/modules/candidate/services/candidate-profile.service';
+import { ModalType } from 'src/app/modules/shared/interfaces/shared.interface';
+import { ModalComponent } from 'src/app/modules/shared/components/modal/modal.component';
 @Component({
   selector: 'app-employee-referral',
   templateUrl: './employee-referral.component.html',
   styleUrls: ['./employee-referral.component.scss']
 })
 export class EmployeeReferralComponent {
+  @ViewChild(ModalComponent) modal!: ModalComponent;
 
   userType = "Employee";
   empReferralList: any = "";
   emailAddress: any = "";
   userId: any;
   userName: any;
-  firstName:any;
-  lastName:any;
-  reviewData: any = [];
+  firstName: any;
+  lastName: any;
+  currentCompanyId: any;
+  reviewData: any = null;
   empdetailsList: any = "";
   empEducationList: any = "";
   empExperienceList: any = "";
@@ -29,6 +33,13 @@ export class EmployeeReferralComponent {
   empDetails: any = {};
   selectedStatus: string = 'AWAITING';
   selectedReferral: any;
+  currentDate: any;
+  successmessage: string = "";
+  successtitle: string = "";
+  modalType = ModalType;
+  modalMessage: string = "";
+  modalTitle: string = "";
+  showModal: ModalType | undefined;
 
   constructor(private candidateSrv: CandidateProfileService, private empService: EmployeeProfileService, private storage: StorageService) { }
 
@@ -36,10 +47,12 @@ export class EmployeeReferralComponent {
     this.emailAddress = this.storage.get("useremail");
     this.userId = this.storage.get("userId");
     this.userName = this.storage.get("userName");
+    this.currentCompanyId = this.storage.get("currentCompanyId");
     this.getEmpReferral();
     // this.getEmpReferralDetails();
   }
   onStatusSelected(status: string): void {
+    this.selectedReferral = "";
     this.selectedStatus = status;
     this.getEmpReferral();
   }
@@ -61,7 +74,8 @@ export class EmployeeReferralComponent {
 
   async getEmpReferral() {
     let companySK = "01HMR3G2QNYYM47YZ2P9ZVZBPR";
-    await this.empService.getEmployeeReferral(this.emailAddress, companySK, this.selectedStatus).then(async (response) => {
+    let companyId = this.currentCompanyId
+    await this.empService.getEmployeeReferral(this.emailAddress, companyId, this.selectedStatus).then(async (response) => {
       if (response) {
         this.empReferralList = response;
         console.log(this.empReferralList + '123');
@@ -107,7 +121,7 @@ export class EmployeeReferralComponent {
   }
 
   showReferralDetails(data: any) {
-    this.reviewData = [];
+    this.reviewData = null;
     this.selectedReferral = data;
     const selectedEmail = this.getSlicedValue(this.selectedReferral.PK);
     console.log(selectedEmail);
@@ -116,6 +130,12 @@ export class EmployeeReferralComponent {
       this.getReferralReview(this.selectedReferral);
     }
   }
+
+  // getCurrentDateISO() {
+  //   var currentDate = new Date();
+  //   var currentDateISO = currentDate.toISOString();
+  //   return currentDateISO;
+  // }
 
   // async referralAccepted() {
   //   const userId = this.getSlicedValue(this.userId);
@@ -134,38 +154,62 @@ export class EmployeeReferralComponent {
 
   async referralAction(action: string) {
     const userId = this.userId;
+    // let currentDate = this.getCurrentDateISO();
     const payload = {
       "userId": userId,
       "action": action,
-      "emailId": this.emailAddress
+      "emailId": this.emailAddress,
+      // "acceptedAtByUser": currentDate
     }
     let referralId = this.getSlicedValue(this.selectedReferral.SK);
     await this.empService.updateReferralStatus(referralId, payload).then(async (response) => {
       if (response) {
         console.log(response);
+        this.successmessage = "Referral request accepted successfully.";
+        this.successtitle = "Congratulations!";
+        this.openModal(ModalType.SUCCESS_MESSAGE);
+        this.getEmpReferral();
       }
-    })
+    }).catch((error: any) => {
+      console.log(error);
+      this.successmessage = "Something went wrong. Please try again after sometime"
+      this.successtitle = "Error"
+      this.openModal(ModalType.SUCCESS_MESSAGE);
+    }
+    );
   }
 
   async rejectAction(action: string, data: any) {
     let rejectReasonsData = data;
     console.log("rejectReasonsData");
-    // const userId = this.userId;
-    // const payload = {
-    //   "userId": userId,
-    //   "action": action,
-    //   "emailId": this.emailAddress
-    // }
-    // let referralId = this.getSlicedValue(this.selectedReferral.SK);
-    // await this.empService.updateReferralStatus(referralId, payload).then(async (response) => {
-    //   if (response) {
-    //     console.log(response);
-    //   }
-    // })
+    const userId = this.userId;
+    // let currentDate = this.getCurrentDateISO();
+    const payload = {
+      "userId": userId,
+      "action": action,
+      "emailId": this.emailAddress,
+      "reason": rejectReasonsData.rejectTitle,
+      "userComment": rejectReasonsData.rejectComments
+    }
+    let referralId = this.getSlicedValue(this.selectedReferral.SK);
+    await this.empService.updateReferralStatus(referralId, payload).then(async (response) => {
+      if (response) {
+        console.log(response);
+        this.successmessage = "Referral request rejected successfully.";
+        this.successtitle = "Congratulations!";
+        this.openModal(ModalType.SUCCESS_MESSAGE);
+      }
+    }).catch((error: any) => {
+      console.log(error);
+      this.successmessage = "Something went wrong. Please try again after sometime"
+      this.successtitle = "Error"
+      this.openModal(ModalType.SUCCESS_MESSAGE)
+    }
+    );
 
   }
 
-  splitName(userName:any) {
+  splitName(userName: any) {
     const splitName = userName.split(' ');
     this.firstName = splitName[0];
     this.lastName = splitName.length > 1 ? splitName[splitName.length - 1] : null;
@@ -219,7 +263,12 @@ export class EmployeeReferralComponent {
 
         });
       }
-    })
+    }).catch((error: any) => {
+      this.reviewData = [];
+
+      console.log(error);
+    }
+    );
 
 
   }
@@ -230,4 +279,36 @@ export class EmployeeReferralComponent {
   }
 
 
+  /**
+ * Open modal.
+ *
+ * @param {ModalType} modalType
+ * @param {string} [message = ""]
+ * @param {string} [title = ""]
+ * @returns {void}
+ */
+  openModal(modalType: ModalType, message: string = "", title: string = ""): void {
+    this.showModal = modalType;
+    this.modalMessage = message;
+    this.modalTitle = title;
+    this.modal.open();
+  }
+  /**
+   * Close modal.
+   *
+   * @returns {void}
+   */
+  closeModal(): void {
+    // this.referrralComponent.showReferrelRow = true;
+    this.modal.cancel();
+  }
+
+  continue() {
+    this.closeModal();
+    //window.location.reload();
+  }
+
+  cancel() {
+    this.closeModal();
+  }
 }

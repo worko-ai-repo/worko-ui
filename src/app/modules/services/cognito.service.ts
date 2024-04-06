@@ -189,6 +189,7 @@ async login(){
     try {
       await signOut();
       this.storage.remove("useremail");
+      this.storage.remove("LinkedinUserType");
       this.removeAccessToken();
       this.removeEmployeeDashboardToggleStatus();
 

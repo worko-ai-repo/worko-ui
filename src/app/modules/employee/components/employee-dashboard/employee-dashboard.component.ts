@@ -80,6 +80,11 @@ export class EmployeeDashboardComponent {
     await this.candidateSrv.getWorkExperience(this.emailAddress).then(async (response) => {
       if (response) {
         this.workExperienceDetails = response;
+        this.workExperienceDetails.forEach((element: any) => {
+          if (element.isCurrent == true) {
+            this.storage.set('currentCompanyId', element.companyId);
+          }
+        });
         this.getSocialProfile();
       }
     })

@@ -2,9 +2,8 @@ import { Attribute, Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { CognitoService } from 'src/app/modules/services/cognito.service';
 import { StorageService } from 'src/app/modules/app-core/services/storage.service';
-import { Hub } from 'aws-amplify/utils';
 import 'aws-amplify/auth/enable-oauth-listener';
-import {  getCurrentUser, AuthUser, fetchUserAttributes, fetchAuthSession} from 'aws-amplify/auth';
+import {fetchUserAttributes, fetchAuthSession} from 'aws-amplify/auth';
 
 
 
@@ -29,9 +28,9 @@ export class WorkoAuthComponent  {
   }
   
  
-  code:any;
-   oAuthTokenEndpoint ='https://' + 'worko.auth.ap-south-1.amazoncognito.com' + '/oauth2/token';
-    _cognitoClientId='5evf019rrkaijtnjf2j1vvdf33'
+  // code:any;
+  //  oAuthTokenEndpoint ='https://' + 'worko.auth.ap-south-1.amazoncognito.com' + '/oauth2/token';
+  //   _cognitoClientId='5evf019rrkaijtnjf2j1vvdf33'
    
   ngOnInit(): void {
    
@@ -62,13 +61,7 @@ export class WorkoAuthComponent  {
  
  
    
-      const {
-          tokens,
-         
-          userSub
-      } = await fetchAuthSession();
-  
-     console.log(tokens?.idToken?.payload['email'])
+    
     
   }
 

@@ -1,55 +1,83 @@
-<div class="candidate-card">
-    <div class="row">
-        <div class="col-md-12 d-flex p-4">
-            <div class="issue-btn" *ngIf="selectedReferral" class="col-md-3">
-                <app-raise-issue [userType]="userType" (raiseIssue1)="referralRaiseIssue($event)"></app-raise-issue>
-            </div>
-        </div>
+<div class="card candidate-card mt-2">
+    <div class="card-body d-flex flex-column">
+        <div class="container-fluid" style="height: 100%;">
+            <div class="row" style="height: 100%;">
+                
+                <div class="issue-btn" *ngIf="selectedReferral" class="col-md-3">
+                        <app-raise-issue [userType]="userType"
+                            (raiseIssue1)="referralRaiseIssue($event)"></app-raise-issue>
+                </div>
 
-        <div class="row">
-            <div class="col-md-12 text-center">
-                <h5 class="ref-candidate-text mt-3">Your Review From your <br> Referred Candidate</h5>
-            </div>
-        </div>
-        <div class="row d-flex justify-content-center mb-5">
-            <div class="col-md-10 mt-3">
-                <div class="ref-candidate-card">
-                        <div class="row">
-                            <div class="col-md-6">
-                                <div>
-                                    <img style="height: 100px; width: 100px; border-radius: 50%; object-fit: cover;" class="m-2
+                <div class="row" *ngIf="selectedReferral">
+                    <div class="col-md-12 text-center">
+                        <h5 class="ref-candidate-text mt-3">Your Review From your <br> Referred Candidate</h5>
+                    </div>
+                </div>
+                <div *ngIf="selectedReferral" class="row d-flex justify-content-center mb-5">
+                    <div class="col-md-10 mt-3">
+                        <div class="ref-candidate-card">
+                            <div class="row" style="height: 185px;">
+                                <div class="col-md-6">
+                                    <div>
+                                        <img style="height: 100px; width: 100px; border-radius: 50%; object-fit: cover;"
+                                            class="m-2
                                      circle-image" src="{{profileImage}}" alt="">
-                                    <small>{{candidateName}}</small>
+                                        <small>{{candidateName}}</small>
+                                    </div>
                                 </div>
-                            </div>
-                            <div class="col-md-6" *ngIf="reviewData?.length>0">
+                                <div class="col-md-6" *ngIf="reviewData?.length>0">
+                                    <div class="ms-5 mt-3">
+                                        <div class="review-rating">
+                                            <ngb-rating [max]="5" [rate]="reviewData[0]?.rating"
+                                                [readonly]="true"></ngb-rating>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="col-md-12" *ngIf="reviewData?.length>0">
+                                    <p class="ref-candidate-para d-flex justify-content-center p-3">
+                                        “ {{reviewData[0]?.reviewText}} ”
+                                    </p>
+                                </div>
+
+                                <!-- <div class="col-md-6" *ngIf="!reviewData" style="height: 70px;">
                                 <div class="ms-5 mt-3">
                                     <div class="review-rating">
-                                        <ngb-rating [max]="5" [rate]="reviewData[0]?.rating" [readonly]="true"></ngb-rating>
+                                        
                                     </div>
                                 </div>
                             </div>
 
-                            <div class="col-md-12" *ngIf="reviewData?.length>0">
+                            <div class="col-md-12" *ngIf="!reviewData" style="height: 70px;">
                                 <p class="ref-candidate-para d-flex justify-content-center p-3">
-                                    “ {{reviewData[0]?.reviewText}} ” 
+                                    
                                 </p>
-                            </div>
+                            </div> -->
 
-                            <div class="col-md-6" *ngIf="!(reviewData?.length>0)">
-                                <div class="ms-5 mt-3">
-                                    <div class="review-rating">
-                                        <ngb-rating [max]="5" [rate]="finalRating" [readonly]="true"></ngb-rating>
+                                <div class="col-md-6" *ngIf="reviewData?.length === 0">
+                                    <div class="ms-5 mt-3">
+                                        <div class="review-rating">
+                                            <ngb-rating [max]="5" [rate]="finalRating" [readonly]="true"></ngb-rating>
+                                        </div>
                                     </div>
                                 </div>
-                            </div>
 
-                            <div class="col-md-12" *ngIf="!(reviewData?.length>0)">
-                                <p class="ref-candidate-para d-flex justify-content-center p-3">
-                                    “ {{noReviewReceived}} ” 
-                                </p>
+                                <div class="col-md-12" *ngIf="reviewData?.length === 0">
+                                    <p class="ref-candidate-para d-flex justify-content-center p-3">
+                                        “ {{noReviewReceived}} ”
+                                    </p>
+                                </div>
                             </div>
                         </div>
+                    </div>
+                </div>
+
+                <div *ngIf="!selectedReferral" class="center-elements">
+
+                    <div style="margin-top: 5px;">
+                        <span class="text-white">No referral request found!</span> <br>
+                    </div>
+
                 </div>
             </div>
         </div>

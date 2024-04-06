@@ -13,13 +13,14 @@ export class ReferralComponent implements OnInit {
   userType = "Candidate";
   userId: any;
   userName: any;
-  firstName:any;
-  lastName:any;
+  firstName: any;
+  lastName: any;
   referralList: any = "";
   emailAddress: any = "";
   selectedStatus: string = 'AWAITING';
   selectedReferral: any;
-  reviewData: any = [];
+  reviewData: any = null;
+  refereeDetails: any;
   constructor(private candidateSrv: CandidateProfileService, private storage: StorageService) { }
 
   ngOnInit(): void {
@@ -34,8 +35,22 @@ export class ReferralComponent implements OnInit {
       if (response) {
         this.referralList = response;
         console.log(this.referralList);
+        // this.getRefereeDetials(response.accc);
       }
     })
+  }
+
+  async getRefereeDetials(data: any) {
+    if (data.acceptedByUserId && (this.selectedStatus == 'ACCEPTED' || this.selectedStatus == 'DONE')) {
+      await this.candidateSrv.getUserDetailsById(data.acceptedByUserId).then(async (response) => {
+        if (response) {
+          this.refereeDetails = response;
+        }
+      })
+    }
+    else {
+      return;
+    }
   }
 
   onStatusSelected(status: string): void {
@@ -45,8 +60,13 @@ export class ReferralComponent implements OnInit {
   }
 
   showReferralDetails(data: any) {
-    this.reviewData = [];
+    this.reviewData = null;
     this.selectedReferral = data;
+    this.refereeDetails = "";
+    this.getRefereeDetials(this.selectedReferral);
+    if(this.selectedStatus == 'DONE') {
+    this.getReferralReview(this.selectedReferral);
+    }
   }
 
   getSlicedValue(value: string): string {
@@ -86,6 +106,7 @@ export class ReferralComponent implements OnInit {
     await this.candidateSrv.createReview(forUserId, payload).then(async (response) => {
       if (response) {
         console.log(response);
+        this.getReferralReview(this.selectedReferral);
       }
     })
 
@@ -103,16 +124,23 @@ export class ReferralComponent implements OnInit {
         response.forEach((element: any) => {
           if (element.referalId == referralId) {
             this.reviewData.push(element);
+
           }
 
         });
+          
       }
-    })
+    }).catch((error: any) => {
+      this.reviewData = [];
+
+      console.log(error);
+    }
+    );
 
 
   }
 
-  splitName(userName:any) {
+  splitName(userName: any) {
     const splitName = userName.split(' ');
     this.firstName = splitName[0];
     this.lastName = splitName.length > 1 ? splitName[splitName.length - 1] : "notAvaialable";
@@ -150,7 +178,29 @@ export class ReferralComponent implements OnInit {
 
   }
 
+  async withdrawReferralRequest(data: any) {
+    
+    let referralId = this.getSlicedValue(this.selectedReferral.SK);
+    let payload = {
+      "reason": data.withdrawReason,
+      "userComment": data.withdrawComments, 
+    }
 
+    await this.candidateSrv.withdrawReferral(this.emailAddress, "WITHDRAWN", referralId, payload).then(async (response) => {
+      if (response) {
+        this.getReferral();
+        console.log(response);
+      }
+    })
+
+  }
+
+
+
+  referralWithdraw(data: any) {
+    console.log(data);
+    this.withdrawReferralRequest(data);
+  }
 
   referralRaiseIssue(data: any) {
     console.log(data);
