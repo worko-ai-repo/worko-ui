@@ -41,9 +41,15 @@ fileType: string = "";
 uploadedCvName: string = "";
 errorMessage: string = "";
   fileErr: string = "";
+  isBlinking = true;
+  blinkTimer: any; //timer reference
+  currentWordIndex = 0;
+  CandidateWords = ["Referral", "Career Guidance", "Interview Mentorship", "Mock Interview"];
+  currentWord = '';
   constructor( private spinner: NgxSpinnerService, private authService: AuthService, private storage: StorageService,private router: Router,private amplify: CognitoService) {}
   ngOnInit(): void {
 this.getCandidateData()
+this.blinkAndChangeWord()
 
   }
   async getCandidateData(){
@@ -74,6 +80,26 @@ this.getCandidateData()
     if (!this.userName) {
       this.nameInput.control.setErrors({ 'required': true });
     }
+  }
+  blinkAndChangeWord() {
+    const words = this.CandidateWords;
+    this.currentWord = words[this.currentWordIndex];
+    this.isBlinking = false;
+
+    this.blinkTimer = setTimeout(() => {
+      this.isBlinking = true;
+      this.currentWordIndex = (this.currentWordIndex + 1) % words.length;
+      this.blinkAndChangeWord();
+    }, 3000); // timeout based on our animation duration
+  }
+  clearBlinkTimer() {
+    if (this.blinkTimer) {
+      clearTimeout(this.blinkTimer);
+    }
+  }
+
+  ngOnDestroy() {
+    this.clearBlinkTimer();
   }
 
   async createCandidate(form: any): Promise<void> {

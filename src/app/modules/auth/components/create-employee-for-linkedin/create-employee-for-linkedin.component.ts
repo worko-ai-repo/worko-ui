@@ -48,15 +48,39 @@ export class CreateEmployeeForLinkedinComponent {
   filteredOptions!: Observable<any[]>;
   allOptions: any[] = [];
   errorMessage: string = "";
+  isBlinking = true;
+  blinkTimer: any; //timer reference
+  currentWordIndex = 0;
+  EmployeeWords = ["Reward", "Sell Services", "Earn Money", "Priority Job Access"];
+  currentWord = '';
 form: any;
   constructor( private storage: StorageService,private amplify: CognitoService, private authService: AuthService, private spinner: NgxSpinnerService,private router: Router) {}
 
   onOptionSelected(event: any): void {
     this.selectedCompany = event.option.value;
   }
-  
+  blinkAndChangeWord() {
+    const words = this.EmployeeWords;
+    this.currentWord = words[this.currentWordIndex];
+    this.isBlinking = false;
+
+    this.blinkTimer = setTimeout(() => {
+      this.isBlinking = true;
+      this.currentWordIndex = (this.currentWordIndex + 1) % words.length;
+      this.blinkAndChangeWord();
+    }, 3000); // timeout based on our animation duration
+  }
+  clearBlinkTimer() {
+    if (this.blinkTimer) {
+      clearTimeout(this.blinkTimer);
+    }
+  }
+
+  ngOnDestroy() {
+    this.clearBlinkTimer();
+  }
   ngOnInit() {
-   
+    this.blinkAndChangeWord()
     this.filteredOptions = this.myControl.valueChanges.pipe(
      
       switchMap((value: any) => {

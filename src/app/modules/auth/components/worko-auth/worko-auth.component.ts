@@ -3,7 +3,8 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { CognitoService } from 'src/app/modules/services/cognito.service';
 import { StorageService } from 'src/app/modules/app-core/services/storage.service';
 import 'aws-amplify/auth/enable-oauth-listener';
-import {fetchUserAttributes, fetchAuthSession} from 'aws-amplify/auth';
+import {fetchUserAttributes, fetchAuthSession, getCurrentUser} from 'aws-amplify/auth';
+import { CandidateProfileService } from 'src/app/modules/candidate/services/candidate-profile.service';
 
 
 
@@ -14,7 +15,12 @@ import {fetchUserAttributes, fetchAuthSession} from 'aws-amplify/auth';
 })
 export class WorkoAuthComponent  {
 
-
+  registrationForm:any;
+  userEmail:any;
+  lastDashed:any;
+  userId:any;
+  registrationType: string = ''; 
+  errorMessage: string = '';
   constructor(
     private router: Router,
     private activatedRoute: ActivatedRoute,
@@ -22,7 +28,7 @@ export class WorkoAuthComponent  {
     private storage: StorageService,
     private route: ActivatedRoute,
 
-
+    private candidateSrv: CandidateProfileService,
   ) {
   
   }
@@ -64,43 +70,72 @@ export class WorkoAuthComponent  {
     
     
   }
+ 
+
 
  signIn(){
-  const getUserAttributes = async ({ }) => {
-    // Note that return type has changed from array to object
-    const attributes = await fetchUserAttributes();
-    console.log(attributes)
-  }
+  this.getCandidateData()
  }
+ async getCandidateDetails() {
+  //debugger
+  await this.candidateSrv.getUserDetails(this.userEmail).then(async (response) => {
+    if (response) {
+      this.lastDashed = response
+      console.log(this.lastDashed[0].userType[0])
+      if(this.lastDashed[0].userType[0]==='EMP'){
+        this.storage.set("useremail", this.userEmail);
+        console.log(this.userEmail);
+        this.router.navigate(['/employee/Dashboard']);
+
+      }else if(this.lastDashed[0].userType[0]==='CAND'){
+        this.storage.set("useremail", this.userEmail);
+        console.log(this.userEmail); 
+        this.router.navigate(['/candidate/dashboard']);
+      }
+    }else{
+      this.register()
+      }
+  });
+}
+async getCandidateData(){
+ // debugger
+  const {
+    tokens,
+   
+    userSub
+} = await fetchAuthSession();
+console.log(tokens)
+   this.userEmail=tokens?.idToken?.payload['email']?.toString();
+   const {
+    username,
+    userId: id
+  } = await getCurrentUser();
+      this.userId=id
+      console.log(id)
+  await this.getCandidateDetails()
+}
 
 
-
-  /**
- * Logout.
- *
- * @returns {Promise<void>}
- */
-
-  // async logout(): Promise<void> {
-  //   try {
-  //    // await this.cognitoService.handleSignOut();
-  //     // After successful logout, navigate to the landing page route
-  //     // this.router.navigate(['/']);
-  //     // var cognitoLogoutUrl = ;
-  //   // Redirect to home page after logout
-  //   // var homePageUrl = '/';
-  //   // Navigate to home page after logout
-  //  // window.location.href = 'http://localhost:4200/auth/logout&redirect_uri=http://localhost:4200/'
-    
-  //   } catch (error) {
-  //     console.error(error);
-  //   }
-  // }
+register() {
+  debugger
+  if (this.registrationType === 'candidate') {
+    this.router.navigate(['/auth/candidatecompleteSignUp']);
+} else if (this.registrationType === 'employee') {
+  this.router.navigate(['/auth/employeecompleteSignUp']);
+}
 
 
+   
 
 
 }
+}
+
+
+
+
+
+
 
 
 

@@ -1,5 +1,29 @@
 
-<div class="container">
+<div class="container d-flex justify-content-center align-items-center vh-100">
+  <div class="row justify-content-center">
+    <div class="col-md-7">
+      <div class=" mt-4">
+        <div class="row bg-image" >
+          <div class="col-lg-6 first-div d-flex p-0">
+        <div class="d-flex align-self-center" style="width: 200px">
+    <img src="/assets/image-login/g8%2097.png" alt="" />
+  </div>
+  <div  class="d-flex align-self-center">
+    <div class="login-side-heading">
+      <h2 class="unlockText text-white1">
+        Unlock Dream Opportunities <br />
+      </h2>
+      <h5 class="sub-heading m-0" [class.blink]="isBlinking">{{ currentWord }}</h5>
+    </div>
+  </div>
+</div>
+<div class="col-md-6 d-flex align-items-center justify-content-center">
+  <div>
+
+<div class="col-md-12 text-white p-0 mt-4" style="font-size: 18px">
+<p>Please fill the below form to complete the sign up process</p>
+<!-- <p>Create your account as Employee</p> -->
+</div>
 <form (ngSubmit)="candidate.form.valid && createCandidate(form)" #candidate="ngForm" novalidate
 class="row mt-4">
 <div class="error text-danger py-2" *ngIf="errorMessage">
@@ -26,47 +50,11 @@ class="row mt-4">
     <input type="text" placeholder="Email ID" class="text-white material-input__group__input"
       pattern="^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,4}$"
       [title]="emailId.errors?.['pattern'] ? 'Email is invalid' : ''" #emailId="ngModel"
-      [(ngModel)]="userEmail" name="emailId" id="emailId" />
-  </div>
-</div>
-
-<div class="col-md-6 d-flex align-items-center"> <!-- Added align-items-center -->
-  <div class="material-input__group">
-    <i class="fas fa-lock" style="color: #ffffff; font-size: 12px"></i>
-    <input type="password" placeholder="Password" class="text-white material-input__group__input"
-      #password="ngModel"
-      pattern="^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$"
-      [title]="password.errors?.['pattern'] ? 'Password is invalid' : ''"
-      [(ngModel)]="candidateForm.password" name="password" id="password" />
-  </div>
-  <div class="tooltip-container">
-    <div class="tooltip-style">
-      <i class="fa-solid fa-circle-info"></i>
-    </div>
-    <div class="tooltip-text pt-2 text-center p-2">
-      <small>should contain at least one Uppercase, one Lowercase, one Special Character one Number
-        and 8 or more Characters.</small>
-    </div>
+      [(ngModel)]="userEmail" name="emailId" id="emailId" disabled />
   </div>
 </div>
 
 
-<div class="col-md-6">
-  <div class="material-input__group">
-    <i class="fas fa-lock" style="color: #ffffff; font-size: 12px"></i>
-    <input type="password" placeholder="Confirm Password"
-      class="text-white material-input__group__input" #confirmPassword="ngModel" [class.ng-invalid]="
-        candidateForm.confirmPassword !==
-          candidateForm.password &&
-        (password.dirty || password.touched)
-      " [title]="
-        candidateForm.confirmPassword !==
-        candidateForm.password
-          ? 'Confirm Password should match with password field'
-          : ''
-      " [(ngModel)]="candidateForm.confirmPassword" name="confirmPassword" id="confirmPassword" />
-  </div>
-</div>
 
 <div class="col-md-6">
   <div class="material-input__group">
@@ -184,16 +172,11 @@ class="row mt-4">
       userName.length<=0 ||
       !candidate.form.valid ||
       !candidateForm.expectedCtc ||
-      !candidateForm.password ||
+     
       !candidateForm.linkdinProfile ||
       !candidateForm.experience ||
-      !candidateForm.confirmPassword ||
       userEmail.length<=0 ||
-     
-      !(
-        candidateForm.password ===
-        candidateForm.confirmPassword
-      ) ||
+    
       !candidateForm.phoneNumber ||
       !candidateForm.acceptedTermsAndConditions 
     ">
@@ -203,4 +186,10 @@ class="row mt-4">
 
 
 </form>
+</div>
+</div>
+</div>
+</div>
+
+</div>
 </div>
