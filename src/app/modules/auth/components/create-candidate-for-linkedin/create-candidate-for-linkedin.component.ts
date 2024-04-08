@@ -3,7 +3,9 @@ import { Component, ViewChild } from '@angular/core';
 import { NgModel } from '@angular/forms';
 import { Router } from '@angular/router';
 import { fetchAuthSession, getCurrentUser } from 'aws-amplify/auth';
+import { NgxSpinnerService } from 'ngx-spinner';
 import { StorageService } from 'src/app/modules/app-core/services/storage.service';
+import { CognitoService } from 'src/app/modules/services/cognito.service';
 import { AuthService } from 'src/app/modules/worko/services/auth.service';
 
 @Component({
@@ -39,9 +41,10 @@ fileType: string = "";
 uploadedCvName: string = "";
 errorMessage: string = "";
   fileErr: string = "";
-  constructor( private authService: AuthService, private storage: StorageService,private router: Router) {}
+  constructor( private spinner: NgxSpinnerService, private authService: AuthService, private storage: StorageService,private router: Router,private amplify: CognitoService) {}
   ngOnInit(): void {
 this.getCandidateData()
+
   }
   async getCandidateData(){
     const {
@@ -62,7 +65,7 @@ this.getCandidateData()
     this.userId=id
     console.log(id)
 
-   // this.storage.set("useremail", this.userEmail);
+   //this.storage.set("useremail", this.userEmail);
 
   }
 
@@ -74,7 +77,8 @@ this.getCandidateData()
   }
 
   async createCandidate(form: any): Promise<void> {
-    //this.spinner.show();
+    this.spinner.show();
+    
   
           let candidateData = {
             name: this.userName,
@@ -183,5 +187,8 @@ this.getCandidateData()
       }
     }
   }
+
+  
+
 
 }

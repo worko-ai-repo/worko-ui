@@ -6,6 +6,7 @@ import { fetchAuthSession, getCurrentUser } from 'aws-amplify/auth';
 import { NgxSpinnerService } from 'ngx-spinner';
 import { Observable, switchMap } from 'rxjs';
 import { StorageService } from 'src/app/modules/app-core/services/storage.service';
+import { CognitoService } from 'src/app/modules/services/cognito.service';
 import { AuthService } from 'src/app/modules/worko/services/auth.service';
 
 @Component({
@@ -48,7 +49,7 @@ export class CreateEmployeeForLinkedinComponent {
   allOptions: any[] = [];
   errorMessage: string = "";
 form: any;
-  constructor( private storage: StorageService, private authService: AuthService, private spinner: NgxSpinnerService,private router: Router) {}
+  constructor( private storage: StorageService,private amplify: CognitoService, private authService: AuthService, private spinner: NgxSpinnerService,private router: Router) {}
 
   onOptionSelected(event: any): void {
     this.selectedCompany = event.option.value;
