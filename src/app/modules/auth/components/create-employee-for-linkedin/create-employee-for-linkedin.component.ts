@@ -17,6 +17,8 @@ import { AuthService } from 'src/app/modules/worko/services/auth.service';
 export class CreateEmployeeForLinkedinComponent {
 
   @ViewChild('autoCompleteInput', { static: false, read: MatAutocompleteTrigger }) trigger!: MatAutocompleteTrigger;
+ 
+
   employeeForm = {
     name: '',
     emailId: '',
@@ -133,8 +135,9 @@ form: any;
   }
 
   async createEmployee(form: any): Promise<void> {
-    this.spinner.show();
-   
+    //this.spinner.show();
+ debugger
+ try{
         let employeeData = {
           name: this.userName,
           email: this.userEmail,
@@ -152,20 +155,31 @@ form: any;
 
           // designationTag: Number(this.employeeForm.designationTag)
         }
-
-        this.authService.createEmployee(employeeData).then(async () => {
+        
      
-        })
-          .catch(error => {
-            //this.spinner.hide();
-            //this.setErrorMessage(error.error?.errors[0].message);
-            console.error('Create Employee Error:', error);
-
-          });
-
+        this.authService.createEmployee(employeeData).then(async (response) => {
           this.storage.set("useremail", this.userEmail);
           console.log(this.userEmail);
           this.router.navigate(['/employee/Dashboard']);
-      }
      
-}
+        })
+      }catch(error:any){
+        if(error.status==409){
+        this.errorMessage='user Already exist'
+        console.log("errror")
+        }else if(error.status==401){
+          this.router.navigate(['/']);
+        }else{
+          this.errorMessage='something went wrong'
+        }
+
+      }
+    }
+  }
+
+
+
+     
+      
+     
+

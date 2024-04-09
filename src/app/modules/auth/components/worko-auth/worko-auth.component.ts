@@ -5,6 +5,7 @@ import { StorageService } from 'src/app/modules/app-core/services/storage.servic
 import 'aws-amplify/auth/enable-oauth-listener';
 import {fetchUserAttributes, fetchAuthSession, getCurrentUser} from 'aws-amplify/auth';
 import { CandidateProfileService } from 'src/app/modules/candidate/services/candidate-profile.service';
+import { DataTextureLoader } from 'three';
 
 
 
@@ -15,6 +16,7 @@ import { CandidateProfileService } from 'src/app/modules/candidate/services/cand
 })
 export class WorkoAuthComponent  {
 
+  flag:any=0;
   registrationForm:any;
   userEmail:any;
   lastDashed:any;
@@ -54,17 +56,21 @@ export class WorkoAuthComponent  {
 
  }
 
- employeeSignUp(){
-  // const getUserAttributes = async ({ userAttributes}: { userAttributes: any }) => {
-  //   // Note that return type has changed from array to object
-  //   const attributes = await fetchUserAttributes();
-  //   console.log(attributes)
-  // }
-  this.router.navigate(['/auth/employeecompleteSignUp']);
+ async employeeSignUp(){
+
+  const isCandidatePresent = await this.getCandidateDetails();
+  if (isCandidatePresent) {
+    console.log("Candidate not present");
+    this.router.navigate(['/auth/employeecompleteSignUp']);
+  }
  }
  async candidateSignUp(){
-  this.router.navigate(['/auth/candidatecompleteSignUp']);
- 
+  //this.router.navigate(['/auth/candidatecompleteSignUp']);
+  const isCandidatePresent = await this.getCandidateDetails();
+  if (isCandidatePresent) {
+    console.log("Candidate not present");
+    this.router.navigate(['/auth/candidatecompleteSignUp']);
+  }
  
    
     
@@ -73,13 +79,33 @@ export class WorkoAuthComponent  {
  
 
 
- signIn(){
-  this.getCandidateData()
+ async signIn(){
+  // this.getCandidateData()
+  const isCandidatePresent = await this.getCandidateDetails();
+  if (isCandidatePresent) {
+    this.flag = 1;
+    this.register();
+  }
  }
  async getCandidateDetails() {
+  const {
+    tokens,
+   
+    userSub
+} = await fetchAuthSession();
+console.log(tokens)
+   this.userEmail=tokens?.idToken?.payload['email']?.toString();
+   const {
+    username,
+    userId: id
+  } = await getCurrentUser();
+      this.userId=id
+      console.log(id)
   //debugger
-  await this.candidateSrv.getUserDetails(this.userEmail).then(async (response) => {
+  try{
+  return await this.candidateSrv.getUserDetails(this.userEmail).then(async (response) => {
     if (response) {
+      this.flag=0;
       this.lastDashed = response
       console.log(this.lastDashed[0].userType[0])
       if(this.lastDashed[0].userType[0]==='EMP'){
@@ -92,10 +118,19 @@ export class WorkoAuthComponent  {
         console.log(this.userEmail); 
         this.router.navigate(['/candidate/dashboard']);
       }
+      return false
     }else{
-      this.register()
+      return true;
+      // debugger
+      // this.flag=1;
+      // this.register()
       }
   });
+}catch{
+  // this.flag=1;
+  //     this.register()
+  return true;
+}
 }
 async getCandidateData(){
  // debugger

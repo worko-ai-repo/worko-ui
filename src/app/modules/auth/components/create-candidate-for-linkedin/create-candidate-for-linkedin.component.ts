@@ -104,7 +104,7 @@ this.blinkAndChangeWord()
 
   async createCandidate(form: any): Promise<void> {
     this.spinner.show();
-    
+    try{
   
           let candidateData = {
             name: this.userName,
@@ -135,11 +135,22 @@ this.blinkAndChangeWord()
               }
              
             } catch (error) {
-             // this.spinner.hide();
+              this.spinner.hide();
               console.log(error);
             }
           })
-          
+         
+        }catch(error:any){
+          this.spinner.hide();
+          if(error.status==409){
+    this.errorMessage='user Already exist'
+          }else if(error.status==401){
+            this.router.navigate(['/']);
+          }else{
+            this.errorMessage='something went wrong'
+          }
+         
+        }
 
 
       }
