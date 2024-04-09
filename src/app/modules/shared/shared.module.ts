@@ -71,6 +71,13 @@ import { UserMenubarComponent } from './components/user-menubar/user-menubar.com
 import { ReferralSeeReviewPopupComponent } from './components/user-interface/referral/referral-see-review-popup/referral-see-review-popup.component';
 import { ReferralRejectDetailsPopupComponent } from './components/user-interface/referral/referral-reject-details-popup/referral-reject-details-popup.component';
 import { PayCardModalComponent } from './components/pay-card-modal/pay-card-modal.component';
+import { ReferralRejectedPopupComponent } from './components/user-interface/employee/referral/referral-rejected-popup/referral-rejected-popup.component';
+import { RaiseIssueComponent } from './components/user-interface/referral/referral-reusable-button/raise-issue/raise-issue.component';
+import { WithdrawReferralComponent } from './components/user-interface/referral/referral-reusable-button/withdraw-referral/withdraw-referral.component';
+import { WithdrawReferralPopupComponent } from './components/user-interface/referral/withdraw-referral-popup/withdraw-referral-popup.component';
+import { ProvideFeedbackComponent } from './components/user-interface/referral/referral-reusable-button/provide-feedback/provide-feedback.component';
+import { WithdrawnReferralComponent } from './components/user-interface/candidate/withdrawn-referral/withdrawn-referral.component';
+import { ConfirmationDialogPopupComponent } from './components/user-interface/referral/confirmation-dialog-popup/confirmation-dialog-popup.component';
 
 export const routes: Routes = [
 
@@ -109,6 +116,9 @@ export const routes: Routes = [
     ReferralSeeReviewPopupComponent,
     ReferralRejectDetailsPopupComponent,
     PayCardModalComponent,
+    RaiseIssueComponent,
+    WithdrawReferralPopupComponent,
+    ConfirmationDialogPopupComponent,
 
     // DoneServiceComponent,
     // CancelledServiceComponent,
@@ -167,7 +177,9 @@ export const routes: Routes = [
   ReferralSeeReviewPopupComponent,
   ReferralRejectDetailsPopupComponent,
   PayCardModalComponent,
-
+  RaiseIssueComponent,
+  WithdrawReferralPopupComponent,
+  ConfirmationDialogPopupComponent
 
   ],
 

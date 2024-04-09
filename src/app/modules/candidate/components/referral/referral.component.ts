@@ -10,39 +10,63 @@ import { StorageService } from 'src/app/modules/app-core/services/storage.servic
   styleUrls: ['./referral.component.scss']
 })
 export class ReferralComponent implements OnInit {
-  userType="Candidate";
-  userId:any;
+  userType = "Candidate";
+  userId: any;
+  userName: any;
+  firstName: any;
+  lastName: any;
   referralList: any = "";
   emailAddress: any = "";
   selectedStatus: string = 'AWAITING';
   selectedReferral: any;
-  reviewData:any = [];
+  reviewData: any = null;
+  refereeDetails: any;
   constructor(private candidateSrv: CandidateProfileService, private storage: StorageService) { }
- 
+
   ngOnInit(): void {
     this.emailAddress = this.storage.get("useremail");
     this.userId = this.storage.get("userId");
+    this.userName = this.storage.get("userName");
     this.getReferral();
   }
-  
+
   async getReferral() {
     await this.candidateSrv.getReferral(this.emailAddress, this.selectedStatus).then(async (response) => {
       if (response) {
         this.referralList = response;
         console.log(this.referralList);
+        // this.getRefereeDetials(response.accc);
       }
     })
   }
 
+  async getRefereeDetials(data: any) {
+    if (data.acceptedByUserId && (this.selectedStatus == 'ACCEPTED' || this.selectedStatus == 'DONE')) {
+      await this.candidateSrv.getUserDetailsById(data.acceptedByUserId).then(async (response) => {
+        if (response) {
+          this.refereeDetails = response;
+        }
+      })
+    }
+    else {
+      return;
+    }
+  }
+
   onStatusSelected(status: string): void {
-    this.selectedReferral="";
+    this.selectedReferral = "";
     this.selectedStatus = status;
     this.getReferral();
   }
 
-  showReferralDetails(data:any){
-    this.reviewData = [];
+  showReferralDetails(data: any) {
+    this.reviewData = null;
     this.selectedReferral = data;
+    this.refereeDetails = "";
+    this.getRefereeDetials(this.selectedReferral);
+    if(this.selectedStatus == 'DONE') {
+    this.getReferralReview(this.selectedReferral);
+    }
   }
 
   getSlicedValue(value: string): string {
@@ -51,7 +75,7 @@ export class ReferralComponent implements OnInit {
   }
 
 
-  async referralMarkAsDone(data: any){
+  async referralMarkAsDone(data: any) {
     let referralId = this.getSlicedValue(data.SK);
     await this.candidateSrv.markasDoneReferral(this.emailAddress, "DONE", referralId).then(async (response) => {
       if (response) {
@@ -61,60 +85,129 @@ export class ReferralComponent implements OnInit {
     })
   }
 
-  async createReview(data:any) {
+  async createReview(data: any) {
 
     const userId = this.userId;
     let referralId = this.getSlicedValue(this.selectedReferral.SK);
     const forUserId = data.selectedReferral.acceptedByUserId;
 
     let payload = {
-      "ratingByUserId": userId,  
-      "ratingForUserType": "EMP", 
-      "rating": data.reviewRatingData.rating, 
-      "reviewText": data.reviewRatingData.review, 
-      "createdByUserId": userId, 
-      "updatedByUserId": userId, 
-      "reviewContext": "EMP_REFERRAL", 
+      "ratingByUserId": userId,
+      "ratingForUserType": "EMP",
+      "rating": data.reviewRatingData.rating,
+      "reviewText": data.reviewRatingData.review,
+      "createdByUserId": userId,
+      "updatedByUserId": userId,
+      "reviewContext": "EMP_REFERRAL",
       "referalId": referralId,
       // "masterServiceCode": "RESUME_REVIEW", 
       // "serviceReqId": "req789" 
     }
     await this.candidateSrv.createReview(forUserId, payload).then(async (response) => {
       if (response) {
-          console.log(response);
+        console.log(response);
+        this.getReferralReview(this.selectedReferral);
       }
-  })
+    })
 
   }
 
-  async getReferralReview(data:any)
-  {
+  async getReferralReview(data: any) {
     let referralId = this.getSlicedValue(this.selectedReferral.SK);
     const forUserId = data?.acceptedByUserId;
 
     await this.candidateSrv.getReview(forUserId, referralId).then(async (response) => {
       console.log(response);
-      this.reviewData=[];
+      this.reviewData = [];
       if (response) {
         console.log(response);
-        response.forEach((element:any) => {
-          if(element.referalId == referralId)
-          {
-            this.reviewData.push(element);          
+        response.forEach((element: any) => {
+          if (element.referalId == referralId) {
+            this.reviewData.push(element);
+
           }
-          
+
         });
+          
       }
-  })
+    }).catch((error: any) => {
+      this.reviewData = [];
+
+      console.log(error);
+    }
+    );
 
 
   }
 
-  referralRaiseIssue(data:any) {
+  splitName(userName: any) {
+    const splitName = userName.split(' ');
+    this.firstName = splitName[0];
+    this.lastName = splitName.length > 1 ? splitName[splitName.length - 1] : "notAvaialable";
+  }
+
+  async rasieIssue(data: any) {
+
+    this.splitName(this.userName);
+    const firstName = this.firstName;
+    const lastName = this.lastName;
+    const userId = this.userId;
+    const emailAddress = this.emailAddress;
+    let referralId = this.getSlicedValue(this.selectedReferral.SK);
+    // const forUserId = data.selectedReferral.acceptedByUserId;
+
+    let payload = {
+
+      "userId": userId, // ID of the user raising the concern
+      "userEmail": emailAddress, // Email of the user raising the concern
+      "userFirstName": firstName, // First name of the user raising the concern
+      "userLastName": lastName, // Last name of the user raising the concern
+      "userRole": "CAND", // Role of the user raising the concern (should be one of the UserType enum values)
+      "userSupportType": data.raiseIssueContent.issueTitle,   // Type of support requested
+      "userMessage": data.raiseIssueContent.issueDescription,
+      "contextType": "REFERRAL",
+      "contextId": referralId,
+      "createdByUserId": userId
+
+    }
+    await this.candidateSrv.raiseIssue(payload).then(async (response) => {
+      if (response) {
+        console.log(response);
+      }
+    })
+
+  }
+
+  async withdrawReferralRequest(data: any) {
+    
+    let referralId = this.getSlicedValue(this.selectedReferral.SK);
+    let payload = {
+      "reason": data.withdrawReason,
+      "userComment": data.withdrawComments, 
+    }
+
+    await this.candidateSrv.withdrawReferral(this.emailAddress, "WITHDRAWN", referralId, payload).then(async (response) => {
+      if (response) {
+        this.getReferral();
+        console.log(response);
+      }
+    })
+
+  }
+
+
+
+  referralWithdraw(data: any) {
     console.log(data);
+    this.withdrawReferralRequest(data);
   }
 
-  referralReviewRating(data:any) {
+  referralRaiseIssue(data: any) {
+    console.log(data);
+    this.rasieIssue(data);
+  }
+
+  referralReviewRating(data: any) {
     console.log(data);
     this.getReferral();
     this.createReview(data);

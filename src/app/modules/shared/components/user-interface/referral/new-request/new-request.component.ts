@@ -1,4 +1,4 @@
-import { Component, EventEmitter, Output, Input,  } from '@angular/core';
+import { Component, EventEmitter, Output, Input, } from '@angular/core';
 
 @Component({
   selector: 'app-new-request',
@@ -7,8 +7,8 @@ import { Component, EventEmitter, Output, Input,  } from '@angular/core';
 })
 export class NewRequestComponent {
   @Input() selectedReferral: any;
-   @Output() markAsDone = new EventEmitter<string>();
-  constructor() {}
+  @Output() onWithdraw: EventEmitter<any> = new EventEmitter<any>();
+  constructor() { }
 
   ngOnInit(): void {
     console.log(this.selectedReferral, "selectedReferral");
@@ -18,8 +18,7 @@ export class NewRequestComponent {
     console.log(this.selectedReferral, "selectedReferral");
   }
 
-  referralMarkAsDone(){
-    this.markAsDone.emit(this.selectedReferral);
-    // this.showReferralDetails.emit(item);
+  receiveDataFromChild(data: any) {
+    this.onWithdraw.emit(data);
   }
 }

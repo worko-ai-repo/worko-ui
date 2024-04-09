@@ -1,5 +1,5 @@
 import { Component, EventEmitter, Input, Output } from '@angular/core';
-import { FormControl } from '@angular/forms';
+import { FormControl, Validators } from '@angular/forms';
 
 @Component({
   selector: 'app-referral-raise-issue-popup',
@@ -9,24 +9,32 @@ import { FormControl } from '@angular/forms';
 export class ReferralRaiseIssuePopupComponent {
 
   @Output() onSuccess: EventEmitter<any> = new EventEmitter<any>();
-  @Input() userType:any;
+  @Input() userType: any;
 
-  issueTitle = new FormControl();
-  issueDescription = new FormControl();
+  selectedOption: FormControl = new FormControl('', Validators.required);
+  issueDescription: FormControl = new FormControl('', Validators.required);
+
+  constructor() {
+  }
 
   ngOnChanges() {
     console.log(this.userType);
   }
 
   raiseIssueSubmitBtn() {
-    const issueData = {
-      issueTitle: this.issueTitle.value,
-      issueDescription: this.issueDescription.value
-    };
-    console.log(issueData); // we will send this reviewData to backend
-    this.issueTitle.reset();
-    this.issueDescription.reset();
-    this.onSuccess.emit(issueData);
+
+    if (this.selectedOption.valid && this.issueDescription.valid) {
+      const issueData = {
+        issueTitle: this.selectedOption.value,
+        issueDescription: this.issueDescription.value
+      };
+
+      console.log(issueData);
+      this.selectedOption.setValue('');
+      this.issueDescription.reset();
+      this.onSuccess.emit(issueData);
+    }
+
   }
 
 }

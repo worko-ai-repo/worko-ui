@@ -27,6 +27,10 @@ export class CandidateProfileService {
     return this.http.get(`${API_URL}user/${emailAddress}/details`,this.authService.getHttpOptions()).toPromise();
   }
 
+  getUserDetailsById(userId:string): Promise<any> {
+    return this.http.get(`${API_URL}user/${userId}/detail`,this.authService.getHttpOptions()).toPromise();
+  }
+
   getCandidateSkills(emailAddress:string):Promise<any>{
     return this.http.get(`${API_URL}user/${emailAddress}/skill`, this.authService.getHttpOptions()).toPromise();
   }
@@ -68,6 +72,13 @@ export class CandidateProfileService {
     return this.http.get(`${API_URL}user/${userId}/review/received?referralId=${referralId}`, this.authService.getHttpOptions() ).toPromise();
   }
 
+  raiseIssue(data:any):Promise<any> {
+    return this.http.post(API_URL + `support/`, data,this.authService.getHttpOptions() ).toPromise();
+  }
+
+  withdrawReferral(emailAddress:string, status: string, referralId: string, data:any) {
+    return this.http.put(`${API_URL}user/${emailAddress}/referral/${referralId}/${status}`, data,this.authService.getHttpOptions() ).toPromise();
+  }
 
   /*************Services API */
 

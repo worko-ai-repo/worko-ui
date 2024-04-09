@@ -97,17 +97,30 @@
         <app-new-request-btn></app-new-request-btn>
       </div>
 
-      <div *ngIf="selectedReferral" class="row">
-        <div class="col-md-12 d-flex justify-content-center">
-          <h5 class="content-req-rejected pt-2">Sorry, Your Request is Rejected!</h5>
+      <div *ngIf="selectedReferral" class="col-md-12"
+        style="display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 10px;">
 
+        <div class="col-md-12" style="color: white; display: flex; flex-direction: row; justify-content: end;">
+          <div style="width: fit-content; text-align: left;">
+            <span class="text-white">Job Url : <a href="{{selectedReferral?.jobUrl}}" target="_blank">Link</a></span>
+            <br>
+            <span class="text-white">Company Name : {{selectedReferral?.companyName}}</span> <br>
+            <span class="text-white">Matching Score : {{selectedReferral?.matchingScore}}</span>
+          </div>
         </div>
-        <div class="col-md-12 d-flex justify-content-center">
-          <h6 class="content-experience text-center">
-            Because your experience is not sufficient <br> to Job applied! <a
-              style="cursor: pointer; text-decoration: underline;" (click)="showMore()">Show more</a>
-          </h6>
+
+        <div class="col-md-12">
+          <div class="col-md-12 d-flex justify-content-center">
+            <h5 class="content-req-rejected pt-2">Sorry, Your Request is Rejected!</h5>
+          </div>
+          <div class="col-md-12 d-flex justify-content-center">
+            <h6 class="content-experience text-center">
+              Because your experience is not sufficient <br> to Job applied! <a
+                style="cursor: pointer; text-decoration: underline;" (click)="showMore()">Show more</a>
+            </h6>
+          </div>
         </div>
+
       </div>
 
       <div *ngIf="!selectedReferral" class="center-elements">
