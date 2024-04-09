@@ -6,7 +6,7 @@ import { AuthService } from '../../services/auth.service';
 import { StorageService } from 'src/app/modules/app-core/services/storage.service';
 import { NgxSpinnerService } from 'ngx-spinner';
 // import { getCurrentUser, fetchAuthSession  } from 'aws-amplify/auth';
-import { getCurrentUser, fetchAuthSession, signInWithRedirect } from 'aws-amplify/auth';
+import { getCurrentUser, fetchAuthSession, signInWithRedirect, resetPassword, ResetPasswordOutput, ConfirmResetPasswordInput, confirmResetPassword, UpdatePasswordInput, updatePassword } from 'aws-amplify/auth';
 // import { map, startWith } from 'rxjs/operators';
 // import { NgFor, AsyncPipe } from '@angular/common';
 import { MatAutocompleteModule, MatAutocompleteTrigger } from '@angular/material/autocomplete';
@@ -277,12 +277,15 @@ export class LoginPageComponent implements AfterViewInit, OnDestroy {
   resetPasswordScreen() {
     this.displayResetPassword = true;
     this.confirmationCodeScreen = false;
+   
   }
+ 
 
   passwordChange() {
     // this.currentAuthenticatedUser();
     // this.currentSession();
     console.log(this.resetForm)
+    this.handleConfirmResetPassword({username:this.resetForm.emailId,confirmationCode:this.resetForm.code,newPassword:this.resetForm.password})
   }
 
   async currentSession() {
@@ -328,10 +331,52 @@ export class LoginPageComponent implements AfterViewInit, OnDestroy {
   }
 
   resetPassword(form: any) {
+    debugger
     this.confirmationEmail = this.maskEmail(this.resetForm.emailId);
     this.resetVerificationScreen = true;
+    this.handleResetPassword(this.resetForm.emailId)
 
   }
+  async  handleResetPassword(username: string) {
+    try {
+     
+      const output = await resetPassword({ username });
+      this.handleResetPasswordNextSteps(output);
+    } catch (error) {
+      console.log(error);
+    }
+  }
+  
+  async  handleResetPasswordNextSteps(output: ResetPasswordOutput) {
+    const { nextStep } = output;
+    switch (nextStep.resetPasswordStep) {
+      case 'CONFIRM_RESET_PASSWORD_WITH_CODE':
+        const codeDeliveryDetails = nextStep.codeDeliveryDetails;
+        console.log(
+          `Confirmation code was sent to ${codeDeliveryDetails.deliveryMedium}`
+        );
+
+      
+      
+    }
+  }
+async  handleConfirmResetPassword({
+ 
+  username,
+  confirmationCode,
+  newPassword
+}: ConfirmResetPasswordInput) {
+  debugger
+  try {
+    await confirmResetPassword({ username, confirmationCode, newPassword });
+    console.log(username, confirmationCode, newPassword)
+    this.toggleSignInRow()
+    
+   
+  } catch (error) {
+    console.log(error);
+  }
+}
 
 
 
