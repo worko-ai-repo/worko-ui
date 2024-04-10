@@ -191,6 +191,34 @@ hr{
     padding-left: 18%;
     padding-top: 16rem;
 
+
+    // CSS for scrollable section
+      
+    .scrollable-section {
+    // margin-top: 60px;
+    overflow-y: auto;
+    height: 900px;
+    }
+    
+    .contents {
+    padding: 20px;
+    height: 200px; 
+    // overflow-y: auto;
+    }
+
+    // CSS for hiding the scrollbar
+
+    // For webkit browsers like Chrome, Safari 
+    .scrollable-section::-webkit-scrollbar {
+        display: none; 
+    }
+    
+    // For IE, Edge, and Firefox
+    .scrollable-section {
+        -ms-overflow-style: none;  
+        scrollbar-width: none;
+    }
+
     .purpose-header{
         width: 68%;
     }
@@ -867,9 +895,10 @@ hr{
     }
     
     .top-header-bg{
-        width: 50%;
+        width: calc(200px + 24vw);
+    
         img {
-            width: 100%;
+            width: 80%;
         }
     }
 
@@ -1378,28 +1407,29 @@ hr{
 
 @media (max-width: 480px) {
 
-.side-timeline{
-    display: none;
-}
-
-.side-timeline-md{
-    display: none;
-}
-
-.side-timeline-sm{
-    display: block;
-    left: 5.5%;
-    margin-top: 1.5rem;
-    
-    img{
-        width: 93.5px;;
+    .side-timeline{
+        display: none;
     }
-}
+
+    .side-timeline-md{
+        display: none;
+    }
+
+    .side-timeline-sm{
+        display: block;
+        left: 5.5%;
+        margin-top: 1.5rem;
+        
+        img{
+            width: 93.5px;;
+        }
+    }
     
-    .top-header-bg{
-        width: 50%;
-        img {
-            width: 100%;
+    .top-header-bg {
+        width: 261px;
+
+        img{
+            width: 80%;
         }
     }
 
