@@ -558,3 +558,14 @@ li{
 //     //     display: none;
 //     // }
 // }
+
+.dropdown-menu {
+    min-width: 250px; /* Set a minimum width */
+}
+  
+  /* Adjust the size of dropdown items */
+  .dropdown-item {
+    font-size: 14px; /* Adjust font size */
+   // padding: 0.5rem 1rem; /* Adjust padding */
+  }
+  

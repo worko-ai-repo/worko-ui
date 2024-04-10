@@ -57,7 +57,7 @@ export class WorkoAuthComponent  {
  }
 
  async employeeSignUp(){
-
+ 
   const isCandidatePresent = await this.getCandidateDetails();
   if (isCandidatePresent) {
     console.log("Candidate not present");
@@ -65,7 +65,8 @@ export class WorkoAuthComponent  {
   }
  }
  async candidateSignUp(){
-  //this.router.navigate(['/auth/candidatecompleteSignUp']);
+  
+  
   const isCandidatePresent = await this.getCandidateDetails();
   if (isCandidatePresent) {
     console.log("Candidate not present");
@@ -73,14 +74,12 @@ export class WorkoAuthComponent  {
   }
  
    
-    
-    
   }
  
 
 
  async signIn(){
-  // this.getCandidateData()
+  this.getCandidateData()
   const isCandidatePresent = await this.getCandidateDetails();
   if (isCandidatePresent) {
     this.flag = 1;
