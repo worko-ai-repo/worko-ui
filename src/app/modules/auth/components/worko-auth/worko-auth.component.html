@@ -1,4 +1,4 @@
-<div class="container d-flex justify-content-center align-items-center vh-100" *ngIf="flag==1">
+<div class="container d-flex justify-content-center align-items-center vh-100" *ngFor="flag==1" >
     <div class="row justify-content-center">
       <div class="col-md-7">
         <div class=" mt-4">
@@ -26,8 +26,10 @@
                 <div class="col-md-6 d-flex align-items-center justify-content-center">
                   <div>
   
-            <div class="col-md-12 text-white p-0 mt-4" style="font-size: 18px">
-              <p>You are not a registered user. Please register yourself by selecting the below options:</p>
+            <div class="col-md-12 text-white p-0 mt-4" style="font-size: 14px">
+              <p>It appears you're not yet part of our registered user community. No need to fret!<br>
+                Joining is a breeze:<br>
+                Select your desired path:</p>
               <!-- <p>Create your account as Employee</p> -->
             </div>
             <form class="row mt-4 " (ngSubmit)="register()" #registrationForm="ngForm" novalidate>
@@ -36,16 +38,19 @@
                   <div class="form-check ">
                     <input class="form-check-input" type="radio" id="candidateRadio" name="registrationType"
                 [(ngModel)]="registrationType" value="candidate" required />
-                      <label for="candidateCheckbox">Register as an Candidate</label>
+                      <label for="candidateCheckbox" style="font-size: 14px">Become a Candidate (I am seeking job opportunities)</label>
                   </div>
                 </div>
                 <div class="col-md-12 d-flex justify-content-center">
                   <div class="form-check">
                     <input class="form-check-input" type="radio" id="employeeRadio" name="registrationType"
                 [(ngModel)]="registrationType" value="employee" required />
-                      <label for="employeeCheckbox">Register as an Employee</label>
+                      <label for="employeeCheckbox" style="font-size: 14px">Join as an Employee (I am eager to refer talented individuals in my company)</label>
                   </div>
                 </div>
+                <div class="col-md-12 d-flex justify-content-center" style="font-size: 14px">
+                <label>Rest assured, you can effortlessly switch between profiles and engage in both activities from your personalized dashboard.</label>
+              </div>
                 <div class="col-md-12 mt-4 ms-2 d-flex justify-content-center">
                   <button class="btn btn-signUp" type="submit" [disabled]="!registrationForm.valid">
                     Submit

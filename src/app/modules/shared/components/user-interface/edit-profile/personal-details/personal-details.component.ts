@@ -214,17 +214,21 @@ export class PersonalDetailsComponent implements OnInit {
     // this.nextStep.emit(this.candidateProfessionalDetails)
     // this.candidateProfessionalDetails.companyName = this.selectedCompany?.name ? this.selectedCompany?.name : this.workExperienceDetails?.companyName
     // this.candidateProfessionalDetails.companySK = this.selectedCompany?.SK ? this.selectedCompany?.SK : this.workExperienceDetails?.SK
- if(!this.selectedCompany.name ){
-    if (this.candidateProfessionalDetails.companyName === this.workExperienceDetails.companyName && this.candidateProfessionalDetails.companySK === this.workExperienceDetails.SK) {
+ 
+    if(this.selectedCompany ){
+      this.candidateProfessionalDetails.companyName = this.selectedCompany.name ? this.selectedCompany?.name : this.workExperienceDetails?.companyName
+      this.candidateProfessionalDetails.companySK = this.selectedCompany.SK ? this.selectedCompany?.SK : this.workExperienceDetails?.SK
+    }
+    else if (this.candidateProfessionalDetails.companyName === this.workExperienceDetails.companyName && this.candidateProfessionalDetails.companySK === this.workExperienceDetails.SK) {
 
       this.candidateProfessionalDetails.companyName = this.workExperienceDetails.companyName;
       this.candidateProfessionalDetails.companySK = this.workExperienceDetails.SK;
     } 
-  }
-
+  
+else{
       this.candidateProfessionalDetails.companyName = this.selectedCompany.name ? this.selectedCompany?.name : this.workExperienceDetails?.companyName
       this.candidateProfessionalDetails.companySK = this.selectedCompany.SK ? this.selectedCompany?.SK : this.workExperienceDetails?.SK
-    
+}
     this.onSuccess.emit(this.candidateProfessionalDetails);
   }
 

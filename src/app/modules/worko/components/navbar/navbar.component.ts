@@ -24,7 +24,10 @@ export class NavbarComponent {
   employeeTotalPercentage: any;
   candidateTotalPercentage: any;
   candidateProfile: any;
-  constructor(private cognitoService: CognitoService, private router: Router, private candidateSrv: CandidateProfileService, private storage: StorageService) { }
+  userName:string='profile'
+  constructor(private cognitoService: CognitoService, private router: Router, private candidateSrv: CandidateProfileService, private storage: StorageService) {
+   
+   }
 
 
   async ngOnInit(): Promise<void> {
@@ -34,7 +37,8 @@ export class NavbarComponent {
     //   console.log(this.emailAddress, email, "dsd")
     // });
     this.userLoggedIn = await this.cognitoService.isLoggedIn();
-
+    this.userName=this.storage.get('userName') ;
+    console.log(this.userName)
 
   }
 
@@ -42,6 +46,20 @@ export class NavbarComponent {
 
   toggleMenu(event: any) {
     this.isMenuOpen = event.target.checked;
+  }
+  dashboard(){
+    const usertype=this.storage.get('lastAccessedDash') ;
+     this.userName=this.storage.get('userName') ;
+    console.log(this.userName)
+    if(usertype==='EMP'){
+      
+      this.router.navigate(['/employee/Dashboard']);
+
+    }else{
+      
+      this.router.navigate(['/candidate/dashboard']);
+    }
+
   }
 
 
@@ -73,6 +91,10 @@ export class NavbarComponent {
   async logout(): Promise<void> {
     await this.cognitoService.handleSignOut();
     this.userLoggedIn = await this.cognitoService.isLoggedIn();
+  
+    // Optionally, close the dropdown after logout
+   
+
   }
 
   async receiveDataFromChild(userType: any) {

@@ -638,6 +638,11 @@ async  handleConfirmResetPassword({
       this.authService.getProfile(this.form.email).then(async (response) => {
 
         let userType = response.data.lastAccessedDash;
+        let userName=response.data.name
+        this.storage.set('lastAccessedDash', userType);
+        this.storage.set('userName', userName);
+        console.log(userName)
+
         this.currentSession();
         this.currentAuthenticatedUser();
         this.onSuccess.emit(userType);
