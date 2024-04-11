@@ -9,7 +9,9 @@ export const environment = {
       userPoolWebClientId: '5evf019rrkaijtnjf2j1vvdf33',
     },
     apiUrl: "https://api.worko.ai/",
-    saveUserInfoApi:"https://w6zitv6ryk.execute-api.us-east-1.amazonaws.com/dev/adduserinfo"
+    saveUserInfoApi:"https://w6zitv6ryk.execute-api.us-east-1.amazonaws.com/dev/adduserinfo",
+    linkedInRedirection: "http://localhost:4200/auth/checkRedirection",
+    linkedInLogout: "http://localhost:4200"
   };
   
   /*

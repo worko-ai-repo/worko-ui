@@ -17,6 +17,8 @@ export class CompanyListingComponent implements OnInit {
   @ViewChild(ModalComponent) modal!: ModalComponent;
   @ViewChild(ReferralRequestComponent) referrralComponent!: ReferralRequestComponent;
   @ViewChild(RequestGuidenceComponent) referrralguidanceComponent!: RequestGuidenceComponent;
+  successmessage:string="";
+  successtitle:string="";
   modalType = ModalType;
   modalMessage: string = "";
   modalTitle: string = "";
@@ -231,16 +233,25 @@ export class CompanyListingComponent implements OnInit {
   }
   async openGuidancePage(event: Event, item: any): Promise<void> {
     event.preventDefault();
-    this.userLoggedIn = await this.cognitoService.isLoggedIn();
-    this.reqGuidanceData = item;
-    this.triggerReferral = false;
-    this.triggerGuidance = true;
-    if (this.userLoggedIn) {
-      this.openModal(ModalType.REQUEST_GUIDANCE);
-    } else {
-      this.openModal(ModalType.LOGIN_SIGNUP);
-    }
+    // this.userLoggedIn = await this.cognitoService.isLoggedIn();
+    // this.reqGuidanceData = item;
+    // this.triggerReferral = false;
+    // this.triggerGuidance = true;
+    // if (this.userLoggedIn) {
+    //   // this.openModal(ModalType.REQUEST_GUIDANCE);
+    
+    // } else {
+    //   this.openModal(ModalType.LOGIN_SIGNUP);
+    // }
 
+    this.successmessage="This feature will be arriving soon!";
+    // this.successtitle="Congratulations!";
+     this.openModal(ModalType.SUCCESS_MESSAGE)
+
+  }
+  cancel(){
+   
+    this.modal.cancel()
   }
 
 

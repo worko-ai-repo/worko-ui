@@ -1,4 +1,4 @@
-import { Component, ViewChild } from '@angular/core';
+import { Component, HostListener, ViewChild } from '@angular/core';
 import { CognitoService } from 'src/app/modules/services/cognito.service';
 import { Router } from '@angular/router';
 import { ModalType } from 'src/app/modules/shared/interfaces/shared.interface';
@@ -58,6 +58,24 @@ export class IndexComponent {
 
   //  // Reviews carousel section ends:
 
+
+
+  activeSection = 'peer';
+
+  @HostListener('window:scroll', [])
+  onWindowScroll() {
+    const scrollPosition = window.scrollY || document.documentElement.scrollTop || document.body.scrollTop || 0;
+    const windowHeight = window.innerHeight;
+    const sectionHeight = windowHeight;
+
+    if (scrollPosition < sectionHeight) {
+      this.activeSection = 'peer';
+    } else if (scrollPosition < 2 * sectionHeight) {
+      this.activeSection = 'feedback';
+    } else {
+      this.activeSection = 'smart';
+    }
+  }
 
   async ngOnInit(): Promise<void> {
     setInterval(() => {

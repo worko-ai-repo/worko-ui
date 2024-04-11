@@ -97,6 +97,7 @@ export class EmployeeProfessionalDetailsComponent {
       })
     );
     }
+   
   
     createField(): FormGroup {
       return this.fb.group({
@@ -112,7 +113,7 @@ export class EmployeeProfessionalDetailsComponent {
     }
     isAddButtonDisabled(index: number): boolean {
       const fieldsArray = this.formGroup.get('fields') as FormArray;
-     this.fieldGroup1 = fieldsArray.at(index) as FormGroup;
+      this.fieldGroup1 = fieldsArray.at(index) as FormGroup;
       const previousCompanyName = this.fieldGroup1.get('previousCompanyName').value;
       const previousDesignation = this.fieldGroup1.get('previousDesignation').value;
       const previousExperience = this.fieldGroup1.get('previousExperience').value;
@@ -133,8 +134,10 @@ fieldsGroup:any;
       distinctUntilChanged(),
       switchMap((value: any) => {
         console.log(value)
+        this.resetFormFields()
         if (value && value.length >= 1) {
           return this.authService.getCompanyName(value);
+          
 
         } else {
           // If value.length is less than 1, return an empty array or null
@@ -149,6 +152,14 @@ fieldsGroup:any;
  
       
    }
+   resetFormFields(): void {
+    this.employeeProfessionalData.designation = '';
+    this.employeeProfessionalData.department = '';
+    this.employeeProfessionalData.workingSince = '';
+    this.employeeProfessionalData.officialEmail='';
+    this.employeeProfessionalData.companyName='';
+
+  }
 
 
 
@@ -172,9 +183,10 @@ fieldsGroup:any;
       // this.companySK ="";
       return option;
     } else if (typeof option === 'object' && option.name) {
-
+      
       this.companyName = option.name;
       this.companySK = option.SK;
+     
       return option.name;
     } else {
       
@@ -214,6 +226,10 @@ fieldsGroup:any;
         this.addField();
       }
     }
+
+    
+
+    
   }
 
   getData() {
@@ -264,15 +280,19 @@ fieldsGroup:any;
     
     this.savedValues = [...nonBlankFields];
     this.employeeProfessionalData.previousCompanies = this.savedValues;
-    console.log()
-    if (this.employeeProfessionalData.companyName === this.workExperienceDetails.companyName && this.employeeProfessionalData.companySK === this.workExperienceDetails.SK) {
+    console.log(this.workExperienceDetails?.companyName)
+    if(this.selectedCompany ){
+      this.employeeProfessionalData.companyName = this.selectedCompany.name ? this.selectedCompany?.name : this.workExperienceDetails?.companyName
+      this.employeeProfessionalData.companySK = this.selectedCompany.SK ? this.selectedCompany?.SK : this.workExperienceDetails?.SK
+    }else if (this.employeeProfessionalData.companyName === this.workExperienceDetails.companyName && this.employeeProfessionalData.companySK === this.workExperienceDetails.SK) {
 
       this.employeeProfessionalData.companyName = this.workExperienceDetails.companyName;
       this.employeeProfessionalData.companySK = this.workExperienceDetails.SK;
-    } else {
+    }
+  else{
       this.employeeProfessionalData.companyName = this.selectedCompany.name ? this.selectedCompany?.name : this.workExperienceDetails?.companyName
       this.employeeProfessionalData.companySK = this.selectedCompany.SK ? this.selectedCompany?.SK : this.workExperienceDetails?.SK
-    }
+  }
     this.nextStepThird.emit(this.employeeProfessionalData);
   }
 
