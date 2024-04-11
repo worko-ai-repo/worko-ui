@@ -61,7 +61,7 @@ export class CandidateProfileService {
   }
 
   markasDoneReferral(emailAddress:string, status: string, referralId: string){
-    return this.http.patch(`${API_URL}user/${emailAddress}/referral/${referralId}/${status}`, {} , this.authService.getHttpOptions()).toPromise();
+    return this.http.put(`${API_URL}user/${emailAddress}/referral/${referralId}/${status}`, {} , this.authService.getHttpOptions()).toPromise();
   }
 
   createReview(userId:string, data:any):Promise<any> {

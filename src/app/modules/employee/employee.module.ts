@@ -28,6 +28,8 @@ import { EmployeeAboutComponent } from '../shared/components/user-interface/empl
 import { NgbRatingModule} from '@ng-bootstrap/ng-bootstrap'
 import { EmployeeDashboardComponent } from './components/employee-dashboard/employee-dashboard.component';
 import { ReferralRejectedPopupComponent } from '../shared/components/user-interface/employee/referral/referral-rejected-popup/referral-rejected-popup.component';
+import { EmployeeReferralRejectComponent } from '../shared/components/user-interface/employee/referral/employee-referral-reject/employee-referral-reject.component';
+import { EmployeeAcceptedReferralComponent } from '../shared/components/user-interface/employee/referral/employee-accepted-referral/employee-accepted-referral.component';
 
 
 export const routes: Routes = [
@@ -77,6 +79,8 @@ export const routes: Routes = [
     EmployeeDetailsComponent,
     EmployeeReferralComponent,
     EmployeeReferralDetailsComponent,
+    EmployeeReferralRejectComponent,
+    EmployeeAcceptedReferralComponent,
     EmployeeServiceComponent,
     EmployeePackagesComponent,
     EmployeeEditComponent,

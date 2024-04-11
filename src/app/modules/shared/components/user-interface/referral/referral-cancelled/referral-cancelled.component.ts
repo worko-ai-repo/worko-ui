@@ -8,6 +8,8 @@ import { Component, Input, } from '@angular/core';
 export class ReferralCancelledComponent {
 
   @Input() selectedReferral: any;
+  @Input() userType:any;
+  @Input() empdetailsList:any;
 
   ngOnInit(): void {
     console.log(this.selectedReferral, "selectedReferral");
@@ -15,6 +17,18 @@ export class ReferralCancelledComponent {
  
   ngOnChanges(): void {
     console.log(this.selectedReferral, "selectedReferral");
+  }
+
+  showMore() {
+
+  }
+
+  openfile(data:any) {
+
+  }
+
+  leaveComment() {
+    
   }
 
 }

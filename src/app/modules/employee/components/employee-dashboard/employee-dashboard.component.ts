@@ -82,7 +82,7 @@ export class EmployeeDashboardComponent {
         this.workExperienceDetails = response;
         this.workExperienceDetails.forEach((element: any) => {
           if (element.isCurrent == true) {
-            this.storage.set('currentCompanyId', element.companyId);
+            this.storage.set('currentCompanySK', element.companySK);
           }
         });
         this.getSocialProfile();

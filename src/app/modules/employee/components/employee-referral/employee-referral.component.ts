@@ -19,7 +19,7 @@ export class EmployeeReferralComponent {
   userName: any;
   firstName: any;
   lastName: any;
-  currentCompanyId: any;
+  currentCompanySK: any;
   reviewData: any = null;
   empdetailsList: any = "";
   empEducationList: any = "";
@@ -40,6 +40,7 @@ export class EmployeeReferralComponent {
   modalMessage: string = "";
   modalTitle: string = "";
   showModal: ModalType | undefined;
+  statusItem: { name: string; status: string; date:any; }[] = [];
 
   constructor(private candidateSrv: CandidateProfileService, private empService: EmployeeProfileService, private storage: StorageService) { }
 
@@ -47,14 +48,29 @@ export class EmployeeReferralComponent {
     this.emailAddress = this.storage.get("useremail");
     this.userId = this.storage.get("userId");
     this.userName = this.storage.get("userName");
-    this.currentCompanyId = this.storage.get("currentCompanyId");
+    this.currentCompanySK = this.storage.get("currentCompanySK");
     this.getEmpReferral();
+    this.onStatusSelected('AWAITING');
     // this.getEmpReferralDetails();
   }
   onStatusSelected(status: string): void {
     this.selectedReferral = "";
     this.selectedStatus = status;
     this.getEmpReferral();
+    if (status === 'REJECTED') {
+      this.statusItem = [{ name: 'Awaiting', status: '', date: '' },
+      { name: 'Rejected', status: '', date: '' }]
+    }
+    else if (status === 'CANCELLED') {
+      this.statusItem = [{ name: 'Awaiting', status: '', date: '' },
+      { name: 'Cancelled', status: '', date: '' }]
+    }
+    else {
+      this.statusItem = [{ name: 'Awaiting', status: '', date: '' },
+      { name: 'Accepted', status: '', date: '' },
+      { name: 'OnGoing', status: '', date: '' },
+      { name: 'Done', status: '', date: '' }];
+    }
   }
 
   // getSlicedValue(value: string): string {
@@ -73,14 +89,18 @@ export class EmployeeReferralComponent {
 
 
   async getEmpReferral() {
-    let companySK = "01HMR3G2QNYYM47YZ2P9ZVZBPR";
-    let companyId = this.currentCompanyId
+    // let companySK = "01HMR3G2QNYYM47YZ2P9ZVZBPR";
+    // let companyId = this.currentCompanyId
+    let companyId = this.getSlicedValue(this.currentCompanySK);
     await this.empService.getEmployeeReferral(this.emailAddress, companyId, this.selectedStatus).then(async (response) => {
       if (response) {
         this.empReferralList = response;
         console.log(this.empReferralList + '123');
       }
-    })
+    }).catch((error: any) => {
+      this.empReferralList = [];
+    }
+    );
 
   }
   async getEmpReferralDetails(selectedUserEmail: any) {
@@ -165,8 +185,14 @@ export class EmployeeReferralComponent {
     await this.empService.updateReferralStatus(referralId, payload).then(async (response) => {
       if (response) {
         console.log(response);
-        this.successmessage = "Referral request accepted successfully.";
-        this.successtitle = "Congratulations!";
+        if (action === 'ACCEPT') {
+          this.successmessage = "Referral request accepted successfully.";
+          this.successtitle = "Congratulations!";
+        }
+        else if (action === 'DONE') {
+          this.successmessage = "Referral marked as done successfully.";
+          this.successtitle = "Congratulations!";
+        }
         this.openModal(ModalType.SUCCESS_MESSAGE);
         this.getEmpReferral();
       }
@@ -198,6 +224,7 @@ export class EmployeeReferralComponent {
         this.successmessage = "Referral request rejected successfully.";
         this.successtitle = "Congratulations!";
         this.openModal(ModalType.SUCCESS_MESSAGE);
+        this.getEmpReferral();
       }
     }).catch((error: any) => {
       console.log(error);

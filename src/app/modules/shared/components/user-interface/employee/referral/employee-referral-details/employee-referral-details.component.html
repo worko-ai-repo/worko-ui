@@ -1,7 +1,7 @@
-<div class="candidate-card mt-2">
+<div class="candidate-card mt-2 scroller">
     <div class="row">
         <div class="col-md-12">
-            <div class="float-end m-3" *ngIf="selectedStatus">
+            <div class="float-end m-3" *ngIf="selectedReferral">
                 <ng-container *ngIf="selectedStatus === 'AWAITING'; else rejectedStatus">
                     <button class="employee-reject-btn" (click)="rejectBtn()">Reject</button>
                     <button class="employee-accept-btn ms-2" (click)="acceptBtn()">Accept</button>
@@ -15,7 +15,7 @@
 
         </div>
     </div>
-    <div class="row" *ngIf="empdetailsList">
+    <div class="row" *ngIf="selectedReferral">
         <div class="col-md-3">
             <img class="p-image" src="{{profileImage}}" alt="">
         </div>
@@ -52,7 +52,7 @@
         </div>
     </div>
 
-    <div class="row" *ngIf="empdetailsList">
+    <div class="row" *ngIf="selectedReferral">
         <div class="row">
             <div class="col-md-5 company-details">
                 <div class="d-flex justify-content-between">
@@ -102,6 +102,13 @@
             </div>
         </div>
 
+    </div>
+
+    <div class="row" *ngIf="!selectedReferral" class="center-elements">
+
+        <div style="margin-top: 5px;">
+            <span class="text-white">No referral request found!</span> <br>
+        </div>
     </div>
 
     <app-modal [theme]="'theme-k'" [centered]="true" [showHeader]="showModal === modalType.MESSAGE" [showClose]="true"
