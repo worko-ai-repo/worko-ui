@@ -560,12 +560,29 @@ li{
 // }
 
 .dropdown-menu {
-    min-width: 250px; /* Set a minimum width */
+    min-width: 150px; /* Set a minimum width */
+    background-color:white;
+  
+   // border: 1px;
+   
+   
+border: none;
 }
   
   /* Adjust the size of dropdown items */
   .dropdown-item {
-    font-size: 14px; /* Adjust font size */
-   // padding: 0.5rem 1rem; /* Adjust padding */
+    font-size: 12px; /* Adjust font size */
+    padding: 0.5rem 1rem; /* Adjust padding */
+    //padding:0.10rem 0.1rem
+   
+    //color: rgb(34, 31, 31);
+
+    color: #0076B2;
   }
+//   select {
+//     border-radius: 0; /* Make all corners blunt */
+//     border: 1px solid #ced4da; /* Example border style */
+//   }
   
+ 
+ 
