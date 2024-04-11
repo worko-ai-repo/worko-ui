@@ -667,6 +667,7 @@ textarea{
 
     .cv{
         width: 48.5%;
+        
  
         img{
             width: 9%;
@@ -1185,4 +1186,10 @@ textarea{
 
 }
 
-
+// input.ng-invalid {
+//     border-bottom:  1px solid red
+//   }
+  input.ng-invalid.ng-touched {
+    border: 1px solid red;
+  }
+ 

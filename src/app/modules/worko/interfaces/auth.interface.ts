@@ -21,3 +21,15 @@ export interface employeeInfo {
     companyName: string,
     // designationTag: number
 }
+
+export interface userInfo{
+    
+        userFullName: string,
+        userEmail: string,
+        userContactNumber: string,
+        userMessage: string,
+        userCvFileName: string,
+        userCvCloudFileName: string,
+    
+}
+
