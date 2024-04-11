@@ -9,10 +9,12 @@ export class ReferralDoneComponent implements OnChanges {
 
   @Output() onSuccess: EventEmitter<any> = new EventEmitter<any>();
   @Output() raiseIssue: EventEmitter<any> = new EventEmitter<any>();
+  @Output() referralRating = new EventEmitter<any>();
   @Input() reviewData:any = "";
   @Input() selectedReferral:any;
   @Input() empdetailsList:any="";
   @Input() userType:any;
+  referralRatingFlag = false;
   profileImage:any;
 
 
@@ -22,6 +24,9 @@ export class ReferralDoneComponent implements OnChanges {
 
   ngOnChanges() {
     console.log(this.selectedReferral);
+    if (this.reviewData?.length > 0) {
+      this.checkRating();
+    }
     if(this.empdetailsList?.length > 0)
     {
       this.candidateName = this.empdetailsList[0].name;
@@ -29,8 +34,21 @@ export class ReferralDoneComponent implements OnChanges {
     }
   }
 
+  checkRating() {
+    this.referralRatingFlag = false;
+    this.reviewData.forEach((element:any) => {
+      if (element.ratingForUserType === 'CAND') {
+        this.referralRatingFlag = true;
+      }
+    });
+  }
+
   referralRaiseIssue(data:any) {
     this.raiseIssue.emit(data);
+  }
+
+  referralReviewRating(reviewRatingData:any) {
+    this.referralRating.emit(reviewRatingData);
   }
 
 

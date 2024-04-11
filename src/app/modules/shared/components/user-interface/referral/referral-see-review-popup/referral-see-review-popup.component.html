@@ -1,26 +1,51 @@
 <div class="candidate-card" style="border-radius: 6px;">
     <div class="row">
 
-        <div class="card-content">
+        <div *ngIf="userType === 'Candidate'" class="card-content">
             <div class="popup-card">
 
+                <div>
+                    <div style="display: flex; justify-content: center; text-align: center;">
+                        <h6 style="font-size: 18px;" class="mt-2">How do you rated this request?</h6>
+                    </div>
+
+                    <div class="review-rating" *ngIf="ratingForEmp">
+                        <ngb-rating [max]="5" [rate]="ratingForEmp" [readonly]="true"></ngb-rating>
+                    </div>
+
+                    <div class="review-comments mt-3" *ngIf="reviewTextForEmp">
+                        <h6 style="color: gray; font-size: 16px; text-align: center;">{{reviewTextForEmp}}</h6>
+                    </div>
+
+                    <div class="review-rating" *ngIf="!ratingForEmp">
+                        <ngb-rating [max]="5" [rate]="finalRating" [readonly]="true"></ngb-rating>
+                    </div>
+
+                    <div class="review-comments mt-3" *ngIf="!reviewTextForEmp">
+                        <h6 style="color: gray; font-size: 16px; text-align: center;">{{noReviewReceived}}</h6>
+                    </div>
+
+                </div>
+
+                <hr>
+
                 <div style="display: flex; justify-content: center; text-align: center;">
-                    <h6 style="font-size: 18px;" class="mt-2">How do you rated this request</h6>
+                    <h6 style="font-size: 18px;" class="mt-2">How referee has rated you?</h6>
                 </div>
 
-                <div class="review-rating" *ngIf="reviewData?.length>0">
-                    <ngb-rating [max]="5" [rate]="reviewData[0]?.rating" [readonly]="true"></ngb-rating>
+                <div class="review-rating" *ngIf="ratingForCand">
+                    <ngb-rating [max]="5" [rate]="ratingForCand" [readonly]="true"></ngb-rating>
                 </div>
 
-                <div class="review-comments mt-3" *ngIf="reviewData?.length>0">
-                    <h6 style="color: gray; font-size: 16px; text-align: center;">{{reviewData[0]?.reviewText}}</h6>
+                <div class="review-comments mt-3" *ngIf="reviewTextForCand">
+                    <h6 style="color: gray; font-size: 16px; text-align: center;">{{reviewTextForCand}}</h6>
                 </div>
 
-                <div class="review-rating" *ngIf="!(reviewData?.length>0)">
+                <div class="review-rating" *ngIf="!ratingForCand">
                     <ngb-rating [max]="5" [rate]="finalRating" [readonly]="true"></ngb-rating>
                 </div>
 
-                <div class="review-comments mt-3" *ngIf="!(reviewData?.length>0)">
+                <div class="review-comments mt-3" *ngIf="!reviewTextForCand">
                     <h6 style="color: gray; font-size: 16px; text-align: center;">{{noReviewReceived}}</h6>
                 </div>
 
@@ -29,6 +54,63 @@
                 </div>
 
             </div>
+
+        </div>
+
+        <div *ngIf="userType === 'Employee'" class="card-content">
+            <div class="popup-card">
+
+                <div style="display: flex; justify-content: center; text-align: center;">
+                    <h6 style="font-size: 18px;" class="mt-2">How do you rated the candidate?</h6>
+                </div>
+
+                <div class="review-rating" *ngIf="ratingForCand">
+                    <ngb-rating [max]="5" [rate]="ratingForCand" [readonly]="true"></ngb-rating>
+                </div>
+
+                <div class="review-comments mt-3" *ngIf="reviewTextForCand">
+                    <h6 style="color: gray; font-size: 16px; text-align: center;">{{reviewTextForCand}}</h6>
+                </div>
+
+                <div class="review-rating" *ngIf="!ratingForCand">
+                    <ngb-rating [max]="5" [rate]="finalRating" [readonly]="true"></ngb-rating>
+                </div>
+
+                <div class="review-comments mt-3" *ngIf="!reviewTextForCand">
+                    <h6 style="color: gray; font-size: 16px; text-align: center;">{{noReviewReceived}}</h6>
+                </div>
+
+                <hr>
+
+                <div>
+                    <div style="display: flex; justify-content: center; text-align: center;">
+                        <h6 style="font-size: 18px;" class="mt-2">Your review from your referred candidate</h6>
+                    </div>
+
+                    <div class="review-rating" *ngIf="ratingForEmp">
+                        <ngb-rating [max]="5" [rate]="ratingForEmp" [readonly]="true"></ngb-rating>
+                    </div>
+
+                    <div class="review-comments mt-3" *ngIf="reviewTextForEmp">
+                        <h6 style="color: gray; font-size: 16px; text-align: center;">{{reviewTextForEmp}}</h6>
+                    </div>
+
+                    <div class="review-rating" *ngIf="!ratingForEmp">
+                        <ngb-rating [max]="5" [rate]="finalRating" [readonly]="true"></ngb-rating>
+                    </div>
+
+                    <div class="review-comments mt-3" *ngIf="!reviewTextForEmp">
+                        <h6 style="color: gray; font-size: 16px; text-align: center;">{{noReviewReceived}}</h6>
+                    </div>
+
+                    <div class="mt-3">
+                        <button class="btn-submit" (click)="closePopup()">Close</button>
+                    </div>
+
+                </div>
+
+            </div>
+
         </div>
 
 

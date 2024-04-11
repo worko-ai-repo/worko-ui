@@ -12,13 +12,13 @@
                 <div *ngIf="!reviewData" class="col-md-3 p-0 m-0">
                 </div>
 
-                <div *ngIf="selectedReferral && reviewData?.length>0" class="col-md-3 p-0 m-0">
-                    <app-see-review [reviewData]="reviewData"></app-see-review>
+                <div *ngIf="selectedReferral && (reviewData?.length>0 && referralRatingFlag)" class="col-md-3 p-0 m-0">
+                    <app-see-review [userType]="userType" [reviewData]="reviewData"></app-see-review>
                 </div>
 
                 <!-- {{selectedReferral}} {{!(reviewData?.length>0)}} {{reviewDataApiCalled}} -->
 
-                <div *ngIf="selectedReferral && reviewData?.length === 0" class="col-md-3 p-0 m-0">
+                <div *ngIf="selectedReferral && (reviewData?.length === 0 || (reviewData && !referralRatingFlag))" class="col-md-3 p-0 m-0">
                     <app-provide-feedback [userType]="userType" (referralRating1)="referralReviewRating($event)"></app-provide-feedback>
                 </div>
                 <!-- <div *ngIf="selectedReferral " class="col-md-3 p-0 m-0">
