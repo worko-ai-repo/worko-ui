@@ -142,7 +142,6 @@ export const routes: Routes = [
   UploadComponent,
    AcceptedReferralComponent,
    WithdrawnReferralComponent,
-   MarkAsDoneComponent,
    NewRequestBtnComponent,
    SeeReviewComponent,
    ProvideFeedbackComponent,

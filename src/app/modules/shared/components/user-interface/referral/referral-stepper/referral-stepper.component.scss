@@ -131,7 +131,7 @@ display: flex;
   display: flex;
   position: relative;
   flex-direction: column;
-  min-width: 60px;
+  min-width: 75px;
 }
 
 .timeline-event:last-child {
@@ -170,26 +170,26 @@ display: flex;
 .timeline-date {
   font-size: 10px;
   position: absolute;
-  bottom: -75%;
-  left: -12%;
+  bottom: -81%;
+  left: -20%;
 }
 
 .highlight {
   background-color: #1b7ff3;
-  box-shadow: 0 4px 8px #8db8e4;
+  // box-shadow: 0 4px 8px #8db8e4;
 }
 
 .event-title {
   position: absolute;
   font-size: 10px;
-  top: -75%;
-  left: -12%;
+  top: -81%;
+  left: -20%;
 }
 
 .last-event-title {
   position: absolute;
-  top: -75%;
-  left: -3%;
+  top: -81%;
+  left: -6%;
 }
 
 .remove-extra-track {

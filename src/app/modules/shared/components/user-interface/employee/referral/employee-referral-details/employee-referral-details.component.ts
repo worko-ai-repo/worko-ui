@@ -115,8 +115,7 @@ export class EmployeeReferralDetailsComponent implements OnChanges {
    
    
     //window.open(this.docResult.awsS3SignedUrl,'_blank')
-    window.open(this.empdetailsList[0]?.cvAwsS3SignedUrl,'_blank')
-    
+    window.open(this.empdetailsList[0]?.cvAwsS3SignedUrl,'_blank');
   }
 
 }

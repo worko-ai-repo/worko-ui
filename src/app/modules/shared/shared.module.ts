@@ -78,6 +78,9 @@ import { WithdrawReferralPopupComponent } from './components/user-interface/refe
 import { ProvideFeedbackComponent } from './components/user-interface/referral/referral-reusable-button/provide-feedback/provide-feedback.component';
 import { WithdrawnReferralComponent } from './components/user-interface/candidate/withdrawn-referral/withdrawn-referral.component';
 import { ConfirmationDialogPopupComponent } from './components/user-interface/referral/confirmation-dialog-popup/confirmation-dialog-popup.component';
+import { EmployeeReferralRejectComponent } from './components/user-interface/employee/referral/employee-referral-reject/employee-referral-reject.component';
+import { EmployeeAcceptedReferralComponent } from './components/user-interface/employee/referral/employee-accepted-referral/employee-accepted-referral.component';
+import { MarkAsDoneComponent } from './components/user-interface/referral/referral-reusable-button/mark-as-done/mark-as-done.component';
 
 export const routes: Routes = [
 
@@ -117,6 +120,7 @@ export const routes: Routes = [
     ReferralRejectDetailsPopupComponent,
     PayCardModalComponent,
     RaiseIssueComponent,
+    MarkAsDoneComponent,
     WithdrawReferralPopupComponent,
     ConfirmationDialogPopupComponent,
 
@@ -178,9 +182,9 @@ export const routes: Routes = [
   ReferralRejectDetailsPopupComponent,
   PayCardModalComponent,
   RaiseIssueComponent,
+  MarkAsDoneComponent,
   WithdrawReferralPopupComponent,
   ConfirmationDialogPopupComponent
-
   ],
 
 })

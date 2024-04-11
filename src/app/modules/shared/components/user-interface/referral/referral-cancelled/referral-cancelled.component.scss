@@ -1,6 +1,4 @@
-
-
-.btn-done{
+.btn-done {
     background-color: transparent;
     /* width: 91%; */
     font-size: 13px;
@@ -14,7 +12,7 @@
     gap: 10px;
 }
 
-.btn-req{
+.btn-req {
     background-color: rgba(45, 142, 194, 1);
     font-size: 12px;
     display: flex;
@@ -36,4 +34,132 @@
 
 .req-missed-img {
     width: 230px;
+}
+
+.ref-education {
+    color: #FFF;
+    font-family: Poppins;
+    font-size: 13.26px;
+    font-style: normal;
+    font-weight: 400;
+    line-height: normal;
+}
+
+.company-details {
+    h6 {
+        font-size: 12px;
+    }
+}
+
+.core-skills {
+    border-radius: 12px;
+    background: rgba(30, 214, 255, 0.50);
+    font-size: 13px;
+    color: #0A1E35;
+    text-align: center;
+    // font-family: Poppins;
+    font-style: normal;
+    font-weight: 600;
+    line-height: normal;
+}
+
+.rej-req-card {
+    border-radius: 10px;
+    border: 2px solid #1ED6FF;
+    background: #0A1E35;
+}
+
+.rej-req-text {
+    color: #FFF;
+    text-align: center;
+    font-family: Poppins;
+    font-size: 20px;
+    font-style: normal;
+    font-weight: 600;
+    // line-height: normal;
+}
+
+.ref-select-reason {
+    background-color: transparent;
+    border-radius: 10px;
+    border: 1px solid #1ED6FF;
+    color: #FFF;
+    height: 48px;
+
+}
+
+.ref-textarea {
+    background-color: transparent;
+    border-radius: 10px;
+    border: 1px solid #1ED6FF;
+    color: #FFF;
+    height: 90px;
+}
+
+::placeholder {
+    color: white;
+}
+
+.ref-rej-btn {
+    border-radius: 10px;
+    border: 2px solid #E64B4D;
+    color: #E64B4D;
+    background: transparent;
+    width: 94px;
+    height: 35px;
+}
+
+.p-image {
+    margin: 1.5rem;
+    width: 105px;
+}
+
+.content-req-rejected {
+    color: #FFF;
+    text-align: center;
+    font-family: Poppins;
+    font-size: 18.036px;
+    font-style: normal;
+    font-weight: 400;
+    line-height: normal;
+}
+
+.take-remaining {
+    flex: 1;
+}
+
+.content-experience {
+    color: #E32727;
+    font-family: Poppins;
+    font-size: 20px;
+    font-style: italic;
+    font-weight: 600;
+    line-height: normal;
+}
+
+.content-experience a {
+    font-size: 12px;
+    font-style: normal;
+    color: #E32727;
+
+}
+
+.btn-cv {
+    display: flex;
+    align-items: center;
+    color: white;
+    border: 1px solid #36D0FF !important;
+    background: #0A111C;
+    border-radius: 10px;
+    text-align: center;
+    font-family: Poppins;
+    font-size: 14.21px;
+    font-style: normal;
+    font-weight: 600;
+    line-height: normal;
+    border: none;
+    // width: 91px;
+    width: 119px;
+    height: 30px;
+    // border-radius: 100px;
 }
