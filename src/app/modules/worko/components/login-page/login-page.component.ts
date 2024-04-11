@@ -1,12 +1,13 @@
 
 import { Component, EventEmitter, Output, ViewChild, AfterViewInit, OnDestroy, Input } from '@angular/core';
-import { CognitoService } from 'src/app/modules/services/cognito.service';
+// import { CognitoService } from 'src/app/modules/services/cognito.service';
+
 import { Router } from '@angular/router';
 import { AuthService } from '../../services/auth.service';
 import { StorageService } from 'src/app/modules/app-core/services/storage.service';
 import { NgxSpinnerService } from 'ngx-spinner';
 // import { getCurrentUser, fetchAuthSession  } from 'aws-amplify/auth';
-import { getCurrentUser, fetchAuthSession } from 'aws-amplify/auth';
+import { getCurrentUser, fetchAuthSession, signInWithRedirect, resetPassword, ResetPasswordOutput, ConfirmResetPasswordInput, confirmResetPassword, UpdatePasswordInput, updatePassword } from 'aws-amplify/auth';
 // import { map, startWith } from 'rxjs/operators';
 // import { NgFor, AsyncPipe } from '@angular/common';
 import { MatAutocompleteModule, MatAutocompleteTrigger } from '@angular/material/autocomplete';
@@ -19,6 +20,9 @@ import { Observable } from 'rxjs';
 import { debounceTime, distinctUntilChanged, switchMap, filter } from 'rxjs/operators';
 import { Subscription } from 'rxjs';
 import { ChangeDetectorRef } from '@angular/core';
+import { CognitoService } from '../../../services/cognito.service';
+import 'aws-amplify/auth/enable-oauth-listener';
+import { Hub } from 'aws-amplify/utils';
 declare var bootstrap: any;
 
 @Component({
@@ -280,12 +284,15 @@ export class LoginPageComponent implements AfterViewInit, OnDestroy {
   resetPasswordScreen() {
     this.displayResetPassword = true;
     this.confirmationCodeScreen = false;
+   
   }
+ 
 
   passwordChange() {
     // this.currentAuthenticatedUser();
     // this.currentSession();
     console.log(this.resetForm)
+    this.handleConfirmResetPassword({username:this.resetForm.emailId,confirmationCode:this.resetForm.code,newPassword:this.resetForm.password})
   }
 
   async currentSession() {
@@ -331,10 +338,52 @@ export class LoginPageComponent implements AfterViewInit, OnDestroy {
   }
 
   resetPassword(form: any) {
+    debugger
     this.confirmationEmail = this.maskEmail(this.resetForm.emailId);
     this.resetVerificationScreen = true;
+    this.handleResetPassword(this.resetForm.emailId)
 
   }
+  async  handleResetPassword(username: string) {
+    try {
+     
+      const output = await resetPassword({ username });
+      this.handleResetPasswordNextSteps(output);
+    } catch (error) {
+      console.log(error);
+    }
+  }
+  
+  async  handleResetPasswordNextSteps(output: ResetPasswordOutput) {
+    const { nextStep } = output;
+    switch (nextStep.resetPasswordStep) {
+      case 'CONFIRM_RESET_PASSWORD_WITH_CODE':
+        const codeDeliveryDetails = nextStep.codeDeliveryDetails;
+        console.log(
+          `Confirmation code was sent to ${codeDeliveryDetails.deliveryMedium}`
+        );
+
+      
+      
+    }
+  }
+async  handleConfirmResetPassword({
+ 
+  username,
+  confirmationCode,
+  newPassword
+}: ConfirmResetPasswordInput) {
+  debugger
+  try {
+    await confirmResetPassword({ username, confirmationCode, newPassword });
+    console.log(username, confirmationCode, newPassword)
+    this.toggleSignInRow()
+    
+   
+  } catch (error) {
+    console.log(error);
+  }
+}
 
 
 
@@ -589,6 +638,11 @@ export class LoginPageComponent implements AfterViewInit, OnDestroy {
       this.authService.getProfile(this.form.email).then(async (response) => {
 
         let userType = response.data.lastAccessedDash;
+        let userName=response.data.name
+        this.storage.set('lastAccessedDash', userType);
+        this.storage.set('userName', userName);
+        console.log(userName)
+
         this.currentSession();
         this.currentAuthenticatedUser();
         this.onSuccess.emit(userType);
@@ -719,13 +773,21 @@ export class LoginPageComponent implements AfterViewInit, OnDestroy {
     this.clearBlinkTimer();
   }
 
-  signUpWithLinkedin() {
+  signUpWithLinkedin(usertype:any) {
+    this.storage.set('LinkedinUserType', usertype);
+    console.log(usertype);
     // Show a spinner or perform any other necessary actions
     this.spinner.show();
-
+//"https://worko.auth.ap-south-1.amazoncognito.com/oauth2/authorize?identity_provider=LinkedIn&redirect_uri=https://localhost:4200/&response_type=CODE&client_id=5evf019rrkaijtnjf2j1vvdf33&state=h8HvXvQ2W4QvOE18H68wwcgWh3pIkANy&code_challenge=kI8A-NbOUiZw9Iv14YltZO5iTk6MTkK2Lu1PVAEsOyI&code_challenge_method=S256&scope=email%20openid%20phone";
     // Redirect to the specified URL
-    window.location.href =
-      "https://worko.auth.ap-south-1.amazoncognito.com/oauth2/authorize?identity_provider=LinkedIn&redirect_uri=http://localhost:4200/auth/checkRedirection&response_type=CODE&client_id=5evf019rrkaijtnjf2j1vvdf33&state=h8HvXvQ2W4QvOE18H68wwcgWh3pIkANy&code_challenge=kI8A-NbOUiZw9Iv14YltZO5iTk6MTkK2Lu1PVAEsOyI&code_challenge_method=S256&scope=email%20openid%20phone";
+     // window.location.href =
+       //"https://worko.auth.ap-south-1.amazoncognito.com/oauth2/authorize?identity_provider=LinkedIn&redirect_uri=http://localhost:4200/auth/checkRedirection&response_type=CODE&client_id=5evf019rrkaijtnjf2j1vvdf33&state=h8HvXvQ2W4QvOE18H68wwcgWh3pIkANy&code_challenge=kI8A-NbOUiZw9Iv14YltZO5iTk6MTkK2Lu1PVAEsOyI&code_challenge_method=S256&scope=email%20openid%20phone";
+  //debugger
+
+
+
+  this.amplify.handleSocialSignIn()
+
   }
 
 }

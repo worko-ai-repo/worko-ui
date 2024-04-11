@@ -2,6 +2,11 @@ import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { RouterModule, Routes } from '@angular/router';
 import { WorkoAuthComponent } from './components/worko-auth/worko-auth.component';
+import { CreateEmployeeForLinkedinComponent } from './components/create-employee-for-linkedin/create-employee-for-linkedin.component';
+import { CreateCandidateForLinkedinComponent } from './components/create-candidate-for-linkedin/create-candidate-for-linkedin.component';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { MatAutocompleteModule } from '@angular/material/autocomplete';
+
 
 export const routes: Routes = [
   // {
@@ -16,18 +21,40 @@ export const routes: Routes = [
     pathMatch: 'full',
    
   },
+ 
+  {
+    path: 'candidatecompleteSignUp',
+    component: CreateCandidateForLinkedinComponent,
+   
+  },
+  {
+    path: 'employeecompleteSignUp',
+    component: CreateEmployeeForLinkedinComponent,
+   
+  },
+  
 
- // data: { action: 'logout' },
+ {
+  path: 'logout',
+  component:WorkoAuthComponent,
+  data: { action: 'logout' },} 
 
 ];
 
 @NgModule({
   declarations: [
-    WorkoAuthComponent
+    WorkoAuthComponent,
+    CreateEmployeeForLinkedinComponent,
+    CreateCandidateForLinkedinComponent,
+
   ],
   imports: [
     CommonModule,
-    RouterModule.forChild(routes)
+    RouterModule.forChild(routes),
+    FormsModule,
+    MatAutocompleteModule,
+    ReactiveFormsModule,
+   
   ]
 })
 export class AuthModule { }

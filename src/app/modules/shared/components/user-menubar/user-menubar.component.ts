@@ -1,5 +1,6 @@
 import { Component, EventEmitter, Input, Output } from '@angular/core';
 import { Router } from '@angular/router';
+import { signOut } from 'aws-amplify/auth';
 import { CognitoService } from 'src/app/modules/services/cognito.service';
 
 @Component({
@@ -140,6 +141,7 @@ export class UserMenubarComponent {
 
   async logout(): Promise<void> {
     await this.cognitoService.handleSignOut();
+    await signOut();
     this.userLoggedIn = await this.cognitoService.isLoggedIn();
     if (!this.userLoggedIn) {
       this.router.navigateByUrl('/');

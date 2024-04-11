@@ -1,12 +1,38 @@
 import { Injectable } from '@angular/core';
 import { BehaviorSubject } from 'rxjs';
-import { signInWithRedirect, fetchAuthSession, SignInOutput, getCurrentUser, signIn, type SignInInput, signOut, signUp, confirmSignUp, type ConfirmSignUpInput, AuthError } from 'aws-amplify/auth';
+import { signInWithRedirect,fetchAuthSession,SignInOutput, getCurrentUser, signIn, type SignInInput, signOut, signUp, confirmSignUp, type ConfirmSignUpInput, AuthError } from 'aws-amplify/auth';
 import { Amplify } from 'aws-amplify';
 import * as awsamplify from './../../../../amplify-config'
 import { StorageService } from '../app-core/services/storage.service';
 import { NavbarToggleSwitchService } from '../candidate/services/navbar-toggle-switch.service';
+import axios from 'axios';
+import { Hub } from 'aws-amplify/utils';
 
-// import { confirmSignUp, ConfirmSignUpInput } from 'aws-amplify/auth';
+
+// Hub.listen("auth", async ({ payload }) => {
+//   switch (payload.event) {
+//     case "signInWithRedirect" :
+//       const user = await getCurrentUser();
+//       console.log("inside hub cognito service - signInWithRedirect");
+//       console.log(user);
+//       const { accessToken, idToken } = (await fetchAuthSession()).tokens ?? {};
+//       console.log(accessToken);
+//       console.log(idToken);
+      
+      
+//       break;
+//     case "signInWithRedirect_failure":
+//       // handle sign in failure
+     
+//       break;
+//     case "customOAuthState":
+//       const state = payload.data; // this will be customState provided on signInWithRedirect function
+//       console.log(state);
+//       break;
+//   }
+// });
+
+
 export interface IUser {
   email: string;
   password: string;
@@ -32,16 +58,81 @@ export class CognitoService {
     Amplify.configure(awsamplify.config);
 
     this.authenticationSubject = new BehaviorSubject<boolean>(false);
+    Hub.listen("auth", async ({ payload }) => {
+        switch (payload.event) {
+          case "signInWithRedirect" :
+            const user = await getCurrentUser();
+            console.log("inside hub cognito service - signInWithRedirect");
+            console.log(user);
+            this.setAccessToken()
+            // const { accessToken, idToken } = (await fetchAuthSession()).tokens ?? {};
+            // console.log(accessToken);
+            // console.log(idToken);
+            // if (!accessToken) {
+            //   this.storage.remove('accessToken');
+            //   return false;
+            // }
+        
+            // this.storage.set('accessToken', accessToken.toString());
+            // return true;
+            
+            
+            break;
+          case "signInWithRedirect_failure":
+            // handle sign in failure
+           
+            break;
+          case "customOAuthState":
+            const state = payload.data; // this will be customState provided on signInWithRedirect function
+            console.log(state);
+            break;
+        }
+      });
+      
+    
+    
   }
 
-  async handleRedirectSignIn(){
-    const provider = {
+//   async handleRedirectSignIn(){
+//     const provider = {
+//       custom: 'LinkedIn'
+//     }
+//  signInWithRedirect({provider})
+//  this.login()
+
+//   }
+
+
+
+   handleSocialSignIn = () => {
+       const provider = {
       custom: 'LinkedIn'
     }
-    signInWithRedirect({provider})
+   const res= signInWithRedirect({provider}).then(()=>{
+      Hub.dispatch('auth', { event: 'signInWithRedirect_success',data:res})
+    });
+ 
+}
+  //}
+   fetchAuthSessionOptions : any = {
+    redirectUri: 'http://localhost:4200/auth/checkRedirection',
+    clientId: '5evf019rrkaijtnjf2j1vvdf33',
+    responseType: 'token',
+    scope: 'openid',
+    state: 'state',
+    nonce: 'nonce',
+    codeVerifier: 'codeVerifier',
+    codeChallenge: 'codeChallenge',
+    codeChallengeMethod: 'codeChallengeMethod',
+    provider: 'custom',
+    customProvider: 'LinkedIn'
   }
+  
 
-
+async login(){
+ const authSession = await fetchAuthSession(this.fetchAuthSessionOptions);
+  console.log(authSession)
+}
   async handleSignIn(user: IUser): Promise<{ response?: SignInOutput; error?: AuthError }> {
     try {
       const login: SignInInput = {
@@ -98,8 +189,13 @@ export class CognitoService {
     try {
       await signOut();
       this.storage.remove("useremail");
+      this.storage.remove("LinkedinUserType");
       this.removeAccessToken();
       this.removeEmployeeDashboardToggleStatus();
+      localStorage.clear();
+     window.location.href = 'https://worko.auth.ap-south-1.amazoncognito.com/logout?client_id=5evf019rrkaijtnjf2j1vvdf33&logout_uri=http://localhost:4200/';
+    
+
 
     } catch (error) {
       console.log('error signing out: ', error);
@@ -180,7 +276,7 @@ export class CognitoService {
     // const accessToken = await this.keycloakService.getToken();
     // const accessToken = (await fetchAuthSession()).tokens?.idToken?.toString();
     const { accessToken, idToken } = (await fetchAuthSession()).tokens ?? {};
-
+    console.log(accessToken)
     if (!accessToken) {
       this.storage.remove('accessToken');
       return false;
@@ -203,4 +299,5 @@ export class CognitoService {
     this.storage.remove("isEmployeeDashboardEnabled");
     this.navbarToggleSwitch.toggleStatusFalse();
   }
+  
 }

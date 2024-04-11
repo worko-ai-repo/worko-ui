@@ -26,7 +26,8 @@ export enum ModalCloseResult {
     REJECTED_REQUEST=17,
     WITHDRAW_REFERRAL=18,
     PROVIDE_FEEDBACK=19,
-    CONFIRMATION_DIALOG=20
+    CONFIRMATION_DIALOG=20,
+    
 
   }
   
