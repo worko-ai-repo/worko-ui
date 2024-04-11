@@ -244,7 +244,7 @@ export class CompanyListingComponent implements OnInit {
     //   this.openModal(ModalType.LOGIN_SIGNUP);
     // }
 
-    this.successmessage="This feature will be arriving soon!";
+    //this.successmessage="Our guidance service is launching soon, connecting you with first-hand, experienced experts for invaluable insights. Stay tuned for updates.Need urgent assistance, like interview preparation from insiders?\n Email us at Guidance@worko.ai for support";
     // this.successtitle="Congratulations!";
      this.openModal(ModalType.SUCCESS_MESSAGE)
 
