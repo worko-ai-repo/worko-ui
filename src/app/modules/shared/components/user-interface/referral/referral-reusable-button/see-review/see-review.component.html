@@ -11,7 +11,7 @@
   [bodyClass]="modalMessage ? 'p-4' : 'p-0'">
 
   <ng-container *ngIf="showModal === modalType.SEE_REVIEW">
-    <app-referral-see-review-popup [reviewData]="reviewData" (onSuccess)="closeModal()"></app-referral-see-review-popup>
+    <app-referral-see-review-popup [userType]="userType" [reviewData]="reviewData" (onSuccess)="closeModal()"></app-referral-see-review-popup>
   </ng-container>
 
 </app-modal>

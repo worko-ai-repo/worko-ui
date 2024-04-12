@@ -40,7 +40,7 @@ export class EmployeeReferralComponent {
   modalMessage: string = "";
   modalTitle: string = "";
   showModal: ModalType | undefined;
-  statusItem: { name: string; status: string; date:any; }[] = [];
+  statusItem: { name: string; status: string; date: any; }[] = [];
 
   constructor(private candidateSrv: CandidateProfileService, private empService: EmployeeProfileService, private storage: StorageService) { }
 
@@ -64,6 +64,11 @@ export class EmployeeReferralComponent {
     else if (status === 'CANCELLED') {
       this.statusItem = [{ name: 'Awaiting', status: '', date: '' },
       { name: 'Cancelled', status: '', date: '' }]
+    }
+    else if (status === 'DONE') {
+      this.statusItem = [{ name: 'Awaiting', status: '', date: '' },
+      { name: 'Accepted', status: '', date: '' },
+      { name: 'Done', status: '', date: '' }];
     }
     else {
       this.statusItem = [{ name: 'Awaiting', status: '', date: '' },
@@ -188,12 +193,16 @@ export class EmployeeReferralComponent {
         if (action === 'ACCEPT') {
           this.successmessage = "Referral request accepted successfully.";
           this.successtitle = "Congratulations!";
+          this.openModal(ModalType.SUCCESS_MESSAGE);
         }
-        else if (action === 'DONE') {
-          this.successmessage = "Referral marked as done successfully.";
-          this.successtitle = "Congratulations!";
+
+        // else if (action === 'DONE') {
+        //   this.successmessage = "Referral marked as done successfully.";
+        //   this.successtitle = "Congratulations!";
+        // }
+        if (action === 'DONE') {
+          this.openModal(ModalType.REFERRAL_RATING);
         }
-        this.openModal(ModalType.SUCCESS_MESSAGE);
         this.getEmpReferral();
       }
     }).catch((error: any) => {
@@ -274,9 +283,36 @@ export class EmployeeReferralComponent {
 
   }
 
+  async createReview(data: any) {
+
+    const userId = this.userId;
+    let referralId = this.getSlicedValue(this.selectedReferral?.SK);
+    const forUserId = this.getSlicedValue(this.empdetailsList[0]?.SK);
+
+    let payload = {
+      "ratingByUserId": userId,
+      "ratingForUserType": "CAND",
+      "rating": data?.rating,
+      "reviewText": data?.review,
+      "createdByUserId": userId,
+      "updatedByUserId": userId,
+      "reviewContext": "CAND_USER",
+      "referalId": referralId,
+      // "masterServiceCode": "RESUME_REVIEW", 
+      // "serviceReqId": "req789" 
+    }
+    await this.candidateSrv.createReview(forUserId, payload).then(async (response) => {
+      if (response) {
+        console.log(response);
+        this.getReferralReview(this.selectedReferral);
+      }
+    })
+
+  }
+
   async getReferralReview(data: any) {
     let referralId = this.getSlicedValue(data.SK);
-    const forUserId = data?.acceptedByUserId;
+    const forUserId = this.getSlicedValue(this.empdetailsList[0]?.SK);
 
     await this.candidateSrv.getReview(forUserId, referralId).then(async (response) => {
       console.log(response);
@@ -303,6 +339,16 @@ export class EmployeeReferralComponent {
   referralRaiseIssue(data: any) {
     console.log(data);
     this.rasieIssue(data);
+  }
+
+  async receiveDataFromChild(reviewRatingData: any) {
+    console.log(reviewRatingData);
+    this.createReview(reviewRatingData);
+    this.closeModal();
+  }
+
+  cancelReviewRatingPopup() {
+    this.closeModal();
   }
 
 

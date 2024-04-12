@@ -81,6 +81,7 @@ import { ConfirmationDialogPopupComponent } from './components/user-interface/re
 import { EmployeeReferralRejectComponent } from './components/user-interface/employee/referral/employee-referral-reject/employee-referral-reject.component';
 import { EmployeeAcceptedReferralComponent } from './components/user-interface/employee/referral/employee-accepted-referral/employee-accepted-referral.component';
 import { MarkAsDoneComponent } from './components/user-interface/referral/referral-reusable-button/mark-as-done/mark-as-done.component';
+import { SeeReviewComponent } from './components/user-interface/referral/referral-reusable-button/see-review/see-review.component';
 
 export const routes: Routes = [
 
@@ -123,6 +124,8 @@ export const routes: Routes = [
     MarkAsDoneComponent,
     WithdrawReferralPopupComponent,
     ConfirmationDialogPopupComponent,
+    SeeReviewComponent,
+    ProvideFeedbackComponent
 
     // DoneServiceComponent,
     // CancelledServiceComponent,
@@ -184,7 +187,9 @@ export const routes: Routes = [
   RaiseIssueComponent,
   MarkAsDoneComponent,
   WithdrawReferralPopupComponent,
-  ConfirmationDialogPopupComponent
+  ConfirmationDialogPopupComponent,
+  SeeReviewComponent,
+  ProvideFeedbackComponent
   ],
 
 })

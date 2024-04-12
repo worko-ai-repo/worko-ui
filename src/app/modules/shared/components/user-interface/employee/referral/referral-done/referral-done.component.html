@@ -8,7 +8,17 @@
                             (raiseIssue1)="referralRaiseIssue($event)"></app-raise-issue>
                 </div>
 
-                <div class="row" *ngIf="selectedReferral">
+                <div *ngIf="selectedReferral && (reviewData?.length>0 && referralRatingFlag)" class="col-md-3 p-0 m-0">
+                    <app-see-review [userType]="userType" [reviewData]="reviewData"></app-see-review>
+                </div>
+
+                <!-- {{selectedReferral}} {{!(reviewData?.length>0)}} {{reviewDataApiCalled}} -->
+
+                <div *ngIf="selectedReferral && (reviewData?.length === 0 || (reviewData && !referralRatingFlag))" class="col-md-3 p-0 m-0">
+                    <app-provide-feedback [userType]="userType" (referralRating1)="referralReviewRating($event)"></app-provide-feedback>
+                </div>
+
+                <!-- <div class="row" *ngIf="selectedReferral">
                     <div class="col-md-12 text-center">
                         <h5 class="ref-candidate-text mt-3">Your Review From your <br> Referred Candidate</h5>
                     </div>
@@ -38,11 +48,12 @@
                                     <p class="ref-candidate-para d-flex justify-content-center p-3">
                                         “ {{reviewData[0]?.reviewText}} ”
                                     </p>
-                                </div>
+                                </div> -->
 
                                 <!-- <div class="col-md-6" *ngIf="!reviewData" style="height: 70px;">
                                 <div class="ms-5 mt-3">
                                     <div class="review-rating">
+                                        this doesnt works
                                         
                                     </div>
                                 </div>
@@ -54,7 +65,7 @@
                                 </p>
                             </div> -->
 
-                                <div class="col-md-6" *ngIf="reviewData?.length === 0">
+                                <!-- <div class="col-md-6" *ngIf="reviewData?.length === 0">
                                     <div class="ms-5 mt-3">
                                         <div class="review-rating">
                                             <ngb-rating [max]="5" [rate]="finalRating" [readonly]="true"></ngb-rating>
@@ -70,7 +81,7 @@
                             </div>
                         </div>
                     </div>
-                </div>
+                </div> -->
 
                 <div *ngIf="!selectedReferral" class="center-elements">
 
