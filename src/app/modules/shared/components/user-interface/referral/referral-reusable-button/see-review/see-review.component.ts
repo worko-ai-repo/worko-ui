@@ -1,4 +1,4 @@
-import { Component, EventEmitter, Input, Output, ViewChild } from '@angular/core';
+import { Component, EventEmitter, Input, OnChanges, Output, SimpleChanges, ViewChild } from '@angular/core';
 import { ModalComponent } from 'src/app/modules/shared/components/modal/modal.component';
 import { ModalType } from 'src/app/modules/shared/interfaces/shared.interface';
 
@@ -7,10 +7,16 @@ import { ModalType } from 'src/app/modules/shared/interfaces/shared.interface';
   templateUrl: './see-review.component.html',
   styleUrls: ['./see-review.component.scss']
 })
-export class SeeReviewComponent {
+export class SeeReviewComponent implements OnChanges {
 
+  ngOnChanges(changes: SimpleChanges): void {
+    console.log(this.reviewData);
+  }
+
+  @Input() userType:any;
   @ViewChild(ModalComponent) modal!: ModalComponent;
   @Input() reviewData:any;
+
   modalType = ModalType;
   modalMessage: string = "";
   modalTitle: string = "";

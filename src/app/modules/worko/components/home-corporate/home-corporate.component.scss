@@ -454,7 +454,11 @@
                 width: 100%;
             }
         }
+        .input.ng-invalid.ng-touched {
+            border: 1px solid red;
+          }
     }
+   
 }
 
 @media (max-width: 1025px) and (min-width: 480px){
@@ -749,9 +753,15 @@
                 margin-left: 5%;
             }
         }
+        .input.ng-invalid.ng-touched {
+            border: 1px solid red;
+          }
     }
 
+  
+
 }
+
 
 
 @media (max-width: 480px) {
@@ -1134,9 +1144,17 @@
                 padding: 5px 20px;
                 margin-left: 0;
             }
+          
         }
+        .input.ng-invalid.ng-touched {
+            border: 1px solid red;
+          }
     }
+
+  
 }
+
+
 
 
 // @media (min-width: 1750px){

@@ -22,7 +22,7 @@
         <div class="col-md-5">
             <div class="row">
                 <div class="col-md-12">
-                    <h3 class="pt-3">{{empdetailsList[0].name}}</h3>
+                    <h3 class="pt-3">{{empdetailsList[0]?.name}}</h3>
                 </div>
                 <div class="col-md-12 ref-education">
                     <div>{{empEducationList[0]?.degree}} , {{empEducationList[0]?.collage}} </div>
@@ -44,7 +44,7 @@
                         </svg>
                         <div class="m-0 p-0 referral-text">Referral Score : {{empdetailsList[0]?.referralCount}} </div>
                         <div href="" class="m-0 p-0 view-details">View detailed Analysis</div>
-                        <button class="btn-cv mt-2" [hidden]="!empdetailsList[0].cvAwsS3SignedUrl" (click)="openfile($event)">view CV</button>
+                        <button class="btn-cv mt-2" [hidden]="!empdetailsList[0]?.cvAwsS3SignedUrl" (click)="openfile($event)">view CV</button>
                         
                     </div>
                 </div>

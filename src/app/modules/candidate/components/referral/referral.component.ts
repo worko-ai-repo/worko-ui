@@ -21,7 +21,7 @@ export class ReferralComponent implements OnInit {
   selectedReferral: any;
   reviewData: any = null;
   refereeDetails: any;
-  statusItem: { name: string; status: string; date:any ;}[] = [];
+  statusItem: { name: string; status: string; date: any; }[] = [];
   constructor(private candidateSrv: CandidateProfileService, private storage: StorageService) { }
 
   ngOnInit(): void {
@@ -66,12 +66,17 @@ export class ReferralComponent implements OnInit {
       this.statusItem = [{ name: 'Awaiting', status: '', date: '' },
       { name: 'Rejected', status: '', date: '' }]
     }
-    else if(status === 'CANCELLED') {
+    else if (status === 'CANCELLED') {
       this.statusItem = [{ name: 'Awaiting', status: '', date: '' },
       { name: 'Cancelled', status: '', date: '' }]
     }
-    else if(status === 'WITHDRAWN') {
+    else if (status === 'WITHDRAWN') {
       this.statusItem = [];
+    }
+    else if (status === 'DONE') {
+      this.statusItem = [{ name: 'Awaiting', status: '', date: '' },
+      { name: 'Accepted', status: '', date: '' },
+      { name: 'Done', status: '', date: '' }];
     }
     else {
       this.statusItem = [{ name: 'Awaiting', status: '', date: '' },

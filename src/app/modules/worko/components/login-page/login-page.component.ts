@@ -382,6 +382,7 @@ async  handleConfirmResetPassword({
    
   } catch (error) {
     console.log(error);
+    this.errorMessage="Invalid verification code provided, please try again."
   }
 }
 

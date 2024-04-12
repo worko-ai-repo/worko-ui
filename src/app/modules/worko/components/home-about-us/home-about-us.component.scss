@@ -389,6 +389,9 @@ textarea{
 .team-content{
     width: 58%;
 }
+.input.ng-invalid.ng-touched {
+    border: 1px solid red;
+  }
 
 
 // ------------------Form Section-------------------
@@ -668,6 +671,7 @@ textarea{
 
     .cv{
         width: 48.5%;
+        
  
         img{
             width: 9%;
@@ -681,6 +685,9 @@ textarea{
     .form-button{
         font-size: 14px;
     }
+    .input.ng-invalid.ng-touched {
+        border: 1px solid red;
+      }
 }
 
 
@@ -1183,7 +1190,16 @@ textarea{
     .form-button-container{
         justify-content: center;
     }
+    .input.ng-invalid.ng-touched {
+        border: 1px solid red;
+      }
 
 }
 
-
+// input.ng-invalid {
+//     border-bottom:  1px solid red
+//   }
+  input.ng-invalid.ng-touched {
+    border: 1px solid red;
+  }
+ 
