@@ -139,7 +139,7 @@ try{
   };
 
   async createSkills() {
-    console.log(this.secondStepData.softSkills,this.certificationList?.SK,this.certificationList.pk)
+    //console.log(this.secondStepData.softSkills,this.certificationList?.SK,this.certificationList.pk)
     try{
     let skills =
     {
@@ -565,7 +565,7 @@ try{
 
   //When uer click on "Complete" on 3rd step
   onSuccess(data: any) {
-    //this.spinner.show();
+    this.spinner.show();
    //debugger
     this.thirdStepData = data;
     
