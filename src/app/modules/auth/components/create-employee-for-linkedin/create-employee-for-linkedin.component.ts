@@ -2,7 +2,8 @@ import { Component, ViewChild } from '@angular/core';
 import { FormControl } from '@angular/forms';
 import { MatAutocompleteTrigger } from '@angular/material/autocomplete';
 import { Router } from '@angular/router';
-import { fetchAuthSession, getCurrentUser } from 'aws-amplify/auth';
+import { fetchAuthSession, getCurrentUser } from '@aws-amplify/auth';
+
 import { NgxSpinnerService } from 'ngx-spinner';
 import { Observable, switchMap } from 'rxjs';
 import { StorageService } from 'src/app/modules/app-core/services/storage.service';

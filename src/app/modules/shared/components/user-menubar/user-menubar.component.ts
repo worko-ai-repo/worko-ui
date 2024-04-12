@@ -1,6 +1,7 @@
 import { Component, EventEmitter, Input, Output } from '@angular/core';
 import { Router } from '@angular/router';
-import { signOut } from 'aws-amplify/auth';
+import { signOut } from '@aws-amplify/auth';
+
 import { CognitoService } from 'src/app/modules/services/cognito.service';
 
 @Component({

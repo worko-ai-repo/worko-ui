@@ -2,7 +2,9 @@ import { DIR_DOCUMENT } from '@angular/cdk/bidi';
 import { Component, ViewChild } from '@angular/core';
 import { NgModel } from '@angular/forms';
 import { Router } from '@angular/router';
-import { fetchAuthSession, getCurrentUser } from 'aws-amplify/auth';
+import { fetchAuthSession, getCurrentUser } from '@aws-amplify/auth';
+
+
 import { NgxSpinnerService } from 'ngx-spinner';
 import { StorageService } from 'src/app/modules/app-core/services/storage.service';
 import { CognitoService } from 'src/app/modules/services/cognito.service';
@@ -53,6 +55,7 @@ this.blinkAndChangeWord()
 
   }
   async getCandidateData(){
+    debugger
     const {
       tokens,
      
@@ -229,3 +232,4 @@ this.blinkAndChangeWord()
 
 
 }
+

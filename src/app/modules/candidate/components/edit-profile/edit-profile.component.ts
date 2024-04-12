@@ -139,7 +139,7 @@ try{
   };
 
   async createSkills() {
-    console.log(this.secondStepData.softSkills,this.certificationList?.SK,this.certificationList.pk)
+    //console.log(this.secondStepData.softSkills,this.certificationList?.SK,this.certificationList.pk)
     try{
     let skills =
     {

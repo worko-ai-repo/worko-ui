@@ -1,36 +1,19 @@
 import { Injectable } from '@angular/core';
 import { BehaviorSubject } from 'rxjs';
-import { signInWithRedirect,fetchAuthSession,SignInOutput, getCurrentUser, signIn, type SignInInput, signOut, signUp, confirmSignUp, type ConfirmSignUpInput, AuthError } from 'aws-amplify/auth';
+
 import { Amplify } from 'aws-amplify';
 import * as awsamplify from './../../../../amplify-config'
 import { StorageService } from '../app-core/services/storage.service';
 import { NavbarToggleSwitchService } from '../candidate/services/navbar-toggle-switch.service';
-import axios from 'axios';
-import { Hub } from 'aws-amplify/utils';
 
 
-// Hub.listen("auth", async ({ payload }) => {
-//   switch (payload.event) {
-//     case "signInWithRedirect" :
-//       const user = await getCurrentUser();
-//       console.log("inside hub cognito service - signInWithRedirect");
-//       console.log(user);
-//       const { accessToken, idToken } = (await fetchAuthSession()).tokens ?? {};
-//       console.log(accessToken);
-//       console.log(idToken);
-      
-      
-//       break;
-//     case "signInWithRedirect_failure":
-//       // handle sign in failure
-     
-//       break;
-//     case "customOAuthState":
-//       const state = payload.data; // this will be customState provided on signInWithRedirect function
-//       console.log(state);
-//       break;
-//   }
-// });
+
+import { AuthError, ConfirmSignUpInput, SignInInput, SignInOutput, confirmSignUp, fetchAuthSession, getCurrentUser, signIn, signInWithRedirect, signOut, signUp } from '@aws-amplify/auth';
+import { Hub } from '@aws-amplify/core';
+
+
+
+
 
 
 export interface IUser {
@@ -50,6 +33,7 @@ type SignUpParameters = {
   providedIn: 'root',
 })
 export class CognitoService {
+  linkedinAccessToken:any="";
 
   private authenticationSubject: BehaviorSubject<any>;
 
@@ -64,19 +48,11 @@ export class CognitoService {
             const user = await getCurrentUser();
             console.log("inside hub cognito service - signInWithRedirect");
             console.log(user);
-            this.setAccessToken()
-            // const { accessToken, idToken } = (await fetchAuthSession()).tokens ?? {};
-            // console.log(accessToken);
-            // console.log(idToken);
-            // if (!accessToken) {
-            //   this.storage.remove('accessToken');
-            //   return false;
-            // }
-        
-            // this.storage.set('accessToken', accessToken.toString());
-            // return true;
-            
-            
+            //await this.setAccessToken()
+       
+            //console.log()
+            //return true;
+          
             break;
           case "signInWithRedirect_failure":
             // handle sign in failure
@@ -106,7 +82,7 @@ export class CognitoService {
 
    handleSocialSignIn = () => {
        const provider = {
-      custom: 'LinkedIn'
+      custom: 'LinkedIn-Worko'
     }
    const res= signInWithRedirect({provider}).then(()=>{
       Hub.dispatch('auth', { event: 'signInWithRedirect_success',data:res})
@@ -283,6 +259,7 @@ async login(){
     }
 
     this.storage.set('accessToken', accessToken.toString());
+    //console.log()
     return true;
   }
 
