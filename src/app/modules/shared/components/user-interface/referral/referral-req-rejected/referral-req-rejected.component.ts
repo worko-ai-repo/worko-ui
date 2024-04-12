@@ -24,6 +24,7 @@ export class ReferralReqRejectedComponent {
 
   ngOnChanges(): void {
     console.log(this.selectedReferral, "selectedReferral");
+    // this.selectedReferral ="hello"
   }
 
   referralMarkAsDone() {

@@ -1,6 +1,7 @@
 
-import { Component, EventEmitter, Output, ViewChild, AfterViewInit, OnDestroy } from '@angular/core';
+import { Component, EventEmitter, Output, ViewChild, AfterViewInit, OnDestroy, Input } from '@angular/core';
 // import { CognitoService } from 'src/app/modules/services/cognito.service';
+
 import { Router } from '@angular/router';
 import { AuthService } from '../../services/auth.service';
 import { StorageService } from 'src/app/modules/app-core/services/storage.service';
@@ -33,6 +34,8 @@ declare var bootstrap: any;
 export class LoginPageComponent implements AfterViewInit, OnDestroy {
   @Output() userTypeSelected = new EventEmitter<string>();
   @Output() onSuccess: EventEmitter<void> = new EventEmitter<void>();
+  @Input() userType: any;
+
   // @ViewChild('autocompleteInput') autocompleteInput: any; 
   @ViewChild('autoCompleteInput', { static: false, read: MatAutocompleteTrigger }) trigger!: MatAutocompleteTrigger;
   myControl = new FormControl<any>('');
@@ -231,6 +234,10 @@ export class LoginPageComponent implements AfterViewInit, OnDestroy {
 
 
   ngOnInit() {
+    //Added check to pass userType to show enabled candidate and employee fromn index page
+    if(this.userType){
+      this.selectedUserType = this.userType;
+    }
     this.blinkAndChangeWord()
     this.filteredOptions = this.myControl.valueChanges.pipe(
       debounceTime(300),
@@ -523,7 +530,6 @@ async  handleConfirmResetPassword({
             this.confirmationCodeScreen = true;
             this.spinner.hide();
           } catch (error: any) {
-            debugger;
             if (error && error.error.message) {
               // this.errorMessage = error.error.message;
               this.spinner.hide();

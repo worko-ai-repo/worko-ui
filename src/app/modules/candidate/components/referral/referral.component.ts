@@ -21,6 +21,7 @@ export class ReferralComponent implements OnInit {
   selectedReferral: any;
   reviewData: any = null;
   refereeDetails: any;
+  statusItem: { name: string; status: string; date:any ;}[] = [];
   constructor(private candidateSrv: CandidateProfileService, private storage: StorageService) { }
 
   ngOnInit(): void {
@@ -28,6 +29,7 @@ export class ReferralComponent implements OnInit {
     this.userId = this.storage.get("userId");
     this.userName = this.storage.get("userName");
     this.getReferral();
+    this.onStatusSelected('AWAITING');
   }
 
   async getReferral() {
@@ -37,7 +39,10 @@ export class ReferralComponent implements OnInit {
         console.log(this.referralList);
         // this.getRefereeDetials(response.accc);
       }
-    })
+    }).catch((error: any) => {
+      this.referralList = [];
+    }
+    );
   }
 
   async getRefereeDetials(data: any) {
@@ -57,6 +62,23 @@ export class ReferralComponent implements OnInit {
     this.selectedReferral = "";
     this.selectedStatus = status;
     this.getReferral();
+    if (status === 'REJECTED') {
+      this.statusItem = [{ name: 'Awaiting', status: '', date: '' },
+      { name: 'Rejected', status: '', date: '' }]
+    }
+    else if(status === 'CANCELLED') {
+      this.statusItem = [{ name: 'Awaiting', status: '', date: '' },
+      { name: 'Cancelled', status: '', date: '' }]
+    }
+    else if(status === 'WITHDRAWN') {
+      this.statusItem = [];
+    }
+    else {
+      this.statusItem = [{ name: 'Awaiting', status: '', date: '' },
+      { name: 'Accepted', status: '', date: '' },
+      { name: 'OnGoing', status: '', date: '' },
+      { name: 'Done', status: '', date: '' }];
+    }
   }
 
   showReferralDetails(data: any) {
@@ -64,8 +86,8 @@ export class ReferralComponent implements OnInit {
     this.selectedReferral = data;
     this.refereeDetails = "";
     this.getRefereeDetials(this.selectedReferral);
-    if(this.selectedStatus == 'DONE') {
-    this.getReferralReview(this.selectedReferral);
+    if (this.selectedStatus == 'DONE') {
+      this.getReferralReview(this.selectedReferral);
     }
   }
 
@@ -128,7 +150,7 @@ export class ReferralComponent implements OnInit {
           }
 
         });
-          
+
       }
     }).catch((error: any) => {
       this.reviewData = [];
@@ -179,11 +201,11 @@ export class ReferralComponent implements OnInit {
   }
 
   async withdrawReferralRequest(data: any) {
-    
+
     let referralId = this.getSlicedValue(this.selectedReferral.SK);
     let payload = {
       "reason": data.withdrawReason,
-      "userComment": data.withdrawComments, 
+      "userComment": data.withdrawComments,
     }
 
     await this.candidateSrv.withdrawReferral(this.emailAddress, "WITHDRAWN", referralId, payload).then(async (response) => {

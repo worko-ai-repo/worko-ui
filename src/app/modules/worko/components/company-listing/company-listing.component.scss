@@ -1,5 +1,8 @@
 .company-listing-container {
     background: linear-gradient(148deg, #000 5.99%, #182b45 70.16%);
+    margin: 0;
+    padding: 0;
+    overflow: hidden;
 }
 
 .company-listing-container .referred-headline {
@@ -21,6 +24,20 @@
     height: 30px;
     margin-left: -15px;
     float: left;
+}
+
+.company-listing-container .top-header-bg{
+    position:absolute;
+    top: 0;
+    left: 0;
+    width: 36%;
+    img {
+        width: 100%;
+    }
+}
+
+.company-listing-container .contents{
+    padding-top: 12rem;
 }
 
 .company-listing-container .searchInput {
@@ -146,6 +163,36 @@ img {
     top:6px;
     right: 15px;
 }
+
+
+@media (max-width: 1025px) and (min-width: 480px){
+    .company-listing-container .top-header-bg{
+        width: calc(200px + 24vw);
+        img {
+            width: 80%;
+        }
+    }
+
+    .company-listing-container .contents{
+        padding-top: 7rem;
+    }
+
+}
+
+@media (max-width: 480px) {
+    .company-listing-container .top-header-bg{
+        width: 261px;
+
+        img{
+            width: 80%;
+        }
+    }
+    
+    .company-listing-container .contents{
+        padding-top: 5rem;
+    }
+}
+
 .message-card{
     //border-radius: 18px;
    // border: 1px solid rgba(87, 225, 255, 0.58);
@@ -154,3 +201,4 @@ img {
    // height: 100%;
    
  }
+

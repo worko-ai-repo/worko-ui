@@ -1,0 +1,61 @@
+<div class="card candidate-card mt-2">
+    <div class="card-body">
+        <div class="container-fluid" style="height: 100%;">
+            <div class="row" style="height: 100%;">
+
+                <div *ngIf="selectedReferral" class="col-md-3">
+                    <app-raise-issue [userType]="userType" (raiseIssue1)="referralRaiseIssue($event)"></app-raise-issue>
+                </div>
+                <div *ngIf="selectedReferral" class="col-md-3 p-0 m-0">
+                    <app-mark-as-done [userType]="userType" (markAsDone1)="referralMarkAsDone()"
+                        (referralRating1)="referralReviewRating($event)"
+                        (cancelRatingPopup1)="cancelReviewRatingPopup()"></app-mark-as-done>
+                </div>
+
+                <!-- <div *ngIf="selectedReferral" class="col-md-6">
+                    <app-new-request-btn></app-new-request-btn>
+                </div> -->
+
+                <!-- <div *ngIf="selectedReferral" class="col-md-12"
+                    style="margin-top: 15px; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 10px;">
+
+                    <div class="col-md-12"
+                        style="color: white; display: flex; flex-direction: row-reverse; justify-content: space-between;">
+                        <div>
+                            <span class="text-white">Job Url : <a href="{{selectedReferral?.jobUrl}}"
+                                    target="_blank">Link</a></span> <br>
+                            <span class="text-white">Company Name : {{selectedReferral?.companyName}}</span> <br>
+                            <span class="text-white">Matching Score : {{selectedReferral?.matchingScore}}</span>
+                        </div>
+
+                        <div *ngIf="refereeDetails">
+                            <span class="text-white">Referee Name : {{refereeDetails[0]?.name}}</span> <br>
+                            <span class="text-white">Referee Designation :
+                                {{refereeDetails[0]?.userExperienceDetails?.designation}}</span> <br>
+                            <span class="text-white">Referee Department :
+                                {{refereeDetails[0]?.userExperienceDetails?.department}}</span>
+                        </div>
+                    </div>
+
+                    <div class="col-md-12">
+                        <div *ngIf="selectedReferral" class="col-md-12 pt-3 d-flex justify-content-center">
+                            <img src="/assets/public/candidate-referral-img.png" class="referral-img" alt="">
+
+                        </div>
+                        <div *ngIf="selectedReferral" class="col-md-12 text-center pb-5">
+                            <span class="text-white">Your Referral Request is accepted!</span> <br>
+                        </div>
+                    </div>
+
+                </div> -->
+                <div *ngIf="!selectedReferral" class="center-elements">
+                    <!-- <div>
+                        <app-new-request-btn></app-new-request-btn>
+                    </div> -->
+
+                    <span class="text-white">No referral request found!</span> <br>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

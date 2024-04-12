@@ -1,4 +1,4 @@
-import { Component, ViewChild } from '@angular/core';
+import { Component, HostListener, ViewChild } from '@angular/core';
 import { CognitoService } from 'src/app/modules/services/cognito.service';
 import { Router } from '@angular/router';
 import { ModalType } from 'src/app/modules/shared/interfaces/shared.interface';
@@ -12,51 +12,70 @@ import { ModalComponent } from 'src/app/modules/shared/components/modal/modal.co
 })
 export class IndexComponent {
   @ViewChild(ModalComponent) modal!: ModalComponent;
-  getReferral:boolean = false;
-  giveReferral:boolean = true;
+  getReferral: boolean = false;
+  giveReferral: boolean = true;
   userLoggedIn: boolean = false;
   modalType = ModalType;
   showModal: ModalType | undefined;
   modalMessage: string = "";
   modalTitle: string = "";
+  userType :  string = "";
 
-  constructor(private router: Router, private cognitoService: CognitoService){}
-
-
-//   // Reviews carousel section starts:
-
-//   reviews = [
-//     { image: '/assets/index-images-KA/card-img1.png', content: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.', name: 'Surya Pratap Singh', role: 'Senior Developer' },
-//     { image: '/assets/index-images-KA/card-img2.png', content: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.', name: 'Aryan Kumar', role: 'Software Engineer' },
-//     { image: '/assets/index-images-KA/card-img3.png', content: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.', name: 'Rajesh Sharma', role: 'Frontend Developer' },
-//     { image: '/assets/index-images-KA/card-img1.png', content: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.', name: 'Vikram Singh', role: 'UX Designer' },
-//     { image: '/assets/index-images-KA/card-img2.png', content: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.', name: 'Akash Gupta', role: 'UI Developer' },
-//     { image: '/assets/index-images-KA/card-img3.png', content: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.', name: 'Rahul Patel', role: 'Software Engineer' }
-//   ];
-//   marginLeft: number = 0;
-//   currentIndex: number = 0;
+  constructor(private router: Router, private cognitoService: CognitoService) { }
 
 
-//   previousReview() {
-//     if (this.currentIndex > 0) {
-//       this.currentIndex--;
-//       this.adjustMarginLeft();
-//     }
-//   }
+  //   // Reviews carousel section starts:
 
-//   nextReview() {
-//     if (this.currentIndex < this.reviews.length - 1) {
-//       this.currentIndex++;
-//       this.adjustMarginLeft();
-//     }
-//   }
+  //   reviews = [
+  //     { image: '/assets/index-images-KA/card-img1.png', content: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.', name: 'Surya Pratap Singh', role: 'Senior Developer' },
+  //     { image: '/assets/index-images-KA/card-img2.png', content: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.', name: 'Aryan Kumar', role: 'Software Engineer' },
+  //     { image: '/assets/index-images-KA/card-img3.png', content: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.', name: 'Rajesh Sharma', role: 'Frontend Developer' },
+  //     { image: '/assets/index-images-KA/card-img1.png', content: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.', name: 'Vikram Singh', role: 'UX Designer' },
+  //     { image: '/assets/index-images-KA/card-img2.png', content: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.', name: 'Akash Gupta', role: 'UI Developer' },
+  //     { image: '/assets/index-images-KA/card-img3.png', content: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.', name: 'Rahul Patel', role: 'Software Engineer' }
+  //   ];
+  //   marginLeft: number = 0;
+  //   currentIndex: number = 0;
 
-//   adjustMarginLeft() {
-//     this.marginLeft = -this.currentIndex * 70; 
-//   }
 
-//  // Reviews carousel section ends:
+  //   previousReview() {
+  //     if (this.currentIndex > 0) {
+  //       this.currentIndex--;
+  //       this.adjustMarginLeft();
+  //     }
+  //   }
 
+  //   nextReview() {
+  //     if (this.currentIndex < this.reviews.length - 1) {
+  //       this.currentIndex++;
+  //       this.adjustMarginLeft();
+  //     }
+  //   }
+
+  //   adjustMarginLeft() {
+  //     this.marginLeft = -this.currentIndex * 70; 
+  //   }
+
+  //  // Reviews carousel section ends:
+
+
+
+  activeSection = 'peer';
+
+  @HostListener('window:scroll', [])
+  onWindowScroll() {
+    const scrollPosition = window.scrollY || document.documentElement.scrollTop || document.body.scrollTop || 0;
+    const windowHeight = window.innerHeight;
+    const sectionHeight = windowHeight;
+
+    if (scrollPosition < sectionHeight) {
+      this.activeSection = 'peer';
+    } else if (scrollPosition < 2 * sectionHeight) {
+      this.activeSection = 'feedback';
+    } else {
+      this.activeSection = 'smart';
+    }
+  }
 
   async ngOnInit(): Promise<void> {
     setInterval(() => {
@@ -73,18 +92,20 @@ export class IndexComponent {
   }
 
   openGetReferral() {
-    // console.log("clicked");
     if (this.userLoggedIn) {
-      // alert("User is Logged In")
-      this.redirectToCompanyListing();
+      this.redirectToEmployeeReferral();
     } else {
-      // console.log("Modal open");
+      this.userType = "employee";
       this.openModal(ModalType.LOGIN_SIGNUP);
     }
   }
 
   async redirectToCompanyListing() {
     this.router.navigateByUrl('/company-listing');
+  }
+
+  async redirectToEmployeeReferral() {
+    this.router.navigateByUrl('/employee/Referral');
   }
 
 
