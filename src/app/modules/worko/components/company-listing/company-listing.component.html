@@ -34,12 +34,12 @@
     </button>
     </div>
 
-    <div class="row my-4">
-      <div class="col-4 campanies">
+    <div class="row my-4 pl-5">
+      <div class="col-12 col-sm-4 mb-sm-1 mb-3 ">
         Companies
       </div>
-      <div class="col-8 d-flex justify-content-end">
-        <div class=" me-3 p-1 d-flex">
+      <div class="col-12 col-sm-8 d-flex flex-column flex-sm-row justify-content-sm-end align-items-start">
+        <div class="p-1 d-flex mb-3 mb-sm-1">
           <select class="selector form-select" name="industryType" id="industryType"
           [(ngModel)]="filterData.industryType" (ngModelChange)="onIndustryNameChange($event)">
           <option value="">Select industryType</option>
