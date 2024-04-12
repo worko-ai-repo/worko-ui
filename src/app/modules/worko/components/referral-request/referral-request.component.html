@@ -8,12 +8,12 @@
 
       <div class="col-sm-6 d-flex align-self-center">
         <div class="row h-100">
-          <div class="col-sm-12 mt-sm-3 mt-md-5 title">
+          <div class="col-sm-12  title">
             <h1 class="ref-req-text">Referral Request</h1>
           </div>
 
           <form (ngSubmit)="checkRequestReferral()" [formGroup]="requestForm" class="p-0" novalidate>
-            <div class="col-sm-12 mt-4">
+            <div class="col-sm-12 mt-lg-3 mt-sm-1">
               <label for="jobUrl" class="form-lable required-form-field">Enter job URL for {{selectedCompany.name}}</label>
               <input formControlName="jobUrl" id="jobUrl" type="text" class="form-control text-white input-jobUrl" />
               <div *ngIf="requestForm.get('jobUrl')?.invalid && (requestForm.get('jobUrl')?.dirty || requestForm.get('jobUrl')?.touched)" class="text-danger">
