@@ -60,6 +60,7 @@ hr{
 
 .grad{
     position: absolute;
+    opacity: 75%;
 }
 
 .grad-left1{
@@ -95,6 +96,7 @@ hr{
     top: 0;
     left: 0;
     width: 36%;
+    max-width: 500px;
     img {
         width: 100%;
     }
@@ -365,6 +367,7 @@ hr{
     margin-top: 9%;
     position: absolute;
     right: 27%;
+    text-align: center;
     // top: 1rem;
     top: 3%;
     padding-bottom: 50%;
@@ -695,10 +698,10 @@ hr{
     width: 31.5%;
     padding: 4rem 3%;
 
-    .card-img{
-        top: -4rem;
-        left: 35%;
-    }
+    // .card-img{
+    //     top: -4rem;
+    //     left: 35%;
+    // }
 
     .card-content{
         font-size: 14px;
@@ -739,110 +742,130 @@ hr{
     margin-left: 2%;
 }
 
-// Review section for carousel
+Review section for carousel
 
-// .reviews-section{
-//     background-color: #E7F4FC;
-//     color: #182B45;
-//     margin-top: 3rem;
-//     width: 93%;
-//     margin-left: 3%;
-//     border-radius: 30px;
-//     padding-bottom: 5rem;
-//     margin-bottom: 2.5rem;
-//     .review-img{
-//         width: 27%;
-//         img{
-//             width: 100%;
-//         }
-//     }
-//     overflow: hidden;
-// }
+.reviews-section{
+    background-color: #E7F4FC;
+    color: #182B45;
+    margin-top: 3rem;
+    width: 93%;
+    margin-left: 3%;
+    border-radius: 30px;
+    padding-bottom: 5rem;
+    margin-bottom: 2.5rem;
+    .review-img{
+        width: 27%;
+        img{
+            width: 100%;
+        }
+    }
+    overflow: hidden;
+}
 
-// .reviews-content{
-//     display: flex;
-//     flex-direction: column;
-//     width: 80%;
-//     padding-left: 12%;
-//     text-align: center;
-//     padding-top: 6rem;
+.reviews-content{
+    display: flex;
+    flex-direction: column;
+    width: 80%;
+    padding-left: 12%;
+    text-align: center;
+    padding-top: 6rem;
     
-//     .title{
-//         font-size: calc(1vw + 7px);
-//         line-height: 167%;
-//     }
+    .title{
+        font-size: calc(1vw + 7px);
+        line-height: 167%;
+    }
 
-//     .sub-title{
-//         font-size: calc(2vw + 20px);
-//         font-weight: 700;
-//     }
+    .sub-title{
+        font-size: calc(2vw + 20px);
+        font-weight: 700;
+    }
 
-//     .text{
-//         width: 80%;
-//         margin: 2rem auto;
-//     }
-// }
+    .text{
+        width: 80%;
+        margin: 2rem auto;
+    }
+}
 
-// .review-cards{
-//     overflow: hidden;
-//     width: 200vw;
-//     padding-top: 4rem;
-//     justify-content: space-between;
-//     margin-left: -30%;
-// }
+.review-cards{
+    display: flex;
+    overflow: hidden;
+    width: 333vw;
+    padding-top: 4rem;
+    justify-content: space-between;
+    transition: margin-left 0.8s ease; 
+}
 
-// .review-card{
-//     background-color: #fff;
-//     border-radius: 33px;
-//     // margin-right: 3.3%;
-//     width: 31.5%;
-//     padding: 4rem 3%;
+.review-card{
+    background-color: #fff;
+    border-radius: 33px;
+    // margin-right: 3.3%;
+    width: 31.5%;
+    // padding: 4rem 2%;
+    padding: 1.2% 2%;
 
-//     margin-right: 1%;
-//     .card-img{
-//         top: -4rem;
-//         left: 35%;
-//     }
+    margin-right: 1%;
+    .card-img{
+        width: 100%;
+        top: -4rem;
+        left: 0;
+        display: flex;
+        justify-content: center;
+    }
 
-//     .card-content{
-//         font-size: 14px;
-//         text-align: center;
-//     }
+
+    .card-content{
+        font-size: 14px;
+        text-align: center;
+    }
     
-// }
+}
 
-// .reviewer{
-//     display: flex;
-//     flex-direction: column;
-//     width: 100%;
-//     justify-content: center;
-//     text-align: center;
-//     .name{
-//         font-weight: 700;
-//         font-size: 20px;
-//         padding-top: 2rem;
-//     }
-// }
+.reviewer{
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+    justify-content: center;
+    text-align: center;
+    .name{
+        font-weight: 700;
+        font-size: 20px;
+        padding-top: 2rem;
+    }
+}
 
-// .review-button{
-//     display: flex;
-//     width: 100%;
-// }
+.review-button{
+    display: flex;
+    width: 100%;
+}
 
-// .arrow-button{
-//     border-radius: 50%;
-//     background-color: #000;
-//     margin-top: 5rem;
-//     padding: 1rem 1.3rem;
-// }
+.arrow-button{
+    border-radius: 50%;
+    background-color: #000;
+    margin-top: 3rem;
+    padding: 1rem 1.3rem;
+    cursor: pointer;
+}
 
-// .left{
-//     margin-left: 45%;
-// }
-// .right{
-//     margin-left: 2%;
-// }
+.arrow-button.disabled {
+    opacity: 0.7; 
+    pointer-events: none; 
+    cursor: default;
+  }
 
+.left{
+    margin-left: 45%;
+}
+.right{
+    margin-left: 2%;
+}
+
+.review-cards-md{
+    display: none;
+}
+
+.review-cards-sm{
+    display: none;
+}
 
 // ---------------Responsive for ipads---------------
 
@@ -1068,6 +1091,7 @@ hr{
     .referee-section{
         padding-top: 11rem;
         padding-left: 2%;
+        overflow: hidden;
     }
     
     .ref{
@@ -1110,7 +1134,7 @@ hr{
     .options{
         font-size: calc(10px + 1vw);
         margin-top: -2rem;
-        padding-left: 62%;
+        padding-left: 58%;
         .opt{
             padding-bottom: 48%;
         }
@@ -1344,25 +1368,42 @@ hr{
     }
 
     .review-cards{
-        width: 227vw;
+        width: 530vw;
         padding-top: 4rem;
-        margin-left: -68%;
+        margin-left: -66%;
     }
 
     .review-card{
         background-color: #fff;
         border-radius: 33px;
-        margin-right: 2.3%;
+        margin-right: 1%;
         width: 68%;
-        padding: 4rem 3% 3rem;
+        padding: 4rem 1.5% 3rem;
 
-        .card-img{
-            top: -4rem;
-            left: 38%;
-        }
-        
+        // .card-img{
+        //     top: -4rem;
+        //     left: 38%;
+        // }
+    }
+    .reviews-section-lg{
+        display: none;
     }
 
+    .reviews-section-sm{
+        display: none;
+    }
+
+    .review-cards-lg{
+        display: none;
+    }
+
+    .review-cards-md{
+        display: flex;
+        transition: margin-left 1s ease; 
+    }
+    // .reviews-section-sm{
+
+    // }
 
     // .right{
     //     margin-left: 45%;
@@ -1392,7 +1433,8 @@ hr{
     margin-top: 1.5rem;
     
     img{
-        width: 93.5px;;
+        width: 93.5px;
+        width: calc(7vw + 68px);
     }
 }
     
@@ -1453,23 +1495,38 @@ hr{
     }
 
     .grad{
-        display: none;
+        opacity: 40%;
+        width: 70%;
+        img{
+            width: 100%;
+        }
+    }
+
+    .grad-right2, .grad-right3{
+        right: -1%;
     }
 
 
     .rows{
         padding-left: 14%;
+        overflow: hidden;
     }
     
     .intro{
 
         padding-top: 3rem;
         .content{
-            width: 71%;
+            width: 68%;
             padding-top: 3.5rem;
+        }
+        .give-content{
+            width: 69.75%;
         }
     }
     
+    .content2{
+        width: 121%;
+    }
     .intro-image{
         position: absolute;
         right: 0;
@@ -1480,15 +1537,16 @@ hr{
     }
     
     .intro-ul{
-        padding: 0.1rem 6% 0.5rem;
-        width: 120%;
+        padding: 0.4rem 0 0.7rem;
+        // padding-left: 2%;
+        width: 126%;
         margin-bottom: 0;
     }
 
 
     .stats-section{
         justify-content: flex-start;
-        padding-top: 1.5rem;
+        padding: 3.3rem 0 0 2%;
     }
     
     .stat{
@@ -1527,6 +1585,9 @@ hr{
             padding-top: 0.5rem;
             text-align: left;
             font-size: calc(2vw + 6.5px);
+        }
+        .purpose-rows{
+            padding-right: 1%;
         }
     }
     
@@ -1620,7 +1681,7 @@ hr{
     // Benefits Section
     .benefits-section{
         padding-left: 14%;
-        padding-top: 2rem;
+        padding-top: 2.5rem;
     
         .benefits-title{
             font-size: calc(10px + 2vw);
@@ -1636,20 +1697,20 @@ hr{
     }
     
     .referee-section{
-        padding-top: 1rem;
+        padding-top: 3rem;
         padding-left: 2%;
     }
     
     .ref{
-        width: 44%;
-        height: 31px;
-        padding: 0 3%;
+        width: 50%;
+        height: 29px;
+        padding: 0 2%;
         font-size: 7px;
     }
     
     .right-col{
-        right: 13%;
-        top: 4rem;
+        right: 5%;
+        top: 6rem;
     }
     
     .semi-md{
@@ -1671,18 +1732,20 @@ hr{
     // }
 
     .refer-circle{
-        top: 0.7rem;
+        top: 0.3rem;
         p{
             font-weight: 700;
+            font-size: 10px;
+            width: 80%;
         }
     }
     
     .options{
-        font-size: calc(10px + 1vw);
-        margin-top: -2rem;
-        padding-left: 48%;
+        font-size: 9px;
+        margin-top: -1rem;
+        padding-left: 53%;
         .opt{
-            padding-bottom: 31%;
+            padding-bottom: 50%;
         }
     
         .opt1{
@@ -1710,6 +1773,7 @@ hr{
     // Candidate CSS
     .candidate-section{
         padding-left: 16%;
+        padding-top: 2rem;
         .benefits-content{
             padding-top: 2rem;
             width: 90%;
@@ -1719,7 +1783,7 @@ hr{
     .candidate-col{
         width: 43%;
         right: 0%;
-        top: 24%;
+        top: 34%;
 
         .options-lg{
             display: none;
@@ -1727,9 +1791,9 @@ hr{
 
         .candidate-circle{
             right: 27%;
-            top: 4%;
+            top: 3%;
             p{
-                width: 58%;
+                width: 80%;
                 text-align: center;
             }
         }
@@ -1748,7 +1812,7 @@ hr{
         }
 
         .opt2{
-            padding-left: 61%;
+            padding-left: 70%;
         }
 
         .opt8{
@@ -1758,12 +1822,12 @@ hr{
     }
     .options-md{
         display: block;
-        margin-top: 0;
+        margin-top: -1rem;
         padding-left: 36%;
         width: 100%;
 
         .opt{
-            padding-bottom: 30%;
+            padding-bottom: 55%;
         }
     }
     .companies-section{
@@ -1924,23 +1988,17 @@ hr{
     }
 
     .review-cards{
-        width: 227vw;
+        
+        width: 575vw;
         padding-top: 4rem;
         margin-left: -68%;
     }
 
     .review-card{
-        background-color: #fff;
         border-radius: 33px;
-        margin-right: 2.3%;
+        margin-right: 1%;
         width: 68%;
-        padding: 4rem 3% 3rem;
-
-        .card-img{
-            top: -4rem;
-            left: 26%;
-        }
-
+        padding: 4rem 1% 3rem;
         .card-content{
             font-size: 10px;
             text-align: center;
@@ -1982,6 +2040,17 @@ hr{
     }
     .right{
         margin-left: 6%;
+    }
+
+    .review-cards-lg{
+        display: none;
+    }
+    .review-cards-md{
+        display: none;
+    }
+    .review-cards-sm{
+        transition: margin-left 1s ease; 
+        display: flex;
     }
 }
 
