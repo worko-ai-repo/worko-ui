@@ -91,7 +91,10 @@ picErrorMessage: string = ""
       profilePicUrl: this.employeeDetails?.profileImageAwsS3SignedUrl? this.employeeDetails?.profileImageAwsS3SignedUrl : "/assets/public/candidate-img.png"
 
     }
+    console.log( this.employeePersonalData )
+
   }
+
 
   handleFileInput(event: Event): void {
     const inputElement = event.target as HTMLInputElement;

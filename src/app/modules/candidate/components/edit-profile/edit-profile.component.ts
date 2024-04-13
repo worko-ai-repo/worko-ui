@@ -75,10 +75,11 @@ try{
         "isCurrent": this.secondStepData?.isCurrent ? this.secondStepData?.isCurrent : true
       }
       ]
+    
     await this.candidateSrv.createWorkExperience(this.emailAddress, workExperience).then(async (response) => {
       
       // if (response) {
-       this.modelOpen();
+       //this.modelOpen();
         //this.router.navigate(['/candidate/dashboard']);
    
      //this.createEducationDetails();
@@ -196,9 +197,9 @@ try{
 
   }
   async creatSocialProfile() {
-    var twitterArray: string[] = this.firstStepData.socialLinktwitter;
-    var linkedinArray: string[] = this.firstStepData.socialLinklinkdin;
-    var githubArray: string[] = this.firstStepData.socialLinkGithub;
+    var twitterArray: string[] = this.firstStepData.socialLinktwitter || [];
+    var linkedinArray: string[] = this.firstStepData.socialLinklinkdin|| [];
+    var githubArray: string[] = this.firstStepData.socialLinkGithub|| [];
   
     // Check if twitterArray is an array
     if ( twitterArray.length>2) {
@@ -565,10 +566,10 @@ try{
 
   //When uer click on "Complete" on 3rd step
   onSuccess(data: any) {
-    this.spinner.show();
+   // this.spinner.show();
    //debugger
     this.thirdStepData = data;
-    
+    this.modelOpen();
     this.uploadUserCV();
 
       

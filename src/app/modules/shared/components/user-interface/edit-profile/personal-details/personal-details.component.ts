@@ -145,7 +145,8 @@ export class PersonalDetailsComponent implements OnInit {
       coreSkillList: this.certificationList?.coreSkills,
       achievements: this.achievementsList,
       companySK: this.selectedCompany?.SK ? this.selectedCompany?.SK : this.workExperienceDetails?.SK,
-      isCandidateFresher: this.candidateList.isCandidateFresher
+     // isCandidateFresher: this.candidateList.isCandidateFresher
+     isCandidateFresher: this.candidateList?.isCandidateFresher ?? false
     }
   }
 
