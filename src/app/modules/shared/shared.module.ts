@@ -82,7 +82,8 @@ import { EmployeeReferralRejectComponent } from './components/user-interface/emp
 import { EmployeeAcceptedReferralComponent } from './components/user-interface/employee/referral/employee-accepted-referral/employee-accepted-referral.component';
 import { MarkAsDoneComponent } from './components/user-interface/referral/referral-reusable-button/mark-as-done/mark-as-done.component';
 import { SeeReviewComponent } from './components/user-interface/referral/referral-reusable-button/see-review/see-review.component';
-
+import { CircleChartComponent } from '../worko/components/circle-chart/circle-chart.component';
+import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 export const routes: Routes = [
 
   
@@ -125,8 +126,8 @@ export const routes: Routes = [
     WithdrawReferralPopupComponent,
     ConfirmationDialogPopupComponent,
     SeeReviewComponent,
-    ProvideFeedbackComponent
-
+    ProvideFeedbackComponent,
+    CircleChartComponent,
     // DoneServiceComponent,
     // CancelledServiceComponent,
     // AwaitingServiceComponent,
@@ -147,7 +148,8 @@ export const routes: Routes = [
     ReactiveFormsModule,
     SlickCarouselModule,
     NgbRatingModule,
-    RouterModule
+    RouterModule,
+    MatProgressSpinnerModule
     // BrowserAnimationsModule,
   ],
 
@@ -189,7 +191,8 @@ export const routes: Routes = [
   WithdrawReferralPopupComponent,
   ConfirmationDialogPopupComponent,
   SeeReviewComponent,
-  ProvideFeedbackComponent
+  ProvideFeedbackComponent,
+  CircleChartComponent
   ],
 
 })
