@@ -33,6 +33,8 @@
                     <app-referral-done *ngIf="selectedStatus === 'DONE'" [userType]="userType"
                         (raiseIssue)="referralRaiseIssue($event)" (referralRating)="createReview($event)"
                         [reviewData]="reviewData" [empdetailsList]="empdetailsList"
+                        [empEducationList]="empEducationList" [empExperienceList]="empExperienceList"
+                        [empCoreSkillsDetails]="empCoreSkillsDetails"
                         [selectedReferral]="selectedReferral"></app-referral-done>
                     <app-referral-cancelled [userType]="userType" [empdetailsList]="empdetailsList"
                         [selectedReferral]="selectedReferral"
@@ -51,7 +53,8 @@
     [bodyClass]="modalMessage ? 'p-4' : 'p-0'" [modalSize]="'md'">
 
     <!-- <app-messagmodal  [message]="successmessage" [title]="successtitle"></app-messagmodal> -->
-    <div *ngIf="!(showModal === modalType.REFERRAL_RATING)" class="row message-card px-sm-3 p-4" style="border-radius: 6px;">
+    <div *ngIf="!(showModal === modalType.REFERRAL_RATING)" class="row message-card px-sm-3 p-4"
+        style="border-radius: 6px;">
         <div class="font-weight-bold text-color-red mb-3 d-flex justify-content-center"
             style="color: #e40707; font-size: 20px;" *ngIf="successtitle === 'Error'">
             {{successtitle}}

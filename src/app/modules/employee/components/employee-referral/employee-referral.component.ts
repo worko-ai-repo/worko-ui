@@ -4,6 +4,7 @@ import { EmployeeProfileService } from '../../services/employee-profile.service'
 import { CandidateProfileService } from 'src/app/modules/candidate/services/candidate-profile.service';
 import { ModalType } from 'src/app/modules/shared/interfaces/shared.interface';
 import { ModalComponent } from 'src/app/modules/shared/components/modal/modal.component';
+import { NgxSpinnerService } from 'ngx-spinner';
 @Component({
   selector: 'app-employee-referral',
   templateUrl: './employee-referral.component.html',
@@ -42,7 +43,7 @@ export class EmployeeReferralComponent {
   showModal: ModalType | undefined;
   statusItem: { name: string; status: string; date: any; }[] = [];
 
-  constructor(private candidateSrv: CandidateProfileService, private empService: EmployeeProfileService, private storage: StorageService) { }
+  constructor(private candidateSrv: CandidateProfileService, private empService: EmployeeProfileService, private storage: StorageService, private spinner: NgxSpinnerService) { }
 
   ngOnInit(): void {
     this.emailAddress = this.storage.get("useremail");
@@ -94,15 +95,18 @@ export class EmployeeReferralComponent {
 
 
   async getEmpReferral() {
+    this.spinner.show();
     // let companySK = "01HMR3G2QNYYM47YZ2P9ZVZBPR";
     // let companyId = this.currentCompanyId
     let companyId = this.getSlicedValue(this.currentCompanySK);
     await this.empService.getEmployeeReferral(this.emailAddress, companyId, this.selectedStatus).then(async (response) => {
       if (response) {
+        this.spinner.hide();
         this.empReferralList = response;
         console.log(this.empReferralList + '123');
       }
     }).catch((error: any) => {
+      this.spinner.hide();
       this.empReferralList = [];
     }
     );
@@ -178,6 +182,7 @@ export class EmployeeReferralComponent {
   // }
 
   async referralAction(action: string) {
+    this.spinner.show();
     const userId = this.userId;
     // let currentDate = this.getCurrentDateISO();
     const payload = {
@@ -189,6 +194,7 @@ export class EmployeeReferralComponent {
     let referralId = this.getSlicedValue(this.selectedReferral.SK);
     await this.empService.updateReferralStatus(referralId, payload).then(async (response) => {
       if (response) {
+        this.spinner.hide();
         console.log(response);
         if (action === 'ACCEPT') {
           this.successmessage = "Referral request accepted successfully.";
@@ -206,6 +212,7 @@ export class EmployeeReferralComponent {
         this.getEmpReferral();
       }
     }).catch((error: any) => {
+      this.spinner.hide();
       console.log(error);
       this.successmessage = "Something went wrong. Please try again after sometime"
       this.successtitle = "Error"
@@ -215,6 +222,7 @@ export class EmployeeReferralComponent {
   }
 
   async rejectAction(action: string, data: any) {
+    this.spinner.show();
     let rejectReasonsData = data;
     console.log("rejectReasonsData");
     const userId = this.userId;
@@ -229,6 +237,7 @@ export class EmployeeReferralComponent {
     let referralId = this.getSlicedValue(this.selectedReferral.SK);
     await this.empService.updateReferralStatus(referralId, payload).then(async (response) => {
       if (response) {
+        this.spinner.hide();
         console.log(response);
         this.successmessage = "Referral request rejected successfully.";
         this.successtitle = "Congratulations!";
@@ -236,6 +245,7 @@ export class EmployeeReferralComponent {
         this.getEmpReferral();
       }
     }).catch((error: any) => {
+      this.spinner.hide();
       console.log(error);
       this.successmessage = "Something went wrong. Please try again after sometime"
       this.successtitle = "Error"
@@ -253,6 +263,7 @@ export class EmployeeReferralComponent {
 
   async rasieIssue(data: any) {
 
+    this.spinner.show();
     this.splitName(this.userName);
     const firstName = this.firstName;
     const lastName = this.lastName;
@@ -277,9 +288,20 @@ export class EmployeeReferralComponent {
     }
     await this.candidateSrv.raiseIssue(payload).then(async (response) => {
       if (response) {
+        this.spinner.hide();
         console.log(response);
+        this.successmessage = "Issue raised successfully.";
+        this.successtitle = "Congratulations!";
+        this.openModal(ModalType.SUCCESS_MESSAGE);
       }
-    })
+    }).catch((error: any) => {
+      this.spinner.hide();
+      console.log(error);
+      this.successmessage = "Something went wrong. Please try again after sometime"
+      this.successtitle = "Error"
+      this.openModal(ModalType.SUCCESS_MESSAGE);
+    }
+    );
 
   }
 

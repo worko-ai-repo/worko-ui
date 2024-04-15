@@ -1,8 +1,11 @@
 import { HttpClient } from '@angular/common/http';
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ViewChild } from '@angular/core';
 // import { CandidateDropdownService } from 'src/app/modules/services/candidate-dropdown.service';
 import { CandidateProfileService } from '../../services/candidate-profile.service';
 import { StorageService } from 'src/app/modules/app-core/services/storage.service';
+import { NgxSpinnerService } from 'ngx-spinner';
+import { ModalType } from 'src/app/modules/shared/interfaces/shared.interface';
+import { ModalComponent } from 'src/app/modules/shared/components/modal/modal.component';
 
 @Component({
   selector: 'app-referral',
@@ -10,6 +13,7 @@ import { StorageService } from 'src/app/modules/app-core/services/storage.servic
   styleUrls: ['./referral.component.scss']
 })
 export class ReferralComponent implements OnInit {
+  @ViewChild(ModalComponent) modal!: ModalComponent;
   userType = "Candidate";
   userId: any;
   userName: any;
@@ -21,8 +25,14 @@ export class ReferralComponent implements OnInit {
   selectedReferral: any;
   reviewData: any = null;
   refereeDetails: any;
+  successmessage: string = "";
+  successtitle: string = "";
+  modalType = ModalType;
+  modalMessage: string = "";
+  modalTitle: string = "";
+  showModal: ModalType | undefined;
   statusItem: { name: string; status: string; date: any; }[] = [];
-  constructor(private candidateSrv: CandidateProfileService, private storage: StorageService) { }
+  constructor(private candidateSrv: CandidateProfileService, private storage: StorageService, private spinner: NgxSpinnerService) { }
 
   ngOnInit(): void {
     this.emailAddress = this.storage.get("useremail");
@@ -33,13 +43,16 @@ export class ReferralComponent implements OnInit {
   }
 
   async getReferral() {
+    this.spinner.show();
     await this.candidateSrv.getReferral(this.emailAddress, this.selectedStatus).then(async (response) => {
       if (response) {
+        this.spinner.hide();
         this.referralList = response;
         console.log(this.referralList);
         // this.getRefereeDetials(response.accc);
       }
     }).catch((error: any) => {
+      this.spinner.hide();
       this.referralList = [];
     }
     );
@@ -71,7 +84,8 @@ export class ReferralComponent implements OnInit {
       { name: 'Cancelled', status: '', date: '' }]
     }
     else if (status === 'WITHDRAWN') {
-      this.statusItem = [];
+      this.statusItem = [{ name: 'Awaiting', status: '', date: '' },
+      { name: 'Withdrawn', status: '', date: '' }];
     }
     else if (status === 'DONE') {
       this.statusItem = [{ name: 'Awaiting', status: '', date: '' },
@@ -174,7 +188,7 @@ export class ReferralComponent implements OnInit {
   }
 
   async rasieIssue(data: any) {
-
+    this.spinner.show();
     this.splitName(this.userName);
     const firstName = this.firstName;
     const lastName = this.lastName;
@@ -199,14 +213,26 @@ export class ReferralComponent implements OnInit {
     }
     await this.candidateSrv.raiseIssue(payload).then(async (response) => {
       if (response) {
+        this.spinner.hide();
         console.log(response);
+        this.successmessage = "Issue raised successfully.";
+        this.successtitle = "Congratulations!";
+        this.openModal(ModalType.SUCCESS_MESSAGE);
       }
-    })
+    }).catch((error: any) => {
+      this.spinner.hide();
+      console.log(error);
+      this.successmessage = "Something went wrong. Please try again after sometime"
+      this.successtitle = "Error"
+      this.openModal(ModalType.SUCCESS_MESSAGE);
+    }
+    );
 
   }
 
   async withdrawReferralRequest(data: any) {
 
+    this.spinner.show();
     let referralId = this.getSlicedValue(this.selectedReferral.SK);
     let payload = {
       "reason": data.withdrawReason,
@@ -215,11 +241,48 @@ export class ReferralComponent implements OnInit {
 
     await this.candidateSrv.withdrawReferral(this.emailAddress, "WITHDRAWN", referralId, payload).then(async (response) => {
       if (response) {
+        this.spinner.hide();
         this.getReferral();
         console.log(response);
       }
-    })
+    }).catch((error: any) => {
+      this.spinner.hide();
+    }
+    );
 
+  }
+
+  /**
+* Open modal.
+*
+* @param {ModalType} modalType
+* @param {string} [message = ""]
+* @param {string} [title = ""]
+* @returns {void}
+*/
+  openModal(modalType: ModalType, message: string = "", title: string = ""): void {
+    this.showModal = modalType;
+    this.modalMessage = message;
+    this.modalTitle = title;
+    this.modal.open();
+  }
+  /**
+   * Close modal.
+   *
+   * @returns {void}
+   */
+  closeModal(): void {
+    // this.referrralComponent.showReferrelRow = true;
+    this.modal.cancel();
+  }
+
+  continue() {
+    this.closeModal();
+    //window.location.reload();
+  }
+
+  cancel() {
+    this.closeModal();
   }
 
 
