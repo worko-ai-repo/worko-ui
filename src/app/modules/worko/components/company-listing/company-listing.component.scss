@@ -31,13 +31,14 @@
     top: 0;
     left: 0;
     width: 36%;
+    max-width: 500px;
     img {
         width: 100%;
     }
 }
 
 .company-listing-container .contents{
-    padding-top: 12rem;
+    padding-top: 6rem;
 }
 
 .company-listing-container .searchInput {
@@ -189,7 +190,7 @@ img {
     }
     
     .company-listing-container .contents{
-        padding-top: 5rem;
+        padding-top: 3rem;
     }
 }
 

@@ -3,6 +3,7 @@ import { Injectable } from '@angular/core';
 import { CognitoService } from '../../services/cognito.service';
 import { environment } from '../../../../environment/environment';
 import { userInfo } from '../interfaces/auth.interface';
+import{corporateInfo} from '../interfaces/auth.interface';
 const API_URL = environment.apiUrl;
 
 @Injectable({
@@ -35,7 +36,7 @@ export class CareerService {
   }
 
  /**
-   * Create Employee.
+   * Create CareerUser.
    *
    * @param {number | string } userInfo
    * @returns {Promise<any>}
@@ -43,6 +44,17 @@ export class CareerService {
  createUser(userInfo: userInfo): Promise<any> {
   return this.http.post(API_URL + `career/`, userInfo, this.getHttpOptions()).toPromise();
 }
+
+/**
+   * Create CorporateUser.
+   *
+   * @param {number | string } corporateInfo
+   * @returns {Promise<any>}
+   */
+createCorporateUser(corporateInfo: corporateInfo): Promise<any> {
+  return this.http.post(API_URL + `corporate/`, corporateInfo, this.getHttpOptions()).toPromise();
+}
+
 
 
 

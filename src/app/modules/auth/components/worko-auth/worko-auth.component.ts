@@ -3,9 +3,10 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { CognitoService } from 'src/app/modules/services/cognito.service';
 import { StorageService } from 'src/app/modules/app-core/services/storage.service';
 import 'aws-amplify/auth/enable-oauth-listener';
-import { fetchUserAttributes, fetchAuthSession, getCurrentUser } from 'aws-amplify/auth';
+
 import { CandidateProfileService } from 'src/app/modules/candidate/services/candidate-profile.service';
 import { DataTextureLoader } from 'three';
+import { fetchAuthSession, getCurrentUser } from '@aws-amplify/auth';
 
 
 
@@ -35,12 +36,21 @@ export class WorkoAuthComponent {
 
   }
 
-
+  linkedinAccessToken:any=''
   // code:any;
   //  oAuthTokenEndpoint ='https://' + 'worko.auth.ap-south-1.amazoncognito.com' + '/oauth2/token';
   //   _cognitoClientId='5evf019rrkaijtnjf2j1vvdf33'
 
-  ngOnInit(): void {
+  async ngOnInit(): Promise<void> {
+    const { accessToken, idToken } = (await fetchAuthSession()).tokens ?? {};
+    console.log(accessToken)
+    // if (!accessToken) {
+    //   this.storage.remove('accessToken');
+    //   return false;
+    // }
+    this.linkedinAccessToken=accessToken;
+
+    this.storage.set('accessToken', this.linkedinAccessToken.toString());
 
     const usertype = this.storage.get('LinkedinUserType');
     console.log(usertype)
@@ -57,7 +67,7 @@ export class WorkoAuthComponent {
   }
 
   async employeeSignUp() {
-
+    //this.getCandidateData()
     const isCandidatePresent = await this.getCandidateDetails();
     if (isCandidatePresent) {
       console.log("Candidate not present");
@@ -66,7 +76,7 @@ export class WorkoAuthComponent {
   }
   async candidateSignUp() {
 
-
+   // this.getCandidateData()
     const isCandidatePresent = await this.getCandidateDetails();
     if (isCandidatePresent) {
       console.log("Candidate not present");
@@ -79,7 +89,7 @@ export class WorkoAuthComponent {
 
 
   async signIn() {
-    this.getCandidateData()
+   // this.getCandidateData()
     const isCandidatePresent = await this.getCandidateDetails();
     if (isCandidatePresent) {
       this.registerOptionScreen = true;
@@ -87,6 +97,7 @@ export class WorkoAuthComponent {
     }
   }
   async getCandidateDetails() {
+  
     const {
       tokens,
 

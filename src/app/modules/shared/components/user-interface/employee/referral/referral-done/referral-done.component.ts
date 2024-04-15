@@ -13,6 +13,9 @@ export class ReferralDoneComponent implements OnChanges {
   @Input() reviewData:any = "";
   @Input() selectedReferral:any;
   @Input() empdetailsList:any="";
+  @Input() empEducationList:any='';
+  @Input() empExperienceList:any="";
+  @Input() empCoreSkillsDetails:any = '';
   @Input() userType:any;
   referralRatingFlag = false;
   profileImage:any;
@@ -51,6 +54,14 @@ export class ReferralDoneComponent implements OnChanges {
     this.referralRating.emit(reviewRatingData);
   }
 
+  openfile(event: { preventDefault: () => void; }){
+    event.preventDefault(); 
+  // console.log(this.docResult.awsS3SignedUrl)
+   
+   
+    //window.open(this.docResult.awsS3SignedUrl,'_blank')
+    window.open(this.empdetailsList[0]?.cvAwsS3SignedUrl,'_blank');
+  }
 
 
 }

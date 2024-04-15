@@ -26,6 +26,7 @@ hr{
     top: 0;
     left: 0;
     width: 36%;
+    max-width: 500px;
     img {
         width: 100%;
     }
@@ -388,6 +389,9 @@ textarea{
 .team-content{
     width: 58%;
 }
+.input.ng-invalid.ng-touched {
+    border: 1px solid red;
+  }
 
 
 // ------------------Form Section-------------------
@@ -681,6 +685,9 @@ textarea{
     .form-button{
         font-size: 14px;
     }
+    .input.ng-invalid.ng-touched {
+        border: 1px solid red;
+      }
 }
 
 
@@ -1183,6 +1190,9 @@ textarea{
     .form-button-container{
         justify-content: center;
     }
+    .input.ng-invalid.ng-touched {
+        border: 1px solid red;
+      }
 
 }
 

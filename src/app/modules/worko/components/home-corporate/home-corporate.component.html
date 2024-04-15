@@ -304,28 +304,64 @@
                         has been 
                     </div>
                 </div>
+                <form  (ngSubmit)="corporate.form.valid && createCorporate(form)" #corporate="ngForm" novalidate>
                 <div class="rows d-flex">
                     <!-- <div class="background">
                         <img src="assets/corporate-images/form-bg.png">
                     </div> -->
                     <div class="left-col" >
-                        <input class="input" type="text" placeholder="Name*">
-                        <input class="input" type="text" placeholder="Designation">
-                        <input class="input" type="text" placeholder="Phone*">
+                        <input class="input" type="text" placeholder="Name*" #name="ngModel" pattern="^([ \u00c0-\u01ffa-zA-Z'.])+$" 
+                        [(ngModel)]="corporateForm.name" required
+                        [ngClass]="{ 'is-invalid': name.invalid && (name.dirty || name.touched) }"
+                        name="name" id="name">
+
+                        <input class="input" type="text" placeholder="Designation*" id="designation" name="designation"  required
+                        [(ngModel)]="corporateForm.designation" #designation="ngModel"
+                        pattern="^[A-Za-z0-9\s()/.-]+$" minlength="4" maxlength="30"
+                       
+                        required 
+                        [ngClass]="{ 'is-invalid': designation.invalid && (designation.dirty || designation.touched) }">
+                        
+                        <input class="input" type="text" placeholder="Phone(+91XXXXXXXXXX)*" pattern="^\+(?:[0-9] ?){6,14}[0-9]$" maxlength="17" #phoneNo="ngModel"
+                        [(ngModel)]="corporateForm.contactNumber" name="phoneNo" required
+                        [ngClass]="{ 'is-invalid': phoneNo.invalid && (phoneNo.dirty || phoneNo.touched) }"
+                        id="phoneNo">
+                        
                         <div class="verify d-flex">
                             <input class="input" placeholder="__ _ _ __ _"/>
                             <button  class="form-button">Verify</button>
                         </div>
-                        <input class="input" type="text" placeholder="Company Name*">
-                        <input class="input" type="text" placeholder="Email*">
-                        <textarea class="input input-area" type="text" placeholder="Type here"></textarea>
-                        <button class="form-button">Send Message</button>
+                        
+                        <input class="input" type="text" placeholder="Company Name*" name="companyName" id="companyName" 
+                        #companyName="ngModel" [(ngModel)]="corporateForm.companyName"  required minlength="3"
+                        [ngClass]="{ 'is-invalid': companyName.invalid && (companyName.dirty || companyName.touched) }">
+                        
+                        <input class="input" type="text" placeholder="Email*"name="email"
+                        id="email" [(ngModel)]="corporateForm.email" required
+                        pattern="^(?!.*@(gmail\.com|outlook\.com|aol\.com|yahoo\.com|icloud\.com|protonmail\.com|zoho\.com|yandex\.com|gmx\.com|hubspot\.com|mail\.com|tutanota\.com|10minutemail\.com)$)[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$"
+                       [ngClass]="{ 'is-invalid': email.invalid && (email.dirty || email.touched) }" #email="ngModel" >
+                        
+                       <textarea class="input input-area" type="text" placeholder="Type here*" name="description" id="description"placeholder="What you will bring on the table*" #desc="ngModel" 
+                        [(ngModel)]="corporateForm.description" [ngClass]="{ 'is-invalid': desc.invalid && (desc.dirty || desc.touched) }"
+                        required minlength="5"></textarea>
+                        
+                        <button class="form-button" type="submit" [disabled]="
+                        !corporate.form.valid ||
+                        !corporateForm.name ||
+                        !corporateForm.email ||
+                        !corporateForm.contactNumber ||
+                        !corporateForm.designation ||
+                        !corporateForm.description ||
+                        !corporateForm.companyName
+                      ">Send Message</button>
                     </div>
                     <div class="img">
                         <img src="assets/corporate-images/talk-img.png">
                     </div>
                 </div>
+                </form>
             </div>
+        
             <div class="gradient gradient-right3 position-absolute">
                 <img class="gradient-img" src="assets/about-images-KA/gradient-right3.png" alt="Gradient Right 3">
             </div>

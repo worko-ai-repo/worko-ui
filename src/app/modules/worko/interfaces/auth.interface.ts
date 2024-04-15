@@ -32,4 +32,14 @@ export interface userInfo{
         userCvCloudFileName: string,
     
 }
+export interface corporateInfo{
+    
+    userFullName: string,
+    userEmail:string,
+    contactNumber: string,
+    isContactNumberVerified:boolean,
+    companyName: string,
+    userDesignation:string,
+    userMessage:string
 
+}

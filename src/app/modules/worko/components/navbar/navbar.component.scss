@@ -558,31 +558,43 @@ li{
 //     //     display: none;
 //     // }
 // }
+/*edited by thivya*/
 
-.dropdown-menu {
-    min-width: 150px; /* Set a minimum width */
-    background-color:white;
-  
-   // border: 1px;
-   
-   
-border: none;
-}
-  
-  /* Adjust the size of dropdown items */
-  .dropdown-item {
-    font-size: 12px; /* Adjust font size */
-    padding: 0.5rem 1rem; /* Adjust padding */
-    //padding:0.10rem 0.1rem
-   
-    //color: rgb(34, 31, 31);
-
-    color: #0076B2;
+ 
+.options {
+    position: absolute;
+    top: calc(100% + 5px);
+    right: 0; /* Align to the right edge of the circle */
+    background-color: #182b45;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    color: white;
   }
-//   select {
-//     border-radius: 0; /* Make all corners blunt */
-//     border: 1px solid #ced4da; /* Example border style */
-//   }
   
- 
- 
+  .dropdown-item {
+    font-size: 12px; 
+    padding: 0.5rem 0.5rem; 
+    color: #f3f6f8;
+  }
+  
+  .dropdown-item:hover {
+    background-color: #4da8da;
+  }
+  
+  .circle {
+    position: relative;
+    width: 50px;
+    height: 50px;
+    border-radius: 50%;
+    background-color: #0076B2;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    color: white;
+  }
+  
+  .letter {
+    font-weight: bold;
+  }
+  

@@ -156,8 +156,8 @@ fieldsGroup:any;
     this.employeeProfessionalData.designation = '';
     this.employeeProfessionalData.department = '';
     this.employeeProfessionalData.workingSince = '';
-    this.employeeProfessionalData.officialEmail='';
-    this.employeeProfessionalData.companyName='';
+    //this.employeeProfessionalData.officialEmail='';
+    //this.employeeProfessionalData.companyName='';
 
   }
 

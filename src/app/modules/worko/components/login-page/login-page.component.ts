@@ -7,7 +7,7 @@ import { AuthService } from '../../services/auth.service';
 import { StorageService } from 'src/app/modules/app-core/services/storage.service';
 import { NgxSpinnerService } from 'ngx-spinner';
 // import { getCurrentUser, fetchAuthSession  } from 'aws-amplify/auth';
-import { getCurrentUser, fetchAuthSession, signInWithRedirect, resetPassword, ResetPasswordOutput, ConfirmResetPasswordInput, confirmResetPassword, UpdatePasswordInput, updatePassword } from 'aws-amplify/auth';
+
 // import { map, startWith } from 'rxjs/operators';
 // import { NgFor, AsyncPipe } from '@angular/common';
 import { MatAutocompleteModule, MatAutocompleteTrigger } from '@angular/material/autocomplete';
@@ -23,6 +23,7 @@ import { ChangeDetectorRef } from '@angular/core';
 import { CognitoService } from '../../../services/cognito.service';
 import 'aws-amplify/auth/enable-oauth-listener';
 import { Hub } from 'aws-amplify/utils';
+import { ConfirmResetPasswordInput, ResetPasswordOutput, confirmResetPassword, fetchAuthSession, getCurrentUser, resetPassword } from '@aws-amplify/auth';
 declare var bootstrap: any;
 
 @Component({

@@ -24,7 +24,9 @@ export class NavbarComponent {
   employeeTotalPercentage: any;
   candidateTotalPercentage: any;
   candidateProfile: any;
-  userName:string='profile'
+ userName:string='profile'
+  letter:string=""
+  showOptions = false; 
   constructor(private cognitoService: CognitoService, private router: Router, private candidateSrv: CandidateProfileService, private storage: StorageService) {
    
    }
@@ -39,6 +41,9 @@ export class NavbarComponent {
     this.userLoggedIn = await this.cognitoService.isLoggedIn();
     this.userName=this.storage.get('userName') ;
     console.log(this.userName)
+    // this.letter=this.getInitials(this.userName)
+    // console.log(this.letter);
+    this.letter  = this.userName.charAt(0).toUpperCase();
 
   }
 
@@ -61,6 +66,17 @@ export class NavbarComponent {
     }
 
   }
+  //  getInitials(name: string): string {
+   
+  //   const fullName = name.split('.')[0];
+    
+  
+  //   const parts = fullName.split(" ");
+   
+
+   
+  //  return  this.letter = parts.map((part: string) => part.charAt(0)).join("").toUpperCase();
+  // }
 
 
 
