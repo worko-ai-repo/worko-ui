@@ -30,6 +30,9 @@ export class EmployeeReferralDetailsComponent implements OnChanges {
   modalMessage: string = "";
   modalTitle: string = "";
   showModal: ModalType | undefined;
+  score: number =  4;
+  originalPoints = 2.1;
+  possiblePoints = 10;
   
 
   // selectedStatus!: string; 

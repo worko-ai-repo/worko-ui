@@ -14,7 +14,7 @@
                 <div class="timeline-point" [ngClass]="item?.status === 'completed' ? 'highlight' : '' "></div>
                 <div class="timeline-track" [ngClass]="{
                   'remove-extra-track': i === statusitem.length - 1,
-                  'highlight': item?.status === 'completed'
+                  'highlight': item?.status === 'completed' && !(item?.name === 'OnGoing')
                }"></div>
               </div>
               <!-- <div class="timeline-content">

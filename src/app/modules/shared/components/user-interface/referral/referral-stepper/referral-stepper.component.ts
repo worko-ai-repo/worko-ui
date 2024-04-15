@@ -40,9 +40,9 @@ export class ReferralStepperComponent {
   statusIndicator() {
     console.log(this.selectedReferral);
     let index = this.statusitem.findIndex((elem) => elem?.name?.toUpperCase() === this.selectedReferral?.status?.toUpperCase());
-    // if(this.selectedReferral.status.toUpperCase() === "ACCEPTED") {
-    //   index++;
-    // }
+    if(this.selectedReferral?.status?.toUpperCase() === "ACCEPTED") {
+      index++;
+    }
     this.statusitem.forEach((element, i) => {
       if (i <= index) {
         element.status = 'completed';
@@ -54,19 +54,22 @@ export class ReferralStepperComponent {
   dateAssignment(element:any) {
 
     if (element?.name?.toUpperCase() === 'AWAITING') {
-      element.date = this.selectedReferral.createdAt;
+      element.date = this.selectedReferral?.createdAt;
     }
     if (element?.name?.toUpperCase() === 'ACCEPTED') {
-      element.date = this.selectedReferral.acceptedAtByUser;
+      element.date = this.selectedReferral?.acceptedAtByUser;
     }
     if (element?.name?.toUpperCase() === 'CANCELLED') {
-      element.date = this.selectedReferral.cancelledDate;
+      element.date = this.selectedReferral?.cancelledDate;
     }
     if (element?.name?.toUpperCase() === 'REJECTED') {
-      element.date = this.selectedReferral.rejectedDate;
+      element.date = this.selectedReferral?.rejectedDate;
     }
     if (element?.name?.toUpperCase() === 'DONE') {
       element.date = this.selectedReferral?.doneByEmployee;
+    }
+    if (element?.name?.toUpperCase() === 'WITHDRAWN') {
+      element.date = this.selectedReferral?.withdrawnByUser?.actionDate;
     }
 
   }

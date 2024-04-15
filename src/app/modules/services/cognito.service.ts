@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { BehaviorSubject } from 'rxjs';
+import { BehaviorSubject, config } from 'rxjs';
 
 import { Amplify } from 'aws-amplify';
 import * as awsamplify from './../../../../amplify-config'
@@ -36,10 +36,14 @@ export class CognitoService {
   linkedinAccessToken:any="";
 
   private authenticationSubject: BehaviorSubject<any>;
+  
+ 
 
   constructor(private storage: StorageService, private navbarToggleSwitch:NavbarToggleSwitchService) {
+    debugger
 
-    Amplify.configure(awsamplify.config);
+Amplify.configure(awsamplify.config);
+ 
 
     this.authenticationSubject = new BehaviorSubject<boolean>(false);
     Hub.listen("auth", async ({ payload }) => {
@@ -68,6 +72,7 @@ export class CognitoService {
     
     
   }
+ 
 
 //   async handleRedirectSignIn(){
 //     const provider = {
@@ -89,6 +94,7 @@ export class CognitoService {
     });
  
 }
+
   //}
    fetchAuthSessionOptions : any = {
     redirectUri: 'http://localhost:4200/auth/checkRedirection',
