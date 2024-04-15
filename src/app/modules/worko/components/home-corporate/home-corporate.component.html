@@ -338,7 +338,7 @@
                         
                         <input class="input" type="text" placeholder="Email*"name="email"
                         id="email" [(ngModel)]="corporateForm.email" required
-                        pattern="^(?!.*@(gmail\.com|outlook\.com|aol\.com|yahoo\.com|icloud\.com|protonmail\.com|zoho\.com|yandex\.com|gmx\.com|hubspot\.com|mail\.com|tutanota\.com|10minutemail\.com)$)[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$"
+                        pattern="^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,4}$"
                        [ngClass]="{ 'is-invalid': email.invalid && (email.dirty || email.touched) }" #email="ngModel" >
                         
                        <textarea class="input input-area" type="text" placeholder="Type here*" name="description" id="description"placeholder="What you will bring on the table*" #desc="ngModel" 

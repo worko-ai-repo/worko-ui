@@ -780,6 +780,7 @@ async  handleConfirmResetPassword({
     console.log(usertype);
     // Show a spinner or perform any other necessary actions
     this.spinner.show();
+    console.log( window.location.origin )
 //"https://worko.auth.ap-south-1.amazoncognito.com/oauth2/authorize?identity_provider=LinkedIn&redirect_uri=https://localhost:4200/&response_type=CODE&client_id=5evf019rrkaijtnjf2j1vvdf33&state=h8HvXvQ2W4QvOE18H68wwcgWh3pIkANy&code_challenge=kI8A-NbOUiZw9Iv14YltZO5iTk6MTkK2Lu1PVAEsOyI&code_challenge_method=S256&scope=email%20openid%20phone";
     // Redirect to the specified URL
      // window.location.href =

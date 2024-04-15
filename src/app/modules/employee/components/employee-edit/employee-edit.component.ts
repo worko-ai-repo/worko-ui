@@ -72,6 +72,7 @@ export class EmployeeEditComponent {
     }
     this.firstStepData = data;
     this.employeePersonalData = data;
+    console.log( this.firstStepData)
   }
   previousStep() {
  //debugger
@@ -111,6 +112,7 @@ export class EmployeeEditComponent {
   onSuccess(data: any) {
     this.thirdStepData = data;
     this.updateProfilePic();
+    this.modalopen()
     // this.updateWorkExperience();
    
   
@@ -295,12 +297,17 @@ try{
   }
   
   async creatSocialProfile() {
-    var twitterArray = this.firstStepData.socialLinktwitter;
-    var linkedinArray = this.firstStepData.socialLinklinkdin;
-    var githubArray = this.firstStepData.socialLinkGithub;
+    debugger
+    var twitterArray: string[] = this.firstStepData.socialLinktwitter || [];
+    var linkedinArray: string[] = this.firstStepData.socialLinklinkdin || [];
+    var githubArray: string[] = this.firstStepData.socialLinkGithub|| [];
+    // var twitterArray = this.firstStepData.socialLinktwitter;
+    // var linkedinArray = this.firstStepData.socialLinklinkdin;
+    // var githubArray = this.firstStepData.socialLinkGithub;
      // Check if twitterArray is an array
      if ( twitterArray.length>2) {
       console.log('twitterArray is already an array');
+      console.log(this.firstStepData.socialLinktwitter)
       twitterArray = [this.firstStepData.socialLinktwitter];
     } else if ( twitterArray.length==1) {
       console.log('twitterArray is already an array');
@@ -339,8 +346,11 @@ try{
       twitter: twitterArray,
       github: githubArray,
       linkedin: linkedinArray,
-      SK: this.employeeSocial?.SK,
-      PK: this.employeeSocial?.PK
+     SK: this.employeeSocial?.SK,
+     PK: this.employeeSocial?.PK
+    //  SK: this.firstStepData?.socialSk,
+    //  PK: this.firstStepData?.socialPk
+  
     }
     try{
     await this.candidateSrv.createUserProfile(this.emailAddress, socialProfile).then(async (response) => {
@@ -394,6 +404,7 @@ try{
 try{
     await this.candidateSrv.createUserDetails(this.emailAddress, userDetails).then(async (response) => {
       if (response) {
+        //this.modalopen()
         this.addBankDetails();
 
       }
@@ -436,6 +447,7 @@ console.log(this.workExperienceDetails)
     await this.empService.getBankDetails(this.emailAddress).then(async (response) => {
       if (response) {
         this.bankDetails = response;
+        //this.modalopen()
 
       }
     })

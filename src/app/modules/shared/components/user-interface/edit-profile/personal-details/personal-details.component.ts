@@ -7,6 +7,7 @@ import { Subscription } from 'rxjs';
 import { AuthService } from 'src/app/modules/worko/services/auth.service';
 import { ModalType } from 'src/app/modules/shared/interfaces/shared.interface';
 import { ModalComponent } from '../../../modal/modal.component';
+declare var bootstrap: any;
 @Component({
   selector: 'app-personal-details',
   templateUrl: './personal-details.component.html',
@@ -91,6 +92,19 @@ export class PersonalDetailsComponent implements OnInit {
 
   }
 
+  ngAfterViewInit(): void {
+    // Find all elements with the class 'tooltip-container'
+    const tooltipTriggerList = Array.from(document.querySelectorAll('.tooltip-container'));
+
+    // Initialize Bootstrap tooltips for each found element
+    const tooltipList = tooltipTriggerList.map(tooltipTriggerEl => {
+      return new bootstrap.Tooltip(tooltipTriggerEl);
+    });
+  }
+
+
+
+
   onOptionSelected(event: any): void {
     this.selectedCompany = event.option.value;
   }
@@ -145,7 +159,8 @@ export class PersonalDetailsComponent implements OnInit {
       coreSkillList: this.certificationList?.coreSkills,
       achievements: this.achievementsList,
       companySK: this.selectedCompany?.SK ? this.selectedCompany?.SK : this.workExperienceDetails?.SK,
-      isCandidateFresher: this.candidateList.isCandidateFresher
+     // isCandidateFresher: this.candidateList.isCandidateFresher
+     isCandidateFresher: this.candidateList?.isCandidateFresher ?? false
     }
   }
 

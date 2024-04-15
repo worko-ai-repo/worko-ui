@@ -133,6 +133,7 @@
                                                         </svg>
                                                     </span>
                                                 </div>
+                                                
                                             </div>
                                         </div>
                                         <div class="row">
@@ -142,7 +143,16 @@
                                                     (blur)="addSoftSkill($event)" (keydown.enter)="addSoftSkill($event)"> -->
 
                                                 <!-- <input type="text" class=" borderless-field " type="text" (keydown.enter)="addSoftSkill($event)" placeholder="Add Soft Skill"> -->
-                                                <input class=" borderless-field form-control  soft-skill-input" type="text" (keydown.enter)="addSoftSkill($event)" placeholder="Add Soft Skill">
+                                                <input class=" borderless-field form-control  soft-skill-input" type="text" (keydown.enter)="addSoftSkill($event)" placeholder="Add Soft Skill" >
+                                                <div class="tooltip-container">
+                                                    <div class="tooltip-style">
+                                                        <i class="fa-solid fa-circle-info"></i>
+                                                    </div>
+                                                    <div class="tooltip-text pt-2 text-center p-2">
+                                                        <small>Press click Enter to add a soft skill</small>
+                                                    </div>
+                                                </div>
+                                                
                                             </div>
                                         </div>
                                     </div>
@@ -277,7 +287,7 @@
                                 <div class="col-8">
                                 <div class="float-left achievments-list d-flex"
                                     *ngFor="let achievement of candidateProfessionalDetails.achievements">
-                                    <div class="ps-3 ms-1 text-in-box">{{achievement.title}}
+                                    <div class="m-1 text-in-box">{{achievement.title}}
                                         <span class="text-in-box-close-icon" (click)="removeAchievement(achievement.title)">
                                             <svg width="16" height="16" viewBox="0 0 16 16" fill="none"
                                                 xmlns="http://www.w3.org/2000/svg">
