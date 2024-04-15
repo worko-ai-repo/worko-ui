@@ -26,7 +26,7 @@
                 </div>
                 <div class="col-md-12 ref-education">
                     <div>{{empEducationList[0]?.degree}} , {{empEducationList[0]?.collage}} </div>
-                    <div class="pt-1">Role Applied : SDE-1(Backend)</div>
+                    <!-- <div class="pt-1">Role Applied : SDE-1(Backend)</div> -->
                     <div class="pt-1">Experience: 2+ years</div>
                     <div class="pt-1">Job Description: <span class="text-white"><a href="{{selectedReferral?.jobUrl}}"
                         target="_blank">Link</a></span></div>
@@ -42,6 +42,8 @@
                                 d="M37.2193 4.46523C37.05 2.25735 35.1565 0.591351 33.0184 0.982514C25.3445 2.38648 18.2146 6.07842 12.5508 11.6357C5.93897 18.1232 1.73425 26.7514 0.653038 36.0501C-0.428179 45.3488 1.681 54.7427 6.62121 62.6313C11.5614 70.5198 19.027 76.4149 27.7458 79.312C36.4647 82.2091 45.8974 81.929 54.4368 78.5195C62.9762 75.11 70.0938 68.782 74.5769 60.6137C79.0601 52.4453 80.6314 42.9421 79.0231 33.7233C77.6453 25.8259 74.0072 18.5557 68.6109 12.8088C67.1104 11.2107 64.6095 11.4268 63.1955 13.1163C61.7842 14.8026 61.9948 17.3166 63.4543 18.9483C67.489 23.4592 70.2132 29.0654 71.2719 35.1338C72.5606 42.5211 71.3015 50.1364 67.709 56.6819C64.1165 63.2274 58.4129 68.2983 51.5701 71.0305C44.7272 73.7626 37.1685 73.987 30.1817 71.6655C23.195 69.3439 17.2126 64.62 13.2539 58.2987C9.29514 51.9773 7.60498 44.4497 8.4714 36.9983C9.33781 29.547 12.7072 22.6329 18.0054 17.4343C22.3478 13.1736 27.7656 10.2812 33.6118 9.05371C35.7507 8.60461 37.3894 6.6847 37.2193 4.46523Z"
                                 fill="#57FF68" />
                         </svg>
+                        <!-- <app-circle-chart [chartText]="score.toString()"
+                        [chartValue]="(this.score / this.possiblePoints) * 100"></app-circle-chart> -->
                         <div class="m-0 p-0 referral-text">Referral Score : {{empdetailsList[0]?.referralCount}} </div>
                         <div href="" class="m-0 p-0 view-details">View detailed Analysis</div>
                         <button class="btn-cv mt-2" [hidden]="!empdetailsList[0]?.cvAwsS3SignedUrl" (click)="openfile($event)">view CV</button>
