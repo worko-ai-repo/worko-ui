@@ -158,7 +158,6 @@ export class WorkoAuthComponent {
 
 
   register() {
-    debugger
     if (this.registrationType === 'candidate') {
       this.router.navigate(['/auth/candidatecompleteSignUp']);
     } else if (this.registrationType === 'employee') {
