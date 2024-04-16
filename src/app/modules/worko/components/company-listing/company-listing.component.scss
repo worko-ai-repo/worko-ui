@@ -203,3 +203,25 @@ img {
    
  }
 
+ @media (max-width: 575px) {
+    // .searchbox{
+    //     width: 70%;
+    // }
+    .filterMenu{
+        display: flex;
+        flex-direction: column-reverse;
+        margin-top: 0.75rem !important;
+        margin-bottom: 0 !important;
+        margin-left: 3rem !important;
+        width: 70%;
+        padding-left: 0 !important;
+        .filters{
+            // width: 100%;
+            margin-left: 0 !important;
+            margin-bottom: 1rem !important;
+            .filter{
+                width: 100%;
+            }
+        }
+    }
+}

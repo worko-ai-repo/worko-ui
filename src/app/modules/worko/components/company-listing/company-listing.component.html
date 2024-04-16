@@ -34,13 +34,13 @@
     </button>
     </div>
 
-    <div class="row my-4 pl-5">
+    <div class="row my-4 pl-5 filterMenu">
       <div class="col-12 col-sm-4 mb-sm-1 mb-3 ">
-        Companies
+        Companies:
       </div>
-      <div class="col-12 col-sm-8 d-flex flex-column flex-sm-row justify-content-sm-end align-items-start">
-        <div class="p-1 d-flex mb-3 mb-sm-1">
-          <select class="selector form-select" name="industryType" id="industryType"
+      <div class="col-12 col-sm-8 d-flex flex-column flex-sm-row justify-content-sm-end align-items-start filters">
+        <div class="p-1 d-flex mb-3 mb-sm-1 filter">
+          <select class="selector form-select " name="industryType" id="industryType"
           [(ngModel)]="filterData.industryType" (ngModelChange)="onIndustryNameChange($event)">
           <option value="">Select industryType</option>
           <option value="tech">Tech</option>
@@ -52,7 +52,7 @@
           </option> -->
       </select>
         </div>
-        <div class="me-3 p-1 d-flex">
+        <div class="me-3 p-1 d-flex filter">
           <select class=" selector form-select" name="teamSize" id="teamSize"
             [(ngModel)]="filterData.teamSize" (ngModelChange)="onTeamSizeChange($event)">
             <option value="">Select TeamSize</option>
