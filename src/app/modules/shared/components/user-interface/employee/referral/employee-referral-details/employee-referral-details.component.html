@@ -1,4 +1,4 @@
-<div class="candidate-card mt-2 scroller">
+<div class="candidate-card scroller">
     <div class="row">
         <div class="col-md-12">
             <div class="float-end m-3" *ngIf="selectedReferral">
@@ -45,7 +45,7 @@
                         <!-- <app-circle-chart [chartText]="score.toString()"
                         [chartValue]="(this.score / this.possiblePoints) * 100"></app-circle-chart> -->
                         <div class="m-0 p-0 referral-text">Referral Score : {{empdetailsList[0]?.referralCount}} </div>
-                        <div href="" class="m-0 p-0 view-details">View detailed Analysis</div>
+                        <div (click)="viewDetails()" href="" class="m-0 p-0 view-details" style="cursor: pointer;">View detailed Analysis</div>
                         <button class="btn-cv mt-2" [hidden]="!empdetailsList[0]?.cvAwsS3SignedUrl" (click)="openfile($event)">view CV</button>
                         
                     </div>
@@ -123,6 +123,10 @@
 
         <ng-container *ngIf="showModal === modalType.CONFIRMATION_DIALOG">
             <app-confirmation-dialog-popup [action]="action" (onSuccess)="acceptRequest()" (onCancel)="closeModal()"></app-confirmation-dialog-popup>
+        </ng-container>
+
+        <ng-container *ngIf="showModal === modalType.DETAILED_ANALYSIS">
+            <app-detailed-analysis></app-detailed-analysis>
         </ng-container>
 
     </app-modal>

@@ -84,6 +84,7 @@ import { MarkAsDoneComponent } from './components/user-interface/referral/referr
 import { SeeReviewComponent } from './components/user-interface/referral/referral-reusable-button/see-review/see-review.component';
 import { CircleChartComponent } from '../worko/components/circle-chart/circle-chart.component';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
+import { DetailedAnalysisComponent } from './components/user-interface/referral/detailed-analysis/detailed-analysis.component';
 export const routes: Routes = [
 
   
@@ -128,6 +129,7 @@ export const routes: Routes = [
     SeeReviewComponent,
     ProvideFeedbackComponent,
     CircleChartComponent,
+    DetailedAnalysisComponent,
     // DoneServiceComponent,
     // CancelledServiceComponent,
     // AwaitingServiceComponent,
@@ -192,7 +194,8 @@ export const routes: Routes = [
   ConfirmationDialogPopupComponent,
   SeeReviewComponent,
   ProvideFeedbackComponent,
-  CircleChartComponent
+  CircleChartComponent,
+  DetailedAnalysisComponent
   ],
 
 })

@@ -24,11 +24,11 @@ export class EmployeeProfileService {
   }
 
   getEmployeeReferral(emailAddress:string, companyId: string, status: string): Promise<any> {
-    return this.http.get(`${API_URL}referral/company/${companyId}?status=${status}`,this.authService.getHttpOptions()).toPromise();
+    return this.http.get(`${API_URL}emp/referral/${emailAddress}/?companyId=${companyId}&status=${status}`,this.authService.getHttpOptions()).toPromise();
   }
 
   updateReferralStatus(referralId:any, data:any) {
-    return this.http.put(`${API_URL}referral/${referralId}/action`,data,this.authService.getHttpOptions()).toPromise(); 
+    return this.http.put(`${API_URL}emp/referral/${referralId}/action`,data,this.authService.getHttpOptions()).toPromise(); 
   }
 
   getChooseAvailability(emailAddress:string): Promise<any> {

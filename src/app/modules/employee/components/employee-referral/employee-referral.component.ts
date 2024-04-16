@@ -102,6 +102,13 @@ export class EmployeeReferralComponent {
     await this.empService.getEmployeeReferral(this.emailAddress, companyId, this.selectedStatus).then(async (response) => {
       if (response) {
         this.spinner.hide();
+        if(response.length>0) {
+          response.forEach((element:any, index:any) => {
+            if(Array.isArray(element)) {
+              response[index] = element[0];
+            }  
+          });
+        }
         this.empReferralList = response;
         console.log(this.empReferralList + '123');
       }

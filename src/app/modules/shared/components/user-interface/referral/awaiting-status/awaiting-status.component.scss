@@ -96,3 +96,11 @@
 .referral-list-clicked-item {
     background-color: #061634
 }
+
+.scroller {
+    overflow-y: scroll;
+}
+
+.scroller::-webkit-scrollbar {
+    display: none;
+}

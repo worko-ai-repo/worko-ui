@@ -15,8 +15,8 @@ export class AwaitingStatusComponent implements OnChanges {
   selectedReferralSK:any;
 
   getSlicedValue(value: string): string {
-    const parts = value.split('#');
-    return parts.length > 2 ? parts[2] : '';
+    const parts = value?.split('#');
+    return parts?.length > 2 ? parts[2] : '';
   }
 
   checkValue(value:any)

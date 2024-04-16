@@ -121,4 +121,8 @@ export class EmployeeReferralDetailsComponent implements OnChanges {
     window.open(this.empdetailsList[0]?.cvAwsS3SignedUrl,'_blank');
   }
 
+  viewDetails() {
+    this.openModal(ModalType.DETAILED_ANALYSIS);
+  }
+
 }

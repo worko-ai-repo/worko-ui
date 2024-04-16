@@ -27,6 +27,7 @@ export enum ModalCloseResult {
     WITHDRAW_REFERRAL=18,
     PROVIDE_FEEDBACK=19,
     CONFIRMATION_DIALOG=20,
+    DETAILED_ANALYSIS=21
     
 
   }
