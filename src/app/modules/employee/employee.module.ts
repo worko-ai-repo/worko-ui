@@ -30,6 +30,8 @@ import { EmployeeDashboardComponent } from './components/employee-dashboard/empl
 import { ReferralRejectedPopupComponent } from '../shared/components/user-interface/employee/referral/referral-rejected-popup/referral-rejected-popup.component';
 import { EmployeeReferralRejectComponent } from '../shared/components/user-interface/employee/referral/employee-referral-reject/employee-referral-reject.component';
 import { EmployeeAcceptedReferralComponent } from '../shared/components/user-interface/employee/referral/employee-accepted-referral/employee-accepted-referral.component';
+import { AuthRouteGuardService } from '../worko/services/auth-route-guard.service';
+
 
 
 export const routes: Routes = [
@@ -40,23 +42,23 @@ export const routes: Routes = [
     children: [
       {
         path: 'Dashboard',
-        component: EmployeeDashboardComponent,
+        component: EmployeeDashboardComponent,canActivate:[AuthRouteGuardService]
       },
       {
         path: 'Referral',
-        component: EmployeeReferralComponent
+        component: EmployeeReferralComponent,canActivate:[AuthRouteGuardService]
       },
       {
         path: 'Service',
-        component: EmployeeServiceComponent
+        component: EmployeeServiceComponent,canActivate:[AuthRouteGuardService]
       },
       {
         path: 'Packages',
-        component: EmployeePackagesComponent
+        component: EmployeePackagesComponent,canActivate:[AuthRouteGuardService]
       },
       {
         path: 'Edit-profile',
-        component: EmployeeEditComponent
+        component: EmployeeEditComponent,canActivate:[AuthRouteGuardService]
       },
       
       

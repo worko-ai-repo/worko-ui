@@ -54,6 +54,7 @@ import { SeeReviewComponent } from '../shared/components/user-interface/referral
 import { WithdrawReferralComponent } from '../shared/components/user-interface/referral/referral-reusable-button/withdraw-referral/withdraw-referral.component';
 import { ProvideFeedbackComponent } from '../shared/components/user-interface/referral/referral-reusable-button/provide-feedback/provide-feedback.component';
 import { WithdrawnReferralComponent } from '../shared/components/user-interface/candidate/withdrawn-referral/withdrawn-referral.component';
+import { AuthRouteGuardService } from '../worko/services/auth-route-guard.service';
 
 
 
@@ -65,32 +66,32 @@ export const routes: Routes = [
     children: [
       {
         path: 'dashboard',
-        component: CandidateDashboardComponent,
+        component: CandidateDashboardComponent,canActivate:[AuthRouteGuardService]
         // canActivate: [ candidateGuard]
       },
       {
         path: 'referral',
-        component: ReferralComponent,
+        component: ReferralComponent,canActivate:[AuthRouteGuardService]
        
       },
       {
         path: 'service',
-        component: ServiceComponent,
+        component: ServiceComponent,canActivate:[AuthRouteGuardService]
        
       },
       {
         path: 'subscription',
-        component: SubscriptionComponent,
+        component: SubscriptionComponent,canActivate:[AuthRouteGuardService]
        
       },
       {
         path: 'refer&earn',
-        component: ReferEarnComponent,
+        component: ReferEarnComponent,canActivate:[AuthRouteGuardService]
        
       },
       {
         path: 'edit-profile',
-        component: EditProfileComponent,
+        component: EditProfileComponent,canActivate:[AuthRouteGuardService]
        
       },
       

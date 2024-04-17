@@ -52,9 +52,28 @@ export class ReferralRequestComponent implements OnInit, OnChanges {
   initializeForm(): void {
     this.requestForm = this.formBuilder.group({
       jobUrl: ['', [Validators.required, Validators.pattern('^https:\/\/.*$')]],
-      jobDescription: ['', Validators.required]
+      jobDescription: ['', [Validators.required,this.jobDescriptionValidator()]]
     });
   }
+
+  jobDescriptionValidator() {
+    return (control: { value: any; }) => {
+      const text = control.value;
+      const keywords = ['experience', 'education', 'skills', 'certifications', 'Preferred Skills', 'job description', 'responsibilities', 'role', 'Employment', 'Department']; 
+    
+      const containsKeywords = this.countKeywords(text, keywords) >= 5;
+      return containsKeywords ? null : { notEnoughKeywords: true };
+    };
+  }
+  
+  countKeywords(text: string, keywords: string[]): number {
+    const regex = new RegExp(keywords.join('|'), 'ig');
+    const matches = text.match(regex);
+    return matches ? matches.length : 0;
+  }
+
+
+
   checkRequestReferral(): void {
     if (this.requestForm.valid) {
       this.companyListing.getReferralCount(this.emailId).then(async (response) => {

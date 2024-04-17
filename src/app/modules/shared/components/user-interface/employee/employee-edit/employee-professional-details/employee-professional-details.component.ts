@@ -7,6 +7,8 @@ import { Subscription } from 'rxjs';
 import { AuthService } from 'src/app/modules/worko/services/auth.service';
 import { ModalComponent } from '../../../../modal/modal.component';
 import { ModalType } from 'src/app/modules/shared/interfaces/shared.interface';
+import { CandidateProfileService } from 'src/app/modules/candidate/services/candidate-profile.service';
+import { StorageService } from 'src/app/modules/app-core/services/storage.service';
 @Component({
   selector: 'app-employee-professional-details',
   templateUrl: './employee-professional-details.component.html',
@@ -63,7 +65,9 @@ export class EmployeeProfessionalDetailsComponent {
  Form1:any; 
  formGroup: any;
  fields:any;
-  constructor(private authService: AuthService,private fb:FormBuilder) {
+ emailid:string='';
+ id:string='';
+  constructor(private storage: StorageService,private authService: AuthService,private fb:FormBuilder,private candidateProfileService :CandidateProfileService) {
     this.formGroup = this.fb.group({
       fields: this.fb.array([])
     });
@@ -149,14 +153,22 @@ fieldsGroup:any;
 
     
     console.log(this.fields)
- 
-      
+ this.emailid=this.storage.get("useremail")
+this. id=this.workExperienceDetails.id
+    console.log(this.workExperienceDetails.isEmailVerified)
    }
    resetFormFields(): void {
     this.employeeProfessionalData.designation = '';
     this.employeeProfessionalData.department = '';
     this.employeeProfessionalData.workingSince = '';
-    //this.employeeProfessionalData.officialEmail='';
+    this.employeeProfessionalData.officialEmail='';
+    
+
+  }
+  resetFormField(){
+    this.employeeProfessionalData.designation = '';
+    this.employeeProfessionalData.department = '';
+    this.employeeProfessionalData.workingSince = '';
     //this.employeeProfessionalData.companyName='';
 
   }
@@ -238,7 +250,7 @@ fieldsGroup:any;
       department: this.workExperienceDetails?.department,
       designation: this.workExperienceDetails?.designation,
       workingSince: this.workExperienceDetails?.experienceInMonths,
-      officialEmail: this.workExperienceDetails?.emailId ? this.workExperienceDetails?.emailId : "",
+      officialEmail: this.workExperienceDetails?.emailId,
       companySK: this.selectedCompany?.SK ? this.selectedCompany?.SK : this.workExperienceDetails?.SK,
       previousCompanies: "",
       isEmailVerified: false,
@@ -339,28 +351,54 @@ fieldsGroup:any;
   onPreviousClick() {
     //const nonBlankFields = this.fields.filter(field => field.previousCompanyName.trim() !== '' || field.previousDesignation.trim() !== '' || field.previousExperience.trim() !== '');
 
-    const nonBlankFields = [];
-    for (let i = 0; i < this.fields.length; i++) {
-      const fieldGroup = this.fields.at(i) as FormGroup;
-      const companyName = fieldGroup.get('previousCompanyName')?.value?.trim() || '';
-      const designation = fieldGroup.get('previousDesignation')?.value?.trim() || '';
-      const experience = fieldGroup.get('previousExperience')?.value?.trim() || '';
+    // const nonBlankFields = [];
+    // for (let i = 0; i < this.fields.length; i++) {
+    //   const fieldGroup = this.fields.at(i) as FormGroup;
+    //   const companyName = fieldGroup.get('previousCompanyName')?.value?.trim() || '';
+    //   const designation = fieldGroup.get('previousDesignation')?.value?.trim() || '';
+    //   const experience = fieldGroup.get('previousExperience')?.value?.trim() || '';
   
-      if (companyName || designation || experience) {
-        nonBlankFields.push({ previousCompanyName: companyName, previousDesignation: designation, previousExperience: experience });
-      }
-    }
+    //   if (companyName || designation || experience) {
+    //     nonBlankFields.push({ previousCompanyName: companyName, previousDesignation: designation, previousExperience: experience });
+    //   }
+    // }
+
+    // // Save the non-blank fields
+    // this.savedValues = [...nonBlankFields];
+    // this.employeeProfessionalData.previousCompanies = this.savedValues;
+    // this.employeeProfessionalData.companyName = this.selectedCompany?.name ? this.selectedCompany?.name : this.workExperienceDetails?.companyName
+    // this.employeeProfessionalData.companySK = this.selectedCompany?.SK ? this.selectedCompany?.SK : this.workExperienceDetails?.SK
+    // this.previousStep.emit();
+
+
+   
 
     // Save the non-blank fields
+    const nonBlankFields: never[] = [];
     this.savedValues = [...nonBlankFields];
     this.employeeProfessionalData.previousCompanies = this.savedValues;
     this.employeeProfessionalData.companyName = this.selectedCompany?.name ? this.selectedCompany?.name : this.workExperienceDetails?.companyName
     this.employeeProfessionalData.companySK = this.selectedCompany?.SK ? this.selectedCompany?.SK : this.workExperienceDetails?.SK
     this.previousStep.emit();
+
   }
 
-  openOtpModal() {
-    this.openModal(ModalType.OTP_VERIFICATION);
+ async openOtpModal() {
+
+    try{
+    let response= await this.candidateProfileService.employeeEmailVerification(this.emailid,this.id)
+    if( response){
+      this.openModal(ModalType.OTP_VERIFICATION);
+      
+    }
+    else{
+      console.log("error")
+    }
+    }catch{
+      console.log("error")
+    }
+
+    
   }
 
   /**

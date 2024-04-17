@@ -20,7 +20,7 @@ export class CareerService {
   constructor(private http: HttpClient, private cognitoService: CognitoService) { }
 
   uploadCV(documentDetails: any): Promise<any> {
-    return this.http.post(API_URL + `file/gsu2u/CAREER_RESUME`, documentDetails, this.getHttpOptions())
+    return this.http.post(API_URL + `file/gsu2u/CAREER_RESUME`, documentDetails, this.getHttpOptions(false))
       .toPromise()
       .then(response => response as ArrayBuffer);
   }
@@ -30,7 +30,7 @@ export class CareerService {
   }
 
   linkResumewithUser(emailId: string, awsS3fileName: string): Promise<any> {
-    return this.http.patch(API_URL + `user/${emailId}/cv`, { resume: awsS3fileName }, this.getHttpOptions())
+    return this.http.patch(API_URL + `user/${emailId}/cv`, { resume: awsS3fileName }, this.getHttpOptions(false))
       .toPromise()
       .then(response => response as ArrayBuffer);
   }
@@ -42,7 +42,7 @@ export class CareerService {
    * @returns {Promise<any>}
    */
  createUser(userInfo: userInfo): Promise<any> {
-  return this.http.post(API_URL + `career/`, userInfo, this.getHttpOptions()).toPromise();
+  return this.http.post(API_URL + `career/`, userInfo, this.getHttpOptions(false)).toPromise();
 }
 
 /**
@@ -52,7 +52,7 @@ export class CareerService {
    * @returns {Promise<any>}
    */
 createCorporateUser(corporateInfo: corporateInfo): Promise<any> {
-  return this.http.post(API_URL + `corporate/`, corporateInfo, this.getHttpOptions()).toPromise();
+  return this.http.post(API_URL + `corporate/`, corporateInfo, this.getHttpOptions(false)).toPromise();
 }
 
 
@@ -80,6 +80,9 @@ createCorporateUser(corporateInfo: corporateInfo): Promise<any> {
       }
       // console.log(headers.Authorization, "AccessToken");
     }
+    // else{
+    //   headers.Authorization = 'https://api.worko.ai/corporate/';
+    // }
     // headers['Access-Control-Allow-Origin'] = '*';
 
     if (params?.xTenantId) {
