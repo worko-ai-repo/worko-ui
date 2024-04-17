@@ -1,5 +1,6 @@
 
-import { Component, Output,EventEmitter  } from '@angular/core';
+import { Component, Output,EventEmitter, Input  } from '@angular/core';
+import { CandidateProfileService } from 'src/app/modules/candidate/services/candidate-profile.service';
 
 @Component({
   selector: 'app-otp-verification-modal',
@@ -8,6 +9,9 @@ import { Component, Output,EventEmitter  } from '@angular/core';
 })
 export class OtpVerificationModalComponent {
   @Output() onSuccess: EventEmitter<void> = new EventEmitter<void>();
+  @Input() email: any | undefined;
+  @Input() id: any | undefined;
+  constructor(private candidateProfileService :CandidateProfileService) {}
 
   invalidCode: boolean = false;
   form = {
@@ -25,8 +29,24 @@ export class OtpVerificationModalComponent {
     this.onSuccess.emit();
     // this.modal.cancel();
   }
-  submitPaymentCode(form:any){
+  async submitPaymentCode(form:any){
+    console.log(this.email,this.id)
+    try{
+ let response=  await this.candidateProfileService.verifyOtp(this.email,this.id,this.form.paymentCode)
+ console.log(response)
+ if(response.verificationStatus===true){
+  this.cancel(form);
+ }else{
+  this.invalidCode=true
+ }
 
+    }catch(error){
+     
+      this.invalidCode=true
+    }
+
+      
+    
 
   }
 }

@@ -79,6 +79,108 @@ export class CompanyListingComponent implements OnInit {
     },
   ]
 
+
+  industryTypeOptions:any=[
+    
+        {name: "E-commerce", value: "E-commerce"},
+        {name: "Education", value: "Education / Training"},
+        {name: "Training", value: "Education / Training"},
+        {name: "IT Services & Consulting", value: "IT Services & Consulting"},
+        {name: "Financial Services", value: "Financial Services"},
+        {name: "Electronic Components", value: "Electronic Components / Semiconductors"},
+        {name: "Semiconductors", value: "Electronic Components / Semiconductors"},
+        {name: "Electronics Manufacturing", value: "Electronics Manufacturing"},
+        {name: "Internet", value: "Internet"},
+        {name: "Automobile", value: "Automobile"},
+        {name: "Chemicals", value: "Chemicals"},
+        {name: "Banking", value: "Banking"},
+        {name: "Consumer Electronics & Appliances", value: "Consumer Electronics & Appliances"},
+        {name: "Telecom", value: "Telecom / ISP"},
+        {name: "ISP", value: "Telecom / ISP"},
+        {name: "Food Processing", value: "Food Processing"},
+        {name: "E-Learning", value: "E-Learning / EdTech"},
+        {name: "EdTech", value: "E-Learning / EdTech"},
+        {name: "Engineering & Construction", value: "Engineering & Construction"},
+        {name: "Beverage", value: "Beverage"},
+        {name: "FMCG", value: "FMCG"},
+        {name: "FinTech", value: "FinTech / Payments"},
+        {name: "Payments", value: "FinTech / Payments"},
+        {name: "Travel & Tourism", value: "Travel & Tourism"},
+        {name: "Courier", value: "Courier / Logistics"},
+        {name: "Logistics", value: "Courier / Logistics"},
+        {name: "Building Material", value: "Building Material"},
+        {name: "Architecture", value: "Architecture / Interior Design"},
+        {name: "Interior Design", value: "Architecture / Interior Design"},
+        {name: "Auto Components", value: "Auto Components"},
+        {name: "Analytics", value: "Analytics / KPO / Research"},
+        {name: "KPO", value: "Analytics / KPO / Research"},
+        {name: "Research", value: "Analytics / KPO / Research"},
+        {name: "Professional Services", value: "Professional Services / Project Management"},
+        {name: "Project Management", value: "Professional Services / Project Management"},
+        {name: "Advertising & Marketing", value: "Advertising & Marketing"},
+        {name: "Accounting", value: "Accounting / Auditing"},
+        {name: "Auditing", value: "Accounting / Auditing"},
+        {name: "Software Product", value: "Software Product"},
+        {name: "Industrial Equipment", value: "Industrial Equipment / Machinery"},
+        {name: "Machinery", value: "Industrial Equipment / Machinery"},
+        {name: "NBFC", value: "NBFC"},
+        {name: "Retail", value: "Retail"},
+        {name: "Medical Services", value: "Medical Services / Hospital"},
+        {name: "Hospital", value: "Medical Services / Hospital"},
+        {name: "SAAS", value: "SAAS"},
+        {name: "Manufacturing", value: "Manufacturing"},
+        {name: "Gaming", value: "Gaming"},
+        {name: "Beauty & Personal Care", value: "Beauty & Personal Care"},
+        {name: "Management Consulting", value: "Management Consulting"},
+        {name: "Medical Devices & Equipment", value: "Medical Devices & Equipment"},
+        {name: "BPO", value: "BPO / Call Centre"},
+        {name: "Call Centre", value: "BPO / Call Centre"},
+        {name: "Fitness & Wellness", value: "Fitness & Wellness"},
+        {name: "Agriculture", value: "Agriculture / Forestry / Fishing"},
+        {name: "Forestry", value: "Agriculture / Forestry / Fishing"},
+        {name: "Fishing", value: "Agriculture / Forestry / Fishing"},
+        {name: "Metals & Mining", value: "Metals & Mining"},
+        {name: "Electrical Equipment", value: "Electrical Equipment"},
+        {name: "Textile & Apparel", value: "Textile & Apparel"},
+        {name: "Urban Transport", value: "Urban Transport"},
+        {name: "Furniture & Furnishing", value: "Furniture & Furnishing"},
+        {name: "Printing & Publishing", value: "Printing & Publishing"},
+        {name: "Hotels & Restaurants", value: "Hotels & Restaurants"},
+        {name: "Film", value: "Film / Music / Entertainment"},
+        {name: "Music", value: "Film / Music / Entertainment"},
+        {name: "Entertainment", value: "Film / Music / Entertainment"},
+        {name: "Biotechnology", value: "Biotechnology"},
+        {name: "Real Estate", value: "Real Estate"},
+        {name: "Transport", value: "Transport / Logistics"},
+        {name: "Logistics", value: "Transport / Logistics"},
+        {name: "Insurance", value: "Insurance"},
+        {name: "Sports", value: "Sports / Leisure & Recreation"},
+        {name: "Leisure & Recreation", value: "Sports / Leisure & Recreation"},
+        {name: "Recruitment", value: "Recruitment / Staffing"},
+        {name: "Staffing", value: "Recruitment / Staffing"},
+        {name: "Stock Broking", value: "Stock Broking"},
+        {name: "Power", value: "Power"},
+        {name: "NGO ", value: "NGO / Social Services / Industry Associations"},
+        {name: "Social Services", value: "NGO / Social Services / Industry Associations"},
+        {name: "Industry Associations", value: "NGO / Social Services / Industry Associations"},
+        {name: "Events", value: "Events / Live Entertainment"},
+        {name: "Live Entertainment", value: "Events / Live Entertainment"},
+        {name: "Investment Banking", value: "Investment Banking / Venture Capital / Private Equity"},
+        {name: "Venture Capital", value: "Investment Banking / Venture Capital / Private Equity"},
+        {name: "Private Equity", value: "Investment Banking / Venture Capital / Private Equity"},
+        {name: "Warehousing", value: "Warehousing"},
+        {name: "D2C", value: "D2C"},
+        {name: "Software Product", value: "Software Product"},
+        {name:"Electronics Manufacturing", value: "Electronics Manufacturing"},
+        {name: "Consumer Electronics & Appliances", value: "Consumer Electronics & Appliances"},
+        {name: "Insurance", value: "Insurance"},
+        {name: "Internet", value:" Internet"},
+        {name: "Manufacturing", value: "Manufacturing"}
+        
+        
+      ]
+   
+
   @HostListener('window:scroll', ['$event'])
   onScroll(event: Event): void {
     // Handle scroll event
@@ -201,7 +303,16 @@ export class CompanyListingComponent implements OnInit {
     // Call getCompanyDetails to fetch filtered companies
     await this.getCompanyDetails();
   }
+  async onIndustryTypeChange(selectedIndustryType: string) {
+    this.lastKey = "";
 
+    this.loadedOnce = true;
+    // this.appliedFilter = true;
+    this.filterData.industryType= selectedIndustryType;
+    console.log(this.filterData.industryType)
+    // Call getCompanyDetails to fetch filtered companies
+    await this.getCompanyDetails();
+  }
 
 
   // onMouseOver(item: any, event: any) {

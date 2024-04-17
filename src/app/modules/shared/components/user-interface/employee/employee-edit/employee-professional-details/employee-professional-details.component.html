@@ -27,16 +27,16 @@
 
             <div class="col">
                 <label for="" class="form-lable  required-form-field">Company Email</label>
-                <input type="text" class="form-control form-input" placeholder="abcd@Offical.com" name="email"
+                <input type="text" class="form-control form-input" placeholder="Company email" name="email"
                     id="email" [(ngModel)]="employeeProfessionalData.officialEmail" required
                     pattern="^(?!.*@(gmail\.com|outlook\.com|aol\.com|yahoo\.com|icloud\.com|protonmail\.com|zoho\.com|yandex\.com|gmx\.com|hubspot\.com|mail\.com|tutanota\.com|10minutemail\.com)$)[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$"
                     [title]="email.errors?.['pattern'] ? 'Official Email is invalid' : ''"
                     [title]="email.errors?.['required'] ? 'Official Email is required' : ''"
                    
-                    [ngClass]="{ 'is-invalid': email.invalid && (email.dirty || email.touched) }" #email="ngModel"   (ngModelChange)="resetFormFields()">
-                <h2 *ngIf="!employeeProfessionalData.isEmailVerified && !email.invalid" (click)="openOtpModal()"
+                    [ngClass]="{ 'is-invalid': email.invalid && (email.dirty || email.touched) }" #email="ngModel"   (ngModelChange)="resetFormField()">
+                <h2 *ngIf="!workExperienceDetails.isEmailVerified && !email.invalid" (click)="openOtpModal()"
                     class="badge  verify-text-label-unverified -pointer">Verify</h2>
-                <h2 *ngIf="employeeProfessionalData.isEmailVerified && !email.invalid"
+                <h2 *ngIf="workExperienceDetails.isEmailVerified && !email.invalid"
                     class="badge  verify-text-label text-green">
 
                     <svg width="20" height="20" viewBox="0 0 27 27" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -224,7 +224,7 @@
 
             <ng-container *ngIf="showModal === modalType.OTP_VERIFICATION">
                 <app-otp-verification-modal *ngIf="showModal === modalType.OTP_VERIFICATION"
-                    (onSuccess)="receiveDataFromChild($event)"></app-otp-verification-modal>
+                    (onSuccess)="receiveDataFromChild($event)" [email]="emailid" [id]="workExperienceDetails.id"></app-otp-verification-modal>
             </ng-container>
 
 

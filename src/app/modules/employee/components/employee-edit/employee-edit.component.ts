@@ -112,7 +112,7 @@ export class EmployeeEditComponent {
   onSuccess(data: any) {
     this.thirdStepData = data;
     this.updateProfilePic();
-    this.modalopen()
+    //this.modalopen()
     // this.updateWorkExperience();
    
   
