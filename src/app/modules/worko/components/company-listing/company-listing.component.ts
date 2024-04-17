@@ -14,6 +14,7 @@ import { NgxSpinnerService } from 'ngx-spinner';
   styleUrls: ['./company-listing.component.scss']
 })
 export class CompanyListingComponent implements OnInit {
+
   @ViewChild(ModalComponent) modal!: ModalComponent;
   @ViewChild(ReferralRequestComponent) referrralComponent!: ReferralRequestComponent;
   @ViewChild(RequestGuidenceComponent) referrralguidanceComponent!: RequestGuidenceComponent;
@@ -255,6 +256,10 @@ export class CompanyListingComponent implements OnInit {
   }
 
 
+  openCompanyForm($event: MouseEvent) {
+    
+    this.openModal(ModalType.ADD_COMPANY)
+  }
 
   async receiveDataFromChild(data: any) {
     this.userLoggedIn = await this.cognitoService.isLoggedIn();

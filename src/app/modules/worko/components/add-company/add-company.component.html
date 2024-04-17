@@ -1,0 +1,22 @@
+<div class="modal-contents">
+    <div class="title">
+        Add company details:
+    </div>
+    <form action="" class="row">
+        <input class="col-8 col-md-4 mb-2 p-1 px-1" type="text" placeholder="Company Name">
+        <input class="col-8 col-md-4 mb-2 p-1 px-1" type="text" placeholder="Website">
+        <input class="col-8 col-md-4 mb-2 p-1 px-1" type="text" placeholder="Linkedin Page">
+        <input class="col-8 col-md-4 mb-2 p-1 px-1" type="text" placeholder="Career Page">
+        
+        <div *ngIf="!userLoggedIn">
+            <div class="title">
+                Add your details:
+            </div>
+            <input class="col-8 col-md-4 mb-2 p-1 px-1" type="text" placeholder="Name">
+            <input class="col-8 col-md-4 mb-2 p-1 px-1" type="text" placeholder="Email">
+        </div>
+        <div class="button-container">
+            <button class="form-button col-6 col-md-3 mt-2" type="submit">Submit</button>
+        </div>
+    </form>
+</div>
