@@ -149,7 +149,7 @@
                                                         <i class="fa-solid fa-circle-info"></i>
                                                     </div>
                                                     <div class="tooltip-text pt-2 text-center p-2">
-                                                        <small>Press click Enter to add a soft skill</small>
+                                                        <small>Press Enter to add a soft skill</small>
                                                     </div>
                                                 </div>
                                                 
@@ -177,7 +177,7 @@
                                         [title]="coreSkillyears.errors?.['required'] ? ' Core skill Years is required' : ''"
                                         [ngClass]="{ 'is-invalid': coreSkillyears.invalid && (coreSkillyears.dirty || coreSkillyears.touched) }">
             
-                                    <button class="float-end btn btn-add" type="button" [disabled]="!isCoreSkillsValidForm()"
+                                    <button class="float-end btn btn-add" type="button" [disabled]="!isCoreSkillsValidForm() ||coreSkillyears.invalid"
                                         (click)="addCoreSkills()">Add</button>
                                 </div>
             
@@ -230,7 +230,7 @@
                                         >  
                                         
            
-                                    <button class="float-end btn btn-add" type="button" [disabled]="!isValidCertificateForm() || completionyear.invalid"
+                                    <button class="float-end btn btn-add" type="button" [disabled]="certificateCompany1.invalid|| !isValidCertificateForm() || completionyear.invalid"
                                         (click)="addCertificate()">Add</button>
                                         <!-- <div class="certificate-error-message" *ngIf="maxCertificate">
                                             You can not add more than 5 certificates.
@@ -269,7 +269,9 @@
                                         [(ngModel)]="title" name="title" id="title">
                                     <input type="text" class="core-skills-input ms-2 form-control"
                                         pattern="^([ \u00c0-\u01ffa-zA-Z'.])+$" placeholder="Where did you acquire this"
-                                        [(ngModel)]="instituteName" name="instituteName" id="instituteName">
+                                        [(ngModel)]="instituteName" name="instituteName" id="instituteName"  #instituteName1="ngModel"
+                                        [title]="instituteName1.errors?.['pattern'] ? 'Institute Name is invalid' : ''"
+                                        [ngClass]="{ 'is-invalid': instituteName1.invalid && (instituteName1.dirty || instituteName1.touched) }">
                                     <input type="text" class="core-skills-input ms-2 form-control" placeholder="Year of achievement(YYYY-MM)"
                                         [(ngModel)]="achievementmonth" name="achievementdate" id="achievementdate"  
                                         #achievementdate="ngModel" [title]="achievementdate.errors?.['pattern'] ? 'Achievement date is invalid' : ''"
@@ -278,7 +280,7 @@
                                         [title]="achievementdate.errors?.['futureMonths'] ? 'Achievement date is invalid' : ''">
                                        
             
-                                    <button class="float-end btn btn-add" type="button" [disabled]="!isValidForm() || achievementdate.invalid"
+                                    <button class="float-end btn btn-add" type="button" [disabled]="instituteName1.invalid ||!isValidForm() || achievementdate.invalid"
                                         (click)="addAchievement()">Add</button>
                                 </div>
             

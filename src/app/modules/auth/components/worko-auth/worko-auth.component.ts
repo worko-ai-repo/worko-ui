@@ -48,7 +48,9 @@ export class WorkoAuthComponent {
     //   this.storage.remove('accessToken');
     //   return false;
     // }
+    console.log( window.location.origin )
     this.linkedinAccessToken=accessToken;
+    console.log( this.linkedinAccessToken)
 
     this.storage.set('accessToken', this.linkedinAccessToken.toString());
 
@@ -156,7 +158,6 @@ export class WorkoAuthComponent {
 
 
   register() {
-    debugger
     if (this.registrationType === 'candidate') {
       this.router.navigate(['/auth/candidatecompleteSignUp']);
     } else if (this.registrationType === 'employee') {
