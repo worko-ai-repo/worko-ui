@@ -1,13 +1,14 @@
-import { Component, EventEmitter, Input, Output, ViewChild } from '@angular/core';
+import { Component, EventEmitter, Input, OnInit, Output, ViewChild } from '@angular/core';
 import { ModalComponent } from '../../../../modal/modal.component';
 import { ModalType } from 'src/app/modules/shared/interfaces/shared.interface';
+import { StorageService } from 'src/app/modules/app-core/services/storage.service';
 
 @Component({
   selector: 'app-employee-referral-reject',
   templateUrl: './employee-referral-reject.component.html',
   styleUrls: ['./employee-referral-reject.component.scss']
 })
-export class EmployeeReferralRejectComponent {
+export class EmployeeReferralRejectComponent implements OnInit {
 
   @Input() empdetailsList: any = "";
   @Input() empEducationList: any = "";
@@ -30,7 +31,15 @@ export class EmployeeReferralRejectComponent {
   modalType = ModalType;
   modalMessage: string = "";
   modalTitle: string = "";
+  userId: any;
+  rejectedReasons: any;
   showModal: ModalType | undefined;
+
+  constructor(private storage: StorageService) { }
+
+  ngOnInit(): void {
+    this.userId = this.storage.get("userId");
+  }
 
 
   acceptBtn() {
@@ -51,10 +60,11 @@ export class EmployeeReferralRejectComponent {
   }
 
   showMore() {
-    
+    this.openModal(ModalType.REJECT_DETAILS);
   }
 
   ngOnChanges(): void {
+    console.log(this.selectedReferral);
     console.log(this.empExperienceList[0]?.department);
     console.log(this.empdetailsList[0]?.CTC);
     console.log(this.empdetailsList[0]?.noticePeriod);
@@ -64,10 +74,12 @@ export class EmployeeReferralRejectComponent {
     console.log(this.selectedReferral);
     console.log(this.selectedStatus);
 
+    if(this.selectedReferral?.rejectedByUserIds){
+      this.getRejectDetailsValue();
+    }
+
     if (this.empdetailsList?.length > 0) {
-
       this.profileImage = this.empdetailsList[0].profileImageAwsS3SignedUrl ? this.empdetailsList[0]?.profileImageAwsS3SignedUrl : '/assets/public/candidate-img.png'
-
     }
 
   }
@@ -93,6 +105,17 @@ export class EmployeeReferralRejectComponent {
    */
   closeModal(): void {
     this.modal.cancel();
+  }
+
+  getRejectDetailsValue() {
+    this.selectedReferral?.rejectedByUserIds.forEach((elem: any) => {
+      if (this.userId === elem.userId) {
+        this.rejectedReasons = {
+          reason: elem?.reason,
+          comment: elem?.userComment
+        }
+      }
+    });
   }
 
   receiveDataFromChild(data: any) {

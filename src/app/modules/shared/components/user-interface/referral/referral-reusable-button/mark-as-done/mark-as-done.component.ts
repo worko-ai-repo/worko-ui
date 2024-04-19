@@ -21,9 +21,9 @@ export class MarkAsDoneComponent {
   referralMarkAsDone() {
     this.markAsDone1.emit();
     // this.showReferralDetails.emit(item);
-    if(this.userType === 'Candidate') {
-      this.openModal(ModalType.REFERRAL_RATING);
-    }
+    // if(this.userType === 'Candidate') {
+    //   this.openModal(ModalType.REFERRAL_RATING);
+    // }
   }
 
   /**

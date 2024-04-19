@@ -24,13 +24,13 @@
                         [selectedReferral]="selectedReferral" (markAsDone)="referralAction('DONE')"
                         (raiseIssue)="referralRaiseIssue($event)"></app-employee-accepted-referral>
                     <app-employee-referral-reject *ngIf="selectedStatus === 'REJECTED'"
-                        [selectedStatus]="selectedStatus" [empExperienceList]="empExperienceList"
-                        [empExperienceDetails]="empExperienceDetails" [empCoreSkillsList]="empCoreSkillsList"
-                        [empCoreSkillsDetails]="empCoreSkillsDetails" [empAchievmentsList]="empAchievmentsList"
-                        [empAchievmentsDetails]="empAchievmentsDetails" [empEducationList]="empEducationList"
-                        [empEducationDetails]="empEducationDetails" [empdetailsList]="empdetailsList"
-                        [empDetails]="empDetails"></app-employee-referral-reject>
-                    <app-referral-done *ngIf="selectedStatus === 'DONE'" [userType]="userType"
+                        [selectedReferral]="selectedReferral" [selectedStatus]="selectedStatus"
+                        [empExperienceList]="empExperienceList" [empExperienceDetails]="empExperienceDetails"
+                        [empCoreSkillsList]="empCoreSkillsList" [empCoreSkillsDetails]="empCoreSkillsDetails"
+                        [empAchievmentsList]="empAchievmentsList" [empAchievmentsDetails]="empAchievmentsDetails"
+                        [empEducationList]="empEducationList" [empEducationDetails]="empEducationDetails"
+                        [empdetailsList]="empdetailsList" [empDetails]="empDetails"></app-employee-referral-reject>
+                    <app-referral-done *ngIf="selectedStatus === 'DONE'" [processStatus]="processStatus" [userType]="userType"
                         (raiseIssue)="referralRaiseIssue($event)" (referralRating)="createReview($event)"
                         [reviewData]="reviewData" [empdetailsList]="empdetailsList"
                         [empEducationList]="empEducationList" [empExperienceList]="empExperienceList"

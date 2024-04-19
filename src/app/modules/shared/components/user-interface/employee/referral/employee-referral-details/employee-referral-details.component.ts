@@ -1,4 +1,4 @@
-import { Component, EventEmitter, Input, OnChanges, Output, ViewChild } from '@angular/core';
+import { Component, EventEmitter, Input, OnChanges, Output, SimpleChanges, ViewChild } from '@angular/core';
 import { ModalComponent } from 'src/app/modules/shared/components/modal/modal.component';
 import { ModalType } from 'src/app/modules/shared/interfaces/shared.interface';
 
@@ -19,22 +19,23 @@ export class EmployeeReferralDetailsComponent implements OnChanges {
   @Input() empCoreSkillsDetails: any = {};
   @Input() empExperienceDetails: any = {};
   @Input() selectedStatus: any;
-  @Input() selectedReferral:any;
+  @Input() selectedReferral: any;
   @Output() onAccept = new EventEmitter<any>();
   @Output() onReject = new EventEmitter<any>();
   showCard: boolean = false;
-  action:string = "";
+  action: string = "";
+  scoreDetails: any = "";
+  matchingScore:number = 0;
   profileImage: any;
   @ViewChild(ModalComponent) modal!: ModalComponent;
   modalType = ModalType;
   modalMessage: string = "";
   modalTitle: string = "";
   showModal: ModalType | undefined;
-  score: number =  4;
+  score: number = 0;
   originalPoints = 2.1;
   possiblePoints = 10;
-  
-
+  isEmployeeReferralPage = true;
   // selectedStatus!: string; 
 
   //   // ...
@@ -60,7 +61,7 @@ export class EmployeeReferralDetailsComponent implements OnChanges {
     console.log('Leave');
   }
 
-  ngOnChanges(): void {
+  ngOnChanges(changes: SimpleChanges): void {
     console.log(this.empExperienceList[0]?.department);
     console.log(this.empdetailsList[0]?.CTC);
     console.log(this.empdetailsList[0]?.noticePeriod);
@@ -70,6 +71,17 @@ export class EmployeeReferralDetailsComponent implements OnChanges {
     console.log(this.selectedReferral);
     console.log(this.selectedStatus);
 
+    // if (changes['selectedReferral']) {
+    //   this.handleSelectedReferralChange(changes['selectedReferral'].currentValue);
+    // }
+
+    if (this.selectedReferral?.matchingScore === 251 || this.selectedReferral?.matchingScore === 250) {
+      this.matchingScore = 0;
+    } else {
+      this.matchingScore = this.selectedReferral?.matchingScore;
+    }
+    this.scoreDetails = this.selectedReferral?.scoreDetails;
+
     if (this.empdetailsList?.length > 0) {
 
       this.profileImage = this.empdetailsList[0].profileImageAwsS3SignedUrl ? this.empdetailsList[0]?.profileImageAwsS3SignedUrl : '/assets/public/candidate-img.png'
@@ -77,6 +89,16 @@ export class EmployeeReferralDetailsComponent implements OnChanges {
     }
 
   }
+
+  // private handleSelectedReferralChange(change: SimpleChanges['selectedReferral']) {
+  //   if (this.selectedReferral?.matchingScore === 251 || this.selectedReferral?.matchingScore === 250) {
+  //     this.matchingScore = 0;
+  //   } else {
+  //     this.matchingScore = this.selectedReferral?.matchingScore;
+  //   }
+  //   this.scoreDetails = this.selectedReferral?.scoreDetails;
+  // }
+
 
   /**
  * Open modal.
@@ -101,7 +123,7 @@ export class EmployeeReferralDetailsComponent implements OnChanges {
     this.modal.cancel();
   }
 
-  receiveDataFromChild(data:any) {
+  receiveDataFromChild(data: any) {
     this.closeModal();
     this.onReject.emit(data);
   }
@@ -112,13 +134,13 @@ export class EmployeeReferralDetailsComponent implements OnChanges {
     this.onAccept.emit();
   }
 
-  openfile(event: { preventDefault: () => void; }){
-    event.preventDefault(); 
-  // console.log(this.docResult.awsS3SignedUrl)
-   
-   
+  openfile(event: { preventDefault: () => void; }) {
+    event.preventDefault();
+    // console.log(this.docResult.awsS3SignedUrl)
+
+
     //window.open(this.docResult.awsS3SignedUrl,'_blank')
-    window.open(this.empdetailsList[0]?.cvAwsS3SignedUrl,'_blank');
+    window.open(this.empdetailsList[0]?.cvAwsS3SignedUrl, '_blank');
   }
 
   viewDetails() {

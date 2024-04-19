@@ -69,7 +69,7 @@ export class CandidateProfileService {
   }
 
   getReview(userId:string, referralId:any):Promise<any> {
-    return this.http.get(`${API_URL}user/${userId}/review/received?referralId=${referralId}`, this.authService.getHttpOptions() ).toPromise();
+    return this.http.get(`${API_URL}user/${userId}/review/received?referalId=${referralId}`, this.authService.getHttpOptions() ).toPromise();
   }
 
   raiseIssue(data:any):Promise<any> {

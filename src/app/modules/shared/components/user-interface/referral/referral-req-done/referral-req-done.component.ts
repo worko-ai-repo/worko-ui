@@ -15,7 +15,8 @@ export class ReferralReqDoneComponent {
   @Output() markAsDone = new EventEmitter<string>();
   @Output() raiseIssue = new EventEmitter<any>();
   @Output() referralRating = new EventEmitter<any>();
-  referralRatingFlag = false;
+  @Input() processStatus:any;
+  referralRatingFlag:any = null;
 
   constructor() { }
 
@@ -25,18 +26,20 @@ export class ReferralReqDoneComponent {
 
   ngOnChanges(): void {
     console.log(this.selectedReferral, "selectedReferral");
-    if (this.reviewData?.length > 0) {
+    this.referralRatingFlag = null;
+    if (this.processStatus) {
       this.checkRating();
     }
   }
 
   checkRating() {
-    this.referralRatingFlag = false;
-    this.reviewData.forEach((element:any) => {
+    let flag = false;
+    this.reviewData.forEach((element: any) => {
       if (element.ratingForUserType === 'EMP') {
-        this.referralRatingFlag = true;
+        flag = true;
       }
     });
+    this.referralRatingFlag = flag;
   }
 
   referralMarkAsDone() {

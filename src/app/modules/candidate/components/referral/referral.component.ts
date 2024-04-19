@@ -30,6 +30,7 @@ export class ReferralComponent implements OnInit {
   modalType = ModalType;
   modalMessage: string = "";
   modalTitle: string = "";
+  processStatus = false;
   showModal: ModalType | undefined;
   statusItem: { name: string; status: string; date: any; }[] = [];
   constructor(private candidateSrv: CandidateProfileService, private storage: StorageService, private spinner: NgxSpinnerService) { }
@@ -48,6 +49,7 @@ export class ReferralComponent implements OnInit {
       if (response) {
         this.spinner.hide();
         this.referralList = response;
+        this.referralList.sort((a:any, b:any) => a.createdAt < b.createdAt ? 1 : -1);
         console.log(this.referralList);
         // this.getRefereeDetials(response.accc);
       }
@@ -100,13 +102,20 @@ export class ReferralComponent implements OnInit {
     }
   }
 
-  showReferralDetails(data: any) {
+  async showReferralDetails(data: any) {
+    this.processStatus = false;
     this.reviewData = null;
     this.selectedReferral = data;
     this.refereeDetails = "";
     this.getRefereeDetials(this.selectedReferral);
     if (this.selectedStatus == 'DONE') {
-      this.getReferralReview(this.selectedReferral);
+      this.reviewData = [];
+      let referralId = this.getSlicedValue(this.selectedReferral?.SK);
+      let forUserId = this.selectedReferral?.acceptedByUserId;
+
+      await this.getReferralReview(referralId, this.userId);
+      this.getReferralReview(referralId, forUserId, true);
+      console.log(this.reviewData);
     }
   }
 
@@ -117,13 +126,24 @@ export class ReferralComponent implements OnInit {
 
 
   async referralMarkAsDone(data: any) {
+    this.spinner.show();
     let referralId = this.getSlicedValue(data.SK);
     await this.candidateSrv.markasDoneReferral(this.emailAddress, "DONE", referralId).then(async (response) => {
       if (response) {
         // this.referralList = response;
         // console.log(this.referralList + '123');
+        this.spinner.hide();
+        console.log(response);
+        this.openModal(ModalType.REFERRAL_RATING);
       }
-    })
+    }).catch((error: any) => {
+      this.spinner.hide();
+      console.log(error);
+      this.successmessage = "Something went wrong. Please try again after sometime"
+      this.successtitle = "Error"
+      this.openModal(ModalType.SUCCESS_MESSAGE);
+    }
+    );
   }
 
   async createReview(data: any) {
@@ -146,34 +166,47 @@ export class ReferralComponent implements OnInit {
     }
     await this.candidateSrv.createReview(forUserId, payload).then(async (response) => {
       if (response) {
-        console.log(response);
-        this.getReferralReview(this.selectedReferral);
+        // console.log(response);
+        // this.getReferralReview(this.selectedReferral);
+        if (this.selectedStatus == 'DONE') {
+          this.reviewData = [];
+          let referralId = this.getSlicedValue(this.selectedReferral?.SK);
+          let forUserId = this.selectedReferral?.acceptedByUserId;
+          await this.getReferralReview(referralId, this.userId);
+          this.getReferralReview(referralId, forUserId, true);
+          console.log(this.reviewData);
+        }
       }
     })
 
   }
 
-  async getReferralReview(data: any) {
-    let referralId = this.getSlicedValue(this.selectedReferral.SK);
-    const forUserId = data?.acceptedByUserId;
+  async getReferralReview(referralId: any, forUserId: any, executeProcessedStatus = false) {
+    // let referralId = this.getSlicedValue(this.selectedReferral.SK);
+    // const forUserId = data?.acceptedByUserId;
 
     await this.candidateSrv.getReview(forUserId, referralId).then(async (response) => {
+      if(executeProcessedStatus) {
+        this.processStatus = true;
+      }
       console.log(response);
+      let backupReview = JSON.parse(JSON.stringify(this.reviewData));
       this.reviewData = [];
       if (response) {
         console.log(response);
         response.forEach((element: any) => {
           if (element.referalId == referralId) {
-            this.reviewData.push(element);
-
+            backupReview.push(element);
           }
-
         });
+        this.reviewData = JSON.parse(JSON.stringify(backupReview));
 
       }
     }).catch((error: any) => {
+      if(executeProcessedStatus) {
+        this.processStatus = true;
+      }
       this.reviewData = [];
-
       console.log(error);
     }
     );
@@ -242,11 +275,17 @@ export class ReferralComponent implements OnInit {
     await this.candidateSrv.withdrawReferral(this.emailAddress, "WITHDRAWN", referralId, payload).then(async (response) => {
       if (response) {
         this.spinner.hide();
+        this.successmessage = "This referral request is withdrawn successfully.";
+        this.successtitle = "Congratulations!";
+        this.openModal(ModalType.SUCCESS_MESSAGE);
         this.getReferral();
         console.log(response);
       }
     }).catch((error: any) => {
       this.spinner.hide();
+      this.successmessage = "Something went wrong. Please try again after sometime"
+      this.successtitle = "Error"
+      this.openModal(ModalType.SUCCESS_MESSAGE);
     }
     );
 
@@ -285,8 +324,6 @@ export class ReferralComponent implements OnInit {
     this.closeModal();
   }
 
-
-
   referralWithdraw(data: any) {
     console.log(data);
     this.withdrawReferralRequest(data);
@@ -297,13 +334,19 @@ export class ReferralComponent implements OnInit {
     this.rasieIssue(data);
   }
 
-  referralReviewRating(data: any) {
-    console.log(data);
-    this.getReferral();
-    this.createReview(data);
+  async receiveDataFromChild(reviewRatingData: any) {
+    this.createReview(reviewRatingData);
+    console.log(reviewRatingData);
+    if (this.selectedStatus === 'ACCEPTED') {
+      this.getReferral();
+    }
+    this.closeModal();
   }
 
   cancelReviewRatingPopup() {
-    this.getReferral();
+    if (this.selectedStatus === 'ACCEPTED') {
+      this.getReferral();
+    }
+    this.closeModal();
   }
 }

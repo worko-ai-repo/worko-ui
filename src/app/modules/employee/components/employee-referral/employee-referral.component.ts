@@ -20,7 +20,8 @@ export class EmployeeReferralComponent {
   userName: any;
   firstName: any;
   lastName: any;
-  currentCompanySK: any;
+  // currentCompanySK: any;
+  currentCompanyId: any;
   reviewData: any = null;
   empdetailsList: any = "";
   empEducationList: any = "";
@@ -40,6 +41,7 @@ export class EmployeeReferralComponent {
   modalType = ModalType;
   modalMessage: string = "";
   modalTitle: string = "";
+  processStatus = false;
   showModal: ModalType | undefined;
   statusItem: { name: string; status: string; date: any; }[] = [];
 
@@ -49,7 +51,8 @@ export class EmployeeReferralComponent {
     this.emailAddress = this.storage.get("useremail");
     this.userId = this.storage.get("userId");
     this.userName = this.storage.get("userName");
-    this.currentCompanySK = this.storage.get("currentCompanySK");
+    // this.currentCompanySK = this.storage.get("currentCompanySK");
+    this.currentCompanyId = this.storage.get("currentCompanyId");
     this.getEmpReferral();
     this.onStatusSelected('AWAITING');
     // this.getEmpReferralDetails();
@@ -97,19 +100,20 @@ export class EmployeeReferralComponent {
   async getEmpReferral() {
     this.spinner.show();
     // let companySK = "01HMR3G2QNYYM47YZ2P9ZVZBPR";
-    // let companyId = this.currentCompanyId
-    let companyId = this.getSlicedValue(this.currentCompanySK);
+    let companyId = this.currentCompanyId
+    // let companyId = this.getSlicedValue(this.currentCompanySK);
     await this.empService.getEmployeeReferral(this.emailAddress, companyId, this.selectedStatus).then(async (response) => {
       if (response) {
         this.spinner.hide();
-        if(response.length>0) {
-          response.forEach((element:any, index:any) => {
-            if(Array.isArray(element)) {
+        if (response.length > 0) {
+          response.forEach((element: any, index: any) => {
+            if (Array.isArray(element)) {
               response[index] = element[0];
-            }  
+            }
           });
         }
         this.empReferralList = response;
+        this.empReferralList.sort((a:any, b:any) => a.createdAt < b.createdAt ? 1 : -1);
         console.log(this.empReferralList + '123');
       }
     }).catch((error: any) => {
@@ -156,14 +160,20 @@ export class EmployeeReferralComponent {
     })
   }
 
-  showReferralDetails(data: any) {
+  async showReferralDetails(data: any) {
+    this.processStatus = false;
     this.reviewData = null;
     this.selectedReferral = data;
     const selectedEmail = this.getSlicedValue(this.selectedReferral.PK);
     console.log(selectedEmail);
-    this.getEmpReferralDetails(selectedEmail);
+    await this.getEmpReferralDetails(selectedEmail);
     if (this.selectedStatus == 'DONE') {
-      this.getReferralReview(this.selectedReferral);
+      this.reviewData = [];
+      let referralId = this.getSlicedValue(this.selectedReferral?.SK);
+      let forUserId = this.getSlicedValue(this.empdetailsList[0]?.SK);
+      await this.getReferralReview(referralId, this.userId);
+      this.getReferralReview(referralId, forUserId, true);
+      console.log(this.reviewData);
     }
   }
 
@@ -203,10 +213,11 @@ export class EmployeeReferralComponent {
       if (response) {
         this.spinner.hide();
         console.log(response);
-        if (action === 'ACCEPT') {
+        if (action === 'ACCEPT' || this.selectedStatus === 'AWAITING') {
           this.successmessage = "Referral request accepted successfully.";
           this.successtitle = "Congratulations!";
           this.openModal(ModalType.SUCCESS_MESSAGE);
+          this.getEmpReferral();
         }
 
         // else if (action === 'DONE') {
@@ -216,7 +227,6 @@ export class EmployeeReferralComponent {
         if (action === 'DONE') {
           this.openModal(ModalType.REFERRAL_RATING);
         }
-        this.getEmpReferral();
       }
     }).catch((error: any) => {
       this.spinner.hide();
@@ -316,7 +326,8 @@ export class EmployeeReferralComponent {
 
     const userId = this.userId;
     let referralId = this.getSlicedValue(this.selectedReferral?.SK);
-    const forUserId = this.getSlicedValue(this.empdetailsList[0]?.SK);
+    let forUserId = this.getSlicedValue(this.empdetailsList[0]?.SK);
+    // forUserId = this.empdetailsList[0].id;
 
     let payload = {
       "ratingByUserId": userId,
@@ -333,31 +344,45 @@ export class EmployeeReferralComponent {
     await this.candidateSrv.createReview(forUserId, payload).then(async (response) => {
       if (response) {
         console.log(response);
-        this.getReferralReview(this.selectedReferral);
+        // this.getReferralReview(this.selectedReferral);
+        if (this.selectedStatus == 'DONE') {
+          this.reviewData = [];
+          let referralId = this.getSlicedValue(this.selectedReferral?.SK);
+          let forUserId = this.getSlicedValue(this.empdetailsList[0]?.SK);
+          await this.getReferralReview(referralId, this.userId);
+          this.getReferralReview(referralId, forUserId, true);
+          console.log(this.reviewData);
+        }
       }
     })
 
   }
 
-  async getReferralReview(data: any) {
-    let referralId = this.getSlicedValue(data.SK);
-    const forUserId = this.getSlicedValue(this.empdetailsList[0]?.SK);
+  async getReferralReview(referralId: any, forUserId: any, executeProcessedStatus = false) {
+    // let referralId = this.getSlicedValue(data.SK);
+    // const forUserId = this.getSlicedValue(this.empdetailsList[0]?.SK);
 
     await this.candidateSrv.getReview(forUserId, referralId).then(async (response) => {
+      if(executeProcessedStatus) {
+        this.processStatus = true;
+      }
       console.log(response);
+      let backupReview = JSON.parse(JSON.stringify(this.reviewData));
       this.reviewData = [];
       if (response) {
         console.log(response);
         response.forEach((element: any) => {
           if (element.referalId == referralId) {
-            this.reviewData.push(element);
+            backupReview.push(element);
           }
-
         });
+        this.reviewData = JSON.parse(JSON.stringify(backupReview));
       }
     }).catch((error: any) => {
+      if(executeProcessedStatus) {
+        this.processStatus = true;
+      }
       this.reviewData = [];
-
       console.log(error);
     }
     );
@@ -371,15 +396,21 @@ export class EmployeeReferralComponent {
   }
 
   async receiveDataFromChild(reviewRatingData: any) {
-    console.log(reviewRatingData);
+    // await this.createReview(reviewRatingData);
     this.createReview(reviewRatingData);
+    console.log(reviewRatingData);
+    if (this.selectedStatus === 'ACCEPTED') {
+      this.getEmpReferral();
+    }
     this.closeModal();
   }
 
   cancelReviewRatingPopup() {
+    if (this.selectedStatus === 'ACCEPTED') {
+      this.getEmpReferral();
+    }
     this.closeModal();
   }
-
 
   /**
  * Open modal.

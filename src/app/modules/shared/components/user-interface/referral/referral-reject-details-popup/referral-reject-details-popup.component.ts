@@ -1,4 +1,4 @@
-import { Component, EventEmitter, Output } from '@angular/core';
+import { Component, EventEmitter, Input, Output } from '@angular/core';
 
 @Component({
   selector: 'app-referral-reject-details-popup',
@@ -8,6 +8,7 @@ import { Component, EventEmitter, Output } from '@angular/core';
 export class ReferralRejectDetailsPopupComponent {
 
   @Output() onSuccess: EventEmitter<any> = new EventEmitter<any>();
+  @Input() rejectReasonsData:any;
 
   closePopup() {
     this.onSuccess.emit();

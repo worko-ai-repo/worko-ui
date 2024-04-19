@@ -7,6 +7,7 @@ import { Component, Input, OnInit } from '@angular/core';
   styleUrls: ['./circle-chart.component.scss'],
 })
 export class CircleChartComponent implements OnInit {
+  @Input() isEmployeeReferralPage:any;
   private _chartText: string = '';
   selectedColor: string = "#D9D9D9";
   // Initialize the circle color
@@ -24,7 +25,7 @@ export class CircleChartComponent implements OnInit {
     const chartValueAsNumber: number = parseFloat(this.chartText);
   
     // Check if the conversion is successful and if the value is less than 5
-    return !isNaN(chartValueAsNumber) && chartValueAsNumber < 5 ? 'red' : 'green';
+    return !isNaN(chartValueAsNumber) && chartValueAsNumber < 7 ? 'red' : 'green';
   }
 
   private _chartValue: number = 0;
