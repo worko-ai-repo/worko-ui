@@ -53,10 +53,16 @@
     background: linear-gradient(148deg, #000 5.99%, #182b45 70.16%);
     padding: 10px;
 }
-.not-found a {
-    text-decoration: none;
-    color: inherit; 
-    cursor: pointer; 
+.not-found button {
+    padding: 1rem 0.5%;
+    border-radius: 50%;
+    font-size: 18px;
+    color: white;
+    background: linear-gradient(90deg, #2F92C7 0%, rgba(47, 146, 199, 0) 205.38%);
+    border-width: 1px;
+    position: fixed;
+    bottom: 35px;
+    right: 50px;
 }
 .text-white {
     color: #FFFFFF;

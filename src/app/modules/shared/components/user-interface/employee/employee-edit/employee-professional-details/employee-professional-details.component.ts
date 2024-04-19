@@ -2,11 +2,12 @@ import { ChangeDetectorRef, Component, EventEmitter, Input, Output, ViewChild } 
 import { MatAutocompleteModule, MatAutocompleteTrigger } from '@angular/material/autocomplete';
 import { FormArray, FormBuilder, FormControl, FormGroup, FormsModule, ReactiveFormsModule, Validators } from '@angular/forms';
 import { Observable } from 'rxjs';
-import { debounceTime, distinctUntilChanged, switchMap, filter } from 'rxjs/operators';
+import { debounceTime, distinctUntilChanged, switchMap, filter, map } from 'rxjs/operators';
 import { Subscription } from 'rxjs';
 import { AuthService } from 'src/app/modules/worko/services/auth.service';
 import { ModalComponent } from '../../../../modal/modal.component';
 import { ModalType } from 'src/app/modules/shared/interfaces/shared.interface';
+
 @Component({
   selector: 'app-employee-professional-details',
   templateUrl: './employee-professional-details.component.html',
@@ -17,6 +18,7 @@ export class EmployeeProfessionalDetailsComponent {
   @ViewChild('autoCompleteInput', { static: false, read: MatAutocompleteTrigger }) trigger!: MatAutocompleteTrigger;
   @ViewChild(ModalComponent) modal!: ModalComponent;
 
+  @ViewChild('autoCompleteInput') autoCompleteInput!: MatAutocompleteTrigger;
   @Output() nextStep = new EventEmitter<void>();
   @Output() nextStepThird = new EventEmitter<void>();
   @Output() previousStep = new EventEmitter<void>();
@@ -89,7 +91,12 @@ export class EmployeeProfessionalDetailsComponent {
       switchMap((value: any) => {
         console.log(value);
         if (value && value.length >= 1) {
-          return this.authService.getCompanyName(value);
+          return this.authService.getCompanyName(value).pipe(
+            map((results: any[]) => [
+              ...results,
+              { id: 'add_new', name: "Add new company" } // Static option
+            ])
+          );
         } else {
           // If value.length is less than 1, return an empty array or null
           return [];
@@ -136,8 +143,12 @@ fieldsGroup:any;
         console.log(value)
         this.resetFormFields()
         if (value && value.length >= 1) {
-          return this.authService.getCompanyName(value);
-          
+          return this.authService.getCompanyName(value).pipe(
+            map((results: any[]) => [
+              ...results,
+              { id: 'add_new', name: "Add new company" } // Static option
+            ])
+          );
 
         } else {
           // If value.length is less than 1, return an empty array or null
@@ -161,7 +172,12 @@ fieldsGroup:any;
 
   }
 
-
+  addNewCompany(): void {
+    // this.
+    this.myControl.reset();
+    this.openModal(ModalType.ADD_COMPANY);
+    
+  }
 
   onOptionSelected(event: any): void {
     console.log("on optionselect")
