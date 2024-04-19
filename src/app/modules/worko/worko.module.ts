@@ -55,6 +55,7 @@ import { RefundPolicyComponent } from './components/refund-policy/refund-policy.
 import { IndexComponent } from './components/index/index.component';
 import { FaqCandidateComponent } from './components/faq-candidate/faq-candidate.component';
 import { FaqRefereeComponent } from './components/faq-referee/faq-referee.component';
+import { AddCompanyComponent } from './components/add-company/add-company.component';
 // import { MatInputModule } from '@angular/material/input';
 export const routes: Routes = [
   {
@@ -222,7 +223,8 @@ export const routes: Routes = [
     RefundPolicyComponent,
     IndexComponent,
     FaqCandidateComponent,
-    FaqRefereeComponent
+    FaqRefereeComponent,
+    AddCompanyComponent
     
   ],
   imports: [

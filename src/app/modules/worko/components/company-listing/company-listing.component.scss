@@ -53,7 +53,11 @@
     background: linear-gradient(148deg, #000 5.99%, #182b45 70.16%);
     padding: 10px;
 }
-
+.not-found a {
+    text-decoration: none;
+    color: inherit; 
+    cursor: pointer; 
+}
 .text-white {
     color: #FFFFFF;
 }
