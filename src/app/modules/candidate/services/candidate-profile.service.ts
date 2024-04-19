@@ -125,6 +125,18 @@ export class CandidateProfileService {
   deleteUserCollege(emailAddress:string,sk:any):Promise<any>{
     return this.http.delete(API_URL+`user/${emailAddress}/education/${sk}`,this.authService.getHttpOptions()).toPromise();
   }
+
+
+  /* Email opt verification for employee */
+  employeeEmailVerification(emailAddress:string,id:any):Promise<any>{
+    return this.http.get(API_URL+`user/${emailAddress}/experience/${id}/request-otp`,this.authService.getHttpOptions()).toPromise();
+
+  }
+
+  verifyOtp(emailAddress:any,id:any,otp:any):Promise<any>{
+    return this.http.post(API_URL+`user/${emailAddress}/experience/${id}/verify-otp`,{otp:otp},this.authService.getHttpOptions()).toPromise();
+    
+  }
 }
 
 

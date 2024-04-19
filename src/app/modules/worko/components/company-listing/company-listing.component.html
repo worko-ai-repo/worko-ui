@@ -40,17 +40,24 @@
       </div>
       <div class="col-12 col-sm-8 d-flex flex-column flex-sm-row justify-content-sm-end align-items-start filters">
         <div class="p-1 d-flex mb-3 mb-sm-1 filter">
-          <select class="selector form-select " name="industryType" id="industryType"
+          <!-- <select class="selector form-select " name="industryType" id="industryType"
           [(ngModel)]="filterData.industryType" (ngModelChange)="onIndustryNameChange($event)">
           <option value="">Select Industry Type</option>
           <option value="tech">Tech</option>
           <option value="e-commerce">Ecommerce</option>
           <option value="Automobile">Automobile</option>
+        </select> -->
           
           <!-- <option *ngFor="let item of teamSizeOptions" value="{{ item.value }}">
               {{ item.name }}
           </option> -->
-      </select>
+          <select class=" selector form-select" name="industryType" id="industryType"
+          [(ngModel)]="filterData.industryType" (ngModelChange)="onIndustryTypeChange($event)">
+          <option value="">Select industryType</option>
+          <option *ngFor="let item of industryTypeOptions" [value]="item.value">{{ item.name }}</option>
+        </select>
+
+
         </div>
         <div class="me-3 ml-sm-2 p-1 d-flex filter">
           <select class=" selector form-select" name="teamSize" id="teamSize"

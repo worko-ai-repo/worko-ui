@@ -40,7 +40,7 @@ export class CognitoService {
  
 
   constructor(private storage: StorageService, private navbarToggleSwitch:NavbarToggleSwitchService) {
-    debugger
+    //debugger
 
 Amplify.configure(awsamplify.config);
  
@@ -260,7 +260,8 @@ async login(){
     // const accessToken = await this.keycloakService.getToken();
     // const accessToken = (await fetchAuthSession()).tokens?.idToken?.toString();
     const { accessToken, idToken } = (await fetchAuthSession()).tokens ?? {};
-    console.log(accessToken)
+    console.log(idToken)
+    //console.log(accessToken)
     if (!accessToken) {
       this.storage.remove('accessToken');
       return false;

@@ -145,7 +145,7 @@
 
           <div class="circle" (mouseover)="showOptions = true" >
             <span class="letter">{{ letter }}</span>
-            <div *ngIf="showOptions" class="options" (mouseleave)="showOptions = false" (mouseover)="showOptions = true">
+            <div *ngIf="showOptions" class="option" (mouseleave)="showOptions = false" (mouseover)="showOptions = true">
               <button class="dropdown-item d-flex justify-content-right " type="button" (click)="dashboard()">
                 
                 <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-person-circle" viewBox="0 0 16 16">
