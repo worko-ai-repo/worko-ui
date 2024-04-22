@@ -209,7 +209,6 @@ export class CompanyListingComponent implements OnInit {
     this.filteredCompanyList = this.companyList;
 
 
-
   }
   onSearchInputChange(): void {
     this.lastKey = "";
