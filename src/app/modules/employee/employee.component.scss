@@ -26,3 +26,10 @@
     flex-shrink: 0; /* Prevents the menu bar from shrinking */
     background-color: #f0f0f0; /* Example background color */
 }
+
+
+@media (max-width: 675px){
+    #user-menubar {
+        width: 0;
+    }
+}

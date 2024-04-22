@@ -6,16 +6,16 @@
             </div>
             <div class="divide-60">
 
-                    <div style="width:60%" class="float-start h-100 me-3">
+                    <div style="width:60%" class="float-start h-100 me-3 profile-card">
                         <app-user-profile-complete [profileCompletion]="profileCompletion" [userType]="'Candidate'" [candidateSocial]="candidateSocial"></app-user-profile-complete>
                     </div>
-                    <div style="width:calc(40% - 1rem);"  class="float-start h-100">
+                    <div style="width:calc(40% - 1rem);"  class="float-start h-100 skills-card">
                         <app-user-soft-skills [softSkillsLists]="softSkillsLists"></app-user-soft-skills>
                     </div>
-          
+
             </div>
         </div>
-        <div class="container-bottom my-3"  >
+        <div class="container-bottom my-lg-3"  >
             <div class="divide-40 mr-3"> <app-user-about [certificationList]="certificationList" [userDescription]="userDescription"></app-user-about></div>
             <div class="divide-60"> <app-user-skills  [achievementsList]="achievementsList" [coreSkillsLists]="coreSkillsLists" ></app-user-skills></div>
         </div>
