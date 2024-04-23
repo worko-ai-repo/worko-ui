@@ -5,7 +5,7 @@
     justify-content: space-evenly;
 }
 .active-logo path {
-    fill: rgb(30, 214, 255); /* Change the color to whatever you want for highlighting */
+    fill: #1ed6ff; /* Change the color to whatever you want for highlighting */
   }
   
 //   .check-box:checked + .form-check-input .active-logo path {
@@ -15,3 +15,35 @@
 //    color: white;
 //     // background-color: transparent;
 // }
+
+.navbar-brand{
+display: none;
+}
+
+@media (max-width: 675px){
+
+  .navbar-brand {
+    display: block;
+    position: absolute;
+    margin-left: 13vw;
+    margin-top: 5px;
+
+    img{
+        width: 130px;
+    }
+}
+
+  .title{
+    padding: 1rem 0 !important;
+    display: flex;
+    justify-content: center;
+  }
+
+}
+
+@media (max-width: 768px){
+  .top-menu{
+    flex-direction: column-reverse;
+  }
+
+}

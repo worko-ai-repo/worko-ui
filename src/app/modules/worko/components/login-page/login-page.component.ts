@@ -1,5 +1,5 @@
 
-import { Component, EventEmitter, Output, ViewChild, AfterViewInit, OnDestroy, Input } from '@angular/core';
+import { Component, EventEmitter, Output, ViewChild, AfterViewInit, OnDestroy, Input, ElementRef } from '@angular/core';
 // import { CognitoService } from 'src/app/modules/services/cognito.service';
 
 import { Router } from '@angular/router';
@@ -17,13 +17,16 @@ import { FormControl, FormsModule, NgModel, ReactiveFormsModule } from '@angular
 import { Observable } from 'rxjs';
 // import { delay } from 'rxjs/operators';
 // import { of } from 'rxjs';
-import { debounceTime, distinctUntilChanged, switchMap, filter } from 'rxjs/operators';
+import { ModalType } from 'src/app/modules/shared/interfaces/shared.interface';
+import { ModalComponent } from 'src/app/modules/shared/components/modal/modal.component';
+import { debounceTime, distinctUntilChanged, switchMap, filter, map } from 'rxjs/operators';
 import { Subscription } from 'rxjs';
 import { ChangeDetectorRef } from '@angular/core';
 import { CognitoService } from '../../../services/cognito.service';
 import 'aws-amplify/auth/enable-oauth-listener';
 import { Hub } from 'aws-amplify/utils';
 import { ConfirmResetPasswordInput, ResetPasswordOutput, confirmResetPassword, fetchAuthSession, getCurrentUser, resetPassword } from '@aws-amplify/auth';
+import { event } from 'jquery';
 declare var bootstrap: any;
 
 @Component({
@@ -37,6 +40,7 @@ export class LoginPageComponent implements AfterViewInit, OnDestroy {
   @Output() onSuccess: EventEmitter<void> = new EventEmitter<void>();
   @Input() userType: any;
 
+  @ViewChild(ModalComponent) modal!: ModalComponent;
   // @ViewChild('autocompleteInput') autocompleteInput: any; 
   @ViewChild('autoCompleteInput', { static: false, read: MatAutocompleteTrigger }) trigger!: MatAutocompleteTrigger;
   myControl = new FormControl<any>('');
@@ -66,6 +70,11 @@ export class LoginPageComponent implements AfterViewInit, OnDestroy {
   // checkboxChecked:boolean=false;
   agreeTerms: boolean = false;
   auto: any;
+
+  modalType = ModalType;
+  modalMessage: string = "";
+  modalTitle: string = "";
+  showModal: ModalType | undefined;
 
   form = {
     email: '',
@@ -187,11 +196,6 @@ export class LoginPageComponent implements AfterViewInit, OnDestroy {
   }
 
 
-
-
-  onOptionSelected(event: any): void {
-    this.selectedCompany = event.option.value;
-  }
   // onInputChange(): void {
   //   // Check if the input value matches any of the options
   //   const inputValue = this.autocompleteInput.nativeElement.value;
@@ -244,9 +248,20 @@ export class LoginPageComponent implements AfterViewInit, OnDestroy {
       debounceTime(300),
       distinctUntilChanged(),
       switchMap((value: any) => {
+        // Edited by KA:
+        // if (value && value.length >= 1) {
+        //   return this.authService.getCompanyName(value);
+        // }
         if (value && value.length >= 1) {
-          return this.authService.getCompanyName(value);
-        } else {
+          return this.authService.getCompanyName(value).pipe(
+            map((results: any[]) => [
+              ...results,
+              { id: 'add_new', name: "Add new company" } // Static option
+            ])
+          );
+        } 
+        // End of edit by KA
+        else {
           // If value.length is less than 1, return an empty array or null
           return [];
         }
@@ -362,12 +377,10 @@ export class LoginPageComponent implements AfterViewInit, OnDestroy {
         const codeDeliveryDetails = nextStep.codeDeliveryDetails;
         console.log(
           `Confirmation code was sent to ${codeDeliveryDetails.deliveryMedium}`
-        );
-
-      
-      
+        );  
     }
   }
+  
 async  handleConfirmResetPassword({
  
   username,
@@ -520,6 +533,35 @@ async  handleConfirmResetPassword({
 
   }
 
+  addNewCompany(event: MouseEvent, option: any): void {
+    console.log("CLicked to add new company:",event);
+    // this.openModal(ModalType.ADD_COMPANY);
+    
+  }
+    
+  openModal(modalType: ModalType, message: string = "", title: string = ""): void {
+    this.showModal = modalType;
+    this.modalMessage = message;
+    this.modalTitle = title;
+    this.modal.open();
+  }
+
+
+  
+  onOptionSelected(event: any): void {
+    // this.selectedCompany = event.option.value;
+    
+    // Edited by KA:
+    if (event.option.value.id == "add_new"){
+      console.log("Add new company")
+      console.log("add_new = ", event.option.value.id);
+      this.openModal(ModalType.ADD_COMPANY);
+      this.selectedCompany='';
+      this.myControl.reset();
+    }else{
+      this.selectedCompany = event.option.value;
+    }
+  }
 
   uploadCVonS3Bucket(docResult: any) {
     try {

@@ -75,3 +75,17 @@
 .details-area{
     width: calc(100%  - 160px);
 }
+
+
+@media  (max-width: 1150px){
+    .user-detai-main{
+        display: flex;
+        justify-content: center;
+    }
+    .details-area{
+        width: 50%;
+    } 
+    .text-white{
+        text-align: center;
+    }
+}
