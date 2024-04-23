@@ -10,14 +10,16 @@
             <div class="col">
                 <label for="" class="form-lable  required-form-field">Current Company Name</label>
                 <input matInput #autoCompleteInput="matAutocompleteTrigger" class="form-control form-input"
-                
+
                     [formControl]="myControl" [matAutocomplete]="auto" placeholder="Select Company Name"
                     [(ngModel)]="employeeProfessionalData.companyName"
                     required  [title]="myControl.hasError('required') ? 'Company Name is required' : ''" 
                     [ngClass]="{ 'is-invalid' :myControl.invalid  && (myControl.dirty || myControl.touched)}"  >
                 <mat-autocomplete #auto="matAutocomplete" [displayWith]="displayFn"
                     (optionSelected)="onOptionSelected($event)"   >
-                    <mat-option *ngFor="let option of filteredOptions | async" [value]="option" >
+                    <mat-option *ngFor="let option of filteredOptions | async" [value]="option" 
+                    (click)="option.id === 'add_new' ? addNewCompany() : null"
+                    >
                         {{ option.name }}
                     </mat-option>
                 </mat-autocomplete>
@@ -176,7 +178,9 @@
                    placeholder="Select Company Name" />
             <mat-autocomplete [displayWith]="displayPastFn" [id]="'autoCompleteOptions' + i"
                               (optionSelected)="onSelectedPastJob($event)" #auto="matAutocomplete">
-              <mat-option *ngFor="let job of filteredOption | async" [value]="job">
+              <mat-option *ngFor="let job of filteredOption | async" [value]="job"
+              (click)="job.id === 'add_new' ? addNewCompany() : null"
+              >
                 {{ job.name }}
               </mat-option>
             </mat-autocomplete> 
@@ -236,7 +240,9 @@
                     (onSuccess)="receiveDataFromChild($event)" [email]="emailid" [id]="workExperienceDetails.id"></app-otp-verification-modal>
             </ng-container>
 
-            <ng-container *ngIf="showModal === modalType.SUCCESS_MESSAGE">
+            <ng-container *ngIf="showModal === modalType.ADD_COMPANY">
+                <app-add-company></app-add-company>
+              </ng-container>            <ng-container *ngIf="showModal === modalType.SUCCESS_MESSAGE">
             <div class="row message-card px-sm-3 p-4" >
   
                 <div class="font-weight-bold text-color-red mb-3 d-flex justify-content-center" style="color: #e40707; font-size: medium;" *ngIf="successtitle === 'Error'">

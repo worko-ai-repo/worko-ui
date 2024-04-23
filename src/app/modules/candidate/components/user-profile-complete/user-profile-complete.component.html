@@ -35,11 +35,11 @@
                     <div class="row right-section">
                         <div class="col-md-12 profile-option mt-2" *ngFor="let profileDetails of candidateProfile; let i=index">
                             <div class="row">
-                                <div class="col-md-8 d-flex chart-labels">
+                                <div class="col-lg-8 col-sm-6 d-flex chart-labels">
                                     <div class="square-box" [style.backgroundColor]="backgroundColor[i]"></div>
                                     <span class="profile-complite-content ps-1">{{profileDetails.fieldGroup}}</span>
                                 </div>
-                                <div class="col-md-4 d-flex">
+                                <div class="col-sm-4 d-flex">
                                     <span class="profile-complite-content">{{profileDetails.curPerc}}%</span>
                                 </div>
                             </div>

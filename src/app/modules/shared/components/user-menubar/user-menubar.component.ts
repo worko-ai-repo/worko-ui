@@ -60,6 +60,8 @@ export class UserMenubarComponent {
       ]
     }
 
+    
+
     if (this.userType == "Employee") {
       this.menuItems = [
         {
@@ -129,6 +131,15 @@ export class UserMenubarComponent {
         },
       ]
     }
+  }
+
+  
+  isMenuOpen: boolean = false;
+
+  toggleMenu(event: any) {
+    // this.isMenuOpen = event.target.checked;
+    this.isMenuOpen = !this.isMenuOpen;
+    console.log("isMenuOpen",this.isMenuOpen)
   }
 
   /**

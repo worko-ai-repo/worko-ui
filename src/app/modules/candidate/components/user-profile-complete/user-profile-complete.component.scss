@@ -75,3 +75,11 @@
 .chart-labels{
     flex-direction: row;
 }
+
+@media  (max-width: 1150px) and (min-width: 575px) {
+    
+    .canvas{
+        width: 60%;
+    }
+  
+  }

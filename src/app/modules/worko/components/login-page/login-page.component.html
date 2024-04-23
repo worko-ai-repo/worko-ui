@@ -310,9 +310,14 @@
                         <mat-autocomplete #auto="matAutocomplete" [displayWith]="displayFn"
                           (optionSelected)="onOptionSelected($event)">
                           <mat-option class="custom-mat-option" *ngFor="let option of filteredOptions | async"
-                            [value]="option">
+                          (click)="option.id === 'add_new' ? addNewCompany($event,  option) : null"
+                          [value]="option">
                             {{ option.name }}
                           </mat-option>
+                          <!-- <mat-option class="custom-mat-option"
+                            >
+                            Add new company
+                          </mat-option> -->
                         </mat-autocomplete>
                       </div>
                     </div>
@@ -680,3 +685,13 @@
     </div>
   </div>
 </div>
+
+<app-modal [theme]="'theme-k'" [centered]="true" [showHeader]="showModal === modalType.MESSAGE"
+[showClose]="true"
+  [showFooter]="showModal === modalType.MESSAGE" [title]="modalTitle" [message]="modalMessage"
+  [bodyClass]="modalMessage ? 'p-4' : 'p-0'" >
+
+  <ng-container *ngIf="showModal === modalType.ADD_COMPANY">
+    <app-add-company></app-add-company>
+  </ng-container>
+</app-modal>
