@@ -90,7 +90,7 @@ export class PersonalInformationComponent implements OnInit {
 
   ngOnChanges(): void {
 //debugger
-    if (this.candidatePersonalDetails.name && this.candidatePersonalDetails.collegeData&& this.candidatePersonalDetails.socialLinkGithub)  {
+    if (this.candidatePersonalDetails.name && this.candidatePersonalDetails.socialLinklinkdin)  {
       if(this.candidatePersonalDetails && this.candidatePersonalDetails.collegeData.length == 0){
         this.addCollege();
         //debugger;

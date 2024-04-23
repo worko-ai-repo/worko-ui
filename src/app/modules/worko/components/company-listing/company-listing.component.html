@@ -39,7 +39,8 @@
         <!-- Companies: -->
       </div>
       <div class="col-12 col-sm-8 d-flex flex-column flex-sm-row justify-content-sm-end align-items-start filters">
-        <div class="p-1 d-flex mb-3 mb-sm-1 filter">
+        <!-- <div class="p-1 d-flex mb-3 mb-sm-1 filter"> -->
+          <div class="me-3 ml-sm-2 p-1 d-flex filter">
           <!-- <select class="selector form-select " name="industryType" id="industryType"
           [(ngModel)]="filterData.industryType" (ngModelChange)="onIndustryNameChange($event)">
           <option value="">Select Industry Type</option>
@@ -84,8 +85,12 @@
             <div class="row card-view card d-flex justify-content-center">
               <div class="col-5 d-lex align-items-center">
                 <div class="float-left image-brand">
-                  <img src="{{ item.logoUrl }}" class="company-name " alt="{{ item.name }}">
-                </div>
+                  <img *ngIf="assetLogos.includes(item.logo)"  
+                  src="'assets/company-logo'+{{item.logo }}" class="company-name" alt="{{ item.name }}">
+              <img *ngIf="!assetLogos.includes(item.logo)"
+                  src="{{ item.logoUrl }}" class="company-name" alt="{{ item.name }}">
+               
+                </div> 
                
                 
                 <div class="float-left">

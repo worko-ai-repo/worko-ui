@@ -45,6 +45,7 @@ export class CompanyListingComponent implements OnInit {
     industryType: "",
     companyName: ""
   }
+  assetLogos: string[]=[];
   teamSizeOptions: any = [
     {
       name: "<100",
@@ -84,8 +85,8 @@ export class CompanyListingComponent implements OnInit {
   industryTypeOptions:any=[
     
         {name: "E-commerce", value: "E-commerce"},
-        {name: "Education", value: "Education / Training"},
-        {name: "Training", value: "Education / Training"},
+        {name: "Education", value: "e-Learning / EdTech"},
+        {name: "Training", value: "e-Learning / EdTech"},
         {name: "IT Services & Consulting", value: "IT Services & Consulting"},
         {name: "Financial Services", value: "Financial Services"},
         {name: "Electronic Components", value: "Electronic Components / Semiconductors"},
@@ -207,10 +208,25 @@ export class CompanyListingComponent implements OnInit {
     this.userLoggedIn = await this.cognitoService.isLoggedIn();
     this.getCompanyDetails();
     this.filteredCompanyList = this.companyList;
-
-
+    this.assetLogos = this.generateLogoFilenames(100, 260);
+    console.log(this.assetLogos)
 
   }
+  generateLogoFilenames(start: number, end: number): string[] {
+    const logos: string[] = [];
+    for (let i = start; i <= end; i++) {
+        logos.push(`${i}.jpg`);
+    }
+console.log(logos)
+    logos.push('1.jpg','10.jpg','15.jpg','25.jpg','1000.jpg','1001.jpg','1002.jpg','1003.jpg','1004.jpg','1005.jpg','1006.jpg'
+      ,'1007.jpg','1008.jpg','1009.jpg','1010.jpg','1011.jpg','1012.jpg','1013.jpg','1014.jpg','1015.jpg','1016.jpg','1017.jpg',
+      '1018.jpg','1019.jpg','1020.jpg','1021.jpg','1022.jpg','1023.jpg','1025.jpg','1026.jpg','1027.jpg','1028.jpg','1029.jpg','1030.jpg',
+      '1031.jpg','1032.jpg','1033.jpg','1034.jpg','1035.jpg','1036.jpg','1037.jpg','1038.jpg','1039.jpg','1040.jpg','1041.jpg',
+      '1042.jpg','1043.jpg','1044.jpg','1045.jpg'    )
+    return logos ;
+}
+
+ 
   onSearchInputChange(): void {
     this.lastKey = "";
     this.loadedOnce = true;
