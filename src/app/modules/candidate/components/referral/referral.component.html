@@ -27,7 +27,7 @@
     [bodyClass]="modalMessage ? 'p-4' : 'p-0'" [modalSize]="'md'">
 
     <!-- <app-messagmodal  [message]="successmessage" [title]="successtitle"></app-messagmodal> -->
-    <div class="row message-card px-sm-3 p-4"
+    <div *ngIf="!(showModal === modalType.REFERRAL_RATING)" class="row message-card px-sm-3 p-4"
         style="border-radius: 6px;">
         <div class="font-weight-bold text-color-red mb-3 d-flex justify-content-center"
             style="color: #e40707; font-size: 20px;" *ngIf="successtitle === 'Error'">

@@ -52,7 +52,7 @@ export class ReferralReqDoneComponent {
   }
 
   referralReviewRating(reviewRatingData: any) {
-    this.referralRating.emit({ selectedReferral: this.selectedReferral, reviewRatingData: reviewRatingData });
+    this.referralRating.emit(reviewRatingData);
   }
 
 }

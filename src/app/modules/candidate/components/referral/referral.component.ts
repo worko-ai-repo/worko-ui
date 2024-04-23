@@ -148,15 +148,16 @@ export class ReferralComponent implements OnInit {
 
   async createReview(data: any) {
 
+    this.spinner.show();
     const userId = this.userId;
     let referralId = this.getSlicedValue(this.selectedReferral.SK);
-    const forUserId = data.selectedReferral.acceptedByUserId;
+    const forUserId = this.selectedReferral?.acceptedByUserId;
 
     let payload = {
       "ratingByUserId": userId,
       "ratingForUserType": "EMP",
-      "rating": data.reviewRatingData.rating,
-      "reviewText": data.reviewRatingData.review,
+      "rating": data.rating,
+      "reviewText": data.review,
       "createdByUserId": userId,
       "updatedByUserId": userId,
       "reviewContext": "EMP_REFERRAL",
@@ -176,8 +177,13 @@ export class ReferralComponent implements OnInit {
           this.getReferralReview(referralId, forUserId, true);
           console.log(this.reviewData);
         }
+        this.spinner.hide();
       }
-    })
+    }).catch((error: any) => {
+      this.spinner.hide();
+      console.log(error);
+    }
+    );
 
   }
 
@@ -232,7 +238,7 @@ export class ReferralComponent implements OnInit {
 
     let payload = {
 
-      "userId": userId, // ID of the user raising the concern
+      // "userId": userId, // ID of the user raising the concern
       "userEmail": emailAddress, // Email of the user raising the concern
       "userFirstName": firstName, // First name of the user raising the concern
       "userLastName": lastName, // Last name of the user raising the concern
@@ -241,7 +247,7 @@ export class ReferralComponent implements OnInit {
       "userMessage": data.raiseIssueContent.issueDescription,
       "contextType": "REFERRAL",
       "contextId": referralId,
-      "createdByUserId": userId
+      // "createdByUserId": userId
 
     }
     await this.candidateSrv.raiseIssue(payload).then(async (response) => {

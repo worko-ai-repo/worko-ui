@@ -291,7 +291,7 @@ export class EmployeeReferralComponent {
 
     let payload = {
 
-      "userId": userId, // ID of the user raising the concern
+      // "userId": userId, // ID of the user raising the concern
       "userEmail": emailAddress, // Email of the user raising the concern
       "userFirstName": firstName, // First name of the user raising the concern
       "userLastName": lastName, // Last name of the user raising the concern
@@ -300,7 +300,7 @@ export class EmployeeReferralComponent {
       "userMessage": data.issueDescription,
       "contextType": "REFERRAL",
       "contextId": referralId,
-      "createdByUserId": userId
+      // "createdByUserId": userId
 
     }
     await this.candidateSrv.raiseIssue(payload).then(async (response) => {
@@ -324,6 +324,7 @@ export class EmployeeReferralComponent {
 
   async createReview(data: any) {
 
+    this.spinner.show();
     const userId = this.userId;
     let referralId = this.getSlicedValue(this.selectedReferral?.SK);
     let forUserId = this.getSlicedValue(this.empdetailsList[0]?.SK);
@@ -353,8 +354,13 @@ export class EmployeeReferralComponent {
           this.getReferralReview(referralId, forUserId, true);
           console.log(this.reviewData);
         }
+        this.spinner.hide();
       }
-    })
+    }).catch((error: any) => {
+      this.spinner.hide();
+      console.log(error);
+    }
+    );
 
   }
 
