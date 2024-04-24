@@ -26,7 +26,7 @@ export class PersonalDetailsComponent implements OnInit {
   @Output() previousStep = new EventEmitter<void>();
   @Output() onSuccess = new EventEmitter<void>();
   @Input() achievementsList: any;
-
+  @ViewChild('softSkillInput') softSkillInput!: ElementRef<HTMLInputElement>;
   successmessage:string="";
   successtitle:string="";
   modalType = ModalType;
@@ -69,7 +69,8 @@ export class PersonalDetailsComponent implements OnInit {
   certificateYear: string = "";
 
   currentYear = new Date().getFullYear().toString();
-  currentMonth = (new Date().getMonth() + 1).toString();
+  //currentMonth = (new Date().getMonth() + 1).toString();
+   currentMonth = (new Date().getMonth() + 1).toString().padStart(2, '0');
   maxDate = this.currentYear + "-" + (this.currentMonth.length === 1 ? '0' + this.currentMonth : this.currentMonth);
   month: number = 0;
   achmonth: number = 0;
@@ -90,6 +91,9 @@ export class PersonalDetailsComponent implements OnInit {
 
     );
 
+  }
+  focusInput(): void {
+    this.softSkillInput.nativeElement.focus();
   }
 
   ngAfterViewInit(): void {
@@ -126,9 +130,11 @@ export class PersonalDetailsComponent implements OnInit {
     }
   }
   ngOnChanges(): void {
-
-    if (this.candidateProfessionalDetails.ctc && this.candidateProfessionalDetails.certificationNames && this.candidateProfessionalDetails.achievements) {
-
+debugger
+    if (this.candidateProfessionalDetails.ctc && this.candidatePersonalDetails.ectc &&this.candidatePersonalDetails.department &&
+      this.candidateProfessionalDetails.desigination
+    ) {
+      debugger
     } else {
       this.getData();
     }
@@ -180,7 +186,7 @@ export class PersonalDetailsComponent implements OnInit {
     return (control: any) => {
       let completionYear = control.value;
 
-      this.month = completionYear.split('-')[1]
+      this.month = completionYear.split('-')[0]
       if (!completionYear || completionYear.trim() === '') {
         return null;
       }
@@ -188,11 +194,18 @@ export class PersonalDetailsComponent implements OnInit {
       if (!completionYear.includes('-')) {
         return { missingDash: true };
       }
+      if (completionYear.length !== 7) {
+        return { futureMonths: true };
+    }
 
+      const year = completionYear.split('-')[1];
+      const month = completionYear.split('-')[0];
+      console.log(this.currentMonth,this.currentYear)
 
-
-      if (completionYear > maxDate || completionYear < '1900-01' || completionYear.length > 7 || this.month > 12 || this.month == 0) {
-        return { futureMonth: true };
+      // Compare achievementdate with the present month and year
+      if (year < 1900 || (year === 1900 && month < '01') || (year === this.currentYear && month > this.currentMonth) || year > this.currentYear || month < '01' || month > '12' )  {
+        debugger 
+        return { invalidDate: true };
       }
       return null;
     };
@@ -206,23 +219,77 @@ export class PersonalDetailsComponent implements OnInit {
   validateAchievementYear(maxDate: string): any {
     return (control: any) => {
       let  achievementdate = control.value;
-	    this.achmonth = achievementdate.split('-')[1]
+	    this.achmonth = achievementdate.split('-')[0]
+      console.log( this.achmonth )
 
       if (!achievementdate || achievementdate.trim() === '') {
+        debugger
         return null;
       }
 
       if (!achievementdate.includes('-')) {
+        debugger
         return { missingDash: true };
       }
-      
-
-      if (achievementdate > maxDate || achievementdate < '1900-01' || achievementdate.length > 7 || this.achmonth > 12 || this.achmonth == 0) {
+      if (achievementdate.length !== 7) {
         return { futureMonths: true };
+    }
+      const maxDateMMYYYY = `${maxDate.split('-')[1]}-${maxDate.split('-')[0]}`;
+
+      // if (achievementdate > maxDateMMYYYY || achievementdate < '01-1900' || this.achmonth > 12 || this.achmonth == 0) {
+      //   debugger
+      //   return { futureMonths: true };
+      // }
+      const year = achievementdate.split('-')[1];
+      const month = achievementdate.split('-')[0];
+      console.log(this.currentMonth,this.currentYear)
+
+      // Compare achievementdate with the present month and year
+      if (year < 1900 || (year === 1900 && month < '01') || (year === this.currentYear && month > this.currentMonth) || year > this.currentYear || month < '01' || month > '12' )  {
+        debugger 
+        return { invalidDate: true };
       }
       return null;
     };
   }
+
+  // setFutureMonth(achievementdate: any) {
+  
+  //   achievementdate.control.setValidators(this.validateAchievementYear(this.maxDate));
+  // }
+  
+  // validateAchievementYear(maxDate: string): any {
+  
+  //   return (control: any) => {
+  //     let achievementdate = control.value;
+  
+  //     if (!achievementdate || achievementdate.trim() === '') {
+  //       return null;
+  //     }
+  
+  //     if (!achievementdate.includes('-')) {
+  //       return { missingDash: true };
+  //     }
+  
+  //     // Split the date string to extract month and year
+  //     const [month,year] = achievementdate.split('-');
+  
+  //     if (year.length !== 2 || month.length !== 2) {
+  //       return { invalidFormat: true }; // Invalid format if year is not 4 digits or month is not 2 digits
+  //     }
+  
+  //     // Reformat the date to mm-yy format
+  //     const mmYYFormat = `${month}-${year.slice(-2)}`;
+  //     console.log(mmYYFormat)
+  
+  //     if (mmYYFormat > maxDate || mmYYFormat < '01-01' || month > '12' || month === '00') {
+  //       debugger
+  //       return { futureMonths: true };
+  //     }
+  
+  //     return null;
+  //   };
+  // }
 
   async createProfessionalDetails(form: any) {
     // console.log(this.candidateProfessionalDetails)

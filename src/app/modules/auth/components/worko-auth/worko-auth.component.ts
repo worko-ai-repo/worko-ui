@@ -6,7 +6,7 @@ import 'aws-amplify/auth/enable-oauth-listener';
 
 import { CandidateProfileService } from 'src/app/modules/candidate/services/candidate-profile.service';
 import { DataTextureLoader } from 'three';
-import { fetchAuthSession, getCurrentUser } from '@aws-amplify/auth';
+import { fetchAuthSession, getCurrentUser, signOut } from '@aws-amplify/auth';
 
 
 
@@ -42,7 +42,18 @@ export class WorkoAuthComponent {
   //   _cognitoClientId='5evf019rrkaijtnjf2j1vvdf33'
 
   async ngOnInit(): Promise<void> {
-    const { accessToken, idToken } = (await fetchAuthSession()).tokens ?? {};
+    this.executeProperAction()
+    
+
+
+  }
+
+  executeProperAction(){
+    this.activatedRoute.data
+    .subscribe(async data => {
+      switch (data['action']) {
+        case 'checkRedirection':
+          const { accessToken, idToken } = (await fetchAuthSession()).tokens ?? {};
     console.log(accessToken)
     // if (!accessToken) {
     //   this.storage.remove('accessToken');
@@ -65,8 +76,17 @@ export class WorkoAuthComponent {
       this.signIn()
     }
 
-
+        
+          break;
+        case 'logout':
+          void this.router.navigate(['/']);
+          break;
+      }
+      })
+      .unsubscribe();
+    
   }
+  
 
   async employeeSignUp() {
     //this.getCandidateData()
@@ -170,20 +190,3 @@ export class WorkoAuthComponent {
 
   }
 }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-

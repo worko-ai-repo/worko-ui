@@ -15,12 +15,26 @@ export const routes: Routes = [
   //   pathmatch: 'full',
   //   data: { action: 'login' },
   // },
+
+
   {
     path: 'checkRedirection',
     component: WorkoAuthComponent,
     pathMatch: 'full',
-   
+    data: { action: 'checkRedirection' },
   },
+  {
+    path: 'logout',
+    component: WorkoAuthComponent,
+    pathMatch: 'full',
+    data: { action: 'logout' },
+  },
+  // {
+  //   path: 'checkRedirection',
+  //   component: WorkoAuthComponent,
+  //   pathMatch: 'full',
+   
+  // },
  
   {
     path: 'candidatecompleteSignUp',
@@ -34,10 +48,10 @@ export const routes: Routes = [
   },
   
 
- {
-  path: 'logout',
-  component:WorkoAuthComponent,
-  data: { action: 'logout' },} 
+//  {
+//   path: 'logout',
+//   component:WorkoAuthComponent,
+//   data: { action: 'logout' },} 
 
 ];
 

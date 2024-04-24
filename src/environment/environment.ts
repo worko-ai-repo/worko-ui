@@ -14,7 +14,7 @@ export const environment = {
     window.location.origin + "/auth/checkRedirection",
   //"http://localhost:4200/auth/checkRedirection",
     linkedInLogout: 
-    window.location.origin
+    window.location.origin+"/auth/logout"
     //"http://localhost:4200"
   };
   
