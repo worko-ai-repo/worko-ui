@@ -82,9 +82,11 @@
         <div class="company-info d-flex justify-content-center">
           <div class="company-box">
             <div class="row card-view card d-flex justify-content-center">
+              <div class="title">{{item.name}}</div>
               <div class="col-5 d-lex align-items-center">
                 <div class="float-left image-brand">
-                  <img src="{{ item.logoUrl }}" class="company-name " alt="{{ item.name }}">
+                  <!-- <img src="{{ item.logoUrl }}" class="company-name " alt="{{ item.name }}"> -->
+                  <img src="{{ item.logoUrl }}" class="company-name " alt="logo">
                 </div>
                
                 
@@ -110,7 +112,7 @@
                 <div class="anchor-button">
                   <a  href="#" (click)="openReferralPage($event, item)">Request Referral</a>
                 </div>
-                <div class="anchor-button" style="top:20px;">
+                <div class="anchor-button" style="top:37px;">
                   <a href="#" (click)="openGuidancePage($event, item)">Request Guidance</a>
                 </div>
                 <!-- <div class="float-right">
@@ -128,10 +130,13 @@
       </div>
       
     </div>
-    <div class="col-12 ml-5 mb-2 not-found"><a (click)="openCompanyForm($event)">Can't find the company?</a></div>
+
   </div>
 </div>
-
+<div class="text-center my-4 not-found">
+  <button (click)="openCompanyForm($event)">+ Add</button>
+</div>
+<!-- <app-footer></app-footer> -->
 <app-modal [theme]="'theme-k'" [centered]="true" [showHeader]="showModal === modalType.MESSAGE"
 [showClose]="true"
   [showFooter]="showModal === modalType.MESSAGE" [title]="modalTitle" [message]="modalMessage"
