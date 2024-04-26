@@ -73,7 +73,7 @@
                 </div>
                 
             </div>
-            <div class="stats-section d-flex ">
+            <!-- <div class="stats-section d-flex ">
                 <div class="stat">
                     <div class="stat-title title">10K+</div>
                     <div class="stat-content para">Companies</div>
@@ -86,14 +86,14 @@
                     <div class="stat-title title">104k+</div>
                     <div class="stat-content para">Users Assisted</div>
                 </div>
-            </div>
+            </div> -->
         </div>
 
 
         <!-- purpose section -->
         
         <div class="purpose-section">
-            <div class="grad grad-left2"><img src="assets/index-images-KA/gradient-left2.png" alt=""></div>
+            <!-- <div class="grad grad-left2"><img src="assets/index-images-KA/gradient-left2.png" alt=""></div>
             <div class="purpose-header">
                 <div class="purpose-title title">Our Purpose</div>
                 <div class="purpose-content para ">
@@ -163,47 +163,66 @@
                     <div class="grad grad-right3"><img src="assets/index-images-KA/gradient-right3.png" alt=""></div>
                 </div>
 
-                    <div class="smart d-flex">
-                        <div class="contents text-center">
-                            <div class="smart-title title2">
-                                Smart Matching Algorithm
-                            </div>
-                            <div class="smart-content para text-center">
-                                Our advanced algorithm provides detailed feedback and scores to candidates, 
-                                highlighting their suitability. It informs employees why a referral would be 
-                                ideal, enhancing the quality of recommendations.
-                            </div>
-
-                            <div class="smart-img flex-sm">
-                                <img src="/assets/index-images-KA/smart-img.png" alt="">
-                                <div class="grad grad-right4"><img src="assets/index-images-KA/gradient-right4.png" alt=""></div>
-                            </div>
-
-                            <div class="access-title title2">
-                                 Access to Hidden Job
-                            </div>
-                            <div class="access-content para text-center">
-                                Get access to hidden jobs that are not available on any 
-                                other platform
-                            </div>
+                <div class="smart d-flex">
+                    <div class="contents text-center">
+                        <div class="smart-title title2">
+                            Smart Matching Algorithm
                         </div>
-                        <div class="smart-img img-md">
+                        <div class="smart-content para text-center">
+                            Our advanced algorithm provides detailed feedback and scores to candidates, 
+                            highlighting their suitability. It informs employees why a referral would be 
+                            ideal, enhancing the quality of recommendations.
+                        </div>
+
+                        <div class="smart-img flex-sm">
                             <img src="/assets/index-images-KA/smart-img.png" alt="">
                             <div class="grad grad-right4"><img src="assets/index-images-KA/gradient-right4.png" alt=""></div>
                         </div>
+
+                        <div class="access-title title2">
+                             Access to Hidden Job
+                        </div>
+                        <div class="access-content para text-center">
+                            Get access to hidden jobs that are not available on any 
+                            other platform
+                        </div>
                     </div>
+                    <div class="smart-img img-md">
+                        <img src="/assets/index-images-KA/smart-img.png" alt="">
+                        <div class="grad grad-right4"><img src="assets/index-images-KA/gradient-right4.png" alt=""></div>
+                    </div>
+                </div> -->
+            <!-- </div> -->
+
+            <div class="purpose-header">
+                <div class="purpose-title title text-center">Our Purpose</div>
+                <div class="purpose-content para text-center" >
+                    We empower individuals and businesses by fostering 
+                    connections, improving the hiring process, and creating
+                    a thriving community for career growth
+                </div>
             </div>
+            <div class="purpose-cards" *ngFor="let purpose of purposeList; let i =index;">
+                <div class="purpose-card">
+                    <div class="purpose-image">
+                        <img [src]="purpose?.image" alt="">
+                    </div>
+                    <div class="purpose-title" [ngClass]="{'last-card': i === 5}">{{ purpose?.title }}</div>
+                    <div class="purpose-text" [ngClass]="{'last-card-content': i === 5}">{{ purpose?.text }}</div>
+                </div>
+            </div>
+            
         </div>
 
         <div class="benefits-section">
-            <div class="benefits-title title">Benefits for You</div>
-            <div class="benefits-content para para2">
+            <div class="benefits-title title text-center">Benefits for You</div>
+            <div class="benefits-content para para2 text-center" style="width: 65%; margin: auto; line-height: 140%;">
                 Worko is committed to addressing common challenges faced by candidates, 
                 ensuring a seamless and empowering job search journey:
             </div>
 
             <div class="referee-section ">
-                <div class="left-col">
+                <!-- <div class="left-col">
                     <div class="ref ref1">
                         Get pre-vetted candidates for referral through our
                         smart matching algorithm.
@@ -246,12 +265,27 @@
                         <div class="opt opt4">Referral</div>
                         <div class="opt opt5">Hiring</div>
                     </div>
+                </div> -->
+
+                <div class="referee-title text-center title">REFEREE</div>
+                <div class="referee-subtitle text-center">I CAN REFER</div>
+                <div class="referee-cards">
+                    <div class="referee-card position-relative" *ngFor="let benefit of refereeBenefits; let i = index;">
+                        <div class="referee-image" >
+                            <img [src]="benefit?.image" alt="">
+                        </div>
+                        <div class="referee-text text-center para" >
+                            {{ benefit.text }}
+                        </div>
+                        <div [ngClass]="{'right-border': i === 0 || i === 1 || i === 3}"></div>
+                    </div>
                 </div>
            </div>
+           <div class="section-border"></div>
         </div>
 
-        <div class="referee-section candidate-section">
-            <div class="left-col">
+        <div class="candidate-section">
+            <!-- <div class="left-col">
                 <div class="ref ref1">
                     Get reviewed and referred by the
                     best employees.
@@ -301,13 +335,28 @@
                     <div class="opt opt2">Job</div>
                     <div class="opt opt8">Referral</div>
                 </div>
+            </div> -->
+
+
+            <div class="candidate-title text-center title referee-title">CANDIDATE</div>
+            <div class="candidate-subtitle text-center referee-subtitle">I'M LOOKING FOR JOB!</div>
+            <div class="candidate-cards">
+                <div class="candidate-card position-relative" *ngFor="let benefit of candidateBenefits; let i=index;">
+                    <div class="candidate-img referee-image">
+                        <img [src]="benefit?.image" alt="">
+                    </div>
+                    <div class="candidate-text text-center para referee-text">
+                        {{ benefit.text }}
+                    </div>
+                    <div [ngClass]="{'right-border': i === 0 || i === 1 || i === 3}"></div>
+                </div>
             </div>
        </div>
     
 
 
         <!-- <div class="candidate-section">
-            <div class="left-col">
+"left-col">            <div class=
                 <div class="ref ref1">
                     Get pre-vetted candidates for referral through our
                     smart matching algorithm.
@@ -348,6 +397,23 @@
         </div> -->
 
 
+        <div class="stats-section d-flex">
+            <div class="stat">
+                <div class="stat-title title">10K+</div>
+                <div class="stat-content para">Companies</div>
+                <div class="line-right line-right1"></div>
+            </div>
+
+            <div class="stat text-center">
+                <div class="stat-title title">20K+</div>
+                <div class="stat-content para">Employees ready to help</div>
+            </div>
+            <div class="line-right line-right2" style="align-self: center;"></div>
+            <div class="stat">
+                <div class="stat-title title">104k+</div>
+                <div class="stat-content para">Users Assisted</div>
+            </div>
+        </div>
 
 
         <div class="companies-section">
