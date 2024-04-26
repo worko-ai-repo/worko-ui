@@ -48,7 +48,7 @@ export class UploadComponent implements OnInit {
   ngOnChanges(): void {
     debugger
     // console.log(this.candidateList, "candidateList");
-    if (this.candidateUploadDetails.coverLetter) {
+    if (this.candidateUploadDetails.uploadCV) {
 
     } else {
       console.log("here onchange")

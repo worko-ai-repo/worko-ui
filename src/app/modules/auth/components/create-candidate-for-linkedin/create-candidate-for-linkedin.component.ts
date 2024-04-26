@@ -120,8 +120,11 @@ this.blinkAndChangeWord()
             acceptedTermsAndConditions: this.candidateForm.acceptedTermsAndConditions
 
           }
-          this.authService.createCandidate(candidateData).then(async () => {
+          debugger
+         let response= this.authService.createCandidate(candidateData).then(async () => {
+         
             try {
+              console.log(response)
               if (this.userId && this.fileName) {
 
                 let documentDetails = {
@@ -140,6 +143,7 @@ this.blinkAndChangeWord()
             } catch (error) {
               this.spinner.hide();
               console.log(error);
+          
             }
           })
          
@@ -169,8 +173,10 @@ this.blinkAndChangeWord()
           console.log('File uploaded successfully.');
           try {
             let a = await this.authService.linkResumewithUser(this.userEmail, this.uploadedCvName);
-           
-            //this.spinner.hide();
+            this.storage.set("useremail", this.userEmail);
+            console.log(this.userEmail);
+            this.router.navigate(['/candidate/dashboard']);
+            this.spinner.hide();
           } catch (error: any) {
             debugger;
             if (error && error.error.message) {
@@ -192,9 +198,7 @@ this.blinkAndChangeWord()
     } catch (error) {
       console.log(error)
     }
-    this.storage.set("useremail", this.userEmail);
-          console.log(this.userEmail);
-          this.router.navigate(['/candidate/dashboard']);
+  
     
   }
 

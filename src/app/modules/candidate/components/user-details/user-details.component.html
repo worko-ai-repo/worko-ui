@@ -93,11 +93,11 @@
 
                 <div class="">
                     <span class="input-logo">CTC :</span>
-                    <span class="input-logo float-right pt-1">{{candidateDetails.CTC}} LAKH</span>
+                    <span class="input-logo float-right pt-1" *ngIf="candidateDetails.CTC">{{candidateDetails.CTC}} LAKH</span>
                 </div>
                 <div class="">
                     <span class="input-logo">ECTC :</span>
-                    <span class="input-logo float-right pt-1">{{candidateDetails.ECTC}} LAKH</span>
+                    <span class="input-logo float-right pt-1" *ngIf="candidateDetails.ECTC">{{candidateDetails.ECTC}} LAKH</span>
                 </div>
 
             </div>
@@ -109,7 +109,7 @@
                 </div>
                 <div class="">
                     <span class="input-logo">Notice Period :</span>
-                    <span class="input-logo float-right pt-1">{{candidateDetails.noticePeriod}} Days</span>
+                    <span class="input-logo float-right pt-1" *ngIf="candidateDetails.noticePeriod">{{candidateDetails.noticePeriod}} Days</span>
                 </div>
                 <div class="">
                     <span class="input-logo">Previous Company :</span>
