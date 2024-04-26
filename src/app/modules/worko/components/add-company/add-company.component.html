@@ -1,23 +1,61 @@
 <div class="modal-contents">
-    <div class="title">
-        Add company details:
+    <div class="title d-flex justify-content-center" >
+        Please provide your current company details to add:
     </div>
-    <form action="" class="row">
-        <input class="col-8 col-md-4 mb-2 p-1 px-1" type="text" placeholder="Company Name">
-        <input class="col-8 col-md-4 mb-2 p-1 px-1" type="text" placeholder="Website">
-        <input class="col-8 col-md-4 mb-2 p-1 px-1" type="text" placeholder="Linkedin Page">
-        <input class="col-8 col-md-4 mb-2 p-1 px-1" type="text" placeholder="Career Page">
+    <form class="row" (ngSubmit)="company.form.valid && requestCampanyData(form)" #company="ngForm" novalidate>
+        <input class="col-8 col-md-4 mb-2 p-1 px-1" type="text" placeholder="Company Name" id="CompanyName" 
+        name="CompanyName"  [(ngModel)]="companyForm.CompanyName" 
+        #CompanyName="ngModel" pattern="^([ \u00c0-\u01ffa-zA-Z'.])+$"
+        [ngClass]="{ 'is-invalid': CompanyName.invalid && (CompanyName.dirty || CompanyName.touched) }">
+
+        <input class="col-8 col-md-4 mb-2 p-1 px-1" type="text" placeholder="Your Company E-mail ID " id="emailid"  name="emailid"
+         [(ngModel)]="companyForm.emailid" pattern="^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,4}$"
+         [ngClass]="{ 'is-invalid': email.invalid && (email.dirty || email.touched) }" #email="ngModel" >
+
+        <input class="col-8 col-md-4 mb-2 p-1 px-1" type="text" placeholder="LinkedIn Page" id="linkedIn" 
+        name="linkedIn" [(ngModel)]="companyForm.linkedIn"
+         pattern="^(https?:\/\/(www\.)?linkedin\.com\/in\/[a-zA-Z0-9_\-]+\/?)$"
+        #linkedIn="ngModel"   [ngClass]="{ 'is-invalid': linkedIn.invalid && (linkedIn.dirty || linkedIn.touched) }">
+
+        <input class="col-8 col-md-4 mb-2 p-1 px-1" type="text" placeholder="Career Page" id="carrierPage" name="carrierPage" 
+        [(ngModel)]="companyForm.carrierPage" 
+        #carrierPage="ngModel" pattern='^(https:\/\/.*)$' 
+        [ngClass]="{ 'is-invalid': carrierPage.invalid && (carrierPage.dirty || carrierPage.touched) }">
         
-        <div *ngIf="!userLoggedIn">
+        <!-- <div *ngIf="!userLoggedIn">
             <div class="title">
                 Add your details:
             </div>
             <input class="col-8 col-md-4 mb-2 p-1 px-1" type="text" placeholder="Name">
             <input class="col-8 col-md-4 mb-2 p-1 px-1" type="text" placeholder="Email">
             <input class="col-8 col-md-4 mb-2 p-1 px-1" type="text" placeholder="Ph. Number">
-        </div>
+        </div> -->
         <div class="button-container">
-            <button class="form-button col-4 col-lg-2 mt-2" type="submit">Submit</button>
+            <button class="form-button col-4 col-lg-2 mt-2" type="submit" [disabled]="
+            !companyForm.CompanyName" >Submit</button>
         </div>
     </form>
 </div>
+
+
+<app-modal [theme]="'theme-k'" [centered]="true" [showHeader]="showModal === modalType.MESSAGE"
+[showClose]="true"
+  [showFooter]="showModal === modalType.MESSAGE" [title]="modalTitle" [message]="modalMessage"
+  [bodyClass]="modalMessage ? 'p-4' : 'p-0'" [modalSize]="'md'">
+<ng-container *ngIf="showModal === modalType.SUCCESS_MESSAGE">
+
+    <div class="row message-card px-sm-3 p-5">
+      <div class="col-md-8 offset-md-2">
+        <div class="text-center mb-4">
+         <p> Your company details have been added. </p>
+          <p>You will get the referral request for your company.</p>
+        
+        </div>
+        <div class="text-center">
+          <button class="btn btn-next" (click)="cancel()">OK</button>
+        </div>
+      </div>
+    </div>
+
+  </ng-container>
+  </app-modal>

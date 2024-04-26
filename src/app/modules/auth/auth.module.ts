@@ -6,6 +6,7 @@ import { CreateEmployeeForLinkedinComponent } from './components/create-employee
 import { CreateCandidateForLinkedinComponent } from './components/create-candidate-for-linkedin/create-candidate-for-linkedin.component';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { MatAutocompleteModule } from '@angular/material/autocomplete';
+import { SharedModule } from "../shared/shared.module";
 
 
 export const routes: Routes = [
@@ -56,19 +57,18 @@ export const routes: Routes = [
 ];
 
 @NgModule({
-  declarations: [
-    WorkoAuthComponent,
-    CreateEmployeeForLinkedinComponent,
-    CreateCandidateForLinkedinComponent,
-
-  ],
-  imports: [
-    CommonModule,
-    RouterModule.forChild(routes),
-    FormsModule,
-    MatAutocompleteModule,
-    ReactiveFormsModule,
-   
-  ]
+    declarations: [
+        WorkoAuthComponent,
+        CreateEmployeeForLinkedinComponent,
+        CreateCandidateForLinkedinComponent,
+    ],
+    imports: [
+        CommonModule,
+        RouterModule.forChild(routes),
+        FormsModule,
+        MatAutocompleteModule,
+        ReactiveFormsModule,
+        SharedModule
+    ]
 })
 export class AuthModule { }
