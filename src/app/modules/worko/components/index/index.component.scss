@@ -1,7 +1,7 @@
 
-.grad{
-    display: none;
-}
+// .grad{
+//     display: none;
+// }
 .all-sections{
     overflow: hidden;
 }
@@ -172,9 +172,9 @@
 // ---------------Responsive for ipads---------------
 
 @media (max-width: 1025px) and (min-width: 480px){
-    .grad{
-        display: none !important;
-    }
+    // .grad{
+    //     display: none !important;
+    // }
     .side-timeline{
         display: none;
     }
