@@ -12,14 +12,14 @@
                         <h4 class="text-white">{{candidateDetails.name}}</h4>
                     </div>
                 </div>
-                <div class="row">
+                <div class="row pt-2  pl-3 pl-lg-0">
 
                     <div class="col-md-6">
                         <div class="row  input-logo">
                             <div class="col-2">
                                 <i class="fa-solid fa-phone"></i>
                             </div>
-                            <div class="col-9 p-0">
+                            <div class="col-9 p-0 intro-info">
                                 <span class="ps-1">{{candidateDetails.number}}</span>
                             </div>
 
@@ -32,7 +32,7 @@
                                 </svg>
 
                             </div>
-                            <div class="col-9 p-0 mt-2">
+                            <div class="col-9 p-0 mt-2 intro-info">
                                 <span class="ps-2">{{workExperienceDetails?.companyName}}</span>
                             </div>
                         </div>
@@ -40,12 +40,12 @@
                     </div>
 
                     <div class="col-md-6">
-                        <div class="row  input-logo pt-sm-2 pt-md-0">
+                        <div class="row  input-logo pt-2 pt-md-0">
                             <div class="col-2">
                                 <img src="/assets/public/dash-logo-2.png" style="width: 14px;" alt="">
 
                             </div>
-                            <div class="col-9 p-0">
+                            <div class="col-9 p-0 intro-info">
                                 <span class="ps-2">{{educationDetails.degree}}</span>
                             </div>
 
@@ -70,7 +70,7 @@
                                 </svg>
 
                             </div>
-                            <div class="col-md-9 mt-2">
+                            <div class="col-md-9 mt-2 intro-info">
                                 <span class="pt-1">{{educationDetails.passingYear}}</span>
                             </div>
                         </div>
@@ -82,11 +82,10 @@
         </div>
 
 
+        <div class="row mt-3 px-5 px-lg-0">
 
-
-        <div class="row mt-3">
-
-            <div class="col-md-6" style="border-right: 1px dotted white;">
+            <!-- <div class="col-md-6 side-bar" style="border-right: 1px dotted white;"> -->
+            <div class="col-md-6 side-bar">    
                 <div class="">
                     <span class="input-logo">Designation :</span>
                     <span class="input-logo float-right pt-1">{{workExperienceDetails?.designation}}</span>
