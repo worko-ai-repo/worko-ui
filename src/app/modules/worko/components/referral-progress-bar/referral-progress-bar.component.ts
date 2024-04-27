@@ -1,4 +1,4 @@
-import { Component, Input } from '@angular/core';
+import { Component, Input, OnChanges, SimpleChanges } from '@angular/core';
 import { CompanyListingService } from '../../services/company-listing.service';
 import { SubscriptionPackService } from '../../services/subscription-pack.service';
 import { StorageService } from 'src/app/modules/app-core/services/storage.service';
@@ -7,7 +7,7 @@ import { StorageService } from 'src/app/modules/app-core/services/storage.servic
   templateUrl: './referral-progress-bar.component.html',
   styleUrls: ['./referral-progress-bar.component.scss']
 })
-export class ReferralProgressBarComponent {
+export class ReferralProgressBarComponent implements OnChanges {
   @Input() score: any;
   @Input() referralId: any;
   showScore: boolean = false;
@@ -27,6 +27,9 @@ export class ReferralProgressBarComponent {
   ];
   emailId: string = "";
   constructor(private companyListing: CompanyListingService, private storage: StorageService) { }
+  ngOnChanges(changes: SimpleChanges): void {
+    console.log(this.score);
+  }
   ngOnInit(): void {
     this.emailId = this.storage.get("useremail");
     let index = 0;

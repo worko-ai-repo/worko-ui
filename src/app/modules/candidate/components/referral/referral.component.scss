@@ -1,5 +1,5 @@
 .content-container {
-  height: calc(100% - 80px - 0.75rem);
+  height: calc(100vh - 45px);
   overflow: auto;
 }
 
@@ -22,10 +22,12 @@
 }
 
 .status-container {
-  height: calc(100vh - 140px);
+  height: calc(100% - 80px - 0.75rem);
 }
 
-.left-container-content {
+.referral-candidate-left-container {
   width: 350px;
-  padding-right:0px;
+  padding-right: 0px;
+  height:100%;
+  overflow:auto;
 }

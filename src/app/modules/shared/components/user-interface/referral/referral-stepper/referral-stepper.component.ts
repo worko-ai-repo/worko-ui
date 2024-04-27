@@ -1,4 +1,5 @@
 import { Component, Input } from '@angular/core';
+import { StorageService } from 'src/app/modules/app-core/services/storage.service';
 // import { FormBuilder, Validators } from '@angular/forms';
 
 
@@ -10,6 +11,7 @@ import { Component, Input } from '@angular/core';
 })
 export class ReferralStepperComponent {
   @Input() selectedReferral: any;
+  // rejectedReasons: any;
 
 
   // statusitem:any[]=[]
@@ -18,6 +20,7 @@ export class ReferralStepperComponent {
   { name: 'Accepted', status: '', date: '' },
   { name: 'OnGoing', status: '', date: '' },
   { name: 'Done', status: '', date: '' }];
+  userId: any;
 
 
   // firstFormGroup = this._formBuilder.group({
@@ -27,23 +30,45 @@ export class ReferralStepperComponent {
   //   secondCtrl: ['', Validators.required],
   // });
 
-  constructor() { }
+  constructor(private storage: StorageService) { }
 
   ngOnInit(): void {
     // console.log(this.selectedReferral, "selectedReferral");
+    this.userId = this.storage.get("userId");
   }
 
   ngOnChanges(): void {
+    console.log(this.statusitem);
     this.statusIndicator();
   }
 
   statusIndicator() {
-    console.log(this.selectedReferral);
-    let index = this.statusitem.findIndex((elem) => elem?.name?.toUpperCase() === this.selectedReferral?.status?.toUpperCase());
-    if(this.selectedReferral?.status?.toUpperCase() === "ACCEPTED") {
+    // this.statusitem = [];
+    this.statusitem.forEach((element:any) => {
+      element.status = '';
+      element.date = ''; 
+    });
+    let index = 0;
+    if (this.statusitem?.length > 0 && this.statusitem[1]?.name?.toUpperCase() === "REJECTED") {
+      // this.selectedReferral.rejectedByUserIds.forEach((elem: any) => {
+      //   if (this.userId === elem.userId) {
+      //     this.rejectedReasons = {
+      //       reason: elem?.reason,
+      //       comment: elem?.userComment
+      //     }
+      //   }
+      // });
+      index = this.statusitem.length;
+    }
+    else {
+      index = this.statusitem.findIndex((elem) => elem?.name?.toUpperCase() === this.selectedReferral?.status?.toUpperCase());
+    }
+
+    if (this.selectedReferral?.status?.toUpperCase() === "ACCEPTED") {
       index++;
     }
     this.statusitem.forEach((element, i) => {
+
       if (i <= index) {
         element.status = 'completed';
         this.dateAssignment(element);
@@ -51,7 +76,7 @@ export class ReferralStepperComponent {
     });
   }
 
-  dateAssignment(element:any) {
+  dateAssignment(element: any) {
 
     if (element?.name?.toUpperCase() === 'AWAITING') {
       element.date = this.selectedReferral?.createdAt;
@@ -63,7 +88,11 @@ export class ReferralStepperComponent {
       element.date = this.selectedReferral?.cancelledDate;
     }
     if (element?.name?.toUpperCase() === 'REJECTED') {
-      element.date = this.selectedReferral?.rejectedDate;
+      this.selectedReferral.rejectedByUserIds.forEach((elemt: any) => {
+        if (this.userId === elemt.userId) {
+          element.date = elemt.actionDate;
+        }
+      });
     }
     if (element?.name?.toUpperCase() === 'DONE') {
       element.date = this.selectedReferral?.doneByEmployee;

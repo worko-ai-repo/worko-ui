@@ -9,16 +9,16 @@
                     <app-raise-issue [userType]="userType" (raiseIssue1)="referralRaiseIssue($event)"></app-raise-issue>
                 </div>
 
-                <div *ngIf="!reviewData" class="col-md-3 p-0 m-0">
+                <div *ngIf="referralRatingFlag === null" class="col-md-3 p-0 m-0">
                 </div>
 
-                <div *ngIf="selectedReferral && (reviewData?.length>0 && referralRatingFlag)" class="col-md-3 p-0 m-0">
+                <div *ngIf="selectedReferral && (reviewData?.length>0 && referralRatingFlag) && referralRatingFlag !== null" class="col-md-3 p-0 m-0">
                     <app-see-review [userType]="userType" [reviewData]="reviewData"></app-see-review>
                 </div>
 
                 <!-- {{selectedReferral}} {{!(reviewData?.length>0)}} {{reviewDataApiCalled}} -->
 
-                <div *ngIf="selectedReferral && (reviewData?.length === 0 || (reviewData && !referralRatingFlag))" class="col-md-3 p-0 m-0">
+                <div *ngIf="selectedReferral && (reviewData?.length === 0 || (reviewData && !referralRatingFlag)) && referralRatingFlag !== null" class="col-md-3 p-0 m-0">
                     <app-provide-feedback [userType]="userType" (referralRating1)="referralReviewRating($event)"></app-provide-feedback>
                 </div>
                 <!-- <div *ngIf="selectedReferral " class="col-md-3 p-0 m-0">
@@ -45,7 +45,7 @@
 
                 <div *ngIf="selectedReferral" class="col-md-12" style="margin-top: 15px; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 10px;">
 
-                    <div class="col-md-12" style="color: white; display: flex; flex-direction: row-reverse; justify-content: space-between;">
+                    <div class="col-md-12" style="color: white; display: flex; flex-direction: row; justify-content: space-between;">
                         <div>
                             <span class="text-white">Job Url : <a href="{{selectedReferral?.jobUrl}}"
                                     target="_blank">Link</a></span> <br>
