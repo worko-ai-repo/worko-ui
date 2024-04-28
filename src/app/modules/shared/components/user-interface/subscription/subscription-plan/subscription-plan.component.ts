@@ -10,15 +10,18 @@ import { ModalComponent } from '../../../modal/modal.component';
 export class SubscriptionPlanComponent {
   @ViewChild(ModalComponent) modal!: ModalComponent;
   @Input() subscriptionList: any;
-  @Input() cardDetails:any;
+  @Input() cardDetails: any;
   modalType = ModalType;
   modalMessage: string = "";
   modalTitle: string = "";
   showModal: ModalType | undefined;
   filteredPackages: any;
-  selectedData:any;
-  selectedPackage: any; 
+  selectedData: any;
+  selectedPackage: any;
   isFormValid: boolean = false;
+  isOrderSummary!:boolean;
+  isPaymentDetails!:boolean
+  isOrderDetails!:boolean;
 
   // constructor(private router: Router, private candidateSrv: CandidateProfileService, private storage: StorageService, private authService: AuthService) { }
   ngOnInit(): void {
@@ -30,10 +33,10 @@ export class SubscriptionPlanComponent {
   ngOnChanges(): void {
     // console.log(this.subscriptionList);
     if (this.subscriptionList) {
-       this.filteredPackages = this.subscriptionList.filter((pkg: any) => pkg.name !== "Free");
+      this.filteredPackages = this.subscriptionList.filter((pkg: any) => pkg.name !== "Free");
 
       // Sort the filtered packages by the desired order: Basic, Classic, Premium
-      let sortedPackages =  this.filteredPackages.sort((a: any, b: any) => {
+      let sortedPackages = this.filteredPackages.sort((a: any, b: any) => {
         const order: Record<string, number> = { "Basic": 1, "Classic": 2, "Premium": 3 };
         return order[a.name as keyof typeof order] - order[b.name as keyof typeof order];
       });
@@ -44,45 +47,30 @@ export class SubscriptionPlanComponent {
     }
   }
 
-  calculateTotal(): { total: number; gst: number } {
-    if (this.selectedPackage) {
-      const packageAmount = parseFloat(this.selectedPackage.amount);
-  
-      // GST calculation
-      const gst = (18 / 100) * packageAmount;
-  
-      // Total amount calculation
-      const totalAmount = packageAmount + gst;
-  
-      return { total: totalAmount, gst: gst };
-    }
-  
-    return { total: 0, gst: 0 }; 
-  }
-  
-  openCheckout(packageData:any){
+  openCheckout(packageData: any) {
+    this.isOrderSummary = true;
+    this.isPaymentDetails = false;
+    this.isOrderDetails = false;
     this.selectedPackage = packageData;
-    this.openModal(ModalType.SUBSCRIPTION_CHECKOUT);
+    // this.openModal(ModalType.SUBSCRIPTION_CHECKOUT);
+    this.openModal(ModalType.PLANS_ORDER_PAYMENT);
   }
-  cancel(){
+  cancel() {
     this.modal.cancel();
- 
-  }
-  paynow (){
-   
 
-    this.openModal(ModalType.PAY_CARD_FORM);
-    
+  }
+  paynow() {
+    this.openModal(ModalType.PLANS_ORDER_PAYMENT);
   }
 
-/**
-    * Open modal.
-    *
-    * @param {ModalType} modalType
-    * @param {string} [message = ""]
-    * @param {string} [title = ""]
-    * @returns {void}
-    */
+  /**
+      * Open modal.
+      *
+      * @param {ModalType} modalType
+      * @param {string} [message = ""]
+      * @param {string} [title = ""]
+      * @returns {void}
+      */
   openModal(modalType: ModalType, message: string = "", title: string = ""): void {
     this.showModal = modalType;
     this.modalMessage = message;
@@ -97,7 +85,7 @@ export class SubscriptionPlanComponent {
   closeModal(): void {
     // this.referrralComponent.showReferrelRow = true;
     this.modal.cancel();
- 
-}
+
+  }
 
 }

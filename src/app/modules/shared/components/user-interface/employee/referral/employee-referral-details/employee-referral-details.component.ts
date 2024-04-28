@@ -1,4 +1,4 @@
-import { Component, EventEmitter, Input, OnChanges, Output, SimpleChanges, ViewChild } from '@angular/core';
+import { Component, ElementRef, EventEmitter, Input, OnChanges, Output, SimpleChanges, ViewChild } from '@angular/core';
 import { ModalComponent } from 'src/app/modules/shared/components/modal/modal.component';
 import { ModalType } from 'src/app/modules/shared/interfaces/shared.interface';
 
@@ -36,6 +36,7 @@ export class EmployeeReferralDetailsComponent implements OnChanges {
   originalPoints = 2.1;
   possiblePoints = 10;
   isEmployeeReferralPage = true;
+  // modalSize = 'md';
   // selectedStatus!: string; 
 
   //   // ...
@@ -80,7 +81,7 @@ export class EmployeeReferralDetailsComponent implements OnChanges {
     } else {
       this.matchingScore = this.selectedReferral?.matchingScore;
     }
-    this.scoreDetails = this.selectedReferral?.scoreDetails;
+    this.scoreDetails =this.formatScoreDetails(this.selectedReferral?.scoreDetails); 
 
     if (this.empdetailsList?.length > 0) {
 
@@ -128,6 +129,11 @@ export class EmployeeReferralDetailsComponent implements OnChanges {
     this.onReject.emit(data);
   }
 
+  closeDetailedPopup() {
+    // this.modalSize = 'md';
+    this.closeModal();
+  }
+
   acceptRequest() {
     this.closeModal();
     this.action = "";
@@ -137,14 +143,30 @@ export class EmployeeReferralDetailsComponent implements OnChanges {
   openfile(event: { preventDefault: () => void; }) {
     event.preventDefault();
     // console.log(this.docResult.awsS3SignedUrl)
-
-
     //window.open(this.docResult.awsS3SignedUrl,'_blank')
     window.open(this.empdetailsList[0]?.cvAwsS3SignedUrl, '_blank');
   }
 
   viewDetails() {
+    // this.modalSize = 'xl';
     this.openModal(ModalType.DETAILED_ANALYSIS);
+  }
+
+  formatScoreDetails(data: string): string {
+    // Replacing all occurrences of \n with <br>
+    return data.replace(/\n/g, '<br>');
+  }
+
+  getModalSize() {
+    let modalSize = '';
+    if(this.showModal === this.modalType.DETAILED_ANALYSIS) {
+      modalSize = 'xl';
+    }
+    else {
+      modalSize = 'md';
+    }
+
+    return modalSize;
   }
 
 }

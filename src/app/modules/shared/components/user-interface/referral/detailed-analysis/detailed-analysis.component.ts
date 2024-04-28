@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, EventEmitter, Input, Output } from '@angular/core';
 
 @Component({
   selector: 'app-detailed-analysis',
@@ -6,5 +6,12 @@ import { Component } from '@angular/core';
   styleUrls: ['./detailed-analysis.component.scss']
 })
 export class DetailedAnalysisComponent {
+
+  @Output() onCancel: EventEmitter<any> = new EventEmitter<any>();
+  @Input() scoreDetails:any;
+
+  cancelBtn() {
+    this.onCancel.emit();
+  }
 
 }

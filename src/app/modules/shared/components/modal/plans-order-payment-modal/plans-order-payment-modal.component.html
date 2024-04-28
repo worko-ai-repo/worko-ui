@@ -1,0 +1,362 @@
+<!-- Order Summary UI -->
+
+<div *ngIf="isOrderSummary" class="modal-body candidate-card" style="border-radius: 6px;">
+    <div class="row">
+        <div class="col-md-12">
+            <h4 class="p-3 order-heading">Order Summary</h4>
+        </div>
+    </div>
+    <div class="row mt-3">
+        <div class="d-flex justify-content-center">
+            <div class="col-md-3">
+                <h6>Name</h6>
+            </div>
+            <div class="col-md-2">
+                <h6>Qty</h6>
+            </div>
+            <div class="col-md-2">
+                <h6>Amount</h6>
+            </div>
+        </div>
+
+    </div>
+
+    <div class="row">
+        <div class="d-flex justify-content-center mt-3">
+            <div class="col-md-3">
+                <h6>{{ selectedPackage?.name }}</h6>
+            </div>
+            <div class="col-md-2">
+                <h6 class="ps-2"> {{1}}</h6>
+            </div>
+            <div class="col-md-2">
+                <h6 class="ps-4">{{ selectedPackage?.amount }}</h6>
+            </div>
+        </div>
+        <div class="d-flex justify-content-center">
+            <div class="col-md-3">
+                <h6>GST <small>(18%)</small></h6>
+            </div>
+            <div class="col-md-2">
+                <h6 class="ps-2"><b>-</b></h6>
+            </div>
+            <div class="col-md-2">
+                <h6 class="ps-3">{{ calculateTotal().gst| number:'1.2-2'}}</h6>
+            </div>
+
+
+        </div>
+
+        <div class="d-flex justify-content-center">
+            <div class="col-md-7">
+                <div class="w-100 line"></div>
+            </div>
+        </div>
+        <!-- <div class="col-md-9 ms-5 ps-5">
+            <div class="  d-flex justify-content-center border-bottom ps-5 ms-5"></div>
+        </div> -->
+
+        <div class="d-flex justify-content-center mt-2">
+            <div class="col-md-3">
+                <h6>Total <b>:</b></h6>
+            </div>
+            <div class="col-md-2">
+                <h6 class="ps-2"><b>-</b></h6>
+            </div>
+            <div class="col-md-2">
+                <h6 class="ps-3">{{ calculateTotal().total | number:'1.2-2'}}</h6>
+            </div>
+
+        </div>
+        <div class="col-md-10 mt-4 mb-4">
+            <div class="btn-pay btn text-white float-end p-2 ps-4 pe-4 ms-2" (click)="payNow()">Pay</div>
+            <div (click)="closeModal()" class=" btn-pay btn text-white float-end p-2 ps-3 pe-3">Cancel</div>
+        </div>
+    </div>
+
+</div>
+
+<!-- Payment details UI -->
+
+<div *ngIf="isPaymentDetails" class="candidate-card" style="border-radius: 6px;">
+    <div class="row">
+        <div class="popup-card">
+
+            <h4 class="order-heading">Payment Details</h4>
+
+            <form (ngSubmit)="paycard.form.valid && createCard(paycard)" #paycard="ngForm" novalidate>
+
+                <div class="row mt-4">
+
+                    <div class="col-md-12">
+                        <label class="form-lable required-form-field label-size">Cardholder's Name</label>
+                        <input type="text" class="form-control form-input" placeholder="Enter your full name"
+                            name="cardholderName" [(ngModel)]="cardholderName" required #cardHoldername="ngModel"
+                            pattern="^([ \u00c0-\u01ffa-zA-Z'.])+$"
+                            [title]="cardHoldername.errors?.['pattern'] ? 'cardholderName is invalid' : ''"
+                            [title]="cardHoldername.errors?.['required'] ? 'cardholderName is required' : ''"
+                            [ngClass]="{ 'is-invalid': cardHoldername.invalid && (cardHoldername.dirty || cardHoldername.touched) }">
+                    </div>
+                </div>
+                <div class="row mt-3">
+                    <div class="input-field col-md-12">
+                        <label class="form-lable required-form-field label-size">Card Number</label>
+                        <input type="text" class="form-control form-input" placeholder="0000 0000 0000 0000"
+                            name="cardholderNumber" maxlength="16" [(ngModel)]="cardholderNumber"
+                            (focus)="onCardNumberChange(cardholdernumber)" required #cardholdernumber="ngModel"
+                            [title]=" cardholdernumber.errors?.['required'] ? 'Card number is required' : ''"
+                            [title]="cardholdernumber.errors?.['card'] ?'cardholdernumber is invalid' :''"
+                            [ngClass]="{ 'is-invalid': cardholdernumber.invalid && (cardholdernumber.dirty || cardholdernumber.touched) }">
+                        <div *ngIf="!isCardNumberValid" class="text-danger" [class.d-block]="isCardNumberValid">Invalid
+                            card number
+                        </div>
+
+
+                    </div>
+                </div>
+                <div class="row mt-3">
+                    <div class="input-field col-md-6">
+                        <label class="form-lable required-form-field label-size">Valid Thru</label>
+                        <input type="text" class="form-control form-input" placeholder="MM/YYYY" name="validyear"
+                            required [(ngModel)]="validYear" maxlength="7" required #validyear="ngModel"
+                            [title]="validyear.errors?.['pastDate'] ? 'validyear should be past year' : ''"
+                            (focus)="setPastMonthRestriction(validyear)"
+                            [title]="validyear.errors?.['required'] ? 'validyear is required' : ''"
+                            [title]="validyear.errors?.['invalidFormat'] ? 'validyear is invalid' : ''"
+                            [ngClass]="{ 'is-invalid': validyear.invalid && (validyear.dirty || validyear.touched) }">
+                    </div>
+                    <div class="input-field col-md-6">
+                        <label class="form-lable required-form-field label-size">CVV </label>
+                        <input type="text" class="form-control form-input" placeholder="CVV" name="CVV" required
+                            maxlength="3" [(ngModel)]="CVV" #cardCVV="ngModel" pattern="^[1-9]\d{2}$"
+                            [title]="cardCVV.errors?.['pattern'] ? 'CVV is invalid' : ''"
+                            [title]="cardCVV.errors?.['required'] ? 'CVV is required' : ''"
+                            [ngClass]="{ 'is-invalid': cardCVV.invalid && (cardCVV.dirty || cardCVV.touched) }">
+                    </div>
+
+                </div>
+
+                <div class="row mt-3">
+                    <div class="input-field col-md-12">
+                        <label class="form-lable label-size">Billing Address</label>
+                        <input type="text" id="billingAddress" name="billingAddress" class="form-control form-input"
+                            [(ngModel)]="billingaddress">
+                    </div>
+                </div>
+                <div class="row mt-3">
+                    <div class="input-field col-md-12">
+                        <label for="zipCode" class="form-lable label-size">Zip Code</label>
+                        <input type="text" id="zipCode" name="zipCode" class="form-control form-input" maxlength="6"
+                            [(ngModel)]="zipCode" #zipcode="ngModel" pattern="^[1-9]\d{5}$"
+                            [title]="zipcode.errors?.['pattern'] ? 'zipcode is invalid' : ''"
+                            [title]="zipcode.errors?.['required'] ? 'zipcode is required' : ''"
+                            [ngClass]="{ 'is-invalid': zipcode.invalid && (zipcode.dirty || zipcode.touched) }">
+                    </div>
+                </div>
+                <div class="row mt-3">
+                    <div class="input-field col-md-12">
+                        <label for="city" class="form-lable label-size">City</label>
+                        <input type="text" id="city" name="city" class="form-control form-input" [(ngModel)]="city">
+                    </div>
+                </div>
+
+                <div class="row mt-3 d-flex justify-content-center">
+                    <div class="col-md-12">
+                        <button type="submit" style="font-size: 14px;"
+                            class="btn-pay btn text-white float-end p-2 ps-4 pe-4 ms-2"
+                            [disabled]="!paycard.form.valid || !isCardNumberValid">Continue</button>
+                        <button (click)="closeModal()"
+                            class="btn-pay btn text-white float-end p-2 ps-3 pe-3">Cancel</button>
+                    </div>
+
+                    <!-- <div class="row p-3">
+                        <div class="col-md-12 mt-4 mb-4">
+                            <div class="btn-pay btn text-white float-end p-2 ps-4 pe-4 ms-2" (click)="payNow()">Confirm</div>
+                            <div (click)="closeModal()" class=" btn-pay btn text-white float-end p-2 ps-3 pe-3">Cancel</div>
+                        </div>
+                    </div> -->
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+<div *ngIf="isOrderDetails" class="modal-body candidate-card">
+    <div class="row">
+        <div class="col-md-12">
+            <h4 class="order-heading">Order Details</h4>
+        </div>
+    </div>
+
+    <div class="mt-3">
+
+        <div class="row p-3">
+            <div class="col-md-12">
+                <div class="d-flex justify-content-between">
+                    <h6>Edit Payment Details</h6>
+                    <div (click)="editPaymentDetails()" style="cursor: pointer;">
+                        <svg style="height: 17px;" xmlns="http://www.w3.org/2000/svg" width="22" height="28"
+                            viewBox="0 0 29 28" fill="none">
+                            <path
+                                d="M19.7969 19.25V24.5H5.79688V3.5H14.5469V1.75H5.79688C5.33275 1.75 4.88763 1.93437 4.55944 2.26256C4.23125 2.59075 4.04688 3.03587 4.04688 3.5V24.5C4.04688 24.9641 4.23125 25.4092 4.55944 25.7374C4.88763 26.0656 5.33275 26.25 5.79688 26.25H19.7969C20.261 26.25 20.7061 26.0656 21.0343 25.7374C21.3625 25.4092 21.5469 24.9641 21.5469 24.5V19.25H19.7969Z"
+                                fill="white" />
+                            <path
+                                d="M26.3944 5.04014L23.5069 2.15264C23.2452 1.89612 22.8933 1.75244 22.5269 1.75244C22.1604 1.75244 21.8086 1.89612 21.5469 2.15264L9.29688 14.4026V19.2501H14.1356L26.3856 7.00014C26.6421 6.73844 26.7858 6.3866 26.7858 6.02014C26.7858 5.65369 26.6421 5.30184 26.3856 5.04014H26.3944ZM13.4094 17.5001H11.0469V15.1376L19.3069 6.86889L21.6781 9.24014L13.4094 17.5001ZM22.9119 8.00639L20.5406 5.63514L22.5269 3.64889L24.8981 6.02014L22.9119 8.00639Z"
+                                fill="white" />
+                        </svg>
+                    </div>
+                </div>
+                <div class="w-100 line"></div>
+            </div>
+        </div>
+
+        <div class="row pl-4 pr-4">
+            <div class="col-md-12 d-flex justify-content-between align-items-center">
+                <div class="d-flex flex-column">
+                    <h6 style="text-decoration:solid;"><b>Card</b></h6>
+                    <h6>Visa</h6>
+                </div>
+
+                <div class="d-flex flex-column">
+                    <h6 style="text-decoration:solid;"><b>Card Number</b></h6>
+                    <h6>{{formattedCardNumber}}</h6>
+                </div>
+
+                <div class="d-flex flex-column">
+                    <h6 style="text-decoration:solid;"><b>Valid Thru</b></h6>
+                    <h6>{{this.cardDetails?.validYear}}</h6>
+                </div>
+            </div>
+        </div>
+
+        <div class="row p-3">
+            <div class="col-md-12">
+                <div class="d-flex justify-content-between">
+                    <h6>Plan Details</h6>
+                </div>
+                <div class="w-100 line"></div>
+            </div>
+        </div>
+
+        <div class="row pl-4 pr-4">
+            <div class="col-md-12 d-flex justify-content-between align-items-center">
+                <div class="d-flex flex-column">
+                    <h6 style="text-decoration:solid;"><b>Name</b></h6>
+                    <h6>{{ selectedPackage?.name }}</h6>
+                </div>
+
+                <div class="d-flex flex-column">
+                    <h6 style="text-decoration:solid;"><b>Qty</b></h6>
+                    <h6 class="d-flex justify-content-center">{{1}}</h6>
+                </div>
+
+                <div class="d-flex flex-column">
+                    <h6 style="text-decoration:solid;"><b>Amount</b></h6>
+                    <h6>{{ selectedPackage?.amount }}</h6>
+                </div>
+            </div>
+        </div>
+
+        <div class="row p-3">
+            <div class="col-md-12">
+                <div class="w-100 line"></div>
+            </div>
+        </div>
+
+        <div class="row pl-4 pr-4">
+            <div class="col-md-12 d-flex justify-content-between align-items-center">
+                <div class="d-flex flex-column">
+                    <h6>GST <small>(18%)</small></h6>
+                </div>
+
+                <div class="d-flex flex-column">
+                    <h6>{{ calculateTotal().gst| number:'1.2-2'}}</h6>
+                </div>
+            </div>
+        </div>
+
+        <div class="row pl-4 pr-4">
+            <div class="col-md-12 d-flex justify-content-between align-items-center">
+                <div class="d-flex flex-column">
+                    <h6>Total <b>:</b></h6>
+                </div>
+
+                <div class="d-flex flex-column">
+                    <h6>{{ calculateTotal().total | number:'1.2-2'}}</h6>
+                </div>
+            </div>
+        </div>
+
+        <div class="row p-3">
+            <div class="col-md-12 mt-4 mb-4">
+                <div class="btn-pay btn text-white float-end p-2 ps-4 pe-4 ms-2" (click)="payNow()">Confirm</div>
+                <div (click)="closeModal()" class=" btn-pay btn text-white float-end p-2 ps-3 pe-3">Cancel</div>
+            </div>
+        </div>
+
+    </div>
+
+    <!-- <div class="row mt-3">
+        <div class="d-flex justify-content-center">
+            <div class="col-md-3">
+                <h6>Name</h6>
+            </div>
+            <div class="col-md-2">
+                <h6>Qty</h6>
+            </div>
+            <div class="col-md-2">
+                <h6>Amount</h6>
+            </div>
+
+        </div>
+
+    </div>
+
+    <div class="row">
+        <div class="d-flex justify-content-center mt-3">
+            <div class="col-md-3">
+                <h6>{{ selectedPackage?.name }}</h6>
+            </div>
+            <div class="col-md-2">
+                <h6 class="ps-2"> {{1}}</h6>
+            </div>
+            <div class="col-md-2">
+                <h6 class="ps-4">{{ selectedPackage?.amount }}</h6>
+            </div>
+        </div>
+        <div class="d-flex justify-content-center">
+            <div class="col-md-3">
+                <h6>GST <small>(18%)</small></h6>
+            </div>
+            <div class="col-md-2">
+                <h6 class="ps-2"><b>-</b></h6>
+            </div>
+            <div class="col-md-2">
+                <h6 class="ps-3">{{ calculateTotal().gst| number:'1.2-2'}}</h6>
+            </div>
+
+
+        </div>
+        <div class="col-md-9 ms-5 ps-5">
+            <div class="  d-flex justify-content-center border-bottom ps-5 ms-5"></div>
+        </div>
+
+        <div class="d-flex justify-content-center mt-2">
+            <div class="col-md-3">
+                <h6>Total <b>:</b></h6>
+            </div>
+            <div class="col-md-2">
+                <h6 class="ps-2"><b>-</b></h6>
+            </div>
+            <div class="col-md-2">
+                <h6 class="ps-3">{{ calculateTotal().total | number:'1.2-2'}}</h6>
+            </div>
+
+        </div>
+        <div class="col-md-10 mt-4 mb-4">
+            <div class="btn-pay btn text-white float-end p-2 ps-4 pe-4 ms-2" (click)="payNow()">Pay</div>
+            <div (click)="closeModal()" class=" btn-pay btn text-white float-end p-2 ps-3 pe-3">Cancel</div>
+        </div>
+    </div> -->
+
+</div>

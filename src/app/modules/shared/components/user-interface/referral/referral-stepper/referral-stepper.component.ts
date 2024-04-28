@@ -95,7 +95,7 @@ export class ReferralStepperComponent {
       });
     }
     if (element?.name?.toUpperCase() === 'DONE') {
-      element.date = this.selectedReferral?.doneByEmployee;
+      element.date = this.selectedReferral?.doneByEmployee ?? this.selectedReferral?.doneByCandidate;
     }
     if (element?.name?.toUpperCase() === 'WITHDRAWN') {
       element.date = this.selectedReferral?.withdrawnByUser?.actionDate;

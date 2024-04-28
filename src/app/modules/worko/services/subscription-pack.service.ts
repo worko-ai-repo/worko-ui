@@ -27,6 +27,6 @@ export class SubscriptionPackService {
  * @returns {Promise<any>}
  */
    getSubscription():Observable<any>{
-    return this.http.get(API_URL + 'subscription/plans', this.authService.getHttpOptions());
+    return this.http.get(API_URL + 'msubscription/plans', this.authService.getHttpOptions());
    }
 }

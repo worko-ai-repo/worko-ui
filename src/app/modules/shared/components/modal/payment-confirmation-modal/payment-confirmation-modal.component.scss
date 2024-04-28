@@ -1,0 +1,103 @@
+.candidate-card {
+    border-radius: 10px;
+    background: #0A1E35;
+    width: 100%;
+}
+
+.order-heading {
+    color: #2F92C7;
+}
+
+.popup-card {
+    border-radius: 12.69px;
+    // border: 0.634px solid rgba(87, 225, 255, 0.18);
+    background: rgba(10, 30, 54, 0.96);
+    backdrop-filter: blur(11.516115188598633px);
+    height: 100%;
+    width: 100%;
+    padding: 40px;
+}
+
+.pay-card {
+    border-radius: 5px;
+    background: #0A1E35;
+
+}
+
+.container {
+    max-width: 400px;
+    margin: 50px auto;
+    background-color: #0e325b;
+    padding: 20px;
+    border-radius: 8px;
+
+}
+
+
+.form-group {
+    margin-bottom: 20px;
+}
+
+label {
+    font-weight: bold;
+    display: block;
+    margin-bottom: 5px;
+}
+
+::placeholder {
+    color: gray;
+    /* Firefox */
+}
+
+input[type="text"] {
+    width: 100%;
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 10px;
+}
+
+.border-bottom {
+    border: 1.055px solid #57E1FF;
+
+}
+
+.label-size {
+    font-size: 14px;
+}
+
+.btn-pay {
+    background: #2F92C7;
+    color: #FFF;
+    text-align: center;
+    font-family: Poppins;
+    font-size: 13.422px;
+    font-style: normal;
+    border-radius: 10px;
+    font-weight: 700;
+    line-height: 118.5%;
+    letter-spacing: 1.09px;
+
+}
+
+.modal-backdrop {
+    display: none;
+}
+
+.modal-backdrop {
+    opacity: 0;
+}
+
+input.ng-invalid.ng-touched {
+    border: 1px solid red;
+}
+
+.line {
+    height: 1px; /* Set the height of the line */
+    background-color: #2F92C7; /* Set the background color of the line */
+    width: 100%; /* Make the line take the full width of its container */
+}
+
+.check-icon-div img{
+    height: 90px;
+    width: 90px;
+}

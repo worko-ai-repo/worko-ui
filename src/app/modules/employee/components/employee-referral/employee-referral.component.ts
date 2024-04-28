@@ -1,4 +1,4 @@
-import { Component, OnInit, ViewChild } from '@angular/core';
+import { Component, OnDestroy, OnInit, ViewChild } from '@angular/core';
 import { StorageService } from 'src/app/modules/app-core/services/storage.service';
 import { EmployeeProfileService } from '../../services/employee-profile.service';
 import { CandidateProfileService } from 'src/app/modules/candidate/services/candidate-profile.service';
@@ -10,7 +10,7 @@ import { NgxSpinnerService } from 'ngx-spinner';
   templateUrl: './employee-referral.component.html',
   styleUrls: ['./employee-referral.component.scss']
 })
-export class EmployeeReferralComponent {
+export class EmployeeReferralComponent implements OnDestroy {
   @ViewChild(ModalComponent) modal!: ModalComponent;
 
   userType = "Employee";
@@ -46,6 +46,9 @@ export class EmployeeReferralComponent {
   statusItem: { name: string; status: string; date: any; }[] = [];
 
   constructor(private candidateSrv: CandidateProfileService, private empService: EmployeeProfileService, private storage: StorageService, private spinner: NgxSpinnerService) { }
+  ngOnDestroy(): void {
+    console.log("Destroy");
+  }
 
   ngOnInit(): void {
     this.emailAddress = this.storage.get("useremail");

@@ -15,8 +15,9 @@ export class ReferralReqDoneComponent {
   @Output() markAsDone = new EventEmitter<string>();
   @Output() raiseIssue = new EventEmitter<any>();
   @Output() referralRating = new EventEmitter<any>();
-  @Input() processStatus:any;
-  referralRatingFlag:any = null;
+  @Input() processStatus: any;
+  referralRatingFlag: any = null;
+  showRaiseIssueButton: boolean = false;
 
   constructor() { }
 
@@ -30,6 +31,10 @@ export class ReferralReqDoneComponent {
     if (this.processStatus) {
       this.checkRating();
     }
+
+    if (this.selectedStatus === 'DONE') {
+      this.calculateRaiseIssueButtonVisibility();
+    }
   }
 
   checkRating() {
@@ -40,6 +45,17 @@ export class ReferralReqDoneComponent {
       }
     });
     this.referralRatingFlag = flag;
+  }
+
+  calculateRaiseIssueButtonVisibility() {
+    const doneDate = this.selectedReferral?.doneByCandidate ?? this.selectedReferral?.doneByEmployee;
+    const fortyEightHoursInMillis = 48 * 60 * 60 * 1000; // 48 hours in milliseconds
+
+    const currentTime = new Date().getTime();
+    const difference = currentTime - new Date(doneDate).getTime();
+
+    // If the time difference is less than 48 hours, show the button
+    this.showRaiseIssueButton = difference < fortyEightHoursInMillis;
   }
 
   referralMarkAsDone() {

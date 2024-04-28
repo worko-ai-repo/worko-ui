@@ -1,21 +1,44 @@
-import { Component } from '@angular/core';
+import { Component, OnDestroy, OnInit, ViewChild } from '@angular/core';
 import { CandidateProfileService } from '../../services/candidate-profile.service';
 import { StorageService } from 'src/app/modules/app-core/services/storage.service';
+import { ModalType } from 'src/app/modules/shared/interfaces/shared.interface';
+import { Router } from '@angular/router';
+import { ModalComponent } from 'src/app/modules/shared/components/modal/modal.component';
+import { NgxSpinnerService } from 'ngx-spinner';
 @Component({
   selector: 'app-service',
   templateUrl: './service.component.html',
   styleUrls: ['./service.component.scss']
 })
-export class ServiceComponent {
+export class ServiceComponent implements  OnDestroy, OnInit {
   servicesList: any = "";
   emailAddress: any = "";
   selectedStatus: string = 'AWAITING';
   selectedService: any;
-  constructor(private candidateSrv: CandidateProfileService, private storage: StorageService) { }
+  @ViewChild(ModalComponent) modal!: ModalComponent;
+  modalType = ModalType;
+  modalMessage: string = "";
+  modalTitle: string = "";
+  showModal: ModalType | undefined;
+  successmessage: string = "";
+  successtitle: string = "";
+  constructor(private candidateSrv: CandidateProfileService, private storage: StorageService, private spinner: NgxSpinnerService, private router: Router) { }
   
   ngOnInit(): void {
     this.emailAddress = this.storage.get("useremail");
+    this.spinner.show();
+    this.successtitle = 'Alert!';
+    this.successmessage = "Ah, it appears you've stumbled upon a section in the works! Fear not, we're crafting a tailored experience just for you. Stay tuned as we prepare to unveil a treasure trove of job-seeking solutions. Your future success awaits!";
+    setTimeout(()=> {
+      this.spinner.hide();
+      this.openModal(ModalType.SUCCESS_MESSAGE);
+    }, 2000);
     // this.getServices();
+  }
+
+  ngOnDestroy(): void {
+    this.spinner.hide();
+    this.closeModal();
   }
 
   async getServices() {
@@ -49,5 +72,34 @@ export class ServiceComponent {
         // console.log(this.referralList + '123');
       }
     })
+  }
+
+  okBtn() {
+    this.spinner.hide();
+    this.closeModal();
+    this.router.navigate(['/candidate/dashboard']);
+  }
+
+   /**
+ * Open modal.
+ *
+ * @param {ModalType} modalType
+ * @param {string} [message = ""]
+ * @param {string} [title = ""]
+ * @returns {void}
+ */
+   openModal(modalType: ModalType, message: string = "", title: string = ""): void {
+    this.showModal = modalType;
+    this.modalMessage = message;
+    this.modalTitle = title;
+    this.modal.open();
+  }
+  /**
+   * Close modal.
+   *
+   * @returns {void}
+   */
+  closeModal(): void {
+    this.modal.cancel();
   }
 }

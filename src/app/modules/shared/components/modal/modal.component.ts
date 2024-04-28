@@ -48,6 +48,8 @@ export class ModalComponent implements OnInit {
    * @returns {void}
    */
   open(): void {
+    console.log(this.modalSize);
+    console.log(this.showClose);
     const modalOptions: NgbModalOptions = {
       ariaLabelledBy: this.ariaLabelledBy,
       windowClass: `${this.theme} ${this.class}`.trim(),
