@@ -119,7 +119,7 @@
                             <div class="row d-flex justify-content-center mt-2">
                                 <div class="col-md-8">
                                     <label for="" class="form-lable core-skills-lable ps-2 required-form-field">Soft skills</label>
-                                    <div class="certific-skill-box">
+                                    <div class="certific-skill-box" (click)="focusInput()">
                                         <div class="skill-container">
                                             <div *ngFor="let softSkill of candidateProfessionalDetails.softSkills">
                                                 <div class=" m-1 text-in-box">{{softSkill.skillName}}
@@ -143,7 +143,7 @@
                                                     (blur)="addSoftSkill($event)" (keydown.enter)="addSoftSkill($event)"> -->
 
                                                 <!-- <input type="text" class=" borderless-field " type="text" (keydown.enter)="addSoftSkill($event)" placeholder="Add Soft Skill"> -->
-                                                <input class=" borderless-field form-control  soft-skill-input" type="text" (keydown.enter)="addSoftSkill($event)" placeholder="Add Soft Skill" >
+                                                <input  #softSkillInput class=" borderless-field form-control  soft-skill-input" type="text" (keydown.enter)="addSoftSkill($event)" placeholder="Add Soft Skill" >
                                                 <div class="tooltip-container">
                                                     <div class="tooltip-style">
                                                         <i class="fa-solid fa-circle-info"></i>
@@ -220,7 +220,7 @@
                                         [title]="certificateCompany1.errors?.['pattern'] ? 'Institute Name is invalid' : ''"
                                         [ngClass]="{ 'is-invalid': certificateCompany1.invalid && (certificateCompany1.dirty || certificateCompany1.touched) }">
                                     <input type="text" class="core-skills-input ms-2 form-control"
-                                        placeholder="Completion Date(YYYY-MM)"
+                                        placeholder="Completion Date(MM-YYYY)"
                                         [(ngModel)]="certificateYear" name="completionyear" 
                                         id="completionyear"  
                                         #completionyear="ngModel" [title]="completionyear.errors?.['pattern'] ? 'Certification year is invalid' : ''"
@@ -272,7 +272,7 @@
                                         [(ngModel)]="instituteName" name="instituteName" id="instituteName"  #instituteName1="ngModel"
                                         [title]="instituteName1.errors?.['pattern'] ? 'Institute Name is invalid' : ''"
                                         [ngClass]="{ 'is-invalid': instituteName1.invalid && (instituteName1.dirty || instituteName1.touched) }">
-                                    <input type="text" class="core-skills-input ms-2 form-control" placeholder="Year of achievement(YYYY-MM)"
+                                    <input type="text" class="core-skills-input ms-2 form-control" placeholder="Year of achievement(MM-YYYY)"
                                         [(ngModel)]="achievementmonth" name="achievementdate" id="achievementdate"  
                                         #achievementdate="ngModel" [title]="achievementdate.errors?.['pattern'] ? 'Achievement date is invalid' : ''"
                                         [ngClass]="{ 'is-invalid': achievementdate.invalid && (achievementdate.dirty || achievementdate.touched) }"

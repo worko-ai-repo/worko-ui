@@ -5,6 +5,10 @@
 //     height:fit-content;
 // // }
 
+.side-bar{
+    border-right: 1px dotted white;
+}
+
 .input-logo {
     color: #f7f7f7;
     font-size: 11px;
@@ -86,6 +90,17 @@
         width: 50%;
     } 
     .text-white{
+        text-align: center;
+    }
+
+}
+
+@media  (max-width: 765px){
+    .side-bar{
+        border-right: none;
+    }
+
+    .intro-info{
         text-align: center;
     }
 }

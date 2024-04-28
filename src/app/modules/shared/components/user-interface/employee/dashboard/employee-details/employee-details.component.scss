@@ -72,6 +72,7 @@
                     font-style: normal;
                     font-weight: 400;
                     line-height: normal;
+                    padding: 1rem 5%;
                 }
                 small{
                     color: #FFF;
@@ -100,21 +101,6 @@
                     line-height: normal;
                 }
 }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 
 /* Styles for devices with a resolution of 1680x1050 pixels */
@@ -154,3 +140,33 @@
     // }
   
   }
+
+@media (max-width: 675px){
+
+    .intro-info{
+        flex-direction: column;
+    }
+
+    .img-container{
+        justify-content: center;
+    }
+
+    .employee-details{
+        width: 90%;
+        margin: auto;
+        padding: 1rem 0;
+    }
+
+    .name-title{
+        text-align: center;
+    }
+
+    .card-content{
+        flex-direction: column;
+    }
+
+    .redeem-button{
+        padding-left: 70%;
+        padding-bottom: 0.5rem;
+    }
+}

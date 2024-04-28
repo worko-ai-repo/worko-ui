@@ -12,14 +12,17 @@ import { ModalComponent } from 'src/app/modules/shared/components/modal/modal.co
 })
 export class IndexComponent {
   @ViewChild(ModalComponent) modal!: ModalComponent;
-  getReferral: boolean = false;
-  giveReferral: boolean = true;
+  getReferral: boolean = true;
+  giveReferral: boolean = false;
   userLoggedIn: boolean = false;
   modalType = ModalType;
   showModal: ModalType | undefined;
   modalMessage: string = "";
   modalTitle: string = "";
   userType :  string = "";
+  // refereeBenefits: any;
+  // purposeList: any;
+  // candidateBenefits: any;
 
   constructor(private router: Router, private cognitoService: CognitoService) { }
 
@@ -108,7 +111,7 @@ export class IndexComponent {
   async ngOnInit(): Promise<void> {
     setInterval(() => {
       this.swapValues();
-    }, 6000);
+    }, 1000);
 
     this.userLoggedIn = await this.cognitoService.isLoggedIn();
   }
@@ -172,4 +175,62 @@ export class IndexComponent {
       }
     }
   }
+
+  purposeList = [
+    {
+      image: '/assets/index-images-KA/purpose1.png', title: "Peer-to-Peer Hiring", text: "We facilitate connections between candidates and employees, helping candidates secure referrals and employees maximise referral bonuses."
+    },
+    {
+      image: '/assets/index-images-KA/purpose2.png', title: " Interview Hand Holding", text: "During the hiring process, have an internal employee vouch and follow-up for you and provide guidance at each step"
+    },
+    {
+      image: '/assets/index-images-KA/purpose3.png', title: "Feedback & Transparency", text: "We offer comprehensive job application analysis, recruiter feedback for every referral, and an application status report"
+    },
+    {
+      image: '/assets/index-images-KA/purpose4.png', title: "Career Guidance", text: "While candidates can get guidance from industry experts, employees can offer their services and earn, creating a win-win path to success."
+    },
+    {
+      image: '/assets/index-images-KA/purpose5.png', title: "Smart Matching Algorithm", text: "Our advanced algorithm provides detailed feedback and scores to candidates, highlighting their suitability. It informs employees why a referral would be ideal, enhancing the quality of recommendations"
+    },
+    {
+      image: '/assets/index-images-KA/purpose6.png', title: " Access to Hidden Job", text: "Get access to hidden jobs that are not available on any other platform"
+    }
+  ]
+
+  refereeBenefits = [
+    {
+      image: '/assets/index-images-KA/rbenefits1.png', text: " Get pre-vetted candidates for referral through our smart matching algorithm."
+    },
+    {
+      image: '/assets/index-images-KA/rbenefits2.png', text: "Refer best of talent and maximise corporate referral bonus."
+    },
+    {
+      image: '/assets/index-images-KA/rbenefits3.png', text: " Earn through mock interviews, referrals and mentorship."
+    },
+    {
+      image: '/assets/index-images-KA/rbenefits4.png', text: "Extend a hand today, and when you need it, the universe echoes your kindness."
+    },
+    {
+      image: '/assets/index-images-KA/rbenefits5.png', text: " Your anonymity, assured and preserved"
+    },
+  ]
+
+  candidateBenefits = [
+    {
+      image: '/assets/index-images-KA/cbenefits1.png', text: "Get reviewed and referred by the best employees."
+    },
+    {
+      image: '/assets/index-images-KA/cbenefits2.png', text: " Increase chances of interview calls by 20X!"
+    },
+    {
+      image: '/assets/index-images-KA/cbenefits3.png', text: " Support and guidance from an internal employee throughout the hiring process."
+    },
+    {
+      image: '/assets/index-images-KA/cbenefits4.png', text: " AI-powered profile analysis to provide feedback and guidance on the right job"
+    },
+    {
+      image: '/assets/index-images-KA/cbenefits5.png', text: " Get resume reviewed, career guidance, mock interview from senior industry professionals"
+    },
+  ]
 }
+
