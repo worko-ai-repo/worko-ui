@@ -159,6 +159,7 @@ debugger
       department: this.workExperienceDetails?.department,
       ctc: this.candidateList?.CTC,
       ectc: this.candidateList?.ECTC,
+      yoe:this.candidateList?.YOE,
       noticePeriod: this.candidateList?.noticePeriod,
       certificationNames: this.certificationList?.certifications,
       softSkills: this.certificationList?.softSkills,
