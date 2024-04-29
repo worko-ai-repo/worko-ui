@@ -260,8 +260,8 @@ export class ReferralComponent implements OnInit {
       if (response) {
         this.spinner.hide();
         console.log(response);
-        this.successmessage = "Issue raised successfully.";
-        this.successtitle = "Congratulations!";
+        this.successmessage = "An issue has been raised for this request. You will get an e-mail for further communication.";
+        this.successtitle = "";
         this.openModal(ModalType.SUCCESS_MESSAGE);
       }
     }).catch((error: any) => {
@@ -287,9 +287,9 @@ export class ReferralComponent implements OnInit {
     await this.candidateSrv.withdrawReferral(this.emailAddress, "WITHDRAWN", referralId, payload).then(async (response) => {
       if (response) {
         this.spinner.hide();
-        this.successmessage = "This referral request is withdrawn successfully.";
-        this.successtitle = "Congratulations!";
-        this.openModal(ModalType.SUCCESS_MESSAGE);
+        // this.successmessage = "This referral request is withdrawn successfully.";
+        // this.successtitle = "Congratulations!";
+        // this.openModal(ModalType.SUCCESS_MESSAGE);
         this.getReferral();
         console.log(response);
       }

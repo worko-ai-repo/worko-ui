@@ -223,9 +223,9 @@ export class EmployeeReferralComponent implements OnDestroy {
         this.spinner.hide();
         console.log(response);
         if (action === 'ACCEPT' || this.selectedStatus === 'AWAITING') {
-          this.successmessage = "Referral request accepted successfully.";
-          this.successtitle = "Congratulations!";
-          this.openModal(ModalType.SUCCESS_MESSAGE);
+          // this.successmessage = "Referral request accepted successfully.";
+          // this.successtitle = "Congratulations!";
+          // this.openModal(ModalType.SUCCESS_MESSAGE);
           this.getEmpReferral();
         }
 
@@ -265,8 +265,8 @@ export class EmployeeReferralComponent implements OnDestroy {
       if (response) {
         this.spinner.hide();
         console.log(response);
-        this.successmessage = "Referral request rejected successfully.";
-        this.successtitle = "Congratulations!";
+        this.successmessage = "You have rejected the Candidate's request. Thanks for putting your feedback.";
+        this.successtitle = "";
         this.openModal(ModalType.SUCCESS_MESSAGE);
         this.getEmpReferral();
       }
@@ -316,8 +316,8 @@ export class EmployeeReferralComponent implements OnDestroy {
       if (response) {
         this.spinner.hide();
         console.log(response);
-        this.successmessage = "Issue raised successfully.";
-        this.successtitle = "Congratulations!";
+        this.successmessage = "An issue has been raised for this request. You will get an e-mail for further communication.";
+        this.successtitle = "";
         this.openModal(ModalType.SUCCESS_MESSAGE);
       }
     }).catch((error: any) => {
