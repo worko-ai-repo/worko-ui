@@ -96,6 +96,7 @@ export class AuthService {
 
      headers={'Content-Type': 'application/json'}
     }
+  
 
     if (authorization) {
       headers.Authorization = `Bearer ${this.cognitoService.getAccessToken()}`;
