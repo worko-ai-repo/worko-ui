@@ -41,6 +41,9 @@ export class AwaitingStatusComponent implements OnChanges {
       this.selectedReferralSK = this.referralList[0].SK;
       this.showReferralDetails.emit(this.referralList[0]);
     }
+    else {
+      this.showReferralDetails.emit("");
+    }
     // this.showReferralDetails.emit(this.referralList?.length>0?this.referralList[0]:'');
   }
 
