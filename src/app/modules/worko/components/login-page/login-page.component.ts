@@ -25,7 +25,7 @@ import { ChangeDetectorRef } from '@angular/core';
 import { CognitoService } from '../../../services/cognito.service';
 import 'aws-amplify/auth/enable-oauth-listener';
 import { Hub } from 'aws-amplify/utils';
-import { ConfirmResetPasswordInput, ResetPasswordOutput, confirmResetPassword, fetchAuthSession, getCurrentUser, resetPassword } from '@aws-amplify/auth';
+import { ConfirmResetPasswordInput, ResetPasswordOutput, confirmResetPassword, fetchAuthSession, getCurrentUser, rememberDevice, resetPassword } from '@aws-amplify/auth';
 import { event } from 'jquery';
 declare var bootstrap: any;
 
@@ -66,7 +66,7 @@ export class LoginPageComponent implements AfterViewInit, OnDestroy {
   currentWord = '';
   isBlinking = true;
   blinkTimer: any; //timer reference
-
+  rememberMe:boolean=false
   // checkboxChecked:boolean=false;
   agreeTerms: boolean = false;
   auto: any;
@@ -164,6 +164,9 @@ export class LoginPageComponent implements AfterViewInit, OnDestroy {
   companyName: string = "";
   companySK: string = "";
   subscription: Subscription = new Subscription();
+  deviceKey: any;
+  deviceGroupKey: any;
+  randomPassword: any;
   constructor(private cdr: ChangeDetectorRef, private storage: StorageService, private amplify: CognitoService, private router: Router, private authService: AuthService, private spinner: NgxSpinnerService) {
 
 
@@ -239,7 +242,7 @@ export class LoginPageComponent implements AfterViewInit, OnDestroy {
   }
 
 
-  ngOnInit() {
+  async ngOnInit() {
     //Added check to pass userType to show enabled candidate and employee fromn index page
     if(this.userType){
       this.selectedUserType = this.userType;
@@ -269,7 +272,10 @@ export class LoginPageComponent implements AfterViewInit, OnDestroy {
       })
 
     );
-
+  debugger
+    const currentUser = await getCurrentUser();
+    console.log(currentUser)
+    
   }
 
 
@@ -303,6 +309,38 @@ export class LoginPageComponent implements AfterViewInit, OnDestroy {
     this.confirmationCodeScreen = false;
    
   }
+  getCachedDeviceKeyAndPassword() {
+		const keyPrefix = `CognitoIdentityServiceProvider.${'5evf019rrkaijtnjf2j1vvdf33'}.${
+			this.form.email
+			}`;
+		const deviceKeyKey = `${keyPrefix}.deviceKey`;
+		const randomPasswordKey = `${keyPrefix}.randomPasswordKey`;
+		const deviceGroupKeyKey = `${keyPrefix}.deviceGroupKey`;
+
+		if (this.storage.get(deviceKeyKey)) {
+			this.deviceKey = this.storage.get(deviceKeyKey);
+			this.randomPassword = this.storage.get(randomPasswordKey);
+			this.deviceGroupKey = this.storage.get(deviceGroupKeyKey);
+		}
+    console.log(this.deviceKey,this.randomPassword,this.deviceGroupKey)
+	}
+  async handleRememberDevice() {
+
+    console.log("inside remeber me"+this.rememberMe)
+    try {
+      if(this.rememberMe){
+        debugger
+      
+    const response= await rememberDevice()
+
+    // Optionally, retrieve device details
+    //const deviceDetails = await getDeviceDetails();
+  
+      }
+    } catch (error) {
+      console.log(error);
+    }
+  }
  
 
   passwordChange() {
@@ -328,9 +366,12 @@ export class LoginPageComponent implements AfterViewInit, OnDestroy {
       const { username, userId, signInDetails } = await getCurrentUser();
       console.log(`The username: ${username}`);
       console.log(`The userId: ${userId}`);
+    
 
       if (signInDetails) {
         console.log('The signInDetails:', signInDetails);
+        this.handleRememberDevice();
+        
       } else {
         console.log('No signInDetails available.');
       }

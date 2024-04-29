@@ -249,20 +249,20 @@ fieldsGroup:any;
   isValue: boolean = true;
   ngOnChanges(): void {
     if (this.employeeProfessionalData && this.employeeProfessionalData.companyName && this.employeeProfessionalData.department && this.employeeProfessionalData.designation) {
-      this.fields = this.employeeProfessionalData.previousCompanies;
+      // this.fields = this.employeeProfessionalData.previousCompanies;
      
-      // 
-      if (this.employeeProfessionalData && this.employeeProfessionalData.previousCompanies.length == 0) {
-        this.addField();
+      // // 
+      // if (this.employeeProfessionalData && this.employeeProfessionalData.previousCompanies.length == 0) {
+      //   this.addField();
        
 
-        //debugger;
-      }
+      //   //debugger;
+      // }
     } else {
       this.getData();
-      if (this.employeeProfessionalData && this.employeeProfessionalData.previousCompanies.length == 0) {
-        this.addField();
-      }
+      // if (this.employeeProfessionalData && this.employeeProfessionalData.previousCompanies.length == 0) {
+      //   this.addField();
+      // }
     }
   }
 
