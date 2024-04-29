@@ -83,19 +83,13 @@
         <div class="company-info d-flex justify-content-center">
           <div class="company-box">
             <div class="row card-view card d-flex justify-content-center">
-<<<<<<< HEAD
-              <div class="title">{{item.name}}</div>
+              <div class="title"><u>{{item.name}}</u></div>
               <div class="col-5 d-lex align-items-center links-container">
                 <div class="float-left image-brand">
-=======
-              <div class="title" >{{item.name}}</div>
-              <div class="col-5 d-lex align-items-center">
-                <div class="float-left image-brand" >
->>>>>>> 260cec3cce897ff49247ff772fa47f8eb4603eca
                   <img *ngIf="assetLogos.includes(item.logo)"  
-                  src="assets/company-logo/{{item.logo }}" class="company-name" alt="{{ item.name }}">
+                  src="assets/company-logo/{{item.logo }}" class="company-name" alt="logo">
               <img *ngIf="!assetLogos.includes(item.logo)"
-                  src="{{ item.logoUrl }}" class="company-name" alt="{{ item.name }}">
+                  src="{{ item.logoUrl }}" class="company-name" alt="logo">
                   <!-- <ng-container *ngIf="checkImage(item.logo)">
 
                   <img id="myImage"   *ngIf="checkImage(item.logo)" src="assets/company-logo/{{item.logo}}" alt="{{item.name}}"   >
@@ -105,7 +99,7 @@
                 </div> 
                
                 
-                <div class="float-left">
+                <div class="float-left" style="padding-top: 0.3rem;">
                   <div class="px-1 float-left career-icon" title="Career Page">
                     <a href="{{ item.carrierPage }}" target="_blank">
                       <img src = "../../../../../assets/icons/career-icon.png" alt="icon" />
