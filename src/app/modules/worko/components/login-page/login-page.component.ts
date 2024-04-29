@@ -128,7 +128,8 @@ export class LoginPageComponent implements AfterViewInit, OnDestroy {
     password: '',
   }
   hoveredField: string | null = null;
-
+  companyData:any=[];
+  form1:any;
   designationTagList: any = [
     {
       name: "Assistant Manager / Team Lead",
@@ -534,11 +535,46 @@ async  handleConfirmResetPassword({
   }
 
   addNewCompany(event: MouseEvent, option: any): void {
+   
     console.log("CLicked to add new company:",event);
     // this.openModal(ModalType.ADD_COMPANY);
     
   }
+  companyForm={
+
+
+    CompanyName: "",
+      industry: 'Industry',
+     
+      carrierPage:"",
+      linkedIn: "",
+      emailid:"",
+      personalemailid:"",
+      contactNumber:""
+  
+  
+  }
+  
+  
+  requestCampanyData(form:any){
+    this.companyData={
+      userType: "EMP",
+      companyDetail: {
+        name: this.companyForm.CompanyName,
+        //industry: 'Industry',
+        emailid: this.companyForm.emailid,
+        carrierPage: this.companyForm.carrierPage,
+        linkedIn: this.companyForm.linkedIn,
+        personalemailid:this.companyForm.personalemailid,
+        contactnumber:this.companyForm.contactNumber
+      }
+    }
     
+    this.openModal(ModalType.SUCCESS_MESSAGE);
+  }
+  cancel(){
+    this.modal.cancel()
+  }
   openModal(modalType: ModalType, message: string = "", title: string = ""): void {
     this.showModal = modalType;
     this.modalMessage = message;

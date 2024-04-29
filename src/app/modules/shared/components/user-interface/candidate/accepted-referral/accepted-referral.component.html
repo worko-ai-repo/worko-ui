@@ -1,7 +1,7 @@
 <!-- <div class="container-fluid mt-2">
     <div class="row">
         <div class="col-md-12"> -->
-<div class="card candidate-card mt-2">
+<div class="card candidate-card">
     <div class="card-body">
         <div class="container-fluid" style="height: 100%;">
             <div class="row" style="height: 100%;">
@@ -19,7 +19,7 @@
                                 
                             </button> -->
 
-                    <app-mark-as-done [userType]="userType" (markAsDone1)="referralMarkAsDone()"
+                    <app-mark-as-done [userType]="userType" (markAsDone1)="markAsDoneBtn()"
                         (referralRating1)="referralReviewRating($event)"
                         (cancelRatingPopup1)="cancelReviewRatingPopup()"></app-mark-as-done>
                 </div>
@@ -38,7 +38,7 @@
                 <div *ngIf="selectedReferral" class="col-md-12"
                     style="margin-top: 15px; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 10px;">
 
-                    <div class="col-md-12" style="color: white; display: flex; flex-direction: row-reverse; justify-content: space-between;">
+                    <div class="col-md-12" style="color: white; display: flex; flex-direction: row; justify-content: space-between;">
                         <div>
                             <span class="text-white">Job Url : <a href="{{selectedReferral?.jobUrl}}"
                                     target="_blank">Link</a></span> <br>
@@ -95,7 +95,13 @@
     </div>
 </div>
 
+<app-modal [theme]="'theme-k'" [centered]="true" [showHeader]="showModal === modalType.MESSAGE" [showClose]="true"
+    [showFooter]="showModal === modalType.MESSAGE" [modalSize]="'md'" [title]="modalTitle" [message]="modalMessage"
+    [bodyClass]="modalMessage ? 'p-4' : 'p-0'">
 
-<!-- </div>
-</div>
-</div> -->
+    <ng-container *ngIf="showModal === modalType.CONFIRMATION_DIALOG">
+        <app-confirmation-dialog-popup [action]="action" (onSuccess)="doneRequest()"
+            (onCancel)="closeModal()"></app-confirmation-dialog-popup>
+    </ng-container>
+
+</app-modal>

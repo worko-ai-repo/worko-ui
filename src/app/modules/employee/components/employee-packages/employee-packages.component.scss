@@ -1,4 +1,17 @@
-.content-container{
-    height: calc(100vh - 45px);
-      overflow:auto;
-  }
+.content-container {
+  height: calc(100vh - 45px);
+  overflow: auto;
+}
+
+.btn:hover {
+  background-color: #36D0FF;
+}
+
+.message-card {
+  // border-radius: 16px;
+  // border: 1px solid rgba(87, 225, 255, 0.58);
+  background: #0A1E36;
+  // backdrop-filter: blur(18.149999618530273px);
+  // // height: 250px;
+  // width: 100%; 
+}

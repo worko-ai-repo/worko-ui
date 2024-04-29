@@ -310,7 +310,7 @@ try{
       "isNumberVerified": this.candidateList.isNumberVerified,
       "isSubscribed": this.candidateList.isSubscribed,
       "referralCount": this.candidateList.referralCount,
-      "YOE": this.candidateList.YOE,
+      "YOE": this.secondStepData.yoe,
       "lastAccessedDash": this.candidateList.lastAccessedDash,
       "SK": this.candidateList?.SK,
       "PK": this.candidateList?.PK,

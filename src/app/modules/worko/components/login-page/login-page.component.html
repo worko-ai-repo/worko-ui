@@ -1,4 +1,4 @@
-<div class="container-fluid">
+<div class="container-fluid" *ngIf="showModal !== modalType.ADD_COMPANY && showModal !== modalType.SUCCESS_MESSAGE">
   <!-- signup -->
   <div class="row">
     <div class="col-md-12">
@@ -686,12 +686,70 @@
   </div>
 </div>
 
-<app-modal [theme]="'theme-k'" [centered]="true" [showHeader]="showModal === modalType.MESSAGE"
+<!-- <app-modal [theme]="'theme-k'" [centered]="true" [showHeader]="showModal === modalType.MESSAGE"
 [showClose]="true"
   [showFooter]="showModal === modalType.MESSAGE" [title]="modalTitle" [message]="modalMessage"
-  [bodyClass]="modalMessage ? 'p-4' : 'p-0'" >
+  [bodyClass]="modalMessage ? 'p-4' : 'p-0'" > -->
 
   <ng-container *ngIf="showModal === modalType.ADD_COMPANY">
-    <app-add-company></app-add-company>
+  
+    <div class="modal-contents">
+      <div class="title" >
+          Please provide your current company details to add:
+      </div>
+      <form class="row" (ngSubmit)="company.form.valid && requestCampanyData(form1)" #company="ngForm" novalidate>
+          <input class="col-8 col-md-4 mb-2 p-1 px-1" type="text" placeholder="Company Name" id="CompanyName" 
+          name="CompanyName"  [(ngModel)]="companyForm.CompanyName" 
+          #CompanyName="ngModel" pattern="^([ \u00c0-\u01ffa-zA-Z'.])+$"
+          [ngClass]="{ 'is-invalid': CompanyName.invalid && (CompanyName.dirty || CompanyName.touched) }">
+          <input class="col-8 col-md-4 mb-2 p-1 px-1" type="text" placeholder="Your Contact Number" 
+          id="contactNumber" 
+          name="contactNumber"  [(ngModel)]="companyForm.contactNumber"
+          pattern="^\+(?:[0-9] ?){6,14}[0-9]$" #contactNumber="ngModel"  [ngClass]="{ 'is-invalid': contactNumber.invalid && (contactNumber.dirty || contactNumber.touched) }">
+
+         
+  
+          <input class="col-8 col-md-4 mb-2 p-1 px-1" type="text" placeholder="LinkedIn Page" id="linkedIn" 
+          name="linkedIn" [(ngModel)]="companyForm.linkedIn"
+           pattern="^(https?:\/\/(www\.)?linkedin\.com\/in\/[a-zA-Z0-9_\-]+\/?)$"
+          #linkedIn="ngModel"   [ngClass]="{ 'is-invalid': linkedIn.invalid && (linkedIn.dirty || linkedIn.touched) }">
+  
+          <input class="col-8 col-md-4 mb-2 p-1 px-1" type="text" placeholder="Career Page" id="carrierPage" name="carrierPage" 
+          [(ngModel)]="companyForm.carrierPage" 
+          #carrierPage="ngModel" pattern='^(https:\/\/.*)$' 
+          [ngClass]="{ 'is-invalid': carrierPage.invalid && (carrierPage.dirty || carrierPage.touched) }">
+
+          <input class="col-8 col-md-4 mb-2 p-1 px-1" type="text" placeholder="Your Personal E-mail ID" id="emailid"  name="emailid"
+          [(ngModel)]="companyForm.personalemailid" pattern="^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,4}$"
+          [ngClass]="{ 'is-invalid': personalemail.invalid && (personalemail.dirty || personalemail.touched) }" #personalemail="ngModel" >
+
+          <input class="col-8 col-md-4 mb-2 p-1 px-1" type="text" placeholder="Your Company E-mail ID " id="emailid"  name="emailid"
+          [(ngModel)]="companyForm.emailid" pattern="^(?!.*@(gmail\.com|outlook\.com|aol\.com|yahoo\.com|icloud\.com|protonmail\.com|zoho\.com|yandex\.com|gmx\.com|hubspot\.com|mail\.com|tutanota\.com|10minutemail\.com)$)[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$"
+          [ngClass]="{ 'is-invalid': email.invalid && (email.dirty || email.touched) }" #email="ngModel" >
+          
+        
+          <div class="button-container">
+              <button class="form-button col-4 col-lg-2 mt-2" type="submit" [disabled]="
+              !companyForm.CompanyName" >Submit</button>
+          </div>
+      </form>
+  </div>
   </ng-container>
-</app-modal>
+
+  <ng-container *ngIf="showModal === modalType.SUCCESS_MESSAGE">
+   
+    <div class="row message-card px-sm-3 p-5">
+      <div class="col-md-8 offset-md-2">
+        <div class="text-center mb-4">
+         <p> Your company details have been added. </p>
+          <p>Please complete your signup </p>
+         
+        </div>
+        <div class="text-center">
+          <button class="btn btn-next" (click)="cancel()">OK</button>
+        </div>
+      </div>
+    </div>
+
+  </ng-container>
+<!-- </app-modal> -->

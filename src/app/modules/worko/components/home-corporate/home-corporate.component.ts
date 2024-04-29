@@ -9,34 +9,34 @@ import { NgxSpinnerService } from 'ngx-spinner';
 })
 export class HomeCorporateComponent {
 
-  constructor(private careerService:CareerService,private spinner: NgxSpinnerService){}
+  constructor(private careerService: CareerService, private spinner: NgxSpinnerService) { }
 
-  corporateForm={
-    name:'',
-    email:"",
-    contactNumber:"",
-   description:"",
-   companyName:"",
-   designation:"",
+  corporateForm = {
+    name: '',
+    email: "",
+    contactNumber: "",
+    description: "",
+    companyName: "",
+    designation: "",
   }
-  form:any;
-  corporateData:any;
-  async createCorporate(form:any){
-    try{
-    this.corporateData={
-    userFullName: this.corporateForm.name,
-    userEmail:this.corporateForm.email,
-    contactNumber: this.corporateForm.contactNumber,
-    isContactNumberVerified: false,
-    companyName: this.corporateForm.companyName,
-    userDesignation:this.corporateForm.designation,
-    userMessage: this.corporateForm.description
+  form: any;
+  corporateData: any;
+  async createCorporate(form: any) {
+    try {
+      this.corporateData = {
+        userFullName: this.corporateForm.name,
+        userEmail: this.corporateForm.email,
+        contactNumber: this.corporateForm.contactNumber,
+        isContactNumberVerified: false,
+        companyName: this.corporateForm.companyName,
+        userDesignation: this.corporateForm.designation,
+        userMessage: this.corporateForm.description
+      }
+      console.log(this.corporateData)
+      let response = await this.careerService.createCorporateUser(this.corporateData)
+    } catch (error) {
+      console.log(error)
     }
-console.log(this.corporateData)
-let response=await this.careerService.createCorporateUser(this.corporateData)
-  }catch(error){
-    console.log(error)
-  }
 
   }
 

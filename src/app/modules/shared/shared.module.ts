@@ -70,7 +70,6 @@ import { ReferralRaiseIssuePopupComponent } from './components/user-interface/re
 import { UserMenubarComponent } from './components/user-menubar/user-menubar.component';
 import { ReferralSeeReviewPopupComponent } from './components/user-interface/referral/referral-see-review-popup/referral-see-review-popup.component';
 import { ReferralRejectDetailsPopupComponent } from './components/user-interface/referral/referral-reject-details-popup/referral-reject-details-popup.component';
-import { PayCardModalComponent } from './components/pay-card-modal/pay-card-modal.component';
 import { ReferralRejectedPopupComponent } from './components/user-interface/employee/referral/referral-rejected-popup/referral-rejected-popup.component';
 import { RaiseIssueComponent } from './components/user-interface/referral/referral-reusable-button/raise-issue/raise-issue.component';
 import { WithdrawReferralComponent } from './components/user-interface/referral/referral-reusable-button/withdraw-referral/withdraw-referral.component';
@@ -84,7 +83,10 @@ import { MarkAsDoneComponent } from './components/user-interface/referral/referr
 import { SeeReviewComponent } from './components/user-interface/referral/referral-reusable-button/see-review/see-review.component';
 import { CircleChartComponent } from '../worko/components/circle-chart/circle-chart.component';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
+import { DetailedAnalysisComponent } from './components/user-interface/referral/detailed-analysis/detailed-analysis.component';
 import { AddCompanyComponent } from '../worko/components/add-company/add-company.component';
+import { PlansOrderPaymentModalComponent } from './components/modal/plans-order-payment-modal/plans-order-payment-modal.component';
+import { PaymentConfirmationModalComponent } from './components/modal/payment-confirmation-modal/payment-confirmation-modal.component';
 export const routes: Routes = [
 
   
@@ -121,7 +123,6 @@ export const routes: Routes = [
     UserMenubarComponent,
     ReferralSeeReviewPopupComponent,
     ReferralRejectDetailsPopupComponent,
-    PayCardModalComponent,
     RaiseIssueComponent,
     MarkAsDoneComponent,
     WithdrawReferralPopupComponent,
@@ -129,7 +130,10 @@ export const routes: Routes = [
     SeeReviewComponent,
     ProvideFeedbackComponent,
     CircleChartComponent,
-    AddCompanyComponent
+    DetailedAnalysisComponent,
+    AddCompanyComponent,
+    PlansOrderPaymentModalComponent,
+    PaymentConfirmationModalComponent
     // DoneServiceComponent,
     // CancelledServiceComponent,
     // AwaitingServiceComponent,
@@ -187,7 +191,6 @@ export const routes: Routes = [
   UserMenubarComponent,
   ReferralSeeReviewPopupComponent,
   ReferralRejectDetailsPopupComponent,
-  PayCardModalComponent,
   RaiseIssueComponent,
   MarkAsDoneComponent,
   WithdrawReferralPopupComponent,
@@ -195,7 +198,10 @@ export const routes: Routes = [
   SeeReviewComponent,
   ProvideFeedbackComponent,
   CircleChartComponent,
-  AddCompanyComponent
+  DetailedAnalysisComponent,
+  AddCompanyComponent,
+  PlansOrderPaymentModalComponent,
+  PaymentConfirmationModalComponent
   ],
 
 })

@@ -15,7 +15,9 @@ export class ReferralReqDoneComponent {
   @Output() markAsDone = new EventEmitter<string>();
   @Output() raiseIssue = new EventEmitter<any>();
   @Output() referralRating = new EventEmitter<any>();
-  referralRatingFlag = false;
+  @Input() processStatus: any;
+  referralRatingFlag: any = null;
+  showRaiseIssueButton: boolean = false;
 
   constructor() { }
 
@@ -25,18 +27,35 @@ export class ReferralReqDoneComponent {
 
   ngOnChanges(): void {
     console.log(this.selectedReferral, "selectedReferral");
-    if (this.reviewData?.length > 0) {
+    this.referralRatingFlag = null;
+    if (this.processStatus) {
       this.checkRating();
+    }
+
+    if (this.selectedStatus === 'DONE') {
+      this.calculateRaiseIssueButtonVisibility();
     }
   }
 
   checkRating() {
-    this.referralRatingFlag = false;
-    this.reviewData.forEach((element:any) => {
+    let flag = false;
+    this.reviewData.forEach((element: any) => {
       if (element.ratingForUserType === 'EMP') {
-        this.referralRatingFlag = true;
+        flag = true;
       }
     });
+    this.referralRatingFlag = flag;
+  }
+
+  calculateRaiseIssueButtonVisibility() {
+    const doneDate = this.selectedReferral?.doneByCandidate ?? this.selectedReferral?.doneByEmployee;
+    const fortyEightHoursInMillis = 48 * 60 * 60 * 1000; // 48 hours in milliseconds
+
+    const currentTime = new Date().getTime();
+    const difference = currentTime - new Date(doneDate).getTime();
+
+    // If the time difference is less than 48 hours, show the button
+    this.showRaiseIssueButton = difference < fortyEightHoursInMillis;
   }
 
   referralMarkAsDone() {
@@ -49,7 +68,7 @@ export class ReferralReqDoneComponent {
   }
 
   referralReviewRating(reviewRatingData: any) {
-    this.referralRating.emit({ selectedReferral: this.selectedReferral, reviewRatingData: reviewRatingData });
+    this.referralRating.emit(reviewRatingData);
   }
 
 }

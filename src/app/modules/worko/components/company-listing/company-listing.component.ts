@@ -1,13 +1,14 @@
-import { Component, OnInit, ViewChild, HostListener } from '@angular/core';
+import { Component, OnInit, ViewChild, HostListener, Renderer2, ElementRef } from '@angular/core';
 import { CompanyListingService } from '../../services/company-listing.service';
 import { ModalType } from 'src/app/modules/shared/interfaces/shared.interface';
 import { ModalComponent } from 'src/app/modules/shared/components/modal/modal.component';
 import { CognitoService } from 'src/app/modules/services/cognito.service';
 import { ReferralRequestComponent } from '../referral-request/referral-request.component';
 import { RequestGuidenceComponent } from '../request-guidence/request-guidence.component';
-import { debounceTime, distinctUntilChanged } from 'rxjs/operators';
+import { debounceTime, distinctUntilChanged, map } from 'rxjs/operators';
 import { Subject } from 'rxjs';
 import { NgxSpinnerService } from 'ngx-spinner'; 
+import { HttpClient } from '@angular/common/http';
 @Component({
   selector: 'app-company-listing',
   templateUrl: './company-listing.component.html',
@@ -45,6 +46,8 @@ export class CompanyListingComponent implements OnInit {
     industryType: "",
     companyName: ""
   }
+  companyData:any=[];
+  form:any;
   assetLogos: string[]=[];
   teamSizeOptions: any = [
     {
@@ -193,7 +196,7 @@ export class CompanyListingComponent implements OnInit {
   searchQuery: string = '';
   private searchTerms = new Subject<string>();
 
-  constructor(private spinner: NgxSpinnerService, private companyListing: CompanyListingService, private cognitoService: CognitoService) {
+  constructor(private spinner: NgxSpinnerService,private http: HttpClient, private renderer: Renderer2, private el: ElementRef,private companyListing: CompanyListingService, private cognitoService: CognitoService) {
     this.searchTerms
       .pipe(
         debounceTime(300), // Adjust the debounce time as needed (300 milliseconds in this example)
@@ -208,23 +211,64 @@ export class CompanyListingComponent implements OnInit {
     this.userLoggedIn = await this.cognitoService.isLoggedIn();
     this.getCompanyDetails();
     this.filteredCompanyList = this.companyList;
-    this.assetLogos = this.generateLogoFilenames(100, 260);
-    console.log(this.assetLogos)
+    // this.assetLogos = this.generateLogoFilenames(57, 1045);
+    // console.log(this.assetLogos)
+    const excludedNumbers = [83,87,90,101,103,108,110,140,147,150,158,161,224,231,243,256,291,298,301,308,317,323,328,334,337,354,359,362,382,403,405,431,442,452,457,477,489,513,520,521,525,528,531,536,540,563,566,567,579,583,585,631,634,636,638,659,660,677,697,704,716,720,738,757,770,796,798,809,823,828,837,843,850,852,935,947,949,954,971,983,984,986,1024,1040];
+
+ this.assetLogos = await this.generateLogoFilenames(57, 1045, excludedNumbers);
+
+console.log(this.assetLogos)
 
   }
-  generateLogoFilenames(start: number, end: number): string[] {
-    const logos: string[] = [];
-    for (let i = start; i <= end; i++) {
-        logos.push(`${i}.jpg`);
-    }
-console.log(logos)
-    logos.push('1.jpg','10.jpg','15.jpg','25.jpg','1000.jpg','1001.jpg','1002.jpg','1003.jpg','1004.jpg','1005.jpg','1006.jpg'
-      ,'1007.jpg','1008.jpg','1009.jpg','1010.jpg','1011.jpg','1012.jpg','1013.jpg','1014.jpg','1015.jpg','1016.jpg','1017.jpg',
-      '1018.jpg','1019.jpg','1020.jpg','1021.jpg','1022.jpg','1023.jpg','1025.jpg','1026.jpg','1027.jpg','1028.jpg','1029.jpg','1030.jpg',
-      '1031.jpg','1032.jpg','1033.jpg','1034.jpg','1035.jpg','1036.jpg','1037.jpg','1038.jpg','1039.jpg','1040.jpg','1041.jpg',
-      '1042.jpg','1043.jpg','1044.jpg','1045.jpg'    )
-    return logos ;
+//   generateLogoFilenames(start: number, end: number): string[] {
+//     const logos: string[] = [];
+//     for (let i = start; i <= end; i++) {
+//         logos.push(`${i}.jpg`);
+//     }
+// // console.log(logos)
+//     logos.push('1.jpg','10.jpg','15.jpg','25.jpg','30.jpg','47.jpg')
+//     return logos ;
+// }
+generateLogoFilenames(start: number, end: number, excludedNumbers:any[]) {
+  const logos = [];
+  for (let i = start; i <= end; i++) {
+      if (!excludedNumbers.includes(i)) {
+          logos.push(`${i}.jpg`);
+      }
+  }
+  logos.push('1.jpg','10.jpg','15.jpg','25.jpg','30.jpg','47.jpg')
+  return logos;
 }
+
+// imageLoaded() {
+//   console.log('Image loaded');
+//   // Perform any actions you want when an image loads
+// }
+// assetimage:boolean=false
+// checkImage(logo:any):any{
+//   const imageUrl = 'assets/company-logo/' + logo;
+//   this.checkImageExists(imageUrl).subscribe(exists => {
+//     if (exists) {
+//       console.log('Image exists');
+//       return true
+//        // Add the logo filename to assetLogos array
+//     } else {
+//       console.log('Image does not exist');
+//       return false
+//     }
+//   });
+  
+// }
+// checkImageExists(imageUrl: string) {
+//   return this.http.head(imageUrl, { observe: 'response' }).pipe(
+//     map((response: { status: number; }) => {
+//       // If the response status is in the 200 range, the image exists
+//       return response.status >= 200 && response.status < 300;
+//     }),
+   
+//   );
+// }
+
 
  
   onSearchInputChange(): void {
@@ -374,7 +418,7 @@ console.log(logos)
 
     //this.successmessage="Our guidance service is launching soon, connecting you with first-hand, experienced experts for invaluable insights. Stay tuned for updates.Need urgent assistance, like interview preparation from insiders?\n Email us at Guidance@worko.ai for support";
     // this.successtitle="Congratulations!";
-     this.openModal(ModalType.SUCCESS_MESSAGE)
+     this.openModal(ModalType.REQUEST_GUIDANCE)
 
   }
   cancel(){
@@ -398,6 +442,40 @@ console.log(logos)
       this.openModal(ModalType.REQUEST_GUIDANCE);
     }
   }
+
+  companyForm={
+
+
+    CompanyName: "",
+      industry: 'Industry',
+     
+      carrierPage:"",
+      linkedIn: "",
+      personalemailid:"",
+      contactNumber:""
+  
+  
+  }
+  
+  
+  requestCampanyData(form:any){
+    this.companyData={
+      userType: "EMP",
+      companyDetail: {
+        name: this.companyForm.CompanyName,
+        //industry: 'Industry',
+      
+        carrierPage: this.companyForm.carrierPage,
+        linkedIn: this.companyForm.linkedIn,
+        personalemailid:this.companyForm.personalemailid,
+        contactnumber:this.companyForm.contactNumber
+      }
+    }
+  
+  console.log(this.companyData)
+  this.openModal(this.modalType.SUCCESS_MESSAGE)
+    
+    }
 
   /**
     * Open modal.

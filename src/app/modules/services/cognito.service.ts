@@ -40,7 +40,7 @@ export class CognitoService {
  
 
   constructor(private storage: StorageService, private navbarToggleSwitch:NavbarToggleSwitchService) {
-    //debugger
+    
 
 Amplify.configure(awsamplify.config);
  

@@ -1,14 +1,17 @@
-<div class="circle-chart-container d-flex align-self-center justify-content-center ">
-    <mat-progress-spinner
-      class="circle-chart"
-      [ngClass]="{ 'hide-progress-bar': hideProgressBar }"
-      [color]="getColor()"
-      mode="determinate"
-      [value]="chartValue"
-      [diameter]="150"
-    >
+<div *ngIf="isEmployeeReferralPage; else elseBlock"
+  class="circle-chart-container d-flex align-self-center justify-content-center ">
+  <mat-progress-spinner class="circle-chart-referral" [ngClass]="{ 'hide-progress-bar': hideProgressBar }"
+    [class.red]="getColor() === 'red'" mode="determinate" [value]="chartValue" [diameter]="90">
+  </mat-progress-spinner>
+  <div class="circle-chart-text-referral">{{ chartText }}/10</div>
+</div>
+
+<ng-template #elseBlock>
+  <div
+    class="circle-chart-container d-flex align-self-center justify-content-center ">
+    <mat-progress-spinner class="circle-chart" [ngClass]="{ 'hide-progress-bar': hideProgressBar }"
+      [class.red]="getColor() === 'red'" mode="determinate" [value]="chartValue" [diameter]="150">
     </mat-progress-spinner>
     <div class="circle-chart-text">{{ chartText }}/10</div>
   </div>
- 
-  
+</ng-template>

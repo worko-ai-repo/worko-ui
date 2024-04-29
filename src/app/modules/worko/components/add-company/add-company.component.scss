@@ -8,7 +8,7 @@
         padding-top: 2rem;
         font-size: 16px;
         padding-bottom: 1rem;
-        padding-left: 7%;
+        //padding-left: 7%;
     }
     form{
         // display: flex;
@@ -49,6 +49,9 @@
                 font-size: 14px;
             }
         }
+        input.ng-invalid.ng-touched {
+            border: 1px solid red;
+          }
     }
 }
 
@@ -57,3 +60,15 @@
         padding-left: 3rem;
     }
 }
+input.ng-invalid.ng-touched {
+    border: 1px solid red;
+  }
+
+  .message-card{
+    //border-radius: 18px;
+   // border: 1px solid rgba(87, 225, 255, 0.58);
+   background: #0A1E36;
+   // backdrop-filter: blur(18.149999618530273px);
+   // height: 100%;
+   
+  }

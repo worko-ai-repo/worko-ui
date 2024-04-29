@@ -22,8 +22,9 @@
 <div class="row" *ngIf="showScore && !showEmailContent && !errorFound">
   <div class="col-md-12 mt-4">
     <h1 class="yourScore">Your Score</h1>
-    <p class="send-cv-text">You are a good match for the job. we are sending your <br> CV to the best suitable Referee
+    <p *ngIf="score >= 7" class="send-cv-text">You are a good match for the job. we are sending your <br> CV to the best suitable Referee
       who can refer you,</p>
+    <p *ngIf="score < 7" class="send-cv-text">We regret to inform you that we are unable to proceed with this referral request<br>as your profile and experience may not align well with the Job requirement.<br>If there's anything you haven't mentioned in your profile,<br> consider updating it on your Worko profile and trying again.<br>Remember, we're dedicated to supporting you on your career path.<br>If you need expert advice, like a CV review or career guidance,<br>feel free to reach out to us at <span style="color: rgb(160, 158, 158); text-decoration: underline; cursor: pointer;">Guidance@worko.ai</span><br>We're here to assist you in any way we can.</p>
     <button class="btn btn-light-blue view-more-btn mb-2" (click)="onViewMore()">View More</button>
   </div>
 </div>
@@ -36,7 +37,9 @@
 </div>
 
 <div class="cv-not-found" *ngIf="errorFound"> <!-- Show email content when the button is clicked -->
-  <div *ngIf="cvError"> Apologies, we couldn't find your CV to match with the job description. Please ensure your CV is uploaded
+  <div *ngIf="cvError"> Apologies, we couldn't find your CV to match with the job description. Please ensure your CV is
+    uploaded
     correctly, or you can try again after some time.</div>
-    <div *ngIf="jobDescription"> The job description provided is not valid. Please enter a valid job description to proceed.</div>
+  <div *ngIf="jobDescription"> The job description provided is not valid. Please enter a valid job description to
+    proceed.</div>
 </div>

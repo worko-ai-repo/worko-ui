@@ -1,5 +1,5 @@
 <div class="row content-container">
-    <div class="left-container-content">
+    <div class="left-container-content referral-candidate-left-container">
         <!-- divide-45 -->
         <app-awaiting-status [userType]="userType" (statusSelected)="onStatusSelected($event)" [referralList]="referralList" (showReferralDetails)="showReferralDetails($event)"> </app-awaiting-status>
     </div>
@@ -14,8 +14,8 @@
                     <app-withdrawn-referral *ngIf="selectedStatus === 'WITHDRAWN'" [selectedReferral]="selectedReferral"></app-withdrawn-referral>
                     <app-referral-cancelled [userType]="userType" *ngIf="selectedStatus === 'CANCELLED'" [selectedReferral]="selectedReferral"></app-referral-cancelled>
                     <app-referral-req-rejected *ngIf="selectedStatus === 'REJECTED'" (markAsDone)="referralMarkAsDone($event)" [selectedReferral]="selectedReferral"></app-referral-req-rejected>
-                    <app-accepted-referral [userType]="userType" *ngIf="selectedStatus === 'ACCEPTED'" [refereeDetails]="refereeDetails" (markAsDone)="referralMarkAsDone($event)" (referralRating)="referralReviewRating($event)" (cancelRatingPopup)="cancelReviewRatingPopup()" (raiseIssue)="referralRaiseIssue($event)" [selectedReferral]="selectedReferral"></app-accepted-referral>
-                    <app-referral-req-done *ngIf="selectedStatus === 'DONE'" [userType]="userType" [refereeDetails]="refereeDetails" [reviewData]="reviewData" (referralRating)="createReview($event)" (markAsDone)="referralMarkAsDone($event)" (raiseIssue)="referralRaiseIssue($event)" [selectedReferral]="selectedReferral"></app-referral-req-done>
+                    <app-accepted-referral [userType]="userType" *ngIf="selectedStatus === 'ACCEPTED'" [refereeDetails]="refereeDetails" (markAsDone)="referralMarkAsDone($event)" (raiseIssue)="referralRaiseIssue($event)" [selectedReferral]="selectedReferral"></app-accepted-referral>
+                    <app-referral-req-done *ngIf="selectedStatus === 'DONE'" [userType]="userType" [processStatus]="processStatus" [refereeDetails]="refereeDetails" [reviewData]="reviewData" (referralRating)="createReview($event)" (markAsDone)="referralMarkAsDone($event)" (raiseIssue)="referralRaiseIssue($event)" [selectedReferral]="selectedReferral"></app-referral-req-done>
                 </ng-template>
             </div>
         </div>
@@ -27,7 +27,7 @@
     [bodyClass]="modalMessage ? 'p-4' : 'p-0'" [modalSize]="'md'">
 
     <!-- <app-messagmodal  [message]="successmessage" [title]="successtitle"></app-messagmodal> -->
-    <div class="row message-card px-sm-3 p-4"
+    <div *ngIf="!(showModal === modalType.REFERRAL_RATING)" class="row message-card px-sm-3 p-4"
         style="border-radius: 6px;">
         <div class="font-weight-bold text-color-red mb-3 d-flex justify-content-center"
             style="color: #e40707; font-size: 20px;" *ngIf="successtitle === 'Error'">
@@ -50,5 +50,10 @@
                 Continue</button>
         </div>
     </div>
+
+    <ng-container *ngIf="showModal === modalType.REFERRAL_RATING">
+        <app-referral-rating-popup [userType]="userType" (onSuccess)="receiveDataFromChild($event)"
+            (onCancel)="cancelReviewRatingPopup()"></app-referral-rating-popup>
+    </ng-container>
 
 </app-modal>
