@@ -134,9 +134,9 @@
                         previousExperience.touched) }"  -->
 
       
- <div class="row mt-3">
+ <!-- <div class="row mt-3">
     <h5>Previous Employer Details</h5>
-</div>
+</div> -->
 
 <!-- <div class="row mt-3" *ngFor="let field of fields; let i = index">
     <div class="col-md-5">
@@ -166,8 +166,12 @@
     </div>
 </div>  -->
 <!-- your-component.component.html -->
+ <!-- working post pervious company details -->
+ <!-- <div class="row mt-3">
+    <h5>Previous Employer Details</h5>
+</div> -->
 
-<form [formGroup]="formGroup">
+<!-- <form [formGroup]="formGroup">
     <div formArrayName="fields"  >
       <div *ngFor="let field of formGroup.get('fields').controls; let i = index" [formGroupName]="i" >
         <div class="row mt-3">
@@ -184,8 +188,7 @@
                 {{ job.name }}
               </mat-option>
             </mat-autocomplete> 
-            <!-- <input type="text" class="form-control form-input" [formControl]="field.get('previousCompanyName')"
-            placeholder="Select Company Name" /> -->
+           
           </div>
           <div class="col-md-3">
             <label for="previousDesignation{{ i }}" class="form-lable">Designation</label>
@@ -201,15 +204,6 @@
                 Please enter a valid URL.
               </div>
           </div>
-          <!-- <input type="hidden" class="form-control form-input"
-          [(ngModel)]="perviousjobs[i].SK"
-          [ngModelOptions]="{standalone: true}"
-          id="SK">
-       
-          <input type="hidden" class="form-control form-input"
-          [(ngModel)]="perviousjobs[i].PK"
-          [ngModelOptions]="{standalone: true}"
-          id="PK"> -->
           <div class="col-md-1 d-flex align-items-end">
             <button class="float-end btn circular-button" *ngIf="i === 0" (click)="addField()"
             [disabled]="isAddButtonDisabled(i)" >+</button>
@@ -218,7 +212,7 @@
         </div>
       </div>
     </div>
-  </form>
+  </form> -->
   
 
         <div class="row mt-5 mb-3">
