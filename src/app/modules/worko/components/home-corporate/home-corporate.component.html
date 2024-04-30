@@ -342,10 +342,7 @@
                         [ngClass]="{ 'is-invalid': phoneNo.invalid && (phoneNo.dirty || phoneNo.touched) }"
                         id="phoneNo">
                         
-                        <div class="verify d-flex">
-                            <input class="input" placeholder="__ _ _ __ _"/>
-                            <button  class="form-button">Verify</button>
-                        </div>
+                      
                         
                         <input class="input" type="text" placeholder="Company Name*" name="companyName" id="companyName" 
                         #companyName="ngModel" [(ngModel)]="corporateForm.companyName"  required minlength="3"
@@ -355,6 +352,11 @@
                         id="email" [(ngModel)]="corporateForm.email" required
                         pattern="^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,4}$"
                        [ngClass]="{ 'is-invalid': email.invalid && (email.dirty || email.touched) }" #email="ngModel" >
+
+                       <div class="verify d-flex">
+                        <input class="input" placeholder="__ _ _ __ _"/>
+                        <button  class="form-button"  >Verify</button>
+                    </div>
                         
                        <textarea class="input input-area" type="text" placeholder="Type here*" name="description" id="description"placeholder="What you will bring on the table*" #desc="ngModel" 
                         [(ngModel)]="corporateForm.description" [ngClass]="{ 'is-invalid': desc.invalid && (desc.dirty || desc.touched) }"

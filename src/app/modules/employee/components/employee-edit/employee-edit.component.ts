@@ -90,6 +90,7 @@ export class EmployeeEditComponent {
   }
   // Get API //
   async getEmployeeDetails() {
+    this.spinner.show();
     try{
     await this.candidateSrv.getUserDetails(this.emailAddress).then(async (response) => {
       if (response) {
@@ -102,6 +103,7 @@ export class EmployeeEditComponent {
       if(error.status==401){
        this.router.navigate(['/']);
      }else {
+      this.spinner.hide();
        this.successmessage= "Something went wrong. Please try again after sometime"
        this.successtitle="Error"
        this.openModal(ModalType.SUCCESS_MESSAGE)
@@ -112,6 +114,7 @@ export class EmployeeEditComponent {
     this.thirdStepData = data;
     this.updateProfilePic();
     // this.updateWorkExperience();
+    this.spinner.show();
    
   
   }
@@ -129,6 +132,7 @@ export class EmployeeEditComponent {
     if(error.status==401){
      this.router.navigate(['/']);
    }else {
+    this.spinner.hide();
      this.successmessage= "Something went wrong. Please try again after sometime"
      this.successtitle="Error"
      this.openModal(ModalType.SUCCESS_MESSAGE)
@@ -137,7 +141,7 @@ export class EmployeeEditComponent {
   }
 
   async updateProfilePic(): Promise<void> {
-    //this.spinner.show();
+    this.spinner.show();
     try {
       // if (this.userId && this.thirdStepData.fileType && this.thirdStepData.fileName) {
       if (this.firstStepData.fileType && this.firstStepData.fileName) {
@@ -161,6 +165,7 @@ export class EmployeeEditComponent {
       if(error.status==401){
        this.router.navigate(['/']);
      }else {
+      this.spinner.hide();
        this.successmessage= "Something went wrong. Please try again after sometime"
        this.successtitle="Error"
        this.openModal(ModalType.SUCCESS_MESSAGE)
@@ -183,12 +188,14 @@ export class EmployeeEditComponent {
           } catch (error: any) {
 
             if (error && error.error.message) {
+              this.spinner.hide();
               this.successmessage= "Something went wrong. Please try again after sometime"
               this.successtitle="Error"
               this.openModal(ModalType.SUCCESS_MESSAGE)
               // this.errorMessage = error.error.message;
               // this.setErrorMessage('File Link error linkResumewithUser:- '+ error.error.message);
             }
+            this.spinner.hide();
             this.successmessage= "Something went wrong. Please try again after sometime"
             this.successtitle="Error"
             this.openModal(ModalType.SUCCESS_MESSAGE)
@@ -197,6 +204,7 @@ export class EmployeeEditComponent {
 
         })
         .catch(error => {
+          this.spinner.hide();
           this.successmessage= "Something went wrong. Please try again after sometime"
           this.successtitle="Error"
           this.openModal(ModalType.SUCCESS_MESSAGE)
@@ -207,6 +215,7 @@ export class EmployeeEditComponent {
         });
 
     } catch (error) {
+      this.spinner.hide();
       this.successmessage= "Something went wrong. Please try again after sometime"
       this.successtitle="Error"
       this.openModal(ModalType.SUCCESS_MESSAGE)
@@ -287,6 +296,7 @@ export class EmployeeEditComponent {
       if(error.status==401){
        this.router.navigate(['/']);
      }else {
+      this.spinner.hide();
        this.successmessage= "Something went wrong. Please try again after sometime"
        this.successtitle="Error"
        this.openModal(ModalType.SUCCESS_MESSAGE)
@@ -361,6 +371,7 @@ export class EmployeeEditComponent {
     if(error.status==401){
      this.router.navigate(['/']);
    }else {
+    this.spinner.hide();
      this.successmessage= "Something went wrong. Please try again after sometime"
      this.successtitle="Error"
      this.openModal(ModalType.SUCCESS_MESSAGE)
@@ -411,6 +422,7 @@ try{
     if(error.status==401){
      this.router.navigate(['/']);
    }else {
+    this.spinner.hide();
      this.successmessage= "Something went wrong. Please try again after sometime"
      this.successtitle="Error"
      this.openModal(ModalType.SUCCESS_MESSAGE)
@@ -433,6 +445,7 @@ console.log(this.workExperienceDetails)
     if(error.status==401){
      this.router.navigate(['/']);
    }else {
+    this.spinner.hide();
      this.successmessage= "Something went wrong. Please try again after sometime"
      this.successtitle="Error"
      this.openModal(ModalType.SUCCESS_MESSAGE)
@@ -445,6 +458,7 @@ console.log(this.workExperienceDetails)
     await this.empService.getBankDetails(this.emailAddress).then(async (response) => {
       if (response) {
         this.bankDetails = response;
+        this.spinner.hide();
 
       }
     })
@@ -452,6 +466,7 @@ console.log(this.workExperienceDetails)
     if(error.status==401){
      this.router.navigate(['/']);
    }else {
+    this.spinner.hide();
      this.successmessage= "Something went wrong. Please try again after sometime"
      this.successtitle="Error"
      this.openModal(ModalType.SUCCESS_MESSAGE)
@@ -486,7 +501,7 @@ console.log(this.workExperienceDetails)
     try{
     await this.empService.createBankDetails(this.emailAddress, data).then(async (response) => {
       if (response) {
-       // this.spinner.hide();
+      this.spinner.hide();
        // this.router.navigate(['/employee/edashboard']);
        this.modalopen();
         console.log(response);
@@ -496,6 +511,7 @@ console.log(this.workExperienceDetails)
     if(error.status==401){
      this.router.navigate(['/']);
    }else {
+    this.spinner.hide();
      this.successmessage= "Something went wrong. Please try again after sometime"
      this.successtitle="Error"
      this.openModal(ModalType.SUCCESS_MESSAGE)

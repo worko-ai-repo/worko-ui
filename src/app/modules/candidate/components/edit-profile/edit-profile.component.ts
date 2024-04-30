@@ -78,18 +78,19 @@ try{
     
     await this.candidateSrv.createWorkExperience(this.emailAddress, workExperience).then(async (response) => {
       
-      // if (response) {
-       //this.modelOpen();
-        //this.router.navigate(['/candidate/dashboard']);
+      this.spinner.hide();
+       this.modelOpen();
+       // this.router.navigate(['/candidate/dashboard']);
    
      //this.createEducationDetails();
      console.log(this.candidatePersonalDetails)
-      // }
+       
     })
   }catch(error:any ){
     if(error.status==401){
      this.router.navigate(['/']);
    }else {
+    this.spinner.hide();
      this.successmessage= "Something went wrong. Please try again after sometime"
      this.successtitle="Error"
      this.openModal(ModalType.SUCCESS_MESSAGE)
@@ -130,6 +131,7 @@ try{
     if(error.status==401){
      this.router.navigate(['/']);
    }else {
+    this.spinner.hide();
      this.successmessage= "Something went wrong. Please try again after sometime"
      this.successtitle="Error"
      this.openModal(ModalType.SUCCESS_MESSAGE)
@@ -159,6 +161,7 @@ try{
     if(error.status==401){
      this.router.navigate(['/']);
    }else {
+    this.spinner.hide();
      this.successmessage= "Something went wrong. Please try again after sometime"
      this.successtitle="Error"
      this.openModal(ModalType.SUCCESS_MESSAGE)
@@ -189,6 +192,7 @@ try{
     if(error.status==401){
      this.router.navigate(['/']);
    }else {
+    this.spinner.hide();
      this.successmessage= "Something went wrong. Please try again after sometime"
      this.successtitle="Error"
      this.openModal(ModalType.SUCCESS_MESSAGE)
@@ -252,15 +256,18 @@ try{
         // this.createUserDetails();
         this.updateWorkExperience();
       }
-      // } else {
-      //   this.router.navigate(['/candidate/dashboard']);
+       else {
+        //this.router.navigate(['/candidate/dashboard']);
+        this.spinner.hide();
+        this.modelOpen();
       
-      // }
+      }
     })
   }catch(error:any ){
     if(error.status==401){
      this.router.navigate(['/']);
    }else {
+    this.spinner.hide();
      this.successmessage= "Something went wrong. Please try again after sometime"
      this.successtitle="Error"
      this.openModal(ModalType.SUCCESS_MESSAGE)
@@ -332,6 +339,7 @@ try{
     if(error.status==401){
      this.router.navigate(['/']);
    }else {
+    this.spinner.hide();
      this.successmessage= "Something went wrong. Please try again after sometime"
      this.successtitle="Error"
      this.openModal(ModalType.SUCCESS_MESSAGE)
@@ -361,6 +369,7 @@ try{
         // For example, you can redirect the user to a login page or display an error message
       } else {
         // Handle other errors
+        this.spinner.hide();
         this.successmessage="Something went wrong. Please try again after sometime"
         this.successtitle="Error"
         this.openModal(ModalType.SUCCESS_MESSAGE)
@@ -390,6 +399,7 @@ try{
       // For example, you can redirect the user to a login page or display an error message
     } else {
       // Handle other errors
+      this.spinner.hide();
       this.successmessage="Something went wrong. Please try again after sometime"
       this.successtitle="Error"
       this.openModal(ModalType.SUCCESS_MESSAGE)
@@ -417,6 +427,7 @@ try{
       // For example, you can redirect the user to a login page or display an error message
     } else {
       // Handle other errors
+      this.spinner.hide();
       this.successmessage="Something went wrong. Please try again after sometime"
       this.successtitle="Error"
       this.openModal(ModalType.SUCCESS_MESSAGE)
@@ -448,6 +459,7 @@ try{
       // For example, you can redirect the user to a login page or display an error message
     } else {
       // Handle other errors
+      this.spinner.hide();
       this.successmessage="Something went wrong. Please try again after sometime"
       this.successtitle="Error"
       this.openModal(ModalType.SUCCESS_MESSAGE)
@@ -477,6 +489,7 @@ try{
       // For example, you can redirect the user to a login page or display an error message
     } else {
       // Handle other errors
+      this.spinner.hide();
       this.successmessage="Something went wrong. Please try again after sometime"
       this.successtitle="Error"
       this.openModal(ModalType.SUCCESS_MESSAGE)
@@ -494,6 +507,7 @@ try{
         this.achievements = response[0];
         this.achievementsList = response[0].achievements;
         this.spinner.hide();
+        this.modelOpen();
       }
     })
   } catch (error: any) {
@@ -506,6 +520,7 @@ try{
       // For example, you can redirect the user to a login page or display an error message
     } else {
       // Handle other errors
+      this.spinner.hide();
       this.successmessage="Something went wrong. Please try again after sometime"
       this.successtitle="Error"
       this.openModal(ModalType.SUCCESS_MESSAGE)
@@ -566,10 +581,10 @@ try{
 
   //When uer click on "Complete" on 3rd step
   onSuccess(data: any) {
-   // this.spinner.show();
+   this.spinner.show();
    //debugger
     this.thirdStepData = data;
-    this.modelOpen();
+    //this.modelOpen();
     this.uploadUserCV();
 
       
@@ -618,6 +633,7 @@ try{
       if(error.status==401){
        this.router.navigate(['/']);
      }else {
+      this.spinner.hide();
        this.successmessage= "Something went wrong. Please try again after sometime"
        this.successtitle="Error"
        this.openModal(ModalType.SUCCESS_MESSAGE)
@@ -652,6 +668,7 @@ try{
       if(error.status==401){
        this.router.navigate(['/']);
      }else {
+      this.spinner.hide();
        this.successmessage= "Something went wrong. Please try again after sometime"
        this.successtitle="Error"
        this.openModal(ModalType.SUCCESS_MESSAGE)
@@ -686,10 +703,12 @@ try{
             if (error && error.error.message) {
               // this.errorMessage = error.error.message;
               // this.setErrorMessage('File Link error linkResumewithUser:- '+ error.error.message);
+              this.spinner.hide();
               this.successmessage="Something went wrong. Please try again after sometime"
               this.successtitle="Error"
               this.openModal(ModalType.SUCCESS_MESSAGE)
             }
+            this.spinner.hide();
             this.successmessage="Something went wrong. Please try again after sometime"
               this.successtitle="Error"
               this.openModal(ModalType.SUCCESS_MESSAGE)
@@ -698,7 +717,7 @@ try{
          
         })
         .catch(error => {
-
+          this.spinner.hide();
           this.successmessage="Something went wrong. Please try again after sometime"
           this.successtitle="Error"
           this.openModal(ModalType.SUCCESS_MESSAGE)
@@ -709,6 +728,7 @@ try{
         );
 
     } catch (error) {
+      this.spinner.hide();
       this.successmessage="Something went wrong. Please try again after sometime"
           this.successtitle="Error"
           this.openModal(ModalType.SUCCESS_MESSAGE)
@@ -733,10 +753,12 @@ try{
             if (error && error.error.message) {
               // this.errorMessage = error.error.message;
               // this.setErrorMessage('File Link error linkResumewithUser:- '+ error.error.message);
+              this.spinner.hide();
               this.successmessage="Something went wrong. Please try again after sometime"
           this.successtitle="Error"
           this.openModal(ModalType.SUCCESS_MESSAGE)
             }
+            this.spinner.hide();
             this.successmessage="Something went wrong. Please try again after sometime"
             this.successtitle="Error"
             this.openModal(ModalType.SUCCESS_MESSAGE)
@@ -745,6 +767,7 @@ try{
 
         })
         .catch(error => {
+          this.spinner.hide();
           this.successmessage="Something went wrong. Please try again after sometime"
           this.successtitle="Error"
           this.openModal(ModalType.SUCCESS_MESSAGE)
@@ -755,6 +778,7 @@ try{
         });
 
     } catch (error) {
+      this.spinner.hide();
       this.successmessage="Something went wrong. Please try again after sometime"
           this.successtitle="Error"
           this.openModal(ModalType.SUCCESS_MESSAGE)

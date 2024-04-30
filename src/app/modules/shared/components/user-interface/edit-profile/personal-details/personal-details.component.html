@@ -154,21 +154,16 @@
                                         </div>
                                         <div class="row">
                                             <div class="col-md-12">
-                                                <!-- <input type="text" class="form-control borderless-field" [(ngModel)]="newSoftSkill"
-                                                    name="newSoftSkill" id="newSoftSkill" placeholder="Enter Soft Skils"
-                                                    (blur)="addSoftSkill($event)" (keydown.enter)="addSoftSkill($event)"> -->
-
-                                                <!-- <input type="text" class=" borderless-field " type="text" (keydown.enter)="addSoftSkill($event)" placeholder="Add Soft Skill"> -->
-                                                <input  #softSkillInput class=" borderless-field form-control  soft-skill-input" type="text" (keydown.enter)="addSoftSkill($event)" placeholder="Add Soft Skill" >
                                                 <div class="tooltip-container">
                                                     <div class="tooltip-style">
                                                         <i class="fa-solid fa-circle-info"></i>
                                                     </div>
-                                                    <div class="tooltip-text pt-2 text-center p-2">
+                                                    <div class="tooltip-text pt-2 text-center ">
                                                         <small>Press Enter to add a soft skill</small>
                                                     </div>
                                                 </div>
-                                                
+                                                <!-- Move the input field below the tooltip -->
+                                                <input #softSkillInput class=" borderless-field form-control  soft-skill-input" type="text" (keydown.enter)="addSoftSkill($event)" placeholder="Add Soft Skill" >
                                             </div>
                                         </div>
                                     </div>

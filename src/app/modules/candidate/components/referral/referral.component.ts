@@ -49,7 +49,7 @@ export class ReferralComponent implements OnInit {
       if (response) {
         this.spinner.hide();
         this.referralList = response;
-        this.referralList.sort((a:any, b:any) => a.createdAt < b.createdAt ? 1 : -1);
+        this.referralList.sort((a: any, b: any) => a.updatedAt < b.updatedAt ? 1 : -1);
         console.log(this.referralList);
         // this.getRefereeDetials(response.accc);
       }
@@ -103,20 +103,26 @@ export class ReferralComponent implements OnInit {
   }
 
   async showReferralDetails(data: any) {
-    this.processStatus = false;
-    this.reviewData = null;
-    this.selectedReferral = data;
-    this.refereeDetails = "";
-    this.getRefereeDetials(this.selectedReferral);
-    if (this.selectedStatus == 'DONE') {
-      this.reviewData = [];
-      let referralId = this.getSlicedValue(this.selectedReferral?.SK);
-      let forUserId = this.selectedReferral?.acceptedByUserId;
+    if (data) {
+      this.processStatus = false;
+      this.reviewData = null;
+      this.selectedReferral = data;
+      this.refereeDetails = "";
+      this.getRefereeDetials(this.selectedReferral);
+      if (this.selectedStatus == 'DONE') {
+        this.reviewData = [];
+        let referralId = this.getSlicedValue(this.selectedReferral?.SK);
+        let forUserId = this.selectedReferral?.acceptedByUserId;
 
-      await this.getReferralReview(referralId, this.userId);
-      this.getReferralReview(referralId, forUserId, true);
-      console.log(this.reviewData);
+        await this.getReferralReview(referralId, this.userId);
+        this.getReferralReview(referralId, forUserId, true);
+        console.log(this.reviewData);
+      }
     }
+    else {
+      this.selectedReferral = data;
+    }
+
   }
 
   getSlicedValue(value: string): string {
@@ -192,7 +198,7 @@ export class ReferralComponent implements OnInit {
     // const forUserId = data?.acceptedByUserId;
 
     await this.candidateSrv.getReview(forUserId, referralId).then(async (response) => {
-      if(executeProcessedStatus) {
+      if (executeProcessedStatus) {
         this.processStatus = true;
       }
       console.log(response);
@@ -209,7 +215,7 @@ export class ReferralComponent implements OnInit {
 
       }
     }).catch((error: any) => {
-      if(executeProcessedStatus) {
+      if (executeProcessedStatus) {
         this.processStatus = true;
       }
       this.reviewData = [];
@@ -223,7 +229,7 @@ export class ReferralComponent implements OnInit {
   splitName(userName: any) {
     const splitName = userName.split(' ');
     this.firstName = splitName[0];
-    this.lastName = splitName.length > 1 ? splitName[splitName.length - 1] : "notAvaialable";
+    this.lastName = splitName.length > 1 ? splitName[splitName.length - 1] : "";
   }
 
   async rasieIssue(data: any) {
@@ -254,8 +260,8 @@ export class ReferralComponent implements OnInit {
       if (response) {
         this.spinner.hide();
         console.log(response);
-        this.successmessage = "Issue raised successfully.";
-        this.successtitle = "Congratulations!";
+        this.successmessage = "An issue has been raised for this request. You will get an e-mail for further communication.";
+        this.successtitle = "";
         this.openModal(ModalType.SUCCESS_MESSAGE);
       }
     }).catch((error: any) => {
@@ -281,9 +287,9 @@ export class ReferralComponent implements OnInit {
     await this.candidateSrv.withdrawReferral(this.emailAddress, "WITHDRAWN", referralId, payload).then(async (response) => {
       if (response) {
         this.spinner.hide();
-        this.successmessage = "This referral request is withdrawn successfully.";
-        this.successtitle = "Congratulations!";
-        this.openModal(ModalType.SUCCESS_MESSAGE);
+        // this.successmessage = "This referral request is withdrawn successfully.";
+        // this.successtitle = "Congratulations!";
+        // this.openModal(ModalType.SUCCESS_MESSAGE);
         this.getReferral();
         console.log(response);
       }
