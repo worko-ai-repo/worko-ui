@@ -78,7 +78,7 @@ export class ReferralDoneComponent implements OnChanges {
   }
 
   calculateRaiseIssueButtonVisibility() {
-    const doneDate = this.selectedReferral?.doneByEmployee ?? this.selectedReferral?.doneByCand;
+    const doneDate = this.selectedReferral?.doneByEmployee ?? this.selectedReferral?.doneByCandidate;
     const fortyEightHoursInMillis = 48 * 60 * 60 * 1000; // 48 hours in milliseconds
 
     const currentTime = new Date().getTime();
