@@ -29,9 +29,8 @@
     margin-top: 2rem;
 }
 .side-timeline-lg img {
-    width: calc(225px + 5vw);
-    // width: calc(198px + 6.5vw);
-    width: 311px;
+    // width: 311px;
+    width: calc(292px + 1vw);
 }
 
 .side-timeline-md {
@@ -594,13 +593,15 @@
     }
     
     .works{
-        padding-top: 5rem;
+        padding-top: 4rem;
         .column{
-            width: 80%;
+            width: 82%;
             // margin: 0 4%;
-            margin-left: 20%;
-            
+            margin-left: 15%;
             align-items: center;
+            .content-heading{
+                padding-right: 0;
+            }
 
         }
     
@@ -635,14 +636,14 @@
         }
     
         .row2{
-            padding-top: 2rem;
+            padding-top: 1cap;
     
             .content{
                 padding-top: 3rem;
                 margin-left: -3%;
                 width: 43%;
                 p{
-                    width: 85%;
+                    width: 100%;
                 }
             }
             .img{
@@ -652,7 +653,7 @@
         }
     
         .row3{
-            padding-top: 6rem;
+            padding-top: 3rem;
             padding-left: 0%;
             .content{
                 width: 50%;
@@ -673,7 +674,7 @@
     
         .row4{
             width: 80%;
-            padding-top: 4rem;
+            padding-top: 3rem;
     
             p{
                 text-align: center;
@@ -682,13 +683,13 @@
     }
     
     .benefits{
-        padding-top: 5rem;
+        padding-top: 4rem;
         .content-heading{
             font-size: 30px;
             padding-left: 10%;
         }
         .filter{
-            width: 68%;
+            width: 80%;
             padding-left: 10%;
             .section-head{
                 padding: 0.8rem;
@@ -707,11 +708,11 @@
             padding-top: 3rem;
     
             .left-col{
-                width: 49%;
-                padding-left: 6%;
+                width: 48%;
+                padding-left: 3%;
     
                 .benefit-row{
-                    padding-bottom: 1.5rem;
+                    padding-bottom: 2rem;
                 }
 
                 .hiring{
@@ -719,26 +720,24 @@
                 }
             }
             .content{
-                padding-left: 5%;
+                padding-left: 1%;
             }
     
             .benefits-img{
-                padding-top: 13rem;
-                width: 45%;
-
+                padding-top: 10rem;
+                width: 33%;
     
                 img{
-                    width: 100%;
-                    padding-left: 5%;
+                    width: 95%;
                 }
             }
         }   
     }
     .benefits-icon{
         width: 40%;
-        padding-top: 2rem;
+        padding-top: 1dvw;
         img{
-            width: 90%;
+            width: 70%;
         }
     }
     
@@ -747,33 +746,38 @@
         .content{
             p{
                 padding-top: 0;
-                width: 70%;
+                width: 80%;
             }
         }
     
         .cards{
-            padding-top: 2rem;
+            width: 78%;
+            padding-top: 3rem;
             .card{
-                width: 30%;
-                padding: 20px;
+                width: 31%;
+                padding: 15px;
             }
         }
     }
     
     .inner-card{
         .content{
+            font-size: calc(1vw + 4px) !important;
             line-height: 125%;
         }
     }
     .form{
         height: 550px;
-        margin-top: 3rem;
+        margin-top: 4rem;
+        margin-left: 12%;
+        width: 85%;
         .form-content{
             padding-top: 1rem;
         }
 
         .content{
-            width: 50%;
+            width: 54%;
+            padding-top: 2rem;
         }
         
         .rows{

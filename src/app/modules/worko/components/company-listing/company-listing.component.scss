@@ -20,7 +20,7 @@
 }
 
 .company-listing-container .vertical-bar {
-    border-left: 1px solid #70d9fa;
+    border-left: 1px solid #57E1FF;
     height: 55px;
     margin-left: -15px;
     float: left;
@@ -89,7 +89,7 @@
 .company-listing-container .company-info {
     border-radius: 20px;
     // background: rgba(87, 225, 255, 0.21);
-    background:#70d9fa;
+    background:#57E1FF;
     -webkit-backdrop-filter: blur(300px);
     backdrop-filter: blur(300px);
     color: white;
@@ -159,12 +159,12 @@ img {
     padding: 3px;
     top: 5px;
     position: absolute;
-    border-color: #70d9fa;
+    border-color: #57E1FF;
     border-width: 2px;
 }
 
 .anchor-button:hover{
-    background-color: #70d9fa;
+    background-color: #57E1FF;
     
 }
 
