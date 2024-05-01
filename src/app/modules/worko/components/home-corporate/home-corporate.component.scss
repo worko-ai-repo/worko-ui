@@ -512,6 +512,11 @@
         font-size: calc(1.5vw + 10px);
     }
     
+    .title-head{
+        font-size: 26px !important;
+        font-weight: 700;
+    }
+
     .side-timeline {
         left: 4%;
         margin-top: 2rem;
@@ -525,9 +530,9 @@
     .side-timeline-md {
         display: block;
         img {
-            width: calc(225px + 5vw);
-            // width: calc(198px + 6.5vw);
-            width: 218px;
+            // width: 218px;
+            width: calc(6vw + 168px);
+            min-width: 206px;
         }
     }
     
@@ -620,7 +625,7 @@
         }
     
         .row1{
-            padding-top: 2rem;
+            padding-top: 1rem;
     
             .img{
                 padding-top: 2rem;
@@ -742,7 +747,7 @@
     }
     
     .charge{
-        padding-top: 4rem;
+        padding-top: 5rem;
         .content{
             p{
                 padding-top: 0;
