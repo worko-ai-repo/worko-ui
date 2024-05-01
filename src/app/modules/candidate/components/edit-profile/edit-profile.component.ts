@@ -507,7 +507,7 @@ try{
         this.achievements = response[0];
         this.achievementsList = response[0].achievements;
         this.spinner.hide();
-        this.modelOpen();
+       
       }
     })
   } catch (error: any) {

@@ -10,6 +10,7 @@ import { ModalType } from 'src/app/modules/shared/interfaces/shared.interface';
 import { CandidateProfileService } from 'src/app/modules/candidate/services/candidate-profile.service';
 import { StorageService } from 'src/app/modules/app-core/services/storage.service';
 import { Router } from '@angular/router';
+import { NgxSpinnerService } from 'ngx-spinner';
 @Component({
   selector: 'app-employee-professional-details',
   templateUrl: './employee-professional-details.component.html',
@@ -75,7 +76,7 @@ previousCompanies: any;
   id: any;
   successmessage: string="";
   successtitle: string="";
-  constructor( private router: Router,private storage: StorageService,private authService: AuthService,private fb:FormBuilder,private candidateProfileService :CandidateProfileService) {
+  constructor( private router: Router, private spinner: NgxSpinnerService,private storage: StorageService,private authService: AuthService,private fb:FormBuilder,private candidateProfileService :CandidateProfileService) {
     this.formGroup = this.fb.group({
       fields: this.fb.array([])
     });
@@ -418,15 +419,17 @@ fieldsGroup:any;
 
   
     async openOtpModal() {
-
+      this.spinner.show();
       try{
       let response= await this.candidateProfileService.employeeEmailVerification(this.emailid,this.id)
       if( response){
+        this.spinner.hide();
         this.openModal(ModalType.OTP_VERIFICATION);
         
       }
      
       }catch{
+        this.spinner.hide();
         this.successmessage= " Official email and personal email should not be the same"
         this.successtitle="Error"
         this.openModal(ModalType.SUCCESS_MESSAGE)
