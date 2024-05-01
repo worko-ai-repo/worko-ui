@@ -1,5 +1,6 @@
 
 .nav-logo{
+    width: 270px;
     float: right;
     display: flex;
     justify-content: space-evenly;
@@ -7,7 +8,10 @@
 .active-logo path {
     fill: #1ed6ff; /* Change the color to whatever you want for highlighting */
   }
-  
+
+.active-logo2 path {
+  fill: #0F4EAE; /* Change the color to whatever you want for highlighting */
+}
 //   .check-box:checked + .form-check-input .active-logo path {
 //     fill: #00ff00; /* Change the color to whatever you want for highlighting when checkbox is checked */
 //   }

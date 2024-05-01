@@ -116,7 +116,7 @@ export class EmployeeReferralComponent implements OnDestroy {
           });
         }
         this.empReferralList = response;
-        this.empReferralList.sort((a:any, b:any) => a.createdAt < b.createdAt ? 1 : -1);
+        this.empReferralList.sort((a: any, b: any) => a.updatedAt < b.updatedAt ? 1 : -1);
         console.log(this.empReferralList + '123');
       }
     }).catch((error: any) => {
@@ -164,20 +164,26 @@ export class EmployeeReferralComponent implements OnDestroy {
   }
 
   async showReferralDetails(data: any) {
-    this.processStatus = false;
-    this.reviewData = null;
-    this.selectedReferral = data;
-    const selectedEmail = this.getSlicedValue(this.selectedReferral.PK);
-    console.log(selectedEmail);
-    await this.getEmpReferralDetails(selectedEmail);
-    if (this.selectedStatus == 'DONE') {
-      this.reviewData = [];
-      let referralId = this.getSlicedValue(this.selectedReferral?.SK);
-      let forUserId = this.getSlicedValue(this.empdetailsList[0]?.SK);
-      await this.getReferralReview(referralId, this.userId);
-      this.getReferralReview(referralId, forUserId, true);
-      console.log(this.reviewData);
+    if (data) {
+      this.processStatus = false;
+      this.reviewData = null;
+      this.selectedReferral = data;
+      const selectedEmail = this.getSlicedValue(this.selectedReferral?.PK);
+      console.log(selectedEmail);
+      await this.getEmpReferralDetails(selectedEmail);
+      if (this.selectedStatus == 'DONE') {
+        this.reviewData = [];
+        let referralId = this.getSlicedValue(this.selectedReferral?.SK);
+        let forUserId = this.getSlicedValue(this.empdetailsList[0]?.SK);
+        await this.getReferralReview(referralId, this.userId);
+        this.getReferralReview(referralId, forUserId, true);
+        console.log(this.reviewData);
+      }
     }
+    else {
+      this.selectedReferral = data;
+    }
+
   }
 
   // getCurrentDateISO() {
@@ -217,9 +223,9 @@ export class EmployeeReferralComponent implements OnDestroy {
         this.spinner.hide();
         console.log(response);
         if (action === 'ACCEPT' || this.selectedStatus === 'AWAITING') {
-          this.successmessage = "Referral request accepted successfully.";
-          this.successtitle = "Congratulations!";
-          this.openModal(ModalType.SUCCESS_MESSAGE);
+          // this.successmessage = "Referral request accepted successfully.";
+          // this.successtitle = "Congratulations!";
+          // this.openModal(ModalType.SUCCESS_MESSAGE);
           this.getEmpReferral();
         }
 
@@ -259,8 +265,8 @@ export class EmployeeReferralComponent implements OnDestroy {
       if (response) {
         this.spinner.hide();
         console.log(response);
-        this.successmessage = "Referral request rejected successfully.";
-        this.successtitle = "Congratulations!";
+        this.successmessage = "You have rejected the Candidate's request. Thanks for putting your feedback.";
+        this.successtitle = "";
         this.openModal(ModalType.SUCCESS_MESSAGE);
         this.getEmpReferral();
       }
@@ -278,7 +284,7 @@ export class EmployeeReferralComponent implements OnDestroy {
   splitName(userName: any) {
     const splitName = userName.split(' ');
     this.firstName = splitName[0];
-    this.lastName = splitName.length > 1 ? splitName[splitName.length - 1] : null;
+    this.lastName = splitName.length > 1 ? splitName[splitName.length - 1] : "";
   }
 
   async rasieIssue(data: any) {
@@ -310,8 +316,8 @@ export class EmployeeReferralComponent implements OnDestroy {
       if (response) {
         this.spinner.hide();
         console.log(response);
-        this.successmessage = "Issue raised successfully.";
-        this.successtitle = "Congratulations!";
+        this.successmessage = "An issue has been raised for this request. You will get an e-mail for further communication.";
+        this.successtitle = "";
         this.openModal(ModalType.SUCCESS_MESSAGE);
       }
     }).catch((error: any) => {
@@ -372,7 +378,7 @@ export class EmployeeReferralComponent implements OnDestroy {
     // const forUserId = this.getSlicedValue(this.empdetailsList[0]?.SK);
 
     await this.candidateSrv.getReview(forUserId, referralId).then(async (response) => {
-      if(executeProcessedStatus) {
+      if (executeProcessedStatus) {
         this.processStatus = true;
       }
       console.log(response);
@@ -388,7 +394,7 @@ export class EmployeeReferralComponent implements OnDestroy {
         this.reviewData = JSON.parse(JSON.stringify(backupReview));
       }
     }).catch((error: any) => {
-      if(executeProcessedStatus) {
+      if (executeProcessedStatus) {
         this.processStatus = true;
       }
       this.reviewData = [];

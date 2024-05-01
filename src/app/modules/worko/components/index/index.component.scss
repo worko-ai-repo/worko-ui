@@ -1,7 +1,4 @@
 
-// .grad{
-//     display: none;
-// }
 .all-sections{
     overflow: hidden;
 }
@@ -159,7 +156,7 @@
     display: flex;
     flex-wrap: wrap;
     justify-content: center;
-    .candidate-card{
+    .bcandidate-card{
         padding: 20px 20px 0;
         margin: 1rem 1.5% 0;
         // border: solid;
@@ -176,6 +173,10 @@
     //     display: none !important;
     // }
     .side-timeline{
+        padding-top: 2rem;
+    }
+    
+    .side-timeline-lg{
         display: none;
     }
     
@@ -732,7 +733,7 @@
         display: flex;
         flex-wrap: wrap;
         justify-content: center;
-        .candidate-card{
+        .bcandidate-card{
             padding: 20px 20px 0;
             margin: 1rem 1.5% 0;
             // border: solid;
@@ -1534,7 +1535,7 @@
         display: flex;
         flex-wrap: wrap;
         justify-content: center;
-        .candidate-card{
+        .bcandidate-card{
             padding: 15px 5px 0;
             margin: 1rem 2.5% 0;
             width: 44%;
