@@ -2,6 +2,7 @@ import { Component } from '@angular/core';
 import { CandidateProfileService } from '../../../candidate/services/candidate-profile.service';
 import { StorageService } from 'src/app/modules/app-core/services/storage.service';
 import { EmployeeProfileService } from '../../services/employee-profile.service';
+import { NgxSpinnerService } from 'ngx-spinner';
 @Component({
   selector: 'app-employee-dashboard',
   templateUrl: './employee-dashboard.component.html',
@@ -25,7 +26,7 @@ export class EmployeeDashboardComponent {
   bankDetails: any;
   userType = "Employee"
   userName:any;
-  constructor(private candidateSrv: CandidateProfileService, private storage: StorageService, private empService: EmployeeProfileService) { }
+  constructor(private candidateSrv: CandidateProfileService, private spinner:NgxSpinnerService,private storage: StorageService, private empService: EmployeeProfileService) { }
 
   ngOnInit(): void {
     // this.emailAddress = this.storage.get("useremail");
@@ -43,6 +44,7 @@ export class EmployeeDashboardComponent {
 
   
   async getCandidateDetails() {
+    this.spinner.show()
     await this.candidateSrv.getUserDetails(this.emailAddress).then(async (response) => {
       if (response) {
         this.candidateList = response
@@ -117,7 +119,7 @@ export class EmployeeDashboardComponent {
          this.profileCompletion=response;
         //  this.getSocialProfile();
          console.log(  this.profileCompletion);
-         
+         this.spinner.hide()
        }
      })
    }

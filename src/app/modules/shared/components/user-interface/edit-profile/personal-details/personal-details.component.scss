@@ -132,7 +132,7 @@
   background-color: transparent;
   font-size: 11px;
   border-radius: 0px;
-  margin-left: 10px;
+  margin-left: 15px;
 }
 .form-control:focus{
   box-shadow: 0 0 0 0;
@@ -185,7 +185,7 @@ input.ng-invalid.ng-touched {
 .tooltip-container {
   position: absolute; /* Change position to relative */
   display: inline-block;
-  top:4px;
+  top:6px;
   margin-left: 8px;
 }
 .tooltip-style{
@@ -207,7 +207,7 @@ input.ng-invalid.ng-touched {
   z-index: 1;
   bottom: 125%;
   left: 50%;
-  margin-left: -50px;
+  margin-left: -60px;
   opacity: 0;
   transition: opacity 0.3s;
 }

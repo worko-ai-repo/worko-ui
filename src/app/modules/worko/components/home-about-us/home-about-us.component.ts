@@ -1,6 +1,8 @@
-import { Component, HostListener } from '@angular/core';
+import { Component, HostListener, ViewChild } from '@angular/core';
 import { CareerService } from '../../services/career.service';
 import { NgxSpinnerService } from 'ngx-spinner';
+import { ModalComponent } from 'src/app/modules/shared/components/modal/modal.component';
+import { ModalType } from 'src/app/modules/shared/interfaces/shared.interface';
 
 @Component({
   selector: 'app-home-about-us',
@@ -42,7 +44,13 @@ aboutUsForm={
  description:"",
 }
 aboutUsData:any;
-
+@ViewChild(ModalComponent) modal!: ModalComponent;
+modalType = ModalType;
+modalMessage: string = "";
+modalTitle: string = "";
+showModal: ModalType | undefined;
+successmessage: string='';
+successtitle: string='';
 
 constructor(private careerService:CareerService,private spinner: NgxSpinnerService){}
 
@@ -53,6 +61,7 @@ constructor(private careerService:CareerService,private spinner: NgxSpinnerServi
   }
 async aboutUs(){
   try{
+    this.spinner.show();
   this.aboutUsData={
     userFullName:this.aboutUsForm.name,
     userEmail:this.aboutUsForm.email,
@@ -64,12 +73,19 @@ async aboutUs(){
    }
    console.log(this.aboutUsData)
    await this.careerService.createUser(this.aboutUsData)
+   this.spinner.hide();
+   this.modelOpen()
   }catch(error){
     console.log(error)
+    this.spinner.hide();
+    this.successmessage="Something went wrong. Please try again after sometime"
+    this.successtitle="Error"
+    this.openModal(ModalType.SUCCESS_MESSAGE)
   }
 }
 
   async uploadCv(){
+    this.spinner.show()
   try {
    let documentDetails = {
        
@@ -85,6 +101,10 @@ async aboutUs(){
 
     } catch(error){
       console.log("error"+error)
+      this.spinner.hide();
+      this.successmessage="Something went wrong. Please try again after sometime"
+      this.successtitle="Error"
+      this.openModal(ModalType.SUCCESS_MESSAGE)
     }
  
 
@@ -102,7 +122,7 @@ uploadCVonS3Bucket(docResult: any) {
         
             this.aboutUs()
         
-          this.spinner.hide();
+          
         } catch (error: any) {
           debugger;
           if (error && error.error.message) {
@@ -111,18 +131,28 @@ uploadCVonS3Bucket(docResult: any) {
             //this.setErrorMessage('File Link error linkResumewithUser:- ' + error.error.message);
           }
           console.error('File Link error linkResumewithUser:', error);
+          this.successmessage="Something went wrong. Please try again after sometime"
+          this.successtitle="Error"
+          this.openModal(ModalType.SUCCESS_MESSAGE)
         }
 
       })
       .catch(error => {
-
+        this.spinner.hide();
         console.error('File upload error:', error);
+        this.successmessage="Something went wrong. Please try again after sometime"
+        this.successtitle="Error"
+        this.openModal(ModalType.SUCCESS_MESSAGE)
 
 
       });
 
   } catch (error) {
     console.log(error)
+    this.spinner.hide();
+    this.successmessage="Something went wrong. Please try again after sometime"
+    this.successtitle="Error"
+    this.openModal(ModalType.SUCCESS_MESSAGE)
   }
 }
 
@@ -147,14 +177,60 @@ handleFileInput(event: Event): void {
         console.log(this.fileType)
       } else {
         // Display an error for invalid file type
+        this.spinner.hide();
         console.error('Invalid file type. Please upload a PDF file.');
         this.fileErr = "Invalid file type. Please upload a PDF file."
         this.fileName = "";
         // Optionally, you can reset the input to clear the invalid selection
         inputElement.value = '';
         this.fileToUpload = null;
+        this.successmessage="Something went wrong. Please try again after sometime"
+        this.successtitle="Error"
+        this.openModal(ModalType.SUCCESS_MESSAGE)
       }
     }
   }
 }
+
+
+modelOpen(){
+  
+  this.successmessage="Thank you for submitting your CV! We'll be in touch if there's a suitable opportunity matching your skills and experience.";
+  this.successtitle="Congratulations!";
+  this.openModal(ModalType.SUCCESS_MESSAGE)
+}
+
+cancel(){
+
+  this.closeModal();
+  window.location.reload();
+
+}
+
+
+/**
+* Open modal.
+*
+* @param {ModalType} modalType
+* @param {string} [message = ""]
+* @param {string} [title = ""]
+* @returns {void}
+*/
+openModal(modalType: ModalType, message: string = "", title: string = ""): void {
+  this.showModal = modalType;
+  this.modalMessage = message;
+  this.modalTitle = title;
+  this.modal.open();
+}
+/**
+ * Close modal.
+ *
+ * @returns {void}
+ */
+closeModal(): void {
+  // this.referrralComponent.showReferrelRow = true;
+  this.modal.cancel();
+}
+
+
 }

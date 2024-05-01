@@ -1,6 +1,7 @@
 
 import { Component, EventEmitter, Output, ViewChild, AfterViewInit, OnDestroy, Input, ElementRef } from '@angular/core';
 // import { CognitoService } from 'src/app/modules/services/cognito.service';
+import * as AmazonCognitoIdentity from 'amazon-cognito-identity-js';
 
 import { Router } from '@angular/router';
 import { AuthService } from '../../services/auth.service';
@@ -25,8 +26,9 @@ import { ChangeDetectorRef } from '@angular/core';
 import { CognitoService } from '../../../services/cognito.service';
 import 'aws-amplify/auth/enable-oauth-listener';
 import { Hub } from 'aws-amplify/utils';
-import { ConfirmResetPasswordInput, ResetPasswordOutput, confirmResetPassword, fetchAuthSession, getCurrentUser, rememberDevice, resetPassword } from '@aws-amplify/auth';
+import { ConfirmResetPasswordInput,fetchDevices,ResetPasswordOutput, confirmResetPassword, fetchAuthSession, getCurrentUser, rememberDevice, resetPassword, FetchDevicesOutput,} from '@aws-amplify/auth';
 import { event } from 'jquery';
+import { CookieService } from 'ngx-cookie-service';
 declare var bootstrap: any;
 
 @Component({
@@ -167,9 +169,9 @@ export class LoginPageComponent implements AfterViewInit, OnDestroy {
   deviceKey: any;
   deviceGroupKey: any;
   randomPassword: any;
-  constructor(private cdr: ChangeDetectorRef, private storage: StorageService, private amplify: CognitoService, private router: Router, private authService: AuthService, private spinner: NgxSpinnerService) {
-
-
+  constructor(private cdr: ChangeDetectorRef, private cookieService: CookieService,private storage: StorageService, private amplify: CognitoService, private router: Router, private authService: AuthService, private spinner: NgxSpinnerService) {
+  
+  
 
 
   }
@@ -272,11 +274,23 @@ export class LoginPageComponent implements AfterViewInit, OnDestroy {
       })
 
     );
-  debugger
-    const currentUser = await getCurrentUser();
-    console.log(currentUser)
     
   }
+  // checkRememberMe(){
+  //   debugger
+  //   const rememberCheckBox = this.cookieService.get('rememberMe') === 'true';
+  //   if(rememberCheckBox){
+  //    let emailid=this.cookieService.get('username') 
+  //    let password=this.cookieService.get('password') 
+  //    this.rememberMe=rememberCheckBox;
+  //    this.form.email=emailid;
+  //    this.form.password=password;
+  //    console.log(this.form.email);
+  //    console.log(this.form.password)
+  //    console.log(this.rememberMe)
+
+  //   }
+  // }
 
 
 
@@ -309,21 +323,7 @@ export class LoginPageComponent implements AfterViewInit, OnDestroy {
     this.confirmationCodeScreen = false;
    
   }
-  getCachedDeviceKeyAndPassword() {
-		const keyPrefix = `CognitoIdentityServiceProvider.${'5evf019rrkaijtnjf2j1vvdf33'}.${
-			this.form.email
-			}`;
-		const deviceKeyKey = `${keyPrefix}.deviceKey`;
-		const randomPasswordKey = `${keyPrefix}.randomPasswordKey`;
-		const deviceGroupKeyKey = `${keyPrefix}.deviceGroupKey`;
-
-		if (this.storage.get(deviceKeyKey)) {
-			this.deviceKey = this.storage.get(deviceKeyKey);
-			this.randomPassword = this.storage.get(randomPasswordKey);
-			this.deviceGroupKey = this.storage.get(deviceGroupKeyKey);
-		}
-    console.log(this.deviceKey,this.randomPassword,this.deviceGroupKey)
-	}
+  
   async handleRememberDevice() {
 
     console.log("inside remeber me"+this.rememberMe)
@@ -332,9 +332,21 @@ export class LoginPageComponent implements AfterViewInit, OnDestroy {
         debugger
       
     const response= await rememberDevice()
+   
+      await fetchAuthSession({forceRefresh:true})
+ 
+   
+    //this.handleFetchDevices()
+    //var cognitoUser = userPool.getCurrentUser();
+    // try {
+    //   const output = await fetchDevices();
+    //   console.log(output);
+    // } catch (error) {
+    //   console.log(error);
+    // }
 
     // Optionally, retrieve device details
-    //const deviceDetails = await getDeviceDetails();
+    
   
       }
     } catch (error) {
@@ -349,12 +361,19 @@ export class LoginPageComponent implements AfterViewInit, OnDestroy {
     console.log(this.resetForm)
     this.handleConfirmResetPassword({username:this.resetForm.emailId,confirmationCode:this.resetForm.code,newPassword:this.resetForm.password})
   }
+ 
 
   async currentSession() {
+    //this.amplify.removeAccessToken()
     try {
       // const { accessToken, idToken } = (await fetchAuthSession()).tokens ?? {};
-      const authToken = (await fetchAuthSession()).tokens?.idToken?.toString();
+      //const authToken = (await fetchAuthSession()).tokens?.idToken?.toString();
+      const response=await fetchAuthSession()
+      
+      //this.amplify.setAccessToken()
+      const authToken=response.tokens?.idToken?.toString();
       // console.log(accessToken, "Acces");
+      console.log(response)
       console.log(authToken, "authToken");
     } catch (err) {
       console.log(err);
@@ -370,7 +389,20 @@ export class LoginPageComponent implements AfterViewInit, OnDestroy {
 
       if (signInDetails) {
         console.log('The signInDetails:', signInDetails);
-        this.handleRememberDevice();
+       
+        // if(this.rememberMe){
+        //   this.cookieService.set('rememberMe', 'true');
+        //   this.cookieService.set('username',this.form.email);
+        //   this.cookieService.set('password',this.form.password)
+        // }else{
+        //   this.cookieService.delete('rememberMe');
+        //   this.cookieService.delete('username');
+        //   this.cookieService.delete('password');
+        // }
+        // if(this.rememberMe){
+        //   //this.currentSession()
+        //   this.refreshToken()
+        // }
         
       } else {
         console.log('No signInDetails available.');
@@ -764,9 +796,15 @@ async  handleConfirmResetPassword({
         this.storage.set('userName', userName);
         console.log(userName)
 
-        this.currentSession();
+       
         this.currentAuthenticatedUser();
         this.onSuccess.emit(userType);
+        if(this.rememberMe){
+          this.handleRememberDevice();
+        }else{
+          this.currentSession();
+        }
+        
         this.spinner.hide();
         // if (userType == "CAND") {
         //   this.router.navigate(['/candidate/candidate-dashboard']);
