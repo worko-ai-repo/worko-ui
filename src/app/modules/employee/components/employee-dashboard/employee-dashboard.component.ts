@@ -26,6 +26,8 @@ export class EmployeeDashboardComponent {
   bankDetails: any;
   userType = "Employee"
   userName:any;
+  key:any='';
+  value:any=""
   constructor(private candidateSrv: CandidateProfileService, private spinner:NgxSpinnerService,private storage: StorageService, private empService: EmployeeProfileService) { }
 
   ngOnInit(): void {
@@ -120,8 +122,19 @@ export class EmployeeDashboardComponent {
         //  this.getSocialProfile();
          console.log(  this.profileCompletion);
          this.spinner.hide()
+         //debugger
+      //    for (let i = 0; i < localStorage.length; i++) {
+      
+      //     this.key = localStorage.key(i);
+      //   if (this.key.startsWith('CognitoIdentityServiceProvider.') && this.key.includes('.accessToken')) {
+      //        this.value = localStorage.getItem(this.key);
+      //        console.log(this.value)
+      //        this.storage.set('accessToken', this.value);
+      //   }
+      // }
        }
      })
    }
+  
 
 }

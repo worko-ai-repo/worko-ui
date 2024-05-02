@@ -678,6 +678,7 @@ try{
 
 
   uploadCVonS3Bucket(docResult: any) {
+    debugger
     try {
       this.authService.uploadFileOnS3Bucket(this.thirdStepData.fileToUpload!, docResult.awsS3SignedUrl, docResult.awsS3Tag)
         .then(async () => {

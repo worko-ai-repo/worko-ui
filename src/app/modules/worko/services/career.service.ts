@@ -26,15 +26,15 @@ export class CareerService {
       .then(response => response as ArrayBuffer);
   }
 
-  uploadFileOnS3Bucket(file: File, signedUrl: string, awsS3Tag: string): Promise<any> {
-    return this.http.put(signedUrl, file, this.authService.getHttpOptions(true, { awsS3Tag: awsS3Tag, "fileType": file.type })).toPromise()
-  }
+  // uploadFileOnS3Bucket(file: File, signedUrl: string, awsS3Tag: string): Promise<any> {
+  //   return this.http.put(signedUrl, file, this.authService.getHttpOptions(true, { awsS3Tag: awsS3Tag, "fileType": file.type })).toPromise()
+  // }
 
-  linkResumewithUser(emailId: string, awsS3fileName: string): Promise<any> {
-    return this.http.patch(API_URL + `user/${emailId}/cv`, { resume: awsS3fileName }, this.authService.getHttpOptions())
-      .toPromise()
-      .then(response => response as ArrayBuffer);
-  }
+  // linkResumewithUser(emailId: string, awsS3fileName: string): Promise<any> {
+  //   return this.http.patch(API_URL + `user/${emailId}/cv`, { resume: awsS3fileName }, this.authService.getHttpOptions())
+  //     .toPromise()
+  //     .then(response => response as ArrayBuffer);
+  // }
 
   /**
     * Create CareerUser.

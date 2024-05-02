@@ -3,6 +3,7 @@ import { CareerService } from '../../services/career.service';
 import { NgxSpinnerService } from 'ngx-spinner';
 import { ModalComponent } from 'src/app/modules/shared/components/modal/modal.component';
 import { ModalType } from 'src/app/modules/shared/interfaces/shared.interface';
+import { AuthService } from '../../services/auth.service';
 
 @Component({
   selector: 'app-home-about-us',
@@ -51,8 +52,9 @@ modalTitle: string = "";
 showModal: ModalType | undefined;
 successmessage: string='';
 successtitle: string='';
-
-constructor(private careerService:CareerService,private spinner: NgxSpinnerService){}
+uploadedCvCloudName:any='';
+docResult:any;
+constructor(private careerService:CareerService,private spinner: NgxSpinnerService, private authService: AuthService){}
 
   createAboutUs(form:any){
     debugger
@@ -68,13 +70,14 @@ async aboutUs(){
     userContactNumber:this.aboutUsForm.contactNumber,
     userMessage:this.aboutUsForm.description,
     userCvFileName:this.fileName,
-    userCvCloudFileName:this.uploadedCvName,
+    userCvCloudFileName:this.uploadedCvCloudName,
 
    }
    console.log(this.aboutUsData)
    await this.careerService.createUser(this.aboutUsData)
-   this.spinner.hide();
-   this.modelOpen()
+   this.uploadCVonS3Bucket(this.docResult)
+  //  this.spinner.hide();
+  //  this.modelOpen()
   }catch(error){
     console.log(error)
     this.spinner.hide();
@@ -93,11 +96,12 @@ async aboutUs(){
     careerCVFileMimeType: this.fileType
       }
       console.log(documentDetails)
-      let docResult = await this.careerService.uploadCV(documentDetails);
-      console.log(docResult);
+      this.docResult = await this.careerService.uploadCV(documentDetails);
+      console.log(this.docResult);
 
-      this.uploadedCvName = docResult.cloudFileName;
-      this.uploadCVonS3Bucket(docResult);
+      this.uploadedCvCloudName = this.docResult.cloudFileName;
+      this.aboutUs();
+     // this.uploadCVonS3Bucket(docResult);
 
     } catch(error){
       console.log("error"+error)
@@ -112,15 +116,16 @@ async aboutUs(){
 uploadCVonS3Bucket(docResult: any) {
   debugger
   try {
-    this.careerService.uploadFileOnS3Bucket(this.fileToUpload!, docResult.awsS3SignedUrl, docResult.awsS3Tag)
+    this.authService.uploadFileOnS3Bucket(this.fileToUpload!, docResult.awsS3SignedUrl, docResult.awsS3Tag)
       .then(async () => {
         console.log('File uploaded successfully.');
        
         try {
-           this.CvCloudFileName = await this.careerService.linkResumewithUser(this.aboutUsForm.email, this.uploadedCvName);
+           this.CvCloudFileName = await this.authService.linkResumewithUser(this.aboutUsForm.email, this.uploadedCvCloudName);
+        this.spinner.hide();
+        this.modelOpen()
         
-        
-            this.aboutUs()
+            //this.aboutUs()
         
           
         } catch (error: any) {
@@ -130,6 +135,7 @@ uploadCVonS3Bucket(docResult: any) {
             this.spinner.hide();
             //this.setErrorMessage('File Link error linkResumewithUser:- ' + error.error.message);
           }
+          this.spinner.hide();
           console.error('File Link error linkResumewithUser:', error);
           this.successmessage="Something went wrong. Please try again after sometime"
           this.successtitle="Error"

@@ -251,7 +251,19 @@ async login(){
    * @returns {string}
    */
   getAccessToken(): string {
-   return this.storage.get('accessToken') || '';  
+    for (let i = 0; i < localStorage.length; i++) {
+      
+      this.key = localStorage.key(i);
+    if (this.key.startsWith('CognitoIdentityServiceProvider.') && this.key.includes('.accessToken')) {
+         this.value = localStorage.getItem(this.key);
+         console.log(this.value.toString())
+         console.log(this.key)
+         console.log(localStorage.getItem(this.key))
+         this.accessToken=localStorage.getItem(this.key) || ''
+         //this.storage.set('accessToken', this.value);
+    }
+  }
+   return this.accessToken; 
   }
 
   /**
@@ -274,8 +286,8 @@ async login(){
       this.key = localStorage.key(i);
     if (this.key.startsWith('CognitoIdentityServiceProvider.') && this.key.includes('.accessToken')) {
          this.value = localStorage.getItem(this.key);
-         console.log(this.value)
-         this.storage.set('accessToken', this.value.toString());
+         console.log(this.value.toString())
+         this.storage.set('accessToken', this.value);
     }
   }
 
