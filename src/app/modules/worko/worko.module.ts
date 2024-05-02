@@ -56,7 +56,7 @@ import { IndexComponent } from './components/index/index.component';
 import { FaqCandidateComponent } from './components/faq-candidate/faq-candidate.component';
 import { FaqRefereeComponent } from './components/faq-referee/faq-referee.component';
 import { AddCompanyComponent } from './components/add-company/add-company.component';
-import { CookieService } from 'ngx-cookie-service';
+
 
 
 // import { MatInputModule } from '@angular/material/input';
@@ -195,7 +195,7 @@ export const routes: Routes = [
 ]
 
 @NgModule({
-  providers: [CookieService],
+  providers: [],
   declarations: [
     ContactComponent,
     WorkoComponent,

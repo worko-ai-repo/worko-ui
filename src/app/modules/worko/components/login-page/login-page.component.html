@@ -531,7 +531,8 @@
               </p>
             </div>
             <div>
-              <form (ngSubmit)="f.form.valid && submit(form)" #f="ngForm" novalidate>
+             
+              <form (ngSubmit)="f.form.valid && submit(form)" #f="ngForm" novalidate  autocomplete="on" >
                 <div class="error text-danger py-2" *ngIf="errorMessage">
                   {{ errorMessage }}
                 </div>
@@ -539,7 +540,7 @@
                   <div class="material-input__group">
                     <i class="fa-solid fa-envelope" style="color: #f5f5f5; font-size: 12px"></i>
                     <input type="text" class="text-white mt-4 material-input__group__input" #email="ngModel"
-                      [(ngModel)]="form.email" name="email" id="email" placeholder="Enter Email" />
+                      [(ngModel)]="form.email" name="email" id="email" placeholder="Enter Email" autocomplete="email" />
                   </div>
                 </div>
 
@@ -549,7 +550,7 @@
                     <input type="password" class="text-white mt-4 material-input__group__input"
                       pattern="^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$"
                       [title]="password.errors?.['pattern'] ? 'Password is invalid' : ''" #password="ngModel"
-                      [(ngModel)]="form.password" name="password" id="password" placeholder="Enter Password" />
+                      [(ngModel)]="form.password" name="password" id="password" placeholder="Enter Password" autocomplete="current-password"/>
                   </div>
                 </div>
 

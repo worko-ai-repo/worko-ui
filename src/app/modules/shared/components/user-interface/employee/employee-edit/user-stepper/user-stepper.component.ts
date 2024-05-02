@@ -22,7 +22,7 @@ export class UserStepperComponent implements OnInit {
     }
 
     if (this.userType == "Employee") {
-      this.url =  "/employee/edashboard";
+      this.url =  "/employee/Dashboard";
     }
     
   }

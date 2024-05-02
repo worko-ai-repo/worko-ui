@@ -58,7 +58,7 @@ export class ReferralRequestComponent implements OnInit, OnChanges {
 
   jobDescriptionValidator() {
     return (control: { value: any; }) => {
-      const text = control.value;
+      const text = control.value || '';;
       const keywords = ['experience', 'education', 'skills', 'certifications', 'Preferred Skills', 'job description', 'responsibilities', 'role', 'Employment', 'Department']; 
     
       const containsKeywords = this.countKeywords(text, keywords) >= 5;
