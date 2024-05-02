@@ -351,11 +351,13 @@
                         #companyName="ngModel" [(ngModel)]="corporateForm.companyName"  required minlength="3"
                         [ngClass]="{ 'is-invalid': companyName.invalid && (companyName.dirty || companyName.touched) }">
                         
-                        <input class="input" type="text" placeholder="Email*"name="email"
-                        id="email" [(ngModel)]="corporateForm.email" required
-                        pattern="^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,4}$"
-                       [ngClass]="{ 'is-invalid': email.invalid && (email.dirty || email.touched) }" #email="ngModel" >
-
+                        <div class="email-container">
+                            <input class="input email-input" type="text" placeholder="Email*"name="email"
+                            id="email" [(ngModel)]="corporateForm.email" required
+                            pattern="^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,4}$"
+                           [ngClass]="{ 'is-invalid': email.invalid && (email.dirty || email.touched) }" #email="ngModel" >    
+                           <button  class="form-button">Verify</button>
+                        </div>
                        <!-- <div class="verify d-flex" *ngIf="isVerified">
                         <input class="input form-control form-input" placeholder="__ _ _ __ _"  type="text"
                          [class.is-invalid]="
@@ -378,7 +380,8 @@
                     </div> -->
                     <div class="verify d-flex" *ngIf="isVerified">
                     <input class="input form-control form-input" placeholder="__ _ _ __ _"  type="text"/>
-                    <button  class="form-button"(click)="verifyOTP()" >Verify</button>
+                    <button  class="form-button"(click)="verifyOTP()">Submit</button>
+                    <a href="" class="resend">Resend</a>
                 </div>
                         
                        <textarea class="input input-area" type="text" placeholder="Type here*" name="description" id="description"placeholder="What you will bring on the table*" #desc="ngModel" 

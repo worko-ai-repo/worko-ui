@@ -373,12 +373,14 @@ hr{
 
 .cv{
     width: 17.5%;
-
+    cursor: pointer;
     img{
-        left: 75%;
-        top: 17%;
+        // left: 75%;
+        // top: 17%;
         width: 15%;
         max-width: 35px;
+        margin-left: 5%;
+        padding-right: 2%;
     }
 }
 
@@ -675,7 +677,7 @@ textarea{
         
  
         img{
-            width: 9%;
+            width: 10%;
             left: 60%;
         }
     }
@@ -1178,7 +1180,7 @@ textarea{
         img{
             left: 60%;
             top: 25%;
-            width: 6%;
+            width: 8%;
         }
     }
 
