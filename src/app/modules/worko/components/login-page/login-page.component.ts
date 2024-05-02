@@ -28,15 +28,8 @@ import 'aws-amplify/auth/enable-oauth-listener';
 import { Hub } from 'aws-amplify/utils';
 import { ConfirmResetPasswordInput,fetchDevices,ResetPasswordOutput, confirmResetPassword, fetchAuthSession, getCurrentUser, rememberDevice, resetPassword, FetchDevicesOutput,} from '@aws-amplify/auth';
 import { event } from 'jquery';
+import { CompanyListingService } from '../../services/company-listing.service';
 declare var bootstrap: any;
-
-
-
-export interface  HtmlFieldType {
-  EMAIL:string,
-  PASSWORD:string,
-  UNKNOWN:string
-}
 
 
 @Component({
@@ -176,8 +169,10 @@ export class LoginPageComponent implements AfterViewInit, OnDestroy {
   deviceKey: any;
   deviceGroupKey: any;
   randomPassword: any;
+  successmessage: string="";
+  successtitle: string="";
   
-  constructor(private cdr: ChangeDetectorRef,private storage: StorageService, private amplify: CognitoService, private router: Router, private authService: AuthService, private spinner: NgxSpinnerService) {
+  constructor(private cdr: ChangeDetectorRef,private companyListingService:CompanyListingService,private storage: StorageService, private amplify: CognitoService, private router: Router, private authService: AuthService, private spinner: NgxSpinnerService) {
   
   
 
@@ -610,24 +605,33 @@ async  handleConfirmResetPassword({
   }
   
   
-  requestCampanyData(form:any){
+  async requestCampanyData(form:any){
+    this.spinner.show()
+ 
     this.companyData={
       userType: "EMP",
       companyDetail: {
         name: this.companyForm.CompanyName,
-        //industry: 'Industry',
-        emailid: this.companyForm.emailid,
+        industry: 'Industry',
+        //emailid: this.companyForm.emailid,
         carrierPage: this.companyForm.carrierPage,
         linkedIn: this.companyForm.linkedIn,
-        personalemailid:this.companyForm.personalemailid,
-        contactnumber:this.companyForm.contactNumber
+        //personalemailid:this.companyForm.personalemailid,
+        //contactnumber:this.companyForm.contactNumber
       }
     }
+    await this.companyListingService.requestNewCompany(this.companyData)
+    let response= await this.companyListingService.getAllNewCompany()
+    if(response){
+      this.spinner.hide()
+      this.openModal(ModalType.SUCCESS_MESSAGE);
+    }
     
-    this.openModal(ModalType.SUCCESS_MESSAGE);
+    
+  
   }
   cancel(){
-    this.modal.cancel()
+    window.location.reload()
   }
   openModal(modalType: ModalType, message: string = "", title: string = ""): void {
     this.showModal = modalType;
