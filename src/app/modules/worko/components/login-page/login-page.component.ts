@@ -2,6 +2,7 @@
 import { Component, EventEmitter, Output, ViewChild, AfterViewInit, OnDestroy, Input, ElementRef } from '@angular/core';
 // import { CognitoService } from 'src/app/modules/services/cognito.service';
 
+
 import { Router } from '@angular/router';
 import { AuthService } from '../../services/auth.service';
 import { StorageService } from 'src/app/modules/app-core/services/storage.service';
@@ -25,16 +26,24 @@ import { ChangeDetectorRef } from '@angular/core';
 import { CognitoService } from '../../../services/cognito.service';
 import 'aws-amplify/auth/enable-oauth-listener';
 import { Hub } from 'aws-amplify/utils';
-import { ConfirmResetPasswordInput, ResetPasswordOutput, confirmResetPassword, fetchAuthSession, getCurrentUser, rememberDevice, resetPassword } from '@aws-amplify/auth';
+import { ConfirmResetPasswordInput,fetchDevices,ResetPasswordOutput, confirmResetPassword, fetchAuthSession, getCurrentUser, rememberDevice, resetPassword, FetchDevicesOutput,} from '@aws-amplify/auth';
 import { event } from 'jquery';
 declare var bootstrap: any;
+
+
+
+export interface  HtmlFieldType {
+  EMAIL:string,
+  PASSWORD:string,
+  UNKNOWN:string
+}
+
 
 @Component({
   selector: 'app-login-page',
   templateUrl: './login-page.component.html',
   styleUrls: ['./login-page.component.scss'],
 })
-
 export class LoginPageComponent implements AfterViewInit, OnDestroy {
   @Output() userTypeSelected = new EventEmitter<string>();
   @Output() onSuccess: EventEmitter<void> = new EventEmitter<void>();
@@ -167,9 +176,10 @@ export class LoginPageComponent implements AfterViewInit, OnDestroy {
   deviceKey: any;
   deviceGroupKey: any;
   randomPassword: any;
-  constructor(private cdr: ChangeDetectorRef, private storage: StorageService, private amplify: CognitoService, private router: Router, private authService: AuthService, private spinner: NgxSpinnerService) {
-
-
+  
+  constructor(private cdr: ChangeDetectorRef,private storage: StorageService, private amplify: CognitoService, private router: Router, private authService: AuthService, private spinner: NgxSpinnerService) {
+  
+  
 
 
   }
@@ -272,11 +282,13 @@ export class LoginPageComponent implements AfterViewInit, OnDestroy {
       })
 
     );
-  debugger
-    const currentUser = await getCurrentUser();
-    console.log(currentUser)
-    
+
+
+   
+    //console.log(fieldType2);
+  
   }
+ 
 
 
 
@@ -309,21 +321,7 @@ export class LoginPageComponent implements AfterViewInit, OnDestroy {
     this.confirmationCodeScreen = false;
    
   }
-  getCachedDeviceKeyAndPassword() {
-		const keyPrefix = `CognitoIdentityServiceProvider.${'5evf019rrkaijtnjf2j1vvdf33'}.${
-			this.form.email
-			}`;
-		const deviceKeyKey = `${keyPrefix}.deviceKey`;
-		const randomPasswordKey = `${keyPrefix}.randomPasswordKey`;
-		const deviceGroupKeyKey = `${keyPrefix}.deviceGroupKey`;
-
-		if (this.storage.get(deviceKeyKey)) {
-			this.deviceKey = this.storage.get(deviceKeyKey);
-			this.randomPassword = this.storage.get(randomPasswordKey);
-			this.deviceGroupKey = this.storage.get(deviceGroupKeyKey);
-		}
-    console.log(this.deviceKey,this.randomPassword,this.deviceGroupKey)
-	}
+  
   async handleRememberDevice() {
 
     console.log("inside remeber me"+this.rememberMe)
@@ -332,9 +330,10 @@ export class LoginPageComponent implements AfterViewInit, OnDestroy {
         debugger
       
     const response= await rememberDevice()
-
-    // Optionally, retrieve device details
-    //const deviceDetails = await getDeviceDetails();
+   
+      await fetchAuthSession({forceRefresh:true})
+ 
+   
   
       }
     } catch (error) {
@@ -349,12 +348,19 @@ export class LoginPageComponent implements AfterViewInit, OnDestroy {
     console.log(this.resetForm)
     this.handleConfirmResetPassword({username:this.resetForm.emailId,confirmationCode:this.resetForm.code,newPassword:this.resetForm.password})
   }
+ 
 
   async currentSession() {
+    await this.amplify.removeAccessToken()
     try {
       // const { accessToken, idToken } = (await fetchAuthSession()).tokens ?? {};
-      const authToken = (await fetchAuthSession()).tokens?.idToken?.toString();
+      //const authToken = (await fetchAuthSession()).tokens?.idToken?.toString();
+      const response=await fetchAuthSession({forceRefresh:true})
+      
+      await this.amplify.setAccessToken()
+      const authToken=response.tokens?.idToken?.toString();
       // console.log(accessToken, "Acces");
+      console.log(response)
       console.log(authToken, "authToken");
     } catch (err) {
       console.log(err);
@@ -370,7 +376,8 @@ export class LoginPageComponent implements AfterViewInit, OnDestroy {
 
       if (signInDetails) {
         console.log('The signInDetails:', signInDetails);
-        this.handleRememberDevice();
+        
+
         
       } else {
         console.log('No signInDetails available.');
@@ -384,6 +391,12 @@ export class LoginPageComponent implements AfterViewInit, OnDestroy {
     this.setErrorMessage("");
     // this.currentSession();
     // this.currentAuthenticatedUser();
+    // const autocompleteValue1 = "email";
+    // const fieldType1 = this.FieldTypeFromAutocompleteAttributeValue(autocompleteValue1);
+    // console.log(fieldType1); // Output: "email"
+    
+    // const autocompleteValue2 = "current-password";
+    // const fieldType2 = this.FieldTypeFromAutocompleteAttributeValue(autocompleteValue2);
     this.showSignInRow = false;
     this.displayResetPassword = false;
     this.resetVerificationScreen = false;
@@ -764,8 +777,8 @@ async  handleConfirmResetPassword({
         this.storage.set('userName', userName);
         console.log(userName)
 
-        this.currentSession();
-        this.currentAuthenticatedUser();
+       await this.currentSession();
+       await this.currentAuthenticatedUser();
         this.onSuccess.emit(userType);
         this.spinner.hide();
         // if (userType == "CAND") {
@@ -785,6 +798,27 @@ async  handleConfirmResetPassword({
   setErrorMessage(message: string) {
     this.errorMessage = message;
   }
+
+
+//   async FieldTypeFromAutocompleteAttributeValue(autocompleteAttributeValue: string): Promise<any> {
+   
+//     let fieldType: HtmlFieldType = HtmlFieldType.UNKNOWN;
+//     console.log(this.showSignInRow)
+//     //if(this.showSignInRow){
+//       debugger
+//     if (autocompleteAttributeValue === "email" ) {
+//       return fieldType=HtmlFieldType.EMAIL;
+//     } else if (autocompleteAttributeValue === "current-password") {
+//       return fieldType=HtmlFieldType.PASSWORD;
+//     }
+//   //}
+//     return fieldType;
+
+
+
+
+  
+// }
 
   async signOut(): Promise<void> {
     await this.amplify.handleSignOut();

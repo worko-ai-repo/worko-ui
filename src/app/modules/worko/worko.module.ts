@@ -58,6 +58,7 @@ import { FaqRefereeComponent } from './components/faq-referee/faq-referee.compon
 import { AddCompanyComponent } from './components/add-company/add-company.component';
 
 
+
 // import { MatInputModule } from '@angular/material/input';
 export const routes: Routes = [
   {
@@ -194,6 +195,7 @@ export const routes: Routes = [
 ]
 
 @NgModule({
+  providers: [],
   declarations: [
     ContactComponent,
     WorkoComponent,

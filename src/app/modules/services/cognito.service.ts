@@ -34,6 +34,9 @@ type SignUpParameters = {
 })
 export class CognitoService {
   linkedinAccessToken:any="";
+  key:any='';
+  value:any=""
+  accessToken:any=""
 
   private authenticationSubject: BehaviorSubject<any>;
   
@@ -248,7 +251,19 @@ async login(){
    * @returns {string}
    */
   getAccessToken(): string {
-    return this.storage.get('accessToken') || '';
+    for (let i = 0; i < localStorage.length; i++) {
+      
+      this.key = localStorage.key(i);
+    if (this.key.startsWith('CognitoIdentityServiceProvider.') && this.key.includes('.accessToken')) {
+         this.value = localStorage.getItem(this.key);
+         console.log(this.value.toString())
+         console.log(this.key)
+         console.log(localStorage.getItem(this.key))
+         this.accessToken=localStorage.getItem(this.key) || ''
+         //this.storage.set('accessToken', this.value);
+    }
+  }
+   return this.accessToken; 
   }
 
   /**
@@ -259,15 +274,24 @@ async login(){
   async setAccessToken(): Promise<boolean> {
     // const accessToken = await this.keycloakService.getToken();
     // const accessToken = (await fetchAuthSession()).tokens?.idToken?.toString();
-    const { accessToken, idToken } = (await fetchAuthSession()).tokens ?? {};
-    console.log(idToken)
+    // const { accessToken, idToken } = (await fetchAuthSession()).tokens ?? {};
+    // console.log(idToken)
     //console.log(accessToken)
-    if (!accessToken) {
-      this.storage.remove('accessToken');
-      return false;
+    // if (!accessToken) {
+    //   this.storage.remove('accessToken');
+    //   return false;
+    // }
+    for (let i = 0; i < localStorage.length; i++) {
+      
+      this.key = localStorage.key(i);
+    if (this.key.startsWith('CognitoIdentityServiceProvider.') && this.key.includes('.accessToken')) {
+         this.value = localStorage.getItem(this.key);
+         console.log(this.value.toString())
+         this.storage.set('accessToken', this.value);
     }
+  }
 
-    this.storage.set('accessToken', accessToken.toString());
+  //this.storage.set('accessToken', accessToken.toString());
     //console.log()
     return true;
   }

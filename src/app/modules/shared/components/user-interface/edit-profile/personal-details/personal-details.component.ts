@@ -324,9 +324,20 @@ else{
       // Create a new achievement object
 
       if (this.candidateProfessionalDetails.achievements.length < 10) {
+
+        const [monthStr, yearStr] = this.achievementmonth.split('-');
+
+        // Parse the month and year parts into numbers
+          const month = parseInt(monthStr);
+          const year = parseInt(yearStr);
+  
+        // Create a Date object with the parsed month and year
+        const achievementDate = new Date(year, month);
+  
+
       const newAchievement = {
         title: this.title,
-        achievDate: this.achievementmonth,
+        achievDate: achievementDate,
         acquiredFrom: this.instituteName
       };
       // Push the new achievement object to the achievements array
@@ -440,9 +451,20 @@ else{
       // Check if the number of certificates is less than 10
       if (this.candidateProfessionalDetails.certificationNames.length < 10) {
         // Create a new achievement object
+        const [monthStr, yearStr] = this.certificateYear.split('-');
+
+      // Parse the month and year parts into numbers
+        const month = parseInt(monthStr);
+        const year = parseInt(yearStr);
+
+      // Create a Date object with the parsed month and year
+      const completionDate = new Date(year, month );
+
+
+
         const newCertificate = {
           certName: this.newCertName,
-          completionDate: new Date(this.certificateYear).toISOString(),
+          completionDate: completionDate.toISOString(),
           issuedInstitution: this.certificateCompany
         };
         // Push the new achievement object to the achievements array
