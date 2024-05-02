@@ -13,7 +13,8 @@ hr{
 }
 .about-section{
     position: relative;
-    background-color: #000000;
+    // background-color: #000000;
+    background: linear-gradient(to bottom right, #000 30%, #1E2C3F 80%);
 }
 
 .head1{
@@ -372,12 +373,14 @@ hr{
 
 .cv{
     width: 17.5%;
-
+    cursor: pointer;
     img{
-        left: 75%;
-        top: 17%;
+        // left: 75%;
+        // top: 17%;
         width: 15%;
         max-width: 35px;
+        margin-left: 5%;
+        padding-right: 2%;
     }
 }
 
@@ -674,7 +677,7 @@ textarea{
         
  
         img{
-            width: 9%;
+            width: 10%;
             left: 60%;
         }
     }
@@ -1177,7 +1180,7 @@ textarea{
         img{
             left: 60%;
             top: 25%;
-            width: 6%;
+            width: 8%;
         }
     }
 

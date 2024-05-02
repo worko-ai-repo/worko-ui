@@ -10,7 +10,8 @@
 
 .corporate-section{
     position: relative;
-    background-color: #000000;
+    // background-color: #000000;
+    background: linear-gradient(to bottom right, #000 30%, #1E2C3F 70%);
 }
 
 .top-header-bg{
@@ -110,7 +111,7 @@
 }
 
 .gradient-img{
-    opacity:60%;
+    opacity:70%;
 }
 
 .gradient-right1 {
@@ -130,8 +131,8 @@
 }
 
 .gradient-right4 {
-    display: none;
-    right: -8.5%;
+    // display: none;
+    right: -20%;
     top: 400px;
 }
 
@@ -451,9 +452,26 @@
                 padding: 20px;
                 margin-bottom: 13px;
             }
+            .email-container{
+                width: 88%;
+                position: relative;
+                .form-button{
+                    position: absolute;
+                    right: 0;
+                    width: 22%;
+                    height: 60px;
+                    padding: inherit;
+                }
+            }
+            .email-input{
+                width: 100%;
+            }
             .verify{
+                width: 88%;
                 align-items: baseline;
                 // height: 51px;
+                display: flex;
+                justify-content: space-between;
                 .input{
                     width: 37%;
                     height: 50px;
@@ -489,9 +507,9 @@
 
 @media (max-width: 1025px) and (min-width: 480px){
 
-    .gradient{
-        display: none;
-    }
+    // .gradient{
+    //     display: none;
+    // }
     .para{
         font-size: calc(5px + 1vw);
         line-height: 160%;
@@ -798,6 +816,11 @@
                     padding: 15px;
                     margin-bottom: 7px;
                 }
+                .email-container{
+                    .form-button{
+                        height: 22px;
+                    }
+                }
                 .verify{
                     .input{
                         height: 30px;
@@ -954,7 +977,7 @@
     }
 
     .gradient-img{
-        display: none;
+        // display: none;
         opacity: 35%;
         // display: none;
         img{
@@ -1231,6 +1254,11 @@
                     font-size: 10px;
                     padding: 13px;
                     margin-bottom: 6px;
+                }
+                .email-container{
+                    .form-button{
+                        height: 28px;
+                    }
                 }
                 .verify{
                     .input{
