@@ -90,7 +90,7 @@
 
         <!-- purpose section -->
         
-        <div class="purpose-section">
+        <div class="purpose-section position-relative">
             <!-- <div class="grad grad-left2"><img src="assets/index-images-KA/gradient-left2.png" alt=""></div>
             <div class="purpose-header">
                 <div class="purpose-title title">Our Purpose</div>
@@ -191,7 +191,7 @@
                     </div>
                 </div> -->
             <!-- </div> -->
-
+            
             <div class="purpose-header">
                 <div class="purpose-title title text-center">Our Purpose</div>
                 <div class="purpose-content para text-center" >
@@ -200,6 +200,7 @@
                     a thriving community for career growth
                 </div>
             </div>
+
             <div class="purpose-cards" *ngFor="let purpose of purposeList; let i =index;">
                 <div class="purpose-card">
                     <div class="purpose-image">
@@ -209,10 +210,12 @@
                     <div class="purpose-text" [ngClass]="{'last-card-content': i === 5}">{{ purpose?.text }}</div>
                 </div>
             </div>
+
             
         </div>
 
-        <div class="benefits-section">
+        <div class="benefits-section position-relative">
+            <div class="grad grad-left2"><img src="assets/index-images-KA/gradient-left2.png" alt=""></div>
             <div class="benefits-title title text-center">Benefits for You</div>
             <div class="benefits-content para para2 text-center" style="width: 65%; margin: auto; line-height: 140%;">
                 Worko is committed to addressing common challenges faced by candidates, 
@@ -278,11 +281,13 @@
                         <div [ngClass]="{'right-border': i === 0 || i === 1 || i === 3}"></div>
                     </div>
                 </div>
+
            </div>
            <div class="section-border"></div>
+           <div class="grad grad-right2"><img src="assets/index-images-KA/gradient-right2.png" alt=""></div>
         </div>
 
-        <div class="candidate-section">
+        <div class="candidate-section position-relative">
             <!-- <div class="left-col">
                 <div class="ref ref1">
                     Get reviewed and referred by the
@@ -349,6 +354,7 @@
                     <div [ngClass]="{'right-border': i === 0 || i === 1 || i === 3}"></div>
                 </div>
             </div>
+            <div class="grad grad-right3"><img src="assets/index-images-KA/gradient-right3.png" alt=""></div>
        </div>
     
 
@@ -395,7 +401,7 @@
         </div> -->
 
 
-        <div class="stats-section d-flex">
+        <div class="stats-section d-flex position-relative">
             <div class="stat">
                 <div class="stat-title title">10K+</div>
                 <div class="stat-content para">Companies</div>
@@ -411,6 +417,7 @@
                 <div class="stat-title title">104k+</div>
                 <div class="stat-content para">Users Assisted</div>
             </div>
+            <div class="grad grad-right4"><img src="assets/index-images-KA/gradient-right4.png" alt=""></div>
         </div>
 
 
@@ -537,6 +544,7 @@
                         adipiscing elit. </li>
                 </ul>
             </div>
+
         </div>
         
         <!-- <div class="reviews-section">
@@ -611,7 +619,7 @@
 
 <!-- Review Section for the carousel -->
 
-    <div class="reviews-section">
+    <div class="reviews-section  position-relative">
         <div class="reviews-heading d-flex">
             <div class="reviews-content">
                 <div class="sub-title">What Our Customer Says?</div>
@@ -676,6 +684,7 @@
             <div class="arrow-button left" (click)="previousReview()" [class.disabled]="prevButtonDisabled"><img src="/assets/index-images-KA/left-logo.png" alt="left"></div>
             <div class="arrow-button right" (click)="nextReview()" [class.disabled]="nextButtonDisabled"><img src="/assets/index-images-KA/right-logo.png" alt="right"></div>
         </div>
+        <div class="grad grad-right4"><img src="assets/index-images-KA/gradient-right4.png" alt=""></div>
     </div>
 
     

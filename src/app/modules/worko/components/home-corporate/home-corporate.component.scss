@@ -10,7 +10,8 @@
 
 .corporate-section{
     position: relative;
-    background-color: #000000;
+    // background-color: #000000;
+    background: linear-gradient(to bottom right, #000 30%, #1E2C3F 70%);
 }
 
 .top-header-bg{
@@ -110,7 +111,7 @@
 }
 
 .gradient-img{
-    opacity:60%;
+    opacity:70%;
 }
 
 .gradient-right1 {
@@ -130,8 +131,8 @@
 }
 
 .gradient-right4 {
-    display: none;
-    right: -8.5%;
+    // display: none;
+    right: -20%;
     top: 400px;
 }
 
@@ -489,9 +490,9 @@
 
 @media (max-width: 1025px) and (min-width: 480px){
 
-    .gradient{
-        display: none;
-    }
+    // .gradient{
+    //     display: none;
+    // }
     .para{
         font-size: calc(5px + 1vw);
         line-height: 160%;
@@ -954,7 +955,7 @@
     }
 
     .gradient-img{
-        display: none;
+        // display: none;
         opacity: 35%;
         // display: none;
         img{
