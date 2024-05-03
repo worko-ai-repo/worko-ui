@@ -1959,8 +1959,14 @@ footer {
       /**************CSS FOR TERMS OF SERVICE PAGE END ******************/
 
 // Index page css: KA
+.index-section{
+    background-color: #000;
+    background: linear-gradient(to bottom right, #000 30%, #1E2C3F 80%);
+}
+
 .index-section .para {
     font-size: calc(1.3vw + 8px);
+    font-size: calc(1vw + 8px);
     font-weight: 400;
     line-height: 160%;
     letter-spacing: 0em;
@@ -2011,6 +2017,7 @@ footer {
 
 .index-section .title {
     font-size: 3.2vw;
+    font-size: calc(2vw + 21px);
     font-weight: 700;
     line-height: 140%;
     letter-spacing: 0em;
@@ -2075,8 +2082,9 @@ footer {
 }
 
 .index-section .side-timeline img {
-    width: calc(225px + 5vw);
+    // width: calc(225px + 5vw);
     width: calc(198px + 6.5vw);
+    // max-width: 310px;
 }
 
 .index-section .side-timeline-md {
@@ -2087,9 +2095,10 @@ footer {
     display: none;
 }
 
-.index-section{
-    background-color: #000;
-}
+// .index-section{
+//     background-color: #000;
+//     background: linear-gradient(to bottom right, #000 30%, #1E2C3F 70%);
+// }
 
 .index-section .rows {
     padding-left: 16%;

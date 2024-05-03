@@ -197,9 +197,9 @@
                         <div class="img benefits-icon">
                             <img src="assets/corporate-images/time-icon.png" alt="">
                         </div>
-                        <div class="gradient gradient-right4 position-absolute">
+                        <!-- <div class="gradient gradient-right4 position-absolute">
                             <img class="gradient-img" src="assets/about-images-KA/gradient-right4.png" alt="Gradient Right 4">
-                        </div>
+                        </div> -->
                         <div class="content ">
                             <div class="head2 section-head">
                                 Significant Time Savings:
@@ -229,7 +229,10 @@
                 <!-- <div class="gradient gradient-right2 position-absolute">
                     <img class="gradient-img" src="assets/about-images-KA/gradient-right2.png" alt="Gradient Right 2">
                 </div> -->
-                <div class="img benefits-img">
+                <div class="img benefits-img position-relative">
+                    <div class="gradient gradient-right4 position-absolute">
+                        <img class="gradient-img" src="assets/about-images-KA/gradient-right4.png" alt="Gradient Right 4">
+                    </div>
                     <img src="assets/corporate-images/benefits-corporate-img.png" alt="">
                 </div>
             </div>
@@ -348,11 +351,13 @@
                         #companyName="ngModel" [(ngModel)]="corporateForm.companyName"  required minlength="3"
                         [ngClass]="{ 'is-invalid': companyName.invalid && (companyName.dirty || companyName.touched) }">
                         
-                        <input class="input" type="text" placeholder="Email*"name="email"
-                        id="email" [(ngModel)]="corporateForm.email" required
-                        pattern="^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,4}$"
-                       [ngClass]="{ 'is-invalid': email.invalid && (email.dirty || email.touched) }" #email="ngModel" >
-
+                        <div class="email-container">
+                            <input class="input email-input" type="text" placeholder="Email*"name="email"
+                            id="email" [(ngModel)]="corporateForm.email" required
+                            pattern="^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,4}$"
+                           [ngClass]="{ 'is-invalid': email.invalid && (email.dirty || email.touched) }" #email="ngModel" >    
+                           <button  class="form-button">Verify</button>
+                        </div>
                        <!-- <div class="verify d-flex" *ngIf="isVerified">
                         <input class="input form-control form-input" placeholder="__ _ _ __ _"  type="text"
                          [class.is-invalid]="
@@ -375,7 +380,8 @@
                     </div> -->
                     <div class="verify d-flex" *ngIf="isVerified">
                     <input class="input form-control form-input" placeholder="__ _ _ __ _"  type="text"/>
-                    <button  class="form-button"(click)="verifyOTP()" >Verify</button>
+                    <button  class="form-button"(click)="verifyOTP()">Submit</button>
+                    <a href="" class="resend">Resend</a>
                 </div>
                         
                        <textarea class="input input-area" type="text" placeholder="Type here*" name="description" id="description"placeholder="What you will bring on the table*" #desc="ngModel" 

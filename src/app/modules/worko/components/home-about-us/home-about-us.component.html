@@ -497,7 +497,7 @@
                             <span  *ngIf="!fileErr && !fileName" class="button-style" style="background-color: white;color: gray; padding-left:5px" > Upload your CV*</span>
                            
                       
-                        <img class="position-absolute button-style" src="/assets/about-images-KA/cv-icon.png" alt="cv-icon">
+                        <img class="button-style" src="/assets/about-images-KA/cv-icon.png" alt="cv-icon">
                         <input type="file" id="cvInput" class="input cv-button" style="display: none;" (change)="handleFileInput($event)" >
                             <div class="error text-danger py-2" style="font-size: 14px;" *ngIf="fileErr">
                             {{ fileErr }}

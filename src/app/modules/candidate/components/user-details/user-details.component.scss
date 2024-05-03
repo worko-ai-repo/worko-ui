@@ -84,13 +84,15 @@
 @media  (max-width: 1150px){
     .user-detai-main{
         display: flex;
-        justify-content: center;
+        // justify-content: center;
+        padding-left: 1%;
+        padding-top: 0.5rem;
     }
     .details-area{
         width: 50%;
     } 
     .text-white{
-        text-align: center;
+        // text-align: center;
     }
 
 }
