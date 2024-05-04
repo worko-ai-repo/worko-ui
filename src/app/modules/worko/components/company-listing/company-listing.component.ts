@@ -5,10 +5,13 @@ import { ModalComponent } from 'src/app/modules/shared/components/modal/modal.co
 import { CognitoService } from 'src/app/modules/services/cognito.service';
 import { ReferralRequestComponent } from '../referral-request/referral-request.component';
 import { RequestGuidenceComponent } from '../request-guidence/request-guidence.component';
-import { debounceTime, distinctUntilChanged, map } from 'rxjs/operators';
-import { Subject } from 'rxjs';
+import { debounceTime, distinctUntilChanged, map, switchMap } from 'rxjs/operators';
+import { Observable, Subject } from 'rxjs';
 import { NgxSpinnerService } from 'ngx-spinner'; 
 import { HttpClient } from '@angular/common/http';
+import { FormControl } from '@angular/forms';
+import { AuthService } from '../../services/auth.service';
+import { MatAutocompleteTrigger } from '@angular/material/autocomplete';
 @Component({
   selector: 'app-company-listing',
   templateUrl: './company-listing.component.html',
@@ -19,6 +22,7 @@ export class CompanyListingComponent implements OnInit {
   @ViewChild(ModalComponent) modal!: ModalComponent;
   @ViewChild(ReferralRequestComponent) referrralComponent!: ReferralRequestComponent;
   @ViewChild(RequestGuidenceComponent) referrralguidanceComponent!: RequestGuidenceComponent;
+  @ViewChild('autoCompleteInput', { static: false, read: MatAutocompleteTrigger }) trigger!: MatAutocompleteTrigger;
   successmessage:string="";
   successtitle:string="";
   modalType = ModalType;
@@ -41,6 +45,10 @@ export class CompanyListingComponent implements OnInit {
   triggerGuidance: boolean = false;
   showReferrelRow: boolean = false;
   appliedFilter: boolean = false;
+  companyName: string = "";
+  companySK: string = "";
+  myControl = new FormControl<any>('');
+  filteredOptions!: Observable<any[]>;
   filterData: any = {
     teamSize: "",
     industryType: "",
@@ -196,7 +204,7 @@ export class CompanyListingComponent implements OnInit {
   searchQuery: string = '';
   private searchTerms = new Subject<string>();
 
-  constructor(private spinner: NgxSpinnerService,private http: HttpClient, private renderer: Renderer2, private el: ElementRef,private companyListing: CompanyListingService, private cognitoService: CognitoService) {
+  constructor(private spinner: NgxSpinnerService,private authService: AuthService,private http: HttpClient, private renderer: Renderer2, private el: ElementRef,private companyListing: CompanyListingService, private cognitoService: CognitoService) {
     this.searchTerms
       .pipe(
         debounceTime(300), // Adjust the debounce time as needed (300 milliseconds in this example)
@@ -219,16 +227,45 @@ export class CompanyListingComponent implements OnInit {
 
 console.log(this.assetLogos)
 
+
+this.filteredOptions = this.myControl.valueChanges.pipe(
+  debounceTime(300),
+  distinctUntilChanged(),
+  switchMap((value: any) => {
+    if (value && value.length >= 1) {
+      return this.authService.getCompanyName(value);
+    } else {
+      // If value.length is less than 1, return an empty array or null
+      return [];
+    }
+  })
+
+);
+
   }
-//   generateLogoFilenames(start: number, end: number): string[] {
-//     const logos: string[] = [];
-//     for (let i = start; i <= end; i++) {
-//         logos.push(`${i}.jpg`);
-//     }
-// // console.log(logos)
-//     logos.push('1.jpg','10.jpg','15.jpg','25.jpg','30.jpg','47.jpg')
-//     return logos ;
-// }
+
+
+  onOptionSelected(event: any): void {
+    this.selectedCompany = event.option.value;
+  }
+
+  displayFn(option: any): string {
+    if (typeof option === 'string') {
+
+      //   this.companyName = option;
+      // this.companySK ="";
+      return option;
+    } else if (typeof option === 'object' && option.name) {
+
+      this.companyName = option.name;
+      this.companySK = option.SK;
+      return option.name;
+    } else {
+
+      return '';
+    }
+  }
+
 generateLogoFilenames(start: number, end: number, excludedNumbers:any[]) {
   const logos = [];
   for (let i = start; i <= end; i++) {
@@ -239,36 +276,6 @@ generateLogoFilenames(start: number, end: number, excludedNumbers:any[]) {
   logos.push('1.jpg','10.jpg','15.jpg','25.jpg','30.jpg','47.jpg')
   return logos;
 }
-
-// imageLoaded() {
-//   console.log('Image loaded');
-//   // Perform any actions you want when an image loads
-// }
-// assetimage:boolean=false
-// checkImage(logo:any):any{
-//   const imageUrl = 'assets/company-logo/' + logo;
-//   this.checkImageExists(imageUrl).subscribe(exists => {
-//     if (exists) {
-//       console.log('Image exists');
-//       return true
-//        // Add the logo filename to assetLogos array
-//     } else {
-//       console.log('Image does not exist');
-//       return false
-//     }
-//   });
-  
-// }
-// checkImageExists(imageUrl: string) {
-//   return this.http.head(imageUrl, { observe: 'response' }).pipe(
-//     map((response: { status: number; }) => {
-//       // If the response status is in the 200 range, the image exists
-//       return response.status >= 200 && response.status < 300;
-//     }),
-   
-//   );
-// }
-
 
  
   onSearchInputChange(): void {

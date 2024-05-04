@@ -346,7 +346,7 @@ export class LoginPageComponent implements AfterViewInit, OnDestroy {
  
 
   async currentSession() {
-    await this.amplify.removeAccessToken()
+   await this.amplify.removeAccessToken()
     try {
       // const { accessToken, idToken } = (await fetchAuthSession()).tokens ?? {};
       //const authToken = (await fetchAuthSession()).tokens?.idToken?.toString();
@@ -773,7 +773,7 @@ async  handleConfirmResetPassword({
       this.setErrorMessage(login.error.message);
     }
     if (login!.response!.isSignedIn) {
-      this.authService.getProfile(this.form.email).then(async (response) => {
+      await this.authService.getProfile(this.form.email).then(async (response) => {
 
         let userType = response.data.lastAccessedDash;
         let userName=response.data.name

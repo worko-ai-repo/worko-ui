@@ -332,3 +332,31 @@ img {
 input.ng-invalid.ng-touched {
     border: 1px solid red;
   }
+
+
+  .cdk-overlay-pane:not(.mat-mdc-autocomplete-panel-above) .mat-mdc-autocomplete-panel {
+    /* border-top-left-radius: 0; */
+    /* border-top-right-radius: 0; */
+    background-color: #0076B2 !important;
+    //z-index: 999 !important;
+
+  }
+
+  ::ng-deep .mat-mdc-autocomplete-panel.mat-mdc-autocomplete-visible {
+    // visibility: visible;
+    background-color: #0A1E36 !important;
+
+  }
+  .mat-mdc-autocomplete-panel, .mat-mdc-option.mdc-list-item {
+    align-items: center;
+    // background-color: #0A1E36 !important;
+    color: white !important;
+
+   
+  }
+  ::ng-deep .cdk-overlay-container {
+    position: fixed;
+    z-index: 1099;
+  }
+  
+  ::ng-deep .cdk-overlay-container, ::ng-deep .cdk-overlay-pane { z-index: 9999 !important; }
