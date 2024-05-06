@@ -1,0 +1,62 @@
+<div class="admin-contents"> 
+    <div class="sidebar-container">
+        <div class="main-div">
+            <!-- <input type="checkbox" name="" id="" (change)="toggleMenu($event)" [checked]="isMenuOpen" class="position-absolute"> -->
+            <input type="checkbox" name="" id="">
+            <div class="hamburger-lines position-absolute">
+            <span class="line line1"></span>
+            <span class="line line2"></span>
+            <span class="line line3"></span>
+            </div>
+            <!-- <ul class="menu-items"
+            [class.toggled]="!isSidebarExpanded"> -->
+            <ul class="menu-items sidebar">
+                <li routerLink="/" class="sidebar-brand">
+                    <div class="sidebar-brand-icon px-3 mb-5">
+                        <img class="candidate-worko-logo" src="/assets/public/workologoai-2@2x.png" alt="">
+                    </div>
+                </li>
+                
+                <li class="side-link">
+                    <a href="/admin/dashboard">Dashboard</a>
+                </li>
+
+                <li class="side-link">
+                    <a href="/admin/candidate">Candidate</a>
+                </li>
+                <li class="side-link">
+                    <a href="/employee">Employee</a>
+                </li>
+                <li class="side-link">
+                    <a href="/referral">Referral</a>
+                </li>
+                <li class="side-link">
+                    <a href="/service">Service</a>
+                </li>
+                <li class="side-link">
+                    <a href="/issues">Issues</a>
+                </li>
+                <li class="side-link">
+                    <a href="/refer-and-earn">Refer & Earn</a>
+                </li>
+                <li class="side-link">
+                    <a href="/payment">Payment</a>
+                </li>
+                <li class="side-link">
+                    <a href="/reports">Reports</a>
+                </li>
+                <li class="side-link">
+                    <a href="/setting">Setting</a>
+                </li>
+    
+            </ul>
+
+        </div>
+
+    </div>
+
+    <div class="admin-router">
+        <h4>Admin Dashboard</h4>
+        <router-outlet></router-outlet>
+    </div>
+</div>
