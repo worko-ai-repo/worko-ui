@@ -85,8 +85,17 @@ export class CompanyListingService {
   */
 
   requestNewCompany(data: any): Promise<any> {
-  return this.http.post(API_URL + `company/new`, data, this.authService.getHttpOptions()).toPromise();
+  return this.http.post(API_URL + `company/add`, data, this.authService.getHttpOptions()).toPromise();
 }
+
+ /**Get New Company List
+   *
+* @returns {Promise<any>}
+  */
+ getAllNewCompany(): Promise<any> {
+  return this.http.get(API_URL + `company/new`,  this.authService.getHttpOptions()).toPromise();
+}
+
 
 
 }

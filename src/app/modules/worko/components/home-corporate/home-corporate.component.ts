@@ -64,7 +64,9 @@ export class HomeCorporateComponent {
   verifyOTP(){
     this.isVerified=!this.isVerified
   }
- 
+  openOtpModal(){
+
+  }
 
   modelOpen(){
   debugger

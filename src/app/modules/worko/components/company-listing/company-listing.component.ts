@@ -458,25 +458,31 @@ generateLogoFilenames(start: number, end: number, excludedNumbers:any[]) {
   }
   
   
-  requestCampanyData(form:any){
+  async requestCampanyData(form:any){
+    try{
     this.companyData={
       userType: "EMP",
       companyDetail: {
         name: this.companyForm.CompanyName,
-        //industry: 'Industry',
+        industry: 'Industry',
       
         carrierPage: this.companyForm.carrierPage,
         linkedIn: this.companyForm.linkedIn,
-        personalemailid:this.companyForm.personalemailid,
-        contactnumber:this.companyForm.contactNumber
+        //personalemailid:this.companyForm.personalemailid,
+        //contactnumber:this.companyForm.contactNumber
       }
     }
-  
-  console.log(this.companyData)
-  this.openModal(this.modalType.SUCCESS_MESSAGE)
-    
-    }
-
+    console.log(this.companyData)
+    await this.companyListing.requestNewCompany(this.companyData)
+    this.spinner.hide()
+    this.openModal(this.modalType.SUCCESS_MESSAGE)
+  }catch(error){
+    this.spinner.hide()
+    this.successmessage="Something went wrong. Please try again after sometime"
+    this.successtitle="Error"
+    this.openModal(ModalType.SUCCESS_MESSAGE)
+  }
+}
   /**
     * Open modal.
     *
