@@ -44,11 +44,11 @@
                                 pattern="^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,4}$"
                                 [title]="email.errors?.['required'] ? 'Email is required' : ''"
                                 [title]="email.errors?.['pattern'] ? 'Email is invalid' : ''" 
-                               
+                               disabled
                                 [ngClass]="{ 'is-invalid': email.invalid && (email.dirty || email.touched) }"
                                 [(ngModel)]="candidatePersonalDetails.email" name="email" id="email">
                                 <!-- <h2 *ngIf="!candidatePersonalDetails.isEmailVerified && !email.invalid" (click)="openOtpModal()" class="badge  verify-text-label -pointer">Verify</h2> -->
-                                <h2 *ngIf="candidatePersonalDetails.isEmailVerified && !email.invalid" class="badge  verify-text-label text-green">
+                                <h2 class="badge  verify-text-label text-green">
                                     <svg width="20" height="20" viewBox="0 0 27 27" fill="none" xmlns="http://www.w3.org/2000/svg">
                                         <rect width="27" height="27" rx="13.5" fill="#4ECB71"/>
                                         <path d="M18.6056 6.75L21.375 9.62727L11.1638 20.25L5.625 14.4886L8.39438 11.6114L11.1638 14.4886L18.6056 6.75ZM18.6056 8.65909L11.1638 16.4045L8.39438 13.5614L7.46906 14.4886L11.1638 18.3205L19.5309 9.62727L18.6056 8.65909Z" fill="black"/>
@@ -247,7 +247,7 @@
         <div class="d-flex justify-content-center"><span>{{successmessage}}</span> </div>
       
         <div class=" mt-3 d-flex justify-content-center" > 
-          <button class="btn btn-next"  (click)="cancel()" *ngIf="successtitle === 'Error'"> cancel</button>
+          <button class="btn btn-next"  (click)="cancel()" *ngIf="successtitle === 'Error'"> close</button>
           
       </div>
   </div>

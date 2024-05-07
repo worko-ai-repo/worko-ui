@@ -32,6 +32,7 @@ export class EmployeeProfessionalDetailsComponent implements OnInit {
   //myJobControl1 = new FormControl<any>('');
   //Form3:FormGroup =new FormGroup<any>('');
   // Form1:FormGroup | undefined;
+  verified:boolean=false;
   @Input() workExperienceDetailsList: any
   @Input() workExperienceDetails: any
   @Input() employeeProfessionalData: any = {
@@ -77,7 +78,7 @@ previousCompanies: any;
   id: any;
   successmessage: string="";
   successtitle: string="";
-  constructor( private router: Router, private spinner: NgxSpinnerService,private storage: StorageService,private authService: AuthService,private fb:FormBuilder,private candidateProfileService :CandidateProfileService, private stateService: StateService) {
+  constructor( private router: Router,private cdr: ChangeDetectorRef, private spinner: NgxSpinnerService,private storage: StorageService,private authService: AuthService,private fb:FormBuilder,private candidateProfileService :CandidateProfileService, private stateService: StateService) {
     this.formGroup = this.fb.group({
       fields: this.fb.array([])
     });
@@ -473,6 +474,9 @@ fieldsGroup:any;
 
   receiveDataFromChild(data: any) {
     this.modal.cancel();
-    window.location.reload()
+    //window.location.reload()
+    this.workExperienceDetails.isEmailVerified = true;
+  // Manually trigger change detection
+  this.cdr.detectChanges();
   }
 }
