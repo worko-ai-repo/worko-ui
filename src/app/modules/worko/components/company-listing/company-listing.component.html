@@ -54,10 +54,9 @@
           </option> -->
           <select class=" selector form-select" name="industryType" id="industryType"
           [(ngModel)]="filterData.industryType" (ngModelChange)="onIndustryTypeChange($event)">
-          <option value="">Select industryType</option>
+          <option value="">Select Industry Type</option>
           <option *ngFor="let item of industryTypeOptions" [value]="item.value">{{ item.name }}</option>
         </select>
-
 
         </div>
         <div class="me-3 ml-sm-2 p-1 d-flex filter">
@@ -67,7 +66,7 @@
             <option *ngFor="let item of teamSizeOptions" [value]="item.value">{{ item.name }}</option>
           </select>
         </div>
-     
+      
       </div>
     </div>
     <div *ngIf="companyList.length === 0" class="row mt-4">

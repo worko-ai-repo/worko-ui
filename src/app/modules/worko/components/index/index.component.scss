@@ -165,6 +165,81 @@
     }
 }
 
+// ----------------companies section animation-------------------
+
+@keyframes slide{
+    from {
+        transform: translateX(0)
+    }
+    to{
+        transform: translateX(-100%)
+    }
+}
+
+.companies-section{
+    flex-wrap: nowrap;
+    position: relative;
+}
+
+.slide-container{
+    display: flex;
+    width: 252%;
+    margin-top: 9rem;
+}
+
+// .slide-container::before {
+//     position: absolute;
+//     top: 0;
+//     left: 170%;
+//     width: 200px;
+//     height: 100%;
+//     background: linear-gradient(to left, rba(255, 255, 255, 0), #fff);
+// }
+.company-slides{
+    // display: inline-block !important;
+    // width: 100% !important;
+    margin-left: 0 !important;
+    animation: 30s slide infinite linear;
+    
+}
+
+.slide-container:hover .company-slides{
+    animation-play-state: paused;
+}
+
+// -------------End of css for company slides animation-------------
+
+.stats-section {
+    // justify-content: space-between;
+    padding-top: 10 mnrem;
+    padding-left: 22%;
+    width: 100%;
+    .line-right{
+        height: 100px;
+    }
+    // .line-right{
+    //     border-right: 1px solid #fff;
+    //     height: 75px;
+    //     opacity: 50%;
+    // }
+    .line-right1{
+        padding-left: 19%;
+        position: absolute;
+        padding-top: 3rem;
+        margin-top: 1rem;
+    }
+    .line-right2{
+        margin-top: -0.5rem;
+        margin-right: 1.5rem;
+    }
+}
+
+.stat {
+    // width: 30%;
+    // display: flex;
+    align-items: start;
+    flex-direction: column;
+}
 
 // ---------------Responsive for ipads---------------
 
@@ -809,6 +884,9 @@
         }
     }
 
+    // .company:focus .company-slides{
+    //     animation-play-state: paused;
+    // }
 
     .info-section{
         padding-top: 3rem;
@@ -1823,8 +1901,7 @@
         left: 7.5%;
         margin-top: 5px;
         img{
-            width: calc(225px + 5vw);
-            width: calc(172px + 8vw);
+            width: calc(168px + 8vw);
         }
     }
 
