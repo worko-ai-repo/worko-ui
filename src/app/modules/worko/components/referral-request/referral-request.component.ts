@@ -79,33 +79,22 @@ export class ReferralRequestComponent implements OnInit, OnChanges {
   checkRequestReferral(): void {
     if (this.requestForm.valid) {
       this.companyListing.getReferralCount(this.emailId).then(async (response) => {
-        if (!response.isSubscribed) {
+    
           let count = response.referralCount;
-          if (count==1) {
-            this.createRequest();
-            this.requestForm.reset();
-           
-         
-        }else{
-          this.showsubscriptionPlan = true;
-            this.showReferrelRow = false;
-            this.showScore=false;
-        }
-      }
-        else if (response.isSubscribed) {
-          let count = response.referralCount;
-          if (count>0) {
-            this.createRequest();
-            this.requestForm.reset();
-           } 
-           else {
+          console.log(response)
+          if (count==0) {
             this.showsubscriptionPlan = true;
             this.showReferrelRow = false;
             this.showScore=false;
+           } 
+           else {
+            
+            this.createRequest();
+            this.requestForm.reset();
          
           }
         }
-      }).catch(error => {
+      ).catch(error => {
         console.error('Error:', error);
       });
     }
