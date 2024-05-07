@@ -9,7 +9,7 @@ import { StorageService } from 'src/app/modules/app-core/services/storage.servic
 })
 export class UserAboutComponent implements OnInit {
  @Input() certificationList:any;
- @Input() userDescription:any;
+ @Input() userDescription:any="";
 
 
 
@@ -18,6 +18,7 @@ export class UserAboutComponent implements OnInit {
   ngOnInit(): void {
       // this.emailAddress= this.storage.get("useremail")
       // this.userCertifications();
+      console.log(this.userDescription)
   }
 
   // async userCertifications(){

@@ -793,7 +793,7 @@
   [bodyClass]="modalMessage ? 'p-4' : 'p-0'">
 
   <ng-container *ngIf="showModal === modalType.LOGIN_SIGNUP">
-    <app-login-page (onSuccess)="receiveDataFromChild($event)" ></app-login-page>
+    <app-login-page (onSuccess)="receiveDataFromChild($event)" [userType]="'employee'"></app-login-page>
   </ng-container>
 
 </app-modal>

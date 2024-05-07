@@ -209,11 +209,22 @@
         Please provide the details of the company for which you are seeking a referral.
       </div>
       <form class="row" (ngSubmit)="company.form.valid && requestCampanyData(form)" #company="ngForm" novalidate>
-          <input class="col-8 col-md-4 mb-2 p-1 px-1" type="text" placeholder="Company Name" id="CompanyName" 
+          <!-- <input class="col-8 col-md-4 mb-2 p-1 px-1" type="text" placeholder="Company Name" id="CompanyName" 
           name="CompanyName"  [(ngModel)]="companyForm.CompanyName" 
           #CompanyName="ngModel" pattern="^([ \u00c0-\u01ffa-zA-Z'.])+$"
-          [ngClass]="{ 'is-invalid': CompanyName.invalid && (CompanyName.dirty || CompanyName.touched) }">
-
+          [ngClass]="{ 'is-invalid': CompanyName.invalid && (CompanyName.dirty || CompanyName.touched) }"> -->
+          <!-- <label for="" class="form-label required-form-field">Current Company Name</label> -->
+          
+           <input    matInput #autoCompleteInput="matAutocompleteTrigger"   class="col-8 col-md-4 mb-2 p-1 px-1 custom-mat-option"
+            [formControl]="myControl" [matAutocomplete]="auto" placeholder="Company Name" required
+          [(ngModel)]="companyForm.CompanyName"  />
+              <mat-autocomplete #auto="matAutocomplete" [displayWith]="displayFn" 
+                (optionSelected)="onOptionSelected($event)">
+                <mat-option *ngFor="let option of filteredOptions | async" [value]="option" >
+                 {{ option.name }}
+                </mat-option>
+                </mat-autocomplete>
+             
         
           <input class="col-8 col-md-4 mb-2 p-1 px-1" type="text" placeholder="LinkedIn Page" id="linkedIn" 
           name="linkedIn" [(ngModel)]="companyForm.linkedIn"

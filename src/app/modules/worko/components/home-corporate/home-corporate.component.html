@@ -383,7 +383,7 @@
                     <a href="" class="resend">Resend</a>
                 </div>
                         
-                       <textarea class="input input-area" type="text" placeholder="Type here*" name="description" id="description" placeholder="How we can assist you in finding the perfect candidates for your team." #desc="ngModel" 
+                       <textarea class="input input-area" type="text" name="description" id="description"placeholder="How we can assist you in finding the perfect candidates for your team. *" #desc="ngModel" 
                         [(ngModel)]="corporateForm.description" [ngClass]="{ 'is-invalid': desc.invalid && (desc.dirty || desc.touched) }"
                         required minlength="5"></textarea>
                         
