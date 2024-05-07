@@ -37,6 +37,7 @@ export class OtpVerificationModalComponent {
  let response=  await this.candidateProfileService.verifyOtp(this.email,this.id,this.form.paymentCode)
  console.log(response)
  if(response.verificationStatus===true){
+  this.spinner.hide();
   this.cancel(form);
  }else{
   this.spinner.hide();

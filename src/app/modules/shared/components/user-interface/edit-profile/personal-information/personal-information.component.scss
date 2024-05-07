@@ -141,3 +141,7 @@ input.ng-invalid.ng-touched {
 .about-textarea{
   font-size: 11px;
 }
+.form-control:disabled{
+  background-color: transparent;
+  
+}

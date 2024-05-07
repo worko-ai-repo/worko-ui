@@ -77,7 +77,7 @@
                     <div class="material-input__group">
                       <i class="fa-solid fa-envelope" style="color: #f5f5f5; font-size: 12px"></i>
                       <input type="text" placeholder="Email ID" class="text-white material-input__group__input"
-                        pattern="^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,4}$"
+                        pattern="^[a-zA-Z0-9._%+-]+@(?:gmail\.com|outlook\.com|aol\.com|yahoo\.com|icloud\.com|protonmail\.com|zoho\.com|yandex\.com|gmx\.com|hubspot\.com|mail\.com|tutanota\.com|10minutemail\.com)$"
                         [title]="emailId.errors?.['pattern'] ? 'Email is invalid' : ''" #emailId="ngModel"
                         [(ngModel)]="candidateForm.emailId" name="emailId" id="emailId" />
                     </div>
@@ -291,7 +291,7 @@
                         <i class="fa-solid fa-user" style="color: #f4f5f5; font-size: 12px"></i>
                         <input type="text" placeholder="Communication Email id"
                           class="text-white material-input__group__input" #emailId="ngModel"
-                          pattern="^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,4}$"
+                          pattern="^[a-zA-Z0-9._%+-]+@(?:gmail\.com|outlook\.com|aol\.com|yahoo\.com|icloud\.com|protonmail\.com|zoho\.com|yandex\.com|gmx\.com|hubspot\.com|mail\.com|tutanota\.com|10minutemail\.com)$"
                           [title]="emailId.errors?.['pattern'] ? 'Email is invalid' : ''"
                           [(ngModel)]="employeeForm.emailId" name="emailId" id="emailId" />
                       </div>
@@ -559,12 +559,12 @@
                     <input type="checkbox" class="ms-3" style="border-radius: 5px" />
                     Remember me
                   </div> -->
-                  <div class="row">
-                    <div class="col-md-6 text-white fs-11 p-0">
+                 <div class="row">
+                    <!-- <div class="col-md-6 text-white fs-11 p-0">
                       <input type="checkbox" class="ms-3" style="border-radius: 5px"  value="" [(ngModel)]="rememberMe" id="flexCheckDefault" name="rememberMe" 
                       />
                       Remember me
-                    </div>
+                    </div> -->
 
                   <div class="col-md-6 fs-11">
                     <!-- <a href="">Forgot password?</a> -->

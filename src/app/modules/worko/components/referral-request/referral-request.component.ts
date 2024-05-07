@@ -3,6 +3,8 @@ import { CompanyListingService } from '../../services/company-listing.service';
 import { SubscriptionPackService } from '../../services/subscription-pack.service';
 import { StorageService } from 'src/app/modules/app-core/services/storage.service';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
+import { Router } from '@angular/router';
 @Component({
   selector: 'app-referral-request',
   templateUrl: './referral-request.component.html',
@@ -39,7 +41,7 @@ export class ReferralRequestComponent implements OnInit, OnChanges {
   matchingScore: number = 0;
   referralRequestId: string = "";
   emailId: string = "";
-  constructor(private companyListing: CompanyListingService, private subscriptionPack: SubscriptionPackService, private storage: StorageService, private formBuilder: FormBuilder,) { }
+  constructor(private companyListing: CompanyListingService,private modalService: NgbModal,private router: Router, private subscriptionPack: SubscriptionPackService, private storage: StorageService, private formBuilder: FormBuilder,) { }
   ngOnInit(): void {
     // this.getSubcriptionPack();
     this.initializeForm();
@@ -77,14 +79,30 @@ export class ReferralRequestComponent implements OnInit, OnChanges {
   checkRequestReferral(): void {
     if (this.requestForm.valid) {
       this.companyListing.getReferralCount(this.emailId).then(async (response) => {
-        if (response.isSubscribed) {
+        if (!response.isSubscribed) {
           let count = response.referralCount;
-          if (count) {
+          if (count==1) {
             this.createRequest();
             this.requestForm.reset();
-          } else {
+           
+         
+        }else{
+          this.showsubscriptionPlan = true;
+            this.showReferrelRow = false;
+            this.showScore=false;
+        }
+      }
+        else if (response.isSubscribed) {
+          let count = response.referralCount;
+          if (count>0) {
+            this.createRequest();
+            this.requestForm.reset();
+           } 
+           else {
             this.showsubscriptionPlan = true;
             this.showReferrelRow = false;
+            this.showScore=false;
+         
           }
         }
       }).catch(error => {
@@ -92,6 +110,15 @@ export class ReferralRequestComponent implements OnInit, OnChanges {
       });
     }
   }
+  upgradeNow(){
+    
+    this.router.navigate(['/candidate/subscription'])
+   
+  }
+  ngOnDestroy(){
+    this.modalService.dismissAll();
+   }
+
 
   getSlicedValue(value: string): string {
     let parts = value.split('#');
@@ -159,13 +186,13 @@ export class ReferralRequestComponent implements OnInit, OnChanges {
   //     });
   //   }
 
-  receiveDataFromChild(data: any) {
-    alert("payment done")
-  }
+  // receiveDataFromChild(data: any) {
+  //   alert("payment done")
+  // }
 
-  receieveError(data: any) {
-    alert("payment failed")
-  }
+  // receieveError(data: any) {
+  //   alert("payment failed")
+  // }
 
 }
 
