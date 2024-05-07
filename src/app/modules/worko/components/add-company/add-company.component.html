@@ -8,9 +8,9 @@
         #CompanyName="ngModel" pattern="^([ \u00c0-\u01ffa-zA-Z'.])+$"
         [ngClass]="{ 'is-invalid': CompanyName.invalid && (CompanyName.dirty || CompanyName.touched) }">
 
-        <input class="col-8 col-md-4 mb-2 p-1 px-1" type="text" placeholder="Your Company E-mail ID " id="emailid"  name="emailid"
+        <!-- <input class="col-8 col-md-4 mb-2 p-1 px-1" type="text" placeholder="Your Company E-mail ID " id="emailid"  name="emailid"
          [(ngModel)]="companyForm.emailid" pattern="^(?!.*@(gmail\.com|outlook\.com|aol\.com|yahoo\.com|icloud\.com|protonmail\.com|zoho\.com|yandex\.com|gmx\.com|hubspot\.com|mail\.com|tutanota\.com|10minutemail\.com)$)[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$"
-         [ngClass]="{ 'is-invalid': email.invalid && (email.dirty || email.touched) }" #email="ngModel" >
+         [ngClass]="{ 'is-invalid': email.invalid && (email.dirty || email.touched) }" #email="ngModel" > -->
 
         <input class="col-8 col-md-4 mb-2 p-1 px-1" type="text" placeholder="LinkedIn Page" id="linkedIn" 
         name="linkedIn" [(ngModel)]="companyForm.linkedIn"
@@ -32,7 +32,7 @@
         </div> -->
         <div class="button-container">
             <button class="form-button col-4 col-lg-2 mt-2" type="submit" [disabled]="
-            !companyForm.CompanyName" >Submit</button>
+            !companyForm.CompanyName" >Add</button>
         </div>
     </form>
 </div>

@@ -12,6 +12,20 @@
   .upload-text {
     text-align: center;
   }
+
+  .verify-text-label{
+    color:red;
+    position: absolute;
+    top: 31px;
+    right: 17px;
+  }
+  .text-green{
+    color:green;
+  }
+  .form-control:disabled{
+    background-color: transparent;
+    
+  }
   
   .file-container {
     width: 150px;
