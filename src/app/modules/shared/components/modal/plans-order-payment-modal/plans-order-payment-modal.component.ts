@@ -1,6 +1,9 @@
+import { HttpHeaders } from '@angular/common/http';
 import { Component, EventEmitter, Input, OnChanges, Output, SimpleChanges } from '@angular/core';
 // import { NgbModalOptions } from '@ng-bootstrap/ng-bootstrap/modal/modal.module';
 import { AbstractControl, NgModel, ValidationErrors, ValidatorFn, Validators } from '@angular/forms';
+import { CandidateProfileService } from 'src/app/modules/candidate/services/candidate-profile.service';
+import { AuthService } from 'src/app/modules/worko/services/auth.service';
 
 @Component({
   selector: 'app-plans-order-payment-modal',
@@ -8,6 +11,10 @@ import { AbstractControl, NgModel, ValidationErrors, ValidatorFn, Validators } f
   styleUrls: ['./plans-order-payment-modal.component.scss']
 })
 export class PlansOrderPaymentModalComponent implements OnChanges {
+
+  constructor(private candServ:CandidateProfileService, private authService: AuthService) {
+
+  }
   ngOnChanges(changes: SimpleChanges): void {
     console.log(this.isOrderDetails)
     console.log(this.isOrderSummary)
@@ -36,6 +43,17 @@ export class PlansOrderPaymentModalComponent implements OnChanges {
     zipcode: "",
     city: ""
   };
+  orderData:any = {
+    orderid: '123456', // Your unique order ID
+    mercid: 'BDUATV2KTK', // Your merchant ID
+    // Add other required parameters
+  };
+
+  headers:any = new HttpHeaders({
+    'Content-Type': 'application/json',
+    'Accept': 'application/json'
+    // Add other headers if needed
+  });
   currentYear = new Date().getFullYear().toString();
   currentMonth = (new Date().getMonth() + 1).toString();
   maxDate = (this.currentMonth.length === 1 ? '0' + this.currentMonth : this.currentMonth) + "/" + this.currentYear;
@@ -95,13 +113,88 @@ export class PlansOrderPaymentModalComponent implements OnChanges {
     this.isOrderDetails = false;
   }
 
+  // payNow() {
+  //   // this.isOrderSummary = false;
+  //   // this.isPaymentDetails = true;
+  //   // this.isOrderDetails = false;
+  //   this.placeOrder();
+  // }
+
   payNow() {
-    this.isOrderSummary = false;
-    this.isPaymentDetails = true;
-    this.isOrderDetails = false;
+    this.placeOrder();
   }
+  
+  // Trace ID
+  traceid = "20200817132207ABD1K";
+  
+  async placeOrder() {
+    const orderData = {
+      orderid: 'TSSGF432f15G', // Order ID (from the sample)
+      mercid: 'BDUATV2KTK', // Merchant ID (from the sample)
+      amount: '300.00',
+      order_date: '2023-07-30T20:25:00+05:30',
+      currency: '356',
+      ru: 'https://www.example.com/merchant/api/pgresponse',
+      additional_info: {
+        additional_info1: 'Details1',
+        additional_info2: 'Details2'
+      },
+      itemcode: 'DIRECT',
+      invoice: {
+        invoice_number: 'MEINVU111111221133',
+        invoice_display_number: '11221133',
+        customer_name: 'John',
+        invoice_date: '2021-09-03T13:21:50+05:30',
+        gst_details: {
+          cgst: '8.00',
+          sgst: '8.00',
+          igst: '0.00',
+          gst: '16.00',
+          cess: '0.00',
+          gstincentive: '5.00',
+          gstpct: '16.00',
+          gstin: '12344567'
+        }
+      },
+      device: {
+        init_channel: 'internet',
+        ip: '<customer’s ip>',
+        user_agent: 'Mozilla/5.0(WindowsNT10.0;WOW64;rv:51.0)Gecko/20100101 Firefox/51.0',
+        accept_header: 'text/html',
+        fingerprintid: '61b12c18b5d0cf901be34a23ca64bb19',
+        browser_tz: '-330',
+        browser_color_depth: '32',
+        browser_java_enabled: 'false',
+        browser_screen_height: '601',
+        browser_screen_width: '657',
+        browser_language: 'en-US',
+        browser_javascript_enabled: 'true'
+      },
+    };
 
-
+    const authorizationToken = "REDACTED";
+  
+    const headers = new HttpHeaders({
+      'Content-Type': 'application/jose',
+      'Accept': 'application/jose',
+      'bd-timestamp': '20200817132207',
+      'bd-traceid': '20200817132207ABD1K',
+      'Authorization': authorizationToken
+    });
+  
+    try {
+      const response = this.candServ.createOrder(orderData, headers);
+      console.log('Order placed successfully:', response);
+      response.then((val:any)=>{
+        console.log(val);
+      })
+      // Handle success
+    } catch (error) {
+      console.error('Error placing order:', error);
+      // Handle error
+    }
+  }
+  
 
   onCardNumberChange(cardholdernum: any) {
     cardholdernum.control.setValidators([

@@ -5,6 +5,8 @@ import { CandidateProfileService } from 'src/app/modules/candidate/services/cand
 import { ModalType } from 'src/app/modules/shared/interfaces/shared.interface';
 import { ModalComponent } from 'src/app/modules/shared/components/modal/modal.component';
 import { NgxSpinnerService } from 'ngx-spinner';
+import { Router } from '@angular/router';
+import { StateService } from '../../services/state.service';
 @Component({
   selector: 'app-employee-referral',
   templateUrl: './employee-referral.component.html',
@@ -42,11 +44,16 @@ export class EmployeeReferralComponent implements OnDestroy {
   modalMessage: string = "";
   modalTitle: string = "";
   processStatus = false;
+  isEmailVerified: boolean = false;
   showModal: ModalType | undefined;
   statusItem: { name: string; status: string; date: any; }[] = [];
+  candidateDetails: any;
+  workExperienceDetails: any;
+  popupStatus:boolean = false;
 
-  constructor(private candidateSrv: CandidateProfileService, private empService: EmployeeProfileService, private storage: StorageService, private spinner: NgxSpinnerService) { }
+  constructor(private candidateSrv: CandidateProfileService, private empService: EmployeeProfileService, private storage: StorageService, private spinner: NgxSpinnerService, private router: Router, private stateService: StateService) { }
   ngOnDestroy(): void {
+    this.closeModal();
     console.log("Destroy");
   }
 
@@ -56,10 +63,64 @@ export class EmployeeReferralComponent implements OnDestroy {
     this.userName = this.storage.get("userName");
     // this.currentCompanySK = this.storage.get("currentCompanySK");
     this.currentCompanyId = this.storage.get("currentCompanyId");
-    this.getEmpReferral();
-    this.onStatusSelected('AWAITING');
+    this.getWorkExperienceDetails();
+    // this.getCandidateDetails();
     // this.getEmpReferralDetails();
   }
+
+  async getWorkExperienceDetails() {
+    this.spinner.show()
+    await this.candidateSrv.getWorkExperience(this.emailAddress).then(async (response) => {
+      if (response) {
+        this.workExperienceDetails = response;
+        this.workExperienceDetails.forEach((element: any) => {
+          if (element?.isCurrent == true && element?.isEmailVerified) {
+            this.getEmpReferral();
+            this.onStatusSelected('AWAITING');
+            this.popupStatus = true;
+          }
+        });
+        if (!this.popupStatus) {
+          this.spinner.hide();
+          // this.successmessage = "Please verify the email to see the referral requests!!"
+          this.successtitle = "";
+          this.openModal(ModalType.VERIFY_EMAIL);
+        }
+      }
+    }).catch((error: any) => {
+      this.spinner.hide();
+      console.log(error);
+      this.successmessage = "Something went wrong. Please try again after sometime"
+      this.successtitle = "Error"
+      this.openModal(ModalType.SUCCESS_MESSAGE);
+    });
+  }
+
+  // async getCandidateDetails() {
+  //   this.spinner.show()
+  //   await this.candidateSrv.getUserDetails(this.emailAddress).then(async (response) => {
+  //     if (response) {
+  //       this.candidateDetails = response[0];
+  //       if(this.candidateDetails?.isEmailVerified) {
+  //         this.getEmpReferral();
+  //         this.onStatusSelected('AWAITING');
+  //       }
+  //       else {
+  //         this.spinner.hide();
+  //         // this.successmessage = "Please verify the email to see the referral requests!!"
+  //         this.successtitle = "";
+  //         this.openModal(ModalType.VERIFY_EMAIL);
+  //       }
+  //     }
+  //   }).catch((error: any) => {
+  //     this.spinner.hide();
+  //     console.log(error);
+  //     this.successmessage = "Something went wrong. Please try again after sometime"
+  //     this.successtitle = "Error"
+  //     this.openModal(ModalType.SUCCESS_MESSAGE);
+  //   });
+  // }
+
   onStatusSelected(status: string): void {
     this.selectedReferral = "";
     this.selectedStatus = status;
@@ -103,7 +164,7 @@ export class EmployeeReferralComponent implements OnDestroy {
   async getEmpReferral() {
     this.spinner.show();
     // let companySK = "01HMR3G2QNYYM47YZ2P9ZVZBPR";
-    let companyId = this.currentCompanyId
+    let companyId = this.currentCompanyId;
     // let companyId = this.getSlicedValue(this.currentCompanySK);
     await this.empService.getEmployeeReferral(this.emailAddress, companyId, this.selectedStatus).then(async (response) => {
       if (response) {
@@ -454,6 +515,13 @@ export class EmployeeReferralComponent implements OnDestroy {
   continue() {
     this.closeModal();
     //window.location.reload();
+  }
+
+  continueToEditDetails() {
+    this.spinner.hide();
+    this.closeModal();
+    this.stateService.setState(true);
+    this.router.navigate(['/employee/Edit-profile'], { queryParams: { from: 'EmployeeReferralComponent' } });
   }
 
   cancel() {

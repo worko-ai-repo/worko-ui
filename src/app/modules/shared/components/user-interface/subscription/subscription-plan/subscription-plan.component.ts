@@ -1,12 +1,20 @@
 import { Component, Input, ViewChild } from '@angular/core';
 import { ModalType } from 'src/app/modules/shared/interfaces/shared.interface';
 import { ModalComponent } from '../../../modal/modal.component';
+import { PaymentFlowConfig } from 'src/app/modules/shared/interfaces/payment-flow-config.interface';
 
+export const theme_config = {
+  sdkPrimaryColor: "#69068a",
+  sdkAccentColor: "#cf5df5",
+  sdkBackgroundColor: "#f2caff",
+  sdkBannerColor: "#982cbb"
+};
 @Component({
   selector: 'app-subscription-plan',
   templateUrl: './subscription-plan.component.html',
   styleUrls: ['./subscription-plan.component.scss']
 })
+
 export class SubscriptionPlanComponent {
   @ViewChild(ModalComponent) modal!: ModalComponent;
   @Input() subscriptionList: any;
@@ -19,9 +27,10 @@ export class SubscriptionPlanComponent {
   selectedData: any;
   selectedPackage: any;
   isFormValid: boolean = false;
-  isOrderSummary!:boolean;
-  isPaymentDetails!:boolean
-  isOrderDetails!:boolean;
+  isOrderSummary!: boolean;
+  isPaymentDetails!: boolean
+  isOrderDetails!: boolean;
+  flow_config: PaymentFlowConfig | null = null;
 
   // constructor(private router: Router, private candidateSrv: CandidateProfileService, private storage: StorageService, private authService: AuthService) { }
   ngOnInit(): void {
@@ -87,5 +96,46 @@ export class SubscriptionPlanComponent {
     this.modal.cancel();
 
   }
+
+  createOrderApi() {
+    let response!: any;
+    if (response) {
+      // Here I'm assuming the response contains bdOrderId and authToken
+      const bdOrderId = response?.bdOrderId;
+      const authToken = response?.authToken;
+      const returnUrl = response.returnUrl || null;
+
+      // Here I'm creating the payment flow configuration object dynamically
+      this.flow_config = {
+        merchantId: "BDUATV2KTK",
+        bdOrderId: bdOrderId,
+        authToken: authToken,
+        childWindow: true,
+        returnUrl: returnUrl,
+        retryCount: 3,
+        prefs: {
+          payment_categories: ["card", "nb"],
+          allowed_bins: ["459150", "525211"]
+        },
+        netBanking: {
+          showPopularBanks: "Y",
+          popularBanks: ["Kotak Bank", "AXIS Bank [Retail]"]
+        }
+      };
+    }
+  }
+
+  responseHandler = function (txn:any) {
+    console.log("callback received status:: ", txn.status);
+    console.log("callback received response:: ", txn.response);
+  };
+
+  config = {
+    responseHandler: this.responseHandler,
+    merchantLogo: "data:image/png;base64:eqwewqesddhgjdxsc==",
+    flowConfig: this.flow_config,
+    flowType: "payments",
+    themeConfig: theme_config
+  };
 
 }

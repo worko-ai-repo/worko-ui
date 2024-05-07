@@ -5,7 +5,7 @@
           <app-user-stepper [currentStep]="currentStep" (nextStep)="nextStep()" (previousStep)="previousStep()"  [userType]="'Employee'"></app-user-stepper>
         </div>
         <div class="col-md-12">
-          <app-employee-edit-details [employeeDetails]="employeeDetails" [employeeSocial]="employeeSocial" [employeePersonalData]="employeePersonalData" *ngIf="currentStep === 1" (nextStepSecond)="nextStepSecond($event)"></app-employee-edit-details>
+          <app-employee-edit-details *ngIf="currentStep === 1" [employeeDetails]="employeeDetails" [employeeSocial]="employeeSocial" [employeePersonalData]="employeePersonalData" (nextStepSecond)="nextStepSecond($event)"></app-employee-edit-details>
           <app-employee-professional-details *ngIf="currentStep === 2" (nextStep)="nextStep()"[workExperienceDetailsList]="workExperienceDetailsList" [workExperienceDetails]="workExperienceDetails" [employeeProfessionalData]="employeeProfessionalData"   (nextStepThird)="nextStepThird($event)"(previousStep)="previousStep()"></app-employee-professional-details>
           <app-add-bank-details [bankInfo]="bankDetails" *ngIf="currentStep === 3" (previousStep)="previousStepSecond($event)" [employeeBankDetails]="employeeBankDetails" (onSuccess)="onSuccess($event)"></app-add-bank-details>
         </div>

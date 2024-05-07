@@ -30,11 +30,11 @@
                         [empAchievmentsList]="empAchievmentsList" [empAchievmentsDetails]="empAchievmentsDetails"
                         [empEducationList]="empEducationList" [empEducationDetails]="empEducationDetails"
                         [empdetailsList]="empdetailsList" [empDetails]="empDetails"></app-employee-referral-reject>
-                    <app-referral-done *ngIf="selectedStatus === 'DONE'" [processStatus]="processStatus" [userType]="userType"
-                        (raiseIssue)="referralRaiseIssue($event)" (referralRating)="createReview($event)"
-                        [reviewData]="reviewData" [empdetailsList]="empdetailsList"
-                        [empEducationList]="empEducationList" [empExperienceList]="empExperienceList"
-                        [empCoreSkillsDetails]="empCoreSkillsDetails"
+                    <app-referral-done *ngIf="selectedStatus === 'DONE'" [processStatus]="processStatus"
+                        [userType]="userType" (raiseIssue)="referralRaiseIssue($event)"
+                        (referralRating)="createReview($event)" [reviewData]="reviewData"
+                        [empdetailsList]="empdetailsList" [empEducationList]="empEducationList"
+                        [empExperienceList]="empExperienceList" [empCoreSkillsDetails]="empCoreSkillsDetails"
                         [selectedReferral]="selectedReferral"></app-referral-done>
                     <app-referral-cancelled [userType]="userType" [empdetailsList]="empdetailsList"
                         [selectedReferral]="selectedReferral"
@@ -53,7 +53,7 @@
     [bodyClass]="modalMessage ? 'p-4' : 'p-0'" [modalSize]="'md'">
 
     <!-- <app-messagmodal  [message]="successmessage" [title]="successtitle"></app-messagmodal> -->
-    <div *ngIf="!(showModal === modalType.REFERRAL_RATING)" class="row message-card px-sm-3 p-4"
+    <div *ngIf="showModal === modalType.SUCCESS_MESSAGE" class="row message-card px-sm-3 p-4"
         style="border-radius: 6px;">
         <div class="font-weight-bold text-color-red mb-3 d-flex justify-content-center"
             style="color: #e40707; font-size: 20px;" *ngIf="successtitle === 'Error'">
@@ -73,6 +73,43 @@
                 *ngIf="successtitle === 'Error'"> Cancel</button>
             <button style="background: #2371CB; font-size: 15px; color: white;" class="btn btn-next"
                 (click)="continue()" *ngIf="successtitle === ''">
+                Continue</button>
+        </div>
+    </div>
+
+    <div *ngIf="showModal === modalType.VERIFY_EMAIL" class="row message-card px-sm-2 p-4" style="border-radius: 6px;">
+        <div class="font-weight-bold text-color-red mb-3 d-flex justify-content-center"
+            style="color: #e40707; font-size: 20px;" *ngIf="successtitle === ''">
+            {{"Verification Required!"}}
+        </div>
+        <div class="font-weight-bold text-color-blue mb-3 d-flex justify-content-center" style="font-size: 20px;"
+            *ngIf="successtitle === 'Congratulations!'">
+            {{successtitle}}
+        </div>
+
+        <div>
+            <span style="font-size: 15px;">
+                Verify your corporate email now to unlock referral requests!
+            </span>
+            <br>
+            <br>
+            <span style="text-align: center; font-size: 15px;">
+                - Confirm your employment with a quick email verification.<br>
+                - Only one-time verification needed; no further communication.<br>
+                - Enjoy anonymity and exclusive opportunities
+            </span>
+            <br>
+            <br>
+            <span style="font-size: 15px;">
+                Join us in making meaningful connections!
+            </span>
+        </div>
+
+        <div class=" mt-3 d-flex justify-content-center">
+            <button style="background: #2371CB; font-size: 15px; color: white;" class="btn btn-next" (click)="cancel()"
+                *ngIf="successtitle === 'Error'"> Cancel</button>
+            <button style="background: #2371CB; font-size: 15px; color: white;" class="btn btn-next"
+                (click)="continueToEditDetails()" *ngIf="successtitle === ''">
                 Continue</button>
         </div>
     </div>

@@ -37,9 +37,9 @@
                    
                     [ngClass]="{ 'is-invalid': email.invalid && (email.dirty || email.touched) }" #email="ngModel"
                    (ngModelChange)="resetFormField()"    >
-                <h2 *ngIf="!workExperienceDetails.isEmailVerified && !email.invalid" (click)="openOtpModal()"
+                <h2 *ngIf="!workExperienceDetails?.isEmailVerified && !email.invalid" (click)="openOtpModal()"
                     class="badge  verify-text-label-unverified -pointer">Verify</h2>
-                <h2 *ngIf="workExperienceDetails.isEmailVerified && !email.invalid"
+                <h2 *ngIf="workExperienceDetails?.isEmailVerified && !email.invalid"
                     class="badge  verify-text-label text-green">
 
                     <svg width="20" height="20" viewBox="0 0 27 27" fill="none" xmlns="http://www.w3.org/2000/svg">
