@@ -7,6 +7,7 @@ import * as data from 'src/assets/data/data.json';
 import Globe from 'globe.gl';
 import { assetUrl } from 'src/asset-url';
 import { CompanyListingService } from '../../services/company-listing.service';
+import { event } from 'jquery';
 
 @Component({
   selector: 'app-index',
@@ -53,7 +54,7 @@ export class IndexComponent {
   ngAfterViewInit() {
     this.createGlobe();
     this.focusOnCountry();
-    this.clientInfo();
+    //this.clientInfo();
   }
 
     // Reviews carousel section starts:
@@ -227,9 +228,9 @@ export class IndexComponent {
 
 
   onClickShow(isShow: any) {
-    this.isShow = isShow;
+    this.getReferral = isShow;
 
-    if (this.isShow == true) {
+    if (this.getReferral == true) {
       $(".home-banner .btn-dark").addClass("active");
       $(".home-banner .btn-light").removeClass("active");
     }
@@ -337,29 +338,29 @@ export class IndexComponent {
       this.world.pointOfView({ lat: 39.916668, lng: 116.38333 }, 300);
     }
   }
-  clientInfo(): void {
-    setTimeout(() => {
-      this.intervalClient = setInterval(() => {
-        var elements: any[] = [];
-        this.gData.forEach((element: any) => {
-          let elem = document.getElementById(element.id);
-          if (elem) {
-            elem!.style.visibility = "hidden";
-            elements.push(element.id);
-          }
-        });
-        const randomIndex = Math.floor(Math.random() * elements.length);
-        let elemVisible = document.getElementById(elements[randomIndex]);
-        elemVisible!.style.visibility = "visible";
+  // clientInfo(): void {
+  //   setTimeout(() => {
+  //     this.intervalClient = setInterval(() => {
+  //       var elements: any[] = [];
+  //       this.gData.forEach((element: any) => {
+  //         let elem = document.getElementById(element.id);
+  //         if (elem) {
+  //           elem!.style.visibility = "hidden";
+  //           elements.push(element.id);
+  //         }
+  //       });
+  //       const randomIndex = Math.floor(Math.random() * elements.length);
+  //       let elemVisible = document.getElementById(elements[randomIndex]);
+  //       elemVisible!.style.visibility = "visible";
 
-        // console.log(randomIndex, elements);
+  //       // console.log(randomIndex, elements);
 
-        elements = [];
+  //       elements = [];
 
-      }, 2000);
-    }, 1000);
+  //     }, 2000);
+  //   }, 1000);
 
-  }
+  // }
   async getCompanyDetails() {
    
      
@@ -382,7 +383,12 @@ export class IndexComponent {
           //this.spinner.hide();
         });
     }
-  
+    openReferralPage(item: any) {
+      // Trigger the event when referral is requested
+      this.companyListing.setData(item);
+      //this.companyListing.setrequestReferralData(event,item);
+      this.router.navigateByUrl('/company-listing');
+    }
 
 
   /**

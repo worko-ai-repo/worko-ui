@@ -121,14 +121,18 @@
                       </li>
                     </ul>
                   </div>
-                  <div class="button-group mt-4 mt-md-5 pt-4 pt-md-5 pl-4">
-                    <button class="btn btn-dark font-inria" (click)="openGetReferral()"> Get Referral </button>
-                    <button class="btn btn-light font-inria" (click)="openGetReferral()"> Give Referral </button>
-                  </div>
+                
+               
                 </div>
+               
+            </div>
+            <div class="button-group mt-4 mt-md-5 pt-4 pt-md-5 pl-4">
+                <button class="btn btn-dark font-inria" (click)="openGetReferral()"> Get Referral </button>
+                <button class="btn btn-light font-inria" (click)="openGetReferral()"> Give Referral </button>
               </div>
-              </div>
-              </section>
+            </div>
+            </section>
+                 
 
 
         <!-- purpose section -->
@@ -501,7 +505,7 @@
                         <img src="/assets/index-images-KA/cult-logo.png" class="company-img" alt="">
                     </div> -->
     
-                    <div class="company company1" tabindex="0">
+                    <!-- <div class="company company1" tabindex="0">
                         <img src="/assets/index-images-KA/reliance.png" class="company-img" alt="">
                         <div class="hover hover1">
                             <img src="/assets/index-images-KA/reliance.png" alt="reliance">
@@ -562,9 +566,17 @@
                             <button class="referral button">Request Referral</button>
                             <button class="referral button">Request Guidance</button>
                         </div>
-                    </div>
+                    </div>-->
     
-                </div>
+                    <div class="company company1" tabindex="0"  *ngFor="let item of companyList">
+                        <img src="assets/company-logo/{{item.logo}}" class="company-img" style="height: 100px;width: 100px; color: black;" alt="{{item.name}}">
+                        <div class="hover hover1">
+                            <img src="assets/company-logo/{{item.logo}}" style="height: 70px;width: 100px;  color: black;" alt="{{item.name}}">
+                            <button class="referral button"  (click)="openReferralPage(item)">Request Referral</button>
+                            <button class="referral button">Request Guidance</button>
+                        </div>
+                    </div>
+                </div> 
                 <div class="company-slides d-flex">
                     <!--<div class="company company1">
                         <img src="/assets/index-images-KA/reliance.png" class="company-img" alt="">
@@ -592,7 +604,7 @@
                     <div class="company company7">
                         <img src="/assets/index-images-KA/cult-logo.png" class="company-img" alt="">
                     </div> -->
-    
+<!--     
                     <div class="company company1" tabindex="0">
                         <img src="/assets/index-images-KA/reliance.png" class="company-img" alt="">
                         <div class="hover hover1">
@@ -654,7 +666,7 @@
                             <button class="referral button">Request Referral</button>
                             <button class="referral button">Request Guidance</button>
                         </div>
-                    </div>
+                    </div> -->
     
                 </div>
             </div>
