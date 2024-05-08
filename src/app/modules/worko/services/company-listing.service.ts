@@ -107,15 +107,23 @@ export class CompanyListingService {
   //   this.referralSubject.next( item);
   // }
    data = new BehaviorSubject<any>(null);
+   triggerValue=new BehaviorSubject<any>(null);
 
 
-
-  getData() {
+  getReferralData() {
     return this.data.asObservable();
   }
 
-  setData(data: any) {
+  setReferralData(data: any) {
     this.data.next(data);
+  }
+
+  getGuidanceData(){
+    return this.triggerValue.asObservable();
+  }
+
+  setGuidanceData(triggerValue:boolean){
+    this.triggerValue.next(triggerValue);;
   }
 
 

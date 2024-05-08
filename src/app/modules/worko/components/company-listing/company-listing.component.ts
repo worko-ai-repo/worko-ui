@@ -244,7 +244,7 @@ this.filteredOptions = this.myControl.valueChanges.pipe(
 );
 //this.getData()
 //debugger
-await this.companyListing.getData().subscribe((item: any) => {
+await this.companyListing.getReferralData().subscribe((item: any) => {
   // Open modal for the corresponding company
   debugger
   console.log(item)
@@ -254,6 +254,18 @@ await this.companyListing.getData().subscribe((item: any) => {
   this.openModalForCompany(item);
   }
 });
+await this.companyListing.getGuidanceData().subscribe((item: any) => {
+  // Open modal for the corresponding company
+  debugger
+  console.log(item)
+  this.selectedData = item;
+  console.log(this.selectedData)
+  if(item){
+    this.openModal(ModalType.REQUEST_GUIDANCE)
+  }
+});
+
+
 
 
   }
@@ -283,6 +295,9 @@ await this.companyListing.getData().subscribe((item: any) => {
       this.openModal(ModalType.LOGIN_SIGNUP);
     }
   }
+
+
+ 
   // openReferralPage(item: any) {
   //   // Your function logic here
   //   console.log('Referral requested for:', item);

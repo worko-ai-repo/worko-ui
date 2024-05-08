@@ -43,7 +43,7 @@ export class IndexComponent {
     companyName: ""
   }
   companyList: any[] = [];
-
+  triggerGudianceValue:boolean=false;
   constructor(private router: Router, private cognitoService: CognitoService,private companyListing: CompanyListingService) { }
 
   private readonly preventDefault = function (e: any) {
@@ -385,9 +385,18 @@ export class IndexComponent {
     }
     openReferralPage(item: any) {
       // Trigger the event when referral is requested
-      this.companyListing.setData(item);
+      this.companyListing.setReferralData(item);
       //this.companyListing.setrequestReferralData(event,item);
       this.router.navigateByUrl('/company-listing');
+    }
+    openGudiancePage(item:any){
+      
+      if(item){
+        this.triggerGudianceValue=!this.triggerGudianceValue
+        console.log(this.triggerGudianceValue)
+        this.companyListing.setGuidanceData(this.triggerGudianceValue);
+        this.router.navigateByUrl('/company-listing');
+      }
     }
 
 
