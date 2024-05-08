@@ -87,11 +87,11 @@ export class AissuesComponent {
     }
 
     async getAllIssues(){
-      // await this.aissuesService.getAllIssues().then(async (response: any) => {
-      //   if (response) {
-      //     console.log("Response from Issues API");
-      //   }
-      // })
+      await this.aissuesService.getAllIssues().then(async (response: any) => {
+        if (response) {
+          console.log("Response from Issues API");
+        }
+      })
     }
 
     // async getCompanyDetails() {

@@ -50,6 +50,8 @@
 }
 .company-listing-container .contents{
     padding-top: 6rem;
+    z-index: 100;
+    position: relative;
 }
 
 .company-listing-container .searchInput {
@@ -74,6 +76,7 @@
     position: fixed;
     bottom: 35px;
     right: 50px;
+    z-index: 1000;
 }
 .text-white {
     color: #FFFFFF;
