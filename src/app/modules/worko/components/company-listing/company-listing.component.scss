@@ -50,6 +50,8 @@
 }
 .company-listing-container .contents{
     padding-top: 6rem;
+    z-index: 100;
+    position: relative;
 }
 
 .company-listing-container .searchInput {
