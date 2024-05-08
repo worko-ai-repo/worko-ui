@@ -39,6 +39,15 @@
     }
 }
 
+.company-listing-container .gradient-left1{
+    top: 100px;
+}
+
+.company-listing-container .gradient-right1{
+    top: 0;
+    right: 0;
+    opacity: 60%;
+}
 .company-listing-container .contents{
     padding-top: 6rem;
 }
@@ -231,6 +240,9 @@ img {
     
     .company-listing-container .contents{
         padding-top: 3rem;
+    }
+    .company-listing-container .gradient-left1{
+        top: 500px;
     }
 }
 

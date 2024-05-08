@@ -27,6 +27,11 @@ export const routes: Routes = [
         component: AcandidateComponent,
         
       },
+      {
+        path: 'issues',
+        component: AissuesComponent,
+        
+      },
     ]
   }
 ]
