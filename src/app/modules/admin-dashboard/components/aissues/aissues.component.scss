@@ -20,4 +20,40 @@
             padding-left: 3%;
         }
     }
+    .table-container{
+        padding: 2rem 1rem;
+        overflow-x: scroll;
+        table{
+           tr{
+        //     width: 200px;
+        //     overflow: scroll;
+            
+                th, td{
+                    padding: 3px 10px;
+                    border: solid 1px;
+                }
+
+                th{
+                    width: 90%;
+                    margin: auto;
+                    padding-left: 10px;
+                }
+
+            } 
+        }
+    }
+
+    .pagination-buttons{
+        display: flex;
+        justify-content: center;
+        padding-top: 1rem;
+        span{
+            padding: 0 1rem;
+        }
+        button{
+            width: 80px;
+            border-radius: 5px;
+            padding: 0 5px;
+        }
+    }
 }

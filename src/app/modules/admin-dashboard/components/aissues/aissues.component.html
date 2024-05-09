@@ -25,4 +25,33 @@
             </select>
         </div>
     </div>
+    <div class="table-container">
+        <table style="width:100%">
+            <tr>
+              <th>Issue Id</th>
+              <th>Date Created</th>
+              <th>Context</th>
+              <th>User Role</th>
+              <th>User Email</th>
+              <th>User Message</th>
+              <th>Status</th>
+              
+            </tr>
+            <tr *ngFor="let issue of issueList">
+              <td>{{ issue.id }}</td>
+              <td>{{ issue.createdAt }}</td>
+              <td>{{ issue.userSupportType }}</td>
+              <td>{{ issue.userRole }}</td>
+              <td>{{ issue.userEmail }}</td>
+              <td>{{ issue.userMessage }}</td>
+              <td>{{ issue.status }}</td>
+              <!-- <td>{{ issue.updatedAt }}</td> -->
+            </tr>
+        </table>
+    </div>
+    <!-- <div class="pagination-buttons">
+        <button (click)="previousPage()">Previous</button>
+        <span>Page {{ currentPage }}</span>
+        <button (click)="nextPage()">Next</button>
+    </div> -->
 </div>
