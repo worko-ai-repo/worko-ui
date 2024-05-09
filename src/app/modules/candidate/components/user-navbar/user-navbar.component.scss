@@ -41,6 +41,37 @@ display: none;
   background-color: #57E1FF;
   color: black;
 }
+
+.candidate-hover, .employee-hover{
+  display: none;
+  position: absolute;
+  top: 0;
+  background: rgb(0, 0, 0);
+  color: white;
+  border-radius: 5px;
+  font-size: 12px;
+  width: max-content;
+  padding: 0.1rem 0.3rem;
+  top: 40px;
+  z-index: 1;
+  border: rgb(197, 193, 193) solid 1px;
+}
+
+.employee-hover{
+  right: -65px;
+}
+.candidate-icon-container:hover{
+  .hover1{
+    display: block;
+  }
+}
+
+.employee-icon-container:hover{
+  .hover2{
+    display: block;
+  }
+}
+
 @media (max-width: 675px){
 
   .navbar-brand {

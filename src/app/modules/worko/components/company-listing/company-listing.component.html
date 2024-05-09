@@ -1,4 +1,4 @@
-<div class="container-fluid company-listing-container">
+<div class="container-fluid company-listing-container  position-relative">
   <div class="top-header-bg">
     <img src="assets/public/logo_bg.png" alt="">
   </div>
@@ -7,8 +7,12 @@
       <app-navbar></app-navbar>
     </div>
   </div>
+  <div class="gradient gradient-left1 position-absolute">
+    <img class="gradient-img" src="assets/about-images-KA/gradient-left1.png" alt="Gradient Left 1">
+  </div>
   <!-- me-0 ms-4 -->
   <div class="row mt-4 contents">
+
     <div class="col-8 ms-5">
       <div class="referred-headline">Get referred to over 1000+ companies</div>
     </div>
@@ -54,10 +58,9 @@
           </option> -->
           <select class=" selector form-select" name="industryType" id="industryType"
           [(ngModel)]="filterData.industryType" (ngModelChange)="onIndustryTypeChange($event)">
-          <option value="">Select industryType</option>
+          <option value="">Select Industry Type</option>
           <option *ngFor="let item of industryTypeOptions" [value]="item.value">{{ item.name }}</option>
         </select>
-
 
         </div>
         <div class="me-3 ml-sm-2 p-1 d-flex filter">
@@ -67,7 +70,7 @@
             <option *ngFor="let item of teamSizeOptions" [value]="item.value">{{ item.name }}</option>
           </select>
         </div>
-     
+      
       </div>
     </div>
     <div *ngIf="companyList.length === 0" class="row mt-4">
@@ -140,6 +143,9 @@
       
     </div>
 
+  </div>
+  <div class="gradient gradient-right1 position-absolute">
+    <img class="gradient-img" src="assets/index-images-KA/gradient-right1.png" alt="Gradient Right 1">
   </div>
 </div>
 <div class="text-center my-4 not-found">
@@ -262,4 +268,5 @@
       </form>
   </div>
   </ng-container>
+
 </app-modal>

@@ -1,0 +1,28 @@
+<div class="acandidate-contents">
+    <div class="header-container">
+        <div class="title">Issues Info</div>
+    </div>
+    <div class="filter-container">
+        <div class="date-range filter">
+            <select class="selector form-select" name="dateRange" id="dateRange"
+                [(ngModel)]="filterData.dateRange" (ngModelChange)="ondateRangeChange($event)">
+                <option value="">Date Range</option>
+                <option *ngFor="let item of dateRangeOptions" [value]="item.value">{{ item.name }}</option>
+            </select>
+        </div>
+        <div class="issues-status filter">
+            <select class="selector form-select" name="issuesStatus" id="issuesStatus"
+                [(ngModel)]="filterData.issuesStatus" (ngModelChange)="onissuesStatusChange($event)">
+                <option value="">Issues Status</option>
+                <option *ngFor="let item of issuesStatusOptions" [value]="item.value">{{ item.name }}</option>
+            </select>
+        </div>
+        <div class="issue-type filter">
+            <select class="selector form-select" name="referralCount" id="referralCount"
+                [(ngModel)]="filterData.issueType" (ngModelChange)="onissueTypeChange($event)">
+                <option value="">Type of Issue</option>
+                <option *ngFor="let item of issueTypeOptions" [value]="item.value">{{ item.name }}</option>
+            </select>
+        </div>
+    </div>
+</div>
