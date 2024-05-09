@@ -29,6 +29,7 @@ import { Hub } from 'aws-amplify/utils';
 import { ConfirmResetPasswordInput,fetchDevices,ResetPasswordOutput, confirmResetPassword, fetchAuthSession, getCurrentUser, rememberDevice, resetPassword, FetchDevicesOutput,} from '@aws-amplify/auth';
 import { event } from 'jquery';
 import { CompanyListingService } from '../../services/company-listing.service';
+import { NavbarToggleSwitchService } from 'src/app/modules/candidate/services/navbar-toggle-switch.service';
 declare var bootstrap: any;
 
 
@@ -172,7 +173,7 @@ export class LoginPageComponent implements AfterViewInit, OnDestroy {
   successmessage: string="";
   successtitle: string="";
   
-  constructor(private cdr: ChangeDetectorRef,private companyListingService:CompanyListingService,private storage: StorageService, private amplify: CognitoService, private router: Router, private authService: AuthService, private spinner: NgxSpinnerService) {
+  constructor(private cdr: ChangeDetectorRef,private companyListingService:CompanyListingService,private storage: StorageService, private amplify: CognitoService, private router: Router, private authService: AuthService, private spinner: NgxSpinnerService, private navbarToggleSwitchService : NavbarToggleSwitchService) {
   
   
 
@@ -779,6 +780,7 @@ async  handleConfirmResetPassword({
         let userName=response.data.name
         this.storage.set('lastAccessedDash', userType);
         this.storage.set('userName', userName);
+        this.navbarToggleSwitchService.intializeToggleStatus();
         console.log(userName)
 
        await this.currentSession();

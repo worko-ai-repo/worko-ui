@@ -57,14 +57,16 @@ export class UserNavbarComponent implements OnInit{
   }
 
   getToggleStatus() {
-    return this.navbarToggleSwitchService.getIsEmployeeDashboard();
+    // return this.navbarToggleSwitchService.getIsEmployeeDashboard();
+    // console.log("current toggle status", this.navbarToggleSwitchService.getCurrentDashboard());
+    return this.navbarToggleSwitchService.getCurrentDashboard();
   }
 
   toggleDashboard() {
 
     this.navbarToggleSwitchService.toggleDashboard();
 
-    if (this.navbarToggleSwitchService.getIsEmployeeDashboard()) {
+    if (this.navbarToggleSwitchService.getCurrentDashboard()) {
       console.log(this.userType)
       this.router.navigate(['/employee/Dashboard']);
      
