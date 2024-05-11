@@ -28,6 +28,7 @@ export enum ModalCloseResult {
     PROVIDE_FEEDBACK=19,
     CONFIRMATION_DIALOG=20,
     DETAILED_ANALYSIS=21,
-    ADD_COMPANY=22
+    ADD_COMPANY=22,
+    VERIFY_EMAIL = 23
   }
   

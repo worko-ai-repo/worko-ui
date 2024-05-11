@@ -7,6 +7,7 @@ import { Router } from '@angular/router';
 import { NgxSpinnerService } from 'ngx-spinner';
 import { ModalType } from 'src/app/modules/shared/interfaces/shared.interface';
 import { ModalComponent } from 'src/app/modules/shared/components/modal/modal.component';
+import { StateService } from '../../services/state.service';
 @Component({
   selector: 'app-employee-edit',
   templateUrl: './employee-edit.component.html',
@@ -39,7 +40,7 @@ export class EmployeeEditComponent {
   modalMessage: string = "";
   modalTitle: string = "";
   showModal: ModalType | undefined;
-  constructor(private spinner: NgxSpinnerService, private router: Router, private authService: AuthService, private empService: EmployeeProfileService, private candidateSrv: CandidateProfileService, private storage: StorageService) { }
+  constructor(private spinner: NgxSpinnerService, private router: Router, private authService: AuthService, private empService: EmployeeProfileService, private candidateSrv: CandidateProfileService, private storage: StorageService, public stateService: StateService) { }
 
   ngOnInit(): void {
 

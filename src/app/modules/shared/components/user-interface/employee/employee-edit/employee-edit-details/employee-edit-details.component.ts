@@ -1,8 +1,11 @@
-import { Component, ElementRef, EventEmitter, Input, Output, Renderer2, ViewChild } from '@angular/core';
+import { AfterViewInit, Component, ElementRef, EventEmitter, Input, Output, Renderer2, ViewChild } from '@angular/core';
 import { FormBuilder, FormsModule, ReactiveFormsModule } from '@angular/forms';
-import { CountryCodes} from 'src/app/modules/shared/data/country.data';
+import { CountryCodes } from 'src/app/modules/shared/data/country.data';
 import { ModalComponent } from '../../../../modal/modal.component';
 import { ModalType } from 'src/app/modules/shared/interfaces/shared.interface';
+import { Router, NavigationEnd, ActivatedRoute } from '@angular/router';
+import { StateService } from 'src/app/modules/employee/services/state.service';
+import { NgForm } from '@angular/forms';
 
 @Component({
   selector: 'app-employee-edit-details',
@@ -14,6 +17,7 @@ import { ModalType } from 'src/app/modules/shared/interfaces/shared.interface';
 export class EmployeeEditDetailsComponent {
 
   @ViewChild(ModalComponent) modal!: ModalComponent;
+  @ViewChild('employee', { static: false }) employeeForm: NgForm | undefined;
   @Input() employeeSocial: any;
   @Output() nextStep = new EventEmitter<void>();
   // @Output() nextStepSecond = new EventEmitter<void>();
@@ -25,11 +29,11 @@ export class EmployeeEditDetailsComponent {
   modalMessage: string = "";
   modalTitle: string = "";
   showModal: ModalType | undefined;
-  successmessage:string="";
-  successtitle:string="";
-  constructor(private _formBuilder: FormBuilder, private renderer: Renderer2, private el: ElementRef) { }
-
-
+  successmessage: string = "";
+  successtitle: string = "";
+  timeoutId:any;
+  // firstTime: boolean = true;
+  constructor(private _formBuilder: FormBuilder, private renderer: Renderer2, private el: ElementRef, private router: Router, private route: ActivatedRoute, private stateService: StateService) { }
 
   @Input() employeeDetails: any;
   @Input() employeePersonalData: any = {
@@ -45,37 +49,61 @@ export class EmployeeEditDetailsComponent {
     fileToUpload: "",
     fileType: "",
     profileImageAwsS3SignedUrl: ""
-  
+
   };
   form: any;
-//  profilePicUrl: string = "/assets/public/candidate-img.png";
-countryCodes: any = CountryCodes;
-picErrorMessage: string = ""
-
+  //  profilePicUrl: string = "/assets/public/candidate-img.png";
+  countryCodes: any = CountryCodes;
+  picErrorMessage: string = ""
 
   ngOnInit() {
-    // Set the first step as active
-    // this.setActiveStep(this.currentStep);
-
+  
   }
 
   ngOnChanges(): void {
+    console.log(this.stateService.getState());
 
-    if (this.employeePersonalData && this.employeePersonalData.about && this.employeePersonalData.location  && this.employeePersonalData.socialLinklinkdin 
-     ) {
+    if (this.employeePersonalData && this.employeePersonalData.about && this.employeePersonalData.location && this.employeePersonalData.socialLinklinkdin
+    ) {
 
     } else {
       this.getData();
+      if (this.employeeDetails && this.employeeSocial && this.employeePersonalData && this.stateService.getState()) {
+        // this.checkFormValidity();
+        this.stateService.setState(false);
+        this.route.queryParams.subscribe(params => {
+          if (params['from'] === 'EmployeeReferralComponent') {
+            this.timeoutId = setTimeout(() => {
+              this.createEmployee();
+            }, 300);
+          }
+        });
+      }
       // this.employeePersonalData.country = this.employeeDetails?.country;
       // console.log(this.employeePersonalData.country)
     }
     // console.log(this.candidateProfessionalDetails)
+    console.log(this.employeePersonalData);
+    console.log(this.employeeDetails);
   }
 
-  createEmployee(form: any) {
-     this.nextStepSecond.emit(this.employeePersonalData);
+  checkFormValidity() {
+    if (this.employeeForm && this.employeeForm.form) {
+      if (this.employeeForm.form.valid) {
+        console.log('Form is valid');
+      } else {
+        console.log('Form is invalid');
+      }
+    }
   }
 
+  createEmployee(form?: any) {
+    if (this.employeeForm && this.employeeForm.form) {
+      if (this.employeeForm.form.valid) {
+        this.nextStepSecond.emit(this.employeePersonalData);
+      }
+    }
+  }
 
   getData() {
     this.employeePersonalData = {
@@ -88,10 +116,10 @@ picErrorMessage: string = ""
       socialLinktwitter: this.employeeSocial?.twitter,
       location: this.employeeDetails?.location,
       country: this.employeeDetails?.country ? this.employeeDetails?.country : "",
-      profilePicUrl: this.employeeDetails?.profileImageAwsS3SignedUrl? this.employeeDetails?.profileImageAwsS3SignedUrl : "/assets/public/candidate-img.png"
+      profilePicUrl: this.employeeDetails?.profileImageAwsS3SignedUrl ? this.employeeDetails?.profileImageAwsS3SignedUrl : "/assets/public/candidate-img.png"
 
     }
-    console.log( this.employeePersonalData )
+    console.log(this.employeePersonalData)
 
   }
 
@@ -129,10 +157,10 @@ picErrorMessage: string = ""
           // console.log('Selected file type:', file);
         } else {
           // Display an error for an invalid file type
-          this.successmessage="Please upload a jpg, png image only."
-          this.successtitle="Error"
+          this.successmessage = "Please upload a jpg, png image only."
+          this.successtitle = "Error"
           this.openModal(ModalType.SUCCESS_MESSAGE)
-          
+
           //console.error('Invalid file type. Please upload a supported file.');
           // Optionally, you can reset the input to clear the invalid selection
           inputElement.value = '';
@@ -140,23 +168,23 @@ picErrorMessage: string = ""
           this.fileName = "";
           this.fileType = "";
           this.employeePersonalData.fileName = this.fileName,
-          this.employeePersonalData.fileToUpload = this.fileToUpload,
-          this.employeePersonalData.fileType = this.fileType;
+            this.employeePersonalData.fileToUpload = this.fileToUpload,
+            this.employeePersonalData.fileType = this.fileType;
           this.picErrorMessage = "Please upload a jpg, png image only."
         }
       }
     }
   }
 
-   /**
-  * Open modal.
-  *
-  * @param {ModalType} modalType
-  * @param {string} [message = ""]
-  * @param {string} [title = ""]
-  * @returns {void}
-  */
-   openModal(modalType: ModalType, message: string = "", title: string = ""): void {
+  /**
+ * Open modal.
+ *
+ * @param {ModalType} modalType
+ * @param {string} [message = ""]
+ * @param {string} [title = ""]
+ * @returns {void}
+ */
+  openModal(modalType: ModalType, message: string = "", title: string = ""): void {
     this.showModal = modalType;
     this.modalMessage = message;
     this.modalTitle = title;
@@ -172,8 +200,13 @@ picErrorMessage: string = ""
     this.modal.cancel();
   }
 
-  cancel(){
+  cancel() {
     this.modal.cancel();
+  }
+
+  ngOnDestroy() {
+    // this.stateService.firstTime = true;
+    clearTimeout(this.timeoutId);
   }
 }
 

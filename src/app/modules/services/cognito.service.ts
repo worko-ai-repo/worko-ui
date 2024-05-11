@@ -178,7 +178,8 @@ async login(){
       this.storage.remove("useremail");
       this.storage.remove("LinkedinUserType");
       this.removeAccessToken();
-      this.removeEmployeeDashboardToggleStatus();
+      // this.removeEmployeeDashboardToggleStatus();
+      this.removeCurrentDashboardToggleStatus();
       localStorage.clear();
     // window.location.href = 'https://worko.auth.ap-south-1.amazoncognito.com/logout?client_id=5evf019rrkaijtnjf2j1vvdf33&logout_uri=http://localhost:4200/';
     
@@ -305,9 +306,9 @@ async login(){
     this.storage.remove('accessToken');
   }
 
-  removeEmployeeDashboardToggleStatus() {
-    this.storage.remove("isEmployeeDashboardEnabled");
-    this.navbarToggleSwitch.toggleStatusFalse();
+  removeCurrentDashboardToggleStatus() {
+    this.storage.remove("currentDashboardEnabled");
+    // this.navbarToggleSwitch.toggleStatusFalse();
   }
   
 }

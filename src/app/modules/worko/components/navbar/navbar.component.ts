@@ -5,6 +5,7 @@ import { ModalComponent } from 'src/app/modules/shared/components/modal/modal.co
 import { Router } from '@angular/router';
 import { CandidateProfileService } from 'src/app/modules/candidate/services/candidate-profile.service';
 import { StorageService } from 'src/app/modules/app-core/services/storage.service';
+import { NavbarToggleSwitchService } from 'src/app/modules/candidate/services/navbar-toggle-switch.service';
 
 @Component({
   selector: 'app-navbar',
@@ -27,7 +28,7 @@ export class NavbarComponent {
  userName:string='profile'
   letter:string=""
   showOptions = false; 
-  constructor(private cognitoService: CognitoService, private router: Router, private candidateSrv: CandidateProfileService, private storage: StorageService) {
+  constructor(private cognitoService: CognitoService, private router: Router, private candidateSrv: CandidateProfileService, private storage: StorageService, private navbarToggleSwitchService : NavbarToggleSwitchService) {
    
    }
 
@@ -53,6 +54,7 @@ export class NavbarComponent {
     this.isMenuOpen = event.target.checked;
   }
   dashboard(){
+    this.navbarToggleSwitchService.intializeToggleStatus();
     const usertype=this.storage.get('lastAccessedDash') ;
      this.userName=this.storage.get('userName') ;
     console.log(this.userName)
