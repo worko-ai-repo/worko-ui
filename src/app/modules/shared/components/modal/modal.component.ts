@@ -13,6 +13,7 @@ export class ModalComponent implements OnInit {
 
   @Output() closeResult: EventEmitter<string> = new EventEmitter<string>();
   @Output() onClick: EventEmitter<string> = new EventEmitter<string>();
+  @Output() modalClosed: EventEmitter<void> = new EventEmitter<void>();
 
   @Input() ariaLabelledBy: string = 'modal-basic-title';
   @Input() bodyClass: string = '';
@@ -66,6 +67,13 @@ export class ModalComponent implements OnInit {
 
   openModalWithStaticBackdrop() {
     this.modalService.open(this.modalRef, { backdrop: 'static' });
+  }
+
+  close() {
+    // Perform any necessary cleanup or actions before closing the modal
+
+    // Emit the 'closed' event
+    this.modalService.dismissAll('button');
   }
 
   /**

@@ -25,8 +25,8 @@
         </div>    
 
         <app-navbar></app-navbar>
-    
-        <!-- <div class="rows">
+   
+        <div class="rows">
             <div class="intro d-flex">
                 <div class="grad grad-left1"><img src="assets/index-images-KA/gradient-left1.png" alt=""></div>
                 <div class="content get-content" *ngIf="getReferral">
@@ -62,7 +62,7 @@
                         </li>
                     </ul>
                     <div class="buttons">
-                        <button (click)="openGetReferral()" class="left-btn btn btn-light font-inria" (click)="openGetReferral()"> Get Referral </button>
+                        <button (click)="openGetReferral()" class="left-btn btn btn-light font-inria" (click)="redirectToCompanyListing()"> Get Referral </button>
                         <button (click)="openGetReferral()" class="btn btn-dark font-inria" (click)="openGetReferral()"> Give Referral </button>
                     </div>
                 </div>
@@ -72,11 +72,11 @@
                 
             </div>
            
-        </div> -->
+        </div> 
 
 
 
-        <section class="home-banner py-130">
+        <!-- <section class="home-banner py-130">
             <div class="container-wrap pt-4 pt-md-5">
               <div class="circel-radial-gradient right_circel">
                 <img src="assets/images/ellipse.png" alt="" class="ellipse-img">
@@ -91,47 +91,52 @@
                 <img src="assets/images/earth.png" alt="" class="earth-img">
               </div>
               <div id="globeViz"></div>
-              <!-- <h1 (mouseenter)="startInterval()" (mouseleave)="stopInterval()">Hover me</h1> -->
+              <h1 (mouseenter)="startInterval()" (mouseleave)="stopInterval()">Hover me</h1>
         
-              <div class="row mt-4 mt-md-5">
-                <div class="col-lg-7 col-md-8"  (mouseout)="startInterval()" (mouseover)="stopInterval()">
+              <div class="row ">
+                <div class="col-lg-8 col-md-9" >
         
-                  <div class="text-area pl-4" *ngIf="getReferral">
-                    <div class="main-head  mb-4">
-                      Supercharge your job search with Worko - Where Connection leads to Career
+                    <div class="content get-content" *ngIf="getReferral">
+                    <div class="title title1">
+                        Supercharge your job search with Worko - Where Connection leads to Career
                     </div>
-                    <ul>
-                      <li>
-                        Stand out as a top candidate with employee referrals.
-                      </li>
-                      <li>
-                        Receive feedback on your candidature and support throughout the interview process.
-                      </li>
+                    <ul class="intro-ul">
+                        <li class="para text">
+                            Stand out as a top candidate with employee referrals.
+                        </li>
+                        <li class="para text content2">
+                            Receive feedback on your candidature and support throughout the interview 
+                            process
+                        </li>
                     </ul>
-                  </div>
-                  <div class="text-area pl-4" *ngIf="!getReferral">
-                    <div class="main-head  mb-4">
-                      Discover success with Worko - Where Referrals lead to Rewards.
+                    <div class="buttons">
+                        <button  class="left-btn btn btn-dark font-inria" (click)="redirectToCompanyListing()"> Get Referral </button>
+                        <button class="btn btn-light font-inria" (click)="openGetReferral()" > Give Referral </button>
                     </div>
-                    <ul>
-                      <li> AI-powered P2P hiring platform for flawless matching and thorough vetting, boosting your referral
-                        success
-                        rate.</li>
-                      <li>Help someone land their dream job
-                      </li>
-                    </ul>
-                  </div>
-                
-               
                 </div>
-               
-            </div>
-            <div class="button-group mt-4 mt-md-5 pt-4 pt-md-5 pl-4">
-                <button class="btn btn-dark font-inria" (click)="openGetReferral()"> Get Referral </button>
-                <button class="btn btn-light font-inria" (click)="openGetReferral()"> Give Referral </button>
-              </div>
-            </div>
-            </section>
+                  <div class="content give-content" *ngIf="giveReferral">
+                    <div class="title title1">
+                        Discover success with Worko, where Referrals lead to rewarding outcomes
+                    </div>
+                    <ul class="intro-ul">
+                        <li class="para text">
+                            AI-powered P2P hiring platform for flawless matching and thorough
+                            vetting, boosting referral success rate.
+                        </li>
+                        <li class="para text content2">
+                            Help someone land their dream job
+                        </li>
+                    </ul>
+                   
+                    <div class="buttons">
+                        <button  class="left-btn btn btn-light font-inria" (click)="redirectToCompanyListing()">Get Referral </button>
+                        <button class="btn btn-dark font-inria" (click)="openGetReferral()" > Give Referral </button>
+                    </div>
+                </div>
+         </div>
+         </div>
+         </div>
+            </section> -->
                  
 
 
@@ -568,7 +573,7 @@
                     <div class="company company1" tabindex="0"  *ngFor="let item of companyList">
                         <img src="assets/company-logo/{{item.logo}}" class="company-img" style="height: 100px;width: 100px; color: black;" alt="{{item.name}}">
                         <div class="hover hover1">
-                            <img src="assets/company-logo/{{item.logo}}" style="height: 70px;width: 100px;  color: black;" alt="{{item.name}}">
+                            <img src="assets/company-logo/{{item.logo}}" style="color: black;" alt="{{item.name}}">
                             <button class="referral button"  (click)="openReferralPage(item)">Request Referral</button>
                             <button class="referral button"  (click)="openGudiancePage(item)" >Request Guidance</button>
                         </div>

@@ -2,6 +2,7 @@ import { Component } from '@angular/core';
 import { CandidateProfileService } from '../../services/candidate-profile.service';
 import { StorageService } from 'src/app/modules/app-core/services/storage.service';
 import { NgxSpinnerService } from 'ngx-spinner';
+import { Router } from '@angular/router';
 @Component({
   selector: 'app-candidate-dashboard',
   templateUrl: './candidate-dashboard.component.html',
@@ -24,7 +25,7 @@ export class CandidateDashboardComponent {
   userType="Candidate";
   userName:any;
 
-  constructor( private candidateSrv: CandidateProfileService, private storage: StorageService,private spinner: NgxSpinnerService) { }
+  constructor( private candidateSrv: CandidateProfileService, private router: Router,private storage: StorageService,private spinner: NgxSpinnerService) { }
 
   ngOnInit(): void {
     this.emailAddress = this.storage.get("useremail");
@@ -43,6 +44,7 @@ export class CandidateDashboardComponent {
 
   async getCandidateDetails() {
     this.spinner.show();
+    try{
     await this.candidateSrv.getUserDetails(this.emailAddress).then(async (response) => {
       if (response) {
         this.candidateList = response
@@ -62,6 +64,11 @@ export class CandidateDashboardComponent {
         await this.getEducationDetails();
       }
     })
+  }catch(error:any ){
+    if(error.status==401){
+     this.router.navigate(['/']);
+   }
+  }
   }
 
   async getEducationDetails() {

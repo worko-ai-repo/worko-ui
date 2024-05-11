@@ -549,6 +549,9 @@
 
 
     <div class="row message-card px-sm-3 p-4">
+        <div class="font-weight-bold text-color-red mb-3 d-flex justify-content-center" style="color: #e40707; font-size: medium;" *ngIf="successtitle === 'Error'">
+            {{successtitle}}
+        </div>
     <div class="d-flex justify-content-center" *ngIf="successtitle === 'Congratulations!'">
         
         <div class="text-center mb-4">
@@ -560,6 +563,7 @@
           <button class="btn btn-next"  (click)="cancel()" > OK</button>
           </div>
           <div class="d-flex justify-content-center" *ngIf="successtitle === 'Error'">
+           
         
             <div class="d-flex justify-content-center"  *ngIf="successmessage"><span>{{successmessage}}</span>
                 <div class="text-center mb-4"  *ngIf="!successmessage">

@@ -52,12 +52,18 @@ export class HomeCorporateComponent {
       this.modelOpen()
       }
 
-    } catch (error) {
+    } catch (error:any) {
       this.spinner.hide();
       console.log(error)
       //this.successmessage="Something went wrong. Please try again after sometime"
+      if(error.status==409){
       this.successtitle="Error"
       this.openModal(ModalType.SUCCESS_MESSAGE)
+      }else{
+        this.successmessage= "Something went wrong. Please try again after sometime"
+        this.successtitle="Error"
+        this.openModal(ModalType.SUCCESS_MESSAGE)
+      }
     }
 
   }

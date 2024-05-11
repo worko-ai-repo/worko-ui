@@ -429,11 +429,18 @@ fieldsGroup:any;
         
       }
      
-      }catch{
+      }catch(error:any){
         this.spinner.hide();
-        this.successmessage= " Official email and personal email should not be the same"
+        if(error.status==400){
+          this.successmessage= " Official email and personal email should not be the same"
         this.successtitle="Error"
         this.openModal(ModalType.SUCCESS_MESSAGE)
+        }else{
+          this.successmessage= "Something went wrong. Please try again after sometime"
+          this.successtitle="Error"
+           this.openModal(ModalType.SUCCESS_MESSAGE)
+        }
+        
         console.log("error")
       }
   
