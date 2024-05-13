@@ -25,7 +25,7 @@
         }
     }
     .table-container{
-        margin: 3rem 1rem;
+        margin: 3rem 2rem;
         // border: 2px solid #476baf;
         border-radius: 20px;
         overflow-x: scroll;
@@ -47,19 +47,19 @@
                 }
                 // border-bottom: 2px solid #476baf;
                 th, td{
-                    padding: 10px 10px;
+                    padding: 10px 15px;
                     // border: solid 1px;
-                    text-align: center;
+                    text-align: start;
                     font-size: 14px;
-                    min-width: 200px;
+                    min-width: max-content;
                 }
 
                 th{
                     // width: 90%;
                     // margin: auto;
-                    padding-left: 10px;
+                    // padding-left: 10px;
                     // border-bottom: 2px solid #295CA8;
-                    text-align: center;
+                    // text-align: center;
                 }
 
             } 

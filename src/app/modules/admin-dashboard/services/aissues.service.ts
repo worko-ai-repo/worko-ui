@@ -11,11 +11,11 @@ export class AissuesService {
   constructor(private http: HttpClient, private authService: AuthService) { }
 
   async getAllIssues(issuesStatus?: any) {
-    let url = `${API_URL}support?status=${issuesStatus}`;
+    let url = `${API_URL}support`;
 
-    // if (issuesStatus) {
-    //   url += `/status:${issuesStatus}`;
-    // }
+    if (issuesStatus) {
+      url += `/status=RESOLVED`;
+    }
     try {
       console.log(url);
       return await this.http.get(url, this.authService.getHttpOptions()).toPromise();

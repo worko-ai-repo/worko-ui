@@ -7,6 +7,9 @@ import { AissuesService } from '../../services/aissues.service';
   styleUrls: ['./aissues.component.scss']
 })
 export class AissuesComponent {
+issueClick($event: MouseEvent,issue: number) {
+console.log("clicked in issue:", this.issueList[issue]);
+}
   issueList: any[] = [];
   currentPage: number = 1;
   itemsPerPage: number = 20;
@@ -93,7 +96,7 @@ export class AissuesComponent {
     async getAllIssues(){
       await this.aissuesService.getAllIssues(this.filterData.issuesStatus).then(async (response: any) => {
         if (response) {
-          this.issueList = this.issueList.concat(response);
+          this.issueList = response;
           console.log("Issue list:", this.issueList);
           // console.log("Issue  status 0:";
         }
@@ -104,20 +107,6 @@ export class AissuesComponent {
       const startIndex = (this.currentPage - 1) * this.itemsPerPage;
       const endIndex = startIndex + this.itemsPerPage;
       return this.issueList.slice(startIndex, endIndex);
-    }
-
-    nextPage() {
-      const totalPages = Math.ceil(this.issueList.length / this.itemsPerPage);
-      if (this.currentPage < totalPages) {
-        this.currentPage++;
-      }
-    }
-  
-    // Function to handle previous page button click
-    previousPage() {
-      if (this.currentPage > 1) {
-        this.currentPage--;
-      }
     }
   
 }

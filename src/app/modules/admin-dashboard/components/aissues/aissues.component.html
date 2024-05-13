@@ -28,6 +28,7 @@
     <div class="table-container">
         <table style="width:100%">
             <tr>
+              <th>SN</th>
               <th>Issue Id</th>
               <th>Date Created</th>
               <th>Context</th>
@@ -37,16 +38,19 @@
               <th>Status</th>
               
             </tr>
-            <tr *ngFor="let issue of issueList">
-              <td>{{ issue.id }}</td>
-              <td>{{ issue.createdAt }}</td>
-              <td>{{ issue.userSupportType }}</td>
-              <td>{{ issue.userRole }}</td>
-              <td>{{ issue.userEmail }}</td>
-              <td>{{ issue.userMessage }}</td>
-              <td>{{ issue.status }}</td>
-              <!-- <td>{{ issue.updatedAt }}</td> -->
-            </tr>
+            <ng-container *ngFor="let issue of issueList; let i = index">
+                <tr (click)="issueClick($event, i)">
+                <td>{{ i+1 }}</td>
+                <td>{{ issue.id }}</td>
+                <td>{{ issue.createdAt }}</td>
+                <td>{{ issue.userSupportType }}</td>
+                <td>{{ issue.userRole }}</td>
+                <td>{{ issue.userEmail }}</td>
+                <td>{{ issue.userMessage }}</td>
+                <td>{{ issue.status }}</td>
+                <!-- <td>{{ issue.updatedAt }}</td> -->
+                </tr>
+            </ng-container>
         </table>
     </div>
     <!-- <div class="pagination-buttons">
