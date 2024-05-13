@@ -65,10 +65,10 @@ export const routes: Routes = [
     path: '',
     component: WorkoComponent,
     children: [
-      {
-        path: 'index',
-        component: HomeComponent
-      },
+      // {
+      //   path: 'index',
+      //   component: HomeComponent
+      // },
       {
         path: 'contact',
         component: ContactComponent

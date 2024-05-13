@@ -2513,29 +2513,31 @@ footer {
             .hover {
                 position: absolute;
                 background: white;
-                width: 150%;
+                width: 300%;
+                height: 300%;
                 top: -120%;
-                left: -36%;
+                //left: -20%;
+                right:-100%;
                 z-index: 1;
                 border-radius: 8px;
                 padding: 12% 0;
                 img {
-                    width: 60%;
+                    width: 40%;
                     padding: 0;
                     padding-top: 3%;
-                    margin-left: 15%;
+                    margin-left: 30%;
                     margin-bottom: 4%;
                 }
 
                 .button {
                     font-size: calc(0.5vw + 8px);
-                    width: 80%;
+                    width: 70%;
                     padding: 4%;
                     margin: 0;
                     color: #fff;
                     background-color: #194561;
                     margin-top: 5%;
-                    margin-left: 10%;
+                    margin-left: 15%;
                 }
             }
 

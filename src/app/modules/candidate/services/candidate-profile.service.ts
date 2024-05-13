@@ -1,11 +1,13 @@
 import { Injectable } from '@angular/core';
 import { environment } from '../../../../environment/environment';
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { AuthService } from '../../worko/services/auth.service';
+import { of } from 'rxjs';
 
 
 
 const API_URL = environment.apiUrl;
+const apiOrderUrl = 'https://uat1.billdesk.com/u2/payments/ve1_2/orders/create';
 
 @Injectable({
   providedIn: 'root'
@@ -137,6 +139,44 @@ export class CandidateProfileService {
     return this.http.post(API_URL+`user/${emailAddress}/experience/${id}/verify-otp`,{otp:otp},this.authService.getHttpOptions()).toPromise();
     
   }
+  
+
+  //* Create Order
+
+  // async createOrder(orderData:any, headers:HttpHeaders):Promise<any>{
+  //   try {
+  //     // const response = await this.http.post(API_URL+`/pguat.billdesk.io/payments/ve1_2/orders/create` , orderData, { headers })
+  //     //   .toPromise();
+  //     // console.log('Order created successfully:', response);
+  //     // return response;
+  //     const test = {
+  //       name:"happy"
+  //     }
+  //     return Promise.resolve(test);
+  //   } catch (error) {
+  //     console.error('Error creating order:', error);
+  //     throw error;
+  //   }
+  // }
+
+  async createOrder(orderData:any, headers:HttpHeaders):Promise<any>{
+
+    try {
+      const response = await this.http.post(apiOrderUrl, orderData, { headers })
+        .toPromise();
+      console.log('Order created successfully:', response);
+      return response;
+      // const test = {
+      //   name:"happy"
+      // }
+      // return Promise.resolve(test);
+    } catch (error) {
+      console.error('Error creating order:', error);
+      throw error;
+    }
+    
+   }
+
 }
 
 

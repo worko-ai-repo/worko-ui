@@ -29,6 +29,7 @@ import { Hub } from 'aws-amplify/utils';
 import { ConfirmResetPasswordInput,fetchDevices,ResetPasswordOutput, confirmResetPassword, fetchAuthSession, getCurrentUser, rememberDevice, resetPassword, FetchDevicesOutput,} from '@aws-amplify/auth';
 import { event } from 'jquery';
 import { CompanyListingService } from '../../services/company-listing.service';
+import { NavbarToggleSwitchService } from 'src/app/modules/candidate/services/navbar-toggle-switch.service';
 declare var bootstrap: any;
 
 
@@ -37,11 +38,15 @@ declare var bootstrap: any;
   templateUrl: './login-page.component.html',
   styleUrls: ['./login-page.component.scss'],
 })
+
+
 export class LoginPageComponent implements AfterViewInit, OnDestroy {
   @Output() userTypeSelected = new EventEmitter<string>();
   @Output() onSuccess: EventEmitter<void> = new EventEmitter<void>();
   @Input() userType: any;
+ 
 
+ 
   @ViewChild(ModalComponent) modal!: ModalComponent;
   // @ViewChild('autocompleteInput') autocompleteInput: any; 
   @ViewChild('autoCompleteInput', { static: false, read: MatAutocompleteTrigger }) trigger!: MatAutocompleteTrigger;
@@ -172,7 +177,7 @@ export class LoginPageComponent implements AfterViewInit, OnDestroy {
   successmessage: string="";
   successtitle: string="";
   
-  constructor(private cdr: ChangeDetectorRef,private companyListingService:CompanyListingService,private storage: StorageService, private amplify: CognitoService, private router: Router, private authService: AuthService, private spinner: NgxSpinnerService) {
+  constructor(private cdr: ChangeDetectorRef,private companyListingService:CompanyListingService,private storage: StorageService, private amplify: CognitoService, private router: Router, private authService: AuthService, private spinner: NgxSpinnerService, private navbarToggleSwitchService : NavbarToggleSwitchService) {
   
   
 
@@ -278,11 +283,13 @@ export class LoginPageComponent implements AfterViewInit, OnDestroy {
 
     );
 
+  
 
    
     //console.log(fieldType2);
   
   }
+ 
  
 
 
@@ -587,8 +594,14 @@ async  handleConfirmResetPassword({
    
     console.log("CLicked to add new company:",event);
     // this.openModal(ModalType.ADD_COMPANY);
+    console.log(this.showModal)
     
   }
+
+
+
+
+
   companyForm={
 
 
@@ -603,11 +616,16 @@ async  handleConfirmResetPassword({
   
   
   }
-  
+  modalOpenCount:number=0;
+  openModalCount() {
+    //this.showModal = true;
+    this.modalOpenCount++; // Increment the counter when opening the modal
+  }
   
   async requestCampanyData(form:any){
     this.spinner.show()
- 
+debugger
+try{
     this.companyData={
       userType: "EMP",
       companyDetail: {
@@ -620,24 +638,32 @@ async  handleConfirmResetPassword({
         //contactnumber:this.companyForm.contactNumber
       }
     }
+   
     await this.companyListingService.requestNewCompany(this.companyData)
     let response= await this.companyListingService.getAllNewCompany()
     if(response){
       this.spinner.hide()
       this.openModal(ModalType.SUCCESS_MESSAGE);
     }
-    
+  }catch{
+    this.spinner.hide()
+  }
     
   
   }
+
+
   cancel(){
-    window.location.reload()
+    this.modal.cancel();
+   window.location.reload()
   }
+ 
   openModal(modalType: ModalType, message: string = "", title: string = ""): void {
     this.showModal = modalType;
     this.modalMessage = message;
     this.modalTitle = title;
     this.modal.open();
+ 
   }
 
 
@@ -779,6 +805,7 @@ async  handleConfirmResetPassword({
         let userName=response.data.name
         this.storage.set('lastAccessedDash', userType);
         this.storage.set('userName', userName);
+        this.navbarToggleSwitchService.intializeToggleStatus();
         console.log(userName)
 
        await this.currentSession();

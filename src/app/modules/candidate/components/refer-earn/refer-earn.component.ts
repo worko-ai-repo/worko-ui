@@ -40,7 +40,7 @@ export class ReferEarnComponent {
   okBtn() {
     this.spinner.hide();
     this.closeModal();
-    this.router.navigate(['/employee/Dashboard']);
+    this.router.navigate(['/candidate/dashboard']);
   }
 
    /**

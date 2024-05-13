@@ -25,7 +25,7 @@
         </div>    
 
         <app-navbar></app-navbar>
-    
+   
         <div class="rows">
             <div class="intro d-flex">
                 <div class="grad grad-left1"><img src="assets/index-images-KA/gradient-left1.png" alt=""></div>
@@ -62,8 +62,8 @@
                         </li>
                     </ul>
                     <div class="buttons">
-                        <button (click)="openGetReferral()" class="left-btn btn btn-light font-inria" (click)="openGetReferral()"> Get Referral </button>
-                        <button (click)="openGetReferral()" class="btn btn-dark font-inria" (click)="openGetReferral()"> Give Referral </button>
+                        <button  class="left-btn btn btn-light font-inria" (click)="redirectToCompanyListing()"> Get Referral </button>
+                        <button  class="btn btn-dark font-inria" (click)="openGetReferral()"> Give Referral </button>
                     </div>
                 </div>
                 <div class="intro-image">
@@ -71,21 +71,73 @@
                 </div>
                 
             </div>
-            <!-- <div class="stats-section d-flex ">
-                <div class="stat">
-                    <div class="stat-title title">10K+</div>
-                    <div class="stat-content para">Companies</div>
+           
+        </div> 
+
+
+
+        <!-- <section class="home-banner py-130">
+            <div class="container-wrap pt-4 pt-md-5">
+              <div class="circel-radial-gradient right_circel">
+                <img src="assets/images/ellipse.png" alt="" class="ellipse-img">
+              </div>
+              <div class="circel-radial-gradient bottom_right">
+                <img src="assets/images/ellipse.png" alt="" class="ellipse-img">
+              </div>
+              <div class="circel-radial-gradient left_center">
+                <img src="assets/images/ellipse02.png" alt="" class="ellipse-img">
+              </div>
+              <div class="earth-map">
+                <img src="assets/images/earth.png" alt="" class="earth-img">
+              </div>
+              <div id="globeViz"></div>
+              <h1 (mouseenter)="startInterval()" (mouseleave)="stopInterval()">Hover me</h1>
+        
+              <div class="row ">
+                <div class="col-lg-8 col-md-9" >
+        
+                    <div class="content get-content" *ngIf="getReferral">
+                    <div class="title title1">
+                        Supercharge your job search with Worko - Where Connection leads to Career
+                    </div>
+                    <ul class="intro-ul">
+                        <li class="para text">
+                            Stand out as a top candidate with employee referrals.
+                        </li>
+                        <li class="para text content2">
+                            Receive feedback on your candidature and support throughout the interview 
+                            process
+                        </li>
+                    </ul>
+                    <div class="buttons">
+                        <button  class="left-btn btn btn-dark font-inria" (click)="redirectToCompanyListing()"> Get Referral </button>
+                        <button class="btn btn-light font-inria" (click)="openGetReferral()" > Give Referral </button>
+                    </div>
                 </div>
-                <div class="stat text-center">
-                    <div class="stat-title title">20K+</div>
-                    <div class="stat-content para text-center">Employees ready to help</div>
+                  <div class="content give-content" *ngIf="giveReferral">
+                    <div class="title title1">
+                        Discover success with Worko, where Referrals lead to rewarding outcomes
+                    </div>
+                    <ul class="intro-ul">
+                        <li class="para text">
+                            AI-powered P2P hiring platform for flawless matching and thorough
+                            vetting, boosting referral success rate.
+                        </li>
+                        <li class="para text content2">
+                            Help someone land their dream job
+                        </li>
+                    </ul>
+                   
+                    <div class="buttons">
+                        <button  class="left-btn btn btn-light font-inria" (click)="redirectToCompanyListing()">Get Referral </button>
+                        <button class="btn btn-dark font-inria" (click)="openGetReferral()" > Give Referral </button>
+                    </div>
                 </div>
-                <div class="stat">
-                    <div class="stat-title title">104k+</div>
-                    <div class="stat-content para">Users Assisted</div>
-                </div>
-            </div> -->
-        </div>
+         </div>
+         </div>
+         </div>
+            </section> -->
+                 
 
 
         <!-- purpose section -->
@@ -455,7 +507,7 @@
                         <img src="/assets/index-images-KA/cult-logo.png" class="company-img" alt="">
                     </div> -->
     
-                    <div class="company company1" tabindex="0">
+                    <!-- <div class="company company1" tabindex="0">
                         <img src="/assets/index-images-KA/reliance.png" class="company-img" alt="">
                         <div class="hover hover1">
                             <img src="/assets/index-images-KA/reliance.png" alt="reliance">
@@ -516,9 +568,17 @@
                             <button class="referral button">Request Referral</button>
                             <button class="referral button">Request Guidance</button>
                         </div>
-                    </div>
+                    </div>-->
     
-                </div>
+                    <div class="company company1" tabindex="0"  *ngFor="let item of companyList">
+                        <img src="assets/company-logo/{{item.logo}}" class="company-img" style="height: 100px;width: 100px; color: black;" alt="{{item.name}}">
+                        <div class="hover hover1">
+                            <img src="assets/company-logo/{{item.logo}}" style="color: black;" alt="{{item.name}}">
+                            <button class="referral button"  (click)="openReferralPage(item)">Request Referral</button>
+                            <button class="referral button"  (click)="openGudiancePage(item)" >Request Guidance</button>
+                        </div>
+                    </div>
+                </div> 
                 <div class="company-slides d-flex">
                     <!--<div class="company company1">
                         <img src="/assets/index-images-KA/reliance.png" class="company-img" alt="">
@@ -546,7 +606,7 @@
                     <div class="company company7">
                         <img src="/assets/index-images-KA/cult-logo.png" class="company-img" alt="">
                     </div> -->
-    
+<!--     
                     <div class="company company1" tabindex="0">
                         <img src="/assets/index-images-KA/reliance.png" class="company-img" alt="">
                         <div class="hover hover1">
@@ -608,7 +668,7 @@
                             <button class="referral button">Request Referral</button>
                             <button class="referral button">Request Guidance</button>
                         </div>
-                    </div>
+                    </div> -->
     
                 </div>
             </div>

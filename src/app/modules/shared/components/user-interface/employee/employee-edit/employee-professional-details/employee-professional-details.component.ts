@@ -1,4 +1,4 @@
-import { ChangeDetectorRef, Component, EventEmitter, Input, Output, ViewChild } from '@angular/core';
+import { ChangeDetectorRef, Component, EventEmitter, Input, OnInit, Output, ViewChild } from '@angular/core';
 import { MatAutocompleteModule, MatAutocompleteTrigger } from '@angular/material/autocomplete';
 import { FormArray, FormBuilder, FormControl, FormGroup, FormsModule, ReactiveFormsModule, Validators } from '@angular/forms';
 import { Observable } from 'rxjs';
@@ -11,12 +11,13 @@ import { CandidateProfileService } from 'src/app/modules/candidate/services/cand
 import { StorageService } from 'src/app/modules/app-core/services/storage.service';
 import { Router } from '@angular/router';
 import { NgxSpinnerService } from 'ngx-spinner';
+import { StateService } from 'src/app/modules/employee/services/state.service';
 @Component({
   selector: 'app-employee-professional-details',
   templateUrl: './employee-professional-details.component.html',
   styleUrls: ['./employee-professional-details.component.scss']
 })
-export class EmployeeProfessionalDetailsComponent {
+export class EmployeeProfessionalDetailsComponent implements OnInit {
 
   @ViewChild('autoCompleteInput', { static: false, read: MatAutocompleteTrigger }) trigger!: MatAutocompleteTrigger;
   @ViewChild(ModalComponent) modal!: ModalComponent;
@@ -77,7 +78,7 @@ previousCompanies: any;
   id: any;
   successmessage: string="";
   successtitle: string="";
-  constructor( private router: Router,private cdr: ChangeDetectorRef, private spinner: NgxSpinnerService,private storage: StorageService,private authService: AuthService,private fb:FormBuilder,private candidateProfileService :CandidateProfileService) {
+  constructor( private router: Router,private cdr: ChangeDetectorRef, private spinner: NgxSpinnerService,private storage: StorageService,private authService: AuthService,private fb:FormBuilder,private candidateProfileService :CandidateProfileService, private stateService: StateService) {
     this.formGroup = this.fb.group({
       fields: this.fb.array([])
     });
@@ -143,6 +144,7 @@ previousCompanies: any;
 
 fieldsGroup:any;
   ngOnInit() {
+    // this.stateService.setState(false);
     console.log(this.employeeProfessionalData)
     
     this.fields = this.workExperienceDetailsList.filter((company: any) => !company.isCurrent);
@@ -429,11 +431,18 @@ fieldsGroup:any;
         
       }
      
-      }catch{
+      }catch(error:any){
         this.spinner.hide();
-        this.successmessage= " Official email and personal email should not be the same"
+        if(error.status==400){
+          this.successmessage= " Official email and personal email should not be the same"
         this.successtitle="Error"
         this.openModal(ModalType.SUCCESS_MESSAGE)
+        }else{
+          this.successmessage= "Something went wrong. Please try again after sometime"
+          this.successtitle="Error"
+           this.openModal(ModalType.SUCCESS_MESSAGE)
+        }
+        
         console.log("error")
       }
   

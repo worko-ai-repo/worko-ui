@@ -120,27 +120,27 @@ uploadCVonS3Bucket(docResult: any) {
       .then(async () => {
         console.log('File uploaded successfully.');
        
-        try {
-           this.CvCloudFileName = await this.authService.linkResumewithUser(this.aboutUsForm.email, this.uploadedCvCloudName);
+        //try {
+           //this.CvCloudFileName = await this.authService.linkResumewithUser(this.aboutUsForm.email, this.uploadedCvCloudName);
         this.spinner.hide();
         this.modelOpen()
         
             //this.aboutUs()
         
           
-        } catch (error: any) {
-          debugger;
-          if (error && error.error.message) {
-            // this.errorMessage = error.error.message;
-            this.spinner.hide();
-            //this.setErrorMessage('File Link error linkResumewithUser:- ' + error.error.message);
-          }
-          this.spinner.hide();
-          console.error('File Link error linkResumewithUser:', error);
-          this.successmessage="Something went wrong. Please try again after sometime"
-          this.successtitle="Error"
-          this.openModal(ModalType.SUCCESS_MESSAGE)
-        }
+        // } catch (error: any) {
+        //   debugger;
+        //   if (error && error.error.message) {
+        //     // this.errorMessage = error.error.message;
+        //     this.spinner.hide();
+        //     //this.setErrorMessage('File Link error linkResumewithUser:- ' + error.error.message);
+        //   }
+        //   this.spinner.hide();
+        //   console.error('File Link error linkResumewithUser:', error);
+        //   this.successmessage="Something went wrong. Please try again after sometime"
+        //   this.successtitle="Error"
+        //   this.openModal(ModalType.SUCCESS_MESSAGE)
+        // }
 
       })
       .catch(error => {
