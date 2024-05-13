@@ -95,6 +95,7 @@ hr{
 
 .gradient-left4{
     left: 0;
+    display: none;
 }
 
 .gradient-left5{
@@ -350,6 +351,14 @@ hr{
         font-size: 16px;
     }
 }
+
+.team-card4, 
+.team-card5, 
+.team-card6,
+.team-card7, 
+.team-card8{
+    padding: 11% 26px;
+} 
 
 .team-card2,
 .team-card4,
@@ -1120,6 +1129,9 @@ textarea{
         display: none;
     }
 
+    .team-card3{
+        margin-top: 10px;
+    }
 
     .slider-img{
         width: 34.31px;
