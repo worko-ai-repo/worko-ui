@@ -1765,7 +1765,7 @@ footer {
     .individual-page .gradient {
         margin-left: -8.5%;
         margin-right: -8.1%;
-        opacity: 60%;
+        opacity: 100%;
     }
     
     .individual-page .gradient-left1 {
@@ -1780,7 +1780,10 @@ footer {
     
     .individual-page .gradient-right1 {
         right: 0;
-        top: -550px;
+        // top: -425px;
+        // right: 0;
+        margin-right: 0;
+        top: -200px;
     }
     
     .individual-page .gradient-right2 {
@@ -1867,7 +1870,7 @@ footer {
             width: 75%;
             margin-left: -6.5%;
             margin-right: -5.55%;
-            opacity: 50%;
+            opacity: 90%;
     
             img {
                 width: 100%;
@@ -1891,6 +1894,7 @@ footer {
         .individual-page .gradient-right1 {
             right: 0;
             top: -450px;
+            margin-right: 0;
         }
     
         .individual-page .gradient-right2 {
@@ -1919,14 +1923,19 @@ footer {
         }
     
         .individual-page .gradient {
-            width: 75%;
+            width: 100%;
             margin-left: -6.5%;
             margin-right: -5.5%;
-            opacity: 50%;
+            opacity: 100%;
     
             img {
                 width: 100%;
             }
+        }
+   
+        .individual-page .gradient-sm {
+            display: block !important;
+            opacity: 65%;
         }
     
         .individual-page .gradient-left1 {
@@ -1942,18 +1951,15 @@ footer {
         .individual-page .gradient-right1 {
             right: 0;
             top: -250px;
-            opacity: 50%;
+            opacity: 100%;
+            margin-right: 0;
         }
     
         .individual-page .gradient-right2 {
             right: 0;
             top: -100px;
         }
-    
-        .individual-page .gradient-sm {
-            display: block !important;
-            opacity: 35%;
-        }
+
 
     }
       /**************CSS FOR TERMS OF SERVICE PAGE END ******************/
