@@ -45,16 +45,18 @@
             font-weight: 600;
             text-align: center;
             line-height: 120%;
-            padding-bottom: 0.5rem;
+
             width: 90%;
             margin: auto;
+            font-size: 1.5rem;
         }
         .purpose-text{
             width: 90%;
-            font-size: calc(1vw + 5px);
+            // font-size: calc(1vw + 5px);
             text-align: center;
             margin: auto;
             line-height: 130%;
+            font-size: 1rem;
         }
     }
     
@@ -261,8 +263,8 @@
         margin-top: 2rem;
         img{
             // min-width: 197px;
-            // width: calc(155px + 5vw);
-            width: calc(129px + 8vw);
+            // width: calc(129px + 8vw);
+            width: calc(178px + 2vw);
             max-width: 207px;
             min-width: 182px;
         }
@@ -365,7 +367,7 @@
 
     .stats-section {
         // justify-content: space-between;
-        padding-top: 10 mnrem;
+        padding-top: 8rem;
         padding-left: 19%;
         width: 98%;
         // .line-right{
@@ -374,13 +376,13 @@
         //     opacity: 50%;
         // }
         .line-right1{
-            padding-left: 19%;
+            padding-left: 21%;
             position: absolute;
             padding-top: 3rem;
             margin-top: 0.5rem;
         }
         .line-right2{
-            margin-top: -2.5rem;
+            margin-top: -1.5rem;
             margin-right: 1.5rem;
         }
     }
@@ -682,7 +684,7 @@
             }
 
             .purpose-title{
-                font-size: calc(1vw + 7px);
+                // font-size: calc(1vw + 7px);
                 // font-size: 15px;
                 // font-weight: 600;
                 // text-align: center;
@@ -690,6 +692,7 @@
                 padding-bottom: 0.5rem;
                 width: 90%;
                 // margin: auto;
+                font-size: 1rem;
             }
             .purpose-text{
                 width: 92%;
@@ -698,6 +701,7 @@
                 text-align: center;
                 margin: auto;
                 line-height: 130%;
+                font-size: 0.875rem;
             }
         }
         
@@ -1454,15 +1458,17 @@
             width: 95%;
             .purpose-title{
                 padding-bottom: 0.5rem;
-                font-size: 16px;
+                // font-size: 16px;
+                font-size: 1rem;
             }
             .purpose-content{
                 padding-top: 0rem;
                 // text-align: left;
                 // font-size: calc(2vw + 6.5px);
-                font-size: 10px;
+                // font-size: 10px;
                 padding-bottom: 1rem;
                 width: 83%;
+                font-size: 0.75rem;
             }
         }
 
@@ -1519,7 +1525,7 @@
     }
     
     .benefits-section{
-        padding-top: 5rem;
+        padding-top: 4rem;
         padding-left: 9%;
         .benefits-title{
             font-size: 18px;
@@ -1626,34 +1632,36 @@
     .stats-section {
         // justify-content: space-between;
         padding-top: 4rem;
-        padding-left: 15%;
+        padding-left: 19%;
         width: 104%;
+        justify-content: space-around;
         // .line-right{
         //     border-right: 1px solid #fff;
         //     height: 75px;
         //     opacity: 50%;
         // }
         .line-right{
-            height: 55px;
+            height: 50px;
         }
         .line-right1{
-            padding-left: 26%;
+            padding-left: 23%;
             position: absolute;
             padding-top: 0.5rem;
             margin-top: 0rem;
         }
         .line-right2{
-            margin-top: -1rem;
+            margin-top: -0.75rem;
             margin-right: 0rem;
         }
     }
 
     .stat {
-        width: 31%;
+        width: 27%;
         // display: flex;
         // align-items: center;
         flex-direction: column;
         // align-items: start;
+
         .stat-title {
             // color: black;
             // -webkit-text-stroke: 2px #57E1FF;
@@ -1661,6 +1669,7 @@
             font-size: 28px;
             font-size: calc(11px + 4vw);
             // font-weight: 700;
+            font-size: 1.5rem;
         }
         .stat-content {
             padding-top: 0rem;
