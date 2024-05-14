@@ -185,7 +185,7 @@
 
 .slide-container{
     display: flex;
-    width: 252%;
+    // width: 252%;
     margin-top: 9rem;
 }
 
@@ -201,7 +201,8 @@
     // display: inline-block !important;
     // width: 100% !important;
     margin-left: 0 !important;
-    animation: 30s slide infinite linear;
+    animation: 150s slide infinite linear;
+    // animation-play-state: paused;
     
 }
 
@@ -832,23 +833,24 @@
         }
 
         .company-slides{
-            margin-top: 6rem;
             height: calc(7vw + 25px);
-            width: 126%;
-            margin-left: -9%;
+            height: 120px;
+            // width: 126%;
+            margin-left: 50px;
             .company{
-                width: 12%;
-                margin-right: 2%;
-
+                // width: 12%;
+                margin-right: 100px;
                 img{
-                    padding: 7% 1.61%;
-                    width: 70%;
+                    // padding: 7% 1.61%;
+                    width: 60px;
+                    height: 60px;
                 }
             }
         }
 
         .hover{
-            width: 150% !important;
+            width: 200px !important;
+            height: 200px !important;
         }
 
         .company1:focus .hover1 {
@@ -1752,38 +1754,26 @@
         }
 
         .company-slides{
-            margin-top: 2rem;
             height: calc(7vw + 25px);
-            width: 126%;
-            margin-left: -9%;
+            height: 120px;
+            // width: 126%;
+            margin-left: 50px;
             .company{
-                width: 12%;
-                margin-right: 2%;
-
+                // width: 12%;
+                margin-right: 100px;
                 img{
-                    padding: 7% 1.61%;
-                    width: 86%;
+                    // padding: 7% 1.61%;
+                    width: 60px;
+                    height: 60px;
                 }
-
-
-                .hover{
-                    width: 250%;
-                    top: -120%;
-                    left: -36%;
-                    z-index: 1;
-                    border-radius: 8px;
-                    padding: 12% 0;
-                    img{
-                        width: 60%;
-                        padding: 0;
-                        padding-top: 3%;
-                        margin-left: 15%;
-                        margin-bottom: 4%;
-                    }
-                }
-
             }
         }
+
+        .hover{
+            width: 200px !important;
+            height: 200px !important;
+        }
+
         button{
             padding: 0.5rem 10%;
             margin-top: 4rem;

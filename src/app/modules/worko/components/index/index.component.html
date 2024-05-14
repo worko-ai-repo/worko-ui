@@ -571,9 +571,12 @@
                     </div>-->
     
                     <div class="company company1" tabindex="0"  *ngFor="let item of companyList">
-                        <img src="assets/company-logo/{{item.logo}}" class="company-img" style="height: 100px;width: 100px; color: black;" alt="{{item.name}}">
+
+                        <img src="assets/company-logo/{{item.logo}}" class="company-img" alt="{{item.name}}">
                         <div class="hover hover1">
-                            <img src="assets/company-logo/{{item.logo}}" style="color: black;" alt="{{item.name}}">
+                            <div class="logo-container">
+                                <img src="assets/company-logo/{{item.logo}}" alt="{{item.name}}">
+                            </div>
                             <button class="referral button"  (click)="openReferralPage(item)">Request Referral</button>
                             <button class="referral button"  (click)="openGudiancePage(item)" >Request Guidance</button>
                         </div>
@@ -669,7 +672,14 @@
                             <button class="referral button">Request Guidance</button>
                         </div>
                     </div> -->
-    
+                    <div class="company company1" tabindex="0"  *ngFor="let item of companyList">
+                        <img src="assets/company-logo/{{item.logo}}" class="company-img" alt="{{item.name}}">
+                        <div class="hover hover1">
+                            <img src="assets/company-logo/{{item.logo}}" style="color: black;" alt="{{item.name}}">
+                            <button class="referral button"  (click)="openReferralPage(item)">Request Referral</button>
+                            <button class="referral button"  (click)="openGudiancePage(item)" >Request Guidance</button>
+                        </div>
+                    </div>
                 </div>
             </div>
             
