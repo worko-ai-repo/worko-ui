@@ -2809,7 +2809,7 @@ footer {
 .index-section .review-cards {
     display: flex;
     overflow: hidden;
-    width: 475vw;
+    width: 575vw;
     padding-top: 4rem;
     justify-content: space-between;
     transition: margin-left 0.8s ease;
@@ -2821,7 +2821,7 @@ footer {
     /* margin-right: 3.3%; */
     width: 31.5%;
     /* padding: 4rem 2%; */
-    padding: 1% 0.5% 0;
+    padding: 1% 0.5% 0.1%;
 
     margin-right: 0.5%;
     .card-img {

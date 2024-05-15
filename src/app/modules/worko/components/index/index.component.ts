@@ -177,9 +177,9 @@ export class IndexComponent {
     }
 
     adjustMarginLeft() {
-      this.marginLeft = -26 -this.currentIndex * 50.5 - this.currentIndex; 
+      this.marginLeft = -26 -this.currentIndex * 50 - this.currentIndex; 
       this.marginLeftmd = -66 - this.currentIndex * 80 - this.currentIndex;
-      this.marginLeftsm = -78 - this.currentIndex * 88 - this.currentIndex;
+      this.marginLeftsm = -78 - this.currentIndex * 86 - this.currentIndex;
     }
 
    // Reviews carousel section ends:
