@@ -7,6 +7,12 @@ import { AissuesService } from '../../services/aissues.service';
   styleUrls: ['./aissues.component.scss']
 })
 export class AissuesComponent {
+issueClick($event: MouseEvent,issue: number) {
+console.log("clicked in issue:", this.issueList[issue]);
+}
+  issueList: any[] = [];
+  currentPage: number = 1;
+  itemsPerPage: number = 20;
 
   constructor(private aissuesService: AissuesService){}
   async ngOnInit(): Promise<void> {
@@ -39,15 +45,15 @@ export class AissuesComponent {
   issuesStatusOptions: any =[
     {
       name: "Open",
-      value: "Open"
+      value: "OPEN"
     },
     {
       name: "In Progress",
-      value: "In Progress"
+      value: "IN_PROGRESS"
     },
     {
       name: "Resolved",
-      value: "Resolved"
+      value: "RESOLVED"
     }
   ]
   
@@ -78,8 +84,9 @@ export class AissuesComponent {
     throw new Error('Method not implemented.');
   }
     
-  onissuesStatusChange($event: any) {
-    throw new Error('Method not implemented.');
+  async onissuesStatusChange(selectedIssueStatus: string) {
+    this.filterData.issuesStatus = selectedIssueStatus;
+    await this.getAllIssues();
     }
 
   onissueTypeChange($event: any) {
@@ -87,34 +94,19 @@ export class AissuesComponent {
     }
 
     async getAllIssues(){
-      await this.aissuesService.getAllIssues().then(async (response: any) => {
+      await this.aissuesService.getAllIssues(this.filterData.issuesStatus).then(async (response: any) => {
         if (response) {
-          console.log("Response from Issues API");
+          this.issueList = response;
+          console.log("Issue list:", this.issueList);
+          // console.log("Issue  status 0:";
         }
       })
     }
 
-    // async getCompanyDetails() {
-    //   if (this.lastKey || this.loadedOnce) {
-    //     this.spinner.show();
-    //     await this.companyListing.getCompanyListing(this.pageSize, this.lastKey, this.filterData.teamSize, this.filterData.industryType, this.filterData.companyName).then(async (response) => {
-    //       if (response) {
-    //         console.log("Helo11");
-    //         this.spinner.hide();
-    //         if (this.loadedOnce) {
-    //           this.companyList = [];
-    //         }
-    //         this.companyList = this.companyList.concat(response.data);
-    //         this.lastKey = response.pagination.lastKey;
-    //         this.loadedOnce = false;
+    getCurrentPageIssues(): any[] {
+      const startIndex = (this.currentPage - 1) * this.itemsPerPage;
+      const endIndex = startIndex + this.itemsPerPage;
+      return this.issueList.slice(startIndex, endIndex);
+    }
   
-    //         //  this.filterCompanies(); // Filter companies after updating companyList
-    //       }
-    //     })
-    //       .catch(error => {
-    //         console.error('Display Company Listing Error:', error);
-    //         this.spinner.hide();
-    //       });
-    //   }
-    // }
 }

@@ -56,6 +56,7 @@ import { IndexComponent } from './components/index/index.component';
 import { FaqCandidateComponent } from './components/faq-candidate/faq-candidate.component';
 import { FaqRefereeComponent } from './components/faq-referee/faq-referee.component';
 import { AddCompanyComponent } from './components/add-company/add-company.component';
+import { ContactUsComponent } from './components/contact-us/contact-us.component';
 
 
 
@@ -190,6 +191,10 @@ export const routes: Routes = [
         path: 'faq-referee',
         component: FaqRefereeComponent
       },
+      {
+        path : 'contact-us',
+        component:ContactUsComponent 
+      },
     ]
   }  
 ]
@@ -228,7 +233,7 @@ export const routes: Routes = [
     IndexComponent,
     FaqCandidateComponent,
     FaqRefereeComponent,
-    
+    ContactUsComponent
   ],
   imports: [
     CommonModule,

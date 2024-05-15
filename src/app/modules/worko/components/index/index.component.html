@@ -571,9 +571,12 @@
                     </div>-->
     
                     <div class="company company1" tabindex="0"  *ngFor="let item of companyList">
-                        <img src="assets/company-logo/{{item.logo}}" class="company-img" style="height: 100px;width: 100px; color: black;" alt="{{item.name}}">
+
+                        <img src="assets/company-logo/{{item.logo}}" class="company-img" alt="{{item.name}}">
                         <div class="hover hover1">
-                            <img src="assets/company-logo/{{item.logo}}" style="color: black;" alt="{{item.name}}">
+                            <div class="logo-container">
+                                <img src="assets/company-logo/{{item.logo}}" alt="{{item.name}}">
+                            </div>
                             <button class="referral button"  (click)="openReferralPage(item)">Request Referral</button>
                             <button class="referral button"  (click)="openGudiancePage(item)" >Request Guidance</button>
                         </div>
@@ -669,11 +672,20 @@
                             <button class="referral button">Request Guidance</button>
                         </div>
                     </div> -->
-    
+                    <div class="company company1" tabindex="0"  *ngFor="let item of companyList">
+                        <img src="assets/company-logo/{{item.logo}}" class="company-img" alt="{{item.name}}">
+                        <div class="hover hover1">
+                            <img src="assets/company-logo/{{item.logo}}" style="color: black;" alt="{{item.name}}">
+                            <button class="referral button"  (click)="openReferralPage(item)">Request Referral</button>
+                            <button class="referral button"  (click)="openGudiancePage(item)" >Request Guidance</button>
+                        </div>
+                    </div>
                 </div>
             </div>
             
-            <button (click)="redirectToCompanyListing()" class="btn btn-dark font-inria">View More...</button>
+            <div class="button-container text-center" >
+                <button (click)="redirectToCompanyListing()" class="btn btn-dark font-inria">View More...</button>
+            </div>
         </div>
 
         <div class="info-section d-flex">
@@ -779,10 +791,8 @@
             <div class="reviews-content">
                 <div class="sub-title">What Our Customer Says?</div>
                 <div class="text">
-                    Lorem ipsum dolor sit amet, consectetur 
-                    adipiscing elit, sed do eiusmod tempor incididunt ut 
-                    labore et dolore magna aliqua. Ut enim a minim veniam, 
-                    quis nostrud exercitation ullamco laboris nisi 
+                    Discover what our users have to say about their experience with 
+                    Worko and how Worko has transformed their job-search experiences. 
                 </div>
             </div>
             <div class="review-img">
@@ -800,7 +810,7 @@
                     </div>
                     <div class="reviewer">
                         <div class="name">{{ review.name }}</div>
-                        <div class="role">{{ review.role }}</div>
+                        <div class="role">{{ review.company }}</div>
                     </div>
                 </div>
             </div>
@@ -815,7 +825,7 @@
                     </div>
                     <div class="reviewer">
                         <div class="name">{{ review.name }}</div>
-                        <div class="role">{{ review.role }}</div>
+                        <div class="role">{{ review.company }}</div>
                     </div>
                 </div>
             </div>
@@ -830,7 +840,7 @@
                     </div>
                     <div class="reviewer">
                         <div class="name">{{ review.name }}</div>
-                        <div class="role">{{ review.role }}</div>
+                        <div class="role">{{ review.company }}</div>
                     </div>
                 </div>
             </div>
