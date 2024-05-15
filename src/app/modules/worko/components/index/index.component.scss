@@ -853,6 +853,10 @@
             height: 200px !important;
         }
 
+        .slide-container:hover .company-slides{
+            animation-play-state: paused;
+        }
+
         .company1:focus .hover1 {
             display: block !important;
         }
@@ -882,14 +886,18 @@
         }
 
         button{
-            padding: 0.5rem 10%;
+            // padding: 0.5rem 10%;
             margin-top: 7rem;
-            width: 63%;
-            font-size: calc(1.2vw + 7px);
-            margin-left: 18%;
+            // width: 63%;
+            // font-size: calc(1.2vw + 7px);
+            // margin-left: 18%;
         }
     }
 
+    .index-section .companies-section .company-slides .company .hover .button {
+        width: 145px;
+        font-size: 0.75rem;
+    }
     // .company:focus .company-slides{
     //     animation-play-state: paused;
     // }
@@ -1106,7 +1114,7 @@
         width: 95.5px;
         // width: calc(6vw + 71.5px);
         width: calc(3vw + 83px);
-        min-width: 94px;
+        min-width: 95px;
     }
 }
     
@@ -1750,7 +1758,6 @@
             .title, .para{
                 font-size: 14px;
             }
-            
         }
 
         .company-slides{
@@ -1772,20 +1779,40 @@
         .hover{
             width: 200px !important;
             height: 200px !important;
+            img{
+                width: 70px;
+                height: 70px;
+            }
         }
 
         button{
-            padding: 0.5rem 10%;
+            // padding: 0.5rem 10%;
             margin-top: 4rem;
-            width: 63%;
-            font-size: calc(1.2vw + 7px);
-            margin-left: 18%;
+            // width: 145px;
+            font-size: 0.875rem;
+            // margin-left: 18%;
         }
     }
 
+    .index-section .companies-section .company-slides .company .hover .button {
+        width: 145px;
+        font-size: 0.75rem;
+    }
+
+    .slide-container:hover .company-slides{
+        animation-play-state: paused;
+    }
+
+    
+
     .company1:focus .hover1 {
         display: block !important;
+        
     }
+    .company1:focus .company-slides{
+        animation-play-state: paused;
+    }
+
     
     .company2:focus .hover2 {
         display: block !important;
@@ -1979,13 +2006,12 @@
     }
     .purpose-section .purpose-card {
         .purpose-title{
-            font-size: 28px;
+            font-size: 1.75rem;
         }
 
         .purpose-text {
-            font-size: 24px;
-            line-height: 28px;
+            font-size: 1rem;
+            // line-height: 1.px;
         }
     }
-    
 }

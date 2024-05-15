@@ -486,6 +486,10 @@
                     padding: 12px 42px;
                     margin-left: 5%;
                 }
+                a{
+                    align-self: center;
+                    margin: 3px;
+                }
             }
             .input-area{
                 height: 150px;
@@ -831,6 +835,7 @@
                         padding: 6px 30px;
                         margin-left: 5%;
                     }
+
                 }
                 .input-area{
                     height: 75px;
@@ -1257,18 +1262,24 @@
                     margin-bottom: 6px;
                 }
                 .email-container{
+                    width: 100%;
                     .form-button{
                         height: 28px;
                     }
                 }
                 .verify{
+                    width: 100%;
                     .input{
                         height: 25px;
+                        width: 60px;
                     }
                     button{
                         font-size: 11px;
-                        padding: 5px 25px;
-                        margin-left: 5%;
+                        padding: 5px 15px;
+                        margin-left: 5px;
+                    }
+                    a{
+                        font-size: 12px;
                     }
                 }
                 .input-area{
@@ -1295,11 +1306,7 @@
           }
     }
 
-  
 }
-
-
-
 
 // @media (min-width: 1750px){
 
@@ -1341,3 +1348,12 @@
   
   }
   
+
+@media (min-width: 1750px){
+    .side-timeline{
+        img{
+            width: calc(207px + 6vw);
+        }
+    }
+
+}

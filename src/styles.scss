@@ -2531,17 +2531,19 @@ footer {
                 .logo-container{
                     display: flex;
                     justify-content: center;
+                    margin-bottom: 0.5rem;
                 }
 
                 .button {
-                    font-size: calc(0.5vw + 8px);
-                    width: 70%;
-                    padding: 4%;
+                    // font-size: calc(0.5vw + 8px);
                     margin: 0;
                     color: #fff;
                     background-color: #194561;
-                    margin-top: 5%;
-                    margin-left: 15%;
+                    width: 190px;
+                    padding: 6px;
+                    margin-top: 7px;
+                    margin-left: 30px;
+                    font-size: 1rem;
                 }
             }
 
@@ -2553,12 +2555,14 @@ footer {
         }
     }
     button {
-        padding: 0.5rem 10%;
+        // padding: 0.5rem 10%;
         margin-top: 7rem;
-        width: 30%;
-        font-size: calc(1.2vw + 7px);
-        margin-left: 34%;
+        // width: 30%;
+        // font-size: calc(1.2vw + 7px);
+        // margin-left: 34%;
         border-radius: 8px;
+        padding: 0.5rem 50px;
+        font-size: 1.5rem;
     }
 }
 
