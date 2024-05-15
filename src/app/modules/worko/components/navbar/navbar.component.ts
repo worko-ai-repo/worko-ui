@@ -6,6 +6,7 @@ import { Router } from '@angular/router';
 import { CandidateProfileService } from 'src/app/modules/candidate/services/candidate-profile.service';
 import { StorageService } from 'src/app/modules/app-core/services/storage.service';
 import { NavbarToggleSwitchService } from 'src/app/modules/candidate/services/navbar-toggle-switch.service';
+import { LoginPageComponent } from '../login-page/login-page.component';
 
 @Component({
   selector: 'app-navbar',
@@ -15,10 +16,11 @@ import { NavbarToggleSwitchService } from 'src/app/modules/candidate/services/na
 
 export class NavbarComponent {
   @ViewChild(ModalComponent) modal!: ModalComponent;
+  @ViewChild(LoginPageComponent) LoginPageComponent!:LoginPageComponent;
   modalType = ModalType;
   modalMessage: string = "";
   modalTitle: string = "";
-  showModal: ModalType | undefined;
+  showModal: ModalType =ModalType.LOGIN_SIGNUP;
   userLoggedIn: boolean = false;
   emailAddress: string = "";
   profileCompletion: any = "";
@@ -169,6 +171,12 @@ export class NavbarComponent {
     * @returns {void}
     */
   openModal(modalType: ModalType, message: string = "", title: string = ""): void {
+    if(this.LoginPageComponent){
+      this.LoginPageComponent.showSignInRow=true;
+      this.LoginPageComponent.showAddCompanyScreen=false;
+      this.LoginPageComponent.showErrorMessageScreen=false;
+    }
+   
     this.showModal = modalType;
     this.modalMessage = message;
     this.modalTitle = title;

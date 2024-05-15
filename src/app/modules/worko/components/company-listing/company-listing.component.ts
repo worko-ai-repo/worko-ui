@@ -9,7 +9,7 @@ import { debounceTime, distinctUntilChanged, map, switchMap } from 'rxjs/operato
 import { Observable, Subject } from 'rxjs';
 import { NgxSpinnerService } from 'ngx-spinner'; 
 import { HttpClient } from '@angular/common/http';
-import { FormControl } from '@angular/forms';
+import { FormControl, NgForm } from '@angular/forms';
 import { AuthService } from '../../services/auth.service';
 import { MatAutocompleteTrigger } from '@angular/material/autocomplete';
 import { event } from 'jquery';
@@ -604,12 +604,30 @@ generateLogoFilenames(start: number, end: number, excludedNumbers:any[]) {
         };
       }
     }
+    if(ModalType.ADD_COMPANY){
+      this. companyForm={
+
+
+        CompanyName: "",
+          industry: 'Industry',
+         
+          carrierPage:"",
+          linkedIn: "",
+          personalemailid:"",
+          contactNumber:""
+      
+      
+      }
+     //this.selectedCompany="";
+      this.myControl.reset();
+    }
     this.showModal = modalType;
     this.modalMessage = message;
     this.modalTitle = title;
     this.modal.open();
 
   }
+ 
   /**
    * Close modal.
    *

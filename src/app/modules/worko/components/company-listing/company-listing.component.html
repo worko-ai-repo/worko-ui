@@ -237,8 +237,8 @@
         <div class="row">
           <div class=" col-md-2"> </div>
           <input class="col-8 col-md-6 mb-2 p-1 px-1" type="text" placeholder="LinkedIn Page" id="linkedIn" 
-          name="linkedIn" [(ngModel)]="companyForm.linkedIn"
-           pattern="^(https?:\/\/(www\.)?linkedin\.com\/in\/[a-zA-Z0-9_\-]+\/?)$"
+          name="linkedIn" [(ngModel)]="companyForm.linkedIn" 
+           pattern="^(https?:\/\/((www|[in]{2})\.)?linkedin\.com\/company\/[a-zA-Z0-9_\-&]+\/?)$"
           #linkedIn="ngModel"   [ngClass]="{ 'is-invalid': linkedIn.invalid && (linkedIn.dirty || linkedIn.touched) }">
         </div>
         <div class="row">
@@ -257,11 +257,20 @@
             </div>
           <div class="row">
             <div class=" col-md-2"> </div>
-          <input class="col-8 col-md-6 mb-2 p-1 px-1" type="text" placeholder="Your Contact Number" 
+            
+          <input class="col-8 col-md-6 mb-2 p-1 px-1 position-relative" type="text" placeholder="Your Contact Number(+91XXXXXXXXXX)" 
           id="contactNumber" 
           name="contactNumber"  [(ngModel)]="companyForm.contactNumber" 
           pattern="^\+(?:[0-9] ?){6,14}[0-9]$" #contactNumber="ngModel"  [ngClass]="{ 'is-invalid': contactNumber.invalid && (contactNumber.dirty || contactNumber.touched) }">
         </div>
+        <!-- <div class="tooltip-container">
+          <div class="tooltip-style">
+              <i class="fa-solid fa-circle-info"></i>
+          </div>
+          <div class="tooltip-text pt-2 text-center ">
+              <small>contact Number should be(+91XXXXXXXXXX)</small>
+          </div>
+      </div> -->
           
           <!-- <div *ngIf="!userLoggedIn">
               <div class="title">

@@ -489,7 +489,7 @@
 
 
                     <label for="cvInput" class="cv d-flex align-items-center position-relative" style="background-color: white; height: 58px; border-radius: 4px;" >
-                        <div class="upload-text w-100"   style="background-color: white;color: gray;"*ngIf="fileName && !fileErr">
+                        <div class="upload-text w-100 d-flex position-relative"   style="background-color: white;color: gray; height: 58px;"*ngIf="fileName && !fileErr">
                             {{ fileName }}
                           </div>
                          
@@ -498,8 +498,8 @@
                            
                       
                         <img class="button-style" src="/assets/about-images-KA/cv-icon.png" alt="cv-icon">
-                        <input type="file" id="cvInput" class="input cv-button" style="display: none;" (change)="handleFileInput($event)" >
-                            <div class="error text-danger py-2" style="font-size: 14px;" *ngIf="fileErr">
+                        <input type="file" id="cvInput" class="input cv-button  " style="display: none;" (change)="handleFileInput($event)" >
+                            <div class="error text-danger py-2 " style="font-size: 14px;" *ngIf="fileErr">
                             {{ fileErr }}
                           </div>
                         
