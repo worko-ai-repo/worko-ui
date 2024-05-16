@@ -988,7 +988,7 @@
     }
 
     .review-cards{
-        width: 730vw;
+        width: 900vw;
         padding-top: 4rem;
         margin-left: -66%;
     }
@@ -1901,8 +1901,8 @@
         .text{
             width: 165%;
             margin: 0;
-            padding: 4rem 0;
-            font-size: 12px;
+            padding: 5rem 0 2rem;
+            font-size: 0.875rem;
             margin-left: -12%;
         }
 
@@ -1917,18 +1917,18 @@
 
     .review-cards{
         
-        width: 831vw;
+        width: 970vw;
         padding-top: 4rem;
         margin-left: -68%;
     }
 
     .review-card{
         border-radius: 33px;
-        margin-right: 1%;
+        margin-right: 0.5%;
         width: 68%;
-        padding: 4rem 1% 3rem;
+        padding: 4rem 1% 0.5rem;
         .card-content{
-            font-size: 10px;
+            font-size: 0.875rem;
             text-align: center;
         }
         
@@ -1942,12 +1942,12 @@
         text-align: center;
         .name{
             font-weight: 700;
-            font-size: 14px;
-            padding-top: 2rem;
+            font-size: 1rem;
+            padding-top: 1.5rem;
         }
 
         .role{
-            font-size: 10px;
+            font-size: 0.875rem;
         }
     }
 
@@ -2014,4 +2014,9 @@
             // line-height: 1.px;
         }
     }
+
+    .review-cards{
+        width: 565vw;
+    }
+    
 }
