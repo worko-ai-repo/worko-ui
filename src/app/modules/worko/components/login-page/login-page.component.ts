@@ -863,7 +863,7 @@ try{
       this.showSignInRow=!this.showSignInRow;
       this.confirmationCodeScreen=!this.confirmationCodeScreen;
     // this.codeErrorScreen=!this.codeErrorScreen
-      this.setErrorMessage("User is not confirmed.");
+     // this.setErrorMessage("User is not confirmed.");
     }
     if (login && login.error && login.error.message) {
       this.spinner.hide();

@@ -78,12 +78,19 @@ async aboutUs(){
    this.uploadCVonS3Bucket(this.docResult)
   //  this.spinner.hide();
   //  this.modelOpen()
-  }catch(error){
-    console.log(error)
+  }catch(error:any){
     this.spinner.hide();
+    console.log(error)
+    if(error.status==409){
+      this.successtitle="Error"
+      this.openModal(ModalType.SUCCESS_MESSAGE)
+    }
+    else{
+   
     this.successmessage="Something went wrong. Please try again after sometime"
     this.successtitle="Error"
     this.openModal(ModalType.SUCCESS_MESSAGE)
+    }
   }
 }
 
@@ -190,9 +197,9 @@ handleFileInput(event: Event): void {
         // Optionally, you can reset the input to clear the invalid selection
         inputElement.value = '';
         this.fileToUpload = null;
-        this.successmessage="Something went wrong. Please try again after sometime"
-        this.successtitle="Error"
-        this.openModal(ModalType.SUCCESS_MESSAGE)
+        // this.successmessage="Something went wrong. Please try again after sometime"
+        // this.successtitle="Error"
+        // this.openModal(ModalType.SUCCESS_MESSAGE)
       }
     }
   }
@@ -209,7 +216,8 @@ modelOpen(){
 cancel(){
 
   this.closeModal();
-  window.location.reload();
+  
+  //window.location.reload();
 
 }
 

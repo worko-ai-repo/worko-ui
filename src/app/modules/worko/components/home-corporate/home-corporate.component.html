@@ -354,10 +354,10 @@
                             <input class="input email-input" type="text" placeholder="Email*"name="email"
                             id="email" [(ngModel)]="corporateForm.email" required
                             pattern="^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,4}$"
-                           [ngClass]="{ 'is-invalid': email.invalid && (email.dirty || email.touched) }" #email="ngModel" >    
-                           <button  class="form-button">Verify</button>
+                           [ngClass]="{ 'is-invalid': email.invalid && (email.dirty || email.touched) }" #email="ngModel"  >    
+                           <button  class="form-button" (click)="sendEmail()" *ngIf="isOtpSent" >Verify</button>
                         </div>
-                       <!-- <div class="verify d-flex" *ngIf="isVerified">
+                       <div class="verify d-flex" *ngIf="isVerified">
                         <input class="input form-control form-input" placeholder="__ _ _ __ _"  type="text"
                          [class.is-invalid]="
                           paymentCode.invalid &&
@@ -376,12 +376,13 @@
                           Please enter a valid code
                         </div>
                         <button  class="form-button"(click)="verifyOTP()" >Verify</button>
-                    </div> -->
-                    <div class="verify d-flex" *ngIf="isVerified">
+                        <a  class="resend"  (click)="verifyResentOTP()" *ngIf="isResentOtp">Resend</a>
+                    </div>
+                    <!-- <div class="verify d-flex" *ngIf="isVerified">
                     <input class="input form-control form-input" placeholder="__ _ _ __ _"  type="text"/>
                     <button  class="form-button"(click)="verifyOTP()">Submit</button>
                     <a href="" class="resend">Resend</a>
-                </div>
+                </div> -->
                         
                        <textarea class="input input-area" type="text" name="description" id="description"placeholder="How we can assist you in finding the perfect candidates for your team. *" #desc="ngModel" 
                         [(ngModel)]="corporateForm.description" [ngClass]="{ 'is-invalid': desc.invalid && (desc.dirty || desc.touched) }"
@@ -394,7 +395,8 @@
                         !corporateForm.contactNumber ||
                         !corporateForm.designation ||
                         !corporateForm.description ||
-                        !corporateForm.companyName 
+                        !corporateForm.companyName ||
+                        !isContactNumberVerified 
                       
                       ">Send Message</button>
                     </div>
@@ -436,7 +438,9 @@
                     </div>
                
                 
-                
+                    <div class="font-weight-bold text-color-red mb-3 d-flex justify-content-center" style="color: #e40707; font-size: medium;" *ngIf="successtitle === 'Error' && successmessage">
+                        {{successtitle}}
+                    </div>               
  
     <div class="d-flex justify-content-center"  *ngIf="successtitle === 'Error'">
         <div class="text-center mb-4" *ngIf="!successmessage">

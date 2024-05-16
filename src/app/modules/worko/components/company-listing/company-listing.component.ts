@@ -6,13 +6,14 @@ import { CognitoService } from 'src/app/modules/services/cognito.service';
 import { ReferralRequestComponent } from '../referral-request/referral-request.component';
 import { RequestGuidenceComponent } from '../request-guidence/request-guidence.component';
 import { debounceTime, distinctUntilChanged, map, switchMap } from 'rxjs/operators';
-import { Observable, Subject } from 'rxjs';
+import { BehaviorSubject, Observable, Subject, of } from 'rxjs';
 import { NgxSpinnerService } from 'ngx-spinner'; 
 import { HttpClient } from '@angular/common/http';
 import { FormControl, NgForm } from '@angular/forms';
 import { AuthService } from '../../services/auth.service';
-import { MatAutocompleteTrigger } from '@angular/material/autocomplete';
+import { MatAutocompleteSelectedEvent, MatAutocompleteTrigger } from '@angular/material/autocomplete';
 import { event } from 'jquery';
+import { Router } from '@angular/router';
 @Component({
   selector: 'app-company-listing',
   templateUrl: './company-listing.component.html',
@@ -205,7 +206,7 @@ export class CompanyListingComponent implements OnInit {
   searchQuery: string = '';
   private searchTerms = new Subject<string>();
 
-  constructor(private spinner: NgxSpinnerService,private authService: AuthService,private http: HttpClient, private renderer: Renderer2, private el: ElementRef,private companyListing: CompanyListingService, private cognitoService: CognitoService) {
+  constructor(private spinner: NgxSpinnerService, private router: Router,private authService: AuthService,private http: HttpClient, private renderer: Renderer2, private el: ElementRef,private companyListing: CompanyListingService, private cognitoService: CognitoService) {
     this.searchTerms
       .pipe(
         debounceTime(300), // Adjust the debounce time as needed (300 milliseconds in this example)
@@ -230,6 +231,7 @@ export class CompanyListingComponent implements OnInit {
 
 
 this.filteredOptions = this.myControl.valueChanges.pipe(
+  
   debounceTime(300),
   distinctUntilChanged(),
   switchMap((value: any) => {
@@ -309,8 +311,14 @@ await this.companyListing.getGuidanceData().subscribe((item: any) => {
 //  this.openReferralPage(event,item)
 // }
 
-  onOptionSelected(event: any): void {
+  onOptionSelected(event: MatAutocompleteSelectedEvent): void {
+    debugger
     this.selectedCompany = event.option.value;
+    console.log(this.selectedCompany)
+    //this.router.navigate([]);
+    //this.router.navigate(['/company-listing']);
+    this.modal.cancel();
+    //this.router.navigateByUrl('/company-listing');
   }
 
   displayFn(option: any): string {
@@ -343,7 +351,7 @@ generateLogoFilenames(start: number, end: number, excludedNumbers:any[]) {
 
  
   onSearchInputChange(): void {
-    if (this.searchQuery.length >3) {
+    if (this.searchQuery.length >=3) {
     this.lastKey = "";
     this.loadedOnce = true;
     this.searchTerms.next(this.searchQuery);
@@ -618,8 +626,9 @@ generateLogoFilenames(start: number, end: number, excludedNumbers:any[]) {
       
       
       }
-     //this.selectedCompany="";
+    
       this.myControl.reset();
+  
     }
     this.showModal = modalType;
     this.modalMessage = message;
