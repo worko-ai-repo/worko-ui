@@ -1,4 +1,3 @@
-
 .all-sections{
     overflow: hidden;
 }
@@ -1803,40 +1802,38 @@
         animation-play-state: paused;
     }
 
-    
-
     .company1:focus .hover1 {
         display: block !important;
         
     }
-    .company1:focus .company-slides{
-        animation-play-state: paused;
-    }
 
-    
-    .company2:focus .hover2 {
-        display: block !important;
+    .company-slides{
+        animation: 250s slide infinite linear;
     }
     
-    .company3:focus .hover3 {
-        display: block !important;
-    }
+    // .company2:focus .hover2 {
+    //     display: block !important;
+    // }
     
-    .company4:focus .hover4 {
-        display: block !important;
-    }
+    // .company3:focus .hover3 {
+    //     display: block !important;
+    // }
     
-    .company5:focus .hover5 {
-        display: block !important;
-    }
+    // .company4:focus .hover4 {
+    //     display: block !important;
+    // }
     
-    .company6:focus .hover6 {
-        display: block !important;
-    }
+    // .company5:focus .hover5 {
+    //     display: block !important;
+    // }
     
-    .company7:focus .hover7 {
-        display: block !important;
-    }
+    // .company6:focus .hover6 {
+    //     display: block !important;
+    // }
+    
+    // .company7:focus .hover7 {
+    //     display: block !important;
+    // }
 
 
     .info-section{
