@@ -79,6 +79,9 @@ export class HomeCorporateComponent {
     console.log(response.id)
     console.log("success");
     this.isOtpSent=!this.isOtpSent
+    this.successmessage= "We have sent a code by email to "+this.corporateForm.email
+    this.successtitle="Verify E-MAIL"
+    this.openModal(ModalType.SUCCESS_MESSAGE)
     
   }else{
     this.successmessage= "Something went wrong. Please try again after sometime"
@@ -100,10 +103,18 @@ export class HomeCorporateComponent {
     console.log(response.verificationStatus)
     if(response.verificationStatus==true){
      
-
+      this.isResentOtp=!this.isResentOtp
       this.isVerified=!this.isVerified;
       this.isContactNumberVerified=true;
+      this.successmessage= "OTP is verified successfully"
+      this.successtitle="Success!"
+      this.openModal(ModalType.SUCCESS_MESSAGE)
       
+    }else{
+      this.corporateForm.paymentCode="";
+      this.successmessage= "OTP is incorrect.Please try again with resend"
+      this.successtitle="Error"
+      this.openModal(ModalType.SUCCESS_MESSAGE)
     }
   }catch(error){
     this.successmessage= "Something went wrong. Please try again after sometime"
@@ -119,7 +130,10 @@ export class HomeCorporateComponent {
       if(response.id){
         console.log(response.id)
         console.log("success");
-        this.isResentOtp=!this.isResentOtp
+        this.successmessage= "We have sent a code by email to "+this.corporateForm.email
+        this.successtitle="Verify E-MAIL"
+        this.openModal(ModalType.SUCCESS_MESSAGE)
+       
         //this.isOtpSent=!this.isOtpSent
         
       }else{
@@ -143,6 +157,8 @@ export class HomeCorporateComponent {
   cancel(){
   
     this.closeModal();
+    this.successmessage="";
+    this.successtitle=""
     //window.location.reload();
   }
 
