@@ -169,7 +169,7 @@ export class IndexComponent {
         this.nextButtonDisabled = true;
         // const lastReview = this.reviews.pop()!;
         // this.reviews.unshift(lastReview);
-        this.marginLeft = -15 -(this.currentIndex) * 50 -52;
+        this.marginLeft = -15 -(this.currentIndex) * 50 -55;
         this.marginLeftmd =  -(this.currentIndex + 1) * 80 - 70;
         this.marginLeftsm = -(this.currentIndex + 1) * 80 - 140;
       }
@@ -177,7 +177,7 @@ export class IndexComponent {
     }
 
     adjustMarginLeft() {
-      this.marginLeft = -26 -this.currentIndex * 50 - this.currentIndex; 
+      this.marginLeft = -27 -this.currentIndex * 51 - this.currentIndex; 
       this.marginLeftmd = -66 - this.currentIndex * 80 - this.currentIndex;
       this.marginLeftsm = -78 - this.currentIndex * 86 - this.currentIndex;
     }
