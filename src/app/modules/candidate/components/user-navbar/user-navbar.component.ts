@@ -1,36 +1,54 @@
 import { Component, Input, OnDestroy, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { NavbarToggleSwitchService } from '../../services/navbar-toggle-switch.service';
+import { AuthService } from 'src/app/modules/worko/services/auth.service';
+import { StorageService } from 'src/app/modules/app-core/services/storage.service';
 
 @Component({
   selector: 'app-user-navbar',
   templateUrl: './user-navbar.component.html',
   styleUrls: ['./user-navbar.component.scss']
 })
-export class UserNavbarComponent implements OnInit{
+export class UserNavbarComponent implements OnInit {
   @Input() userType: string = "";
   userRole: any;
   activeRoute: string = '';
+  emailAddress: any;
   navbarToggleSwitchService: NavbarToggleSwitchService;
-  constructor( private router : Router, navbarToggleSwitchService : NavbarToggleSwitchService,){
+  constructor(private router: Router, navbarToggleSwitchService: NavbarToggleSwitchService, private authService: AuthService, private storage: StorageService) {
 
     this.navbarToggleSwitchService = navbarToggleSwitchService;
   }
 
   ngOnInit(): void {
-   console.log(this.userType)
-   
-   //debugger
-   
+    console.log(this.userType)
+    this.emailAddress = this.storage.get("useremail");
+    //debugger
+
+    if (this.router.url.includes('candidate')) {
+      if (this.navbarToggleSwitchService.getCurrentDashboard() !== false) {
+        this.navbarToggleSwitchService.setDashboard("CAND");
+        this.updateLastAccessDashboard();
+      }
+    } // Ensure the navbar toggle updates correctly based on the URL when navigating back or forward in the browser. 
+    // Also, update the last accessed dashboard accordingly.
+
+    else if (this.router.url.includes('employee')) {
+      if (this.navbarToggleSwitchService.getCurrentDashboard() !== true) {
+        this.navbarToggleSwitchService.setDashboard("EMP");
+        this.updateLastAccessDashboard();
+      }
+    }
+
     this.activeRoute = this.router.url;
     if (this.userType == "Candidate") {
       this.userRole = [
         {
           name: 'Candidate Dashboard',
-          togglName:'Switch To Employee Dashboard'
-         
+          togglName: 'Switch To Employee Dashboard'
+
         },
-       
+
       ]
     }
 
@@ -38,18 +56,18 @@ export class UserNavbarComponent implements OnInit{
       this.userRole = [
         {
           name: 'Employee Dashboard',
-          togglName:'Switch To Candidate Dashboard'
+          togglName: 'Switch To Candidate Dashboard'
         },
-       
+
       ]
     }
     if (this.userType == "Admin") {
       this.userRole = [
         {
           name: 'Admin Dashboard',
-         
+
         },
-       
+
       ]
     }
 
@@ -62,20 +80,35 @@ export class UserNavbarComponent implements OnInit{
     return this.navbarToggleSwitchService.getCurrentDashboard();
   }
 
-  toggleDashboard() {
+  async toggleDashboard() {
 
     this.navbarToggleSwitchService.toggleDashboard();
 
     if (this.navbarToggleSwitchService.getCurrentDashboard()) {
       console.log(this.userType)
       this.router.navigate(['/employee/Dashboard']);
-     
       //debugger
     } else {
       console.log(this.userType)
       this.router.navigate(['/candidate/dashboard']);
-      
-    }  
+    }
+
+    this.updateLastAccessDashboard();
+    
+  }
+
+  async updateLastAccessDashboard() {   
+    //API Call to update the lastAccessDashboard
+
+    let payload = {
+      lastAccessedDash: this.navbarToggleSwitchService.getDashboard()
+    }
+    await this.authService.updateProfile(this.emailAddress, payload).then(async (response) => {
+      console.log(response);
+    })
+      .catch(error => {
+        console.error('Error is', error);
+    });
   }
 
 }

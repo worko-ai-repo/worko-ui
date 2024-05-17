@@ -256,9 +256,10 @@ export class EmployeeEditComponent {
   
       // Add current company details
       if (this.secondStepData) {
+        let companyId = this.getSlicedValue(this.secondStepData.companySK);
         workExperience.push({
           "companyName": this.secondStepData.companyName,
-          "companySK": this.secondStepData.companySK,
+          "companyId": companyId,
           "emailId": this.secondStepData.officialEmail,
           "designation": this.secondStepData.designation,
           "department": this.secondStepData.department,
@@ -532,6 +533,14 @@ console.log(this.workExperienceDetails)
   cancel(){
     this.router.navigate(['/employee/Dashboard']);
     this.closeModal();
+  }
+
+  getSlicedValue(value: string): string {
+    const parts = value?.split('#');
+    if (parts && parts.length > 1) {
+      return parts.length > 2 ? parts[2] : parts[1];
+    }
+    return '';
   }
 
 

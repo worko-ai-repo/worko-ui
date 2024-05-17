@@ -65,6 +65,18 @@ export class AuthService {
       .toPromise()
       .then(response => response as ArrayBuffer);
   }
+
+  updateProfile(emailId: string, data:any): Promise<any> {
+    return this.http.put(API_URL + `user/${emailId}/updateLastAccessedDash`, data, this.getHttpOptions())
+      .toPromise()
+      .then(response => response as ArrayBuffer)
+      .catch(error => {
+        console.error('Error updating profile:', error);
+        throw error;
+      });
+  }
+  
+
   otpVerification(emailId: string): Promise<any> {
     return this.http.patch(API_URL + `user/${emailId}/verify`, this.getHttpOptions())
       .toPromise()

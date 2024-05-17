@@ -777,7 +777,7 @@ async  handleConfirmResetPassword({
       await this.authService.getProfile(this.form.email).then(async (response) => {
 
         let userType = response.data.lastAccessedDash;
-        let userName=response.data.name
+        let userName=response.data.name;
         this.storage.set('lastAccessedDash', userType);
         this.storage.set('userName', userName);
         this.navbarToggleSwitchService.intializeToggleStatus();

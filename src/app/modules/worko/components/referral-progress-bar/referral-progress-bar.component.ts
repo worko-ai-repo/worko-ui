@@ -18,7 +18,8 @@ export class ReferralProgressBarComponent implements OnChanges {
   errorFound: boolean = false;
   cvError: boolean = false;
   jobDescription: boolean = false;
-  maxDuration: number = 2 * 60 * 1000;
+  // maxDuration: number = 2 * 60 * 1000;
+  maxDuration: number = 1.5 * 60 * 1000;
   texts: string[] = [
     "Matching your educational qualification",
     "Checking your responsibilities and experiences",
@@ -40,11 +41,12 @@ export class ReferralProgressBarComponent implements OnChanges {
           element.innerText = this.texts[index];
           index++;
         }
-      } else {
+      }
+      else {
         clearInterval(interval);
         setTimeout(async () => {
           await this.fetchScore();
-        }, 3000); //30000
+        }, 3000);   //30000
       }
     }, 5000); //7000
   }
@@ -63,6 +65,12 @@ export class ReferralProgressBarComponent implements OnChanges {
               await this.fetchScore();
             }, 20000);
           }
+          else {
+            this.jobDescription = false;
+            this.errorFound = true;
+            this.showScore = false;
+            this.cvError = true;
+          }
         } else if (response.matchingScore === 250) {
           this.jobDescription = false;
           this.errorFound = true;
@@ -80,20 +88,20 @@ export class ReferralProgressBarComponent implements OnChanges {
           this.showScore = false;
         }
 
-      
-    } else {
-      this.score = response.matchingScore;
-      this.showScore = true;
+
+      } else {
+        this.score = response.matchingScore;
+        this.showScore = true;
+      }
+
     }
-  
   }
-}
 
 
-onViewMore(): void {
-  // Toggle the visibility of the email content
-  this.showEmailContent = true;
-}
+  onViewMore(): void {
+    // Toggle the visibility of the email content
+    this.showEmailContent = true;
+  }
 
   //   getScore() {
   //     this.companyListing.getMatchingScore(this.emailId, this.referralId).then(async (response) => {

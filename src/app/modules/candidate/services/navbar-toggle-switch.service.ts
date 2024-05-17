@@ -9,7 +9,8 @@ export class NavbarToggleSwitchService {
 
   private localStoragekey = 'currentDashboardEnabled';
   // private isEmployeeDashboard:boolean = false;
-  private currentDashboard = this.storage.get('currentDashboardEnabled');
+  // private currentDashboard = this.storage.get('currentDashboardEnabled'); working way
+  private currentDashboard = this.storage.get('lastAccessedDash')
 
   constructor(private storage: StorageService) {
     
@@ -23,9 +24,18 @@ export class NavbarToggleSwitchService {
     // }
   }
 
+  getDashboard() {
+    return this.currentDashboard;
+  }
+
+  setDashboard(userType:any) {
+    this.currentDashboard = userType;
+    this.storage.set('lastAccessedDash', this.currentDashboard);
+  }
+
   intializeToggleStatus() {
     const toggleStatus = this.storage.get('lastAccessedDash');
-    this.storage.set(this.localStoragekey, toggleStatus);
+    // this.storage.set(this.localStoragekey, toggleStatus); working way
     // console.log("from toggle switch service",this.storage.get('lastAccessedDash'));
     if (toggleStatus) {
       this.currentDashboard = toggleStatus;
@@ -43,7 +53,8 @@ export class NavbarToggleSwitchService {
       this.currentDashboard = 'EMP'
     }
     // localStorage.setItem(this.localStoragekey, JSON.stringify(this.isEmployeeDashboard));
-    this.storage.set(this.localStoragekey, this.currentDashboard);
+    this.storage.set('lastAccessedDash', this.currentDashboard);
+    // this.storage.set(this.localStoragekey, this.currentDashboard); working way
   }
 
   // getIsEmployeeDashboard(): boolean {
