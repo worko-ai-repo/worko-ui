@@ -26,10 +26,11 @@ import { ChangeDetectorRef } from '@angular/core';
 import { CognitoService } from '../../../services/cognito.service';
 import 'aws-amplify/auth/enable-oauth-listener';
 import { Hub } from 'aws-amplify/utils';
-import { ConfirmResetPasswordInput,fetchDevices,ResetPasswordOutput, confirmResetPassword, fetchAuthSession, getCurrentUser, rememberDevice, resetPassword, FetchDevicesOutput,} from '@aws-amplify/auth';
+import { ConfirmResetPasswordInput,fetchDevices,ResetPasswordOutput, confirmResetPassword, fetchAuthSession, getCurrentUser, rememberDevice, resetPassword, FetchDevicesOutput, confirmSignUp,} from '@aws-amplify/auth';
 import { event } from 'jquery';
 import { CompanyListingService } from '../../services/company-listing.service';
 import { NavbarToggleSwitchService } from 'src/app/modules/candidate/services/navbar-toggle-switch.service';
+import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 declare var bootstrap: any;
 
 
@@ -77,12 +78,14 @@ export class LoginPageComponent implements AfterViewInit, OnDestroy {
   // checkboxChecked:boolean=false;
   agreeTerms: boolean = false;
   auto: any;
+  codeErrorScreen: boolean = false;
 
   modalType = ModalType;
   modalMessage: string = "";
   modalTitle: string = "";
   showModal: ModalType | undefined;
-
+  showAddCompanyScreen:boolean=false;
+  showErrorMessageScreen:boolean=false;
   form = {
     email: '',
     password: ''
@@ -177,7 +180,7 @@ export class LoginPageComponent implements AfterViewInit, OnDestroy {
   successmessage: string="";
   successtitle: string="";
   
-  constructor(private cdr: ChangeDetectorRef,private companyListingService:CompanyListingService,private storage: StorageService, private amplify: CognitoService, private router: Router, private authService: AuthService, private spinner: NgxSpinnerService, private navbarToggleSwitchService : NavbarToggleSwitchService) {
+  constructor(private cdr: ChangeDetectorRef,private modalService: NgbModal,private companyListingService:CompanyListingService,private storage: StorageService, private amplify: CognitoService, private router: Router, private authService: AuthService, private spinner: NgxSpinnerService, private navbarToggleSwitchService : NavbarToggleSwitchService) {
   
   
 
@@ -319,6 +322,7 @@ export class LoginPageComponent implements AfterViewInit, OnDestroy {
   }
 
   resetPasswordScreen() {
+    this.setErrorMessage("");
     this.displayResetPassword = true;
     this.confirmationCodeScreen = false;
    
@@ -412,6 +416,7 @@ export class LoginPageComponent implements AfterViewInit, OnDestroy {
 
   resetPassword(form: any) {
     debugger
+    this.setErrorMessage("");
     this.confirmationEmail = this.maskEmail(this.resetForm.emailId);
     this.resetVerificationScreen = true;
     this.handleResetPassword(this.resetForm.emailId)
@@ -643,28 +648,60 @@ try{
     let response= await this.companyListingService.getAllNewCompany()
     if(response){
       this.spinner.hide()
-      this.openModal(ModalType.SUCCESS_MESSAGE);
+      this.showSignInRow=!this.showSignInRow
+      this.showAddCompanyScreen=!this.showAddCompanyScreen
+      this.showErrorMessageScreen=!this.showErrorMessageScreen
+     
+     // this.openModal(ModalType.SUCCESS_MESSAGE);
     }
   }catch{
     this.spinner.hide()
+    this.modal.cancel();
+    //this.openModal(ModalType.LOGIN_SIGNUP);
   }
     
   
   }
-
+  
 
   cancel(){
-    this.modal.cancel();
-   window.location.reload()
+    //this.closeModal();
+  //window.location.reload()
+  this.showErrorMessageScreen=!this.showErrorMessageScreen
+  this.showSignInRow=!this.showSignInRow
   }
  
-  openModal(modalType: ModalType, message: string = "", title: string = ""): void {
-    this.showModal = modalType;
-    this.modalMessage = message;
-    this.modalTitle = title;
-    this.modal.open();
+  // openModal(modalType: ModalType, message: string = "", title: string = ""): void {
+  //   this.showModal = modalType;
+  //   this.modalMessage = message;
+  //   this.modalTitle = title;
+  //   this.modal.open();
  
-  }
+  // }
+    /**
+   * Open modal.
+   *
+   * @param {ModalType} modalType
+   * @param {string} [message = ""]
+   * @param {string} [title = ""]
+   * @returns {void}
+   */
+    openModal(modalType: ModalType, message: string ="", title: string="" ): void {
+
+      this.showModal = modalType;
+      this.modalMessage = message;
+      this.modalTitle = title;
+      this.modal.open();
+    }
+    /**
+   * Close modal.
+   *
+   * @returns {void}
+   */
+    closeModal(): void {
+      this.modal.cancel();
+    }
+
 
 
   
@@ -675,7 +712,8 @@ try{
     if (event.option.value.id == "add_new"){
       console.log("Add new company")
       console.log("add_new = ", event.option.value.id);
-      this.openModal(ModalType.ADD_COMPANY);
+      this.showAddCompanyScreen=!this.showAddCompanyScreen
+      //this.openModal(ModalType.ADD_COMPANY);
       this.selectedCompany='';
       this.myControl.reset();
     }else{
@@ -684,6 +722,7 @@ try{
   }
 
   uploadCVonS3Bucket(docResult: any) {
+    this.setErrorMessage("");
     try {
       this.authService.uploadFileOnS3Bucket(this.fileToUpload!, docResult.awsS3SignedUrl, docResult.awsS3Tag)
         .then(async () => {
@@ -744,14 +783,14 @@ try{
     }
   }
 
-
+ 
   async confirmSignUp(form: any): Promise<void> {
+    this.setErrorMessage("")
     this.spinner.show();
     try {
       if (this.selectedUserType === "candidate") {
         const { response, error } = await this.createUserWithConfirmation(this.candidateForm, this.verificationForm);
         if (response) {
-
           this.otpVerification(this.candidateForm.emailId);
           this.toggleSignInRow();
           this.spinner.hide();
@@ -780,10 +819,38 @@ try{
       console.log('Error signing up candidate confirmSignUp:', error);
       this.spinner.hide();
     }
+
+// if(this.codeErrorScreen){
+//   const { response, error } = await this.createUserWithConfirmation(this.form.email, this.verificationForm);
+  // try{
+  //   const { isSignUpComplete, nextStep } = await confirmSignUp({
+    
+  //     username: this.form.email,
+  //     confirmationCode: this.verificationForm.code,
+  //   });
+  
+  // }catch{
+  //   this.setErrorMessage("User is not confirmed.");
+  //   this.toggleSignInRow();
+  // }
+
+  // if (response) {
+  //   this.toggleSignInRow();
+  //   this.spinner.hide();
+  // }
+
+  // if (error) {
+  //   this.errorMessage = error.message;
+  //   this.spinner.hide();
+  // }
+
+
+  // }
   }
 
 
   async submit(form: any): Promise<void> {
+    this.setErrorMessage("");
     this.spinner.show();
     const loginData = {
       email: this.form.email,
@@ -792,7 +859,11 @@ try{
     let login = await this.amplify.handleSignIn(loginData);
     if (login.response?.nextStep?.signInStep === "CONFIRM_SIGN_UP") {
       this.spinner.hide();
-      this.setErrorMessage("User is not confirmed.");
+      debugger
+      this.showSignInRow=!this.showSignInRow;
+      this.confirmationCodeScreen=!this.confirmationCodeScreen;
+    // this.codeErrorScreen=!this.codeErrorScreen
+     // this.setErrorMessage("User is not confirmed.");
     }
     if (login && login.error && login.error.message) {
       this.spinner.hide();
@@ -889,9 +960,11 @@ try{
 
 
   async createUserWithConfirmation(form: any, verificationForm: any): Promise<{ response?: any; error?: Error }> {
+    this.setErrorMessage("");
+   debugger
     try {
       let signupform = {
-        username: form.emailId,
+        username: form.emailId ||this.form.email,
         confirmationCode: verificationForm.code,
       }
 
@@ -957,6 +1030,7 @@ try{
 
   ngOnDestroy() {
     this.clearBlinkTimer();
+    this.modalService.dismissAll();
   }
 
   signUpWithLinkedin(usertype:any) {

@@ -204,9 +204,12 @@ export class IndexComponent {
 
   async ngOnInit(): Promise<void> {
     this.getCompanyDetails();
-    setInterval(() => {
+    // setInterval(() => {
+    //   this.swapValues();
+    // }, 3000);
+    this.intervalId = setInterval(() => {
       this.swapValues();
-    }, 3000);
+  }, 3000);
 
     this.userLoggedIn = await this.cognitoService.isLoggedIn();
       // $(".home-banner .btn-dark").addClass("active");
@@ -220,6 +223,16 @@ export class IndexComponent {
     this.getReferral = this.giveReferral;
     this.giveReferral = temp;
   }
+  stopSwapping() {
+    clearInterval(this.intervalId);
+}
+
+// Function to resume swapping when leaving buttons
+resumeSwapping() {
+    this.intervalId = setInterval(() => {
+        this.swapValues();
+    }, 3000);
+}
 
   openGetReferral() {
     if (this.userLoggedIn) {
