@@ -15,7 +15,7 @@ export class WithdrawReferralPopupComponent {
 
   constructor() { }
 
-  comments = new FormControl();
+  comments = new FormControl('');
 
   ngOnChanges() {
     console.log(this.userType);

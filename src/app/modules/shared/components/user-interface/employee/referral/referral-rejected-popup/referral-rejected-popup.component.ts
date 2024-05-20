@@ -16,7 +16,7 @@ export class ReferralRejectedPopupComponent {
     this.selectedOption = '';
   }
 
-  comments = new FormControl();
+  comments = new FormControl('');
 
   ngOnChanges() {
     console.log(this.userType);
