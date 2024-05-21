@@ -229,7 +229,7 @@
 <app-modal [theme]="'theme-k'" [centered]="true" [showHeader]="showModal === modalType.MESSAGE" [showClose]="true"
   [showFooter]="showModal === modalType.MESSAGE" [title]="modalTitle" [message]="modalMessage"
   [bodyClass]="modalMessage ? 'p-4' : 'p-0'">
-  <ng-container *ngIf="showModal === modalType.LOGIN_SIGNUP">
+  <!-- <ng-container *ngIf="showModal === modalType.LOGIN_SIGNUP">
     <app-login-page (onSuccess)="receiveDataFromChild($event)"></app-login-page>
-  </ng-container>
+  </ng-container> -->
 </app-modal>
