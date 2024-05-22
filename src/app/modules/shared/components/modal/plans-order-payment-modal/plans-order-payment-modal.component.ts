@@ -14,7 +14,6 @@ export const theme_config = {
   sdkAccentColor: "#fffefe",
   sdkBackgroundColor: "#57e1ff",
   sdkBannerColor: "#061634"
-  
 };
 
 @Component({
@@ -196,13 +195,13 @@ export class PlansOrderPaymentModalComponent implements OnChanges {
 
   handleResponse(response: any) {
     console.log("handle response method =", response);
-    const { orderTxn } = response;
+    const orderTxn = response;
     this.flow_config = {
-      merchantId: orderTxn.merchantId,
-      bdOrderId: orderTxn.bdOrderId,
-      authToken: orderTxn.authToken,
+      merchantId: orderTxn?.pgatewayOrderResponse?.mercid,
+      bdOrderId: orderTxn?.pgatewayOrderResponse?.bdorderid,
+      authToken: orderTxn?.pgatewayOrderResponse?.links[1]?.headers?.authorization,
       childWindow: true,  
-      returnUrl: orderTxn.ru,
+      returnUrl: orderTxn?.pgatewayOrderResponse?.ru,
       // crossButtonHandling: 'Y',
       retryCount: 3,
       prefs: {
