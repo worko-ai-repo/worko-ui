@@ -1,7 +1,9 @@
-import { Component, Input, ViewChild } from '@angular/core';
+import { Component, Inject, Input, ViewChild } from '@angular/core';
 import { ModalType } from 'src/app/modules/shared/interfaces/shared.interface';
 import { ModalComponent } from '../../../modal/modal.component';
 import { PaymentFlowConfig } from 'src/app/modules/shared/interfaces/payment-flow-config.interface';
+import { Renderer2 } from '@angular/core';
+import { DOCUMENT } from '@angular/common';
 
 export const theme_config = {
   sdkPrimaryColor: "#69068a",
@@ -32,11 +34,11 @@ export class SubscriptionPlanComponent {
   isOrderDetails!: boolean;
   flow_config: PaymentFlowConfig | null = null;
 
+  constructor( private renderer2: Renderer2,
+    @Inject(DOCUMENT) private document: Document) {}
   // constructor(private router: Router, private candidateSrv: CandidateProfileService, private storage: StorageService, private authService: AuthService) { }
   ngOnInit(): void {
-
     // this.emailAddress = this.storage.get("useremail");
-
   }
 
   ngOnChanges(): void {
@@ -56,6 +58,38 @@ export class SubscriptionPlanComponent {
     }
   }
 
+  // loadScript(url: string) {
+  //   const script = this.renderer.createElement('script');
+  //   script.src = url;
+  //   this.renderer.appendChild(document.body, script);
+  // }
+
+  // loadStylesheet(url: string) {
+  //   const link = this.renderer.createElement('link');
+  //   link.rel = 'stylesheet';
+  //   link.href = url;
+  //   this.renderer.appendChild(document.head, link);
+  // }
+
+  loadResources() {
+    // Dynamically load ES module script
+    const esmScript = this.renderer2.createElement('script');
+    esmScript.type = 'module';
+    esmScript.src = 'https://uat1.billdesk.com/merchant-uat/sdk/dist/billdesksdk/billdesksdk.esm.js';
+    this.renderer2.appendChild(this.document.body, esmScript);
+
+    // Dynamically load non-module script
+    const nomoduleScript = this.renderer2.createElement('script');
+    nomoduleScript.src = 'https://uat1.billdesk.com/merchant-uat/sdk/dist/billdesksdk.js';
+    this.renderer2.appendChild(this.document.body, nomoduleScript);
+
+    // Dynamically load stylesheet
+    const stylesheet = this.renderer2.createElement('link');
+    stylesheet.rel = 'stylesheet';
+    stylesheet.href = 'https://uat1.billdesk.com/merchant-uat/sdk/dist/billdesksdk/billdesksdk.css';
+    this.renderer2.appendChild(this.document.head, stylesheet);
+  }
+
   openCheckout(packageData: any) {
     this.isOrderSummary = true;
     this.isPaymentDetails = false;
@@ -63,13 +97,14 @@ export class SubscriptionPlanComponent {
     this.selectedPackage = packageData;
     // this.openModal(ModalType.SUBSCRIPTION_CHECKOUT);
     this.openModal(ModalType.PLANS_ORDER_PAYMENT);
+    // this.loadResources();
   }
   cancel() {
     this.modal.cancel();
-
   }
   paynow() {
-    this.openModal(ModalType.PLANS_ORDER_PAYMENT);
+    // this.openModal(ModalType.PLANS_ORDER_PAYMENT);
+    // this.loadResources();
   }
 
   /**

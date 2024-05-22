@@ -87,6 +87,7 @@ import { DetailedAnalysisComponent } from './components/user-interface/referral/
 import { AddCompanyComponent } from '../worko/components/add-company/add-company.component';
 import { PlansOrderPaymentModalComponent } from './components/modal/plans-order-payment-modal/plans-order-payment-modal.component';
 import { PaymentConfirmationModalComponent } from './components/modal/payment-confirmation-modal/payment-confirmation-modal.component';
+import { BilldeskResponseComponent } from './components/user-interface/subscription/billdesk-response/billdesk-response.component';
 export const routes: Routes = [
 
   
@@ -133,7 +134,8 @@ export const routes: Routes = [
     DetailedAnalysisComponent,
     AddCompanyComponent,
     PlansOrderPaymentModalComponent,
-    PaymentConfirmationModalComponent
+    PaymentConfirmationModalComponent,
+    BilldeskResponseComponent
     // DoneServiceComponent,
     // CancelledServiceComponent,
     // AwaitingServiceComponent,

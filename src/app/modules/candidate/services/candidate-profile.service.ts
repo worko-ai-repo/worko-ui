@@ -7,6 +7,7 @@ import { of } from 'rxjs';
 
 
 const API_URL = environment.apiUrl;
+const CREATE_ORDER_URL = environment.createOrderUrl;
 const apiOrderUrl = 'https://uat1.billdesk.com/u2/payments/ve1_2/orders/create';
 
 @Injectable({
@@ -141,6 +142,12 @@ export class CandidateProfileService {
   }
   
 
+  //Create order API
+
+  createOrder(data:any):Promise<any> {
+    return this.http.post(CREATE_ORDER_URL + `order/create`, data,this.authService.getHttpOptions() ).toPromise();
+  }
+
   //* Create Order
 
   // async createOrder(orderData:any, headers:HttpHeaders):Promise<any>{
@@ -159,23 +166,23 @@ export class CandidateProfileService {
   //   }
   // }
 
-  async createOrder(orderData:any, headers:HttpHeaders):Promise<any>{
+  // async createOrder(orderData:any, headers:HttpHeaders):Promise<any>{
 
-    try {
-      const response = await this.http.post(apiOrderUrl, orderData, { headers })
-        .toPromise();
-      console.log('Order created successfully:', response);
-      return response;
-      // const test = {
-      //   name:"happy"
-      // }
-      // return Promise.resolve(test);
-    } catch (error) {
-      console.error('Error creating order:', error);
-      throw error;
-    }
+  //   try {
+  //     const response = await this.http.post(apiOrderUrl, orderData, { headers })
+  //       .toPromise();
+  //     console.log('Order created successfully:', response);
+  //     return response;
+  //     // const test = {
+  //     //   name:"happy"
+  //     // }
+  //     // return Promise.resolve(test);
+  //   } catch (error) {
+  //     console.error('Error creating order:', error);
+  //     throw error;
+  //   }
     
-   }
+  //  }
 
 }
 

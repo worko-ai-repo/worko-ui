@@ -66,6 +66,7 @@ export class EmployeeReferralComponent implements OnDestroy {
     this.getWorkExperienceDetails();
     // this.getCandidateDetails();
     // this.getEmpReferralDetails();
+    console.log(this.userId);
   }
 
   async getWorkExperienceDetails() {
