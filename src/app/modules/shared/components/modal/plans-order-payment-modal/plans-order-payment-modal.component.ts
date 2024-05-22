@@ -10,10 +10,11 @@ import { Renderer2 } from '@angular/core';
 import { DOCUMENT } from '@angular/common';
 
 export const theme_config = {
-  sdkPrimaryColor: "#69068a",
-  sdkAccentColor: "#cf5df5",
-  sdkBackgroundColor: "#f2caff",
-  sdkBannerColor: "#982cbb"
+  sdkPrimaryColor: "#2F92C7",
+  sdkAccentColor: "#fffefe",
+  sdkBackgroundColor: "#57e1ff",
+  sdkBannerColor: "#061634"
+  
 };
 
 @Component({
@@ -92,7 +93,7 @@ export class PlansOrderPaymentModalComponent implements OnChanges {
   }
 
   // This gets the user agent from the browser
-  userAgent: any = navigator.userAgent;
+  // userAgent: any = navigator.userAgent;
 
   createCard(form: any) {
     // if (!this.isValidCardNumber(this.cardholderNumber)) {
@@ -149,7 +150,7 @@ export class PlansOrderPaymentModalComponent implements OnChanges {
 
   async createOrder() {
 
-    const ipAddress = await this.getIpAddress();
+    // const ipAddress = await this.getIpAddress();
 
     let subTotalAmount = this.selectedPackage?.amount || 0;
     let gstAmount = subTotalAmount * 0.18;
@@ -163,9 +164,9 @@ export class PlansOrderPaymentModalComponent implements OnChanges {
       "discountAmount": discountAmount,
       "gstAmount": gstAmount,  // GST is 18% of the subtotal amount
       "orderType": "SUBS",
-      "ipAddress": ipAddress,
-      "userAgent": this.userAgent,
-      "ru": "https://app.worko.ai/candidate/billdeskresponse",
+      // "ipAddress": ipAddress,
+      // "userAgent": this.userAgent,
+      "returnUrl": "https://app.worko.ai/candidate/billdeskresponse",
       "products": [{
         "productContext": "SUBS",
         "productContextId": this.selectedPackage?.SK,
