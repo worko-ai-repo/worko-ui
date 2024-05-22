@@ -6,12 +6,14 @@ import { CognitoService } from 'src/app/modules/services/cognito.service';
 import { ReferralRequestComponent } from '../referral-request/referral-request.component';
 import { RequestGuidenceComponent } from '../request-guidence/request-guidence.component';
 import { debounceTime, distinctUntilChanged, map, switchMap } from 'rxjs/operators';
-import { Observable, Subject } from 'rxjs';
+import { BehaviorSubject, Observable, Subject, of } from 'rxjs';
 import { NgxSpinnerService } from 'ngx-spinner'; 
 import { HttpClient } from '@angular/common/http';
-import { FormControl } from '@angular/forms';
+import { FormControl, NgForm } from '@angular/forms';
 import { AuthService } from '../../services/auth.service';
-import { MatAutocompleteTrigger } from '@angular/material/autocomplete';
+import { MatAutocompleteSelectedEvent, MatAutocompleteTrigger } from '@angular/material/autocomplete';
+import { event } from 'jquery';
+import { Router } from '@angular/router';
 @Component({
   selector: 'app-company-listing',
   templateUrl: './company-listing.component.html',
@@ -204,7 +206,7 @@ export class CompanyListingComponent implements OnInit {
   searchQuery: string = '';
   private searchTerms = new Subject<string>();
 
-  constructor(private spinner: NgxSpinnerService,private authService: AuthService,private http: HttpClient, private renderer: Renderer2, private el: ElementRef,private companyListing: CompanyListingService, private cognitoService: CognitoService) {
+  constructor(private spinner: NgxSpinnerService, private router: Router,private authService: AuthService,private http: HttpClient, private renderer: Renderer2, private el: ElementRef,private companyListing: CompanyListingService, private cognitoService: CognitoService) {
     this.searchTerms
       .pipe(
         debounceTime(300), // Adjust the debounce time as needed (300 milliseconds in this example)
@@ -217,7 +219,7 @@ export class CompanyListingComponent implements OnInit {
   }
   async ngOnInit(): Promise<void> {
     this.userLoggedIn = await this.cognitoService.isLoggedIn();
-    this.getCompanyDetails();
+    await this.getCompanyDetails();
     this.filteredCompanyList = this.companyList;
     // this.assetLogos = this.generateLogoFilenames(57, 1045);
     // console.log(this.assetLogos)
@@ -229,6 +231,7 @@ export class CompanyListingComponent implements OnInit {
 
 
 this.filteredOptions = this.myControl.valueChanges.pipe(
+  
   debounceTime(300),
   distinctUntilChanged(),
   switchMap((value: any) => {
@@ -241,12 +244,81 @@ this.filteredOptions = this.myControl.valueChanges.pipe(
   })
 
 );
+//this.getData()
+//debugger
+await this.companyListing.getReferralData().subscribe((item: any) => {
+  // Open modal for the corresponding company
+  debugger
+  console.log(item)
+  this.selectedData = item;
+  console.log(this.selectedData)
+  if(item){
+  this.openModalForCompany(item);
+  }
+});
+await this.companyListing.getGuidanceData().subscribe((item: any) => {
+  // Open modal for the corresponding company
+  debugger
+  console.log(item)
+  this.selectedData = item;
+  console.log(this.selectedData)
+  if(item){
+    this.openModal(ModalType.REQUEST_GUIDANCE)
+  }
+});
+
+
+
 
   }
 
+  // async ngOnChanges() {
+  //   await this.companyListing.referralRequested$.subscribe(item => {
+  //     // Open modal for the corresponding company
+  //     debugger
+  //     console.log(item)
+  //     this.openModalForCompany(item);
+  //   });
+  // }
 
-  onOptionSelected(event: any): void {
+
+  async openModalForCompany(item:any){
+   // debugger
+    this.userLoggedIn = await this.cognitoService.isLoggedIn();
+   
+    this.selectedData = item;
+    console.log( this.selectedData)
+    this.triggerReferral = true;
+     this.triggerGuidance = false;
+    if (this.userLoggedIn) {
+      debugger
+      this.openModal(ModalType.REQUEST_REFERRAL);
+    } else {
+      this.openModal(ModalType.LOGIN_SIGNUP);
+    }
+  }
+
+
+ 
+  // openReferralPage(item: any) {
+  //   // Your function logic here
+  //   console.log('Referral requested for:', item);
+  // }
+// getData(){
+//   debugger
+//  const response= this.companyListing.getrequestReferralData()
+//  console.log(response)
+//  this.openReferralPage(event,item)
+// }
+
+  onOptionSelected(event: MatAutocompleteSelectedEvent): void {
+    debugger
     this.selectedCompany = event.option.value;
+    console.log(this.selectedCompany)
+    //this.router.navigate([]);
+    //this.router.navigate(['/company-listing']);
+    this.modal.cancel();
+    //this.router.navigateByUrl('/company-listing');
   }
 
   displayFn(option: any): string {
@@ -279,7 +351,7 @@ generateLogoFilenames(start: number, end: number, excludedNumbers:any[]) {
 
  
   onSearchInputChange(): void {
-    if (this.searchQuery.length >3) {
+    if (this.searchQuery.length >=3) {
     this.lastKey = "";
     this.loadedOnce = true;
     this.searchTerms.next(this.searchQuery);
@@ -400,8 +472,11 @@ generateLogoFilenames(start: number, end: number, excludedNumbers:any[]) {
 
   async openReferralPage(event: Event, item: any): Promise<void> {
     event.preventDefault();
+    debugger
     this.userLoggedIn = await this.cognitoService.isLoggedIn();
+   
     this.selectedData = item;
+    console.log( this.selectedData)
     this.triggerReferral = true;
     this.triggerGuidance = false;
     if (this.userLoggedIn) {
@@ -537,12 +612,31 @@ generateLogoFilenames(start: number, end: number, excludedNumbers:any[]) {
         };
       }
     }
+    if(ModalType.ADD_COMPANY){
+      this. companyForm={
+
+
+        CompanyName: "",
+          industry: 'Industry',
+         
+          carrierPage:"",
+          linkedIn: "",
+          personalemailid:"",
+          contactNumber:""
+      
+      
+      }
+    
+      this.myControl.reset();
+  
+    }
     this.showModal = modalType;
     this.modalMessage = message;
     this.modalTitle = title;
     this.modal.open();
 
   }
+ 
   /**
    * Close modal.
    *

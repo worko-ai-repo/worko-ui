@@ -49,6 +49,7 @@ export class ReferralRequestComponent implements OnInit, OnChanges {
   }
 
   ngOnChanges() {
+    debugger
     console.log(this.selectedCompany);
   }
   initializeForm(): void {
@@ -60,7 +61,7 @@ export class ReferralRequestComponent implements OnInit, OnChanges {
 
   jobDescriptionValidator() {
     return (control: { value: any; }) => {
-      const text = control.value || '';;
+      const text = control.value || '';
       const keywords = ['experience', 'education', 'skills', 'certifications', 'Preferred Skills', 'job description', 'responsibilities', 'role', 'Employment', 'Department']; 
     
       const containsKeywords = this.countKeywords(text, keywords) >= 5;
@@ -79,33 +80,22 @@ export class ReferralRequestComponent implements OnInit, OnChanges {
   checkRequestReferral(): void {
     if (this.requestForm.valid) {
       this.companyListing.getReferralCount(this.emailId).then(async (response) => {
-        if (!response.isSubscribed) {
+    
           let count = response.referralCount;
-          if (count==1) {
-            this.createRequest();
-            this.requestForm.reset();
-           
-         
-        }else{
-          this.showsubscriptionPlan = true;
-            this.showReferrelRow = false;
-            this.showScore=false;
-        }
-      }
-        else if (response.isSubscribed) {
-          let count = response.referralCount;
-          if (count>0) {
-            this.createRequest();
-            this.requestForm.reset();
-           } 
-           else {
+          console.log(response)
+          if (count==0) {
             this.showsubscriptionPlan = true;
             this.showReferrelRow = false;
             this.showScore=false;
+           } 
+           else {
+            
+            this.createRequest();
+            this.requestForm.reset();
          
           }
         }
-      }).catch(error => {
+      ).catch(error => {
         console.error('Error:', error);
       });
     }

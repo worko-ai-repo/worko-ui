@@ -3,13 +3,14 @@ import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { AuthService } from '../services/auth.service';
 // import { RequesterInfo, studentData} from '../interfaces/requester.interface';
 import { environment } from '../../../../environment/environment';
-import { Observable } from 'rxjs';
+import { BehaviorSubject, Observable, Subject } from 'rxjs';
 const API_URL = environment.apiUrl;
 
 @Injectable({
   providedIn: 'root'
 })
 export class CompanyListingService {
+
 
 
 
@@ -95,7 +96,35 @@ export class CompanyListingService {
  getAllNewCompany(): Promise<any> {
   return this.http.get(API_URL + `company/new`,  this.authService.getHttpOptions()).toPromise();
 }
+// private item: any;
+// //private event: Event;
+// event: Event | undefined;
+  // private referralSubject = new Subject<any>();
 
+  // referralRequested$ = this.referralSubject.asObservable();
+
+  // requestReferral(item: any) {
+  //   this.referralSubject.next( item);
+  // }
+   data = new BehaviorSubject<any>(null);
+   triggerValue=new BehaviorSubject<any>(null);
+
+
+  getReferralData() {
+    return this.data.asObservable();
+  }
+
+  setReferralData(data: any) {
+    this.data.next(data);
+  }
+
+  getGuidanceData(){
+    return this.triggerValue.asObservable();
+  }
+
+  setGuidanceData(triggerValue:boolean){
+    this.triggerValue.next(triggerValue);;
+  }
 
 
 }

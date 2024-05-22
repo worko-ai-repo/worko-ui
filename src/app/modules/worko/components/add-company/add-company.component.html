@@ -2,26 +2,35 @@
     <div class="title d-flex justify-content-center" >
         Please provide your current company details to add:
     </div>
-    <form class="row" (ngSubmit)="company.form.valid && requestCampanyData(form)" #company="ngForm" novalidate>
-        <input class="col-8 col-md-4 mb-2 p-1 px-1" type="text" placeholder="Company Name" id="CompanyName" 
-        name="CompanyName"  [(ngModel)]="companyForm.CompanyName" 
-        #CompanyName="ngModel" pattern="^([ \u00c0-\u01ffa-zA-Z'.])+$"
+    <form  (ngSubmit)="company.form.valid && requestCampanyData(form)" #company="ngForm" novalidate>
+      <div class="row">
+        <div class="col-md-1"></div>
+        <input class="col-8 col-md-8 mb-2 p-1 px-1 " type="text" placeholder="Company Name" id="CompanyName" 
+        name="CompanyName"  [(ngModel)]="companyForm.CompanyName"   required
+        #CompanyName="ngModel" 
         [ngClass]="{ 'is-invalid': CompanyName.invalid && (CompanyName.dirty || CompanyName.touched) }">
-
+      </div>
         <!-- <input class="col-8 col-md-4 mb-2 p-1 px-1" type="text" placeholder="Your Company E-mail ID " id="emailid"  name="emailid"
          [(ngModel)]="companyForm.emailid" pattern="^(?!.*@(gmail\.com|outlook\.com|aol\.com|yahoo\.com|icloud\.com|protonmail\.com|zoho\.com|yandex\.com|gmx\.com|hubspot\.com|mail\.com|tutanota\.com|10minutemail\.com)$)[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$"
          [ngClass]="{ 'is-invalid': email.invalid && (email.dirty || email.touched) }" #email="ngModel" > -->
 
-        <input class="col-8 col-md-4 mb-2 p-1 px-1" type="text" placeholder="LinkedIn Page" id="linkedIn" 
-        name="linkedIn" [(ngModel)]="companyForm.linkedIn"
-         pattern="^(https?:\/\/(www\.)?linkedin\.com\/in\/[a-zA-Z0-9_\-]+\/?)$"
+         <div class="row">
+          <div class="col-md-1"></div>
+        <input class="col-8 col-md-8 mb-2 p-1 px-1" type="text" placeholder="LinkedIn Page" id="linkedIn" 
+        name="linkedIn" [(ngModel)]="companyForm.linkedIn" required
+         pattern="^(https?:\/\/((www|[in]{2})\.)?linkedin\.com\/company\/[a-zA-Z0-9_\-&]+\/?)$"
         #linkedIn="ngModel"   [ngClass]="{ 'is-invalid': linkedIn.invalid && (linkedIn.dirty || linkedIn.touched) }">
 
-        <input class="col-8 col-md-4 mb-2 p-1 px-1" type="text" placeholder="Career Page" id="carrierPage" name="carrierPage" 
-        [(ngModel)]="companyForm.carrierPage" 
+        </div>
+
+
+        <div class="row">
+          <div class="col-md-1"></div>
+        <input class="col-8 col-md-8 mb-2 p-1 px-1" type="text" placeholder="Career Page" id="carrierPage" name="carrierPage" 
+        [(ngModel)]="companyForm.carrierPage" required
         #carrierPage="ngModel" pattern='^(https:\/\/.*)$' 
         [ngClass]="{ 'is-invalid': carrierPage.invalid && (carrierPage.dirty || carrierPage.touched) }">
-        
+        </div>
         <!-- <div *ngIf="!userLoggedIn">
             <div class="title">
                 Add your details:
@@ -30,9 +39,9 @@
             <input class="col-8 col-md-4 mb-2 p-1 px-1" type="text" placeholder="Email">
             <input class="col-8 col-md-4 mb-2 p-1 px-1" type="text" placeholder="Ph. Number">
         </div> -->
-        <div class="button-container">
-            <button class="form-button col-4 col-lg-2 mt-2" type="submit" [disabled]="
-            !companyForm.CompanyName" >Add</button>
+        <div class="mt-3 d-flex justify-content-center ">
+          <button class="btn btn-signUp "  type="submit" [disabled]="
+            !companyForm.CompanyName ||!companyForm.carrierPage ||!companyForm.linkedIn ||!company.form.valid" >Add</button>
         </div>
     </form>
 </div>

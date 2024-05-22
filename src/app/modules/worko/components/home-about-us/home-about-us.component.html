@@ -305,10 +305,10 @@
                     Behind every innovation at Worko.ai is a team of dedicated individuals passionate about 
                     reshaping the hiring landscape.
                 </p>
-                <div class="slider-img">
+                <!-- <div class="slider-img">
                     <button class="toggle-button btn1"></button>
                     <button class="toggle-button btn2"></button>
-                </div>
+                </div> -->
             </div>
     
             <!-- <div class="team-cards mx-auto d-flex flex-wrap justify-content-around">
@@ -333,11 +333,11 @@
                 <div class="team-card team-card1">
                     <img src="/assets/about-images-KA/tcard1.png" alt="team member photo">
                     <div class="name">Jeetesh Kumar</div>
-                    <div class="role">FOUNDER</div>
+                    <div class="role">Co-founder & CEO</div>
                     <hr>
                     <div class="links d-flex">
                         <div class="linkedin-logo">
-                            <img src="/assets/about-images-KA/inlogo.png" alt="linkedin logo">
+                            <a href=" https://www.linkedin.com/in/kumarjeetesh/ "><img src="/assets/about-images-KA/inlogo.png" alt="linkedin logo"></a>
                         </div>
                         <div class="x-logo ms-3">
                             <img src="/assets/about-images-KA/xlogo.png" alt="x logo">
@@ -345,13 +345,13 @@
                     </div>
                 </div>
                 <div class="team-card team-card2">
-                    <img src="/assets/about-images-KA/tcard1.png" alt="team member photo">
-                    <div class="name">Jeetesh Kumar</div>
-                    <div class="role">FOUNDER</div>
+                    <img src="/assets/about-images-KA/tcard2.jpeg" alt="team member photo">
+                    <div class="name">Partha Pradhan</div>
+                    <div class="role">Co-founder & COO</div>
                     <hr>
                     <div class="links d-flex">
                         <div class="linkedin-logo">
-                            <img src="/assets/about-images-KA/inlogo.png" alt="linkedin logo">
+                            <a href="https://www.linkedin.com/in/parth-pradhan-66007b3a/"><img src="/assets/about-images-KA/inlogo.png" alt="linkedin logo"></a>
                         </div>
                         <div class="x-logo ms-3">
                             <img src="/assets/about-images-KA/xlogo.png" alt="x logo">
@@ -359,9 +359,9 @@
                     </div>
                 </div>
                 <div class="team-card team-card3">
-                    <img src="/assets/about-images-KA/tcard1.png" alt="team member photo">
-                    <div class="name">Jeetesh Kumar</div>
-                    <div class="role">FOUNDER</div>
+                    <img src="/assets/about-images-KA/tcard3.jpg" alt="team member photo">
+                    <div class="name">Pankaj Kumar</div>
+                    <div class="role">Co-founder & CTO</div>
                     <hr>
                     <div class="links d-flex">
                         <div class="linkedin-logo">
@@ -372,8 +372,8 @@
                         </div>
                     </div>
                 </div>
-                <div class="team-card team-card4">
-                    <img src="/assets/about-images-KA/tcard1.png" alt="team member photo">
+                <!-- <div class="team-card team-card4">
+                    <img src="" alt=""> 
                     <div class="name">Jeetesh Kumar</div>
                     <div class="role">FOUNDER</div>
                     <hr>
@@ -388,7 +388,7 @@
                 </div>
             
                 <div class="team-card team-card5">
-                    <img src="/assets/about-images-KA/tcard1.png" alt="team member photo">
+                    <img src="" alt="">                     
                     <div class="name">Jeetesh Kumar</div>
                     <div class="role">FOUNDER</div>
                     <hr>
@@ -403,7 +403,7 @@
                 </div>
             
                 <div class="team-card team-card6">
-                    <img src="/assets/about-images-KA/tcard1.png" alt="team member photo">
+                    <img src="" alt=""> 
                     <div class="name">Jeetesh Kumar</div>
                     <div class="role">FOUNDER</div>
                     <hr>
@@ -418,7 +418,7 @@
                 </div>
             
                 <div class="team-card team-card7">
-                    <img src="/assets/about-images-KA/tcard1.png" alt="team member photo">
+                    <img src="" alt=""> 
                     <div class="name">Jeetesh Kumar</div>
                     <div class="role">FOUNDER</div>
                     <hr>
@@ -433,7 +433,7 @@
                 </div>
             
                 <div class="team-card team-card8">
-                    <img src="/assets/about-images-KA/tcard1.png" alt="team member photo">
+                    <img src="" alt="">                     
                     <div class="name">Jeetesh Kumar</div>
                     <div class="role">FOUNDER</div>
                     <hr>
@@ -445,7 +445,7 @@
                             <img src="/assets/about-images-KA/xlogo.png" alt="x logo">
                         </div>
                     </div>
-                </div>
+                </div> -->
             </div>
 
         </div>
@@ -489,7 +489,7 @@
 
 
                     <label for="cvInput" class="cv d-flex align-items-center position-relative" style="background-color: white; height: 58px; border-radius: 4px;" >
-                        <div class="upload-text w-100"   style="background-color: white;color: gray;"*ngIf="fileName && !fileErr">
+                        <div class="upload-text w-100 d-flex  align-items-center position-relative"   style="background-color: white;color: gray; height: 58px; border-radius: 4px; font-size: small; "*ngIf="fileName && !fileErr">
                             {{ fileName }}
                           </div>
                          
@@ -498,8 +498,8 @@
                            
                       
                         <img class="button-style" src="/assets/about-images-KA/cv-icon.png" alt="cv-icon">
-                        <input type="file" id="cvInput" class="input cv-button" style="display: none;" (change)="handleFileInput($event)" >
-                            <div class="error text-danger py-2" style="font-size: 14px;" *ngIf="fileErr">
+                        <input type="file" id="cvInput" class="input cv-button  " style="display: none;" (change)="handleFileInput($event)" >
+                            <div class="error text-danger py-2 " style="font-size: 14px;" *ngIf="fileErr">
                             {{ fileErr }}
                           </div>
                         
@@ -548,7 +548,10 @@
 
 
 
-    <div class="row message-card px-sm-3 p-4">
+    <div class="row message-card px-sm-3 p-4" >
+        <div class="font-weight-bold text-color-red mb-3 d-flex justify-content-center" style="color: #e40707; font-size: medium;" *ngIf="successtitle === 'Error' && successmessage">
+            {{successtitle}}
+        </div>
     <div class="d-flex justify-content-center" *ngIf="successtitle === 'Congratulations!'">
         
         <div class="text-center mb-4">
@@ -560,9 +563,11 @@
           <button class="btn btn-next"  (click)="cancel()" > OK</button>
           </div>
           <div class="d-flex justify-content-center" *ngIf="successtitle === 'Error'">
+           
         
-            <div class="d-flex justify-content-center"  *ngIf="successmessage"><span>{{successmessage}}</span>
-                <div class="text-center mb-4"  *ngIf="!successmessage">
+            <div class="d-flex justify-content-center"  *ngIf="successmessage"><span>{{successmessage}}</span></div>
+                <div class="d-flex justify-content-center"  *ngIf="!successmessage">
+                <div class="text-center mb-4"  >
               <p>Your information is safely stored with us.</p> <p>Rest assured, we'll be in touch the moment an exciting opportunity arises at Worko.</p>
               <p> While you wait, why not take advantage of our vast network to explore referral opportunities in over 1000 companies? Keep exploring!</p>
             </div>

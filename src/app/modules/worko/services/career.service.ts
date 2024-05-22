@@ -56,4 +56,27 @@ export class CareerService {
     return this.http.post(API_URL + `corporate`, corporateInfo, this.authService.getHttpOptions()).toPromise();
   }
 
+
+  //https://app.worko.ai/corporate/:email/request-otp
+
+
+
+   /**
+     * request otp for particular email
+     */
+
+  corporateEmailVerification(emailAddress:string,name:string):Promise<any>{
+    return this.http.post(API_URL+`corporate/${emailAddress}/request-otp`,{fullName:name},this.authService.getHttpOptions()).toPromise();
+
+  }
+
+  /**
+     * verify otp for particular email
+     */
+
+  corporateverifyOtp(emailAddress:any,otp:any):Promise<any>{
+    return this.http.post(API_URL+`corporate/${emailAddress}/verify-otp`,{otp:otp},this.authService.getHttpOptions()).toPromise();
+    
+  }
+
 }
