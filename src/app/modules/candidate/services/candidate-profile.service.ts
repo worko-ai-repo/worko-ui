@@ -7,8 +7,8 @@ import { of } from 'rxjs';
 
 
 const API_URL = environment.apiUrl;
-const CREATE_ORDER_URL = environment.createOrderUrl;
-const apiOrderUrl = 'https://uat1.billdesk.com/u2/payments/ve1_2/orders/create';
+// const CREATE_ORDER_URL = environment.createOrderUrl;
+// const apiOrderUrl = 'https://uat1.billdesk.com/u2/payments/ve1_2/orders/create';
 
 @Injectable({
   providedIn: 'root'
@@ -144,8 +144,8 @@ export class CandidateProfileService {
 
   //Create order API
 
-  createOrder(data:any):Promise<any> {
-    return this.http.post(CREATE_ORDER_URL + `order/create`, data,this.authService.getHttpOptions() ).toPromise();
+  createOrder(data:any, userId:any):Promise<any> {
+    return this.http.post(API_URL + `user/${userId}/order/create`, data,this.authService.getHttpOptions() ).toPromise();
   }
 
   //* Create Order
