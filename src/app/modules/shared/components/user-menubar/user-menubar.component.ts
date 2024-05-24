@@ -164,6 +164,7 @@ export class UserMenubarComponent {
     const currentUrl = window.location.href;
 
 // Check if the URL contains "employee" or "candidate"
+console.log(currentUrl)
 if (currentUrl.includes("employee")) {
   console.log('emp')
   this.router.navigateByUrl('/employee/Dashboard');

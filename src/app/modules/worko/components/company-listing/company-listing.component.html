@@ -157,7 +157,8 @@
   [showFooter]="showModal === modalType.MESSAGE" [title]="modalTitle" [message]="modalMessage"
   [bodyClass]="modalMessage ? 'p-4' : 'p-0'" >
   <ng-container *ngIf="showModal === modalType.REQUEST_REFERRAL">
-    <app-referral-request *ngIf="showModal === modalType.REQUEST_REFERRAL" [selectedCompany]="selectedData"   ></app-referral-request>
+    <!-- <p>hi request referral</p> -->
+    <app-referral-request  [selectedCompany]="selectedData"   ></app-referral-request>
   </ng-container>
 
   <ng-container *ngIf="showModal === modalType.REQUEST_GUIDANCE">

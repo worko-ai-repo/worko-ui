@@ -1,4 +1,4 @@
-import { Component, OnInit, ViewChild, HostListener, Renderer2, ElementRef } from '@angular/core';
+import { Component, OnInit, ViewChild, HostListener, Renderer2, ElementRef, ChangeDetectorRef } from '@angular/core';
 import { CompanyListingService } from '../../services/company-listing.service';
 import { ModalType } from 'src/app/modules/shared/interfaces/shared.interface';
 import { ModalComponent } from 'src/app/modules/shared/components/modal/modal.component';
@@ -12,8 +12,9 @@ import { HttpClient } from '@angular/common/http';
 import { FormControl, NgForm } from '@angular/forms';
 import { AuthService } from '../../services/auth.service';
 import { MatAutocompleteSelectedEvent, MatAutocompleteTrigger } from '@angular/material/autocomplete';
-import { event } from 'jquery';
+import { error, event } from 'jquery';
 import { Router } from '@angular/router';
+import { StorageService } from 'src/app/modules/app-core/services/storage.service';
 @Component({
   selector: 'app-company-listing',
   templateUrl: './company-listing.component.html',
@@ -25,6 +26,8 @@ export class CompanyListingComponent implements OnInit {
   @ViewChild(ReferralRequestComponent) referrralComponent!: ReferralRequestComponent;
   @ViewChild(RequestGuidenceComponent) referrralguidanceComponent!: RequestGuidenceComponent;
   @ViewChild('autoCompleteInput', { static: false, read: MatAutocompleteTrigger }) trigger!: MatAutocompleteTrigger;
+  userName:string="";
+  letter:string=""
   successmessage:string="";
   successtitle:string="";
   modalType = ModalType;
@@ -49,6 +52,7 @@ export class CompanyListingComponent implements OnInit {
   appliedFilter: boolean = false;
   companyName: string = "";
   companySK: string = "";
+  indexData:any="";
   myControl = new FormControl<any>('');
   filteredOptions!: Observable<any[]>;
   filterData: any = {
@@ -201,12 +205,20 @@ export class CompanyListingComponent implements OnInit {
     // Handle scroll event
     this.detectScroll();
   }
+
+
+
+
   searchTerm: string = '';
   filteredCompanyList: any[] = [];
   searchQuery: string = '';
   private searchTerms = new Subject<string>();
 
-  constructor(private spinner: NgxSpinnerService, private router: Router,private authService: AuthService,private http: HttpClient, private renderer: Renderer2, private el: ElementRef,private companyListing: CompanyListingService, private cognitoService: CognitoService) {
+  
+ 
+
+
+  constructor(private spinner: NgxSpinnerService, private cdr: ChangeDetectorRef, private storage: StorageService,private router: Router,private authService: AuthService,private http: HttpClient, private renderer: Renderer2, private el: ElementRef,private companyListing: CompanyListingService, private cognitoService: CognitoService) {
     this.searchTerms
       .pipe(
         debounceTime(300), // Adjust the debounce time as needed (300 milliseconds in this example)
@@ -217,6 +229,9 @@ export class CompanyListingComponent implements OnInit {
         this.callApiWithSearchQuery(query);
       });
   }
+
+ 
+
   async ngOnInit(): Promise<void> {
     this.userLoggedIn = await this.cognitoService.isLoggedIn();
     await this.getCompanyDetails();
@@ -244,42 +259,51 @@ this.filteredOptions = this.myControl.valueChanges.pipe(
   })
 
 );
-//this.getData()
-//debugger
-await this.companyListing.getReferralData().subscribe((item: any) => {
-  // Open modal for the corresponding company
-  debugger
-  console.log(item)
-  this.selectedData = item;
-  console.log(this.selectedData)
-  if(item){
-  this.openModalForCompany(item);
-  }
-});
-await this.companyListing.getGuidanceData().subscribe((item: any) => {
-  // Open modal for the corresponding company
-  debugger
-  console.log(item)
-  this.selectedData = item;
-  console.log(this.selectedData)
-  if(item){
-    this.openModal(ModalType.REQUEST_GUIDANCE)
-  }
-});
 
-
-
+this.openModalFromIndex()
 
   }
+ 
+  async openModalFromIndex(){
+  this.indexData=localStorage.getItem('crossDomainData')
+    debugger
+      //let index = companySk.indexOf('"'); // Find the index of the first occurrence of "
+  //     if (data.startsWith('"') && data.endsWith('"')) {
+  //       data = data.substring(1, data.length - 1); // Extract substring excluding the first and last characters
+  //   }
+  // console.log(data);
+  if(this.indexData){
+    this.userLoggedIn = await this.cognitoService.isLoggedIn();
+    if (!this.userLoggedIn) {
+    
+     this.openModal(ModalType.LOGIN_SIGNUP);
+    } else {
+     
+    if(this.indexData!=='true' ){
+   console.log(this.indexData)
+       console.log(this.companyList)
+      this.selectedData = this.filterCompanyBySk(this.indexData );
+      console.log(this.selectedData);
+      this.triggerReferral=true;
+      this.triggerGuidance=false;
+      this.openModal(ModalType.REQUEST_REFERRAL);
+    }
+    }if(this.indexData==='true'){
 
-  // async ngOnChanges() {
-  //   await this.companyListing.referralRequested$.subscribe(item => {
-  //     // Open modal for the corresponding company
-  //     debugger
-  //     console.log(item)
-  //     this.openModalForCompany(item);
-  //   });
-  // }
+
+        this.triggerReferral=false;
+      this.triggerGuidance=true;
+      this.openModal(ModalType.REQUEST_GUIDANCE)
+      
+      
+    }
+  }
+
+  
+  }
+
+
+ 
 
 
   async openModalForCompany(item:any){
@@ -300,16 +324,7 @@ await this.companyListing.getGuidanceData().subscribe((item: any) => {
 
 
  
-  // openReferralPage(item: any) {
-  //   // Your function logic here
-  //   console.log('Referral requested for:', item);
-  // }
-// getData(){
-//   debugger
-//  const response= this.companyListing.getrequestReferralData()
-//  console.log(response)
-//  this.openReferralPage(event,item)
-// }
+
 
   onOptionSelected(event: MatAutocompleteSelectedEvent): void {
     debugger
@@ -366,6 +381,15 @@ generateLogoFilenames(start: number, end: number, excludedNumbers:any[]) {
     this.filteredCompanyList = this.companyList.filter(company =>
       company.name.toLowerCase().includes(this.searchTerm.toLowerCase())
     );
+  }
+  filterCompanyBySk( companySk: string) {
+    debugger
+   
+
+
+      return this.companyList.find(company => company.SK === companySk);
+
+   
   }
 
   detectScroll(): void {
@@ -488,11 +512,13 @@ generateLogoFilenames(start: number, end: number, excludedNumbers:any[]) {
 
   }
   async openGuidancePage(event: Event, item: any): Promise<void> {
-    event.preventDefault();
+
+    debugger
+   event.preventDefault();
     // this.userLoggedIn = await this.cognitoService.isLoggedIn();
     // this.reqGuidanceData = item;
-    // this.triggerReferral = false;
-    // this.triggerGuidance = true;
+    this.triggerReferral = false;
+    this.triggerGuidance = true;
     // if (this.userLoggedIn) {
     //   // this.openModal(ModalType.REQUEST_GUIDANCE);
     
@@ -501,13 +527,16 @@ generateLogoFilenames(start: number, end: number, excludedNumbers:any[]) {
     // }
 
     //this.successmessage="Our guidance service is launching soon, connecting you with first-hand, experienced experts for invaluable insights. Stay tuned for updates.Need urgent assistance, like interview preparation from insiders?\n Email us at Guidance@worko.ai for support";
-    // this.successtitle="Congratulations!";
+    // this.successtitle="Congratulations!";\\
+  
      this.openModal(ModalType.REQUEST_GUIDANCE)
+    
 
   }
   cancel(){
    
     this.modal.cancel()
+  
   }
 
 
@@ -517,13 +546,19 @@ generateLogoFilenames(start: number, end: number, excludedNumbers:any[]) {
   }
 
   async receiveDataFromChild(data: any) {
+    debugger
+    window.location.reload()
     this.userLoggedIn = await this.cognitoService.isLoggedIn();
-    // this.closeModal();
+    //this.closeModal();
+   
     if (this.triggerReferral && this.userLoggedIn) {
-      this.openModal(ModalType.REQUEST_REFERRAL);
+      this.openModal(this.modalType.REQUEST_REFERRAL);
     }
     if (this.triggerGuidance && this.userLoggedIn) {
       this.openModal(ModalType.REQUEST_GUIDANCE);
+    }
+    if(this.indexData){
+      this.openModalFromIndex()
     }
   }
 
@@ -576,11 +611,15 @@ generateLogoFilenames(start: number, end: number, excludedNumbers:any[]) {
     * @returns {void}
     */
   openModal(modalType: ModalType, message: string = "", title: string = ""): void {
+    debugger
+    console.log(modalType)
+    if(ModalType.REQUEST_REFERRAL){
     if (this.referrralComponent) {
       this.referrralComponent.showReferrelRow = true;
       this.referrralComponent.requestForm.reset();
       this.referrralComponent.showScore = false;
     }
+  }
     if (ModalType.REQUEST_GUIDANCE) {
       if (this.referrralguidanceComponent) {
         this.referrralguidanceComponent.isButtonScreen = true;
@@ -642,9 +681,9 @@ generateLogoFilenames(start: number, end: number, excludedNumbers:any[]) {
    *
    * @returns {void}
    */
-  // closeModal(): void {
-  //   // Show referral request form after closing the modal
+  closeModal(): void {
+    // Show referral request form after closing the modal
 
-  //   this.modal.cancel();
-  // }
+    this.modal.cancel();
+  }
 }

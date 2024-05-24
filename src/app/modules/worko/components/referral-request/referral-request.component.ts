@@ -49,7 +49,7 @@ export class ReferralRequestComponent implements OnInit, OnChanges {
   }
 
   ngOnChanges() {
-    debugger
+    //debugger
     console.log(this.selectedCompany);
   }
   initializeForm(): void {
@@ -78,6 +78,7 @@ export class ReferralRequestComponent implements OnInit, OnChanges {
 
 
   checkRequestReferral(): void {
+    debugger
     if (this.requestForm.valid) {
       this.companyListing.getReferralCount(this.emailId).then(async (response) => {
     

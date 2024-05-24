@@ -244,10 +244,10 @@ export class LoginPageComponent implements AfterViewInit, OnDestroy {
   // }
 
   ngAfterViewInit() {
-    this.trigger.panelClosingActions
-      .subscribe(e => {
-        this.myControl.setValue(null);
-      });
+    // this.trigger.panelClosingActions
+    //   .subscribe(e => {
+    //     this.myControl.setValue(null);
+    //   });
     var tooltipTriggerList = [].slice.call(document.querySelectorAll('[data-bs-toggle="tooltip"]'))
     var tooltipList = tooltipTriggerList.map(function (tooltipTriggerEl) {
       return new bootstrap.Tooltip(tooltipTriggerEl)
@@ -871,7 +871,7 @@ try{
     }
     if (login!.response!.isSignedIn) {
       await this.authService.getProfile(this.form.email).then(async (response) => {
-
+        debugger
         let userType = response.data.lastAccessedDash;
         let userName=response.data.name;
         this.storage.set('lastAccessedDash', userType);

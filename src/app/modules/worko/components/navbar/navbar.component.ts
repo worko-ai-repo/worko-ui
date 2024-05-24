@@ -7,6 +7,7 @@ import { CandidateProfileService } from 'src/app/modules/candidate/services/cand
 import { StorageService } from 'src/app/modules/app-core/services/storage.service';
 import { NavbarToggleSwitchService } from 'src/app/modules/candidate/services/navbar-toggle-switch.service';
 import { IndexComponent } from '../index/index.component';
+import { environment } from 'src/environment/environment';
 
 
 
@@ -32,6 +33,9 @@ export class NavbarComponent {
  userName:string='profile'
   letter:string=""
   showOptions = false; 
+
+  
+  
   constructor(private cognitoService: CognitoService, private router: Router, private candidateSrv: CandidateProfileService, private storage: StorageService, private navbarToggleSwitchService : NavbarToggleSwitchService) {
    
    }
@@ -124,6 +128,12 @@ export class NavbarComponent {
     this.emailAddress = this.storage.get("useremail");
     if (this.userLoggedIn) {
       if (this.router.url.includes('/company-listing')) {
+        this.userLoggedIn = await this.cognitoService.isLoggedIn();
+        this.userName=this.storage.get('userName') ;
+        console.log(this.userName)
+        // this.letter=this.getInitials(this.userName)
+        // console.log(this.letter);
+        this.letter  = this.userName.charAt(0).toUpperCase();
         // Redirect to the company listing page
         this.router.navigate(['/company-listing']);
         this.modal.cancel();
@@ -160,9 +170,20 @@ export class NavbarComponent {
     if (this.userLoggedIn) {
       alert("User is Logged In")
     } else {
-      //this.openModal(ModalType.LOGIN_SIGNUP);
-      this.router.navigate(['/login']);
+      this.openModal(ModalType.LOGIN_SIGNUP);
+      //this.router.navigate(['/login']);
     }
+  }
+
+
+  rediectToFaq(){
+    window.location.href=environment.crossOriginUrl+'/'
+  }
+  rediectToAboutUs(){
+    window.location.href=environment.crossOriginUrl+'/'
+  }
+  rediectToCorporate(){
+    window.location.href=environment.crossOriginUrl+'/'
   }
 
   /**

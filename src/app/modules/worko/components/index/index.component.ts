@@ -179,6 +179,16 @@ export class IndexComponent {
   randomPassword: any;
   successmessage: string="";
   successtitle: string="";
+
+
+  // @HostListener('window:message', ['$event'])
+  // onMessage(e: { origin: string; data: any; }) {
+  //   debugger 
+  //   console.log(e.data);
+  //   if (e.origin ==='http://localhost:64555') { console.log("afasfaasffafafaa");
+  //     localStorage.setItem('companyid', e.data);
+  //   } 
+  // }
   
   constructor(private cdr: ChangeDetectorRef,private modalService: NgbModal,private companyListingService:CompanyListingService,private storage: StorageService, private amplify: CognitoService, private router: Router, private authService: AuthService, private spinner: NgxSpinnerService, private navbarToggleSwitchService : NavbarToggleSwitchService,private candidateSrv: CandidateProfileService,) {
   
@@ -257,9 +267,9 @@ export class IndexComponent {
 
   async ngOnInit() {
     //Added check to pass userType to show enabled candidate and employee fromn index page
-    if(this.userType){
-      this.selectedUserType = this.userType;
-    }
+   // await this.userTypeCheck()
+   debugger
+  
     this.blinkAndChangeWord()
     this.filteredOptions = this.myControl.valueChanges.pipe(
       debounceTime(300),
@@ -291,13 +301,25 @@ export class IndexComponent {
     
   
   }
- 
+  async userTypeCheck(){
+
+
+    }
+
+
+
   async checkUserLoggedIn(){
+    debugger
     this.userLoggedIn = await this.amplify.isLoggedIn();
+    this.userType=localStorage.getItem('companyid')
+    // if (this.userType.startsWith('"') && this.userType.endsWith('"')) {
+    //   this.userType = this.userType.substring(1, this.userType.length - 1); // Extract substring excluding the first and last characters
+    // }
+ console.log(this.userType);
 
     this.emailAddress = this.storage.get("useremail");
     if (this.userLoggedIn) {
-
+      debugger
       if (this.router.url.includes('/company-listing')) {
         // Redirect to the company listing page
         this.router.navigate(['/company-listing']);
@@ -305,12 +327,13 @@ export class IndexComponent {
       }
       else {
         const response = await this.candidateSrv.getProfileComplete(this.emailAddress);
-
+      
         if (response) {
           this.profileCompletion = response;
           console.log(this.profileCompletion);
-
-          if (this.profileCompletion) {
+          if(this.userType==='employee'){
+            this.router.navigate(['/employee/Referral']);
+          }else if (this.profileCompletion) {
             const profileType = this.userType === "CAND" ? this.profileCompletion.candidate : this.profileCompletion.employee;
             const totalPercentage = profileType.reduce((sum: any, element: any) => sum + element.curPerc, 0);
 
@@ -331,6 +354,14 @@ export class IndexComponent {
 
       this.isUSerLoggedIn=!this.isUSerLoggedIn
       this.router.navigate(['/'])
+   if(this.userType==='employee'){
+   
+      this.selectedUserType = this.userType;
+    
+  }else{
+    //this.selectedUserType = 'candidate';
+    this.router.navigate(['/'])
+  }
     }
 
   }

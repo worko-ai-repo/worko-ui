@@ -8,6 +8,7 @@ export const environment = {
       userPoolId: 'ap-south-1_tAj7HAKZh',
       userPoolWebClientId: '5evf019rrkaijtnjf2j1vvdf33',
     },
+    crossOriginUrl:'http://localhost:4300',
     apiUrl: "https://api.worko.ai/",
     saveUserInfoApi:"https://w6zitv6ryk.execute-api.us-east-1.amazonaws.com/dev/adduserinfo",
     createOrderUrl:"https://seqaxy10nl.execute-api.ap-south-1.amazonaws.com/dev/user/63b0e8d0-c94d-492a-9f20-02b24f0bf081/",

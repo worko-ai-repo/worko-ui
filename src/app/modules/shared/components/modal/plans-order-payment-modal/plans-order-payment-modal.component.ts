@@ -8,6 +8,7 @@ import { PaymentGateway } from '../../../enums/payment-gateway.enum';
 import { PaymentFlowConfig } from '../../../interfaces/payment-flow-config.interface';
 import { Renderer2 } from '@angular/core';
 import { DOCUMENT } from '@angular/common';
+import { StorageService } from 'src/app/modules/app-core/services/storage.service';
 
 export const theme_config = {
   sdkPrimaryColor: "#2F92C7",
@@ -24,9 +25,14 @@ export const theme_config = {
 export class PlansOrderPaymentModalComponent implements OnChanges {
 
   constructor(private candServ: CandidateProfileService, private authService: AuthService, private renderer2: Renderer2,
-    @Inject(DOCUMENT) private document: Document) {
+    @Inject(DOCUMENT) private document: Document, private storage: StorageService) {
 
   }
+
+  ngOnInit(): void {
+    this.userId = this.storage.get("userId");
+  }
+
   ngOnChanges(changes: SimpleChanges): void {
     console.log(this.isOrderDetails)
     console.log(this.isOrderSummary)
@@ -81,6 +87,7 @@ export class PlansOrderPaymentModalComponent implements OnChanges {
   city: any;
   formattedCardNumber!: string;
   flow_config: PaymentFlowConfig | null = null;
+  userId: any;
   @Input() isOrderSummary: any
   @Input() isPaymentDetails: any
   @Input() isOrderDetails: any;
@@ -179,7 +186,7 @@ export class PlansOrderPaymentModalComponent implements OnChanges {
 
     }
 
-    await this.candServ.createOrder(payload).then(async (response) => {
+    await this.candServ.createOrder(payload, this.userId).then(async (response) => {
       if (response) {
         this.handleResponse(response);
         // this.spinner.hide();
