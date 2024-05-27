@@ -263,6 +263,8 @@ this.filteredOptions = this.myControl.valueChanges.pipe(
 this.openModalFromIndex()
 
   }
+
+  //receive data from worko.ai
  
   async openModalFromIndex(){
   this.indexData=localStorage.getItem('crossDomainData')
@@ -305,7 +307,7 @@ this.openModalFromIndex()
 
  
 
-
+// open modal if user click on request referral from worko.ai
   async openModalForCompany(item:any){
    // debugger
     this.userLoggedIn = await this.cognitoService.isLoggedIn();
@@ -351,6 +353,9 @@ this.openModalFromIndex()
 
       return '';
     }
+
+    
+
   }
 
   //logic to show assest image 
@@ -383,12 +388,11 @@ generateLogoFilenames(start: number, end: number, excludedNumbers:any[]) {
       company.name.toLowerCase().includes(this.searchTerm.toLowerCase())
     );
   }
+
+  //filter company data by using Sk
   filterCompanyBySk( companySk: string) {
     debugger
-   
-
-
-      return this.companyList.find(company => company.SK === companySk);
+   return this.companyList.find(company => company.SK === companySk);
 
    
   }
@@ -548,12 +552,12 @@ generateLogoFilenames(start: number, end: number, excludedNumbers:any[]) {
 
   async receiveDataFromChild(data: any) {
     debugger
-    window.location.reload()
+    //window.location.reload()
     this.userLoggedIn = await this.cognitoService.isLoggedIn();
     //this.closeModal();
    
     if (this.triggerReferral && this.userLoggedIn) {
-      this.openModal(this.modalType.REQUEST_REFERRAL);
+      this.openModal(this.modalType.REQUEST_REFERRAL,'hi');
     }
     if (this.triggerGuidance && this.userLoggedIn) {
       this.openModal(ModalType.REQUEST_GUIDANCE);
@@ -657,7 +661,7 @@ generateLogoFilenames(start: number, end: number, excludedNumbers:any[]) {
 
 
         CompanyName: "",
-          industry: 'Industry',
+          industry: '',
          
           carrierPage:"",
           linkedIn: "",
