@@ -309,7 +309,7 @@ this.openModalFromIndex()
 
 // open modal if user click on request referral from worko.ai
   async openModalForCompany(item:any){
-   // debugger
+
     this.userLoggedIn = await this.cognitoService.isLoggedIn();
    
     this.selectedData = item;
@@ -317,7 +317,7 @@ this.openModalFromIndex()
     this.triggerReferral = true;
      this.triggerGuidance = false;
     if (this.userLoggedIn) {
-      debugger
+  
       this.openModal(ModalType.REQUEST_REFERRAL);
     } else {
       this.openModal(ModalType.LOGIN_SIGNUP);
@@ -329,7 +329,7 @@ this.openModalFromIndex()
 
 
   onOptionSelected(event: MatAutocompleteSelectedEvent): void {
-    debugger
+
     this.selectedCompany = event.option.value;
     console.log(this.selectedCompany)
     //this.router.navigate([]);
@@ -501,8 +501,7 @@ generateLogoFilenames(start: number, end: number, excludedNumbers:any[]) {
 
   async openReferralPage(event: Event, item: any): Promise<void> {
     event.preventDefault();
-    debugger
-    this.userLoggedIn = await this.cognitoService.isLoggedIn();
+   this.userLoggedIn = await this.cognitoService.isLoggedIn();
    
     this.selectedData = item;
     console.log( this.selectedData)

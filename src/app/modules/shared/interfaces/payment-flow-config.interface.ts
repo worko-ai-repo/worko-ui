@@ -5,12 +5,12 @@ export interface PaymentFlowConfig {
     childWindow: boolean;
     returnUrl: string | null;
     retryCount: number;
-    prefs: {
-      payment_categories: string[];
-      allowed_bins: string[];
-    };
-    netBanking: {
-      showPopularBanks: string;
-      popularBanks: string[];
-    };
+    // prefs: {
+    //   payment_categories: string[];
+    //   allowed_bins: string[];
+    // };
+    // netBanking: {
+    //   showPopularBanks: string;
+    //   popularBanks: string[];
+    // };
   }

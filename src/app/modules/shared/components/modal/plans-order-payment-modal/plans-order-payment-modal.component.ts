@@ -207,18 +207,19 @@ export class PlansOrderPaymentModalComponent implements OnChanges {
       merchantId: orderTxn?.pgatewayOrderResponse?.mercid,
       bdOrderId: orderTxn?.pgatewayOrderResponse?.bdorderid,
       authToken: orderTxn?.pgatewayOrderResponse?.links[1]?.headers?.authorization,
-      childWindow: true,  
-      returnUrl: orderTxn?.pgatewayOrderResponse?.ru,
+      childWindow: false,  
+      returnUrl: "https://app.worko.ai/candidate/billdeskresponse",
+      // returnUrl: orderTxn?.pgatewayOrderResponse?.ru,
       // crossButtonHandling: 'Y',
-      retryCount: 3,
-      prefs: {
-        "payment_categories": ["card", "nb"],
-        "allowed_bins": ["459150", "525211"]
-      },
-      netBanking: {
-        "showPopularBanks": "Y",
-        "popularBanks": ["Kotak Bank", " AXIS Bank [Retail]"]
-      }
+      retryCount: 0,
+      // prefs: {
+      //   "payment_categories": ["card", "nb"],
+      //   "allowed_bins": ["459150", "525211"]
+      // },
+      // netBanking: {
+      //   "showPopularBanks": "Y",
+      //   "popularBanks": ["Kotak Bank", " AXIS Bank [Retail]"]
+      // }
     };
     const config = {
       responseHandler: this.responseHandler,
@@ -230,7 +231,7 @@ export class PlansOrderPaymentModalComponent implements OnChanges {
   }
 
   responseHandler(txn: any) {
-    console.log("Transaction response =", txn.encrypted_response);
+    // console.log("Transaction response =", txn.encrypted_response);
     console.log("Transaction response =", txn);
     console.log("callback received status:: ", txn.status);
     console.log("callback received response:: ", txn.response);
