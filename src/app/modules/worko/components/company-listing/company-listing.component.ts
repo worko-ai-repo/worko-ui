@@ -245,10 +245,9 @@ this.filteredOptions = this.myControl.valueChanges.pipe(
 
 );
 //this.getData()
-//debugger
+
 await this.companyListing.getReferralData().subscribe((item: any) => {
   // Open modal for the corresponding company
-  debugger
   console.log(item)
   this.selectedData = item;
   console.log(this.selectedData)
@@ -258,7 +257,6 @@ await this.companyListing.getReferralData().subscribe((item: any) => {
 });
 await this.companyListing.getGuidanceData().subscribe((item: any) => {
   // Open modal for the corresponding company
-  debugger
   console.log(item)
   this.selectedData = item;
   console.log(this.selectedData)
@@ -275,7 +273,7 @@ await this.companyListing.getGuidanceData().subscribe((item: any) => {
   // async ngOnChanges() {
   //   await this.companyListing.referralRequested$.subscribe(item => {
   //     // Open modal for the corresponding company
-  //     debugger
+
   //     console.log(item)
   //     this.openModalForCompany(item);
   //   });
@@ -283,7 +281,7 @@ await this.companyListing.getGuidanceData().subscribe((item: any) => {
 
 
   async openModalForCompany(item:any){
-   // debugger
+
     this.userLoggedIn = await this.cognitoService.isLoggedIn();
    
     this.selectedData = item;
@@ -291,7 +289,7 @@ await this.companyListing.getGuidanceData().subscribe((item: any) => {
     this.triggerReferral = true;
      this.triggerGuidance = false;
     if (this.userLoggedIn) {
-      debugger
+  
       this.openModal(ModalType.REQUEST_REFERRAL);
     } else {
       this.openModal(ModalType.LOGIN_SIGNUP);
@@ -305,14 +303,14 @@ await this.companyListing.getGuidanceData().subscribe((item: any) => {
   //   console.log('Referral requested for:', item);
   // }
 // getData(){
-//   debugger
+
 //  const response= this.companyListing.getrequestReferralData()
 //  console.log(response)
 //  this.openReferralPage(event,item)
 // }
 
   onOptionSelected(event: MatAutocompleteSelectedEvent): void {
-    debugger
+
     this.selectedCompany = event.option.value;
     console.log(this.selectedCompany)
     //this.router.navigate([]);
@@ -472,8 +470,7 @@ generateLogoFilenames(start: number, end: number, excludedNumbers:any[]) {
 
   async openReferralPage(event: Event, item: any): Promise<void> {
     event.preventDefault();
-    debugger
-    this.userLoggedIn = await this.cognitoService.isLoggedIn();
+   this.userLoggedIn = await this.cognitoService.isLoggedIn();
    
     this.selectedData = item;
     console.log( this.selectedData)
