@@ -78,16 +78,18 @@ export class ReferralRequestComponent implements OnInit, OnChanges {
 
 
   checkRequestReferral(): void {
+    
     debugger
     if (this.requestForm.valid) {
       this.companyListing.getReferralCount(this.emailId).then(async (response) => {
-    
+        
           let count = response.referralCount;
           console.log(response)
           if (count==0) {
             this.showsubscriptionPlan = true;
             this.showReferrelRow = false;
             this.showScore=false;
+            localStorage.removeItem('crossDomainData')
            } 
            else {
             

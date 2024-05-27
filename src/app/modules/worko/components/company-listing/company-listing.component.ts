@@ -408,13 +408,21 @@ generateLogoFilenames(start: number, end: number, excludedNumbers:any[]) {
       document.body.clientHeight,
       document.documentElement.clientHeight
     );
+    const footer = document.querySelector('app-footer');
+    const footerHeight = footer ? (footer as HTMLElement).offsetHeight : 0;
 
-    // Check if the user has scrolled to the bottom
+    console.log(scrollPosition + windowHeight-footerHeight)
+    console.log( documentHeight-footerHeight)
+   
 
-    if (scrollPosition + windowHeight >= documentHeight) {
+   // Check if the user has scrolled to the bottom
+
+    if (scrollPosition + windowHeight+footerHeight >= documentHeight-footerHeight) {
       // Load more data
+      console.log("inside scroll")
       this.getCompanyDetails();
     }
+
   }
 
   clearSearchInput(): void {
