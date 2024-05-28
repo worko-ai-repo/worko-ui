@@ -301,17 +301,13 @@ export class IndexComponent {
     
   
   }
-  async userTypeCheck(){
-
-
-    }
 
 
 
   async checkUserLoggedIn(){
     debugger
     this.userLoggedIn = await this.amplify.isLoggedIn();
-    this.userType=localStorage.getItem('companyid')
+    this.userType=localStorage.getItem('crossDomainData')
     // if (this.userType.startsWith('"') && this.userType.endsWith('"')) {
     //   this.userType = this.userType.substring(1, this.userType.length - 1); // Extract substring excluding the first and last characters
     // }
@@ -538,6 +534,7 @@ async  handleConfirmResetPassword({
 
 
   async createEmployee(form: any): Promise<void> {
+    localStorage.removeItem('crossDomainData')
     this.spinner.show();
     try {
       this.setErrorMessage("");
@@ -593,6 +590,7 @@ async  handleConfirmResetPassword({
 
 
   async createCandidate(form: any): Promise<void> {
+    localStorage.removeItem('crossDomainData')
     this.spinner.show();
     try {
       this.setErrorMessage("");
@@ -928,6 +926,7 @@ try{
 
 
   async submit(form: any): Promise<void> {
+  localStorage.removeItem('crossDomainData')
     this.setErrorMessage("");
     this.spinner.show();
     const loginData = {

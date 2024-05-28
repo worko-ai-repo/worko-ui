@@ -269,7 +269,7 @@ this.openModalFromIndex()
   async openModalFromIndex(){
   this.indexData=localStorage.getItem('crossDomainData')
   debugger
-  if(this.indexData){
+  if(this.indexData.includes('ID#')){
     this.userLoggedIn = await this.cognitoService.isLoggedIn();
     if (!this.userLoggedIn) {
     
