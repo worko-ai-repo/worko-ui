@@ -277,8 +277,8 @@ export class PlansOrderPaymentModalComponent implements OnChanges {
       merchantId: orderTxn?.pgatewayOrderResponse?.mercid,
       bdOrderId: orderTxn?.pgatewayOrderResponse?.bdorderid,
       authToken: orderTxn?.pgatewayOrderResponse?.links[1]?.headers?.authorization,
-      childWindow: false,  
-      returnUrl: orderTxn?.pgatewayOrderResponse?.ru,
+      childWindow: true,
+      // returnUrl: orderTxn?.pgatewayOrderResponse?.ru,
       // crossButtonHandling: 'Y',
       retryCount: 0,
       // prefs: {
@@ -291,17 +291,17 @@ export class PlansOrderPaymentModalComponent implements OnChanges {
       // }
     };
 
-    const responseHandler = (response: any) => {
+    const responseHandler = (resCallback: any) => {
       console.log('responseHandler callback received');
-      console.log(response);
+      console.log(resCallback);
 
-      if (response.txnResponse) {
-        const encodedRes = btoa(JSON.stringify(response));
+      if (resCallback.txnResponse) {
+        const encodedRes = btoa(JSON.stringify(resCallback));
         console.log('Payment successful, encoded response:', encodedRes);
         // We can perform any additional actions needed, such as updating the UI or sending the response to the server
       }
 
-      if (response.status === 111) {
+      if (resCallback.status === 111) {
         this.showErrorPanel('Modal Closed By User');
       }
     };

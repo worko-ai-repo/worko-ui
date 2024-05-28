@@ -3,7 +3,7 @@ export interface PaymentFlowConfig {
     bdOrderId: string;
     authToken: string;
     childWindow: boolean;
-    returnUrl: string | null;
+    returnUrl?: string | null;
     retryCount: number;
     // prefs: {
     //   payment_categories: string[];
