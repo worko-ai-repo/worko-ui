@@ -10,11 +10,17 @@ import { Renderer2 } from '@angular/core';
 import { DOCUMENT } from '@angular/common';
 import { StorageService } from 'src/app/modules/app-core/services/storage.service';
 
+// export const theme_config = {
+//   sdkPrimaryColor: "#2F92C7",
+//   sdkAccentColor: "#fffefe",
+//   sdkBackgroundColor: "#57e1ff",
+//   sdkBannerColor: "#061634"
+// };
 export const theme_config = {
-  sdkPrimaryColor: "#2F92C7",
-  sdkAccentColor: "#fffefe",
-  sdkBackgroundColor: "#57e1ff",
-  sdkBannerColor: "#061634"
+  sdkPrimaryColor: "#69068a",
+  sdkAccentColor: "#cf5df5",
+  sdkBackgroundColor: "#f2caff",
+  sdkBannerColor: "#982cbb"
 };
 
 declare var Razorpay: any;
@@ -199,6 +205,7 @@ export class PlansOrderPaymentModalComponent implements OnChanges {
 
     await this.candServ.createOrder(payload, this.userId).then(async (response) => {
       if (response) {
+        console.log("Create Order Api Response = ",response);
         if (this.pGatewayProvider === PaymentGateway.RAZORPAY) {
           this.handleResponseRazorpay(response);
         }
@@ -206,11 +213,10 @@ export class PlansOrderPaymentModalComponent implements OnChanges {
           this.handleResponseBillDesk(response);
         }
         // this.spinner.hide();
-        console.log(response);
       }
     }).catch((error: any) => {
       // this.spinner.hide();
-      console.log(error);
+      console.log("Create Order API error = ", error);
     }
     );
 
@@ -271,14 +277,13 @@ export class PlansOrderPaymentModalComponent implements OnChanges {
   }
 
   handleResponseBillDesk(response: any) {
-    console.log("handle response method =", response);
     const orderTxn = response;
     this.flow_config = {
-      merchantId: orderTxn?.pgatewayOrderResponse?.mercid,
-      bdOrderId: orderTxn?.pgatewayOrderResponse?.bdorderid,
-      authToken: orderTxn?.pgatewayOrderResponse?.links[1]?.headers?.authorization,
+      merchantId: orderTxn?.userOrderResponse?.pgatewayOrderResponse?.mercid,
+      bdOrderId: orderTxn?.userOrderResponse?.pgatewayOrderResponse?.bdorderid,
+      authToken: orderTxn?.userOrderResponse?.pgatewayOrderResponse?.links[1]?.headers?.authorization,
       childWindow: true,
-      // returnUrl: orderTxn?.pgatewayOrderResponse?.ru,
+      // returnUrl: orderTxn?.userOrderResponse?.pgatewayOrderResponse?.ru,
       // crossButtonHandling: 'Y',
       retryCount: 0,
       // prefs: {
@@ -292,8 +297,9 @@ export class PlansOrderPaymentModalComponent implements OnChanges {
     };
 
     const responseHandler = (resCallback: any) => {
-      console.log('responseHandler callback received');
-      console.log(resCallback);
+      if(resCallback) {
+        console.log('responseHandler callback  = ', resCallback);
+      }
 
       if (resCallback.txnResponse) {
         const encodedRes = btoa(JSON.stringify(resCallback));
