@@ -1,4 +1,4 @@
-import { Component, OnInit, ViewChild, HostListener, Renderer2, ElementRef } from '@angular/core';
+import { Component, OnInit, ViewChild, HostListener, Renderer2, ElementRef, ChangeDetectorRef } from '@angular/core';
 import { CompanyListingService } from '../../services/company-listing.service';
 import { ModalType } from 'src/app/modules/shared/interfaces/shared.interface';
 import { ModalComponent } from 'src/app/modules/shared/components/modal/modal.component';
@@ -12,8 +12,9 @@ import { HttpClient } from '@angular/common/http';
 import { FormControl, NgForm } from '@angular/forms';
 import { AuthService } from '../../services/auth.service';
 import { MatAutocompleteSelectedEvent, MatAutocompleteTrigger } from '@angular/material/autocomplete';
-import { event } from 'jquery';
+import { error, event } from 'jquery';
 import { Router } from '@angular/router';
+import { StorageService } from 'src/app/modules/app-core/services/storage.service';
 @Component({
   selector: 'app-company-listing',
   templateUrl: './company-listing.component.html',
@@ -25,6 +26,8 @@ export class CompanyListingComponent implements OnInit {
   @ViewChild(ReferralRequestComponent) referrralComponent!: ReferralRequestComponent;
   @ViewChild(RequestGuidenceComponent) referrralguidanceComponent!: RequestGuidenceComponent;
   @ViewChild('autoCompleteInput', { static: false, read: MatAutocompleteTrigger }) trigger!: MatAutocompleteTrigger;
+  userName:string="";
+  letter:string=""
   successmessage:string="";
   successtitle:string="";
   modalType = ModalType;
@@ -49,6 +52,7 @@ export class CompanyListingComponent implements OnInit {
   appliedFilter: boolean = false;
   companyName: string = "";
   companySK: string = "";
+  indexData:any="";
   myControl = new FormControl<any>('');
   filteredOptions!: Observable<any[]>;
   filterData: any = {
@@ -201,12 +205,20 @@ export class CompanyListingComponent implements OnInit {
     // Handle scroll event
     this.detectScroll();
   }
+
+
+
+
   searchTerm: string = '';
   filteredCompanyList: any[] = [];
   searchQuery: string = '';
   private searchTerms = new Subject<string>();
 
-  constructor(private spinner: NgxSpinnerService, private router: Router,private authService: AuthService,private http: HttpClient, private renderer: Renderer2, private el: ElementRef,private companyListing: CompanyListingService, private cognitoService: CognitoService) {
+  
+ 
+
+
+  constructor(private spinner: NgxSpinnerService, private cdr: ChangeDetectorRef, private storage: StorageService,private router: Router,private authService: AuthService,private http: HttpClient, private renderer: Renderer2, private el: ElementRef,private companyListing: CompanyListingService, private cognitoService: CognitoService) {
     this.searchTerms
       .pipe(
         debounceTime(300), // Adjust the debounce time as needed (300 milliseconds in this example)
@@ -217,6 +229,9 @@ export class CompanyListingComponent implements OnInit {
         this.callApiWithSearchQuery(query);
       });
   }
+
+ 
+
   async ngOnInit(): Promise<void> {
     this.userLoggedIn = await this.cognitoService.isLoggedIn();
     await this.getCompanyDetails();
@@ -225,7 +240,7 @@ export class CompanyListingComponent implements OnInit {
     // console.log(this.assetLogos)
     const excludedNumbers = [83,87,90,101,103,108,110,140,147,150,158,161,177,179,217,218,224,231,243,256,289,291,298,301,308,317,323,328,334,337,354,359,362,382,403,405,431,442,452,457,477,489,503,513,520,521,525,528,531,536,540,563,566,567,579,583,585,631,634,636,638,659,660,677,689,697,704,716,720,738,757,770,796,798,809,823,828,837,843,850,852,932,935,947,949,954,971,983,984,986,992,1024,1040];
 
- this.assetLogos = await this.generateLogoFilenames(57, 1045, excludedNumbers);
+ this.assetLogos = await this.generateLogoFilenames(1, 1045, excludedNumbers);
 
 //console.log(this.assetLogos)
 
@@ -244,46 +259,57 @@ this.filteredOptions = this.myControl.valueChanges.pipe(
   })
 
 );
-//this.getData()
-//debugger
-await this.companyListing.getReferralData().subscribe((item: any) => {
-  // Open modal for the corresponding company
-  debugger
-  console.log(item)
-  this.selectedData = item;
-  console.log(this.selectedData)
-  if(item){
-  this.openModalForCompany(item);
-  }
-});
-await this.companyListing.getGuidanceData().subscribe((item: any) => {
-  // Open modal for the corresponding company
-  debugger
-  console.log(item)
-  this.selectedData = item;
-  console.log(this.selectedData)
-  if(item){
-    this.openModal(ModalType.REQUEST_GUIDANCE)
-  }
-});
 
-
-
+this.openModalFromIndex()
 
   }
 
-  // async ngOnChanges() {
-  //   await this.companyListing.referralRequested$.subscribe(item => {
-  //     // Open modal for the corresponding company
-  //     debugger
-  //     console.log(item)
-  //     this.openModalForCompany(item);
-  //   });
-  // }
+  //receive data from worko.ai
+ 
+  async openModalFromIndex(){
+  this.indexData=localStorage.getItem('crossDomainData')
+    debugger
+      //let index = companySk.indexOf('"'); // Find the index of the first occurrence of "
+  //     if (data.startsWith('"') && data.endsWith('"')) {
+  //       data = data.substring(1, data.length - 1); // Extract substring excluding the first and last characters
+  //   }
+  // console.log(data);
+  if(this.indexData){
+    this.userLoggedIn = await this.cognitoService.isLoggedIn();
+    if (!this.userLoggedIn) {
+    
+     this.openModal(ModalType.LOGIN_SIGNUP);
+    } else {
+     
+    if(this.indexData!=='true' ){
+   console.log(this.indexData)
+       console.log(this.companyList)
+      this.selectedData = this.filterCompanyBySk(this.indexData );
+      console.log(this.selectedData);
+      this.triggerReferral=true;
+      this.triggerGuidance=false;
+      this.openModal(ModalType.REQUEST_REFERRAL);
+    }
+    }if(this.indexData==='true'){
 
 
+        this.triggerReferral=false;
+      this.triggerGuidance=true;
+      this.openModal(ModalType.REQUEST_GUIDANCE)
+      
+      
+    }
+  }
+
+  
+  }
+
+
+ 
+
+// open modal if user click on request referral from worko.ai
   async openModalForCompany(item:any){
-   // debugger
+
     this.userLoggedIn = await this.cognitoService.isLoggedIn();
    
     this.selectedData = item;
@@ -291,7 +317,7 @@ await this.companyListing.getGuidanceData().subscribe((item: any) => {
     this.triggerReferral = true;
      this.triggerGuidance = false;
     if (this.userLoggedIn) {
-      debugger
+  
       this.openModal(ModalType.REQUEST_REFERRAL);
     } else {
       this.openModal(ModalType.LOGIN_SIGNUP);
@@ -300,19 +326,10 @@ await this.companyListing.getGuidanceData().subscribe((item: any) => {
 
 
  
-  // openReferralPage(item: any) {
-  //   // Your function logic here
-  //   console.log('Referral requested for:', item);
-  // }
-// getData(){
-//   debugger
-//  const response= this.companyListing.getrequestReferralData()
-//  console.log(response)
-//  this.openReferralPage(event,item)
-// }
+
 
   onOptionSelected(event: MatAutocompleteSelectedEvent): void {
-    debugger
+
     this.selectedCompany = event.option.value;
     console.log(this.selectedCompany)
     //this.router.navigate([]);
@@ -336,8 +353,12 @@ await this.companyListing.getGuidanceData().subscribe((item: any) => {
 
       return '';
     }
+
+    
+
   }
 
+  //logic to show assest image 
 generateLogoFilenames(start: number, end: number, excludedNumbers:any[]) {
   const logos = [];
   for (let i = start; i <= end; i++) {
@@ -345,7 +366,7 @@ generateLogoFilenames(start: number, end: number, excludedNumbers:any[]) {
           logos.push(`${i}.jpg`);
       }
   }
-  logos.push('1.jpg','10.jpg','15.jpg','25.jpg','30.jpg','47.jpg')
+ // logos.push('1.jpg','10.jpg','15.jpg','25.jpg','30.jpg','47.jpg')
   return logos;
 }
 
@@ -368,6 +389,14 @@ generateLogoFilenames(start: number, end: number, excludedNumbers:any[]) {
     );
   }
 
+  //filter company data by using Sk
+  filterCompanyBySk( companySk: string) {
+    debugger
+   return this.companyList.find(company => company.SK === companySk);
+
+   
+  }
+
   detectScroll(): void {
     const scrollPosition = window.scrollY || document.documentElement.scrollTop || document.body.scrollTop || 0;
     const windowHeight = window.innerHeight || document.documentElement.clientHeight || document.body.clientHeight || 0;
@@ -379,13 +408,21 @@ generateLogoFilenames(start: number, end: number, excludedNumbers:any[]) {
       document.body.clientHeight,
       document.documentElement.clientHeight
     );
+    const footer = document.querySelector('app-footer');
+    const footerHeight = footer ? (footer as HTMLElement).offsetHeight : 0;
 
-    // Check if the user has scrolled to the bottom
+    console.log(scrollPosition + windowHeight-footerHeight)
+    console.log( documentHeight-footerHeight)
+   
 
-    if (scrollPosition + windowHeight >= documentHeight) {
+   // Check if the user has scrolled to the bottom
+
+    if (scrollPosition + windowHeight+footerHeight >= documentHeight-footerHeight) {
       // Load more data
+      console.log("inside scroll")
       this.getCompanyDetails();
     }
+
   }
 
   clearSearchInput(): void {
@@ -472,8 +509,7 @@ generateLogoFilenames(start: number, end: number, excludedNumbers:any[]) {
 
   async openReferralPage(event: Event, item: any): Promise<void> {
     event.preventDefault();
-    debugger
-    this.userLoggedIn = await this.cognitoService.isLoggedIn();
+   this.userLoggedIn = await this.cognitoService.isLoggedIn();
    
     this.selectedData = item;
     console.log( this.selectedData)
@@ -488,11 +524,13 @@ generateLogoFilenames(start: number, end: number, excludedNumbers:any[]) {
 
   }
   async openGuidancePage(event: Event, item: any): Promise<void> {
-    event.preventDefault();
+
+    debugger
+   event.preventDefault();
     // this.userLoggedIn = await this.cognitoService.isLoggedIn();
     // this.reqGuidanceData = item;
-    // this.triggerReferral = false;
-    // this.triggerGuidance = true;
+    this.triggerReferral = false;
+    this.triggerGuidance = true;
     // if (this.userLoggedIn) {
     //   // this.openModal(ModalType.REQUEST_GUIDANCE);
     
@@ -501,13 +539,16 @@ generateLogoFilenames(start: number, end: number, excludedNumbers:any[]) {
     // }
 
     //this.successmessage="Our guidance service is launching soon, connecting you with first-hand, experienced experts for invaluable insights. Stay tuned for updates.Need urgent assistance, like interview preparation from insiders?\n Email us at Guidance@worko.ai for support";
-    // this.successtitle="Congratulations!";
+    // this.successtitle="Congratulations!";\\
+  
      this.openModal(ModalType.REQUEST_GUIDANCE)
+    
 
   }
   cancel(){
    
     this.modal.cancel()
+  
   }
 
 
@@ -517,13 +558,19 @@ generateLogoFilenames(start: number, end: number, excludedNumbers:any[]) {
   }
 
   async receiveDataFromChild(data: any) {
+    debugger
+    //window.location.reload()
     this.userLoggedIn = await this.cognitoService.isLoggedIn();
-    // this.closeModal();
+    //this.closeModal();
+   
     if (this.triggerReferral && this.userLoggedIn) {
-      this.openModal(ModalType.REQUEST_REFERRAL);
+      this.openModal(this.modalType.REQUEST_REFERRAL,'hi');
     }
     if (this.triggerGuidance && this.userLoggedIn) {
       this.openModal(ModalType.REQUEST_GUIDANCE);
+    }
+    if(this.indexData){
+      this.openModalFromIndex()
     }
   }
 
@@ -576,11 +623,15 @@ generateLogoFilenames(start: number, end: number, excludedNumbers:any[]) {
     * @returns {void}
     */
   openModal(modalType: ModalType, message: string = "", title: string = ""): void {
+    debugger
+    console.log(modalType)
+    if(ModalType.REQUEST_REFERRAL){
     if (this.referrralComponent) {
       this.referrralComponent.showReferrelRow = true;
       this.referrralComponent.requestForm.reset();
       this.referrralComponent.showScore = false;
     }
+  }
     if (ModalType.REQUEST_GUIDANCE) {
       if (this.referrralguidanceComponent) {
         this.referrralguidanceComponent.isButtonScreen = true;
@@ -617,7 +668,7 @@ generateLogoFilenames(start: number, end: number, excludedNumbers:any[]) {
 
 
         CompanyName: "",
-          industry: 'Industry',
+          industry: '',
          
           carrierPage:"",
           linkedIn: "",
@@ -642,9 +693,9 @@ generateLogoFilenames(start: number, end: number, excludedNumbers:any[]) {
    *
    * @returns {void}
    */
-  // closeModal(): void {
-  //   // Show referral request form after closing the modal
+  closeModal(): void {
+    // Show referral request form after closing the modal
 
-  //   this.modal.cancel();
-  // }
+    this.modal.cancel();
+  }
 }

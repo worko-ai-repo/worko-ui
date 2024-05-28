@@ -9,7 +9,7 @@
     <ul
     class="navbar-nav bg-color p-3 d-flex sidebar sidebar-dark accordion navbar-nav bg-gradient-primary sidebar sidebar-dark accordion menu-items"
     [class.toggled]="!isSidebarExpanded" >
-    <a routerLink="/" class="sidebar-brand d-flex align-items-center justify-content-center position: fixed;">
+    <a (click)="userCheck()" class="sidebar-brand d-flex align-items-center justify-content-center position: fixed;">
       <div class="sidebar-brand-icon px-3 mb-5">
         <img class="candidate-worko-logo" src="/assets/public/workologoai-2@2x.png" alt="">
       </div>

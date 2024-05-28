@@ -71,9 +71,10 @@ export class ModalComponent implements OnInit {
 
   close() {
     // Perform any necessary cleanup or actions before closing the modal
-
+   
     // Emit the 'closed' event
     this.modalService.dismissAll('button');
+   
   }
 
   /**
@@ -99,6 +100,7 @@ export class ModalComponent implements OnInit {
    * @returns {void}
    */
   cancel(): void {
+    localStorage.removeItem('crossDomainData')
     this.modalService.dismissAll('button');
   }
 

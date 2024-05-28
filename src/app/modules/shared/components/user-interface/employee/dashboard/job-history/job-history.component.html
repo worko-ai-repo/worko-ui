@@ -83,12 +83,14 @@
                   <!-- <span class="exp-text">Experience:{{workExperience.experienceInMonths}}</span> -->
                 </div>
               </div>
-              <div class="p-2">
-                <img src="/assets/public/missing_company_logo_white.png" class="logo-img p-1" alt="">
+              <div class="p-2"  *ngFor="let workExperience of currentCompany">
+                <!-- <img src="/assets/public/missing_company_logo_white.png" class="logo-img p-1" alt=""> -->
+                <img  
+                src="assets/company-logo/{{workExperience.companyLogo }}" class="logo-img p-1" alt="{{workExperience.companyName}}">
               </div>
             </div>
           </div>
-          <div class="col-md-12 job-details" *ngFor="let workExperience of currentCompany">
+          <div class="col-md-12 job-details"  *ngFor="let workExperience of currentCompany">
             <div class="p-3">
               <div class="d-flex justify-content-between ">
                 <div>Official Email : {{workExperience.emailId}}</div>

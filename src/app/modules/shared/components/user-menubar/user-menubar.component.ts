@@ -159,4 +159,18 @@ export class UserMenubarComponent {
       this.router.navigateByUrl('/');
     }
   }
+
+  userCheck(){
+    const currentUrl = window.location.href;
+
+// Check if the URL contains "employee" or "candidate"
+console.log(currentUrl)
+if (currentUrl.includes("employee")) {
+  console.log('emp')
+  this.router.navigateByUrl('/employee/Dashboard');
+} else{
+  console.log('can')
+  this.router.navigateByUrl('/candidate/dashboard');
+}
+}
 }

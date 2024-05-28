@@ -276,17 +276,18 @@ export class PlansOrderPaymentModalComponent implements OnChanges {
       merchantId: orderTxn?.pgatewayOrderResponse?.mercid,
       bdOrderId: orderTxn?.pgatewayOrderResponse?.bdorderid,
       authToken: orderTxn?.pgatewayOrderResponse?.links[1]?.headers?.authorization,
-      childWindow: false,
+      childWindow: false,  
       returnUrl: orderTxn?.pgatewayOrderResponse?.ru,
-      retryCount: 3,
-      prefs: {
-        "payment_categories": ["card", "nb"],
-        "allowed_bins": ["459150", "525211"]
-      },
-      netBanking: {
-        "showPopularBanks": "Y",
-        "popularBanks": ["Kotak Bank", " AXIS Bank [Retail]"]
-      }
+      // crossButtonHandling: 'Y',
+      retryCount: 0,
+      // prefs: {
+      //   "payment_categories": ["card", "nb"],
+      //   "allowed_bins": ["459150", "525211"]
+      // },
+      // netBanking: {
+      //   "showPopularBanks": "Y",
+      //   "popularBanks": ["Kotak Bank", " AXIS Bank [Retail]"]
+      // }
     };
 
     const responseHandler = (response: any) => {

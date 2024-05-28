@@ -84,7 +84,9 @@
         <span class="line line3"></span>
       </div>
       <ul class="menu-items">
-        <li><a href="/about-us">About Us</a></li>
+        <!-- <li><a href="/about-us">About Us</a></li> -->
+        <li><a (click)="rediectToAboutUs()">About Us</a></li>
+      
         <!-- <li class="has-children" (click)="toggleSubMenu()" (mouseenter)="showSubMenuOnHover()"
           (mouseleave)="hideSubMenuOnHover()">
           FAQ's<span class="caret"></span>
@@ -96,11 +98,11 @@
 
           </ul> -->
         <li>
-          <a href="/faq">FAQ's</a>
+          <a (click)="rediectToFaq()">FAQ's</a>
         </li>
         
 
-       <li><a href="/corporate">Corporate</a></li>
+       <li><a (click)="rediectToCorporate()">Corporate</a></li>
         <!--  <li  *ngIf="userLoggedIn">
           <a style="cursor: pointer;" (click)="logout()">Log Out</a>
         </li>
@@ -217,7 +219,7 @@
           <a style="cursor: pointer;" (click)="logout()">Log Out</a>
         </li> -->
       </ul>
-      <a class="navbar-brand" href="/"><img class="worko-logo-ai-2-icon" alt=""
+      <a class="navbar-brand" (click)="dashboard()"><img class="worko-logo-ai-2-icon" alt=""
           src="assets/public/workologoai-2@2x.png" />
       </a>
 

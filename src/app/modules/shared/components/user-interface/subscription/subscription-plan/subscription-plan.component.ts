@@ -148,14 +148,14 @@ export class SubscriptionPlanComponent {
         childWindow: true,
         returnUrl: returnUrl,
         retryCount: 3,
-        prefs: {
-          payment_categories: ["card", "nb"],
-          allowed_bins: ["459150", "525211"]
-        },
-        netBanking: {
-          showPopularBanks: "Y",
-          popularBanks: ["Kotak Bank", "AXIS Bank [Retail]"]
-        }
+        // prefs: {
+        //   payment_categories: ["card", "nb"],
+        //   allowed_bins: ["459150", "525211"]
+        // },
+        // netBanking: {
+        //   showPopularBanks: "Y",
+        //   popularBanks: ["Kotak Bank", "AXIS Bank [Retail]"]
+        // }
       };
     }
   }

@@ -60,6 +60,8 @@ import { ContactUsComponent } from './components/contact-us/contact-us.component
 
 
 
+
+
 // import { MatInputModule } from '@angular/material/input';
 export const routes: Routes = [
   {
@@ -133,7 +135,7 @@ export const routes: Routes = [
       },
       {
         path : 'login',
-        component: LoginPageComponent
+        component:IndexComponent
       },
       {
         path : 'referral-req',
@@ -200,68 +202,67 @@ export const routes: Routes = [
 ]
 
 @NgModule({
-  providers: [],
-  declarations: [
-    ContactComponent,
-    WorkoComponent,
-    HomeComponent,
-    NavbarComponent,
-    IndexHomeComponent,
-    JobSerchSectionComponent,
-    ReferralGuidenceComponent,
-    InsiderInsightComponent,
-    BenifitsSectionComponent,
-    CompaniesSectionComponent,
-    VedioAreaComponent,
-    CompanyListingComponent,
-    TestimonialComponent,
-    FooterComponent,
-    CompanyBoxComponent,
-    LoginPageComponent,
-    ReferralRequestComponent,
-    SubscriptionPackComponent,
-    ReferralProgressBarComponent,
-    RequestGuidenceComponent,
-    // CircleChartComponent,
-    PublicProfileComponent,
-    HomeAboutUsComponent,
-    HomeFaqComponent,
-    HomeCorporateComponent,
-    TermsOfServiceComponent,
-    PrivacyPolicyComponent,
-    RefundPolicyComponent,
-    IndexComponent,
-    FaqCandidateComponent,
-    FaqRefereeComponent,
-    ContactUsComponent
-  ],
-  imports: [
-    CommonModule,
-    SharedModule,
-    RouterModule.forChild(routes),
-    MatFormFieldModule,
-    MatSelectModule,
-    ReactiveFormsModule,
-    FormsModule,
-    HttpClientModule,
-    MatTooltipModule,
-    MatCardModule,
-    MatDividerModule,
-    MatProgressBarModule,
-    MatProgressSpinnerModule,
-    SlickCarouselModule,
-    MatPaginatorModule,
-    MatDatepickerModule,
-    MatListModule,
-    MatNativeDateModule,
-    MatInputModule,
-    MatIconModule,
-    MatAutocompleteModule
-
-  ],
-  exports: [
-    NavbarComponent,
-    FooterComponent
-  ]
+    providers: [],
+    declarations: [
+        ContactComponent,
+        WorkoComponent,
+        HomeComponent,
+        NavbarComponent,
+        IndexHomeComponent,
+        JobSerchSectionComponent,
+        ReferralGuidenceComponent,
+        InsiderInsightComponent,
+        BenifitsSectionComponent,
+        CompaniesSectionComponent,
+        VedioAreaComponent,
+        CompanyListingComponent,
+        TestimonialComponent,
+        FooterComponent,
+        CompanyBoxComponent,
+        LoginPageComponent,
+        ReferralRequestComponent,
+        SubscriptionPackComponent,
+        ReferralProgressBarComponent,
+        RequestGuidenceComponent,
+        // CircleChartComponent,
+        PublicProfileComponent,
+        HomeAboutUsComponent,
+        HomeFaqComponent,
+        HomeCorporateComponent,
+        TermsOfServiceComponent,
+        PrivacyPolicyComponent,
+        RefundPolicyComponent,
+        IndexComponent,
+        FaqCandidateComponent,
+        FaqRefereeComponent,
+        ContactUsComponent,
+    ],
+    exports: [
+        NavbarComponent,
+        FooterComponent,
+    ],
+    imports: [
+        CommonModule,
+        SharedModule,
+        RouterModule.forChild(routes),
+        MatFormFieldModule,
+        MatSelectModule,
+        ReactiveFormsModule,
+        FormsModule,
+        HttpClientModule,
+        MatTooltipModule,
+        MatCardModule,
+        MatDividerModule,
+        MatProgressBarModule,
+        MatProgressSpinnerModule,
+        SlickCarouselModule,
+        MatPaginatorModule,
+        MatDatepickerModule,
+        MatListModule,
+        MatNativeDateModule,
+        MatInputModule,
+        MatIconModule,
+        MatAutocompleteModule,
+    ]
 })
 export class WorkoModule { }

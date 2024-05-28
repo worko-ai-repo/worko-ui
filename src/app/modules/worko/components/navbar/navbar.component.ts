@@ -6,7 +6,10 @@ import { Router } from '@angular/router';
 import { CandidateProfileService } from 'src/app/modules/candidate/services/candidate-profile.service';
 import { StorageService } from 'src/app/modules/app-core/services/storage.service';
 import { NavbarToggleSwitchService } from 'src/app/modules/candidate/services/navbar-toggle-switch.service';
-import { LoginPageComponent } from '../login-page/login-page.component';
+import { IndexComponent } from '../index/index.component';
+import { environment } from 'src/environment/environment';
+
+
 
 @Component({
   selector: 'app-navbar',
@@ -16,7 +19,7 @@ import { LoginPageComponent } from '../login-page/login-page.component';
 
 export class NavbarComponent {
   @ViewChild(ModalComponent) modal!: ModalComponent;
-  @ViewChild(LoginPageComponent) LoginPageComponent!:LoginPageComponent;
+  @ViewChild(IndexComponent) IndexComponent!:IndexComponent;
   modalType = ModalType;
   modalMessage: string = "";
   modalTitle: string = "";
@@ -30,6 +33,9 @@ export class NavbarComponent {
  userName:string='profile'
   letter:string=""
   showOptions = false; 
+
+  
+  
   constructor(private cognitoService: CognitoService, private router: Router, private candidateSrv: CandidateProfileService, private storage: StorageService, private navbarToggleSwitchService : NavbarToggleSwitchService) {
    
    }
@@ -122,6 +128,12 @@ export class NavbarComponent {
     this.emailAddress = this.storage.get("useremail");
     if (this.userLoggedIn) {
       if (this.router.url.includes('/company-listing')) {
+        this.userLoggedIn = await this.cognitoService.isLoggedIn();
+        this.userName=this.storage.get('userName') ;
+        console.log(this.userName)
+        // this.letter=this.getInitials(this.userName)
+        // console.log(this.letter);
+        this.letter  = this.userName.charAt(0).toUpperCase();
         // Redirect to the company listing page
         this.router.navigate(['/company-listing']);
         this.modal.cancel();
@@ -159,7 +171,19 @@ export class NavbarComponent {
       alert("User is Logged In")
     } else {
       this.openModal(ModalType.LOGIN_SIGNUP);
+      //this.router.navigate(['/login']);
     }
+  }
+
+
+  rediectToFaq(){
+    window.location.href=environment.crossOriginUrl+'/'
+  }
+  rediectToAboutUs(){
+    window.location.href=environment.crossOriginUrl+'/'
+  }
+  rediectToCorporate(){
+    window.location.href=environment.crossOriginUrl+'/'
   }
 
   /**
@@ -171,10 +195,10 @@ export class NavbarComponent {
     * @returns {void}
     */
   openModal(modalType: ModalType, message: string = "", title: string = ""): void {
-    if(this.LoginPageComponent){
-      this.LoginPageComponent.showSignInRow=true;
-      this.LoginPageComponent.showAddCompanyScreen=false;
-      this.LoginPageComponent.showErrorMessageScreen=false;
+    if(this.IndexComponent){
+      this.IndexComponent.showSignInRow=true;
+      this.IndexComponent.showAddCompanyScreen=false;
+      this.IndexComponent.showErrorMessageScreen=false;
     }
    
     this.showModal = modalType;
