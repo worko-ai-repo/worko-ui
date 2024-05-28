@@ -148,6 +148,12 @@ export class CandidateProfileService {
     return this.http.post(API_URL + `user/${userId}/order/create`, data,this.authService.getHttpOptions() ).toPromise();
   }
 
+  //API to process the payment
+  
+  processPayment(data:any, orderId:any, userId:any) {
+    return this.http.post(API_URL + `user/${userId}/order/${orderId}/gatewayres`, data,this.authService.getHttpOptions() ).toPromise();
+  }
+
   //* Create Order
 
   // async createOrder(orderData:any, headers:HttpHeaders):Promise<any>{

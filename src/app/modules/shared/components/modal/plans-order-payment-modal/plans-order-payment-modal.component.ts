@@ -17,6 +17,7 @@ export const theme_config = {
   sdkBannerColor: "#061634"
 };
 
+declare var Razorpay: any;
 @Component({
   selector: 'app-plans-order-payment-modal',
   templateUrl: './plans-order-payment-modal.component.html',
@@ -88,6 +89,7 @@ export class PlansOrderPaymentModalComponent implements OnChanges {
   formattedCardNumber!: string;
   flow_config: PaymentFlowConfig | null = null;
   userId: any;
+  pGatewayProvider: any;
   @Input() isOrderSummary: any
   @Input() isPaymentDetails: any
   @Input() isOrderDetails: any;
@@ -151,10 +153,17 @@ export class PlansOrderPaymentModalComponent implements OnChanges {
 
   payNow() {
     // this.placeOrder();
-    this.createOrder();
+    this.createOrder("Billdesk");
   }
 
-  async createOrder() {
+  async createOrder(pGateway: any) {
+
+    if (pGateway === 'Razorpay') {
+      this.pGatewayProvider = PaymentGateway.RAZORPAY;
+    }
+    else {
+      this.pGatewayProvider = PaymentGateway.BILL_DESK;
+    }
 
     // const ipAddress = await this.getIpAddress();
 
@@ -165,7 +174,7 @@ export class PlansOrderPaymentModalComponent implements OnChanges {
     let totalAmount = subTotalAmount + gstAmount - discountAmount;
 
     let payload = {
-      "pgatewayProvider": PaymentGateway.BILL_DESK,
+      "pgatewayProvider": this.pGatewayProvider,
       "subTotalAmount": subTotalAmount,
       "discountAmount": discountAmount,
       "gstAmount": gstAmount,  // GST is 18% of the subtotal amount
@@ -173,6 +182,7 @@ export class PlansOrderPaymentModalComponent implements OnChanges {
       // "ipAddress": ipAddress,
       // "userAgent": this.userAgent,
       "returnUrl": "https://app.worko.ai/candidate/billdeskresponse",
+      // "returnUrl": "https://app.worko.local:4200/candidate/subscription",
       "products": [{
         "productContext": "SUBS",
         "productContextId": this.selectedPackage?.SK,
@@ -188,7 +198,12 @@ export class PlansOrderPaymentModalComponent implements OnChanges {
 
     await this.candServ.createOrder(payload, this.userId).then(async (response) => {
       if (response) {
-        this.handleResponse(response);
+        if (this.pGatewayProvider === PaymentGateway.RAZORPAY) {
+          this.handleResponseRazorpay(response);
+        }
+        else {
+          this.handleResponseBillDesk(response);
+        }
         // this.spinner.hide();
         console.log(response);
       }
@@ -200,16 +215,69 @@ export class PlansOrderPaymentModalComponent implements OnChanges {
 
   }
 
-  handleResponse(response: any) {
+  handleResponseRazorpay(response: any) {
+    const createOrderResponse = response;
+    let options = {
+      key: "REDACTED", // Will replace it with our actual Razorpay key ID
+      amount: createOrderResponse?.pgatewayOrderResponse?.amount, // Amount in paise
+      currency: createOrderResponse?.pgatewayOrderResponse?.currency,
+      name: "Worko Ai",
+      description: this.selectedPackage?.details,
+      order_id: createOrderResponse?.pgatewayOrderId, // Razorpay order ID
+      handler: (paymentResponse: any) => {
+        this.processPayment(createOrderResponse, paymentResponse);
+      },
+      prefill: {
+        name: "Customer Name",
+        email: "createOrderResponse?.userEmail",
+        contact: "9999999999"
+      },
+      theme: {
+        color: "#3399cc"
+      }
+    };
+
+    const rzp1 = new Razorpay(options);
+    rzp1.on('payment.failed', (response: any) => {
+      console.log(response.error);
+    });
+    rzp1.open();
+  }
+
+  async processPayment(createOrderResponse: any, paymentResponse: any) {
+
+    const paymentData = {
+      userId: createOrderResponse?.pgatewayOrderResponse?.notes?.userId,
+      orderType: createOrderResponse?.orderType,
+      orderId: createOrderResponse?.orderId,
+      OrderTxnId: createOrderResponse?.orderTxnId,
+      pgatewayOrderId: createOrderResponse?.pgatewayOrderId,
+      pgatewayProvider: createOrderResponse?.pgatewayProvider,
+      pgResponse: paymentResponse,
+    };
+
+    await this.candServ.processPayment(paymentData, createOrderResponse?.orderId, this.userId).then(async (response) => {
+      if (response) {
+        console.log(response);
+        // this.spinner.hide();
+      }
+    }).catch((error: any) => {
+      // this.spinner.hide();
+      console.log(error);
+    }
+    );
+    console.log("payment response is ==", paymentResponse);
+  }
+
+  handleResponseBillDesk(response: any) {
     console.log("handle response method =", response);
     const orderTxn = response;
     this.flow_config = {
       merchantId: orderTxn?.pgatewayOrderResponse?.mercid,
       bdOrderId: orderTxn?.pgatewayOrderResponse?.bdorderid,
       authToken: orderTxn?.pgatewayOrderResponse?.links[1]?.headers?.authorization,
-      childWindow: true,  
+      childWindow: false,
       returnUrl: orderTxn?.pgatewayOrderResponse?.ru,
-      // crossButtonHandling: 'Y',
       retryCount: 3,
       prefs: {
         "payment_categories": ["card", "nb"],
@@ -220,8 +288,24 @@ export class PlansOrderPaymentModalComponent implements OnChanges {
         "popularBanks": ["Kotak Bank", " AXIS Bank [Retail]"]
       }
     };
+
+    const responseHandler = (response: any) => {
+      console.log('responseHandler callback received');
+      console.log(response);
+
+      if (response.txnResponse) {
+        const encodedRes = btoa(JSON.stringify(response));
+        console.log('Payment successful, encoded response:', encodedRes);
+        // We can perform any additional actions needed, such as updating the UI or sending the response to the server
+      }
+
+      if (response.status === 111) {
+        this.showErrorPanel('Modal Closed By User');
+      }
+    };
+
     const config = {
-      responseHandler: this.responseHandler,
+      responseHandler,
       flowConfig: this.flow_config,
       flowType: "payments",
       themeConfig: theme_config
@@ -229,16 +313,21 @@ export class PlansOrderPaymentModalComponent implements OnChanges {
     this.injectBillDeskSdk(config);
   }
 
-  responseHandler(txn: any) {
-    console.log("Transaction response =", txn.encrypted_response);
-    console.log("Transaction response =", txn);
-    console.log("callback received status:: ", txn.status);
-    console.log("callback received response:: ", txn.response);
-  };
+  showErrorPanel(message: string) {
+    // We cam implement our logic to show an error panel or modal with the provided message
+    console.error(message);
+  }
+
+  // responseHandler(txn: any) {
+  //   console.log("Transaction response =", txn.encrypted_response);
+  //   console.log("Transaction response =", txn);
+  //   console.log("callback received status:: ", txn.status);
+  //   console.log("callback received response:: ", txn.response);
+  // };
 
   injectBillDeskSdk(config: any) {
     console.log("injectBillDeskSdk start =", config);
-    
+
     (window as any).loadBillDeskSdk(config);
     console.log("injectBillDeskSdk end");
 
