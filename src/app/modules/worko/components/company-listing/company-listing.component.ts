@@ -268,12 +268,7 @@ this.openModalFromIndex()
  
   async openModalFromIndex(){
   this.indexData=localStorage.getItem('crossDomainData')
-    debugger
-      //let index = companySk.indexOf('"'); // Find the index of the first occurrence of "
-  //     if (data.startsWith('"') && data.endsWith('"')) {
-  //       data = data.substring(1, data.length - 1); // Extract substring excluding the first and last characters
-  //   }
-  // console.log(data);
+  debugger
   if(this.indexData){
     this.userLoggedIn = await this.cognitoService.isLoggedIn();
     if (!this.userLoggedIn) {
@@ -410,10 +405,6 @@ generateLogoFilenames(start: number, end: number, excludedNumbers:any[]) {
     );
     const footer = document.querySelector('app-footer');
     const footerHeight = footer ? (footer as HTMLElement).offsetHeight : 0;
-
-    console.log(scrollPosition + windowHeight-footerHeight)
-    console.log( documentHeight-footerHeight)
-   
 
    // Check if the user has scrolled to the bottom
 
