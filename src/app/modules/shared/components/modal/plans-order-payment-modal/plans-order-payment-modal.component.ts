@@ -181,7 +181,8 @@ export class PlansOrderPaymentModalComponent implements OnChanges {
       "orderType": "SUBS",
       // "ipAddress": ipAddress,
       // "userAgent": this.userAgent,
-      "returnUrl": "https://app.worko.ai/candidate/billdeskresponse",
+      // "returnUrl": "https://app.worko.ai/candidate/billdeskresponse",
+      "returnUrl": "https://app.worko.ai/candidate/subscription",
       // "returnUrl": "https://app.worko.local:4200/candidate/subscription",
       "products": [{
         "productContext": "SUBS",
