@@ -332,8 +332,8 @@ export class PlansOrderPaymentModalComponent implements OnChanges {
       }
 
       if (resCallback.txnResponse) {
-        const encodedRes = btoa(JSON.stringify(resCallback));
-        console.log('Payment successful, encoded response:', encodedRes);
+        // const encodedRes = btoa(JSON.stringify(resCallback));
+        console.log('Payment successful, encoded response received: ', resCallback?.txnResponse?.transaction_response);
         // We can perform any additional actions needed, such as updating the UI or sending the response to the server
       }
 
