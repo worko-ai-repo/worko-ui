@@ -231,11 +231,7 @@
   <ng-container *ngIf="showModal === modalType.PLANS_ORDER_PAYMENT">
     <app-plans-order-payment-modal *ngIf="showModal === modalType.PLANS_ORDER_PAYMENT"
       [selectedPackage]="selectedPackage" [cardDetails]="cardDetails" (onClose)="closeModal()"
-      [isPaymentDetails]="isPaymentDetails" [isOrderSummary]="isOrderSummary"
+      [isPaymentDetails]="isPaymentDetails" [isOrderSummary]="isOrderSummary" [isPaymentGatewayUi]="isPaymentGatewayUi"
       [isOrderDetails]="isOrderDetails"></app-plans-order-payment-modal>
   </ng-container>
-
-
-
-
 </app-modal>

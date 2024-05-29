@@ -70,11 +70,41 @@
         </div>
         <div class="col-md-10 mt-4 mb-4">
             <div class="btn-pay btn text-white float-end p-2 ps-4 pe-4 ms-2" (click)="payNow()">Pay</div>
-            <div (click)="closeModal()" class=" btn-pay btn text-white float-end p-2 ps-3 pe-3">Cancel</div>
+            <div (click)="closePopup()" class=" btn-pay btn text-white float-end p-2 ps-3 pe-3">Cancel</div>
         </div>
     </div>
 
 </div>
+
+<!-- Select Payment Gateway UI -->
+
+<div *ngIf="isPaymentGatewayUi" class="modal-body candidate-card" style="border-radius: 6px;">
+    <div class="row">
+        <div class="col-md-12">
+            <h4 class="p-3 order-heading">Please choose a payment gateway</h4>
+        </div>
+
+        <div class="col-md-12 pl-5 pr-4">
+            <div *ngFor="let item of paymentGateways; let i = index" class="mt-3 gateway-item" [ngClass]="{'selected': selectedIndex === i}" (click)="onSelect(i)">
+                <div *ngIf="item.isEnabled">
+                    <div class="gateway-content">
+                        <input type="radio" name="paymentGateway" [value]="item" [(ngModel)]="selectedGateway" [checked]="selectedIndex === i">
+                        <img [src]="item.logo" alt="{{item.name}} logo" [ngStyle]="i === 1 ? {'height': '55px'} : {}"
+                            [style.width]="i === 1 ? {'width': '40px'} : {}">
+                        <h5>{{item.name}}</h5>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="mt-5 mb-2" style="width: 100%; display: flex; justify-content: center; gap: 1px;">
+            <div (click)="closePopup()" class=" btn-pay btn text-white float-end p-2 ps-3 pe-3">Cancel</div>
+            <div (click)="continue()" class="btn-pay btn text-white float-end p-2 ps-4 pe-4 ms-2">Continue</div>
+        </div>
+
+    </div>
+</div>
+
 
 <!-- Payment details UI -->
 

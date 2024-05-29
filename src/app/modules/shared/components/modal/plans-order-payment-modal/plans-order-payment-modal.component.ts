@@ -1,14 +1,18 @@
 import { HttpHeaders } from '@angular/common/http';
-import { Component, EventEmitter, Inject, Input, OnChanges, Output, SimpleChanges } from '@angular/core';
+import { Component, EventEmitter, Inject, Input, OnChanges, Output, SimpleChanges, ViewChild } from '@angular/core';
 // import { NgbModalOptions } from '@ng-bootstrap/ng-bootstrap/modal/modal.module';
 import { AbstractControl, NgModel, ValidationErrors, ValidatorFn, Validators } from '@angular/forms';
 import { CandidateProfileService } from 'src/app/modules/candidate/services/candidate-profile.service';
 import { AuthService } from 'src/app/modules/worko/services/auth.service';
 import { PaymentGateway } from '../../../enums/payment-gateway.enum';
+import { PaymentGatewayData, PAYMENT_GATEWAYS } from '../../../constants/payment-gateways.constants';
 import { PaymentFlowConfig } from '../../../interfaces/payment-flow-config.interface';
 import { Renderer2 } from '@angular/core';
 import { DOCUMENT } from '@angular/common';
 import { StorageService } from 'src/app/modules/app-core/services/storage.service';
+import { ModalComponent } from '../modal.component';
+import { ModalType } from '../../../interfaces/shared.interface';
+import { NgxSpinnerService } from 'ngx-spinner';
 
 // export const theme_config = {
 //   sdkPrimaryColor: "#2F92C7",
@@ -20,7 +24,7 @@ export const theme_config = {
   sdkPrimaryColor: "#69068a",
   sdkAccentColor: "#cf5df5",
   sdkBackgroundColor: "#f2caff",
-  sdkBannerColor: "#982cbb"
+  sdkBannerColor: "#061634"
 };
 
 declare var Razorpay: any;
@@ -32,7 +36,7 @@ declare var Razorpay: any;
 export class PlansOrderPaymentModalComponent implements OnChanges {
 
   constructor(private candServ: CandidateProfileService, private authService: AuthService, private renderer2: Renderer2,
-    @Inject(DOCUMENT) private document: Document, private storage: StorageService) {
+    @Inject(DOCUMENT) private document: Document, private storage: StorageService, private spinner: NgxSpinnerService) {
 
   }
 
@@ -46,6 +50,11 @@ export class PlansOrderPaymentModalComponent implements OnChanges {
     console.log(this.isPaymentDetails)
   }
 
+  @ViewChild(ModalComponent) modal!: ModalComponent;
+  modalType = ModalType;
+  modalMessage: string = "";
+  modalTitle: string = "";
+  showModal: ModalType | undefined;
   @Output() onSuccess: EventEmitter<void> = new EventEmitter<void>();
   @Output() onClose = new EventEmitter<void>();
   @Input() selectedPackage: any;
@@ -96,7 +105,11 @@ export class PlansOrderPaymentModalComponent implements OnChanges {
   flow_config: PaymentFlowConfig | null = null;
   userId: any;
   pGatewayProvider: any;
+  paymentGateways: PaymentGatewayData[] = PAYMENT_GATEWAYS;
+  selectedGateway: any; // Added this variable to hold the selected payment gateway
+  selectedIndex: number | null = null;
   @Input() isOrderSummary: any
+  @Input() isPaymentGatewayUi: any;
   @Input() isPaymentDetails: any
   @Input() isOrderDetails: any;
 
@@ -159,10 +172,26 @@ export class PlansOrderPaymentModalComponent implements OnChanges {
 
   payNow() {
     // this.placeOrder();
-    this.createOrder("Billdesk");
+    // this.createOrder("Billdesk")
+    this.isOrderSummary = false;
+    this.isPaymentGatewayUi = true;
+  }
+
+  continue(): void {
+    if (this.selectedGateway) {
+      this.createOrder(this.selectedGateway.name);
+    } else {
+      alert('Please select a payment gateway');
+    }
+  }
+
+  onSelect(index: number): void {
+    this.selectedIndex = index; // Updating the selected index here
+    this.selectedGateway = this.paymentGateways[index]; // Updating the selected payment gateway
   }
 
   async createOrder(pGateway: any) {
+    this.spinner.show();
 
     if (pGateway === 'Razorpay') {
       this.pGatewayProvider = PaymentGateway.RAZORPAY;
@@ -205,7 +234,7 @@ export class PlansOrderPaymentModalComponent implements OnChanges {
 
     await this.candServ.createOrder(payload, this.userId).then(async (response) => {
       if (response) {
-        console.log("Create Order Api Response = ",response);
+        console.log("Create Order Api Response = ", response);
         if (this.pGatewayProvider === PaymentGateway.RAZORPAY) {
           this.handleResponseRazorpay(response);
         }
@@ -215,7 +244,7 @@ export class PlansOrderPaymentModalComponent implements OnChanges {
         // this.spinner.hide();
       }
     }).catch((error: any) => {
-      // this.spinner.hide();
+      this.spinner.hide();
       console.log("Create Order API error = ", error);
     }
     );
@@ -223,20 +252,21 @@ export class PlansOrderPaymentModalComponent implements OnChanges {
   }
 
   handleResponseRazorpay(response: any) {
+    this.spinner.hide();
     const createOrderResponse = response;
     let options = {
       key: "REDACTED", // Will replace it with our actual Razorpay key ID
-      amount: createOrderResponse?.pgatewayOrderResponse?.amount, // Amount in paise
-      currency: createOrderResponse?.pgatewayOrderResponse?.currency,
+      amount: createOrderResponse?.gatewayOrderRequestPlainBody?.amount, // Amount in paise
+      currency: createOrderResponse?.gatewayOrderRequestPlainBody?.currency,
       name: "Worko Ai",
       description: this.selectedPackage?.details,
-      order_id: createOrderResponse?.pgatewayOrderId, // Razorpay order ID
+      order_id: createOrderResponse?.userOrderResponse?.pgatewayOrderId, // Razorpay order ID
       handler: (paymentResponse: any) => {
         this.processPayment(createOrderResponse, paymentResponse);
       },
       prefill: {
         name: "Customer Name",
-        email: "createOrderResponse?.userEmail",
+        email: createOrderResponse?.gatewayOrderRequestPlainBody?.notes?.userEmail,
         contact: "9999999999"
       },
       theme: {
@@ -252,20 +282,21 @@ export class PlansOrderPaymentModalComponent implements OnChanges {
   }
 
   async processPayment(createOrderResponse: any, paymentResponse: any) {
+    console.log("payment response received in handler is == ", paymentResponse);
 
     const paymentData = {
-      userId: createOrderResponse?.pgatewayOrderResponse?.notes?.userId,
-      orderType: createOrderResponse?.orderType,
-      orderId: createOrderResponse?.orderId,
-      OrderTxnId: createOrderResponse?.orderTxnId,
-      pgatewayOrderId: createOrderResponse?.pgatewayOrderId,
-      pgatewayProvider: createOrderResponse?.pgatewayProvider,
+      userId: createOrderResponse?.gatewayOrderRequestPlainBody?.notes?.userId,
+      orderType: createOrderResponse?.userOrderResponse?.orderType,
+      orderId: createOrderResponse?.userOrderResponse?.orderId,
+      OrderTxnId: createOrderResponse?.userOrderResponse?.orderTxnId,
+      pgatewayOrderId: createOrderResponse?.userOrderResponse?.pgatewayOrderId,
+      pgatewayProvider: createOrderResponse?.userOrderResponse?.pgatewayProvider,
       pgResponse: paymentResponse,
     };
 
-    await this.candServ.processPayment(paymentData, createOrderResponse?.orderId, this.userId).then(async (response) => {
+    await this.candServ.processPayment(paymentData, createOrderResponse?.userOrderResponse?.orderId, createOrderResponse?.gatewayOrderRequestPlainBody?.notes?.userId).then(async (response) => {
       if (response) {
-        console.log(response);
+        console.log("Processed response from backend = ", response);
         // this.spinner.hide();
       }
     }).catch((error: any) => {
@@ -273,7 +304,6 @@ export class PlansOrderPaymentModalComponent implements OnChanges {
       console.log(error);
     }
     );
-    console.log("payment response is ==", paymentResponse);
   }
 
   handleResponseBillDesk(response: any) {
@@ -297,7 +327,7 @@ export class PlansOrderPaymentModalComponent implements OnChanges {
     };
 
     const responseHandler = (resCallback: any) => {
-      if(resCallback) {
+      if (resCallback) {
         console.log('responseHandler callback  = ', resCallback);
       }
 
@@ -338,6 +368,7 @@ export class PlansOrderPaymentModalComponent implements OnChanges {
 
     (window as any).loadBillDeskSdk(config);
     console.log("injectBillDeskSdk end");
+    this.spinner.hide();
 
     // // Dynamically loading ES module script
     // const esmScript = this.renderer2.createElement('script');
@@ -541,8 +572,11 @@ export class PlansOrderPaymentModalComponent implements OnChanges {
 
   //Order Summary section starts from here
 
-  closeModal() {
+  closePopup() {
+    this.selectedIndex = null; // Reseting selectedIndex to null
+    this.selectedGateway = null; // Reseting selectedGateway to null
     this.isOrderSummary = true;
+    this.isPaymentGatewayUi = false;
     this.isPaymentDetails = false;
     this.isOrderDetails = false;
     this.onClose.emit();
@@ -562,6 +596,30 @@ export class PlansOrderPaymentModalComponent implements OnChanges {
     }
 
     return { total: 0, gst: 0 };
+  }
+
+  /**
+      * Open modal.
+      *
+      * @param {ModalType} modalType
+      * @param {string} [message = ""]
+      * @param {string} [title = ""]
+      * @returns {void}
+      */
+  openModal(modalType: ModalType, message: string = "", title: string = ""): void {
+    this.showModal = modalType;
+    this.modalMessage = message;
+    this.modalTitle = title;
+    this.modal.open();
+  }
+  /**
+   * Close modal.
+   *
+   * @returns {void}
+   */
+  closeModal(): void {
+    // this.referrralComponent.showReferrelRow = true;
+    this.modal.cancel();
   }
 
 }

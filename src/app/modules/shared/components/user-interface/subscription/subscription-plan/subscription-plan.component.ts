@@ -30,6 +30,7 @@ export class SubscriptionPlanComponent {
   selectedPackage: any;
   isFormValid: boolean = false;
   isOrderSummary!: boolean;
+  isPaymentGatewayUi!:boolean;
   isPaymentDetails!: boolean
   isOrderDetails!: boolean;
   flow_config: PaymentFlowConfig | null = null;
@@ -92,6 +93,7 @@ export class SubscriptionPlanComponent {
 
   openCheckout(packageData: any) {
     this.isOrderSummary = true;
+    this.isPaymentGatewayUi = false;
     this.isPaymentDetails = false;
     this.isOrderDetails = false;
     this.selectedPackage = packageData;

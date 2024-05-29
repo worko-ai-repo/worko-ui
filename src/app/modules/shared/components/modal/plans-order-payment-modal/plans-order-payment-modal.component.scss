@@ -92,7 +92,44 @@ input.ng-invalid.ng-touched {
 }
 
 .line {
-    height: 1px; /* Set the height of the line */
-    background-color: #2F92C7; /* Set the background color of the line */
-    width: 100%; /* Make the line take the full width of its container */
+    height: 1px;
+    /* Set the height of the line */
+    background-color: #2F92C7;
+    /* Set the background color of the line */
+    width: 100%;
+    /* Make the line take the full width of its container */
+}
+
+.gateway-item {
+    width: 100%;
+    overflow: hidden;
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+    cursor: pointer;
+    transition: background-color 0.3s;
+}
+
+.gateway-content {
+    height: 80px;
+    display: flex;
+    gap: 5px;
+    align-items: center;
+    justify-content: flex-start;
+    align-items: center;
+}
+
+.gateway-content img {
+    height: 80px;
+    width: 60px;
+}
+
+/* Hover effect */
+.gateway-item:hover {
+    background-color: #122a4f; /* lighter tint of #0A1E35 for hover */
+}
+
+/* Selected effect */
+.gateway-item.selected {
+    background-color: #07162A; /* little darker tint of #0A1E35 */
 }
