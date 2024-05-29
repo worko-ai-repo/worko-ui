@@ -282,7 +282,7 @@ export class PlansOrderPaymentModalComponent implements OnChanges {
       merchantId: orderTxn?.userOrderResponse?.pgatewayOrderResponse?.mercid,
       bdOrderId: orderTxn?.userOrderResponse?.pgatewayOrderResponse?.bdorderid,
       authToken: orderTxn?.userOrderResponse?.pgatewayOrderResponse?.links[1]?.headers?.authorization,
-      childWindow: true,
+      childWindow: false,
       // returnUrl: orderTxn?.userOrderResponse?.pgatewayOrderResponse?.ru,
       // crossButtonHandling: 'Y',
       retryCount: 0,
