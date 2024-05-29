@@ -25,7 +25,7 @@ export class CompanyListingComponent implements OnInit {
   @ViewChild(ModalComponent) modal!: ModalComponent;
   @ViewChild(ReferralRequestComponent) referrralComponent!: ReferralRequestComponent;
   @ViewChild(RequestGuidenceComponent) referrralguidanceComponent!: RequestGuidenceComponent;
-  @ViewChild('autoCompleteInput', { static: false, read: MatAutocompleteTrigger }) trigger!: MatAutocompleteTrigger;
+   @ViewChild('autoCompleteInput', { static: false, read: MatAutocompleteTrigger }) trigger!: MatAutocompleteTrigger;
   userName:string="";
   letter:string=""
   successmessage:string="";
@@ -61,7 +61,7 @@ export class CompanyListingComponent implements OnInit {
     companyName: ""
   }
   companyData:any=[];
-  form:any;
+  form!: NgForm;
   assetLogos: string[]=[];
   teamSizeOptions: any = [
     {
@@ -238,9 +238,9 @@ export class CompanyListingComponent implements OnInit {
     this.filteredCompanyList = this.companyList;
     // this.assetLogos = this.generateLogoFilenames(57, 1045);
     // console.log(this.assetLogos)
-    const excludedNumbers = [83,87,90,101,103,108,110,140,147,150,158,161,177,179,217,218,224,231,243,256,289,291,298,301,308,317,323,328,334,337,354,359,362,382,403,405,431,442,452,457,477,489,503,513,520,521,525,528,531,536,540,563,566,567,579,583,585,631,634,636,638,659,660,677,689,697,704,716,720,738,757,770,796,798,809,823,828,837,843,850,852,932,935,947,949,954,971,983,984,986,992,1024,1040];
+    //const excludedNumbers = [83,90,101,103,110,140,161,177,179,217,243,289,298,301,308,323,337,359,382,403,405,442,452,489,503,525,528,531,540,563,566,579,583,631,634,636,638,659,660,689,697,704,716,720,738,757,770,798,823,843,850,852,932,949,954,971,983,986,992,1024];
 
- this.assetLogos = await this.generateLogoFilenames(1, 1045, excludedNumbers);
+ this.assetLogos = await this.generateLogoFilenames(1, 1045);
 
 //console.log(this.assetLogos)
 
@@ -269,7 +269,7 @@ this.openModalFromIndex()
   async openModalFromIndex(){
   this.indexData=localStorage.getItem('crossDomainData')
   debugger
-  if(this.indexData.includes('ID#')){
+  if(this.indexData.includes('ID#') || this.indexData==='true'){
     this.userLoggedIn = await this.cognitoService.isLoggedIn();
     if (!this.userLoggedIn) {
     
@@ -354,12 +354,12 @@ this.openModalFromIndex()
   }
 
   //logic to show assest image 
-generateLogoFilenames(start: number, end: number, excludedNumbers:any[]) {
+generateLogoFilenames(start: number, end: number) {
   const logos = [];
   for (let i = start; i <= end; i++) {
-      if (!excludedNumbers.includes(i)) {
+    
           logos.push(`${i}.jpg`);
-      }
+      
   }
  // logos.push('1.jpg','10.jpg','15.jpg','25.jpg','30.jpg','47.jpg')
   return logos;
@@ -393,6 +393,7 @@ generateLogoFilenames(start: number, end: number, excludedNumbers:any[]) {
   }
 
   detectScroll(): void {
+  
     const scrollPosition = window.scrollY || document.documentElement.scrollTop || document.body.scrollTop || 0;
     const windowHeight = window.innerHeight || document.documentElement.clientHeight || document.body.clientHeight || 0;
     const documentHeight = Math.max(
@@ -436,7 +437,11 @@ generateLogoFilenames(start: number, end: number, excludedNumbers:any[]) {
           this.companyList = this.companyList.concat(response.data);
           this.lastKey = response.pagination.lastKey;
           this.loadedOnce = false;
-
+          this.companyList.sort((a,b) => {
+            const logoNumberA = parseInt(a.logo.split('.')[0], 10);
+            const logoNumberB = parseInt(b.logo.split('.')[0], 10);
+            return logoNumberA - logoNumberB;
+        });
           //  this.filterCompanies(); // Filter companies after updating companyList
         }
       })
@@ -670,7 +675,7 @@ generateLogoFilenames(start: number, end: number, excludedNumbers:any[]) {
       }
     
       this.myControl.reset();
-  
+    
     }
     this.showModal = modalType;
     this.modalMessage = message;
