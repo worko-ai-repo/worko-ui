@@ -56,6 +56,7 @@ import { ProvideFeedbackComponent } from '../shared/components/user-interface/re
 import { WithdrawnReferralComponent } from '../shared/components/user-interface/candidate/withdrawn-referral/withdrawn-referral.component';
 import { AuthRouteGuardService } from '../worko/services/auth-route-guard.service';
 import { BilldeskResponseComponent } from '../shared/components/user-interface/subscription/billdesk-response/billdesk-response.component';
+import { PgResponseComponent } from '../shared/components/user-interface/subscription/pg-response/pg-response.component';
 
 
 
@@ -88,6 +89,10 @@ export const routes: Routes = [
       {
         path: 'billdeskresponse',
         component: BilldeskResponseComponent, canActivate:[AuthRouteGuardService]
+      },
+      {
+        path: 'pgresponse/:pgProvider',
+        component: PgResponseComponent, canActivate:[AuthRouteGuardService]
       },
       {
         path: 'refer&earn',

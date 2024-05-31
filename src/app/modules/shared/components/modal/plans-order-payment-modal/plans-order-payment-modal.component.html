@@ -85,10 +85,12 @@
         </div>
 
         <div class="col-md-12 pl-5 pr-4">
-            <div *ngFor="let item of paymentGateways; let i = index" class="mt-3 gateway-item" [ngClass]="{'selected': selectedIndex === i}" (click)="onSelect(i)">
+            <div *ngFor="let item of paymentGateways; let i = index" class="mt-3 gateway-item"
+                [ngClass]="{'selected': selectedIndex === i}" (click)="onSelect(i)">
                 <div *ngIf="item.isEnabled">
                     <div class="gateway-content">
-                        <input type="radio" name="paymentGateway" [value]="item" [(ngModel)]="selectedGateway" [checked]="selectedIndex === i">
+                        <input class="radio-input" type="radio" name="paymentGateway" [value]="item" [(ngModel)]="selectedGateway"
+                            [checked]="selectedIndex === i">
                         <img [src]="item.logo" alt="{{item.name}} logo" [ngStyle]="i === 1 ? {'height': '55px'} : {}"
                             [style.width]="i === 1 ? {'width': '40px'} : {}">
                         <h5>{{item.name}}</h5>
@@ -390,3 +392,13 @@
     </div> -->
 
 </div>
+
+<!-- <app-modal [theme]="'theme-k'" [centered]="true" [showHeader]="showModal === modalType.MESSAGE" [showClose]="false"
+    [showFooter]="showModal === modalType.MESSAGE" [title]="modalTitle" [message]="modalMessage"
+    [bodyClass]="modalMessage ? 'p-5' : 'p-0'" [modalSize]="'md'">
+
+    <ng-container *ngIf="showModal === modalType.PAYMENT_CONFIRMATION">
+        <app-payment-confirmation-modal></app-payment-confirmation-modal>
+    </ng-container>
+    
+</app-modal> -->

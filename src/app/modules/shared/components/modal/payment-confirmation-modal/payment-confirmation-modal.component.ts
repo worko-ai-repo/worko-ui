@@ -1,6 +1,8 @@
 import { Component, EventEmitter, Input, OnChanges, Output, SimpleChanges } from '@angular/core';
 // import { NgbModalOptions } from '@ng-bootstrap/ng-bootstrap/modal/modal.module';
 import { AbstractControl, NgModel, ValidationErrors, ValidatorFn, Validators } from '@angular/forms';
+import { Router } from '@angular/router';
+import { Location } from '@angular/common';
 
 @Component({
   selector: 'app-payment-confirmation-modal',
@@ -8,16 +10,30 @@ import { AbstractControl, NgModel, ValidationErrors, ValidatorFn, Validators } f
   styleUrls: ['./payment-confirmation-modal.component.scss']
 })
 export class PaymentConfirmationModalComponent {
+  @Input() decryptedPaymentResponse: any;
+  amount: any;
+  transactionId: any;
+  orderId: any;
+
+  constructor(private router: Router, private location: Location) { }
+
+  ngOnInit(): void {
+    console.log("confirmation modal open now");
+  }
 
   ngOnChanges(changes: SimpleChanges): void {
     console.log(this.isOrderDetails)
     console.log(this.isOrderSummary)
     console.log(this.isPaymentDetails)
+
+    if (this.decryptedPaymentResponse) {
+      this.createPaymentSummary(this.decryptedPaymentResponse);
+    }
   }
 
   @Output() onSuccess: EventEmitter<void> = new EventEmitter<void>();
   @Output() onClose = new EventEmitter<void>();
-  @Input() selectedPackage:any;
+  @Input() selectedPackage: any;
   @Input() cardDetails: any = {
     cardHolderName: "",
     cardholderNumber: "",
@@ -51,9 +67,22 @@ export class PaymentConfirmationModalComponent {
   zipCode: any;
   city: any;
   formattedCardNumber!: string;
-  @Input() isOrderSummary:any
-  @Input() isPaymentDetails:any
-  @Input() isOrderDetails:any;
+  @Input() isOrderSummary: any
+  @Input() isPaymentDetails: any
+  @Input() isOrderDetails: any;
+
+  createPaymentSummary(response: any) {
+
+    if (response.status === 'captured') {
+      this.amount = `₹${(response.amount / 100).toFixed(2)}`;
+      this.transactionId = response.id;
+      this.orderId = response.order_id;
+    } else {
+      this.transactionId = response.id;
+      this.orderId = response.order_id;
+    }
+
+  }
 
   createCard(form: any) {
     // if (!this.isValidCardNumber(this.cardholderNumber)) {
@@ -88,7 +117,7 @@ export class PaymentConfirmationModalComponent {
     const maskedWithSpaces = maskedPart.replace(/(.{4})/g, '$1 ');
     // Combining the masked part with spaces and the visible part
     return `${maskedWithSpaces} ${visiblePart}`;
-  } 
+  }
 
   editPaymentDetails() {
     this.isOrderSummary = false;
@@ -100,9 +129,34 @@ export class PaymentConfirmationModalComponent {
     this.isOrderSummary = false;
     this.isPaymentDetails = true;
     this.isOrderDetails = false;
+
+    this.onClose.emit();
+    this.decryptedPaymentResponse = null;
+
+    this.reloadCurrentRoute();
+
+    // // Navigate to the same URL to force a reload
+    // this.router.navigateByUrl('/candidate/subscription', { skipLocationChange: true }).then(() => {
+    //   this.router.navigate(['/candidate/subscription']);
+    // });
+
+    // this.router.navigate(['/candidate/subscription']).then(() => {
+    //   window.location.reload();
+    // });
+    // this.onNext.emit();
   }
 
+  retryBtn() {
+    this.decryptedPaymentResponse = null;
 
+    this.reloadCurrentRoute();
+    // this.onRetry.emit();
+  }
+
+  reloadCurrentRoute() {
+    this.location.replaceState('/candidate/subscription');
+    window.location.reload();
+  }
 
   onCardNumberChange(cardholdernum: any) {
     cardholdernum.control.setValidators([
@@ -180,23 +234,25 @@ export class PaymentConfirmationModalComponent {
     this.isOrderSummary = true;
     this.isPaymentDetails = false;
     this.isOrderDetails = false;
+
+    this.decryptedPaymentResponse = null;
     this.onClose.emit();
   }
 
   calculateTotal(): { total: number; gst: number } {
     if (this.selectedPackage) {
       const packageAmount = parseFloat(this.selectedPackage.amount);
-  
+
       // GST calculation
       const gst = (18 / 100) * packageAmount;
-  
+
       // Total amount calculation
       const totalAmount = packageAmount + gst;
-  
+
       return { total: totalAmount, gst: gst };
     }
-  
-    return { total: 0, gst: 0 }; 
+
+    return { total: 0, gst: 0 };
   }
 
 }

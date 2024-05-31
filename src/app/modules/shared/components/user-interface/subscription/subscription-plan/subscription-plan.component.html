@@ -220,18 +220,17 @@
   </div>
 </div>
 
-
-
-
-
 <app-modal [theme]="'theme-k'" [centered]="true" [showHeader]="showModal === modalType.MESSAGE" [showClose]="false"
-  [showFooter]="showModal === modalType.MESSAGE" [title]="modalTitle" [message]="modalMessage"
-  [bodyClass]="modalMessage ? 'p-5' : 'p-0'" [modalSize]="'md'">
+  [showFooter]="showModal === modalType.MESSAGE" [modalSize]="'md'" [title]="modalTitle" [message]="modalMessage"
+  [bodyClass]="modalMessage ? 'p-4' : 'p-0'">
 
   <ng-container *ngIf="showModal === modalType.PLANS_ORDER_PAYMENT">
-    <app-plans-order-payment-modal *ngIf="showModal === modalType.PLANS_ORDER_PAYMENT"
-      [selectedPackage]="selectedPackage" [cardDetails]="cardDetails" (onClose)="closeModal()"
-      [isPaymentDetails]="isPaymentDetails" [isOrderSummary]="isOrderSummary" [isPaymentGatewayUi]="isPaymentGatewayUi"
-      [isOrderDetails]="isOrderDetails"></app-plans-order-payment-modal>
+    <app-plans-order-payment-modal *ngIf="showModal === modalType.PLANS_ORDER_PAYMENT" (onContinue)="createOrder($event)" (onClose)="closeModal()"
+      [isOrderSummary]="isOrderSummary" [isPaymentGatewayUi]="isPaymentGatewayUi" [selectedPackage]="selectedPackage"></app-plans-order-payment-modal>
   </ng-container>
+
+  <ng-container *ngIf="showModal === modalType.PAYMENT_CONFIRMATION">
+    <app-payment-confirmation-modal *ngIf="showModal === modalType.PAYMENT_CONFIRMATION" [decryptedPaymentResponse]="decryptedPaymentResponse" (onClose)="closeModal()"></app-payment-confirmation-modal>
+  </ng-container>
+
 </app-modal>

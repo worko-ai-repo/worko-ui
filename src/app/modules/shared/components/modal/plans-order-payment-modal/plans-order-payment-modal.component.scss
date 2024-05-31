@@ -101,6 +101,7 @@ input.ng-invalid.ng-touched {
 }
 
 .gateway-item {
+    padding-left: 5px;
     width: 100%;
     overflow: hidden;
     display: flex;
@@ -109,6 +110,11 @@ input.ng-invalid.ng-touched {
     cursor: pointer;
     transition: background-color 0.3s;
 }
+
+.radio-input {
+    transform: scale(1.2);
+    margin-right: 15px;
+} 
 
 .gateway-content {
     height: 80px;
@@ -122,6 +128,7 @@ input.ng-invalid.ng-touched {
 .gateway-content img {
     height: 80px;
     width: 60px;
+    margin-right: 6px;
 }
 
 /* Hover effect */

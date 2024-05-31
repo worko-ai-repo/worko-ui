@@ -142,7 +142,7 @@ export class CandidateProfileService {
   }
   
 
-  //Create order API
+  //Create order API - Subscription module
 
   createOrder(data:any, userId:any):Promise<any> {
     return this.http.post(API_URL + `user/${userId}/order/create`, data,this.authService.getHttpOptions() ).toPromise();
@@ -151,44 +151,8 @@ export class CandidateProfileService {
   //API to process the payment
   
   processPayment(data:any, orderId:any, userId:any) {
-    return this.http.post(API_URL + `user/${userId}/order/${orderId}/gatewayres`, data,this.authService.getHttpOptions() ).toPromise();
+    return this.http.post(API_URL + `user/${userId}/order/gatewayres`, data,this.authService.getHttpOptions() ).toPromise();
   }
-
-  //* Create Order
-
-  // async createOrder(orderData:any, headers:HttpHeaders):Promise<any>{
-  //   try {
-  //     // const response = await this.http.post(API_URL+`/pguat.billdesk.io/payments/ve1_2/orders/create` , orderData, { headers })
-  //     //   .toPromise();
-  //     // console.log('Order created successfully:', response);
-  //     // return response;
-  //     const test = {
-  //       name:"happy"
-  //     }
-  //     return Promise.resolve(test);
-  //   } catch (error) {
-  //     console.error('Error creating order:', error);
-  //     throw error;
-  //   }
-  // }
-
-  // async createOrder(orderData:any, headers:HttpHeaders):Promise<any>{
-
-  //   try {
-  //     const response = await this.http.post(apiOrderUrl, orderData, { headers })
-  //       .toPromise();
-  //     console.log('Order created successfully:', response);
-  //     return response;
-  //     // const test = {
-  //     //   name:"happy"
-  //     // }
-  //     // return Promise.resolve(test);
-  //   } catch (error) {
-  //     console.error('Error creating order:', error);
-  //     throw error;
-  //   }
-    
-  //  }
 
 }
 
