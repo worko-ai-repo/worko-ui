@@ -1,4 +1,4 @@
-import { Component, ElementRef, EventEmitter, Input, OnInit, Output, ViewChild } from '@angular/core';
+import { ChangeDetectorRef, Component, ElementRef, EventEmitter, Input, OnInit, Output, ViewChild } from '@angular/core';
 import { MatAutocompleteModule, MatAutocompleteTrigger } from '@angular/material/autocomplete';
 import { FormControl, FormsModule, NgModel, ReactiveFormsModule } from '@angular/forms';
 import { Observable } from 'rxjs';
@@ -75,7 +75,7 @@ export class PersonalDetailsComponent implements OnInit {
   month: number = 0;
   achmonth: number = 0;
 
-  constructor(private authService: AuthService, private elRef: ElementRef) { }
+  constructor(private authService: AuthService, private elRef: ElementRef,private cdr: ChangeDetectorRef) { }
   ngOnInit(): void {
     this.filteredOptions = this.myControl.valueChanges.pipe(
       debounceTime(300),
@@ -130,20 +130,38 @@ export class PersonalDetailsComponent implements OnInit {
     }
   }
   ngOnChanges(): void {
-debugger
+//debugger
     if (this.candidateProfessionalDetails.ctc && this.candidatePersonalDetails.ectc &&this.candidatePersonalDetails.department &&
       this.candidateProfessionalDetails.desigination
     ) {
+      //debugger
+    }else if(this.candidateProfessionalDetails.isCandidateFresher){
+      //debugger
+    }
+     else {
       debugger
-    } else {
       this.getData();
     }
     // console.log(this.candidateProfessionalDetails)
   }
 
   goBack() {
-    this.candidateProfessionalDetails.companyName = this.selectedCompany?.name ? this.selectedCompany?.name : this.workExperienceDetails?.companyName
-    this.candidateProfessionalDetails.companySK = this.selectedCompany?.SK ? this.selectedCompany?.SK : this.workExperienceDetails?.SK
+    debugger
+
+    if(this.workExperienceDetails){
+         if (this.candidateProfessionalDetails.companyName === this.workExperienceDetails.companyName && this.candidateProfessionalDetails.companySK === this.workExperienceDetails.SK) {
+      
+          this.candidateProfessionalDetails.companyName = this.workExperienceDetails.companyName;
+          this.candidateProfessionalDetails.companySK = this.workExperienceDetails.SK;
+        }else{
+          this.candidateProfessionalDetails.companyName=this.candidateProfessionalDetails.companyName;
+          this.candidateProfessionalDetails.companySK=this.candidateProfessionalDetails.companySK;
+          console.log(this.candidateProfessionalDetails.companyName);
+          console.log(this.candidateProfessionalDetails.companySK)
+        }
+      }
+    // this.candidateProfessionalDetails.companyName = this.selectedCompany?.name ? this.selectedCompany?.name : this.workExperienceDetails?.companyName
+    // this.candidateProfessionalDetails.companySK = this.selectedCompany?.SK ? this.selectedCompany?.SK : this.workExperienceDetails?.SK
     //debugger;
     this.previousStep.emit(this.candidateProfessionalDetails);
   }
@@ -293,25 +311,33 @@ debugger
   // }
 
   async createProfessionalDetails(form: any) {
+    console.log(this.workExperienceDetails)
+    debugger
     // console.log(this.candidateProfessionalDetails)
     // this.nextStep.emit(this.candidateProfessionalDetails)
     // this.candidateProfessionalDetails.companyName = this.selectedCompany?.name ? this.selectedCompany?.name : this.workExperienceDetails?.companyName
     // this.candidateProfessionalDetails.companySK = this.selectedCompany?.SK ? this.selectedCompany?.SK : this.workExperienceDetails?.SK
- 
+ if(!this.candidateProfessionalDetails.isCandidateFresher){
     if(this.selectedCompany ){
       this.candidateProfessionalDetails.companyName = this.selectedCompany.name ? this.selectedCompany?.name : this.workExperienceDetails?.companyName
       this.candidateProfessionalDetails.companySK = this.selectedCompany.SK ? this.selectedCompany?.SK : this.workExperienceDetails?.SK
     }
-    else if (this.candidateProfessionalDetails.companyName === this.workExperienceDetails.companyName && this.candidateProfessionalDetails.companySK === this.workExperienceDetails.SK) {
-
-      this.candidateProfessionalDetails.companyName = this.workExperienceDetails.companyName;
-      this.candidateProfessionalDetails.companySK = this.workExperienceDetails.SK;
-    } 
+  }
   
-else{
-      this.candidateProfessionalDetails.companyName = this.selectedCompany.name ? this.selectedCompany?.name : this.workExperienceDetails?.companyName
-      this.candidateProfessionalDetails.companySK = this.selectedCompany.SK ? this.selectedCompany?.SK : this.workExperienceDetails?.SK
-}
+
+// if(this.workExperienceDetails){
+//    if (this.candidateProfessionalDetails.companyName === this.workExperienceDetails.companyName && this.candidateProfessionalDetails.companySK === this.workExperienceDetails.SK) {
+
+//     this.candidateProfessionalDetails.companyName = this.workExperienceDetails.companyName;
+//     this.candidateProfessionalDetails.companySK = this.workExperienceDetails.SK;
+//   }else{
+//     this.candidateProfessionalDetails.companyName=this.candidateProfessionalDetails.companyName);
+//     this.candidateProfessionalDetails.companySK=this.candidateProfessionalDetails.companySK;
+//     console.log(this.candidateProfessionalDetails.companyName);
+//     console.log(this.candidateProfessionalDetails.companySK)
+//   }
+// }
+//  }
     this.onSuccess.emit(this.candidateProfessionalDetails);
   }
 
@@ -500,6 +526,7 @@ else{
   addSoftSkill(event: any) {
     const input = this.elRef.nativeElement.querySelector('.soft-skill-input');
     const value = input.value.trim();
+    debugger
     if (value) {
       const newSkill = {
         "skillName": value,
@@ -509,8 +536,9 @@ else{
       }
       this.candidateProfessionalDetails.softSkills.push(newSkill);
       input.value = ''; // Clear the input field
+      console.log(this.candidateProfessionalDetails.softSkills.length)
     }
-    event.preventDefault(); // Prevent the default action (form navigation)
+   event.preventDefault(); // Prevent the default action (form navigation)
   }
 
 

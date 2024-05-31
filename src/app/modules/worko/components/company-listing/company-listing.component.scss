@@ -3,6 +3,7 @@
     margin: 0;
     padding: 0;
     overflow: hidden;
+    background-color:#182b45 ;
 }
 
 .company-listing-container .referred-headline {
@@ -50,7 +51,7 @@
 }
 .company-listing-container .contents{
     padding-top: 6rem;
-    z-index: 100;
+    z-index: 1;
     position: relative;
 }
 
