@@ -8,6 +8,7 @@ import { NgxSpinnerService } from 'ngx-spinner';
 import { PaymentGateway } from 'src/app/modules/shared/enums/payment-gateway.enum';
 import { CandidateProfileService } from 'src/app/modules/candidate/services/candidate-profile.service';
 import { StorageService } from 'src/app/modules/app-core/services/storage.service';
+import { environment } from 'src/environment/environment';
 
 // export const theme_config = {
 //   sdkPrimaryColor: "#2F92C7",
@@ -143,6 +144,8 @@ export class SubscriptionPlanComponent {
     let discountAmount = 0;
 
     let totalAmount = subTotalAmount + gstAmount - discountAmount;
+    let domain = environment.localUrl;
+    let returnUrl = domain + `/candidate/pgresponse/${this.pGatewayProvider}`;
 
     let payload = {
       "pgatewayProvider": this.pGatewayProvider,
@@ -153,7 +156,7 @@ export class SubscriptionPlanComponent {
       // "ipAddress": ipAddress,
       // "userAgent": this.userAgent,
       // "returnUrl": "https://app.worko.ai/candidate/billdeskresponse",
-      "returnUrl": "https://app.worko.ai/candidate/pgresponse/${this.pGatewayProvider}",
+      "returnUrl": returnUrl,
       // "returnUrl": "https://app.worko.local:4200/candidate/subscription",
       "products": [{
         "productContext": "SUBS",
