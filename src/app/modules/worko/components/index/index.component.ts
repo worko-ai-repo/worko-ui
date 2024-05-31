@@ -727,7 +727,12 @@ try{
     }
   }catch{
     this.spinner.hide()
-    this.modal.cancel();
+    this.showSignInRow=false
+    this.showAddCompanyScreen=false
+    this.showErrorMessageScreen=true
+    this.successmessage="Something went wrong. Please try again after sometime"
+    this.successtitle="Error"
+   // this.modal.cancel();
     //this.openModal(ModalType.LOGIN_SIGNUP);
   }
     

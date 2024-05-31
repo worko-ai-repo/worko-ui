@@ -26,6 +26,8 @@ export class CompanyListingComponent implements OnInit {
   @ViewChild(ReferralRequestComponent) referrralComponent!: ReferralRequestComponent;
   @ViewChild(RequestGuidenceComponent) referrralguidanceComponent!: RequestGuidenceComponent;
    @ViewChild('autoCompleteInput', { static: false, read: MatAutocompleteTrigger }) trigger!: MatAutocompleteTrigger;
+   @ViewChild('company')
+   companyFormDirective!: NgForm;
   userName:string="";
   letter:string=""
   successmessage:string="";
@@ -327,9 +329,10 @@ this.openModalFromIndex()
 
     this.selectedCompany = event.option.value;
     console.log(this.selectedCompany)
+  
     //this.router.navigate([]);
     //this.router.navigate(['/company-listing']);
-    this.modal.cancel();
+    this.cancel();
     //this.router.navigateByUrl('/company-listing');
   }
 
@@ -409,7 +412,7 @@ generateLogoFilenames(start: number, end: number) {
 
    // Check if the user has scrolled to the bottom
 
-    if (scrollPosition + windowHeight+footerHeight >= documentHeight-footerHeight) {
+    if (scrollPosition + windowHeight >= documentHeight-footerHeight) {
       // Load more data
       console.log("inside scroll")
       this.getCompanyDetails();
@@ -541,8 +544,16 @@ generateLogoFilenames(start: number, end: number) {
     
 
   }
+  ngAfterViewInit() {
+    debugger
+    this.trigger.panelClosingActions
+      .subscribe(e => {
+        this.myControl.setValue(null);
+      });
+  }
   cancel(){
-   
+   // this.companyFormDirective.resetForm()
+ 
     this.modal.cancel()
   
   }
@@ -585,7 +596,7 @@ generateLogoFilenames(start: number, end: number) {
   }
   
   
-  async requestCampanyData(form:any){
+  async requestCampanyData(form:NgForm){
     try{
     this.companyData={
       userType: "EMP",
@@ -602,9 +613,11 @@ generateLogoFilenames(start: number, end: number) {
     console.log(this.companyData)
     await this.companyListing.requestNewCompany(this.companyData)
     this.spinner.hide()
+    this.companyFormDirective.resetForm()
     this.openModal(this.modalType.SUCCESS_MESSAGE)
   }catch(error){
     this.spinner.hide()
+    this.companyFormDirective.resetForm()
     this.successmessage="Something went wrong. Please try again after sometime"
     this.successtitle="Error"
     this.openModal(ModalType.SUCCESS_MESSAGE)
