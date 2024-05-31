@@ -217,7 +217,7 @@
         Please provide the details of the company
          for which you are seeking a referral.
       </div>
-      <form  (ngSubmit)="company.form.valid && requestCampanyData(form)" #company="ngForm" novalidate>
+      <form  (ngSubmit)="company.form.valid && requestCampanyData(company)" #company="ngForm" novalidate>
           <!-- <input class="col-8 col-md-4 mb-2 p-1 px-1" type="text" placeholder="Company Name" id="CompanyName" 
           name="CompanyName"  [(ngModel)]="companyForm.CompanyName" 
           #CompanyName="ngModel" pattern="^([ \u00c0-\u01ffa-zA-Z'.])+$"

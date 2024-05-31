@@ -1,4 +1,4 @@
-import { Component, ViewChild } from '@angular/core';
+import { Component, ElementRef, ViewChild } from '@angular/core';
 import { EmployeeProfileService } from '../../services/employee-profile.service';
 import { StorageService } from 'src/app/modules/app-core/services/storage.service';
 import { CandidateProfileService } from 'src/app/modules/candidate/services/candidate-profile.service';
@@ -16,7 +16,7 @@ import { StateService } from '../../services/state.service';
 export class EmployeeEditComponent {
 
   @ViewChild(ModalComponent) modal!: ModalComponent;
-
+  //@ViewChild('contentContainer', { static: true }) contentContainer!: ElementRef;
   workExperienceDetailsList:any;
     currentStep: number = 1;
   emailAddress: string = "";
@@ -33,7 +33,7 @@ export class EmployeeEditComponent {
   bankDetails: any;
   uploadedProfilePicName: string = "";
 
-
+  companyId:any="";
   successmessage:string="";
   successtitle:string="";
   modalType = ModalType;
@@ -253,13 +253,17 @@ export class EmployeeEditComponent {
 
     try {
       let workExperience = [];
-  
+      debugger
       // Add current company details
       if (this.secondStepData) {
-        let companyId = this.getSlicedValue(this.secondStepData.companySK);
+        if(this.secondStepData.companySK.includes('ID#')){
+         this.companyId = this.getSlicedValue(this.secondStepData.companySK);
+        }else{
+          this.companyId=this.secondStepData.companySK
+        }
         workExperience.push({
           "companyName": this.secondStepData.companyName,
-          "companyId": companyId,
+          "companyId": this.companyId,
           "emailId": this.secondStepData.officialEmail,
           "designation": this.secondStepData.designation,
           "department": this.secondStepData.department,

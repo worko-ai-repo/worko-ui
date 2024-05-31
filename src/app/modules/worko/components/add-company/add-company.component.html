@@ -2,7 +2,7 @@
     <div class="title d-flex justify-content-center" >
         Please provide your current company details to add:
     </div>
-    <form  (ngSubmit)="company.form.valid && requestCampanyData(form)" #company="ngForm" novalidate>
+    <form   (ngSubmit)="company.form.valid && requestCampanyData(company)" #company="ngForm" novalidate>
       <div class="row">
         <div class="col-md-1"></div>
         <input class="col-8 col-md-8 mb-2 p-1 px-1 " type="text" placeholder="Company Name" id="CompanyName" 

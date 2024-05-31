@@ -1,9 +1,11 @@
-import { Component, ViewChild } from '@angular/core';
+import { ChangeDetectorRef, Component, ViewChild } from '@angular/core';
 import { CognitoService } from 'src/app/modules/services/cognito.service';
 import { CompanyListingService } from '../../services/company-listing.service';
 import { ModalType } from 'src/app/modules/shared/interfaces/shared.interface';
 import { ModalComponent } from 'src/app/modules/shared/components/modal/modal.component';
 import { NgxSpinnerService } from 'ngx-spinner';
+import { NgForm } from '@angular/forms';
+import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 
 @Component({
   selector: 'app-add-company',
@@ -15,7 +17,7 @@ export class AddCompanyComponent {
 
   @ViewChild(ModalComponent) modal!: ModalComponent;
   userLoggedIn: boolean = false;
-form: any;
+form!:NgForm ;
 companyData:any;
 modalType = ModalType;
 modalMessage: string = "";
@@ -24,9 +26,11 @@ showModal: ModalType | undefined;
   successtitle: string="";
   successmessage: string="";
 
-  constructor(private cognitoService: CognitoService,private companyListingService:CompanyListingService,private spinner:NgxSpinnerService){}
+  constructor(private cognitoService: CognitoService,private modalService: NgbModal,private companyListingService:CompanyListingService,private spinner:NgxSpinnerService){}
 
   async ngOnInit(): Promise<void> {
+    debugger
+    console.log(this.showModal===this.modalType.SUCCESS_MESSAGE)
     this.userLoggedIn = await this.cognitoService.isLoggedIn();
   }
 companyForm={
@@ -43,7 +47,7 @@ companyForm={
 }
 
 
-  async requestCampanyData(form:any){
+  async requestCampanyData(form:NgForm){
     this.spinner.show()
     try{
   this.companyData={
@@ -62,6 +66,7 @@ console.log(this.companyData)
  let response=await this.companyListingService.getAllNewCompany()
  if(response){
   console.log(response)
+ 
   this.spinner.hide()
   this.openModal(this.modalType.SUCCESS_MESSAGE)
  }
@@ -69,6 +74,7 @@ console.log(this.companyData)
  
     }catch(error){
       this.spinner.hide()
+ 
       this.successmessage="Something went wrong. Please try again after sometime"
       this.successtitle="Error"
       this.openModal(ModalType.SUCCESS_MESSAGE)
@@ -77,7 +83,12 @@ console.log(this.companyData)
   
   }
 cancel(){
-  this.modal.cancel()
+
+ this.successmessage="";
+ this.successtitle="";
+ window.location.reload()
+ this.modal.cancel()
+
 }
 
     /**

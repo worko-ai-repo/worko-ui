@@ -22,7 +22,7 @@ export class EmployeeProfessionalDetailsComponent implements OnInit {
   @ViewChild('autoCompleteInput', { static: false, read: MatAutocompleteTrigger }) trigger!: MatAutocompleteTrigger;
   @ViewChild(ModalComponent) modal!: ModalComponent;
 
-  @ViewChild('autoCompleteInput') autoCompleteInput!: MatAutocompleteTrigger;
+ // @ViewChild('autoCompleteInput') autoCompleteInput!: MatAutocompleteTrigger;
   @Output() nextStep = new EventEmitter<void>();
   @Output() nextStepThird = new EventEmitter<void>();
   @Output() previousStep = new EventEmitter<void>();
@@ -61,6 +61,7 @@ export class EmployeeProfessionalDetailsComponent implements OnInit {
   // Property to store the values entered in the fields
   savedValues: { previousCompanyName: string, previousDesignation: string, previousExperience: string }[] = [];
   perviousjobs: [] = [];
+
   
   modalType = ModalType;
   modalMessage: string = "";
@@ -144,20 +145,21 @@ previousCompanies: any;
 
 fieldsGroup:any;
   ngOnInit() {
+    //debugger
     // this.stateService.setState(false);
-    console.log(this.employeeProfessionalData)
+    // console.log(this.employeeProfessionalData)
     
-    this.fields = this.workExperienceDetailsList.filter((company: any) => !company.isCurrent);
-    console.log(this.fields)
-    //  this.selectedCompanyName=this.employeeProfessionalData.companyName;
-
-    // console.log(this.selectedCompanyName)
+    // this.fields = this.workExperienceDetailsList?.filter((company: any) => !company.isCurrent);
+    // console.log(this.fields)
+   
+    
     this.filteredOptions = this.myControl.valueChanges.pipe(
+      
       debounceTime(300),
       distinctUntilChanged(),
       switchMap((value: any) => {
         console.log(value)
-        this.resetFormFields()
+       this.resetFormFields()
         if (value && value.length >= 1) {
           return this.authService.getCompanyName(value).pipe(
             map((results: any[]) => [
@@ -174,9 +176,9 @@ fieldsGroup:any;
 
     );
     this.emailid=this.storage.get("useremail")
-    this. id=this.workExperienceDetails.id
-   this.perviousjobs= this.workExperienceDetailsList.filter((company: any) => !company.isCurrent);
-    console.log(this.perviousjobs)
+    this. id=this.workExperienceDetails?.id
+  //  this.perviousjobs= this.workExperienceDetailsList?.filter((company: any) => !company.isCurrent);
+  //   console.log(this.perviousjobs)
  
       
    }
@@ -215,8 +217,27 @@ fieldsGroup:any;
   }
 
 
+  // displayFn(option: any): string {
+  //   console.log(option)
+  //   if (typeof option === 'string') {
+
+  //     //   this.companyName = option;
+  //     // this.companySK ="";
+  //     return option;
+  //   } else if (typeof option === 'object' && option.name) {
+
+  //     this.companyName = option.name;
+  //     this.companySK = option.SK;
+  //     return option.name;
+  //   } else {
+      
+  //     return '';
+  //   }
+  // }
+
+
   displayFn(option: any): string {
-    console.log(option)
+    
     if (typeof option === 'string') {
 
       //   this.companyName = option;
@@ -228,8 +249,8 @@ fieldsGroup:any;
       this.companySK = option.SK;
       return option.name;
     } else {
-      
-      return '';
+
+      return option ? option.name : '';
     }
   }
   displayPastFn(job:any): string{
@@ -252,9 +273,10 @@ fieldsGroup:any;
 
   isValue: boolean = true;
   ngOnChanges(): void {
+    debugger
     if (this.employeeProfessionalData && this.employeeProfessionalData.companyName && this.employeeProfessionalData.department && this.employeeProfessionalData.designation) {
       // this.fields = this.employeeProfessionalData.previousCompanies;
-     
+     console.log("in")
       // // 
       // if (this.employeeProfessionalData && this.employeeProfessionalData.previousCompanies.length == 0) {
       //   this.addField();
@@ -271,13 +293,14 @@ fieldsGroup:any;
   }
 
   getData() {
-    this.employeeProfessionalData = {
+  debugger
+     this.employeeProfessionalData = {
       companyName: this.workExperienceDetails?.companyName,
       department: this.workExperienceDetails?.department,
       designation: this.workExperienceDetails?.designation,
       workingSince: this.workExperienceDetails?.experienceInMonths,
       officialEmail: this.workExperienceDetails?.emailId ? this.workExperienceDetails?.emailId : "",
-      companySK: this.selectedCompany?.SK ? this.selectedCompany?.SK : this.workExperienceDetails?.SK,
+      companySK: this.selectedCompany?.SK ? this.selectedCompany?.SK : this.workExperienceDetails?.companyId,
       previousCompanies: "",
       isEmailVerified: false,
 
@@ -319,19 +342,15 @@ fieldsGroup:any;
     }
     }
     
-    
+  debugger
     
     this.savedValues = [...nonBlankFields];
     this.employeeProfessionalData.previousCompanies = this.savedValues;
     console.log()
-    if (this.employeeProfessionalData.companyName === this.workExperienceDetails.companyName && this.employeeProfessionalData.companySK === this.workExperienceDetails.SK) {
-
-      this.employeeProfessionalData.companyName = this.workExperienceDetails.companyName;
-      this.employeeProfessionalData.companySK = this.workExperienceDetails.SK;
-    } else {
+   if(this.selectedCompany){
       this.employeeProfessionalData.companyName = this.selectedCompany.name ? this.selectedCompany?.name : this.workExperienceDetails?.companyName
-      this.employeeProfessionalData.companySK = this.selectedCompany.SK ? this.selectedCompany?.SK : this.workExperienceDetails?.SK
-    }
+      this.employeeProfessionalData.companySK = this.selectedCompany.SK ? this.selectedCompany?.SK : this.workExperienceDetails?.companyId
+   }
     this.nextStepThird.emit(this.employeeProfessionalData);
   }
 
@@ -369,20 +388,22 @@ fieldsGroup:any;
     }
     
     
-    
+    debugger
 
     console.log(nonBlankFields)
     this.savedValues = [...nonBlankFields];
     this.employeeProfessionalData.previousCompanies = this.savedValues;
+    if(this.selectedCompany){
     this.employeeProfessionalData.companyName = this.selectedCompany.name ? this.selectedCompany?.name : this.workExperienceDetails?.companyName
-    this.employeeProfessionalData.companySK = this.selectedCompany.SK ? this.selectedCompany?.SK : this.workExperienceDetails?.SK
+    this.employeeProfessionalData.companySK = this.selectedCompany.SK ? this.selectedCompany?.SK : this.workExperienceDetails?.companyId
+    }
     this.nextStepThird.emit(this.employeeProfessionalData);
     console.log(this.savedValues)
   }
 
   onPreviousClick() {
   //  const nonBlankFields = this.fields.filter((field: { previousCompanyName: string; previousDesignation: string; previousExperience: string; }) => field.previousCompanyName.trim() !== '' || field.previousDesignation.trim() !== '' || field.previousExperience.trim() !== '');
-
+debugger
    const nonBlankFields = [];
     const fieldsArray = this.formGroup.get('fields') as FormArray;
     for (let i = 0; i < fieldsArray.length; i++) {
@@ -415,8 +436,22 @@ fieldsGroup:any;
     // Save the non-blank fields
     this.savedValues = [...nonBlankFields];
     this.employeeProfessionalData.previousCompanies = this.savedValues;
-    this.employeeProfessionalData.companyName = this.selectedCompany?.name ? this.selectedCompany?.name : this.workExperienceDetails?.companyName
-    this.employeeProfessionalData.companySK = this.selectedCompany?.SK ? this.selectedCompany?.SK : this.workExperienceDetails?.SK
+  this.employeeProfessionalData=this.employeeProfessionalData
+    // this.employeeProfessionalData.companyName = this.selectedCompany?.name ? this.selectedCompany?.name : this.workExperienceDetails?.companyName
+    // this.employeeProfessionalData.companySK = this.selectedCompany?.SK ? this.selectedCompany?.SK : this.workExperienceDetails?.SK
+    if(this.workExperienceDetails){
+      if (this.employeeProfessionalData.companyName === this.workExperienceDetails.companyName ) {
+   
+       this.employeeProfessionalData.companyName = this.workExperienceDetails.companyName;
+       this.employeeProfessionalData.companySK = this.workExperienceDetails.companyId;
+     }else{
+       this.employeeProfessionalData.companyName=this.employeeProfessionalData.companyName;
+       this.employeeProfessionalData.companySK=this.employeeProfessionalData.companySK;
+       console.log(this.employeeProfessionalData.companyName);
+       console.log(this.employeeProfessionalData.companySK)
+     }
+   }
+    
     this.previousStep.emit();
   }
 
@@ -464,6 +499,7 @@ fieldsGroup:any;
   * @returns {void}
   */
   openModal(modalType: ModalType, message: string = "", title: string = ""): void {
+    debugger
     this.showModal = modalType;
     this.modalMessage = message;
     this.modalTitle = title;

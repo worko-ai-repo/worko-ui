@@ -183,7 +183,7 @@ export class PersonalDetailsComponent implements OnInit {
       softSkills: this.certificationList?.softSkills,
       coreSkillList: this.certificationList?.coreSkills,
       achievements: this.achievementsList,
-      companySK: this.selectedCompany?.SK ? this.selectedCompany?.SK : this.workExperienceDetails?.SK,
+      companySK: this.selectedCompany?.SK ? this.selectedCompany?.SK : this.workExperienceDetails?.companyId,
      // isCandidateFresher: this.candidateList.isCandidateFresher
      isCandidateFresher: this.candidateList?.isCandidateFresher ?? false
     }
@@ -316,11 +316,11 @@ export class PersonalDetailsComponent implements OnInit {
     // console.log(this.candidateProfessionalDetails)
     // this.nextStep.emit(this.candidateProfessionalDetails)
     // this.candidateProfessionalDetails.companyName = this.selectedCompany?.name ? this.selectedCompany?.name : this.workExperienceDetails?.companyName
-    // this.candidateProfessionalDetails.companySK = this.selectedCompany?.SK ? this.selectedCompany?.SK : this.workExperienceDetails?.SK
+    // this.candidateProfessionalDetails.companySK = this.selectedCompany?.SK ? this.selectedCompany?.SK : this.workExperienceDetails?.companyId
  if(!this.candidateProfessionalDetails.isCandidateFresher){
     if(this.selectedCompany ){
       this.candidateProfessionalDetails.companyName = this.selectedCompany.name ? this.selectedCompany?.name : this.workExperienceDetails?.companyName
-      this.candidateProfessionalDetails.companySK = this.selectedCompany.SK ? this.selectedCompany?.SK : this.workExperienceDetails?.SK
+      this.candidateProfessionalDetails.companySK = this.selectedCompany.SK ? this.selectedCompany?.SK : this.workExperienceDetails?.companyId
     }
   }
   
