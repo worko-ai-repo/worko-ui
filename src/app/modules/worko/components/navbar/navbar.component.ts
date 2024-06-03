@@ -8,6 +8,7 @@ import { StorageService } from 'src/app/modules/app-core/services/storage.servic
 import { NavbarToggleSwitchService } from 'src/app/modules/candidate/services/navbar-toggle-switch.service';
 import { IndexComponent } from '../index/index.component';
 import { environment } from 'src/environments/environment';
+import { LoginPageComponent } from '../login-page/login-page.component';
 
 
 
@@ -19,7 +20,7 @@ import { environment } from 'src/environments/environment';
 
 export class NavbarComponent {
   @ViewChild(ModalComponent) modal!: ModalComponent;
-  @ViewChild(IndexComponent) IndexComponent!:IndexComponent;
+  @ViewChild(LoginPageComponent) LoginPageComponent!:LoginPageComponent;
   modalType = ModalType;
   modalMessage: string = "";
   modalTitle: string = "";
@@ -195,10 +196,10 @@ export class NavbarComponent {
     * @returns {void}
     */
   openModal(modalType: ModalType, message: string = "", title: string = ""): void {
-    if(this.IndexComponent){
-      this.IndexComponent.showSignInRow=true;
-      this.IndexComponent.showAddCompanyScreen=false;
-      this.IndexComponent.showErrorMessageScreen=false;
+    if(this.LoginPageComponent){
+      this.LoginPageComponent.showSignInRow=true;
+      this.LoginPageComponent.showAddCompanyScreen=false;
+      this.LoginPageComponent.showErrorMessageScreen=false;
     }
    
     this.showModal = modalType;

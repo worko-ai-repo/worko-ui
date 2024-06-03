@@ -44,7 +44,7 @@
                     [title]="email.errors?.['required'] ? 'Official Email is required' : ''"
                    
                     [ngClass]="{ 'is-invalid': email.invalid && (email.dirty || email.touched) }" #email="ngModel"
-                   (ngModelChange)="resetFormField()"    >
+                    (ngModelChange)=" resetFormField();"    >
                 <h2 *ngIf="!workExperienceDetails?.isEmailVerified " (click)="openOtpModal()"
                     class="badge  verify-text-label-unverified -pointer">Verify</h2>
                     <input type="text" class="form-control form-input  disabled" placeholder="Company email" name="email" *ngIf="workExperienceDetails?.isEmailVerified"

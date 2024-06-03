@@ -16,7 +16,6 @@ import { StateService } from '../../services/state.service';
 export class EmployeeEditComponent {
 
   @ViewChild(ModalComponent) modal!: ModalComponent;
-  //@ViewChild('contentContainer', { static: true }) contentContainer!: ElementRef;
   workExperienceDetailsList:any;
     currentStep: number = 1;
   emailAddress: string = "";
@@ -390,6 +389,11 @@ export class EmployeeEditComponent {
 
   async createUserDetails() {
     let userDetails: any = {
+      "candidateExperience":{
+        "department":this.employeeDetails.candidateExperience.department ?? '',
+        "companyName":this.employeeDetails.candidateExperience.companyName ?? '',
+        "designation":this.employeeDetails.candidateExperience.designation  ?? '',
+      },
       "ECTC": this.secondStepData.ectc,
       "location": this.firstStepData.location,
       "coverLetter": this.thirdStepData.coverLetter,

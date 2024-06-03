@@ -171,10 +171,10 @@ export class PersonalDetailsComponent implements OnInit {
 
   getData() {
     this.candidateProfessionalDetails = {
-      companyName: this.workExperienceDetails?.companyName,
-      officialEmail: this.workExperienceDetails?.emailId,
-      designation: this.workExperienceDetails?.designation,
-      department: this.workExperienceDetails?.department,
+      companyName: this.candidateList?.candidateExperience?.companyName,
+      //officialEmail: this.workExperienceDetails?.emailId,
+      designation: this.candidateList?.candidateExperience?.designation,
+      department: this.candidateList?.candidateExperience?.department,
       ctc: this.candidateList?.CTC,
       ectc: this.candidateList?.ECTC,
       yoe:this.candidateList?.YOE,
@@ -183,7 +183,7 @@ export class PersonalDetailsComponent implements OnInit {
       softSkills: this.certificationList?.softSkills,
       coreSkillList: this.certificationList?.coreSkills,
       achievements: this.achievementsList,
-      companySK: this.selectedCompany?.SK ? this.selectedCompany?.SK : this.workExperienceDetails?.companyId,
+     // companySK: this.selectedCompany?.SK ? this.selectedCompany?.SK : this.workExperienceDetails?.companyId,
      // isCandidateFresher: this.candidateList.isCandidateFresher
      isCandidateFresher: this.candidateList?.isCandidateFresher ?? false
     }

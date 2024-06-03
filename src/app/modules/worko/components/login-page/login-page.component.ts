@@ -1,5 +1,5 @@
 
-import { Component, EventEmitter, Output, ViewChild, AfterViewInit, OnDestroy, Input, ElementRef } from '@angular/core';
+import { Component, EventEmitter, Output, ViewChild, AfterViewInit, OnDestroy, Input, ElementRef, HostListener } from '@angular/core';
 // import { CognitoService } from 'src/app/modules/services/cognito.service';
 
 
@@ -31,6 +31,7 @@ import { event } from 'jquery';
 import { CompanyListingService } from '../../services/company-listing.service';
 import { NavbarToggleSwitchService } from 'src/app/modules/candidate/services/navbar-toggle-switch.service';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
+import { environment } from 'src/environment/environment';
 declare var bootstrap: any;
 
 
@@ -41,7 +42,9 @@ declare var bootstrap: any;
 })
 
 
+
 export class LoginPageComponent implements AfterViewInit, OnDestroy {
+  
   @Output() userTypeSelected = new EventEmitter<string>();
   @Output() onSuccess: EventEmitter<void> = new EventEmitter<void>();
   @Input() userType: any;
@@ -63,6 +66,7 @@ export class LoginPageComponent implements AfterViewInit, OnDestroy {
   displayResetPassword: boolean = false;
   acceptedTermsAndConditions: boolean = false;
   resetVerificationScreen: boolean = false;
+  successPasswordMessage: boolean = false;
   isDivOpen: boolean = false;
   isDivClose: boolean = true
   hideDiv: boolean = true
@@ -179,13 +183,20 @@ export class LoginPageComponent implements AfterViewInit, OnDestroy {
   randomPassword: any;
   successmessage: string="";
   successtitle: string="";
-  
+  userLoggedIn: boolean=false;
+  emailAddress: any;
+  isUserLoggedIn:boolean=false;
   constructor(private cdr: ChangeDetectorRef,private modalService: NgbModal,private companyListingService:CompanyListingService,private storage: StorageService, private amplify: CognitoService, private router: Router, private authService: AuthService, private spinner: NgxSpinnerService, private navbarToggleSwitchService : NavbarToggleSwitchService) {
   
   
 
 
   }
+
+  
+
+
+
   candidate = {
     submitted: false
   };
@@ -260,6 +271,7 @@ export class LoginPageComponent implements AfterViewInit, OnDestroy {
     if(this.userType){
       this.selectedUserType = this.userType;
     }
+    
     this.blinkAndChangeWord()
     this.filteredOptions = this.myControl.valueChanges.pipe(
       debounceTime(300),
@@ -290,10 +302,24 @@ export class LoginPageComponent implements AfterViewInit, OnDestroy {
 
    
     //console.log(fieldType2);
+    this.checkUserLoggedIn();
   
   }
  
- 
+  async checkUserLoggedIn(){
+    debugger
+    
+    this.userLoggedIn = await this.amplify.isLoggedIn();
+    this.userType=localStorage.getItem('crossDomainData')
+    // if (this.userType.startsWith('"') && this.userType.endsWith('"')) {
+    //   this.userType = this.userType.substring(1, this.userType.length - 1); // Extract substring excluding the first and last characters
+    // }
+ console.log(this.userType);
+
+   
+
+  }
+
 
 
 
@@ -406,6 +432,7 @@ export class LoginPageComponent implements AfterViewInit, OnDestroy {
     this.showSignInRow = false;
     this.displayResetPassword = false;
     this.resetVerificationScreen = false;
+    this.successPasswordMessage = false;
   }
 
   toggleSignUpRow() {
@@ -453,6 +480,9 @@ async  handleConfirmResetPassword({
   try {
     await confirmResetPassword({ username, confirmationCode, newPassword });
     console.log(username, confirmationCode, newPassword)
+  
+
+   // this.successPasswordMessage=true;
     this.toggleSignInRow()
     
    
@@ -656,21 +686,30 @@ try{
     }
   }catch{
     this.spinner.hide()
-    this.modal.cancel();
+    this.showSignInRow=false
+    this.showAddCompanyScreen=false
+    this.showErrorMessageScreen=true
+    this.successmessage="Something went wrong. Please try again after sometime"
+    this.successtitle="Error"
+   // this.modal.cancel();
     //this.openModal(ModalType.LOGIN_SIGNUP);
   }
     
   
   }
-  
+
 
   cancel(){
     //this.closeModal();
   //window.location.reload()
-  this.showErrorMessageScreen=!this.showErrorMessageScreen
-  this.showSignInRow=!this.showSignInRow
+  //this.showErrorMessageScreen=!this.showErrorMessageScreen
+  this.showSignInRow=true
+  this.showAddCompanyScreen=false
+  this.showErrorMessageScreen=false
+  //console.log(this.isUSerLoggedIn)
+
   }
- 
+
   // openModal(modalType: ModalType, message: string = "", title: string = ""): void {
   //   this.showModal = modalType;
   //   this.modalMessage = message;
@@ -1026,6 +1065,8 @@ try{
     if (this.blinkTimer) {
       clearTimeout(this.blinkTimer);
     }
+
+
   }
 
   ngOnDestroy() {

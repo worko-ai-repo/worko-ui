@@ -61,7 +61,7 @@ export class EmployeeProfessionalDetailsComponent implements OnInit {
   // Property to store the values entered in the fields
   savedValues: { previousCompanyName: string, previousDesignation: string, previousExperience: string }[] = [];
   perviousjobs: [] = [];
-
+  resettingFields: boolean = false;
   
   modalType = ModalType;
   modalMessage: string = "";
@@ -158,8 +158,11 @@ fieldsGroup:any;
       debounceTime(300),
       distinctUntilChanged(),
       switchMap((value: any) => {
+       
         console.log(value)
+        if(value==""){
        this.resetFormFields()
+        }
         if (value && value.length >= 1) {
           return this.authService.getCompanyName(value).pipe(
             map((results: any[]) => [
@@ -186,14 +189,18 @@ fieldsGroup:any;
     this.employeeProfessionalData.designation = '';
     this.employeeProfessionalData.department = '';
     this.employeeProfessionalData.workingSince = '';
-    //this.employeeProfessionalData.officialEmail='';
+    this.employeeProfessionalData.officialEmail='';
     //this.employeeProfessionalData.companyName='';
 
   }
   resetFormField(){
+    debugger
+    if (this.employeeProfessionalData.officialEmail=="") {
     this.employeeProfessionalData.designation = '';
     this.employeeProfessionalData.department = '';
     this.employeeProfessionalData.workingSince = '';
+     this.employeeProfessionalData.companyName='';
+    }
   }
 
   addNewCompany(): void {
@@ -303,6 +310,8 @@ fieldsGroup:any;
       companySK: this.selectedCompany?.SK ? this.selectedCompany?.SK : this.workExperienceDetails?.companyId,
       previousCompanies: "",
       isEmailVerified: false,
+      companyLogo:this.workExperienceDetails?.companyLogo,
+      companyLogoUrl:this.workExperienceDetails?.companyLogoUrl,
 
     }
   }
