@@ -16,7 +16,7 @@ import { NgForm } from '@angular/forms';
 })
 export class EmployeeEditDetailsComponent {
 
-  //@Input() contentContainer!: ElementRef;
+
   @ViewChild(ModalComponent) modal!: ModalComponent;
   @ViewChild('employee', { static: false }) employeeForm: NgForm | undefined;
   @Input() employeeSocial: any;
@@ -58,6 +58,7 @@ export class EmployeeEditDetailsComponent {
   picErrorMessage: string = ""
 
   ngOnInit() {
+   
   
   }
 

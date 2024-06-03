@@ -208,7 +208,7 @@ export class CompanyListingComponent implements OnInit {
     this.detectScroll();
   }
 
-
+  
 
 
   searchTerm: string = '';
@@ -440,11 +440,6 @@ generateLogoFilenames(start: number, end: number) {
           this.companyList = this.companyList.concat(response.data);
           this.lastKey = response.pagination.lastKey;
           this.loadedOnce = false;
-          this.companyList.sort((a,b) => {
-            const logoNumberA = parseInt(a.logo.split('.')[0], 10);
-            const logoNumberB = parseInt(b.logo.split('.')[0], 10);
-            return logoNumberA - logoNumberB;
-        });
           //  this.filterCompanies(); // Filter companies after updating companyList
         }
       })
@@ -544,13 +539,13 @@ generateLogoFilenames(start: number, end: number) {
     
 
   }
-  ngAfterViewInit() {
-    debugger
-    this.trigger.panelClosingActions
-      .subscribe(e => {
-        this.myControl.setValue(null);
-      });
-  }
+  // ngAfterViewInit() {
+  //   debugger
+  //   this.trigger.panelClosingActions
+  //     .subscribe(e => {
+  //       this.myControl.setValue(null);
+  //     });
+  // }
   cancel(){
    // this.companyFormDirective.resetForm()
  
@@ -571,7 +566,7 @@ generateLogoFilenames(start: number, end: number) {
     //this.closeModal();
    
     if (this.triggerReferral && this.userLoggedIn) {
-      this.openModal(this.modalType.REQUEST_REFERRAL,'hi');
+      this.openModal(this.modalType.REQUEST_REFERRAL);
     }
     if (this.triggerGuidance && this.userLoggedIn) {
       this.openModal(ModalType.REQUEST_GUIDANCE);

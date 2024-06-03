@@ -16,7 +16,6 @@ import { StateService } from '../../services/state.service';
 export class EmployeeEditComponent {
 
   @ViewChild(ModalComponent) modal!: ModalComponent;
-  //@ViewChild('contentContainer', { static: true }) contentContainer!: ElementRef;
   workExperienceDetailsList:any;
     currentStep: number = 1;
   emailAddress: string = "";

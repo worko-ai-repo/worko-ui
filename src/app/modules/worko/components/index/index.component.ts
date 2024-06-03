@@ -10,22 +10,16 @@
 // import { event } from 'jquery';
 
 import { AfterViewInit, ChangeDetectorRef, Component, EventEmitter, HostListener, Input, OnDestroy, Output, ViewChild } from '@angular/core';
-import { FormControl, NgModel } from '@angular/forms';
-import { MatAutocompleteTrigger } from '@angular/material/autocomplete';
 import { Router } from '@angular/router';
-import { ConfirmResetPasswordInput, ResetPasswordOutput, confirmResetPassword, fetchAuthSession, getCurrentUser, resetPassword } from '@aws-amplify/auth';
-import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
-import { NgxSpinnerService } from 'ngx-spinner';
-import { Observable, Subscription, debounceTime, distinctUntilChanged, map, switchMap } from 'rxjs';
 import { StorageService } from 'src/app/modules/app-core/services/storage.service';
 import { CandidateProfileService } from 'src/app/modules/candidate/services/candidate-profile.service';
 import { NavbarToggleSwitchService } from 'src/app/modules/candidate/services/navbar-toggle-switch.service';
 import { CognitoService } from 'src/app/modules/services/cognito.service';
 import { ModalComponent } from 'src/app/modules/shared/components/modal/modal.component';
+import { LoginPageComponent } from '../login-page/login-page.component';
 import { ModalType } from 'src/app/modules/shared/interfaces/shared.interface';
-import { AuthService } from 'src/app/modules/worko/services/auth.service';
-import { CompanyListingService } from 'src/app/modules/worko/services/company-listing.service';
-declare var bootstrap: any;
+import { environment } from 'src/environment/environment';
+
 
 @Component({
   selector: 'app-index',
@@ -34,1152 +28,139 @@ declare var bootstrap: any;
 })
 export class IndexComponent {
 
-  @Output() userTypeSelected = new EventEmitter<string>();
-  @Output() onSuccess: EventEmitter<void> = new EventEmitter<void>();
-  @Input() userType: any;
- 
-
- 
   @ViewChild(ModalComponent) modal!: ModalComponent;
-  // @ViewChild('autocompleteInput') autocompleteInput: any; 
-  @ViewChild('autoCompleteInput', { static: false, read: MatAutocompleteTrigger }) trigger!: MatAutocompleteTrigger;
-  myControl = new FormControl<any>('');
-  filteredOptions!: Observable<any[]>;
-  allOptions: any[] = [];
-  selectedUserType: string = 'candidate'; // Default to 'candidate'
-  showSignInRow: boolean = true;
-  isCandidateEmailVerified: boolean = false;
-  isEmployeeEmailVerified: boolean = false;
-  confirmationCodeScreen: boolean = false;
-  confirmationEmail: string = '';
-  displayResetPassword: boolean = false;
-  acceptedTermsAndConditions: boolean = false;
-  resetVerificationScreen: boolean = false;
-  isDivOpen: boolean = false;
-  isDivClose: boolean = true
-  hideDiv: boolean = true
-  errorMessage: string = "";
-  fileErr: string = "";
-  CandidateWords = ["Referral", "Career Guidance", "Interview Mentorship", "Mock Interview"];
-  EmployeeWords = ["Reward", "Sell Services", "Earn Money", "Priority Job Access"];
-  currentWordIndex = 0;
-  currentWord = '';
-  isBlinking = true;
-  blinkTimer: any; //timer reference
-  rememberMe:boolean=false
-  // checkboxChecked:boolean=false;
-  agreeTerms: boolean = false;
-  auto: any;
-  codeErrorScreen: boolean = false;
+  @ViewChild(LoginPageComponent) LoginPageComponent!:LoginPageComponent;
+  modalType = ModalType;
+  modalMessage: string = "";
+  modalTitle: string = "";
+  showModal: ModalType =ModalType.LOGIN_SIGNUP;
+  userLoggedIn: boolean = false;
   emailAddress: string = "";
   profileCompletion: any = "";
   employeeTotalPercentage: any;
   candidateTotalPercentage: any;
   candidateProfile: any;
  userName:string='profile'
- userLoggedIn: boolean = false;
- isUSerLoggedIn:boolean=false;
+  letter:string=""
+  isUserLoggedIn:boolean=false;
 
-  modalType = ModalType;
-  modalMessage: string = "";
-  modalTitle: string = "";
-  showModal: ModalType | undefined;
-  showAddCompanyScreen:boolean=false;
-  showErrorMessageScreen:boolean=false;
-  form = {
-    email: '',
-    password: ''
-  };
-  fileToUpload: File | null = null;
-  candidateForm = {
-    name: '',
-    emailId: '',
-    password: '',
-    candidateOtp: '',
-    linkdinProfile: '',
-    experience: '',
-    expectedCtc: '',
-    phoneNumber: '',
-    confirmPassword: '',
-    checkboxChecked: false,
-    acceptedTermsAndConditions: false
-
-
-  }
-  employeeForm = {
-    name: '',
-    emailId: '',
-    companyName: '',
-    phoneNumber: '',
-    companyEmailID: '',
-    employeeOtp: '',
-    linkdinProfile: '',
-    experience: '',
-    department: '',
-    designation: '',
-    confirmPassword: '',
-    password: '',
-    designationTag: '',
-    companySK: "",
-    agreeTerms: false,
-    acceptedTermsAndConditions: false,
-
-
-  }
-  fileString: string = "";
-  verificationForm = {
-    code: '',
-
-  }
-  resetForm = {
-    emailId: '',
-    code: '',
-    confirmPassword: '',
-    password: '',
-  }
-  hoveredField: string | null = null;
-  companyData:any=[];
-  form1:any;
-  designationTagList: any = [
-    {
-      name: "Assistant Manager / Team Lead",
-      value: "1"
-    },
-    {
-      name: "Manager / Sr. Manager",
-      value: "5"
-    },
-    {
-      name: "Asst. GM / GM",
-      value: "10"
-    },
-    {
-      name: "Asst. Director / Director",
-      value: "15"
-    },
-    {
-      name: "Sr. Director / AVP",
-      value: "20"
-    },
-    {
-      name: "VP / CXO",
-      value: "25"
-    },
-  ]
-  selectedCompany: any; // Update the type based on your data structure
-  userId: string = "";
-  fileName: string = "";
-  fileType: string = "";
-  uploadedCvName: string = "";
-  companyName: string = "";
-  companySK: string = "";
-  subscription: Subscription = new Subscription();
-  deviceKey: any;
-  deviceGroupKey: any;
-  randomPassword: any;
-  successmessage: string="";
-  successtitle: string="";
-
-
-  // @HostListener('window:message', ['$event'])
-  // onMessage(e: { origin: string; data: any; }) {
-  //   debugger 
-  //   console.log(e.data);
-  //   if (e.origin ==='http://localhost:64555') { console.log("afasfaasffafafaa");
-  //     localStorage.setItem('companyid', e.data);
-  //   } 
-  // }
-  
-  constructor(private cdr: ChangeDetectorRef,private modalService: NgbModal,private companyListingService:CompanyListingService,private storage: StorageService, private amplify: CognitoService, private router: Router, private authService: AuthService, private spinner: NgxSpinnerService, private navbarToggleSwitchService : NavbarToggleSwitchService,private candidateSrv: CandidateProfileService,) {
-  
-  
-
-
-  }
-  candidate = {
-    submitted: false
-  };
-  @ViewChild('nameInput') nameInput!: NgModel;
-
-  validateName() {
-    if (!this.candidateForm.name) {
-      this.nameInput.control.setErrors({ 'required': true });
-    }
-  }
-
-  otpVerification(emailId: string): void {
-    // if (this.resetForm && this.resetForm.code && this.resetForm.code === otp) {
-    this.authService.otpVerification(emailId)
-      .then(response => {
-        console.log('OTP verification successful');
-
-      })
-      .catch(error => {
-        console.error('OTP verification failed:', error);
-      });
-    // } else {
-    //   console.log('OTP is not valid');
-    // }
-  }
-
-
-  // onInputChange(): void {
-  //   // Check if the input value matches any of the options
-  //   const inputValue = this.autocompleteInput.nativeElement.value;
-  //   const matchingOption = this.allOptions.find((option:any) => option.name === inputValue);
-
-  //   if (!matchingOption) {
-  //     // Clear the input value if no matching option is found
-  //     this.autocompleteInput.nativeElement.value = '';
-  //   }
-  // }
-
-  // ngAfterViewInit(): void {
-  //   this.trigger.panelClosingActions
-  //     // .pipe(
-  //     //   switchMap(() => this.filteredOptions),
-  //     //   filter((filteredOptions: any) => !filteredOptions.some((option: any) => option.name === this.selectedCompany.name))
-  //     // )
-  //     .subscribe(() => {
-  //       debugger;
-  //       this.myControl.setValue(null);
-  //     });
-
-  //     // ngAfterViewInit() {
-  //     //   this.trigger.panelClosingActions
-  //     //     .subscribe(e => {
-  //     //       this.selectedData.setValue(null);
-  //     //     });
-  //     // }
-  // }
-
-  ngAfterViewInit() {
-    this.trigger.panelClosingActions
-      .subscribe(e => {
-        this.myControl.setValue(null);
-      });
-    var tooltipTriggerList = [].slice.call(document.querySelectorAll('[data-bs-toggle="tooltip"]'))
-    var tooltipList = tooltipTriggerList.map(function (tooltipTriggerEl) {
-      return new bootstrap.Tooltip(tooltipTriggerEl)
-    })
-  }
-
-
-  async ngOnInit() {
-    //Added check to pass userType to show enabled candidate and employee fromn index page
-   // await this.userTypeCheck()
-   debugger
-  
-    this.blinkAndChangeWord()
-    this.filteredOptions = this.myControl.valueChanges.pipe(
-      debounceTime(300),
-      distinctUntilChanged(),
-      switchMap((value: any) => {
-        // Edited by KA:
-        // if (value && value.length >= 1) {
-        //   return this.authService.getCompanyName(value);
-        // }
-        if (value && value.length >= 1) {
-          return this.authService.getCompanyName(value).pipe(
-            map((results: any[]) => [
-              ...results,
-              { id: 'add_new', name: "Add new company" } // Static option
-            ])
-          );
-        } 
-        // End of edit by KA
-        else {
-          // If value.length is less than 1, return an empty array or null
-          return [];
-        }
-      })
-
-    );
+  constructor(private cognitoService: CognitoService, private router: Router, private candidateSrv: CandidateProfileService, private storage: StorageService, private navbarToggleSwitchService : NavbarToggleSwitchService) {
    
-    //console.log(fieldType2);
-    this.checkUserLoggedIn();
-    
-  
   }
 
+ 
 
-
-  async checkUserLoggedIn(){
+//   async ngOnInit(): Promise<void> {
+//  this.modalOpen()
+//   }
+  async ngAfterViewInit(): Promise<void> {
     debugger
-    this.userLoggedIn = await this.amplify.isLoggedIn();
-    this.userType=localStorage.getItem('crossDomainData')
-    // if (this.userType.startsWith('"') && this.userType.endsWith('"')) {
-    //   this.userType = this.userType.substring(1, this.userType.length - 1); // Extract substring excluding the first and last characters
-    // }
- console.log(this.userType);
+  this.userLoggedIn = await this.cognitoService.isLoggedIn();
+  if(this.userLoggedIn){
+    this.navbarToggleSwitchService.intializeToggleStatus();
+    const usertype=this.storage.get('lastAccessedDash') ;
+     this.userName=this.storage.get('userName') ;
+    console.log(this.userName)
+    if(usertype==='EMP'){
+      
+      this.router.navigate(['/employee/Dashboard']);
 
+    }else{
+      
+      this.router.navigate(['/candidate/dashboard']);
+    }
+  }else{
+    this.isUserLoggedIn=true
+  this.modalOpen();
+  }
+}
+  modalOpen(){
+    this.openModal(this.modalType.LOGIN_SIGNUP)
+  }
+ 
+
+  async receiveDataFromChild(userType: any) {
+    this.userLoggedIn = await this.cognitoService.isLoggedIn();
     this.emailAddress = this.storage.get("useremail");
     if (this.userLoggedIn) {
-      debugger
       if (this.router.url.includes('/company-listing')) {
+        this.userLoggedIn = await this.cognitoService.isLoggedIn();
+        this.userName=this.storage.get('userName') ;
+        console.log(this.userName)
+        // this.letter=this.getInitials(this.userName)
+        // console.log(this.letter);
+        this.letter  = this.userName.charAt(0).toUpperCase();
         // Redirect to the company listing page
         this.router.navigate(['/company-listing']);
         this.modal.cancel();
       }
       else {
         const response = await this.candidateSrv.getProfileComplete(this.emailAddress);
-      
+
         if (response) {
           this.profileCompletion = response;
           console.log(this.profileCompletion);
-          if(this.userType==='employee'){
-            this.router.navigate(['/employee/Referral']);
-          }else if (this.profileCompletion) {
-            const profileType = this.userType === "CAND" ? this.profileCompletion.candidate : this.profileCompletion.employee;
+
+          if (this.profileCompletion) {
+            const profileType = userType === "CAND" ? this.profileCompletion.candidate : this.profileCompletion.employee;
             const totalPercentage = profileType.reduce((sum: any, element: any) => sum + element.curPerc, 0);
 
-            if (this.userType === "CAND" && totalPercentage > 60) {
+            if (userType === "CAND" && totalPercentage > 60) {
               this.router.navigate(['/candidate/dashboard']);
-            } else if (this.userType === "CAND" && totalPercentage < 60) {
+            } else if (userType === "CAND" && totalPercentage < 60) {
               this.router.navigate(['/candidate/edit-profile']);
-            } else if (this.userType !== "CAND" && totalPercentage > 60) {
+            } else if (userType !== "CAND" && totalPercentage > 60) {
               this.router.navigate(['/employee/dashboard']);
-            } else if (this.userType !== "CAND" && totalPercentage < 60) {
+            } else if (userType !== "CAND" && totalPercentage < 60) {
               this.router.navigate(['/employee/Edit-profile']);
             }
           }
           this.modal.cancel();
         }
       }
-    }else{
-
-      this.isUSerLoggedIn=!this.isUSerLoggedIn
-      this.router.navigate(['/'])
-   if(this.userType==='employee'){
-   
-      this.selectedUserType = this.userType;
-    
-  }else{
-    //this.selectedUserType = 'candidate';
-    this.router.navigate(['/'])
-  }
     }
 
   }
- 
- 
 
 
 
-  displayFn(option: any): string {
-    if (option) {
-      this.companyName = option.name;
-      this.companySK = option.SK;
-      return option.name;
-    } else {
-      return '';
-    }
-  }
-
-
-  selectUserType(userType: string) {
-    this.selectedUserType = userType;
-    this.errorMessage = "";
-    this.userTypeSelected.emit(userType);
-    this.clearBlinkTimer();
-    this.currentWordIndex = 0;
-    this.blinkAndChangeWord();
-  }
-
-  toggleHover(fieldName: string, isHovered: boolean) {
-    this.hoveredField = isHovered ? fieldName : null;
-  }
-
-  resetPasswordScreen() {
-    this.setErrorMessage("");
-    this.displayResetPassword = true;
-    this.confirmationCodeScreen = false;
-   
-  }
-  
-  // async handleRememberDevice() {
-
-  //   console.log("inside remeber me"+this.rememberMe)
-  //   try {
-  //     if(this.rememberMe){
-  //       debugger
-      
-  //   const response= await rememberDevice()
-   
-  //     await fetchAuthSession({forceRefresh:true})
- 
-   
-  
-  //     }
-  //   } catch (error) {
-  //     console.log(error);
-  //   }
-  // }
- 
-
-  passwordChange() {
-    // this.currentAuthenticatedUser();
-    // this.currentSession();
-    console.log(this.resetForm)
-    this.handleConfirmResetPassword({username:this.resetForm.emailId,confirmationCode:this.resetForm.code,newPassword:this.resetForm.password})
-  }
- 
-
-  async currentSession() {
-   await this.amplify.removeAccessToken()
-    try {
-      // const { accessToken, idToken } = (await fetchAuthSession()).tokens ?? {};
-      //const authToken = (await fetchAuthSession()).tokens?.idToken?.toString();
-      const response=await fetchAuthSession({forceRefresh:true})
-      
-      await this.amplify.setAccessToken()
-      const authToken=response.tokens?.idToken?.toString();
-      // console.log(accessToken, "Acces");
-      console.log(response)
-      console.log(authToken, "authToken");
-    } catch (err) {
-      console.log(err);
-    }
-  }
-
-  async currentAuthenticatedUser() {
-    try {
-      const { username, userId, signInDetails } = await getCurrentUser();
-      console.log(`The username: ${username}`);
-      console.log(`The userId: ${userId}`);
-    
-
-      if (signInDetails) {
-        console.log('The signInDetails:', signInDetails);
-        
-
-        
-      } else {
-        console.log('No signInDetails available.');
-      }
-    } catch (err) {
-      console.error('Error fetching current authenticated user:', err);
-    }
-  }
-
-  toggleSignInRow() {
-    this.setErrorMessage("");
-    // this.currentSession();
-    // this.currentAuthenticatedUser();
-    // const autocompleteValue1 = "email";
-    // const fieldType1 = this.FieldTypeFromAutocompleteAttributeValue(autocompleteValue1);
-    // console.log(fieldType1); // Output: "email"
-    
-    // const autocompleteValue2 = "current-password";
-    // const fieldType2 = this.FieldTypeFromAutocompleteAttributeValue(autocompleteValue2);
-    this.showSignInRow = false;
-    this.displayResetPassword = false;
-    this.resetVerificationScreen = false;
-  }
-
-  toggleSignUpRow() {
-    this.setErrorMessage("");
-
-    this.showSignInRow = true;
-  }
-
-  resetPassword(form: any) {
+  /**
+    * Open modal.
+    *
+    * @param {ModalType} modalType
+    * @param {string} [message = ""]
+    * @param {string} [title = ""]
+    * @returns {void}
+    */
+  openModal(modalType: ModalType, message: string = "", title: string = ""): void {
     debugger
-    this.setErrorMessage("");
-    this.confirmationEmail = this.maskEmail(this.resetForm.emailId);
-    this.resetVerificationScreen = true;
-    this.handleResetPassword(this.resetForm.emailId)
-
-  }
-  async  handleResetPassword(username: string) {
-    try {
-     
-      const output = await resetPassword({ username });
-      this.handleResetPasswordNextSteps(output);
-    } catch (error) {
-      console.log(error);
-    }
-  }
-  
-  async  handleResetPasswordNextSteps(output: ResetPasswordOutput) {
-    const { nextStep } = output;
-    switch (nextStep.resetPasswordStep) {
-      case 'CONFIRM_RESET_PASSWORD_WITH_CODE':
-        const codeDeliveryDetails = nextStep.codeDeliveryDetails;
-        console.log(
-          `Confirmation code was sent to ${codeDeliveryDetails.deliveryMedium}`
-        );  
-    }
-  }
-  
-async  handleConfirmResetPassword({
- 
-  username,
-  confirmationCode,
-  newPassword
-}: ConfirmResetPasswordInput) {
-  debugger
-  try {
-    await confirmResetPassword({ username, confirmationCode, newPassword });
-    console.log(username, confirmationCode, newPassword)
-    this.toggleSignInRow()
-    
-   
-  } catch (error) {
-    console.log(error);
-    this.errorMessage="Invalid verification code provided, please try again."
-  }
-}
-
-
-
-  async createEmployee(form: any): Promise<void> {
-    localStorage.removeItem('crossDomainData')
-    this.spinner.show();
-    try {
-      this.setErrorMessage("");
-      this.confirmationEmail = this.maskEmail(this.employeeForm.emailId);
-      const { response, error } = await this.createUser(this.employeeForm);
-      if (response) {
-        let employeeData = {
-          name: this.employeeForm.name,
-          email: this.employeeForm.emailId,
-          number: this.employeeForm.phoneNumber,
-          // linkedinUrl: this.employeeForm.linkdinProfile,
-          YOE: Number(this.employeeForm.experience),
-          // designation: this.employeeForm.designation,
-          department: this.employeeForm.department,
-          companyEmailId: this.employeeForm.companyEmailID,
-          companyName: this.selectedCompany.name,
-          companySK: this.selectedCompany.SK,
-          userId: response.userId,
-          acceptedTermsAndConditions: this.employeeForm.acceptedTermsAndConditions // Include the acceptedTermsAndConditions field
-
-
-          // designationTag: Number(this.employeeForm.designationTag)
-        }
-
-        this.authService.createEmployee(employeeData).then(async () => {
-          try {
-            this.confirmationCodeScreen = true;
-            this.spinner.hide();
-          } catch (error: any) {
-            this.spinner.hide();
-            console.log(error);
-          }
-        })
-          .catch(error => {
-            this.spinner.hide();
-            this.setErrorMessage(error.error?.errors[0].message);
-            console.error('Create Employee Error:', error);
-
-          });
-      }
-
-      if (error && error.message) {
-        this.spinner.hide();
-        this.errorMessage = error.message;
-      }
-
-
-    } catch (error) {
-      this.spinner.hide();
-      console.log('Error signing up candidate createEmployee:', error);
-    }
-  }
-
-
-  async createCandidate(form: any): Promise<void> {
-    localStorage.removeItem('crossDomainData')
-    this.spinner.show();
-    try {
-      this.setErrorMessage("");
-      this.confirmationEmail = this.maskEmail(this.candidateForm.emailId);
-
-      const { response, error } = await this.createUser(this.candidateForm);
-      console.log(response);
-      console.log(error);
-
-      if (response) {
-        try {
-          let candidateData = {
-            name: this.candidateForm.name,
-            email: this.candidateForm.emailId,
-            number: this.candidateForm.phoneNumber,
-            linkedinUrl: this.candidateForm.linkdinProfile,
-            ECTC: Number(this.candidateForm.expectedCtc),
-            YOE: Number(this.candidateForm.experience),
-            userId: response.userId,
-            acceptedTermsAndConditions: this.candidateForm.acceptedTermsAndConditions
-
-          }
-          this.authService.createCandidate(candidateData).then(async () => {
-            try {
-              if (response && response.userId && this.fileName) {
-
-                let documentDetails = {
-                  userId: this.userId,
-                  resumeUserFileName: this.fileName,
-                  resumeFileMimeType: this.fileType
-                }
-                let docResult = await this.authService.uploadCV(documentDetails);
-                console.log(docResult);
-
-                this.uploadedCvName = docResult.cloudFileName;
-                this.uploadCVonS3Bucket(docResult);
-
-              }
-            } catch (error) {
-              this.spinner.hide();
-              console.log(error);
-            }
-          })
-            .catch(error => {
-              this.setErrorMessage(error.error?.errors[0].message);
-              this.spinner.hide();
-              console.error('File upload error:', error);
-
-
-
-            });
-
-
-        } catch (error: any) {
-          this.setErrorMessage(error.error?.errors[0].message);
-          this.spinner.hide();
-          console.error('File upload error:', error);
-        }
-
-
-      }
-
-      if (error && error.message) {
-        this.errorMessage = error.message;
-        this.spinner.hide();
-      }
-
-    } catch (error) {
-      this.spinner.hide();
-      console.log('Error signing up candidate createCandidate:', error);
-    }
-
-
-  }
-
-  addNewCompany(event: MouseEvent, option: any): void {
-   
-    console.log("CLicked to add new company:",event);
-    // this.openModal(ModalType.ADD_COMPANY);
-    console.log(this.showModal)
-    
-  }
-
-
-
-
-
-  companyForm={
-
-
-    CompanyName: "",
-      industry: 'Industry',
-     
-      carrierPage:"",
-      linkedIn: "",
-      emailid:"",
-      personalemailid:"",
-      contactNumber:""
-  
-  
-  }
-  modalOpenCount:number=0;
-  openModalCount() {
-    //this.showModal = true;
-    this.modalOpenCount++; // Increment the counter when opening the modal
-  }
-  
-  async requestCampanyData(form:any){
-    this.spinner.show()
-debugger
-try{
-    this.companyData={
-      userType: "EMP",
-      companyDetail: {
-        name: this.companyForm.CompanyName,
-        industry: 'Industry',
-        //emailid: this.companyForm.emailid,
-        carrierPage: this.companyForm.carrierPage,
-        linkedIn: this.companyForm.linkedIn,
-        //personalemailid:this.companyForm.personalemailid,
-        //contactnumber:this.companyForm.contactNumber
-      }
+    if(this.LoginPageComponent){
+      this.LoginPageComponent.showSignInRow=true;
+      this.LoginPageComponent.showAddCompanyScreen=false;
+      this.LoginPageComponent.showErrorMessageScreen=false;
+      this.LoginPageComponent.isUserLoggedIn=this.isUserLoggedIn
     }
    
-    await this.companyListingService.requestNewCompany(this.companyData)
-    let response= await this.companyListingService.getAllNewCompany()
-    if(response){
-      this.spinner.hide()
-      this.showSignInRow=!this.showSignInRow
-      this.showAddCompanyScreen=!this.showAddCompanyScreen
-      this.showErrorMessageScreen=!this.showErrorMessageScreen
-     
-     // this.openModal(ModalType.SUCCESS_MESSAGE);
-    }
-  }catch{
-    this.spinner.hide()
-    this.showSignInRow=false
-    this.showAddCompanyScreen=false
-    this.showErrorMessageScreen=true
-    this.successmessage="Something went wrong. Please try again after sometime"
-    this.successtitle="Error"
-   // this.modal.cancel();
-    //this.openModal(ModalType.LOGIN_SIGNUP);
+    this.showModal = modalType;
+    this.modalMessage = message;
+    this.modalTitle = title;
+    this.modal.open()
   }
-    
-  
-  }
-  
-
-  cancel(){
-    //this.closeModal();
-  //window.location.reload()
-  //this.showErrorMessageScreen=!this.showErrorMessageScreen
-  this.showSignInRow=true
-  this.showAddCompanyScreen=false
-  this.showErrorMessageScreen=false
-  console.log(this.isUSerLoggedIn)
-
-  }
- 
-  // openModal(modalType: ModalType, message: string = "", title: string = ""): void {
-  //   this.showModal = modalType;
-  //   this.modalMessage = message;
-  //   this.modalTitle = title;
-  //   this.modal.open();
- 
-  // }
-    /**
-   * Open modal.
-   *
-   * @param {ModalType} modalType
-   * @param {string} [message = ""]
-   * @param {string} [title = ""]
-   * @returns {void}
-   */
-    openModal(modalType: ModalType, message: string ="", title: string="" ): void {
-
-      this.showModal = modalType;
-      this.modalMessage = message;
-      this.modalTitle = title;
-      this.modal.open();
-    }
-    /**
+  /**
    * Close modal.
    *
    * @returns {void}
    */
-    closeModal(): void {
-   
-      this.modal.cancel();
-    }
-
-
-
-  
-  onOptionSelected(event: any): void {
-    // this.selectedCompany = event.option.value;
-    
-    // Edited by KA:
-    if (event.option.value.id == "add_new"){
-      console.log("Add new company")
-      console.log("add_new = ", event.option.value.id);
-      this.showAddCompanyScreen=!this.showAddCompanyScreen
-      //this.openModal(ModalType.ADD_COMPANY);
-      this.selectedCompany='';
-      this.myControl.reset();
-    }else{
-      this.selectedCompany = event.option.value;
-    }
+  closeModal(): void {
+    this.modal.cancel();
   }
 
-  uploadCVonS3Bucket(docResult: any) {
-    this.setErrorMessage("");
-    try {
-      this.authService.uploadFileOnS3Bucket(this.fileToUpload!, docResult.awsS3SignedUrl, docResult.awsS3Tag)
-        .then(async () => {
-          console.log('File uploaded successfully.');
-          try {
-            let a = await this.authService.linkResumewithUser(this.candidateForm.emailId, this.uploadedCvName);
-            this.confirmationCodeScreen = true;
-            this.spinner.hide();
-          } catch (error: any) {
-            if (error && error.error.message) {
-              // this.errorMessage = error.error.message;
-              this.spinner.hide();
-              this.setErrorMessage('File Link error linkResumewithUser:- ' + error.error.message);
-            }
-            console.error('File Link error linkResumewithUser:', error);
-          }
+}
 
-        })
-        .catch(error => {
 
-          console.error('File upload error:', error);
 
-
-        });
-
-    } catch (error) {
-      console.log(error)
-    }
-  }
-
-  handleFileInput(event: Event): void {
-    const inputElement = event.target as HTMLInputElement;
-
-    if (inputElement.files) {
-      const files: FileList | null = inputElement.files;
-
-      if (files && files.length > 0) {
-        const file: File = files[0];
-
-        // Check if the file type is PDF
-        if (file.type === 'application/pdf') {
-          // Process the PDF file as needed
-          this.fileErr = "";
-          this.fileToUpload = file;
-          this.fileName = file.name;
-          this.fileType = file.type;
-          console.log('Selected PDF file:', file);
-        } else {
-          // Display an error for invalid file type
-          console.error('Invalid file type. Please upload a PDF file.');
-          this.fileErr = "Invalid file type. Please upload a PDF file."
-          this.fileName = "";
-          // Optionally, you can reset the input to clear the invalid selection
-          inputElement.value = '';
-          this.fileToUpload = null;
-        }
-      }
-    }
-  }
-
- 
-  async confirmSignUp(form: any): Promise<void> {
-    this.setErrorMessage("")
-    this.spinner.show();
-    try {
-      if (this.selectedUserType === "candidate") {
-        const { response, error } = await this.createUserWithConfirmation(this.candidateForm, this.verificationForm);
-        if (response) {
-          this.otpVerification(this.candidateForm.emailId);
-          this.toggleSignInRow();
-          this.spinner.hide();
-        }
-
-        if (error) {
-          this.errorMessage = error.message;
-          this.spinner.hide();
-        }
-      }
-
-      if (this.selectedUserType === "employee") {
-        const { response, error } = await this.createUserWithConfirmation(this.employeeForm, this.verificationForm);
-
-        if (response) {
-          this.toggleSignInRow();
-          this.spinner.hide();
-        }
-
-        if (error) {
-          this.errorMessage = error.message;
-          this.spinner.hide();
-        }
-      }
-    } catch (error) {
-      console.log('Error signing up candidate confirmSignUp:', error);
-      this.spinner.hide();
-    }
-
-// if(this.codeErrorScreen){
-//   const { response, error } = await this.createUserWithConfirmation(this.form.email, this.verificationForm);
-  // try{
-  //   const { isSignUpComplete, nextStep } = await confirmSignUp({
-    
-  //     username: this.form.email,
-  //     confirmationCode: this.verificationForm.code,
-  //   });
-  
-  // }catch{
-  //   this.setErrorMessage("User is not confirmed.");
-  //   this.toggleSignInRow();
-  // }
-
-  // if (response) {
-  //   this.toggleSignInRow();
-  //   this.spinner.hide();
-  // }
-
-  // if (error) {
-  //   this.errorMessage = error.message;
-  //   this.spinner.hide();
-  // }
-
-
-  // }
-  }
-
-
-  async submit(form: any): Promise<void> {
-  localStorage.removeItem('crossDomainData')
-    this.setErrorMessage("");
-    this.spinner.show();
-    const loginData = {
-      email: this.form.email,
-      password: this.form.password
-    }
-    let login = await this.amplify.handleSignIn(loginData);
-    if (login.response?.nextStep?.signInStep === "CONFIRM_SIGN_UP") {
-      this.spinner.hide();
-      debugger
-      this.showSignInRow=!this.showSignInRow;
-      this.confirmationCodeScreen=!this.confirmationCodeScreen;
-    // this.codeErrorScreen=!this.codeErrorScreen
-     // this.setErrorMessage("User is not confirmed.");
-    }
-    if (login && login.error && login.error.message) {
-      this.spinner.hide();
-      this.setErrorMessage(login.error.message);
-    }
-    if (login!.response!.isSignedIn) {
-      await this.authService.getProfile(this.form.email).then(async (response) => {
-
-         this.userType = response.data.lastAccessedDash;
-        let userName=response.data.name
-        this.storage.set('lastAccessedDash', this.userType);
-        this.storage.set('userName', userName);
-        this.navbarToggleSwitchService.intializeToggleStatus();
-        console.log(userName)
-
-       await this.currentSession();
-       await this.currentAuthenticatedUser();
-       debugger
-        this.onSuccess.emit(this.userType);
-        if(this.userType==='EMP'|| this.userType==='CAND'){
-          this.checkUserLoggedIn()
-        }else{
-          this.router.navigate(['/'])
-        }
-    //     console.log(userType)
-    //     this.userLoggedIn = await this.amplify.isLoggedIn();
-    // this.emailAddress = this.storage.get("useremail");
-    // if (this.userLoggedIn) {
-    //   if (this.router.url.includes('/company-listing')) {
-    //     // Redirect to the company listing page
-    //     this.router.navigate(['/company-listing']);
-    //     this.modal.cancel();
-    //   }
-    //   else {
-    //     const response = await this.candidateSrv.getProfileComplete(this.emailAddress);
-
-    //     if (response) {
-    //       this.profileCompletion = response;
-    //       console.log(this.profileCompletion);
-
-    //       if (this.profileCompletion) {
-    //         const profileType = userType === "CAND" ? this.profileCompletion.candidate : this.profileCompletion.employee;
-    //         const totalPercentage = profileType.reduce((sum: any, element: any) => sum + element.curPerc, 0);
-
-    //         if (userType === "CAND" && totalPercentage > 60) {
-    //           this.router.navigate(['/candidate/dashboard']);
-    //         } else if (userType === "CAND" && totalPercentage < 60) {
-    //           this.router.navigate(['/candidate/edit-profile']);
-    //         } else if (userType !== "CAND" && totalPercentage > 60) {
-    //           this.router.navigate(['/employee/dashboard']);
-    //         } else if (userType !== "CAND" && totalPercentage < 60) {
-    //           this.router.navigate(['/employee/Edit-profile']);
-    //         }
-    //       }
-    //       this.modal.cancel();
-    //     }
-    //   }
-    // }else{
-    //   this.router.navigate(['/'])
-    // }
-
-        this.spinner.hide();
-        // if (userType == "CAND") {
-        //   this.router.navigate(['/candidate/candidate-dashboard']);
-        // } else {
-        //   this.router.navigate(['/employee/employee-dashboard']);
-        // }
-
-      })
-        .catch(error => {
-          console.error('Create Employee Error:', error);
-          this.spinner.hide();
-        });
-    }
-  }
-
-  setErrorMessage(message: string) {
-    this.errorMessage = message;
-  }
-
-
-//   async FieldTypeFromAutocompleteAttributeValue(autocompleteAttributeValue: string): Promise<any> {
-   
-//     let fieldType: HtmlFieldType = HtmlFieldType.UNKNOWN;
-//     console.log(this.showSignInRow)
-//     //if(this.showSignInRow){
-//       debugger
-//     if (autocompleteAttributeValue === "email" ) {
-//       return fieldType=HtmlFieldType.EMAIL;
-//     } else if (autocompleteAttributeValue === "current-password") {
-//       return fieldType=HtmlFieldType.PASSWORD;
-//     }
-//   //}
-//     return fieldType;
-
-
-
-
-  
-// }
-
-  async signOut(): Promise<void> {
-    await this.amplify.handleSignOut();
-    this.onSuccess.emit();
-  }
-
-  async createUser(form: any): Promise<{ response?: any; error?: Error }> {
-    try {
-      let signupform = {
-        password: form.password,
-        username: form.emailId,
-        name: form.name,
-        phone_number: form.phoneNumber
-      }
-      const { response, error } = await this.amplify.handleSignUp(signupform);
-
-      if (response) {
-        // Handle the successful sign-up response
-
-        this.userId = response.userId;
-        console.log('Sign-up successful. UserId:  New method', response.userId);
-        return { response: response };
-      }
-
-      if (error) {
-        // Handle the sign-up error
-        console.error('Sign-up error: New method', error.message);
-        return { error: error };
-      }
-    } catch (error) {
-      console.log('Error signing up candidate: createUser', error);
-    }
-
-    // If an error occurs or no response is received, return an object with an undefined response and error properties
-    return {};
-  }
-
-
-  async createUserWithConfirmation(form: any, verificationForm: any): Promise<{ response?: any; error?: Error }> {
-    this.setErrorMessage("");
-   debugger
-    try {
-      let signupform = {
-        username: form.emailId ||this.form.email,
-        confirmationCode: verificationForm.code,
-      }
-
-      // Call handleSignUpConfirmation and await the result
-      const { response, error } = await this.amplify.handleSignUpConfirmation(signupform);
-
-      // Check if the confirmation was successful
-      if (response) {
-        console.log('Sign up confirmed:', response);
-        // Handle the confirmed sign-up as needed
-        return { response: response };
-      } else if (error) {
-        // Handle confirmation error
-        console.error('Error confirming sign up:', error);
-        return { error: error };
-      }
-
-      // If no response or error was encountered, return a default value
-      return { error: new Error('Unexpected error: No response or error.') };
-    } catch (error) {
-      console.error('Unexpected error:', error);
-      // Return the unexpected error
-      // return { error: error };
-    }
-    return {};
-  }
-
-
-
-  maskEmail(email: string): string {
-    const parts = email.split('@');
-    if (parts.length !== 2) {
-      // Invalid email format
-      return email;
-    }
-
-    const username = parts[0];
-    const domain = parts[1];
-
-    const maskedUsername = username.length > 1 ? `${username.charAt(0)}${'*'.repeat(username.length - 1)}` : username;
-    const maskedDomain = domain.length > 1 ? `${domain.charAt(0)}${'*'.repeat(domain.length - 1)}` : domain;
-
-    return `${maskedUsername}@${maskedDomain}`;
-  }
-
-  blinkAndChangeWord() {
-    const words = this.selectedUserType === "candidate" ? this.CandidateWords : this.EmployeeWords;
-    this.currentWord = words[this.currentWordIndex];
-    this.isBlinking = false;
-
-    this.blinkTimer = setTimeout(() => {
-      this.isBlinking = true;
-      this.currentWordIndex = (this.currentWordIndex + 1) % words.length;
-      this.blinkAndChangeWord();
-    }, 3000); // timeout based on our animation duration
-  }
-
-  clearBlinkTimer() {
-    if (this.blinkTimer) {
-      clearTimeout(this.blinkTimer);
-    }
-  }
-
-  ngOnDestroy() {
-    this.clearBlinkTimer();
-    this.modalService.dismissAll();
-  }
-
-  signUpWithLinkedin(usertype:any) {
-    this.storage.set('LinkedinUserType', usertype);
-    console.log( window.location.origin )
-    console.log(usertype);
-    // Show a spinner or perform any other necessary actions
-    this.spinner.show();
-   
-//"https://worko.auth.ap-south-1.amazoncognito.com/oauth2/authorize?identity_provider=LinkedIn&redirect_uri=https://localhost:4200/&response_type=CODE&client_id=5evf019rrkaijtnjf2j1vvdf33&state=h8HvXvQ2W4QvOE18H68wwcgWh3pIkANy&code_challenge=kI8A-NbOUiZw9Iv14YltZO5iTk6MTkK2Lu1PVAEsOyI&code_challenge_method=S256&scope=email%20openid%20phone";
-    // Redirect to the specified URL
-    //window.location.href =
-       // "https://worko.auth.ap-south-1.amazoncognito.com/oauth2/authorize?identity_provider=LinkedIn&redirect_uri=http://localhost:4200/auth/checkRedirection&response_type=CODE&client_id=5evf019rrkaijtnjf2j1vvdf33&state=h8HvXvQ2W4QvOE18H68wwcgWh3pIkANy&code_challenge=kI8A-NbOUiZw9Iv14YltZO5iTk6MTkK2Lu1PVAEsOyI&code_challenge_method=S256&scope=email%20openid%20phone";
-  //debugger
-
-
-
-  this.amplify.handleSocialSignIn()
-
-  }
-
-
-
-  // @ViewChild(ModalComponent) modal!: ModalComponent;
+  /* index code */ 
+ // @ViewChild(ModalComponent) modal!: ModalComponent;
   // getReferral: boolean = true;
   // giveReferral: boolean = false;
   // userLoggedIn: boolean = false;
@@ -1721,5 +702,5 @@ try{
 
 
 
-}
+//}
 

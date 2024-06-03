@@ -1,4 +1,5 @@
-<div class="row content-container" >
+<!-- <div class="row content-container"  > -->
+  <div [ngClass]="{'content-container': currentStep !== 1, 'no-height': currentStep === 1}" class="row">
     <div class="col-md-12">
       <div class="candidate-card">
         <div class="col-md-12">
