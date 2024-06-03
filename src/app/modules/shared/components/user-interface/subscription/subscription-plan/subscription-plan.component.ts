@@ -58,6 +58,7 @@ export class SubscriptionPlanComponent {
   userId: any;
   flow_config: PaymentFlowConfig | null = null;
   decryptedPaymentResponse: any;
+  emailAddress: any;
 
   constructor(private renderer2: Renderer2,
     @Inject(DOCUMENT) private document: Document, private spinner: NgxSpinnerService, private candServ: CandidateProfileService, private storage: StorageService) { }
@@ -65,6 +66,8 @@ export class SubscriptionPlanComponent {
 
   ngOnInit(): void {
     this.userId = this.storage.get("userId");
+    this.emailAddress = this.storage.get("useremail");
+    this.getSubscriptionStatus();
   }
 
   ngOnChanges(): void {
@@ -281,19 +284,25 @@ console.log(returnUrl, "returnUrl deployed")
       pgResponse: paymentResponse,
     };
 
-    await this.candServ.processPayment(paymentData, createOrderResponse?.userOrderResponse?.orderId, createOrderResponse?.gatewayOrderRequestPlainBody?.notes?.userId).then(async (response) => {
+    await this.candServ.processPayment(paymentData, createOrderResponse?.gatewayOrderRequestPlainBody?.notes?.userId).then(async (response) => {
       if (response) {
         // Assert the type of response
         const paymentResponse = response as unknown as PaymentResponse;
-        if(this.pGatewayProvider == "RAZORPAY")
-        {
+        if (this.pGatewayProvider == "RAZORPAY") {
           this.decryptedPaymentResponse = paymentResponse?.processRes?.pgResponseDecrypted;
         }
-        console.log("Processed response from backend = ", response);
-        this.spinner.hide();
-        this.openModal(ModalType.PAYMENT_CONFIRMATION);
-        if(this.showModal === this.modalType.PAYMENT_CONFIRMATION) {
-          console.log("Yes payment confirmation popup should open");
+        else {
+
+        }
+
+        if (this.decryptedPaymentResponse.status === 'captured') {
+          this.createSubscription(paymentResponse);
+          console.log("Processed response from backend = ", response);
+          this.spinner.hide();
+          this.openModal(ModalType.PAYMENT_CONFIRMATION);
+          if (this.showModal === this.modalType.PAYMENT_CONFIRMATION) {
+            console.log("Yes payment confirmation popup should open");
+          }
         }
       }
     }).catch((error: any) => {
@@ -374,6 +383,34 @@ console.log(returnUrl, "returnUrl deployed")
   showErrorPanel(message: string) {
     // We cam implement our logic to show an error panel or modal with the provided message
     console.error(message);
+  }
+
+  async getSubscriptionStatus() {
+    await this.candServ.getSubscriptionStatus(this.emailAddress).then(async (response) => {
+      if (response) {
+        console.log("Subscription status = ", response);
+        this.spinner.hide();
+      }
+    }).catch((error: any) => {
+      this.spinner.hide();
+      console.log(error);
+    }
+    );
+  }
+
+  async createSubscription(paymentResponse:any) {
+
+    let payload = {
+      masterSubscriptionId: this?.selectedPackage?.SK,
+      orderId: paymentResponse?.processRes?.orderId
+    }
+    await this.candServ.createSubscription(this.emailAddress, payload).then(async (res) => {
+      if (res) {
+        console.log("Subscription created response == ", res);
+      }
+    }).catch((error: any) => {
+      console.log(error);
+    });
   }
 
 }

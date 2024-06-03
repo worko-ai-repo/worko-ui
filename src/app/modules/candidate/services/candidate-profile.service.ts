@@ -15,103 +15,103 @@ const API_URL = environment.apiUrl;
 })
 export class CandidateProfileService {
 
-/** 
-  @param {HttpClient} http
-  */
-  constructor(private http : HttpClient , private authService: AuthService) { }
+  /** 
+    @param {HttpClient} http
+    */
+  constructor(private http: HttpClient, private authService: AuthService) { }
 
   /**
     @returns {Promise<any>}
    */
-    getUserProfile(emailAddress:string):Promise<any>{
-     return this.http.get(`${API_URL}user/${emailAddress}/socialprofile`,this.authService.getHttpOptions()).toPromise();
-}
-  getUserDetails(emailAddress:string): Promise<any> {
-    return this.http.get(`${API_URL}user/${emailAddress}/details`,this.authService.getHttpOptions()).toPromise();
+  getUserProfile(emailAddress: string): Promise<any> {
+    return this.http.get(`${API_URL}user/${emailAddress}/socialprofile`, this.authService.getHttpOptions()).toPromise();
+  }
+  getUserDetails(emailAddress: string): Promise<any> {
+    return this.http.get(`${API_URL}user/${emailAddress}/details`, this.authService.getHttpOptions()).toPromise();
   }
 
-  getUserDetailsById(userId:string): Promise<any> {
-    return this.http.get(`${API_URL}user/${userId}/detail`,this.authService.getHttpOptions()).toPromise();
+  getUserDetailsById(userId: string): Promise<any> {
+    return this.http.get(`${API_URL}user/${userId}/detail`, this.authService.getHttpOptions()).toPromise();
   }
 
-  getCandidateSkills(emailAddress:string):Promise<any>{
+  getCandidateSkills(emailAddress: string): Promise<any> {
     return this.http.get(`${API_URL}user/${emailAddress}/skill`, this.authService.getHttpOptions()).toPromise();
   }
-  getCandidateAchievements(emailAddress:string):Promise<any>{
+  getCandidateAchievements(emailAddress: string): Promise<any> {
     return this.http.get(`${API_URL}user/${emailAddress}/achievement`, this.authService.getHttpOptions()).toPromise();
   }
-  getCandidateEducation(emailAddress:string){
+  getCandidateEducation(emailAddress: string) {
     return this.http.get(`${API_URL}user/${emailAddress}/education`, this.authService.getHttpOptions()).toPromise();
   }
 
-  getWorkExperience(emailAddress:string){
+  getWorkExperience(emailAddress: string) {
     return this.http.get(`${API_URL}user/${emailAddress}/experience`, this.authService.getHttpOptions()).toPromise();
   }
 
 
-  getServices(emailAddress:string, status: string){
+  getServices(emailAddress: string, status: string) {
     return this.http.get(`${API_URL}user/${emailAddress}/service?status=${status}`, this.authService.getHttpOptions()).toPromise();
   }
 
-  getProfileComplete(emailAddress:string):Promise<any>{
-    return this.http.get(API_URL + `user/${emailAddress}/profilePercentage ` , this.authService.getHttpOptions()).toPromise();
+  getProfileComplete(emailAddress: string): Promise<any> {
+    return this.http.get(API_URL + `user/${emailAddress}/profilePercentage `, this.authService.getHttpOptions()).toPromise();
   }
 
   /*************REferral APIS */
 
-  getReferral(emailAddress:string, status: string){
+  getReferral(emailAddress: string, status: string) {
     return this.http.get(`${API_URL}user/${emailAddress}/referral?status=${status}`, this.authService.getHttpOptions()).toPromise();
   }
 
-  markasDoneReferral(emailAddress:string, status: string, referralId: string){
-    return this.http.put(`${API_URL}user/${emailAddress}/referral/${referralId}/${status}`, {} , this.authService.getHttpOptions()).toPromise();
+  markasDoneReferral(emailAddress: string, status: string, referralId: string) {
+    return this.http.put(`${API_URL}user/${emailAddress}/referral/${referralId}/${status}`, {}, this.authService.getHttpOptions()).toPromise();
   }
 
-  createReview(userId:string, data:any):Promise<any> {
-    return this.http.post(API_URL + `user/${userId}/review`, data,this.authService.getHttpOptions() ).toPromise();
+  createReview(userId: string, data: any): Promise<any> {
+    return this.http.post(API_URL + `user/${userId}/review`, data, this.authService.getHttpOptions()).toPromise();
   }
 
-  getReview(userId:string, referralId:any):Promise<any> {
-    return this.http.get(`${API_URL}user/${userId}/review/received?referalId=${referralId}`, this.authService.getHttpOptions() ).toPromise();
+  getReview(userId: string, referralId: any): Promise<any> {
+    return this.http.get(`${API_URL}user/${userId}/review/received?referalId=${referralId}`, this.authService.getHttpOptions()).toPromise();
   }
 
-  raiseIssue(data:any):Promise<any> {
-    return this.http.post(API_URL + `support/`, data,this.authService.getHttpOptions() ).toPromise();
+  raiseIssue(data: any): Promise<any> {
+    return this.http.post(API_URL + `support/`, data, this.authService.getHttpOptions()).toPromise();
   }
 
-  withdrawReferral(emailAddress:string, status: string, referralId: string, data:any) {
-    return this.http.put(`${API_URL}user/${emailAddress}/referral/${referralId}/${status}`, data,this.authService.getHttpOptions() ).toPromise();
+  withdrawReferral(emailAddress: string, status: string, referralId: string, data: any) {
+    return this.http.put(`${API_URL}user/${emailAddress}/referral/${referralId}/${status}`, data, this.authService.getHttpOptions()).toPromise();
   }
 
   /*************Services API */
 
-  markasDoneService(emailAddress:string, status: string, serviceId: string){
-    return this.http.patch(`${API_URL}user/${emailAddress}/service/${serviceId}/${status}`, {} , this.authService.getHttpOptions()).toPromise();
+  markasDoneService(emailAddress: string, status: string, serviceId: string) {
+    return this.http.patch(`${API_URL}user/${emailAddress}/service/${serviceId}/${status}`, {}, this.authService.getHttpOptions()).toPromise();
   }
-  
-  createEducation(emailAddress:string, data:any):Promise<any>{
-    return this.http.post(API_URL + `user/${emailAddress}/education`, data,this.authService.getHttpOptions() ).toPromise();
+
+  createEducation(emailAddress: string, data: any): Promise<any> {
+    return this.http.post(API_URL + `user/${emailAddress}/education`, data, this.authService.getHttpOptions()).toPromise();
   }
-  createAchievments(emailAddress:string , data:any):Promise<any>{
+  createAchievments(emailAddress: string, data: any): Promise<any> {
     return this.http.post(API_URL + `user/${emailAddress}/achievement`, data, this.authService.getHttpOptions()).toPromise();
   }
-  createUserProfile(emailAddress:string , data:any):Promise<any>{
+  createUserProfile(emailAddress: string, data: any): Promise<any> {
     return this.http.post(API_URL + `user/${emailAddress}/socialprofile`, data, this.authService.getHttpOptions()).toPromise();
-}
-
-  createUserDetails(emailAddress:string , data:any): Promise<any> {
-  return this.http.put(API_URL + `user/${emailAddress}/details`, data , this.authService.getHttpOptions()).toPromise();
-}
-  createUserSkills(emailAddress:string , data:any):Promise<any>{
-    return this.http.post(API_URL + `user/${emailAddress}/skill`, data , this.authService.getHttpOptions()).toPromise();
   }
 
-  createWorkExperience(emailAddress:string , data:any):Promise<any>{
-    return this.http.post(API_URL + `user/${emailAddress}/experience`, data , this.authService.getHttpOptions()).toPromise();
+  createUserDetails(emailAddress: string, data: any): Promise<any> {
+    return this.http.put(API_URL + `user/${emailAddress}/details`, data, this.authService.getHttpOptions()).toPromise();
+  }
+  createUserSkills(emailAddress: string, data: any): Promise<any> {
+    return this.http.post(API_URL + `user/${emailAddress}/skill`, data, this.authService.getHttpOptions()).toPromise();
   }
 
-  getSubscription(emailAddress:string):Promise<any>{
-    return this.http.get(API_URL + `user/${emailAddress}/subscription` , this.authService.getHttpOptions()).toPromise();
+  createWorkExperience(emailAddress: string, data: any): Promise<any> {
+    return this.http.post(API_URL + `user/${emailAddress}/experience`, data, this.authService.getHttpOptions()).toPromise();
+  }
+
+  getSubscription(emailAddress: string): Promise<any> {
+    return this.http.get(API_URL + `user/${emailAddress}/subscription`, this.authService.getHttpOptions()).toPromise();
   }
 
   uploadProfilePic(documentDetails: any): Promise<any> {
@@ -122,36 +122,44 @@ export class CandidateProfileService {
   // createReferralRequest(emailId: string, data: any): Promise<any> {
   //   return this.http.post(API_URL + `user/${emailId}/referral/request`, data, this.authService.getHttpOptions()).toPromise();
   // }
- 
 
 
-  deleteUserCollege(emailAddress:string,sk:any):Promise<any>{
-    return this.http.delete(API_URL+`user/${emailAddress}/education/${sk}`,this.authService.getHttpOptions()).toPromise();
+
+  deleteUserCollege(emailAddress: string, sk: any): Promise<any> {
+    return this.http.delete(API_URL + `user/${emailAddress}/education/${sk}`, this.authService.getHttpOptions()).toPromise();
   }
 
 
   /* Email opt verification for employee */
-  employeeEmailVerification(emailAddress:string,id:any):Promise<any>{
-    return this.http.get(API_URL+`user/${emailAddress}/experience/${id}/request-otp`,this.authService.getHttpOptions()).toPromise();
+  employeeEmailVerification(emailAddress: string, id: any): Promise<any> {
+    return this.http.get(API_URL + `user/${emailAddress}/experience/${id}/request-otp`, this.authService.getHttpOptions()).toPromise();
 
   }
 
-  verifyOtp(emailAddress:any,id:any,otp:any):Promise<any>{
-    return this.http.post(API_URL+`user/${emailAddress}/experience/${id}/verify-otp`,{otp:otp},this.authService.getHttpOptions()).toPromise();
-    
+  verifyOtp(emailAddress: any, id: any, otp: any): Promise<any> {
+    return this.http.post(API_URL + `user/${emailAddress}/experience/${id}/verify-otp`, { otp: otp }, this.authService.getHttpOptions()).toPromise();
+
   }
-  
+
 
   //Create order API - Subscription module
 
-  createOrder(data:any, userId:any):Promise<any> {
-    return this.http.post(API_URL + `user/${userId}/order/create`, data,this.authService.getHttpOptions() ).toPromise();
+  createOrder(data: any, userId: any): Promise<any> {
+    return this.http.post(API_URL + `user/${userId}/order/create`, data, this.authService.getHttpOptions()).toPromise();
   }
 
   //API to process the payment
-  
-  processPayment(data:any, orderId:any, userId:any) {
-    return this.http.post(API_URL + `user/${userId}/order/gatewayres`, data,this.authService.getHttpOptions() ).toPromise();
+
+  processPayment(data: any, userId: any) {
+    return this.http.post(API_URL + `user/${userId}/order/gatewayres`, data, this.authService.getHttpOptions()).toPromise();
+  }
+
+  createSubscription(emailAddress: any, data: any) {
+    return this.http.post(API_URL + `user/${emailAddress}/subscription`, data, this.authService.getHttpOptions()).toPromise();
+  }
+
+  getSubscriptionStatus(emailAddress: any) {
+    return this.http.get(API_URL + `user/${emailAddress}/subscription/status`, this.authService.getHttpOptions()).toPromise();
   }
 
 }
