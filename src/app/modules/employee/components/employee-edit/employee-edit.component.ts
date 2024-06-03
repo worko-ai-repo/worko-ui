@@ -389,6 +389,11 @@ export class EmployeeEditComponent {
 
   async createUserDetails() {
     let userDetails: any = {
+      "candidateExperience":{
+        "department":this.employeeDetails.candidateExperience.department ?? '',
+        "companyName":this.employeeDetails.candidateExperience.companyName ?? '',
+        "designation":this.employeeDetails.candidateExperience.designation  ?? '',
+      },
       "ECTC": this.secondStepData.ectc,
       "location": this.firstStepData.location,
       "coverLetter": this.thirdStepData.coverLetter,

@@ -263,7 +263,9 @@ export class EditProfileComponent implements OnInit {
       await this.candidateSrv.createUserProfile(this.emailAddress, socialProfile).then(async (response) => {
         if (!this.secondStepData.isCandidateFresher) {
           // this.createUserDetails();
-          this.updateWorkExperience();
+         // this.updateWorkExperience();
+         this.spinner.hide();
+         this.modelOpen();
         }
         else {
           //this.router.navigate(['/candidate/dashboard']);
@@ -306,8 +308,14 @@ export class EditProfileComponent implements OnInit {
 
   async createUserDetails() {
     console.log(this.secondStepData, "this.secondStepD")
+    debugger
     try {
       let userDetails: any = {
+        "candidateExperience":{
+          "department":this.secondStepData.department,
+          "companyName":this.secondStepData.companyName,
+          "designation":this.secondStepData.designation,
+        },
         "ECTC": this.secondStepData.ectc,
         "location": this.firstStepData.location,
         "coverLetter": this.thirdStepData.coverLetter,
@@ -455,7 +463,8 @@ export class EditProfileComponent implements OnInit {
           this.softSkillsLists = response[0].softSkills;
 
         }
-        this.getWorkExperienceDetails();
+       // this.getWorkExperienceDetails();
+       this.getWorkExperienceDetails();
       })
 
     } catch (error: any) {

@@ -66,6 +66,7 @@ export class LoginPageComponent implements AfterViewInit, OnDestroy {
   displayResetPassword: boolean = false;
   acceptedTermsAndConditions: boolean = false;
   resetVerificationScreen: boolean = false;
+  successPasswordMessage: boolean = false;
   isDivOpen: boolean = false;
   isDivClose: boolean = true
   hideDiv: boolean = true
@@ -431,6 +432,7 @@ export class LoginPageComponent implements AfterViewInit, OnDestroy {
     this.showSignInRow = false;
     this.displayResetPassword = false;
     this.resetVerificationScreen = false;
+    this.successPasswordMessage = false;
   }
 
   toggleSignUpRow() {
@@ -478,6 +480,9 @@ async  handleConfirmResetPassword({
   try {
     await confirmResetPassword({ username, confirmationCode, newPassword });
     console.log(username, confirmationCode, newPassword)
+  
+
+   // this.successPasswordMessage=true;
     this.toggleSignInRow()
     
    
