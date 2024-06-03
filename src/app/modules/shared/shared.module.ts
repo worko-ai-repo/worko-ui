@@ -85,8 +85,8 @@ import { CircleChartComponent } from '../worko/components/circle-chart/circle-ch
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 import { DetailedAnalysisComponent } from './components/user-interface/referral/detailed-analysis/detailed-analysis.component';
 import { AddCompanyComponent } from '../worko/components/add-company/add-company.component';
-import { PlansOrderPaymentModalComponent } from './components/modal/plans-order-payment-modal/plans-order-payment-modal.component';
-import { PaymentConfirmationModalComponent } from './components/modal/payment-confirmation-modal/payment-confirmation-modal.component';
+import { PlansOrderPaymentModalComponent } from './components/plans-order-payment-modal/plans-order-payment-modal.component';
+import { PaymentConfirmationModalComponent } from './components/payment-confirmation-modal/payment-confirmation-modal.component';
 import { BilldeskResponseComponent } from './components/user-interface/subscription/billdesk-response/billdesk-response.component';
 import { PgResponseComponent } from './components/user-interface/subscription/pg-response/pg-response.component';
 export const routes: Routes = [

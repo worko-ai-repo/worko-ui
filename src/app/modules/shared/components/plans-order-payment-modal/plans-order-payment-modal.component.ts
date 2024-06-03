@@ -3,11 +3,11 @@ import { Component, EventEmitter, Inject, Input, OnChanges, Output, SimpleChange
 import { AbstractControl, NgModel, ValidationErrors, ValidatorFn, Validators } from '@angular/forms';
 import { CandidateProfileService } from 'src/app/modules/candidate/services/candidate-profile.service';
 import { AuthService } from 'src/app/modules/worko/services/auth.service';
-import { PaymentGatewayData, PAYMENT_GATEWAYS } from '../../../constants/payment-gateways.constants';
+import { PaymentGatewayData, PAYMENT_GATEWAYS } from '../../constants/payment-gateways.constants';
 import { Renderer2 } from '@angular/core';
 import { DOCUMENT } from '@angular/common';
-import { ModalComponent } from '../modal.component';
-import { ModalType } from '../../../interfaces/shared.interface';
+import { ModalComponent } from '../modal/modal.component';
+import { ModalType } from '../../interfaces/shared.interface';
 import { NgxSpinnerService } from 'ngx-spinner';
 
 
