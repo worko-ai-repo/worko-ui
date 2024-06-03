@@ -8,7 +8,7 @@ import { NgxSpinnerService } from 'ngx-spinner';
 import { PaymentGateway } from 'src/app/modules/shared/enums/payment-gateway.enum';
 import { CandidateProfileService } from 'src/app/modules/candidate/services/candidate-profile.service';
 import { StorageService } from 'src/app/modules/app-core/services/storage.service';
-import { environment } from 'src/environment/environment';
+import { environment } from 'src/environments/environment';
 
 // export const theme_config = {
 //   sdkPrimaryColor: "#2F92C7",
@@ -146,7 +146,7 @@ export class SubscriptionPlanComponent {
     let totalAmount = subTotalAmount + gstAmount - discountAmount;
     let domain = environment.localUrl;
     let returnUrl = domain + `/candidate/pgresponse/${this.pGatewayProvider}`;
-
+console.log(returnUrl, "returnUrl deployed")
     let payload = {
       "pgatewayProvider": this.pGatewayProvider,
       "subTotalAmount": subTotalAmount,

@@ -7,7 +7,7 @@ import { CandidateProfileService } from 'src/app/modules/candidate/services/cand
 import { StorageService } from 'src/app/modules/app-core/services/storage.service';
 import { NavbarToggleSwitchService } from 'src/app/modules/candidate/services/navbar-toggle-switch.service';
 import { IndexComponent } from '../index/index.component';
-import { environment } from 'src/environment/environment';
+import { environment } from 'src/environments/environment';
 
 
 

@@ -1,6 +1,6 @@
 import { Component,HostListener } from '@angular/core';
 import { NgxSpinnerService } from 'ngx-spinner'
-import { environment } from 'src/environment/environment';
+import { environment } from 'src/environments/environment';
 @Component({
   selector: 'app-root',
   templateUrl: './app.component.html',

@@ -73,6 +73,14 @@ export const routes: Routes = [
       //   component: HomeComponent
       // },
       {
+        path: '',
+        component: IndexComponent
+      },
+      {
+        path : 'login',
+        component:IndexComponent
+      },
+      {
         path: 'contact',
         component: ContactComponent
       },
@@ -133,10 +141,7 @@ export const routes: Routes = [
         path : 'title',
         component: TitleComponent
       },
-      {
-        path : 'login',
-        component:IndexComponent
-      },
+    
       {
         path : 'referral-req',
         component: ReferralRequestComponent
@@ -181,10 +186,7 @@ export const routes: Routes = [
         path : 'privacy-policy',
         component: PrivacyPolicyComponent
       },
-      {
-        path: '',
-        component: IndexComponent
-      },
+    
       {
         path: 'faq-candidate',
         component: FaqCandidateComponent

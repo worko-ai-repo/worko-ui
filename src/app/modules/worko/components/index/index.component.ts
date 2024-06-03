@@ -183,7 +183,6 @@ export class IndexComponent {
 
   // @HostListener('window:message', ['$event'])
   // onMessage(e: { origin: string; data: any; }) {
-  //   debugger 
   //   console.log(e.data);
   //   if (e.origin ==='http://localhost:64555') { console.log("afasfaasffafafaa");
   //     localStorage.setItem('companyid', e.data);
@@ -241,7 +240,6 @@ export class IndexComponent {
   //     //   filter((filteredOptions: any) => !filteredOptions.some((option: any) => option.name === this.selectedCompany.name))
   //     // )
   //     .subscribe(() => {
-  //       debugger;
   //       this.myControl.setValue(null);
   //     });
 
@@ -268,7 +266,6 @@ export class IndexComponent {
   async ngOnInit() {
     //Added check to pass userType to show enabled candidate and employee fromn index page
    // await this.userTypeCheck()
-   debugger
   
     this.blinkAndChangeWord()
     this.filteredOptions = this.myControl.valueChanges.pipe(
@@ -305,7 +302,6 @@ export class IndexComponent {
 
 
   async checkUserLoggedIn(){
-    debugger
     this.userLoggedIn = await this.amplify.isLoggedIn();
     this.userType=localStorage.getItem('crossDomainData')
     // if (this.userType.startsWith('"') && this.userType.endsWith('"')) {
@@ -315,7 +311,6 @@ export class IndexComponent {
 
     this.emailAddress = this.storage.get("useremail");
     if (this.userLoggedIn) {
-      debugger
       if (this.router.url.includes('/company-listing')) {
         // Redirect to the company listing page
         this.router.navigate(['/company-listing']);
@@ -402,7 +397,7 @@ export class IndexComponent {
   //   console.log("inside remeber me"+this.rememberMe)
   //   try {
   //     if(this.rememberMe){
-  //       debugger
+
       
   //   const response= await rememberDevice()
    
@@ -484,7 +479,6 @@ export class IndexComponent {
   }
 
   resetPassword(form: any) {
-    debugger
     this.setErrorMessage("");
     this.confirmationEmail = this.maskEmail(this.resetForm.emailId);
     this.resetVerificationScreen = true;
@@ -518,7 +512,7 @@ async  handleConfirmResetPassword({
   confirmationCode,
   newPassword
 }: ConfirmResetPasswordInput) {
-  debugger
+
   try {
     await confirmResetPassword({ username, confirmationCode, newPassword });
     console.log(username, confirmationCode, newPassword)
@@ -700,7 +694,7 @@ async  handleConfirmResetPassword({
   
   async requestCampanyData(form:any){
     this.spinner.show()
-debugger
+
 try{
     this.companyData={
       userType: "EMP",
@@ -941,7 +935,7 @@ try{
     let login = await this.amplify.handleSignIn(loginData);
     if (login.response?.nextStep?.signInStep === "CONFIRM_SIGN_UP") {
       this.spinner.hide();
-      debugger
+
       this.showSignInRow=!this.showSignInRow;
       this.confirmationCodeScreen=!this.confirmationCodeScreen;
     // this.codeErrorScreen=!this.codeErrorScreen
@@ -963,7 +957,6 @@ try{
 
        await this.currentSession();
        await this.currentAuthenticatedUser();
-       debugger
         this.onSuccess.emit(this.userType);
         if(this.userType==='EMP'|| this.userType==='CAND'){
           this.checkUserLoggedIn()
@@ -1086,7 +1079,6 @@ try{
 
   async createUserWithConfirmation(form: any, verificationForm: any): Promise<{ response?: any; error?: Error }> {
     this.setErrorMessage("");
-   debugger
     try {
       let signupform = {
         username: form.emailId ||this.form.email,
