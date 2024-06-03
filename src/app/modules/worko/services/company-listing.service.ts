@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { AuthService } from '../services/auth.service';
 // import { RequesterInfo, studentData} from '../interfaces/requester.interface';
-import { environment } from '../../../../environment/environment';
+import { environment } from '../../../../environments/environment';
 import { BehaviorSubject, Observable, Subject } from 'rxjs';
 const API_URL = environment.apiUrl;
 

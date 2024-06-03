@@ -1,7 +1,7 @@
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { CognitoService } from '../../services/cognito.service';
-import { environment } from '../../../../environment/environment';
+import { environment } from '../../../../environments/environment';
 import { userInfo } from '../interfaces/auth.interface';
 import { corporateInfo } from '../interfaces/auth.interface';
 import { AuthService } from './auth.service';
