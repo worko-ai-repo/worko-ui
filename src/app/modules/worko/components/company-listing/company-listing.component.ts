@@ -200,6 +200,7 @@ export class CompanyListingComponent implements OnInit {
         
         
       ]
+ 
    
 
   @HostListener('window:scroll', ['$event'])
@@ -270,11 +271,11 @@ this.openModalFromIndex()
  
   async openModalFromIndex(){
   this.indexData=localStorage.getItem('crossDomainData')
-  
-  if(this.indexData.includes('ID#') || this.indexData==='true'){
+  if(this.indexData){
+  // if(this.indexData.includes('ID#') || this.indexData==='true'){
     this.userLoggedIn = await this.cognitoService.isLoggedIn();
     if (!this.userLoggedIn) {
-    
+      this.userLoggedIn=true
      this.openModal(ModalType.LOGIN_SIGNUP);
     } else {
      
@@ -296,8 +297,8 @@ this.openModalFromIndex()
       
       
     }
+  // }
   }
-
   
   }
 
@@ -317,6 +318,7 @@ this.openModalFromIndex()
   
       this.openModal(ModalType.REQUEST_REFERRAL);
     } else {
+      this.userLoggedIn=true
       this.openModal(ModalType.LOGIN_SIGNUP);
     }
   }
@@ -502,6 +504,7 @@ generateLogoFilenames(start: number, end: number) {
 
 
   async openReferralPage(event: Event, item: any): Promise<void> {
+    debugger
     event.preventDefault();
    this.userLoggedIn = await this.cognitoService.isLoggedIn();
    
@@ -512,6 +515,7 @@ generateLogoFilenames(start: number, end: number) {
     if (this.userLoggedIn) {
       this.openModal(ModalType.REQUEST_REFERRAL);
     } else {
+      this.userLoggedIn=true
       this.openModal(ModalType.LOGIN_SIGNUP);
     }
 

@@ -32,6 +32,9 @@ export class IndexComponent {
  userName:string='profile'
   letter:string="";
   isUserLoggedIn:boolean=false;
+  selectedUserType: any='candidate';
+  userType: any;
+  CrossOriginuserType: any;
 
   constructor(private cognitoService: CognitoService, private router: Router, private candidateSrv: CandidateProfileService, private storage: StorageService, private navbarToggleSwitchService : NavbarToggleSwitchService) {
    
@@ -39,12 +42,33 @@ export class IndexComponent {
 
  
 
-//   async ngOnInit(): Promise<void> {
-//  this.modalOpen()
-//   }
+  async ngOnInit(): Promise<void> {
+    this.checkUserLoggedIn();
+  
+  }
+ 
+  async checkUserLoggedIn(){
+   
+      debugger
+     
+  this.CrossOriginuserType=localStorage.getItem('crossDomainData')
+   //  this.CrossOriginuserType='employee'
+     
+     console.log(this.CrossOriginuserType);
+   
+     
+  
+
+   
+
+  }
+ 
+  
   async ngAfterViewInit(): Promise<void> {
+   
+   
   this.userLoggedIn = await this.cognitoService.isLoggedIn();
-  if(this.userLoggedIn){
+  if(this.userLoggedIn && !this.CrossOriginuserType){
     this.navbarToggleSwitchService.intializeToggleStatus();
     const usertype=this.storage.get('lastAccessedDash') ;
      this.userName=this.storage.get('userName') ;
@@ -57,9 +81,17 @@ export class IndexComponent {
       
       this.router.navigate(['/candidate/dashboard']);
     }
-  }else{
+  }else if(!this.userLoggedIn && this.CrossOriginuserType){
+
     this.isUserLoggedIn=true
+    this.selectedUserType=this.CrossOriginuserType
   this.modalOpen();
+  }else if(this.userLoggedIn && this.CrossOriginuserType){
+    this.router.navigate(['/employee/Referral']);
+  }
+  else{
+    this.isUserLoggedIn=true
+    this.modalOpen();
   }
 }
   modalOpen(){

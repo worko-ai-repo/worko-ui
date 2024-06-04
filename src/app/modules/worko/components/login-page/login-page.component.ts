@@ -31,7 +31,6 @@ import { event } from 'jquery';
 import { CompanyListingService } from '../../services/company-listing.service';
 import { NavbarToggleSwitchService } from 'src/app/modules/candidate/services/navbar-toggle-switch.service';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
-// import { environment } from 'src/environments/environment';
 declare var bootstrap: any;
 
 
@@ -48,7 +47,7 @@ export class LoginPageComponent implements AfterViewInit, OnDestroy {
   @Output() userTypeSelected = new EventEmitter<string>();
   @Output() onSuccess: EventEmitter<void> = new EventEmitter<void>();
   @Input() userType: any;
- 
+ @Input()userLoggedInData:any
 
  
   @ViewChild(ModalComponent) modal!: ModalComponent;
@@ -263,13 +262,21 @@ export class LoginPageComponent implements AfterViewInit, OnDestroy {
     var tooltipList = tooltipTriggerList.map(function (tooltipTriggerEl) {
       return new bootstrap.Tooltip(tooltipTriggerEl)
     })
+
+   
   }
 
 
   async ngOnInit() {
-    //Added check to pass userType to show enabled candidate and employee fromn index page
+    //Added check to pass userType to show enabled candidate and employee from index page
+    debugger
     if(this.userType){
       this.selectedUserType = this.userType;
+      console.log(this.selectedUserType)
+    }
+    if(this.userLoggedInData){
+      this.isUserLoggedIn=this.userLoggedInData
+      console.log(this.isUserLoggedIn)
     }
     
     this.blinkAndChangeWord()
@@ -302,9 +309,8 @@ export class LoginPageComponent implements AfterViewInit, OnDestroy {
 
    
     //console.log(fieldType2);
-    this.checkUserLoggedIn();
-  
   }
+
  
   async checkUserLoggedIn(){
     
@@ -315,8 +321,6 @@ export class LoginPageComponent implements AfterViewInit, OnDestroy {
     //   this.userType = this.userType.substring(1, this.userType.length - 1); // Extract substring excluding the first and last characters
     // }
  console.log(this.userType);
-
-   
 
   }
 
@@ -418,8 +422,12 @@ export class LoginPageComponent implements AfterViewInit, OnDestroy {
       console.error('Error fetching current authenticated user:', err);
     }
   }
+  closeFunction(){
+    this.toggleSignInRow()
+  }
 
   toggleSignInRow() {
+    debugger
     this.setErrorMessage("");
     // this.currentSession();
     // this.currentAuthenticatedUser();
@@ -429,10 +437,13 @@ export class LoginPageComponent implements AfterViewInit, OnDestroy {
     
     // const autocompleteValue2 = "current-password";
     // const fieldType2 = this.FieldTypeFromAutocompleteAttributeValue(autocompleteValue2);
+   // this.isUserLoggedIn=true
     this.showSignInRow = false;
     this.displayResetPassword = false;
     this.resetVerificationScreen = false;
     this.successPasswordMessage = false;
+    this.showAddCompanyScreen=false;
+    this.showErrorMessageScreen=false;
   }
 
   toggleSignUpRow() {
@@ -442,7 +453,6 @@ export class LoginPageComponent implements AfterViewInit, OnDestroy {
   }
 
   resetPassword(form: any) {
-    
     this.setErrorMessage("");
     this.confirmationEmail = this.maskEmail(this.resetForm.emailId);
     this.resetVerificationScreen = true;
@@ -483,7 +493,13 @@ async  handleConfirmResetPassword({
   
 
    // this.successPasswordMessage=true;
-    this.toggleSignInRow()
+    //this.toggleSignInRow()
+    this.showSignInRow=false
+    this.showAddCompanyScreen=false
+    this.showErrorMessageScreen=true
+    this.successtitle='success'
+    this.successmessage='Your password has been successfully reset!!'
+    //this.openModal(this.modalType.SUCCESS_MESSAGE)
     
    
   } catch (error) {
@@ -746,12 +762,12 @@ try{
   
   onOptionSelected(event: any): void {
     // this.selectedCompany = event.option.value;
-    
+    debugger
     // Edited by KA:
     if (event.option.value.id == "add_new"){
       console.log("Add new company")
       console.log("add_new = ", event.option.value.id);
-      this.showAddCompanyScreen=!this.showAddCompanyScreen
+      this.showAddCompanyScreen=true
       //this.openModal(ModalType.ADD_COMPANY);
       this.selectedCompany='';
       this.myControl.reset();

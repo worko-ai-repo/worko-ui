@@ -49,12 +49,13 @@ export class NavbarComponent {
     //   console.log(this.emailAddress, email, "dsd")
     // });
     this.userLoggedIn = await this.cognitoService.isLoggedIn();
+    if(this.userLoggedIn){
     this.userName=this.storage.get('userName') ;
     console.log(this.userName)
     // this.letter=this.getInitials(this.userName)
     // console.log(this.letter);
     this.letter  = this.userName.charAt(0).toUpperCase();
-
+    }
   }
 
   isMenuOpen: boolean = false;
@@ -170,6 +171,7 @@ export class NavbarComponent {
   async openLogin() {
     if (this.userLoggedIn) {
       alert("User is Logged In")
+
     } else {
       this.openModal(ModalType.LOGIN_SIGNUP);
       //this.router.navigate(['/login']);
@@ -178,13 +180,13 @@ export class NavbarComponent {
 
 
   rediectToFaq(){
-    window.location.href=environment.crossOriginUrl+'/'
+    window.location.href=environment.crossOriginUrl+'/faq'
   }
   rediectToAboutUs(){
-    window.location.href=environment.crossOriginUrl+'/'
+    window.location.href=environment.crossOriginUrl+'/about-us'
   }
   rediectToCorporate(){
-    window.location.href=environment.crossOriginUrl+'/'
+    window.location.href=environment.crossOriginUrl+'/corporate'
   }
 
   /**
@@ -196,10 +198,12 @@ export class NavbarComponent {
     * @returns {void}
     */
   openModal(modalType: ModalType, message: string = "", title: string = ""): void {
+    debugger
     if(this.LoginPageComponent){
       this.LoginPageComponent.showSignInRow=true;
       this.LoginPageComponent.showAddCompanyScreen=false;
       this.LoginPageComponent.showErrorMessageScreen=false;
+      this.LoginPageComponent.isUserLoggedIn=true
     }
    
     this.showModal = modalType;
