@@ -31,7 +31,7 @@ import { event } from 'jquery';
 import { CompanyListingService } from '../../services/company-listing.service';
 import { NavbarToggleSwitchService } from 'src/app/modules/candidate/services/navbar-toggle-switch.service';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
-import { environment } from 'src/environment/environment';
+// import { environment } from 'src/environments/environment';
 declare var bootstrap: any;
 
 
@@ -242,7 +242,7 @@ export class LoginPageComponent implements AfterViewInit, OnDestroy {
   //     //   filter((filteredOptions: any) => !filteredOptions.some((option: any) => option.name === this.selectedCompany.name))
   //     // )
   //     .subscribe(() => {
-  //       debugger;
+  //       
   //       this.myControl.setValue(null);
   //     });
 
@@ -307,7 +307,7 @@ export class LoginPageComponent implements AfterViewInit, OnDestroy {
   }
  
   async checkUserLoggedIn(){
-    debugger
+    
     
     this.userLoggedIn = await this.amplify.isLoggedIn();
     this.userType=localStorage.getItem('crossDomainData')
@@ -359,7 +359,7 @@ export class LoginPageComponent implements AfterViewInit, OnDestroy {
     console.log("inside remeber me"+this.rememberMe)
     try {
       if(this.rememberMe){
-        debugger
+        
       
     const response= await rememberDevice()
    
@@ -442,7 +442,7 @@ export class LoginPageComponent implements AfterViewInit, OnDestroy {
   }
 
   resetPassword(form: any) {
-    debugger
+    
     this.setErrorMessage("");
     this.confirmationEmail = this.maskEmail(this.resetForm.emailId);
     this.resetVerificationScreen = true;
@@ -476,7 +476,7 @@ async  handleConfirmResetPassword({
   confirmationCode,
   newPassword
 }: ConfirmResetPasswordInput) {
-  debugger
+  
   try {
     await confirmResetPassword({ username, confirmationCode, newPassword });
     console.log(username, confirmationCode, newPassword)
@@ -659,7 +659,7 @@ async  handleConfirmResetPassword({
   
   async requestCampanyData(form:any){
     this.spinner.show()
-debugger
+
 try{
     this.companyData={
       userType: "EMP",
@@ -898,7 +898,7 @@ try{
     let login = await this.amplify.handleSignIn(loginData);
     if (login.response?.nextStep?.signInStep === "CONFIRM_SIGN_UP") {
       this.spinner.hide();
-      debugger
+      
       this.showSignInRow=!this.showSignInRow;
       this.confirmationCodeScreen=!this.confirmationCodeScreen;
     // this.codeErrorScreen=!this.codeErrorScreen
@@ -910,7 +910,7 @@ try{
     }
     if (login!.response!.isSignedIn) {
       await this.authService.getProfile(this.form.email).then(async (response) => {
-        debugger
+        
         let userType = response.data.lastAccessedDash;
         let userName=response.data.name;
         this.storage.set('lastAccessedDash', userType);
@@ -946,7 +946,7 @@ try{
 //     let fieldType: HtmlFieldType = HtmlFieldType.UNKNOWN;
 //     console.log(this.showSignInRow)
 //     //if(this.showSignInRow){
-//       debugger
+//       
 //     if (autocompleteAttributeValue === "email" ) {
 //       return fieldType=HtmlFieldType.EMAIL;
 //     } else if (autocompleteAttributeValue === "current-password") {
@@ -1000,7 +1000,7 @@ try{
 
   async createUserWithConfirmation(form: any, verificationForm: any): Promise<{ response?: any; error?: Error }> {
     this.setErrorMessage("");
-   debugger
+   
     try {
       let signupform = {
         username: form.emailId ||this.form.email,
@@ -1085,7 +1085,7 @@ try{
     // Redirect to the specified URL
     //window.location.href =
        // "https://worko.auth.ap-south-1.amazoncognito.com/oauth2/authorize?identity_provider=LinkedIn&redirect_uri=http://localhost:4200/auth/checkRedirection&response_type=CODE&client_id=5evf019rrkaijtnjf2j1vvdf33&state=h8HvXvQ2W4QvOE18H68wwcgWh3pIkANy&code_challenge=kI8A-NbOUiZw9Iv14YltZO5iTk6MTkK2Lu1PVAEsOyI&code_challenge_method=S256&scope=email%20openid%20phone";
-  //debugger
+  //
 
 
 

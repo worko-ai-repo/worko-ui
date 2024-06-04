@@ -55,7 +55,7 @@ this.blinkAndChangeWord()
 
   }
   async getCandidateData(){
-    debugger
+    
     const {
       tokens,
      
@@ -120,7 +120,7 @@ this.blinkAndChangeWord()
             acceptedTermsAndConditions: this.candidateForm.acceptedTermsAndConditions
 
           }
-          debugger
+          
          let response= this.authService.createCandidate(candidateData).then(async () => {
          
             try {
@@ -166,7 +166,7 @@ this.blinkAndChangeWord()
 
 
   uploadCVonS3Bucket(docResult: any) {
-    debugger
+    
     try {
       this.authService.uploadFileOnS3Bucket(this.fileToUpload!, docResult.awsS3SignedUrl, docResult.awsS3Tag)
         .then(async () => {
@@ -178,7 +178,7 @@ this.blinkAndChangeWord()
             this.router.navigate(['/candidate/dashboard']);
             this.spinner.hide();
           } catch (error: any) {
-            debugger;
+            ;
             if (error && error.error.message) {
                this.errorMessage = error.error.message;
              // this.spinner.hide();

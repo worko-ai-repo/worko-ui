@@ -270,7 +270,7 @@ this.openModalFromIndex()
  
   async openModalFromIndex(){
   this.indexData=localStorage.getItem('crossDomainData')
-  debugger
+  
   if(this.indexData.includes('ID#') || this.indexData==='true'){
     this.userLoggedIn = await this.cognitoService.isLoggedIn();
     if (!this.userLoggedIn) {
@@ -389,7 +389,7 @@ generateLogoFilenames(start: number, end: number) {
 
   //filter company data by using Sk
   filterCompanyBySk( companySk: string) {
-    debugger
+    
    return this.companyList.find(company => company.SK === companySk);
 
    
@@ -519,7 +519,7 @@ generateLogoFilenames(start: number, end: number) {
   }
   async openGuidancePage(event: Event, item: any): Promise<void> {
 
-    debugger
+    
    event.preventDefault();
     // this.userLoggedIn = await this.cognitoService.isLoggedIn();
     // this.reqGuidanceData = item;
@@ -540,7 +540,7 @@ generateLogoFilenames(start: number, end: number) {
 
   }
   // ngAfterViewInit() {
-  //   debugger
+  //   
   //   this.trigger.panelClosingActions
   //     .subscribe(e => {
   //       this.myControl.setValue(null);
@@ -560,7 +560,7 @@ generateLogoFilenames(start: number, end: number) {
   }
 
   async receiveDataFromChild(data: any) {
-    debugger
+    
     //window.location.reload()
     this.userLoggedIn = await this.cognitoService.isLoggedIn();
     //this.closeModal();
@@ -627,7 +627,7 @@ generateLogoFilenames(start: number, end: number) {
     * @returns {void}
     */
   openModal(modalType: ModalType, message: string = "", title: string = ""): void {
-    debugger
+    
     console.log(modalType)
     if(ModalType.REQUEST_REFERRAL){
     if (this.referrralComponent) {

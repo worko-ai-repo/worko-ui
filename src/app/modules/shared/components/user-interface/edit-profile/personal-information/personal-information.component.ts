@@ -89,11 +89,11 @@ export class PersonalInformationComponent implements OnInit {
   }
 
   ngOnChanges(): void {
-//debugger
+//
     if (this.candidatePersonalDetails.name && this.candidatePersonalDetails.socialLinklinkdin)  {
       if(this.candidatePersonalDetails && this.candidatePersonalDetails.collegeData.length == 0){
         this.addCollege();
-        //debugger;
+        //;
     }
     } else {
       this.getData();
@@ -102,7 +102,7 @@ export class PersonalInformationComponent implements OnInit {
         this.addCollege();
       }
     }
-//debugger
+//
     console.log(this.candidatePersonalDetails)
    
     
@@ -182,7 +182,7 @@ export class PersonalInformationComponent implements OnInit {
    createEducation(form: any) {
     // console.log(this.candidatePersonalDetails)
     // this.nextStep.emit(this.candidatePersonalDetails)
-    //debugger
+    //
     this.onSuccess.emit(this.candidatePersonalDetails);
     console.log(this.candidatePersonalDetails);
   }

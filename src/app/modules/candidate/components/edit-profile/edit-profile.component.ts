@@ -308,7 +308,7 @@ export class EditProfileComponent implements OnInit {
 
   async createUserDetails() {
     console.log(this.secondStepData, "this.secondStepD")
-    debugger
+    
     try {
       let userDetails: any = {
         "candidateExperience":{
@@ -548,7 +548,7 @@ export class EditProfileComponent implements OnInit {
     }
   }
   nextStepSecond(data: any) {
-    // debugger
+    // 
     if (this.currentStep < 3) {
       this.currentStep++;
     }
@@ -566,7 +566,7 @@ export class EditProfileComponent implements OnInit {
   }
 
   previousStep() {
-    // debugger
+    // 
     this.candidatePersonalDetails = this.firstStepData;
     this.candidateProfessionalDetails = this.secondStepData;
 
@@ -576,7 +576,7 @@ export class EditProfileComponent implements OnInit {
     }
   }
   previousStepSecond(data: any) {
-    //debugger
+    //
     this.thirdStepData = data;
     this.candidateUploadDetails = data;
     this.candidatePersonalDetails = this.firstStepData;
@@ -588,7 +588,7 @@ export class EditProfileComponent implements OnInit {
   }
 
   previousStepFirst(data: any) {
-    //debugger
+    //
     this.secondStepData = data;
     this.candidateProfessionalDetails = data;
     this.candidatePersonalDetails = this.firstStepData;
@@ -600,7 +600,7 @@ export class EditProfileComponent implements OnInit {
   //When uer click on "Complete" on 3rd step
   onSuccess(data: any) {
     this.spinner.show();
-    //debugger
+    //
     this.thirdStepData = data;
     //this.modelOpen();
     this.uploadUserCV();
@@ -609,7 +609,7 @@ export class EditProfileComponent implements OnInit {
   }
 
   getCandidateListData(data: any) {
-    //debugger
+    //
     this.firstStepData = data;
     if (this.currentStep < 3) {
       this.currentStep++;
@@ -617,7 +617,7 @@ export class EditProfileComponent implements OnInit {
   }
 
   getProfessionalData(data: any) {
-    //debugger
+    //
     this.secondStepData = data;
     this.candidateProfessionalDetails = data;
     this.candidatePersonalDetails = this.firstStepData;
@@ -696,7 +696,7 @@ export class EditProfileComponent implements OnInit {
 
 
   uploadCVonS3Bucket(docResult: any) {
-    debugger
+    
     try {
       this.authService.uploadFileOnS3Bucket(this.thirdStepData.fileToUpload!, docResult.awsS3SignedUrl, docResult.awsS3Tag)
         .then(async () => {

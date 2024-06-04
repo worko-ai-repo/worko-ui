@@ -121,7 +121,7 @@ export class IndexComponent {
     * @returns {void}
     */
   openModal(modalType: ModalType, message: string = "", title: string = ""): void {
-    debugger
+    
     if(this.LoginPageComponent){
       this.LoginPageComponent.showSignInRow=true;
       this.LoginPageComponent.showAddCompanyScreen=false;

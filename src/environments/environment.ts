@@ -5,20 +5,16 @@
 export const environment = {
     production: false,
     cognito: {
-      userPoolId: 'ap-south-1_tAj7HAKZh',
-      userPoolWebClientId: '5evf019rrkaijtnjf2j1vvdf33',
+      userPoolId: 'ap-south-1_xGreJKkNc',
+      userPoolWebClientId: '16sh5s2bo3169886fdm8gtp0e4',
+      domain:'https://worko-dev.auth.ap-south-1.amazoncognito.com'
     },
     crossOriginUrl:'http://localhost:4400',
     localUrl: 'http://localhost:4200',
-    apiUrl: "https://api.worko.ai/",
+    apiUrl: 'https://api.dev.worko.work/',
     saveUserInfoApi:"https://w6zitv6ryk.execute-api.us-east-1.amazonaws.com/dev/adduserinfo",
-    // createOrderUrl:"https://seqaxy10nl.execute-api.ap-south-1.amazonaws.com/dev/user/63b0e8d0-c94d-492a-9f20-02b24f0bf081/",
-    linkedInRedirection: 
-    window.location.origin + "/auth/checkRedirection",
-  //"http://localhost:4200/auth/checkRedirection",
-    linkedInLogout: 
-    window.location.origin+"/auth/logout"
-    //"http://localhost:4200"
+    linkedInRedirection: window.location.origin + "/auth/checkRedirection",
+    linkedInLogout: window.location.origin+"/auth/logout"
   };
   
   /*
