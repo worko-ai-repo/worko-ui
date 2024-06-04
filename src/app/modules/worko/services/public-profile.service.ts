@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { AuthService } from './auth.service';
 import { HttpClient } from '@angular/common/http';
-import { environment } from '../../../../environment/environment';
+import { environment } from '../../../../environments/environment';
 
 
 const API_URL = environment.apiUrl;

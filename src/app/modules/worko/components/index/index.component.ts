@@ -30,7 +30,7 @@ export class IndexComponent {
   candidateTotalPercentage: any;
   candidateProfile: any;
  userName:string='profile'
-  letter:string=""
+  letter:string="";
   isUserLoggedIn:boolean=false;
   selectedUserType: any='candidate';
   userType: any;
@@ -65,7 +65,6 @@ export class IndexComponent {
  
   
   async ngAfterViewInit(): Promise<void> {
-    debugger
    
    
   this.userLoggedIn = await this.cognitoService.isLoggedIn();
@@ -177,6 +176,8 @@ export class IndexComponent {
   }
 
 }
+
+
 
 
 

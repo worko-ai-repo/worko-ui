@@ -8,7 +8,7 @@ import { NgxSpinnerService } from 'ngx-spinner';
 import { PaymentGateway } from 'src/app/modules/shared/enums/payment-gateway.enum';
 import { CandidateProfileService } from 'src/app/modules/candidate/services/candidate-profile.service';
 import { StorageService } from 'src/app/modules/app-core/services/storage.service';
-import { environment } from 'src/environment/environment';
+import { environment } from 'src/environments/environment';
 
 // export const theme_config = {
 //   sdkPrimaryColor: "#2F92C7",
@@ -58,6 +58,7 @@ export class SubscriptionPlanComponent {
   userId: any;
   flow_config: PaymentFlowConfig | null = null;
   decryptedPaymentResponse: any;
+  emailAddress: any;
 
   constructor(private renderer2: Renderer2,
     @Inject(DOCUMENT) private document: Document, private spinner: NgxSpinnerService, private candServ: CandidateProfileService, private storage: StorageService) { }
@@ -65,6 +66,8 @@ export class SubscriptionPlanComponent {
 
   ngOnInit(): void {
     this.userId = this.storage.get("userId");
+    this.emailAddress = this.storage.get("useremail");
+    this.getSubscriptionStatus();
   }
 
   ngOnChanges(): void {
@@ -146,7 +149,7 @@ export class SubscriptionPlanComponent {
     let totalAmount = subTotalAmount + gstAmount - discountAmount;
     let domain = environment.localUrl;
     let returnUrl = domain + `/candidate/pgresponse/${this.pGatewayProvider}`;
-
+console.log(returnUrl, "returnUrl deployed")
     let payload = {
       "pgatewayProvider": this.pGatewayProvider,
       "subTotalAmount": subTotalAmount,
@@ -281,19 +284,25 @@ export class SubscriptionPlanComponent {
       pgResponse: paymentResponse,
     };
 
-    await this.candServ.processPayment(paymentData, createOrderResponse?.userOrderResponse?.orderId, createOrderResponse?.gatewayOrderRequestPlainBody?.notes?.userId).then(async (response) => {
+    await this.candServ.processPayment(paymentData, createOrderResponse?.gatewayOrderRequestPlainBody?.notes?.userId).then(async (response) => {
       if (response) {
         // Assert the type of response
         const paymentResponse = response as unknown as PaymentResponse;
-        if(this.pGatewayProvider == "RAZORPAY")
-        {
+        if (this.pGatewayProvider == "RAZORPAY") {
           this.decryptedPaymentResponse = paymentResponse?.processRes?.pgResponseDecrypted;
         }
-        console.log("Processed response from backend = ", response);
-        this.spinner.hide();
-        this.openModal(ModalType.PAYMENT_CONFIRMATION);
-        if(this.showModal === this.modalType.PAYMENT_CONFIRMATION) {
-          console.log("Yes payment confirmation popup should open");
+        else {
+
+        }
+
+        if (this.decryptedPaymentResponse.status === 'captured') {
+          this.createSubscription(paymentResponse);
+          console.log("Processed response from backend = ", response);
+          this.spinner.hide();
+          this.openModal(ModalType.PAYMENT_CONFIRMATION);
+          if (this.showModal === this.modalType.PAYMENT_CONFIRMATION) {
+            console.log("Yes payment confirmation popup should open");
+          }
         }
       }
     }).catch((error: any) => {
@@ -374,6 +383,34 @@ export class SubscriptionPlanComponent {
   showErrorPanel(message: string) {
     // We cam implement our logic to show an error panel or modal with the provided message
     console.error(message);
+  }
+
+  async getSubscriptionStatus() {
+    await this.candServ.getSubscriptionStatus(this.emailAddress).then(async (response) => {
+      if (response) {
+        console.log("Subscription status = ", response);
+        this.spinner.hide();
+      }
+    }).catch((error: any) => {
+      this.spinner.hide();
+      console.log(error);
+    }
+    );
+  }
+
+  async createSubscription(paymentResponse:any) {
+
+    let payload = {
+      masterSubscriptionId: this?.selectedPackage?.SK,
+      orderId: paymentResponse?.processRes?.orderId
+    }
+    await this.candServ.createSubscription(this.emailAddress, payload).then(async (res) => {
+      if (res) {
+        console.log("Subscription created response == ", res);
+      }
+    }).catch((error: any) => {
+      console.log(error);
+    });
   }
 
 }
