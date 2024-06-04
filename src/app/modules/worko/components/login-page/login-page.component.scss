@@ -757,3 +757,14 @@ input.ng-invalid.ng-touched {
 //   /* Set your desired width */
 //   max-width: 400px; /* Adjust the value according to your preference */
 // }
+
+@media (max-width: 1090px) {
+  .col-md-5 {
+    width: auto; 
+  }
+}
+
+// .col-md-5 {
+//  // width: initial; /* Reset width for all other screen widths */
+// }
+

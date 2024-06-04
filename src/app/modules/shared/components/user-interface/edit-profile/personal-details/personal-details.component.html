@@ -328,11 +328,11 @@
                                           !candidateProfessionalDetails.ctc ||
                                           !candidateProfessionalDetails.ectc ||
                                           !candidateProfessionalDetails.noticePeriod ||
-                                          candidateProfessionalDetails.softSkills.length==0 ||
-                                          candidateProfessionalDetails.coreSkillList.length==0
+                                          candidateProfessionalDetails?.softSkills?.length==0 ||
+                                          candidateProfessionalDetails?.coreSkillList?.length==0
                                         )) || 
-                                        (candidateProfessionalDetails.isCandidateFresher &&(  candidateProfessionalDetails.softSkills.length==0 ||
-                                          candidateProfessionalDetails.coreSkillList.length==0))">Next</button>
+                                        (candidateProfessionalDetails.isCandidateFresher &&(  candidateProfessionalDetails?.softSkills?.length==0 ||
+                                          candidateProfessionalDetails?.coreSkillList?.length==0))">Next</button>
                                 </div>
             
                             </div>
@@ -347,7 +347,7 @@
             [showClose]="false"
               [showFooter]="showModal === modalType.MESSAGE" [title]="modalTitle" [message]="modalMessage"
               [bodyClass]="modalMessage ? 'p-4' : 'p-0'" [modalSize]="'md'">
-            
+              <ng-container *ngIf="showModal === modalType.SUCCESS_MESSAGE">
               <div class="row message-card px-sm-3 p-4">
                 <div class="font-weight-bold text-color-red mb-3 d-flex justify-content-center" style="color: #e40707; font-size: medium;" *ngIf="successtitle === 'Error'">
                     {{successtitle}}
@@ -361,7 +361,7 @@
                    
                 </div>
             </div>
-            
+            </ng-container>
             
             </app-modal>
             

@@ -3,6 +3,6 @@
   [showFooter]="showModal === modalType.MESSAGE" [title]="modalTitle" [message]="modalMessage"
   [bodyClass]="modalMessage ? 'p-4' : 'p-0'">
   <ng-container *ngIf="showModal === modalType.LOGIN_SIGNUP">
-    <app-login-page (onSuccess)="receiveDataFromChild($event)"></app-login-page>
+    <app-login-page (onSuccess)="receiveDataFromChild($event)" [userType]="selectedUserType"></app-login-page>
   </ng-container>
 </app-modal>
