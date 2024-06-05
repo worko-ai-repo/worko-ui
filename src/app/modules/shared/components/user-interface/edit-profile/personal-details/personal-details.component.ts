@@ -139,14 +139,14 @@ export class PersonalDetailsComponent implements OnInit {
       //debugger
     }
      else {
-      debugger
+      //debugger
       this.getData();
     }
     // console.log(this.candidateProfessionalDetails)
   }
 
   goBack() {
-    debugger
+   // debugger
 
     if(this.workExperienceDetails){
          if (this.candidateProfessionalDetails.companyName === this.workExperienceDetails.companyName && this.candidateProfessionalDetails.companySK === this.workExperienceDetails.SK) {
@@ -156,8 +156,8 @@ export class PersonalDetailsComponent implements OnInit {
         }else{
           this.candidateProfessionalDetails.companyName=this.candidateProfessionalDetails.companyName;
           this.candidateProfessionalDetails.companySK=this.candidateProfessionalDetails.companySK;
-          console.log(this.candidateProfessionalDetails.companyName);
-          console.log(this.candidateProfessionalDetails.companySK)
+          // console.log(this.candidateProfessionalDetails.companyName);
+          // console.log(this.candidateProfessionalDetails.companySK)
         }
       }
     // this.candidateProfessionalDetails.companyName = this.selectedCompany?.name ? this.selectedCompany?.name : this.workExperienceDetails?.companyName
@@ -219,11 +219,11 @@ export class PersonalDetailsComponent implements OnInit {
 
       const year = completionYear.split('-')[1];
       const month = completionYear.split('-')[0];
-      console.log(this.currentMonth,this.currentYear)
+      //console.log(this.currentMonth,this.currentYear)
 
       // Compare achievementdate with the present month and year
       if (year < 1900 || (year === 1900 && month < '01') || (year === this.currentYear && month > this.currentMonth) || year > this.currentYear || month < '01' || month > '12' )  {
-        debugger 
+      //  debugger 
         return { invalidDate: true };
       }
       return null;
@@ -239,15 +239,15 @@ export class PersonalDetailsComponent implements OnInit {
     return (control: any) => {
       let  achievementdate = control.value;
 	    this.achmonth = achievementdate.split('-')[0]
-      console.log( this.achmonth )
+     // console.log( this.achmonth )
 
       if (!achievementdate || achievementdate.trim() === '') {
-        debugger
+       // debugger
         return null;
       }
 
       if (!achievementdate.includes('-')) {
-        debugger
+       // debugger
         return { missingDash: true };
       }
       if (achievementdate.length !== 7) {
@@ -261,11 +261,11 @@ export class PersonalDetailsComponent implements OnInit {
       // }
       const year = achievementdate.split('-')[1];
       const month = achievementdate.split('-')[0];
-      console.log(this.currentMonth,this.currentYear)
+     // console.log(this.currentMonth,this.currentYear)
 
       // Compare achievementdate with the present month and year
       if (year < 1900 || (year === 1900 && month < '01') || (year === this.currentYear && month > this.currentMonth) || year > this.currentYear || month < '01' || month > '12' )  {
-        debugger 
+
         return { invalidDate: true };
       }
       return null;
@@ -311,8 +311,8 @@ export class PersonalDetailsComponent implements OnInit {
   // }
 
   async createProfessionalDetails(form: any) {
-    console.log(this.workExperienceDetails)
-    debugger
+    //console.log(this.workExperienceDetails)
+
     // console.log(this.candidateProfessionalDetails)
     // this.nextStep.emit(this.candidateProfessionalDetails)
     // this.candidateProfessionalDetails.companyName = this.selectedCompany?.name ? this.selectedCompany?.name : this.workExperienceDetails?.companyName
@@ -526,7 +526,7 @@ export class PersonalDetailsComponent implements OnInit {
   addSoftSkill(event: any) {
     const input = this.elRef.nativeElement.querySelector('.soft-skill-input');
     const value = input.value.trim();
-    debugger
+
     if (value) {
       const newSkill = {
         "skillName": value,
@@ -536,7 +536,7 @@ export class PersonalDetailsComponent implements OnInit {
       }
       this.candidateProfessionalDetails.softSkills.push(newSkill);
       input.value = ''; // Clear the input field
-      console.log(this.candidateProfessionalDetails.softSkills.length)
+      //console.log(this.candidateProfessionalDetails.softSkills.length)
     }
    event.preventDefault(); // Prevent the default action (form navigation)
   }

@@ -100,26 +100,26 @@ Amplify.configure(awsamplify.config);
  
 }
 
-  //}
-   fetchAuthSessionOptions : any = {
-    redirectUri: 'http://localhost:4200/auth/checkRedirection',
-    clientId: '5evf019rrkaijtnjf2j1vvdf33',
-    responseType: 'token',
-    scope: 'openid',
-    state: 'state',
-    nonce: 'nonce',
-    codeVerifier: 'codeVerifier',
-    codeChallenge: 'codeChallenge',
-    codeChallengeMethod: 'codeChallengeMethod',
-    provider: 'custom',
-    customProvider: 'LinkedIn'
-  }
+//   //}
+//    fetchAuthSessionOptions : any = {
+//     redirectUri: 'http://localhost:4200/auth/checkRedirection',
+//     clientId: '5evf019rrkaijtnjf2j1vvdf33',
+//     responseType: 'token',
+//     scope: 'openid',
+//     state: 'state',
+//     nonce: 'nonce',
+//     codeVerifier: 'codeVerifier',
+//     codeChallenge: 'codeChallenge',
+//     codeChallengeMethod: 'codeChallengeMethod',
+//     provider: 'custom',
+//     customProvider: 'LinkedIn'
+//   }
   
 
-async login(){
- const authSession = await fetchAuthSession(this.fetchAuthSessionOptions);
-  console.log(authSession)
-}
+// async login(){
+//  const authSession = await fetchAuthSession(this.fetchAuthSessionOptions);
+//   console.log(authSession)
+// }
   async handleSignIn(user: IUser): Promise<{ response?: SignInOutput; error?: AuthError }> {
     try {
       const login: SignInInput = {

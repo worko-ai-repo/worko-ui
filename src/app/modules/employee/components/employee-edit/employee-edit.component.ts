@@ -252,7 +252,7 @@ export class EmployeeEditComponent {
 
     try {
       let workExperience = [];
-      debugger
+     // debugger
       // Add current company details
       if (this.secondStepData) {
         if(this.secondStepData.companySK.includes('ID#')){
@@ -310,7 +310,7 @@ export class EmployeeEditComponent {
   }
   
   async creatSocialProfile() {
-    debugger
+   // debugger
     var twitterArray: string[] = this.firstStepData.socialLinktwitter || [];
     var linkedinArray: string[] = this.firstStepData.socialLinklinkdin || [];
     var githubArray: string[] = this.firstStepData.socialLinkGithub|| [];
