@@ -269,7 +269,7 @@ export class LoginPageComponent implements AfterViewInit, OnDestroy {
 
   async ngOnInit() {
     //Added check to pass userType to show enabled candidate and employee from index page
-    debugger
+    //debugger
     if(this.userType){
       this.selectedUserType = this.userType;
       console.log(this.selectedUserType)
@@ -427,7 +427,7 @@ export class LoginPageComponent implements AfterViewInit, OnDestroy {
   }
 
   toggleSignInRow() {
-    debugger
+   // debugger
     this.setErrorMessage("");
     // this.currentSession();
     // this.currentAuthenticatedUser();
@@ -762,7 +762,7 @@ try{
   
   onOptionSelected(event: any): void {
     // this.selectedCompany = event.option.value;
-    debugger
+   // debugger
     // Edited by KA:
     if (event.option.value.id == "add_new"){
       console.log("Add new company")
