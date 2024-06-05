@@ -49,7 +49,7 @@ export class IndexComponent {
  
   async checkUserLoggedIn(){
    
-      debugger
+     // debugger
      
   this.CrossOriginuserType=localStorage.getItem('crossDomainData')
    //  this.CrossOriginuserType='employee'
