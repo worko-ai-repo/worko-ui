@@ -97,13 +97,13 @@ export class PersonalInformationComponent implements OnInit {
     }
     } else {
       this.getData();
-      console.log( this.educationList)
+      //console.log( this.educationList)
       if(this.candidatePersonalDetails && this.candidatePersonalDetails.collegeData.length == 0){
         this.addCollege();
       }
     }
 //
-    console.log(this.candidatePersonalDetails)
+   // console.log(this.candidatePersonalDetails)
    
     
   }
@@ -184,7 +184,7 @@ export class PersonalInformationComponent implements OnInit {
     // this.nextStep.emit(this.candidatePersonalDetails)
     //
     this.onSuccess.emit(this.candidatePersonalDetails);
-    console.log(this.candidatePersonalDetails);
+   // console.log(this.candidatePersonalDetails);
   }
 
   handleFileInput(event: Event): void {
@@ -273,7 +273,7 @@ export class PersonalInformationComponent implements OnInit {
     if (this.candidatePersonalDetails.collegeData.length < 4) {
       this.candidatePersonalDetails.collegeData.push({ collage: "", degree: "", passingYear: "" });
     }
-    console.log(this.candidatePersonalDetails.collegeData)
+    //console.log(this.candidatePersonalDetails.collegeData)
   }
 // nextButtonEnable():boolean{
 //   if(this.candidateDetailsList.collegeData.length==0 ){
@@ -318,7 +318,7 @@ export class PersonalInformationComponent implements OnInit {
   
  
   removeField(index: number,sk:any) {
-  console.log(index,sk);
+  //console.log(index,sk);
     
     // const isCollegeDataFilled = (this.candidatePersonalDetails.collegeData[index].collage !== '' &&
     //                                    this.candidatePersonalDetails.collegeData[index].degree !== '' &&
