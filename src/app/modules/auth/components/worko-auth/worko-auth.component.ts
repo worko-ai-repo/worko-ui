@@ -74,8 +74,8 @@ export class WorkoAuthComponent {
 
             break;
           case 'logout':
-            this.cognitoService.handleSignOut();
-            void this.router.navigate(['/']);
+           await  this.cognitoService.handleSignOut();
+            this.router.navigate(['/']);
             break;
         }
       })
