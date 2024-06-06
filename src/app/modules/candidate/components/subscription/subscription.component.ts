@@ -13,7 +13,7 @@ export class SubscriptionComponent {
   packageDetails: any;
   subscriptionList: any[] = [];
   packageDetails1: any;
-  cardDetails:any[]=[];
+  cardDetails: any[] = [];
   constructor(private candidateSrv: CandidateProfileService, private storage: StorageService, private subscriptionPack: SubscriptionPackService, private spinner: NgxSpinnerService) { }
   ngOnInit(): void {
 
@@ -25,10 +25,24 @@ export class SubscriptionComponent {
     this.spinner.show();
     await this.candidateSrv.getSubscription(this.emailAddress).then(async (response) => {
       if (response) {
-        this.packageDetails = response[0];
-        this.packageDetails1 = response[0];
-        this.getSubcriptionPack();
-        // this.achievementsList = response[0].achievements;
+        // Filtering out only that subscription which has isActive set to true
+
+        let activeSubscription: any = null;
+        response.forEach((subscription:any) => {
+            if (subscription.status === "ACTIVE" && !activeSubscription) {
+                activeSubscription = subscription;
+            }
+        });
+        if (activeSubscription) {
+            console.log("Current active subscription is: ", activeSubscription);
+            this.packageDetails = activeSubscription;
+            this.packageDetails1 = activeSubscription;
+            this.getSubcriptionPack();
+            // this.achievementsList = response[0].achievements;
+        } else {
+            console.log("No active subscription found.");
+        }
+        
       }
     })
   }
@@ -45,7 +59,7 @@ export class SubscriptionComponent {
         // const filteredB = b.filter(itemB => !a.some(itemA => itemA.name === itemB.name));
         // const namesInA = new Set(this.subscriptionList.map((itemA: any) => itemA.name));
         // const filteredB = this.packageDetails.filter((itemB: any) => !namesInA.has(itemB.name));
-        
+
         // console.log(filteredB);
         // console.log(filteredB);
       },
