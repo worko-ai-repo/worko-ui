@@ -31,6 +31,7 @@ import { event } from 'jquery';
 import { CompanyListingService } from '../../services/company-listing.service';
 import { NavbarToggleSwitchService } from 'src/app/modules/candidate/services/navbar-toggle-switch.service';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
+import { environment } from 'src/environments/environment';
 declare var bootstrap: any;
 
 

@@ -1,41 +1,52 @@
-
-            <div class="card candidate-card">
-                <div class="card-body">
-                 <div class="container-fluid">
-                    <div class="row">
-                        <div class="col-md-6">
-                            <h5 class="package-name">Package : {{packageDetails?.name}}</h5>
-                        </div>
-                        <div class="col-md-6">
-                            <button class="btn btn-activated float-end"> {{packageDetails?.status}}</button>
-                        </div>
-                    </div>
-                    <div class="row">
-                        <div class="col-md-12">
-                            <h6 class="package-info">Package Info</h6>
-                        </div>
-                    </div>
-
-                    <div class="row text-white px-3">
-                        <div class="col-md-4" >
-                            <h6 class="package-info">Start Date:  {{packageDetails?.purchaseDate | date:'MMM dd, yyyy'}}</h6>
-                        </div>
-                        <div class="col-md-4" >
-                            <h6 class="package-info">End Date: {{packageDetails?.expiryDate | date:'MMM dd, yyyy'}}</h6>
-                        </div>
-                        <div class="col-md-4" >
-                            <h6 class="package-info">Total Referrals ({{packageDetails?.name}} Plan):  {{packageDetails?.requestedReferrals}}</h6>
-                        </div>
-                        <div class="col-md-4" >
-                            <h6 class="package-info">No. of Referrals Left: {{packageDetails?.availableReferrals}}</h6>
-                        </div>
-                        <div class="col-md-4" >
-                            <h6 class="package-info">Referrals Expires: {{packageDetails?.expiryDate | date:'MMM dd, yyyy'}}</h6>
-                        </div>
-                    </div>
-                 </div>
+<div *ngIf="packageDetails" class="card candidate-card">
+    <div class="card-body">
+        <div class="container-fluid">
+            <div class="row">
+                <div class="col-md-6">
+                    <h5 class="package-name">Package : {{packageDetails?.name}}</h5>
+                </div>
+                <div class="col-md-6">
+                    <button class="btn btn-activated float-end"> {{packageDetails?.status}}</button>
                 </div>
             </div>
-        
-    
-       
+            <div class="row">
+                <div class="col-md-12">
+                    <h6 class="package-info">Package Info</h6>
+                </div>
+            </div>
+
+            <div class="row text-white px-3">
+                <div class="col-md-4">
+                    <h6 class="package-info">Start Date: {{packageDetails?.purchaseDate | date:'MMM dd, yyyy'}}</h6>
+                </div>
+                <div class="col-md-4">
+                    <h6 class="package-info">End Date: {{packageDetails?.expiryDate | date:'MMM dd, yyyy'}}</h6>
+                </div>
+                <div class="col-md-4">
+                    <h6 class="package-info">Total Referrals ({{packageDetails?.name}} Plan):
+                        {{packageDetails?.creditedReferrals}}</h6>
+                </div>
+                <div class="col-md-4">
+                    <h6 class="package-info">No. of Referrals Left: {{packageDetails?.availableReferrals}}</h6>
+                </div>
+                <div class="col-md-4">
+                    <h6 class="package-info">Referrals Expires: {{packageDetails?.expiryDate | date:'MMM dd, yyyy'}}
+                    </h6>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<div *ngIf="!packageDetails" class="card candidate-card">
+    <div class="card-body custom-center">
+        <div class="container-fluid">
+            <div class="row">
+                <div class="col-12">
+                    <h6 style="color: white; margin: 0;">No active subscription found</h6>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

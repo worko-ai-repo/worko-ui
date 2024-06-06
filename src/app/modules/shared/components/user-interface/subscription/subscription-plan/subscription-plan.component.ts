@@ -1,4 +1,4 @@
-import { Component, Inject, Input, ViewChild } from '@angular/core';
+import { ChangeDetectorRef, Component, Inject, Input, ViewChild } from '@angular/core';
 import { ModalType } from 'src/app/modules/shared/interfaces/shared.interface';
 import { ModalComponent } from '../../../modal/modal.component';
 import { PaymentFlowConfig } from 'src/app/modules/shared/interfaces/payment-flow-config.interface';
@@ -59,8 +59,11 @@ export class SubscriptionPlanComponent {
   flow_config: PaymentFlowConfig | null = null;
   decryptedPaymentResponse: any;
   emailAddress: any;
+  subscriptionStatus: any;
+  successmessage: string = "";
+  successtitle: string = "";
 
-  constructor(private renderer2: Renderer2,
+  constructor(private renderer2: Renderer2, private cd:ChangeDetectorRef, 
     @Inject(DOCUMENT) private document: Document, private spinner: NgxSpinnerService, private candServ: CandidateProfileService, private storage: StorageService) { }
   // constructor(private router: Router, private candidateSrv: CandidateProfileService, private storage: StorageService, private authService: AuthService) { }
 
@@ -95,7 +98,14 @@ export class SubscriptionPlanComponent {
     this.isPaymentDetails = false;
     this.isOrderDetails = false;
     // this.openModal(ModalType.SUBSCRIPTION_CHECKOUT);
-    this.openModal(ModalType.PLANS_ORDER_PAYMENT);
+    if (this?.subscriptionStatus?.isSubscribed === true) {
+      this.successmessage = "You already have an active subscription. Please use it before buying another one."
+      this.successtitle = ""
+      this.openModal(ModalType.SUCCESS_MESSAGE);
+    }
+    else {
+      this.openModal(ModalType.PLANS_ORDER_PAYMENT);
+    }
   }
   cancel() {
     this.modal.cancel();
@@ -127,7 +137,6 @@ export class SubscriptionPlanComponent {
   closeModal(): void {
     // this.referrralComponent.showReferrelRow = true;
     this.modal.cancel();
-
   }
 
   async createOrder(pGateway: any) {
@@ -149,7 +158,7 @@ export class SubscriptionPlanComponent {
     let totalAmount = subTotalAmount + gstAmount - discountAmount;
     let domain = environment.localUrl;
     let returnUrl = domain + `/candidate/pgresponse/${this.pGatewayProvider}`;
-console.log(returnUrl, "returnUrl deployed")
+    console.log(returnUrl, "returnUrl deployed")
     let payload = {
       "pgatewayProvider": this.pGatewayProvider,
       "subTotalAmount": subTotalAmount,
@@ -275,7 +284,8 @@ console.log(returnUrl, "returnUrl deployed")
     this.spinner.show();
 
     const paymentData = {
-      userId: createOrderResponse?.gatewayOrderRequestPlainBody?.notes?.userId,
+      // userId: createOrderResponse?.gatewayOrderRequestPlainBody?.notes?.userId,
+      userId: this.userId,
       orderType: createOrderResponse?.userOrderResponse?.orderType,
       orderId: createOrderResponse?.userOrderResponse?.orderId,
       orderTxnId: createOrderResponse?.userOrderResponse?.orderTxnId,
@@ -284,25 +294,25 @@ console.log(returnUrl, "returnUrl deployed")
       pgResponse: paymentResponse,
     };
 
-    await this.candServ.processPayment(paymentData, createOrderResponse?.gatewayOrderRequestPlainBody?.notes?.userId).then(async (response) => {
+    await this.candServ.processPayment(paymentData, this.userId).then(async (response) => {
       if (response) {
         // Assert the type of response
         const paymentResponse = response as unknown as PaymentResponse;
-        if (this.pGatewayProvider == "RAZORPAY") {
-          this.decryptedPaymentResponse = paymentResponse?.processRes?.pgResponseDecrypted;
-        }
-        else {
-
-        }
-
-        if (this.decryptedPaymentResponse.status === 'captured') {
+        this.decryptedPaymentResponse = paymentResponse?.processRes?.pgResponseDecrypted;
+        // if (this.pGatewayProvider == "RAZORPAY") {
+        //   this.decryptedPaymentResponse = paymentResponse?.processRes?.pgResponseDecrypted;
+        // }
+        if (this.decryptedPaymentResponse?.status === 'captured' || this.decryptedPaymentResponse?.transaction_error_type === 'success') {
           this.createSubscription(paymentResponse);
           console.log("Processed response from backend = ", response);
           this.spinner.hide();
           this.openModal(ModalType.PAYMENT_CONFIRMATION);
-          if (this.showModal === this.modalType.PAYMENT_CONFIRMATION) {
-            console.log("Yes payment confirmation popup should open");
-          }
+          this.cd.markForCheck();
+          this.cd.detectChanges();
+        }
+        else if (this.decryptedPaymentResponse?.transaction_error_type === 'payment_processing_error') {
+          this.spinner.hide();
+          this.openModal(ModalType.PAYMENT_CONFIRMATION);
         }
       }
     }).catch((error: any) => {
@@ -386,8 +396,10 @@ console.log(returnUrl, "returnUrl deployed")
   }
 
   async getSubscriptionStatus() {
+    this.spinner.show();
     await this.candServ.getSubscriptionStatus(this.emailAddress).then(async (response) => {
       if (response) {
+        this.subscriptionStatus = response;
         console.log("Subscription status = ", response);
         this.spinner.hide();
       }
@@ -398,7 +410,7 @@ console.log(returnUrl, "returnUrl deployed")
     );
   }
 
-  async createSubscription(paymentResponse:any) {
+  async createSubscription(paymentResponse: any) {
 
     let payload = {
       masterSubscriptionId: this?.selectedPackage?.SK,
@@ -411,6 +423,11 @@ console.log(returnUrl, "returnUrl deployed")
     }).catch((error: any) => {
       console.log(error);
     });
+  }
+
+  nextBtn() {
+    this.modal.cancel();
+    this.getSubscriptionStatus();
   }
 
 }

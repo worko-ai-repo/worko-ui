@@ -1,4 +1,4 @@
-import { Component, EventEmitter, Inject, Input, OnChanges, Output, SimpleChanges, ViewChild } from '@angular/core';
+import { Component, EventEmitter, Inject, Input, OnChanges, OnDestroy, Output, SimpleChanges, ViewChild } from '@angular/core';
 // import { NgbModalOptions } from '@ng-bootstrap/ng-bootstrap/modal/modal.module';
 import { AbstractControl, NgModel, ValidationErrors, ValidatorFn, Validators } from '@angular/forms';
 import { CandidateProfileService } from 'src/app/modules/candidate/services/candidate-profile.service';
@@ -20,7 +20,7 @@ import { NgxSpinnerService } from 'ngx-spinner';
 export class PlansOrderPaymentModalComponent implements OnChanges {
 
   constructor(private authService: AuthService, private renderer2: Renderer2,
-    @Inject(DOCUMENT) private document: Document,  private spinner: NgxSpinnerService) {
+    @Inject(DOCUMENT) private document: Document, private spinner: NgxSpinnerService) {
 
   }
 
@@ -38,8 +38,8 @@ export class PlansOrderPaymentModalComponent implements OnChanges {
   modalTitle: string = "";
   showModal: ModalType | undefined;
   @Output() onSuccess: EventEmitter<void> = new EventEmitter<void>();
-  @Output() onContinue: EventEmitter<any> = new EventEmitter<any>()
-  @Output() onClose = new EventEmitter<void>();
+  @Output() onContinue: EventEmitter<any> = new EventEmitter<any>();
+  @Output() onClose: EventEmitter<any> = new EventEmitter<any>();
   @Input() selectedPackage: any;
   @Input() cardDetails: any = {
     cardHolderName: "",
@@ -146,8 +146,7 @@ export class PlansOrderPaymentModalComponent implements OnChanges {
     this.isPaymentGatewayUi = true;
   }
 
-  continue(): void {
-
+  continue() {
     if (this.selectedGateway) {
       this.onContinue.emit(this.selectedGateway.name);
       // this.createOrder(this.selectedGateway.name);

@@ -3,6 +3,7 @@ import { CandidateProfileService } from '../../services/candidate-profile.servic
 import { StorageService } from 'src/app/modules/app-core/services/storage.service';
 import { SubscriptionPackService } from 'src/app/modules/worko/services/subscription-pack.service';
 import { NgxSpinnerService } from 'ngx-spinner';
+import { Router } from '@angular/router';
 @Component({
   selector: 'app-subscription',
   templateUrl: './subscription.component.html',
@@ -13,11 +14,14 @@ export class SubscriptionComponent {
   packageDetails: any;
   subscriptionList: any[] = [];
   packageDetails1: any;
-  cardDetails:any[]=[];
-  constructor(private candidateSrv: CandidateProfileService, private storage: StorageService, private subscriptionPack: SubscriptionPackService, private spinner: NgxSpinnerService) { }
+  cardDetails: any[] = [];
+  constructor(private candidateSrv: CandidateProfileService, private storage: StorageService, private subscriptionPack: SubscriptionPackService, private spinner: NgxSpinnerService, private router: Router) { }
   ngOnInit(): void {
 
     this.emailAddress = this.storage.get("useremail");
+    if (this.emailAddress) {
+      this.getCandidateDetails();
+    }
     this.getSubscription();
   }
 
@@ -25,10 +29,23 @@ export class SubscriptionComponent {
     this.spinner.show();
     await this.candidateSrv.getSubscription(this.emailAddress).then(async (response) => {
       if (response) {
-        this.packageDetails = response[0];
-        this.packageDetails1 = response[0];
+        // Filtering out only that subscription which has isActive set to true
+
+        let activeSubscription: any = null;
+        response.forEach((subscription: any) => {
+          if (subscription.status === "ACTIVE" && !activeSubscription) {
+            activeSubscription = subscription;
+          }
+        });
+        if (activeSubscription) {
+          console.log("Current active subscription is: ", activeSubscription);
+          this.packageDetails = activeSubscription;
+          this.packageDetails1 = activeSubscription;
+          // this.achievementsList = response[0].achievements;
+        } else {
+          console.log("No active subscription found.");
+        }
         this.getSubcriptionPack();
-        // this.achievementsList = response[0].achievements;
       }
     })
   }
@@ -45,7 +62,7 @@ export class SubscriptionComponent {
         // const filteredB = b.filter(itemB => !a.some(itemA => itemA.name === itemB.name));
         // const namesInA = new Set(this.subscriptionList.map((itemA: any) => itemA.name));
         // const filteredB = this.packageDetails.filter((itemB: any) => !namesInA.has(itemB.name));
-        
+
         // console.log(filteredB);
         // console.log(filteredB);
       },
@@ -58,6 +75,20 @@ export class SubscriptionComponent {
 
       }
     });
+  }
+
+  async getCandidateDetails() {
+    try {
+      await this.candidateSrv.getUserDetails(this.emailAddress).then(async (response) => {
+        if (response) {
+          this.storage.set('userId', response[0]?.id);
+        }
+      })
+    } catch (error: any) {
+      if (error.status == 401) {
+        this.router.navigate(['/']);
+      }
+    }
   }
 
 }
