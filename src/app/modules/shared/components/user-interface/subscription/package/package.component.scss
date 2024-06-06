@@ -1,13 +1,13 @@
-
-.package-name{
+.package-name {
     color: #FFF;
-font-family: Poppins;
-font-size: 17.944px;
-font-style: normal;
-font-weight: 500;
-line-height: normal;
+    font-family: Poppins;
+    font-size: 17.944px;
+    font-style: normal;
+    font-weight: 500;
+    line-height: normal;
 }
-.btn-activated{
+
+.btn-activated {
     color: #2F92C7;
     font-family: Poppins;
     font-size: 13.222px;
@@ -18,11 +18,23 @@ line-height: normal;
     border-radius: 25px;
     width: 109px;
 }
-.package-info{
+
+.package-info {
     color: #FFF;
-font-family: Poppins;
-// font-size: 15px;
-font-style: normal;
-font-weight: 400;
-line-height: normal;
+    font-family: Poppins;
+    // font-size: 15px;
+    font-style: normal;
+    font-weight: 400;
+    line-height: normal;
+}
+
+.custom-center {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100%;
+}
+
+.custom-center .col-12 {
+    text-align: center;
 }

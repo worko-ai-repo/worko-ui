@@ -255,7 +255,7 @@
 
   <ng-container *ngIf="showModal === modalType.PAYMENT_CONFIRMATION">
     <app-payment-confirmation-modal *ngIf="showModal === modalType.PAYMENT_CONFIRMATION"
-      [decryptedPaymentResponse]="decryptedPaymentResponse" (onClose)="closeModal()"></app-payment-confirmation-modal>
+      [decryptedPaymentResponse]="decryptedPaymentResponse" (onClose)="closeModal()" (onNext)="nextBtn()"></app-payment-confirmation-modal>
   </ng-container>
 
 </app-modal>

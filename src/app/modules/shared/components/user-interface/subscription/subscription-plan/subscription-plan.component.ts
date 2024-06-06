@@ -1,4 +1,4 @@
-import { Component, Inject, Input, ViewChild } from '@angular/core';
+import { ChangeDetectorRef, Component, Inject, Input, ViewChild } from '@angular/core';
 import { ModalType } from 'src/app/modules/shared/interfaces/shared.interface';
 import { ModalComponent } from '../../../modal/modal.component';
 import { PaymentFlowConfig } from 'src/app/modules/shared/interfaces/payment-flow-config.interface';
@@ -63,7 +63,7 @@ export class SubscriptionPlanComponent {
   successmessage: string = "";
   successtitle: string = "";
 
-  constructor(private renderer2: Renderer2,
+  constructor(private renderer2: Renderer2, private cd:ChangeDetectorRef, 
     @Inject(DOCUMENT) private document: Document, private spinner: NgxSpinnerService, private candServ: CandidateProfileService, private storage: StorageService) { }
   // constructor(private router: Router, private candidateSrv: CandidateProfileService, private storage: StorageService, private authService: AuthService) { }
 
@@ -307,9 +307,8 @@ export class SubscriptionPlanComponent {
           console.log("Processed response from backend = ", response);
           this.spinner.hide();
           this.openModal(ModalType.PAYMENT_CONFIRMATION);
-          if (this.showModal === this.modalType.PAYMENT_CONFIRMATION) {
-            console.log("Yes payment confirmation popup should open");
-          }
+          this.cd.markForCheck();
+          this.cd.detectChanges();
         }
         else if (this.decryptedPaymentResponse?.transaction_error_type === 'payment_processing_error') {
           this.spinner.hide();
@@ -397,6 +396,7 @@ export class SubscriptionPlanComponent {
   }
 
   async getSubscriptionStatus() {
+    this.spinner.show();
     await this.candServ.getSubscriptionStatus(this.emailAddress).then(async (response) => {
       if (response) {
         this.subscriptionStatus = response;
@@ -423,6 +423,11 @@ export class SubscriptionPlanComponent {
     }).catch((error: any) => {
       console.log(error);
     });
+  }
+
+  nextBtn() {
+    this.modal.cancel();
+    this.getSubscriptionStatus();
   }
 
 }

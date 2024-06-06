@@ -14,6 +14,10 @@ export class PaymentConfirmationModalComponent {
   amount: any;
   transactionId: any;
   orderId: any;
+  successStatus: boolean = false;
+  failureStatus: boolean = false;
+  orderIdPart1: string = '';
+  orderIdPart2: string = '';
 
   constructor(private router: Router, private location: Location) { }
 
@@ -27,12 +31,14 @@ export class PaymentConfirmationModalComponent {
     console.log(this.isPaymentDetails)
 
     if (this.decryptedPaymentResponse) {
+      // console.log(this.decryptedPaymentResponse);
       this.createPaymentSummary(this.decryptedPaymentResponse);
     }
   }
 
   @Output() onSuccess: EventEmitter<void> = new EventEmitter<void>();
   @Output() onClose = new EventEmitter<void>();
+  @Output() onNext = new EventEmitter<void>();
   @Input() selectedPackage: any;
   @Input() cardDetails: any = {
     cardHolderName: "",
@@ -74,6 +80,7 @@ export class PaymentConfirmationModalComponent {
   createPaymentSummary(response: any) {
 
     if (response.status === 'captured') {
+      this.successStatus = true;
       this.amount = `₹${(response?.amount / 100).toFixed(2)}`;
       this.transactionId = response?.id;
       this.orderId = response?.order_id;
@@ -81,15 +88,22 @@ export class PaymentConfirmationModalComponent {
     else if (response?.transaction_error_type === 'success') {
       // this.transactionId = response.id;
       // this.orderId = response.order_id;
-
-      this.amount = `₹${(response?.amount / 100).toFixed(2)}`;
+      this.successStatus = true;
+      this.amount = `₹${(response?.amount)}`;
       this.transactionId = response?.transactionid;
       this.orderId = response?.orderid;
+      this.splitOrderId(this.orderId);
     }
-    else {
-
+    else if (response?.status === 'failed' || response?.error_code !== null || response?.transaction_error_type === 'payment_processing_error') {
+      this.failureStatus = true;
     }
 
+  }
+
+  splitOrderId(orderId: string): void {
+    const midpoint = Math.ceil(orderId.length / 2);
+    this.orderIdPart1 = orderId.substring(0, midpoint);
+    this.orderIdPart2 = orderId.substring(midpoint);
   }
 
   createCard(form: any) {
@@ -134,14 +148,18 @@ export class PaymentConfirmationModalComponent {
   }
 
   nextBtn() {
+    this.successStatus = false;
+    this.failureStatus = false;
+
     this.isOrderSummary = false;
     this.isPaymentDetails = true;
     this.isOrderDetails = false;
 
-    this.onClose.emit();
+    this.onNext.emit();
     this.decryptedPaymentResponse = null;
 
-    this.reloadCurrentRoute();
+    // this.reloadCurrentRoute();
+
 
     // // Navigate to the same URL to force a reload
     // this.router.navigateByUrl('/candidate/subscription', { skipLocationChange: true }).then(() => {
@@ -155,9 +173,12 @@ export class PaymentConfirmationModalComponent {
   }
 
   retryBtn() {
+    this.successStatus = false;
+    this.failureStatus = false;
     this.decryptedPaymentResponse = null;
+    this.onNext.emit();
 
-    this.reloadCurrentRoute();
+    // this.reloadCurrentRoute();
     // this.onRetry.emit();
   }
 
