@@ -330,11 +330,15 @@ export class CompanyListingComponent implements OnInit {
   onOptionSelected(event: MatAutocompleteSelectedEvent): void {
 
     this.selectedCompany = event.option.value;
-    console.log(this.selectedCompany)
+   
+    this.successmessage="The company already exists! Please search to find the company."
+    this.successtitle="alert";
+    this.openModal(this.modalType.SUCCESS_MESSAGE)
+   // console.log(this.selectedCompany)
 
     //this.router.navigate([]);
     //this.router.navigate(['/company-listing']);
-    this.cancel();
+   // this.cancel();
     //this.router.navigateByUrl('/company-listing');
   }
 
@@ -344,7 +348,7 @@ export class CompanyListingComponent implements OnInit {
       //   this.companyName = option;
       // this.companySK ="";
       return option;
-    } else if (typeof option === 'object' && option.name) {
+    } else if (typeof option === 'object' && option?.name) {
 
       this.companyName = option.name;
       this.companySK = option.SK;

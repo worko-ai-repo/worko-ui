@@ -65,10 +65,10 @@ export class CandidateDashboardComponent {
       }
     })
   }catch(error:any ){
-    if(error.status==401){
-     this.router.navigate(['/']);
-   }
+    this.spinner.hide()
+    this.router.navigate(['/']);
   }
+ 
   }
 
   async getEducationDetails() {
@@ -77,19 +77,20 @@ export class CandidateDashboardComponent {
         this.educationList = response;
         this.educationDetails = this.educationList[0];
       }
-      this.getWorkExperienceDetails();
+     // this.getWorkExperienceDetails();
+     this.getAchievements();
     })
   }
 
-  async getWorkExperienceDetails() {
-    await this.candidateSrv.getWorkExperience(this.emailAddress).then(async (response) => {
-      if (Array.isArray(response) && response.length > 0 ) {
-        this.workExperienceDetails = response;
+  // async getWorkExperienceDetails() {
+  //   await this.candidateSrv.getWorkExperience(this.emailAddress).then(async (response) => {
+  //     if (Array.isArray(response) && response.length > 0 ) {
+  //       this.workExperienceDetails = response;
        
-      }
-      this.getAchievements();
-    })
-  }
+  //     }
+  //     this.getAchievements();
+  //   })
+  // }
 
 
   async getAchievements() {

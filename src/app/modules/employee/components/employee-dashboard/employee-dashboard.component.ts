@@ -70,9 +70,9 @@ export class EmployeeDashboardComponent {
       }
     })
   }catch(error:any ){
-    if(error.status==401){
+    this.spinner.hide();
      this.router.navigate(['/']);
-   }
+  
   }
   }
 

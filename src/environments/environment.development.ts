@@ -28,8 +28,8 @@ export const environment = {
     apiUrl: "https://api.dev.worko.work/",
     // apiUrl: "https://api.worko.ai/",
     saveUserInfoApi:"https://w6zitv6ryk.execute-api.us-east-1.amazonaws.com/dev/adduserinfo",
-    linkedInRedirection:  window.location.origin + "/auth/checkRedirection",
-    linkedInLogout:  window.location.origin+"/auth/logout"
+    linkedInRedirection: "https://app.dev.worko.work/auth/checkRedirection",
+    linkedInLogout:  "https://app.dev.worko.work/auth/logout"
   };
   
     
