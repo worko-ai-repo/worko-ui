@@ -13,8 +13,9 @@ import { FormControl, NgForm } from '@angular/forms';
 import { AuthService } from '../../services/auth.service';
 import { MatAutocompleteSelectedEvent, MatAutocompleteTrigger } from '@angular/material/autocomplete';
 import { error, event } from 'jquery';
-import { Router } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { StorageService } from 'src/app/modules/app-core/services/storage.service';
+import { LoginPageComponent } from '../login-page/login-page.component';
 @Component({
   selector: 'app-company-listing',
   templateUrl: './company-listing.component.html',
@@ -26,8 +27,8 @@ export class CompanyListingComponent implements OnInit {
   @ViewChild(ReferralRequestComponent) referrralComponent!: ReferralRequestComponent;
   @ViewChild(RequestGuidenceComponent) referrralguidanceComponent!: RequestGuidenceComponent;
   @ViewChild('autoCompleteInput', { static: false, read: MatAutocompleteTrigger }) trigger!: MatAutocompleteTrigger;
-  @ViewChild('company')
-  companyFormDirective!: NgForm;
+  @ViewChild('company')companyFormDirective!: NgForm;
+  @ViewChild(LoginPageComponent) LoginPageComponent!:LoginPageComponent;
   userName: string = "";
   letter: string = ""
   successmessage: string = "";
@@ -200,6 +201,8 @@ export class CompanyListingComponent implements OnInit {
 
 
   ]
+  companySKFormIndex: any;
+  typeFromIndex: any;
 
 
 
@@ -221,7 +224,7 @@ export class CompanyListingComponent implements OnInit {
 
 
 
-  constructor(private spinner: NgxSpinnerService, private cdr: ChangeDetectorRef, private storage: StorageService, private router: Router, private authService: AuthService, private http: HttpClient, private renderer: Renderer2, private el: ElementRef, private companyListing: CompanyListingService, private cognitoService: CognitoService) {
+  constructor(private spinner: NgxSpinnerService,private activatedRoute: ActivatedRoute, private cdr: ChangeDetectorRef, private storage: StorageService, private router: Router, private authService: AuthService, private http: HttpClient, private renderer: Renderer2, private el: ElementRef, private companyListing: CompanyListingService, private cognitoService: CognitoService) {
     this.searchTerms
       .pipe(
         debounceTime(300), // Adjust the debounce time as needed (300 milliseconds in this example)
@@ -231,6 +234,11 @@ export class CompanyListingComponent implements OnInit {
         // Call your API here with the query string
         this.callApiWithSearchQuery(query);
       });
+
+
+      this.companySKFormIndex = this.activatedRoute.snapshot.queryParams['companyID'];
+      this.typeFromIndex = this.activatedRoute.snapshot.queryParams['Type'];
+    
   }
 
 
@@ -239,16 +247,10 @@ export class CompanyListingComponent implements OnInit {
     this.userLoggedIn = await this.cognitoService.isLoggedIn();
     await this.getCompanyDetails();
     this.filteredCompanyList = this.companyList;
-    // this.assetLogos = this.generateLogoFilenames(57, 1045);
-    // console.log(this.assetLogos)
-    //const excludedNumbers = [83,90,101,103,110,140,161,177,179,217,243,289,298,301,308,323,337,359,382,403,405,442,452,489,503,525,528,531,540,563,566,579,583,631,634,636,638,659,660,689,697,704,716,720,738,757,770,798,823,843,850,852,932,949,954,971,983,986,992,1024];
+   
 
     this.assetLogos = await this.generateLogoFilenames(1, 1045);
-
-    //console.log(this.assetLogos)
-
-
-    this.filteredOptions = this.myControl.valueChanges.pipe(
+     this.filteredOptions = this.myControl.valueChanges.pipe(
 
       debounceTime(300),
       distinctUntilChanged(),
@@ -262,26 +264,27 @@ export class CompanyListingComponent implements OnInit {
       })
 
     );
-
+if(this?.companySKFormIndex && this?.typeFromIndex){
     this.openModalFromIndex()
+}
 
   }
 
   //receive data from worko.ai
 
   async openModalFromIndex() {
-    this.indexData = localStorage.getItem('crossDomainData')
-
-    if (this.indexData?.includes('ID#') || this.indexData === 'true') {
+   
+debugger
+console.log(this.typeFromIndex)
+    // if ( this.typeFromIndex) {
       this.userLoggedIn = await this.cognitoService.isLoggedIn();
       if (!this.userLoggedIn) {
         this.userLoggedIn = true
         this.openModal(ModalType.LOGIN_SIGNUP);
       } else {
 
-        if (this.indexData !== 'true') {
-          console.log(this.indexData)
-          console.log(this.companyList)
+        if (this.typeFromIndex === 'referral') {
+          this.indexData='ID#'+this.companySKFormIndex
           this.selectedData = this.filterCompanyBySk(this.indexData);
           console.log(this.selectedData);
           this.triggerReferral = true;
@@ -297,7 +300,7 @@ export class CompanyListingComponent implements OnInit {
 
         }
       }
-    }
+   // }
 
 
   }
@@ -579,9 +582,7 @@ export class CompanyListingComponent implements OnInit {
     if (this.triggerGuidance && this.userLoggedIn) {
       this.openModal(ModalType.REQUEST_GUIDANCE);
     }
-    if (this.indexData) {
-      this.openModalFromIndex()
-    }
+   
   }
 
   companyForm = {
@@ -693,6 +694,14 @@ export class CompanyListingComponent implements OnInit {
       this.myControl.reset();
 
     }
+    if(ModalType.LOGIN_SIGNUP){
+    if(this.LoginPageComponent){
+      this.LoginPageComponent.showSignInRow=true;
+      this.LoginPageComponent.showAddCompanyScreen=false;
+      this.LoginPageComponent.showErrorMessageScreen=false;
+      this.LoginPageComponent.isUserLoggedIn=true
+    }
+  }
     this.showModal = modalType;
     this.modalMessage = message;
     this.modalTitle = title;
