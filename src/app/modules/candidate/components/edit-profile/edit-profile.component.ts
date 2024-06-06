@@ -312,9 +312,9 @@ export class EditProfileComponent implements OnInit {
     try {
       let userDetails: any = {
         "candidateExperience":{
-          "department":this.secondStepData.department,
-          "companyName":this.secondStepData.companyName,
-          "designation":this.secondStepData.designation,
+          "department":this.secondStepData.department??"",
+          "companyName":this.secondStepData.companyName??"",
+          "designation":this.secondStepData.designation??"",
         },
         "ECTC": this.secondStepData.ectc,
         "location": this.firstStepData.location,
