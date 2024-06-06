@@ -61,7 +61,7 @@
     </div>
 </div>
 
-<div *ngIf="(decryptedPaymentResponse?.status === 'failed' || decryptedPaymentResponse?.error_code !== null || decryptedPaymentResponse?.transaction_error_type === 'payment_processing_error')"
+<div *ngIf="decryptedPaymentResponse?.status === 'failed' || decryptedPaymentResponse?.error_code !== null || decryptedPaymentResponse?.transaction_error_type === 'payment_processing_error'"
     class="modal-body candidate-card" style="border-radius: 6px;">
 
     <div class="row">
