@@ -36,57 +36,53 @@ export class WorkoAuthComponent {
 
   }
 
-  linkedinAccessToken:any=''
+  linkedinAccessToken: any = ''
   // code:any;
   //  oAuthTokenEndpoint ='https://' + 'worko.auth.ap-south-1.amazoncognito.com' + '/oauth2/token';
   //   _cognitoClientId='5evf019rrkaijtnjf2j1vvdf33'
 
   async ngOnInit(): Promise<void> {
     this.executeProperAction()
-    
+
 
 
   }
 
-  executeProperAction(){
+  executeProperAction() {
     this.activatedRoute.data
-    .subscribe(async data => {
-      switch (data['action']) {
-        case 'checkRedirection':
-          const { accessToken, idToken } = (await fetchAuthSession()).tokens ?? {};
-    console.log(accessToken)
-    // if (!accessToken) {
-    //   this.storage.remove('accessToken');
-    //   return false;
-    // }
-    console.log( window.location.origin )
-    this.linkedinAccessToken=accessToken;
-    console.log( this.linkedinAccessToken)
+      .subscribe(async data => {
+        switch (data['action']) {
+          case 'checkRedirection':
+            const { accessToken, idToken } = (await fetchAuthSession()).tokens ?? {};
 
-    this.storage.set('accessToken', this.linkedinAccessToken.toString());
+            this.linkedinAccessToken = accessToken;
 
-    const usertype = this.storage.get('LinkedinUserType');
-    console.log(usertype)
-    if (usertype === 'employeeSignUp') {
-      this.employeeSignUp()
-    } else if (usertype === 'candidateSignUp') {
-      this.candidateSignUp()
 
-    } else {
-      this.signIn()
-    }
+            this.storage.set('accessToken', this.linkedinAccessToken.toString());
 
-        
-          break;
-        case 'logout':
-          void this.router.navigate(['/']);
-          break;
-      }
+            const usertype = this.storage.get('LinkedinUserType');
+            console.log(usertype)
+            if (usertype === 'employeeSignUp') {
+              this.employeeSignUp()
+            } else if (usertype === 'candidateSignUp') {
+              this.candidateSignUp()
+
+            } else {
+              this.signIn()
+            }
+
+
+            break;
+          case 'logout':
+           await  this.cognitoService.handleSignOut();
+            this.router.navigate(['/']);
+            break;
+        }
       })
       .unsubscribe();
-    
+
   }
-  
+
 
   async employeeSignUp() {
     //this.getCandidateData()
@@ -98,7 +94,7 @@ export class WorkoAuthComponent {
   }
   async candidateSignUp() {
 
-   // this.getCandidateData()
+    // this.getCandidateData()
     const isCandidatePresent = await this.getCandidateDetails();
     if (isCandidatePresent) {
       console.log("Candidate not present");
@@ -111,7 +107,7 @@ export class WorkoAuthComponent {
 
 
   async signIn() {
-   // this.getCandidateData()
+    // this.getCandidateData()
     const isCandidatePresent = await this.getCandidateDetails();
     if (isCandidatePresent) {
       this.registerOptionScreen = true;
@@ -119,7 +115,7 @@ export class WorkoAuthComponent {
     }
   }
   async getCandidateDetails() {
-  
+
     const {
       tokens,
 

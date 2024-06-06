@@ -194,7 +194,7 @@ fieldsGroup:any;
 
   }
   resetFormField(){
-    debugger
+   // debugger
     if (this.employeeProfessionalData.officialEmail=="") {
     this.employeeProfessionalData.designation = '';
     this.employeeProfessionalData.department = '';
@@ -280,10 +280,10 @@ fieldsGroup:any;
 
   isValue: boolean = true;
   ngOnChanges(): void {
-    debugger
+   // debugger
     if (this.employeeProfessionalData && this.employeeProfessionalData.companyName && this.employeeProfessionalData.department && this.employeeProfessionalData.designation) {
       // this.fields = this.employeeProfessionalData.previousCompanies;
-     console.log("in")
+     //console.log("in")
       // // 
       // if (this.employeeProfessionalData && this.employeeProfessionalData.previousCompanies.length == 0) {
       //   this.addField();
@@ -300,7 +300,7 @@ fieldsGroup:any;
   }
 
   getData() {
-  debugger
+ // debugger
      this.employeeProfessionalData = {
       companyName: this.workExperienceDetails?.companyName,
       department: this.workExperienceDetails?.department,
@@ -351,7 +351,7 @@ fieldsGroup:any;
     }
     }
     
-  debugger
+  //debugger
     
     this.savedValues = [...nonBlankFields];
     this.employeeProfessionalData.previousCompanies = this.savedValues;
@@ -397,7 +397,7 @@ fieldsGroup:any;
     }
     
     
-    debugger
+   // debugger
 
     console.log(nonBlankFields)
     this.savedValues = [...nonBlankFields];
@@ -412,7 +412,7 @@ fieldsGroup:any;
 
   onPreviousClick() {
   //  const nonBlankFields = this.fields.filter((field: { previousCompanyName: string; previousDesignation: string; previousExperience: string; }) => field.previousCompanyName.trim() !== '' || field.previousDesignation.trim() !== '' || field.previousExperience.trim() !== '');
-debugger
+//debugger
    const nonBlankFields = [];
     const fieldsArray = this.formGroup.get('fields') as FormArray;
     for (let i = 0; i < fieldsArray.length; i++) {
@@ -508,7 +508,7 @@ debugger
   * @returns {void}
   */
   openModal(modalType: ModalType, message: string = "", title: string = ""): void {
-    debugger
+   // debugger
     this.showModal = modalType;
     this.modalMessage = message;
     this.modalTitle = title;

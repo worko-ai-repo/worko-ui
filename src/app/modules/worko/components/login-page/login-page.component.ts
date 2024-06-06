@@ -847,7 +847,7 @@ try{
       if (this.selectedUserType === "candidate") {
         const { response, error } = await this.createUserWithConfirmation(this.candidateForm, this.verificationForm);
         if (response) {
-          this.otpVerification(this.candidateForm.emailId);
+          // this.otpVerification(this.candidateForm.emailId);
           this.toggleSignInRow();
           this.spinner.hide();
         }
