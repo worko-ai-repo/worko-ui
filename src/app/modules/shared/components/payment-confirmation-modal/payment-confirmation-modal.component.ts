@@ -74,12 +74,20 @@ export class PaymentConfirmationModalComponent {
   createPaymentSummary(response: any) {
 
     if (response.status === 'captured') {
-      this.amount = `₹${(response.amount / 100).toFixed(2)}`;
-      this.transactionId = response.id;
-      this.orderId = response.order_id;
-    } else {
-      this.transactionId = response.id;
-      this.orderId = response.order_id;
+      this.amount = `₹${(response?.amount / 100).toFixed(2)}`;
+      this.transactionId = response?.id;
+      this.orderId = response?.order_id;
+    }
+    else if (response?.transaction_error_type === 'success') {
+      // this.transactionId = response.id;
+      // this.orderId = response.order_id;
+
+      this.amount = `₹${(response?.amount / 100).toFixed(2)}`;
+      this.transactionId = response?.transactionid;
+      this.orderId = response?.orderid;
+    }
+    else {
+
     }
 
   }

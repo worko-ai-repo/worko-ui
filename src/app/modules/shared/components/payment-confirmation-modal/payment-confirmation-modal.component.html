@@ -1,5 +1,5 @@
-<div *ngIf="decryptedPaymentResponse?.status==='captured' " class="modal-body candidate-card"
-    style="border-radius: 6px;">
+<div *ngIf="decryptedPaymentResponse?.status==='captured' || decryptedPaymentResponse?.transaction_error_type === 'success'"
+    class="modal-body candidate-card" style="border-radius: 6px;">
     <div class="row">
         <div class="col-md-12">
             <h4 style="color: #4ECB71;" class="order-heading">Payment Complete</h4>
@@ -61,7 +61,8 @@
     </div>
 </div>
 
-<div *ngIf="decryptedPaymentResponse?.status === 'failed' || decryptedPaymentResponse?.error_code !== null" class="modal-body candidate-card" style="border-radius: 6px;">
+<div *ngIf="(decryptedPaymentResponse?.status === 'failed' || decryptedPaymentResponse?.error_code !== null || decryptedPaymentResponse?.transaction_error_type === 'payment_processing_error')"
+    class="modal-body candidate-card" style="border-radius: 6px;">
 
     <div class="row">
         <div class="col-md-12 d-flex justify-content-between">
@@ -71,7 +72,7 @@
 
                 <div class="p-3">
                     <h6 style="font-size: 18px; color: #2F92C7;"><b>Oh Snap!</b></h6>
-                    <h6>The payment card was declined</h6>
+                    <h6>The payment was declined</h6>
                 </div>
             </div>
 
