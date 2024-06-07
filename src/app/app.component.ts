@@ -27,8 +27,7 @@ export class AppComponent {
   // }
   @HostListener('window:message', ['$event'])
   onMessage(e: MessageEvent) {
-    //debugger;
-    console.log('Message received:', e.data, 'from origin:', e.origin);
+  
     if (e.origin === environment.crossOriginUrl) {
       //console.log('Setting crossDomainData in localStorage:', e.data);
       localStorage.setItem('crossDomainData', e.data);
