@@ -198,7 +198,7 @@ export class NavbarComponent {
     * @returns {void}
     */
   openModal(modalType: ModalType, message: string = "", title: string = ""): void {
-    debugger
+   // debugger
     if(this.LoginPageComponent){
       this.LoginPageComponent.showSignInRow=true;
       this.LoginPageComponent.showAddCompanyScreen=false;

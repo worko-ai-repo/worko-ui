@@ -5,9 +5,9 @@
 export const environment = {
     production: false,
     cognito: {
-      userPoolId: 'ap-south-1_tAj7HAKZh',
-      userPoolWebClientId: '5evf019rrkaijtnjf2j1vvdf33',
-      domain: 'worko.auth.ap-south-1.amazoncognito.com'
+      userPoolId: 'ap-south-1_1f9O34ojY',
+      userPoolWebClientId: '7ul99pqf5uflpl2ckvukklc6c3',
+      domain: 'worko-congnito.auth.ap-south-1.amazoncognito.com'
     },
     crossOriginUrl:'https://worko.ai',
     localUrl: 'https://app.dev.worko.work',

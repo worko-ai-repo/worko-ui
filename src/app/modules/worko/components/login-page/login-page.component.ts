@@ -1,5 +1,5 @@
 
-import { Component, EventEmitter, Output, ViewChild, AfterViewInit, OnDestroy, Input, ElementRef, HostListener } from '@angular/core';
+import { Component, EventEmitter, Output, ViewChild, AfterViewInit, OnDestroy, Input, ElementRef, HostListener, SimpleChanges } from '@angular/core';
 // import { CognitoService } from 'src/app/modules/services/cognito.service';
 
 
@@ -271,10 +271,10 @@ export class LoginPageComponent implements AfterViewInit, OnDestroy {
   async ngOnInit() {
     //Added check to pass userType to show enabled candidate and employee from index page
     //debugger
-    if(this.userType){
-      this.selectedUserType = this.userType;
-      console.log(this.selectedUserType)
-    }
+ 
+      // this.selectedUserType = this.userType;
+      // console.log(this.selectedUserType)
+    
     if(this.userLoggedInData){
       this.isUserLoggedIn=this.userLoggedInData
       console.log(this.isUserLoggedIn)
@@ -313,17 +313,7 @@ export class LoginPageComponent implements AfterViewInit, OnDestroy {
   }
 
  
-  async checkUserLoggedIn(){
-    
-    
-    this.userLoggedIn = await this.amplify.isLoggedIn();
-    this.userType=localStorage.getItem('crossDomainData')
-    // if (this.userType.startsWith('"') && this.userType.endsWith('"')) {
-    //   this.userType = this.userType.substring(1, this.userType.length - 1); // Extract substring excluding the first and last characters
-    // }
- console.log(this.userType);
-
-  }
+ 
 
 
 

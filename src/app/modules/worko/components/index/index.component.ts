@@ -1,5 +1,5 @@
 import { AfterViewInit, ChangeDetectorRef, Component, EventEmitter, HostListener, Input, OnDestroy, Output, ViewChild } from '@angular/core';
-import { Router } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { StorageService } from 'src/app/modules/app-core/services/storage.service';
 import { CandidateProfileService } from 'src/app/modules/candidate/services/candidate-profile.service';
 import { NavbarToggleSwitchService } from 'src/app/modules/candidate/services/navbar-toggle-switch.service';
@@ -34,32 +34,30 @@ export class IndexComponent {
   isUserLoggedIn:boolean=false;
   selectedUserType: any='candidate';
   userType: any;
-  CrossOriginuserType: any;
+  userTypeFromIndex: any;
 
-  constructor(private cognitoService: CognitoService, private router: Router, private candidateSrv: CandidateProfileService, private storage: StorageService, private navbarToggleSwitchService : NavbarToggleSwitchService) {
+  constructor(private cognitoService: CognitoService,private activatedRoute: ActivatedRoute, private router: Router, private candidateSrv: CandidateProfileService, private storage: StorageService, private navbarToggleSwitchService : NavbarToggleSwitchService) {
    
+    this.activatedRoute.queryParams.subscribe({
+      next: (queryParams) => {
+        this.userTypeFromIndex = queryParams['userType'];
+      }});
   }
 
  
 
   async ngOnInit(): Promise<void> {
-    this.checkUserLoggedIn();
+  
+   
+    console.log(this.userType)
+   // this.checkUserLoggedIn();
   
   }
  
   async checkUserLoggedIn(){
    
-     // debugger
-     
-  this.CrossOriginuserType=localStorage.getItem('crossDomainData')
-   //  this.CrossOriginuserType='employee'
-     
-     console.log(this.CrossOriginuserType);
-   
-     
-  
 
-   
+  
 
   }
  
@@ -68,7 +66,7 @@ export class IndexComponent {
    
    
   this.userLoggedIn = await this.cognitoService.isLoggedIn();
-  if(this.userLoggedIn && !this.CrossOriginuserType){
+  if(this.userLoggedIn && !this.userTypeFromIndex){
     this.navbarToggleSwitchService.intializeToggleStatus();
     const usertype=this.storage.get('lastAccessedDash') ;
      this.userName=this.storage.get('userName') ;
@@ -81,12 +79,12 @@ export class IndexComponent {
       
       this.router.navigate(['/candidate/dashboard']);
     }
-  }else if(!this.userLoggedIn && this.CrossOriginuserType){
-
+  }else if(!this.userLoggedIn && this.userTypeFromIndex){
+    
     this.isUserLoggedIn=true
-    this.selectedUserType=this.CrossOriginuserType
+    this.selectedUserType=this.userTypeFromIndex;
   this.modalOpen();
-  }else if(this.userLoggedIn && this.CrossOriginuserType){
+  }else if(this.userLoggedIn && this.userTypeFromIndex){
     this.router.navigate(['/employee/Referral']);
   }
   else{

@@ -100,7 +100,6 @@ export class ModalComponent implements OnInit {
    * @returns {void}
    */
   cancel(): void {
-    localStorage.removeItem('crossDomainData')
     this.modalService.dismissAll('button');
   }
 
