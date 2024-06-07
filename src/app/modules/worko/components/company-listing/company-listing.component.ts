@@ -15,6 +15,7 @@ import { MatAutocompleteSelectedEvent, MatAutocompleteTrigger } from '@angular/m
 import { error, event } from 'jquery';
 import { Router } from '@angular/router';
 import { StorageService } from 'src/app/modules/app-core/services/storage.service';
+import { CandidateProfileService } from 'src/app/modules/candidate/services/candidate-profile.service';
 @Component({
   selector: 'app-company-listing',
   templateUrl: './company-listing.component.html',
@@ -65,6 +66,12 @@ export class CompanyListingComponent implements OnInit {
   companyData: any = [];
   form!: NgForm;
   assetLogos: string[] = [];
+  emailAddress: any;
+  profileCompletion: any;
+  cvCurPerc: any;
+  totalPercentage: any;
+  profileCompletionRequired: boolean = false;
+
   teamSizeOptions: any = [
     {
       name: "<100",
@@ -221,7 +228,7 @@ export class CompanyListingComponent implements OnInit {
 
 
 
-  constructor(private spinner: NgxSpinnerService, private cdr: ChangeDetectorRef, private storage: StorageService, private router: Router, private authService: AuthService, private http: HttpClient, private renderer: Renderer2, private el: ElementRef, private companyListing: CompanyListingService, private cognitoService: CognitoService) {
+  constructor(private spinner: NgxSpinnerService, private cdr: ChangeDetectorRef, private storage: StorageService, private router: Router, private authService: AuthService, private http: HttpClient, private renderer: Renderer2, private el: ElementRef, private companyListing: CompanyListingService, private cognitoService: CognitoService, private candidateSrv: CandidateProfileService) {
     this.searchTerms
       .pipe(
         debounceTime(300), // Adjust the debounce time as needed (300 milliseconds in this example)
@@ -237,6 +244,8 @@ export class CompanyListingComponent implements OnInit {
 
   async ngOnInit(): Promise<void> {
     this.userLoggedIn = await this.cognitoService.isLoggedIn();
+    this.getProfilePercentage();
+
     await this.getCompanyDetails();
     this.filteredCompanyList = this.companyList;
     // this.assetLogos = this.generateLogoFilenames(57, 1045);
@@ -330,15 +339,15 @@ export class CompanyListingComponent implements OnInit {
   onOptionSelected(event: MatAutocompleteSelectedEvent): void {
 
     this.selectedCompany = event.option.value;
-   
-    this.successmessage="The company already exists! Please search to find the company."
-    this.successtitle="alert";
+
+    this.successmessage = "The company already exists! Please search to find the company."
+    this.successtitle = "alert";
     this.openModal(this.modalType.SUCCESS_MESSAGE)
-   // console.log(this.selectedCompany)
+    // console.log(this.selectedCompany)
 
     //this.router.navigate([]);
     //this.router.navigate(['/company-listing']);
-   // this.cancel();
+    // this.cancel();
     //this.router.navigateByUrl('/company-listing');
   }
 
@@ -508,19 +517,29 @@ export class CompanyListingComponent implements OnInit {
 
 
   async openReferralPage(event: Event, item: any): Promise<void> {
-    debugger
     event.preventDefault();
-    this.userLoggedIn = await this.cognitoService.isLoggedIn();
 
-    this.selectedData = item;
-    console.log(this.selectedData)
-    this.triggerReferral = true;
-    this.triggerGuidance = false;
-    if (this.userLoggedIn) {
-      this.openModal(ModalType.REQUEST_REFERRAL);
-    } else {
-      this.userLoggedIn = true
-      this.openModal(ModalType.LOGIN_SIGNUP);
+    if (this.totalPercentage > 60 && this.cvCurPerc !== 0) {
+      // event.preventDefault();
+      this.userLoggedIn = await this.cognitoService.isLoggedIn();
+
+      this.selectedData = item;
+      console.log(this.selectedData)
+      this.triggerReferral = true;
+      this.triggerGuidance = false;
+      if (this.userLoggedIn) {
+        this.openModal(ModalType.REQUEST_REFERRAL);
+      } else {
+        this.userLoggedIn = true
+        this.openModal(ModalType.LOGIN_SIGNUP);
+      }
+
+    }
+    else {
+      this.profileCompletionRequired = true;
+      this.successmessage = "";
+      this.successtitle = "";
+      this.openModal(ModalType.SUCCESS_MESSAGE);
     }
 
 
@@ -709,5 +728,32 @@ export class CompanyListingComponent implements OnInit {
     // Show referral request form after closing the modal
 
     this.modal.cancel();
+  }
+
+  async getProfilePercentage() {
+    if (this.userLoggedIn) {
+      this.emailAddress = this.storage.get("useremail");
+      const response = await this.candidateSrv.getProfileComplete(this.emailAddress);
+
+      if (response) {
+        this.profileCompletion = response;
+        // console.log(this.profileCompletion);
+
+        if (this.profileCompletion) {
+          const profileType = this.profileCompletion.candidate;
+          this.totalPercentage = profileType.reduce((sum: any, element: any) => sum + element.curPerc, 0);
+          this.cvCurPerc = profileType[2].curPerc;
+
+          console.log("Total percentage == ", this.totalPercentage);
+          console.log("CV CurPer === ", this.cvCurPerc);          
+        }
+      }
+    }
+  }
+
+  completeProfile() {
+    this.closeModal();
+    this.profileCompletionRequired = false;
+    this.router.navigate(['/candidate/edit-profile']);
   }
 }

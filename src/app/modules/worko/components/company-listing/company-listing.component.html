@@ -23,19 +23,12 @@
       </p>
     </div>
     <div class="col-8 ms-5 text-white my-2">
-      <input class="searchInput" placeholder="Search by company name..."  name="companyName" id="companyName"
-      [(ngModel)]="searchQuery"
-      (input)="onSearchInputChange()"/>
-      <button
-      mat-button
-      *ngIf="searchQuery"
-      matSuffix
-      mat-icon-button
-      (click)="clearSearchInput()"
-      class="custom-clear-button"
-    >
-      <mat-icon>clear</mat-icon>
-    </button>
+      <input class="searchInput" placeholder="Search by company name..." name="companyName" id="companyName"
+        [(ngModel)]="searchQuery" (input)="onSearchInputChange()" />
+      <button mat-button *ngIf="searchQuery" matSuffix mat-icon-button (click)="clearSearchInput()"
+        class="custom-clear-button">
+        <mat-icon>clear</mat-icon>
+      </button>
     </div>
 
     <div class="row my-4 pl-5 filterMenu">
@@ -44,7 +37,7 @@
       </div>
       <div class="col-12 col-sm-8 d-flex flex-column flex-sm-row justify-content-sm-end align-items-start filters">
         <!-- <div class="p-1 d-flex mb-3 mb-sm-1 filter"> -->
-          <div class="me-3 ml-sm-2 p-1 d-flex filter">
+        <div class="me-3 ml-sm-2 p-1 d-flex filter">
           <!-- <select class="selector form-select " name="industryType" id="industryType"
           [(ngModel)]="filterData.industryType" (ngModelChange)="onIndustryNameChange($event)">
           <option value="">Select Industry Type</option>
@@ -52,25 +45,25 @@
           <option value="e-commerce">Ecommerce</option>
           <option value="Automobile">Automobile</option>
         </select> -->
-          
+
           <!-- <option *ngFor="let item of teamSizeOptions" value="{{ item.value }}">
               {{ item.name }}
           </option> -->
           <select class=" selector form-select" name="industryType" id="industryType"
-          [(ngModel)]="filterData.industryType" (ngModelChange)="onIndustryTypeChange($event)">
-          <option value="">Select Industry Type</option>
-          <option *ngFor="let item of industryTypeOptions" [value]="item.value">{{ item.name }}</option>
-        </select>
+            [(ngModel)]="filterData.industryType" (ngModelChange)="onIndustryTypeChange($event)">
+            <option value="">Select Industry Type</option>
+            <option *ngFor="let item of industryTypeOptions" [value]="item.value">{{ item.name }}</option>
+          </select>
 
         </div>
         <div class="me-3 ml-sm-2 p-1 d-flex filter">
-          <select class=" selector form-select" name="teamSize" id="teamSize"
-            [(ngModel)]="filterData.teamSize" (ngModelChange)="onTeamSizeChange($event)">
+          <select class=" selector form-select" name="teamSize" id="teamSize" [(ngModel)]="filterData.teamSize"
+            (ngModelChange)="onTeamSizeChange($event)">
             <option value="">Select Team Size</option>
             <option *ngFor="let item of teamSizeOptions" [value]="item.value">{{ item.name }}</option>
           </select>
         </div>
-      
+
       </div>
     </div>
     <div *ngIf="companyList.length === 0" class="row mt-4">
@@ -78,10 +71,10 @@
         Company not found!.
       </div>
     </div>
-  
-   
+
+
     <div class="row p-3  company-box-container d-flex justify-content-center">
-    
+
       <div class="company-detail-container pb-3" *ngFor="let item of companyList">
         <div class="company-info d-flex justify-content-center">
           <div class="company-box">
@@ -89,40 +82,39 @@
               <div class="title"><u>{{item.name}}</u></div>
               <div class="col-5 d-lex align-items-center links-container">
                 <div class="float-left image-brand">
-                  <img *ngIf="assetLogos.includes(item.logo)"  
-                  src="assets/company-logo/{{item.logo }}" class="company-name" alt="logo">
-              <img *ngIf="!assetLogos.includes(item.logo)"
-                  src="{{ item.logoUrl }}" class="company-name" alt="logo">
+                  <img *ngIf="assetLogos.includes(item.logo)" src="assets/company-logo/{{item.logo }}"
+                    class="company-name" alt="logo">
+                  <img *ngIf="!assetLogos.includes(item.logo)" src="{{ item.logoUrl }}" class="company-name" alt="logo">
                   <!-- <ng-container *ngIf="checkImage(item.logo)">
 
                   <img id="myImage"   *ngIf="checkImage(item.logo)" src="assets/company-logo/{{item.logo}}" alt="{{item.name}}"   >
                   <img id="myImage" *ngIf="!checkImage(item.logo)" src="{{ item.logoUrl }}" alt="{{item.name}}" >
                     </ng-container> -->
-               
-                </div> 
-               
-                
+
+                </div>
+
+
                 <div class="float-left" style="padding-top: 0.3rem;">
                   <div class="px-1 float-left career-icon" title="Career Page">
                     <a href="{{ item.carrierPage }}" target="_blank">
-                      <img src = "../../../../../assets/icons/career-icon.png" alt="icon" />
+                      <img src="../../../../../assets/icons/career-icon.png" alt="icon" />
                     </a>
-                
+
                   </div>
-                 <div class="px-1 float-left" title="Linkedin Page">
-                  <a href="{{ item.linkedIn }}" target="_blank">
-                  <i class="fa-brands fa-linkedin" style="color:#0077b5 ;font-size: 23px;
-                  margin-top: 2px;  margin-left: 6px;">   </i>
-                  </a>  
-             
-                 </div>
+                  <div class="px-1 float-left" title="Linkedin Page">
+                    <a href="{{ item.linkedIn }}" target="_blank">
+                      <i class="fa-brands fa-linkedin" style="color:#0077b5 ;font-size: 23px;
+                  margin-top: 2px;  margin-left: 6px;"> </i>
+                    </a>
+
+                  </div>
                 </div>
 
               </div>
               <div class="col-7 p-2">
                 <div class="vertical-bar"></div>
                 <div class="anchor-button">
-                  <a  href="#" (click)="openReferralPage($event, item)">Request Referral</a>
+                  <a href="#" (click)="openReferralPage($event, item)">Request Referral</a>
                 </div>
                 <div class="anchor-button" style="top:37px;">
                   <a href="#" (click)="openGuidancePage($event, item)">Request Guidance</a>
@@ -137,10 +129,10 @@
                 </div> -->
               </div>
             </div>
-            </div>
+          </div>
         </div>
       </div>
-      
+
     </div>
 
   </div>
@@ -152,13 +144,12 @@
   <button (click)="openCompanyForm($event)">+ Add</button>
 </div>
 <app-footer></app-footer>
-<app-modal [theme]="'theme-k'" [centered]="true" [showHeader]="showModal === modalType.MESSAGE"
-[showClose]="true"
+<app-modal [theme]="'theme-k'" [centered]="true" [showHeader]="showModal === modalType.MESSAGE" [showClose]="true"
   [showFooter]="showModal === modalType.MESSAGE" [title]="modalTitle" [message]="modalMessage"
-  [bodyClass]="modalMessage ? 'p-4' : 'p-0'" >
+  [bodyClass]="modalMessage ? 'p-4' : 'p-0'">
   <ng-container *ngIf="showModal === modalType.REQUEST_REFERRAL">
     <!-- <p>hi request referral</p> -->
-    <app-referral-request  [selectedCompany]="selectedData"   ></app-referral-request>
+    <app-referral-request [selectedCompany]="selectedData"></app-referral-request>
   </ng-container>
 
   <ng-container *ngIf="showModal === modalType.REQUEST_GUIDANCE">
@@ -169,8 +160,10 @@
           <img src="https://ps.w.org/under-construction-maintenance-mode/assets/icon-256x256.png?rev=1606963" alt="img" class="img-fluid mb-4">
         </div> -->
         <div class="text-center mb-4">
-          <p >Our guidance service is launching soon, connecting you with first-hand, experienced experts for invaluable insights.</p>
-          <p>Stay tuned for updates.</p><p> Need urgent assistance, like interview preparation from insiders?</p>
+          <p>Our guidance service is launching soon, connecting you with first-hand, experienced experts for invaluable
+            insights.</p>
+          <p>Stay tuned for updates.</p>
+          <p> Need urgent assistance, like interview preparation from insiders?</p>
           <p>Email us at <a href="mailto:Guidance@worko.ai">Guidance@worko.ai</a> for support.</p>
         </div>
         <div class="text-center">
@@ -182,104 +175,121 @@
   </ng-container>
 
   <ng-container *ngIf="showModal === modalType.LOGIN_SIGNUP">
-    <app-login-page (onSuccess)="receiveDataFromChild($event)" [userLoggedInData]="userLoggedIn" ></app-login-page>
+    <app-login-page (onSuccess)="receiveDataFromChild($event)" [userLoggedInData]="userLoggedIn"></app-login-page>
   </ng-container>
   <ng-container *ngIf="showModal === modalType.SUCCESS_MESSAGE">
-  
-    <div class="row message-card px-sm-3 p-5" *ngIf="!successtitle && !successmessage">
+
+    <div class="row message-card px-sm-3 p-5" *ngIf="!successtitle && !successmessage && !profileCompletionRequired">
       <div class="col-md-8 offset-md-2">
-      
-        <div class="text-center mb-4" >
-         <p> our team started working on your request, you will be notified via e-mail once we add this company. </p>
+
+        <div class="text-center mb-4">
+          <p> our team started working on your request, you will be notified via e-mail once we add this company. </p>
           <p>It might take 72 Hours.</p>
           <p>Your Success is our priority.</p>
         </div>
-        <div class="text-center" >
+        <div class="text-center">
           <button class="btn btn-next" (click)="cancel()">OK</button>
         </div>
       </div>
     </div>
-    <div class="row message-card px-sm-3 p-5" *ngIf="successtitle && successmessage">
-      <div class="font-weight-bold text-color-red mb-3 d-flex justify-content-center" style="color: #e40707; font-size: medium;" *ngIf="successtitle === 'Error'">
+    <div class="row message-card px-sm-3 p-5" *ngIf="successtitle && successmessage && !profileCompletionRequired">
+      <div class="font-weight-bold text-color-red mb-3 d-flex justify-content-center"
+        style="color: #e40707; font-size: medium;" *ngIf="successtitle === 'Error'">
         {{successtitle}}
+      </div>
+      <div class="font-weight-bold text-color-red mb-3 d-flex justify-content-center" style="font-size: medium;"
+        *ngIf="successtitle != 'Error'">
+        {{successtitle}}
+      </div>
+      <div class="d-flex justify-content-center"><span>{{successmessage}}</span> </div>
+      <div class=" mt-3 d-flex justify-content-center">
+        <button class="btn btn-next" (click)="cancel()" *ngIf="successtitle === 'Error'"> Close</button>
+      </div>
+      <div class=" mt-3 d-flex justify-content-center">
+        <button class="btn btn-next" (click)="cancel()" *ngIf="successtitle != 'Error'"> Ok</button>
+      </div>
     </div>
-    <div class="font-weight-bold text-color-red mb-3 d-flex justify-content-center" style="font-size: medium;" *ngIf="successtitle != 'Error'">
-      {{successtitle}}
-  </div>
-    <div class="d-flex justify-content-center"><span>{{successmessage}}</span> </div>
-    <div class=" mt-3 d-flex justify-content-center">
-      <button class="btn btn-next" (click)="cancel()" *ngIf="successtitle === 'Error'"> Close</button>
-    </div>
-    <div class=" mt-3 d-flex justify-content-center">
-      <button class="btn btn-next" (click)="cancel()" *ngIf="successtitle != 'Error'"> Ok</button>
-    </div>
+
+    <div class="row message-card px-sm-3 p-5" *ngIf="profileCompletionRequired">
+      <div class="col-md-8 offset-md-2">
+
+        <div class="text-center mb-4">
+          <p>To proceed with your referral request, please complete your candidate profile and upload your CV.</p>
+          <p>A complete profile increases your chances of getting referred.</p>
+          <p>Let's make it happen!</p>
+        </div>
+        <div class="text-center">
+          <button class="btn btn-next" (click)="completeProfile()">OK</button>
+        </div>
+      </div>
     </div>
 
   </ng-container>
 
   <ng-container *ngIf="showModal === modalType.ADD_COMPANY">
     <div class="modal-contents ">
-      <div class="title" >
+      <div class="title">
         Please provide the details of the company
-         for which you are seeking a referral.
+        for which you are seeking a referral.
       </div>
-      <form  (ngSubmit)="company.form.valid && requestCampanyData(company)" #company="ngForm" novalidate>
-          <!-- <input class="col-8 col-md-4 mb-2 p-1 px-1" type="text" placeholder="Company Name" id="CompanyName" 
+      <form (ngSubmit)="company.form.valid && requestCampanyData(company)" #company="ngForm" novalidate>
+        <!-- <input class="col-8 col-md-4 mb-2 p-1 px-1" type="text" placeholder="Company Name" id="CompanyName" 
           name="CompanyName"  [(ngModel)]="companyForm.CompanyName" 
           #CompanyName="ngModel" pattern="^([ \u00c0-\u01ffa-zA-Z'.])+$"
           [ngClass]="{ 'is-invalid': CompanyName.invalid && (CompanyName.dirty || CompanyName.touched) }"> -->
-          <!-- <label for="" class="form-label required-form-field">Current Company Name</label> -->
-          <div class="row">
-            <div class=" col-md-2"> </div>
-           <input    matInput #autoCompleteInput="matAutocompleteTrigger"   class="col-8 col-md-6 mb-2 p-1 px-1 custom-mat-option"
-            [formControl]="myControl" [matAutocomplete]="auto" placeholder="Company Name" required
-          [(ngModel)]="companyForm.CompanyName"  />
-              <mat-autocomplete #auto="matAutocomplete" [displayWith]="displayFn" 
-                (optionSelected)="onOptionSelected($event)">
-                <mat-option *ngFor="let option of filteredOptions | async" [value]="option" >
-                 {{ option.name }}
-                </mat-option>
-                </mat-autocomplete>
-              </div>
+        <!-- <label for="" class="form-label required-form-field">Current Company Name</label> -->
         <div class="row">
           <div class=" col-md-2"> </div>
-          <input class="col-8 col-md-6 mb-2 p-1 px-1" type="text" placeholder="LinkedIn Page" id="linkedIn" 
-          name="linkedIn" [(ngModel)]="companyForm.linkedIn" 
-           pattern="^(https?:\/\/((www|[in]{2})\.)?linkedin\.com\/company\/[a-zA-Z0-9_\-&]+\/?)$"
-          #linkedIn="ngModel"   [ngClass]="{ 'is-invalid': linkedIn.invalid && (linkedIn.dirty || linkedIn.touched) }">
+          <input matInput #autoCompleteInput="matAutocompleteTrigger"
+            class="col-8 col-md-6 mb-2 p-1 px-1 custom-mat-option" [formControl]="myControl" [matAutocomplete]="auto"
+            placeholder="Company Name" required [(ngModel)]="companyForm.CompanyName" />
+          <mat-autocomplete #auto="matAutocomplete" [displayWith]="displayFn"
+            (optionSelected)="onOptionSelected($event)">
+            <mat-option *ngFor="let option of filteredOptions | async" [value]="option">
+              {{ option.name }}
+            </mat-option>
+          </mat-autocomplete>
+        </div>
+        <div class="row">
+          <div class=" col-md-2"> </div>
+          <input class="col-8 col-md-6 mb-2 p-1 px-1" type="text" placeholder="LinkedIn Page" id="linkedIn"
+            name="linkedIn" [(ngModel)]="companyForm.linkedIn"
+            pattern="^(https?:\/\/((www|[in]{2})\.)?linkedin\.com\/company\/[a-zA-Z0-9_\-&]+\/?)$" #linkedIn="ngModel"
+            [ngClass]="{ 'is-invalid': linkedIn.invalid && (linkedIn.dirty || linkedIn.touched) }">
         </div>
 
 
-        
+
         <div class="row">
           <div class=" col-md-2"> </div>
-          <input class="col-8 col-md-6 mb-2 p-1 px-1" type="text" placeholder="Career Page" id="carrierPage" name="carrierPage" 
-          [(ngModel)]="companyForm.carrierPage" 
-          #carrierPage="ngModel" pattern='^(https:\/\/.*)$' 
-          [ngClass]="{ 'is-invalid': carrierPage.invalid && (carrierPage.dirty || carrierPage.touched) }">
-          </div>
+          <input class="col-8 col-md-6 mb-2 p-1 px-1" type="text" placeholder="Career Page" id="carrierPage"
+            name="carrierPage" [(ngModel)]="companyForm.carrierPage" #carrierPage="ngModel" pattern='^(https:\/\/.*)$'
+            [ngClass]="{ 'is-invalid': carrierPage.invalid && (carrierPage.dirty || carrierPage.touched) }">
+        </div>
 
-          <div class="row">
-            <div class=" col-md-2"> </div>
-          <input class="col-8 col-md-6 mb-2 p-1 px-1" type="text" placeholder="Your E-mail ID" id="emailid"  name="emailid"
-          [(ngModel)]="companyForm.personalemailid" pattern="^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,4}$"
-          [ngClass]="{ 'is-invalid': personalemail.invalid && (personalemail.dirty || personalemail.touched) }" #personalemail="ngModel" >
-            </div>
-          <div class="row">
-            <div class=" col-md-2"> </div>
-            
-          <input class="col-8 col-md-6 mb-2 p-1 px-1 position-relative" type="text" placeholder="Phone No" 
-          id="contactNumber" 
-          name="contactNumber"  [(ngModel)]="companyForm.contactNumber" 
-          pattern="^\+(?:[0-9] ?){6,14}[0-9]$" #contactNumber="ngModel"  [ngClass]="{ 'is-invalid': contactNumber.invalid && (contactNumber.dirty || contactNumber.touched) }">
+        <div class="row">
+          <div class=" col-md-2"> </div>
+          <input class="col-8 col-md-6 mb-2 p-1 px-1" type="text" placeholder="Your E-mail ID" id="emailid"
+            name="emailid" [(ngModel)]="companyForm.personalemailid"
+            pattern="^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,4}$"
+            [ngClass]="{ 'is-invalid': personalemail.invalid && (personalemail.dirty || personalemail.touched) }"
+            #personalemail="ngModel">
+        </div>
+        <div class="row">
+          <div class=" col-md-2"> </div>
+
+          <input class="col-8 col-md-6 mb-2 p-1 px-1 position-relative" type="text" placeholder="Phone No"
+            id="contactNumber" name="contactNumber" [(ngModel)]="companyForm.contactNumber"
+            pattern="^\+(?:[0-9] ?){6,14}[0-9]$" #contactNumber="ngModel"
+            [ngClass]="{ 'is-invalid': contactNumber.invalid && (contactNumber.dirty || contactNumber.touched) }">
           <div class="tooltip-container">
             <div class="tooltip-style">
-                <i class="fa-solid fa-circle-info"></i>
+              <i class="fa-solid fa-circle-info"></i>
             </div>
             <div class="tooltip-text pt-2 text-center p-2">
               <small>Add "+" and "country code" before phone number.</small>
             </div>
-        </div>
+          </div>
         </div>
         <!-- <div class="tooltip-container">
           <div class="tooltip-style">
@@ -289,8 +299,8 @@
               <small>contact Number should be(+91XXXXXXXXXX)</small>
           </div>
       </div> -->
-          
-          <!-- <div *ngIf="!userLoggedIn">
+
+        <!-- <div *ngIf="!userLoggedIn">
               <div class="title">
                   Add your details:
               </div>
@@ -298,13 +308,13 @@
               <input class="col-8 col-md-4 mb-2 p-1 px-1" type="text" placeholder="Email">
               <input class="col-8 col-md-4 mb-2 p-1 px-1" type="text" placeholder="Ph. Number">
           </div>-->
-          <div class="mt-3 d-flex justify-content-center">
-              <button class="btn btn-signUp " type="submit" [disabled]="
+        <div class="mt-3 d-flex justify-content-center">
+          <button class="btn btn-signUp " type="submit" [disabled]="
               !companyForm.CompanyName ||!companyForm.carrierPage ||!companyForm.contactNumber 
-             || !companyForm.linkedIn ||!companyForm.personalemailid ||!company.form.valid" >Submit</button>
-          </div> 
+             || !companyForm.linkedIn ||!companyForm.personalemailid ||!company.form.valid">Submit</button>
+        </div>
       </form>
-  </div>
+    </div>
   </ng-container>
 
 </app-modal>
