@@ -76,7 +76,8 @@ export class EmployeeReferralComponent implements OnDestroy {
         this.workExperienceDetails = response;
         this.workExperienceDetails.forEach((element: any) => {
           if (element?.isCurrent == true && element?.isEmailVerified) {
-            this.getEmpReferral();
+            this.currentCompanyId = element?.companyId; //extra line to re-assure that the companyId value should not be null
+            // this.getEmpReferral(); //commented mutiple times same API call
             this.onStatusSelected('AWAITING');
             this.popupStatus = true;
           }
