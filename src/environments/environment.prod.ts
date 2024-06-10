@@ -10,7 +10,7 @@ export const environment = {
       domain: 'worko-congnito.auth.ap-south-1.amazoncognito.com'
     },
     crossOriginUrl:'https://worko.ai',
-    localUrl: 'https://app.dev.worko.work',
+    localUrl: 'https://app.worko.ai',
     apiUrl: "https://api.worko.ai/",
     saveUserInfoApi:"https://w6zitv6ryk.execute-api.us-east-1.amazonaws.com/dev/adduserinfo",
     linkedInRedirection: "https://app.worko.ai/auth/checkRedirection",

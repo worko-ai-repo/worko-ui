@@ -9,6 +9,7 @@ import { PaymentGateway } from 'src/app/modules/shared/enums/payment-gateway.enu
 import { CandidateProfileService } from 'src/app/modules/candidate/services/candidate-profile.service';
 import { StorageService } from 'src/app/modules/app-core/services/storage.service';
 import { environment } from 'src/environments/environment';
+import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 
 // export const theme_config = {
 //   sdkPrimaryColor: "#2F92C7",
@@ -41,6 +42,7 @@ export class SubscriptionPlanComponent {
   @ViewChild(ModalComponent) modal!: ModalComponent;
   @Input() subscriptionList: any;
   @Input() cardDetails: any;
+  @Input() userDetails: any;
   modalType = ModalType;
   modalMessage: string = "";
   modalTitle: string = "";
@@ -63,8 +65,8 @@ export class SubscriptionPlanComponent {
   successmessage: string = "";
   successtitle: string = "";
 
-  constructor(private renderer2: Renderer2, private cd:ChangeDetectorRef, 
-    @Inject(DOCUMENT) private document: Document, private spinner: NgxSpinnerService, private candServ: CandidateProfileService, private storage: StorageService) { }
+  constructor(private renderer2: Renderer2, private cd: ChangeDetectorRef,
+    @Inject(DOCUMENT) private document: Document, private spinner: NgxSpinnerService, private candServ: CandidateProfileService, private storage: StorageService, private modalService: NgbModal) { }
   // constructor(private router: Router, private candidateSrv: CandidateProfileService, private storage: StorageService, private authService: AuthService) { }
 
   ngOnInit(): void {
@@ -89,6 +91,10 @@ export class SubscriptionPlanComponent {
       // console.log( this.filteredPackages);
     }
   }
+
+  // ngOnDestroy(){
+  //   this.modalService.dismissAll();
+  //  }
 
   openCheckout(packageData: any) {
     this.isOrderSummary = true;
@@ -264,12 +270,19 @@ export class SubscriptionPlanComponent {
         this.processPayment(createOrderResponse, paymentResponse);
       },
       prefill: {
-        name: "Customer Name",
-        email: createOrderResponse?.gatewayOrderRequestPlainBody?.notes?.userEmail,
-        contact: "9999999999"
+        name: this.userDetails[0]?.name,
+        // email: createOrderResponse?.gatewayOrderRequestPlainBody?.notes?.userEmail
+        email: this.userDetails[0]?.email,
+        contact: this.userDetails[0]?.number
       },
       theme: {
         color: "#3399cc"
+      },
+      method: {
+        upi: true,
+        card: true,
+        netbanking: true,
+        wallet: false
       }
     };
 

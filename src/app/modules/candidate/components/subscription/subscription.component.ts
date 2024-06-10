@@ -15,6 +15,7 @@ export class SubscriptionComponent {
   subscriptionList: any[] = [];
   packageDetails1: any;
   cardDetails: any[] = [];
+  userDetails:any;
   constructor(private candidateSrv: CandidateProfileService, private storage: StorageService, private subscriptionPack: SubscriptionPackService, private spinner: NgxSpinnerService, private router: Router) { }
   ngOnInit(): void {
 
@@ -82,6 +83,7 @@ export class SubscriptionComponent {
       await this.candidateSrv.getUserDetails(this.emailAddress).then(async (response) => {
         if (response) {
           this.storage.set('userId', response[0]?.id);
+          this.userDetails = response;
         }
       })
     } catch (error: any) {
