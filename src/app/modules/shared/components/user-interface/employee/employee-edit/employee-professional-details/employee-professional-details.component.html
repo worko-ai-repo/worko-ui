@@ -1,16 +1,16 @@
 <div class="card-body pb-2 mb-2">
     <div class="row d-flex justify-content-center col-9 mx-auto">
 
-
+        <form (ngSubmit)="employeeProf.form.valid && updateProfessionalDetails(form)" #employeeProf="ngForm" novalidate>
         <div class="row mb-3">
             <h5>Current Employer Details</h5>
         </div>
 
         <div class="row">
             <!-- <div class="col"> -->
-            <div class="col" *ngIf="!workExperienceDetails?.isEmailVerified">
+            <div class="col"  *ngIf="!isDisabled">
                 <label for="" class="form-lable required-form-field">Current Company Name</label>
-                <input matInput #autoCompleteInput="matAutocompleteTrigger" class="form-control form-input"
+                <input matInput #autoCompleteInput="matAutocompleteTrigger"  *ngIf="!isDisabled"  class="form-control form-input"
                        [formControl]="myControl" [matAutocomplete]="auto" placeholder="Select Company Name"
                        [(ngModel)]="employeeProfessionalData.companyName" required  >
                 <mat-autocomplete #auto="matAutocomplete" [displayWith]="displayFn"
@@ -23,39 +23,40 @@
                 
 
             </div>
-
-            <div class="col" *ngIf="workExperienceDetails?.isEmailVerified">
+            <div class="col" *ngIf="isDisabled">
                 <label for="" class="form-lable required-form-field">Current Company Name</label>
-                <input  class="form-control form-input disabled"
-                     
-                       [(ngModel)]="employeeProfessionalData.companyName" disabled >
-               
-                
-
+              
+                <input type="text" class="form-control form-input" placeholder="companyName" name="companyName" 
+                    id="companyName" [(ngModel)]="employeeProfessionalData.companyName" readonly >
             </div>
 
 
             <div class="col">
                 <label for="" class="form-lable  required-form-field">Company Email</label>
-                <input type="text" class="form-control form-input" placeholder="Company email" name="email" *ngIf="!workExperienceDetails?.isEmailVerified"
+                <input type="text" class="form-control form-input" placeholder="Company email" name="email" 
                     id="email" [(ngModel)]="employeeProfessionalData.officialEmail" required
                     pattern="^(?!.*@(gmail\.com|outlook\.com|aol\.com|yahoo\.com|icloud\.com|protonmail\.com|zoho\.com|yandex\.com|gmx\.com|hubspot\.com|mail\.com|tutanota\.com|10minutemail\.com)$)[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$"
                     [title]="email.errors?.['pattern'] ? 'Official Email is invalid' : ''"
                     [title]="email.errors?.['required'] ? 'Official Email is required' : ''"
+                    [disabled]="isDisabled"
+                    
                    
                     [ngClass]="{ 'is-invalid': email.invalid && (email.dirty || email.touched) }" #email="ngModel"
-                    (ngModelChange)=" resetFormField();"    >
-                <h2 *ngIf="!workExperienceDetails?.isEmailVerified " (click)="openOtpModal()"
-                    class="badge  verify-text-label-unverified -pointer">Verify</h2>
-                    <input type="text" class="form-control form-input  disabled" placeholder="Company email" name="email" *ngIf="workExperienceDetails?.isEmailVerified"
+                    (ngModelChange)="resetFormField();"   >
+         
+                    <h2 *ngIf="employeeProfessionalData.officialEmail && !isEmailVerified"
+                    (click)="openOtpModal()" class="badge verify-text-label-unverified -pointer">
+                  Verify
+                </h2>
+                    <!-- <input type="text" class="form-control form-input  disabled" placeholder="Company email" name="email" *ngIf="workExperienceDetails?.isEmailVerified"
                     id="email" [(ngModel)]="employeeProfessionalData.officialEmail" required disabled
                     pattern="^(?!.*@(gmail\.com|outlook\.com|aol\.com|yahoo\.com|icloud\.com|protonmail\.com|zoho\.com|yandex\.com|gmx\.com|hubspot\.com|mail\.com|tutanota\.com|10minutemail\.com)$)[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$"
                     [title]="email.errors?.['pattern'] ? 'Official Email is invalid' : ''"
                     [title]="email.errors?.['required'] ? 'Official Email is required' : ''"
                    
                     [ngClass]="{ 'is-invalid': email.invalid && (email.dirty || email.touched) }" #email="ngModel"
-                   (ngModelChange)="resetFormField()"    >
-                <h2 *ngIf="workExperienceDetails?.isEmailVerified "
+                   (ngModelChange)="resetFormField()"    > -->
+                <h2 *ngIf="workExperienceDetails?.isEmailVerified"
                     class="badge  verify-text-label text-green ">
 
                     <svg width="20" height="20" viewBox="0 0 27 27" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -70,39 +71,42 @@
         <div class="row mt-3">
             <div class="col">
                 <label for="" class="form-lable  required-form-field">Designation</label>
-                <input type="text" class="form-control form-input" placeholder="Designation" name="designation" *ngIf="!workExperienceDetails?.isEmailVerified"
+                <input type="text" class="form-control form-input" placeholder="Designation" name="designation"
                     id="designation" [(ngModel)]="employeeProfessionalData.designation" #designation="ngModel"
                     pattern="^[A-Za-z0-9\s()/.-]+$" minlength="4" maxlength="30"
                     [title]="designation.errors?.['minlength'] ? 'designation should have minimum length of 4 characters' : ''"
                     [title]="designation.errors?.['pattern'] ? 'designation is invalid' : ''"
                     required  [title]="designation.errors?.['required'] ? 'designation is required' : ''"
                     [ngClass]="{ 'is-invalid': designation.invalid && (designation.dirty || designation.touched) }"
+                    [disabled]="isDisabled"
                     >
-                    <input type="text" class="form-control form-input  disabled" placeholder="Designation" name="designation" *ngIf="workExperienceDetails?.isEmailVerified"
+                    <!-- <input type="text" class="form-control form-input  disabled" placeholder="Designation" name="designation" *ngIf="workExperienceDetails?.isEmailVerified"
                     id="designation" [(ngModel)]="employeeProfessionalData.designation" #designation="ngModel" disabled
                   
-                    >
+                    > -->
             </div>
             <div class="col">
                 <label for="" class="form-lable  required-form-field">Department</label>
-                <input type="text" class="form-control form-input" placeholder="Department" name="department" *ngIf="!workExperienceDetails?.isEmailVerified"
+                <input type="text" class="form-control form-input" placeholder="Department" name="department" 
                     id="department" [(ngModel)]="employeeProfessionalData.department" #department="ngModel"
                     pattern="^[A-Za-z0-9\s()/.-]+$" minlength="4" maxlength="30"
                     [title]="department.errors?.['minlength'] ? 'Department should have minimum length of 4 characters' : ''"
                     [title]="department.errors?.['pattern'] ? 'department is invalid' : ''"
                     required  [title]="department.errors?.['required'] ? 'department is required' : ''"
                     [ngClass]="{ 'is-invalid': department.invalid && (department.dirty || department.touched) }"
+                    [disabled]="isDisabled"
                     >
-                    <input type="text" class="form-control form-input  disabled" placeholder="Department" name="department" *ngIf="workExperienceDetails?.isEmailVerified"
+                    <!-- <input type="text" class="form-control form-input  disabled" placeholder="Department" name="department" *ngIf="workExperienceDetails?.isEmailVerified"
                     id="department" [(ngModel)]="employeeProfessionalData.department" #department="ngModel" disabled
-                    >
+                    > -->
             </div>
-            <div class="col" *ngIf="!workExperienceDetails?.isEmailVerified">
+            <div class="col" >
                 <label for="" class="form-lable  required-form-field">Working since</label>
                 <input type="text" class="form-control form-input" placeholder="In months" name="workingSince" 
                     id="workingSince" #workingSince="ngModel" [(ngModel)]="employeeProfessionalData.workingSince" required
                     pattern="[0-9]+" [title]="workingSince.errors?.['pattern'] ? 'Working Since is invalid' : ''"
                     [title]="workingSince.errors?.['required'] ? 'Working Since is required' : ''"
+                    [disabled]="isDisabled"
                     [ngClass]="{ 'is-invalid': workingSince.invalid && (workingSince.dirty || workingSince.touched) }"  >
                 <h2 class="badge badge-primary field-text-label" style="background: #57E1FF;" >Months</h2>
                 
@@ -110,12 +114,12 @@
 
             </div>
 
-            <div class="col" *ngIf="workExperienceDetails?.isEmailVerified">
+            <!-- <div class="col" *ngIf="workExperienceDetails?.isEmailVerified">
                 <label for="" class="form-lable  required-form-field">Working since</label>
             <input type="text" class="form-control form-input  disabled" placeholder="In months" name="workingSince" 
             id="workingSince" #workingSince="ngModel" [(ngModel)]="employeeProfessionalData.workingSince" disabled>
         <h2 class="badge badge-primary field-text-label" style="background: #57E1FF;"  >Months</h2>
-    </div>
+    </div> -->
     
     </div>
 
@@ -247,17 +251,19 @@
       </div>
     </div>
   </form> -->
-  
 
         <div class="row mt-5 mb-3">
             <div class="col-md-12 d-flex justify-content-end">
                 <button class="btn btn-next me-2" (click)="onPreviousClick()">Previous</button>
-                <button class="btn btn-next" (click)="updateProfessionalDetails()" type="button" *ngIf="!workExperienceDetails?.isEmailVerified"
-                    [disabled]=" !employeeProfessionalData.workingSince || !employeeProfessionalData.officialEmail   ||!employeeProfessionalData.companyName  ||!employeeProfessionalData.designation || !employeeProfessionalData.department ">Next</button>
-                    <button class="btn btn-next" (click)="updateProfessionalDetails()" type="button" *ngIf="workExperienceDetails?.isEmailVerified"
-                   >Next</button>
+                <button class="btn btn-next"  type="submit"
+                    [disabled]="!employeeProf.form.valid || !employeeProfessionalData.workingSince || !employeeProfessionalData.officialEmail   ||!employeeProfessionalData.companyName  ||!employeeProfessionalData.designation || !employeeProfessionalData.department">Next</button>
+                    <!-- <button class="btn btn-next" (click)="updateProfessionalDetails()" type="button" *ngIf="workExperienceDetails?.isEmailVerified"
+                   >Next</button> -->
             </div>
         </div>
+        </form>
+    </div>
+</div>
 
 
 
@@ -272,7 +278,8 @@
 
             <ng-container *ngIf="showModal === modalType.ADD_COMPANY">
                 <app-add-company></app-add-company>
-              </ng-container>            <ng-container *ngIf="showModal === modalType.SUCCESS_MESSAGE">
+              </ng-container>    
+                      <ng-container *ngIf="showModal === modalType.SUCCESS_MESSAGE">
             <div class="row message-card px-sm-3 p-4" >
   
                 <div class="font-weight-bold text-color-red mb-3 d-flex justify-content-center" style="color: #e40707; font-size: medium;" *ngIf="successtitle === 'Error'">

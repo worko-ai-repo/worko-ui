@@ -72,3 +72,15 @@
   background-color: transparent;
   
 }
+.form-control:disabled, .form-control[readonly] {
+  background-color: transparent;
+}
+
+.form-control[readonly]:focus {
+  background-color: transparent;
+  color:#FFF;
+  border-color: #FFF;
+  outline: 0;
+  box-shadow: none;
+
+}
