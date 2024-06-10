@@ -147,13 +147,13 @@ Amplify.configure(awsamplify.config);
   async isLoggedIn() {
     try {
       const { username, userId, signInDetails } = await getCurrentUser();
-       console.log(`The username: ${username}`);
-       console.log(`The userId: ${userId}`);
+      //  console.log(`The username: ${username}`);
+      //  console.log(`The userId: ${userId}`);
 
       if (signInDetails) {
-        console.log('The signInDetails:', signInDetails);
+        // console.log('The signInDetails:', signInDetails);
    
-        console.log(this.storage.get("useremail"), "Before")
+        // console.log(this.storage.get("useremail"), "Before")
         if(!this.storage.get("useremail")){
           this.storage.set("useremail", signInDetails.loginId);
         }

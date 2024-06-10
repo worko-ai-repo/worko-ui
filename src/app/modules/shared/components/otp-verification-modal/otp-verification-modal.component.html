@@ -1,80 +1,73 @@
-<div class="opt-verification-container d-flex align-content-center ">
-    <div class="px-sm-3 p-3">
-        <div class="font-weight-bold text-color-blue mb-3">
-         OTP VERIFICATION
-        </div>
-  
-        <!-- FORM -->
-        <form
-          class="px-sm-3"
-          name="form"
-          (ngSubmit)="f.form.valid && submitPaymentCode(f)"
-          #f="ngForm"
-          novalidate
-        >
-          <!-- PAYMENT CODE -->
-          <div class="form-group">
-            <div class="row">
-              <div class="col-12">
-                <label for="input-paymentCode" class="text-sm required">
-                  <span>We have sent an OTP to the registered email. Please enter the otp to verifty the email</span>
-                </label>
-                <input
-                  type="text"
-                  class="form-control form-input"
-                  [class.is-invalid]="
-                    paymentCode.invalid &&
-                    (paymentCode.dirty || paymentCode.touched)
-                  "
-                  id="input-paymentCode"
-                  name="paymentCode"
-                  #paymentCode="ngModel"
-                  [(ngModel)]="form.paymentCode"
-                  (keyup)="onKeyUp($event)"
-                  required
-                />
-              
-                <div
-                 
-                 class="invalid-feedback"
-                >
-                   Code is required
-                </div>
-              
-                <div
-                *ngIf="invalidCode"
-                  [class.d-block]="invalidCode"
-                  class="invalid-feedback"
-                >
-                  Please enter a valid code
-                </div>
-              </div>
+<div class="opt-verification-container d-flex align-content-center">
+  <div class="px-sm-3 p-3">
+    <div class="font-weight-bold text-color-blue mb-3">OTP VERIFICATION</div>
+
+    <!-- FORM -->
+    <form
+      class="px-sm-3"
+      name="form"
+      (ngSubmit)="f.form.valid && submitPaymentCode(f)"
+      #f="ngForm"
+      novalidate
+    >
+      <!-- PAYMENT CODE -->
+      <div class="form-group">
+        <div class="row">
+          <div class="col-12">
+            <label for="input-paymentCode" class="text-sm required">
+              <span
+                >We have sent an OTP to the registered email. Please enter the
+                otp to verifty the email</span
+              >
+            </label>
+            <input
+              type="text"
+              class="form-control form-input"
+              [class.is-invalid]="
+                paymentCode.invalid &&
+                (paymentCode.dirty || paymentCode.touched)
+              "
+              id="input-paymentCode"
+              name="paymentCode"
+              #paymentCode="ngModel"
+              [(ngModel)]="form.paymentCode"
+              (keyup)="onKeyUp($event)"
+              required
+            />
+
+            <div class="invalid-feedback">Code is required</div>
+
+            <div
+              *ngIf="invalidCode"
+              [class.d-block]="invalidCode"
+              class="invalid-feedback"
+            >
+              Please enter a valid code
             </div>
           </div>
-  
-          <!-- BUTTON -->
-          
-            <div class="row">
-              <div class="col-6 pe-2">
-                <button
-                  class="btn btn-secondary text-uppercase w-100"
-                  (click)="cancel(f)"
-                >
-                Cancel
-                </button>
-              </div>
-              <div class="col-6 ps-2">
-                <button
-                  type="submit"
-                  class="btn btn-secondary text-uppercase w-100 highlighted"
-              
-                >
-                  Validate
-                </button>
-              </div>
-            </div>
-      
-        </form>
+        </div>
       </div>
-</div>
 
+      <!-- BUTTON -->
+
+      <div class="row">
+        <div class="col-6 pe-2">
+          <button
+            class="btn btn-secondary text-uppercase w-100"
+            (click)="cancel(f)"
+          >
+            Cancel
+          </button>
+        </div>
+        <div class="col-6 ps-2">
+          <button
+            type="submit"
+            class="btn btn-secondary text-uppercase w-100 highlighted"
+          >
+            Validate
+          </button>
+        </div>
+      </div>
+    </form>
+  </div>
+</div>
