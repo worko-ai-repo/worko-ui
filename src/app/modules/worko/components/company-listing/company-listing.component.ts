@@ -596,7 +596,7 @@ console.log(this.typeFromIndex)
     //this.closeModal();
 
     if (this.triggerReferral && this.userLoggedIn) {
-      this.openModal(this.modalType.REQUEST_REFERRAL);
+      this.openModal(ModalType.REQUEST_REFERRAL);
     }
     if (this.triggerGuidance && this.userLoggedIn) {
       this.openModal(ModalType.REQUEST_GUIDANCE);
@@ -655,8 +655,10 @@ console.log(this.typeFromIndex)
     * @returns {void}
     */
   openModal(modalType: ModalType, message: string = "", title: string = ""): void {
-
-    console.log(modalType)
+    this.showModal = modalType;
+    this.cdr.detectChanges();
+    this.modalMessage = message;
+    this.modalTitle = title;
     if (ModalType.REQUEST_REFERRAL) {
       if (this.referrralComponent) {
         this.referrralComponent.showReferrelRow = true;
@@ -721,9 +723,6 @@ console.log(this.typeFromIndex)
       this.LoginPageComponent.isUserLoggedIn=true
     }
   }
-    this.showModal = modalType;
-    this.modalMessage = message;
-    this.modalTitle = title;
     this.modal.open();
 
   }

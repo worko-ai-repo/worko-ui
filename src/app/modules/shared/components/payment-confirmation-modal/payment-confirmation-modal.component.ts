@@ -91,8 +91,8 @@ export class PaymentConfirmationModalComponent {
       this.successStatus = true;
       this.amount = `₹${(response?.amount)}`;
       this.transactionId = response?.transactionid;
-      this.orderId = response?.orderid;
-      this.splitOrderId(this.orderId);
+      // this.orderId = response?.orderid;
+      this.splitOrderId(response?.orderid);
     }
     else if (response?.status === 'failed' || response?.error_code !== null || response?.transaction_error_type === 'payment_processing_error') {
       this.failureStatus = true;

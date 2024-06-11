@@ -1,4 +1,4 @@
-import { ChangeDetectorRef, Component, Inject, Input, ViewChild } from '@angular/core';
+import { ChangeDetectorRef, Component, EventEmitter, Inject, Input, Output, ViewChild } from '@angular/core';
 import { ModalType } from 'src/app/modules/shared/interfaces/shared.interface';
 import { ModalComponent } from '../../../modal/modal.component';
 import { PaymentFlowConfig } from 'src/app/modules/shared/interfaces/payment-flow-config.interface';
@@ -40,9 +40,11 @@ interface PaymentResponse {
 
 export class SubscriptionPlanComponent {
   @ViewChild(ModalComponent) modal!: ModalComponent;
+  @Output() onNext: EventEmitter<any> = new EventEmitter<any>();
   @Input() subscriptionList: any;
   @Input() cardDetails: any;
   @Input() userDetails: any;
+  @Input() packageDetails: any;
   modalType = ModalType;
   modalMessage: string = "";
   modalTitle: string = "";
@@ -64,6 +66,7 @@ export class SubscriptionPlanComponent {
   subscriptionStatus: any;
   successmessage: string = "";
   successtitle: string = "";
+
 
   constructor(private renderer2: Renderer2, private cd: ChangeDetectorRef,
     @Inject(DOCUMENT) private document: Document, private spinner: NgxSpinnerService, private candServ: CandidateProfileService, private storage: StorageService, private modalService: NgbModal) { }
@@ -105,7 +108,7 @@ export class SubscriptionPlanComponent {
     this.isOrderDetails = false;
     // this.openModal(ModalType.SUBSCRIPTION_CHECKOUT);
     if (this?.subscriptionStatus?.isSubscribed === true) {
-      this.successmessage = "You already have an active subscription. Please use it before buying another one."
+      this.successmessage = `You already have ${this.packageDetails?.availableReferrals} referral count left in your account. Please use it before buying another one.`;
       this.successtitle = ""
       this.openModal(ModalType.SUCCESS_MESSAGE);
     }
@@ -441,6 +444,7 @@ export class SubscriptionPlanComponent {
   nextBtn() {
     this.modal.cancel();
     this.getSubscriptionStatus();
+    this.onNext.emit();
   }
 
 }

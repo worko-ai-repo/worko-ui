@@ -42,7 +42,8 @@
                             <ul>
                                 <li>Amount: <span style="color: #2F92C7;">{{ amount }}</span></li>
                                 <li>Transaction ID: <span style="color: #2F92C7;">{{ transactionId }}</span></li>
-                                <li>Order ID: <span style="color: #2F92C7;">{{ orderIdPart1 }}<br>{{ orderIdPart2 }}</span></li>
+                                <li *ngIf="orderId">Order ID: <span style="color: #2F92C7;">{{orderId}}</span></li>
+                                <li *ngIf="!orderId">Order ID: <span style="color: #2F92C7;">{{ orderIdPart1 }}<br>{{ orderIdPart2 }}</span></li>
                             </ul>
                         </div>
 
