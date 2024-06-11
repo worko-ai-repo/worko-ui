@@ -145,7 +145,7 @@
           
           </div>-->
 
-          <div class="circle" (mouseover)="showOptions = true" >
+          <div class="circle" (mouseover)="showOptions = true" style="background-color: #0076B2;" >
             <span class="letter">{{ letter }}</span>
             <div *ngIf="showOptions" class="option" (mouseleave)="showOptions = false" (mouseover)="showOptions = true">
               <button class="dropdown-item d-flex justify-content-right " type="button" (click)="dashboard()">
@@ -194,11 +194,20 @@
         </div>
             
         </li> -->
-        <li class="icon-lg" *ngIf="!userLoggedIn" >
-          <div class="d-flex -pointer user-icon-container" *ngIf="!userLoggedIn" (click)="openLogin()">
+        <li class="icon-lg circle" *ngIf="!userLoggedIn"   (mouseover)="showOptions = true"   (mouseleave)="showOptions = false" >
+          <!-- <div class="d-flex -pointer user-icon-container" *ngIf="!userLoggedIn" > -->
             <img class="user-icon" _ngcontent-ng-c280476550="" alt=""
               src="assets/public/iconamoonprofilecirclefill.svg">
-          </div>
+              <div *ngIf="showOptions" class="option"  (mouseover)="showOptions = true">
+                <button class="dropdown-item d-flex justify-content-right"  (click)="openLogin()"   (mouseleave)="showOptions = false" type="button">
+                  
+                  <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-person-circle" viewBox="0 0 16 16">
+                    <path d="M11 6a3 3 0 1 1-6 0 3 3 0 0 1 6 0"/>
+                    <path fill-rule="evenodd" d="M0 8a8 8 0 1 1 16 0A8 8 0 0 1 0 8m8-7a7 7 0 0 0-5.468 11.37C3.242 11.226 4.805 10 8 10s4.757 1.225 5.468 2.37A7 7 0 0 0 8 1"/>
+                  </svg>
+              &nbsp;Login</button>
+              </div>
+          <!-- </div> -->
         </li>
 
         <li class="text-sm" *ngIf="userLoggedIn">

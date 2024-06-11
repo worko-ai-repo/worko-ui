@@ -7,8 +7,7 @@ import { CognitoService } from 'src/app/modules/services/cognito.service';
 import { ModalComponent } from 'src/app/modules/shared/components/modal/modal.component';
 import { LoginPageComponent } from '../login-page/login-page.component';
 import { ModalType } from 'src/app/modules/shared/interfaces/shared.interface';
-
-
+import { Location } from '@angular/common';
 
 @Component({
   selector: 'app-index',
@@ -18,69 +17,133 @@ import { ModalType } from 'src/app/modules/shared/interfaces/shared.interface';
 export class IndexComponent {
 
   @ViewChild(ModalComponent) modal!: ModalComponent;
-  @ViewChild(LoginPageComponent) LoginPageComponent!:LoginPageComponent;
+  @ViewChild(LoginPageComponent) LoginPageComponent!: LoginPageComponent;
   modalType = ModalType;
   modalMessage: string = "";
   modalTitle: string = "";
-  showModal: ModalType =ModalType.LOGIN_SIGNUP;
+  showModal: ModalType = ModalType.LOGIN_SIGNUP;
   userLoggedIn: boolean = false;
   emailAddress: string = "";
   profileCompletion: any = "";
   employeeTotalPercentage: any;
   candidateTotalPercentage: any;
   candidateProfile: any;
- userName:string='profile'
-  letter:string="";
-  isUserLoggedIn:boolean=false;
-  selectedUserType: any='candidate';
+  userName: string = 'profile'
+  letter: string = "";
+  isUserLoggedIn: boolean = false;
+  selectedUserType: any = 'candidate';
   userType: any;
   userTypeFromIndex: any;
 
-  constructor(private cognitoService: CognitoService,private activatedRoute: ActivatedRoute, private router: Router, private candidateSrv: CandidateProfileService, private storage: StorageService, private navbarToggleSwitchService : NavbarToggleSwitchService) {
-   
+  constructor(private cognitoService: CognitoService, private location: Location, private activatedRoute: ActivatedRoute, private router: Router, private candidateSrv: CandidateProfileService, private storage: StorageService, private navbarToggleSwitchService: NavbarToggleSwitchService) {
+
     this.activatedRoute.queryParams.subscribe({
       next: (queryParams) => {
         this.userTypeFromIndex = queryParams['userType'];
-      }});
-  }
- 
+      }
+    });
 
- 
-  
+
+
+  }
+
+
+
+
+  // async ngAfterViewInit(): Promise<void> {
+
+
+  // this.userLoggedIn = await this.cognitoService.isLoggedIn();
+  // if(this.userLoggedIn && !this.userTypeFromIndex){
+  //   this.navbarToggleSwitchService.intializeToggleStatus();
+  //   const usertype=this.storage.get('lastAccessedDash') ;
+  //    this.userName=this.storage.get('userName') ;
+  //   console.log(this.userName)
+  //   if(usertype==='EMP'){
+
+  //     this.router.navigate(['/employee/Dashboard']);
+
+  //   }else{
+
+  //     this.router.navigate(['/candidate/dashboard']);
+  //   }
+  // }else if(!this.userLoggedIn && this.userTypeFromIndex){
+
+  //   this.isUserLoggedIn=true
+  //   this.selectedUserType=this.userTypeFromIndex.toLowerCase();
+  //   this.modalOpen();
+
+  // }else if(this.userLoggedIn && this.userTypeFromIndex){
+  //   this.router.navigate(['/employee/Referral']);
+  // }
+  // else{
+  //   this.isUserLoggedIn=true
+  //   this.modalOpen();
+  // }
+
+  // if (this.userTypeFromIndex) {
+  //   this.router.navigate([], {
+  //     queryParams: {
+  //       userType: null
+  //     },
+  //     queryParamsHandling: 'merge'
+  //   });
+  // }
+  //}
+
   async ngAfterViewInit(): Promise<void> {
-   
-   
-  this.userLoggedIn = await this.cognitoService.isLoggedIn();
-  if(this.userLoggedIn && !this.userTypeFromIndex){
-    this.navbarToggleSwitchService.intializeToggleStatus();
-    const usertype=this.storage.get('lastAccessedDash') ;
-     this.userName=this.storage.get('userName') ;
-    console.log(this.userName)
-    if(usertype==='EMP'){
-      
-      this.router.navigate(['/employee/Dashboard']);
+    this.userLoggedIn = await this.cognitoService.isLoggedIn();
 
-    }else{
-      
-      this.router.navigate(['/candidate/dashboard']);
+    if (this.userLoggedIn && !this.userTypeFromIndex) {
+      this.handleLoggedInUser();
+      return;
     }
-  }else if(!this.userLoggedIn && this.userTypeFromIndex){
-    
-    this.isUserLoggedIn=true
-    this.selectedUserType=this.userTypeFromIndex.toLowerCase();
-  this.modalOpen();
-  }else if(this.userLoggedIn && this.userTypeFromIndex){
-    this.router.navigate(['/employee/Referral']);
-  }
-  else{
-    this.isUserLoggedIn=true
+
+    if (this.userLoggedIn && this.userTypeFromIndex) {
+      this.router.navigate(['/employee/Referral']);
+      return;
+    }
+
+    if (!this.userLoggedIn && this.userTypeFromIndex) {
+      this.handleUserTypeFromIndex();
+      return;
+    }
+
+
+    this.isUserLoggedIn = true;
     this.modalOpen();
   }
-}
-  modalOpen(){
+
+  private handleLoggedInUser(): void {
+    this.navbarToggleSwitchService.intializeToggleStatus();
+    const userType = this.storage.get('lastAccessedDash');
+    this.userName = this.storage.get('userName');
+    console.log(this.userName);
+
+    if (userType === 'EMP') {
+      this.router.navigate(['/employee/Dashboard']);
+    } else {
+      this.router.navigate(['/candidate/dashboard']);
+    }
+  }
+
+  private handleUserTypeFromIndex(): void {
+    this.isUserLoggedIn = true;
+    this.selectedUserType = this.userTypeFromIndex;
+    console.log(this.selectedUserType);
+    this.modalOpen();
+
+    // Remove query parameters after processing
+    const url = this.router.url.split('?')[0];
+    this.location.replaceState(url);
+  }
+
+
+
+  modalOpen() {
     this.openModal(this.modalType.LOGIN_SIGNUP)
   }
- 
+
 
   async receiveDataFromChild(userType: any) {
     this.userLoggedIn = await this.cognitoService.isLoggedIn();
@@ -88,11 +151,11 @@ export class IndexComponent {
     if (this.userLoggedIn) {
       if (this.router.url.includes('/company-listing')) {
         this.userLoggedIn = await this.cognitoService.isLoggedIn();
-        this.userName=this.storage.get('userName') ;
+        this.userName = this.storage.get('userName');
         console.log(this.userName)
         // this.letter=this.getInitials(this.userName)
         // console.log(this.letter);
-        this.letter  = this.userName.charAt(0).toUpperCase();
+        this.letter = this.userName.charAt(0).toUpperCase();
         // Redirect to the company listing page
         this.router.navigate(['/company-listing']);
         this.modal.cancel();
@@ -136,16 +199,16 @@ export class IndexComponent {
     * @returns {void}
     */
   openModal(modalType: ModalType, message: string = "", title: string = ""): void {
-    
-    if(this.LoginPageComponent){
-      this.LoginPageComponent.showSignInRow=true;
-      this.LoginPageComponent.showAddCompanyScreen=false;
-      this.LoginPageComponent.showErrorMessageScreen=false;
-      this.LoginPageComponent.isUserLoggedIn=this.isUserLoggedIn
-      this.LoginPageComponent.selectedUserType=this.selectedUserType
+
+    if (this.LoginPageComponent) {
+      this.LoginPageComponent.showSignInRow = true;
+      this.LoginPageComponent.showAddCompanyScreen = false;
+      this.LoginPageComponent.showErrorMessageScreen = false;
+      this.LoginPageComponent.isUserLoggedIn = this.isUserLoggedIn
+      this.LoginPageComponent.selectedUserType = this.selectedUserType
 
     }
-   
+
     this.showModal = modalType;
     this.modalMessage = message;
     this.modalTitle = title;

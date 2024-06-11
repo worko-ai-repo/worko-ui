@@ -17,6 +17,7 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { StorageService } from 'src/app/modules/app-core/services/storage.service';
 import { CandidateProfileService } from 'src/app/modules/candidate/services/candidate-profile.service';
 import { LoginPageComponent } from '../login-page/login-page.component';
+import { Location } from '@angular/common';
 @Component({
   selector: 'app-company-listing',
   templateUrl: './company-listing.component.html',
@@ -28,8 +29,8 @@ export class CompanyListingComponent implements OnInit {
   @ViewChild(ReferralRequestComponent) referrralComponent!: ReferralRequestComponent;
   @ViewChild(RequestGuidenceComponent) referrralguidanceComponent!: RequestGuidenceComponent;
   @ViewChild('autoCompleteInput', { static: false, read: MatAutocompleteTrigger }) trigger!: MatAutocompleteTrigger;
-  @ViewChild('company')companyFormDirective!: NgForm;
-  @ViewChild(LoginPageComponent) LoginPageComponent!:LoginPageComponent;
+  @ViewChild('company') companyFormDirective!: NgForm;
+  @ViewChild(LoginPageComponent) LoginPageComponent!: LoginPageComponent;
   userName: string = "";
   letter: string = ""
   successmessage: string = "";
@@ -231,7 +232,7 @@ export class CompanyListingComponent implements OnInit {
 
 
 
-  constructor(private spinner: NgxSpinnerService,private activatedRoute: ActivatedRoute, private cdr: ChangeDetectorRef, private storage: StorageService, private router: Router, private authService: AuthService, private http: HttpClient, private renderer: Renderer2, private el: ElementRef, private companyListing: CompanyListingService, private cognitoService: CognitoService, private candidateSrv: CandidateProfileService) {
+  constructor(private spinner: NgxSpinnerService, private location: Location, private activatedRoute: ActivatedRoute, private cdr: ChangeDetectorRef, private storage: StorageService, private router: Router, private authService: AuthService, private http: HttpClient, private renderer: Renderer2, private el: ElementRef, private companyListing: CompanyListingService, private cognitoService: CognitoService, private candidateSrv: CandidateProfileService) {
     this.searchTerms
       .pipe(
         debounceTime(300), // Adjust the debounce time as needed (300 milliseconds in this example)
@@ -243,9 +244,9 @@ export class CompanyListingComponent implements OnInit {
       });
 
 
-      this.companySKFormIndex = this.activatedRoute.snapshot.queryParams['companyID'];
-      this.typeFromIndex = this.activatedRoute.snapshot.queryParams['Type'];
-    
+    this.companySKFormIndex = this.activatedRoute.snapshot.queryParams['companyID'];
+    this.typeFromIndex = this.activatedRoute.snapshot.queryParams['Type'];
+
   }
 
 
@@ -256,10 +257,10 @@ export class CompanyListingComponent implements OnInit {
 
     await this.getCompanyDetails();
     this.filteredCompanyList = this.companyList;
-   
+
 
     this.assetLogos = await this.generateLogoFilenames(1, 1045);
-     this.filteredOptions = this.myControl.valueChanges.pipe(
+    this.filteredOptions = this.myControl.valueChanges.pipe(
 
       debounceTime(300),
       distinctUntilChanged(),
@@ -273,43 +274,47 @@ export class CompanyListingComponent implements OnInit {
       })
 
     );
-if(this?.companySKFormIndex && this?.typeFromIndex){
-    this.openModalFromIndex()
-}
+   
+    if (this?.companySKFormIndex && this?.typeFromIndex) {
+      this.openModalFromIndex()
+    }
 
+    window.scrollTo(0, 0);
   }
 
-  //receive data from worko.ai
+  //receive data from static page
 
   async openModalFromIndex() {
-   
 
-console.log(this.typeFromIndex)
+
+    console.log(this.typeFromIndex)
     // if ( this.typeFromIndex) {
-      this.userLoggedIn = await this.cognitoService.isLoggedIn();
-      if (!this.userLoggedIn) {
-        this.userLoggedIn = true
-        this.openModal(ModalType.LOGIN_SIGNUP);
-      } else {
-
-        if (this.typeFromIndex === 'referral') {
-          this.indexData='ID#'+this.companySKFormIndex
-          this.selectedData = this.filterCompanyBySk(this.indexData);
-          console.log(this.selectedData);
-          this.triggerReferral = true;
-          this.triggerGuidance = false;
-          this.openModal(ModalType.REQUEST_REFERRAL);
-        } else {
+    this.userLoggedIn = await this.cognitoService.isLoggedIn();
+      if (this.typeFromIndex === 'referral' && this.userLoggedIn) {
+        this.indexData = 'ID#' + this.companySKFormIndex
+        this.selectedData = this.filterCompanyBySk(this.indexData);
+        console.log(this.selectedData);
+        this.triggerReferral = true;
+        this.triggerGuidance = false;
+        this.openModal(ModalType.REQUEST_REFERRAL);
+      } else if(this.typeFromIndex === 'guidance'){
 
 
-          this.triggerReferral = false;
-          this.triggerGuidance = true;
-          this.openModal(ModalType.REQUEST_GUIDANCE)
+        this.triggerReferral = false;
+        this.triggerGuidance = true;
+        this.openModal(ModalType.REQUEST_GUIDANCE)
 
 
-        }
-      }
-   // }
+      
+    }else{
+      this.profileCompletionRequired = true;
+      this.successmessage = "";
+      this.successtitle = "";
+      this.openModal(ModalType.SUCCESS_MESSAGE);
+    }
+    const url = this.router.url.split('?')[0];
+    this.location.replaceState(url);
+    // }
 
 
   }
@@ -382,7 +387,6 @@ console.log(this.typeFromIndex)
       logos.push(`${i}.jpg`);
 
     }
-    // logos.push('1.jpg','10.jpg','15.jpg','25.jpg','30.jpg','47.jpg')
     return logos;
   }
 
@@ -469,7 +473,7 @@ console.log(this.typeFromIndex)
   }
 
   async onTeamSizeChange(selectedTeamSize: string) {
-    this.pageSize=100;
+    this.pageSize = 100;
     this.lastKey = "";
     this.loadedOnce = true;
     this.filterData.teamSize = selectedTeamSize;
@@ -488,7 +492,7 @@ console.log(this.typeFromIndex)
 
   async onIndustryNameChange(selectedIndustryName: string) {
     this.lastKey = "";
-    
+
     this.loadedOnce = true;
     // this.appliedFilter = true;
     this.filterData.industryName = selectedIndustryName;
@@ -497,7 +501,7 @@ console.log(this.typeFromIndex)
   }
   async onIndustryTypeChange(selectedIndustryType: string) {
     this.lastKey = "";
-    this.pageSize=100;
+    this.pageSize = 100;
     this.loadedOnce = true;
     // this.appliedFilter = true;
     this.filterData.industryType = selectedIndustryType;
@@ -570,6 +574,7 @@ console.log(this.typeFromIndex)
 
 
   }
+
   // ngAfterViewInit() {
   //   
   //   this.trigger.panelClosingActions
@@ -602,7 +607,7 @@ console.log(this.typeFromIndex)
     if (this.triggerGuidance && this.userLoggedIn) {
       this.openModal(ModalType.REQUEST_GUIDANCE);
     }
-   
+
   }
 
   companyForm = {
@@ -630,10 +635,10 @@ console.log(this.typeFromIndex)
 
           carrierPage: this.companyForm.carrierPage,
           linkedIn: this.companyForm.linkedIn,
-          
+
         },
-         userEmail:this.companyForm.personalemailid,
-         userContactNumber:this.companyForm.contactNumber
+        userEmail: this.companyForm.personalemailid,
+        userContactNumber: this.companyForm.contactNumber
       }
       console.log(this.companyData)
       await this.companyListing.requestNewCompany(this.companyData)
@@ -714,15 +719,17 @@ console.log(this.typeFromIndex)
 
       this.myControl.reset();
 
+
     }
-    if(ModalType.LOGIN_SIGNUP){
-    if(this.LoginPageComponent){
-      this.LoginPageComponent.showSignInRow=true;
-      this.LoginPageComponent.showAddCompanyScreen=false;
-      this.LoginPageComponent.showErrorMessageScreen=false;
-      this.LoginPageComponent.isUserLoggedIn=true
+    if (ModalType.LOGIN_SIGNUP) {
+      if (this.LoginPageComponent) {
+        this.LoginPageComponent.showSignInRow = true;
+        this.LoginPageComponent.showAddCompanyScreen = false;
+        this.LoginPageComponent.showErrorMessageScreen = false;
+        this.LoginPageComponent.isUserLoggedIn = true
+
+      }
     }
-  }
     this.showModal = modalType;
     this.modalMessage = message;
     this.modalTitle = title;
@@ -756,7 +763,7 @@ console.log(this.typeFromIndex)
           this.cvCurPerc = profileType[2].curPerc;
 
           console.log("Total percentage == ", this.totalPercentage);
-          console.log("CV CurPer === ", this.cvCurPerc);          
+          console.log("CV CurPer === ", this.cvCurPerc);
         }
       }
     }
