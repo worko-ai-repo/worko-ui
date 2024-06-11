@@ -43,23 +43,8 @@ export class IndexComponent {
         this.userTypeFromIndex = queryParams['userType'];
       }});
   }
-
  
 
-  async ngOnInit(): Promise<void> {
-  
-   
-    console.log(this.userType)
-   // this.checkUserLoggedIn();
-  
-  }
- 
-  async checkUserLoggedIn(){
-   
-
-  
-
-  }
  
   
   async ngAfterViewInit(): Promise<void> {
@@ -82,7 +67,7 @@ export class IndexComponent {
   }else if(!this.userLoggedIn && this.userTypeFromIndex){
     
     this.isUserLoggedIn=true
-    this.selectedUserType=this.userTypeFromIndex;
+    this.selectedUserType=this.userTypeFromIndex.toLowerCase();
   this.modalOpen();
   }else if(this.userLoggedIn && this.userTypeFromIndex){
     this.router.navigate(['/employee/Referral']);
@@ -157,6 +142,8 @@ export class IndexComponent {
       this.LoginPageComponent.showAddCompanyScreen=false;
       this.LoginPageComponent.showErrorMessageScreen=false;
       this.LoginPageComponent.isUserLoggedIn=this.isUserLoggedIn
+      this.LoginPageComponent.selectedUserType=this.selectedUserType
+
     }
    
     this.showModal = modalType;

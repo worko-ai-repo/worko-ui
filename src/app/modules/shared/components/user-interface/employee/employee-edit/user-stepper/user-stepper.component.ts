@@ -1,10 +1,9 @@
-
-import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
-import { Router } from '@angular/router';
+import { Component, EventEmitter, Input, OnInit, Output } from "@angular/core";
+import { Router } from "@angular/router";
 @Component({
-  selector: 'app-user-stepper',
-  templateUrl: './user-stepper.component.html',
-  styleUrls: ['./user-stepper.component.scss']
+  selector: "app-user-stepper",
+  templateUrl: "./user-stepper.component.html",
+  styleUrls: ["./user-stepper.component.scss"],
 })
 export class UserStepperComponent implements OnInit {
   @Input() currentStep!: number;
@@ -12,19 +11,22 @@ export class UserStepperComponent implements OnInit {
   @Output() previousStep = new EventEmitter<void>();
   @Input() userType: any = "";
   currentValue = 1;
-  circles = Array.from({ length: 3 });
+  // circles = Array.from({ length: 3 });
+  circles: any;
   userRole: any;
- url: string = "";
- constructor(private router: Router) {}
+  url: string = "";
+  constructor(private router: Router) {}
   ngOnInit() {
+    // Initialize circles based on userType
+    this.circles = Array.from({ length: this.userType === "Employee" ? 2 : 3 });
+
     if (this.userType == "Candidate") {
-      this.url =  "/candidate/dashboard";
+      this.url = "/candidate/dashboard";
     }
 
     if (this.userType == "Employee") {
-      this.url =  "/employee/Dashboard";
+      this.url = "/employee/Dashboard";
     }
-    
   }
 
   navigateToUrl() {
@@ -32,33 +34,31 @@ export class UserStepperComponent implements OnInit {
   }
   getStepName(step: number): string {
     if (this.userType === "Candidate") {
-        switch (step) {
-            case 1:
-                return "Personal Information";
-            case 2:
-                return "Professional Details";
-            case 3:
-                return "Upload";
-            default:
-                return "";
-        }
+      switch (step) {
+        case 1:
+          return "Personal Information";
+        case 2:
+          return "Professional Details";
+        case 3:
+          return "Upload";
+        default:
+          return "";
+      }
     } else if (this.userType === "Employee") {
-        switch (step) {
-            case 1:
-              case 1:
-                return "Personal Information";
-            case 2:
-                return "Professional Details";
-            case 3:
-                return "Add Bank Details";
-            default:
-                return "";
-        }
+      switch (step) {
+        case 1:
+        case 1:
+          return "Personal Information";
+        case 2:
+          return "Professional Details";
+        case 3:
+          return "Add Bank Details";
+        default:
+          return "";
+      }
     }
     return "";
-}
-
-
+  }
 
   next() {
     this.currentValue++;
@@ -77,26 +77,19 @@ export class UserStepperComponent implements OnInit {
   }
 
   update() {
-    const progress = document.getElementById('progress') as HTMLElement;
-    const circles = document.querySelectorAll('.circle');
+    const progress = document.getElementById("progress") as HTMLElement;
+    const circles = document.querySelectorAll(".circle");
 
     circles.forEach((circle, index) => {
       if (index < this.currentValue) {
-        circle.classList.add('active');
+        circle.classList.add("active");
       } else {
-        circle.classList.remove('active');
+        circle.classList.remove("active");
       }
     });
 
-    const actives = document.querySelectorAll('.active');
+    const actives = document.querySelectorAll(".active");
     progress.style.width =
-      ((actives.length - 1) / (circles.length - 1)) * 100 + '%';
-
+      ((actives.length - 1) / (circles.length - 1)) * 100 + "%";
   }
-
-
-
-  }
-  
-
-
+}

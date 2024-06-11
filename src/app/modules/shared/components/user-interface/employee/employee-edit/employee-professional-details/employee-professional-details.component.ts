@@ -239,7 +239,6 @@ this.disableAllFields();
     //this.employeeProfessionalData.companyName='';
   }
   resetFormField() {
-    // debugger
     if (this.employeeProfessionalData.officialEmail == "") {
       this.employeeProfessionalData.designation = "";
       this.employeeProfessionalData.department = "";
@@ -631,7 +630,6 @@ this.disableAllFields();
         this.employeeProfessionalData.companyName &&
         this.employeeProfessionalData.workingSince &&
         this.employeeProfessionalData.officialEmail){
-          console.log("allValues")
           this.isDisabled = true;
         }
       // this.employeeProfessionalData.isEmailVerified = true;

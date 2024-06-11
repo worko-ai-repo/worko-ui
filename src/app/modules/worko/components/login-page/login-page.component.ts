@@ -264,7 +264,7 @@ export class LoginPageComponent implements AfterViewInit, OnDestroy {
       return new bootstrap.Tooltip(tooltipTriggerEl)
     })
 
-   
+    console.log(this.selectedUserType)
   }
 
 
@@ -273,12 +273,9 @@ export class LoginPageComponent implements AfterViewInit, OnDestroy {
     //debugger
  
       // this.selectedUserType = this.userType;
-      // console.log(this.selectedUserType)
+     //console.log(this.selectedUserType)
     
-    if(this.userLoggedInData){
-      this.isUserLoggedIn=this.userLoggedInData
-      console.log(this.isUserLoggedIn)
-    }
+  
     
     this.blinkAndChangeWord()
     this.filteredOptions = this.myControl.valueChanges.pipe(
@@ -680,7 +677,7 @@ try{
         //contactnumber:this.companyForm.contactNumber
       }
     }
-   
+   debugger
     await this.companyListingService.requestNewCompany(this.companyData)
     let response= await this.companyListingService.getAllNewCompany()
     if(response){
@@ -710,6 +707,8 @@ try{
     //this.closeModal();
   //window.location.reload()
   //this.showErrorMessageScreen=!this.showErrorMessageScreen
+  this.successmessage="";
+  this.successtitle="";
   this.showSignInRow=true
   this.showAddCompanyScreen=false
   this.showErrorMessageScreen=false

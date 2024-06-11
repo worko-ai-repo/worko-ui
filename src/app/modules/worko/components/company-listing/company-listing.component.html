@@ -282,14 +282,14 @@
             id="contactNumber" name="contactNumber" [(ngModel)]="companyForm.contactNumber"
             pattern="^\+(?:[0-9] ?){6,14}[0-9]$" #contactNumber="ngModel"
             [ngClass]="{ 'is-invalid': contactNumber.invalid && (contactNumber.dirty || contactNumber.touched) }">
-          <div class="tooltip-container">
+          <!-- <div class="tooltip-container">
             <div class="tooltip-style">
               <i class="fa-solid fa-circle-info"></i>
             </div>
             <div class="tooltip-text pt-2 text-center p-2">
               <small>Add "+" and "country code" before phone number.</small>
             </div>
-          </div>
+          </div> -->
         </div>
         <!-- <div class="tooltip-container">
           <div class="tooltip-style">
