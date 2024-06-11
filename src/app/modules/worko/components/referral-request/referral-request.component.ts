@@ -88,7 +88,6 @@ export class ReferralRequestComponent implements OnInit, OnChanges {
             this.showsubscriptionPlan = true;
             this.showReferrelRow = false;
             this.showScore=false;
-            localStorage.removeItem('crossDomainData')
            } 
            else {
             

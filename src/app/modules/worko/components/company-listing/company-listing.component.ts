@@ -283,7 +283,7 @@ if(this?.companySKFormIndex && this?.typeFromIndex){
 
   async openModalFromIndex() {
    
-debugger
+
 console.log(this.typeFromIndex)
     // if ( this.typeFromIndex) {
       this.userLoggedIn = await this.cognitoService.isLoggedIn();
@@ -469,6 +469,7 @@ console.log(this.typeFromIndex)
   }
 
   async onTeamSizeChange(selectedTeamSize: string) {
+    this.pageSize=100;
     this.lastKey = "";
     this.loadedOnce = true;
     this.filterData.teamSize = selectedTeamSize;
@@ -487,7 +488,7 @@ console.log(this.typeFromIndex)
 
   async onIndustryNameChange(selectedIndustryName: string) {
     this.lastKey = "";
-
+    
     this.loadedOnce = true;
     // this.appliedFilter = true;
     this.filterData.industryName = selectedIndustryName;
@@ -496,7 +497,7 @@ console.log(this.typeFromIndex)
   }
   async onIndustryTypeChange(selectedIndustryType: string) {
     this.lastKey = "";
-
+    this.pageSize=100;
     this.loadedOnce = true;
     // this.appliedFilter = true;
     this.filterData.industryType = selectedIndustryType;
@@ -622,16 +623,17 @@ console.log(this.typeFromIndex)
   async requestCampanyData(form: NgForm) {
     try {
       this.companyData = {
-        userType: "EMP",
+        userType: "CAND",
         companyDetail: {
           name: this.companyForm.CompanyName,
           industry: 'Industry',
 
           carrierPage: this.companyForm.carrierPage,
           linkedIn: this.companyForm.linkedIn,
-          //personalemailid:this.companyForm.personalemailid,
-          //contactnumber:this.companyForm.contactNumber
-        }
+          
+        },
+         userEmail:this.companyForm.personalemailid,
+         userContactNumber:this.companyForm.contactNumber
       }
       console.log(this.companyData)
       await this.companyListing.requestNewCompany(this.companyData)

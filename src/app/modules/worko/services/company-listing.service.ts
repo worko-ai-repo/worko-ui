@@ -40,7 +40,7 @@ export class CompanyListingService {
       url += `&teamSize=${teamSize}`;
     }
     if (industryName) {
-      url += `&industry=${industryName}`;
+      url += `&industryName=${industryName}`;
     }
     if (companyName) {
       url += `&companyName=${companyName}`;
@@ -86,7 +86,7 @@ export class CompanyListingService {
   */
 
   requestNewCompany(data: any): Promise<any> {
-  return this.http.post(API_URL + `company/add`, data, this.authService.getHttpOptions()).toPromise();
+  return this.http.post(API_URL + `company/request`, data, this.authService.getHttpOptions()).toPromise();
 }
 
  /**Get New Company List
@@ -94,37 +94,9 @@ export class CompanyListingService {
 * @returns {Promise<any>}
   */
  getAllNewCompany(): Promise<any> {
-  return this.http.get(API_URL + `company/new`,  this.authService.getHttpOptions()).toPromise();
+  return this.http.get(API_URL + `company/all`,  this.authService.getHttpOptions()).toPromise();
 }
-// private item: any;
-// //private event: Event;
-// event: Event | undefined;
-  // private referralSubject = new Subject<any>();
 
-  // referralRequested$ = this.referralSubject.asObservable();
-
-  // requestReferral(item: any) {
-  //   this.referralSubject.next( item);
-  // }
-   data = new BehaviorSubject<any>(null);
-   triggerValue=new BehaviorSubject<any>(null);
-
-
-  getReferralData() {
-    return this.data.asObservable();
-  }
-
-  setReferralData(data: any) {
-    this.data.next(data);
-  }
-
-  getGuidanceData(){
-    return this.triggerValue.asObservable();
-  }
-
-  setGuidanceData(triggerValue:boolean){
-    this.triggerValue.next(triggerValue);;
-  }
 
 
 }
