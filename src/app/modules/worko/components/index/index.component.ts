@@ -67,7 +67,7 @@ export class IndexComponent {
   }else if(!this.userLoggedIn && this.userTypeFromIndex){
     
     this.isUserLoggedIn=true
-    this.selectedUserType='employee'
+    this.selectedUserType=this.userTypeFromIndex.toLowerCase();
   this.modalOpen();
   }else if(this.userLoggedIn && this.userTypeFromIndex){
     this.router.navigate(['/employee/Referral']);
