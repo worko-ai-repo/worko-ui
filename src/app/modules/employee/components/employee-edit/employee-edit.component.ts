@@ -61,11 +61,14 @@ export class EmployeeEditComponent {
   }
   nextStepThird(data: any) {
     // debugger
-    if (this.currentStep < 3) {
-      this.currentStep++;
-    }
+    // if (this.currentStep < 3) {
+    //   this.currentStep++;
+    // }
     this.secondStepData = data;
     this.employeeProfessionalData = data;
+    this.updateProfilePic();
+    // this.updateWorkExperience();
+    this.spinner.show();
   }
 
   nextStepSecond(data: any) {
@@ -412,7 +415,7 @@ const candidateExperience = {
 
       ECTC: this.secondStepData.ectc,
       location: this.firstStepData.location,
-      coverLetter: this.thirdStepData.coverLetter,
+      coverLetter: this.employeeDetails.coverLetter,
       name: this.firstStepData.name,
       CTC: this.secondStepData.ctc,
       emailList: {
@@ -449,7 +452,11 @@ const candidateExperience = {
         .createUserDetails(this.emailAddress, userDetails)
         .then(async (response) => {
           if (response) {
-            this.addBankDetails();
+            //Commented as we are not using bank details for now
+            // this.addBankDetails();
+            this.spinner.hide();
+            this.modalopen();
+            console.log(response);
           }
         });
     } catch (error: any) {
@@ -482,8 +489,8 @@ const candidateExperience = {
           }else{
             console.log(this.workExperienceDetails);
           }
-          // this.spinner.hide();
-          this.getBankDetails();
+          this.spinner.hide();
+          // this.getBankDetails();
         });
     } catch (error: any) {
       if (error.status == 401) {
