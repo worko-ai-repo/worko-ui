@@ -34,7 +34,8 @@
                 </div>
                   <div class=" row step-names mt-0 pt-0">
             <div class=" col-md-12 d-flex justify-content-center" style="position: fixed;">
-                <div class="" *ngFor="let circle of circles; let i = index" class="step-name">
+
+                <div class="" *ngFor="let circle of circles; let i = index" [ngClass]="'step-name step-name'+ circles.length">
                    <span class=" pe-2 text-center"> {{ getStepName(i + 1) }}</span>
                 </div>
             </div>
