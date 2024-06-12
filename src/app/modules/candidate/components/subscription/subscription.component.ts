@@ -55,7 +55,7 @@ export class SubscriptionComponent {
     this.subscriptionPack.getSubscription().subscribe({
       next: (response) => {
         // console.log(response);
-        this.subscriptionList = response;
+        this.subscriptionList = response.sort((a:any, b:any) => a.amount - b.amount);
         console.log(this.subscriptionList, "Hello")
         this.spinner.hide();
         // const filteredB = this.subscriptionList.filter(itemB => ! this.packageDetails1.some((itemA: any) => itemA.name === itemB.name));

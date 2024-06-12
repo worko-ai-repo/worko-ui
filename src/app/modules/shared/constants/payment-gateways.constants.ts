@@ -10,7 +10,7 @@ export const PAYMENT_GATEWAYS: PaymentGatewayData[] = [
     {
         name: 'BillDesk',
         logo: '/assets/icons/billDeskLogo.png',
-        isEnabled: true
+        isEnabled: false
     },
     {
         name: 'Razorpay',

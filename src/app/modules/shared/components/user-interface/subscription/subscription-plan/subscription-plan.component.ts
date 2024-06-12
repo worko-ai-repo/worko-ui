@@ -84,12 +84,12 @@ export class SubscriptionPlanComponent {
       this.filteredPackages = this.subscriptionList.filter((pkg: any) => pkg.name !== "Free");
 
       // Sort the filtered packages by the desired order: Basic, Classic, Premium
-      let sortedPackages = this.filteredPackages.sort((a: any, b: any) => {
-        const order: Record<string, number> = { "Basic": 1, "Classic": 2, "Premium": 3 };
-        return order[a.name as keyof typeof order] - order[b.name as keyof typeof order];
-      });
+      // let sortedPackages = this.filteredPackages.sort((a: any, b: any) => {
+      //   const order: Record<string, number> = { "Basic": 1, "Classic": 2, "Premium": 3 };
+      //   return order[a.name as keyof typeof order] - order[b.name as keyof typeof order];
+      // });
 
-      this.filteredPackages = sortedPackages.slice(0, 3);
+      // this.filteredPackages = sortedPackages.slice(0, 3);
 
       // console.log( this.filteredPackages);
     }
@@ -409,6 +409,11 @@ export class SubscriptionPlanComponent {
   showErrorPanel(message: string) {
     // We cam implement our logic to show an error panel or modal with the provided message
     console.error(message);
+  }
+
+  getPerReferralCost(pkg: any): string {
+    const perReferralCost = pkg?.amount / pkg?.referralCount;
+    return `₹${perReferralCost.toFixed(2)}`;
   }
 
   async getSubscriptionStatus() {
