@@ -89,7 +89,7 @@
                 <label for="" class="form-lable  required-form-field">Department</label>
                 <input type="text" class="form-control form-input" placeholder="Department" name="department" 
                     id="department" [(ngModel)]="employeeProfessionalData.department" #department="ngModel"
-                    pattern="^[A-Za-z0-9\s()/.-]+$" minlength="4" maxlength="30"
+                    pattern="^[A-Za-z0-9\s()/.-]+$" maxlength="30"
                     [title]="department.errors?.['minlength'] ? 'Department should have minimum length of 4 characters' : ''"
                     [title]="department.errors?.['pattern'] ? 'department is invalid' : ''"
                     required  [title]="department.errors?.['required'] ? 'department is required' : ''"

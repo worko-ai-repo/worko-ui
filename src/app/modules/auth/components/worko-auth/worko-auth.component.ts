@@ -7,6 +7,7 @@ import 'aws-amplify/auth/enable-oauth-listener';
 import { CandidateProfileService } from 'src/app/modules/candidate/services/candidate-profile.service';
 import { DataTextureLoader } from 'three';
 import { fetchAuthSession, getCurrentUser, signOut } from '@aws-amplify/auth';
+import { environment } from 'src/environments/environment';
 
 
 
@@ -75,7 +76,8 @@ export class WorkoAuthComponent {
             break;
           case 'logout':
            await  this.cognitoService.handleSignOut();
-            this.router.navigate(['/']);
+            //this.router.navigate(['/']);
+            window.location.href = environment.crossOriginUrl + '/';
             break;
         }
       })

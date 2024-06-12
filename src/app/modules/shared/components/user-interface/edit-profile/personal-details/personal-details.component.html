@@ -78,7 +78,7 @@
                                     <label for="" class="form-label  required-form-field">Department</label>
                                     <input type="text" class="form-control form-ctc" placeholder="Department"
                                     #Department="ngModel" required
-                                    pattern="^[A-Za-z0-9\s()/.-]+$" minlength="4" maxlength="30"
+                                    pattern="^[A-Za-z0-9\s()/.-]+$"  maxlength="30"
                                     [title]="Department.errors?.['pattern'] ? 'Department is invalid' : ''"
                                     [title]="Department.errors?.['required'] ? 'Department is required':''"
                                     [ngClass]="{ 'is-invalid': Department.invalid && (Department.dirty || Department.touched) }"

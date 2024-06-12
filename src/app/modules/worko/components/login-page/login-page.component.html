@@ -1,4 +1,4 @@
-<div class="container-fluid"  *ngIf="!showAddCompanyScreen &&!showErrorMessageScreen && isUserLoggedIn">
+<div class="container-fluid"  *ngIf="!showAddCompanyScreen &&!showErrorMessageScreen && showLoginScreen">
   <!-- signup -->
   <div class="row">
     <div class="col-md-12">
@@ -53,7 +53,7 @@
               <div class="row p-0" *ngIf="
                   selectedUserType === 'candidate' && !confirmationCodeScreen
                 ">
-                <form (ngSubmit)="candidate.form.valid && createCandidate(form)" #candidate="ngForm" novalidate
+                <form (ngSubmit)="candidate.form.valid && createCandidate(candidate)" #candidate="ngForm" novalidate
                   class="row mt-4">
                   <div class="error text-danger py-2" *ngIf="errorMessage">
                     {{ errorMessage }}
@@ -273,7 +273,7 @@
               <div class="row p-0" *ngIf="
                   selectedUserType === 'employee' && !confirmationCodeScreen
                 ">
-                <form class="row mt-4" (ngSubmit)="employee.form.valid && createEmployee(form)" #employee="ngForm"
+                <form class="row mt-4" (ngSubmit)="employee.form.valid && createEmployee(employee)" #employee="ngForm"
                   novalidate>
                   <div class="error text-danger py-2" *ngIf="errorMessage">
                     {{ errorMessage }}
@@ -720,7 +720,7 @@
   [showFooter]="showModal === modalType.MESSAGE" [title]="modalTitle" [message]="modalMessage"
   [bodyClass]="modalMessage ? 'p-4' : 'p-0'"  > -->
 
-  <ng-container   *ngIf="showAddCompanyScreen  && isUserLoggedIn">
+  <ng-container   *ngIf="showAddCompanyScreen  && showLoginScreen">
   
   <div class="modal-contents " >
     <div class="title " >
@@ -770,7 +770,7 @@
 <!-- </div> -->
 </ng-container>
 
-<ng-container *ngIf="showErrorMessageScreen  && isUserLoggedIn">
+<ng-container *ngIf="showErrorMessageScreen  && showLoginScreen">
     <!-- <div class="container-fluid mt-5"    *ngIf="showErrorMessageScreen "> -->
 
         

@@ -164,7 +164,7 @@ export class NavbarComponent {
             } else if (userType === "CAND" && totalPercentage < 60) {
               this.router.navigate(['/candidate/edit-profile']);
             } else if (userType !== "CAND" && totalPercentage > 60) {
-              this.router.navigate(['/employee/dashboard']);
+              this.router.navigate(['/employee/Dashboard']);
             } else if (userType !== "CAND" && totalPercentage < 60) {
               this.router.navigate(['/employee/Edit-profile']);
             }
@@ -211,7 +211,7 @@ export class NavbarComponent {
       this.LoginPageComponent.showSignInRow = true;
       this.LoginPageComponent.showAddCompanyScreen = false;
       this.LoginPageComponent.showErrorMessageScreen = false;
-      this.LoginPageComponent.isUserLoggedIn = true
+      this.LoginPageComponent.showLoginScreen = true
     }
 
     this.showModal = modalType;

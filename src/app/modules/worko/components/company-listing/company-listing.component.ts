@@ -220,8 +220,8 @@ export class CompanyListingComponent implements OnInit {
 
 
   ]
-  companySKFormIndex: any;
-  typeFromIndex: any;
+  companySKFormUrl: any;
+  typeFromUrl: any;
 
 
 
@@ -255,8 +255,8 @@ export class CompanyListingComponent implements OnInit {
       });
 
 
-    this.companySKFormIndex = this.activatedRoute.snapshot.queryParams['companyID'];
-    this.typeFromIndex = this.activatedRoute.snapshot.queryParams['Type'];
+    this.companySKFormUrl = this.activatedRoute.snapshot.queryParams['companyID'];
+    this.typeFromUrl = this.activatedRoute.snapshot.queryParams['Type'];
 
   }
 
@@ -285,8 +285,22 @@ export class CompanyListingComponent implements OnInit {
       })
 
     );
-    if (this?.companySKFormIndex && this?.typeFromIndex) {
-      this.openModalFromIndex()
+    //check if the url contain data and initialize variables accordingly
+    if (this?.companySKFormUrl && this?.typeFromUrl) {
+      this.indexData = 'ID#' + this.companySKFormUrl
+      this.selectedData = this.filterCompanyBySk(this.indexData);
+      console.log(this.selectedData);
+      debugger
+      if (this.typeFromUrl === 'referral') {
+        this.triggerReferral = true;
+        this.triggerGuidance = false;
+        this.openModalForCompany()
+      } else {
+        this.triggerReferral = false;
+        this.triggerGuidance = true;
+        this.openModalForCompany()
+      }
+
     }
 
     window.scrollTo(0, 0);
@@ -294,67 +308,63 @@ export class CompanyListingComponent implements OnInit {
 
   //receive data from static page
 
-  async openModalFromIndex() {
-    console.log(this.typeFromIndex)
-    // if ( this.typeFromIndex) {
-    this.userLoggedIn = await this.cognitoService.isLoggedIn();
-    if (!this.userLoggedIn) {
-      this.userLoggedIn = true
-      this.openModal(ModalType.LOGIN_SIGNUP);
-    } else {
+  // async openModalFromIndex() {
+  //   console.log(this.typeFromIndex)
+  //   // if ( this.typeFromIndex) {
+  //   this.userLoggedIn = await this.cognitoService.isLoggedIn();
+  //   if (this.userLoggedIn) {
+  //     if (this.typeFromIndex === 'referral') {
+  //       this.indexData = 'ID#' + this.companySKFormIndex
+  //       this.selectedData = this.filterCompanyBySk(this.indexData);
+  //       console.log(this.selectedData);
+  //       this.triggerReferral = true;
+  //       this.triggerGuidance = false;
+  //       this.openModal(ModalType.REQUEST_REFERRAL);
+  //     } else {
 
-      if (this.typeFromIndex === 'referral') {
-        this.indexData = 'ID#' + this.companySKFormIndex
-        this.selectedData = this.filterCompanyBySk(this.indexData);
-        console.log(this.selectedData);
-        this.triggerReferral = true;
-        this.triggerGuidance = false;
+
+  //       this.triggerReferral = false;
+  //       this.triggerGuidance = true;
+  //       this.openModal(ModalType.REQUEST_GUIDANCE)
+
+
+  //     }
+  //     this.userLoggedIn = true
+  //     this.openModal(ModalType.LOGIN_SIGNUP);
+  //   } else {
+
+
+  //   }
+  //   // }
+  // }
+
+  // open modal if user click on request referral and request guidance  from worko.ai
+  async openModalForCompany() {
+    this.userLoggedIn = await this.cognitoService.isLoggedIn();
+    if (this.typeFromUrl === 'referral' && this.userLoggedIn) {
+
+      if (this.checkProfileCompletion()) {
         this.openModal(ModalType.REQUEST_REFERRAL);
-      } else {
-
-
-        this.triggerReferral = false;
-        this.triggerGuidance = true;
-        this.openModal(ModalType.REQUEST_GUIDANCE)
-
-
       }
-    }
-    // }
-  }
+      else {
+        this.profileCompletionRequired = true;
+        this.successmessage = "";
+        this.successtitle = "";
+        this.openModal(ModalType.SUCCESS_MESSAGE);
+      }
+      const url = this.router.url.split('?')[0];
+      this.location.replaceState(url);
 
-  // open modal if user click on request referral from worko.ai
-  async openModalForCompany(item: any) {
-    this.userLoggedIn = await this.cognitoService.isLoggedIn();
-    if (this.typeFromIndex === 'referral' && this.userLoggedIn) {
-      this.indexData = 'ID#' + this.companySKFormIndex
-      this.selectedData = this.filterCompanyBySk(this.indexData);
-      console.log(this.selectedData);
-      this.triggerReferral = true;
-      this.triggerGuidance = false;
-      this.openModal(ModalType.REQUEST_REFERRAL);
-    } else if (this.typeFromIndex === 'guidance') {
+    } else if (this.typeFromUrl === 'guidance') {
 
-
-      this.triggerReferral = false;
-      this.triggerGuidance = true;
       this.openModal(ModalType.REQUEST_GUIDANCE)
-
-
+      const url = this.router.url.split('?')[0];
+      this.location.replaceState(url);
 
     } else {
       this.userLoggedIn = true;
       this.openModal(this.modalType.LOGIN_SIGNUP)
     }
-
-
-
-
-
-    const url = this.router.url.split('?')[0];
-    this.location.replaceState(url);
-    // }
-
 
   }
 
@@ -643,6 +653,8 @@ export class CompanyListingComponent implements OnInit {
           this.openModal(ModalType.SUCCESS_MESSAGE);
         }
       }
+      const url = this.router.url.split('?')[0];
+      this.location.replaceState(url);
     }
     // if (this.triggerGuidance && this.userLoggedIn) {
     //   this.openModal(ModalType.REQUEST_GUIDANCE);
@@ -751,7 +763,7 @@ export class CompanyListingComponent implements OnInit {
         this.LoginPageComponent.showSignInRow = true;
         this.LoginPageComponent.showAddCompanyScreen = false;
         this.LoginPageComponent.showErrorMessageScreen = false;
-        this.LoginPageComponent.isUserLoggedIn = true
+        this.LoginPageComponent.showLoginScreen = true
       }
     }
     this.modal.open();

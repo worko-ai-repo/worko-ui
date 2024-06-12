@@ -51,6 +51,10 @@ export class LoginPageComponent implements AfterViewInit, OnDestroy {
   @Input() userLoggedInData: any
   @ViewChild('company')
   companyFormDirective!: NgForm;
+  @ViewChild('candidate')
+  candidateFormDirective!: NgForm;
+  @ViewChild('employee')
+  employeeFormDirective!: NgForm;
 
   @ViewChild(ModalComponent) modal!: ModalComponent;
   // @ViewChild('autocompleteInput') autocompleteInput: any; 
@@ -186,7 +190,7 @@ export class LoginPageComponent implements AfterViewInit, OnDestroy {
   successtitle: string = "";
   userLoggedIn: boolean = false;
   emailAddress: any;
-  isUserLoggedIn: boolean = false;
+  showLoginScreen: boolean = false;
   constructor(private cdr: ChangeDetectorRef, private modalService: NgbModal, private companyListingService: CompanyListingService, private storage: StorageService, private amplify: CognitoService, private router: Router, private authService: AuthService, private spinner: NgxSpinnerService, private navbarToggleSwitchService: NavbarToggleSwitchService) {
 
 
@@ -549,6 +553,9 @@ export class LoginPageComponent implements AfterViewInit, OnDestroy {
 
     } catch (error) {
       this.spinner.hide();
+      this.employeeFormDirective.resetForm()
+      this.myControl.reset();
+      this.setErrorMessage("It looks like you already have an account with us.  Please log in to continue.")
       console.log('Error signing up candidate createEmployee:', error);
     }
   }
@@ -1008,6 +1015,10 @@ export class LoginPageComponent implements AfterViewInit, OnDestroy {
         return { error: error };
       }
     } catch (error) {
+      this.spinner.hide();
+      this.candidateFormDirective.resetForm()
+      this.fileName=""
+      this.setErrorMessage("It looks like you already have an account with us.  Please log in to continue."); //If you’ve forgotten your password, use the 'Forgot Password' link to reset it.
       console.log('Error signing up candidate: createUser', error);
     }
 
