@@ -76,6 +76,15 @@ export class CompanyListingComponent implements OnInit {
   totalPercentage: any;
   profileCompletionRequired: boolean = false;
 
+  companyForm = {
+    CompanyName: "",
+    industry: 'Industry',
+    carrierPage: "",
+    linkedIn: "",
+    personalemailid: "",
+    contactNumber: ""
+  }
+
   teamSizeOptions: any = [
     {
       name: "<100",
@@ -315,26 +324,26 @@ export class CompanyListingComponent implements OnInit {
   }
 
   // open modal if user click on request referral from worko.ai
-  async openModalForCompany(item: any) {     
+  async openModalForCompany(item: any) {
     this.userLoggedIn = await this.cognitoService.isLoggedIn();
-      if (this.typeFromIndex === 'referral' && this.userLoggedIn) {
-        this.indexData = 'ID#' + this.companySKFormIndex
-        this.selectedData = this.filterCompanyBySk(this.indexData);
-        console.log(this.selectedData);
-        this.triggerReferral = true;
-        this.triggerGuidance = false;
-        this.openModal(ModalType.REQUEST_REFERRAL);
-      } else if(this.typeFromIndex === 'guidance'){
+    if (this.typeFromIndex === 'referral' && this.userLoggedIn) {
+      this.indexData = 'ID#' + this.companySKFormIndex
+      this.selectedData = this.filterCompanyBySk(this.indexData);
+      console.log(this.selectedData);
+      this.triggerReferral = true;
+      this.triggerGuidance = false;
+      this.openModal(ModalType.REQUEST_REFERRAL);
+    } else if (this.typeFromIndex === 'guidance') {
 
 
-        this.triggerReferral = false;
-        this.triggerGuidance = true;
-        this.openModal(ModalType.REQUEST_GUIDANCE)
+      this.triggerReferral = false;
+      this.triggerGuidance = true;
+      this.openModal(ModalType.REQUEST_GUIDANCE)
 
 
-      
-    }else{
-      this.userLoggedIn=true;
+
+    } else {
+      this.userLoggedIn = true;
       this.openModal(this.modalType.LOGIN_SIGNUP)
     }
 
@@ -635,29 +644,10 @@ export class CompanyListingComponent implements OnInit {
         }
       }
     }
-<<<<<<< HEAD
-=======
-    if (this.triggerGuidance && this.userLoggedIn) {
-      this.openModal(ModalType.REQUEST_GUIDANCE);
-    }
-
->>>>>>> f58e4421f91263019d8314c4d1b40d91b0e77df3
+    // if (this.triggerGuidance && this.userLoggedIn) {
+    //   this.openModal(ModalType.REQUEST_GUIDANCE);
+    // }
   }
-
-  companyForm = {
-
-
-    CompanyName: "",
-    industry: 'Industry',
-
-    carrierPage: "",
-    linkedIn: "",
-    personalemailid: "",
-    contactNumber: ""
-
-
-  }
-
 
   async requestCampanyData(form: NgForm) {
     try {
@@ -755,7 +745,6 @@ export class CompanyListingComponent implements OnInit {
 
       this.myControl.reset();
 
-<<<<<<< HEAD
     }
     if (ModalType.LOGIN_SIGNUP) {
       if (this.LoginPageComponent) {
@@ -766,21 +755,18 @@ export class CompanyListingComponent implements OnInit {
       }
     }
     this.modal.open();
-=======
->>>>>>> f58e4421f91263019d8314c4d1b40d91b0e77df3
 
-    }
-    if (ModalType.LOGIN_SIGNUP) {
-      if (this.LoginPageComponent) {
-        this.LoginPageComponent.showSignInRow = true;
-        this.LoginPageComponent.showAddCompanyScreen = false;
-        this.LoginPageComponent.showErrorMessageScreen = false;
-        this.LoginPageComponent.isUserLoggedIn = true
-
-      }
-    }
-    this.modal.open();
   }
+  // if (ModalType.LOGIN_SIGNUP) {
+  //   if (this.LoginPageComponent) {
+  //     this.LoginPageComponent.showSignInRow = true;
+  //     this.LoginPageComponent.showAddCompanyScreen = false;
+  //     this.LoginPageComponent.showErrorMessageScreen = false;
+  //     this.LoginPageComponent.isUserLoggedIn = true
+
+  //   }
+  // }
+  // this.modal.open();
 
   /**
    * Close modal.
@@ -789,7 +775,6 @@ export class CompanyListingComponent implements OnInit {
    */
   closeModal(): void {
     // Show referral request form after closing the modal
-
     this.modal.cancel();
   }
 
