@@ -15,106 +15,120 @@ import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 
 export class AddCompanyComponent {
 
+
+  @ViewChild('company')
+  companyFormDirective!: NgForm;
   @ViewChild(ModalComponent) modal!: ModalComponent;
   userLoggedIn: boolean = false;
-form!:NgForm ;
-companyData:any;
-modalType = ModalType;
-modalMessage: string = "";
-modalTitle: string = "";
-showModal: ModalType | undefined;
-  successtitle: string="";
-  successmessage: string="";
+  form!: NgForm;
+  companyData: any;
+  modalType = ModalType;
+  modalMessage: string = "";
+  modalTitle: string = "";
+  showModal: ModalType | undefined;
+  successtitle: string = "";
+  successmessage: string = "";
 
-  constructor(private cognitoService: CognitoService,private modalService: NgbModal,private companyListingService:CompanyListingService,private spinner:NgxSpinnerService){}
+  constructor(private cognitoService: CognitoService, private modalService: NgbModal, private companyListingService: CompanyListingService, private spinner: NgxSpinnerService) { }
 
   async ngOnInit(): Promise<void> {
-    debugger
-    console.log(this.showModal===this.modalType.SUCCESS_MESSAGE)
+    // debugger
+    console.log(this.showModal === this.modalType.SUCCESS_MESSAGE)
     this.userLoggedIn = await this.cognitoService.isLoggedIn();
   }
-companyForm={
+  companyForm = {
 
 
-  CompanyName: "",
+    CompanyName: "",
     industry: 'Industry',
-   
-    carrierPage:"",
+
+    carrierPage: "",
     linkedIn: "",
-    emailid:"",
+    emailid: "",
 
 
-}
+  }
 
 
-  async requestCampanyData(form:NgForm){
+  async requestCampanyData(form: NgForm) {
     this.spinner.show()
-    try{
-  this.companyData={
-    userType: "EMP",
-    companyDetail: {
-      name: this.companyForm.CompanyName,
-      industry: 'Industry',
-      //emailid: this.companyForm.emailid,
-      carrierPage: this.companyForm.carrierPage,
-      linkedIn: this.companyForm.linkedIn
+    try {
+      this.companyData = {
+        userType: "EMP",
+        companyDetail: {
+          name: this.companyForm.CompanyName,
+          industry: 'Industry',
+          //emailid: this.companyForm.emailid,
+          carrierPage: this.companyForm.carrierPage,
+          linkedIn: this.companyForm.linkedIn
+        }
+      }
+
+      console.log(this.companyData)
+      await this.companyListingService.requestNewCompany(this.companyData)
+      let response = await this.companyListingService.getAllNewCompany()
+      if (response) {
+        console.log(response)
+        this.companyFormDirective.resetForm()
+        this.spinner.hide()
+        this.openModal(this.modalType.SUCCESS_MESSAGE)
+      }
+
+
+    } catch (error: any) {
+      this.companyFormDirective.resetForm()
+      if (error.status === 409) {
+        this.spinner.hide()
+
+        this.successmessage = "The company already exists! Please search to find the company."
+        this.successtitle = "Alert"
+        this.openModal(ModalType.SUCCESS_MESSAGE)
+      } else {
+
+
+        this.spinner.hide()
+
+        this.successmessage = "Something went wrong. Please try again after sometime"
+        this.successtitle = "Error"
+        this.openModal(ModalType.SUCCESS_MESSAGE)
+      }
     }
+
+
+  }
+  cancel() {
+
+    this.successmessage = "";
+    this.successtitle = "";
+    window.location.reload()
+    this.modal.cancel()
+
   }
 
-console.log(this.companyData)
- await this.companyListingService.requestNewCompany(this.companyData)
- let response=await this.companyListingService.getAllNewCompany()
- if(response){
-  console.log(response)
- 
-  this.spinner.hide()
-  this.openModal(this.modalType.SUCCESS_MESSAGE)
- }
+  /**
+ * Open modal.
+ *
+ * @param {ModalType} modalType
+ * @param {string} [message = ""]
+ * @param {string} [title = ""]
+ * @returns {void}
+ */
+  openModal(modalType: ModalType, message: string = "", title: string = ""): void {
 
- 
-    }catch(error){
-      this.spinner.hide()
- 
-      this.successmessage="Something went wrong. Please try again after sometime"
-      this.successtitle="Error"
-      this.openModal(ModalType.SUCCESS_MESSAGE)
-    }
-
-  
+    this.showModal = modalType;
+    this.modalMessage = message;
+    this.modalTitle = title;
+    this.modal.open();
   }
-cancel(){
+  /**
+ * Close modal.
+ *
+ * @returns {void}
+ */
+  closeModal(): void {
+    this.modal.cancel();
+  }
 
- this.successmessage="";
- this.successtitle="";
- window.location.reload()
- this.modal.cancel()
 
 }
-
-    /**
-   * Open modal.
-   *
-   * @param {ModalType} modalType
-   * @param {string} [message = ""]
-   * @param {string} [title = ""]
-   * @returns {void}
-   */
-    openModal(modalType: ModalType, message: string ="", title: string="" ): void {
-
-      this.showModal = modalType;
-      this.modalMessage = message;
-      this.modalTitle = title;
-      this.modal.open();
-    }
-      /**
-     * Close modal.
-     *
-     * @returns {void}
-     */
-      closeModal(): void {
-        this.modal.cancel();
-      }
-  
-  
-  }
 

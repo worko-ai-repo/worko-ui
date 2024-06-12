@@ -20,26 +20,26 @@ import { LoginPageComponent } from '../login-page/login-page.component';
 
 export class NavbarComponent {
   @ViewChild(ModalComponent) modal!: ModalComponent;
-  @ViewChild(LoginPageComponent) LoginPageComponent!:LoginPageComponent;
+  @ViewChild(LoginPageComponent) LoginPageComponent!: LoginPageComponent;
   modalType = ModalType;
   modalMessage: string = "";
   modalTitle: string = "";
-  showModal: ModalType =ModalType.LOGIN_SIGNUP;
+  showModal: ModalType = ModalType.LOGIN_SIGNUP;
   userLoggedIn: boolean = false;
   emailAddress: string = "";
   profileCompletion: any = "";
   employeeTotalPercentage: any;
   candidateTotalPercentage: any;
   candidateProfile: any;
- userName:string='profile'
-  letter:string=""
-  showOptions = false; 
+  userName: string = 'profile'
+  letter: string = ""
+  showOptions = false;
 
-  
-  
-  constructor(private cognitoService: CognitoService, private router: Router, private candidateSrv: CandidateProfileService, private storage: StorageService, private navbarToggleSwitchService : NavbarToggleSwitchService) {
-   
-   }
+
+
+  constructor(private cognitoService: CognitoService, private router: Router, private candidateSrv: CandidateProfileService, private storage: StorageService, private navbarToggleSwitchService: NavbarToggleSwitchService) {
+
+  }
 
 
   async ngOnInit(): Promise<void> {
@@ -49,12 +49,12 @@ export class NavbarComponent {
     //   console.log(this.emailAddress, email, "dsd")
     // });
     this.userLoggedIn = await this.cognitoService.isLoggedIn();
-    if(this.userLoggedIn){
-    this.userName=this.storage.get('userName') ;
-    console.log(this.userName)
-    // this.letter=this.getInitials(this.userName)
-    // console.log(this.letter);
-    this.letter  = this.userName.charAt(0).toUpperCase();
+    if (this.userLoggedIn) {
+      this.userName = this.storage.get('userName');
+      console.log(this.userName)
+      // this.letter=this.getInitials(this.userName)
+      // console.log(this.letter);
+      this.letter = this.userName.charAt(0).toUpperCase();
     }
   }
 
@@ -63,30 +63,38 @@ export class NavbarComponent {
   toggleMenu(event: any) {
     this.isMenuOpen = event.target.checked;
   }
-  dashboard(){
+  dashboard() {
     this.navbarToggleSwitchService.intializeToggleStatus();
-    const usertype=this.storage.get('lastAccessedDash') ;
-     this.userName=this.storage.get('userName') ;
+    const usertype = this.storage.get('lastAccessedDash');
+    this.userName = this.storage.get('userName');
     console.log(this.userName)
-    if(usertype==='EMP'){
-      
+    if (usertype === 'EMP') {
+
       this.router.navigate(['/employee/Dashboard']);
 
-    }else{
-      
+    } else {
+
       this.router.navigate(['/candidate/dashboard']);
     }
 
   }
-  //  getInitials(name: string): string {
-   
-  //   const fullName = name.split('.')[0];
-    
-  
-  //   const parts = fullName.split(" ");
-   
+  navigateToIndex() {
+    window.location.href = environment.crossOriginUrl + '/';
+  }
 
-   
+
+
+
+
+  //  getInitials(name: string): string {
+
+  //   const fullName = name.split('.')[0];
+
+
+  //   const parts = fullName.split(" ");
+
+
+
   //  return  this.letter = parts.map((part: string) => part.charAt(0)).join("").toUpperCase();
   // }
 
@@ -119,9 +127,9 @@ export class NavbarComponent {
   async logout(): Promise<void> {
     await this.cognitoService.handleSignOut();
     this.userLoggedIn = await this.cognitoService.isLoggedIn();
-  
+
     // Optionally, close the dropdown after logout
-   
+
 
   }
 
@@ -131,11 +139,11 @@ export class NavbarComponent {
     if (this.userLoggedIn) {
       if (this.router.url.includes('/company-listing')) {
         this.userLoggedIn = await this.cognitoService.isLoggedIn();
-        this.userName=this.storage.get('userName') ;
+        this.userName = this.storage.get('userName');
         console.log(this.userName)
         // this.letter=this.getInitials(this.userName)
         // console.log(this.letter);
-        this.letter  = this.userName.charAt(0).toUpperCase();
+        this.letter = this.userName.charAt(0).toUpperCase();
         // Redirect to the company listing page
         this.router.navigate(['/company-listing']);
         this.modal.cancel();
@@ -179,14 +187,14 @@ export class NavbarComponent {
   }
 
 
-  rediectToFaq(){
-    window.location.href=environment.crossOriginUrl+'/faq'
+  rediectToFaq() {
+    window.location.href = environment.crossOriginUrl + '/faq'
   }
-  rediectToAboutUs(){
-    window.location.href=environment.crossOriginUrl+'/about-us'
+  rediectToAboutUs() {
+    window.location.href = environment.crossOriginUrl + '/about-us'
   }
-  rediectToCorporate(){
-    window.location.href=environment.crossOriginUrl+'/corporate'
+  rediectToCorporate() {
+    window.location.href = environment.crossOriginUrl + '/corporate'
   }
 
   /**
@@ -198,14 +206,14 @@ export class NavbarComponent {
     * @returns {void}
     */
   openModal(modalType: ModalType, message: string = "", title: string = ""): void {
-   // debugger
-    if(this.LoginPageComponent){
-      this.LoginPageComponent.showSignInRow=true;
-      this.LoginPageComponent.showAddCompanyScreen=false;
-      this.LoginPageComponent.showErrorMessageScreen=false;
-      this.LoginPageComponent.isUserLoggedIn=true
+    // debugger
+    if (this.LoginPageComponent) {
+      this.LoginPageComponent.showSignInRow = true;
+      this.LoginPageComponent.showAddCompanyScreen = false;
+      this.LoginPageComponent.showErrorMessageScreen = false;
+      this.LoginPageComponent.isUserLoggedIn = true
     }
-   
+
     this.showModal = modalType;
     this.modalMessage = message;
     this.modalTitle = title;

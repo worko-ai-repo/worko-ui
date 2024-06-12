@@ -14,7 +14,7 @@ import { NgxSpinnerService } from 'ngx-spinner';
 import { MatAutocompleteModule, MatAutocompleteTrigger } from '@angular/material/autocomplete';
 // import { MatInputModule } from '@angular/material/input';
 // import { MatFormFieldModule } from '@angular/material/form-field';
-import { FormControl, FormsModule, NgModel, ReactiveFormsModule } from '@angular/forms';
+import { FormControl, FormsModule, NgForm, NgModel, ReactiveFormsModule } from '@angular/forms';
 import { Observable } from 'rxjs';
 // import { delay } from 'rxjs/operators';
 // import { of } from 'rxjs';
@@ -26,7 +26,7 @@ import { ChangeDetectorRef } from '@angular/core';
 import { CognitoService } from '../../../services/cognito.service';
 import 'aws-amplify/auth/enable-oauth-listener';
 import { Hub } from 'aws-amplify/utils';
-import { ConfirmResetPasswordInput,fetchDevices,ResetPasswordOutput, confirmResetPassword, fetchAuthSession, getCurrentUser, rememberDevice, resetPassword, FetchDevicesOutput, confirmSignUp,} from '@aws-amplify/auth';
+import { ConfirmResetPasswordInput, fetchDevices, ResetPasswordOutput, confirmResetPassword, fetchAuthSession, getCurrentUser, rememberDevice, resetPassword, FetchDevicesOutput, confirmSignUp, } from '@aws-amplify/auth';
 import { event } from 'jquery';
 import { CompanyListingService } from '../../services/company-listing.service';
 import { NavbarToggleSwitchService } from 'src/app/modules/candidate/services/navbar-toggle-switch.service';
@@ -44,13 +44,14 @@ declare var bootstrap: any;
 
 
 export class LoginPageComponent implements AfterViewInit, OnDestroy {
-  
+
   @Output() userTypeSelected = new EventEmitter<string>();
   @Output() onSuccess: EventEmitter<void> = new EventEmitter<void>();
   @Input() userType: any;
- @Input()userLoggedInData:any
+  @Input() userLoggedInData: any
+  @ViewChild('company')
+  companyFormDirective!: NgForm;
 
- 
   @ViewChild(ModalComponent) modal!: ModalComponent;
   // @ViewChild('autocompleteInput') autocompleteInput: any; 
   @ViewChild('autoCompleteInput', { static: false, read: MatAutocompleteTrigger }) trigger!: MatAutocompleteTrigger;
@@ -78,7 +79,7 @@ export class LoginPageComponent implements AfterViewInit, OnDestroy {
   currentWord = '';
   isBlinking = true;
   blinkTimer: any; //timer reference
-  rememberMe:boolean=false
+  rememberMe: boolean = false
   // checkboxChecked:boolean=false;
   agreeTerms: boolean = false;
   auto: any;
@@ -88,8 +89,8 @@ export class LoginPageComponent implements AfterViewInit, OnDestroy {
   modalMessage: string = "";
   modalTitle: string = "";
   showModal: ModalType | undefined;
-  showAddCompanyScreen:boolean=false;
-  showErrorMessageScreen:boolean=false;
+  showAddCompanyScreen: boolean = false;
+  showErrorMessageScreen: boolean = false;
   form = {
     email: '',
     password: ''
@@ -142,8 +143,8 @@ export class LoginPageComponent implements AfterViewInit, OnDestroy {
     password: '',
   }
   hoveredField: string | null = null;
-  companyData:any=[];
-  form1:any;
+  companyData: any = [];
+  form1: any;
   designationTagList: any = [
     {
       name: "Assistant Manager / Team Lead",
@@ -181,19 +182,19 @@ export class LoginPageComponent implements AfterViewInit, OnDestroy {
   deviceKey: any;
   deviceGroupKey: any;
   randomPassword: any;
-  successmessage: string="";
-  successtitle: string="";
-  userLoggedIn: boolean=false;
+  successmessage: string = "";
+  successtitle: string = "";
+  userLoggedIn: boolean = false;
   emailAddress: any;
-  isUserLoggedIn:boolean=false;
-  constructor(private cdr: ChangeDetectorRef,private modalService: NgbModal,private companyListingService:CompanyListingService,private storage: StorageService, private amplify: CognitoService, private router: Router, private authService: AuthService, private spinner: NgxSpinnerService, private navbarToggleSwitchService : NavbarToggleSwitchService) {
-  
-  
+  isUserLoggedIn: boolean = false;
+  constructor(private cdr: ChangeDetectorRef, private modalService: NgbModal, private companyListingService: CompanyListingService, private storage: StorageService, private amplify: CognitoService, private router: Router, private authService: AuthService, private spinner: NgxSpinnerService, private navbarToggleSwitchService: NavbarToggleSwitchService) {
+
+
 
 
   }
 
-  
+
 
 
 
@@ -271,12 +272,12 @@ export class LoginPageComponent implements AfterViewInit, OnDestroy {
   async ngOnInit() {
     //Added check to pass userType to show enabled candidate and employee from index page
     //debugger
- 
-      // this.selectedUserType = this.userType;
-     //console.log(this.selectedUserType)
-    
-  
-    
+
+    // this.selectedUserType = this.userType;
+    //console.log(this.selectedUserType)
+
+
+
     this.blinkAndChangeWord()
     this.filteredOptions = this.myControl.valueChanges.pipe(
       debounceTime(300),
@@ -293,7 +294,7 @@ export class LoginPageComponent implements AfterViewInit, OnDestroy {
               { id: 'add_new', name: "Add new company" } // Static option
             ])
           );
-        } 
+        }
         // End of edit by KA
         else {
           // If value.length is less than 1, return an empty array or null
@@ -303,14 +304,14 @@ export class LoginPageComponent implements AfterViewInit, OnDestroy {
 
     );
 
-  
 
-   
+
+
     //console.log(fieldType2);
   }
 
- 
- 
+
+
 
 
 
@@ -343,46 +344,46 @@ export class LoginPageComponent implements AfterViewInit, OnDestroy {
     this.setErrorMessage("");
     this.displayResetPassword = true;
     this.confirmationCodeScreen = false;
-   
+
   }
-  
+
   async handleRememberDevice() {
 
-    console.log("inside remeber me"+this.rememberMe)
+    console.log("inside remeber me" + this.rememberMe)
     try {
-      if(this.rememberMe){
-        
-      
-    const response= await rememberDevice()
-   
-      await fetchAuthSession({forceRefresh:true})
- 
-   
-  
+      if (this.rememberMe) {
+
+
+        const response = await rememberDevice()
+
+        await fetchAuthSession({ forceRefresh: true })
+
+
+
       }
     } catch (error) {
       console.log(error);
     }
   }
- 
+
 
   passwordChange() {
     // this.currentAuthenticatedUser();
     // this.currentSession();
     console.log(this.resetForm)
-    this.handleConfirmResetPassword({username:this.resetForm.emailId,confirmationCode:this.resetForm.code,newPassword:this.resetForm.password})
+    this.handleConfirmResetPassword({ username: this.resetForm.emailId, confirmationCode: this.resetForm.code, newPassword: this.resetForm.password })
   }
- 
+
 
   async currentSession() {
-   await this.amplify.removeAccessToken()
+    await this.amplify.removeAccessToken()
     try {
       // const { accessToken, idToken } = (await fetchAuthSession()).tokens ?? {};
       //const authToken = (await fetchAuthSession()).tokens?.idToken?.toString();
-      const response=await fetchAuthSession({forceRefresh:true})
-      
+      const response = await fetchAuthSession({ forceRefresh: true })
+
       await this.amplify.setAccessToken()
-      const authToken=response.tokens?.idToken?.toString();
+      const authToken = response.tokens?.idToken?.toString();
       // console.log(accessToken, "Acces");
       console.log(response)
       console.log(authToken, "authToken");
@@ -396,13 +397,13 @@ export class LoginPageComponent implements AfterViewInit, OnDestroy {
       const { username, userId, signInDetails } = await getCurrentUser();
       console.log(`The username: ${username}`);
       console.log(`The userId: ${userId}`);
-    
+
 
       if (signInDetails) {
         console.log('The signInDetails:', signInDetails);
-        
 
-        
+
+
       } else {
         console.log('No signInDetails available.');
       }
@@ -410,28 +411,28 @@ export class LoginPageComponent implements AfterViewInit, OnDestroy {
       console.error('Error fetching current authenticated user:', err);
     }
   }
-  closeFunction(){
+  closeFunction() {
     this.toggleSignInRow()
   }
 
   toggleSignInRow() {
-   // debugger
+    // debugger
     this.setErrorMessage("");
     // this.currentSession();
     // this.currentAuthenticatedUser();
     // const autocompleteValue1 = "email";
     // const fieldType1 = this.FieldTypeFromAutocompleteAttributeValue(autocompleteValue1);
     // console.log(fieldType1); // Output: "email"
-    
+
     // const autocompleteValue2 = "current-password";
     // const fieldType2 = this.FieldTypeFromAutocompleteAttributeValue(autocompleteValue2);
-   // this.isUserLoggedIn=true
+    // this.isUserLoggedIn=true
     this.showSignInRow = false;
     this.displayResetPassword = false;
     this.resetVerificationScreen = false;
     this.successPasswordMessage = false;
-    this.showAddCompanyScreen=false;
-    this.showErrorMessageScreen=false;
+    this.showAddCompanyScreen = false;
+    this.showErrorMessageScreen = false;
   }
 
   toggleSignUpRow() {
@@ -447,54 +448,54 @@ export class LoginPageComponent implements AfterViewInit, OnDestroy {
     this.handleResetPassword(this.resetForm.emailId)
 
   }
-  async  handleResetPassword(username: string) {
+  async handleResetPassword(username: string) {
     try {
-     
+
       const output = await resetPassword({ username });
       this.handleResetPasswordNextSteps(output);
     } catch (error) {
       console.log(error);
     }
   }
-  
-  async  handleResetPasswordNextSteps(output: ResetPasswordOutput) {
+
+  async handleResetPasswordNextSteps(output: ResetPasswordOutput) {
     const { nextStep } = output;
     switch (nextStep.resetPasswordStep) {
       case 'CONFIRM_RESET_PASSWORD_WITH_CODE':
         const codeDeliveryDetails = nextStep.codeDeliveryDetails;
         console.log(
           `Confirmation code was sent to ${codeDeliveryDetails.deliveryMedium}`
-        );  
+        );
     }
   }
-  
-async  handleConfirmResetPassword({
- 
-  username,
-  confirmationCode,
-  newPassword
-}: ConfirmResetPasswordInput) {
-  
-  try {
-    await confirmResetPassword({ username, confirmationCode, newPassword });
-    console.log(username, confirmationCode, newPassword)
-  
 
-   // this.successPasswordMessage=true;
-    //this.toggleSignInRow()
-    this.showSignInRow=false
-    this.showAddCompanyScreen=false
-    this.showErrorMessageScreen=true
-    this.successtitle='success'
-    this.successmessage='Your password has been successfully reset!!'
-    //this.openModal(this.modalType.SUCCESS_MESSAGE)
-    
-   
-  } catch (error) {
-    console.log(error);
-    this.errorMessage="Invalid verification code provided, please try again."
+  async handleConfirmResetPassword({
+
+    username,
+    confirmationCode,
+    newPassword
+  }: ConfirmResetPasswordInput) {
+
+    try {
+      await confirmResetPassword({ username, confirmationCode, newPassword });
+      console.log(username, confirmationCode, newPassword)
+
+
+      // this.successPasswordMessage=true;
+      //this.toggleSignInRow()
+      this.showSignInRow = false
+      this.showAddCompanyScreen = false
+      this.showErrorMessageScreen = true
+      this.successtitle = 'success'
+      this.successmessage = 'Your password has been successfully reset!!'
+      //this.openModal(this.modalType.SUCCESS_MESSAGE)
+
+
+    } catch (error) {
+      console.log(error);
+      this.errorMessage = "Invalid verification code provided, please try again."
+    }
   }
-}
 
 
 
@@ -630,89 +631,100 @@ async  handleConfirmResetPassword({
   }
 
   addNewCompany(event: MouseEvent, option: any): void {
-   
-    console.log("CLicked to add new company:",event);
+
+    console.log("CLicked to add new company:", event);
     // this.openModal(ModalType.ADD_COMPANY);
     console.log(this.showModal)
-    
+
   }
 
 
 
 
 
-  companyForm={
+  companyForm = {
 
 
     CompanyName: "",
-      industry: 'Industry',
-     
-      carrierPage:"",
-      linkedIn: "",
-      emailid:"",
-      personalemailid:"",
-      contactNumber:""
-  
-  
+    industry: 'Industry',
+
+    carrierPage: "",
+    linkedIn: "",
+    emailid: "",
+    personalemailid: "",
+    contactNumber: ""
+
+
   }
-  modalOpenCount:number=0;
+  modalOpenCount: number = 0;
   openModalCount() {
     //this.showModal = true;
     this.modalOpenCount++; // Increment the counter when opening the modal
   }
-  
-  async requestCampanyData(form:any){
+
+  async requestCampanyData(form: NgForm) {
     this.spinner.show()
 
-try{
-    this.companyData={
-      userType: "EMP",
-      companyDetail: {
-        name: this.companyForm.CompanyName,
-        industry: 'Industry',
-        //emailid: this.companyForm.emailid,
-        carrierPage: this.companyForm.carrierPage,
-        linkedIn: this.companyForm.linkedIn,
-        //personalemailid:this.companyForm.personalemailid,
-        //contactnumber:this.companyForm.contactNumber
+    try {
+      this.companyData = {
+        userType: "EMP",
+        companyDetail: {
+          name: this.companyForm.CompanyName,
+          industry: 'Industry',
+          //emailid: this.companyForm.emailid,
+          carrierPage: this.companyForm.carrierPage,
+          linkedIn: this.companyForm.linkedIn,
+          //personalemailid:this.companyForm.personalemailid,
+          //contactnumber:this.companyForm.contactNumber
+        }
       }
+      // debugger
+      await this.companyListingService.requestNewCompany(this.companyData)
+      let response = await this.companyListingService.getAllNewCompany()
+      if (response) {
+        this.spinner.hide()
+        this.companyFormDirective.resetForm()
+        this.showSignInRow = !this.showSignInRow
+        this.showAddCompanyScreen = !this.showAddCompanyScreen
+        this.showErrorMessageScreen = !this.showErrorMessageScreen
+
+        // this.openModal(ModalType.SUCCESS_MESSAGE);
+      }
+    } catch (error: any) {
+      this.companyFormDirective.resetForm()
+      if (error.status === 409) {
+        this.spinner.hide()
+        this.showSignInRow = false
+        this.showAddCompanyScreen = false
+        this.showErrorMessageScreen = true
+        this.successmessage = "The company already exists! Please search to find the company."
+        this.successtitle = "Alert"
+      } else {
+        this.spinner.hide()
+        this.showSignInRow = false
+        this.showAddCompanyScreen = false
+        this.showErrorMessageScreen = true
+        this.successmessage = "Something went wrong. Please try again after sometime"
+        this.successtitle = "Error"
+      }
+      // this.modal.cancel();
+      //this.openModal(ModalType.LOGIN_SIGNUP);
     }
-   debugger
-    await this.companyListingService.requestNewCompany(this.companyData)
-    let response= await this.companyListingService.getAllNewCompany()
-    if(response){
-      this.spinner.hide()
-      this.showSignInRow=!this.showSignInRow
-      this.showAddCompanyScreen=!this.showAddCompanyScreen
-      this.showErrorMessageScreen=!this.showErrorMessageScreen
-     
-     // this.openModal(ModalType.SUCCESS_MESSAGE);
-    }
-  }catch{
-    this.spinner.hide()
-    this.showSignInRow=false
-    this.showAddCompanyScreen=false
-    this.showErrorMessageScreen=true
-    this.successmessage="Something went wrong. Please try again after sometime"
-    this.successtitle="Error"
-   // this.modal.cancel();
-    //this.openModal(ModalType.LOGIN_SIGNUP);
-  }
-    
-  
+
+
   }
 
 
-  cancel(){
+  cancel() {
     //this.closeModal();
-  //window.location.reload()
-  //this.showErrorMessageScreen=!this.showErrorMessageScreen
-  this.successmessage="";
-  this.successtitle="";
-  this.showSignInRow=true
-  this.showAddCompanyScreen=false
-  this.showErrorMessageScreen=false
-  //console.log(this.isUSerLoggedIn)
+    //window.location.reload()
+    //this.showErrorMessageScreen=!this.showErrorMessageScreen
+    this.successmessage = "";
+    this.successtitle = "";
+    this.showSignInRow = true
+    this.showAddCompanyScreen = false
+    this.showErrorMessageScreen = false
+    //console.log(this.isUSerLoggedIn)
 
   }
 
@@ -721,47 +733,47 @@ try{
   //   this.modalMessage = message;
   //   this.modalTitle = title;
   //   this.modal.open();
- 
+
   // }
-    /**
-   * Open modal.
-   *
-   * @param {ModalType} modalType
-   * @param {string} [message = ""]
-   * @param {string} [title = ""]
-   * @returns {void}
-   */
-    openModal(modalType: ModalType, message: string ="", title: string="" ): void {
+  /**
+ * Open modal.
+ *
+ * @param {ModalType} modalType
+ * @param {string} [message = ""]
+ * @param {string} [title = ""]
+ * @returns {void}
+ */
+  openModal(modalType: ModalType, message: string = "", title: string = ""): void {
 
-      this.showModal = modalType;
-      this.modalMessage = message;
-      this.modalTitle = title;
-      this.modal.open();
-    }
-    /**
-   * Close modal.
-   *
-   * @returns {void}
-   */
-    closeModal(): void {
-      this.modal.cancel();
-    }
+    this.showModal = modalType;
+    this.modalMessage = message;
+    this.modalTitle = title;
+    this.modal.open();
+  }
+  /**
+ * Close modal.
+ *
+ * @returns {void}
+ */
+  closeModal(): void {
+    this.modal.cancel();
+  }
 
 
 
-  
+
   onOptionSelected(event: any): void {
     // this.selectedCompany = event.option.value;
-   // debugger
+    // debugger
     // Edited by KA:
-    if (event.option.value.id == "add_new"){
+    if (event.option.value.id == "add_new") {
       console.log("Add new company")
       console.log("add_new = ", event.option.value.id);
-      this.showAddCompanyScreen=true
+      this.showAddCompanyScreen = true
       //this.openModal(ModalType.ADD_COMPANY);
-      this.selectedCompany='';
+      this.selectedCompany = '';
       this.myControl.reset();
-    }else{
+    } else {
       this.selectedCompany = event.option.value;
     }
   }
@@ -828,7 +840,7 @@ try{
     }
   }
 
- 
+
   async confirmSignUp(form: any): Promise<void> {
     this.setErrorMessage("")
     this.spinner.show();
@@ -865,32 +877,32 @@ try{
       this.spinner.hide();
     }
 
-// if(this.codeErrorScreen){
-//   const { response, error } = await this.createUserWithConfirmation(this.form.email, this.verificationForm);
-  // try{
-  //   const { isSignUpComplete, nextStep } = await confirmSignUp({
-    
-  //     username: this.form.email,
-  //     confirmationCode: this.verificationForm.code,
-  //   });
-  
-  // }catch{
-  //   this.setErrorMessage("User is not confirmed.");
-  //   this.toggleSignInRow();
-  // }
+    // if(this.codeErrorScreen){
+    //   const { response, error } = await this.createUserWithConfirmation(this.form.email, this.verificationForm);
+    // try{
+    //   const { isSignUpComplete, nextStep } = await confirmSignUp({
 
-  // if (response) {
-  //   this.toggleSignInRow();
-  //   this.spinner.hide();
-  // }
+    //     username: this.form.email,
+    //     confirmationCode: this.verificationForm.code,
+    //   });
 
-  // if (error) {
-  //   this.errorMessage = error.message;
-  //   this.spinner.hide();
-  // }
+    // }catch{
+    //   this.setErrorMessage("User is not confirmed.");
+    //   this.toggleSignInRow();
+    // }
+
+    // if (response) {
+    //   this.toggleSignInRow();
+    //   this.spinner.hide();
+    // }
+
+    // if (error) {
+    //   this.errorMessage = error.message;
+    //   this.spinner.hide();
+    // }
 
 
-  // }
+    // }
   }
 
 
@@ -904,11 +916,11 @@ try{
     let login = await this.amplify.handleSignIn(loginData);
     if (login.response?.nextStep?.signInStep === "CONFIRM_SIGN_UP") {
       this.spinner.hide();
-      
-      this.showSignInRow=!this.showSignInRow;
-      this.confirmationCodeScreen=!this.confirmationCodeScreen;
-    // this.codeErrorScreen=!this.codeErrorScreen
-     // this.setErrorMessage("User is not confirmed.");
+
+      this.showSignInRow = !this.showSignInRow;
+      this.confirmationCodeScreen = !this.confirmationCodeScreen;
+      // this.codeErrorScreen=!this.codeErrorScreen
+      // this.setErrorMessage("User is not confirmed.");
     }
     if (login && login.error && login.error.message) {
       this.spinner.hide();
@@ -916,16 +928,16 @@ try{
     }
     if (login!.response!.isSignedIn) {
       await this.authService.getProfile(this.form.email).then(async (response) => {
-        
+
         let userType = response.data.lastAccessedDash;
-        let userName=response.data.name;
+        let userName = response.data.name;
         this.storage.set('lastAccessedDash', userType);
         this.storage.set('userName', userName);
         this.navbarToggleSwitchService.intializeToggleStatus();
         console.log(userName)
 
-       await this.currentSession();
-       await this.currentAuthenticatedUser();
+        await this.currentSession();
+        await this.currentAuthenticatedUser();
         this.onSuccess.emit(userType);
         this.spinner.hide();
         // if (userType == "CAND") {
@@ -947,25 +959,25 @@ try{
   }
 
 
-//   async FieldTypeFromAutocompleteAttributeValue(autocompleteAttributeValue: string): Promise<any> {
-   
-//     let fieldType: HtmlFieldType = HtmlFieldType.UNKNOWN;
-//     console.log(this.showSignInRow)
-//     //if(this.showSignInRow){
-//       
-//     if (autocompleteAttributeValue === "email" ) {
-//       return fieldType=HtmlFieldType.EMAIL;
-//     } else if (autocompleteAttributeValue === "current-password") {
-//       return fieldType=HtmlFieldType.PASSWORD;
-//     }
-//   //}
-//     return fieldType;
+  //   async FieldTypeFromAutocompleteAttributeValue(autocompleteAttributeValue: string): Promise<any> {
+
+  //     let fieldType: HtmlFieldType = HtmlFieldType.UNKNOWN;
+  //     console.log(this.showSignInRow)
+  //     //if(this.showSignInRow){
+  //       
+  //     if (autocompleteAttributeValue === "email" ) {
+  //       return fieldType=HtmlFieldType.EMAIL;
+  //     } else if (autocompleteAttributeValue === "current-password") {
+  //       return fieldType=HtmlFieldType.PASSWORD;
+  //     }
+  //   //}
+  //     return fieldType;
 
 
 
 
-  
-// }
+
+  // }
 
   async signOut(): Promise<void> {
     await this.amplify.handleSignOut();
@@ -1006,10 +1018,10 @@ try{
 
   async createUserWithConfirmation(form: any, verificationForm: any): Promise<{ response?: any; error?: Error }> {
     this.setErrorMessage("");
-   
+
     try {
       let signupform = {
-        username: form.emailId ||this.form.email,
+        username: form.emailId || this.form.email,
         confirmationCode: verificationForm.code,
       }
 
@@ -1080,22 +1092,22 @@ try{
     this.modalService.dismissAll();
   }
 
-  signUpWithLinkedin(usertype:any) {
+  signUpWithLinkedin(usertype: any) {
     this.storage.set('LinkedinUserType', usertype);
-    console.log( window.location.origin )
+    console.log(window.location.origin)
     console.log(usertype);
     // Show a spinner or perform any other necessary actions
     this.spinner.show();
-   
-//"https://worko.auth.ap-south-1.amazoncognito.com/oauth2/authorize?identity_provider=LinkedIn&redirect_uri=https://localhost:4200/&response_type=CODE&client_id=5evf019rrkaijtnjf2j1vvdf33&state=h8HvXvQ2W4QvOE18H68wwcgWh3pIkANy&code_challenge=kI8A-NbOUiZw9Iv14YltZO5iTk6MTkK2Lu1PVAEsOyI&code_challenge_method=S256&scope=email%20openid%20phone";
+
+    //"https://worko.auth.ap-south-1.amazoncognito.com/oauth2/authorize?identity_provider=LinkedIn&redirect_uri=https://localhost:4200/&response_type=CODE&client_id=5evf019rrkaijtnjf2j1vvdf33&state=h8HvXvQ2W4QvOE18H68wwcgWh3pIkANy&code_challenge=kI8A-NbOUiZw9Iv14YltZO5iTk6MTkK2Lu1PVAEsOyI&code_challenge_method=S256&scope=email%20openid%20phone";
     // Redirect to the specified URL
     //window.location.href =
-       // "https://worko.auth.ap-south-1.amazoncognito.com/oauth2/authorize?identity_provider=LinkedIn&redirect_uri=http://localhost:4200/auth/checkRedirection&response_type=CODE&client_id=5evf019rrkaijtnjf2j1vvdf33&state=h8HvXvQ2W4QvOE18H68wwcgWh3pIkANy&code_challenge=kI8A-NbOUiZw9Iv14YltZO5iTk6MTkK2Lu1PVAEsOyI&code_challenge_method=S256&scope=email%20openid%20phone";
-  //
+    // "https://worko.auth.ap-south-1.amazoncognito.com/oauth2/authorize?identity_provider=LinkedIn&redirect_uri=http://localhost:4200/auth/checkRedirection&response_type=CODE&client_id=5evf019rrkaijtnjf2j1vvdf33&state=h8HvXvQ2W4QvOE18H68wwcgWh3pIkANy&code_challenge=kI8A-NbOUiZw9Iv14YltZO5iTk6MTkK2Lu1PVAEsOyI&code_challenge_method=S256&scope=email%20openid%20phone";
+    //
 
 
 
-  this.amplify.handleSocialSignIn()
+    this.amplify.handleSocialSignIn()
 
   }
 

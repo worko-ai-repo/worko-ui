@@ -286,9 +286,7 @@ export class CompanyListingComponent implements OnInit {
 
   async openModalFromIndex() {
 
-
-    console.log(this.typeFromIndex)
-    // if ( this.typeFromIndex) {
+       
     this.userLoggedIn = await this.cognitoService.isLoggedIn();
       if (this.typeFromIndex === 'referral' && this.userLoggedIn) {
         this.indexData = 'ID#' + this.companySKFormIndex
@@ -307,37 +305,19 @@ export class CompanyListingComponent implements OnInit {
 
       
     }else{
-      this.profileCompletionRequired = true;
-      this.successmessage = "";
-      this.successtitle = "";
-      this.openModal(ModalType.SUCCESS_MESSAGE);
+      this.userLoggedIn=true;
+      this.openModal(this.modalType.LOGIN_SIGNUP)
     }
+
+
+
+
+
     const url = this.router.url.split('?')[0];
     this.location.replaceState(url);
     // }
 
 
-  }
-
-
-
-
-  // open modal if user click on request referral from worko.ai
-  async openModalForCompany(item: any) {
-
-    this.userLoggedIn = await this.cognitoService.isLoggedIn();
-
-    this.selectedData = item;
-    console.log(this.selectedData)
-    this.triggerReferral = true;
-    this.triggerGuidance = false;
-    if (this.userLoggedIn) {
-
-      this.openModal(ModalType.REQUEST_REFERRAL);
-    } else {
-      this.userLoggedIn = true
-      this.openModal(ModalType.LOGIN_SIGNUP);
-    }
   }
 
 
