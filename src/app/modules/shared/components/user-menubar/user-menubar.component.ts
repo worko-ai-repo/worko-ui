@@ -3,6 +3,7 @@ import { Router } from '@angular/router';
 import { signOut } from '@aws-amplify/auth';
 
 import { CognitoService } from 'src/app/modules/services/cognito.service';
+import { environment } from 'src/environments/environment';
 
 @Component({
   selector: 'app-user-menubar',
@@ -35,7 +36,7 @@ export class UserMenubarComponent {
       this.menuItems = [
         {
           name: 'Dashboard',
-          router: "candidate/dashboard", 
+          router: "candidate/dashboard",
         },
         {
           name: 'Referral',
@@ -60,7 +61,7 @@ export class UserMenubarComponent {
       ]
     }
 
-    
+
 
     if (this.userType == "Employee") {
       this.menuItems = [
@@ -120,7 +121,7 @@ export class UserMenubarComponent {
           name: 'Payment',
           router: "admin/aPayment"
         },
-        
+
         {
           name: 'Refer & Earn',
           router: "admin/aRefer-Earn"
@@ -133,13 +134,13 @@ export class UserMenubarComponent {
     }
   }
 
-  
+
   isMenuOpen: boolean = false;
 
   toggleMenu(event: any) {
     // this.isMenuOpen = event.target.checked;
     this.isMenuOpen = !this.isMenuOpen;
-    console.log("isMenuOpen",this.isMenuOpen)
+    console.log("isMenuOpen", this.isMenuOpen)
   }
 
   /**
@@ -156,21 +157,38 @@ export class UserMenubarComponent {
     await signOut();
     this.userLoggedIn = await this.cognitoService.isLoggedIn();
     if (!this.userLoggedIn) {
-      this.router.navigateByUrl('/');
+     // this.router.navigateByUrl('/');
+     window.location.href = environment.crossOriginUrl + '/';
     }
   }
 
-  userCheck(){
+  userCheck() {
     const currentUrl = window.location.href;
 
-// Check if the URL contains "employee" or "candidate"
-console.log(currentUrl)
-if (currentUrl.includes("employee")) {
-  console.log('emp')
-  this.router.navigateByUrl('/employee/Dashboard');
-} else{
-  console.log('can')
-  this.router.navigateByUrl('/candidate/dashboard');
-}
-}
+    //   // Check if the URL contains "employee" or "candidate"
+    //   console.log(currentUrl)
+    //   if (currentUrl.includes("employee")) {
+    //     console.log('emp')
+
+    //     this.router.navigateByUrl('/employee/Dashboard');
+    //   } else {
+    //     console.log('can')
+    //     this.router.navigateByUrl('/candidate/dashboard');
+    //   }
+
+    // Check if the current URL contains "dashboard"
+    if (currentUrl.includes("dashboard") || currentUrl.includes("Dashboard")) {
+      console.log('Navigating to company listing');
+      this.router.navigateByUrl('/company-listing');
+      return; // Exit the function after redirecting
+    }
+
+    if (currentUrl.includes("employee")) {
+      console.log('emp');
+      this.router.navigateByUrl('/employee/Dashboard');
+    } else {
+      console.log('can');
+      this.router.navigateByUrl('/candidate/dashboard');
+    }
+  }
 }

@@ -285,7 +285,7 @@ this.disableAllFields();
       //   this.companyName = option;
       // this.companySK ="";
       return option;
-    } else if (typeof option === "object" && option.name) {
+    } else if (typeof option === "object" && option?.name) {
       this.companyName = option.name;
       this.companySK = option.SK;
       return option.name;
@@ -298,7 +298,7 @@ this.disableAllFields();
       //   this.companyName = option;
       // this.companySK ="";
       return job;
-    } else if (typeof job === "object" && job.name) {
+    } else if (typeof job === "object" && job?.name) {
       this.companyPastName = job.name;
       this.companyPastSK = job.SK;
       console.log(this.companyPastName);

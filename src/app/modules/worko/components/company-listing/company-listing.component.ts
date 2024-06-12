@@ -18,6 +18,7 @@ import { StorageService } from 'src/app/modules/app-core/services/storage.servic
 import { CandidateProfileService } from 'src/app/modules/candidate/services/candidate-profile.service';
 import { LoginPageComponent } from '../login-page/login-page.component';
 import { NavbarComponent } from '../navbar/navbar.component';
+import { Location } from '@angular/common';
 @Component({
   selector: 'app-company-listing',
   templateUrl: './company-listing.component.html',
@@ -233,7 +234,7 @@ export class CompanyListingComponent implements OnInit {
 
 
 
-  constructor(private spinner: NgxSpinnerService, private activatedRoute: ActivatedRoute, private cdr: ChangeDetectorRef, private storage: StorageService, private router: Router, private authService: AuthService, private http: HttpClient, private renderer: Renderer2, private el: ElementRef, private companyListing: CompanyListingService, private cognitoService: CognitoService, private candidateSrv: CandidateProfileService) {
+  constructor(private spinner: NgxSpinnerService, private location: Location, private activatedRoute: ActivatedRoute, private cdr: ChangeDetectorRef, private storage: StorageService, private router: Router, private authService: AuthService, private http: HttpClient, private renderer: Renderer2, private el: ElementRef, private companyListing: CompanyListingService, private cognitoService: CognitoService, private candidateSrv: CandidateProfileService) {
     this.searchTerms
       .pipe(
         debounceTime(300), // Adjust the debounce time as needed (300 milliseconds in this example)
@@ -279,13 +280,12 @@ export class CompanyListingComponent implements OnInit {
       this.openModalFromIndex()
     }
 
+    window.scrollTo(0, 0);
   }
 
-  //receive data from worko.ai
+  //receive data from static page
 
   async openModalFromIndex() {
-
-
     console.log(this.typeFromIndex)
     // if ( this.typeFromIndex) {
     this.userLoggedIn = await this.cognitoService.isLoggedIn();
@@ -312,29 +312,41 @@ export class CompanyListingComponent implements OnInit {
       }
     }
     // }
-
-
   }
 
-
-
-
   // open modal if user click on request referral from worko.ai
-  async openModalForCompany(item: any) {
-
+  async openModalForCompany(item: any) {     
     this.userLoggedIn = await this.cognitoService.isLoggedIn();
+      if (this.typeFromIndex === 'referral' && this.userLoggedIn) {
+        this.indexData = 'ID#' + this.companySKFormIndex
+        this.selectedData = this.filterCompanyBySk(this.indexData);
+        console.log(this.selectedData);
+        this.triggerReferral = true;
+        this.triggerGuidance = false;
+        this.openModal(ModalType.REQUEST_REFERRAL);
+      } else if(this.typeFromIndex === 'guidance'){
 
-    this.selectedData = item;
-    console.log(this.selectedData)
-    this.triggerReferral = true;
-    this.triggerGuidance = false;
-    if (this.userLoggedIn) {
 
-      this.openModal(ModalType.REQUEST_REFERRAL);
-    } else {
-      this.userLoggedIn = true
-      this.openModal(ModalType.LOGIN_SIGNUP);
+        this.triggerReferral = false;
+        this.triggerGuidance = true;
+        this.openModal(ModalType.REQUEST_GUIDANCE)
+
+
+      
+    }else{
+      this.userLoggedIn=true;
+      this.openModal(this.modalType.LOGIN_SIGNUP)
     }
+
+
+
+
+
+    const url = this.router.url.split('?')[0];
+    this.location.replaceState(url);
+    // }
+
+
   }
 
 
@@ -384,7 +396,6 @@ export class CompanyListingComponent implements OnInit {
       logos.push(`${i}.jpg`);
 
     }
-    // logos.push('1.jpg','10.jpg','15.jpg','25.jpg','30.jpg','47.jpg')
     return logos;
   }
 
@@ -578,6 +589,7 @@ export class CompanyListingComponent implements OnInit {
 
 
   }
+
   // ngAfterViewInit() {
   //   
   //   this.trigger.panelClosingActions
@@ -623,6 +635,13 @@ export class CompanyListingComponent implements OnInit {
         }
       }
     }
+<<<<<<< HEAD
+=======
+    if (this.triggerGuidance && this.userLoggedIn) {
+      this.openModal(ModalType.REQUEST_GUIDANCE);
+    }
+
+>>>>>>> f58e4421f91263019d8314c4d1b40d91b0e77df3
   }
 
   companyForm = {
@@ -736,6 +755,7 @@ export class CompanyListingComponent implements OnInit {
 
       this.myControl.reset();
 
+<<<<<<< HEAD
     }
     if (ModalType.LOGIN_SIGNUP) {
       if (this.LoginPageComponent) {
@@ -746,7 +766,20 @@ export class CompanyListingComponent implements OnInit {
       }
     }
     this.modal.open();
+=======
+>>>>>>> f58e4421f91263019d8314c4d1b40d91b0e77df3
 
+    }
+    if (ModalType.LOGIN_SIGNUP) {
+      if (this.LoginPageComponent) {
+        this.LoginPageComponent.showSignInRow = true;
+        this.LoginPageComponent.showAddCompanyScreen = false;
+        this.LoginPageComponent.showErrorMessageScreen = false;
+        this.LoginPageComponent.isUserLoggedIn = true
+
+      }
+    }
+    this.modal.open();
   }
 
   /**
