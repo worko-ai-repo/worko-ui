@@ -30,7 +30,7 @@ export class IndexComponent {
   candidateProfile: any;
   userName: string = 'profile'
   letter: string = "";
-  isUserLoggedIn: boolean = false;
+  showLoginScreen: boolean = false;
   selectedUserType: any = 'candidate';
   userType: any;
   userTypeFromIndex: any;
@@ -110,7 +110,7 @@ export class IndexComponent {
     }
 
 
-    this.isUserLoggedIn = true;
+    this.showLoginScreen = true;
     this.modalOpen();
   }
 
@@ -128,7 +128,7 @@ export class IndexComponent {
   }
 
   private handleUserTypeFromIndex(): void {
-    this.isUserLoggedIn = true;
+    this.showLoginScreen = true;
     this.selectedUserType = this.userTypeFromIndex;
     console.log(this.selectedUserType);
     this.modalOpen();
@@ -162,7 +162,7 @@ export class IndexComponent {
       }
       else {
         const response = await this.candidateSrv.getProfileComplete(this.emailAddress);
-
+        
         if (response) {
           this.profileCompletion = response;
           console.log(this.profileCompletion);
@@ -176,7 +176,7 @@ export class IndexComponent {
             } else if (userType === "CAND" && totalPercentage < 60) {
               this.router.navigate(['/candidate/edit-profile']);
             } else if (userType !== "CAND" && totalPercentage > 60) {
-              this.router.navigate(['/employee/dashboard']);
+              this.router.navigate(['/employee/Dashboard']);
             } else if (userType !== "CAND" && totalPercentage < 60) {
               this.router.navigate(['/employee/Edit-profile']);
             }
@@ -204,7 +204,7 @@ export class IndexComponent {
       this.LoginPageComponent.showSignInRow = true;
       this.LoginPageComponent.showAddCompanyScreen = false;
       this.LoginPageComponent.showErrorMessageScreen = false;
-      this.LoginPageComponent.isUserLoggedIn = this.isUserLoggedIn
+      this.LoginPageComponent.showLoginScreen = this.showLoginScreen
       this.LoginPageComponent.selectedUserType = this.selectedUserType
 
     }

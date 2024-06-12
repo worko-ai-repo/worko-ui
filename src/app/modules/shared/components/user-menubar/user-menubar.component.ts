@@ -162,6 +162,7 @@ export class UserMenubarComponent {
     }
   }
 
+  //route user to company lisiting if user is clicks on worko logo
   userCheck() {
     const currentUrl = window.location.href;
 
@@ -175,20 +176,8 @@ export class UserMenubarComponent {
     //     console.log('can')
     //     this.router.navigateByUrl('/candidate/dashboard');
     //   }
-
-    // Check if the current URL contains "dashboard"
-    if (currentUrl.includes("dashboard") || currentUrl.includes("Dashboard")) {
-      console.log('Navigating to company listing');
-      this.router.navigateByUrl('/company-listing');
-      return; // Exit the function after redirecting
+    this.router.navigateByUrl('/company-listing');
+    
     }
 
-    if (currentUrl.includes("employee")) {
-      console.log('emp');
-      this.router.navigateByUrl('/employee/Dashboard');
-    } else {
-      console.log('can');
-      this.router.navigateByUrl('/candidate/dashboard');
-    }
-  }
 }
