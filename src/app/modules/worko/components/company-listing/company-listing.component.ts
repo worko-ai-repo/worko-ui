@@ -17,6 +17,7 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { StorageService } from 'src/app/modules/app-core/services/storage.service';
 import { CandidateProfileService } from 'src/app/modules/candidate/services/candidate-profile.service';
 import { LoginPageComponent } from '../login-page/login-page.component';
+import { NavbarComponent } from '../navbar/navbar.component';
 @Component({
   selector: 'app-company-listing',
   templateUrl: './company-listing.component.html',
@@ -28,8 +29,9 @@ export class CompanyListingComponent implements OnInit {
   @ViewChild(ReferralRequestComponent) referrralComponent!: ReferralRequestComponent;
   @ViewChild(RequestGuidenceComponent) referrralguidanceComponent!: RequestGuidenceComponent;
   @ViewChild('autoCompleteInput', { static: false, read: MatAutocompleteTrigger }) trigger!: MatAutocompleteTrigger;
-  @ViewChild('company')companyFormDirective!: NgForm;
-  @ViewChild(LoginPageComponent) LoginPageComponent!:LoginPageComponent;
+  @ViewChild('company') companyFormDirective!: NgForm;
+  @ViewChild(LoginPageComponent) LoginPageComponent!: LoginPageComponent;
+  @ViewChild(NavbarComponent) navbarComponent!: NavbarComponent;
   userName: string = "";
   letter: string = ""
   successmessage: string = "";
@@ -231,7 +233,7 @@ export class CompanyListingComponent implements OnInit {
 
 
 
-  constructor(private spinner: NgxSpinnerService,private activatedRoute: ActivatedRoute, private cdr: ChangeDetectorRef, private storage: StorageService, private router: Router, private authService: AuthService, private http: HttpClient, private renderer: Renderer2, private el: ElementRef, private companyListing: CompanyListingService, private cognitoService: CognitoService, private candidateSrv: CandidateProfileService) {
+  constructor(private spinner: NgxSpinnerService, private activatedRoute: ActivatedRoute, private cdr: ChangeDetectorRef, private storage: StorageService, private router: Router, private authService: AuthService, private http: HttpClient, private renderer: Renderer2, private el: ElementRef, private companyListing: CompanyListingService, private cognitoService: CognitoService, private candidateSrv: CandidateProfileService) {
     this.searchTerms
       .pipe(
         debounceTime(300), // Adjust the debounce time as needed (300 milliseconds in this example)
@@ -243,9 +245,9 @@ export class CompanyListingComponent implements OnInit {
       });
 
 
-      this.companySKFormIndex = this.activatedRoute.snapshot.queryParams['companyID'];
-      this.typeFromIndex = this.activatedRoute.snapshot.queryParams['Type'];
-    
+    this.companySKFormIndex = this.activatedRoute.snapshot.queryParams['companyID'];
+    this.typeFromIndex = this.activatedRoute.snapshot.queryParams['Type'];
+
   }
 
 
@@ -256,10 +258,10 @@ export class CompanyListingComponent implements OnInit {
 
     await this.getCompanyDetails();
     this.filteredCompanyList = this.companyList;
-   
+
 
     this.assetLogos = await this.generateLogoFilenames(1, 1045);
-     this.filteredOptions = this.myControl.valueChanges.pipe(
+    this.filteredOptions = this.myControl.valueChanges.pipe(
 
       debounceTime(300),
       distinctUntilChanged(),
@@ -273,43 +275,43 @@ export class CompanyListingComponent implements OnInit {
       })
 
     );
-if(this?.companySKFormIndex && this?.typeFromIndex){
-    this.openModalFromIndex()
-}
+    if (this?.companySKFormIndex && this?.typeFromIndex) {
+      this.openModalFromIndex()
+    }
 
   }
 
   //receive data from worko.ai
 
   async openModalFromIndex() {
-   
 
-console.log(this.typeFromIndex)
+
+    console.log(this.typeFromIndex)
     // if ( this.typeFromIndex) {
-      this.userLoggedIn = await this.cognitoService.isLoggedIn();
-      if (!this.userLoggedIn) {
-        this.userLoggedIn = true
-        this.openModal(ModalType.LOGIN_SIGNUP);
+    this.userLoggedIn = await this.cognitoService.isLoggedIn();
+    if (!this.userLoggedIn) {
+      this.userLoggedIn = true
+      this.openModal(ModalType.LOGIN_SIGNUP);
+    } else {
+
+      if (this.typeFromIndex === 'referral') {
+        this.indexData = 'ID#' + this.companySKFormIndex
+        this.selectedData = this.filterCompanyBySk(this.indexData);
+        console.log(this.selectedData);
+        this.triggerReferral = true;
+        this.triggerGuidance = false;
+        this.openModal(ModalType.REQUEST_REFERRAL);
       } else {
 
-        if (this.typeFromIndex === 'referral') {
-          this.indexData='ID#'+this.companySKFormIndex
-          this.selectedData = this.filterCompanyBySk(this.indexData);
-          console.log(this.selectedData);
-          this.triggerReferral = true;
-          this.triggerGuidance = false;
-          this.openModal(ModalType.REQUEST_REFERRAL);
-        } else {
+
+        this.triggerReferral = false;
+        this.triggerGuidance = true;
+        this.openModal(ModalType.REQUEST_GUIDANCE)
 
 
-          this.triggerReferral = false;
-          this.triggerGuidance = true;
-          this.openModal(ModalType.REQUEST_GUIDANCE)
-
-
-        }
       }
-   // }
+    }
+    // }
 
 
   }
@@ -469,7 +471,7 @@ console.log(this.typeFromIndex)
   }
 
   async onTeamSizeChange(selectedTeamSize: string) {
-    this.pageSize=100;
+    this.pageSize = 100;
     this.lastKey = "";
     this.loadedOnce = true;
     this.filterData.teamSize = selectedTeamSize;
@@ -488,7 +490,7 @@ console.log(this.typeFromIndex)
 
   async onIndustryNameChange(selectedIndustryName: string) {
     this.lastKey = "";
-    
+
     this.loadedOnce = true;
     // this.appliedFilter = true;
     this.filterData.industryName = selectedIndustryName;
@@ -497,7 +499,7 @@ console.log(this.typeFromIndex)
   }
   async onIndustryTypeChange(selectedIndustryType: string) {
     this.lastKey = "";
-    this.pageSize=100;
+    this.pageSize = 100;
     this.loadedOnce = true;
     // this.appliedFilter = true;
     this.filterData.industryType = selectedIndustryType;
@@ -522,31 +524,37 @@ console.log(this.typeFromIndex)
 
   async openReferralPage(event: Event, item: any): Promise<void> {
     event.preventDefault();
+    this.userLoggedIn = await this.cognitoService.isLoggedIn();
 
-    if (this.totalPercentage > 60 && this.cvCurPerc !== 0) {
-      // event.preventDefault();
-      this.userLoggedIn = await this.cognitoService.isLoggedIn();
+    this.selectedData = item;
+    console.log(this.selectedData);
+    this.triggerReferral = true;
+    this.triggerGuidance = false;
 
-      this.selectedData = item;
-      console.log(this.selectedData)
-      this.triggerReferral = true;
-      this.triggerGuidance = false;
-      if (this.userLoggedIn) {
+    if (this.userLoggedIn) {
+      if (this.checkProfileCompletion()) {
         this.openModal(ModalType.REQUEST_REFERRAL);
-      } else {
-        this.userLoggedIn = true
-        this.openModal(ModalType.LOGIN_SIGNUP);
       }
-
+      else {
+        this.profileCompletionRequired = true;
+        this.successmessage = "";
+        this.successtitle = "";
+        this.openModal(ModalType.SUCCESS_MESSAGE);
+      }
     }
     else {
-      this.profileCompletionRequired = true;
-      this.successmessage = "";
-      this.successtitle = "";
-      this.openModal(ModalType.SUCCESS_MESSAGE);
+      this.userLoggedIn = true
+      this.openModal(ModalType.LOGIN_SIGNUP);
     }
+  }
 
-
+  checkProfileCompletion(): any {
+    if (this.totalPercentage > 60 && this.cvCurPerc !== 0) {
+      return true;
+    }
+    else {
+      return false;
+    }
   }
   async openGuidancePage(event: Event, item: any): Promise<void> {
 
@@ -594,15 +602,27 @@ console.log(this.typeFromIndex)
 
     //window.location.reload()
     this.userLoggedIn = await this.cognitoService.isLoggedIn();
-    //this.closeModal();
-
-    if (this.triggerReferral && this.userLoggedIn) {
-      this.openModal(ModalType.REQUEST_REFERRAL);
+    this.closeModal();
+    if (this.userLoggedIn) {
+      await this.getProfilePercentage();
+      this.navbarComponent.ngOnInit();
+      if (this.triggerReferral || this.triggerGuidance) {   // Logic for auto-opening the request referral module once the user signed In successfully and his candidate profile is above 60% and cv is uploaded
+        if (this.checkProfileCompletion()) {
+          if (this.triggerReferral) {
+            this.openModal(ModalType.REQUEST_REFERRAL);
+          }
+          if (this.triggerGuidance) {
+            this.openModal(ModalType.REQUEST_GUIDANCE);
+          }
+        }
+        else {
+          this.profileCompletionRequired = true;
+          this.successmessage = "";
+          this.successtitle = "";
+          this.openModal(ModalType.SUCCESS_MESSAGE);
+        }
+      }
     }
-    if (this.triggerGuidance && this.userLoggedIn) {
-      this.openModal(ModalType.REQUEST_GUIDANCE);
-    }
-   
   }
 
   companyForm = {
@@ -630,10 +650,10 @@ console.log(this.typeFromIndex)
 
           carrierPage: this.companyForm.carrierPage,
           linkedIn: this.companyForm.linkedIn,
-          
+
         },
-         userEmail:this.companyForm.personalemailid,
-         userContactNumber:this.companyForm.contactNumber
+        userEmail: this.companyForm.personalemailid,
+        userContactNumber: this.companyForm.contactNumber
       }
       console.log(this.companyData)
       await this.companyListing.requestNewCompany(this.companyData)
@@ -658,7 +678,7 @@ console.log(this.typeFromIndex)
     */
   openModal(modalType: ModalType, message: string = "", title: string = ""): void {
     this.showModal = modalType;
-    this.cdr.detectChanges();
+    this.cdr.detectChanges(); // This resolves an issue where the ViewChild reference was sometimes undefined
     this.modalMessage = message;
     this.modalTitle = title;
     if (ModalType.REQUEST_REFERRAL) {
@@ -717,14 +737,14 @@ console.log(this.typeFromIndex)
       this.myControl.reset();
 
     }
-    if(ModalType.LOGIN_SIGNUP){
-    if(this.LoginPageComponent){
-      this.LoginPageComponent.showSignInRow=true;
-      this.LoginPageComponent.showAddCompanyScreen=false;
-      this.LoginPageComponent.showErrorMessageScreen=false;
-      this.LoginPageComponent.isUserLoggedIn=true
+    if (ModalType.LOGIN_SIGNUP) {
+      if (this.LoginPageComponent) {
+        this.LoginPageComponent.showSignInRow = true;
+        this.LoginPageComponent.showAddCompanyScreen = false;
+        this.LoginPageComponent.showErrorMessageScreen = false;
+        this.LoginPageComponent.isUserLoggedIn = true
+      }
     }
-  }
     this.modal.open();
 
   }
@@ -755,7 +775,7 @@ console.log(this.typeFromIndex)
           this.cvCurPerc = profileType[2].curPerc;
 
           console.log("Total percentage == ", this.totalPercentage);
-          console.log("CV CurPer === ", this.cvCurPerc);          
+          console.log("CV CurPer === ", this.cvCurPerc);
         }
       }
     }
