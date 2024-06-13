@@ -141,7 +141,9 @@
   </div>
 </div>
 <div class="text-center my-4 not-found">
-  <button (click)="openCompanyForm($event)">+ Add</button>
+  <!-- <button (click)="openCompanyForm($event)">+ Add</button> --> 
+    <button (click)="openCompanyForm($event)">
+  <img  src="assets/icons/addbutton.png" alt="+Add"></button> 
 </div>
 <app-footer></app-footer>
 <app-modal [theme]="'theme-k'" [centered]="true" [showHeader]="showModal === modalType.MESSAGE" [showClose]="true"
@@ -229,8 +231,7 @@
   <ng-container *ngIf="showModal === modalType.ADD_COMPANY">
     <div class="modal-contents ">
       <div class="title">
-        Please provide the details of the company
-        for which you are seeking a referral.
+        The company you're looking for isn't in our referral network yet. Share the details, and we'll work on adding it soon!
       </div>
       <form (ngSubmit)="company.form.valid && requestCampanyData(company)" #company="ngForm" novalidate>
         <!-- <input class="col-8 col-md-4 mb-2 p-1 px-1" type="text" placeholder="Company Name" id="CompanyName" 

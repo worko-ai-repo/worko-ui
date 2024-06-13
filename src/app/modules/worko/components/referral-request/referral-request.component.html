@@ -1,4 +1,4 @@
-<div class="row" *ngIf="!showsubscriptionPlan">
+<div class="row" *ngIf="!showsubscriptionPlan &&!showScore">
   <div class="body main-div">
     <div class="row" *ngIf="showReferrelRow">
       <div class="col-sm-6">
@@ -14,27 +14,33 @@
 
           <form (ngSubmit)="checkRequestReferral()" [formGroup]="requestForm" class="p-0" novalidate>
             <div class="col-sm-12 mt-lg-3 mt-sm-1">
-              <label for="jobUrl" class="form-lable required-form-field">Enter job URL for {{selectedCompany.name}}</label>
+              <label for="jobUrl" class="form-lable required-form-field">Enter job URL for
+                {{selectedCompany.name}}</label>
               <input formControlName="jobUrl" id="jobUrl" type="text" class="form-control text-white input-jobUrl" />
-              <div *ngIf="requestForm.get('jobUrl')?.invalid && (requestForm.get('jobUrl')?.dirty || requestForm.get('jobUrl')?.touched)" class="text-danger">
+              <div
+                *ngIf="requestForm.get('jobUrl')?.invalid && (requestForm.get('jobUrl')?.dirty || requestForm.get('jobUrl')?.touched)"
+                class="text-danger">
                 Please enter a valid URL.
               </div>
             </div>
-          
+
             <div class="col-md-12">
               <label for="jobDescription" class="form-lable required-form-field">Enter job description</label>
-              <textarea formControlName="jobDescription" minlength="100" id="jobDescription" class="form-control text-white input-jobDescription"  style="max-height: 100px;"></textarea>
-              <div *ngIf="requestForm.get('jobDescription')?.invalid && (requestForm.get('jobDescription')?.dirty || requestForm.get('jobDescription')?.touched) &&requestForm.get('jobDescription')?.errors?.['notEnoughKeywords']" class="text-danger">
-                Please enter a  valid job description.
+              <textarea formControlName="jobDescription" minlength="100" id="jobDescription"
+                class="form-control text-white input-jobDescription" style="max-height: 100px;"></textarea>
+              <div
+                *ngIf="requestForm.get('jobDescription')?.invalid && (requestForm.get('jobDescription')?.dirty || requestForm.get('jobDescription')?.touched) &&requestForm.get('jobDescription')?.errors?.['notEnoughKeywords']"
+                class="text-danger">
+                Please enter a valid job description.
               </div>
-              
+
             </div>
-          
+
             <div class="col-sm-12 py-3">
               <button class="btn req-btn" type="submit" [disabled]="!requestForm.valid">REQUEST NOW</button>
             </div>
           </form>
-          
+
         </div>
       </div>
     </div>
@@ -59,18 +65,27 @@
       </div>
     </div> -->
 
-    <div class="progress-bar" *ngIf="showScore">
+    <!-- <div class="progress-bar" *ngIf="showScore">
       <app-referral-progress-bar  [referralId]="referralRequestId"></app-referral-progress-bar>
-    </div>
+    </div> -->
   </div>
 </div>
-<div class="row message-card px-sm-3 p-5" *ngIf="showsubscriptionPlan &&!showScore  &&!showReferrelRow" >
+<div class="row d-flex align-self-center justify-content-center" *ngIf="!showsubscriptionPlan &&!showReferrelRow">
+  <div class="body main-div1">
+    <div class="progress-bar" *ngIf="showScore">
+      <app-referral-progress-bar [referralId]="referralRequestId"></app-referral-progress-bar>
+    </div>
+
+  </div>
+</div>
+
+<div class="row message-card px-sm-3 p-5" *ngIf="showsubscriptionPlan &&!showScore  &&!showReferrelRow">
   <div class="col-md-8 offset-md-2">
     <div class="text-center mb-4">
-     <p> Looks like you've used up your referral credits. </p>
+      <p> Looks like you've used up your referral credits. </p>
       <p>To keep seizing opportunities, consider topping up your credits now at a price even cheaper than coffee.</p>
-      
-      
+
+
     </div>
     <div class="text-center">
       <button class="btn req-btn" (click)="upgradeNow()">UPGRADE NOW</button>

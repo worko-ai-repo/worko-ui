@@ -548,15 +548,18 @@ export class LoginPageComponent implements AfterViewInit, OnDestroy {
       if (error && error.message) {
         this.spinner.hide();
         this.errorMessage = error.message;
+        console.log(error.message)
       }
 
 
-    } catch (error) {
+    } catch (error:any) {
+      if(error.message==='User already exists'){
       this.spinner.hide();
       this.employeeFormDirective.resetForm()
       this.myControl.reset();
-      this.setErrorMessage("It looks like you already have an account with us.  Please log in to continue.")
+      this.setErrorMessage("It looks like you already have an account with us.  Please log in to continue.If you’ve forgotten your password, use the 'Forgot Password' link to reset it.")
       console.log('Error signing up candidate createEmployee:', error);
+        }
     }
   }
 
@@ -704,7 +707,7 @@ export class LoginPageComponent implements AfterViewInit, OnDestroy {
         this.showSignInRow = false
         this.showAddCompanyScreen = false
         this.showErrorMessageScreen = true
-        this.successmessage = "The company already exists! Please search to find the company."
+        this.successmessage = "The company you entered is already in our referral network. Please check the listing page and try again."
         this.successtitle = "Alert"
       } else {
         this.spinner.hide()
@@ -1014,12 +1017,14 @@ export class LoginPageComponent implements AfterViewInit, OnDestroy {
         console.error('Sign-up error: New method', error.message);
         return { error: error };
       }
-    } catch (error) {
+    } catch (error:any) {
+      if(error.message==='User already exists'){
       this.spinner.hide();
       this.candidateFormDirective.resetForm()
       this.fileName=""
-      this.setErrorMessage("It looks like you already have an account with us.  Please log in to continue."); //If you’ve forgotten your password, use the 'Forgot Password' link to reset it.
+      this.setErrorMessage("It looks like you already have an account with us.  Please log in to continue.If you’ve forgotten your password, use the 'Forgot Password' link to reset it."); //
       console.log('Error signing up candidate: createUser', error);
+      }
     }
 
     // If an error occurs or no response is received, return an object with an undefined response and error properties
