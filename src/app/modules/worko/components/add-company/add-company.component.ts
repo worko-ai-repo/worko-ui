@@ -80,7 +80,7 @@ export class AddCompanyComponent {
       if (error.status === 409) {
         this.spinner.hide()
 
-        this.successmessage = "The company already exists! Please search to find the company."
+        this.successmessage = "The company you entered is already in our referral network. Please check the listing page and try again."
         this.successtitle = "Alert"
         this.openModal(ModalType.SUCCESS_MESSAGE)
       } else {

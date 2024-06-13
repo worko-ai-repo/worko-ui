@@ -89,7 +89,7 @@ Amplify.configure(awsamplify.config);
 
 
    handleSocialSignIn = () => {
-    debugger
+  //  debugger
        const provider = {
       custom: 'LinkedIn'
     }
