@@ -1,4 +1,4 @@
-import { Component, EventEmitter, Input, OnChanges, Output, SimpleChanges } from '@angular/core';
+import { ChangeDetectorRef, Component, EventEmitter, Input, OnChanges, Output, SimpleChanges } from '@angular/core';
 // import { NgbModalOptions } from '@ng-bootstrap/ng-bootstrap/modal/modal.module';
 import { AbstractControl, NgModel, ValidationErrors, ValidatorFn, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
@@ -9,7 +9,7 @@ import { Location } from '@angular/common';
   templateUrl: './payment-confirmation-modal.component.html',
   styleUrls: ['./payment-confirmation-modal.component.scss']
 })
-export class PaymentConfirmationModalComponent {
+export class PaymentConfirmationModalComponent implements OnChanges {
   @Input() decryptedPaymentResponse: any;
   amount: any;
   transactionId: any;
@@ -19,7 +19,7 @@ export class PaymentConfirmationModalComponent {
   orderIdPart1: string = '';
   orderIdPart2: string = '';
 
-  constructor(private router: Router, private location: Location) { }
+  constructor(private router: Router, private location: Location, private cdr: ChangeDetectorRef) { }
 
   ngOnInit(): void {
     console.log("confirmation modal open now");
@@ -37,8 +37,8 @@ export class PaymentConfirmationModalComponent {
   }
 
   @Output() onSuccess: EventEmitter<void> = new EventEmitter<void>();
-  @Output() onClose = new EventEmitter<void>();
-  @Output() onNext = new EventEmitter<void>();
+  @Output() onClose = new EventEmitter<any>();
+  @Output() onNext = new EventEmitter<any>();
   @Input() selectedPackage: any;
   @Input() cardDetails: any = {
     cardHolderName: "",

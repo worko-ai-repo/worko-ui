@@ -10,6 +10,7 @@ import { CandidateProfileService } from 'src/app/modules/candidate/services/cand
 import { StorageService } from 'src/app/modules/app-core/services/storage.service';
 import { environment } from 'src/environments/environment';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
+import { PAYMENT_GATEWAYS, PaymentGatewayData } from 'src/app/modules/shared/constants/payment-gateways.constants';
 
 // export const theme_config = {
 //   sdkPrimaryColor: "#2F92C7",
@@ -66,6 +67,7 @@ export class SubscriptionPlanComponent {
   subscriptionStatus: any;
   successmessage: string = "";
   successtitle: string = "";
+  paymentGateways: PaymentGatewayData[] = PAYMENT_GATEWAYS;
 
 
   constructor(private renderer2: Renderer2, private cd: ChangeDetectorRef,
@@ -100,20 +102,26 @@ export class SubscriptionPlanComponent {
   //  }
 
   openCheckout(packageData: any) {
-    this.isOrderSummary = true;
-    this.isPaymentGatewayUi = false;
     this.selectedPackage = packageData;
 
+    this.isOrderSummary = false;
     this.isPaymentDetails = false;
     this.isOrderDetails = false;
     // this.openModal(ModalType.SUBSCRIPTION_CHECKOUT);
-    if (this?.subscriptionStatus?.isSubscribed === true) {
+    if (this?.subscriptionStatus?.isSubscribed) {
       this.successmessage = `You already have ${this.packageDetails?.availableReferrals} referral count left in your account. Please use it before buying another one.`;
       this.successtitle = ""
       this.openModal(ModalType.SUCCESS_MESSAGE);
     }
     else {
-      this.openModal(ModalType.PLANS_ORDER_PAYMENT);
+      const enabledPaymentGateways = this.paymentGateways.filter(gateway => gateway.isEnabled);
+      if (enabledPaymentGateways.length > 1) {
+        this.isPaymentGatewayUi = true;
+        this.openModal(ModalType.PLANS_ORDER_PAYMENT);
+      }
+      else {
+        this.createOrder(enabledPaymentGateways[0].name);
+      }
     }
   }
   cancel() {
@@ -125,13 +133,13 @@ export class SubscriptionPlanComponent {
   }
 
   /**
-      * Open modal.
-      *
-      * @param {ModalType} modalType
-      * @param {string} [message = ""]
-      * @param {string} [title = ""]
-      * @returns {void}
-      */
+* Open modal.
+*
+* @param {ModalType} modalType
+* @param {string} [message = ""]
+* @param {string} [title = ""]
+* @returns {void}
+*/
   openModal(modalType: ModalType, message: string = "", title: string = ""): void {
     this.showModal = modalType;
     this.modalMessage = message;
@@ -161,7 +169,8 @@ export class SubscriptionPlanComponent {
     // const ipAddress = await this.getIpAddress();
 
     let subTotalAmount = this.selectedPackage?.amount || 0;
-    let gstAmount = subTotalAmount * 0.18;
+    // let gstAmount = subTotalAmount * 0.18; // GST is 18% of the subtotal amount
+    let gstAmount = 0;
     let discountAmount = 0;
 
     let totalAmount = subTotalAmount + gstAmount - discountAmount;
@@ -172,7 +181,7 @@ export class SubscriptionPlanComponent {
       "pgatewayProvider": this.pGatewayProvider,
       "subTotalAmount": subTotalAmount,
       "discountAmount": discountAmount,
-      "gstAmount": gstAmount,  // GST is 18% of the subtotal amount
+      "gstAmount": gstAmount,
       "orderType": "SUBS",
       // "ipAddress": ipAddress,
       // "userAgent": this.userAgent,

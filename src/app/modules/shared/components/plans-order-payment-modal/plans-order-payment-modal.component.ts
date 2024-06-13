@@ -244,7 +244,7 @@ export class PlansOrderPaymentModalComponent implements OnChanges {
   closePopup() {
     this.selectedIndex = null; // Reseting selectedIndex to null
     this.selectedGateway = null; // Reseting selectedGateway to null
-    this.isOrderSummary = true;
+    this.isOrderSummary = false;
     this.isPaymentGatewayUi = false;
     this.isPaymentDetails = false;
     this.isOrderDetails = false;
@@ -280,7 +280,9 @@ export class PlansOrderPaymentModalComponent implements OnChanges {
       const packageAmount = parseFloat(this.selectedPackage.amount);
 
       // GST calculation
-      const gst = (18 / 100) * packageAmount;
+      // const gst = (18 / 100) * packageAmount;
+
+      const gst = 0;
 
       // Total amount calculation
       const totalAmount = packageAmount + gst;
