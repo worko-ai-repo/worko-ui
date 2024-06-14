@@ -427,10 +427,21 @@ export class CompanyListingComponent implements OnInit {
     }
   }
 
+  onSearchInputEnter(event: KeyboardEvent): void {
+    console.log(this.searchQuery);
+    if (event.key === 'Enter') { // Checking if the pressed key is Enter
+      this.lastKey = "";
+      this.loadedOnce = true;
+      this.searchTerms.next(this.searchQuery);
+    }
+  }
+
   callApiWithSearchQuery(query: string): void {
-    this.filterData.companyName = query;
+    const encodedQuery = encodeURIComponent(query); // Encoding the query string
+    this.filterData.companyName = encodedQuery; // Setting here encoded query to filterData
     this.getCompanyDetails();
   }
+
   filterCompanies(): void {
     this.filteredCompanyList = this.companyList.filter(company =>
       company.name.toLowerCase().includes(this.searchTerm.toLowerCase())
@@ -480,6 +491,7 @@ export class CompanyListingComponent implements OnInit {
   async getCompanyDetails() {
     if (this.lastKey || this.loadedOnce) {
       this.spinner.show();
+      // const encodedCompanyName = encodeURIComponent(this.filterData.companyName); // Encode the company name
       await this.companyListing.getCompanyListing(this.pageSize, this.lastKey, this.filterData.teamSize, this.filterData.industryType, this.filterData.companyName).then(async (response) => {
         if (response) {
           console.log("Helo11");

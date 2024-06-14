@@ -24,7 +24,7 @@
     </div>
     <div class="col-8 ms-5 text-white my-2">
       <input class="searchInput" placeholder="Search by company name..." name="companyName" id="companyName"
-        [(ngModel)]="searchQuery" (input)="onSearchInputChange()" />
+        [(ngModel)]="searchQuery" (input)="onSearchInputChange()" (keydown)="onSearchInputEnter($event)" />
       <button mat-button *ngIf="searchQuery" matSuffix mat-icon-button (click)="clearSearchInput()"
         class="custom-clear-button">
         <mat-icon>clear</mat-icon>
