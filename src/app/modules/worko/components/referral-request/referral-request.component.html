@@ -22,12 +22,27 @@
                 class="text-danger">
                 Please enter a valid URL.
               </div>
+              
             </div>
 
             <div class="col-md-12">
-              <label for="jobDescription" class="form-lable required-form-field">Enter job description</label>
+              <label for="jobDescription" class="form-lable required-form-field">Enter job description
+                <div class="tooltip-container">
+                  <div class="tooltip-style">
+                    <i class="fa-solid fa-circle-info"></i>
+                  </div>
+                  <div class="tooltip-text pt-2 text-center p-2">
+                    <p style="font-size: smaller;">How to paste a jd:</p>
+                     <p style="font-size: smaller;"> 1. Paste complete job description</p>
+                     <p style="font-size: smaller;">   2. Make sure job title & experience is there</p>
+                     <p style="font-size: smaller;">   3. No need to add company profile</p>
+                  </div>
+                </div>
+              </label>
               <textarea formControlName="jobDescription" minlength="100" id="jobDescription"
-                class="form-control text-white input-jobDescription" style="max-height: 100px;"></textarea>
+                class="form-control text-white input-jobDescription" style="max-height: 100px;">
+               </textarea>
+              
               <div
                 *ngIf="requestForm.get('jobDescription')?.invalid && (requestForm.get('jobDescription')?.dirty || requestForm.get('jobDescription')?.touched) &&requestForm.get('jobDescription')?.errors?.['notEnoughKeywords']"
                 class="text-danger">
