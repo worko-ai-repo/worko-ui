@@ -72,11 +72,13 @@
 
 .not-found button {
     padding: 1rem 0.5%;
-    border-radius: 50%;
-    font-size: 18px;
-    color: white;
-    background: linear-gradient(90deg, #2F92C7 0%, rgba(47, 146, 199, 0) 205.38%);
-    border-width: 1px;
+    //border-radius: 50%;
+    //font-size: 18px;
+    //color: white;
+   // background: linear-gradient(90deg, #2F92C7 0%, rgba(47, 146, 199, 0) 205.38%);
+   border: none;
+   background: none;
+  //  border-width: 1px;
     position: fixed;
     bottom: 35px;
     right: 50px;

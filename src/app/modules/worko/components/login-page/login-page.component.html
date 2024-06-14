@@ -55,7 +55,7 @@
                 ">
                 <form (ngSubmit)="candidate.form.valid && createCandidate(candidate)" #candidate="ngForm" novalidate
                   class="row mt-4">
-                  <div class="error text-danger py-2" *ngIf="errorMessage">
+                  <div class="error text-danger py-2" *ngIf="errorMessage" style="font-size: small;">
                     {{ errorMessage }}
                   </div>
                   <div class="col-md-6">
@@ -275,7 +275,7 @@
                 ">
                 <form class="row mt-4" (ngSubmit)="employee.form.valid && createEmployee(employee)" #employee="ngForm"
                   novalidate>
-                  <div class="error text-danger py-2" *ngIf="errorMessage">
+                  <div class="error text-danger py-2" *ngIf="errorMessage" style="font-size: small;">
                     {{ errorMessage }}
                   </div>
                     <div class="col-md-6">

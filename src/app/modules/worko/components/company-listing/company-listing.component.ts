@@ -376,7 +376,7 @@ export class CompanyListingComponent implements OnInit {
 
     this.selectedCompany = event.option.value;
 
-    this.successmessage = "The company already exists! Please search to find the company."
+    this.successmessage = "The company you entered is already in our referral network. Please check the listing page and try again."
     this.successtitle = "alert";
     this.openModal(this.modalType.SUCCESS_MESSAGE)
     // console.log(this.selectedCompany)
