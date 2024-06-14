@@ -19,7 +19,7 @@ export class PersonalDetailsComponent implements OnInit {
   @ViewChild(ModalComponent) modal!: ModalComponent;
   @ViewChild('autoCompleteInput', { static: false, read: MatAutocompleteTrigger }) trigger!: MatAutocompleteTrigger;
   @Input() candidateList: any;
-  @Input()  candidatePersonalDetails:any;
+  @Input() candidatePersonalDetails: any;
   @Input() workExperienceDetails: any;
   @Input() certificationList: any;
   @Output() nextStep = new EventEmitter<void>();
@@ -27,8 +27,8 @@ export class PersonalDetailsComponent implements OnInit {
   @Output() onSuccess = new EventEmitter<void>();
   @Input() achievementsList: any;
   @ViewChild('softSkillInput') softSkillInput!: ElementRef<HTMLInputElement>;
-  successmessage:string="";
-  successtitle:string="";
+  successmessage: string = "";
+  successtitle: string = "";
   modalType = ModalType;
   modalMessage: string = "";
   modalTitle: string = "";
@@ -70,12 +70,12 @@ export class PersonalDetailsComponent implements OnInit {
 
   currentYear = new Date().getFullYear().toString();
   //currentMonth = (new Date().getMonth() + 1).toString();
-   currentMonth = (new Date().getMonth() + 1).toString().padStart(2, '0');
+  currentMonth = (new Date().getMonth() + 1).toString().padStart(2, '0');
   maxDate = this.currentYear + "-" + (this.currentMonth.length === 1 ? '0' + this.currentMonth : this.currentMonth);
   month: number = 0;
   achmonth: number = 0;
 
-  constructor(private authService: AuthService, private elRef: ElementRef,private cdr: ChangeDetectorRef) { }
+  constructor(private authService: AuthService, private elRef: ElementRef, private cdr: ChangeDetectorRef) { }
   ngOnInit(): void {
     this.filteredOptions = this.myControl.valueChanges.pipe(
       debounceTime(300),
@@ -130,15 +130,15 @@ export class PersonalDetailsComponent implements OnInit {
     }
   }
   ngOnChanges(): void {
-//debugger
-    if (this.candidateProfessionalDetails.ctc && this.candidatePersonalDetails.ectc &&this.candidatePersonalDetails.department &&
+    //debugger
+    if (this.candidateProfessionalDetails.ctc && this.candidatePersonalDetails.ectc && this.candidatePersonalDetails.department &&
       this.candidateProfessionalDetails.desigination
     ) {
       //debugger
-    }else if(this.candidateProfessionalDetails.isCandidateFresher){
+    } else if (this.candidateProfessionalDetails.isCandidateFresher) {
       //debugger
     }
-     else {
+    else {
       //debugger
       this.getData();
     }
@@ -146,20 +146,20 @@ export class PersonalDetailsComponent implements OnInit {
   }
 
   goBack() {
-   // debugger
+    // debugger
 
-    if(this.workExperienceDetails){
-         if (this.candidateProfessionalDetails.companyName === this.workExperienceDetails.companyName && this.candidateProfessionalDetails.companySK === this.workExperienceDetails.SK) {
-      
-          this.candidateProfessionalDetails.companyName = this.workExperienceDetails.companyName;
-          this.candidateProfessionalDetails.companySK = this.workExperienceDetails.SK;
-        }else{
-          this.candidateProfessionalDetails.companyName=this.candidateProfessionalDetails.companyName;
-          this.candidateProfessionalDetails.companySK=this.candidateProfessionalDetails.companySK;
-          // console.log(this.candidateProfessionalDetails.companyName);
-          // console.log(this.candidateProfessionalDetails.companySK)
-        }
+    if (this.workExperienceDetails) {
+      if (this.candidateProfessionalDetails.companyName === this.workExperienceDetails.companyName && this.candidateProfessionalDetails.companySK === this.workExperienceDetails.SK) {
+
+        this.candidateProfessionalDetails.companyName = this.workExperienceDetails.companyName;
+        this.candidateProfessionalDetails.companySK = this.workExperienceDetails.SK;
+      } else {
+        this.candidateProfessionalDetails.companyName = this.candidateProfessionalDetails.companyName;
+        this.candidateProfessionalDetails.companySK = this.candidateProfessionalDetails.companySK;
+        // console.log(this.candidateProfessionalDetails.companyName);
+        // console.log(this.candidateProfessionalDetails.companySK)
       }
+    }
     // this.candidateProfessionalDetails.companyName = this.selectedCompany?.name ? this.selectedCompany?.name : this.workExperienceDetails?.companyName
     // this.candidateProfessionalDetails.companySK = this.selectedCompany?.SK ? this.selectedCompany?.SK : this.workExperienceDetails?.SK
     //debugger;
@@ -167,9 +167,21 @@ export class PersonalDetailsComponent implements OnInit {
   }
   userFresher() {
     this.candidateProfessionalDetails.isCandidateFresher = !this.candidateProfessionalDetails.isCandidateFresher;
+
+    //resetting experience filed if user checkes the fresher checkbox
+    if (this.candidateProfessionalDetails.isCandidateFresher) {
+      this.candidateProfessionalDetails.companyName = '';
+      this.candidateProfessionalDetails.designation = '';
+      this.candidateProfessionalDetails.department = '';
+      this.candidateProfessionalDetails.ctc = 0;
+      this.candidateProfessionalDetails.ectc = 0;
+      this.candidateProfessionalDetails.yoe = 0;
+      this.candidateProfessionalDetails.noticePeriod = 0;
+    }
   }
 
   getData() {
+
     this.candidateProfessionalDetails = {
       companyName: this.candidateList?.candidateExperience?.companyName,
       //officialEmail: this.workExperienceDetails?.emailId,
@@ -177,19 +189,21 @@ export class PersonalDetailsComponent implements OnInit {
       department: this.candidateList?.candidateExperience?.department,
       ctc: this.candidateList?.CTC,
       ectc: this.candidateList?.ECTC,
-      yoe:this.candidateList?.YOE,
+      yoe: this.candidateList?.YOE,
       noticePeriod: this.candidateList?.noticePeriod,
       certificationNames: this.certificationList?.certifications,
       softSkills: this.certificationList?.softSkills,
       coreSkillList: this.certificationList?.coreSkills,
       achievements: this.achievementsList,
-     // companySK: this.selectedCompany?.SK ? this.selectedCompany?.SK : this.workExperienceDetails?.companyId,
-     // isCandidateFresher: this.candidateList.isCandidateFresher
-     isCandidateFresher: this.candidateList?.isCandidateFresher ?? false
+      // companySK: this.selectedCompany?.SK ? this.selectedCompany?.SK : this.workExperienceDetails?.companyId,
+      // isCandidateFresher: this.candidateList.isCandidateFresher
+      isCandidateFresher: this.candidateList?.isCandidateFresher ?? false
     }
+
+
   }
 
- 
+
 
   //  pattern="^(19|20)\d{2}-(0[1-9]|1[0-2])$";
   //   validatePattern(completionyear: any): boolean {
@@ -198,8 +212,8 @@ export class PersonalDetailsComponent implements OnInit {
 
   /*code to block the future month and month less than 1900-01*/
   setFutureMonthRestriction(completionyear: any) {
-        completionyear.control.setValidators(this.validateCompletionYear(this.maxDate));
-      }
+    completionyear.control.setValidators(this.validateCompletionYear(this.maxDate));
+  }
 
   validateCompletionYear(maxDate: string): any {
     return (control: any) => {
@@ -215,15 +229,15 @@ export class PersonalDetailsComponent implements OnInit {
       }
       if (completionYear.length !== 7) {
         return { futureMonths: true };
-    }
+      }
 
       const year = completionYear.split('-')[1];
       const month = completionYear.split('-')[0];
       //console.log(this.currentMonth,this.currentYear)
 
       // Compare achievementdate with the present month and year
-      if (year < 1900 || (year === 1900 && month < '01') || (year === this.currentYear && month > this.currentMonth) || year > this.currentYear || month < '01' || month > '12' )  {
-      //  debugger 
+      if (year < 1900 || (year === 1900 && month < '01') || (year === this.currentYear && month > this.currentMonth) || year > this.currentYear || month < '01' || month > '12') {
+        //  debugger 
         return { invalidDate: true };
       }
       return null;
@@ -237,22 +251,22 @@ export class PersonalDetailsComponent implements OnInit {
   }
   validateAchievementYear(maxDate: string): any {
     return (control: any) => {
-      let  achievementdate = control.value;
-	    this.achmonth = achievementdate.split('-')[0]
-     // console.log( this.achmonth )
+      let achievementdate = control.value;
+      this.achmonth = achievementdate.split('-')[0]
+      // console.log( this.achmonth )
 
       if (!achievementdate || achievementdate.trim() === '') {
-       // debugger
+        // debugger
         return null;
       }
 
       if (!achievementdate.includes('-')) {
-       // debugger
+        // debugger
         return { missingDash: true };
       }
       if (achievementdate.length !== 7) {
         return { futureMonths: true };
-    }
+      }
       const maxDateMMYYYY = `${maxDate.split('-')[1]}-${maxDate.split('-')[0]}`;
 
       // if (achievementdate > maxDateMMYYYY || achievementdate < '01-1900' || this.achmonth > 12 || this.achmonth == 0) {
@@ -261,10 +275,10 @@ export class PersonalDetailsComponent implements OnInit {
       // }
       const year = achievementdate.split('-')[1];
       const month = achievementdate.split('-')[0];
-     // console.log(this.currentMonth,this.currentYear)
+      // console.log(this.currentMonth,this.currentYear)
 
       // Compare achievementdate with the present month and year
-      if (year < 1900 || (year === 1900 && month < '01') || (year === this.currentYear && month > this.currentMonth) || year > this.currentYear || month < '01' || month > '12' )  {
+      if (year < 1900 || (year === 1900 && month < '01') || (year === this.currentYear && month > this.currentMonth) || year > this.currentYear || month < '01' || month > '12') {
 
         return { invalidDate: true };
       }
@@ -273,39 +287,39 @@ export class PersonalDetailsComponent implements OnInit {
   }
 
   // setFutureMonth(achievementdate: any) {
-  
+
   //   achievementdate.control.setValidators(this.validateAchievementYear(this.maxDate));
   // }
-  
+
   // validateAchievementYear(maxDate: string): any {
-  
+
   //   return (control: any) => {
   //     let achievementdate = control.value;
-  
+
   //     if (!achievementdate || achievementdate.trim() === '') {
   //       return null;
   //     }
-  
+
   //     if (!achievementdate.includes('-')) {
   //       return { missingDash: true };
   //     }
-  
+
   //     // Split the date string to extract month and year
   //     const [month,year] = achievementdate.split('-');
-  
+
   //     if (year.length !== 2 || month.length !== 2) {
   //       return { invalidFormat: true }; // Invalid format if year is not 4 digits or month is not 2 digits
   //     }
-  
+
   //     // Reformat the date to mm-yy format
   //     const mmYYFormat = `${month}-${year.slice(-2)}`;
   //     console.log(mmYYFormat)
-  
+
   //     if (mmYYFormat > maxDate || mmYYFormat < '01-01' || month > '12' || month === '00') {
   //       debugger
   //       return { futureMonths: true };
   //     }
-  
+
   //     return null;
   //   };
   // }
@@ -317,27 +331,27 @@ export class PersonalDetailsComponent implements OnInit {
     // this.nextStep.emit(this.candidateProfessionalDetails)
     // this.candidateProfessionalDetails.companyName = this.selectedCompany?.name ? this.selectedCompany?.name : this.workExperienceDetails?.companyName
     // this.candidateProfessionalDetails.companySK = this.selectedCompany?.SK ? this.selectedCompany?.SK : this.workExperienceDetails?.companyId
- if(!this.candidateProfessionalDetails.isCandidateFresher){
-    if(this.selectedCompany ){
-      this.candidateProfessionalDetails.companyName = this.selectedCompany.name ? this.selectedCompany?.name : this.workExperienceDetails?.companyName
-      this.candidateProfessionalDetails.companySK = this.selectedCompany.SK ? this.selectedCompany?.SK : this.workExperienceDetails?.companyId
+    if (!this.candidateProfessionalDetails.isCandidateFresher) {
+      if (this.selectedCompany) {
+        this.candidateProfessionalDetails.companyName = this.selectedCompany.name ? this.selectedCompany?.name : this.workExperienceDetails?.companyName
+        this.candidateProfessionalDetails.companySK = this.selectedCompany.SK ? this.selectedCompany?.SK : this.workExperienceDetails?.companyId
+      }
     }
-  }
-  
 
-// if(this.workExperienceDetails){
-//    if (this.candidateProfessionalDetails.companyName === this.workExperienceDetails.companyName && this.candidateProfessionalDetails.companySK === this.workExperienceDetails.SK) {
 
-//     this.candidateProfessionalDetails.companyName = this.workExperienceDetails.companyName;
-//     this.candidateProfessionalDetails.companySK = this.workExperienceDetails.SK;
-//   }else{
-//     this.candidateProfessionalDetails.companyName=this.candidateProfessionalDetails.companyName);
-//     this.candidateProfessionalDetails.companySK=this.candidateProfessionalDetails.companySK;
-//     console.log(this.candidateProfessionalDetails.companyName);
-//     console.log(this.candidateProfessionalDetails.companySK)
-//   }
-// }
-//  }
+    // if(this.workExperienceDetails){
+    //    if (this.candidateProfessionalDetails.companyName === this.workExperienceDetails.companyName && this.candidateProfessionalDetails.companySK === this.workExperienceDetails.SK) {
+
+    //     this.candidateProfessionalDetails.companyName = this.workExperienceDetails.companyName;
+    //     this.candidateProfessionalDetails.companySK = this.workExperienceDetails.SK;
+    //   }else{
+    //     this.candidateProfessionalDetails.companyName=this.candidateProfessionalDetails.companyName);
+    //     this.candidateProfessionalDetails.companySK=this.candidateProfessionalDetails.companySK;
+    //     console.log(this.candidateProfessionalDetails.companyName);
+    //     console.log(this.candidateProfessionalDetails.companySK)
+    //   }
+    // }
+    //  }
     this.onSuccess.emit(this.candidateProfessionalDetails);
   }
 
@@ -354,32 +368,32 @@ export class PersonalDetailsComponent implements OnInit {
         const [monthStr, yearStr] = this.achievementmonth.split('-');
 
         // Parse the month and year parts into numbers
-          const month = parseInt(monthStr);
-          const year = parseInt(yearStr);
-  
+        const month = parseInt(monthStr);
+        const year = parseInt(yearStr);
+
         // Create a Date object with the parsed month and year
         const achievementDate = new Date(year, month);
-  
 
-      const newAchievement = {
-        title: this.title,
-        achievDate: achievementDate,
-        acquiredFrom: this.instituteName
-      };
-      // Push the new achievement object to the achievements array
-      this.candidateProfessionalDetails.achievements.push(newAchievement);
-      // Clear the input fields
-      this.title = '';
-      this.achievementmonth = '';
-      this.instituteName = "";
 
-    }else{
-      this.successmessage="You cannot add more than 10 Achievements."
-      this.successtitle="Error"
-      this.openModal(ModalType.SUCCESS_MESSAGE)
+        const newAchievement = {
+          title: this.title,
+          achievDate: achievementDate,
+          acquiredFrom: this.instituteName
+        };
+        // Push the new achievement object to the achievements array
+        this.candidateProfessionalDetails.achievements.push(newAchievement);
+        // Clear the input fields
+        this.title = '';
+        this.achievementmonth = '';
+        this.instituteName = "";
 
+      } else {
+        this.successmessage = "You cannot add more than 10 Achievements."
+        this.successtitle = "Error"
+        this.openModal(ModalType.SUCCESS_MESSAGE)
+
+      }
     }
-  }
   }
 
   isValidForm(): boolean {
@@ -399,8 +413,8 @@ export class PersonalDetailsComponent implements OnInit {
 
   cancel() {
     this.closeModal();
-    }
-    
+  }
+
 
   addCoreSkills() {
     if (!this.candidateProfessionalDetails.coreSkillList) {
@@ -408,24 +422,24 @@ export class PersonalDetailsComponent implements OnInit {
     }
     if (this.coreSkill && this.skillYears) {
       if (this.candidateProfessionalDetails.coreSkillList.length < 10) {
-      // Create a new achievement object
-      const newCoreSkill = {
-        skillName: this.coreSkill,
-        years: this.skillYears
-      };
-      // Push the new achievement object to the achievements array
-      this.candidateProfessionalDetails.coreSkillList.push(newCoreSkill);
+        // Create a new achievement object
+        const newCoreSkill = {
+          skillName: this.coreSkill,
+          years: this.skillYears
+        };
+        // Push the new achievement object to the achievements array
+        this.candidateProfessionalDetails.coreSkillList.push(newCoreSkill);
 
-      // Clear the input fields
-      this.coreSkill = '';
-      this.skillYears = '';
-    } else {
-      // Alert or handle the case where the limit is reached
-      //console.error('Cannot add more than 10 certificates.');
-      this.successmessage="you cannot add more than 10 core skils."
-      this.successtitle="Error"
-      this.openModal(ModalType.SUCCESS_MESSAGE)
-    }
+        // Clear the input fields
+        this.coreSkill = '';
+        this.skillYears = '';
+      } else {
+        // Alert or handle the case where the limit is reached
+        //console.error('Cannot add more than 10 certificates.');
+        this.successmessage = "you cannot add more than 10 core skils."
+        this.successtitle = "Error"
+        this.openModal(ModalType.SUCCESS_MESSAGE)
+      }
     }
   }
 
@@ -479,12 +493,12 @@ export class PersonalDetailsComponent implements OnInit {
         // Create a new achievement object
         const [monthStr, yearStr] = this.certificateYear.split('-');
 
-      // Parse the month and year parts into numbers
+        // Parse the month and year parts into numbers
         const month = parseInt(monthStr);
         const year = parseInt(yearStr);
 
-      // Create a Date object with the parsed month and year
-      const completionDate = new Date(year, month );
+        // Create a Date object with the parsed month and year
+        const completionDate = new Date(year, month);
 
 
 
@@ -503,10 +517,10 @@ export class PersonalDetailsComponent implements OnInit {
       } else {
         // Alert or handle the case where the limit is reached
         //console.error('Cannot add more than 10 certificates.');
-        this.successmessage="you cannot add more than 10 certificates."
-        this.successtitle="Error"
+        this.successmessage = "you cannot add more than 10 certificates."
+        this.successtitle = "Error"
         this.openModal(ModalType.SUCCESS_MESSAGE)
-        
+
 
         this.maxCertificate = true;
       }
@@ -538,7 +552,7 @@ export class PersonalDetailsComponent implements OnInit {
       input.value = ''; // Clear the input field
       //console.log(this.candidateProfessionalDetails.softSkills.length)
     }
-   event.preventDefault(); // Prevent the default action (form navigation)
+    event.preventDefault(); // Prevent the default action (form navigation)
   }
 
 
@@ -566,21 +580,21 @@ export class PersonalDetailsComponent implements OnInit {
     }
   }
 
-/**
-   * Open modal.
-   *
-   * @param {ModalType} modalType
-   * @param {string} [message = ""]
-   * @param {string} [title = ""]
-   * @returns {void}
-   */
-openModal(modalType: ModalType, message: string ="", title: string="" ): void {
+  /**
+     * Open modal.
+     *
+     * @param {ModalType} modalType
+     * @param {string} [message = ""]
+     * @param {string} [title = ""]
+     * @returns {void}
+     */
+  openModal(modalType: ModalType, message: string = "", title: string = ""): void {
 
-  this.showModal = modalType;
-  this.modalMessage = message;
-  this.modalTitle = title;
-  this.modal.open();
-}
+    this.showModal = modalType;
+    this.modalMessage = message;
+    this.modalTitle = title;
+    this.modal.open();
+  }
   /**
  * Close modal.
  *

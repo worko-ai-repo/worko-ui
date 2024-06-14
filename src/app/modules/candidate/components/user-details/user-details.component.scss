@@ -4,7 +4,18 @@
 //     width: 100%;
 //     height:fit-content;
 // // }
+.candidate-name {
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    cursor: pointer; /* Indicates that the text is interactive */
+    transition: white-space 0.3s ease;
+}
 
+.candidate-name.expanded {
+    white-space: normal;
+    overflow: visible;
+}
 .side-bar{
     border-right: 1px dotted white;
 }
