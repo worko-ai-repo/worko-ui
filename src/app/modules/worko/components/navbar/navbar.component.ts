@@ -48,14 +48,7 @@ export class NavbarComponent {
     //   this.emailAddress = email; // Update userEmail whenever the value changes
     //   console.log(this.emailAddress, email, "dsd")
     // });
-    this.userLoggedIn = await this.cognitoService.isLoggedIn();
-    if (this.userLoggedIn) {
-      this.userName = this.storage.get('userName');
-      console.log(this.userName)
-      // this.letter=this.getInitials(this.userName)
-      // console.log(this.letter);
-      this.letter = this.userName.charAt(0).toUpperCase();
-    }
+    this.initializeUserSession();
   }
 
   isMenuOpen: boolean = false;
@@ -131,6 +124,17 @@ export class NavbarComponent {
     // Optionally, close the dropdown after logout
 
 
+  }
+
+  async initializeUserSession() {
+    this.userLoggedIn = await this.cognitoService.isLoggedIn();
+    if (this.userLoggedIn) {
+      this.userName = this.storage.get('userName');
+      console.log(this.userName)
+      // this.letter=this.getInitials(this.userName)
+      // console.log(this.letter);
+      this.letter = this.userName.charAt(0).toUpperCase();
+    }
   }
 
   async receiveDataFromChild(userType: any) {

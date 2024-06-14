@@ -60,7 +60,7 @@ export class SubscriptionPlanComponent {
   isOrderSummary!: boolean;
   isPaymentGatewayUi!: boolean;
   pGatewayProvider: any;
-  userId: any;
+  // userId: any;
   flow_config: PaymentFlowConfig | null = null;
   decryptedPaymentResponse: any;
   emailAddress: any;
@@ -75,7 +75,7 @@ export class SubscriptionPlanComponent {
   // constructor(private router: Router, private candidateSrv: CandidateProfileService, private storage: StorageService, private authService: AuthService) { }
 
   ngOnInit(): void {
-    this.userId = this.storage.get("userId");
+    // this.userId = this.storage.get("userId");
     this.emailAddress = this.storage.get("useremail");
     this.getSubscriptionStatus();
   }
@@ -201,7 +201,7 @@ export class SubscriptionPlanComponent {
 
     }
 
-    await this.candServ.createOrder(payload, this.userId).then(async (response) => {
+    await this.candServ.createOrder(payload, this.userDetails[0]?.id).then(async (response) => {
       if (response) {
         console.log("Create Order Api Response = ", response);
         if (this.pGatewayProvider === PaymentGateway.RAZORPAY) {
@@ -215,6 +215,9 @@ export class SubscriptionPlanComponent {
     }).catch((error: any) => {
       this.spinner.hide();
       console.log("Create Order API error = ", error);
+      this.successmessage = "Something went wrong. Please try again after sometime"
+      this.successtitle = "Error"
+      this.openModal(ModalType.SUCCESS_MESSAGE);
     }
     );
 
@@ -310,7 +313,7 @@ export class SubscriptionPlanComponent {
 
     const paymentData = {
       // userId: createOrderResponse?.gatewayOrderRequestPlainBody?.notes?.userId,
-      userId: this.userId,
+      userId: this.userDetails[0]?.id,
       orderType: createOrderResponse?.userOrderResponse?.orderType,
       orderId: createOrderResponse?.userOrderResponse?.orderId,
       orderTxnId: createOrderResponse?.userOrderResponse?.orderTxnId,
@@ -319,7 +322,7 @@ export class SubscriptionPlanComponent {
       pgResponse: paymentResponse,
     };
 
-    await this.candServ.processPayment(paymentData, this.userId).then(async (response) => {
+    await this.candServ.processPayment(paymentData, this.userDetails[0]?.id).then(async (response) => {
       if (response) {
         // Assert the type of response
         const paymentResponse = response as unknown as PaymentResponse;
@@ -343,6 +346,9 @@ export class SubscriptionPlanComponent {
     }).catch((error: any) => {
       this.spinner.hide();
       console.log(error);
+      this.successmessage = "Something went wrong. Please try again after sometime"
+      this.successtitle = "Error"
+      this.openModal(ModalType.SUCCESS_MESSAGE);
     }
     );
   }
@@ -452,6 +458,9 @@ export class SubscriptionPlanComponent {
       }
     }).catch((error: any) => {
       console.log(error);
+      this.successmessage = "Something went wrong. Please try again after sometime"
+      this.successtitle = "Error"
+      this.openModal(ModalType.SUCCESS_MESSAGE);
     });
   }
 

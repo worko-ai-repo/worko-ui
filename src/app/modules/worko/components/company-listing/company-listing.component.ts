@@ -636,7 +636,7 @@ export class CompanyListingComponent implements OnInit {
     this.closeModal();
     if (this.userLoggedIn) {
       await this.getProfilePercentage();
-      this.navbarComponent.ngOnInit();
+      this.navbarComponent.initializeUserSession();
       if (this.triggerReferral || this.triggerGuidance) {   // Logic for auto-opening the request referral module once the user signed In successfully and his candidate profile is above 60% and cv is uploaded
         if (this.checkProfileCompletion()) {
           if (this.triggerReferral) {
