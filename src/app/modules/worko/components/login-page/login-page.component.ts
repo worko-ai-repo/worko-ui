@@ -26,7 +26,7 @@ import { ChangeDetectorRef } from '@angular/core';
 import { CognitoService } from '../../../services/cognito.service';
 import 'aws-amplify/auth/enable-oauth-listener';
 import { Hub } from 'aws-amplify/utils';
-import { ConfirmResetPasswordInput, fetchDevices, ResetPasswordOutput, confirmResetPassword, fetchAuthSession, getCurrentUser, rememberDevice, resetPassword, FetchDevicesOutput, confirmSignUp, } from '@aws-amplify/auth';
+import { ConfirmResetPasswordInput, fetchDevices, ResetPasswordOutput, confirmResetPassword, fetchAuthSession, getCurrentUser, rememberDevice, resetPassword, FetchDevicesOutput, confirmSignUp, fetchUserAttributes, } from '@aws-amplify/auth';
 import { event } from 'jquery';
 import { CompanyListingService } from '../../services/company-listing.service';
 import { NavbarToggleSwitchService } from 'src/app/modules/candidate/services/navbar-toggle-switch.service';
@@ -445,10 +445,12 @@ export class LoginPageComponent implements AfterViewInit, OnDestroy {
     this.showSignInRow = true;
   }
 
-  resetPassword(form: any) {
+  async resetPassword(form: any) {
     this.setErrorMessage("");
     this.confirmationEmail = this.maskEmail(this.resetForm.emailId);
+
     this.resetVerificationScreen = true;
+
     this.handleResetPassword(this.resetForm.emailId)
 
   }
@@ -457,6 +459,7 @@ export class LoginPageComponent implements AfterViewInit, OnDestroy {
 
       const output = await resetPassword({ username });
       this.handleResetPasswordNextSteps(output);
+
     } catch (error) {
       console.log(error);
     }
@@ -552,14 +555,14 @@ export class LoginPageComponent implements AfterViewInit, OnDestroy {
       }
 
 
-    } catch (error:any) {
-      if(error.message==='User already exists'){
-      this.spinner.hide();
-      this.employeeFormDirective.resetForm()
-      this.myControl.reset();
-      this.setErrorMessage("It looks like you already have an account with us.  Please log in to continue.If you’ve forgotten your password, use the 'Forgot Password' link to reset it.")
-      console.log('Error signing up candidate createEmployee:', error);
-        }
+    } catch (error: any) {
+      if (error.message === 'User already exists') {
+        this.spinner.hide();
+        this.employeeFormDirective.resetForm()
+        this.myControl.reset();
+        this.setErrorMessage("It looks like you already have an account with us.  Please log in to continue.If you’ve forgotten your password, use the 'Forgot Password' link to reset it.")
+        console.log('Error signing up candidate createEmployee:', error);
+      }
     }
   }
 
@@ -707,7 +710,6 @@ export class LoginPageComponent implements AfterViewInit, OnDestroy {
         this.showSignInRow = false
         this.showAddCompanyScreen = false
         this.showErrorMessageScreen = true
-        this.successmessage = "The company you entered is already in our referral network. Please check the listing page and try again."
         this.successtitle = "Alert"
       } else {
         this.spinner.hide()
@@ -723,7 +725,11 @@ export class LoginPageComponent implements AfterViewInit, OnDestroy {
 
 
   }
+  routeToLogin() {
 
+    this.confirmationCodeScreen = false
+    this.toggleSignInRow();
+  }
 
   cancel() {
     //this.closeModal();
@@ -859,7 +865,15 @@ export class LoginPageComponent implements AfterViewInit, OnDestroy {
         const { response, error } = await this.createUserWithConfirmation(this.candidateForm, this.verificationForm);
         if (response) {
           // this.otpVerification(this.candidateForm.emailId);
-          this.toggleSignInRow();
+          this.candidateFormDirective.resetForm()
+          this.fileName = ""
+          this.showSignInRow = false
+          this.showAddCompanyScreen = false
+          this.showErrorMessageScreen = true
+          this.successtitle = 'Verification Successful' // success message displaying after verifing code
+          this.successmessage = 'Your account has been successfully created. Please log in to continue.'
+
+          // this.toggleSignInRow();
           this.spinner.hide();
         }
 
@@ -873,7 +887,14 @@ export class LoginPageComponent implements AfterViewInit, OnDestroy {
         const { response, error } = await this.createUserWithConfirmation(this.employeeForm, this.verificationForm);
 
         if (response) {
-          this.toggleSignInRow();
+          this.employeeFormDirective.resetForm()
+          this.myControl.reset();
+          this.showSignInRow = false
+          this.showAddCompanyScreen = false
+          this.showErrorMessageScreen = true
+          this.successtitle = 'Verification Successful'
+          this.successmessage = 'Your account has been successfully created. Please log in to continue.'
+          // this.toggleSignInRow();
           this.spinner.hide();
         }
 
@@ -1017,13 +1038,13 @@ export class LoginPageComponent implements AfterViewInit, OnDestroy {
         console.error('Sign-up error: New method', error.message);
         return { error: error };
       }
-    } catch (error:any) {
-      if(error.message==='User already exists'){
-      this.spinner.hide();
-      this.candidateFormDirective.resetForm()
-      this.fileName=""
-      this.setErrorMessage("It looks like you already have an account with us.  Please log in to continue.If you’ve forgotten your password, use the 'Forgot Password' link to reset it."); //
-      console.log('Error signing up candidate: createUser', error);
+    } catch (error: any) {
+      if (error.message === 'User already exists') {
+        this.spinner.hide();
+        this.candidateFormDirective.resetForm()
+        this.fileName = ""
+        this.setErrorMessage("It looks like you already have an account with us.  Please log in to continue.If you’ve forgotten your password, use the 'Forgot Password' link to reset it."); //
+        console.log('Error signing up candidate: createUser', error);
       }
     }
 

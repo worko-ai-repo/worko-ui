@@ -279,7 +279,7 @@
         <div class="row">
           <div class=" col-md-2"> </div>
 
-          <input class="col-8 col-md-6 mb-2 p-1 px-1 position-relative" type="text" placeholder="Phone No"
+          <input class="col-8 col-md-6 mb-2 p-1 px-1" type="text" placeholder="Phone No(+91XXXXXXXXXX)"
             id="contactNumber" name="contactNumber" [(ngModel)]="companyForm.contactNumber"
             pattern="^\+(?:[0-9] ?){6,14}[0-9]$" #contactNumber="ngModel"
             [ngClass]="{ 'is-invalid': contactNumber.invalid && (contactNumber.dirty || contactNumber.touched) }">
