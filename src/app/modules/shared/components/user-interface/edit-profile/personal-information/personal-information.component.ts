@@ -1,4 +1,4 @@
-import { Component, EventEmitter, Input, OnInit, Output, ViewChild} from '@angular/core';
+import { Component, EventEmitter, Input, OnInit, Output, ViewChild } from '@angular/core';
 import { CandidateProfileService } from 'src/app/modules/candidate/services/candidate-profile.service';
 import { ModalComponent } from '../../../modal/modal.component';
 import { ModalType } from 'src/app/modules/shared/interfaces/shared.interface';
@@ -14,7 +14,7 @@ import { StorageService } from 'src/app/modules/app-core/services/storage.servic
 })
 export class PersonalInformationComponent implements OnInit {
 
- 
+
   @ViewChild(ModalComponent) modal!: ModalComponent;
   @Output() nextStep = new EventEmitter<void>();
   @Input() candidateList: any;
@@ -23,16 +23,16 @@ export class PersonalInformationComponent implements OnInit {
 
   @Output() onSuccess = new EventEmitter<void>();
 
-  emailid:any="";
-  maxyear=new Date().getFullYear().toString();
+  emailid: any = "";
+  maxyear = new Date().getFullYear().toString();
   fileToUpload: File | null = null;
   fileName: string = "";
   fileType: string = "";
   emailAddress: any = "";
   candidateDetailsList: any = "";
   // profilePicUrl: string = "/assets/public/candidate-img.png";
-  successmessage:string="";
-  successtitle:string="";
+  successmessage: string = "";
+  successtitle: string = "";
   picErrorMessage: string = "";
   @Input() candidatePersonalDetails: any = {
     name: "",
@@ -42,7 +42,7 @@ export class PersonalInformationComponent implements OnInit {
     collegeName: "",
     collegeDegree: "",
     passingYear: "",
-    collegeData : [{
+    collegeData: [{
       collage: "",
       degree: "",
       passingYear: ""
@@ -68,81 +68,81 @@ export class PersonalInformationComponent implements OnInit {
   modalMessage: string = "";
   modalTitle: string = "";
   showModal: ModalType | undefined;
-  flag:number=0;
-  newsk:any;
+  flag: number = 0;
+  newsk: any;
   form = {
 
   }
 
   countryCodes: any = CountryCodes;
   savedValues!: any[];
- 
-  constructor(private candidateSrv: CandidateProfileService,private storage: StorageService) {
-   
-   }
+
+  constructor(private candidateSrv: CandidateProfileService, private storage: StorageService) {
+
+  }
 
   ngOnInit(): void {
-   
-  this.emailid = this.storage.get("useremail");
+
+    this.emailid = this.storage.get("useremail");
 
 
   }
 
   ngOnChanges(): void {
-//
-    if (this.candidatePersonalDetails.name && this.candidatePersonalDetails.socialLinklinkdin)  {
-      if(this.candidatePersonalDetails && this.candidatePersonalDetails.collegeData.length == 0){
+    //
+    if (this.candidatePersonalDetails.name && this.candidatePersonalDetails.socialLinklinkdin) {
+      if (this.candidatePersonalDetails && this.candidatePersonalDetails.collegeData.length == 0) {
         this.addCollege();
         //;
-    }
+      }
     } else {
       this.getData();
       //console.log( this.educationList)
-      if(this.candidatePersonalDetails && this.candidatePersonalDetails.collegeData.length == 0){
+      if (this.candidatePersonalDetails && this.candidatePersonalDetails.collegeData.length == 0) {
         this.addCollege();
       }
     }
-//
-   // console.log(this.candidatePersonalDetails)
-   
-    
+    //
+    // console.log(this.candidatePersonalDetails)
+
+
   }
- 
- 
+
+
   /* code to block the future passed out year and less than 1900*/
-  setFutureMonthRestriction(passingYear:any) {
-    
-   passingYear.control.setValidators(this.validateCompletionYear(this.maxyear))
-   passingYear.control.updateValueAndValidity();
+  setFutureMonthRestriction(passingYear: any) {
+
+    passingYear.control.setValidators(this.validateCompletionYear(this.maxyear))
+    passingYear.control.updateValueAndValidity();
 
   }
-    validateCompletionYear(maxyear: string): any {
-   // this.flag=0;
-      return (control: any) => {
-        const passingYear = control.value;
-        if (!passingYear || passingYear.trim() === '') {
-          this.flag=0;
-          return false;
-        }
-        else if (passingYear > maxyear || passingYear<1900 || passingYear.length>4) {
-        this.flag=1;
-          return { futureMonth: true } ;
+  validateCompletionYear(maxyear: string): any {
+    // this.flag=0;
+    return (control: any) => {
+      const passingYear = control.value;
+      if (!passingYear || passingYear.trim() === '') {
+        this.flag = 0;
+        return false;
+      }
+      else if (passingYear > maxyear || passingYear < 1900 || passingYear.length > 4) {
+        this.flag = 1;
+        return { futureMonth: true };
 
-        }else{
-          this.flag=0;
-          return false;
-        }
-        
-      };
-    }
+      } else {
+        this.flag = 0;
+        return false;
+      }
 
-  
-  
+    };
+  }
+
+
+
   getData() {
     this.candidatePersonalDetails = {
       name: this.candidateList?.name,
       email: this.candidateList?.emailList?.primary,
-      phoneNo: this.candidateList?.number,
+      phoneNo: this.candidateList?.number.toString().substr(3),
       location: this.candidateList?.location,
       collegeData: this.educationList,
       // collegeName: this.educationList[0]?.collage,
@@ -161,7 +161,7 @@ export class PersonalInformationComponent implements OnInit {
       socialLinktwitter: this.candidateSocial?.twitter,
       socialSk: this.candidateSocial?.SK,
       socialPk: this.candidateSocial?.PK,
-      profilePicUrl: this.candidateList?.profileImageAwsS3SignedUrl? this.candidateList?.profileImageAwsS3SignedUrl : "/assets/public/candidate-img.png",
+      profilePicUrl: this.candidateList?.profileImageAwsS3SignedUrl ? this.candidateList?.profileImageAwsS3SignedUrl : "/assets/public/candidate-img.png",
       isEmailVerified: this.candidateList?.isEmailVerified,
       isNumberVerified: this.candidateList?.isEmailVerified,
       country: this.candidateList?.country ? this.candidateList?.country : ""
@@ -171,20 +171,20 @@ export class PersonalInformationComponent implements OnInit {
 
   updateEducationDetails() {
     // || field.passingYear.trim() !== ''
-    
-    const nonBlankFields = this.candidatePersonalDetails.collegeData.filter((field: { collage: string; degree: string; passingYear: string; }) => field.collage.trim() !== '' || field.degree.trim() !== '' );
+
+    const nonBlankFields = this.candidatePersonalDetails.collegeData.filter((field: { collage: string; degree: string; passingYear: string; }) => field.collage.trim() !== '' || field.degree.trim() !== '');
     // Save the non-blank fields
     this.savedValues = [...nonBlankFields];
     this.candidatePersonalDetails.collegeData = this.savedValues;
-    
+
   }
 
-   createEducation(form: any) {
+  createEducation(form: any) {
     // console.log(this.candidatePersonalDetails)
     // this.nextStep.emit(this.candidatePersonalDetails)
     //
     this.onSuccess.emit(this.candidatePersonalDetails);
-   // console.log(this.candidatePersonalDetails);
+    // console.log(this.candidatePersonalDetails);
   }
 
   handleFileInput(event: Event): void {
@@ -216,12 +216,12 @@ export class PersonalInformationComponent implements OnInit {
           console.log('Selected file type:', file);
         } else {
           // Display an error for an invalid file type
-         // console.error('Invalid file type. Please upload a supported file.');
+          // console.error('Invalid file type. Please upload a supported file.');
           // Optionally, you can reset the input to clear the invalid selection
-          this.successmessage="Please upload a jpg, png image only."
-          this.successtitle="Error"
+          this.successmessage = "Please upload a jpg, png image only."
+          this.successtitle = "Error"
           this.openModal(ModalType.SUCCESS_MESSAGE)
-          
+
           inputElement.value = '';
           this.fileToUpload = null;
           this.fileName = "";
@@ -234,10 +234,10 @@ export class PersonalInformationComponent implements OnInit {
       }
     }
   }
-  openOtpModal(){
+  openOtpModal() {
     this.openModal(ModalType.OTP_VERIFICATION);
   }
-  cancel(){
+  cancel() {
     this.closeModal();
   }
   /**
@@ -264,29 +264,30 @@ export class PersonalInformationComponent implements OnInit {
     this.modal.cancel();
   }
 
-  receiveDataFromChild(data: any){
+  receiveDataFromChild(data: any) {
     this.modal.cancel();
   }
 
   addCollege() {
-    console.log("addcoll")
+   // console.log("addcoll")
     if (this.candidatePersonalDetails.collegeData.length < 4) {
       this.candidatePersonalDetails.collegeData.push({ collage: "", degree: "", passingYear: "" });
     }
     //console.log(this.candidatePersonalDetails.collegeData)
   }
-// nextButtonEnable():boolean{
-//   if(this.candidateDetailsList.collegeData.length==0 ){
+  // nextButtonEnable():boolean{
+  //   if(this.candidateDetailsList.collegeData.length==0 ){
 
-//   }
-// }
+  //   }
+  // }
   // Method to check if all previous fields are filled
   areAllPreviousFieldsFilled(): boolean {
-    
+
     return this.candidatePersonalDetails.collegeData.every((field: { collage: string; degree: string; passingYear: string; }) => {
       const { collage, degree, passingYear } = field;
       // Check if all fields are filled and passingYear is a valid year
-      return collage !== '' && degree !== '' && passingYear !== '' && /^(19|20)[0-9]{2}$/.test(passingYear) && this.flag==0});
+      return collage !== '' && degree !== '' && passingYear !== '' && /^(19|20)[0-9]{2}$/.test(passingYear) && this.flag == 0
+    });
   }
   // areAllPreviousFieldsFilled(): boolean {
   //   const isFirstCollegeDataFilled = this.candidatePersonalDetails.collegeData[0].collage !== '' &&
@@ -294,47 +295,47 @@ export class PersonalInformationComponent implements OnInit {
   //                                    this.candidatePersonalDetails.collegeData[0].passingYear !== '' &&
   //                                    /^(19|20)[0-9]{2}$/.test(this.candidatePersonalDetails.collegeData[0].passingYear &&
   //                                     this.flag==0);
-  
+
   //   if (!isFirstCollegeDataFilled) {
-     
+
   //     return false;
   //   }
-  
-   
+
+
   //   const hasOtherCollegesData = this.candidatePersonalDetails.collegeData.length > 1;
-  
+
   //   if (hasOtherCollegesData) {
-      
+
   //     return this.candidatePersonalDetails.collegeData.slice(1).every((field: { collage: string; degree: string; passingYear: string; }) => {
   //       const { collage, degree, passingYear } = field;
   //       return (collage !== '' && degree !== '' && passingYear !== '' && /^(19|20)[0-9]{2}$/.test(passingYear) &&this.flag==0) ||(collage !== '' && degree !== '' && passingYear !== '' );
   //     });
   //   } else {
-      
+
   //     return isFirstCollegeDataFilled;
   //   }
   // }
-  
-  
- 
-  removeField(index: number,sk:any) {
-  //console.log(index,sk);
-    
+
+
+
+  removeField(index: number, sk: any) {
+    //console.log(index,sk);
+
     // const isCollegeDataFilled = (this.candidatePersonalDetails.collegeData[index].collage !== '' &&
     //                                    this.candidatePersonalDetails.collegeData[index].degree !== '' &&
     //                                    this.candidatePersonalDetails.collegeData[index].passingYear !== '')
-                            
-     if(sk) {   
-      this.newsk=sk.substring(7);
-      console.log(this.newsk)                               
-this.candidateSrv.deleteUserCollege(this.emailid,this.newsk)
-this.candidatePersonalDetails.collegeData.splice(index, 1);
-     }else{
-   this.candidatePersonalDetails.collegeData.splice(index, 1);
-   }
+
+    if (sk) {
+      this.newsk = sk.substring(7);
+      //console.log(this.newsk)
+      this.candidateSrv.deleteUserCollege(this.emailid, this.newsk)
+      this.candidatePersonalDetails.collegeData.splice(index, 1);
+    } else {
+      this.candidatePersonalDetails.collegeData.splice(index, 1);
+    }
   }
 
-  
+
 
   // validateAddButton() {
   //   let status = false;

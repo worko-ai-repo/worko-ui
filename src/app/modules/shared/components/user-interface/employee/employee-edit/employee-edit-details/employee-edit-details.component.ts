@@ -111,7 +111,7 @@ export class EmployeeEditDetailsComponent {
     this.employeePersonalData = {
       name: this.employeeDetails?.name,
       email: this.employeeDetails?.emailList?.primary,
-      number: this.employeeDetails?.number,
+      number: this.employeeDetails?.number.toString().substr(3),
       about: this.employeeDetails?.about,
       socialLinkGithub: this.employeeSocial?.github,
       socialLinklinkdin: this.employeeSocial?.linkedin,

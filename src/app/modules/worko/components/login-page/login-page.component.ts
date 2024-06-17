@@ -506,7 +506,7 @@ export class LoginPageComponent implements AfterViewInit, OnDestroy {
 
 
 
-  async createEmployee(form: any): Promise<void> {
+  async createEmployee(form:NgForm): Promise<void> {
     this.spinner.show();
     try {
       this.setErrorMessage("");
@@ -516,7 +516,7 @@ export class LoginPageComponent implements AfterViewInit, OnDestroy {
         let employeeData = {
           name: this.employeeForm.name,
           email: this.employeeForm.emailId,
-          number: this.employeeForm.phoneNumber,
+          number: "+91"+this.employeeForm.phoneNumber,
           // linkedinUrl: this.employeeForm.linkdinProfile,
           YOE: Number(this.employeeForm.experience),
           // designation: this.employeeForm.designation,
@@ -567,7 +567,7 @@ export class LoginPageComponent implements AfterViewInit, OnDestroy {
   }
 
 
-  async createCandidate(form: any): Promise<void> {
+  async createCandidate(form: NgForm): Promise<void> {
     this.spinner.show();
     try {
       this.setErrorMessage("");
@@ -582,7 +582,7 @@ export class LoginPageComponent implements AfterViewInit, OnDestroy {
           let candidateData = {
             name: this.candidateForm.name,
             email: this.candidateForm.emailId,
-            number: this.candidateForm.phoneNumber,
+            number:"+91"+ this.candidateForm.phoneNumber,
             linkedinUrl: this.candidateForm.linkdinProfile,
             ECTC: Number(this.candidateForm.expectedCtc),
             YOE: Number(this.candidateForm.experience),
@@ -865,8 +865,8 @@ export class LoginPageComponent implements AfterViewInit, OnDestroy {
         const { response, error } = await this.createUserWithConfirmation(this.candidateForm, this.verificationForm);
         if (response) {
           // this.otpVerification(this.candidateForm.emailId);
-          this.candidateFormDirective.resetForm()
-          this.fileName = ""
+          // this.candidateFormDirective.resetForm()
+          // this.fileName = ""
           this.showSignInRow = false
           this.showAddCompanyScreen = false
           this.showErrorMessageScreen = true
@@ -887,8 +887,8 @@ export class LoginPageComponent implements AfterViewInit, OnDestroy {
         const { response, error } = await this.createUserWithConfirmation(this.employeeForm, this.verificationForm);
 
         if (response) {
-          this.employeeFormDirective.resetForm()
-          this.myControl.reset();
+          // this.employeeFormDirective.resetForm()
+          // this.myControl.reset();
           this.showSignInRow = false
           this.showAddCompanyScreen = false
           this.showErrorMessageScreen = true
@@ -1021,7 +1021,7 @@ export class LoginPageComponent implements AfterViewInit, OnDestroy {
         password: form.password,
         username: form.emailId,
         name: form.name,
-        phone_number: form.phoneNumber
+        phone_number:"+91"+ form.phoneNumber
       }
       const { response, error } = await this.amplify.handleSignUp(signupform);
 

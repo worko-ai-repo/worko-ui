@@ -39,19 +39,19 @@ export class UploadComponent implements OnInit {
   }
 
   async uploadDetails(form: any) {
-    console.log("here")
-    console.log(this.candidateUploadDetails)
+    //console.log("here")
+    //console.log(this.candidateUploadDetails)
     this.onSuccess.emit(this.candidateUploadDetails)
      
   }
 
   ngOnChanges(): void {
-    debugger
+   // debugger
     // console.log(this.candidateList, "candidateList");
     if (this.candidateUploadDetails.uploadCV) {
 
     } else {
-      console.log("here onchange")
+      //console.log("here onchange")
       this.getData();
     }
 
@@ -82,9 +82,9 @@ export class UploadComponent implements OnInit {
   
       if (files && files.length > 0) {
         const file: File = files[0];
-  
+      //  || file.type === 'application/vnd.openxmlformats-officedocument.wordprocessingml.document'
         // Check if the file type is PDF or DOCX
-        if (file.type === 'application/pdf' || file.type === 'application/vnd.openxmlformats-officedocument.wordprocessingml.document') {
+        if (file.type === 'application/pdf' ) {
           // Process the file as needed
           this.fileToUpload = file;
           this.fileName = file.name;
@@ -95,7 +95,7 @@ export class UploadComponent implements OnInit {
           this.showfileError = false;
           console.log('Selected file:', file);
         } else {
-          this.successmessage="Invalid file type. Please upload a PDF or DOCX file."
+          this.successmessage="Invalid file type. Please upload a PDF file."
           this.successtitle="Error"
           this.openModal(ModalType.SUCCESS_MESSAGE)
           // Display an error for invalid file type

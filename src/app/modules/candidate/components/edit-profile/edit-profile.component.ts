@@ -311,11 +311,12 @@ export class EditProfileComponent implements OnInit {
     
     try {
       let userDetails: any = {
-        "candidateExperience":{
-          "department":this.secondStepData.department??"",
-          "companyName":this.secondStepData.companyName??"",
-          "designation":this.secondStepData.designation??"",
-        },
+        
+        // "candidateExperience":{
+        //   "department":this.secondStepData.department??"",
+        //   "companyName":this.secondStepData.companyName??"",
+        //   "designation":this.secondStepData.designation??"",
+        // },
         "ECTC": this.secondStepData.ectc,
         "location": this.firstStepData.location,
         "coverLetter": this.thirdStepData.coverLetter,
@@ -326,7 +327,7 @@ export class EditProfileComponent implements OnInit {
         },
         "CV": this.candidateList.uploadCV,
         "about": this.firstStepData.about,
-        "number": this.firstStepData.phoneNo,
+        "number": "+91"+this.firstStepData.phoneNo,
         "noticePeriod": this.secondStepData.noticePeriod,
         "userType": this.candidateList.userType,
         "linkedinUrl": this.candidateList.linkedinUrl,
@@ -340,8 +341,22 @@ export class EditProfileComponent implements OnInit {
         "PK": this.candidateList?.PK,
         "country": this.firstStepData?.country,
         "profileImage": this.uploadedProfilePicName ? this.uploadedProfilePicName : this.candidateList.profileImage,
-        "isCandidateFresher": this.secondStepData.isCandidateFresher
+        "isCandidateFresher": this.secondStepData.isCandidateFresher,
+        // ...(this.secondStepData.isCandidateFresher === false && {
+        //   "candidateExperience": {
+        //     "department": this.secondStepData.department ?? "",
+        //     "companyName": this.secondStepData.companyName ?? "",
+        //     "designation": this.secondStepData.designation ?? "",
+        //   }
+        // })
         // "acceptedTermsAndConditions": true //Will remove once remove from API
+      }
+      if (!this.secondStepData.isCandidateFresher) {
+        userDetails.candidateExperience = {
+          "department": this.secondStepData.department ?? "",
+          "companyName": this.secondStepData.companyName ?? "",
+          "designation": this.secondStepData.designation ?? ""
+        };
       }
 
       await this.candidateSrv.createUserDetails(this.emailAddress, userDetails).then(async (response) => {
