@@ -1,4 +1,4 @@
-import { Component, OnInit, ViewChild, HostListener, Renderer2, ElementRef, ChangeDetectorRef } from '@angular/core';
+import { Component, OnInit, ViewChild, HostListener, Renderer2, ElementRef, ChangeDetectorRef, AfterViewInit, OnDestroy } from '@angular/core';
 import { CompanyListingService } from '../../services/company-listing.service';
 import { ModalType } from 'src/app/modules/shared/interfaces/shared.interface';
 import { ModalComponent } from 'src/app/modules/shared/components/modal/modal.component';
@@ -19,13 +19,15 @@ import { CandidateProfileService } from 'src/app/modules/candidate/services/cand
 import { LoginPageComponent } from '../login-page/login-page.component';
 import { NavbarComponent } from '../navbar/navbar.component';
 import { Location } from '@angular/common';
+import { Subscription } from 'rxjs';
 @Component({
   selector: 'app-company-listing',
   templateUrl: './company-listing.component.html',
   styleUrls: ['./company-listing.component.scss']
 })
-export class CompanyListingComponent implements OnInit {
+export class CompanyListingComponent implements OnInit, AfterViewInit, OnDestroy {
 
+  private eventSubscription!: Subscription;
   @ViewChild(ModalComponent) modal!: ModalComponent;
   @ViewChild(ReferralRequestComponent) referrralComponent!: ReferralRequestComponent;
   @ViewChild(RequestGuidenceComponent) referrralguidanceComponent!: RequestGuidenceComponent;
@@ -260,7 +262,15 @@ export class CompanyListingComponent implements OnInit {
 
   }
 
-
+  ngAfterViewInit(): void {
+    this.eventSubscription = this.navbarComponent.event$.subscribe(eventData => {
+      this.triggerReferral = false;
+      this.triggerGuidance = false;
+      if(eventData) {
+        this.receiveDataFromChild(eventData);
+      }
+    });
+  }
 
   async ngOnInit(): Promise<void> {
     this.userLoggedIn = await this.cognitoService.isLoggedIn();
@@ -642,7 +652,7 @@ export class CompanyListingComponent implements OnInit {
   }
 
   async receiveDataFromChild(data: any) {
-
+    
     //window.location.reload()
     this.userLoggedIn = await this.cognitoService.isLoggedIn();
     this.closeModal();
@@ -825,7 +835,13 @@ export class CompanyListingComponent implements OnInit {
 
   completeProfile() {
     this.closeModal();
-    this.profileCompletionRequired = false;
+    // this.profileCompletionRequired = false;
     this.router.navigate(['/candidate/edit-profile']);
+  }
+
+  ngOnDestroy(): void {
+    if (this.eventSubscription) {
+      this.eventSubscription.unsubscribe();
+    }
   }
 }

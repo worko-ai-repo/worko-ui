@@ -9,6 +9,7 @@ import { NavbarToggleSwitchService } from 'src/app/modules/candidate/services/na
 import { IndexComponent } from '../index/index.component';
 import { environment } from 'src/environments/environment';
 import { LoginPageComponent } from '../login-page/login-page.component';
+import { BehaviorSubject, Observable } from 'rxjs';
 
 
 
@@ -19,6 +20,8 @@ import { LoginPageComponent } from '../login-page/login-page.component';
 })
 
 export class NavbarComponent {
+  private eventSubject: BehaviorSubject<any> = new BehaviorSubject<any>(null);
+  event$: Observable<any> = this.eventSubject.asObservable();
   @ViewChild(ModalComponent) modal!: ModalComponent;
   @ViewChild(LoginPageComponent) LoginPageComponent!: LoginPageComponent;
   modalType = ModalType;
@@ -150,6 +153,10 @@ export class NavbarComponent {
         this.letter = this.userName.charAt(0).toUpperCase();
         // Redirect to the company listing page
         this.router.navigate(['/company-listing']);
+        this.eventSubject.next(userType); // Emit the userType each time a login is successful through the navbar component
+        // This event will be captured by the parent component (companyListing) to perform required actions
+        this.eventSubject.next(userType);
+        
         this.modal.cancel();
       }
       else {
