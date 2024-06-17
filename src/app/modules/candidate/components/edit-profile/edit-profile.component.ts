@@ -327,7 +327,7 @@ export class EditProfileComponent implements OnInit {
         },
         "CV": this.candidateList.uploadCV,
         "about": this.firstStepData.about,
-        "number": this.firstStepData.phoneNo,
+        "number": "+91"+this.firstStepData.phoneNo,
         "noticePeriod": this.secondStepData.noticePeriod,
         "userType": this.candidateList.userType,
         "linkedinUrl": this.candidateList.linkedinUrl,
