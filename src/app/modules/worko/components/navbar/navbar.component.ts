@@ -219,7 +219,7 @@ export class NavbarComponent {
   openModal(modalType: ModalType, message: string = "", title: string = ""): void {
     // debugger
     if (this.LoginPageComponent) {
-      this.LoginPageComponent.showSignInRow = true;
+      this.LoginPageComponent.showSignInRow = false;
       this.LoginPageComponent.showAddCompanyScreen = false;
       this.LoginPageComponent.showErrorMessageScreen = false;
       this.LoginPageComponent.showLoginScreen = true
