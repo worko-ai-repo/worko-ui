@@ -201,11 +201,17 @@ export class IndexComponent {
   openModal(modalType: ModalType, message: string = "", title: string = ""): void {
 
     if (this.LoginPageComponent) {
-      this.LoginPageComponent.showSignInRow = false;
+     
       this.LoginPageComponent.showAddCompanyScreen = false;
       this.LoginPageComponent.showErrorMessageScreen = false;
       this.LoginPageComponent.showLoginScreen = this.showLoginScreen
+      if(this.selectedUserType==='employee'){ // opening sign up as employee if there is data in url
       this.LoginPageComponent.selectedUserType = this.selectedUserType
+      this.LoginPageComponent.showSignInRow = true;
+      }else{ // opening dafault login modal
+        this.LoginPageComponent.selectedUserType = this.selectedUserType
+        this.LoginPageComponent.showSignInRow = false;
+      }
 
     }
 
