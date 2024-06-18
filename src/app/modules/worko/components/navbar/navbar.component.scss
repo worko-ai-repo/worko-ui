@@ -537,6 +537,10 @@ li{
         display: none;
    } 
 
+    li.hide-on-small-screen {
+        display: none;
+    }
+
    .text-sm{
         display: block;
     }
