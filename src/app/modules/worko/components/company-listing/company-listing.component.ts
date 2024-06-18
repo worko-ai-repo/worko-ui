@@ -86,7 +86,8 @@ export class CompanyListingComponent implements OnInit, AfterViewInit, OnDestroy
     personalemailid: "",
     contactNumber: ""
   }
-
+  count: number = 0;
+  isNoLoadData: boolean = true
   teamSizeOptions: any = [
     {
       name: "<100",
@@ -125,100 +126,95 @@ export class CompanyListingComponent implements OnInit, AfterViewInit, OnDestroy
 
   industryTypeOptions: any = [
 
-    { name: "E-commerce", value: "E-commerce" },
-    { name: "Education", value: "e-Learning / EdTech" },
-    { name: "Training", value: "e-Learning / EdTech" },
-    { name: "IT Services & Consulting", value: "IT Services & Consulting" },
-    { name: "Financial Services", value: "Financial Services" },
-    { name: "Electronic Components", value: "Electronic Components / Semiconductors" },
-    { name: "Semiconductors", value: "Electronic Components / Semiconductors" },
-    { name: "Electronics Manufacturing", value: "Electronics Manufacturing" },
-    { name: "Internet", value: "Internet" },
-    { name: "Automobile", value: "Automobile" },
-    { name: "Chemicals", value: "Chemicals" },
-    { name: "Banking", value: "Banking" },
-    { name: "Consumer Electronics & Appliances", value: "Consumer Electronics & Appliances" },
-    { name: "Telecom", value: "Telecom / ISP" },
-    { name: "ISP", value: "Telecom / ISP" },
-    { name: "Food Processing", value: "Food Processing" },
-    { name: "E-Learning", value: "E-Learning / EdTech" },
-    { name: "EdTech", value: "E-Learning / EdTech" },
-    { name: "Engineering & Construction", value: "Engineering & Construction" },
-    { name: "Beverage", value: "Beverage" },
-    { name: "FMCG", value: "FMCG" },
-    { name: "FinTech", value: "FinTech / Payments" },
-    { name: "Payments", value: "FinTech / Payments" },
-    { name: "Travel & Tourism", value: "Travel & Tourism" },
-    { name: "Courier", value: "Courier / Logistics" },
-    { name: "Logistics", value: "Courier / Logistics" },
-    { name: "Building Material", value: "Building Material" },
-    { name: "Architecture", value: "Architecture / Interior Design" },
-    { name: "Interior Design", value: "Architecture / Interior Design" },
-    { name: "Auto Components", value: "Auto Components" },
-    { name: "Analytics", value: "Analytics / KPO / Research" },
-    { name: "KPO", value: "Analytics / KPO / Research" },
-    { name: "Research", value: "Analytics / KPO / Research" },
-    { name: "Professional Services", value: "Professional Services / Project Management" },
-    { name: "Project Management", value: "Professional Services / Project Management" },
+    { name: "Accounting / Auditing", value: "Accounting / Auditing" },
     { name: "Advertising & Marketing", value: "Advertising & Marketing" },
-    { name: "Accounting", value: "Accounting / Auditing" },
-    { name: "Auditing", value: "Accounting / Auditing" },
-    { name: "Software Product", value: "Software Product" },
-    { name: "Industrial Equipment", value: "Industrial Equipment / Machinery" },
-    { name: "Machinery", value: "Industrial Equipment / Machinery" },
-    { name: "NBFC", value: "NBFC" },
-    { name: "Retail", value: "Retail" },
-    { name: "Medical Services", value: "Medical Services / Hospital" },
-    { name: "Hospital", value: "Medical Services / Hospital" },
-    { name: "SAAS", value: "SAAS" },
-    { name: "Manufacturing", value: "Manufacturing" },
-    { name: "Gaming", value: "Gaming" },
+    { name: "Agriculture / Forestry / Fishing", value: "Agriculture / Forestry / Fishing" },
+    { name: "Analytics / KPO / Research", value: "Analytics / KPO / Research" },
+    { name: "Animation & VFX", value: "Animation & VFX" },
+    { name: "Architecture / Interior Design", value: "Architecture / Interior Design" },
+    { name: "Auto Components", value: "Auto Components" },
+    { name: "Aviation", value: "Aviation" },
+    { name: "Automobile", value: "Automobile" },
     { name: "Beauty & Personal Care", value: "Beauty & Personal Care" },
-    { name: "Management Consulting", value: "Management Consulting" },
-    { name: "Medical Devices & Equipment", value: "Medical Devices & Equipment" },
-    { name: "BPO", value: "BPO / Call Centre" },
-    { name: "Call Centre", value: "BPO / Call Centre" },
-    { name: "Fitness & Wellness", value: "Fitness & Wellness" },
-    { name: "Agriculture", value: "Agriculture / Forestry / Fishing" },
-    { name: "Forestry", value: "Agriculture / Forestry / Fishing" },
-    { name: "Fishing", value: "Agriculture / Forestry / Fishing" },
-    { name: "Metals & Mining", value: "Metals & Mining" },
-    { name: "Electrical Equipment", value: "Electrical Equipment" },
-    { name: "Textile & Apparel", value: "Textile & Apparel" },
-    { name: "Urban Transport", value: "Urban Transport" },
-    { name: "Furniture & Furnishing", value: "Furniture & Furnishing" },
-    { name: "Printing & Publishing", value: "Printing & Publishing" },
-    { name: "Hotels & Restaurants", value: "Hotels & Restaurants" },
-    { name: "Film", value: "Film / Music / Entertainment" },
-    { name: "Music", value: "Film / Music / Entertainment" },
-    { name: "Entertainment", value: "Film / Music / Entertainment" },
+    { name: "Beverage", value: "Beverage" },
     { name: "Biotechnology", value: "Biotechnology" },
-    { name: "Real Estate", value: "Real Estate" },
-    { name: "Transport", value: "Transport / Logistics" },
-    { name: "Logistics", value: "Transport / Logistics" },
-    { name: "Insurance", value: "Insurance" },
-    { name: "Sports", value: "Sports / Leisure & Recreation" },
-    { name: "Leisure & Recreation", value: "Sports / Leisure & Recreation" },
-    { name: "Recruitment", value: "Recruitment / Staffing" },
-    { name: "Staffing", value: "Recruitment / Staffing" },
-    { name: "Stock Broking", value: "Stock Broking" },
-    { name: "Power", value: "Power" },
-    { name: "NGO ", value: "NGO / Social Services / Industry Associations" },
-    { name: "Social Services", value: "NGO / Social Services / Industry Associations" },
-    { name: "Industry Associations", value: "NGO / Social Services / Industry Associations" },
-    { name: "Events", value: "Events / Live Entertainment" },
-    { name: "Live Entertainment", value: "Events / Live Entertainment" },
-    { name: "Investment Banking", value: "Investment Banking / Venture Capital / Private Equity" },
-    { name: "Venture Capital", value: "Investment Banking / Venture Capital / Private Equity" },
-    { name: "Private Equity", value: "Investment Banking / Venture Capital / Private Equity" },
-    { name: "Warehousing", value: "Warehousing" },
-    { name: "D2C", value: "D2C" },
-    { name: "Software Product", value: "Software Product" },
-    { name: "Electronics Manufacturing", value: "Electronics Manufacturing" },
+    { name: "BPO / Call Centre", value: "BPO / Call Centre" },
+    { name: "Building Material", value: "Building Material" },
+    { name: "Chemicals", value: "Chemicals" },
+    { name: "Clinical Research / Contract Research", value: "Clinical Research / Contract Research" },
     { name: "Consumer Electronics & Appliances", value: "Consumer Electronics & Appliances" },
+    { name: "Content Development / Language", value: "Content Development / Language " },
+    { name: "Courier / Logistics", value: "Courier / Logistics" },
+    { name: "Defence & Aerospace", value: "Defence & Aerospace" },
+    { name: "Design", value: "Design" },
+    { name: "E-commerce", value: "E-commerce" },
+    { name: "E-Learning / EdTech", value: "E-Learning / EdTech" },
+    { name: "Education / Training", value: "Education / Training" },
+    { name: "Electrical Equipment", value: "Electrical Equipment / Payments" },
+    { name: "Electronic Components / Semiconductors", value: "Electronic Components / Semiconductors" },
+    { name: "Electronics Manufacturing", value: "Electronics Manufacturing" },
+    { name: "Emerging Technologies", value: "Emerging Technologies" },
+    { name: "Engineering & Construction", value: "Engineering & Construction" },
+    { name: "Events / Live Entertainment", value: "Events / Live Entertainment" },
+    { name: "D2C", value: "D2C" },
+    { name: "Facility Management Services", value: "Facility Management Services" },
+    { name: "Fertilizers / Pesticides / Agro chemicals", value: "Fertilizers / Pesticides / Agro chemicals" },
+    { name: "Film / Music / Entertainment", value: "Film / Music / Entertainment" },
+    { name: "Financial Services", value: "Financial Services" },
+    { name: "FinTech / Payments", value: "FinTech / Payments" },
+    { name: "Fitness & Wellness", value: "Fitness & Wellness" },
+    { name: "FMCG", value: "FMCG" },
+    { name: "Food Processing", value: "Food Processing" },
+    { name: "Furniture & Furnishing", value: "Furniture & Furnishing" },
+    { name: "Gaming", value: "Gaming" },
+    { name: "Gems & Jewellery", value: "Gems & Jewellery" },
+    { name: "Hardware & Networking", value: "Hardware & Networking" },
+    { name: "Import & Export", value: "Import & Export" },
+    { name: "Industrial Automation", value: "Industrial Automation" },
+    { name: "Industrial Equipment / Machinery", value: "Industrial Equipment / Machinery" },
     { name: "Insurance", value: "Insurance" },
-    { name: "Internet", value: " Internet" },
-    { name: "Manufacturing", value: "Manufacturing" }
+    { name: "Internet", value: "Internet" },
+    { name: "Investment Banking / Venture Capital / Private Equity", value: "Investment Banking / Venture Capital / Private Equity" },
+    { name: "Manufacturing", value: "Manufacturing" },
+    { name: "Iron & Steel", value: "Iron & Steel" },
+    { name: "IT Services & Consulting", value: "IT Services & Consulting" },
+    { name: "Law Enforcement / Security Services", value: "Law Enforcement / Security Services" },
+    { name: "Leather", value: "Leather" },
+    { name: "Legal", value: "Legal" },
+    { name: "Management Consulting", value: "Management Consulting" },
+    { name: "Manufacturing", value: "Manufacturing" },
+    { name: "Medical Devices & Equipment", value: "Medical Devices & Equipment" },
+    { name: "Medical Services / Hospital", value: "Medical Services / Hospital" },
+    { name: "Metals & Mining", value: "Metals & Mining" },
+    { name: "Miscellaneous", value: "Miscellaneous" },
+    { name: "NBFC", value: "NBFC" },
+    { name: "NGO / Social Services / Industry Associations", value: "NGO / Social Services / Industry Associations" },
+    { name: "Oil & Gas", value: "Oil & Gas" },
+    { name: "Packaging & Containers", value: "Packaging & Containers" },
+    { name: "Petrochemical / Plastics / Rubber", value: "Petrochemical / Plastics / Rubber" },
+    { name: "Pharmaceutical & Life Sciences", value: "Pharmaceutical & Life Sciences" },
+    { name: "Ports & Shipping", value: "Ports & Shipping" },
+    { name: "Power", value: "Power" },
+    { name: "Professional Services / Project Management", value: "Professional Services / Project Management" },
+    { name: "Printing & Publishing", value: "Printing & Publishing" },
+    { name: "Pulp & Paper", value: "Pulp & Paper" },
+    { name: "Railways", value: "Railways" },
+    { name: "Real Estate", value: "Real Estate" },
+    { name: "Recruitment / Staffing", value: "Recruitment / Staffing" },
+    { name: "Retail", value: "Retail" },
+    { name: "SAAS", value: "SAAS" },
+    { name: "Software Product", value: "Software Product" },
+    { name: "Sports / Leisure & Recreation", value: "Sports / Leisure & Recreation" },
+    { name: "Stock Broking", value: "Stock Broking" },
+    { name: "Telecom / ISP", value: "Telecom / ISP" },
+    { name: "Textile & Apparel ", value: "Textile & Apparel" },
+    { name: "Travel & Tourism", value: "Travel & Tourism" },
+    { name: "Taxi / Mobility", value: "Taxi / Mobility" },
+    { name: "TV / Radio", value: "TV / Radio" },
+    { name: "Transport / Logistics", value: "Transport / Logistics" },
+    { name: "Warehousing", value: "Warehousing" },
+    { name: "Water Treatment / Waste Management", value: "Water Treatment / Waste Management" },
+
 
 
   ]
@@ -446,6 +442,7 @@ export class CompanyListingComponent implements OnInit, AfterViewInit, OnDestroy
 
   onSearchInputChange(): void {
     if (this.searchQuery.length >= 3) {
+      this.pageSize = 50;
       this.lastKey = "";
       this.loadedOnce = true;
       this.searchTerms.next(this.searchQuery);
@@ -455,6 +452,8 @@ export class CompanyListingComponent implements OnInit, AfterViewInit, OnDestroy
   onSearchInputEnter(event: KeyboardEvent): void {
     console.log(this.searchQuery);
     if (event.key === 'Enter') { // Checking if the pressed key is Enter
+      this.isNoLoadData = true
+      this.pageSize = 50;
       this.lastKey = "";
       this.loadedOnce = true;
       this.searchTerms.next(this.searchQuery);
@@ -499,6 +498,7 @@ export class CompanyListingComponent implements OnInit, AfterViewInit, OnDestroy
     // Check if the user has scrolled to the bottom
 
     if (scrollPosition + windowHeight >= documentHeight - footerHeight) {
+
       // Load more data
       console.log("inside scroll")
       this.getCompanyDetails();
@@ -507,14 +507,18 @@ export class CompanyListingComponent implements OnInit, AfterViewInit, OnDestroy
   }
 
   clearSearchInput(): void {
+    this.pageSize=50
     this.lastKey = "";
     this.loadedOnce = true;
     this.searchQuery = '';
     this.filterData.companyName = "";
+    this.isNoLoadData = true
     this.getCompanyDetails();
   }
   async getCompanyDetails() {
-    if (this.lastKey || this.loadedOnce) {
+
+    if ((this.lastKey || this.loadedOnce) && this.isNoLoadData) {
+      // if (this.lastKey || this.loadedOnce ) {
       this.spinner.show();
       // const encodedCompanyName = encodeURIComponent(this.filterData.companyName); // Encode the company name
       await this.companyListing.getCompanyListing(this.pageSize, this.lastKey, this.filterData.teamSize, this.filterData.industryType, this.filterData.companyName).then(async (response) => {
@@ -527,6 +531,12 @@ export class CompanyListingComponent implements OnInit, AfterViewInit, OnDestroy
           this.companyList = this.companyList.concat(response.data);
           this.lastKey = response.pagination.lastKey;
           this.loadedOnce = false;
+          this.count = response.pagination.count;
+          this.pageSize = response.pagination.pageSize;
+          if (this.count < this.pageSize) { //check to pervent multiple api call
+            // debugger
+            this.isNoLoadData = false;
+          }
           //  this.filterCompanies(); // Filter companies after updating companyList
         }
       })
@@ -538,7 +548,11 @@ export class CompanyListingComponent implements OnInit, AfterViewInit, OnDestroy
   }
 
   async onTeamSizeChange(selectedTeamSize: string) {
-    this.pageSize = 100;
+    if(selectedTeamSize!==""){
+      this.pageSize = 100;
+    }
+    this.isNoLoadData = true
+    this.pageSize=50;
     this.lastKey = "";
     this.loadedOnce = true;
     this.filterData.teamSize = selectedTeamSize;
@@ -556,6 +570,7 @@ export class CompanyListingComponent implements OnInit, AfterViewInit, OnDestroy
   }
 
   async onIndustryNameChange(selectedIndustryName: string) {
+    this.loadedOnce = true;
     this.lastKey = "";
 
     this.loadedOnce = true;
@@ -565,8 +580,13 @@ export class CompanyListingComponent implements OnInit, AfterViewInit, OnDestroy
     await this.getCompanyDetails();
   }
   async onIndustryTypeChange(selectedIndustryType: string) {
+
+    this.isNoLoadData = true
     this.lastKey = "";
-    this.pageSize = 100;
+    if(selectedIndustryType!==""){  // if the selectIndustryType is selected then passing pageSize as 100
+      this.pageSize = 100;
+    }
+    this.pageSize = 50;
     this.loadedOnce = true;
     // this.appliedFilter = true;
     this.filterData.industryType = selectedIndustryType;
@@ -811,7 +831,7 @@ export class CompanyListingComponent implements OnInit, AfterViewInit, OnDestroy
     }
     if (ModalType.LOGIN_SIGNUP) {
       if (this.LoginPageComponent) {
-        this.LoginPageComponent.showSignInRow = true;
+        this.LoginPageComponent.showSignInRow = false;
         this.LoginPageComponent.showAddCompanyScreen = false;
         this.LoginPageComponent.showErrorMessageScreen = false;
         this.LoginPageComponent.showLoginScreen = true

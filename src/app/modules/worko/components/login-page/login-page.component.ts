@@ -63,7 +63,7 @@ export class LoginPageComponent implements AfterViewInit, OnDestroy {
   filteredOptions!: Observable<any[]>;
   allOptions: any[] = [];
   selectedUserType: string = 'candidate'; // Default to 'candidate'
-  showSignInRow: boolean = true;
+  showSignInRow: boolean = false; //default to 'login'
   isCandidateEmailVerified: boolean = false;
   isEmployeeEmailVerified: boolean = false;
   confirmationCodeScreen: boolean = false;
