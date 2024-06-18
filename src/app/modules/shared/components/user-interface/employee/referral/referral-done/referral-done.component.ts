@@ -27,7 +27,7 @@ export class ReferralDoneComponent implements OnChanges {
   matchingScore: number = 0;
   score: number = 0;
   originalPoints = 2.1;
-  possiblePoints = 10;
+  possiblePoints = 100;
   isEmployeeReferralPage = true;
   showRaiseIssueButton: boolean = false;
   detailedAnalysisModalSize = false;
