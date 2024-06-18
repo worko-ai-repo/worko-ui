@@ -170,9 +170,10 @@
                   </div>
                   <div class="col-md-6">
                     <div class="material-input__group">
-                      <i class="fa-solid fa-phone" style="color: #ffffff; font-size: 12px"></i>
-                      <input type="otp" placeholder="Phone No" class="text-white material-input__group__input"
-                        #phoneNumber="ngModel" pattern="^\+(?:[0-9] ?){6,14}[0-9]$" maxlength="17"
+                      <i class="fa-solid fa-phone" style="color: #ffffff; font-size: 12px;"></i>
+                      <p style="color: #ffffff; font-size: 12px;">+91</p>
+                      <input type="otp" placeholder=" Phone No" class="text-white material-input__group__input" style=" padding: 0px 0px 0px 40px;" 
+                        #phoneNumber="ngModel" pattern="^[6-9]\d{9}$" maxlength="17"
                         [(ngModel)]="candidateForm.phoneNumber" name="phoneNumber" id="phoneNumber" />
                       <div *ngIf="
                           phoneNumber.invalid &&
@@ -190,14 +191,14 @@
                         </div>
                       </div>
                     </div>
-                    <div class="tooltip-container">
+                    <!-- <div class="tooltip-container">
                       <div class="tooltip-style">
                           <i class="fa-solid fa-circle-info"></i>
                       </div>
                       <div class="tooltip-text pt-2 text-center p-2">
                         <small>Add "+" and "country code" before phone number.</small>
                       </div>
-                  </div>
+                  </div> -->
                   </div>
 
                   <div class="col-md-6">
@@ -353,10 +354,11 @@
                     <div class="col-md-6 ">
                       <div class="material-input__group">
                         <i class="fa-solid fa-phone" style="color: #ffffff; font-size: 12px"></i>
-                        <input type="text" placeholder="Phone No" class="text-white material-input__group__input"
-                          #phoneNumber="ngModel"
+                        <p style="color: #ffffff; font-size: 12px;">+91</p>
+                        <input type="text" placeholder=" Phone No" class="text-white material-input__group__input"
+                          #phoneNumber="ngModel" style=" padding: 0px 0px 0px 40px;"
                           [title]="phoneNumber.errors?.['pattern'] ? 'Phone number is invalid' : ''"
-                          pattern="^\+(?:[0-9] ?){6,14}[0-9]$" maxlength="17" [(ngModel)]="employeeForm.phoneNumber"
+                          pattern="^[6-9]\d{9}$" maxlength="17" [(ngModel)]="employeeForm.phoneNumber"
                           name="phoneNumber" id="phoneNumber" />
                         <div *ngIf="
                             phoneNumber.invalid &&
@@ -378,14 +380,14 @@
                         </div>
                        
                       </div>
-                      <div class="tooltip-container">
+                      <!-- <div class="tooltip-container">
                         <div class="tooltip-style">
                             <i class="fa-solid fa-circle-info"></i>
                         </div>
                         <div class="tooltip-text pt-2 text-center p-2">
                           <small>Add "+" and "country code" before phone number.</small>
                         </div>
-                    </div>
+                    </div> -->
                     </div>
                     <div class="col-md-6 d-flex align-items-center">
                       <div class="material-input__group">
@@ -611,8 +613,7 @@
                 <p>Forgot your password?</p>
               </div>
               <div class="text-white" *ngIf="!resetVerificationScreen &&!successPasswordMessage">
-                Enter your Email below and we will send a message to reset your
-                password
+                Enter your registered email below and we will send a message to reset your password:
               </div>
               <div class="text-white" *ngIf="resetVerificationScreen &&!successPasswordMessage">
                 We have sent a password reset code by email to

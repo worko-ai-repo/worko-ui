@@ -423,7 +423,7 @@ const candidateExperience = {
       },
       CV: this.employeeDetails.uploadCV,
       about: this.firstStepData.about,
-      number: this.firstStepData.number,
+      number:"+91"+ this.firstStepData.number,
       noticePeriod: this.secondStepData.noticePeriod,
       userType: this.employeeDetails.userType,
       linkedinUrl: this.employeeDetails.linkedinUrl,
@@ -439,7 +439,7 @@ const candidateExperience = {
       profileImage: this.uploadedProfilePicName
         ? this.uploadedProfilePicName
         : this.employeeDetails.profileImage,
-      isCandidateFresher: false,
+      //isCandidateFresher: false,
       // "acceptedTermsAndConditions": true //Will remove once remove from API
     };
 

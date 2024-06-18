@@ -85,9 +85,12 @@
 
                     <div class="row mt-1">
                         <div class="col-md-5">
-                            <label for="" class="form-lable required-form-field">Phone no</label>
-                            <input type="text" class="form-control form-input" placeholder="+91 XXXXXXXXXX"
-                                pattern="^\+(?:[0-9] ?){6,14}[0-9]$" maxlength="17" #phoneNo="ngModel"
+                            <div class="material-input__group">
+                                <label for="" class="form-lable required-form-field">Phone no</label>
+                                <p style="color: #ffffff; font-size: 11px;">+91</p>
+                            <!-- <label for="" class="form-lable required-form-field">Phone no</label> -->
+                            <input type="text" class="form-control form-input" placeholder="Phone no" style=" padding: 0px 0px 0px 35px;"
+                            pattern="^[6-9]\d{9}$" maxlength="17" #phoneNo="ngModel"
                                 [(ngModel)]="candidatePersonalDetails.phoneNo" name="phoneNo" required
                                 [title]="phoneNo.errors?.['pattern'] ? 'phoneNo is invalid' : ''"
                                 [title]="phoneNo.errors?.['required'] ? 'phoneNo is required':''"
@@ -96,6 +99,7 @@
                                 
                                 <!-- <h2 *ngIf="!candidatePersonalDetails.isNumberVerified && !phoneNo.invalid" (click)="openOtpModal()" class="badge  verify-text-label -pointer">Verify</h2>
                                 <h2 *ngIf="candidatePersonalDetails.isNumberVerified && !phoneNo.invalid" class="badge  verify-text-label text-green">Verified</h2> -->
+                        </div>
                         </div>
                     </div>
 
