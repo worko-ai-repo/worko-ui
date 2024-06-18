@@ -24,8 +24,8 @@ export class CircleChartComponent implements OnInit {
     // Convert chartText to a number
     const chartValueAsNumber: number = parseFloat(this.chartText);
   
-    // Check if the conversion is successful and if the value is less than 5
-    return !isNaN(chartValueAsNumber) && chartValueAsNumber < 7 ? 'red' : 'green';
+    // Check if the conversion is successful and if the value is less than 70
+    return !isNaN(chartValueAsNumber) && chartValueAsNumber < 70 ? 'red' : 'green';
   }
 
   private _chartValue: number = 0;

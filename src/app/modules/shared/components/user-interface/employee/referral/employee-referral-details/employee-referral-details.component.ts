@@ -34,7 +34,7 @@ export class EmployeeReferralDetailsComponent implements OnChanges {
   showModal: ModalType | undefined;
   score: number = 0;
   originalPoints = 2.1;
-  possiblePoints = 10;
+  possiblePoints = 100;
   isEmployeeReferralPage = true;
   // modalSize = 'md';
   // selectedStatus!: string; 

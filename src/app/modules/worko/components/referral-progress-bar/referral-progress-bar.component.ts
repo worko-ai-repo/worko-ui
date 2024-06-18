@@ -13,7 +13,7 @@ export class ReferralProgressBarComponent implements OnChanges {
   showScore: boolean = false;
   showEmailContent: boolean = false;
   originalPoints = 2.1;
-  possiblePoints = 10;
+  possiblePoints = 100;
   startTime: number = Date.now();
   errorFound: boolean = false;
   cvError: boolean = false;
@@ -29,9 +29,10 @@ export class ReferralProgressBarComponent implements OnChanges {
   emailId: string = "";
   constructor(private companyListing: CompanyListingService, private storage: StorageService) { }
   ngOnChanges(changes: SimpleChanges): void {
-    console.log(this.score);
+    // console.log(this.score);
   }
   ngOnInit(): void {
+    // console.log("current score is", this.score);
     this.emailId = this.storage.get("useremail");
     let index = 0;
     const interval = setInterval(() => {
@@ -53,50 +54,46 @@ export class ReferralProgressBarComponent implements OnChanges {
 
   async fetchScore() {
 
+    const fetchScoreWithRetry = async () => {
+      const response = await this.companyListing.getMatchingScore(this.emailId, this.referralId);
 
-    const response = await this.companyListing.getMatchingScore(this.emailId, this.referralId);
-    if (response && response.matchingScore !== undefined) {
-      if (response.matchingScore === 0 || response.matchingScore === 250 || response.matchingScore === 251) {
+      if (response && response.matchingScore !== undefined) {
+        const elapsedTime = Date.now() - this.startTime;
+
         if (response.matchingScore === 0) {
-          const elapsedTime = Date.now() - this.startTime;
-
           if (elapsedTime < this.maxDuration) {
             setTimeout(async () => {
-              await this.fetchScore();
-            }, 20000);
-          }
-          else {
+              await fetchScoreWithRetry();
+            }, 20000); // Retry after 20 seconds
+          } else {
+            // Maximum duration exceeded
             this.jobDescription = false;
             this.errorFound = true;
             this.showScore = false;
             this.cvError = true;
           }
-        } else if (response.matchingScore === 250) {
-          this.jobDescription = false;
-          this.errorFound = true;
-          this.showScore = false;
-          this.cvError = true;
-        } else if (response.matchingScore === 251) {
-          this.cvError = false;
-          this.jobDescription = true;
-          this.errorFound = true;
-          this.showScore = false;
-        } else {
-          // alert("No score found after 2 minutes");
-          this.cvError = true;
-          this.errorFound = true;
-          this.showScore = false;
+
+          if (response.jdMatchErrorCode === 250) {
+            this.jobDescription = false;
+            this.errorFound = true;
+            this.showScore = false;
+            this.cvError = true;
+          } else if (response.jdMatchErrorCode === 251) {
+            this.cvError = false;
+            this.jobDescription = true;
+            this.errorFound = true;
+            this.showScore = false;
+          }
+        } else if (response.jdMatchErrorCode === 200) {
+          this.score = response.matchingScore;
+          this.showScore = true;
         }
-
-
-      } else {
-        this.score = response.matchingScore;
-        this.showScore = true;
       }
+    };
 
-    }
+    // Start the initial call
+    await fetchScoreWithRetry();
   }
-
 
   onViewMore(): void {
     // Toggle the visibility of the email content

@@ -224,6 +224,8 @@ export class CompanyListingComponent implements OnInit, AfterViewInit, OnDestroy
   ]
   companySKFormUrl: any;
   typeFromUrl: any;
+  triggerAddCompany: boolean = false;
+  userDetails: any;
 
 
 
@@ -266,7 +268,8 @@ export class CompanyListingComponent implements OnInit, AfterViewInit, OnDestroy
     this.eventSubscription = this.navbarComponent.event$.subscribe(eventData => {
       this.triggerReferral = false;
       this.triggerGuidance = false;
-      if(eventData) {
+      this.triggerAddCompany = false;
+      if (eventData) {
         this.receiveDataFromChild(eventData);
       }
     });
@@ -274,6 +277,9 @@ export class CompanyListingComponent implements OnInit, AfterViewInit, OnDestroy
 
   async ngOnInit(): Promise<void> {
     this.userLoggedIn = await this.cognitoService.isLoggedIn();
+    if (this.userLoggedIn) {
+      this.getUserDetails();
+    }
     this.getProfilePercentage();
 
     await this.getCompanyDetails();
@@ -378,9 +384,18 @@ export class CompanyListingComponent implements OnInit, AfterViewInit, OnDestroy
 
   }
 
-
-
-
+  async getUserDetails() {
+    this.emailAddress = this.storage.get("useremail");
+    try {
+      await this.candidateSrv.getUserDetails(this.emailAddress).then(async (response) => {
+        if (response) {
+          this.userDetails = response;        
+        }
+      })
+    } catch (error: any) {
+      console.log("error:", error);
+    }
+  }
 
   onOptionSelected(event: MatAutocompleteSelectedEvent): void {
 
@@ -582,6 +597,7 @@ export class CompanyListingComponent implements OnInit, AfterViewInit, OnDestroy
     console.log(this.selectedData);
     this.triggerReferral = true;
     this.triggerGuidance = false;
+    this.triggerAddCompany = false;
 
     if (this.userLoggedIn) {
       if (this.checkProfileCompletion()) {
@@ -646,17 +662,27 @@ export class CompanyListingComponent implements OnInit, AfterViewInit, OnDestroy
   }
 
 
-  openCompanyForm($event: MouseEvent) {
-
-    this.openModal(ModalType.ADD_COMPANY)
+  async openCompanyForm($event: MouseEvent) {
+    this.triggerReferral = false;
+    this.triggerGuidance = false;
+    this.triggerAddCompany = true;
+    this.userLoggedIn = await this.cognitoService.isLoggedIn();
+    if (this.userLoggedIn) {
+      this.openModal(ModalType.ADD_COMPANY);
+    }
+    else {
+      this.userLoggedIn = true
+      this.openModal(ModalType.LOGIN_SIGNUP);
+    }
   }
 
   async receiveDataFromChild(data: any) {
-    
+
     //window.location.reload()
     this.userLoggedIn = await this.cognitoService.isLoggedIn();
     this.closeModal();
     if (this.userLoggedIn) {
+      await this.getUserDetails();
       await this.getProfilePercentage();
       this.navbarComponent.initializeUserSession();
       if (this.triggerReferral || this.triggerGuidance) {   // Logic for auto-opening the request referral module once the user signed In successfully and his candidate profile is above 60% and cv is uploaded
@@ -674,6 +700,9 @@ export class CompanyListingComponent implements OnInit, AfterViewInit, OnDestroy
           this.successtitle = "";
           this.openModal(ModalType.SUCCESS_MESSAGE);
         }
+      }
+      else if (this.triggerAddCompany) {
+        this.openModal(ModalType.ADD_COMPANY);
       }
       const url = this.router.url.split('?')[0];
       this.location.replaceState(url);
@@ -771,8 +800,8 @@ export class CompanyListingComponent implements OnInit, AfterViewInit, OnDestroy
 
         carrierPage: "",
         linkedIn: "",
-        personalemailid: "",
-        contactNumber: ""
+        personalemailid: this.userDetails[0].email,
+        contactNumber: this.userDetails[0].number
 
 
       }

@@ -154,9 +154,8 @@ export class NavbarComponent {
         // Redirect to the company listing page
         this.router.navigate(['/company-listing']);
         this.eventSubject.next(userType); // Emit the userType each time a login is successful through the navbar component
-        // This event will be captured by the parent component (companyListing) to perform required actions
-        this.eventSubject.next(userType);
-        
+        // This event will be captured by the parent component (companyListing) to perform required actions 
+               
         this.modal.cancel();
       }
       else {
