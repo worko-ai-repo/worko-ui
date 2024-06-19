@@ -170,12 +170,12 @@ export class IndexComponent {
           if (this.profileCompletion) {
             const profileType = userType === "CAND" ? this.profileCompletion.candidate : this.profileCompletion.employee;
             const totalPercentage = profileType.reduce((sum: any, element: any) => sum + element.curPerc, 0);
-
-            if (userType === "CAND" && totalPercentage > 60) {
+            debugger
+            if (userType === "CAND" && totalPercentage >=60) {
               this.router.navigate(['/candidate/dashboard']);
             } else if (userType === "CAND" && totalPercentage < 60) {
               this.router.navigate(['/candidate/edit-profile']);
-            } else if (userType !== "CAND" && totalPercentage > 60) {
+            } else if (userType !== "CAND" && totalPercentage >=60) {
               this.router.navigate(['/employee/Dashboard']);
             } else if (userType !== "CAND" && totalPercentage < 60) {
               this.router.navigate(['/employee/Edit-profile']);
@@ -201,11 +201,17 @@ export class IndexComponent {
   openModal(modalType: ModalType, message: string = "", title: string = ""): void {
 
     if (this.LoginPageComponent) {
-      this.LoginPageComponent.showSignInRow = false;
+     
       this.LoginPageComponent.showAddCompanyScreen = false;
       this.LoginPageComponent.showErrorMessageScreen = false;
       this.LoginPageComponent.showLoginScreen = this.showLoginScreen
+      if(this.selectedUserType==='employee'){ // opening sign up as employee if there is data in url
       this.LoginPageComponent.selectedUserType = this.selectedUserType
+      this.LoginPageComponent.showSignInRow = true;
+      }else{ // opening dafault login modal
+        this.LoginPageComponent.selectedUserType = this.selectedUserType
+        this.LoginPageComponent.showSignInRow = false;
+      }
 
     }
 
