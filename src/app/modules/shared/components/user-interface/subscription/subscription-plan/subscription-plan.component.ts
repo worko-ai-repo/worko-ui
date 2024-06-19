@@ -68,6 +68,7 @@ export class SubscriptionPlanComponent {
   successmessage: string = "";
   successtitle: string = "";
   paymentGateways: PaymentGatewayData[] = PAYMENT_GATEWAYS;
+  isModalVisible: boolean = false;
 
 
   constructor(private renderer2: Renderer2, private cd: ChangeDetectorRef,
@@ -334,7 +335,8 @@ export class SubscriptionPlanComponent {
           this.createSubscription(paymentResponse);
           console.log("Processed response from backend = ", response);
           this.spinner.hide();
-          this.openModal(ModalType.PAYMENT_CONFIRMATION);
+          // this.openModal(ModalType.PAYMENT_CONFIRMATION);
+          this.isModalVisible = true;
           this.cd.markForCheck();
           this.cd.detectChanges();
         }
@@ -465,9 +467,11 @@ export class SubscriptionPlanComponent {
   }
 
   nextBtn() {
-    this.modal.cancel();
+    this.isModalVisible = false;
+    // this.modal.cancel();
     this.getSubscriptionStatus();
     this.onNext.emit();
+    this.cd.detectChanges();
   }
 
 }

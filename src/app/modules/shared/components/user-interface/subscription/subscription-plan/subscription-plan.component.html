@@ -338,10 +338,18 @@
       [isPaymentGatewayUi]="isPaymentGatewayUi" [selectedPackage]="selectedPackage"></app-plans-order-payment-modal>
   </ng-container>
 
-  <ng-container *ngIf="showModal === modalType.PAYMENT_CONFIRMATION">
+  <!-- <ng-container *ngIf="showModal === modalType.PAYMENT_CONFIRMATION">
     <app-payment-confirmation-modal *ngIf="showModal === modalType.PAYMENT_CONFIRMATION"
       [decryptedPaymentResponse]="decryptedPaymentResponse" (onClose)="closeModal()"
       (onNext)="nextBtn()"></app-payment-confirmation-modal>
-  </ng-container>
+  </ng-container> -->
 
 </app-modal>
+
+<ng-container *ngIf="isModalVisible">
+  <app-payment-confirmation-modal
+    (onClose)="closeModal()"
+    (onNext)="nextBtn()"
+    [decryptedPaymentResponse]="decryptedPaymentResponse"
+  ></app-payment-confirmation-modal>
+</ng-container>

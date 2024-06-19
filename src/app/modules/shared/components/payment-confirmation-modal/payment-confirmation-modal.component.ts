@@ -148,14 +148,13 @@ export class PaymentConfirmationModalComponent implements OnChanges {
   }
 
   nextBtn() {
+    this.onNext.emit();
     this.successStatus = false;
     this.failureStatus = false;
 
     this.isOrderSummary = false;
     this.isPaymentDetails = true;
     this.isOrderDetails = false;
-
-    this.onNext.emit();
     this.decryptedPaymentResponse = null;
 
     // this.reloadCurrentRoute();
@@ -173,10 +172,10 @@ export class PaymentConfirmationModalComponent implements OnChanges {
   }
 
   retryBtn() {
+    this.onNext.emit();
     this.successStatus = false;
     this.failureStatus = false;
     this.decryptedPaymentResponse = null;
-    this.onNext.emit();
 
     // this.reloadCurrentRoute();
     // this.onRetry.emit();
