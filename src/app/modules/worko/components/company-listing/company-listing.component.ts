@@ -811,7 +811,7 @@ export class CompanyListingComponent implements OnInit, AfterViewInit, OnDestroy
         };
       }
     }
-    if (ModalType.ADD_COMPANY) {
+    if (this.showModal === ModalType.ADD_COMPANY) {
       this.companyForm = {
 
 
@@ -820,8 +820,8 @@ export class CompanyListingComponent implements OnInit, AfterViewInit, OnDestroy
 
         carrierPage: "",
         linkedIn: "",
-        personalemailid: this.userDetails[0].email,
-        contactNumber: this.userDetails[0].number
+        personalemailid: this.userDetails[0]?.email,
+        contactNumber: this.userDetails[0]?.number
 
 
       }

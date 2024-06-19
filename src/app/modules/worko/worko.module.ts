@@ -80,125 +80,125 @@ export const routes: Routes = [
         path : 'login',
         component:IndexComponent
       },
-      {
-        path: 'contact',
-        component: ContactComponent
-      },
-      {
-        path: 'navbar',
-        component: NavbarComponent
-      },
-      {
-        path: 'index-home',
-        component: IndexHomeComponent
-      },
-      {
-        path: 'jobSearch',
-        component: JobSerchSectionComponent
-      },
-      {
-        path: 'referralGuidence',
-        component: ReferralGuidenceComponent
-      },
-      {
-        path: 'insiderInsight',
-        component: InsiderInsightComponent
-      },
-      {
-        path: 'benifits',
-        component: BenifitsSectionComponent
-      },
-      {
-        path: 'companies',
-         component: CompaniesSectionComponent
+      // {
+      //   path: 'contact',
+      //   component: ContactComponent
+      // },
+      // {
+      //   path: 'navbar',
+      //   component: NavbarComponent
+      // },
+      // {
+      //   path: 'index-home',
+      //   component: IndexHomeComponent
+      // },
+      // {
+      //   path: 'jobSearch',
+      //   component: JobSerchSectionComponent
+      // },
+      // {
+      //   path: 'referralGuidence',
+      //   component: ReferralGuidenceComponent
+      // },
+      // {
+      //   path: 'insiderInsight',
+      //   component: InsiderInsightComponent
+      // },
+      // {
+      //   path: 'benifits',
+      //   component: BenifitsSectionComponent
+      // },
+      // {
+      //   path: 'companies',
+      //    component: CompaniesSectionComponent
         
-      },
-      {
-        path: 'vedioArea',
-        component: VedioAreaComponent
-      },
-      {
-        path: 'testimonial',
-        component: TestimonialComponent
-      },
-      {
-        path: 'footer',
-        component: FooterComponent
-      },
+      // },
+      // {
+      //   path: 'vedioArea',
+      //   component: VedioAreaComponent
+      // },
+      // {
+      //   path: 'testimonial',
+      //   component: TestimonialComponent
+      // },
+      // {
+      //   path: 'footer',
+      //   component: FooterComponent
+      // },
       {
         path : 'company-listing',
         component: CompanyListingComponent
       },
-      {
-        path : 'company-box',
-        component: CompanyBoxComponent
-      },
-      {
-        path : 'search-filter',
-        component: SearchFilterComponent
-      },
-      {
-        path : 'title',
-        component: TitleComponent
-      },
+      // {
+      //   path : 'company-box',
+      //   component: CompanyBoxComponent
+      // },
+      // {
+      //   path : 'search-filter',
+      //   component: SearchFilterComponent
+      // },
+      // {
+      //   path : 'title',
+      //   component: TitleComponent
+      // },
     
-      {
-        path : 'referral-req',
-        component: ReferralRequestComponent
-      },
-      {
-        path : 'subscript-pack',
-        component: SubscriptionPackComponent
-      },
-      {
-        path : 'progress-bar',
-        component: ReferralProgressBarComponent
-      },
-      {
-        path : 'req-guidence',
-        component: RequestGuidenceComponent
-      },
-      {
-        path : 'public-profile',
-        component: PublicProfileComponent
-      },
-      {
-        path : 'about-us',
-        component: HomeAboutUsComponent
-      },
-      {
-        path : 'faq',
-        component: HomeFaqComponent
-      },
-      {
-        path : 'corporate',
-        component: HomeCorporateComponent
-      },
-      {
-        path : 'terms-of-service',
-        component: TermsOfServiceComponent
-      },
-      {
-        path : 'refund-policy',
-        component:RefundPolicyComponent 
-      },
-      {
-        path : 'privacy-policy',
-        component: PrivacyPolicyComponent
-      },
+      // {
+      //   path : 'referral-req',
+      //   component: ReferralRequestComponent
+      // },
+      // {
+      //   path : 'subscript-pack',
+      //   component: SubscriptionPackComponent
+      // },
+      // {
+      //   path : 'progress-bar',
+      //   component: ReferralProgressBarComponent
+      // },
+      // {
+      //   path : 'req-guidence',
+      //   component: RequestGuidenceComponent
+      // },
+      // {
+      //   path : 'public-profile',
+      //   component: PublicProfileComponent
+      // },
+      // {
+      //   path : 'about-us',
+      //   component: HomeAboutUsComponent
+      // },
+      // {
+      //   path : 'faq',
+      //   component: HomeFaqComponent
+      // },
+      // {
+      //   path : 'corporate',
+      //   component: HomeCorporateComponent
+      // },
+      // {
+      //   path : 'terms-of-service',
+      //   component: TermsOfServiceComponent
+      // },
+      // {
+      //   path : 'refund-policy',
+      //   component:RefundPolicyComponent 
+      // },
+      // {
+      //   path : 'privacy-policy',
+      //   component: PrivacyPolicyComponent
+      // },
     
-      {
-        path: 'faq-candidate',
-        component: FaqCandidateComponent
-      },
-      {
-        path: 'faq-referee',
-        component: FaqRefereeComponent
-      },
-      {
-        path : 'contact-us',
-        component:ContactUsComponent 
-      },
+      // {
+      //   path: 'faq-candidate',
+      //   component: FaqCandidateComponent
+      // },
+      // {
+      //   path: 'faq-referee',
+      //   component: FaqRefereeComponent
+      // },
+      // {
+      //   path : 'contact-us',
+      //   component:ContactUsComponent 
+      // },
     ]
   }  
 ]
