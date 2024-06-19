@@ -170,12 +170,12 @@ export class IndexComponent {
           if (this.profileCompletion) {
             const profileType = userType === "CAND" ? this.profileCompletion.candidate : this.profileCompletion.employee;
             const totalPercentage = profileType.reduce((sum: any, element: any) => sum + element.curPerc, 0);
-
-            if (userType === "CAND" && totalPercentage > 60) {
+            debugger
+            if (userType === "CAND" && totalPercentage >=60) {
               this.router.navigate(['/candidate/dashboard']);
             } else if (userType === "CAND" && totalPercentage < 60) {
               this.router.navigate(['/candidate/edit-profile']);
-            } else if (userType !== "CAND" && totalPercentage > 60) {
+            } else if (userType !== "CAND" && totalPercentage >=60) {
               this.router.navigate(['/employee/Dashboard']);
             } else if (userType !== "CAND" && totalPercentage < 60) {
               this.router.navigate(['/employee/Edit-profile']);
