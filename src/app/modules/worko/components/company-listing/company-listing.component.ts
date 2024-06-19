@@ -147,10 +147,10 @@ export class CompanyListingComponent implements OnInit, AfterViewInit, OnDestroy
     { name: "Courier / Logistics", value: "Courier / Logistics" },
     { name: "Defence & Aerospace", value: "Defence & Aerospace" },
     { name: "Design", value: "Design" },
-    { name: "E-commerce", value: "E-commerce" },
-    { name: "E-Learning / EdTech", value: "E-Learning / EdTech" },
+    { name: "E-commerce", value: "e-commerce" },
+    { name: "E-Learning / EdTech", value: "e-Learning / EdTech" },
     { name: "Education / Training", value: "Education / Training" },
-    { name: "Electrical Equipment", value: "Electrical Equipment / Payments" },
+    { name: "Electrical Equipment", value: "Electrical Equipment" },
     { name: "Electronic Components / Semiconductors", value: "Electronic Components / Semiconductors" },
     { name: "Electronics Manufacturing", value: "Electronics Manufacturing" },
     { name: "Emerging Technologies", value: "Emerging Technologies" },
@@ -550,9 +550,11 @@ export class CompanyListingComponent implements OnInit, AfterViewInit, OnDestroy
   async onTeamSizeChange(selectedTeamSize: string) {
     if(selectedTeamSize!==""){
       this.pageSize = 100;
+    }else{
+      this.pageSize=50;
     }
     this.isNoLoadData = true
-    this.pageSize=50;
+    
     this.lastKey = "";
     this.loadedOnce = true;
     this.filterData.teamSize = selectedTeamSize;
@@ -585,8 +587,9 @@ export class CompanyListingComponent implements OnInit, AfterViewInit, OnDestroy
     this.lastKey = "";
     if(selectedIndustryType!==""){  // if the selectIndustryType is selected then passing pageSize as 100
       this.pageSize = 100;
-    }
+    }else{
     this.pageSize = 50;
+    }
     this.loadedOnce = true;
     // this.appliedFilter = true;
     this.filterData.industryType = selectedIndustryType;

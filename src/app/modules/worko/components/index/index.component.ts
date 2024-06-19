@@ -170,7 +170,7 @@ export class IndexComponent {
           if (this.profileCompletion) {
             const profileType = userType === "CAND" ? this.profileCompletion.candidate : this.profileCompletion.employee;
             const totalPercentage = profileType.reduce((sum: any, element: any) => sum + element.curPerc, 0);
-            debugger
+           // debugger
             if (userType === "CAND" && totalPercentage >=60) {
               this.router.navigate(['/candidate/dashboard']);
             } else if (userType === "CAND" && totalPercentage < 60) {

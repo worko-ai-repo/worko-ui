@@ -1,4 +1,4 @@
-import { ChangeDetectorRef, Component, ElementRef, EventEmitter, Input, OnInit, Output, ViewChild } from '@angular/core';
+import { ChangeDetectorRef, Component, ElementRef, EventEmitter, Input, OnInit, Output, SimpleChanges, ViewChild } from '@angular/core';
 import { MatAutocompleteModule, MatAutocompleteTrigger } from '@angular/material/autocomplete';
 import { FormControl, FormsModule, NgModel, ReactiveFormsModule } from '@angular/forms';
 import { Observable } from 'rxjs';
@@ -56,6 +56,7 @@ export class PersonalDetailsComponent implements OnInit {
   form: any = {
 
   }
+  isDisabled: boolean = false;
   maxCertificate: boolean = false;
   title: string = '';
   achievementmonth: string = '';
@@ -129,20 +130,23 @@ export class PersonalDetailsComponent implements OnInit {
       return '';
     }
   }
-  ngOnChanges(): void {
-    //debugger
-    if (this.candidateProfessionalDetails.ctc && this.candidatePersonalDetails.ectc && this.candidatePersonalDetails.department &&
-      this.candidateProfessionalDetails.desigination
+  ngOnChanges(changes: SimpleChanges): void {
+
+    if (this.candidateProfessionalDetails?.ctc && this.candidatePersonalDetails?.ectc && this.candidatePersonalDetails?.department &&
+      this.candidateProfessionalDetails?.desigination 
     ) {
-      //debugger
+      this.isDisabled=true
     } else if (this.candidateProfessionalDetails.isCandidateFresher) {
-      //debugger
+      this.isDisabled=false
     }
     else {
-      //debugger
       this.getData();
     }
     // console.log(this.candidateProfessionalDetails)
+    if (changes['candidateProfessionalDetails']) {
+      // Call method to check if the checkbox should be disabled
+      this.checkIfDisabled();
+    }
   }
 
   goBack() {
@@ -165,21 +169,26 @@ export class PersonalDetailsComponent implements OnInit {
     //debugger;
     this.previousStep.emit(this.candidateProfessionalDetails);
   }
-  userFresher() {
-    this.candidateProfessionalDetails.isCandidateFresher = !this.candidateProfessionalDetails.isCandidateFresher;
 
-    //resetting experience filed if user checkes the fresher checkbox
-    if (this.candidateProfessionalDetails.isCandidateFresher) {
-      this.candidateProfessionalDetails.companyName = '';
-      this.candidateProfessionalDetails.designation = '';
-      this.candidateProfessionalDetails.department = '';
-      this.candidateProfessionalDetails.ctc = 0;
-      this.candidateProfessionalDetails.ectc = 0;
-      this.candidateProfessionalDetails.yoe = 0;
-      this.candidateProfessionalDetails.noticePeriod = 0;
+
+  // function to check if all required fields are filled to disable the fresher checkbox
+  checkIfDisabled(): void {
+   
+    if (this.candidateProfessionalDetails.companyName && this.candidateProfessionalDetails.designation && this.candidateProfessionalDetails.department && 
+      this.candidateProfessionalDetails.ctc && this.candidateProfessionalDetails.ectc) {
+      this.isDisabled = true;
     }
   }
 
+  userFresher(): void {
+    // Check if the checkbox should be disabled before toggling fresher status
+  
+    this.checkIfDisabled();
+    if (!this.isDisabled) {
+      this.candidateProfessionalDetails.isCandidateFresher = 
+        !this.candidateProfessionalDetails.isCandidateFresher;
+    }
+  }
   getData() {
 
     this.candidateProfessionalDetails = {
