@@ -174,10 +174,10 @@ export const routes: Routes = [
       //   path : 'corporate',
       //   component: HomeCorporateComponent
       // },
-      // {
-      //   path : 'terms-of-service',
-      //   component: TermsOfServiceComponent
-      // },
+      {
+        path : 'terms-of-service',
+        component: TermsOfServiceComponent
+      },
       // {
       //   path : 'refund-policy',
       //   component:RefundPolicyComponent 

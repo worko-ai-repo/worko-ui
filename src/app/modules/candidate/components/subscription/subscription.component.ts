@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { ChangeDetectorRef, Component } from '@angular/core';
 import { CandidateProfileService } from '../../services/candidate-profile.service';
 import { StorageService } from 'src/app/modules/app-core/services/storage.service';
 import { SubscriptionPackService } from 'src/app/modules/worko/services/subscription-pack.service';
@@ -16,7 +16,7 @@ export class SubscriptionComponent {
   packageDetails1: any;
   cardDetails: any[] = [];
   userDetails:any;
-  constructor(private candidateSrv: CandidateProfileService, private storage: StorageService, private subscriptionPack: SubscriptionPackService, private spinner: NgxSpinnerService, private router: Router) { }
+  constructor(private candidateSrv: CandidateProfileService, private storage: StorageService, private subscriptionPack: SubscriptionPackService, private spinner: NgxSpinnerService, private router: Router, private cdr:ChangeDetectorRef) { }
   ngOnInit(): void {
 
     this.emailAddress = this.storage.get("useremail");
@@ -41,6 +41,7 @@ export class SubscriptionComponent {
         if (activeSubscription) {
           console.log("Current active subscription is: ", activeSubscription);
           this.packageDetails = activeSubscription;
+          this.cdr.detectChanges();
           this.packageDetails1 = activeSubscription;
           // this.achievementsList = response[0].achievements;
         } else {

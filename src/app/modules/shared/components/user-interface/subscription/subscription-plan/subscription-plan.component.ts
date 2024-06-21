@@ -275,7 +275,7 @@ export class SubscriptionPlanComponent {
     this.spinner.hide();
     const createOrderResponse = response;
     let options = {
-      key: "REDACTED", // Will replace it with our actual Razorpay key ID
+      key: environment.razorpayKey, // Will replace it with our actual Razorpay key ID
       amount: createOrderResponse?.gatewayOrderRequestPlainBody?.amount, // Amount in paise
       currency: createOrderResponse?.gatewayOrderRequestPlainBody?.currency,
       name: "Worko Ai",
