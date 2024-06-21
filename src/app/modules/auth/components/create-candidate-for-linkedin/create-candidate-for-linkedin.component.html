@@ -1,7 +1,7 @@
 
 <div class="container d-flex justify-content-center align-items-center vh-100">
   <div class="row justify-content-center">
-    <div class="col-md-7">
+    <div class="col-md-8">
       <div class=" mt-4">
         <div class="row bg-image" >
           <div class="col-lg-6 first-div d-flex p-0">
@@ -17,11 +17,11 @@
     </div>
   </div>
 </div>
-<div class="col-md-6 d-flex align-items-center justify-content-center">
+<div class="col-lg-6 d-flex align-items-center justify-content-center">
   <div>
 
 <div class="col-md-12 text-white p-0 mt-4" style="font-size: 16px">
-<p>We need a few finishing touches to complete your registration.<br>
+<p>We need a few finishing touches to complete<br> your registration.<br>
   Let's enhance your experience together!</p>
 <!-- <p>Create your account as Employee</p> -->
 </div>
@@ -107,8 +107,9 @@ class="row mt-4">
 <div class="col-md-6">
   <div class="material-input__group">
     <i class="fa-solid fa-phone" style="color: #ffffff; font-size: 12px"></i>
-    <input type="otp" placeholder="+91 XXXXXXXXXX" class="text-white material-input__group__input"
-      #phoneNumber="ngModel" pattern="^\+(?:[0-9] ?){6,14}[0-9]$" maxlength="17"
+    <p style="color: #ffffff; font-size: 12px;">+91</p>
+    <input type="otp" placeholder="Phone No" class="text-white material-input__group__input"
+      #phoneNumber="ngModel" pattern="^[6-9]\d{9}$" maxlength="10" style=" padding: 0px 0px 0px 43px;"
       [(ngModel)]="candidateForm.phoneNumber" name="phoneNumber" id="phoneNumber" />
     <div *ngIf="
         phoneNumber.invalid &&

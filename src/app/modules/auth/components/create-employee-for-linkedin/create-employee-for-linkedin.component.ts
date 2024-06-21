@@ -46,9 +46,9 @@ export class CreateEmployeeForLinkedinComponent {
 
 
   }
-  userEmail:any;
-  userName:any;
-  pictureUrl:any;
+  userEmail: any;
+  userName: any;
+  pictureUrl: any;
   selectedCompany: any; // Update the type based on your data structure
   userId: string = "";
   companyName: string = "";
@@ -62,11 +62,11 @@ export class CreateEmployeeForLinkedinComponent {
   currentWordIndex = 0;
   EmployeeWords = ["Reward", "Sell Services", "Earn Money", "Priority Job Access"];
   currentWord = '';
-form: any;
-  companyData: any=[];
-form1: any;
+  form: any;
+  companyData: any = [];
+  form1: any;
 
-  constructor( private storage: StorageService,private amplify: CognitoService, private authService: AuthService, private spinner: NgxSpinnerService,private router: Router) {}
+  constructor(private storage: StorageService, private amplify: CognitoService, private authService: AuthService, private spinner: NgxSpinnerService, private router: Router) { }
 
   onOptionSelected(event: any): void {
     this.selectedCompany = event.option.value;
@@ -98,7 +98,7 @@ form1: any;
       distinctUntilChanged(),
       switchMap((value: any) => {
         console.log(value)
-        
+
         if (value && value.length >= 1) {
           return this.authService.getCompanyName(value).pipe(
             map((results: any[]) => [
@@ -118,26 +118,26 @@ form1: any;
 
   }
 
-  async getCandidateData(){
+  async getCandidateData() {
     const {
       tokens,
-     
-      userSub
-  } = await fetchAuthSession();
-  console.log(tokens)
-     this.userEmail=tokens?.idToken?.payload['email']?.toString()
-     this.userName=tokens?.idToken?.payload['name']?.toString()
-     this.pictureUrl=tokens?.idToken?.payload['picture']
- console.log(this.userEmail,this.userName,this.pictureUrl)
 
- const {
-  username,
-  userId: id
-} = await getCurrentUser();
-    this.userId=id
+      userSub
+    } = await fetchAuthSession();
+    console.log(tokens)
+    this.userEmail = tokens?.idToken?.payload['email']?.toString()
+    this.userName = tokens?.idToken?.payload['name']?.toString()
+    this.pictureUrl = tokens?.idToken?.payload['picture']
+    console.log(this.userEmail, this.userName, this.pictureUrl)
+
+    const {
+      username,
+      userId: id
+    } = await getCurrentUser();
+    this.userId = id
     console.log(id)
 
-   // this.storage.set("useremail", this.userEmail);
+    // this.storage.set("useremail", this.userEmail);
 
   }
 
@@ -154,98 +154,119 @@ form1: any;
   }
 
   async createEmployee(form: any): Promise<void> {
-    //this.spinner.show();
- 
- try{
-        let employeeData = {
-          name: this.userName,
-          email: this.userEmail,
-          number: this.employeeForm.phoneNumber,
-          // linkedinUrl: this.employeeForm.linkdinProfile,
-          YOE: Number(this.employeeForm.experience),
-          // designation: this.employeeForm.designation,
-          department: this.employeeForm.department,
-          companyEmailId: this.employeeForm.companyEmailID,
-          companyName: this.selectedCompany.name,
-          companySK: this.selectedCompany.SK,
-          userId: this.userId,
-          acceptedTermsAndConditions: this.employeeForm.acceptedTermsAndConditions // Include the acceptedTermsAndConditions field
+    this.spinner.show();
+
+    try {
+      let employeeData = {
+        name: this.userName,
+        email: this.userEmail,
+        number: "+91" + this.employeeForm.phoneNumber,
+        // linkedinUrl: this.employeeForm.linkdinProfile,
+        YOE: Number(this.employeeForm.experience),
+        // designation: this.employeeForm.designation,
+        department: this.employeeForm.department,
+        companyEmailId: this.employeeForm.companyEmailID,
+        companyName: this.selectedCompany.name,
+        companySK: this.selectedCompany.SK,
+        userId: this.userId,
+        acceptedTermsAndConditions: this.employeeForm.acceptedTermsAndConditions // Include the acceptedTermsAndConditions field
 
 
-          // designationTag: Number(this.employeeForm.designationTag)
-        }
-        
-     
-        this.authService.createEmployee(employeeData).then(async (response) => {
-          this.storage.set("useremail", this.userEmail);
-          console.log(this.userEmail);
-          this.router.navigate(['/employee/Dashboard']);
-     
-        })
-      }catch(error:any){
-        if(error.status==409){
-        this.errorMessage='user Already exist'
+        // designationTag: Number(this.employeeForm.designationTag)
+      }
+
+
+      this.authService.createEmployee(employeeData).then(async (response) => {
+        this.otpVerification(this.userEmail);
+        // this.storage.set("useremail", this.userEmail);
+        // console.log(this.userEmail);
+        // this.router.navigate(['/employee/Dashboard']);
+
+      })
+    } catch (error: any) {
+      if (error.status == 409) {
+        this.spinner.hide()
+        this.errorMessage = 'user Already exist'
         console.log("errror")
-        }else if(error.status==401){
-          this.router.navigate(['/']);
-        }else{
-          this.errorMessage='something went wrong'
-        }
+      } else if (error.status == 401) {
+        this.spinner.hide()
+        this.router.navigate(['/']);
+      } else {
+        this.errorMessage = 'Something went wrong. Please try again after sometime'
+      }
 
+    }
+  }
+
+  //To make isVerified Flag as true
+  otpVerification(emailId: string): void {
+
+    this.authService.otpVerification(emailId)
+      .then(response => {
+        console.log('OTP verification successful');
+        this.storage.set("useremail", this.userEmail);
+        console.log(this.userEmail);
+        this.router.navigate(['/employee/Dashboard']);
+
+
+      })
+      .catch(error => {
+        console.error('OTP verification failed:', error);
+      });
+  }
+
+
+
+  addNewCompany(): void {
+    // this.
+    this.myControl.reset();
+    this.openModal(ModalType.ADD_COMPANY);
+
+  }
+  companyForm = {
+
+
+    CompanyName: "",
+    industry: 'Industry',
+
+    carrierPage: "",
+    linkedIn: "",
+    emailid: "",
+    personalemailid: "",
+    contactNumber: ""
+
+
+  }
+
+
+  requestCampanyData(form: any) {
+    this.companyData = {
+      userType: "EMP",
+      companyDetail: {
+        name: this.companyForm.CompanyName,
+        //industry: 'Industry',
+        emailid: this.companyForm.emailid,
+        carrierPage: this.companyForm.carrierPage,
+        linkedIn: this.companyForm.linkedIn,
+        personalemailid: this.companyForm.personalemailid,
+        contactnumber: this.companyForm.contactNumber
       }
     }
 
+    this.openModal(ModalType.SUCCESS_MESSAGE);
+  }
+  cancel() {
+    this.modal.cancel()
+  }
 
-    addNewCompany(): void {
-      // this.
-      this.myControl.reset();
-      this.openModal(ModalType.ADD_COMPANY);
-      
-    }
-    companyForm={
-
-
-      CompanyName: "",
-        industry: 'Industry',
-       
-        carrierPage:"",
-        linkedIn: "",
-        emailid:"",
-        personalemailid:"",
-        contactNumber:""
-    
-    
-    }
-    
-    
-    requestCampanyData(form:any){
-      this.companyData={
-        userType: "EMP",
-        companyDetail: {
-          name: this.companyForm.CompanyName,
-          //industry: 'Industry',
-          emailid: this.companyForm.emailid,
-          carrierPage: this.companyForm.carrierPage,
-          linkedIn: this.companyForm.linkedIn,
-          personalemailid:this.companyForm.personalemailid,
-          contactnumber:this.companyForm.contactNumber
-        }
-      }
-      
-      this.openModal(ModalType.SUCCESS_MESSAGE);
-    }
-    cancel(){
-      this.modal.cancel()
-    }
-
-      /**
-  * Open modal.
-  *
-  * @param {ModalType} modalType
-  * @param {string} [message = ""]
-  * @param {string} [title = ""]
-  * @returns {void}
-  */
+  /**
+* Open modal.
+*
+* @param {ModalType} modalType
+* @param {string} [message = ""]
+* @param {string} [title = ""]
+* @returns {void}
+*/
   openModal(modalType: ModalType, message: string = "", title: string = ""): void {
     this.showModal = modalType;
     this.modalMessage = message;
@@ -261,11 +282,11 @@ form1: any;
     // this.referrralComponent.showReferrelRow = true;
     this.modal.cancel();
   }
-  }
+}
 
 
 
-     
-      
-     
+
+
+
 

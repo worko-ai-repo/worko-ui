@@ -7,6 +7,7 @@ import { fetchAuthSession, getCurrentUser } from '@aws-amplify/auth';
 
 import { NgxSpinnerService } from 'ngx-spinner';
 import { StorageService } from 'src/app/modules/app-core/services/storage.service';
+import { CandidateProfileService } from 'src/app/modules/candidate/services/candidate-profile.service';
 import { CognitoService } from 'src/app/modules/services/cognito.service';
 import { AuthService } from 'src/app/modules/worko/services/auth.service';
 
@@ -17,9 +18,9 @@ import { AuthService } from 'src/app/modules/worko/services/auth.service';
 })
 export class CreateCandidateForLinkedinComponent {
 
-  userEmail:any;
-  userName:any;
-  pictureUrl:any;
+  userEmail: any;
+  userName: any;
+  pictureUrl: any;
   fileToUpload: File | null = null;
   candidateForm = {
     name: '',
@@ -36,45 +37,45 @@ export class CreateCandidateForLinkedinComponent {
 
 
   }
-form: any;
-userId: string = "";
-fileName: string = "";
-fileType: string = "";
-uploadedCvName: string = "";
-errorMessage: string = "";
+  form: any;
+  userId: string = "";
+  fileName: string = "";
+  fileType: string = "";
+  uploadedCvName: string = "";
+  errorMessage: string = "";
   fileErr: string = "";
   isBlinking = true;
   blinkTimer: any; //timer reference
   currentWordIndex = 0;
   CandidateWords = ["Referral", "Career Guidance", "Interview Mentorship", "Mock Interview"];
   currentWord = '';
-  constructor( private spinner: NgxSpinnerService, private authService: AuthService, private storage: StorageService,private router: Router,private amplify: CognitoService) {}
+  constructor(private spinner: NgxSpinnerService, private candidateSrv: CandidateProfileService, private authService: AuthService, private storage: StorageService, private router: Router, private amplify: CognitoService) { }
   ngOnInit(): void {
-this.getCandidateData()
-this.blinkAndChangeWord()
+    this.getCandidateData()
+    this.blinkAndChangeWord()
 
   }
-  async getCandidateData(){
-    
+  async getCandidateData() {
+
     const {
       tokens,
-     
-      userSub
-  } = await fetchAuthSession();
-  console.log(tokens)
-     this.userEmail=tokens?.idToken?.payload['email']?.toString()
-     this.userName=tokens?.idToken?.payload['name']?.toString()
-     this.pictureUrl=tokens?.idToken?.payload['picture']
- console.log(this.userEmail,this.userName,this.pictureUrl)
 
- const {
-  username,
-  userId: id
-} = await getCurrentUser();
-    this.userId=id
+      userSub
+    } = await fetchAuthSession();
+    console.log(tokens)
+    this.userEmail = tokens?.idToken?.payload['email']?.toString()
+    this.userName = tokens?.idToken?.payload['name']?.toString()
+    this.pictureUrl = tokens?.idToken?.payload['picture']
+    console.log(this.userEmail, this.userName, this.pictureUrl)
+
+    const {
+      username,
+      userId: id
+    } = await getCurrentUser();
+    this.userId = id
     console.log(id)
 
-   //this.storage.set("useremail", this.userEmail);
+    //this.storage.set("useremail", this.userEmail);
 
   }
 
@@ -107,81 +108,79 @@ this.blinkAndChangeWord()
 
   async createCandidate(form: any): Promise<void> {
     this.spinner.show();
-    try{
-  
-          let candidateData = {
-            name: this.userName,
-            email: this.userEmail,
-            number: this.candidateForm.phoneNumber,
-            linkedinUrl: this.candidateForm.linkdinProfile,
-            ECTC: Number(this.candidateForm.expectedCtc),
-            YOE: Number(this.candidateForm.experience),
-            userId: this.userId,
-            acceptedTermsAndConditions: this.candidateForm.acceptedTermsAndConditions
+    try {
 
-          }
-          
-         let response= this.authService.createCandidate(candidateData).then(async () => {
-         
-            try {
-              console.log(response)
-              if (this.userId && this.fileName) {
-
-                let documentDetails = {
-                  userId: this.userId,
-                  resumeUserFileName: this.fileName,
-                  resumeFileMimeType: this.fileType
-                }
-                let docResult = await this.authService.uploadCV(documentDetails);
-                console.log(docResult);
-
-                this.uploadedCvName = docResult.cloudFileName;
-                this.uploadCVonS3Bucket(docResult);
-
-              }
-             
-            } catch (error) {
-              this.spinner.hide();
-              console.log(error);
-          
-            }
-          })
-         
-        }catch(error:any){
-          this.spinner.hide();
-          if(error.status==409){
-    this.errorMessage='user Already exist'
-          }else if(error.status==401){
-            this.router.navigate(['/']);
-          }else{
-            this.errorMessage='something went wrong'
-          }
-         
-        }
-
+      let candidateData = {
+        name: this.userName,
+        email: this.userEmail,
+        number: "+91" + this.candidateForm.phoneNumber,
+        linkedinUrl: this.candidateForm.linkdinProfile,
+        ECTC: Number(this.candidateForm.expectedCtc),
+        YOE: Number(this.candidateForm.experience),
+        userId: this.userId,
+        acceptedTermsAndConditions: this.candidateForm.acceptedTermsAndConditions
 
       }
+
+      let response = this.authService.createCandidate(candidateData).then(async () => {
+
+        try {
+          console.log(response)
+          if (this.userId && this.fileName) {
+
+            let documentDetails = {
+              userId: this.userId,
+              resumeUserFileName: this.fileName,
+              resumeFileMimeType: this.fileType
+            }
+            let docResult = await this.authService.uploadCV(documentDetails);
+            console.log(docResult);
+
+            this.uploadedCvName = docResult.cloudFileName;
+            this.uploadCVonS3Bucket(docResult);
+
+          }
+
+        } catch (error) {
+          this.spinner.hide();
+          console.log(error);
+
+        }
+      })
+
+    } catch (error: any) {
+      this.spinner.hide();
+      if (error.status == 409) {
+        this.errorMessage = 'user Already exist'
+      } else if (error.status == 401) {
+        this.router.navigate(['/']);
+      } else {
+        this.errorMessage = 'sSomething went wrong. Please try again after sometime'
+      }
+
+    }
+
+
+  }
 
 
 
 
   uploadCVonS3Bucket(docResult: any) {
-    
+
     try {
       this.authService.uploadFileOnS3Bucket(this.fileToUpload!, docResult.awsS3SignedUrl, docResult.awsS3Tag)
         .then(async () => {
           console.log('File uploaded successfully.');
           try {
             let a = await this.authService.linkResumewithUser(this.userEmail, this.uploadedCvName);
-            this.storage.set("useremail", this.userEmail);
-            console.log(this.userEmail);
-            this.router.navigate(['/candidate/dashboard']);
-            this.spinner.hide();
+            this.otpVerification(this.userEmail)
+            // this.candidateSrv.getUserDetails(this.userEmail)
           } catch (error: any) {
             ;
             if (error && error.error.message) {
-               this.errorMessage = error.error.message;
-             // this.spinner.hide();
+              this.errorMessage = error.error.message;
+              // this.spinner.hide();
               //this.setErrorMessage('File Link error linkResumewithUser:- ' + error.error.message);
             }
             console.error('File Link error linkResumewithUser:', error);
@@ -198,9 +197,28 @@ this.blinkAndChangeWord()
     } catch (error) {
       console.log(error)
     }
-  
-    
+
+
   }
+
+  //To make isVerified Flag as true
+  otpVerification(emailId: string): void {
+
+    this.authService.otpVerification(emailId)
+      .then(response => {
+        console.log('OTP verification successful');
+        this.storage.set("useremail", this.userEmail);
+        console.log(this.userEmail);
+        this.router.navigate(['/candidate/dashboard']);
+        this.spinner.hide();
+
+
+      })
+      .catch(error => {
+        console.error('OTP verification failed:', error);
+      });
+  }
+
 
   handleFileInput(event: Event): void {
     const inputElement = event.target as HTMLInputElement;
@@ -232,7 +250,7 @@ this.blinkAndChangeWord()
     }
   }
 
-  
+
 
 
 }

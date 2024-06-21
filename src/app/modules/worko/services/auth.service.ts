@@ -78,7 +78,7 @@ export class AuthService {
   
 
   otpVerification(emailId: string): Promise<any> {
-    return this.http.patch(API_URL + `user/${emailId}/verify`, this.getHttpOptions())
+    return this.http.patch(API_URL + `user/${emailId}/verify/email`,{}, this.getHttpOptions())
       .toPromise()
       .then(response => response as ArrayBuffer);
   }
@@ -143,7 +143,7 @@ export class AuthService {
     // if (params?.params) {
     //   httpOptions['params'] = params.params;
     // }
-
+console.log(headers)
     return httpOptions;
   }
 

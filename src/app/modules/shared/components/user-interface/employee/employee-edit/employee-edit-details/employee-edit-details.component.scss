@@ -18,6 +18,7 @@
     position: absolute;
     top: 31px;
     right: 17px;
+    margin-left: 10px; 
   }
   .text-green{
     color:green;
@@ -137,4 +138,21 @@ input.ng-invalid.ng-touched {
   color: #6b33ee;
   font-size: 11px;
   font-family:var(--font-poppins)
+}
+.candidate-img{
+  width: 90%;
+}
+/* Media query for mobile devices */
+@media (max-width: 768px) {
+  .form-container {
+      padding-left: 45px;
+      padding-right: 45px;
+  }
+  .candidate-img{
+    width:60%;
+  }
+}
+
+.required-form-field {
+  white-space: nowrap;
 }

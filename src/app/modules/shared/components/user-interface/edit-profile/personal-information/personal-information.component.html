@@ -4,7 +4,7 @@
             <div class="col-md-3">
                 <div class="row d-flex justify-content-center">
                     <div class="col-md-12 mt-2  d-flex justify-content-center">
-                        <img src="{{candidatePersonalDetails.profilePicUrl}}" class="candidate-img float-end" alt="" style="width: 90%;">
+                        <img src="{{candidatePersonalDetails.profilePicUrl}}" class="candidate-img float-end" alt="" >
                     </div>
                     <!-- <span class="error-message upload-error">{{picErrorMessage}}</span> -->
                     <div class="col-md-12  d-flex justify-content-center">
@@ -25,7 +25,7 @@
                 </div>
 
             </div>
-            <div class="col-md-9">
+            <div class="col-md-9 form-container">
                 <form (ngSubmit)="candidate.form.valid && createEducation(form)" #candidate="ngForm" novalidate>
                     <div class="row">
                         <div class="col-md-5">
@@ -152,7 +152,7 @@
                             [ngModelOptions]="{standalone: true}"
                             id="PK">
 
-                            <div class="col-md-2 d-flex align-items-end">
+                            <div class="col-md-2 d-flex align-items-end circular-button-container">
                                 <button type="button" class="float-end btn circular-button" *ngIf="i === 0" (click)="addCollege()"
                                     [disabled]="!areAllPreviousFieldsFilled() || candidatePersonalDetails.collegeData.length >= 4">+</button>
                                 <button type="button" class="float-end btn circular-button" *ngIf="i > 0" (click)="removeField(i,details.SK)">x</button>
