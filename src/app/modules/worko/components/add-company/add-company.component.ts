@@ -100,8 +100,8 @@ export class AddCompanyComponent {
 
     this.successmessage = "";
     this.successtitle = "";
-    window.location.reload()
-    this.modal.cancel()
+   // window.location.reload()
+    this.modal.cancel();
 
   }
 
