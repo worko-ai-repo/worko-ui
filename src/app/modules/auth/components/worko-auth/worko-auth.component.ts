@@ -25,6 +25,10 @@ export class WorkoAuthComponent {
   userId: any;
   registrationType: string = '';
   errorMessage: string = '';
+  profileCompletion: any;
+  userType: any;
+  userName: any;
+  letter: any;
   constructor(
     private router: Router,
     private activatedRoute: ActivatedRoute,
@@ -75,8 +79,8 @@ export class WorkoAuthComponent {
 
             break;
           case 'logout':
-           await  this.cognitoService.handleSignOut();
-            //this.router.navigate(['/']);
+            await this.cognitoService.handleSignOut();
+            // this.router.navigate(['/']);
             window.location.href = environment.crossOriginUrl + '/';
             break;
         }
@@ -86,7 +90,7 @@ export class WorkoAuthComponent {
   }
 
 
-  async employeeSignUp() {
+  async employeeSignUp() { //check whether the user is already persent or not 
     //this.getCandidateData()
     const isCandidatePresent = await this.getCandidateDetails();
     if (isCandidatePresent) {
@@ -94,7 +98,7 @@ export class WorkoAuthComponent {
       this.router.navigate(['/auth/employeecompleteSignUp']);
     }
   }
-  async candidateSignUp() {
+  async candidateSignUp() { // check whether the user is already persent or not 
 
     // this.getCandidateData()
     const isCandidatePresent = await this.getCandidateDetails();
@@ -110,6 +114,7 @@ export class WorkoAuthComponent {
 
   async signIn() {
     // this.getCandidateData()
+    //check whether user is sign in or not.
     const isCandidatePresent = await this.getCandidateDetails();
     if (isCandidatePresent) {
       this.registerOptionScreen = true;
@@ -117,45 +122,80 @@ export class WorkoAuthComponent {
     }
   }
   async getCandidateDetails() {
-
-    const {
-      tokens,
-
-      userSub
-    } = await fetchAuthSession();
-    console.log(tokens)
-    this.userEmail = tokens?.idToken?.payload['email']?.toString();
-    const {
-      username,
-      userId: id
-    } = await getCurrentUser();
-    this.userId = id
-    console.log(id)
+debugger
     try {
-      return await this.candidateSrv.getUserDetails(this.userEmail).then(async (response) => {
-        if (response) {
-          this.registerOptionScreen = false;
-          this.lastDashed = response
-          console.log(this.lastDashed[0].userType[0])
-          if (this.lastDashed[0].userType[0] === 'EMP') {
-            this.storage.set("useremail", this.userEmail);
-            console.log(this.userEmail);
-            this.router.navigate(['/employee/Dashboard']);
+      // Fetch the authentication session
+      const { tokens, userSub } = await fetchAuthSession();
+      console.log(tokens);
 
-          } else if (this.lastDashed[0].userType[0] === 'CAND') {
-            this.storage.set("useremail", this.userEmail);
-            console.log(this.userEmail);
-            this.router.navigate(['/candidate/dashboard']);
+      this.userEmail = tokens?.idToken?.payload['email']?.toString();
+      this.userName=tokens?.idToken?.payload['given_name']?.toString();
+
+      // Fetch the current user details
+      const { username, userId: id } = await getCurrentUser();
+      this.userId = id;
+      this.storage.set('userName',this.userName);
+      console.log(id);
+      // Check if the current route is /company-listing
+      const isCompanyListingRoute = this.storage.get('isCompanyListingRoute');
+      if (isCompanyListingRoute) {
+        this.userName = this.storage.get('userName');
+        console.log(this.userName);
+        this.storage.set("useremail", this.userEmail);
+
+        this.letter = this.userName.charAt(0).toUpperCase();
+
+        // Redirect to the company listing page
+        this.router.navigate(['/company-listing']);
+        return false;
+      }
+      else {
+        // Fetch the user details from the candidate service
+        const response = await this.candidateSrv.getUserDetails(this.userEmail);
+        if (response) {
+          this.lastDashed = response;
+          this.registerOptionScreen = false;
+
+
+          this.userType = this.lastDashed[0].userType[0];
+          this.storage.set("useremail", this.userEmail);
+
+          // Fetch the profile completion percentage
+          const percentageresponse = await this.candidateSrv.getProfileComplete(this.userEmail);
+          if (percentageresponse) {
+            this.profileCompletion = percentageresponse;
+            console.log(this.profileCompletion);
+
+            if (this.profileCompletion) {
+              const profileType = this.userType === "CAND" ? this.profileCompletion.candidate : this.profileCompletion.employee;
+              const totalPercentage = profileType.reduce((sum: any, element: any) => sum + element.curPerc, 0);
+
+              // Navigate based on the profile completion percentage
+              if (this.userType === "CAND" && totalPercentage >= 60) {
+                this.router.navigate(['/candidate/dashboard']);
+              } else if (this.userType === "CAND" && totalPercentage < 60) {
+                this.router.navigate(['/candidate/edit-profile']);
+              } else if (this.userType !== "CAND" && totalPercentage >= 60) {
+                this.router.navigate(['/employee/Dashboard']);
+              } else if (this.userType !== "CAND" && totalPercentage < 60) {
+                this.router.navigate(['/employee/Edit-profile']);
+              }
+            }
           }
-          return false
+          return false;
+
         } else {
           return true;
         }
-      });
-    } catch {
+      }
+    } catch (error) {
+      console.error(error);
       return true;
     }
   }
+
+
+
   async getCandidateData() {
     // debugger
     const {
@@ -187,4 +227,7 @@ export class WorkoAuthComponent {
 
 
   }
+
+
+
 }

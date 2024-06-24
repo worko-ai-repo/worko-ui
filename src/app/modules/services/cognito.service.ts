@@ -33,93 +33,97 @@ type SignUpParameters = {
   providedIn: 'root',
 })
 export class CognitoService {
-  linkedinAccessToken:any="";
-  key:any='';
-  value:any=""
-  accessToken:any=""
+  linkedinAccessToken: any = "";
+  key: any = '';
+  value: any = ""
+  accessToken: any = ""
 
   private authenticationSubject: BehaviorSubject<any>;
-  
- 
+  UserRegistered!: string;
+  linkedinSignInDetails: any;
 
-  constructor(private storage: StorageService, private navbarToggleSwitch:NavbarToggleSwitchService) {
-    
 
-Amplify.configure(awsamplify.config);
- 
+
+  constructor(private storage: StorageService, private navbarToggleSwitch: NavbarToggleSwitchService) {
+
+
+    Amplify.configure(awsamplify.config);
+
 
     this.authenticationSubject = new BehaviorSubject<boolean>(false);
     Hub.listen("auth", async ({ payload }) => {
-        switch (payload.event) {
-          case "signInWithRedirect" :
-            const user = await getCurrentUser();
-            console.log("inside hub cognito service - signInWithRedirect");
-            console.log(user);
-            //await this.setAccessToken()
-       
-            //console.log()
-            //return true;
-          
-            break;
-          case "signInWithRedirect_failure":
-            // handle sign in failure
-           
-            break;
-          case "customOAuthState":
-            const state = payload.data; // this will be customState provided on signInWithRedirect function
-            console.log(state);
-            break;
-        }
-      });
-      
-    
-    
+      switch (payload.event) {
+        case "signInWithRedirect":
+          const user = await getCurrentUser();
+          console.log("inside hub cognito service - signInWithRedirect");
+          console.log(user);
+          this.storage.set("signInDetails", user);
+          this.storage.set("isLinkedinUser", 'true');
+          //await this.setAccessToken()
+
+          //console.log()
+          //return true;
+
+          break;
+        case "signInWithRedirect_failure":
+          // handle sign in failure
+
+          break;
+        case "customOAuthState":
+          const state = payload.data; // this will be customState provided on signInWithRedirect function
+          console.log(state);
+          break;
+      }
+    });
+
+
+
   }
- 
-
-//   async handleRedirectSignIn(){
-//     const provider = {
-//       custom: 'LinkedIn'
-//     }
-//  signInWithRedirect({provider})
-//  this.login()
-
-//   }
 
 
+  //   async handleRedirectSignIn(){
+  //     const provider = {
+  //       custom: 'LinkedIn'
+  //     }
+  //  signInWithRedirect({provider})
+  //  this.login()
 
-   handleSocialSignIn = () => {
-  //  debugger
-       const provider = {
+  //   }
+
+
+
+  handleSocialSignIn = () => {
+    //  debugger
+    const provider = {
       custom: 'LinkedIn'
     }
 
-   const res= signInWithRedirect({provider}).then(()=>{
-      Hub.dispatch('auth', { event: 'signInWithRedirect_success',data:res})
+    const res = signInWithRedirect({ provider }).then(() => {
+      Hub.dispatch('auth', { event: 'signInWithRedirect_success', data: res })
     });
- 
-}
 
-//   //}
-//    fetchAuthSessionOptions : any = {
-//     redirectUri: 'http://localhost:4200/auth/checkRedirection',
-//     clientId: '5evf019rrkaijtnjf2j1vvdf33',
-//     responseType: 'token',
-//     scope: 'openid',
-//     state: 'state',
-//     nonce: 'nonce',
-//     codeVerifier: 'codeVerifier',
-//     codeChallenge: 'codeChallenge',
-//     codeChallengeMethod: 'codeChallengeMethod',
-//     provider: 'custom',
-//     customProvider: 'LinkedIn'
-//   }
-  
+  }
 
-// async login(){
-//  const authSession = await fetchAuthSession(this.fetchAuthSessionOptions);
-//   console.log(authSession)
-// }
+  //   //}
+  //    fetchAuthSessionOptions : any = {
+  //     redirectUri: 'http://localhost:4200/auth/checkRedirection',
+  //     clientId: '5evf019rrkaijtnjf2j1vvdf33',
+  //     responseType: 'token',
+  //     scope: 'openid',
+  //     state: 'state',
+  //     nonce: 'nonce',
+  //     codeVerifier: 'codeVerifier',
+  //     codeChallenge: 'codeChallenge',
+  //     codeChallengeMethod: 'codeChallengeMethod',
+  //     provider: 'custom',
+  //     customProvider: 'LinkedIn'
+  //   }
+
+
+  // async login(){
+  //  const authSession = await fetchAuthSession(this.fetchAuthSessionOptions);
+  //   console.log(authSession)
+  // }
   async handleSignIn(user: IUser): Promise<{ response?: SignInOutput; error?: AuthError }> {
     try {
       const login: SignInInput = {
@@ -129,6 +133,7 @@ Amplify.configure(awsamplify.config);
 
       const authData = await signIn(login);
       this.authenticationSubject.next(true);
+      this.storage.set('signInDetails', 'false')
       await this.setAccessToken();
 
       return { response: authData };
@@ -145,44 +150,70 @@ Amplify.configure(awsamplify.config);
   }
 
   async isLoggedIn() {
-    try {
-      const { username, userId, signInDetails } = await getCurrentUser();
-      //  console.log(`The username: ${username}`);
-      //  console.log(`The userId: ${userId}`);
+  
+    this.UserRegistered = this.storage.get("isLinkedinUser");
+    this.linkedinSignInDetails = this.storage.get('signInDetails')
+    if (this.UserRegistered === 'true') {
+      if (this.linkedinSignInDetails.username && this.linkedinSignInDetails.userId) {
+        const { tokens, userSub } = await fetchAuthSession()
 
-      if (signInDetails) {
-        // console.log('The signInDetails:', signInDetails);
-   
-        // console.log(this.storage.get("useremail"), "Before")
-        if(!this.storage.get("useremail")){
-          this.storage.set("useremail", signInDetails.loginId);
+        if (!this.storage.get("useremail")) {
+          this.storage.set("useremail", tokens?.idToken?.payload['email']?.toString());
         }
-         console.log(this.storage.get("useremail"), "After")
+        console.log(this.storage.get("useremail"), "After")
         return true;
       } else {
         console.log('No signInDetails:');
         await this.handleSignOut();
-        this.storage.remove("useremail");
+        // this.storage.remove("useremail");
         return false;
       }
-    } catch (err) {
-      console.error('Error fetching current authenticated user:', err);
-      return false;
+
+    } else {
+
+
+      try {
+        const { username, userId, signInDetails } = await getCurrentUser();
+        //  console.log(`The username: ${username}`);
+        //  console.log(`The userId: ${userId}`);
+
+        if (signInDetails) {
+          // console.log('The signInDetails:', signInDetails);
+
+          // console.log(this.storage.get("useremail"), "Before")
+          if (!this.storage.get("useremail")) {
+            this.storage.set("useremail", signInDetails.loginId);
+          }
+          console.log(this.storage.get("useremail"), "After")
+          return true;
+        } else {
+          console.log('No signInDetails:');
+          await this.handleSignOut();
+          // this.storage.remove("useremail");
+          return false;
+        }
+      } catch (err) {
+        console.error('Error fetching current authenticated user:', err);
+        return false;
+      }
     }
   }
 
 
   async handleSignOut() {
     try {
-      await signOut();
+
       this.storage.remove("useremail");
       this.storage.remove("LinkedinUserType");
+      this.storage.remove("isLinkedinUser");
+      this.storage.remove('signInDetails')
+      this.storage.remove('isCompanyListingRoute');
       this.removeAccessToken();
       // this.removeEmployeeDashboardToggleStatus();
       // this.removeCurrentDashboardToggleStatus();
       localStorage.clear();
-    // window.location.href = 'https://worko.auth.ap-south-1.amazoncognito.com/logout?client_id=5evf019rrkaijtnjf2j1vvdf33&logout_uri=http://localhost:4200/';
-    
+      // window.location.href = 'https://worko.auth.ap-south-1.amazoncognito.com/logout?client_id=5evf019rrkaijtnjf2j1vvdf33&logout_uri=http://localhost:4200/';
+      await signOut();
 
 
     } catch (error) {
@@ -253,18 +284,18 @@ Amplify.configure(awsamplify.config);
    */
   getAccessToken(): string {
     for (let i = 0; i < localStorage.length; i++) {
-      
+
       this.key = localStorage.key(i);
-    if (this.key.startsWith('CognitoIdentityServiceProvider.') && this.key.includes('.accessToken')) {
-         this.value = localStorage.getItem(this.key);
+      if (this.key.startsWith('CognitoIdentityServiceProvider.') && this.key.includes('.accessToken')) {
+        this.value = localStorage.getItem(this.key);
         //  console.log(this.value.toString())
         //  console.log(this.key)
         //  console.log(localStorage.getItem(this.key))
-         this.accessToken=localStorage.getItem(this.key) || ''
-         //this.storage.set('accessToken', this.value);
+        this.accessToken = localStorage.getItem(this.key) || ''
+        //this.storage.set('accessToken', this.value);
+      }
     }
-  }
-   return this.accessToken; 
+    return this.accessToken;
   }
 
   /**
@@ -283,16 +314,16 @@ Amplify.configure(awsamplify.config);
     //   return false;
     // }
     for (let i = 0; i < localStorage.length; i++) {
-      
-      this.key = localStorage.key(i);
-    if (this.key.startsWith('CognitoIdentityServiceProvider.') && this.key.includes('.accessToken')) {
-         this.value = localStorage.getItem(this.key);
-         //console.log(this.value.toString())
-         this.storage.set('accessToken', this.value);
-    }
-  }
 
-  //this.storage.set('accessToken', accessToken.toString());
+      this.key = localStorage.key(i);
+      if (this.key.startsWith('CognitoIdentityServiceProvider.') && this.key.includes('.accessToken')) {
+        this.value = localStorage.getItem(this.key);
+        //console.log(this.value.toString())
+        this.storage.set('accessToken', this.value);
+      }
+    }
+
+    //this.storage.set('accessToken', accessToken.toString());
     //console.log()
     return true;
   }
@@ -310,5 +341,5 @@ Amplify.configure(awsamplify.config);
     this.storage.remove("currentDashboardEnabled");
     // this.navbarToggleSwitch.toggleStatusFalse();
   }
-  
+
 }
