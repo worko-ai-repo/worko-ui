@@ -209,6 +209,8 @@ export class CognitoService {
       this.storage.remove("isLinkedinUser");
       this.storage.remove('signInDetails')
       this.storage.remove('isCompanyListingRoute');
+      this.storage.remove("type");
+      this.storage.remove("companySK");
       this.removeAccessToken();
       // this.removeEmployeeDashboardToggleStatus();
       // this.removeCurrentDashboardToggleStatus();
