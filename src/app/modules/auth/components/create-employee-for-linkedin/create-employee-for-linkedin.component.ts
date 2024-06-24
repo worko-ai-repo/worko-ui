@@ -65,8 +65,10 @@ export class CreateEmployeeForLinkedinComponent {
   form: any;
   companyData: any = [];
   form1: any;
+  successmessage: string="";
+  successtitle: string="";
 
-  constructor(private storage: StorageService, private amplify: CognitoService, private authService: AuthService, private spinner: NgxSpinnerService, private router: Router) { }
+  constructor(private storage: StorageService, private cognitoService: CognitoService, private authService: AuthService, private spinner: NgxSpinnerService, private router: Router) { }
 
   onOptionSelected(event: any): void {
     this.selectedCompany = event.option.value;
@@ -156,7 +158,7 @@ export class CreateEmployeeForLinkedinComponent {
   async createEmployee(form: any): Promise<void> {
     this.spinner.show();
 
-    try {
+
       let employeeData = {
         name: this.userName,
         email: this.userEmail,
@@ -175,43 +177,72 @@ export class CreateEmployeeForLinkedinComponent {
         // designationTag: Number(this.employeeForm.designationTag)
       }
 
-
-      this.authService.createEmployee(employeeData).then(async (response) => {
+      try{
+      let response=await this.authService.createEmployee(employeeData)
+      if(response){
         this.otpVerification(this.userEmail);
+      }
+    
         // this.storage.set("useremail", this.userEmail);
         // console.log(this.userEmail);
         // this.router.navigate(['/employee/Dashboard']);
 
-      })
-    } catch (error: any) {
+
+    }catch (error: any) {
       if (error.status == 409) {
         this.spinner.hide()
-        this.errorMessage = 'user Already exist'
+        this.successmessage = "It looks like you already have an account with us.  Please Sign In with Linkedin to continue."
+        this.successtitle = "Error"
+        this.openModal(ModalType.SUCCESS_MESSAGE)
         console.log("errror")
       } else if (error.status == 401) {
         this.spinner.hide()
-        this.router.navigate(['/']);
+        this.cognitoService.handleSignOut()
       } else {
-        this.errorMessage = 'Something went wrong. Please try again after sometime'
-      }
+         this.spinner.hide()
+        this.successmessage = "Something went wrong. Please try again after sometime"
+        this.successtitle = "Error"
+        this.openModal(ModalType.SUCCESS_MESSAGE)
+    }
+     
+    }
 
     }
-  }
+  
 
   //To make isVerified Flag as true
   otpVerification(emailId: string): void {
 
     this.authService.otpVerification(emailId)
       .then(response => {
+        this.spinner.hide()
         console.log('OTP verification successful');
         this.storage.set("useremail", this.userEmail);
         console.log(this.userEmail);
+        this.storage.set("isLinkedinUser", 'true');
+        const isCompanyListingRoute = this.storage.get('isCompanyListingRoute');
+        if (isCompanyListingRoute) {
+          // this.userName = this.storage.get('userName');
+          // console.log(this.userName);
+          // this.storage.set("useremail", this.userEmail);
+
+          //this.letter = this.userName.charAt(0).toUpperCase();
+
+          // Redirect to the company listing page
+         
+
+          this.router.navigate(['/company-listing']);
+        }else{
         this.router.navigate(['/employee/Dashboard']);
 
-
+        }
       })
       .catch(error => {
+        this.spinner.hide()
         console.error('OTP verification failed:', error);
+        this.successmessage = "Something went wrong. Please try again after sometime"
+        this.successtitle = "Error"
+        this.openModal(ModalType.SUCCESS_MESSAGE)
       });
   }
 

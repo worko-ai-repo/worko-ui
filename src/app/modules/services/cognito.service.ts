@@ -10,6 +10,7 @@ import { NavbarToggleSwitchService } from '../candidate/services/navbar-toggle-s
 import 'aws-amplify/auth/enable-oauth-listener';
 import { AuthError, ConfirmSignUpInput, SignInInput, SignInOutput, confirmSignUp, fetchAuthSession, getCurrentUser, signIn, signInWithRedirect, signOut, signUp } from '@aws-amplify/auth';
 import { Hub } from '@aws-amplify/core';
+import { Router } from '@angular/router';
 
 
 
@@ -44,7 +45,7 @@ export class CognitoService {
 
 
 
-  constructor(private storage: StorageService, private navbarToggleSwitch: NavbarToggleSwitchService) {
+  constructor(private storage: StorageService, private navbarToggleSwitch: NavbarToggleSwitchService,private router: Router) {
 
 
     Amplify.configure(awsamplify.config);
@@ -58,7 +59,7 @@ export class CognitoService {
           console.log("inside hub cognito service - signInWithRedirect");
           console.log(user);
           this.storage.set("signInDetails", user);
-          this.storage.set("isLinkedinUser", 'true');
+         
           //await this.setAccessToken()
 
           //console.log()
@@ -150,7 +151,7 @@ export class CognitoService {
   }
 
   async isLoggedIn() {
-  
+
     this.UserRegistered = this.storage.get("isLinkedinUser");
     this.linkedinSignInDetails = this.storage.get('signInDetails')
     if (this.UserRegistered === 'true') {
@@ -214,6 +215,8 @@ export class CognitoService {
       localStorage.clear();
       // window.location.href = 'https://worko.auth.ap-south-1.amazoncognito.com/logout?client_id=5evf019rrkaijtnjf2j1vvdf33&logout_uri=http://localhost:4200/';
       await signOut();
+      this.router.navigate(['/']);
+  
 
 
     } catch (error) {
@@ -314,11 +317,10 @@ export class CognitoService {
     //   return false;
     // }
     for (let i = 0; i < localStorage.length; i++) {
-
       this.key = localStorage.key(i);
       if (this.key.startsWith('CognitoIdentityServiceProvider.') && this.key.includes('.accessToken')) {
         this.value = localStorage.getItem(this.key);
-        //console.log(this.value.toString())
+        // console.log(this.value.toString())
         this.storage.set('accessToken', this.value);
       }
     }

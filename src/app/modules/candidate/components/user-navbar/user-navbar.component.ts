@@ -3,6 +3,7 @@ import { Router } from '@angular/router';
 import { NavbarToggleSwitchService } from '../../services/navbar-toggle-switch.service';
 import { AuthService } from 'src/app/modules/worko/services/auth.service';
 import { StorageService } from 'src/app/modules/app-core/services/storage.service';
+import { CognitoService } from 'src/app/modules/services/cognito.service';
 
 @Component({
   selector: 'app-user-navbar',
@@ -15,7 +16,7 @@ export class UserNavbarComponent implements OnInit {
   activeRoute: string = '';
   emailAddress: any;
   navbarToggleSwitchService: NavbarToggleSwitchService;
-  constructor(private router: Router, navbarToggleSwitchService: NavbarToggleSwitchService, private authService: AuthService, private storage: StorageService) {
+  constructor(private router: Router, navbarToggleSwitchService: NavbarToggleSwitchService, private authService: AuthService, private storage: StorageService,private cognitoService: CognitoService) {
 
     this.navbarToggleSwitchService = navbarToggleSwitchService;
   }
@@ -107,7 +108,9 @@ export class UserNavbarComponent implements OnInit {
       console.log(response);
     })
       .catch(error => {
+        this.cognitoService.handleSignOut();
         console.error('Error is', error);
+        
     });
   }
 

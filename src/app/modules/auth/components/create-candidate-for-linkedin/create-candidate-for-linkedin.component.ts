@@ -9,6 +9,8 @@ import { NgxSpinnerService } from 'ngx-spinner';
 import { StorageService } from 'src/app/modules/app-core/services/storage.service';
 import { CandidateProfileService } from 'src/app/modules/candidate/services/candidate-profile.service';
 import { CognitoService } from 'src/app/modules/services/cognito.service';
+import { ModalComponent } from 'src/app/modules/shared/components/modal/modal.component';
+import { ModalType } from 'src/app/modules/shared/interfaces/shared.interface';
 import { AuthService } from 'src/app/modules/worko/services/auth.service';
 
 @Component({
@@ -18,10 +20,15 @@ import { AuthService } from 'src/app/modules/worko/services/auth.service';
 })
 export class CreateCandidateForLinkedinComponent {
 
+  @ViewChild(ModalComponent) modal!: ModalComponent;
   userEmail: any;
   userName: any;
   pictureUrl: any;
   fileToUpload: File | null = null;
+  modalType = ModalType;
+  modalMessage: string = "";
+  modalTitle: string = "";
+  showModal: ModalType | undefined;
   candidateForm = {
     name: '',
     emailId: '',
@@ -49,7 +56,10 @@ export class CreateCandidateForLinkedinComponent {
   currentWordIndex = 0;
   CandidateWords = ["Referral", "Career Guidance", "Interview Mentorship", "Mock Interview"];
   currentWord = '';
-  constructor(private spinner: NgxSpinnerService, private candidateSrv: CandidateProfileService, private authService: AuthService, private storage: StorageService, private router: Router, private amplify: CognitoService) { }
+  successmessage: string = "";
+  successtitle: string = "";
+  letter: any;
+  constructor(private spinner: NgxSpinnerService, private candidateSrv: CandidateProfileService, private authService: AuthService, private storage: StorageService, private router: Router, private cognitoService: CognitoService) { }
   ngOnInit(): void {
     this.getCandidateData()
     this.blinkAndChangeWord()
@@ -122,11 +132,11 @@ export class CreateCandidateForLinkedinComponent {
 
       }
 
-      let response = this.authService.createCandidate(candidateData).then(async () => {
+      let response = await this.authService.createCandidate(candidateData)
 
         try {
           console.log(response)
-          if (this.userId && this.fileName) {
+          if (this.userId && this.fileName &&  response) {
 
             let documentDetails = {
               userId: this.userId,
@@ -143,19 +153,27 @@ export class CreateCandidateForLinkedinComponent {
 
         } catch (error) {
           this.spinner.hide();
+          this.successmessage = "Something went wrong. Please try again after sometime"
+          this.successtitle = "Error"
+          this.openModal(ModalType.SUCCESS_MESSAGE)
           console.log(error);
 
         }
-      })
+   
 
     } catch (error: any) {
       this.spinner.hide();
       if (error.status == 409) {
-        this.errorMessage = 'user Already exist'
+        this.successmessage = "It looks like you already have an account with us.  Please Sign In with Linkedin to continue."
+        this.successtitle = "Error"
+        this.openModal(ModalType.SUCCESS_MESSAGE)
       } else if (error.status == 401) {
-        this.router.navigate(['/']);
+        this.cognitoService.handleSignOut()
       } else {
-        this.errorMessage = 'sSomething went wrong. Please try again after sometime'
+        this.spinner.hide();
+        this.successmessage = "Something went wrong. Please try again after sometime"
+        this.successtitle = "Error"
+        this.openModal(ModalType.SUCCESS_MESSAGE)
       }
 
     }
@@ -182,13 +200,20 @@ export class CreateCandidateForLinkedinComponent {
               this.errorMessage = error.error.message;
               // this.spinner.hide();
               //this.setErrorMessage('File Link error linkResumewithUser:- ' + error.error.message);
+              this.spinner.hide();
+              this.successmessage = "Something went wrong. Please try again after sometime"
+              this.successtitle = "Error"
+              this.openModal(ModalType.SUCCESS_MESSAGE)
             }
             console.error('File Link error linkResumewithUser:', error);
           }
 
         })
         .catch(error => {
-
+          this.spinner.hide();
+          this.successmessage = "Something went wrong. Please try again after sometime"
+          this.successtitle = "Error"
+          this.openModal(ModalType.SUCCESS_MESSAGE)
           console.error('File upload error:', error);
 
 
@@ -196,6 +221,10 @@ export class CreateCandidateForLinkedinComponent {
 
     } catch (error) {
       console.log(error)
+      this.spinner.hide();
+      this.successmessage = "Something went wrong. Please try again after sometime"
+      this.successtitle = "Error"
+      this.openModal(ModalType.SUCCESS_MESSAGE)
     }
 
 
@@ -209,13 +238,30 @@ export class CreateCandidateForLinkedinComponent {
         console.log('OTP verification successful');
         this.storage.set("useremail", this.userEmail);
         console.log(this.userEmail);
+        this.storage.set("isLinkedinUser", 'true');
+        const isCompanyListingRoute = this.storage.get('isCompanyListingRoute');
+        if (isCompanyListingRoute) {
+          // this.userName = this.storage.get('userName');
+          // console.log(this.userName);
+          // this.storage.set("useremail", this.userEmail);
+
+          //this.letter = this.userName.charAt(0).toUpperCase();
+
+          // Redirect to the company listing page
+          this.router.navigate(['/company-listing']);
+        }else{
         this.router.navigate(['/candidate/dashboard']);
+        }
         this.spinner.hide();
 
 
       })
       .catch(error => {
         console.error('OTP verification failed:', error);
+        this.spinner.hide();
+        this.successmessage = "Something went wrong. Please try again after sometime"
+        this.successtitle = "Error"
+        this.openModal(ModalType.SUCCESS_MESSAGE)
       });
   }
 
@@ -245,13 +291,42 @@ export class CreateCandidateForLinkedinComponent {
           // Optionally, you can reset the input to clear the invalid selection
           inputElement.value = '';
           this.fileToUpload = null;
+          this.spinner.hide();
+
         }
       }
     }
   }
+  cancel() {
+    this.closeModal();
+  }
 
+  /**
+   * Open modal.
+   *
+   * @param {ModalType} modalType
+   * @param {string} [message = ""]
+   * @param {string} [title = ""]
+   * @returns {void}
+   */
+  openModal(modalType: ModalType, message: string = "", title: string = ""): void {
 
+    this.showModal = modalType;
+    this.modalMessage = message;
+    this.modalTitle = title;
+    this.modal.open();
+  }
+  /**
+ * Close modal.
+ *
+ * @returns {void}
+ */
+  closeModal(): void {
+    this.modal.cancel();
+  }
 
 
 }
+
+
 

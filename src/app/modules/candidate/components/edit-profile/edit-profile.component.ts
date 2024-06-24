@@ -8,6 +8,7 @@ import { Router } from '@angular/router';
 import { NgxSpinnerService } from 'ngx-spinner';
 import { ModalComponent } from 'src/app/modules/shared/components/modal/modal.component';
 import { ModalType } from 'src/app/modules/shared/interfaces/shared.interface';
+import { CognitoService } from 'src/app/modules/services/cognito.service';
 @Component({
   selector: 'app-edit-profile',
   templateUrl: './edit-profile.component.html',
@@ -51,7 +52,7 @@ export class EditProfileComponent implements OnInit {
   modalTitle: string = "";
   showModal: ModalType | undefined;
   details: any;
-  constructor(private spinner: NgxSpinnerService, private router: Router, private candidateSrv: CandidateProfileService, private storage: StorageService, private authService: AuthService) { }
+  constructor(private spinner: NgxSpinnerService,private cognitoService: CognitoService, private router: Router, private candidateSrv: CandidateProfileService, private storage: StorageService, private authService: AuthService) { }
   ngOnInit(): void {
     this.emailAddress = this.storage.get("useremail");
     this.getCandidateDetails();
@@ -96,8 +97,9 @@ export class EditProfileComponent implements OnInit {
 
       })
     } catch (error: any) {
-      if (error.status == 401) {
-        this.router.navigate(['/']);
+      if (error.status==404 || error.status==401){
+        this.spinner.hide()
+        this.cognitoService.handleSignOut()
       } else {
         this.spinner.hide();
         this.successmessage = "Something went wrong. Please try again after sometime"
@@ -137,8 +139,9 @@ export class EditProfileComponent implements OnInit {
 
       }
     } catch (error: any) {
-      if (error.status == 401) {
-        this.router.navigate(['/']);
+      if (error.status==404 || error.status==401){
+        this.spinner.hide()
+        this.cognitoService.handleSignOut()
       } else {
         this.spinner.hide();
         this.successmessage = "Something went wrong. Please try again after sometime"
@@ -167,8 +170,9 @@ export class EditProfileComponent implements OnInit {
         // }
       })
     } catch (error: any) {
-      if (error.status == 401) {
-        this.router.navigate(['/']);
+      if (error.status==404 || error.status==401){
+        this.spinner.hide()
+        this.cognitoService.handleSignOut()
       } else {
         this.spinner.hide();
         this.successmessage = "Something went wrong. Please try again after sometime"
@@ -198,8 +202,9 @@ export class EditProfileComponent implements OnInit {
         this.creatSocialProfile();
       }
     } catch (error: any) {
-      if (error.status == 401) {
-        this.router.navigate(['/']);
+      if (error.status==404 || error.status==401){
+        this.spinner.hide()
+        this.cognitoService.handleSignOut()
       } else {
         this.spinner.hide();
         this.successmessage = "Something went wrong. Please try again after sometime"
@@ -275,8 +280,9 @@ export class EditProfileComponent implements OnInit {
         }
       })
     } catch (error: any) {
-      if (error.status == 401) {
-        this.router.navigate(['/']);
+      if (error.status==404 || error.status==401){
+        this.spinner.hide()
+        this.cognitoService.handleSignOut()
       } else {
         this.spinner.hide();
         this.successmessage = "Something went wrong. Please try again after sometime"
@@ -368,8 +374,9 @@ export class EditProfileComponent implements OnInit {
         }
       })
     } catch (error: any) {
-      if (error.status == 401) {
-        this.router.navigate(['/']);
+      if (error.status==404 || error.status==401){
+        this.spinner.hide()
+        this.cognitoService.handleSignOut()
       } else {
         this.spinner.hide();
         this.successmessage = "Something went wrong. Please try again after sometime"
@@ -394,8 +401,10 @@ export class EditProfileComponent implements OnInit {
       this.spinner.hide(); // Hide the spinner after successful API call
     } catch (error: any) {
       this.spinner.hide(); // Hide the spinner in case of error as well
-      if (error.status === 401) {
-        this.router.navigate(['/']);
+      if(error.status==404 || error.status==401){
+        this.spinner.hide()
+        this.cognitoService.handleSignOut()
+      
         // Handle unauthorized or forbidden error
 
         // For example, you can redirect the user to a login page or display an error message
@@ -423,8 +432,9 @@ export class EditProfileComponent implements OnInit {
       })
     } catch (error: any) {
       this.spinner.hide(); // Hide the spinner in case of error as well
-      if (error.status === 401) {
-        this.router.navigate(['/']);
+      if (error.status==404 || error.status==401){
+        this.spinner.hide()
+        this.cognitoService.handleSignOut()
         // Handle unauthorized or forbidden error
 
         console.error('Unauthorized or Forbidden:', error);
@@ -451,8 +461,9 @@ export class EditProfileComponent implements OnInit {
       });
     } catch (error: any) {
       this.spinner.hide(); // Hide the spinner in case of error as well
-      if (error.status === 401) {
-        this.router.navigate(['/']);
+      if (error.status==404 || error.status==401){
+        this.spinner.hide()
+        this.cognitoService.handleSignOut()
         // Handle unauthorized or forbidden error
 
         console.error('Unauthorized or Forbidden:', error);
@@ -484,8 +495,9 @@ export class EditProfileComponent implements OnInit {
 
     } catch (error: any) {
       this.spinner.hide(); // Hide the spinner in case of error as well
-      if (error.status === 401) {
-        this.router.navigate(['/']);
+      if (error.status==404 || error.status==401){
+        this.spinner.hide()
+        this.cognitoService.handleSignOut()
         // Handle unauthorized or forbidden error
 
         console.error('Unauthorized or Forbidden:', error);
@@ -514,8 +526,9 @@ export class EditProfileComponent implements OnInit {
       })
     } catch (error: any) {
       this.spinner.hide(); // Hide the spinner in case of error as well
-      if (error.status === 401) {
-        this.router.navigate(['/']);
+      if (error.status==404 || error.status==401){
+        this.spinner.hide()
+        this.cognitoService.handleSignOut()
         // Handle unauthorized or forbidden error
 
         console.error('Unauthorized or Forbidden:', error);
@@ -545,8 +558,9 @@ export class EditProfileComponent implements OnInit {
       })
     } catch (error: any) {
       this.spinner.hide(); // Hide the spinner in case of error as well
-      if (error.status === 401) {
-        this.router.navigate(['/']);
+      if (error.status==404 || error.status==401){
+        this.spinner.hide()
+        this.cognitoService.handleSignOut()
         // Handle unauthorized or forbidden error
 
         console.error('Unauthorized or Forbidden:', error);
@@ -663,8 +677,9 @@ export class EditProfileComponent implements OnInit {
         this.updateProfilePic();
       }
     } catch (error: any) {
-      if (error.status == 401) {
-        this.router.navigate(['/']);
+      if (error.status==404 || error.status==401){
+        this.spinner.hide()
+        this.cognitoService.handleSignOut()
       } else {
         this.spinner.hide();
         this.successmessage = "Something went wrong. Please try again after sometime"
@@ -698,8 +713,9 @@ export class EditProfileComponent implements OnInit {
         this.createUserDetails();
       }
     } catch (error: any) {
-      if (error.status == 401) {
-        this.router.navigate(['/']);
+      if (error.status==404 || error.status==401){
+        this.spinner.hide()
+        this.cognitoService.handleSignOut()
       } else {
         this.spinner.hide();
         this.successmessage = "Something went wrong. Please try again after sometime"

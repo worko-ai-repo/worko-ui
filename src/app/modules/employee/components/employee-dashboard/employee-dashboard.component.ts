@@ -4,6 +4,7 @@ import { StorageService } from 'src/app/modules/app-core/services/storage.servic
 import { EmployeeProfileService } from '../../services/employee-profile.service';
 import { NgxSpinnerService } from 'ngx-spinner';
 import { Router } from '@angular/router';
+import { CognitoService } from 'src/app/modules/services/cognito.service';
 @Component({
   selector: 'app-employee-dashboard',
   templateUrl: './employee-dashboard.component.html',
@@ -29,7 +30,9 @@ export class EmployeeDashboardComponent {
   userName:any;
   key:any='';
   value:any=""
-  constructor(private candidateSrv: CandidateProfileService, private router: Router, private spinner:NgxSpinnerService,private storage: StorageService, private empService: EmployeeProfileService) { }
+  successtitle: string="";
+  successmessage: string="";
+  constructor(private candidateSrv: CandidateProfileService,private cognitoService: CognitoService, private router: Router, private spinner:NgxSpinnerService,private storage: StorageService, private empService: EmployeeProfileService) { }
 
   ngOnInit(): void {
     // this.emailAddress = this.storage.get("useremail");
@@ -70,13 +73,16 @@ export class EmployeeDashboardComponent {
       }
     })
   }catch(error:any ){
-    this.spinner.hide();
-     this.router.navigate(['/']);
+    //if(error.status==404 || error.status==401){
+      this.spinner.hide()
+      this.cognitoService.handleSignOut()
+  
   
   }
   }
 
   async getEducationDetails() {
+    try{
     await this.candidateSrv.getCandidateEducation(this.emailAddress).then(async (response) => {
       if (response) {
         this.educationList = response;
@@ -85,9 +91,17 @@ export class EmployeeDashboardComponent {
       this.getWorkExperienceDetails();
           }
     })
+  }catch(error:any ){
+    //if(error.status==404 || error.status==401){
+      this.spinner.hide()
+      this.cognitoService.handleSignOut()
+  
+  
+  }
   }
 
   async getWorkExperienceDetails() {
+    try{
     await this.candidateSrv.getWorkExperience(this.emailAddress).then(async (response) => {
       if (response) {
         this.workExperienceDetails = response;
@@ -100,10 +114,18 @@ export class EmployeeDashboardComponent {
         this.getSocialProfile();
       }
     })
+  }catch(error:any ){
+    //if(error.status==404 || error.status==401){
+      this.spinner.hide()
+      this.cognitoService.handleSignOut()
+  
+  
+  }
   }
 
 
    async getSocialProfile() {
+    try{
     await this.candidateSrv.getUserProfile(this.emailAddress).then(async (response) => {
       if (response) {
         this.candidateSocial = response;
@@ -111,9 +133,17 @@ export class EmployeeDashboardComponent {
         console.log(response);
       }
     })
+  }catch(error:any ){
+    //if(error.status==404 || error.status==401){
+      this.spinner.hide()
+      this.cognitoService.handleSignOut()
+  
+  
+  }
   }
 
   async getBankDetails() {
+    try{
     await this.empService.getBankDetails(this.emailAddress).then(async (response) => {
       if (response) {
         this.bankDetails = response;
@@ -121,8 +151,16 @@ export class EmployeeDashboardComponent {
         this.userProfileComplete();
       }
     })
+  }catch(error:any ){
+    //if(error.status==404 || error.status==401){
+      this.spinner.hide()
+      this.cognitoService.handleSignOut()
+  
+  
+  }
   }
   async userProfileComplete(){
+    try{
     await this.candidateSrv.getProfileComplete(this.emailAddress).then(async(response)=>{
        if(response){
          this.profileCompletion=response;
@@ -141,6 +179,13 @@ export class EmployeeDashboardComponent {
       // }
        }
      })
+    }catch(error:any ){
+      //if(error.status==404 || error.status==401){
+        this.spinner.hide()
+        this.cognitoService.handleSignOut()
+    
+    
+    }
    }
   
 

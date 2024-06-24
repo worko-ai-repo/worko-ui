@@ -69,12 +69,14 @@ export class WorkoAuthComponent {
             console.log(usertype)
             if (usertype === 'employeeSignUp') {
               this.employeeSignUp()
-            } else if (usertype === 'candidateSignUp') {
+            } else {
+              // if (usertype === 'candidateSignUp') {
               this.candidateSignUp()
 
-            } else {
-              this.signIn()
             }
+            // else {
+            //   this.signIn()
+            // }
 
 
             break;
@@ -122,44 +124,43 @@ export class WorkoAuthComponent {
     }
   }
   async getCandidateDetails() {
-    
     try {
       // Fetch the authentication session
       const { tokens, userSub } = await fetchAuthSession();
       console.log(tokens);
 
       this.userEmail = tokens?.idToken?.payload['email']?.toString();
-      this.userName=tokens?.idToken?.payload['given_name']?.toString();
+      this.userName = tokens?.idToken?.payload['given_name']?.toString();
 
       // Fetch the current user details
       const { username, userId: id } = await getCurrentUser();
       this.userId = id;
-      this.storage.set('userName',this.userName);
+      this.storage.set('userName', this.userName);
       console.log(id);
-      // Check if the current route is /company-listing
-      const isCompanyListingRoute = this.storage.get('isCompanyListingRoute');
-      if (isCompanyListingRoute) {
-        this.userName = this.storage.get('userName');
-        console.log(this.userName);
+
+      // Fetch the user details from the candidate service
+      const response = await this.candidateSrv.getUserDetails(this.userEmail);
+      if (response) {
+        this.lastDashed = response;
+        this.registerOptionScreen = false;
+        this.storage.set("isLinkedinUser", 'true');
+
+        this.userType = this.lastDashed[0].userType[0];
         this.storage.set("useremail", this.userEmail);
 
-        this.letter = this.userName.charAt(0).toUpperCase();
-
-        // Redirect to the company listing page
-        this.router.navigate(['/company-listing']);
-        return false;
-      }
-      else {
-        // Fetch the user details from the candidate service
-        const response = await this.candidateSrv.getUserDetails(this.userEmail);
-        if (response) {
-          this.lastDashed = response;
-          this.registerOptionScreen = false;
-
-
-          this.userType = this.lastDashed[0].userType[0];
+        // Check if the current route is /company-listing
+        const isCompanyListingRoute = this.storage.get('isCompanyListingRoute');
+        if (isCompanyListingRoute) {
+          this.userName = this.storage.get('userName');
+          console.log(this.userName);
           this.storage.set("useremail", this.userEmail);
 
+          this.letter = this.userName.charAt(0).toUpperCase();
+
+          // Redirect to the company listing page
+          this.router.navigate(['/company-listing']);
+          return false;
+        } else {
           // Fetch the profile completion percentage
           const percentageresponse = await this.candidateSrv.getProfileComplete(this.userEmail);
           if (percentageresponse) {
@@ -183,13 +184,14 @@ export class WorkoAuthComponent {
             }
           }
           return false;
-
-        } else {
-          return true;
         }
+
+      }else{
+        return true;
       }
     } catch (error) {
       console.error(error);
+      this.router.navigate(['/']);
       return true;
     }
   }

@@ -3,6 +3,7 @@ import { CandidateProfileService } from '../../services/candidate-profile.servic
 import { StorageService } from 'src/app/modules/app-core/services/storage.service';
 import { NgxSpinnerService } from 'ngx-spinner';
 import { Router } from '@angular/router';
+import { CognitoService } from 'src/app/modules/services/cognito.service';
 @Component({
   selector: 'app-candidate-dashboard',
   templateUrl: './candidate-dashboard.component.html',
@@ -24,8 +25,10 @@ export class CandidateDashboardComponent {
   profileCompletion:any="";
   userType="Candidate";
   userName:any;
+  successtitle: string="";
+  successmessage: string="";
 
-  constructor( private candidateSrv: CandidateProfileService, private router: Router,private storage: StorageService,private spinner: NgxSpinnerService) { }
+  constructor( private candidateSrv: CandidateProfileService,private cognitoService: CognitoService, private router: Router,private storage: StorageService,private spinner: NgxSpinnerService) { }
 
   ngOnInit(): void {
     this.emailAddress = this.storage.get("useremail");
@@ -43,6 +46,7 @@ export class CandidateDashboardComponent {
   }
 
   async getCandidateDetails() {
+    
     this.spinner.show();
     try{
     await this.candidateSrv.getUserDetails(this.emailAddress).then(async (response) => {
@@ -65,13 +69,25 @@ export class CandidateDashboardComponent {
       }
     })
   }catch(error:any ){
-    this.spinner.hide()
-    this.router.navigate(['/']);
+   
+    // if(error.status==404 || error.status==401){
+      this.spinner.hide()
+      this.cognitoService.handleSignOut()
+    
+    // }else{
+    //   this.spinner.hide();
+    //   this.successmessage = "Something went wrong. Please try again after sometime"
+    //   this.successtitle = "Error"
+    //   // this.openModal(ModalType.SUCCESS_MESSAGE)
+    // }
+    // this.spinner.hide()
+    // this.router.navigate(['/']);
   }
  
   }
 
   async getEducationDetails() {
+    try{
     await this.candidateSrv.getCandidateEducation(this.emailAddress).then(async (response) => {
       if (Array.isArray(response) && response.length > 0 ) {
         this.educationList = response;
@@ -80,6 +96,13 @@ export class CandidateDashboardComponent {
      // this.getWorkExperienceDetails();
      this.getAchievements();
     })
+  }catch(error:any ){
+    //if(error.status==404 || error.status==401){
+      this.spinner.hide()
+      this.cognitoService.handleSignOut()
+  
+  
+  }
   }
 
   // async getWorkExperienceDetails() {
@@ -94,25 +117,42 @@ export class CandidateDashboardComponent {
 
 
   async getAchievements() {
+    try{
     await this.candidateSrv.getCandidateAchievements(this.emailAddress).then(async (response) => {
       if (Array.isArray(response) && response.length > 0 ) {
         this.achievementsList = response[0]?.achievements;
       }
       this.getSocialProfile();
     })
+  }catch(error:any ){
+    //if(error.status==404 || error.status==401){
+      this.spinner.hide()
+      this.cognitoService.handleSignOut()
+  
+  
+  }
   }
 
   async getSocialProfile() {
+    try{
     await this.candidateSrv.getUserProfile(this.emailAddress).then(async (response) => {
       if (Array.isArray(response) && response.length > 0 ) {
         this.candidateSocial = response; 
       }
       this.userCertifications();
     })
+  }catch(error:any ){
+    //if(error.status==404 || error.status==401){
+      this.spinner.hide()
+      this.cognitoService.handleSignOut()
+  
+  
+  }
 
   }
 
   async userCertifications(){
+    try{
     await this.candidateSrv.getCandidateSkills(this.emailAddress).then(async(response)=>{
       if (Array.isArray(response) && response.length > 0 ) {
          this.certificationList=response[0];
@@ -121,9 +161,17 @@ export class CandidateDashboardComponent {
        }
        this.userProfileComplete();
      })
+    }catch(error:any ){
+      //if(error.status==404 || error.status==401){
+        this.spinner.hide()
+        this.cognitoService.handleSignOut()
+    
+    
+    }
    }
 
    async userProfileComplete(){
+    try{
     await this.candidateSrv.getProfileComplete(this.emailAddress).then(async(response)=>{
       // if (Array.isArray(response) ) {
          this.profileCompletion=response;
@@ -131,5 +179,12 @@ export class CandidateDashboardComponent {
         //  console.log(  this.profileCompletion);
       //  }
      })
-   }
+   }catch(error:any ){
+    //if(error.status==404 || error.status==401){
+      this.spinner.hide()
+      this.cognitoService.handleSignOut()
+  
+  
+  }
+}
 }

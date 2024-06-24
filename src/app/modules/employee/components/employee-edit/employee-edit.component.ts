@@ -8,6 +8,7 @@ import { NgxSpinnerService } from "ngx-spinner";
 import { ModalType } from "src/app/modules/shared/interfaces/shared.interface";
 import { ModalComponent } from "src/app/modules/shared/components/modal/modal.component";
 import { StateService } from "../../services/state.service";
+import { CognitoService } from "src/app/modules/services/cognito.service";
 @Component({
   selector: "app-employee-edit",
   templateUrl: "./employee-edit.component.html",
@@ -45,7 +46,8 @@ export class EmployeeEditComponent {
     private empService: EmployeeProfileService,
     private candidateSrv: CandidateProfileService,
     private storage: StorageService,
-    public stateService: StateService
+    public stateService: StateService,
+    private cognitoService: CognitoService,
   ) {}
 
   ngOnInit(): void {
@@ -107,8 +109,9 @@ export class EmployeeEditComponent {
           }
         });
     } catch (error: any) {
-      if (error.status == 401) {
-        this.router.navigate(["/"]);
+      if (error.status==404 || error.status==401){
+        this.spinner.hide()
+        this.cognitoService.handleSignOut()
       } else {
         this.spinner.hide();
         this.successmessage =
@@ -136,8 +139,9 @@ export class EmployeeEditComponent {
           this.getWorkExperienceDetails();
         });
     } catch (error: any) {
-      if (error.status == 401) {
-        this.router.navigate(["/"]);
+      if (error.status==404 || error.status==401){
+        this.spinner.hide()
+        this.cognitoService.handleSignOut()
       } else {
         this.spinner.hide();
         this.successmessage =
@@ -171,8 +175,9 @@ export class EmployeeEditComponent {
         this.updateWorkExperience();
       }
     } catch (error: any) {
-      if (error.status == 401) {
-        this.router.navigate(["/"]);
+      if (error.status==404 || error.status==401){
+        this.spinner.hide()
+        this.cognitoService.handleSignOut()
       } else {
         this.spinner.hide();
         this.successmessage =
@@ -317,8 +322,9 @@ export class EmployeeEditComponent {
           this.creatSocialProfile();
         });
     } catch (error: any) {
-      if (error.status == 401) {
-        this.router.navigate(["/"]);
+      if (error.status==404 || error.status==401){
+        this.spinner.hide()
+        this.cognitoService.handleSignOut()
       } else {
         this.spinner.hide();
         this.successmessage =
@@ -391,8 +397,9 @@ export class EmployeeEditComponent {
           // }
         });
     } catch (error: any) {
-      if (error.status == 401) {
-        this.router.navigate(["/"]);
+      if (error.status==404 || error.status==401){
+        this.spinner.hide()
+        this.cognitoService.handleSignOut()
       } else {
         this.spinner.hide();
         this.successmessage =
@@ -460,8 +467,9 @@ const candidateExperience = {
           }
         });
     } catch (error: any) {
-      if (error.status == 401) {
-        this.router.navigate(["/"]);
+      if (error.status==404 || error.status==401){
+        this.spinner.hide()
+        this.cognitoService.handleSignOut()
       } else {
         this.spinner.hide();
         this.successmessage =
@@ -493,8 +501,9 @@ const candidateExperience = {
           // this.getBankDetails();
         });
     } catch (error: any) {
-      if (error.status == 401) {
-        this.router.navigate(["/"]);
+      if (error.status==404 || error.status==401){
+        this.spinner.hide()
+        this.cognitoService.handleSignOut()
       } else {
         this.spinner.hide();
         this.successmessage =
@@ -516,8 +525,9 @@ const candidateExperience = {
           }
         });
     } catch (error: any) {
-      if (error.status == 401) {
-        this.router.navigate(["/"]);
+      if (error.status==404 || error.status==401){
+        this.spinner.hide()
+        this.cognitoService.handleSignOut()
       } else {
         this.spinner.hide();
         this.successmessage =
@@ -559,8 +569,9 @@ const candidateExperience = {
           }
         });
     } catch (error: any) {
-      if (error.status == 401) {
-        this.router.navigate(["/"]);
+      if (error.status==404 || error.status==401){
+        this.spinner.hide()
+        this.cognitoService.handleSignOut()
       } else {
         this.spinner.hide();
         this.successmessage =
