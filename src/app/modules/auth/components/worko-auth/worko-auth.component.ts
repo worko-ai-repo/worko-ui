@@ -122,7 +122,7 @@ export class WorkoAuthComponent {
     }
   }
   async getCandidateDetails() {
-debugger
+    
     try {
       // Fetch the authentication session
       const { tokens, userSub } = await fetchAuthSession();

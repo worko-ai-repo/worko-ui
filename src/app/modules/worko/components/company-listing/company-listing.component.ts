@@ -699,7 +699,7 @@ export class CompanyListingComponent implements OnInit, AfterViewInit, OnDestroy
     }
   }
 
-  async receiveDataFromChild(data: any) {
+  async receiveDataFromChild(data?: any) {
 
     //window.location.reload()
     this.userLoggedIn = await this.cognitoService.isLoggedIn();

@@ -506,7 +506,7 @@ export class LoginPageComponent implements AfterViewInit, OnDestroy {
 
 
 
-  async createEmployee(form:NgForm): Promise<void> {
+  async createEmployee(form: NgForm): Promise<void> {
     this.spinner.show();
     try {
       this.setErrorMessage("");
@@ -516,7 +516,7 @@ export class LoginPageComponent implements AfterViewInit, OnDestroy {
         let employeeData = {
           name: this.employeeForm.name,
           email: this.employeeForm.emailId,
-          number: "+91"+this.employeeForm.phoneNumber,
+          number: "+91" + this.employeeForm.phoneNumber,
           // linkedinUrl: this.employeeForm.linkdinProfile,
           YOE: Number(this.employeeForm.experience),
           // designation: this.employeeForm.designation,
@@ -582,7 +582,7 @@ export class LoginPageComponent implements AfterViewInit, OnDestroy {
           let candidateData = {
             name: this.candidateForm.name,
             email: this.candidateForm.emailId,
-            number:"+91"+ this.candidateForm.phoneNumber,
+            number: "+91" + this.candidateForm.phoneNumber,
             linkedinUrl: this.candidateForm.linkdinProfile,
             ECTC: Number(this.candidateForm.expectedCtc),
             YOE: Number(this.candidateForm.experience),
@@ -1021,7 +1021,7 @@ export class LoginPageComponent implements AfterViewInit, OnDestroy {
         password: form.password,
         username: form.emailId,
         name: form.name,
-        phone_number:"+91"+ form.phoneNumber
+        phone_number: "+91" + form.phoneNumber
       }
       const { response, error } = await this.amplify.handleSignUp(signupform);
 
@@ -1130,6 +1130,14 @@ export class LoginPageComponent implements AfterViewInit, OnDestroy {
   }
 
   signUpWithLinkedin(usertype: any) {
+    if (this.router.url.includes('/company-listing')) {
+      this.storage.set('isCompanyListingRoute', true);
+    } else {
+      const isCompanyListingRoute = this.storage.get('isCompanyListingRoute');
+      if (isCompanyListingRoute !== null && isCompanyListingRoute !== undefined) {
+        this.storage.remove('isCompanyListingRoute');
+      }
+    }
     this.storage.set('LinkedinUserType', usertype);
     console.log(window.location.origin)
     console.log(usertype);
