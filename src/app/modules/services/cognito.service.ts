@@ -150,7 +150,7 @@ export class CognitoService {
   }
 
   async isLoggedIn() {
-  
+
     this.UserRegistered = this.storage.get("isLinkedinUser");
     this.linkedinSignInDetails = this.storage.get('signInDetails')
     if (this.UserRegistered === 'true') {
@@ -208,6 +208,8 @@ export class CognitoService {
       this.storage.remove("isLinkedinUser");
       this.storage.remove('signInDetails')
       this.storage.remove('isCompanyListingRoute');
+      this.storage.remove("type");
+      this.storage.remove("companySK");
       this.removeAccessToken();
       // this.removeEmployeeDashboardToggleStatus();
       // this.removeCurrentDashboardToggleStatus();

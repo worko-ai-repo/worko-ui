@@ -255,8 +255,8 @@ export class CompanyListingComponent implements OnInit, AfterViewInit, OnDestroy
       });
 
 
-    this.companySKFormUrl = this.activatedRoute.snapshot.queryParams['companyID'];
-    this.typeFromUrl = this.activatedRoute.snapshot.queryParams['Type'];
+    this.companySKFormUrl = this.activatedRoute.snapshot.queryParams['companyID'] ? this.activatedRoute.snapshot.queryParams['companyID'] : this.storage.get("companySK");
+    this.typeFromUrl = this.activatedRoute.snapshot.queryParams['Type'] ? this.activatedRoute.snapshot.queryParams['Type'] : this.storage.get("type");
 
   }
 
@@ -299,18 +299,26 @@ export class CompanyListingComponent implements OnInit, AfterViewInit, OnDestroy
     );
     //check if the url contain data and initialize variables accordingly
     if (this?.companySKFormUrl && this?.typeFromUrl) {
-      this.indexData = 'ID#' + this.companySKFormUrl
+      if (this?.companySKFormUrl.startsWith('ID#')) {
+        this.indexData = this.companySKFormUrl;
+      } else {
+        this.indexData = 'ID#' + this?.companySKFormUrl;
+      }
       this.selectedData = this.filterCompanyBySk(this.indexData);
       console.log(this.selectedData);
       debugger
       if (this.typeFromUrl === 'referral') {
         this.triggerReferral = true;
         this.triggerGuidance = false;
-        this.openModalForCompany()
+        this.openModalForCompany();
+        // this.storage.remove("type");
+        // this.storage.remove("companySK");
       } else {
         this.triggerReferral = false;
         this.triggerGuidance = true;
         this.openModalForCompany()
+        // this.storage.remove("type");
+        // this.storage.remove("companySK");
       }
 
     }
@@ -385,7 +393,7 @@ export class CompanyListingComponent implements OnInit, AfterViewInit, OnDestroy
     try {
       await this.candidateSrv.getUserDetails(this.emailAddress).then(async (response) => {
         if (response) {
-          this.userDetails = response;        
+          this.userDetails = response;
         }
       })
     } catch (error: any) {
@@ -507,7 +515,7 @@ export class CompanyListingComponent implements OnInit, AfterViewInit, OnDestroy
   }
 
   clearSearchInput(): void {
-    this.pageSize=50
+    this.pageSize = 50
     this.lastKey = "";
     this.loadedOnce = true;
     this.searchQuery = '';
@@ -548,13 +556,13 @@ export class CompanyListingComponent implements OnInit, AfterViewInit, OnDestroy
   }
 
   async onTeamSizeChange(selectedTeamSize: string) {
-    if(selectedTeamSize!==""){
+    if (selectedTeamSize !== "") {
       this.pageSize = 100;
-    }else{
-      this.pageSize=50;
+    } else {
+      this.pageSize = 50;
     }
     this.isNoLoadData = true
-    
+
     this.lastKey = "";
     this.loadedOnce = true;
     this.filterData.teamSize = selectedTeamSize;
@@ -585,10 +593,10 @@ export class CompanyListingComponent implements OnInit, AfterViewInit, OnDestroy
 
     this.isNoLoadData = true
     this.lastKey = "";
-    if(selectedIndustryType!==""){  // if the selectIndustryType is selected then passing pageSize as 100
+    if (selectedIndustryType !== "") {  // if the selectIndustryType is selected then passing pageSize as 100
       this.pageSize = 100;
-    }else{
-    this.pageSize = 50;
+    } else {
+      this.pageSize = 50;
     }
     this.loadedOnce = true;
     // this.appliedFilter = true;
@@ -617,6 +625,8 @@ export class CompanyListingComponent implements OnInit, AfterViewInit, OnDestroy
     this.userLoggedIn = await this.cognitoService.isLoggedIn();
 
     this.selectedData = item;
+    this.storage.set('companySK', this?.selectedData?.SK);
+    this.storage.set('type', "referral");
     console.log(this.selectedData);
     this.triggerReferral = true;
     this.triggerGuidance = false;
@@ -653,6 +663,7 @@ export class CompanyListingComponent implements OnInit, AfterViewInit, OnDestroy
     event.preventDefault();
     // this.userLoggedIn = await this.cognitoService.isLoggedIn();
     // this.reqGuidanceData = item;
+    this.storage.set('type', "guidance");
     this.triggerReferral = false;
     this.triggerGuidance = true;
     // if (this.userLoggedIn) {
@@ -700,7 +711,8 @@ export class CompanyListingComponent implements OnInit, AfterViewInit, OnDestroy
   }
 
   async receiveDataFromChild(data?: any) {
-
+    this.storage.remove("type");
+    this.storage.remove("companySK");
     //window.location.reload()
     this.userLoggedIn = await this.cognitoService.isLoggedIn();
     this.closeModal();
@@ -742,6 +754,7 @@ export class CompanyListingComponent implements OnInit, AfterViewInit, OnDestroy
         companyDetail: {
           name: this.companyForm.CompanyName,
           industry: 'Industry',
+
 
           carrierPage: this.companyForm.carrierPage,
           linkedIn: this.companyForm.linkedIn,
