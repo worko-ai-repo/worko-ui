@@ -635,9 +635,13 @@ export class CompanyListingComponent implements OnInit, AfterViewInit, OnDestroy
 
     if (this.userLoggedIn) {
       if (this.checkProfileCompletion()) {
+        this.storage.remove("type");
+        this.storage.remove("companySK");
         this.openModal(ModalType.REQUEST_REFERRAL);
       }
       else {
+        this.storage.remove("type");
+        this.storage.remove("companySK");
         this.profileCompletionRequired = true;
         this.successmessage = "";
         this.successtitle = "";
