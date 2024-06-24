@@ -311,14 +311,10 @@ export class CompanyListingComponent implements OnInit, AfterViewInit, OnDestroy
         this.triggerReferral = true;
         this.triggerGuidance = false;
         this.openModalForCompany();
-        // this.storage.remove("type");
-        // this.storage.remove("companySK");
       } else {
         this.triggerReferral = false;
         this.triggerGuidance = true;
         this.openModalForCompany()
-        // this.storage.remove("type");
-        // this.storage.remove("companySK");
       }
 
     }
@@ -362,6 +358,8 @@ export class CompanyListingComponent implements OnInit, AfterViewInit, OnDestroy
   async openModalForCompany() {
     this.userLoggedIn = await this.cognitoService.isLoggedIn();
     if (this.typeFromUrl === 'referral' && this.userLoggedIn) {
+      this.storage.remove("type");
+      this.storage.remove("companySK");
 
       if (this.checkProfileCompletion()) {
         this.openModal(ModalType.REQUEST_REFERRAL);
@@ -377,6 +375,9 @@ export class CompanyListingComponent implements OnInit, AfterViewInit, OnDestroy
 
     } else if (this.typeFromUrl === 'guidance') {
 
+
+      this.storage.remove("type");
+      this.storage.remove("companySK");
       this.openModal(ModalType.REQUEST_GUIDANCE)
       const url = this.router.url.split('?')[0];
       this.location.replaceState(url);
