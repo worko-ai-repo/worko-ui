@@ -255,8 +255,15 @@ export class CompanyListingComponent implements OnInit, AfterViewInit, OnDestroy
       });
 
 
-    this.companySKFormUrl = this.activatedRoute.snapshot.queryParams['companyID'] ? this.activatedRoute.snapshot.queryParams['companyID'] : this.storage.get("companySK");
+    this.companySKFormUrl = this.activatedRoute.snapshot.queryParams['companyID'] ? this.activatedRoute.snapshot.queryParams['companyID'] : this.storage.get("selectedCompanySK");
     this.typeFromUrl = this.activatedRoute.snapshot.queryParams['Type'] ? this.activatedRoute.snapshot.queryParams['Type'] : this.storage.get("type");
+
+    if (this.activatedRoute.snapshot.queryParams['companyID'] && this.activatedRoute.snapshot.queryParams['Type']) {
+      let companySKFromUrl = this.activatedRoute.snapshot.queryParams['companyID'];
+      let type = this.activatedRoute.snapshot.queryParams['Type'];
+      this.storage.set('selectedCompanySK', companySKFromUrl);
+      this.storage.set('type', type);
+    }
 
   }
 
@@ -276,7 +283,7 @@ export class CompanyListingComponent implements OnInit, AfterViewInit, OnDestroy
     if (this.userLoggedIn) {
       this.getUserDetails();
     }
-    this.getProfilePercentage();
+    await this.getProfilePercentage();
 
     await this.getCompanyDetails();
     this.filteredCompanyList = this.companyList;
@@ -306,7 +313,7 @@ export class CompanyListingComponent implements OnInit, AfterViewInit, OnDestroy
       }
       this.selectedData = this.filterCompanyBySk(this.indexData);
       console.log(this.selectedData);
-      debugger
+      // debugger
       if (this.typeFromUrl === 'referral') {
         this.triggerReferral = true;
         this.triggerGuidance = false;
@@ -356,10 +363,11 @@ export class CompanyListingComponent implements OnInit, AfterViewInit, OnDestroy
 
   // open modal if user click on request referral and request guidance  from worko.ai
   async openModalForCompany() {
+
     this.userLoggedIn = await this.cognitoService.isLoggedIn();
     if (this.typeFromUrl === 'referral' && this.userLoggedIn) {
       this.storage.remove("type");
-      this.storage.remove("companySK");
+      this.storage.remove("selectedCompanySK");
 
       if (this.checkProfileCompletion()) {
         this.openModal(ModalType.REQUEST_REFERRAL);
@@ -377,7 +385,7 @@ export class CompanyListingComponent implements OnInit, AfterViewInit, OnDestroy
 
 
       this.storage.remove("type");
-      this.storage.remove("companySK");
+      this.storage.remove("selectedCompanySK");
       this.openModal(ModalType.REQUEST_GUIDANCE)
       const url = this.router.url.split('?')[0];
       this.location.replaceState(url);
@@ -626,7 +634,7 @@ export class CompanyListingComponent implements OnInit, AfterViewInit, OnDestroy
     this.userLoggedIn = await this.cognitoService.isLoggedIn();
 
     this.selectedData = item;
-    this.storage.set('companySK', this?.selectedData?.SK);
+    this.storage.set('selectedCompanySK', this?.selectedData?.SK);
     this.storage.set('type', "referral");
     console.log(this.selectedData);
     this.triggerReferral = true;
@@ -635,18 +643,16 @@ export class CompanyListingComponent implements OnInit, AfterViewInit, OnDestroy
 
     if (this.userLoggedIn) {
       if (this.checkProfileCompletion()) {
-        this.storage.remove("type");
-        this.storage.remove("companySK");
         this.openModal(ModalType.REQUEST_REFERRAL);
       }
       else {
-        this.storage.remove("type");
-        this.storage.remove("companySK");
         this.profileCompletionRequired = true;
         this.successmessage = "";
         this.successtitle = "";
         this.openModal(ModalType.SUCCESS_MESSAGE);
       }
+      this.storage.remove("type");    // Removing 'type' and 'selectedCompanySK' from localStorage to prevent the popup from opening automatically on the next page refresh
+      this.storage.remove("selectedCompanySK");
     }
     else {
       this.userLoggedIn = true
@@ -695,9 +701,12 @@ export class CompanyListingComponent implements OnInit, AfterViewInit, OnDestroy
   // }
   cancel() {
     // this.companyFormDirective.resetForm()
+    this.modal.cancel();
+  }
 
-    this.modal.cancel()
-
+  onModalClose() {
+    this.storage.remove("type");
+    this.storage.remove("selectedCompanySK");
   }
 
 
@@ -717,7 +726,7 @@ export class CompanyListingComponent implements OnInit, AfterViewInit, OnDestroy
 
   async receiveDataFromChild(data?: any) {
     this.storage.remove("type");
-    this.storage.remove("companySK");
+    this.storage.remove("selectedCompanySK");
     //window.location.reload()
     this.userLoggedIn = await this.cognitoService.isLoggedIn();
     this.closeModal();
@@ -879,6 +888,8 @@ export class CompanyListingComponent implements OnInit, AfterViewInit, OnDestroy
    */
   closeModal(): void {
     // Show referral request form after closing the modal
+    this.storage.remove("type");
+    this.storage.remove("selectedCompanySK");
     this.modal.cancel();
   }
 

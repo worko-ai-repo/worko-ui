@@ -14,6 +14,8 @@ export class ModalComponent implements OnInit {
   @Output() closeResult: EventEmitter<string> = new EventEmitter<string>();
   @Output() onClick: EventEmitter<string> = new EventEmitter<string>();
   @Output() modalClosed: EventEmitter<void> = new EventEmitter<void>();
+  @Output() onModalClose: EventEmitter<void> = new EventEmitter<void>();
+
 
   @Input() ariaLabelledBy: string = 'modal-basic-title';
   @Input() bodyClass: string = '';
@@ -39,7 +41,7 @@ export class ModalComponent implements OnInit {
   constructor(private modalService: NgbModal) { }
 
   ngOnInit(): void {
-   
+
     console.log(this.showHeader);
   }
 
@@ -55,7 +57,7 @@ export class ModalComponent implements OnInit {
       ariaLabelledBy: this.ariaLabelledBy,
       windowClass: `${this.theme} ${this.class}`.trim(),
       centered: this.centered,
-      size:  this.modalSize,
+      size: this.modalSize,
       backdrop: 'static'
     };
 
@@ -71,10 +73,10 @@ export class ModalComponent implements OnInit {
 
   close() {
     // Perform any necessary cleanup or actions before closing the modal
-   
+
     // Emit the 'closed' event
     this.modalService.dismissAll('button');
-   
+
   }
 
   /**
@@ -100,6 +102,7 @@ export class ModalComponent implements OnInit {
    * @returns {void}
    */
   cancel(): void {
+    this.onModalClose.emit();
     this.modalService.dismissAll('button');
   }
 
