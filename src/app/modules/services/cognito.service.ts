@@ -11,6 +11,7 @@ import 'aws-amplify/auth/enable-oauth-listener';
 import { AuthError, ConfirmSignUpInput, SignInInput, SignInOutput, confirmSignUp, fetchAuthSession, getCurrentUser, signIn, signInWithRedirect, signOut, signUp } from '@aws-amplify/auth';
 import { Hub } from '@aws-amplify/core';
 import { Router } from '@angular/router';
+import { environment } from 'src/environments/environment';
 
 
 
@@ -217,7 +218,7 @@ export class CognitoService {
       localStorage.clear();
       // window.location.href = 'https://worko.auth.ap-south-1.amazoncognito.com/logout?client_id=5evf019rrkaijtnjf2j1vvdf33&logout_uri=http://localhost:4200/';
       await signOut();
-      this.router.navigate(['/']);
+      window.location.href = environment.crossOriginUrl + '/';
   
 
 

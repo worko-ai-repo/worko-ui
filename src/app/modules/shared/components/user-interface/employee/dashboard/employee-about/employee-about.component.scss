@@ -1,8 +1,20 @@
+
 .about-contents {
+    margin-right: 10px;
     max-height: 150px; /* Adjust this value as needed */
     overflow-y: auto;
-
+  
 }
-.row ::-webkit-scrollbar{
-    display: none;
+
+// .row ::-webkit-scrollbar{
+//     display: none;
+// }
+/* Scrollbar styles */
+.about-contents::-webkit-scrollbar {
+    width: 7px; /* Width of the scrollbar */
+}
+
+.about-contents::-webkit-scrollbar-thumb {
+    background-color: rgb(100, 149, 208); /* Scrollbar thumb color */
+    border-radius: 10px; /* Rounded edges for the thumb */
 }

@@ -147,7 +147,7 @@ export class CompanyListingComponent implements OnInit, AfterViewInit, OnDestroy
     { name: "Courier / Logistics", value: "Courier / Logistics" },
     { name: "Defence & Aerospace", value: "Defence & Aerospace" },
     { name: "Design", value: "Design" },
-    { name: "E-commerce", value: "e-commerce" },
+    { name: "E-commerce", value: "E-commerce" },
     { name: "E-Learning / EdTech", value: "e-Learning / EdTech" },
     { name: "Education / Training", value: "Education / Training" },
     { name: "Electrical Equipment", value: "Electrical Equipment" },
