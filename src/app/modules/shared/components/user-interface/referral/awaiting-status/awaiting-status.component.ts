@@ -25,7 +25,7 @@ export class AwaitingStatusComponent implements OnChanges {
   }
 
   ngOnInit(): void {
-    console.log(this.referralList)
+    
   }
 
   onSelectStatus(status: string): void {
@@ -35,7 +35,7 @@ export class AwaitingStatusComponent implements OnChanges {
   }
 
   ngOnChanges(): void {
-    console.log(this.referralList);
+  
     if(this.referralList?.length>0)
     {
       this.selectedReferralSK = this.referralList[0].SK;
@@ -49,7 +49,6 @@ export class AwaitingStatusComponent implements OnChanges {
 
   showReferralData(item: any) {
     this.selectedReferralSK = item.SK;
-    console.log(item);
     this.showReferralDetails.emit(item);
   }
 

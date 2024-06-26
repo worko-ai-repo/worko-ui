@@ -45,7 +45,6 @@ export class ServiceComponent implements  OnDestroy, OnInit {
     await this.candidateSrv.getServices(this.emailAddress, this.selectedStatus).then(async (response) => {
       if (response) {
         this.servicesList = response;
-        console.log(this.servicesList + '123');
       }
     })
   }
@@ -56,7 +55,7 @@ export class ServiceComponent implements  OnDestroy, OnInit {
   }
 
   getSelectedService(data:any){
-    console.log(data);
+   
     this.selectedService = data;
   }
   getSlicedValue(value: string): string {
@@ -69,7 +68,6 @@ export class ServiceComponent implements  OnDestroy, OnInit {
     await this.candidateSrv.markasDoneService(this.emailAddress, "DONE", referralId).then(async (response) => {
       if (response) {
         // this.referralList = response;
-        // console.log(this.referralList + '123');
       }
     })
   }

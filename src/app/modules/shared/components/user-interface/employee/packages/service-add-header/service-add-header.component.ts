@@ -169,7 +169,6 @@ d:any;
     await this.empService.getChooseAvailability(this.emailAddress).then(async(response)=>{
       this.availabilityList = response;
       this.availabilityDetails = this.availabilityList[0];
-      console.log(this.availabilityList,'zuber data')
       this.d=this.availabilityList[0]?.availability;
       
     })

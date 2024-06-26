@@ -17,7 +17,7 @@ export class AissuesService {
       url += `/status=RESOLVED`;
     }
     try {
-      console.log(url);
+    
       return await this.http.get(url, this.authService.getHttpOptions()).toPromise();
     } catch (error) {
       console.error('Error fetching issues:', error);

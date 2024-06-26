@@ -29,8 +29,7 @@ export class EditBankDetailsComponent {
 
   }
   ngOnChanges(): void {
-     console.log(this.bankInfo, "bankInfo");
-     console.log(this.employeeBankDetails, "employeeBankDetails");
+   
     // if(this.bankInfo){
     //   this.employeeBankDetails = this.bankInfo;
     // }
@@ -88,7 +87,6 @@ export class EditBankDetailsComponent {
     await this.empService.createBankDetails(this.emailAddress, data).then(async (response) => {
       if (response) {
 
-        console.log(response);
       }
     })
   }

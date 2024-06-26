@@ -68,7 +68,6 @@ export class EmployeeDashboardComponent {
         this.userName = this.candidateDetails.name;
         this.storage.set('userName', this.userName);
         this.userDescription = this.candidateList[0].about;
-        console.log(response);
         await this.getEducationDetails();
       }
     })
@@ -87,7 +86,7 @@ export class EmployeeDashboardComponent {
       if (response) {
         this.educationList = response;
         this.educationDetails = this.educationList[0];
-        console.log(response + "1");
+       
       this.getWorkExperienceDetails();
           }
     })
@@ -130,7 +129,7 @@ export class EmployeeDashboardComponent {
       if (response) {
         this.candidateSocial = response;
         this.getBankDetails();
-        console.log(response);
+      
       }
     })
   }catch(error:any ){
@@ -147,7 +146,7 @@ export class EmployeeDashboardComponent {
     await this.empService.getBankDetails(this.emailAddress).then(async (response) => {
       if (response) {
         this.bankDetails = response;
-        console.log(response);
+       
         this.userProfileComplete();
       }
     })
@@ -165,7 +164,6 @@ export class EmployeeDashboardComponent {
        if(response){
          this.profileCompletion=response;
         //  this.getSocialProfile();
-         console.log(  this.profileCompletion);
          this.spinner.hide()
          //debugger
       //    for (let i = 0; i < localStorage.length; i++) {

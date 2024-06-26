@@ -22,11 +22,11 @@ export class ReferralReqDoneComponent {
   constructor() { }
 
   ngOnInit(): void {
-    console.log(this.selectedReferral, "selectedReferral");
+
   }
 
   ngOnChanges(): void {
-    console.log(this.selectedReferral, "selectedReferral");
+   
     this.referralRatingFlag = null;
     if (this.processStatus) {
       this.checkRating();

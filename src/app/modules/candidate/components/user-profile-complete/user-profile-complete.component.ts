@@ -29,8 +29,6 @@ export class UserProfileCompleteComponent implements OnInit {
   constructor( private router : Router, private candidateSrv : CandidateProfileService , private Storage : StorageService){}
 
   ngOnInit(): void {
-    console.log(this.candidateSocial);
-    console.log(this.profileCompletion)
     this.activeRoute = this.router.url;
     if (this.userType == "Candidate") {
       this.userRole = [

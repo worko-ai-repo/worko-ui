@@ -60,12 +60,6 @@ isCardNumberValid: boolean = true;
 
     }
      
-
-    
-  
-    console.log(this.cardDetails)
-    
-console.log(this.cardholderName)
   }
 
 
@@ -84,7 +78,7 @@ console.log(this.cardholderName)
   }
   
   cardValidator(): ValidatorFn {
-    debugger
+    //debugger
     return (control: AbstractControl): ValidationErrors | null => {
       const cardNumber = control.value;
       
@@ -108,7 +102,6 @@ console.log(this.cardholderName)
     let lastDigit = arr.splice(0, 1)[0];
     let sum = arr.reduce((acc, val, i) => (i % 2 !== 0 ? acc + val : acc + ((val * 2) % 9) || 9), 0);
     sum += lastDigit;
-    console.log(sum)
     return sum % 10 === 0;
   }
 

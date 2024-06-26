@@ -99,7 +99,7 @@ export class CreateEmployeeForLinkedinComponent {
       debounceTime(300),
       distinctUntilChanged(),
       switchMap((value: any) => {
-        console.log(value)
+
 
         if (value && value.length >= 1) {
           return this.authService.getCompanyName(value).pipe(
@@ -126,18 +126,17 @@ export class CreateEmployeeForLinkedinComponent {
 
       userSub
     } = await fetchAuthSession();
-    console.log(tokens)
+  
     this.userEmail = tokens?.idToken?.payload['email']?.toString()
     this.userName = tokens?.idToken?.payload['name']?.toString()
     this.pictureUrl = tokens?.idToken?.payload['picture']
-    console.log(this.userEmail, this.userName, this.pictureUrl)
+    
 
     const {
       username,
       userId: id
     } = await getCurrentUser();
     this.userId = id
-    console.log(id)
 
     // this.storage.set("useremail", this.userEmail);
 
@@ -194,7 +193,6 @@ export class CreateEmployeeForLinkedinComponent {
         this.successmessage = "It looks like you already have an account with us.  Please Sign In with Linkedin to continue."
         this.successtitle = "Error"
         this.openModal(ModalType.SUCCESS_MESSAGE)
-        console.log("errror")
       } else if (error.status == 401) {
         this.spinner.hide()
         this.cognitoService.handleSignOut()
@@ -216,9 +214,7 @@ export class CreateEmployeeForLinkedinComponent {
     this.authService.otpVerification(emailId)
       .then(response => {
         this.spinner.hide()
-        console.log('OTP verification successful');
         this.storage.set("useremail", this.userEmail);
-        console.log(this.userEmail);
         this.storage.set("isLinkedinUser", 'true');
         const isCompanyListingRoute = this.storage.get('isCompanyListingRoute');
         if (isCompanyListingRoute) {

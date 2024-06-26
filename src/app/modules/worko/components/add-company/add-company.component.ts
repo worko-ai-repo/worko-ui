@@ -33,7 +33,7 @@ export class AddCompanyComponent {
 
   async ngOnInit(): Promise<void> {
     // debugger
-    console.log(this.showModal === this.modalType.SUCCESS_MESSAGE)
+    
     this.userLoggedIn = await this.cognitoService.isLoggedIn();
   }
   companyForm = {
@@ -64,11 +64,11 @@ export class AddCompanyComponent {
         }
       }
 
-      console.log(this.companyData)
+     
       await this.companyListingService.requestNewCompany(this.companyData)
       let response = await this.companyListingService.getAllNewCompany()
       if (response) {
-        console.log(response)
+       
         this.companyFormDirective.resetForm()
         this.spinner.hide()
         this.openModal(this.modalType.SUCCESS_MESSAGE)

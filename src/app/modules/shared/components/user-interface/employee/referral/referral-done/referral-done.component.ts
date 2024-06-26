@@ -43,7 +43,7 @@ export class ReferralDoneComponent implements OnChanges {
   candidateName: any;
 
   ngOnChanges(changes: SimpleChanges) {
-    console.log(this.selectedReferral);
+   
     this.referralRatingFlag = null;
 
     if (this.processStatus) {

@@ -72,18 +72,18 @@ export class CreateCandidateForLinkedinComponent {
 
       userSub
     } = await fetchAuthSession();
-    console.log(tokens)
+    
     this.userEmail = tokens?.idToken?.payload['email']?.toString()
     this.userName = tokens?.idToken?.payload['name']?.toString()
     this.pictureUrl = tokens?.idToken?.payload['picture']
-    console.log(this.userEmail, this.userName, this.pictureUrl)
+   
 
     const {
       username,
       userId: id
     } = await getCurrentUser();
     this.userId = id
-    console.log(id)
+   
 
     //this.storage.set("useremail", this.userEmail);
 
@@ -135,7 +135,6 @@ export class CreateCandidateForLinkedinComponent {
       let response = await this.authService.createCandidate(candidateData)
 
         try {
-          console.log(response)
           if (this.userId && this.fileName &&  response) {
 
             let documentDetails = {
@@ -144,7 +143,6 @@ export class CreateCandidateForLinkedinComponent {
               resumeFileMimeType: this.fileType
             }
             let docResult = await this.authService.uploadCV(documentDetails);
-            console.log(docResult);
 
             this.uploadedCvName = docResult.cloudFileName;
             this.uploadCVonS3Bucket(docResult);
@@ -156,7 +154,7 @@ export class CreateCandidateForLinkedinComponent {
           this.successmessage = "Something went wrong. Please try again after sometime"
           this.successtitle = "Error"
           this.openModal(ModalType.SUCCESS_MESSAGE)
-          console.log(error);
+          //console.log(error);
 
         }
    
@@ -189,7 +187,7 @@ export class CreateCandidateForLinkedinComponent {
     try {
       this.authService.uploadFileOnS3Bucket(this.fileToUpload!, docResult.awsS3SignedUrl, docResult.awsS3Tag)
         .then(async () => {
-          console.log('File uploaded successfully.');
+         // console.log('File uploaded successfully.');
           try {
             let a = await this.authService.linkResumewithUser(this.userEmail, this.uploadedCvName);
             this.otpVerification(this.userEmail)
@@ -220,7 +218,7 @@ export class CreateCandidateForLinkedinComponent {
         });
 
     } catch (error) {
-      console.log(error)
+     // console.log(error)
       this.spinner.hide();
       this.successmessage = "Something went wrong. Please try again after sometime"
       this.successtitle = "Error"
@@ -235,9 +233,8 @@ export class CreateCandidateForLinkedinComponent {
 
     this.authService.otpVerification(emailId)
       .then(response => {
-        console.log('OTP verification successful');
+       
         this.storage.set("useremail", this.userEmail);
-        console.log(this.userEmail);
         this.storage.set("isLinkedinUser", 'true');
         const isCompanyListingRoute = this.storage.get('isCompanyListingRoute');
         if (isCompanyListingRoute) {
@@ -282,7 +279,7 @@ export class CreateCandidateForLinkedinComponent {
           this.fileToUpload = file;
           this.fileName = file.name;
           this.fileType = file.type;
-          console.log('Selected PDF file:', file);
+        //  console.log('Selected PDF file:', file);
         } else {
           // Display an error for invalid file type
           console.error('Invalid file type. Please upload a PDF file.');

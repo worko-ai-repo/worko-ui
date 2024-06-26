@@ -8,7 +8,7 @@ import { AissuesService } from '../../services/aissues.service';
 })
 export class AissuesComponent {
 issueClick($event: MouseEvent,issue: number) {
-console.log("clicked in issue:", this.issueList[issue]);
+
 }
   issueList: any[] = [];
   currentPage: number = 1;
@@ -97,8 +97,7 @@ console.log("clicked in issue:", this.issueList[issue]);
       await this.aissuesService.getAllIssues(this.filterData.issuesStatus).then(async (response: any) => {
         if (response) {
           this.issueList = response;
-          console.log("Issue list:", this.issueList);
-          // console.log("Issue  status 0:";
+        
         }
       })
     }

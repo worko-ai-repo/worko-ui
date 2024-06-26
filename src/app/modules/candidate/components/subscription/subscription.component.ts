@@ -39,13 +39,13 @@ export class SubscriptionComponent {
           }
         });
         if (activeSubscription) {
-          console.log("Current active subscription is: ", activeSubscription);
+          //console.log("Current active subscription is: ", activeSubscription);
           this.packageDetails = activeSubscription;
           this.cdr.detectChanges();
           this.packageDetails1 = activeSubscription;
           // this.achievementsList = response[0].achievements;
         } else {
-          console.log("No active subscription found.");
+          //console.log("No active subscription found.");
         }
         this.getSubcriptionPack();
       }
@@ -57,7 +57,7 @@ export class SubscriptionComponent {
       next: (response) => {
         // console.log(response);
         this.subscriptionList = response.sort((a:any, b:any) => a.amount - b.amount);
-        console.log(this.subscriptionList, "Hello")
+       // console.log(this.subscriptionList, "Hello")
         this.spinner.hide();
         // const filteredB = this.subscriptionList.filter(itemB => ! this.packageDetails1.some((itemA: any) => itemA.name === itemB.name));
         // const filteredB =  this.subscriptionList.filter(itemB => !this.packageDetails1.some((itemA: any) => itemA && itemA.name === itemB.name));
@@ -69,7 +69,7 @@ export class SubscriptionComponent {
         // console.log(filteredB);
       },
       error: (error) => {
-        debugger;
+       // debugger;
         console.error(error);
         this.spinner.hide();
       },

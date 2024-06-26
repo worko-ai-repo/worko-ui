@@ -39,23 +39,18 @@ export class UploadComponent implements OnInit {
   }
 
   async uploadDetails(form: any) {
-    //console.log("here")
-    //console.log(this.candidateUploadDetails)
+   
     this.onSuccess.emit(this.candidateUploadDetails)
      
   }
 
   ngOnChanges(): void {
-   // debugger
-    // console.log(this.candidateList, "candidateList");
     if (this.candidateUploadDetails.uploadCV) {
 
     } else {
-      //console.log("here onchange")
+      
       this.getData();
     }
-
-    // console.log(this.candidateUploadDetails)
   }
   getData() {
    
@@ -93,7 +88,6 @@ export class UploadComponent implements OnInit {
           this.candidateUploadDetails.fileToUpload = this.fileToUpload;
           this.candidateUploadDetails.fileType = this.fileType;
           this.showfileError = false;
-          console.log('Selected file:', file);
         } else {
           this.successmessage="Invalid file type. Please upload a PDF file."
           this.successtitle="Error"
@@ -114,7 +108,7 @@ export class UploadComponent implements OnInit {
 
   openfile(event: { preventDefault: () => void; }){
     event.preventDefault(); 
-  // console.log(this.docResult.awsS3SignedUrl)
+ 
    
    
     //window.open(this.docResult.awsS3SignedUrl,'_blank')

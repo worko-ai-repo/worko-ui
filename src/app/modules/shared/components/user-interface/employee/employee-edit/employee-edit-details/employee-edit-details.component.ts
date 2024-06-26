@@ -63,7 +63,6 @@ export class EmployeeEditDetailsComponent {
   }
 
   ngOnChanges(): void {
-    console.log(this.stateService.getState());
 
     if (this.employeePersonalData && this.employeePersonalData.about && this.employeePersonalData.location && this.employeePersonalData.socialLinklinkdin
     ) {
@@ -85,16 +84,15 @@ export class EmployeeEditDetailsComponent {
       // console.log(this.employeePersonalData.country)
     }
     // console.log(this.candidateProfessionalDetails)
-    console.log(this.employeePersonalData);
-    console.log(this.employeeDetails);
+   
   }
 
   checkFormValidity() {
     if (this.employeeForm && this.employeeForm.form) {
       if (this.employeeForm.form.valid) {
-        console.log('Form is valid');
+        
       } else {
-        console.log('Form is invalid');
+       
       }
     }
   }
@@ -121,7 +119,7 @@ export class EmployeeEditDetailsComponent {
       profilePicUrl: this.employeeDetails?.profileImageAwsS3SignedUrl ? this.employeeDetails?.profileImageAwsS3SignedUrl : "/assets/public/candidate-img.png"
 
     }
-    console.log(this.employeePersonalData)
+    
 
   }
 

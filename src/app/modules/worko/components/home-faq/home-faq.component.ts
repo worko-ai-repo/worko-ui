@@ -18,14 +18,14 @@ export class HomeFaqComponent {
   
 
   toggleAccordion(index: number) {
-    console.log("Clicked accordion",index);
+   
     if (this.activeIndex === index) {
       this.activeIndex = 0;
     } else {
       this.activeIndex = index;
     }
     this.toggleSymbols[index] = !this.toggleSymbols[index];
-    console.log("active index:", this.activeIndex)
+   
   }
 
 }
