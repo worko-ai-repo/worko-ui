@@ -227,8 +227,14 @@ this.disableAllFields();
 
   disableAllFields()
 {
-  if(this.isEmailVerified){
+  if(this.isEmailVerified &&this.employeeProfessionalData.designation &&
+    this.employeeProfessionalData.department &&
+    this.employeeProfessionalData.companyName &&
+    this.employeeProfessionalData.workingSince &&
+    this.employeeProfessionalData.officialEmail ){
     this.isDisabled = true;
+  }else{
+    this.isDisabled=false
   }
 }
   resetFormFields(): void {
@@ -571,8 +577,8 @@ this.disableAllFields();
       this.spinner.hide();
       if (error.status == 400) {
         this.successmessage =
-          " Official email and personal email should not be the same";
-        this.successtitle = "Error";
+          "Please complete your profile to verify your email.";
+        this.successtitle = "Information";
         this.openModal(ModalType.SUCCESS_MESSAGE);
       } else {
         this.successmessage =

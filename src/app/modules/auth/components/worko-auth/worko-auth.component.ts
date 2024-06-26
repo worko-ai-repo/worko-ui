@@ -71,14 +71,13 @@ export class WorkoAuthComponent {
             console.log(usertype)
             if (usertype === 'employeeSignUp') {
               this.employeeSignUp()
-            } else {
-              // if (usertype === 'candidateSignUp') {
+            } else if (usertype === 'candidateSignUp') {
               this.candidateSignUp()
 
             }
-            // else {
-            //   this.signIn()
-            // }
+            else {
+              this.signIn()
+            }
 
 
             break;
@@ -115,16 +114,17 @@ export class WorkoAuthComponent {
   }
 
 
-
+//if user is not registered and clicking on sign in with linkedin
   async signIn() {
     // this.getCandidateData()
-    //check whether user is sign in or not.
+  
     const isCandidatePresent = await this.getCandidateDetails();
     if (isCandidatePresent) {
       this.registerOptionScreen = true;
       this.register();
     }
   }
+    //check whether user is sign in or not.
   async getCandidateDetails() {
     try {
       // Fetch the authentication session
@@ -225,11 +225,11 @@ export class WorkoAuthComponent {
     await this.getCandidateDetails()
   }
 
-
+//user will be shown a selection form for candidate and employee when non register user click on sign in with linkedin
   register() {
-    if (this.registrationType === 'candidate') {
+    if (this.registrationType === 'candidate') { // if user select candidate
       this.router.navigate(['/auth/candidatecompleteSignUp']);
-    } else if (this.registrationType === 'employee') {
+    } else if (this.registrationType === 'employee') { // if user select employee
       this.router.navigate(['/auth/employeecompleteSignUp']);
     }
 
