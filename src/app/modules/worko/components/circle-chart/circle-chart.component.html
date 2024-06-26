@@ -12,6 +12,8 @@
     <mat-progress-spinner class="circle-chart" [ngClass]="{ 'hide-progress-bar': hideProgressBar }"
       [class.red]="getColor() === 'red'" mode="determinate" [value]="chartValue" [diameter]="160">
     </mat-progress-spinner>
-    <div class="circle-chart-text">{{ chartText }}/100</div>
+    <div class="circle-chart-text" [ngStyle]="{'font-size': getFontSize(chartValue)}">
+      {{ chartText }}/100
+    </div>
   </div>
 </ng-template>
