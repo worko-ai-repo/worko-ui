@@ -8,6 +8,7 @@ import { CandidateProfileService } from 'src/app/modules/candidate/services/cand
 import { DataTextureLoader } from 'three';
 import { fetchAuthSession, getCurrentUser, signOut } from '@aws-amplify/auth';
 import { environment } from 'src/environments/environment';
+import { NavbarToggleSwitchService } from 'src/app/modules/candidate/services/navbar-toggle-switch.service';
 
 
 
@@ -37,6 +38,7 @@ export class WorkoAuthComponent {
     private route: ActivatedRoute,
 
     private candidateSrv: CandidateProfileService,
+    private navbarToggleSwitchService: NavbarToggleSwitchService
   ) {
 
   }
@@ -145,7 +147,14 @@ export class WorkoAuthComponent {
         this.registerOptionScreen = false;
         this.storage.set("isLinkedinUser", 'true');
 
-        this.userType = this.lastDashed[0].userType[0];
+        this.userType = response[0].lastAccessedDash;
+        let userName = response[0].name;
+        this.storage.set('lastAccessedDash', this.userType);   //functionality to navigate to the lastAccessed dashboard
+        this.storage.set('userName', userName);
+        this.navbarToggleSwitchService.intializeToggleStatus();
+        console.log(userName);
+
+        // this.userType = this.lastDashed[0].userType[0];
         this.storage.set("useremail", this.userEmail);
 
         // Check if the current route is /company-listing

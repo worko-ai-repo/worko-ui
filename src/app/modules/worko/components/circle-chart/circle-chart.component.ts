@@ -41,4 +41,8 @@ export class CircleChartComponent implements OnInit {
   ngOnInit() {
     this.hideProgressBar = this.chartValue ? false : true;
   }
+
+  getFontSize(value: number): string {
+    return value % 1 !== 0 ? '26px' : '30px'; //font size is dynamically set to 26px if chartValue is a decimal and 30px if it is an integer.
+  }
 }
