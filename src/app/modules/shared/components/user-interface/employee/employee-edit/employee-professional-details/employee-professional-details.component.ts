@@ -201,7 +201,6 @@ this.disableAllFields();
       debounceTime(300),
       distinctUntilChanged(),
       switchMap((value: any) => {
-        console.log(value);
         if (value == "") {
           this.resetFormFields();
         }
@@ -222,7 +221,7 @@ this.disableAllFields();
     this.id = this.workExperienceDetails?.id;
     //  this.perviousjobs= this.workExperienceDetailsList?.filter((company: any) => !company.isCurrent);
     //   console.log(this.perviousjobs)
-    console.log(this.workExperienceDetails, "workExperienceDetails");
+  
   }
 
   disableAllFields()
@@ -260,7 +259,7 @@ this.disableAllFields();
   }
 
   onOptionSelected(event: any): void {
-    console.log("on optionselect");
+   
 
     this.selectedCompany = event.option.value;
   }
@@ -307,7 +306,7 @@ this.disableAllFields();
     } else if (typeof job === "object" && job?.name) {
       this.companyPastName = job.name;
       this.companyPastSK = job.SK;
-      console.log(this.companyPastName);
+     
       return job.name;
     } else {
       return "";
@@ -390,11 +389,11 @@ this.disableAllFields();
           const companyPastName = companyNameControl.value.name
             .toString()
             .trim();
-          console.log(companyPastName);
+          
           const designation = designationControl.value.toString().trim();
           const experience = experienceControl.value.toString().trim();
           const companyPastSK = companyNameControl.value.SK.toString().trim();
-          console.log(companyPastSK);
+         
           if (companyPastName || designation || experience || companyPastSK) {
             nonBlankFields.push({
               previousCompanyName: companyPastName,
@@ -411,7 +410,7 @@ this.disableAllFields();
 
     this.savedValues = [...nonBlankFields];
     this.employeeProfessionalData.previousCompanies = this.savedValues;
-    console.log();
+  
     if (this.selectedCompany) {
       this.employeeProfessionalData.companyName = this.selectedCompany.name
         ? this.selectedCompany?.name
@@ -453,11 +452,11 @@ this.disableAllFields();
           const companyPastName = companyNameControl.value.name
             .toString()
             .trim();
-          console.log(companyPastName);
+          
           const designation = designationControl.value.toString().trim();
           const experience = experienceControl.value.toString().trim();
           const companyPastSK = companyNameControl.value.SK.toString().trim();
-          console.log(companyPastSK);
+        
           if (companyPastName || designation || experience || companyPastSK) {
             nonBlankFields.push({
               previousCompanyName: companyPastName,
@@ -472,7 +471,7 @@ this.disableAllFields();
 
     // debugger
 
-    console.log(nonBlankFields);
+   
     this.savedValues = [...nonBlankFields];
     this.employeeProfessionalData.previousCompanies = this.savedValues;
     if (this.selectedCompany) {
@@ -484,7 +483,7 @@ this.disableAllFields();
         : this.workExperienceDetails?.companyId;
     }
     this.nextStepThird.emit(this.employeeProfessionalData);
-    console.log(this.savedValues);
+   
   }
 
   onPreviousClick() {
@@ -516,11 +515,11 @@ this.disableAllFields();
           const companyPastName = companyNameControl.value.name
             .toString()
             .trim();
-          console.log(companyPastName);
+         
           const designation = designationControl.value.toString().trim();
           const experience = experienceControl.value.toString().trim();
           const companyPastSK = companyNameControl.value.SK.toString().trim();
-          console.log(companyPastSK);
+         
           if (companyPastName || designation || experience || companyPastSK) {
             nonBlankFields.push({
               previousCompanyName: companyPastName,
@@ -553,8 +552,7 @@ this.disableAllFields();
           this.employeeProfessionalData.companyName;
         this.employeeProfessionalData.companySK =
           this.employeeProfessionalData.companySK;
-        console.log(this.employeeProfessionalData.companyName);
-        console.log(this.employeeProfessionalData.companySK);
+       
       }
     }
 
@@ -587,7 +585,7 @@ this.disableAllFields();
         this.openModal(ModalType.SUCCESS_MESSAGE);
       }
 
-      console.log("error");
+      
     }
   }
 
@@ -626,7 +624,7 @@ this.disableAllFields();
   }
 
   receiveDataFromChild(data: any) {
-    console.log(data);
+  
     //PJ added -If OTP verified then only set the green mark
     if(data == "success"){
       this.isEmailVerified = true;

@@ -93,7 +93,7 @@ export class EditProfileComponent implements OnInit {
         // this.router.navigate(['/candidate/dashboard']);
 
         //this.createEducationDetails();
-        console.log(this.candidatePersonalDetails)
+       
 
       })
     } catch (error: any) {
@@ -132,7 +132,6 @@ export class EditProfileComponent implements OnInit {
     //   ];
     try {
       if (this.firstStepData.collegeData) {
-        console.log(this.firstStepData.collegeData)
         await this.candidateSrv.createEducation(this.emailAddress, this.firstStepData.collegeData).then(async (response) => {
           this.createSkills();
         })
@@ -149,12 +148,11 @@ export class EditProfileComponent implements OnInit {
         this.openModal(ModalType.SUCCESS_MESSAGE)
       }
     }
-    console.log(this.firstStepData.collegeData)
+    
 
   };
 
   async createSkills() {
-    //console.log(this.secondStepData.softSkills,this.certificationList?.SK,this.certificationList.pk)
     try {
       let skills =
       {
@@ -221,38 +219,38 @@ export class EditProfileComponent implements OnInit {
 
     // Check if twitterArray is an array
     if (twitterArray.length > 2) {
-      console.log('twitterArray is already an array');
+  
       twitterArray = [this.firstStepData.socialLinktwitter];
     } else if (twitterArray.length == 1) {
-      console.log('twitterArray is already an array');
+      
       twitterArray = this.firstStepData.socialLinktwitter;
     } else {
-      console.log('twitterArray is not an array');
+      
       twitterArray = [];
     }
 
     // Check if twitterArray is an array
-    console.log(linkedinArray.length)
+   
     if (linkedinArray.length > 2) {
       linkedinArray = [this.firstStepData.socialLinklinkdin];
-      console.log('linkedinArray is already an array');
+     
     } else if (linkedinArray.length == 1) {
       linkedinArray = this.firstStepData.socialLinklinkdin;
     } else {
-      console.log('linkedinArray is not an array');
+      
       linkedinArray = [];
 
 
     }
-    console.log(githubArray.length)
+   
     if (githubArray.length > 2) {
-      console.log('githubArray is already an array');
+     
 
       githubArray = [this.firstStepData.socialLinkGithub];
     } else if (githubArray.length == 1) {
       githubArray = this.firstStepData.socialLinkGithub;
     } else {
-      console.log('githubArray is not an array');
+     
       githubArray = [];
     }
     let socialProfile =
@@ -263,7 +261,7 @@ export class EditProfileComponent implements OnInit {
       SK: this.firstStepData?.socialSk,
       PK: this.firstStepData?.socialPk
     }
-    console.log(socialProfile)
+    
     try {
       await this.candidateSrv.createUserProfile(this.emailAddress, socialProfile).then(async (response) => {
         if (!this.secondStepData.isCandidateFresher) {
@@ -313,7 +311,7 @@ export class EditProfileComponent implements OnInit {
   }
 
   async createUserDetails() {
-    console.log(this.secondStepData, "this.secondStepD")
+   
     
     try {
       let userDetails: any = {
@@ -732,11 +730,7 @@ export class EditProfileComponent implements OnInit {
       this.authService.uploadFileOnS3Bucket(this.thirdStepData.fileToUpload!, docResult.awsS3SignedUrl, docResult.awsS3Tag)
         .then(async () => {
 
-          console.log('File uploaded successfully.');
-
-
-
-
+        
           try {
             let a = await this.authService.linkResumewithUser(this.emailAddress, this.uploadedCvName);
             if (this.firstStepData.fileType && this.firstStepData.fileName) {
@@ -782,7 +776,7 @@ export class EditProfileComponent implements OnInit {
       this.successmessage = "Something went wrong. Please try again after sometime"
       this.successtitle = "Error"
       this.openModal(ModalType.SUCCESS_MESSAGE)
-      console.log(error)
+     
     }
 
   }
@@ -792,7 +786,7 @@ export class EditProfileComponent implements OnInit {
       this.authService.uploadFileOnS3Bucket(this.firstStepData.fileToUpload!, docResult.awsS3SignedUrl, docResult.awsS3Tag)
         .then(async () => {
 
-          console.log('File uploaded successfully.');
+         
           try {
             // let a = await this.authService.linkResumewithUser(this.emailAddress, this.uploadedProfilePicName);
 
@@ -832,7 +826,7 @@ export class EditProfileComponent implements OnInit {
       this.successmessage = "Something went wrong. Please try again after sometime"
       this.successtitle = "Error"
       this.openModal(ModalType.SUCCESS_MESSAGE)
-      console.log(error)
+     
     }
   }
 

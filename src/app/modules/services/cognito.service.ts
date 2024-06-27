@@ -57,8 +57,7 @@ export class CognitoService {
       switch (payload.event) {
         case "signInWithRedirect":
           const user = await getCurrentUser();
-          console.log("inside hub cognito service - signInWithRedirect");
-          console.log(user);
+         
           this.storage.set("signInDetails", user);
          
           //await this.setAccessToken()
@@ -73,7 +72,7 @@ export class CognitoService {
           break;
         case "customOAuthState":
           const state = payload.data; // this will be customState provided on signInWithRedirect function
-          console.log(state);
+         
           break;
       }
     });
@@ -162,10 +161,10 @@ export class CognitoService {
         if (!this.storage.get("useremail")) {
           this.storage.set("useremail", tokens?.idToken?.payload['email']?.toString());
         }
-        console.log(this.storage.get("useremail"), "After")
+      
         return true;
       } else {
-        console.log('No signInDetails:');
+       
         await this.handleSignOut();
         // this.storage.remove("useremail");
         return false;
@@ -186,16 +185,16 @@ export class CognitoService {
           if (!this.storage.get("useremail")) {
             this.storage.set("useremail", signInDetails.loginId);
           }
-          console.log(this.storage.get("useremail"), "After")
+          
           return true;
         } else {
-          console.log('No signInDetails:');
+          
           await this.handleSignOut();
           // this.storage.remove("useremail");
           return false;
         }
       } catch (err) {
-        console.error('Error fetching current authenticated user:', err);
+       // console.error('Error fetching current authenticated user:');
         return false;
       }
     }
@@ -223,7 +222,7 @@ export class CognitoService {
 
 
     } catch (error) {
-      console.log('error signing out: ', error);
+     
     }
   }
 
@@ -250,7 +249,7 @@ export class CognitoService {
       return { response: signUpResponse };
 
     } catch (error) {
-      console.log('Error signing up:', error);
+    
       if (error instanceof AuthError && error.message && (error.message.includes('Password did not conform with policy: Password not long enough') || error.message.includes('Invalid phone number format') || error.message.includes('An account with the given email already exists.'))) {
         return { error };
       } else {
@@ -275,7 +274,7 @@ export class CognitoService {
       // Return the response if confirmation is successful
       return { response: { isSignUpComplete, nextStep } };
     } catch (error) {
-      console.log('error confirming sign up', error);
+     
 
       // Return the error
       return { error };

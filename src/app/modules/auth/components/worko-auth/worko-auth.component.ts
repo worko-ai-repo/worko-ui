@@ -68,7 +68,7 @@ export class WorkoAuthComponent {
             this.storage.set('accessToken', this.linkedinAccessToken.toString());
 
             const usertype = this.storage.get('LinkedinUserType');
-            console.log(usertype)
+          
             if (usertype === 'employeeSignUp') {
               this.employeeSignUp()
             } else if (usertype === 'candidateSignUp') {
@@ -97,7 +97,7 @@ export class WorkoAuthComponent {
     //this.getCandidateData()
     const isCandidatePresent = await this.getCandidateDetails();
     if (isCandidatePresent) {
-      console.log("Candidate not present");
+    
       this.router.navigate(['/auth/employeecompleteSignUp']);
     }
   }
@@ -106,7 +106,7 @@ export class WorkoAuthComponent {
     // this.getCandidateData()
     const isCandidatePresent = await this.getCandidateDetails();
     if (isCandidatePresent) {
-      console.log("Candidate not present");
+     
       this.router.navigate(['/auth/candidatecompleteSignUp']);
     }
 
@@ -129,7 +129,7 @@ export class WorkoAuthComponent {
     try {
       // Fetch the authentication session
       const { tokens, userSub } = await fetchAuthSession();
-      console.log(tokens);
+   
 
       this.userEmail = tokens?.idToken?.payload['email']?.toString();
       this.userName = tokens?.idToken?.payload['given_name']?.toString();
@@ -138,7 +138,7 @@ export class WorkoAuthComponent {
       const { username, userId: id } = await getCurrentUser();
       this.userId = id;
       this.storage.set('userName', this.userName);
-      console.log(id);
+  
 
       // Fetch the user details from the candidate service
       const response = await this.candidateSrv.getUserDetails(this.userEmail);
@@ -152,7 +152,7 @@ export class WorkoAuthComponent {
         this.storage.set('lastAccessedDash', this.userType);   //functionality to navigate to the lastAccessed dashboard
         this.storage.set('userName', userName);
         this.navbarToggleSwitchService.intializeToggleStatus();
-        console.log(userName);
+     
 
         // this.userType = this.lastDashed[0].userType[0];
         this.storage.set("useremail", this.userEmail);
@@ -161,7 +161,7 @@ export class WorkoAuthComponent {
         const isCompanyListingRoute = this.storage.get('isCompanyListingRoute');
         if (isCompanyListingRoute) {
           this.userName = this.storage.get('userName');
-          console.log(this.userName);
+         
           this.storage.set("useremail", this.userEmail);
 
           this.letter = this.userName.charAt(0).toUpperCase();
@@ -174,7 +174,7 @@ export class WorkoAuthComponent {
           const percentageresponse = await this.candidateSrv.getProfileComplete(this.userEmail);
           if (percentageresponse) {
             this.profileCompletion = percentageresponse;
-            console.log(this.profileCompletion);
+            
 
             if (this.profileCompletion) {
               const profileType = this.userType === "CAND" ? this.profileCompletion.candidate : this.profileCompletion.employee;
@@ -200,7 +200,6 @@ export class WorkoAuthComponent {
       }
     } catch (error) {
       console.error(error);
-      this.router.navigate(['/']);
       return true;
     }
   }
@@ -214,14 +213,14 @@ export class WorkoAuthComponent {
 
       userSub
     } = await fetchAuthSession();
-    console.log(tokens)
+  
     this.userEmail = tokens?.idToken?.payload['email']?.toString();
     const {
       username,
       userId: id
     } = await getCurrentUser();
     this.userId = id
-    console.log(id)
+ 
     await this.getCandidateDetails()
   }
 

@@ -51,7 +51,7 @@ export class MarkAsDoneComponent {
 
   async receiveDataFromChild(reviewRatingData: any) {
     this.referralRating1.emit(reviewRatingData);
-    console.log(reviewRatingData);
+   
     this.closeModal();
   }
 

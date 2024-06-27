@@ -22,11 +22,11 @@ export class AllServicesComponent {
 
 
   ngOnInit(): void {
-    console.log(this.servicesList)
+    
   }
 
   ngOnChanges(): void {
-    console.log(this.servicesList);
+   
     if(this.accordionSelected == "AWAITING" &&  this.awaitingList.length === 0){
       this.awaitingList = this.servicesList;
     }
@@ -83,7 +83,7 @@ export class AllServicesComponent {
   }
 
   showServiceData(item:any){
-    console.log(item);
+   
     this.showSelectedService.emit(item);
 
   }

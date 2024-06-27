@@ -23,11 +23,11 @@ export class AcceptedReferralComponent {
   constructor() { }
 
   ngOnInit(): void {
-    console.log(this.selectedReferral, "selectedReferral");
+  
   }
 
   ngOnChanges(): void {
-    console.log(this.selectedReferral, "selectedReferral");
+   
   }
 
   // referralMarkAsDone() {
@@ -51,7 +51,7 @@ export class AcceptedReferralComponent {
     // Handling the done logic here
     this.action = "mark this referral as done";
     this.openModal(ModalType.CONFIRMATION_DIALOG);
-    console.log('mark as done');
+   
   }
 
   doneRequest() {

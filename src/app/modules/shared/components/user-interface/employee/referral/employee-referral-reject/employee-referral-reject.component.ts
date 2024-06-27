@@ -46,7 +46,7 @@ export class EmployeeReferralRejectComponent implements OnInit {
     // Handling the accept logic here
     this.action = "accept";
     this.openModal(ModalType.CONFIRMATION_DIALOG);
-    console.log('Accepted');
+    
   }
 
   rejectBtn(): void {
@@ -56,7 +56,7 @@ export class EmployeeReferralRejectComponent implements OnInit {
 
   onLeave(): void {
     // Handle the leave logic
-    console.log('Leave');
+   
   }
 
   showMore() {
@@ -64,15 +64,7 @@ export class EmployeeReferralRejectComponent implements OnInit {
   }
 
   ngOnChanges(): void {
-    console.log(this.selectedReferral);
-    console.log(this.empExperienceList[0]?.department);
-    console.log(this.empdetailsList[0]?.CTC);
-    console.log(this.empdetailsList[0]?.noticePeriod);
-    console.log(this.empdetailsList[0]?.ECTC);
-    console.log(this.empCoreSkillsDetails[0]?.coreSkills);
-    console.log(this.empCoreSkillsDetails[0]?.certifications);
-    console.log(this.selectedReferral);
-    console.log(this.selectedStatus);
+  
 
     if(this.selectedReferral?.rejectedByUserIds){
       this.getRejectDetailsValue();

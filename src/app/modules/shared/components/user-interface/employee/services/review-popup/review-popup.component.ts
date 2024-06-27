@@ -11,7 +11,7 @@ export class ReviewPopupComponent implements OnChanges {
   ratingControl = new FormControl(0);
 
   getRating() {
-    console.log(this.ratingControl.value);
+   
   }
 
   ngOnChanges() {

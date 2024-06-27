@@ -49,7 +49,7 @@ export class EmployeeReferralDetailsComponent implements OnChanges {
     // Handling the accept logic here
     this.action = "accept";
     this.openModal(ModalType.CONFIRMATION_DIALOG);
-    console.log('Accepted');
+    
   }
 
   rejectBtn(): void {
@@ -59,18 +59,11 @@ export class EmployeeReferralDetailsComponent implements OnChanges {
 
   onLeave(): void {
     // Handle the leave logic
-    console.log('Leave');
+  
   }
 
   ngOnChanges(changes: SimpleChanges): void {
-    console.log(this.empExperienceList[0]?.department);
-    console.log(this.empdetailsList[0]?.CTC);
-    console.log(this.empdetailsList[0]?.noticePeriod);
-    console.log(this.empdetailsList[0]?.ECTC);
-    console.log(this.empCoreSkillsDetails[0]?.coreSkills);
-    console.log(this.empCoreSkillsDetails[0]?.certifications);
-    console.log(this.selectedReferral);
-    console.log(this.selectedStatus);
+   
 
     // if (changes['selectedReferral']) {
     //   this.handleSelectedReferralChange(changes['selectedReferral'].currentValue);

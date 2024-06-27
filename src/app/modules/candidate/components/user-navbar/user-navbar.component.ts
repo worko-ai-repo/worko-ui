@@ -22,7 +22,6 @@ export class UserNavbarComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    console.log(this.userType)
     this.emailAddress = this.storage.get("useremail");
     //debugger
 
@@ -86,11 +85,9 @@ export class UserNavbarComponent implements OnInit {
     this.navbarToggleSwitchService.toggleDashboard();
 
     if (this.navbarToggleSwitchService.getCurrentDashboard()) {
-      console.log(this.userType)
       this.router.navigate(['/employee/Dashboard']);
       //debugger
     } else {
-      console.log(this.userType)
       this.router.navigate(['/candidate/dashboard']);
     }
 
@@ -105,7 +102,6 @@ export class UserNavbarComponent implements OnInit {
       lastAccessedDash: this.navbarToggleSwitchService.getDashboard()
     }
     await this.authService.updateProfile(this.emailAddress, payload).then(async (response) => {
-      console.log(response);
     })
       .catch(error => {
         this.cognitoService.handleSignOut();

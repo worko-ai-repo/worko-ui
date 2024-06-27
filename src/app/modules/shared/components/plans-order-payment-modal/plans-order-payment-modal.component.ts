@@ -28,7 +28,7 @@ export class PlansOrderPaymentModalComponent implements OnChanges {
 
   ngOnChanges(changes: SimpleChanges): void {
     // console.log(this.isOrderDetails)
-    console.log(this.isOrderSummary)
+  
     // console.log(this.isPaymentDetails)
   }
 
@@ -113,8 +113,7 @@ export class PlansOrderPaymentModalComponent implements OnChanges {
     }
 
     this.formattedCardNumber = this.formatCardNumber(this.cardDetails.cardholderNumber);
-    console.log(this.cardDetails)
-    console.log(this.cardholderName)
+   
   }
 
   formatCardNumber(cardNumber: string): string {
@@ -200,7 +199,7 @@ export class PlansOrderPaymentModalComponent implements OnChanges {
     let lastDigit = arr.splice(0, 1)[0];
     let sum = arr.reduce((acc, val, i) => (i % 2 !== 0 ? acc + val : acc + ((val * 2) % 9) || 9), 0);
     sum += lastDigit;
-    console.log(sum)
+   
     return sum % 10 === 0;
   }
 

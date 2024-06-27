@@ -31,7 +31,7 @@ export class UserMenubarComponent {
 
   ngOnInit(): void {
     this.activeRoute = this.router.url;
-    console.log(this.userType)
+   
     if (this.userType == "Candidate") {
       this.menuItems = [
         {
@@ -140,7 +140,7 @@ export class UserMenubarComponent {
   toggleMenu(event: any) {
     // this.isMenuOpen = event.target.checked;
     this.isMenuOpen = !this.isMenuOpen;
-    console.log("isMenuOpen", this.isMenuOpen)
+   
   }
 
   /**

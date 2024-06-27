@@ -12,11 +12,11 @@ export class ReferralCancelledComponent {
   @Input() empdetailsList:any;
 
   ngOnInit(): void {
-    console.log(this.selectedReferral, "selectedReferral");
+   
   }
  
   ngOnChanges(): void {
-    console.log(this.selectedReferral, "selectedReferral");
+   
   }
 
   showMore() {

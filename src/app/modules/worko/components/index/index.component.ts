@@ -118,7 +118,7 @@ export class IndexComponent {
     this.navbarToggleSwitchService.intializeToggleStatus();
     const userType = this.storage.get('lastAccessedDash');
     this.userName = this.storage.get('userName');
-    console.log(this.userName);
+   
 
     if (userType === 'EMP') {
       this.router.navigate(['/employee/Dashboard']);
@@ -130,7 +130,7 @@ export class IndexComponent {
   private handleUserTypeFromIndex(): void {
     this.showLoginScreen = true;
     this.selectedUserType = this.userTypeFromIndex;
-    console.log(this.selectedUserType);
+   
     this.modalOpen();
 
     // Remove query parameters after processing
@@ -152,7 +152,7 @@ export class IndexComponent {
       if (this.router.url.includes('/company-listing')) {
         this.userLoggedIn = await this.cognitoService.isLoggedIn();
         this.userName = this.storage.get('userName');
-        console.log(this.userName)
+     
         // this.letter=this.getInitials(this.userName)
         // console.log(this.letter);
         this.letter = this.userName.charAt(0).toUpperCase();
@@ -165,7 +165,7 @@ export class IndexComponent {
         
         if (response) {
           this.profileCompletion = response;
-          console.log(this.profileCompletion);
+        
 
           if (this.profileCompletion) {
             const profileType = userType === "CAND" ? this.profileCompletion.candidate : this.profileCompletion.employee;

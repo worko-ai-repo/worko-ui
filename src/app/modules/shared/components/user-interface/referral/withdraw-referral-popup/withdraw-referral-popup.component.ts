@@ -18,7 +18,6 @@ export class WithdrawReferralPopupComponent {
   comments = new FormControl('');
 
   ngOnChanges() {
-    console.log(this.userType);
   }
 
 
@@ -30,7 +29,6 @@ export class WithdrawReferralPopupComponent {
         withdrawComments: this.comments.value
       };
 
-      console.log(withdrawDetails);
       this.onSuccess.emit(withdrawDetails);
       this.reasonControl.setValue('');
       this.comments.reset();

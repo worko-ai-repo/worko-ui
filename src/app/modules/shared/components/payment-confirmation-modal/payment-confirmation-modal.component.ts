@@ -22,13 +22,11 @@ export class PaymentConfirmationModalComponent implements OnChanges {
   constructor(private router: Router, private location: Location, private cdr: ChangeDetectorRef) { }
 
   ngOnInit(): void {
-    console.log("confirmation modal open now");
+   
   }
 
   ngOnChanges(changes: SimpleChanges): void {
-    console.log(this.isOrderDetails)
-    console.log(this.isOrderSummary)
-    console.log(this.isPaymentDetails)
+ 
 
     if (this.decryptedPaymentResponse) {
       // console.log(this.decryptedPaymentResponse);
@@ -126,8 +124,7 @@ export class PaymentConfirmationModalComponent implements OnChanges {
     }
 
     this.formattedCardNumber = this.formatCardNumber(this.cardDetails.cardholderNumber);
-    console.log(this.cardDetails)
-    console.log(this.cardholderName)
+   
   }
 
   formatCardNumber(cardNumber: string): string {
@@ -217,7 +214,7 @@ export class PaymentConfirmationModalComponent implements OnChanges {
     let lastDigit = arr.splice(0, 1)[0];
     let sum = arr.reduce((acc, val, i) => (i % 2 !== 0 ? acc + val : acc + ((val * 2) % 9) || 9), 0);
     sum += lastDigit;
-    console.log(sum)
+   
     return sum % 10 === 0;
   }
 

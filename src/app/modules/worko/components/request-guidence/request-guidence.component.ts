@@ -70,7 +70,7 @@ serviceText=''
     this.reqGuidanceSrv.getMasters().subscribe({
       next: (response) => {
         this.masterSrvList = response;
-        console.log(response)
+       
       },
       error: (error) => {
         console.error(error);
@@ -81,10 +81,10 @@ serviceText=''
   checkReqGuidance(reqGuidanceData: any) {
     this.reqGuidanceSrv.createreqGuidance(reqGuidanceData, this.emailAddress).then(async (response) => {
       if (response) {
-        console.log(response + 'hello')
+       
         this.getServiceStatus(response.serviceRequestId);
       } else {
-        console.log('Hiii')
+      
       }
     })
   }
@@ -100,24 +100,24 @@ serviceText=''
     }
     this.reqGuidanceSrv.setInterviewGuidance(interviewGuidanceData, this.emailAddress).then(async (response) => {
       if (response) {
-        console.log(response + 'hello')
+       
         this.getServiceStatus(response.serviceRequestId);
       } else {
-        console.log('Hiii')
+       
       }
     })
   }
   getServiceStatus(serviceRequestId: any) {
     this.reqGuidanceSrv.getServiceStatus(serviceRequestId, this.emailAddress).then(async (response) => {
       if (response) {
-        console.log(response + 'hello')
+       
         this.requestSentScreen = true;
         this.isFormVisible = false;
         this.selectedService = "";
         this.isButtonScreen = false;
         this.showSideImage = false;
       } else {
-        console.log('Hiii')
+       
       }
     })
 

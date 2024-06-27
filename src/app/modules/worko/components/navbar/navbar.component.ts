@@ -63,7 +63,7 @@ export class NavbarComponent {
     this.navbarToggleSwitchService.intializeToggleStatus();
     const usertype = this.storage.get('lastAccessedDash');
     this.userName = this.storage.get('userName');
-    console.log(this.userName)
+   
     if (usertype === 'EMP') {
 
       this.router.navigate(['/employee/Dashboard']);
@@ -133,7 +133,7 @@ export class NavbarComponent {
     this.userLoggedIn = await this.cognitoService.isLoggedIn();
     if (this.userLoggedIn) {
       this.userName = this.storage.get('userName');
-      console.log(this.userName)
+   
       // this.letter=this.getInitials(this.userName)
       // console.log(this.letter);
       this.letter = this.userName.charAt(0).toUpperCase();
@@ -147,7 +147,7 @@ export class NavbarComponent {
       if (this.router.url.includes('/company-listing')) {
         this.userLoggedIn = await this.cognitoService.isLoggedIn();
         this.userName = this.storage.get('userName');
-        console.log(this.userName)
+  
         // this.letter=this.getInitials(this.userName)
         // console.log(this.letter);
         this.letter = this.userName.charAt(0).toUpperCase();
@@ -163,7 +163,7 @@ export class NavbarComponent {
 
         if (response) {
           this.profileCompletion = response;
-          console.log(this.profileCompletion);
+       
 
           if (this.profileCompletion) {
             const profileType = userType === "CAND" ? this.profileCompletion.candidate : this.profileCompletion.employee;

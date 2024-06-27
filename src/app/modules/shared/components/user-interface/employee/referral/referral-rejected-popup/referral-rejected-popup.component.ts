@@ -20,7 +20,6 @@ export class ReferralRejectedPopupComponent {
   comments: FormControl = new FormControl('', Validators.required);
 
   ngOnChanges() {
-    console.log(this.userType);
   }
 
   rejectSubmitBtn() {
@@ -29,7 +28,7 @@ export class ReferralRejectedPopupComponent {
         rejectTitle: this.reasonControl.value,
         rejectComments: this.comments.value
       };
-      console.log(rejectReasons);
+     
       this.reasonControl.setValue('');
       this.comments.reset();
       this.onSuccess.emit(rejectReasons);

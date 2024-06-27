@@ -24,8 +24,6 @@ export class JobHistoryComponent {
       company.experience = this.calculateExperience(company.totalMonths);
   });
 
-  console.log(this.currentCompany);
-  console.log(this.previousCompanies);
 }
 
 calculateExperience(totalMonths: number): string {
