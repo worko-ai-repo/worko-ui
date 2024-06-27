@@ -110,7 +110,7 @@ export class SubscriptionPlanComponent {
     this.isOrderDetails = false;
     // this.openModal(ModalType.SUBSCRIPTION_CHECKOUT);
     if (this?.subscriptionStatus?.isSubscribed) {
-      this.successmessage = `You already have ${this.packageDetails?.availableReferrals} referral count left in your account. Please use it before buying another one.`;
+      this.successmessage = `You already have ${this?.subscriptionStatus?.referralCount} referral count left in your account. Please use it before buying another one.`;
       this.successtitle = ""
       this.openModal(ModalType.SUCCESS_MESSAGE);
     }

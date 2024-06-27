@@ -15,8 +15,8 @@ export class SubscriptionComponent {
   subscriptionList: any[] = [];
   packageDetails1: any;
   cardDetails: any[] = [];
-  userDetails:any;
-  constructor(private candidateSrv: CandidateProfileService, private storage: StorageService, private subscriptionPack: SubscriptionPackService, private spinner: NgxSpinnerService, private router: Router, private cdr:ChangeDetectorRef) { }
+  userDetails: any;
+  constructor(private candidateSrv: CandidateProfileService, private storage: StorageService, private subscriptionPack: SubscriptionPackService, private spinner: NgxSpinnerService, private router: Router, private cdr: ChangeDetectorRef) { }
   ngOnInit(): void {
 
     this.emailAddress = this.storage.get("useremail");
@@ -32,32 +32,35 @@ export class SubscriptionComponent {
       if (response) {
         // Filtering out only that subscription which has isActive set to true
 
-        let activeSubscription: any = null;
-        response.forEach((subscription: any) => {
-          if (subscription.status === "ACTIVE" && !activeSubscription) {
-            activeSubscription = subscription;
-          }
-        });
-        if (activeSubscription) {
+        // let activeSubscription: any = null;
+        // response.forEach((subscription: any) => {
+        //   if (subscription.status === "ACTIVE" && !activeSubscription) {
+        //     activeSubscription = subscription;
+        //   }
+        // });
+
+        // Filtering out all subscriptions which have status set to ACTIVE
+        const activeSubscription = response.filter((subscription: any) => subscription.status === "ACTIVE");
+        if (activeSubscription.length > 0) {
           //console.log("Current active subscription is: ", activeSubscription);
           this.packageDetails = activeSubscription;
-          this.cdr.detectChanges();
           this.packageDetails1 = activeSubscription;
+          this.cdr.detectChanges();
           // this.achievementsList = response[0].achievements;
         } else {
           //console.log("No active subscription found.");
         }
         this.getSubcriptionPack();
       }
-    })
+    });
   }
 
   getSubcriptionPack() {
     this.subscriptionPack.getSubscription().subscribe({
       next: (response) => {
         // console.log(response);
-        this.subscriptionList = response.sort((a:any, b:any) => a.amount - b.amount);
-       // console.log(this.subscriptionList, "Hello")
+        this.subscriptionList = response.sort((a: any, b: any) => a.amount - b.amount);
+        // console.log(this.subscriptionList, "Hello")
         this.spinner.hide();
         // const filteredB = this.subscriptionList.filter(itemB => ! this.packageDetails1.some((itemA: any) => itemA.name === itemB.name));
         // const filteredB =  this.subscriptionList.filter(itemB => !this.packageDetails1.some((itemA: any) => itemA && itemA.name === itemB.name));
@@ -69,7 +72,7 @@ export class SubscriptionComponent {
         // console.log(filteredB);
       },
       error: (error) => {
-       // debugger;
+        // debugger;
         console.error(error);
         this.spinner.hide();
       },
