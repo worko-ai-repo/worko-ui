@@ -186,11 +186,16 @@ input.ng-invalid.ng-touched {
 
   .circular-button-container {
 
-    bottom:187px;
+    bottom:185px;
     left: 80%;
     
   
 
+  }
+  .circular-button {
+    width: 30px;
+    height: 30px;
+    font-size: 13px;
   }
 
 }

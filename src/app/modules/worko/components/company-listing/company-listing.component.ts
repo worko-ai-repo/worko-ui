@@ -205,7 +205,7 @@ export class CompanyListingComponent implements OnInit, AfterViewInit, OnDestroy
     { name: "SAAS", value: "SAAS" },
     { name: "Software Product", value: "Software Product" },
     { name: "Sports / Leisure & Recreation", value: "Sports / Leisure & Recreation" },
-    { name: "Stock Broking", value: "Stock Broking" },
+    { name: "Stock Broking", value: "Stock broking" },
     { name: "Telecom / ISP", value: "Telecom / ISP" },
     { name: "Textile & Apparel ", value: "Textile & Apparel" },
     { name: "Travel & Tourism", value: "Travel & Tourism" },
@@ -408,7 +408,7 @@ export class CompanyListingComponent implements OnInit, AfterViewInit, OnDestroy
         }
       })
     } catch (error: any) {
-      console.log("error:", error);
+      //console.log("error:", error);
     }
   }
 
@@ -487,6 +487,8 @@ export class CompanyListingComponent implements OnInit, AfterViewInit, OnDestroy
     this.isNoLoadData=true;
     const encodedQuery = encodeURIComponent(query); // Encoding the query string
     this.filterData.companyName = encodedQuery; // Setting here encoded query to filterData
+    this.filterData.teamSize="", 
+    this.filterData.industryType="",
     this.getCompanyDetails();
   }
 
@@ -570,16 +572,24 @@ export class CompanyListingComponent implements OnInit, AfterViewInit, OnDestroy
   }
 
   async onTeamSizeChange(selectedTeamSize: string) {
-    if (selectedTeamSize !== "") {
-      this.pageSize = 100;
-    } else {
-      this.pageSize = 50;
-    }
+    // if (selectedTeamSize !== "") {
+    //   this.pageSize = 100;
+    // } else {
+    //   this.pageSize = 50;
+    // }
+    this.pageSize = selectedTeamSize !== "" ? 100 : 50; // if the selectIndustryType is selected then passing pageSize as 100
     this.isNoLoadData = true
 
     this.lastKey = "";
     this.loadedOnce = true;
-    this.filterData.teamSize = selectedTeamSize;
+    if(this.filterData.companyName!==""){
+      this.filterData.teamSize = "";
+      (document.getElementById('teamSize') as HTMLSelectElement).value = "";
+    }else{
+      this.filterData.teamSize = selectedTeamSize;
+      await this.getCompanyDetails();
+    }
+   /// this.filterData.teamSize = selectedTeamSize;
     // if(selectedTeamSize){
     //    // Assuming selectedTeamSize is a string representation of the selected team size value
     //    const [min, max] = selectedTeamSize.split('-').map(Number); // Assuming team size format is 'min-max'
@@ -590,7 +600,7 @@ export class CompanyListingComponent implements OnInit, AfterViewInit, OnDestroy
     // }
 
     // Call getCompanyDetails to fetch filtered companies
-    await this.getCompanyDetails();
+   
   }
 
   async onIndustryNameChange(selectedIndustryName: string) {
@@ -607,19 +617,29 @@ export class CompanyListingComponent implements OnInit, AfterViewInit, OnDestroy
 
     this.isNoLoadData = true
     this.lastKey = "";
-    if (selectedIndustryType !== "") {  // if the selectIndustryType is selected then passing pageSize as 100
-      this.pageSize = 100;
-    } else {
-      this.pageSize = 50;
-    }
+    // if (selectedIndustryType !== "" ) {  // if the selectIndustryType is selected then passing pageSize as 100
+    //   this.pageSize = 100;
+    // } else {
+    //   this.pageSize = 50;
+    // }
     this.loadedOnce = true;
+    this.pageSize = selectedIndustryType !== "" ? 100 : 50; // if the selectIndustryType is selected then passing pageSize as 100
+    if(this.filterData.companyName!==""){
+      this.filterData.industryType = "";
+      (document.getElementById('industryType') as HTMLSelectElement).value = "";
+    }else{
+      this.filterData.industryType = selectedIndustryType;
+      await this.getCompanyDetails();
+    }
+    
     // this.appliedFilter = true;
     // const encodedQuery = encodeURIComponent(selectedIndustryType);
-    this.filterData.industryType = selectedIndustryType;
+   // this.filterData.industryType = selectedIndustryType; //commented now --working flow
    
     // Call getCompanyDetails to fetch filtered companies
-    await this.getCompanyDetails();
+    
   }
+
 
 
   // onMouseOver(item: any, event: any) {
