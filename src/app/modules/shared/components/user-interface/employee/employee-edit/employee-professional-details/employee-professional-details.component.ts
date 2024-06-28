@@ -112,6 +112,7 @@ export class EmployeeProfessionalDetailsComponent implements OnInit {
   successtitle: string = "";
   isDisabled: boolean = false;
   isEmailVerified: boolean = false;
+  experienceFieldsCompleted: boolean = true;
   constructor(
     private router: Router,
     private cdr: ChangeDetectorRef,
@@ -126,6 +127,10 @@ export class EmployeeProfessionalDetailsComponent implements OnInit {
       fields: this.fb.array([]),
     });
    }
+
+  ngAfterViewInit(): void {
+       
+  }
   // addField(): void {
   //   const fieldsArray = this.formGroup.get("fields") as FormArray;
   //   const newField = this.createField();
@@ -190,6 +195,13 @@ export class EmployeeProfessionalDetailsComponent implements OnInit {
   ngOnInit() {
     this.isEmailVerified = this.workExperienceDetails?.isEmailVerified;
 this.disableAllFields();
+  if(this.employeeProfessionalData.designation &&
+  this.employeeProfessionalData.department &&
+  this.employeeProfessionalData.companyName &&
+  this.employeeProfessionalData.workingSince &&
+  this.employeeProfessionalData.officialEmail){
+    this.experienceFieldsCompleted  = false;
+  } 
     //debugger
     // this.stateService.setState(false);
     // console.log(this.employeeProfessionalData)

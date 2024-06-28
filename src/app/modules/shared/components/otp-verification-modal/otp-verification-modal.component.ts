@@ -53,7 +53,7 @@ export class OtpVerificationModalComponent {
       }
     } catch (error) {
       this.spinner.hide();
-      this.onSuccess.emit("cancel");
+      this.onSuccess.emit("error");
     }
   }
 }

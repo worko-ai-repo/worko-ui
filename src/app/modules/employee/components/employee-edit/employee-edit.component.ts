@@ -39,6 +39,9 @@ export class EmployeeEditComponent {
   modalMessage: string = "";
   modalTitle: string = "";
   showModal: ModalType | undefined;
+  id: any;
+  emailid: any;
+  isEmailVerified: any;
   constructor(
     private spinner: NgxSpinnerService,
     private router: Router,
@@ -461,8 +464,17 @@ const candidateExperience = {
             //Commented as we are not using bank details for now
             // this.addBankDetails();
             this.spinner.hide();
-            this.modalopen();
-          
+
+            await this.getWorkExperienceDetails();
+            if(!this.isEmailVerified) {
+              this.emailid = this.storage.get("useremail");
+              this.id = this.workExperienceDetails?.id;
+              this.openOtpModal();
+            }
+            else {
+              this.modalopen();
+            }
+            // this.modalopen();
           }
         });
     } catch (error: any) {
@@ -492,6 +504,7 @@ const candidateExperience = {
             // Assuming 'SK' is a property that indicates the response structure
             this.workExperienceDetailsList = response;
             this.workExperienceDetails = response[0];
+            this.isEmailVerified = this.workExperienceDetails?.isEmailVerified;
            
           }else{
             
@@ -510,6 +523,43 @@ const candidateExperience = {
         this.successtitle = "Error";
         this.openModal(ModalType.SUCCESS_MESSAGE);
       }
+    }
+  }
+
+  async openOtpModal() {
+    this.spinner.show();
+    try {
+      let response =
+        await this.candidateSrv.employeeEmailVerification(
+          this.emailid,
+          this.id
+        );
+      if (response) {
+        this.spinner.hide();
+        this.openModal(ModalType.OTP_VERIFICATION);
+      }
+    } catch (error: any) {
+      this.spinner.hide();
+      this.successmessage =
+        "Something went wrong. Please try again after sometime";
+      this.successtitle = "Error";
+      this.openModal(ModalType.SUCCESS_MESSAGE);
+    }
+  }
+
+  receiveDataFromChild(data: any) {
+    if(data == "success"){
+      this.modal.cancel();
+      this.modalopen();
+    }
+    else if(data == "cancel") {
+      this.modal.cancel();
+    }
+    else if( data == "error") {
+      this.successmessage =
+        "Something went wrong. Please try again after sometime";
+      this.successtitle = "Error";
+      this.openModal(ModalType.SUCCESS_MESSAGE);
     }
   }
 
