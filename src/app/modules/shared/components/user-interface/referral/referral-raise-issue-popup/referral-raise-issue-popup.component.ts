@@ -18,7 +18,7 @@ export class ReferralRaiseIssuePopupComponent {
   }
 
   ngOnChanges() {
-    console.log(this.userType);
+   
   }
 
   raiseIssueSubmitBtn() {
@@ -29,7 +29,7 @@ export class ReferralRaiseIssuePopupComponent {
         issueDescription: this.issueDescription.value
       };
 
-      console.log(issueData);
+     
       this.selectedOption.setValue('');
       this.issueDescription.reset();
       this.onSuccess.emit(issueData);

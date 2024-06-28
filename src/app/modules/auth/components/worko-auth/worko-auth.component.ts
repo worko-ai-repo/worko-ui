@@ -8,6 +8,7 @@ import { CandidateProfileService } from 'src/app/modules/candidate/services/cand
 import { DataTextureLoader } from 'three';
 import { fetchAuthSession, getCurrentUser, signOut } from '@aws-amplify/auth';
 import { environment } from 'src/environments/environment';
+import { NavbarToggleSwitchService } from 'src/app/modules/candidate/services/navbar-toggle-switch.service';
 
 
 
@@ -25,6 +26,10 @@ export class WorkoAuthComponent {
   userId: any;
   registrationType: string = '';
   errorMessage: string = '';
+  profileCompletion: any;
+  userType: any;
+  userName: any;
+  letter: any;
   constructor(
     private router: Router,
     private activatedRoute: ActivatedRoute,
@@ -33,6 +38,7 @@ export class WorkoAuthComponent {
     private route: ActivatedRoute,
 
     private candidateSrv: CandidateProfileService,
+    private navbarToggleSwitchService: NavbarToggleSwitchService
   ) {
 
   }
@@ -62,21 +68,22 @@ export class WorkoAuthComponent {
             this.storage.set('accessToken', this.linkedinAccessToken.toString());
 
             const usertype = this.storage.get('LinkedinUserType');
-            console.log(usertype)
+          
             if (usertype === 'employeeSignUp') {
               this.employeeSignUp()
             } else if (usertype === 'candidateSignUp') {
               this.candidateSignUp()
 
-            } else {
+            }
+            else {
               this.signIn()
             }
 
 
             break;
           case 'logout':
-           await  this.cognitoService.handleSignOut();
-            //this.router.navigate(['/']);
+            await this.cognitoService.handleSignOut();
+            // this.router.navigate(['/']);
             window.location.href = environment.crossOriginUrl + '/';
             break;
         }
@@ -86,20 +93,20 @@ export class WorkoAuthComponent {
   }
 
 
-  async employeeSignUp() {
+  async employeeSignUp() { //check whether the user is already persent or not 
     //this.getCandidateData()
     const isCandidatePresent = await this.getCandidateDetails();
     if (isCandidatePresent) {
-      console.log("Candidate not present");
+    
       this.router.navigate(['/auth/employeecompleteSignUp']);
     }
   }
-  async candidateSignUp() {
+  async candidateSignUp() { // check whether the user is already persent or not 
 
     // this.getCandidateData()
     const isCandidatePresent = await this.getCandidateDetails();
     if (isCandidatePresent) {
-      console.log("Candidate not present");
+     
       this.router.navigate(['/auth/candidatecompleteSignUp']);
     }
 
@@ -107,55 +114,98 @@ export class WorkoAuthComponent {
   }
 
 
-
+//if user is not registered and clicking on sign in with linkedin
   async signIn() {
     // this.getCandidateData()
+  
     const isCandidatePresent = await this.getCandidateDetails();
     if (isCandidatePresent) {
       this.registerOptionScreen = true;
       this.register();
     }
   }
+    //check whether user is sign in or not.
   async getCandidateDetails() {
-
-    const {
-      tokens,
-
-      userSub
-    } = await fetchAuthSession();
-    console.log(tokens)
-    this.userEmail = tokens?.idToken?.payload['email']?.toString();
-    const {
-      username,
-      userId: id
-    } = await getCurrentUser();
-    this.userId = id
-    console.log(id)
     try {
-      return await this.candidateSrv.getUserDetails(this.userEmail).then(async (response) => {
-        if (response) {
-          this.registerOptionScreen = false;
-          this.lastDashed = response
-          console.log(this.lastDashed[0].userType[0])
-          if (this.lastDashed[0].userType[0] === 'EMP') {
-            this.storage.set("useremail", this.userEmail);
-            console.log(this.userEmail);
-            this.router.navigate(['/employee/Dashboard']);
+      // Fetch the authentication session
+      const { tokens, userSub } = await fetchAuthSession();
+   
 
-          } else if (this.lastDashed[0].userType[0] === 'CAND') {
-            this.storage.set("useremail", this.userEmail);
-            console.log(this.userEmail);
-            this.router.navigate(['/candidate/dashboard']);
-          }
-          return false
+      this.userEmail = tokens?.idToken?.payload['email']?.toString();
+      this.userName = tokens?.idToken?.payload['given_name']?.toString();
+
+      // Fetch the current user details
+      const { username, userId: id } = await getCurrentUser();
+      this.userId = id;
+      this.storage.set('userName', this.userName);
+  
+
+      // Fetch the user details from the candidate service
+      const response = await this.candidateSrv.getUserDetails(this.userEmail);
+      if (response) {
+        this.lastDashed = response;
+        this.registerOptionScreen = false;
+        this.storage.set("isLinkedinUser", 'true');
+
+        this.userType = response[0].lastAccessedDash;
+        let userName = response[0].name;
+        this.storage.set('lastAccessedDash', this.userType);   //functionality to navigate to the lastAccessed dashboard
+        this.storage.set('userName', userName);
+        this.navbarToggleSwitchService.intializeToggleStatus();
+     
+
+        // this.userType = this.lastDashed[0].userType[0];
+        this.storage.set("useremail", this.userEmail);
+
+        // Check if the current route is /company-listing
+        const isCompanyListingRoute = this.storage.get('isCompanyListingRoute');
+        if (isCompanyListingRoute) {
+          this.userName = this.storage.get('userName');
+         
+          this.storage.set("useremail", this.userEmail);
+
+          this.letter = this.userName.charAt(0).toUpperCase();
+
+          // Redirect to the company listing page
+          this.router.navigate(['/company-listing']);
+          return false;
         } else {
-          return true;
+          // Fetch the profile completion percentage
+          const percentageresponse = await this.candidateSrv.getProfileComplete(this.userEmail);
+          if (percentageresponse) {
+            this.profileCompletion = percentageresponse;
+            
+
+            if (this.profileCompletion) {
+              const profileType = this.userType === "CAND" ? this.profileCompletion.candidate : this.profileCompletion.employee;
+              const totalPercentage = profileType.reduce((sum: any, element: any) => sum + element.curPerc, 0);
+
+              // Navigate based on the profile completion percentage
+              if (this.userType === "CAND" && totalPercentage >= 60) {
+                this.router.navigate(['/candidate/dashboard']);
+              } else if (this.userType === "CAND" && totalPercentage < 60) {
+                this.router.navigate(['/candidate/edit-profile']);
+              } else if (this.userType !== "CAND" && totalPercentage >= 60) {
+                this.router.navigate(['/employee/Dashboard']);
+              } else if (this.userType !== "CAND" && totalPercentage < 60) {
+                this.router.navigate(['/employee/Edit-profile']);
+              }
+            }
+          }
+          return false;
         }
-      });
-    } catch {
+
+      }else{
+        return true;
+      }
+    } catch (error) {
+      console.error(error);
       return true;
     }
   }
+
+
+
   async getCandidateData() {
     // debugger
     const {
@@ -163,22 +213,22 @@ export class WorkoAuthComponent {
 
       userSub
     } = await fetchAuthSession();
-    console.log(tokens)
+  
     this.userEmail = tokens?.idToken?.payload['email']?.toString();
     const {
       username,
       userId: id
     } = await getCurrentUser();
     this.userId = id
-    console.log(id)
+ 
     await this.getCandidateDetails()
   }
 
-
+//user will be shown a selection form for candidate and employee when non register user click on sign in with linkedin
   register() {
-    if (this.registrationType === 'candidate') {
+    if (this.registrationType === 'candidate') { // if user select candidate
       this.router.navigate(['/auth/candidatecompleteSignUp']);
-    } else if (this.registrationType === 'employee') {
+    } else if (this.registrationType === 'employee') { // if user select employee
       this.router.navigate(['/auth/employeecompleteSignUp']);
     }
 
@@ -187,4 +237,7 @@ export class WorkoAuthComponent {
 
 
   }
+
+
+
 }

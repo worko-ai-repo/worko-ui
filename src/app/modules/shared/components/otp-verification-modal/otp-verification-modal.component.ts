@@ -34,14 +34,14 @@ export class OtpVerificationModalComponent {
   }
   async submitPaymentCode(form: any) {
     this.spinner.show();
-    console.log(this.email, this.id);
+   
     try {
       let response = await this.candidateProfileService.verifyOtp(
         this.email,
         this.id,
         this.form.paymentCode
       );
-      console.log(response);
+    
       // if (response.verificationStatus === true) {
       if (response.verificationStatus) {
         this.spinner.hide();

@@ -18,7 +18,7 @@ export class UserAboutComponent implements OnInit {
   ngOnInit(): void {
       // this.emailAddress= this.storage.get("useremail")
       // this.userCertifications();
-      console.log(this.userDescription)
+     
   }
 
   // async userCertifications(){

@@ -50,7 +50,7 @@ export class ReferralRequestComponent implements OnInit, OnChanges {
 
   ngOnChanges() {
     //debugger
-    console.log(this.selectedCompany);
+   
   }
   initializeForm(): void {
     this.requestForm = this.formBuilder.group({
@@ -83,7 +83,7 @@ export class ReferralRequestComponent implements OnInit, OnChanges {
       this.companyListing.getReferralCount(this.emailId).then(async (response) => {
         
           let count = response.referralCount;
-          console.log(response)
+     
           if (count==0) {
             this.showsubscriptionPlan = true;
             this.showReferrelRow = false;
@@ -128,7 +128,7 @@ export class ReferralRequestComponent implements OnInit, OnChanges {
 
     this.companyListing.createReferralRequest(this.emailId, data).then(async (response) => {
       if (response) {
-        console.log("Helo11");
+    
 
         if (response.referralRequestId) {
           this.referralRequestId = response.referralRequestId;
@@ -147,7 +147,7 @@ export class ReferralRequestComponent implements OnInit, OnChanges {
   getScore(referralRequestId: string) {
     this.companyListing.getMatchingScore(this.emailId, referralRequestId).then(async (response) => {
       if (response) {
-        console.log("Matchingscore");
+        
         this.matchingScore = response.matchingScore;
         this.showLoading = false;
         this.showScore = true;

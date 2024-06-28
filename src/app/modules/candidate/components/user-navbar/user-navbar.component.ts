@@ -3,6 +3,7 @@ import { Router } from '@angular/router';
 import { NavbarToggleSwitchService } from '../../services/navbar-toggle-switch.service';
 import { AuthService } from 'src/app/modules/worko/services/auth.service';
 import { StorageService } from 'src/app/modules/app-core/services/storage.service';
+import { CognitoService } from 'src/app/modules/services/cognito.service';
 
 @Component({
   selector: 'app-user-navbar',
@@ -15,13 +16,12 @@ export class UserNavbarComponent implements OnInit {
   activeRoute: string = '';
   emailAddress: any;
   navbarToggleSwitchService: NavbarToggleSwitchService;
-  constructor(private router: Router, navbarToggleSwitchService: NavbarToggleSwitchService, private authService: AuthService, private storage: StorageService) {
+  constructor(private router: Router, navbarToggleSwitchService: NavbarToggleSwitchService, private authService: AuthService, private storage: StorageService,private cognitoService: CognitoService) {
 
     this.navbarToggleSwitchService = navbarToggleSwitchService;
   }
 
   ngOnInit(): void {
-    console.log(this.userType)
     this.emailAddress = this.storage.get("useremail");
     //debugger
 
@@ -85,11 +85,9 @@ export class UserNavbarComponent implements OnInit {
     this.navbarToggleSwitchService.toggleDashboard();
 
     if (this.navbarToggleSwitchService.getCurrentDashboard()) {
-      console.log(this.userType)
       this.router.navigate(['/employee/Dashboard']);
       //debugger
     } else {
-      console.log(this.userType)
       this.router.navigate(['/candidate/dashboard']);
     }
 
@@ -104,10 +102,11 @@ export class UserNavbarComponent implements OnInit {
       lastAccessedDash: this.navbarToggleSwitchService.getDashboard()
     }
     await this.authService.updateProfile(this.emailAddress, payload).then(async (response) => {
-      console.log(response);
     })
       .catch(error => {
+        this.cognitoService.handleSignOut();
         console.error('Error is', error);
+        
     });
   }
 

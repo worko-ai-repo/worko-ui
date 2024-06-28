@@ -329,7 +329,6 @@ export class HomeComponent {
   }
 
   async receiveDataFromChild(userType: any) {
-    console.log(userType);
     this.closeModal();
     this.userLoggedIn = await this.cognitoService.isLoggedIn();
     if (this.userLoggedIn) {

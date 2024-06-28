@@ -45,7 +45,7 @@ export class SubscriptionPackComponent implements OnInit {
         next: (response) => {
           // console.log(response);
            this.subscriptionList = response;
-            console.log(this.subscriptionList,"Hello")
+           
         },
         error: (error) => {
                    console.error(error);

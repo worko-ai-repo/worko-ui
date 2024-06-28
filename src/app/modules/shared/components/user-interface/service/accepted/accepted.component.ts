@@ -11,7 +11,6 @@ export class AcceptedComponent {
 
 
   ngOnChanges(): void {
-    console.log(this.selectedService, "selectedService");
   }
 
   serviceMarkAsDone(){

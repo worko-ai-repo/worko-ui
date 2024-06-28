@@ -143,7 +143,6 @@ export class AuthService {
     // if (params?.params) {
     //   httpOptions['params'] = params.params;
     // }
-console.log(headers)
     return httpOptions;
   }
 

@@ -47,7 +47,7 @@ export class HomeCorporateComponent {
         userDesignation: this.corporateForm.designation,
         userMessage: this.corporateForm.description
       }
-      console.log(this.corporateData)
+    
       //debugger
       let response = await this.careerService.createCorporateUser(this.corporateData)
       if(response){
@@ -57,7 +57,7 @@ export class HomeCorporateComponent {
 
     } catch (error:any) {
       this.spinner.hide();
-      console.log(error)
+  
       //this.successmessage="Something went wrong. Please try again after sometime"
       if(error.status==409){
       this.successtitle="Error"
@@ -76,8 +76,7 @@ export class HomeCorporateComponent {
     try{
   let response= await this.careerService.corporateEmailVerification(this.corporateForm.email,this.corporateForm.name);
   if(response.id){
-    console.log(response.id)
-    console.log("success");
+   
     this.isOtpSent=!this.isOtpSent
     this.successmessage= "We have sent a code by email to "+this.corporateForm.email
     this.successtitle="Verify E-MAIL"
@@ -98,9 +97,9 @@ export class HomeCorporateComponent {
   /*api to verify otp */
   async verifyOTP(){
     try{
-      debugger
+    //  debugger
     let response= await this.careerService.corporateverifyOtp(this.corporateForm.email,this.corporateForm.paymentCode);
-    console.log(response.verificationStatus)
+   
     if(response.verificationStatus==true){
      
       this.isResentOtp=!this.isResentOtp
@@ -128,8 +127,7 @@ export class HomeCorporateComponent {
     try{
       let response= await this.careerService.corporateEmailVerification(this.corporateForm.email,this.corporateForm.name);
       if(response.id){
-        console.log(response.id)
-        console.log("success");
+      
         this.successmessage= "We have sent a code by email to "+this.corporateForm.email
         this.successtitle="Verify E-MAIL"
         this.openModal(ModalType.SUCCESS_MESSAGE)
@@ -148,7 +146,7 @@ export class HomeCorporateComponent {
     }
   }
   modelOpen(){
-  debugger
+ // debugger
     //this.successmessage="Thank you for expressing interest in Worko.ai! Our team will reach out to you shortly to discuss how we can help streamline your hiring process and promote P2P hiring within your organization. Stay tuned!";
     this.successtitle="Congratulations!";
     this.openModal(ModalType.SUCCESS_MESSAGE)

@@ -146,7 +146,7 @@
     <img src="assets/icons/addbutton.png" alt="+Add"></button>
 </div>
 <app-footer></app-footer>
-<app-modal [theme]="'theme-k'" [centered]="true" [showHeader]="showModal === modalType.MESSAGE" [showClose]="true"
+<app-modal (onModalClose)="onModalClose()" [theme]="'theme-k'" [centered]="true" [showHeader]="showModal === modalType.MESSAGE" [showClose]="true"
   [showFooter]="showModal === modalType.MESSAGE" [title]="modalTitle" [message]="modalMessage"
   [bodyClass]="modalMessage ? 'p-4' : 'p-0'">
   <ng-container *ngIf="showModal === modalType.REQUEST_REFERRAL">

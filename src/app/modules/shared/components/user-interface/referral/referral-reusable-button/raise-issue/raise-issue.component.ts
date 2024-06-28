@@ -51,7 +51,7 @@ closeModal(): void {
 }
 
 async receiveDataFromChild(raiseIssueContent:any) {
-  console.log(raiseIssueContent);
+  
   this.raiseIssue1.emit(raiseIssueContent);
   this.closeModal();
 

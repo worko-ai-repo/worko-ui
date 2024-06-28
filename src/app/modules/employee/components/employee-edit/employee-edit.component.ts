@@ -8,6 +8,7 @@ import { NgxSpinnerService } from "ngx-spinner";
 import { ModalType } from "src/app/modules/shared/interfaces/shared.interface";
 import { ModalComponent } from "src/app/modules/shared/components/modal/modal.component";
 import { StateService } from "../../services/state.service";
+import { CognitoService } from "src/app/modules/services/cognito.service";
 @Component({
   selector: "app-employee-edit",
   templateUrl: "./employee-edit.component.html",
@@ -45,7 +46,8 @@ export class EmployeeEditComponent {
     private empService: EmployeeProfileService,
     private candidateSrv: CandidateProfileService,
     private storage: StorageService,
-    public stateService: StateService
+    public stateService: StateService,
+    private cognitoService: CognitoService,
   ) {}
 
   ngOnInit(): void {
@@ -107,8 +109,9 @@ export class EmployeeEditComponent {
           }
         });
     } catch (error: any) {
-      if (error.status == 401) {
-        this.router.navigate(["/"]);
+      if (error.status==404 || error.status==401){
+        this.spinner.hide()
+        this.cognitoService.handleSignOut()
       } else {
         this.spinner.hide();
         this.successmessage =
@@ -131,13 +134,14 @@ export class EmployeeEditComponent {
         .then(async (response) => {
           if (response) {
             this.employeeSocial = response[0];
-            console.log(this.employeeSocial);
+            
           }
           this.getWorkExperienceDetails();
         });
     } catch (error: any) {
-      if (error.status == 401) {
-        this.router.navigate(["/"]);
+      if (error.status==404 || error.status==401){
+        this.spinner.hide()
+        this.cognitoService.handleSignOut()
       } else {
         this.spinner.hide();
         this.successmessage =
@@ -162,7 +166,7 @@ export class EmployeeEditComponent {
         let docResult = await this.candidateSrv.uploadProfilePic(
           documentDetails
         );
-        console.log(docResult);
+      
 
         this.uploadedProfilePicName = docResult.cloudFileName;
         this.employeeDetails.profileImage = docResult.cloudFileName;
@@ -171,8 +175,9 @@ export class EmployeeEditComponent {
         this.updateWorkExperience();
       }
     } catch (error: any) {
-      if (error.status == 401) {
-        this.router.navigate(["/"]);
+      if (error.status==404 || error.status==401){
+        this.spinner.hide()
+        this.cognitoService.handleSignOut()
       } else {
         this.spinner.hide();
         this.successmessage =
@@ -192,7 +197,7 @@ export class EmployeeEditComponent {
           docResult.awsS3Tag
         )
         .then(async () => {
-          console.log("File uploaded successfully.");
+          
           try {
             // let a = await this.authService.linkResumewithUser(this.emailAddress, this.uploadedProfilePicName);
 
@@ -230,7 +235,7 @@ export class EmployeeEditComponent {
         "Something went wrong. Please try again after sometime";
       this.successtitle = "Error";
       this.openModal(ModalType.SUCCESS_MESSAGE);
-      console.log(error);
+      
     }
   }
 
@@ -287,8 +292,7 @@ export class EmployeeEditComponent {
               : true,
         });
       }
-      console.log(this.secondStepData);
-      console.log(this.employeeProfessionalData.previousCompanies);
+      
 
       if (this.employeeProfessionalData.previousCompanies) {
         workExperience.push(
@@ -310,15 +314,16 @@ export class EmployeeEditComponent {
           )
         );
       }
-      console.log(workExperience);
+      
       await this.candidateSrv
         .createWorkExperience(this.emailAddress, workExperience)
         .then(async (response) => {
           this.creatSocialProfile();
         });
     } catch (error: any) {
-      if (error.status == 401) {
-        this.router.navigate(["/"]);
+      if (error.status==404 || error.status==401){
+        this.spinner.hide()
+        this.cognitoService.handleSignOut()
       } else {
         this.spinner.hide();
         this.successmessage =
@@ -339,37 +344,37 @@ export class EmployeeEditComponent {
     // var githubArray = this.firstStepData.socialLinkGithub;
     // Check if twitterArray is an array
     if (twitterArray.length > 2) {
-      console.log("twitterArray is already an array");
-      console.log(this.firstStepData.socialLinktwitter);
+     
+      
       twitterArray = [this.firstStepData.socialLinktwitter];
     } else if (twitterArray.length == 1) {
-      console.log("twitterArray is already an array");
+    
       twitterArray = this.firstStepData.socialLinktwitter;
     } else {
-      console.log("twitterArray is not an array");
+      
       twitterArray = [];
     }
 
     // Check if twitterArray is an array
-    console.log(linkedinArray.length);
+   
     if (linkedinArray.length > 2) {
       linkedinArray = [this.firstStepData.socialLinklinkdin];
-      console.log("linkedinArray is already an array");
+     
     } else if (linkedinArray.length == 1) {
       linkedinArray = this.firstStepData.socialLinklinkdin;
     } else {
-      console.log("linkedinArray is not an array");
+     
       linkedinArray = [];
     }
-    console.log(githubArray.length);
+    
     if (githubArray.length > 2) {
-      console.log("githubArray is already an array");
+     
 
       githubArray = [this.firstStepData.socialLinkGithub];
     } else if (githubArray.length == 1) {
       githubArray = this.firstStepData.socialLinkGithub;
     } else {
-      console.log("githubArray is not an array");
+     
       githubArray = [];
     }
     let socialProfile = {
@@ -391,8 +396,9 @@ export class EmployeeEditComponent {
           // }
         });
     } catch (error: any) {
-      if (error.status == 401) {
-        this.router.navigate(["/"]);
+      if (error.status==404 || error.status==401){
+        this.spinner.hide()
+        this.cognitoService.handleSignOut()
       } else {
         this.spinner.hide();
         this.successmessage =
@@ -456,12 +462,13 @@ const candidateExperience = {
             // this.addBankDetails();
             this.spinner.hide();
             this.modalopen();
-            console.log(response);
+          
           }
         });
     } catch (error: any) {
-      if (error.status == 401) {
-        this.router.navigate(["/"]);
+      if (error.status==404 || error.status==401){
+        this.spinner.hide()
+        this.cognitoService.handleSignOut()
       } else {
         this.spinner.hide();
         this.successmessage =
@@ -485,16 +492,17 @@ const candidateExperience = {
             // Assuming 'SK' is a property that indicates the response structure
             this.workExperienceDetailsList = response;
             this.workExperienceDetails = response[0];
-            console.log(this.workExperienceDetails);
+           
           }else{
-            console.log(this.workExperienceDetails);
+            
           }
           this.spinner.hide();
           // this.getBankDetails();
         });
     } catch (error: any) {
-      if (error.status == 401) {
-        this.router.navigate(["/"]);
+      if (error.status==404 || error.status==401){
+        this.spinner.hide()
+        this.cognitoService.handleSignOut()
       } else {
         this.spinner.hide();
         this.successmessage =
@@ -516,8 +524,9 @@ const candidateExperience = {
           }
         });
     } catch (error: any) {
-      if (error.status == 401) {
-        this.router.navigate(["/"]);
+      if (error.status==404 || error.status==401){
+        this.spinner.hide()
+        this.cognitoService.handleSignOut()
       } else {
         this.spinner.hide();
         this.successmessage =
@@ -555,12 +564,13 @@ const candidateExperience = {
             this.spinner.hide();
             // this.router.navigate(['/employee/edashboard']);
             this.modalopen();
-            console.log(response);
+          
           }
         });
     } catch (error: any) {
-      if (error.status == 401) {
-        this.router.navigate(["/"]);
+      if (error.status==404 || error.status==401){
+        this.spinner.hide()
+        this.cognitoService.handleSignOut()
       } else {
         this.spinner.hide();
         this.successmessage =

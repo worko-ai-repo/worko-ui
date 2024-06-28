@@ -213,7 +213,6 @@ export class PersonalInformationComponent implements OnInit {
             this.candidatePersonalDetails.profilePicUrl = event.target?.result as string;
           }
           this.picErrorMessage = ""
-          console.log('Selected file type:', file);
         } else {
           // Display an error for an invalid file type
           // console.error('Invalid file type. Please upload a supported file.');

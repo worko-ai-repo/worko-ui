@@ -15,11 +15,11 @@ export class ReferralRatingPopupComponent implements OnChanges {
   reviewControl = new FormControl();
 
   getRating() {
-    console.log(this.ratingControl.value);
+   
   }
 
   ngOnChanges() {
-    console.log(this.userType);
+   
   }
 
   submitReviewRating() {
@@ -27,7 +27,7 @@ export class ReferralRatingPopupComponent implements OnChanges {
       rating: this.ratingControl.value,
       review: this.reviewControl.value
     };
-    console.log(reviewRatingData); // we will send this reviewData to backend
+   
     this.ratingControl.reset();
     this.reviewControl.reset();
     this.onSuccess.emit(reviewRatingData);

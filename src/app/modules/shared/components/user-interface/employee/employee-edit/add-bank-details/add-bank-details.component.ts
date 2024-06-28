@@ -32,7 +32,7 @@ export class AddBankDetailsComponent {
       upiId: this.bankInfo[0]?.upiIds[0].upiId,
 
     }
-    console.log(this.employeeBankDetails);
+   
   }
 
 

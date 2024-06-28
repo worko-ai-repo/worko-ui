@@ -11,7 +11,7 @@ export class AwaitingServiceComponent {
 
 
   ngOnChanges(): void {
-    console.log(this.selectedService, "selectedService");
+    
   }
 
   serviceMarkAsDone(){

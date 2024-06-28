@@ -147,7 +147,7 @@ export class CompanyListingComponent implements OnInit, AfterViewInit, OnDestroy
     { name: "Courier / Logistics", value: "Courier / Logistics" },
     { name: "Defence & Aerospace", value: "Defence & Aerospace" },
     { name: "Design", value: "Design" },
-    { name: "E-commerce", value: "e-commerce" },
+    { name: "E-commerce", value: "E-commerce" },
     { name: "E-Learning / EdTech", value: "e-Learning / EdTech" },
     { name: "Education / Training", value: "Education / Training" },
     { name: "Electrical Equipment", value: "Electrical Equipment" },
@@ -205,7 +205,7 @@ export class CompanyListingComponent implements OnInit, AfterViewInit, OnDestroy
     { name: "SAAS", value: "SAAS" },
     { name: "Software Product", value: "Software Product" },
     { name: "Sports / Leisure & Recreation", value: "Sports / Leisure & Recreation" },
-    { name: "Stock Broking", value: "Stock Broking" },
+    { name: "Stock Broking", value: "Stock broking" },
     { name: "Telecom / ISP", value: "Telecom / ISP" },
     { name: "Textile & Apparel ", value: "Textile & Apparel" },
     { name: "Travel & Tourism", value: "Travel & Tourism" },
@@ -244,19 +244,28 @@ export class CompanyListingComponent implements OnInit, AfterViewInit, OnDestroy
 
 
   constructor(private spinner: NgxSpinnerService, private location: Location, private activatedRoute: ActivatedRoute, private cdr: ChangeDetectorRef, private storage: StorageService, private router: Router, private authService: AuthService, private http: HttpClient, private renderer: Renderer2, private el: ElementRef, private companyListing: CompanyListingService, private cognitoService: CognitoService, private candidateSrv: CandidateProfileService) {
+ 
     this.searchTerms
       .pipe(
         debounceTime(300), // Adjust the debounce time as needed (300 milliseconds in this example)
-        distinctUntilChanged()
+        //distinctUntilChanged()
       )
       .subscribe((query: string) => {
+       
         // Call your API here with the query string
         this.callApiWithSearchQuery(query);
       });
 
 
-    this.companySKFormUrl = this.activatedRoute.snapshot.queryParams['companyID'];
-    this.typeFromUrl = this.activatedRoute.snapshot.queryParams['Type'];
+    this.companySKFormUrl = this.activatedRoute.snapshot.queryParams['companyID'] ? this.activatedRoute.snapshot.queryParams['companyID'] : this.storage.get("selectedCompanySK");
+    this.typeFromUrl = this.activatedRoute.snapshot.queryParams['Type'] ? this.activatedRoute.snapshot.queryParams['Type'] : this.storage.get("type");
+
+    if (this.activatedRoute.snapshot.queryParams['companyID'] && this.activatedRoute.snapshot.queryParams['Type']) {
+      let companySKFromUrl = this.activatedRoute.snapshot.queryParams['companyID'];
+      let type = this.activatedRoute.snapshot.queryParams['Type'];
+      this.storage.set('selectedCompanySK', companySKFromUrl);
+      this.storage.set('type', type);
+    }
 
   }
 
@@ -276,7 +285,7 @@ export class CompanyListingComponent implements OnInit, AfterViewInit, OnDestroy
     if (this.userLoggedIn) {
       this.getUserDetails();
     }
-    this.getProfilePercentage();
+    await this.getProfilePercentage();
 
     await this.getCompanyDetails();
     this.filteredCompanyList = this.companyList;
@@ -299,14 +308,18 @@ export class CompanyListingComponent implements OnInit, AfterViewInit, OnDestroy
     );
     //check if the url contain data and initialize variables accordingly
     if (this?.companySKFormUrl && this?.typeFromUrl) {
-      this.indexData = 'ID#' + this.companySKFormUrl
+      if (this?.companySKFormUrl.startsWith('ID#')) {
+        this.indexData = this.companySKFormUrl;
+      } else {
+        this.indexData = 'ID#' + this?.companySKFormUrl;
+      }
       this.selectedData = this.filterCompanyBySk(this.indexData);
-      console.log(this.selectedData);
-      debugger
+     
+      // debugger
       if (this.typeFromUrl === 'referral') {
         this.triggerReferral = true;
         this.triggerGuidance = false;
-        this.openModalForCompany()
+        this.openModalForCompany();
       } else {
         this.triggerReferral = false;
         this.triggerGuidance = true;
@@ -352,8 +365,11 @@ export class CompanyListingComponent implements OnInit, AfterViewInit, OnDestroy
 
   // open modal if user click on request referral and request guidance  from worko.ai
   async openModalForCompany() {
+
     this.userLoggedIn = await this.cognitoService.isLoggedIn();
     if (this.typeFromUrl === 'referral' && this.userLoggedIn) {
+      this.storage.remove("type");
+      this.storage.remove("selectedCompanySK");
 
       if (this.checkProfileCompletion()) {
         this.openModal(ModalType.REQUEST_REFERRAL);
@@ -369,6 +385,9 @@ export class CompanyListingComponent implements OnInit, AfterViewInit, OnDestroy
 
     } else if (this.typeFromUrl === 'guidance') {
 
+
+      this.storage.remove("type");
+      this.storage.remove("selectedCompanySK");
       this.openModal(ModalType.REQUEST_GUIDANCE)
       const url = this.router.url.split('?')[0];
       this.location.replaceState(url);
@@ -385,11 +404,11 @@ export class CompanyListingComponent implements OnInit, AfterViewInit, OnDestroy
     try {
       await this.candidateSrv.getUserDetails(this.emailAddress).then(async (response) => {
         if (response) {
-          this.userDetails = response;        
+          this.userDetails = response;
         }
       })
     } catch (error: any) {
-      console.log("error:", error);
+      //console.log("error:", error);
     }
   }
 
@@ -441,16 +460,18 @@ export class CompanyListingComponent implements OnInit, AfterViewInit, OnDestroy
 
 
   onSearchInputChange(): void {
+    
     if (this.searchQuery.length >= 3) {
       this.pageSize = 50;
       this.lastKey = "";
       this.loadedOnce = true;
       this.searchTerms.next(this.searchQuery);
+    }else if(this.searchQuery.length<=0){
+      this.clearSearchInput()
     }
   }
 
   onSearchInputEnter(event: KeyboardEvent): void {
-    console.log(this.searchQuery);
     if (event.key === 'Enter') { // Checking if the pressed key is Enter
       this.isNoLoadData = true
       this.pageSize = 50;
@@ -461,8 +482,13 @@ export class CompanyListingComponent implements OnInit, AfterViewInit, OnDestroy
   }
 
   callApiWithSearchQuery(query: string): void {
+    this.lastKey = "";
+    this.loadedOnce = true;
+    this.isNoLoadData=true;
     const encodedQuery = encodeURIComponent(query); // Encoding the query string
     this.filterData.companyName = encodedQuery; // Setting here encoded query to filterData
+    this.filterData.teamSize="", 
+    this.filterData.industryType="",
     this.getCompanyDetails();
   }
 
@@ -500,14 +526,13 @@ export class CompanyListingComponent implements OnInit, AfterViewInit, OnDestroy
     if (scrollPosition + windowHeight >= documentHeight - footerHeight) {
 
       // Load more data
-      console.log("inside scroll")
       this.getCompanyDetails();
     }
 
   }
 
   clearSearchInput(): void {
-    this.pageSize=50
+    this.pageSize = 50
     this.lastKey = "";
     this.loadedOnce = true;
     this.searchQuery = '';
@@ -516,14 +541,13 @@ export class CompanyListingComponent implements OnInit, AfterViewInit, OnDestroy
     this.getCompanyDetails();
   }
   async getCompanyDetails() {
-
     if ((this.lastKey || this.loadedOnce) && this.isNoLoadData) {
       // if (this.lastKey || this.loadedOnce ) {
       this.spinner.show();
       // const encodedCompanyName = encodeURIComponent(this.filterData.companyName); // Encode the company name
-      await this.companyListing.getCompanyListing(this.pageSize, this.lastKey, this.filterData.teamSize, this.filterData.industryType, this.filterData.companyName).then(async (response) => {
+      await this.companyListing.getCompanyListing(this.pageSize, this.lastKey, this.filterData.teamSize, encodeURIComponent(this.filterData.industryType), this.filterData.companyName).then(async (response) => {
         if (response) {
-          console.log("Helo11");
+         
           this.spinner.hide();
           if (this.loadedOnce) {
             this.companyList = [];
@@ -548,16 +572,24 @@ export class CompanyListingComponent implements OnInit, AfterViewInit, OnDestroy
   }
 
   async onTeamSizeChange(selectedTeamSize: string) {
-    if(selectedTeamSize!==""){
-      this.pageSize = 100;
-    }else{
-      this.pageSize=50;
-    }
+    // if (selectedTeamSize !== "") {
+    //   this.pageSize = 100;
+    // } else {
+    //   this.pageSize = 50;
+    // }
+    this.pageSize = selectedTeamSize !== "" ? 100 : 50; // if the selectIndustryType is selected then passing pageSize as 100
     this.isNoLoadData = true
-    
+
     this.lastKey = "";
     this.loadedOnce = true;
-    this.filterData.teamSize = selectedTeamSize;
+    if(this.filterData.companyName!==""){
+      this.filterData.teamSize = "";
+      (document.getElementById('teamSize') as HTMLSelectElement).value = "";
+    }else{
+      this.filterData.teamSize = selectedTeamSize;
+      await this.getCompanyDetails();
+    }
+   /// this.filterData.teamSize = selectedTeamSize;
     // if(selectedTeamSize){
     //    // Assuming selectedTeamSize is a string representation of the selected team size value
     //    const [min, max] = selectedTeamSize.split('-').map(Number); // Assuming team size format is 'min-max'
@@ -568,7 +600,7 @@ export class CompanyListingComponent implements OnInit, AfterViewInit, OnDestroy
     // }
 
     // Call getCompanyDetails to fetch filtered companies
-    await this.getCompanyDetails();
+   
   }
 
   async onIndustryNameChange(selectedIndustryName: string) {
@@ -585,18 +617,29 @@ export class CompanyListingComponent implements OnInit, AfterViewInit, OnDestroy
 
     this.isNoLoadData = true
     this.lastKey = "";
-    if(selectedIndustryType!==""){  // if the selectIndustryType is selected then passing pageSize as 100
-      this.pageSize = 100;
-    }else{
-    this.pageSize = 50;
-    }
+    // if (selectedIndustryType !== "" ) {  // if the selectIndustryType is selected then passing pageSize as 100
+    //   this.pageSize = 100;
+    // } else {
+    //   this.pageSize = 50;
+    // }
     this.loadedOnce = true;
+    this.pageSize = selectedIndustryType !== "" ? 100 : 50; // if the selectIndustryType is selected then passing pageSize as 100
+    if(this.filterData.companyName!==""){
+      this.filterData.industryType = "";
+      (document.getElementById('industryType') as HTMLSelectElement).value = "";
+    }else{
+      this.filterData.industryType = selectedIndustryType;
+      await this.getCompanyDetails();
+    }
+    
     // this.appliedFilter = true;
-    this.filterData.industryType = selectedIndustryType;
-    console.log(this.filterData.industryType)
+    // const encodedQuery = encodeURIComponent(selectedIndustryType);
+   // this.filterData.industryType = selectedIndustryType; //commented now --working flow
+   
     // Call getCompanyDetails to fetch filtered companies
-    await this.getCompanyDetails();
+    
   }
+
 
 
   // onMouseOver(item: any, event: any) {
@@ -617,7 +660,9 @@ export class CompanyListingComponent implements OnInit, AfterViewInit, OnDestroy
     this.userLoggedIn = await this.cognitoService.isLoggedIn();
 
     this.selectedData = item;
-    console.log(this.selectedData);
+    this.storage.set('selectedCompanySK', this?.selectedData?.SK);
+    this.storage.set('type', "referral");
+  
     this.triggerReferral = true;
     this.triggerGuidance = false;
     this.triggerAddCompany = false;
@@ -632,6 +677,8 @@ export class CompanyListingComponent implements OnInit, AfterViewInit, OnDestroy
         this.successtitle = "";
         this.openModal(ModalType.SUCCESS_MESSAGE);
       }
+      this.storage.remove("type");    // Removing 'type' and 'selectedCompanySK' from localStorage to prevent the popup from opening automatically on the next page refresh
+      this.storage.remove("selectedCompanySK");
     }
     else {
       this.userLoggedIn = true
@@ -653,6 +700,7 @@ export class CompanyListingComponent implements OnInit, AfterViewInit, OnDestroy
     event.preventDefault();
     // this.userLoggedIn = await this.cognitoService.isLoggedIn();
     // this.reqGuidanceData = item;
+    this.storage.set('type', "guidance");
     this.triggerReferral = false;
     this.triggerGuidance = true;
     // if (this.userLoggedIn) {
@@ -679,9 +727,12 @@ export class CompanyListingComponent implements OnInit, AfterViewInit, OnDestroy
   // }
   cancel() {
     // this.companyFormDirective.resetForm()
+    this.modal.cancel();
+  }
 
-    this.modal.cancel()
-
+  onModalClose() {
+    this.storage.remove("type");
+    this.storage.remove("selectedCompanySK");
   }
 
 
@@ -699,8 +750,9 @@ export class CompanyListingComponent implements OnInit, AfterViewInit, OnDestroy
     }
   }
 
-  async receiveDataFromChild(data: any) {
-
+  async receiveDataFromChild(data?: any) {
+    this.storage.remove("type");
+    this.storage.remove("selectedCompanySK");
     //window.location.reload()
     this.userLoggedIn = await this.cognitoService.isLoggedIn();
     this.closeModal();
@@ -743,6 +795,7 @@ export class CompanyListingComponent implements OnInit, AfterViewInit, OnDestroy
           name: this.companyForm.CompanyName,
           industry: 'Industry',
 
+
           carrierPage: this.companyForm.carrierPage,
           linkedIn: this.companyForm.linkedIn,
 
@@ -750,7 +803,7 @@ export class CompanyListingComponent implements OnInit, AfterViewInit, OnDestroy
         userEmail: this.companyForm.personalemailid,
         userContactNumber: this.companyForm.contactNumber
       }
-      console.log(this.companyData)
+      
       await this.companyListing.requestNewCompany(this.companyData)
       this.spinner.hide()
       this.companyFormDirective.resetForm()
@@ -861,6 +914,8 @@ export class CompanyListingComponent implements OnInit, AfterViewInit, OnDestroy
    */
   closeModal(): void {
     // Show referral request form after closing the modal
+    this.storage.remove("type");
+    this.storage.remove("selectedCompanySK");
     this.modal.cancel();
   }
 
@@ -878,8 +933,7 @@ export class CompanyListingComponent implements OnInit, AfterViewInit, OnDestroy
           this.totalPercentage = profileType.reduce((sum: any, element: any) => sum + element.curPerc, 0);
           this.cvCurPerc = profileType[2].curPerc;
 
-          console.log("Total percentage == ", this.totalPercentage);
-          console.log("CV CurPer === ", this.cvCurPerc);
+        
         }
       }
     }

@@ -46,7 +46,6 @@ export class UserDetailsComponent implements OnInit {
   }
 
   ngOnChanges(): void {
-    // console.log(this.workExperienceDetails, "workExperienceDetails");
 
     if (this.workExperienceDetails?.length) {
       this.workExperienceDetails = this.workExperienceDetails[0];

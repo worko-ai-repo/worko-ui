@@ -110,7 +110,7 @@ export class SubscriptionPlanComponent {
     this.isOrderDetails = false;
     // this.openModal(ModalType.SUBSCRIPTION_CHECKOUT);
     if (this?.subscriptionStatus?.isSubscribed) {
-      this.successmessage = `You already have ${this.packageDetails?.availableReferrals} referral count left in your account. Please use it before buying another one.`;
+      this.successmessage = `You already have ${this?.subscriptionStatus?.referralCount} referral count left in your account. Please use it before buying another one.`;
       this.successtitle = ""
       this.openModal(ModalType.SUCCESS_MESSAGE);
     }
@@ -177,7 +177,7 @@ export class SubscriptionPlanComponent {
     let totalAmount = subTotalAmount + gstAmount - discountAmount;
     let domain = environment.localUrl;
     let returnUrl = domain + `/candidate/pgresponse/${this.pGatewayProvider}`;
-    console.log(returnUrl, "returnUrl deployed")
+  
     let payload = {
       "pgatewayProvider": this.pGatewayProvider,
       "subTotalAmount": subTotalAmount,
@@ -204,7 +204,7 @@ export class SubscriptionPlanComponent {
 
     await this.candServ.createOrder(payload, this.userDetails[0]?.id).then(async (response) => {
       if (response) {
-        console.log("Create Order Api Response = ", response);
+        
         if (this.pGatewayProvider === PaymentGateway.RAZORPAY) {
           this.handleResponseRazorpay(response);
         }
@@ -215,7 +215,7 @@ export class SubscriptionPlanComponent {
       }
     }).catch((error: any) => {
       this.spinner.hide();
-      console.log("Create Order API error = ", error);
+     
       this.successmessage = "Something went wrong. Please try again after sometime"
       this.successtitle = "Error"
       this.openModal(ModalType.SUCCESS_MESSAGE);
@@ -247,13 +247,13 @@ export class SubscriptionPlanComponent {
 
     const responseHandler = (resCallback: any) => {
       if (resCallback) {
-        console.log("payment response received in responseHandler is == ", resCallback);
+        
         this.processPayment(createOrderResponse, resCallback);
       }
 
       if (resCallback.txnResponse) {
         // const encodedRes = btoa(JSON.stringify(resCallback));
-        console.log('Payment successful, encoded response received: ', resCallback?.txnResponse?.transaction_response);
+        //console.log('Payment successful, encoded response received: ', resCallback?.txnResponse?.transaction_response);
         // We can perform any additional actions needed, such as updating the UI or sending the response to the server
       }
 
@@ -282,7 +282,7 @@ export class SubscriptionPlanComponent {
       description: this.selectedPackage?.details,
       order_id: createOrderResponse?.userOrderResponse?.pgatewayOrderId, // Razorpay order ID
       handler: (paymentResponse: any) => {
-        console.log("payment response received in handler is == ", paymentResponse);
+       // console.log("payment response received in handler is == ", paymentResponse);
         this.processPayment(createOrderResponse, paymentResponse);
       },
       prefill: {
@@ -304,7 +304,7 @@ export class SubscriptionPlanComponent {
 
     const rzp1 = new Razorpay(options);
     rzp1.on('payment.failed', (response: any) => {
-      console.log(response.error);
+     // console.log(response.error);
     });
     rzp1.open();
   }
@@ -333,7 +333,6 @@ export class SubscriptionPlanComponent {
         // }
         if (this.decryptedPaymentResponse?.status === 'captured' || this.decryptedPaymentResponse?.transaction_error_type === 'success') {
           this.createSubscription(paymentResponse);
-          console.log("Processed response from backend = ", response);
           this.spinner.hide();
           // this.openModal(ModalType.PAYMENT_CONFIRMATION);
           this.isModalVisible = true;
@@ -347,7 +346,7 @@ export class SubscriptionPlanComponent {
       }
     }).catch((error: any) => {
       this.spinner.hide();
-      console.log(error);
+      
       this.successmessage = "Something went wrong. Please try again after sometime"
       this.successtitle = "Error"
       this.openModal(ModalType.SUCCESS_MESSAGE);
@@ -356,10 +355,10 @@ export class SubscriptionPlanComponent {
   }
 
   injectBillDeskSdk(config: any) {
-    console.log("injectBillDeskSdk start =", config);
+    
 
     (window as any).loadBillDeskSdk(config);
-    console.log("injectBillDeskSdk end");
+   
     this.spinner.hide();
 
     // // Dynamically loading ES module script
@@ -438,12 +437,12 @@ export class SubscriptionPlanComponent {
     await this.candServ.getSubscriptionStatus(this.emailAddress).then(async (response) => {
       if (response) {
         this.subscriptionStatus = response;
-        console.log("Subscription status = ", response);
+       
         this.spinner.hide();
       }
     }).catch((error: any) => {
       this.spinner.hide();
-      console.log(error);
+     
     }
     );
   }
@@ -456,10 +455,10 @@ export class SubscriptionPlanComponent {
     }
     await this.candServ.createSubscription(this.emailAddress, payload).then(async (res) => {
       if (res) {
-        console.log("Subscription created response == ", res);
+       
       }
     }).catch((error: any) => {
-      console.log(error);
+    
       this.successmessage = "Something went wrong. Please try again after sometime"
       this.successtitle = "Error"
       this.openModal(ModalType.SUCCESS_MESSAGE);

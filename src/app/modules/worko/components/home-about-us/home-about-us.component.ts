@@ -74,7 +74,7 @@ async aboutUs(){
     userCvCloudFileName:this.uploadedCvCloudName,
 
    }
-   console.log(this.aboutUsData)
+   
    
    let response=await this.careerService.createUser(this.aboutUsData)
   // this.uploadCVonS3Bucket(this.docResult)
@@ -84,7 +84,7 @@ async aboutUs(){
   }
   }catch(error:any){
     this.spinner.hide();
-    console.log(error)
+   
     if(error.status==409){
       this.successtitle="Error"
       this.openModal(ModalType.SUCCESS_MESSAGE)
@@ -106,16 +106,16 @@ async aboutUs(){
     careerCVFileName: this.fileName,
     careerCVFileMimeType: this.fileType
       }
-      console.log(documentDetails)
+      
       this.docResult = await this.careerService.uploadCV(documentDetails);
-      console.log(this.docResult);
+      
 
       this.uploadedCvCloudName = this.docResult.cloudFileName;
       this.aboutUs();
      // this.uploadCVonS3Bucket(docResult);
 
     } catch(error){
-      console.log("error"+error)
+     
       this.spinner.hide();
       this.successmessage="Something went wrong. Please try again after sometime"
       this.successtitle="Error"
@@ -129,7 +129,7 @@ uploadCVonS3Bucket(docResult: any) {
   try {
     this.authService.uploadFileOnS3Bucket(this.fileToUpload!, docResult.awsS3SignedUrl, docResult.awsS3Tag)
       .then(async () => {
-        console.log('File uploaded successfully.');
+        
        
         //try {
            //this.CvCloudFileName = await this.authService.linkResumewithUser(this.aboutUsForm.email, this.uploadedCvCloudName);
@@ -164,7 +164,7 @@ uploadCVonS3Bucket(docResult: any) {
       });
 
   } catch (error) {
-    console.log(error)
+   
     this.spinner.hide();
     this.successmessage="Something went wrong. Please try again after sometime"
     this.successtitle="Error"
@@ -189,8 +189,7 @@ handleFileInput(event: Event): void {
         this.fileToUpload = file;
         this.fileName = file.name;
         this.fileType = file.type;
-        console.log('Selected PDF file:', file);
-        console.log(this.fileType)
+        
       } else {
         // Display an error for invalid file type
         this.spinner.hide();
@@ -230,7 +229,7 @@ cancel(){
 //  description:"",
 
 // }
-console.log(this.form)
+
     this.form.reset(this.aboutUsForm.name)
   
   //window.location.reload();

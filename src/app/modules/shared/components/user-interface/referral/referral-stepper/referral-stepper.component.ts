@@ -38,7 +38,7 @@ export class ReferralStepperComponent {
   }
 
   ngOnChanges(): void {
-    console.log(this.statusitem);
+    
     this.statusIndicator();
   }
 

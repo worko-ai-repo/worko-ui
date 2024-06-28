@@ -10,7 +10,7 @@ import { ModalType } from 'src/app/modules/shared/interfaces/shared.interface';
 export class SeeReviewComponent implements OnChanges {
 
   ngOnChanges(changes: SimpleChanges): void {
-    console.log(this.reviewData);
+  
   }
 
   @Input() userType:any;

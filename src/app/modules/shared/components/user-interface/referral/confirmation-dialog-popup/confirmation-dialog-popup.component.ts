@@ -12,7 +12,7 @@ export class ConfirmationDialogPopupComponent implements OnChanges {
   @Input() action: any;
 
   ngOnChanges() {
-    console.log(this.action);
+   
   }
 
   actionBtn() {

@@ -21,7 +21,6 @@ export class ReferralSeeReviewPopupComponent implements OnChanges {
   reviewTextForEmp = null;
 
   ngOnChanges() {
-    console.log(this.reviewData);
     if (this.reviewData?.length > 0) {
       this.assignReview();
     }
