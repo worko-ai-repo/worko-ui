@@ -33,13 +33,6 @@
     overflow: hidden;
 
 }
-// .text-overflow {
-//     width: 40%;
-//     text-overflow: ellipsis;
-//     white-space: nowrap;
-//     overflow: hidden;
-
-// }
 
 .dash-logo {
     width: 16px;
@@ -132,10 +125,10 @@
     // .intro-info{
     //     text-align: center;
     // }
-    .text-overflow {
-        width: 60%;
-        white-space: normal;
-        overflow: visible;
+    .input-logo {
+        max-width: 60%;
+        display: inline-block;
+        vertical-align: middle;
     }
   
 }

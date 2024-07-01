@@ -1,4 +1,4 @@
-<div class="card candidate-card" style="height: 55%;">
+<div class="card candidate-card " style="height: 55%;">
     <div class="card-body">
         <!-- <div class="row"> -->
         <!-- <div class="col-md-12">
@@ -22,13 +22,15 @@
                     {{userDescription}}
                 </p>
             </div>
-           
-
+        
+            
         </div>
+        
+       
     </div>
 </div>
 
-<div class="card candidate-card" style="height: 43%;margin-top: 1rem;">
+<div class="card candidate-card scrollbar" style="height: 43%;margin-top: 1rem;">
     <div class="card-body">
         <!-- <div class="row"> -->
         <!-- <div class="col-md-12">
@@ -44,6 +46,8 @@
             <div class="p-1  certificate-label" *ngFor="let certificate of certificationList?.certifications">
                 <span class="certification-boxes ps-2 pe-2">{{certificate.certName}}</span>
             </div>
-        </div>
+
+        </div> 
+        <div class="p-4 pb-1 fs-5"></div>
     </div>
 </div>
