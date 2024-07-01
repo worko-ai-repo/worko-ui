@@ -245,7 +245,7 @@ export class CreateCandidateForLinkedinComponent {
           //this.letter = this.userName.charAt(0).toUpperCase();
 
           // Redirect to the company listing page
-          this.router.navigate(['/company-listing']);
+          this.router.navigate(['/companies']);
         }else{
         this.router.navigate(['/candidate/dashboard']);
         }

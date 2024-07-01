@@ -227,7 +227,7 @@ export class CreateEmployeeForLinkedinComponent {
           // Redirect to the company listing page
          
 
-          this.router.navigate(['/company-listing']);
+          this.router.navigate(['/companies']);
         }else{
         this.router.navigate(['/employee/Dashboard']);
 

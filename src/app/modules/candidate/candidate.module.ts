@@ -86,10 +86,10 @@ export const routes: Routes = [
         component: SubscriptionComponent,canActivate:[AuthRouteGuardService]
        
       },
-      {
-        path: 'billdeskresponse',
-        component: BilldeskResponseComponent, canActivate:[AuthRouteGuardService]
-      },
+      // {
+      //   path: 'billdeskresponse',
+      //   component: BilldeskResponseComponent, canActivate:[AuthRouteGuardService]
+      // },
       {
         path: 'pgresponse/:pgProvider',
         component: PgResponseComponent, canActivate:[AuthRouteGuardService]

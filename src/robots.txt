@@ -1,0 +1,4 @@
+User-agent: *
+Disallow: /
+Disallow: //api.worko.ai/
+Allow: /companies

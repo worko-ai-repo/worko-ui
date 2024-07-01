@@ -176,7 +176,7 @@ export class UserMenubarComponent {
     //     console.log('can')
     //     this.router.navigateByUrl('/candidate/dashboard');
     //   }
-    this.router.navigateByUrl('/company-listing');
+    this.router.navigateByUrl('/companies');
     
     }
 

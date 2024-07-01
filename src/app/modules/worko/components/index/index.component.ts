@@ -149,7 +149,7 @@ export class IndexComponent {
     this.userLoggedIn = await this.cognitoService.isLoggedIn();
     this.emailAddress = this.storage.get("useremail");
     if (this.userLoggedIn) {
-      if (this.router.url.includes('/company-listing')) {
+      if (this.router.url.includes('/companies')) {
         this.userLoggedIn = await this.cognitoService.isLoggedIn();
         this.userName = this.storage.get('userName');
      
@@ -157,7 +157,7 @@ export class IndexComponent {
         // console.log(this.letter);
         this.letter = this.userName.charAt(0).toUpperCase();
         // Redirect to the company listing page
-        this.router.navigate(['/company-listing']);
+        this.router.navigate(['/companies']);
         this.modal.cancel();
       }
       else {
