@@ -74,7 +74,13 @@ export class EmployeeDashboardComponent {
   }catch(error:any ){
     //if(error.status==404 || error.status==401){
       this.spinner.hide()
-      this.cognitoService.handleSignOut()
+      if (error.status==404) { 
+        this.spinner.hide()
+        this.router.navigate(['/auth/logout']);
+      }else{
+     
+       this.router.navigate(['/']);
+      }
   
   
   }
@@ -93,7 +99,13 @@ export class EmployeeDashboardComponent {
   }catch(error:any ){
     //if(error.status==404 || error.status==401){
       this.spinner.hide()
-      this.cognitoService.handleSignOut()
+      if (error.status==404) { 
+        this.spinner.hide()
+        this.router.navigate(['/auth/logout']);
+      }else{
+     
+       this.router.navigate(['/']);
+      }
   
   
   }
@@ -116,7 +128,13 @@ export class EmployeeDashboardComponent {
   }catch(error:any ){
     //if(error.status==404 || error.status==401){
       this.spinner.hide()
-      this.cognitoService.handleSignOut()
+      if (error.status==404) { 
+        this.spinner.hide()
+        this.router.navigate(['/auth/logout']);
+      }else{
+     
+       this.router.navigate(['/']);
+      }
   
   
   }
@@ -135,7 +153,13 @@ export class EmployeeDashboardComponent {
   }catch(error:any ){
     //if(error.status==404 || error.status==401){
       this.spinner.hide()
-      this.cognitoService.handleSignOut()
+      if (error.status==404) { 
+        this.spinner.hide()
+        this.router.navigate(['/auth/logout']);
+      }else{
+     
+       this.router.navigate(['/']);
+      }
   
   
   }
@@ -151,9 +175,13 @@ export class EmployeeDashboardComponent {
       }
     })
   }catch(error:any ){
-    //if(error.status==404 || error.status==401){
+    if (error.status==404) { 
       this.spinner.hide()
-      this.cognitoService.handleSignOut()
+      this.router.navigate(['/auth/logout']);
+    }else{
+   
+     this.router.navigate(['/']);
+    }
   
   
   }
@@ -180,7 +208,13 @@ export class EmployeeDashboardComponent {
     }catch(error:any ){
       //if(error.status==404 || error.status==401){
         this.spinner.hide()
-        this.cognitoService.handleSignOut()
+        if (error.status==404) { 
+          this.spinner.hide()
+          this.router.navigate(['/auth/logout']);
+        }else{
+       
+         this.router.navigate(['/']);
+        }
     
     
     }

@@ -339,9 +339,12 @@
                                           !candidateProfessionalDetails.designation ||
                                           !candidateProfessionalDetails.ctc ||
                                           !candidateProfessionalDetails.ectc ||
-                                          !candidateProfessionalDetails.noticePeriod ||
+
                                           candidateProfessionalDetails?.softSkills?.length<=0 ||
-                                          candidateProfessionalDetails?.coreSkillList?.length<=0
+                                          candidateProfessionalDetails?.coreSkillList?.length<=0||
+                                          candidateProfessionalDetails?.noticePeriod?.toString() === '' ||
+                                          candidateProfessionalDetails?.noticePeriod?.toString() ===null ||
+                                          !candidate.form.valid 
                                         )) || 
                                         (candidateProfessionalDetails.isCandidateFresher &&(  candidateProfessionalDetails?.softSkills?.length<=0 ||
                                           candidateProfessionalDetails?.coreSkillList?.length<=0))">Next</button>

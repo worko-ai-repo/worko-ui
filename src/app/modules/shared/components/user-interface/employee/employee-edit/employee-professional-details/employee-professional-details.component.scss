@@ -84,5 +84,45 @@
   box-shadow: none;
 
 }
+.tooltip-container {
+  position: absolute;
+  display: inline-block;
+ // background-color: #0A1E36;
+  top: 4px;
+  padding-left: 120px;
+
+}
+.tooltip-style{
+  font-size: 12px;
+  color: grey;
+}
+
+.tooltip-text {
+  visibility: hidden;
+  width: 230px;
+  background-color: #0A1E36;
+  color: white;
+  border: 1px solid #0076B2;
+  // text-align: center;
+  border-radius: 6px;
+  padding: 5px;
+  font-size: 10px;
+  position: absolute;
+  z-index: 1;
+  bottom: 125%;
+  left: 50%;
+  margin-left: -100px;
+  opacity: 0;
+  transition: opacity 0.3s;
+}
+
+.tooltip-container:hover .tooltip-text {
+  visibility: visible;
+  opacity: 1;
+}
+
+.tooltip-text span {
+  display: block;
+}
 
 

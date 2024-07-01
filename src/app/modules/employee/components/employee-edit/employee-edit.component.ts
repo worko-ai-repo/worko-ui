@@ -112,9 +112,12 @@ export class EmployeeEditComponent {
           }
         });
     } catch (error: any) {
-      if (error.status==404 || error.status==401){
+      if (error.status==404) { 
         this.spinner.hide()
-        this.cognitoService.handleSignOut()
+        this.router.navigate(['/auth/logout']);
+      }else if (error.status==401){
+     
+       this.router.navigate(['/']);
       } else {
         this.spinner.hide();
         this.successmessage =
@@ -142,9 +145,12 @@ export class EmployeeEditComponent {
           this.getWorkExperienceDetails();
         });
     } catch (error: any) {
-      if (error.status==404 || error.status==401){
+      if (error.status==404) { 
         this.spinner.hide()
-        this.cognitoService.handleSignOut()
+        this.router.navigate(['/auth/logout']);
+      }else if (error.status==401){
+     
+       this.router.navigate(['/']);
       } else {
         this.spinner.hide();
         this.successmessage =
@@ -178,9 +184,12 @@ export class EmployeeEditComponent {
         this.updateWorkExperience();
       }
     } catch (error: any) {
-      if (error.status==404 || error.status==401){
+      if (error.status==404) { 
         this.spinner.hide()
-        this.cognitoService.handleSignOut()
+        this.router.navigate(['/auth/logout']);
+      }else if (error.status==401){
+     
+       this.router.navigate(['/']);
       } else {
         this.spinner.hide();
         this.successmessage =
@@ -324,9 +333,12 @@ export class EmployeeEditComponent {
           this.creatSocialProfile();
         });
     } catch (error: any) {
-      if (error.status==404 || error.status==401){
+      if (error.status==404) { 
         this.spinner.hide()
-        this.cognitoService.handleSignOut()
+        this.router.navigate(['/auth/logout']);
+      }else if (error.status==401){
+     
+       this.router.navigate(['/']);
       } else {
         this.spinner.hide();
         this.successmessage =
@@ -399,9 +411,12 @@ export class EmployeeEditComponent {
           // }
         });
     } catch (error: any) {
-      if (error.status==404 || error.status==401){
+      if (error.status==404) { 
         this.spinner.hide()
-        this.cognitoService.handleSignOut()
+        this.router.navigate(['/auth/logout']);
+      }else if (error.status==401){
+     
+       this.router.navigate(['/']);
       } else {
         this.spinner.hide();
         this.successmessage =
@@ -478,9 +493,12 @@ const candidateExperience = {
           }
         });
     } catch (error: any) {
-      if (error.status==404 || error.status==401){
+      if (error.status==404) { 
         this.spinner.hide()
-        this.cognitoService.handleSignOut()
+        this.router.navigate(['/auth/logout']);
+      }else if (error.status==401){
+     
+       this.router.navigate(['/']);
       } else {
         this.spinner.hide();
         this.successmessage =
@@ -513,9 +531,12 @@ const candidateExperience = {
           // this.getBankDetails();
         });
     } catch (error: any) {
-      if (error.status==404 || error.status==401){
+      if (error.status==404) { 
         this.spinner.hide()
-        this.cognitoService.handleSignOut()
+        this.router.navigate(['/auth/logout']);
+      }else if (error.status==401){
+     
+       this.router.navigate(['/']);
       } else {
         this.spinner.hide();
         this.successmessage =
@@ -574,9 +595,12 @@ const candidateExperience = {
           }
         });
     } catch (error: any) {
-      if (error.status==404 || error.status==401){
+      if (error.status==404) { 
         this.spinner.hide()
-        this.cognitoService.handleSignOut()
+        this.router.navigate(['/auth/logout']);
+      }else if (error.status==401){
+     
+       this.router.navigate(['/']);
       } else {
         this.spinner.hide();
         this.successmessage =
@@ -618,9 +642,12 @@ const candidateExperience = {
           }
         });
     } catch (error: any) {
-      if (error.status==404 || error.status==401){
+      if (error.status==404) { 
         this.spinner.hide()
-        this.cognitoService.handleSignOut()
+        this.router.navigate(['/auth/logout']);
+      }else if (error.status==401){
+     
+       this.router.navigate(['/']);
       } else {
         this.spinner.hide();
         this.successmessage =

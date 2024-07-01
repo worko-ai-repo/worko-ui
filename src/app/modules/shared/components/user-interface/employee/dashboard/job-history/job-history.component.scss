@@ -64,3 +64,14 @@ max-width:100%;
 .job-details{
     font-size: 13px;
 }
+
+/* Media query for mobile devices */
+@media (max-width: 768px) {
+    .job-details .d-flex {
+      flex-direction: column;
+    }
+  
+    .job-details .d-flex div {
+      margin-bottom: 5px;
+    }
+  }

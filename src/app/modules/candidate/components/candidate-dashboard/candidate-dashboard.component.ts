@@ -72,7 +72,13 @@ export class CandidateDashboardComponent {
    
     // if(error.status==404 || error.status==401){
       this.spinner.hide()
-      this.cognitoService.handleSignOut()
+      if (error.status==404) { 
+        this.spinner.hide()
+        this.router.navigate(['/auth/logout']);
+      }else{
+     
+       this.router.navigate(['/']);
+      }
     
     // }else{
     //   this.spinner.hide();
@@ -99,7 +105,13 @@ export class CandidateDashboardComponent {
   }catch(error:any ){
     //if(error.status==404 || error.status==401){
       this.spinner.hide()
-      this.cognitoService.handleSignOut()
+      if (error.status==404) { 
+        this.spinner.hide()
+        this.router.navigate(['/auth/logout']);
+      }else{
+     
+       this.router.navigate(['/']);
+      }
   
   
   }
@@ -127,7 +139,13 @@ export class CandidateDashboardComponent {
   }catch(error:any ){
     //if(error.status==404 || error.status==401){
       this.spinner.hide()
-      this.cognitoService.handleSignOut()
+      if (error.status==404) { 
+        this.spinner.hide()
+        this.router.navigate(['/auth/logout']);
+      }else{
+     
+       this.router.navigate(['/']);
+      }
   
   
   }
@@ -144,7 +162,13 @@ export class CandidateDashboardComponent {
   }catch(error:any ){
     //if(error.status==404 || error.status==401){
       this.spinner.hide()
-      this.cognitoService.handleSignOut()
+      if (error.status==404) { 
+        this.spinner.hide()
+        this.router.navigate(['/auth/logout']);
+      }else{
+     
+       this.router.navigate(['/']);
+      }
   
   
   }
@@ -164,7 +188,13 @@ export class CandidateDashboardComponent {
     }catch(error:any ){
       //if(error.status==404 || error.status==401){
         this.spinner.hide()
-        this.cognitoService.handleSignOut()
+        if (error.status==404) { 
+          this.spinner.hide()
+          this.router.navigate(['/auth/logout']);
+        }else{
+       
+         this.router.navigate(['/']);
+        }
     
     
     }
@@ -182,7 +212,13 @@ export class CandidateDashboardComponent {
    }catch(error:any ){
     //if(error.status==404 || error.status==401){
       this.spinner.hide()
-      this.cognitoService.handleSignOut()
+      if (error.status==404) { 
+        this.spinner.hide()
+        this.router.navigate(['/auth/logout']);
+      }else{
+     
+       this.router.navigate(['/']);
+      }
   
   
   }

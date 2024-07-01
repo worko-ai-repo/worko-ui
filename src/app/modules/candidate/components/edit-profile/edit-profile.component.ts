@@ -97,9 +97,12 @@ export class EditProfileComponent implements OnInit {
 
       })
     } catch (error: any) {
-      if (error.status==404 || error.status==401){
+      if (error.status==404) { 
         this.spinner.hide()
-        this.cognitoService.handleSignOut()
+        this.router.navigate(['/auth/logout']);
+      }else if (error.status==401){
+     
+       this.router.navigate(['/']);
       } else {
         this.spinner.hide();
         this.successmessage = "Something went wrong. Please try again after sometime"
@@ -138,9 +141,12 @@ export class EditProfileComponent implements OnInit {
 
       }
     } catch (error: any) {
-      if (error.status==404 || error.status==401){
+      if (error.status==404) { 
         this.spinner.hide()
-        this.cognitoService.handleSignOut()
+        this.router.navigate(['/auth/logout']);
+      }else if (error.status==401){
+     
+       this.router.navigate(['/']);
       } else {
         this.spinner.hide();
         this.successmessage = "Something went wrong. Please try again after sometime"
@@ -168,9 +174,12 @@ export class EditProfileComponent implements OnInit {
         // }
       })
     } catch (error: any) {
-      if (error.status==404 || error.status==401){
+      if (error.status==404) { 
         this.spinner.hide()
-        this.cognitoService.handleSignOut()
+        this.router.navigate(['/auth/logout']);
+      }else if (error.status==401){
+     
+       this.router.navigate(['/']);
       } else {
         this.spinner.hide();
         this.successmessage = "Something went wrong. Please try again after sometime"
@@ -200,9 +209,12 @@ export class EditProfileComponent implements OnInit {
         this.creatSocialProfile();
       }
     } catch (error: any) {
-      if (error.status==404 || error.status==401){
+      if (error.status==404) { 
         this.spinner.hide()
-        this.cognitoService.handleSignOut()
+        this.router.navigate(['/auth/logout']);
+      }else if (error.status==401){
+     
+       this.router.navigate(['/']);
       } else {
         this.spinner.hide();
         this.successmessage = "Something went wrong. Please try again after sometime"
@@ -278,9 +290,12 @@ export class EditProfileComponent implements OnInit {
         }
       })
     } catch (error: any) {
-      if (error.status==404 || error.status==401){
+      if (error.status==404) { 
         this.spinner.hide()
-        this.cognitoService.handleSignOut()
+        this.router.navigate(['/auth/logout']);
+      }else if (error.status==401){
+     
+       this.router.navigate(['/']);
       } else {
         this.spinner.hide();
         this.successmessage = "Something went wrong. Please try again after sometime"
@@ -372,10 +387,13 @@ export class EditProfileComponent implements OnInit {
         }
       })
     } catch (error: any) {
-      if (error.status==404 || error.status==401){
+      if (error.status==404) { 
         this.spinner.hide()
-        this.cognitoService.handleSignOut()
-      } else {
+        this.router.navigate(['/auth/logout']);
+      }else if (error.status==401){
+     
+       this.router.navigate(['/']);
+      }else {
         this.spinner.hide();
         this.successmessage = "Something went wrong. Please try again after sometime"
         this.successtitle = "Error"
@@ -399,14 +417,17 @@ export class EditProfileComponent implements OnInit {
       this.spinner.hide(); // Hide the spinner after successful API call
     } catch (error: any) {
       this.spinner.hide(); // Hide the spinner in case of error as well
-      if(error.status==404 || error.status==401){
+       if (error.status==404) { 
         this.spinner.hide()
-        this.cognitoService.handleSignOut()
-      
+        this.router.navigate(['/auth/logout']);
+      }else if (error.status==401){
+     
+       this.router.navigate(['/']);
+      }
         // Handle unauthorized or forbidden error
 
         // For example, you can redirect the user to a login page or display an error message
-      } else {
+       else {
         // Handle other errors
         this.spinner.hide();
         this.successmessage = "Something went wrong. Please try again after sometime"
@@ -430,14 +451,18 @@ export class EditProfileComponent implements OnInit {
       })
     } catch (error: any) {
       this.spinner.hide(); // Hide the spinner in case of error as well
-      if (error.status==404 || error.status==401){
+      if (error.status==404) { 
         this.spinner.hide()
-        this.cognitoService.handleSignOut()
+        this.router.navigate(['/auth/logout']);
+      }else if (error.status==401){
+     
+       this.router.navigate(['/']);
+      }
         // Handle unauthorized or forbidden error
 
-        console.error('Unauthorized or Forbidden:', error);
+       
         // For example, you can redirect the user to a login page or display an error message
-      } else {
+       else {
         // Handle other errors
         this.spinner.hide();
         this.successmessage = "Something went wrong. Please try again after sometime"
@@ -459,13 +484,12 @@ export class EditProfileComponent implements OnInit {
       });
     } catch (error: any) {
       this.spinner.hide(); // Hide the spinner in case of error as well
-      if (error.status==404 || error.status==401){
+      if (error.status==404) { 
         this.spinner.hide()
-        this.cognitoService.handleSignOut()
-        // Handle unauthorized or forbidden error
-
-        console.error('Unauthorized or Forbidden:', error);
-        // For example, you can redirect the user to a login page or display an error message
+        this.router.navigate(['/auth/logout']);
+      }else if (error.status==401){
+     
+       this.router.navigate(['/']);
       } else {
         // Handle other errors
         this.spinner.hide();
@@ -493,14 +517,13 @@ export class EditProfileComponent implements OnInit {
 
     } catch (error: any) {
       this.spinner.hide(); // Hide the spinner in case of error as well
-      if (error.status==404 || error.status==401){
+      if (error.status==404) { 
         this.spinner.hide()
-        this.cognitoService.handleSignOut()
-        // Handle unauthorized or forbidden error
-
-        console.error('Unauthorized or Forbidden:', error);
-        // For example, you can redirect the user to a login page or display an error message
-      } else {
+        this.router.navigate(['/auth/logout']);
+      }else if (error.status==401){
+     
+       this.router.navigate(['/']);
+      }else {
         // Handle other errors
         this.spinner.hide();
         this.successmessage = "Something went wrong. Please try again after sometime"
@@ -524,13 +547,12 @@ export class EditProfileComponent implements OnInit {
       })
     } catch (error: any) {
       this.spinner.hide(); // Hide the spinner in case of error as well
-      if (error.status==404 || error.status==401){
+      if (error.status==404) { 
         this.spinner.hide()
-        this.cognitoService.handleSignOut()
-        // Handle unauthorized or forbidden error
-
-        console.error('Unauthorized or Forbidden:', error);
-        // For example, you can redirect the user to a login page or display an error message
+        this.router.navigate(['/auth/logout']);
+      }else if (error.status==401){
+     
+       this.router.navigate(['/']);
       } else {
         // Handle other errors
         this.spinner.hide();
@@ -556,13 +578,12 @@ export class EditProfileComponent implements OnInit {
       })
     } catch (error: any) {
       this.spinner.hide(); // Hide the spinner in case of error as well
-      if (error.status==404 || error.status==401){
+      if (error.status==404) { 
         this.spinner.hide()
-        this.cognitoService.handleSignOut()
-        // Handle unauthorized or forbidden error
-
-        console.error('Unauthorized or Forbidden:', error);
-        // For example, you can redirect the user to a login page or display an error message
+        this.router.navigate(['/auth/logout']);
+      }else if (error.status==401){
+     
+       this.router.navigate(['/']);
       } else {
         // Handle other errors
         this.spinner.hide();
@@ -675,9 +696,12 @@ export class EditProfileComponent implements OnInit {
         this.updateProfilePic();
       }
     } catch (error: any) {
-      if (error.status==404 || error.status==401){
+      if (error.status==404) { 
         this.spinner.hide()
-        this.cognitoService.handleSignOut()
+        this.router.navigate(['/auth/logout']);
+      }else if (error.status==401){
+     
+       this.router.navigate(['/']);
       } else {
         this.spinner.hide();
         this.successmessage = "Something went wrong. Please try again after sometime"
@@ -711,9 +735,12 @@ export class EditProfileComponent implements OnInit {
         this.createUserDetails();
       }
     } catch (error: any) {
-      if (error.status==404 || error.status==401){
+      if (error.status==404) { 
         this.spinner.hide()
-        this.cognitoService.handleSignOut()
+        this.router.navigate(['/auth/logout']);
+      }else if (error.status==401){
+     
+       this.router.navigate(['/']);
       } else {
         this.spinner.hide();
         this.successmessage = "Something went wrong. Please try again after sometime"
