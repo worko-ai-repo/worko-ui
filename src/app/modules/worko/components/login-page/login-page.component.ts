@@ -1123,7 +1123,7 @@ export class LoginPageComponent implements AfterViewInit, OnDestroy {
   }
 
   signUpWithLinkedin(usertype: any) {
-    if (this.router.url.includes('/company-listing')) {
+    if (this.router.url.includes('/companies')) {
       this.storage.set('isCompanyListingRoute', true);
     } else {
       const isCompanyListingRoute = this.storage.get('isCompanyListingRoute');

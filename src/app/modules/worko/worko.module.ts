@@ -126,7 +126,7 @@ export const routes: Routes = [
       //   component: FooterComponent
       // },
       {
-        path : 'company-listing',
+        path : 'companies',
         component: CompanyListingComponent
       },
       // {
