@@ -8,6 +8,7 @@ import { Component, Input, Output, EventEmitter } from '@angular/core';
 export class AwaitingServiceComponent {
   @Input() selectedService: any;
   @Output() markAsDone = new EventEmitter<string>();
+  userType:any;
 
 
   ngOnChanges(): void {
@@ -17,5 +18,21 @@ export class AwaitingServiceComponent {
   serviceMarkAsDone(){
     this.markAsDone.emit(this.selectedService);
     // this.showReferralDetails.emit(item);
+  }
+
+  referralRaiseIssue(data:any) {
+
+  }
+
+  markAsDoneBtn() {
+
+  }
+
+  referralReviewRating(data:any) {
+
+  }
+
+  cancelReviewRatingPopup() {
+
   }
 }

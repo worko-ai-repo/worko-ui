@@ -7,4 +7,9 @@ import { Component, Input } from '@angular/core';
 })
 export class CancelledServiceComponent {
   @Input() selectedService: any;
+  userType:any;
+
+  referralRaiseIssue(data:any) {
+
+  }
 }

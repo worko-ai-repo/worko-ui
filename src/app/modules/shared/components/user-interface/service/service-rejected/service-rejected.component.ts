@@ -7,4 +7,9 @@ import { Component, Input} from '@angular/core';
 })
 export class ServiceRejectedComponent {
   @Input() selectedService: any;
+  userType:any;
+
+  referralRaiseIssue(data:any) {
+
+  }
 }

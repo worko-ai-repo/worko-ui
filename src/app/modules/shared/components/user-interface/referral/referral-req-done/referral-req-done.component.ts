@@ -1,12 +1,17 @@
-import { Component, EventEmitter, Output, Input, } from '@angular/core';
+import {
+  Component,
+  EventEmitter,
+  Output,
+  Input,
+  SimpleChanges,
+} from "@angular/core";
 
 @Component({
-  selector: 'app-referral-req-done',
-  templateUrl: './referral-req-done.component.html',
-  styleUrls: ['./referral-req-done.component.scss']
+  selector: "app-referral-req-done",
+  templateUrl: "./referral-req-done.component.html",
+  styleUrls: ["./referral-req-done.component.scss"],
 })
 export class ReferralReqDoneComponent {
-
   @Input() userType: any;
   @Input() refereeDetails: any;
   @Input() reviewData: any;
@@ -19,20 +24,17 @@ export class ReferralReqDoneComponent {
   referralRatingFlag: any = null;
   showRaiseIssueButton: boolean = false;
 
-  constructor() { }
+  constructor() {}
 
-  ngOnInit(): void {
+  ngOnInit(): void {}
 
-  }
-
-  ngOnChanges(): void {
-   
+  ngOnChanges(changes: SimpleChanges): void {
     this.referralRatingFlag = null;
     if (this.processStatus) {
       this.checkRating();
     }
 
-    if (this.selectedStatus === 'DONE') {
+    if (changes["selectedReferral"] && this.selectedReferral) {
       this.calculateRaiseIssueButtonVisibility();
     }
   }
@@ -40,7 +42,7 @@ export class ReferralReqDoneComponent {
   checkRating() {
     let flag = false;
     this.reviewData.forEach((element: any) => {
-      if (element.ratingForUserType === 'EMP') {
+      if (element.ratingForUserType === "EMP") {
         flag = true;
       }
     });
@@ -48,7 +50,16 @@ export class ReferralReqDoneComponent {
   }
 
   calculateRaiseIssueButtonVisibility() {
-    const doneDate = this.selectedReferral?.doneByCandidate ?? this.selectedReferral?.doneByEmployee;
+    // const doneDate = this.selectedReferral?.doneByCandidate ?? this.selectedReferral?.doneByEmployee;
+
+    if (!this.selectedReferral) return; // Added null check for selectedReferral
+    const doneDate = this.selectedReferral.doneByCandidate ?? this.selectedReferral.doneByEmployee;
+    if (!doneDate) {
+      // Added check for presence of doneDate
+      // this.showRaiseIssueButton = false; // If no doneDate, set showRaiseIssueButton to false
+      this.showRaiseIssueButton = true; // Showing the raiseIssue button if no doneDate is available
+      return;
+    }
     const fortyEightHoursInMillis = 48 * 60 * 60 * 1000; // 48 hours in milliseconds
 
     const currentTime = new Date().getTime();
@@ -64,11 +75,13 @@ export class ReferralReqDoneComponent {
   }
 
   referralRaiseIssue(raiseIssueContent: any) {
-    this.raiseIssue.emit({ selectedReferral: this.selectedReferral, raiseIssueContent: raiseIssueContent });
+    this.raiseIssue.emit({
+      selectedReferral: this.selectedReferral,
+      raiseIssueContent: raiseIssueContent,
+    });
   }
 
   referralReviewRating(reviewRatingData: any) {
     this.referralRating.emit(reviewRatingData);
   }
-
 }

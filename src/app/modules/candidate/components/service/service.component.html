@@ -4,7 +4,8 @@
     </div>
     <div class="divide-55">
         <div class="row" style="height:100%">
-            <app-referral-stepper [selectedReferral]="selectedService"  *ngIf="servicesList.length"></app-referral-stepper>
+            <!-- <app-referral-stepper [selectedReferral]="selectedService"  *ngIf="servicesList.length"></app-referral-stepper> -->
+            <app-referral-stepper [selectedReferral]="selectedService"></app-referral-stepper>
             <div class="status-container">
                 <app-awaiting-service  *ngIf="selectedStatus === 'AWAITING' " [selectedService]="selectedService" (markAsDone)="referralMarkAsDone($event)"></app-awaiting-service>
                 <app-payment-due  *ngIf="selectedStatus === 'PAYMENT_DUE'" [selectedService]="selectedService"></app-payment-due>
