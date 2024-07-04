@@ -90,11 +90,19 @@ export class EmployeeReferralComponent implements OnDestroy {
         }
       }
     }).catch((error: any) => {
+      if (error.status==404) { 
+        this.spinner.hide()
+        this.router.navigate(['/auth/logout']);
+      }else if (error.status==401){
+        this.storage.set('redirectAfterLogin', '/employee/Referral'); 
+       this.router.navigate(['/']);
+      }else{
       this.spinner.hide();
      
       this.successmessage = "Something went wrong. Please try again after sometime"
       this.successtitle = "Error"
       this.openModal(ModalType.SUCCESS_MESSAGE);
+      }
     });
   }
 
@@ -183,6 +191,13 @@ export class EmployeeReferralComponent implements OnDestroy {
   
       }
     }).catch((error: any) => {
+      if (error.status==404) { 
+        this.spinner.hide()
+        this.router.navigate(['/auth/logout']);
+      }else if (error.status==401){
+        this.storage.set('redirectAfterLogin','/employee/Referral'); 
+       this.router.navigate(['/']);
+      }
       this.spinner.hide();
       this.empReferralList = [];
     }
@@ -301,11 +316,19 @@ export class EmployeeReferralComponent implements OnDestroy {
         }
       }
     }).catch((error: any) => {
+      if (error.status==404) { 
+        this.spinner.hide()
+        this.router.navigate(['/auth/logout']);
+      }else if (error.status==401){
+        this.storage.set('redirectAfterLogin', '/employee/Referral'); 
+       this.router.navigate(['/']);
+      }else{
       this.spinner.hide();
       
       this.successmessage = "Something went wrong. Please try again after sometime"
       this.successtitle = "Error"
       this.openModal(ModalType.SUCCESS_MESSAGE);
+      }
     }
     );
   }
@@ -429,7 +452,15 @@ export class EmployeeReferralComponent implements OnDestroy {
         this.spinner.hide();
       }
     }).catch((error: any) => {
+      if (error.status==404) { 
+        this.spinner.hide()
+        this.router.navigate(['/auth/logout']);
+      }else if (error.status==401){
+        this.storage.set('redirectAfterLogin', '/employee/Referral'); 
+       this.router.navigate(['/']);
+      }else{
       this.spinner.hide();
+      }
       
     }
     );

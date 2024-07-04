@@ -100,7 +100,15 @@
     color: white;
     min-width: 155px;
 }
-
+select:disabled {
+    color: gray;
+    background-color: #f8f9fa; 
+  }
+  
+  select.selector.form-select:disabled option {
+    color: gray; 
+  }
+  
 .company-listing-container .campanies {
     font-size: large
 }

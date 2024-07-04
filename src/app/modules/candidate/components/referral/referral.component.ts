@@ -6,6 +6,7 @@ import { StorageService } from 'src/app/modules/app-core/services/storage.servic
 import { NgxSpinnerService } from 'ngx-spinner';
 import { ModalType } from 'src/app/modules/shared/interfaces/shared.interface';
 import { ModalComponent } from 'src/app/modules/shared/components/modal/modal.component';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-referral',
@@ -33,7 +34,7 @@ export class ReferralComponent implements OnInit {
   processStatus = false;
   showModal: ModalType | undefined;
   statusItem: { name: string; status: string; date: any; }[] = [];
-  constructor(private candidateSrv: CandidateProfileService, private storage: StorageService, private spinner: NgxSpinnerService) { }
+  constructor(private candidateSrv: CandidateProfileService, private router: Router, private storage: StorageService, private spinner: NgxSpinnerService) { }
 
   ngOnInit(): void {
     this.emailAddress = this.storage.get("useremail");
@@ -54,6 +55,13 @@ export class ReferralComponent implements OnInit {
         // this.getRefereeDetials(response.accc);
       }
     }).catch((error: any) => {
+      if (error.status==404) { 
+        this.spinner.hide()
+        this.router.navigate(['/auth/logout']);
+      }else if (error.status==401){
+        this.storage.set('redirectAfterLogin','/candidate/referral'); 
+       this.router.navigate(['/']);
+      }
       this.spinner.hide();
       this.referralList = [];
     }
@@ -142,11 +150,19 @@ export class ReferralComponent implements OnInit {
         this.openModal(ModalType.REFERRAL_RATING);
       }
     }).catch((error: any) => {
+      if (error.status==404) { 
+        this.spinner.hide()
+        this.router.navigate(['/auth/logout']);
+      }else if (error.status==401){
+        this.storage.set('redirectAfterLogin', '/candidate/referral'); 
+       this.router.navigate(['/']);
+      }else{
       this.spinner.hide();
     
       this.successmessage = "Something went wrong. Please try again after sometime"
       this.successtitle = "Error"
       this.openModal(ModalType.SUCCESS_MESSAGE);
+      }
     }
     );
   }
@@ -184,8 +200,15 @@ export class ReferralComponent implements OnInit {
         this.spinner.hide();
       }
     }).catch((error: any) => {
+      if (error.status==404) { 
+        this.spinner.hide()
+        this.router.navigate(['/auth/logout']);
+      }else if (error.status==401){
+        this.storage.set('redirectAfterLogin', '/candidate/referral'); 
+       this.router.navigate(['/']);
+      }else{
       this.spinner.hide();
-     
+      }
     }
     );
 
@@ -213,7 +236,13 @@ export class ReferralComponent implements OnInit {
 
       }
     }).catch((error: any) => {
-      if (executeProcessedStatus) {
+      if (error.status==404) { 
+        this.spinner.hide()
+        this.router.navigate(['/auth/logout']);
+      }else if (error.status==401){
+        this.storage.set('redirectAfterLogin', '/candidate/referral'); 
+       this.router.navigate(['/']);
+      }else if (executeProcessedStatus) {
         this.processStatus = true;
       }
       this.reviewData = [];
@@ -263,11 +292,19 @@ export class ReferralComponent implements OnInit {
         this.openModal(ModalType.SUCCESS_MESSAGE);
       }
     }).catch((error: any) => {
+      if (error.status==404) { 
+        this.spinner.hide()
+        this.router.navigate(['/auth/logout']);
+      }else if (error.status==401){
+        this.storage.set('redirectAfterLogin', '/candidate/referral'); 
+       this.router.navigate(['/']);
+      }else{
       this.spinner.hide();
      
       this.successmessage = "Something went wrong. Please try again after sometime"
       this.successtitle = "Error"
       this.openModal(ModalType.SUCCESS_MESSAGE);
+      }
     }
     );
 
@@ -292,10 +329,18 @@ export class ReferralComponent implements OnInit {
         
       }
     }).catch((error: any) => {
+      if (error.status==404) { 
+        this.spinner.hide()
+        this.router.navigate(['/auth/logout']);
+      }else if (error.status==401){
+        this.storage.set('redirectAfterLogin', '/candidate/referral'); 
+       this.router.navigate(['/']);
+      }else{
       this.spinner.hide();
       this.successmessage = "Something went wrong. Please try again after sometime"
       this.successtitle = "Error"
       this.openModal(ModalType.SUCCESS_MESSAGE);
+      }
     }
     );
 

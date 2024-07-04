@@ -577,6 +577,7 @@ const candidateExperience = {
       this.modal.cancel();
     }
     else if( data == "error") {
+      this.spinner.hide()
       this.successmessage =
         "Something went wrong. Please try again after sometime";
       this.successtitle = "Error";

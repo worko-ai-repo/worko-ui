@@ -97,8 +97,16 @@ export class ReferralRequestComponent implements OnInit, OnChanges {
           }
         }
       ).catch(error => {
-        console.error('Error:', error);
+        if (error.status==404) { 
+          this.router.navigate(['/auth/logout']);
+        }else if (error.status==401){
+       
+         this.router.navigate(['/']);
+        }else{
+        //console.error('Error:', error);
+        }
       });
+
     }
   }
   upgradeNow(){
@@ -140,7 +148,15 @@ export class ReferralRequestComponent implements OnInit, OnChanges {
       }
     })
       .catch(error => {
-        console.error('Create Employee Error:', error);
+        if (error.status==404) { 
+       
+          this.router.navigate(['/auth/logout']);
+        }else if (error.status==401){
+       
+         this.router.navigate(['/']);
+        }else{
+        //console.error('Create Employee Error:', error);
+        }
       });
   }
 
@@ -154,7 +170,13 @@ export class ReferralRequestComponent implements OnInit, OnChanges {
       }
     })
       .catch(error => {
-        console.error('Create Employee Error:', error);
+        if (error.status==404) { 
+          this.router.navigate(['/auth/logout']);
+        }else if (error.status==401){
+       
+         this.router.navigate(['/']);
+        }
+       // console.error('Create Employee Error:', error);
       });
   }
 

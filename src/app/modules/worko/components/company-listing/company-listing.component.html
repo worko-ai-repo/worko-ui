@@ -50,7 +50,7 @@
               {{ item.name }}
           </option> -->
           <select class=" selector form-select" name="industryType" id="industryType"
-            [(ngModel)]="filterData.industryType" (ngModelChange)="onIndustryTypeChange($event)">
+            [(ngModel)]="filterData.industryType" (ngModelChange)="onIndustryTypeChange($event)"  [disabled]="isCompanyNameFilterActive">
             <option value="">Select Industry Type</option>
             <option *ngFor="let item of industryTypeOptions" [value]="item.value">{{ item.name }}</option>
           </select>
@@ -58,7 +58,7 @@
         </div>
         <div class="me-3 ml-sm-2 p-1 d-flex filter">
           <select class=" selector form-select" name="teamSize" id="teamSize" [(ngModel)]="filterData.teamSize"
-            (ngModelChange)="onTeamSizeChange($event)">
+            (ngModelChange)="onTeamSizeChange($event)"  [disabled]="isCompanyNameFilterActive">
             <option value="">Select Team Size</option>
             <option *ngFor="let item of teamSizeOptions" [value]="item.value">{{ item.name }}</option>
           </select>

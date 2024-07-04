@@ -92,6 +92,7 @@ export class SubscriptionComponent {
       })
     } catch (error: any) {
       if (error.status == 401) {
+        this.storage.set('redirectAfterLogin','/candidate/subscription');
         this.router.navigate(['/']);
       }
     }
