@@ -1,4 +1,4 @@
-<button (click)="raiseIssueBtnClicked()" class="issue-btn text-center ps-4">Raise Issue
+<button [disabled]="!showButton" (click)="raiseIssueBtnClicked()" class="issue-btn text-center ps-4">Raise Issue
   <svg xmlns="http://www.w3.org/2000/svg" width="22" height="28" viewBox="0 0 28 28" fill="none">
     <g clip-path="url(#clip0_3283_5036)">
       <mask id="mask0_3283_5036" style="mask-type:luminance" maskUnits="userSpaceOnUse" x="0" y="0" width="28"
@@ -26,6 +26,7 @@
       </clipPath>
     </defs>
   </svg>
+  <span *ngIf="!showButton" class="disabled-message">It's been more than 48 hours since this was marked as done. You cannot raise an issue now.</span>
 </button>
 
 <app-modal [theme]="'theme-k'" [centered]="true" [showHeader]="showModal === modalType.MESSAGE" [showClose]="true"

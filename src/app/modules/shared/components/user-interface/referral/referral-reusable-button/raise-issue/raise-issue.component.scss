@@ -1,0 +1,37 @@
+button {
+  position: relative;
+}
+
+button:disabled {
+  opacity: 0.5;
+  cursor: not-allowed; /* indicates the button is not clickable */
+}
+
+// .issue-btn:disabled svg {
+//   opacity: 0.5;
+// }
+
+.disabled-message {
+  font-size: 0.9em;
+  font-weight: bold;
+  color: #333; /* Darkened the text color for better contrast */
+  display: none; /* Initially hiding the message */
+  position: absolute;
+  bottom: 100%; /* Position above the button */
+  left: 50%; /* Center horizontally */
+  transform: translateX(-50%); /* Center horizontally */
+  padding: 0.5em 1em;
+  background-color: #f0f0f0; /* Lightened the background color */
+  border: 1px solid #ccc; /* Lightened the border color */
+  border-radius: 4px;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+  z-index: 1;
+  width: 200px;
+  text-align: center;
+  white-space: normal; /* Allow text to wrap */
+  word-wrap: break-word; /* Ensure long words break to fit within the box */
+}
+
+.issue-btn:hover .disabled-message {
+  display: block; /* Show the message on hover */
+}

@@ -10,6 +10,7 @@ import { ModalType } from 'src/app/modules/shared/interfaces/shared.interface';
 export class RaiseIssueComponent {
 
   @Input() userType:any;
+  @Input() showButton: boolean = true; // Default to true
   @Output() raiseIssue1 = new EventEmitter<any>();
   @ViewChild(ModalComponent) modal!: ModalComponent;
   modalType = ModalType;
