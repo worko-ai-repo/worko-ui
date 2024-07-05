@@ -77,7 +77,7 @@ export class CompanyListingComponent implements OnInit, AfterViewInit, OnDestroy
   cvCurPerc: any;
   totalPercentage: any;
   profileCompletionRequired: boolean = false;
-
+  isCompanyNameFilterActive: boolean = false;
   companyForm = {
     CompanyName: "",
     industry: 'Industry',
@@ -135,6 +135,7 @@ export class CompanyListingComponent implements OnInit, AfterViewInit, OnDestroy
     { name: "Auto Components", value: "Auto Components" },
     { name: "Aviation", value: "Aviation" },
     { name: "Automobile", value: "Automobile" },
+    { name: "Banking", value: "Banking" },
     { name: "Beauty & Personal Care", value: "Beauty & Personal Care" },
     { name: "Beverage", value: "Beverage" },
     { name: "Biotechnology", value: "Biotechnology" },
@@ -169,6 +170,8 @@ export class CompanyListingComponent implements OnInit, AfterViewInit, OnDestroy
     { name: "Gaming", value: "Gaming" },
     { name: "Gems & Jewellery", value: "Gems & Jewellery" },
     { name: "Hardware & Networking", value: "Hardware & Networking" },
+    { name: "Hospitality", value: "Hospitality" },
+    { name: "Hotels & Restaurants", value: "Hotels & Restaurants" },
     { name: "Import & Export", value: "Import & Export" },
     { name: "Industrial Automation", value: "Industrial Automation" },
     { name: "Industrial Equipment / Machinery", value: "Industrial Equipment / Machinery" },
@@ -490,6 +493,7 @@ export class CompanyListingComponent implements OnInit, AfterViewInit, OnDestroy
     this.filterData.teamSize="", 
     this.filterData.industryType="",
     this.getCompanyDetails();
+    this.isCompanyNameFilterActive = true;
   }
 
   filterCompanies(): void {
@@ -539,6 +543,7 @@ export class CompanyListingComponent implements OnInit, AfterViewInit, OnDestroy
     this.filterData.companyName = "";
     this.isNoLoadData = true
     this.getCompanyDetails();
+    this.isCompanyNameFilterActive = false;
   }
   async getCompanyDetails() {
     if ((this.lastKey || this.loadedOnce) && this.isNoLoadData) {

@@ -118,13 +118,20 @@ export class IndexComponent {
     this.navbarToggleSwitchService.intializeToggleStatus();
     const userType = this.storage.get('lastAccessedDash');
     this.userName = this.storage.get('userName');
-   
+    const redirectAfterLogin = this.storage.get('redirectAfterLogin');
+    console.log(redirectAfterLogin)
+    if (redirectAfterLogin) {
+      this.storage.remove('redirectAfterLogin'); // Remove the stored URL after using it
+      this.router.navigate([redirectAfterLogin]);
+    }else{
+
 
     if (userType === 'EMP') {
       this.router.navigate(['/employee/Dashboard']);
     } else {
       this.router.navigate(['/candidate/dashboard']);
     }
+  }
   }
 
   private handleUserTypeFromIndex(): void {

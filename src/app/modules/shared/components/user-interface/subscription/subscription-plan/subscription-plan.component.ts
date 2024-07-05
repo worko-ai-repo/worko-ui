@@ -11,6 +11,7 @@ import { StorageService } from 'src/app/modules/app-core/services/storage.servic
 import { environment } from 'src/environments/environment';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { PAYMENT_GATEWAYS, PaymentGatewayData } from 'src/app/modules/shared/constants/payment-gateways.constants';
+import { Router } from '@angular/router';
 
 // export const theme_config = {
 //   sdkPrimaryColor: "#2F92C7",
@@ -71,7 +72,7 @@ export class SubscriptionPlanComponent {
   isModalVisible: boolean = false;
 
 
-  constructor(private renderer2: Renderer2, private cd: ChangeDetectorRef,
+  constructor(private renderer2: Renderer2, private cd: ChangeDetectorRef, private router: Router,
     @Inject(DOCUMENT) private document: Document, private spinner: NgxSpinnerService, private candServ: CandidateProfileService, private storage: StorageService, private modalService: NgbModal) { }
   // constructor(private router: Router, private candidateSrv: CandidateProfileService, private storage: StorageService, private authService: AuthService) { }
 
@@ -214,12 +215,20 @@ export class SubscriptionPlanComponent {
         // this.spinner.hide();
       }
     }).catch((error: any) => {
+      if (error.status==404) { 
+        this.spinner.hide()
+        this.router.navigate(['/auth/logout']);
+      }else if (error.status==401){
+        this.storage.set('redirectAfterLogin','/candidate/subscription');
+       this.router.navigate(['/']);
+      } else {
       this.spinner.hide();
      
       this.successmessage = "Something went wrong. Please try again after sometime"
       this.successtitle = "Error"
       this.openModal(ModalType.SUCCESS_MESSAGE);
     }
+  }
     );
 
   }
@@ -345,12 +354,20 @@ export class SubscriptionPlanComponent {
         }
       }
     }).catch((error: any) => {
+      if (error.status==404) { 
+        this.spinner.hide()
+        this.router.navigate(['/auth/logout']);
+      }else if (error.status==401){
+        this.storage.set('redirectAfterLogin','/candidate/subscription');
+       this.router.navigate(['/']);
+      } else {
       this.spinner.hide();
       
       this.successmessage = "Something went wrong. Please try again after sometime"
       this.successtitle = "Error"
       this.openModal(ModalType.SUCCESS_MESSAGE);
     }
+  }
     );
   }
 
@@ -441,8 +458,15 @@ export class SubscriptionPlanComponent {
         this.spinner.hide();
       }
     }).catch((error: any) => {
+      if (error.status==404) { 
+        this.spinner.hide()
+        this.router.navigate(['/auth/logout']);
+      }else if (error.status==401){
+        this.storage.set('redirectAfterLogin','/candidate/subscription');
+       this.router.navigate(['/']);
+      } else {
       this.spinner.hide();
-     
+      }
     }
     );
   }
@@ -458,10 +482,18 @@ export class SubscriptionPlanComponent {
        
       }
     }).catch((error: any) => {
+      if (error.status==404) { 
+        this.spinner.hide()
+        this.router.navigate(['/auth/logout']);
+      }else if (error.status==401){
+        this.storage.set('redirectAfterLogin','/candidate/subscription');
+       this.router.navigate(['/']);
+      } else {
     
       this.successmessage = "Something went wrong. Please try again after sometime"
       this.successtitle = "Error"
       this.openModal(ModalType.SUCCESS_MESSAGE);
+      }
     });
   }
 

@@ -2,6 +2,7 @@ import { Component, Input, OnChanges, SimpleChanges } from '@angular/core';
 import { CompanyListingService } from '../../services/company-listing.service';
 import { SubscriptionPackService } from '../../services/subscription-pack.service';
 import { StorageService } from 'src/app/modules/app-core/services/storage.service';
+import { Router } from '@angular/router';
 @Component({
   selector: 'app-referral-progress-bar',
   templateUrl: './referral-progress-bar.component.html',
@@ -27,7 +28,7 @@ export class ReferralProgressBarComponent implements OnChanges {
     "We are almost done"
   ];
   emailId: string = "";
-  constructor(private companyListing: CompanyListingService, private storage: StorageService) { }
+  constructor(private companyListing: CompanyListingService, private storage: StorageService,private router: Router) { }
   ngOnChanges(changes: SimpleChanges): void {
     // console.log(this.score);
   }
@@ -53,6 +54,7 @@ export class ReferralProgressBarComponent implements OnChanges {
   }
 
   async fetchScore() {
+    try{
 
     const fetchScoreWithRetry = async () => {
       const response = await this.companyListing.getMatchingScore(this.emailId, this.referralId);
@@ -93,6 +95,17 @@ export class ReferralProgressBarComponent implements OnChanges {
 
     // Start the initial call
     await fetchScoreWithRetry();
+  }catch(error:any){
+    if (error.status==404) { 
+   
+      this.router.navigate(['/auth/logout']);
+    }else if (error.status==401){
+   
+     this.router.navigate(['/']);
+    }else{
+    //console.error('Create Employee Error:', error);
+    }
+  }
   }
 
   onViewMore(): void {
