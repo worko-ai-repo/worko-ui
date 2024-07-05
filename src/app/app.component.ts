@@ -25,8 +25,8 @@ export class AppComponent implements OnInit {
   ) {}
 
   ngOnInit(): void {
-    this.setDefaultMetaData();
-    this.updateMetaDataOnNavigation();
+    // this.setDefaultMetaData();
+    // this.updateMetaDataOnNavigation();
   }
 
   setDefaultMetaData() {
