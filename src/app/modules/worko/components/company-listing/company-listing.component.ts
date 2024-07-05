@@ -468,6 +468,7 @@ export class CompanyListingComponent implements OnInit, AfterViewInit, OnDestroy
       this.pageSize = 50;
       this.lastKey = "";
       this.loadedOnce = true;
+      this.isCompanyNameFilterActive = true;
       this.searchTerms.next(this.searchQuery);
     }else if(this.searchQuery.length<=0){
       this.clearSearchInput()
@@ -492,8 +493,9 @@ export class CompanyListingComponent implements OnInit, AfterViewInit, OnDestroy
     this.filterData.companyName = encodedQuery; // Setting here encoded query to filterData
     this.filterData.teamSize="", 
     this.filterData.industryType="",
+    
     this.getCompanyDetails();
-    this.isCompanyNameFilterActive = true;
+   
   }
 
   filterCompanies(): void {
@@ -535,15 +537,18 @@ export class CompanyListingComponent implements OnInit, AfterViewInit, OnDestroy
 
   }
 
-  clearSearchInput(): void {
+  async clearSearchInput(): Promise<void> {
     this.pageSize = 50
     this.lastKey = "";
     this.loadedOnce = true;
     this.searchQuery = '';
+    this.searchTerms.next('')
     this.filterData.companyName = "";
     this.isNoLoadData = true
-    this.getCompanyDetails();
     this.isCompanyNameFilterActive = false;
+   await this.getCompanyDetails();
+  
+   
   }
   async getCompanyDetails() {
     if ((this.lastKey || this.loadedOnce) && this.isNoLoadData) {
