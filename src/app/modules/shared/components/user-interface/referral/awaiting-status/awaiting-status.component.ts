@@ -6,22 +6,24 @@ import { Component, EventEmitter, Output, Input, OnInit, OnChanges } from '@angu
 })
 export class AwaitingStatusComponent implements OnChanges {
 
-  @Input() userType:any;
+
+
+  @Input() screenWidth: any;
+  @Input() userType: any;
   @Output() statusSelected = new EventEmitter<string>();
-  @Input() referralList:any;
+  @Input() referralList: any;
   @Output() showReferralDetails = new EventEmitter<string>();
 
   selectedStatus: string = 'Awaiting';
-  selectedReferralSK:any;
+  selectedReferralSK: any;
 
   getSlicedValue(value: string): string {
     const parts = value?.split('#');
     return parts?.length > 2 ? parts[2] : '';
   }
 
-  checkValue(value:any)
-  {
-    this.referralList = value;   
+  checkValue(value: any) {
+    this.referralList = value;
   }
 
   ngOnInit(): void {
@@ -31,20 +33,21 @@ export class AwaitingStatusComponent implements OnChanges {
   onSelectStatus(status: string): void {
     this.selectedStatus = status;
     this.statusSelected.emit(status);
-   
+
   }
 
   ngOnChanges(): void {
-  
-    if(this.referralList?.length>0)
-    {
-      this.selectedReferralSK = this.referralList[0].SK;
-      this.showReferralDetails.emit(this.referralList[0]);
+    console.log(this.referralList);
+    if (this.screenWidth > 1251) {
+      if (this.referralList?.length > 0) {
+        this.selectedReferralSK = this.referralList[0].SK;
+        this.showReferralDetails.emit(this.referralList[0]);
+      }
+      else {
+        this.showReferralDetails.emit("");
+      }
+      // this.showReferralDetails.emit(this.referralList?.length>0?this.referralList[0]:'');
     }
-    else {
-      this.showReferralDetails.emit("");
-    }
-    // this.showReferralDetails.emit(this.referralList?.length>0?this.referralList[0]:'');
   }
 
   showReferralData(item: any) {

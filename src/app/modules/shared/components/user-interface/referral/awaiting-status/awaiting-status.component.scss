@@ -6,16 +6,19 @@
 
 .dropdown .dropdown-menu {
     background-color: #0A1E35;
-    border:2px solid #4FAFCB;
+    border: 2px solid #4FAFCB;
 }
 
 .dropdown-menu::after {
     all: unset;
 }
-.dropdown-menu, li {
+
+.dropdown-menu,
+li {
     border-bottom: 1px solid #0E3877;
 }
-.dropdown-item{
+
+.dropdown-item {
     border-bottom: 2px solid #4FAFCB;
 }
 
@@ -47,7 +50,7 @@
 
 .text-size span {
     color: #4FAFCB;
-        font-size: 10px;
+    font-size: 10px;
     font-style: normal;
     font-weight: 300;
     line-height: normal;
@@ -67,6 +70,10 @@
     cursor: pointer;
 }
 
+.paddingSmallerScreens {
+
+}
+
 .candidate-card {
     // height: 558px;
     overflow-y: auto;
@@ -74,7 +81,7 @@
 
 .candidate-card::-webkit-scrollbar {
     width: 5px;
-    display: none; 
+    display: none;
 }
 
 .text-size {
@@ -86,7 +93,7 @@
     color: #4FAFCB;
     margin-left: 30px;
     font-size: 14px;
- 
+
     font-style: italic;
     font-weight: 100;
     line-height: normal;
@@ -103,4 +110,24 @@
 
 .scroller::-webkit-scrollbar {
     display: none;
+}
+
+@media (max-width: 1251px) {
+    .card.candidate-card.scroller {
+        margin-left: 1rem;
+        /* 16px */
+        margin-right: 1rem;
+        /* 16px */
+    }
+
+    .referral-list {
+        border-bottom: 1px solid #132A4C;
+        justify-content: start;
+        cursor: pointer;
+    }
+
+    .paddingSmallerScreens {
+        padding-left: 15px;
+        padding-right: 15px;
+    }
 }
