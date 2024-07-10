@@ -61,4 +61,21 @@
 
 .animate{
     animation: lights 5s 750ms linear infinite;
+
+}
+
+
+@media (max-width: 576px) {
+  .send-cv-text{
+    font-size: 14px;
+    white-space: pre-wrap;
+  }
+  .loopedText{
+    font-size: 20px;
+    white-space: pre-wrap;
+  }
+  .email-sent{
+    white-space: pre-wrap;
+  }
+
 }
