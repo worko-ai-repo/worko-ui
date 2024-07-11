@@ -115,7 +115,7 @@ export class ReferralDoneComponent implements OnChanges {
 
   formatScoreDetails(data: string): string {
     // Replacing all occurrences of \n with <br>
-    return data.replace(/\n/g, '<br>');
+    return data?.replace(/\n/g, '<br>');
   }
 
     /**

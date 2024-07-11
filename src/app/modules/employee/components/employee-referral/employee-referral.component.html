@@ -21,8 +21,13 @@
 
                 <ng-template #otherStatus>
                     <app-employee-accepted-referral [userType]="userType" *ngIf="selectedStatus === 'ACCEPTED'"
-                        [selectedReferral]="selectedReferral" (markAsDone)="referralAction('DONE')"
-                        (raiseIssue)="referralRaiseIssue($event)"></app-employee-accepted-referral>
+                        [selectedReferral]="selectedReferral" [selectedStatus]="selectedStatus" (markAsDone)="referralAction('DONE')"
+                        (raiseIssue)="referralRaiseIssue($event)" [empExperienceList]="empExperienceList"
+                        [empExperienceDetails]="empExperienceDetails" [empCoreSkillsList]="empCoreSkillsList"
+                        [empCoreSkillsDetails]="empCoreSkillsDetails" [empAchievmentsList]="empAchievmentsList"
+                        [empAchievmentsDetails]="empAchievmentsDetails" [empEducationList]="empEducationList"
+                        [empEducationDetails]="empEducationDetails" [empdetailsList]="empdetailsList"
+                        [empDetails]="empDetails"></app-employee-accepted-referral>
                     <app-employee-referral-reject *ngIf="selectedStatus === 'REJECTED'"
                         [selectedReferral]="selectedReferral" [selectedStatus]="selectedStatus"
                         [empExperienceList]="empExperienceList" [empExperienceDetails]="empExperienceDetails"
