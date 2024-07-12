@@ -35,6 +35,7 @@ export class EmployeeDashboardComponent {
   constructor(private candidateSrv: CandidateProfileService,private cognitoService: CognitoService, private router: Router, private spinner:NgxSpinnerService,private storage: StorageService, private empService: EmployeeProfileService) { }
 
   ngOnInit(): void {
+    console.log("In Employee Dashboard Component");
     // this.emailAddress = this.storage.get("useremail");
     this.emailAddress = this.storage.get("useremail");
     this.getCandidateDetails();

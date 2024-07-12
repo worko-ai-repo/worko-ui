@@ -31,6 +31,7 @@ export class CandidateDashboardComponent {
   constructor( private candidateSrv: CandidateProfileService,private cognitoService: CognitoService, private router: Router,private storage: StorageService,private spinner: NgxSpinnerService) { }
 
   ngOnInit(): void {
+    console.log("In Candidate Dashboard Component");
     this.emailAddress = this.storage.get("useremail");
     
     this.getCandidateDetails()
