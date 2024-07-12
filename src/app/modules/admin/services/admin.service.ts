@@ -1,12 +1,13 @@
-import { Injectable } from '@angular/core';
-import { environment } from 'src/environments/environment';
 import { HttpClient } from '@angular/common/http';
+import { Injectable } from '@angular/core';
 import { AuthService } from '../../worko/services/auth.service';
+import { environment } from 'src/environments/environment';
 const API_URL = environment.apiUrl;
+
 @Injectable({
   providedIn: 'root'
 })
-export class AissuesService {
+export class AdminService {
 
   constructor(private http: HttpClient, private authService: AuthService) { }
 
@@ -24,4 +25,22 @@ export class AissuesService {
       throw error; // Rethrow the error to be handled by the caller
     }
   }
+
+  getAllDisputes() {
+    return this.http.get(`${API_URL}admin/disputes`, this.authService.getHttpOptions()).toPromise();
+  }
+
+  getAllSubscriptions() {
+    return this.http.get(`${API_URL}admin/subscriptions`, this.authService.getHttpOptions()).toPromise();
+  }
+
+  getAllReferral() {
+    return this.http.get(`${API_URL}admin/ref/details`, this.authService.getHttpOptions()).toPromise();
+  }
+
+
+
+
+
+
 }

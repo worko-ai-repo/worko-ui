@@ -6,12 +6,8 @@ const routes: Routes = [
     path: '',
     loadChildren: () => import('./modules/worko/worko.module').then(m => m.WorkoModule)
   },
-  // {
-  //   path: 'admin',
-  //   loadChildren: () => import('./modules/admin-dashboard/admin-dashboard.module').then(m => m.AdminDashboardModule)
-  // },
   {
-    path: 'admin-dashboard',
+    path: 'admin',
     loadChildren: () => import('./modules/admin/admin.module').then(m => m.AdminModule)
   },
   {

@@ -1,20 +1,62 @@
-<div class="container-fluid back-color">
-    <div class="row" style="height: 100%;">
-        <div class="col-md-2 m-0 p-0" style="height: 100%;">
-            <!-- <app-user-menubar [userType]="userType"></app-user-menubar> -->
-            
-        </div>
-        <div class="col-md-10 ps-5">
-          <div class="container-fluid">
-            <div class="row">
-                <div class="col-md-12">
-                    <h4 class="mt-4">Admin Dashboard</h4>
-                </div>
-                <div class="col-md-12">
-                    <router-outlet></router-outlet>
-                </div>
+<div class="admin-contents"> 
+    <div class="sidebar-container">
+        <div class="main-div">
+            <!-- <input type="checkbox" name="" id="" (change)="toggleMenu($event)" [checked]="isMenuOpen" class="position-absolute"> -->
+            <input type="checkbox" name="" id="">
+            <div class="hamburger-lines position-absolute">
+            <span class="line line1"></span>
+            <span class="line line2"></span>
+            <span class="line line3"></span>
             </div>
-          </div>
+            <!-- <ul class="menu-items"
+            [class.toggled]="!isSidebarExpanded"> -->
+            <ul class="menu-items sidebar">
+                <li routerLink="/" class="sidebar-brand">
+                    <div class="sidebar-brand-icon px-3 mb-5">
+                        <img class="candidate-worko-logo" src="/assets/public/workologoai-2@2x.png" alt="" style="cursor: pointer;">
+                    </div>
+                </li>
+                
+                <li class="side-link">
+                    <a href="admin/aDashboard">Dashboard</a>
+                </li>
+
+                <li class="side-link">
+                    <a href="admin/aCandidate">Candidate</a>
+                </li>
+                <li class="side-link">
+                    <a href="admin/aEmployee">Employee</a>
+                </li>
+                <li class="side-link">
+                    <a href="admin/aReferral">Referral</a>
+                </li>
+                <li class="side-link">
+                    <a href="admin/aService">Service</a>
+                </li>
+                <li class="side-link">
+                    <a href="/admin/aIssues">Issues</a>
+                </li>
+                <li class="side-link">
+                    <a href="admin/aRefer-Earn">Refer & Earn</a>
+                </li>
+                <li class="side-link">
+                    <a href="admin/aPayment">Payment</a>
+                </li>
+                <li class="side-link">
+                    <a href="admin/reports">Reports</a>
+                </li>
+                <li class="side-link">
+                    <a href="admin/setting">Setting</a>
+                </li>
+    
+            </ul>
+
         </div>
+
+    </div>
+
+    <div class="admin-router">
+        <h4>Admin Dashboard</h4>
+        <router-outlet></router-outlet>
     </div>
 </div>

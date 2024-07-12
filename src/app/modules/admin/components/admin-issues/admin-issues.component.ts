@@ -4,25 +4,19 @@ import { MatPaginator, MatPaginatorIntl } from '@angular/material/paginator';
 import { MatSort } from '@angular/material/sort';
 import { MatTableDataSource, MatTableDataSourcePaginator } from '@angular/material/table';
 import { ViewEncapsulation } from '@angular/core';
+import { AdminService } from '../../services/admin.service';
 export interface UserData {
-  Name: string;
-  CandidateID: number;
-  EmployeeID: number;
-  Date: Date;
-  packagestatus: string;
-  Paymentstatus: string;
-  ServiceRequestDate: Date;
-  ServiceStartDate: Date;
-  RequestStatus: string;
-  PackageBalance: number;
-  Rating: number;
-  AccountType: string;
 
+  name: string;
+  contextId: number;
+  contextType: string;
+  createdAt: Date;
+  userMessage: string;
+  userRole: string;
+  userSupportType: string;
+  userEmail: string;
 
-
-  
- 
-}
+};
 
 @Component({
   selector: 'app-admin-issues',
@@ -39,84 +33,123 @@ export class AdminIssuesComponent {
   @ViewChild('servicePaginator') servicePaginator!: MatPaginator;
   @ViewChild('serviceSort') serviceSort!: MatSort;
 
-  displayedColumns: string[] = ['candidateId', 'employeeId', 'name', 'date', 'packageStatus', 'paymentStatus','requestStatus','packageBalance','rating','accountType','serviceRequestDate','serviceStartDate'];
+  displayedColumns: string[] = ['name', 'ID', 'contextType', 'date', 'userMessage', 'userRole', 'userSupportType', 'userEmail'];
   candidatesDataSource: MatTableDataSource<UserData>;
-  servicesDataSource: MatTableDataSource<UserData>;
+  // servicesDataSource: MatTableDataSource<UserData>;
   isFilterPopupOpen: boolean = true;
   isDropdownOpen: boolean = false;
-  constructor(private elementRef: ElementRef) {
-    this.candidatesDataSource = new MatTableDataSource<UserData>(this.nameslist);
-    this.servicesDataSource = new MatTableDataSource<UserData>(this.nameslist);
+  issueList: any[] = [];
+
+
+  filterModel: any = {
+    userFirstName: '',
+    contextId: '',
+    contextType: '',
+    createdAt: '',
+    userMessage: '',
+    userRole: '',
+
+    userSupportType: '',
+    userEmail: '',
+
+  };
+  filterData: any = {
+  
+    issuesStatus: "",
+    
+  }
+  constructor(private elementRef: ElementRef, private adminService: AdminService) {
+    this.candidatesDataSource = new MatTableDataSource<UserData>(this.issueList);
+    // this.servicesDataSource = new MatTableDataSource<UserData>(this.nameslist);
+  }
+  async ngOnInit(): Promise<void> {
+    this.getAllIssues();
   }
 
-  
-  filterModel: any = {
-    Name: '',
-    CandidateID: '',
-    EmployeeID: '',
-    Date: '',
-    packagestatus: '',
-    Paymentstatus: '',
-    ServiceRequestDate: '',
-    ServiceStartDate: '',
-    RequestStatus: '',
-    PackageBalance: '',
-    Rating: '',
-    AccountType: ''
-  };
+  ondateRangeChange($event: Event) {
+    throw new Error('Method not implemented.');
+  }
+
+  async onissuesStatusChange(selectedIssueStatus: string) {
+    this.filterData.issuesStatus = selectedIssueStatus;
+    await this.getAllIssues();
+  }
+
+
+
+  async getAllIssues() {
+    await this.adminService.getAllIssues(this.filterData.issuesStatus).then(async (response: any) => {
+      if (response) {
+        this.issueList = response;
+        //console.log("Issue list:", this.issueList);
+        this.updateData(this.issueList);
+        //this.candidatesDataSource = new MatTableDataSource<UserData>(this.issueList);
+        // console.log("Issue  status 0:";
+      }
+    })
+  }
+  updateData(newData: UserData[]) {
+    this.candidatesDataSource.data = newData;
+    if (this.referralPaginator) {
+      this.referralPaginator.firstPage();
+    }
+  }
+
+
+
   applyFilters() {
     // Gather selected filter options
     const selectedFilters = {
-      name: this.filterModel.Name,
-      candidateId: this.filterModel.CandidateID,
-      employeeId: this.filterModel.EmployeeID,
-      date: this.filterModel.Date,
-      packageStatus: this.filterModel.packagestatus,
-      paymentStatus: this.filterModel.Paymentstatus,
-      serviceRequestDate: this.filterModel.ServiceRequestDate,
-      serviceStartDate: this.filterModel.ServiceStartDate,
-      requestStatus: this.filterModel.RequestStatus,
-      packageBalance: this.filterModel.PackageBalance,
-      rating: this.filterModel.Rating,
-      accountType: this.filterModel.AccountType
+      name: this.filterModel.userFirstName,
+      contextId: this.filterModel.contextId,
+      contextType: this.filterModel.contextType,
+      createdAt: this.filterModel.createdAt,
+      userMessage: this.filterModel.userMessage,
+      userRole: this.filterModel.userRole,
+      userSupportType: this.filterModel.userSupportType,
+      userEmail: this.filterModel.userEmail
     };
-  
+
     // Apply filters to both data sources
     this.applyDataSourceFilters(this.candidatesDataSource, selectedFilters);
-  this.applyDataSourceFilters(this.servicesDataSource, selectedFilters);
-  
+    // this.applyDataSourceFilters(this.servicesDataSource, selectedFilters);
+
     // Reset pagination to navigate to first page
     if (this.candidatesDataSource.paginator) {
       this.candidatesDataSource.paginator.firstPage();
     }
-    if (this.servicesDataSource.paginator) {
-      this.servicesDataSource.paginator.firstPage();
-    }
+    // if (this.servicesDataSource.paginator) {
+    //   this.servicesDataSource.paginator.firstPage();
+    // }
   }
-  
-  applyDataSourceFilters(dataSource: MatTableDataSource<UserData>, filters: any) {
-    dataSource.filterPredicate = (data: UserData, filter: string) => {
-      const searchString = Object.keys(filters)
-        .map(key => filters[key])
-        .join('');
-      return searchString.trim().toLowerCase().split(' ').every(term =>
-        Object.values(data).join('').toLowerCase().includes(term)
-      );
-    };
-    dataSource.filter = 'activate';
-  }
-  
 
-  
+  applyDataSourceFilters(dataSource: MatTableDataSource<UserData>, filters: Partial<UserData>) {
+    dataSource.filterPredicate = (data: UserData, filter: string) => {
+      const filterObject: Partial<UserData> = JSON.parse(filter);
+      return Object.keys(filterObject).every(key => {
+        const filterKey = key as keyof UserData;
+        if (!filterObject[filterKey]) {
+          return true;
+        }
+        const dataValue = data[filterKey] ? data[filterKey].toString().toLowerCase() : '';
+        const filterValue = filterObject[filterKey] ? filterObject[filterKey]!.toString().toLowerCase() : '';
+        return dataValue.includes(filterValue);
+      });
+    };
+    dataSource.filter = JSON.stringify(filters);
+  }
+
+
   ngAfterViewInit() {
+
     // Set paginator and sort for referral table
     this.candidatesDataSource.paginator = this.referralPaginator;
     this.candidatesDataSource.sort = this.referralSort;
 
     // Set paginator and sort for service table
-    this.servicesDataSource.paginator = this.servicePaginator;
-    this.servicesDataSource.sort = this.serviceSort;
-}
+    // this.servicesDataSource.paginator = this.servicePaginator;
+    // this.servicesDataSource.sort = this.serviceSort;
+  }
 
 
 
@@ -131,13 +164,13 @@ export class AdminIssuesComponent {
   handleSearchInput(event: Event, dataSource: MatTableDataSource<UserData>) {
     const filterValue = (event.target as HTMLInputElement).value;
     dataSource.filter = filterValue.trim().toLowerCase();
-  
+
     if (dataSource.paginator) {
       dataSource.paginator.firstPage();
     }
   }
 
- 
+
 
   toggleDropdown(event: MouseEvent) {
     event.stopPropagation(); // Prevent event propagation to avoid immediate closing of the dropdown
@@ -164,56 +197,8 @@ export class AdminIssuesComponent {
     }
   }
 
-  
-  nameslist: UserData[] = [
-    {
-      Name: 'aniket', CandidateID: 1, EmployeeID: 1, Date: new Date(), packagestatus: 'valid', Paymentstatus: 'payed',
-       ServiceRequestDate: new Date(), ServiceStartDate: new Date(), RequestStatus: 'Pending', PackageBalance: 100, Rating: 4.5, AccountType: 'Savings',
-    },
-    { Name: 'vishal', CandidateID: 2, EmployeeID: 2, Date: new Date(), packagestatus: 'valid', Paymentstatus: 'payed',
-    ServiceRequestDate: new Date(), ServiceStartDate: new Date(), RequestStatus: 'Pending', PackageBalance: 100, Rating: 4.5, AccountType: 'Savings',
-    },
-    { Name: 'rohit', CandidateID: 3, EmployeeID: 3, Date: new Date(), packagestatus: 'valid', Paymentstatus: 'payed',
-    ServiceRequestDate: new Date(), ServiceStartDate: new Date(), RequestStatus: 'Pending', PackageBalance: 100, Rating: 4.5, AccountType: 'Savings',
-    },
-    { Name: 'shubham', CandidateID: 4, EmployeeID: 4, Date: new Date(), packagestatus: 'valid', Paymentstatus: 'payed',
-    ServiceRequestDate: new Date(), ServiceStartDate: new Date(), RequestStatus: 'Pending', PackageBalance: 100, Rating: 4.5, AccountType: 'Savings',
-    },
-    { Name: 'aniket', CandidateID: 1, EmployeeID: 1, Date: new Date(), packagestatus: 'valid', Paymentstatus: 'payed',       ServiceRequestDate: new Date(), ServiceStartDate: new Date(), RequestStatus: 'Pending', PackageBalance: 100, Rating: 4.5, AccountType: 'Savings',
-    },
-    { Name: 'vishal', CandidateID: 2, EmployeeID: 2, Date: new Date(), packagestatus: 'valid', Paymentstatus: 'payed',        ServiceRequestDate: new Date(), ServiceStartDate: new Date(), RequestStatus: 'Pending', PackageBalance: 100, Rating: 4.5, AccountType: 'Savings',
-    },
-    { Name: 'rohit', CandidateID: 3, EmployeeID: 3, Date: new Date(), packagestatus: 'Invalid', Paymentstatus: 'payed',
-    ServiceRequestDate: new Date(), ServiceStartDate: new Date(), RequestStatus: 'Pending', PackageBalance: 100, Rating: 4.5, AccountType: 'Savings',
-    },
-    { Name: 'shubham', CandidateID: 4, EmployeeID: 4, Date: new Date(), packagestatus: 'valid', Paymentstatus: 'unpayed',
-    ServiceRequestDate: new Date(), ServiceStartDate: new Date(), RequestStatus: 'Pending', PackageBalance: 100, Rating: 4.5, AccountType: 'Savings',
-    },
-    { Name: 'aniket', CandidateID: 1, EmployeeID: 1, Date: new Date(), packagestatus: 'valid', Paymentstatus: 'payed',
-    ServiceRequestDate: new Date(), ServiceStartDate: new Date(), RequestStatus: 'Pending', PackageBalance: 100, Rating: 4.5, AccountType: 'Savings',
-    },
-    { Name: 'vishal', CandidateID: 2, EmployeeID: 2, Date: new Date(), packagestatus: 'valid', Paymentstatus: 'payed',
-    ServiceRequestDate: new Date(), ServiceStartDate: new Date(), RequestStatus: 'Pending', PackageBalance: 100, Rating: 4.5, AccountType: 'Savings',
-    },
-    { Name: 'rohit', CandidateID: 12, EmployeeID: 3, Date: new Date(), packagestatus: 'valid', Paymentstatus: 'payed',
-    ServiceRequestDate: new Date(), ServiceStartDate: new Date(), RequestStatus: 'Pending', PackageBalance: 100, Rating: 4.5, AccountType: 'Savings',
-    },
-    { Name: 'shubham', CandidateID: 4, EmployeeID: 4, Date: new Date(), packagestatus: 'valid', Paymentstatus: 'payed',
-    ServiceRequestDate: new Date(), ServiceStartDate: new Date(), RequestStatus: 'Pending', PackageBalance: 100, Rating: 4.5, AccountType: 'Savings',
-    },
-    { Name: 'aniket', CandidateID: 10, EmployeeID: 1, Date: new Date(), packagestatus: 'valid', Paymentstatus: 'payed',
-    ServiceRequestDate: new Date(), ServiceStartDate: new Date(), RequestStatus: 'Pending', PackageBalance: 100, Rating: 4.5, AccountType: 'Savings',
-    },
-    { Name: 'vishal', CandidateID: 2, EmployeeID: 2, Date: new Date(), packagestatus: 'valid', Paymentstatus: 'payed',
-    ServiceRequestDate: new Date(), ServiceStartDate: new Date(), RequestStatus: 'Pending', PackageBalance: 100, Rating: 4.5, AccountType: 'Savings',
-    },
-    { Name: 'rohit', CandidateID: 3, EmployeeID: 3, Date: new Date(), packagestatus: 'valid', Paymentstatus: 'payed',
-    ServiceRequestDate: new Date(), ServiceStartDate: new Date(), RequestStatus: 'Pending', PackageBalance: 100, Rating: 4.5, AccountType: 'Savings',
-    },
-    { Name: 'shubham', CandidateID: 4, EmployeeID: 4, Date: new Date(), packagestatus: 'valid', Paymentstatus: 'payed',
-    ServiceRequestDate: new Date(), ServiceStartDate: new Date(), RequestStatus: 'Pending', PackageBalance: 100, Rating: 4.5, AccountType: 'Savings',
-    },
-  ];
+
+
 
 
 }
