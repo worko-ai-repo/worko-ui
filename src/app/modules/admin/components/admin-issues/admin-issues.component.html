@@ -14,7 +14,26 @@
               </div>
               <div class="col-md-6 d-flex justify-content-end">
                 <div class="pe-2">
-                 
+                  <!-- <label for="fromDate">From Date:</label> -->
+                  <mat-form-field  >
+                    <mat-label style="color: white;">From Date</mat-label>
+                    <input matInput [matDatepicker]="fromPicker" [(ngModel)]="filterModel.fromDate" (dateChange)="applyFilters()" >
+                    <mat-datepicker-toggle matSuffix [for]="fromPicker"></mat-datepicker-toggle>
+                    <mat-datepicker #fromPicker></mat-datepicker>
+                  </mat-form-field>
+                </div>
+                <div class="pe-2">
+                  <!-- <label for="toDate">To Date:</label> -->
+                  <mat-form-field>
+                    <mat-label style="color: white;">To Date</mat-label>
+                    <input matInput [matDatepicker]="toPicker" [(ngModel)]="filterModel.toDate" (dateChange)="applyFilters()">
+                    <mat-datepicker-toggle matSuffix [for]="toPicker"></mat-datepicker-toggle>
+                    <mat-datepicker #toPicker></mat-datepicker>
+                  </mat-form-field>
+                </div>
+                
+            
+                <div class="pe-2">
                   <div class="dropdown" #dropdown>
                     <button
                       class="dropdown-btn ps-3 pe-3 serachInput dropdown-toggle"

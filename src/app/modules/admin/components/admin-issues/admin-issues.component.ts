@@ -48,15 +48,16 @@ export class AdminIssuesComponent {
     createdAt: '',
     userMessage: '',
     userRole: '',
-
     userSupportType: '',
     userEmail: '',
+     fromDate: '',
+  toDate: ''
 
   };
   filterData: any = {
-  
+
     issuesStatus: "",
-    
+
   }
   constructor(private elementRef: ElementRef, private adminService: AdminService) {
     this.candidatesDataSource = new MatTableDataSource<UserData>(this.issueList);
@@ -107,7 +108,9 @@ export class AdminIssuesComponent {
       userMessage: this.filterModel.userMessage,
       userRole: this.filterModel.userRole,
       userSupportType: this.filterModel.userSupportType,
-      userEmail: this.filterModel.userEmail
+      userEmail: this.filterModel.userEmail,
+      fromDate: this.filterModel.fromDate,
+      toDate: this.filterModel.toDate,
     };
 
     // Apply filters to both data sources
@@ -123,23 +126,58 @@ export class AdminIssuesComponent {
     // }
   }
 
-  applyDataSourceFilters(dataSource: MatTableDataSource<UserData>, filters: Partial<UserData>) {
+  applyDataSourceFilters(dataSource: MatTableDataSource<UserData>, filters: any) {
     dataSource.filterPredicate = (data: UserData, filter: string) => {
-      const filterObject: Partial<UserData> = JSON.parse(filter);
-      return Object.keys(filterObject).every(key => {
+      console.log('Filter Predicate Called'); // Log when filterPredicate is called
+  
+      const filterObject: any = JSON.parse(filter);
+  
+      // Handle date range filtering separately
+      const dateInRange = this.applyDateRangeFilter(new Date(data.createdAt), filterObject.fromDate, filterObject.toDate);
+  
+      // Handle other fields
+      const otherFilters = Object.keys(filterObject).every(key => {
+        if (key === 'fromDate' || key === 'toDate') {
+          // Skip date range fields
+          return true;
+        }
+  
         const filterKey = key as keyof UserData;
         if (!filterObject[filterKey]) {
           return true;
         }
+  
         const dataValue = data[filterKey] ? data[filterKey].toString().toLowerCase() : '';
         const filterValue = filterObject[filterKey] ? filterObject[filterKey]!.toString().toLowerCase() : '';
         return dataValue.includes(filterValue);
       });
+  
+      const result = dateInRange && otherFilters;
+      console.log('Filtering:', data, 'Date In Range:', dateInRange, 'Other Filters:', otherFilters, 'Result:', result); // Log each filtering result
+      return result;
     };
+  
     dataSource.filter = JSON.stringify(filters);
+    console.log('Data Source Filter Applied:', dataSource.filter); // Log the applied filter
   }
-
-
+  
+  applyDateRangeFilter(createdAt: Date, fromDate: string | undefined, toDate: string | undefined): boolean {
+    const from = fromDate ? new Date(fromDate) : null;
+    const to = toDate ? new Date(toDate) : null;
+  
+    console.log('Applying Date Range Filter:', 'Created At:', createdAt, 'From:', from, 'To:', to);
+  
+    if (from && to) {
+      return createdAt >= from && createdAt <= to;
+    } else if (from) {
+      return createdAt >= from;
+    } else if (to) {
+      return createdAt <= to;
+    }
+  
+    return true;
+  }
+  
   ngAfterViewInit() {
 
     // Set paginator and sort for referral table
