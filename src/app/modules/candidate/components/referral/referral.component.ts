@@ -46,7 +46,8 @@ export class ReferralComponent implements OnInit {
 
   async getReferral() {
     this.spinner.show();
-    await this.candidateSrv.getReferral(this.emailAddress, this.selectedStatus).then(async (response) => {
+    const selectedStatus = this.selectedStatus === 'REFERRED' ? 'DONE' : this.selectedStatus;
+    await this.candidateSrv.getReferral(this.emailAddress, selectedStatus).then(async (response) => {
       if (response) {
         this.spinner.hide();
         this.referralList = response;
@@ -69,7 +70,7 @@ export class ReferralComponent implements OnInit {
   }
 
   async getRefereeDetials(data: any) {
-    if (data.acceptedByUserId && (this.selectedStatus == 'ACCEPTED' || this.selectedStatus == 'DONE')) {
+    if (data.acceptedByUserId && (this.selectedStatus == 'ACCEPTED' || this.selectedStatus == 'REFERRED')) {
       await this.candidateSrv.getUserDetailsById(data.acceptedByUserId).then(async (response) => {
         if (response) {
           this.refereeDetails = response;
@@ -97,16 +98,16 @@ export class ReferralComponent implements OnInit {
       this.statusItem = [{ name: 'Awaiting', status: '', date: '' },
       { name: 'Withdrawn', status: '', date: '' }];
     }
-    else if (status === 'DONE') {
+    else if (status === 'REFERRED') {
       this.statusItem = [{ name: 'Awaiting', status: '', date: '' },
       { name: 'Accepted', status: '', date: '' },
-      { name: 'Done', status: '', date: '' }];
+      { name: 'Referred', status: '', date: '' }];
     }
     else {
       this.statusItem = [{ name: 'Awaiting', status: '', date: '' },
       { name: 'Accepted', status: '', date: '' },
       { name: 'OnGoing', status: '', date: '' },
-      { name: 'Done', status: '', date: '' }];
+      { name: 'Referred', status: '', date: '' }];
     }
   }
 
@@ -117,7 +118,7 @@ export class ReferralComponent implements OnInit {
       this.selectedReferral = data;
       this.refereeDetails = "";
       this.getRefereeDetials(this.selectedReferral);
-      if (this.selectedStatus == 'DONE') {
+      if (this.selectedStatus == 'REFERRED') {
         this.reviewData = [];
         let referralId = this.getSlicedValue(this.selectedReferral?.SK);
         let forUserId = this.selectedReferral?.acceptedByUserId;
@@ -189,7 +190,7 @@ export class ReferralComponent implements OnInit {
     await this.candidateSrv.createReview(forUserId, payload).then(async (response) => {
       if (response) {
         // this.getReferralReview(this.selectedReferral);
-        if (this.selectedStatus == 'DONE') {
+        if (this.selectedStatus == 'REFERRED') {
           this.reviewData = [];
           let referralId = this.getSlicedValue(this.selectedReferral?.SK);
           let forUserId = this.selectedReferral?.acceptedByUserId;

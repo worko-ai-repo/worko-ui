@@ -62,7 +62,7 @@ export class ReferralDoneComponent implements OnChanges {
       this.profileImage = this.empdetailsList[0].profileImageAwsS3SignedUrl ? this.empdetailsList[0]?.profileImageAwsS3SignedUrl : '/assets/public/candidate-img.png'
     }
 
-    if(this.selectedStatus === 'DONE') {
+    if(this.selectedStatus === 'REFERRED') {
       this.calculateRaiseIssueButtonVisibility();
     }
   }
