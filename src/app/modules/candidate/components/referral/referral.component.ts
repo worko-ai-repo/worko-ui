@@ -159,7 +159,7 @@ export class ReferralComponent implements OnInit {
     }
   }
 
-  reverse() {
+  onClickBack() {
     this.isMainContentVisible = false;
     this.isAwaitingVisible = true;
   }

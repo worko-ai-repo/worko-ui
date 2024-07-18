@@ -134,3 +134,11 @@
     align-items: center;
     justify-content: center;
 }
+@media (max-width: 768px) {
+    .candidate-card{
+        height: 120%;
+    }
+    .text-white{
+        font-size: medium;
+    }
+}

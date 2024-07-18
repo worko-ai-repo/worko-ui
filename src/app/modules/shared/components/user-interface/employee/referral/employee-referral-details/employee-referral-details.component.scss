@@ -130,3 +130,26 @@
 .scroller::-webkit-scrollbar {
     display: none;
 }
+.referral-progress-bar {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+@media (max-width: 750px) {
+    .referral-progress-bar {
+        margin: auto;
+    }
+}
+
+@media (min-width: 751px) {
+    .referral-progress-bar {
+        margin-left: auto;
+    }
+}
+
+@media (min-width: 1250px) {
+    .referral-progress-bar {
+        margin-left: auto;
+    }
+}

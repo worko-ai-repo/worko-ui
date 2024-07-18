@@ -33,6 +33,7 @@
         </div>
 
         <!-- Repeat this block for each card -->
+        <ng-container *ngIf="hasReferrals; else noReferrals">
         <ng-container *ngFor="let referral of referralList">
             <div class="d-flex referral-list" *ngIf="referral"
                 [ngClass]="{'referral-list-clicked-item': referral.SK === selectedReferralSK}">
@@ -64,5 +65,24 @@
         </ng-container>
         <!-- End of repeated block -->
         <!-- Repeat the above block for each card as needed -->
+    </ng-container>
+        
+    <ng-template #noReferrals>
+        <div  *ngIf="isSmallScreen && userType === 'Candidate'"  class="no-referrals-container">
+            <div>
+                <app-new-request-btn></app-new-request-btn>
+                <div style="margin-top: 5px;">
+                    <span class="text-white">Get referral now!</span>
+                </div>
+            </div>
+        </div>
+
+            <div  class="no-referrals-container"  *ngIf="userType === 'Employee'">
+
+                <div style="margin-top: 5px;">
+                    <span class="text-white">No referral request found!</span> <br>
+                </div>
+            </div>
+    </ng-template>
     </div>
 </div>

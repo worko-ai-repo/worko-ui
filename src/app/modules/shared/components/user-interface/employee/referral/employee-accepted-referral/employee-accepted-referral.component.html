@@ -2,15 +2,33 @@
     <div class="card-body">
         <div class="container-fluid" style="height: 100%;">
             <div class="row" style="height: 100%;">
+                <div *ngIf="selectedReferral" class="col-12">
+                    <!-- Buttons container for medium and larger screens -->
+                    <div class="d-none d-md-flex justify-content-between w-100">
+                        <div>
+                            <app-raise-issue [userType]="userType" (raiseIssue1)="referralRaiseIssue($event)"></app-raise-issue>
+                        </div>
+                        <div>
+                            <app-mark-as-done [userType]="userType" (markAsDone1)="markAsDoneBtn()"
+                                (referralRating1)="referralReviewRating($event)"
+                                (cancelRatingPopup1)="cancelReviewRatingPopup()"></app-mark-as-done>
+                        </div>
+                    </div>
 
-                <div *ngIf="selectedReferral" class="col-md-3">
-                    <app-raise-issue [userType]="userType" (raiseIssue1)="referralRaiseIssue($event)"></app-raise-issue>
+                    <!-- Buttons container for small screens -->
+                    <div class="d-flex d-md-none flex-column w-100">
+                        <div class="mb-2">
+                            <app-raise-issue [userType]="userType" (raiseIssue1)="referralRaiseIssue($event)"></app-raise-issue>
+                        </div>
+                        <div>
+                            <app-mark-as-done [userType]="userType" (markAsDone1)="markAsDoneBtn()"
+                                (referralRating1)="referralReviewRating($event)"
+                                (cancelRatingPopup1)="cancelReviewRatingPopup()"></app-mark-as-done>
+                        </div>
+                    </div>
                 </div>
-                <div *ngIf="selectedReferral" class="col-md-3 p-0 m-0">
-                    <app-mark-as-done [userType]="userType" (markAsDone1)="markAsDoneBtn()"
-                        (referralRating1)="referralReviewRating($event)"
-                        (cancelRatingPopup1)="cancelReviewRatingPopup()"></app-mark-as-done>
-                </div>
+
+
 
                 <!-- <div *ngIf="selectedReferral" class="col-md-6">
                     <app-new-request-btn></app-new-request-btn>
@@ -58,7 +76,7 @@
             </div>
         </div>
     </div>
-</div>
+
 
 <app-modal [theme]="'theme-k'" [centered]="true" [showHeader]="showModal === modalType.MESSAGE" [showClose]="true"
     [showFooter]="showModal === modalType.MESSAGE" [modalSize]="'md'" [title]="modalTitle" [message]="modalMessage"

@@ -1,4 +1,4 @@
-import { Component, Input } from '@angular/core';
+import { Component, EventEmitter, Input, Output } from '@angular/core';
 import { StorageService } from 'src/app/modules/app-core/services/storage.service';
 // import { FormBuilder, Validators } from '@angular/forms';
 
@@ -10,7 +10,10 @@ import { StorageService } from 'src/app/modules/app-core/services/storage.servic
 
 })
 export class ReferralStepperComponent {
+  @Input() isAwaitingVisible: any;
+  @Input() isMainContentVisible: any;
   @Input() selectedReferral: any;
+  @Output() onClickBack = new EventEmitter<string>();
   // rejectedReasons: any;
 
 
@@ -35,18 +38,27 @@ export class ReferralStepperComponent {
   ngOnInit(): void {
     // console.log(this.selectedReferral, "selectedReferral");
     this.userId = this.storage.get("userId");
+    console.log(this.isMainContentVisible, this.isAwaitingVisible)
   }
 
   ngOnChanges(): void {
-    
+
     this.statusIndicator();
+  }
+
+
+  reverse() {
+
+    this.isMainContentVisible = false;
+    this.isAwaitingVisible = true;
+    this.onClickBack.emit('success')
   }
 
   statusIndicator() {
     // this.statusitem = [];
-    this.statusitem.forEach((element:any) => {
+    this.statusitem.forEach((element: any) => {
       element.status = '';
-      element.date = ''; 
+      element.date = '';
     });
     let index = 0;
     if (this.statusitem?.length > 0 && this.statusitem[1]?.name?.toUpperCase() === "REJECTED") {

@@ -1,12 +1,13 @@
 <div class="row content-container">
-    <button (click)="reverse()">Back</button>
+    <!-- <button (click)="reverse()">Back</button> -->
     <div [ngClass]="{ 'hidden': !isAwaitingVisible}" class="left-container-content referral-candidate-left-container">
         <!-- divide-45 -->
-        <app-awaiting-status [screenWidth]="screenWidth" [userType]="userType" (statusSelected)="onStatusSelected($event)" [referralList]="referralList" (showReferralDetails)="showReferralDetails($event)"> </app-awaiting-status>
+        <app-awaiting-status [screenWidth]="screenWidth" [userType]="userType" (statusSelected)="onStatusSelected($event)" [referralList]="referralList" (showReferralDetails)="showReferralDetails($event)">  </app-awaiting-status>
     </div>
     <div [ngClass]="{ 'hidden': !isMainContentVisible}" class="divide-55">
         <div class="row" style="height:100%">
-            <app-referral-stepper [selectedReferral]="selectedReferral" [statusitem]="statusItem"></app-referral-stepper>
+            <app-referral-stepper [selectedReferral]="selectedReferral" [statusitem]="statusItem"  [isMainContentVisible]="isMainContentVisible"
+            [isAwaitingVisible]="isAwaitingVisible" (onClickBack)="onClickBack()"></app-referral-stepper>
             <div class="status-container">
                 <ng-container *ngIf="selectedStatus === 'AWAITING'; else otherStatus">
                     <app-new-request (markAsDone)="referralMarkAsDone($event)" (onWithdraw)="referralWithdraw($event)" [selectedReferral]="selectedReferral"></app-new-request>

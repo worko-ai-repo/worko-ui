@@ -1,4 +1,4 @@
-import { Component, EventEmitter, Output, Input, OnInit, OnChanges } from '@angular/core';
+import { Component, EventEmitter, Output, Input, OnInit, OnChanges, HostListener } from '@angular/core';
 @Component({
   selector: 'app-awaiting-status',
   templateUrl: './awaiting-status.component.html',
@@ -16,6 +16,15 @@ export class AwaitingStatusComponent implements OnChanges {
 
   selectedStatus: string = 'Awaiting';
   selectedReferralSK: any;
+  isSmallScreen: boolean = false;
+  @HostListener('window:resize', ['$event'])
+  onResize(event: any): void {
+    this.updateScreenSize();
+  }
+
+  updateScreenSize(): void {
+    this.isSmallScreen = window.innerWidth < 1251;
+  }
 
   getSlicedValue(value: string): string {
     const parts = value?.split('#');
@@ -27,7 +36,7 @@ export class AwaitingStatusComponent implements OnChanges {
   }
 
   ngOnInit(): void {
-    
+
   }
 
   onSelectStatus(status: string): void {
@@ -53,6 +62,10 @@ export class AwaitingStatusComponent implements OnChanges {
   showReferralData(item: any) {
     this.selectedReferralSK = item.SK;
     this.showReferralDetails.emit(item);
+  }
+
+  get hasReferrals(): boolean {
+    return this.referralList && this.referralList.length > 0;
   }
 
 }

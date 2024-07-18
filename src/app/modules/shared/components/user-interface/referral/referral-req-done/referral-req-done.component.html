@@ -5,22 +5,28 @@
     <div class="card-body">
         <div class="container-fluid" style="height: 100%;">
             <div class="row" style="height: 100%;">
-                <div *ngIf="selectedReferral" class="col-md-3">
-                    <app-raise-issue [showButton]="showRaiseIssueButton" [userType]="userType" (raiseIssue1)="referralRaiseIssue($event)"></app-raise-issue>
+
+                <div *ngIf="selectedReferral" class="col-12 col-md-3 d-flex justify-content-start mb-3 mb-md-0">
+                    <app-raise-issue [showButton]="showRaiseIssueButton" [userType]="userType"
+                        (raiseIssue1)="referralRaiseIssue($event)"></app-raise-issue>
                 </div>
 
-                <div *ngIf="referralRatingFlag === null" class="col-md-3 p-0 m-0">
-                </div>
+                <div *ngIf="referralRatingFlag === null"
+                    class="col-12 col-md-3 p-0 m-0 d-flex justify-content-start mb-3 mb-md-0"></div>
 
-                <div *ngIf="selectedReferral && (reviewData?.length>0 && referralRatingFlag) && referralRatingFlag !== null" class="col-md-3 p-0 m-0">
+                <div *ngIf="selectedReferral && (reviewData?.length > 0 && referralRatingFlag) && referralRatingFlag !== null"
+                    class="col-12 col-md-3 p-0 m-0 d-flex justify-content-start mb-3 mb-md-0">
                     <app-see-review [userType]="userType" [reviewData]="reviewData"></app-see-review>
                 </div>
 
                 <!-- {{selectedReferral}} {{!(reviewData?.length>0)}} {{reviewDataApiCalled}} -->
 
-                <div *ngIf="selectedReferral && (reviewData?.length === 0 || (reviewData && !referralRatingFlag)) && referralRatingFlag !== null" class="col-md-3 p-0 m-0">
-                    <app-provide-feedback [userType]="userType" (referralRating1)="referralReviewRating($event)"></app-provide-feedback>
+                <div *ngIf="selectedReferral && (reviewData?.length === 0 || (reviewData && !referralRatingFlag)) && referralRatingFlag !== null"
+                    class="col-12 col-md-3 p-0 m-0 d-flex justify-content-start mb-3 mb-md-0">
+                    <app-provide-feedback [userType]="userType"
+                        (referralRating1)="referralReviewRating($event)"></app-provide-feedback>
                 </div>
+
                 <!-- <div *ngIf="selectedReferral " class="col-md-3 p-0 m-0">
                                 <button class="btn-done text-center" (click)="referralMarkAsDone()">Mark As hello
                                     <svg xmlns="http://www.w3.org/2000/svg" width="22" height="28" viewBox="0 0 29 28" fill="none">
@@ -32,7 +38,10 @@
                                 <app-mark-as-done (markAsDone1)="referralMarkAsDone()"></app-mark-as-done>
                             </div> -->
 
-                <div class="col-md-6" *ngIf="selectedReferral" style="display: flex; justify-content: flex-end;">
+
+
+                <div class="col-12 col-md-6 d-flex justify-content-start justify-content-md-end mb-3 mb-md-0"
+                    *ngIf="selectedReferral">
                     <!-- <button class="btn-req text-center float-end" routerLink="/company-listing">New Request
                                     <svg xmlns="http://www.w3.org/2000/svg" width="22" height="28" viewBox="0 0 29 28" fill="none">
                                         <path d="M19.7969 19.25V24.5H5.79688V3.5H14.5469V1.75H5.79688C5.33275 1.75 4.88763 1.93437 4.55944 2.26256C4.23125 2.59075 4.04688 3.03587 4.04688 3.5V24.5C4.04688 24.9641 4.23125 25.4092 4.55944 25.7374C4.88763 26.0656 5.33275 26.25 5.79688 26.25H19.7969C20.261 26.25 20.7061 26.0656 21.0343 25.7374C21.3625 25.4092 21.5469 24.9641 21.5469 24.5V19.25H19.7969Z" fill="white"/>
@@ -40,37 +49,37 @@
                                       </svg>
                                     
                                 </button> -->
+
                     <app-new-request-btn></app-new-request-btn>
                 </div>
 
-                <div *ngIf="selectedReferral" class="col-md-12" style="margin-top: 15px; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 10px;">
-
-                    <div class="col-md-12" style="color: white; display: flex; flex-direction: row; justify-content: space-between;">
-                        <div>
-                            <span class="text-white">Job Url : <a href="{{selectedReferral?.jobUrl}}"
-                                    target="_blank">Link</a></span> <br>
-                            <span class="text-white">Company Name : {{selectedReferral?.companyName}}</span> <br>
-                            <span class="text-white">Matching Score : {{selectedReferral?.matchingScore}}</span>
-                        </div>
-
-                        <div *ngIf="refereeDetails">
-                            <span class="text-white">Referee Name : {{refereeDetails[0]?.name}}</span> <br>
-                            <span class="text-white">Referee Designation : {{refereeDetails[0]?.userExperienceDetails?.designation}}</span> <br>
-                            <span class="text-white">Referee Department : {{refereeDetails[0]?.userExperienceDetails?.department}}</span>
-                        </div>
+                <div *ngIf="selectedReferral"
+                    class="col-12 mt-3 d-flex flex-column flex-md-row align-items-start text-left">
+                    <div class="col-12 col-md-6 d-flex flex-column">
+                        <span class="text-white">Job Url : <a href="{{selectedReferral?.jobUrl}}"
+                                target="_blank">Link</a></span>
+                        <span class="text-white">Company Name : {{selectedReferral?.companyName}}</span>
+                        <span class="text-white">Matching Score : {{selectedReferral?.matchingScore}}</span>
                     </div>
 
-                    <div class="col-md-12">
-                        <div *ngIf="selectedReferral" class="col-md-12 pt-3 d-flex justify-content-center">
-                            <img src="/assets/public/candidate-referral-img.png" class="referral-img" alt="">
-                        </div>
-                        <div *ngIf="selectedReferral" class="col-md-12 text-center pb-5">
-                            <span class="text-white">Your Referral Request is done!</span> <br>
-                        </div>
+                    <div *ngIf="refereeDetails" class="col-12 col-md-6 d-flex flex-column mt-3 mt-md-0">
+                        <span class="text-white">Referee Name : {{refereeDetails[0]?.name}}</span>
+                        <span class="text-white">Referee Designation :
+                            {{refereeDetails[0]?.userExperienceDetails?.designation}}</span>
+                        <span class="text-white">Referee Department :
+                            {{refereeDetails[0]?.userExperienceDetails?.department}}</span>
                     </div>
-
                 </div>
-                
+
+                <div class="col-12" *ngIf="selectedReferral"
+                    style="margin-top: 15px; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 10px;">
+                    <div class="col-md-12 pt-3 d-flex justify-content-center">
+                        <img src="/assets/public/candidate-referral-img.png" class="referral-img" alt="">
+                    </div>
+                    <div class="col-md-12 text-center pb-5">
+                        <span class="text-white">Your Referral Request is done!</span>
+                    </div>
+                </div>
 
                 <div *ngIf="!selectedReferral" class="center-elements">
                     <div>
@@ -81,18 +90,16 @@
                                           </svg>
                                         
                                     </button> -->
+
                         <app-new-request-btn></app-new-request-btn>
                     </div>
 
                     <div style="margin-top: 5px;">
-                        <span class="text-white">Get referral now!</span> <br>
+                        <span class="text-white">Get referral now!</span>
                     </div>
-
                 </div>
 
             </div>
-
-
         </div>
     </div>
 </div>
