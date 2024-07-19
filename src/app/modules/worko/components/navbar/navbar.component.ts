@@ -141,18 +141,31 @@ export class NavbarComponent {
   }
 
   async receiveDataFromChild(userType: any) {
+    // Get the current URL
+    const currentUrl = this.router.url;
+
     this.userLoggedIn = await this.cognitoService.isLoggedIn();
     this.emailAddress = this.storage.get("useremail");
+
     if (this.userLoggedIn) {
-      if (this.router.url.includes('/companies')) {
-        this.userLoggedIn = await this.cognitoService.isLoggedIn();
+      if (currentUrl.includes('/companies') || currentUrl.match(/-jobs$/)) {
         this.userName = this.storage.get('userName');
   
         // this.letter=this.getInitials(this.userName)
         // console.log(this.letter);
-        this.letter = this.userName.charAt(0).toUpperCase();
+        if(this.userName) {
+          this.letter = this.userName.charAt(0).toUpperCase();
+        }
+        
+        if (currentUrl.includes('/companies')) {
         // Redirect to the company listing page
         this.router.navigate(['/companies']);
+        } else if (currentUrl.match(/-jobs$/)) {
+         // Refresh the current route ending with -jobs
+         this.router.navigateByUrl('/', { skipLocationChange: true }).then(() => {
+         this.router.navigate([currentUrl]);
+        });
+      }
         this.eventSubject.next(userType); // Emit the userType each time a login is successful through the navbar component
         // This event will be captured by the parent component (companyListing) to perform required actions 
                

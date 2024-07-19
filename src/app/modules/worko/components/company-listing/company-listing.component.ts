@@ -246,7 +246,8 @@ export class CompanyListingComponent implements OnInit, AfterViewInit, OnDestroy
 
 
 
-  constructor(private spinner: NgxSpinnerService, private location: Location, private activatedRoute: ActivatedRoute, private cdr: ChangeDetectorRef, private storage: StorageService, private router: Router, private authService: AuthService, private http: HttpClient, private renderer: Renderer2, private el: ElementRef, private companyListing: CompanyListingService, private cognitoService: CognitoService, private candidateSrv: CandidateProfileService) {
+  constructor(private spinner: NgxSpinnerService, private location: Location, private activatedRoute: ActivatedRoute, private cdr: ChangeDetectorRef, 
+    private storage: StorageService, private router: Router, private authService: AuthService, private http: HttpClient, private renderer: Renderer2, private el: ElementRef, private companyListing: CompanyListingService, private cognitoService: CognitoService, private candidateSrv: CandidateProfileService) {
  
     this.searchTerms
       .pipe(

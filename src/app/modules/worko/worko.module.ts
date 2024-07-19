@@ -38,6 +38,8 @@ import { TermsOfServiceComponent } from './components/terms-of-service/terms-of-
 import { IndexComponent } from './components/index/index.component';
 import { AddCompanyComponent } from './components/add-company/add-company.component';
 import { ContactUsComponent } from './components/contact-us/contact-us.component';
+import { JobCategoryComponent } from './components/job-category/job-category.component';
+import { jobCategoryMatcher } from './matchers/custom-route-matcher';
 
 
 
@@ -60,6 +62,15 @@ export const routes: Routes = [
       {
         path : 'login',
         component:IndexComponent
+      },
+      {
+        path : 'companies',
+        component: CompanyListingComponent
+      },
+      // { path: ':category-jobs', component: JobCategoryComponent },
+      { 
+        matcher: jobCategoryMatcher,
+        component: JobCategoryComponent 
       },
       // {
       //   path: 'contact',
@@ -106,10 +117,6 @@ export const routes: Routes = [
       //   path: 'footer',
       //   component: FooterComponent
       // },
-      {
-        path : 'companies',
-        component: CompanyListingComponent
-      },
       // {
       //   path : 'company-box',
       //   component: CompanyBoxComponent
@@ -202,6 +209,7 @@ export const routes: Routes = [
         TermsOfServiceComponent,
         IndexComponent,
         ContactUsComponent,
+        JobCategoryComponent
     ],
     exports: [
         NavbarComponent,

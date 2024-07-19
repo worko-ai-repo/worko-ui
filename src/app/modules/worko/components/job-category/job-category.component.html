@@ -1,0 +1,218 @@
+<div class="container-fluid company-listing-container  position-relative">
+    <div class="row">
+        <div class="col-12">
+            <app-navbar></app-navbar>
+        </div>
+    </div>
+    <div class="gradient gradient-left1 position-absolute">
+        <img class="gradient-img" src="assets/about-images-KA/gradient-left1.png" alt="Gradient Left 1">
+    </div>
+    <div *ngIf="loading" class="loading-placeholder"></div>
+    <!-- me-0 ms-4 -->
+    <div *ngIf="!loading" class="row contents">
+
+        <!-- Breadcrumb -->
+        <div class="pl-5 pr-5 col-12">
+            <nav aria-label="breadcrumb">
+                <ol class="breadcrumb" itemscope itemtype="http://schema.org/BreadcrumbList">
+                    <li class="breadcrumb-item" itemprop="itemListElement" itemscope itemtype="http://schema.org/ListItem">
+                        <a (click)="navigateToIndex()" itemprop="item">
+                            <span itemprop="name">Home</span>
+                        </a>
+                        <meta itemprop="position" content="1" />
+                    </li>
+                    <ng-container *ngIf="!isIndustryType">
+                        <li class="breadcrumb-item" itemprop="itemListElement" itemscope itemtype="http://schema.org/ListItem">
+                            <a routerLink="/companies" itemprop="item">
+                                <span itemprop="name">Companies</span>
+                            </a>
+                            <meta itemprop="position" content="2" />
+                        </li>
+                        <li class="breadcrumb-item active" aria-current="page" itemprop="itemListElement" itemscope itemtype="http://schema.org/ListItem">
+                            <span itemprop="name">{{ jobCategory }}</span>
+                            <meta itemprop="position" content="3" />
+                        </li>
+                    </ng-container>
+                    <ng-container *ngIf="isIndustryType">
+                        <li class="breadcrumb-item active" aria-current="page" itemprop="itemListElement" itemscope itemtype="http://schema.org/ListItem">
+                            <span itemprop="name">{{ industryType }}</span>
+                            <meta itemprop="position" content="2" />
+                        </li>
+                    </ng-container>
+                </ol>
+            </nav>
+        </div>
+
+        <!-- <div class="pl-5 pr-5 col-12">
+            <div class="category-banner">
+                <span class="referred-headline">
+                    <span *ngIf="isIndustryType">Jobs in {{ industryType }}</span>
+                    <span *ngIf="!isIndustryType">Jobs in {{ jobCategory }}</span>
+                </span>
+            </div>
+        </div> -->
+
+        <div class="col-8 ms-5">
+            <div class="referred-headline">Get referred to over 1000+ companies</div>
+          </div>
+          <div class="col-8 ms-5 paraReferral paragraph-content my-2 text-white">
+            <p>
+              Select a company you want a referral for. Enter the URL for the job
+              posting that you want, and send your profile off to our referral
+            </p>
+          </div>
+
+        <!-- <div class="col-8 ms-5 paraReferral paragraph-content my-2 text-white">
+            <p *ngIf="isIndustryType">
+                List of companies related to this industry:
+            </p>
+            <p *ngIf="!isIndustryType">
+                Get a job referral in {{ jobCategory }}
+            </p>
+        </div> -->
+
+        <div *ngIf="companyList.length === 0" class="row mt-4">
+            <div class="col-8 ms-5 text-white my-2">
+                Company not found!.
+            </div>
+        </div>
+
+        <div class="row p-3  company-box-container d-flex justify-content-center">
+
+            <div class="company-detail-container pb-3" *ngFor="let item of companyList">
+                <div class="company-info d-flex justify-content-center">
+                    <div class="company-box">
+                        <div class="row card-view card d-flex justify-content-center">
+                            <div class="title"><u>{{item.name}}</u></div>
+                            <div class="col-5 d-lex align-items-center links-container">
+                                <div class="float-left image-brand">
+                                    <img *ngIf="assetLogos.includes(item.logo)" src="assets/company-logo/{{item.logo }}"
+                                        class="company-name" alt="logo">
+                                    <img *ngIf="!assetLogos.includes(item.logo)" src="{{ item.logoUrl }}"
+                                        class="company-name" alt="logo">
+
+                                </div>
+
+
+                                <div class="float-left" style="padding-top: 0.3rem;">
+                                    <div class="px-1 float-left career-icon" title="Career Page">
+                                        <a href="{{ item.carrierPage }}" target="_blank">
+                                            <img src="../../../../../assets/icons/career-icon.png" alt="icon" />
+                                        </a>
+
+                                    </div>
+                                    <div class="px-1 float-left" title="Linkedin Page">
+                                        <a href="{{ item.linkedIn }}" target="_blank">
+                                            <i class="fa-brands fa-linkedin" style="color:#0077b5 ;font-size: 23px;
+                    margin-top: 2px;  margin-left: 6px;"> </i>
+                                        </a>
+
+                                    </div>
+                                </div>
+
+                            </div>
+                            <div class="col-7 p-2">
+                                <div class="vertical-bar"></div>
+                                <div class="anchor-button">
+                                    <a href="#" (click)="openReferralPage($event, item)">Request Referral</a>
+                                </div>
+                                <div class="anchor-button" style="top:37px;">
+                                    <a href="#" (click)="openGuidancePage($event, item)">Request Guidance</a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+
+    </div>
+    <div class="gradient gradient-right1 position-absolute">
+        <img class="gradient-img" src="assets/index-images-KA/gradient-right1.png" alt="Gradient Right 1">
+    </div>
+</div>
+<app-footer></app-footer>
+<app-modal (onModalClose)="onModalClose()" [theme]="'theme-k'" [centered]="true"
+    [showHeader]="showModal === modalType.MESSAGE" [showClose]="true" [showFooter]="showModal === modalType.MESSAGE"
+    [title]="modalTitle" [message]="modalMessage" [bodyClass]="modalMessage ? 'p-4' : 'p-0'">
+    <ng-container *ngIf="showModal === modalType.REQUEST_REFERRAL">
+        <!-- <p>hi request referral</p> -->
+        <app-referral-request [selectedCompany]="selectedData"></app-referral-request>
+    </ng-container>
+
+    <ng-container *ngIf="showModal === modalType.REQUEST_GUIDANCE">
+        <div class="row message-card px-sm-3 p-5">
+            <div class="col-md-8 offset-md-2">
+                <div class="text-center mb-4">
+                    <p>Our guidance service is launching soon, connecting you with first-hand, experienced experts for
+                        invaluable
+                        insights.</p>
+                    <p>Stay tuned for updates.</p>
+                    <p> Need urgent assistance, like interview preparation from insiders?</p>
+                    <p>Email us at <a href="mailto:Guidance@worko.ai">Guidance@worko.ai</a> for support.</p>
+                </div>
+                <div class="text-center">
+                    <button class="btn btn-next" (click)="cancel()">Cancel</button>
+                </div>
+            </div>
+        </div>
+
+    </ng-container>
+
+    <ng-container *ngIf="showModal === modalType.LOGIN_SIGNUP">
+        <app-login-page (onSuccess)="receiveDataFromChild($event)" [userLoggedInData]="userLoggedIn"></app-login-page>
+    </ng-container>
+    <ng-container *ngIf="showModal === modalType.SUCCESS_MESSAGE">
+
+        <div class="row message-card px-sm-3 p-5"
+            *ngIf="!successtitle && !successmessage && !profileCompletionRequired">
+            <div class="col-md-8 offset-md-2">
+
+                <div class="text-center mb-4">
+                    <p> our team started working on your request, you will be notified via e-mail once we add this
+                        company. </p>
+                    <p>It might take 72 Hours.</p>
+                    <p>Your Success is our priority.</p>
+                </div>
+                <div class="text-center">
+                    <button class="btn btn-next" (click)="cancel()">OK</button>
+                </div>
+            </div>
+        </div>
+        <div class="row message-card px-sm-3 p-5" *ngIf="successtitle && successmessage && !profileCompletionRequired">
+            <div class="font-weight-bold text-color-red mb-3 d-flex justify-content-center"
+                style="color: #e40707; font-size: medium;" *ngIf="successtitle === 'Error'">
+                {{successtitle}}
+            </div>
+            <div class="font-weight-bold text-color-red mb-3 d-flex justify-content-center" style="font-size: medium;"
+                *ngIf="successtitle != 'Error'">
+                {{successtitle}}
+            </div>
+            <div class="d-flex justify-content-center"><span>{{successmessage}}</span> </div>
+            <div class=" mt-3 d-flex justify-content-center">
+                <button class="btn btn-next" (click)="cancel()" *ngIf="successtitle === 'Error'"> Close</button>
+            </div>
+            <div class=" mt-3 d-flex justify-content-center">
+                <button class="btn btn-next" (click)="cancel()" *ngIf="successtitle != 'Error'"> Ok</button>
+            </div>
+        </div>
+
+        <div class="row message-card px-sm-3 p-5" *ngIf="profileCompletionRequired">
+            <div class="col-md-8 offset-md-2">
+
+                <div class="text-center mb-4">
+                    <p>To proceed with your referral request, please complete your candidate profile and upload your CV.
+                    </p>
+                    <p>A complete profile increases your chances of getting referred.</p>
+                    <p>Let's make it happen!</p>
+                </div>
+                <div class="text-center">
+                    <button class="btn req-btn" (click)="completeProfile()">OK</button>
+                </div>
+            </div>
+        </div>
+
+    </ng-container>
+
+</app-modal>
