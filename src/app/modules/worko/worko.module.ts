@@ -25,7 +25,7 @@ import { MatDividerModule } from '@angular/material/divider';
 // import { CircleChartComponent } from './components/circle-chart/circle-chart.component';
 import { MatProgressBarModule } from '@angular/material/progress-bar';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
-import { SlickCarouselModule } from 'ngx-slick-carousel';
+// import { SlickCarouselModule } from 'ngx-slick-carousel';
 import { MatPaginatorModule } from '@angular/material/paginator';
 import { MatListModule } from '@angular/material/list';
 import { MatNativeDateModule } from '@angular/material/core';
@@ -221,7 +221,7 @@ export const routes: Routes = [
         MatDividerModule,
         MatProgressBarModule,
         MatProgressSpinnerModule,
-        SlickCarouselModule,
+        // SlickCarouselModule,
         MatPaginatorModule,
         MatDatepickerModule,
         MatListModule,
