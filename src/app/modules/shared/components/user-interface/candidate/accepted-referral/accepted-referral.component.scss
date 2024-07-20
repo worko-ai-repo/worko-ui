@@ -113,6 +113,11 @@ line-height: normal;
 .referral-img{
     width: 200px;
 }
+@media (max-width: 1251px) {
+    .candidate-card{
+        height: 132%;
+    }
+}
 
 .center-elements {
     height: 100%;
