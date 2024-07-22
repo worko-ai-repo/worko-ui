@@ -100,7 +100,7 @@ export class AdminIssuesComponent {
 
   applyFilters() {
     // Gather selected filter options
-    const selectedFilters = {
+    const selectedFilters: { [key: string]: string | undefined }={
       name: this.filterModel.userFirstName,
       contextId: this.filterModel.contextId,
       contextType: this.filterModel.contextType,
@@ -126,14 +126,19 @@ export class AdminIssuesComponent {
     // }
   }
 
-  applyDataSourceFilters(dataSource: MatTableDataSource<UserData>, filters: any) {
+  applyDataSourceFilters(dataSource: MatTableDataSource<UserData>, filters: { [key: string]: string | undefined }) {
     dataSource.filterPredicate = (data: UserData, filter: string) => {
-      console.log('Filter Predicate Called'); // Log when filterPredicate is called
+      let filterObject: { [key: string]: string | undefined }; // Explicitly type filterObject
+      try {
+        filterObject = JSON.parse(filter);
+        console.log('Parsed Filter Object:', filterObject);
+      } catch (e) {
+        console.error('Error parsing filter object:', e);
+        return false; // If parsing fails, return false to exclude the item
+      }
   
-      const filterObject: any = JSON.parse(filter);
-  
-      // Handle date range filtering separately
-      const dateInRange = this.applyDateRangeFilter(new Date(data.createdAt), filterObject.fromDate, filterObject.toDate);
+      // Handle date range filtering
+      const dateInRange = this.applyDateRangeFilter(new Date(data.createdAt), filterObject['fromDate'], filterObject['toDate']);
   
       // Handle other fields
       const otherFilters = Object.keys(filterObject).every(key => {
@@ -152,13 +157,11 @@ export class AdminIssuesComponent {
         return dataValue.includes(filterValue);
       });
   
-      const result = dateInRange && otherFilters;
-      console.log('Filtering:', data, 'Date In Range:', dateInRange, 'Other Filters:', otherFilters, 'Result:', result); // Log each filtering result
-      return result;
+      return dateInRange && otherFilters;
     };
   
     dataSource.filter = JSON.stringify(filters);
-    console.log('Data Source Filter Applied:', dataSource.filter); // Log the applied filter
+    console.log('Data Source Filter:', dataSource.filter);
   }
   
   applyDateRangeFilter(createdAt: Date, fromDate: string | undefined, toDate: string | undefined): boolean {
