@@ -6,7 +6,7 @@ import { MatTableDataSource, MatTableDataSourcePaginator } from '@angular/materi
 import { ViewEncapsulation } from '@angular/core';
 
 export interface UserData {
-  Name: string;
+  name: string;
   emailId: string;
   Phonenumber : string;
   companyName : string;
@@ -33,7 +33,8 @@ export class AdminEmployeeComponent {
   @ViewChild('servicePaginator') servicePaginator!: MatPaginator;
   @ViewChild('serviceSort') serviceSort!: MatSort;
 
-  displayedColumns: string[] = ['candidateId', 'employeeId', 'name', 'date', 'packageStatus', 'paymentStatus','requestStatus','packageBalance','rating','accountType','serviceRequestDate','serviceStartDate'];
+  displayedColumns: string[] = ['name', 'emailId', 'Phonenumber', 'companyName', 'companyEmailId', 'referreeDesignation','referreeDepartment',
+    'referralCount','acceptedRequestCount','doneRequestCount','displayedColumns'];
   candidatesDataSource: MatTableDataSource<UserData>;
   servicesDataSource: MatTableDataSource<UserData>;
   isFilterPopupOpen: boolean = true;

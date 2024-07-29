@@ -25,7 +25,7 @@ export class AdminService {
     //   throw error; // Rethrow the error to be handled by the caller
     // }
 
-    return this.http.get(`${API_URL}admin/support/`, this.authService.getHttpOptions()).toPromise();
+    return this.http.get(`${API_URL}admin/support`, this.authService.getHttpOptions()).toPromise();
   }
 
   getAllDisputes() {
