@@ -22,7 +22,7 @@
   flex-wrap: wrap;
   gap: 1rem;
   padding: 0 1rem;
- 
+
 
 }
 
@@ -233,7 +233,7 @@
 }
 
 @media (max-width: 768px) {
-  
+
   .parent-div {
     display: flex;
     // flex-direction: column;
@@ -267,7 +267,8 @@
     position: absolute;
     padding-left: 0px;
     padding-top: 18px;
-    z-index: 1; /* Ensure it is on top */
+    z-index: 1;
+    /* Ensure it is on top */
     cursor: pointer;
   }
 
@@ -281,7 +282,8 @@
   .referral-stepper-container {
     height: 6rem;
   }
+
+  .timeline-event {
+    min-width: 60px
+  }
 }
-
-
-

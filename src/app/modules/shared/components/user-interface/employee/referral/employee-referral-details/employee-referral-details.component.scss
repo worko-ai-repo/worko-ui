@@ -158,6 +158,7 @@
 
 /* Styles for mobile screens */
 @media (max-width: 768px) {
+  
     .candidate-card .row {
         display: flex;
         flex-wrap: wrap;
@@ -207,13 +208,13 @@
     }
 
     .action-buttons button {
-        margin-bottom: 10px; /* Space between buttons */
+        margin-bottom: 37px; /* Space between buttons */
     }
 
     .circle-chart-div {
         position: absolute;
         right: 10px; /* Align to the right */
-        bottom: 164px; /* Position below the buttons */
+        bottom: 126px; /* Position below the buttons */
     }
 
     .referral-progree-bar {
