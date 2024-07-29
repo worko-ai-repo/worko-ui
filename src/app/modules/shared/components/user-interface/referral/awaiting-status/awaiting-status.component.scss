@@ -70,10 +70,6 @@ li {
     cursor: pointer;
 }
 
-.paddingSmallerScreens {
-
-}
-
 .candidate-card {
     // height: 558px;
     overflow-y: auto;
@@ -146,17 +142,34 @@ li {
     }
   
     .number-size {
-        width: 100%;
+        width:100%
     }
+    .text-overflow {
+        white-space:pre-wrap;
+    }
+  
+}
+
+@media (max-width: 1251px) and (min-width:990px) {
 
     .text-overflow {
         white-space:pre-wrap;
-        width: 104%;
+        // width: 104%;
         margin-left: 17rem;
     }
 }
-@media (max-width: 960px) {
+@media (max-width: 798px) {
+ 
+    .number-size {
+        font-size:12px;
+        width: 45%;
+    }
     .text-overflow {
-        margin-left: 1rem;
+        white-space:nowrap;
+        // margin-left: 1rem;
+       
+    }
+    .text-size h5{
+        font-size: 12px;
     }
 }

@@ -19,15 +19,10 @@
   justify-content: flex-end;
   position: relative;
   align-items: center;
-  /* Align items vertically */
   flex-wrap: wrap;
-  /* Wrap items on smaller screens */
   gap: 1rem;
-  /* Adjust gap between items */
   padding: 0 1rem;
-  /* Add padding to prevent content from sticking to edges */
-  justify-content: flex-start;
-  /* Default to flex-start */
+ 
 
 }
 
@@ -216,67 +211,77 @@
   display: none;
 }
 
-@media (min-width: 992px) {
-  .stepper-wrapper {
-    justify-content: flex-end;
-    /* Apply flex-end for larger screens */
-  }
-}
 
-@media (min-width: 768px) {
+
+@media (min-width: 768px) and (max-width: 1251px) {
   .parent-div {
     flex-direction: row;
     position: relative;
 
+    align-items: center;
   }
 
+  .request-heading,
+  .stepper-wrapper {
+    width: 100%;
+    text-align: center;
+  }
+
+  .request-heading {
+    margin-left: 18px;
+  }
 }
 
 @media (max-width: 768px) {
-  // .referral-stepper-container{
-  //   height:100px;
-
-  // }
+  
   .parent-div {
-
+    display: flex;
+    // flex-direction: column;
+    align-items: center;
     margin-left: 15%;
+    width: 80%;
   }
 
-  h6 {
+  h6.request-heading {
     display: flex;
-    font-size: 11px;
-    white-space: nowrap;
-    padding: auto;
-
+    font-size: 13px;
+    text-align: center;
   }
 
   .stepper-wrapper {
     display: flex;
     flex-direction: column;
-    /* Stack items vertically on smaller screens */
     justify-content: flex-start;
-    /* Adjust alignment as needed */
-
   }
 
   .timeline-point {
     width: 1rem;
     height: 1rem;
   }
+
 }
 
 @media (max-width: 1251px) {
   .back-button {
     display: block;
+    position: absolute;
+    padding-left: 0px;
+    padding-top: 18px;
+    z-index: 1; /* Ensure it is on top */
+    cursor: pointer;
+  }
 
+  .text-overflow {
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    overflow: hidden;
+    width: 100%;
   }
 
   .referral-stepper-container {
-    height: 9rem;
-    ;
+    height: 6rem;
   }
-
-  // .parent-div {
-  //   margin-left: 15%;
-  // }
 }
+
+
+
