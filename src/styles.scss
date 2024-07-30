@@ -1791,7 +1791,7 @@ footer {
         border: 2px solid #0A1E35 !important;
         padding: 4px;
         border-radius: 5px;
-
+        height: 46px;
 
     }
 
@@ -1820,6 +1820,11 @@ footer {
     max-height: 69px;
 
 }
+.mat-mdc-text-field-wrapper .mat-mdc-form-field-infix .mat-mdc-floating-label{
+    top:auto;
+    font-size: small;
+}
+
 
 
 .required-form-field:before {

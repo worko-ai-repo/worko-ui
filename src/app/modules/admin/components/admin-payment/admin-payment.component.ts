@@ -6,8 +6,8 @@ import { MatTableDataSource, MatTableDataSourcePaginator } from '@angular/materi
 import { ViewEncapsulation } from '@angular/core';
 import { AdminService } from '../../services/admin.service';
 export interface UserData {
-  Name: string;
-  emailId: string;
+  name: string;
+  userEmail: string;
   orderId: string;
   packageName:string
   purchaseDate: Date;
@@ -32,7 +32,7 @@ export class AdminPaymentComponent {
   @ViewChild('servicePaginator') servicePaginator!: MatPaginator;
   @ViewChild('serviceSort') serviceSort!: MatSort;
 
-  displayedColumns: string[] = ['name', 'emailId', 'orderId', 'packageName', 'purchaseDate', 'expiryDate','requestedReferrals','creditedReferrals','acceptedReferrals'];
+  displayedColumns: string[] = ['name', 'userEmail','orderId', 'packageName', 'purchaseDate', 'expiryDate', 'requestedReferrals', 'creditedReferrals', 'acceptedReferrals'];
   candidatesDataSource: MatTableDataSource<UserData>;
   servicesDataSource: MatTableDataSource<UserData>;
   isFilterPopupOpen: boolean = true;
@@ -45,8 +45,8 @@ export class AdminPaymentComponent {
 
   
   filterModel: any = {
-    Name: '',
-    emailId: '',
+    name: '',
+    userEmail: '',
     orderId: '',
     packageName: '',
     purchaseDate: '',
@@ -80,8 +80,8 @@ export class AdminPaymentComponent {
   applyFilters() {
     // Gather selected filter options
     const selectedFilters = {
-      name: this.filterModel.Name,
-      emailId: this.filterModel.emailId,
+      name: this.filterModel.name,
+      userEmail: this.filterModel.userEmail,
       orderId: this.filterModel.orderId,
       packageName: this.filterModel.packageName,
       purchaseDate: this.filterModel.purchaseDate,

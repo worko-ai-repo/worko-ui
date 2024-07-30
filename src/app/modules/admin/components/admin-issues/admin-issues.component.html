@@ -16,7 +16,7 @@
                 <div class="pe-2">
                   <!-- <label for="fromDate">From Date:</label> -->
                   <mat-form-field  >
-                    <mat-label style="color: white;">From Date</mat-label>
+                    <mat-label style="color: white; padding-top: 10px;">From Date</mat-label>
                     <input matInput [matDatepicker]="fromPicker" [(ngModel)]="filterModel.fromDate" (dateChange)="applyFilters()" >
                     <mat-datepicker-toggle matSuffix [for]="fromPicker"></mat-datepicker-toggle>
                     <mat-datepicker #fromPicker></mat-datepicker>
