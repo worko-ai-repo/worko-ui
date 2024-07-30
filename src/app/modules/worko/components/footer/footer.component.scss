@@ -18,4 +18,48 @@
     max-width:100%;
 }
 
+.footer-industries {
+    display: block;
+    font-size: 18px;
+    text-align: left; /* Ensure text is left-aligned */
+   
+}
+
+.footer-industries a {
+    color: #010c0e;
+}
+
+.btn-dark{
+    background-color:#57E1FF;;
+    color: #f5f7f9;
+    font-size: calc(1vw + 4px);
+    border: 1px solid #57E1FF;;
+    padding: 0.5rem 6%;
+    border-radius: 8px;
+    width: 27%;
+}
+
+@media (max-width: 768px) {
+    .btn-dark {
+        font-size: 15px; 
+        width: 40%;
+    }
+}
+
+@media (max-width: 576px) {
+    .btn-dark {
+        font-size: 15px;
+        width: 40%; 
+    }
+}
+
+/* Extra small devices (portrait phones, less than 576px) */
+@media (max-width: 575px) {
+    .btn-dark {
+        font-size: 14px;
+        width: 45%;
+    }
+}
+
+
   
