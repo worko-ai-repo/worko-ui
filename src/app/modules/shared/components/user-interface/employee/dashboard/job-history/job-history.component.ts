@@ -14,13 +14,13 @@ export class JobHistoryComponent {
     // if(this.bankInfo){
     //   this.bankInfo = this.bankInfo[0];
     // }'
-     this.currentCompany = this.workExperienceDetails.filter((company:any) => company.isCurrent);
-    this.previousCompanies = this.workExperienceDetails.filter((company: any) => !company.isCurrent);
-    this.currentCompany.forEach((company: any) => {
+     this.currentCompany = this.workExperienceDetails?.filter((company:any) => company.isCurrent);
+    this.previousCompanies = this.workExperienceDetails?.filter((company: any) => !company.isCurrent);
+    this.currentCompany?.forEach((company: any) => {
       company.experience = this.calculateExperience(company.experienceInMonths);
   });
 
-  this.previousCompanies.forEach((company: any) => {
+  this.previousCompanies?.forEach((company: any) => {
       company.experience = this.calculateExperience(company.totalMonths);
   });
 

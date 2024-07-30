@@ -274,7 +274,7 @@ export class LoginPageComponent implements AfterViewInit, OnDestroy {
 
 
   async ngOnInit() {
-    console.log("In login Component");
+    // console.log("In login Component");
     //Added check to pass userType to show enabled candidate and employee from index page
     //debugger
 
