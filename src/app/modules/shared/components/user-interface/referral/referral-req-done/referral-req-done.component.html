@@ -6,23 +6,23 @@
         <div class="container-fluid" style="height: 100%;">
             <div class="row" style="height: 100%;">
 
-                <div *ngIf="selectedReferral" class="col-12 col-md-3 d-flex justify-content-start mb-3 mb-md-0">
+                <div *ngIf="selectedReferral" class=" col-12 col-md-3 d-flex justify-content-start mb-3 mb-md-0 issues-btn">
                     <app-raise-issue [showButton]="showRaiseIssueButton" [userType]="userType"
                         (raiseIssue1)="referralRaiseIssue($event)"></app-raise-issue>
                 </div>
 
                 <div *ngIf="referralRatingFlag === null"
-                    class="col-12 col-md-3 p-0 m-0 d-flex justify-content-start mb-3 mb-md-0"></div>
+                    class="col-12 col-md-3 d-flex justify-content-start  mb-3 mb-md-0 "></div>
 
                 <div *ngIf="selectedReferral && (reviewData?.length > 0 && referralRatingFlag) && referralRatingFlag !== null"
-                    class="col-12 col-md-3 p-0 m-0 d-flex justify-content-start mb-3 mb-md-0">
+                    class="col-12 col-md-3 d-flex justify-content-start mb-3 mb-md-0 see-review-btn">
                     <app-see-review [userType]="userType" [reviewData]="reviewData"></app-see-review>
                 </div>
 
                 <!-- {{selectedReferral}} {{!(reviewData?.length>0)}} {{reviewDataApiCalled}} -->
 
                 <div *ngIf="selectedReferral && (reviewData?.length === 0 || (reviewData && !referralRatingFlag)) && referralRatingFlag !== null"
-                    class="col-12 col-md-3 p-0 m-0 d-flex justify-content-start mb-3 mb-md-0">
+                    class="col-12 col-md-3  d-flex justify-content-start mb-3 mb-md-0 feedback-btn">
                     <app-provide-feedback [userType]="userType"
                         (referralRating1)="referralReviewRating($event)"></app-provide-feedback>
                 </div>
@@ -40,7 +40,7 @@
 
 
 
-                <div class="col-12 col-md-6 d-flex justify-content-start justify-content-md-end mb-3 mb-md-0"
+                <div class="col-12 col-md-6 d-flex justify-content-start justify-content-md-end mb-3 mb-md-0 new-request-btn"
                     *ngIf="selectedReferral">
                     <!-- <button class="btn-req text-center float-end" routerLink="/company-listing">New Request
                                     <svg xmlns="http://www.w3.org/2000/svg" width="22" height="28" viewBox="0 0 29 28" fill="none">

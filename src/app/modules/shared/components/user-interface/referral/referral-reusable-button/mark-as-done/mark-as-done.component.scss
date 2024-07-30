@@ -11,3 +11,9 @@
     color: white;
     gap: 10px;
 }
+
+@media (max-width:798px) {
+    .done-text{
+      display: none;
+    }
+  }
