@@ -12,7 +12,7 @@ export class FooterComponent {
  
   
   industryTypeOptions: any[] = (industryTypes as any).default;
-  baseUrl=window.location.origin;
+  // baseUrl=window.location.origin;
 
   industryName=[
     {name:'ACCENTURE'},
@@ -46,5 +46,22 @@ export class FooterComponent {
 
     window.location.href = window.location.origin + '/companies';
   }
+
+baseUrl = environment.crossOriginUrl;
+// rediectToContactUs() {
+// window.location.href = environment.crossOriginUrl + '/contact-us'
+// }
+// rediectToRefundPolicy() {
+// window.location.href = environment.crossOriginUrl + '/refund-policy'
+// }
+// rediectToPrivacyPolicy() {
+// window.location.href = environment.crossOriginUrl + '/privacy-policy'
+// }
+// rediectToFaq() {
+//   window.location.href = environment.crossOriginUrl + '/faq'
+// }
+// rediectToAboutUs() {
+//   window.location.href = environment.crossOriginUrl + '/about-us'
+// }
 
 }

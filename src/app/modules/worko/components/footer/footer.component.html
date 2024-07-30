@@ -21,10 +21,10 @@
                           <div class="footer-industries">
                               <div class="row justify-content-center">
                                   <div *ngFor="let industry of industryTypeOptions | slice:0:18" class="col-lg-1-7 col-md-2 col-sm-3 mb-2 text-left">
-                                      <a [href]="baseUrl + '/' + industry.name.toLowerCase() + '-jobs'">{{ industry.name }}</a>
+                                      <a [href]="'/' + industry.name.toLowerCase() + '-jobs'">{{ industry.name }}</a>
                                   </div>
                               </div>
-                              <div class="button-container text-center">
+                              <div class="button-container text-center mt-1">
                                   <button (click)="redirectToCompanyListing()" class="btn btn-dark font-inria">View all Industry</button>
                               </div>
                           </div>
@@ -39,10 +39,10 @@
                     <div class="footer-industries">
                       <div class="row">
                         <div *ngFor="let industry of industryName | slice:0:18" class="col-lg-1-7 col-md-2 col-sm-3 mb-2">
-                          <a [href]="baseUrl + '/' + industry.name.toLowerCase() + '-jobs'">{{ industry.name }}</a>
+                          <a [href]="'/' + industry.name.toLowerCase() + '-jobs'">{{ industry.name }}</a>
                         </div>
                       </div>
-                      <div class="button-container text-center p-3" >
+                      <div class="button-container text-center mt-1" >
                         <button (click)="redirectToCompanyListing()" class="btn btn-dark font-inria">View all Company</button>
                     </div>
                     </div>
@@ -51,7 +51,7 @@
               
 
 
-            <h5 class="footer-head-text mb-1">
+            <h5 class="footer-head-text mt-4 mb-1">
               Setting New Hiring Standards
             </h5>
             <p class="pr-0 pr-lg-5">
@@ -71,16 +71,15 @@
             </div>
             <div class="footer-links">
               <ul class="list-unstyled">
-                <li><a href="/about-us"> About </a></li>
-                <li><a href="/faq"> FAQ’s</a></li>
-                <!--<li><a href="/faq-candidate"> FAQ’s</a></li>  -->
+                <li><a [href]="baseUrl + '/about-us'"> About </a></li>
+                <li><a [href]="baseUrl + '/faq'"> FAQ’s</a></li>
                 <li><a href="/terms-of-service"> Terms of Service </a></li>
-                <li><a href="/privacy-policy"> Privacy Policy </a></li>
-                <li><a href="/refund-policy"> Refund Policy </a></li>
-                <li><a href="/contact-us"> Contact Us </a></li>
-                <!-- <li><a href="/"> Validation of WAS </a></li> -->
+                <li><a [href]="baseUrl + '/privacy-policy'"> Privacy Policy </a></li>
+                <li><a [href]="baseUrl + '/refund-policy'"> Refund Policy </a></li>
+                <li><a [href]="baseUrl + '/contact-us'"> Contact Us </a></li>
               </ul>
             </div>
+            
           </div>
           <div class="col-lg-6 footer-contact">
             <div class="list-head mt-4">

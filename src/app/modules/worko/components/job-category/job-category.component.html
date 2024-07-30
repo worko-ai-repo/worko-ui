@@ -43,16 +43,16 @@
             </nav>
         </div>
 
-        <!-- <div class="pl-5 pr-5 col-12">
+        <div class="pl-5 pr-5 col-12">
             <div class="category-banner">
                 <span class="referred-headline">
                     <span *ngIf="isIndustryType">Jobs in {{ industryType }}</span>
                     <span *ngIf="!isIndustryType">Jobs in {{ jobCategory }}</span>
                 </span>
             </div>
-        </div> -->
+        </div>
 
-        <div class="col-8 ms-5">
+        <!-- <div class="col-8 ms-5">
             <div class="referred-headline">Get referred to over 1000+ companies</div>
           </div>
           <div class="col-8 ms-5 paraReferral paragraph-content my-2 text-white">
@@ -60,16 +60,16 @@
               Select a company you want a referral for. Enter the URL for the job
               posting that you want, and send your profile off to our referral
             </p>
-          </div>
+          </div> -->
 
-        <!-- <div class="col-8 ms-5 paraReferral paragraph-content my-2 text-white">
+        <div class="col-8 ms-5 paraReferral paragraph-content my-2 text-white">
             <p *ngIf="isIndustryType">
                 List of companies related to this industry:
             </p>
             <p *ngIf="!isIndustryType">
                 Get a job referral in {{ jobCategory }}
             </p>
-        </div> -->
+        </div>
 
         <div *ngIf="companyList.length === 0" class="row mt-4">
             <div class="col-8 ms-5 text-white my-2">
