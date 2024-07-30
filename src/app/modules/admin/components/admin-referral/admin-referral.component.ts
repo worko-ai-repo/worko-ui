@@ -6,21 +6,15 @@ import { MatTableDataSource, MatTableDataSourcePaginator } from '@angular/materi
 import { ViewEncapsulation } from '@angular/core';
 export interface UserData {
   Name: string;
-  CandidateID: number;
-  EmployeeID: number;
+  emailId: string;
+  jd: string;
+  userSubscriptionId: string;
+  matchingScore: string;
+  jobUrl: string;
+  status: string;
   Date: Date;
-  packagestatus: string;
-  Paymentstatus: string;
-  ServiceRequestDate: Date;
-  ServiceStartDate: Date;
-  RequestStatus: string;
-  PackageBalance: number;
-  Rating: number;
-  AccountType: string;
-
-
-
-  
+  companyName: string;
+  companyId: string;
  
 }
 
@@ -39,11 +33,12 @@ export class AdminReferralComponent {
   @ViewChild('servicePaginator') servicePaginator!: MatPaginator;
   @ViewChild('serviceSort') serviceSort!: MatSort;
 
-  displayedColumns: string[] = ['candidateId', 'employeeId', 'name', 'date', 'packageStatus', 'paymentStatus','requestStatus','packageBalance','rating','accountType','serviceRequestDate','serviceStartDate'];
+  displayedColumns: string[] = ['name', 'emailId', 'jd', 'userSubscriptionId', 'matchingScore', 'jobUrl','status','date','companyName','companyId'];
   candidatesDataSource: MatTableDataSource<UserData>;
   servicesDataSource: MatTableDataSource<UserData>;
   isFilterPopupOpen: boolean = true;
   isDropdownOpen: boolean = false;
+  nameslist:any[]=[];
   constructor(private elementRef: ElementRef) {
     this.candidatesDataSource = new MatTableDataSource<UserData>(this.nameslist);
     this.servicesDataSource = new MatTableDataSource<UserData>(this.nameslist);
@@ -51,34 +46,30 @@ export class AdminReferralComponent {
 
   
   filterModel: any = {
-    Name: '',
-    CandidateID: '',
-    EmployeeID: '',
+    name: '',
+    emailId: '',
+    jd: '',
     Date: '',
-    packagestatus: '',
-    Paymentstatus: '',
-    ServiceRequestDate: '',
-    ServiceStartDate: '',
-    RequestStatus: '',
-    PackageBalance: '',
-    Rating: '',
-    AccountType: ''
+    userSubscriptionId: '',
+    matchingScore: '',
+    jobUrl: '',
+    status: '',
+    companyName: '',
+    companyId: '',
   };
   applyFilters() {
     // Gather selected filter options
     const selectedFilters = {
       name: this.filterModel.Name,
-      candidateId: this.filterModel.CandidateID,
-      employeeId: this.filterModel.EmployeeID,
+      emailId: this.filterModel.emailId,
+      jobDescription: this.filterModel.jd,
       date: this.filterModel.Date,
-      packageStatus: this.filterModel.packagestatus,
-      paymentStatus: this.filterModel.Paymentstatus,
-      serviceRequestDate: this.filterModel.ServiceRequestDate,
-      serviceStartDate: this.filterModel.ServiceStartDate,
-      requestStatus: this.filterModel.RequestStatus,
-      packageBalance: this.filterModel.PackageBalance,
-      rating: this.filterModel.Rating,
-      accountType: this.filterModel.AccountType
+      userSubscriptionId: this.filterModel.userSubscriptionId,
+      matchingScore: this.filterModel.matchingScore,
+      jobUrl: this.filterModel.jobUrl,
+      status: this.filterModel.status,
+      companyName: this.filterModel.companyName,
+      companyId: this.filterModel.companyId,
     };
   
     // Apply filters to both data sources
@@ -165,55 +156,6 @@ export class AdminReferralComponent {
   }
 
   
-  nameslist: UserData[] = [
-    {
-      Name: 'aniket', CandidateID: 1, EmployeeID: 1, Date: new Date(), packagestatus: 'valid', Paymentstatus: 'payed',
-       ServiceRequestDate: new Date(), ServiceStartDate: new Date(), RequestStatus: 'Pending', PackageBalance: 100, Rating: 4.5, AccountType: 'Savings',
-    },
-    { Name: 'vishal', CandidateID: 2, EmployeeID: 2, Date: new Date(), packagestatus: 'valid', Paymentstatus: 'payed',
-    ServiceRequestDate: new Date(), ServiceStartDate: new Date(), RequestStatus: 'Pending', PackageBalance: 100, Rating: 4.5, AccountType: 'Savings',
-    },
-    { Name: 'rohit', CandidateID: 3, EmployeeID: 3, Date: new Date(), packagestatus: 'valid', Paymentstatus: 'payed',
-    ServiceRequestDate: new Date(), ServiceStartDate: new Date(), RequestStatus: 'Pending', PackageBalance: 100, Rating: 4.5, AccountType: 'Savings',
-    },
-    { Name: 'shubham', CandidateID: 4, EmployeeID: 4, Date: new Date(), packagestatus: 'valid', Paymentstatus: 'payed',
-    ServiceRequestDate: new Date(), ServiceStartDate: new Date(), RequestStatus: 'Pending', PackageBalance: 100, Rating: 4.5, AccountType: 'Savings',
-    },
-    { Name: 'aniket', CandidateID: 1, EmployeeID: 1, Date: new Date(), packagestatus: 'valid', Paymentstatus: 'payed',       ServiceRequestDate: new Date(), ServiceStartDate: new Date(), RequestStatus: 'Pending', PackageBalance: 100, Rating: 4.5, AccountType: 'Savings',
-    },
-    { Name: 'vishal', CandidateID: 2, EmployeeID: 2, Date: new Date(), packagestatus: 'valid', Paymentstatus: 'payed',        ServiceRequestDate: new Date(), ServiceStartDate: new Date(), RequestStatus: 'Pending', PackageBalance: 100, Rating: 4.5, AccountType: 'Savings',
-    },
-    { Name: 'rohit', CandidateID: 3, EmployeeID: 3, Date: new Date(), packagestatus: 'Invalid', Paymentstatus: 'payed',
-    ServiceRequestDate: new Date(), ServiceStartDate: new Date(), RequestStatus: 'Pending', PackageBalance: 100, Rating: 4.5, AccountType: 'Savings',
-    },
-    { Name: 'shubham', CandidateID: 4, EmployeeID: 4, Date: new Date(), packagestatus: 'valid', Paymentstatus: 'unpayed',
-    ServiceRequestDate: new Date(), ServiceStartDate: new Date(), RequestStatus: 'Pending', PackageBalance: 100, Rating: 4.5, AccountType: 'Savings',
-    },
-    { Name: 'aniket', CandidateID: 1, EmployeeID: 1, Date: new Date(), packagestatus: 'valid', Paymentstatus: 'payed',
-    ServiceRequestDate: new Date(), ServiceStartDate: new Date(), RequestStatus: 'Pending', PackageBalance: 100, Rating: 4.5, AccountType: 'Savings',
-    },
-    { Name: 'vishal', CandidateID: 2, EmployeeID: 2, Date: new Date(), packagestatus: 'valid', Paymentstatus: 'payed',
-    ServiceRequestDate: new Date(), ServiceStartDate: new Date(), RequestStatus: 'Pending', PackageBalance: 100, Rating: 4.5, AccountType: 'Savings',
-    },
-    { Name: 'rohit', CandidateID: 12, EmployeeID: 3, Date: new Date(), packagestatus: 'valid', Paymentstatus: 'payed',
-    ServiceRequestDate: new Date(), ServiceStartDate: new Date(), RequestStatus: 'Pending', PackageBalance: 100, Rating: 4.5, AccountType: 'Savings',
-    },
-    { Name: 'shubham', CandidateID: 4, EmployeeID: 4, Date: new Date(), packagestatus: 'valid', Paymentstatus: 'payed',
-    ServiceRequestDate: new Date(), ServiceStartDate: new Date(), RequestStatus: 'Pending', PackageBalance: 100, Rating: 4.5, AccountType: 'Savings',
-    },
-    { Name: 'aniket', CandidateID: 10, EmployeeID: 1, Date: new Date(), packagestatus: 'valid', Paymentstatus: 'payed',
-    ServiceRequestDate: new Date(), ServiceStartDate: new Date(), RequestStatus: 'Pending', PackageBalance: 100, Rating: 4.5, AccountType: 'Savings',
-    },
-    { Name: 'vishal', CandidateID: 2, EmployeeID: 2, Date: new Date(), packagestatus: 'valid', Paymentstatus: 'payed',
-    ServiceRequestDate: new Date(), ServiceStartDate: new Date(), RequestStatus: 'Pending', PackageBalance: 100, Rating: 4.5, AccountType: 'Savings',
-    },
-    { Name: 'rohit', CandidateID: 3, EmployeeID: 3, Date: new Date(), packagestatus: 'valid', Paymentstatus: 'payed',
-    ServiceRequestDate: new Date(), ServiceStartDate: new Date(), RequestStatus: 'Pending', PackageBalance: 100, Rating: 4.5, AccountType: 'Savings',
-    },
-    { Name: 'shubham', CandidateID: 4, EmployeeID: 4, Date: new Date(), packagestatus: 'valid', Paymentstatus: 'payed',
-    ServiceRequestDate: new Date(), ServiceStartDate: new Date(), RequestStatus: 'Pending', PackageBalance: 100, Rating: 4.5, AccountType: 'Savings',
-    },
-  ];
 
 
 }

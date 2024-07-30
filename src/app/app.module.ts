@@ -11,7 +11,7 @@ import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { HttpClientModule } from '@angular/common/http';
 import { MatTooltipModule } from '@angular/material/tooltip';
 import { NavbarToggleSwitchService } from './modules/candidate/services/navbar-toggle-switch.service';
-import { AdminDashboardComponent } from './modules/admin-dashboard/admin-dashboard.component';
+
 
 
 
@@ -19,7 +19,6 @@ import { AdminDashboardComponent } from './modules/admin-dashboard/admin-dashboa
   providers: [NavbarToggleSwitchService],
   declarations: [
     AppComponent,
-    AdminDashboardComponent
   ],
   imports: [
     BrowserModule,

@@ -107,6 +107,7 @@ export class AdminCandidateComponent {
 
   
   ngAfterViewInit() {
+   
     // Set paginator and sort for referral table
     this.candidatesDataSource.paginator = this.referralPaginator;
     this.candidatesDataSource.sort = this.referralSort;

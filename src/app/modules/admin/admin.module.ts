@@ -22,6 +22,8 @@ import {MatTableDataSource, MatTableModule} from '@angular/material/table';
 import {MatInputModule} from '@angular/material/input';
 import {MatFormFieldModule} from '@angular/material/form-field';
 import { FormsModule } from '@angular/forms';
+import { MatDatepickerModule } from '@angular/material/datepicker';
+import { MatNativeDateModule } from '@angular/material/core';
 
 
 export const routes: Routes = [
@@ -106,6 +108,7 @@ export const routes: Routes = [
     FormsModule ,
     CandidateModule,
     EmployeeModule,
+    MatDatepickerModule,MatNativeDateModule,
     MatFormFieldModule, MatInputModule, MatTableModule, MatSortModule, MatPaginatorModule,
     RouterModule.forChild(routes)
   ]
