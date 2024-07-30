@@ -4,16 +4,17 @@ import { MatPaginator, MatPaginatorIntl } from '@angular/material/paginator';
 import { MatSort } from '@angular/material/sort';
 import { MatTableDataSource, MatTableDataSourcePaginator } from '@angular/material/table';
 import { ViewEncapsulation } from '@angular/core';
+import { AdminService } from '../../services/admin.service';
 export interface UserData {
-  Name: string;
-  emailId: number;
-  orderId: number;
+  name: string;
+  userEmail: string;
+  orderId: string;
   packageName:string
   purchaseDate: Date;
   expiryDate: Date;
   Paymentstatus: string;
-  creditedReferrals: Date;
-  requestedReferrals: Date;
+  creditedReferrals: string;
+  requestedReferrals: string;
   acceptedReferrals: string;
 
 }
@@ -31,21 +32,21 @@ export class AdminPaymentComponent {
   @ViewChild('servicePaginator') servicePaginator!: MatPaginator;
   @ViewChild('serviceSort') serviceSort!: MatSort;
 
-  displayedColumns: string[] = ['name', 'emailId', 'orderId', 'packageName', 'purchaseDate', 'expiryDate','requestedReferrals','creditedReferrals','acceptedReferrals'];
+  displayedColumns: string[] = ['name', 'userEmail','orderId', 'packageName', 'purchaseDate', 'expiryDate', 'requestedReferrals', 'creditedReferrals', 'acceptedReferrals'];
   candidatesDataSource: MatTableDataSource<UserData>;
   servicesDataSource: MatTableDataSource<UserData>;
   isFilterPopupOpen: boolean = true;
   isDropdownOpen: boolean = false;
   nameslist:any[]=[];
-  constructor(private elementRef: ElementRef) {
+  constructor(private elementRef: ElementRef, private adminService: AdminService) {
     this.candidatesDataSource = new MatTableDataSource<UserData>(this.nameslist);
     this.servicesDataSource = new MatTableDataSource<UserData>(this.nameslist);
   }
 
   
   filterModel: any = {
-    Name: '',
-    emailId: '',
+    name: '',
+    userEmail: '',
     orderId: '',
     packageName: '',
     purchaseDate: '',
@@ -53,22 +54,43 @@ export class AdminPaymentComponent {
     creditedReferrals: '',
     requestedReferrals: '',
     acceptedReferrals: '',
+    fromDate: '',
+    toDate: ''
   };
+
+  
+  async ngOnInit(): Promise<void> {
+    this.getAllSubscriptions();
+  }
+  async getAllSubscriptions() {
+    await this.adminService.getAllSubscriptions().then(async (response: any) => {
+      if (response) {
+        this.nameslist = response;
+        this.updateData(this.nameslist);
+      }
+    });
+  }
+  updateData(newData: UserData[]) {
+    this.candidatesDataSource.data = newData;
+    if (this.referralPaginator) {
+      this.referralPaginator.firstPage();
+    }
+  }
+  
   applyFilters() {
     // Gather selected filter options
     const selectedFilters = {
-      name: this.filterModel.Name,
-      candidateId: this.filterModel.CandidateID,
-      employeeId: this.filterModel.EmployeeID,
-      date: this.filterModel.Date,
-      packageStatus: this.filterModel.packagestatus,
-      paymentStatus: this.filterModel.Paymentstatus,
-      serviceRequestDate: this.filterModel.ServiceRequestDate,
-      serviceStartDate: this.filterModel.ServiceStartDate,
-      requestStatus: this.filterModel.RequestStatus,
-      packageBalance: this.filterModel.PackageBalance,
-      rating: this.filterModel.Rating,
-      accountType: this.filterModel.AccountType
+      name: this.filterModel.name,
+      userEmail: this.filterModel.userEmail,
+      orderId: this.filterModel.orderId,
+      packageName: this.filterModel.packageName,
+      purchaseDate: this.filterModel.purchaseDate,
+      expiryDate: this.filterModel.expiryDate,
+      creditedReferrals: this.filterModel.creditedReferrals,
+      requestedReferrals: this.filterModel.requestedReferrals,
+      acceptedReferrals: this.filterModel.acceptedReferrals,
+      fromDate: this.filterModel.fromDate,
+      toDate: this.filterModel.toDate,
     };
   
     // Apply filters to both data sources
@@ -84,16 +106,59 @@ export class AdminPaymentComponent {
     }
   }
   
-  applyDataSourceFilters(dataSource: MatTableDataSource<UserData>, filters: any) {
+  applyDataSourceFilters(dataSource: MatTableDataSource<UserData>, filters: { [key: string]: string | undefined }) {
     dataSource.filterPredicate = (data: UserData, filter: string) => {
-      const searchString = Object.keys(filters)
-        .map(key => filters[key])
-        .join('');
-      return searchString.trim().toLowerCase().split(' ').every(term =>
-        Object.values(data).join('').toLowerCase().includes(term)
-      );
+      let filterObject: { [key: string]: string | undefined }; // Explicitly type filterObject
+      try {
+        filterObject = JSON.parse(filter);
+        console.log('Parsed Filter Object:', filterObject);
+      } catch (e) {
+        console.error('Error parsing filter object:', e);
+        return false; // If parsing fails, return false to exclude the item
+      }
+  
+      // Handle date range filtering
+      const dateInRange = this.applyDateRangeFilter(new Date(data.purchaseDate), filterObject['fromDate'], filterObject['toDate']);
+  
+      // Handle other fields
+      const otherFilters = Object.keys(filterObject).every(key => {
+        if (key === 'fromDate' || key === 'toDate') {
+          // Skip date range fields
+          return true;
+        }
+  
+        const filterKey = key as keyof UserData;
+        if (!filterObject[filterKey]) {
+          return true;
+        }
+  
+        const dataValue = data[filterKey] ? data[filterKey].toString().toLowerCase() : '';
+        const filterValue = filterObject[filterKey] ? filterObject[filterKey]!.toString().toLowerCase() : '';
+        return dataValue.includes(filterValue);
+      });
+  
+      return dateInRange && otherFilters;
     };
-    dataSource.filter = 'activate';
+  
+    dataSource.filter = JSON.stringify(filters);
+    console.log('Data Source Filter:', dataSource.filter);
+  }
+  
+  applyDateRangeFilter(createdAt: Date, fromDate: string | undefined, toDate: string | undefined): boolean {
+    const from = fromDate ? new Date(fromDate) : null;
+    const to = toDate ? new Date(toDate) : null;
+  
+    console.log('Applying Date Range Filter:', 'Created At:', createdAt, 'From:', from, 'To:', to);
+  
+    if (from && to) {
+      return createdAt >= from && createdAt <= to;
+    } else if (from) {
+      return createdAt >= from;
+    } else if (to) {
+      return createdAt <= to;
+    }
+  
+    return true;
   }
   
 

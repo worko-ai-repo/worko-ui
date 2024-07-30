@@ -6,17 +6,17 @@ import { MatTableDataSource, MatTableDataSourcePaginator } from '@angular/materi
 import { ViewEncapsulation } from '@angular/core';
 
 export interface UserData {
-  Name: string;
+  name: string;
   emailId: string;
-  Phonenumber : string;
-  companyName : string;
-  companyEmailId : string;
+  Phonenumber: string;
+  companyName: string;
+  companyEmailId: string;
   referreeDesignation: string;
   referreeDepartment: string;
-  referralCount : string;
+  referralCount: string;
   acceptedRequestCount: string;
   doneRequestCount: string;
- 
+
 }
 @Component({
   selector: 'app-admin-employee',
@@ -33,18 +33,19 @@ export class AdminEmployeeComponent {
   @ViewChild('servicePaginator') servicePaginator!: MatPaginator;
   @ViewChild('serviceSort') serviceSort!: MatSort;
 
-  displayedColumns: string[] = ['candidateId', 'employeeId', 'name', 'date', 'packageStatus', 'paymentStatus','requestStatus','packageBalance','rating','accountType','serviceRequestDate','serviceStartDate'];
+  displayedColumns: string[] = ['name', 'emailId', 'Phonenumber', 'companyName', 'companyEmailId', 'referreeDesignation', 'referreeDepartment',
+    'referralCount', 'acceptedRequestCount', 'doneRequestCount'];
   candidatesDataSource: MatTableDataSource<UserData>;
   servicesDataSource: MatTableDataSource<UserData>;
   isFilterPopupOpen: boolean = true;
   isDropdownOpen: boolean = false;
-  nameslist: UserData[] | undefined;
+  nameslist: UserData[] = [];
   constructor(private elementRef: ElementRef) {
     this.candidatesDataSource = new MatTableDataSource<UserData>(this.nameslist);
     this.servicesDataSource = new MatTableDataSource<UserData>(this.nameslist);
   }
 
-  
+
   filterModel: any = {
     Name: '',
     emailId: '',
@@ -56,6 +57,8 @@ export class AdminEmployeeComponent {
     referralCount: '',
     acceptedRequestCount: '',
     doneRequestCount: '',
+    fromDate: '',
+    toDate: ''
   };
   applyFilters() {
     // Gather selected filter options
@@ -70,12 +73,14 @@ export class AdminEmployeeComponent {
       referralCount: this.filterModel.referralCount,
       acceptedRequestCount: this.filterModel.acceptedRequestCount,
       doneRequestCount: this.filterModel.doneRequestCount,
+      fromDate: this.filterModel.fromDate,
+      toDate: this.filterModel.toDate,
     };
-  
+
     // Apply filters to both data sources
     this.applyDataSourceFilters(this.candidatesDataSource, selectedFilters);
-  this.applyDataSourceFilters(this.servicesDataSource, selectedFilters);
-  
+    this.applyDataSourceFilters(this.servicesDataSource, selectedFilters);
+
     // Reset pagination to navigate to first page
     if (this.candidatesDataSource.paginator) {
       this.candidatesDataSource.paginator.firstPage();
@@ -84,7 +89,7 @@ export class AdminEmployeeComponent {
       this.servicesDataSource.paginator.firstPage();
     }
   }
-  
+
   applyDataSourceFilters(dataSource: MatTableDataSource<UserData>, filters: any) {
     dataSource.filterPredicate = (data: UserData, filter: string) => {
       const searchString = Object.keys(filters)
@@ -96,9 +101,9 @@ export class AdminEmployeeComponent {
     };
     dataSource.filter = 'activate';
   }
-  
 
-  
+
+
   ngAfterViewInit() {
     // Set paginator and sort for referral table
     this.candidatesDataSource.paginator = this.referralPaginator;
@@ -107,7 +112,7 @@ export class AdminEmployeeComponent {
     // Set paginator and sort for service table
     this.servicesDataSource.paginator = this.servicePaginator;
     this.servicesDataSource.sort = this.serviceSort;
-}
+  }
 
 
 
@@ -122,13 +127,13 @@ export class AdminEmployeeComponent {
   handleSearchInput(event: Event, dataSource: MatTableDataSource<UserData>) {
     const filterValue = (event.target as HTMLInputElement).value;
     dataSource.filter = filterValue.trim().toLowerCase();
-  
+
     if (dataSource.paginator) {
       dataSource.paginator.firstPage();
     }
   }
 
- 
+
 
   toggleDropdown(event: MouseEvent) {
     event.stopPropagation(); // Prevent event propagation to avoid immediate closing of the dropdown

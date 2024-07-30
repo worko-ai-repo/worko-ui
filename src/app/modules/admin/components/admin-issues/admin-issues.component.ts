@@ -50,8 +50,8 @@ export class AdminIssuesComponent {
     userRole: '',
     userSupportType: '',
     userEmail: '',
-     fromDate: '',
-  toDate: ''
+    fromDate: '',
+    toDate: ''
 
   };
   filterData: any = {
@@ -79,7 +79,7 @@ export class AdminIssuesComponent {
 
 
   async getAllIssues() {
-    await this.adminService.getAllIssues(this.filterData.issuesStatus).then(async (response: any) => {
+    await this.adminService.getAllIssues().then(async (response: any) => {
       if (response) {
         this.issueList = response;
         //console.log("Issue list:", this.issueList);
