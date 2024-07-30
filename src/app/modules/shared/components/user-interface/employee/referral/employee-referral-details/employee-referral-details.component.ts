@@ -1,6 +1,7 @@
 import { Component, ElementRef, EventEmitter, Input, OnChanges, Output, SimpleChanges, ViewChild } from '@angular/core';
 import { ModalComponent } from 'src/app/modules/shared/components/modal/modal.component';
 import { ModalType } from 'src/app/modules/shared/interfaces/shared.interface';
+import { BreakpointObserver, Breakpoints } from '@angular/cdk/layout';
 
 @Component({
   selector: 'app-employee-referral-details',
@@ -36,6 +37,9 @@ export class EmployeeReferralDetailsComponent implements OnChanges {
   originalPoints = 2.1;
   possiblePoints = 100;
   isEmployeeReferralPage = true;
+  circleDiameter:number=105;
+  isHidden:boolean=false
+  isSmallerScreen:boolean=false
   // modalSize = 'md';
   // selectedStatus!: string; 
 
@@ -44,7 +48,21 @@ export class EmployeeReferralDetailsComponent implements OnChanges {
   //   onStatusSelected(status: string): void {
   //       this.selectedStatus = status;
   //   }
+  
+  constructor(private breakpointObserver: BreakpointObserver) {}
 
+  ngOnInit(): void {
+    this.breakpointObserver.observe([
+      Breakpoints.Small,
+      Breakpoints.Handset
+    ]).subscribe(result => {
+      this.isSmallerScreen = result.matches;
+      if(this.isSmallerScreen){
+        this.circleDiameter=100;
+      }
+    });
+  
+  }
   acceptBtn() {
     // Handling the accept logic here
     this.action = "accept";

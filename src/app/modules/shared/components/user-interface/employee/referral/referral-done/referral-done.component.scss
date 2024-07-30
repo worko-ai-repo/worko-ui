@@ -246,6 +246,7 @@ ngb-rating {
 .achievments-list {
     flex-direction: row;
 }
+
 .referral-progree-bar {
     text-align: center;
     // display: flex;
@@ -282,7 +283,8 @@ ngb-rating {
         padding-left: 31px;
     }
 
-    .ms-4,.ms-2 {
+    .ms-4,
+    .ms-2 {
         margin-left: 0 !important;
     }
 
@@ -309,19 +311,24 @@ ngb-rating {
     //     margin-bottom: 10px; /* Space between buttons */
     // }
 
-    .issues-btn,.see-review-btn,.feedback-btn{
-        margin-bottom: 10px; 
+    .issues-btn,
+    .see-review-btn,
+    .feedback-btn {
+        margin-bottom: 10px;
     }
 
     .circle-chart-div {
         position: absolute;
-        right: -10px; /* Align to the right */
-        bottom: -74px; /* Position below the buttons */
-       
+        right: -10px;
+        /* Align to the right */
+        bottom: -74px;
+        /* Position below the buttons */
+
     }
 
     .referral-progree-bar {
-        text-align: right; /* Align content to the right */
+        text-align: right;
+        /* Align content to the right */
     }
 
     .referral-progree-bar .ms-3 {
@@ -336,20 +343,21 @@ ngb-rating {
     }
 
     .referral-progree-bar .btn-cv {
-        width: auto; /* Adjust as necessary */
-        display:flex;
-       margin-left: auto;
-       margin-right: 15px;
+        width: auto;
+        display: flex;
+        margin-left: auto;
+        margin-right: 21px;
     }
 
     .p-image {
         border-radius: 10px;
     }
-    
-    .ref-name{
+
+    .ref-name {
         padding-left: 28px;
     }
-    .issues-btn{
+
+    .issues-btn {
         padding-left: 10px;
     }
 }

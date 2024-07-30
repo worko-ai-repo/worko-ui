@@ -54,7 +54,7 @@
                                 fill="#57FF68" />
                         </svg> -->
                         <app-circle-chart [isEmployeeReferralPage]="isEmployeeReferralPage"
-                            [chartText]="matchingScore.toString()"
+                            [chartText]="matchingScore.toString()" [circleDiameter]="circleDiameter"
                             [chartValue]="(this.matchingScore / this.possiblePoints) * 100"></app-circle-chart>
                         <div class="m-0 p-0 referral-text">Matching Score : {{matchingScore}} </div>
                         <div (click)="viewDetails()" href="" class="m-0 p-0 view-details" style="cursor: pointer;">View

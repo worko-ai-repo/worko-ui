@@ -1,6 +1,7 @@
 import { Component, EventEmitter, Input, Output, ViewChild } from '@angular/core';
 import { ModalComponent } from '../../../../modal/modal.component';
 import { ModalType } from 'src/app/modules/shared/interfaces/shared.interface';
+import { BreakpointObserver, Breakpoints } from '@angular/cdk/layout';
 
 @Component({
   selector: 'app-employee-accepted-referral',
@@ -21,10 +22,22 @@ export class EmployeeAcceptedReferralComponent {
   modalMessage: string = "";
   modalTitle: string = "";
   showModal: ModalType | undefined;
+  isSmallerScreen:boolean=false
   isHidden:boolean=false
-  constructor() { }
+  circleDiameter:number=105;
+
+  constructor(private breakpointObserver: BreakpointObserver) {}
 
   ngOnInit(): void {
+    this.breakpointObserver.observe([
+      Breakpoints.Small,
+      Breakpoints.Handset
+    ]).subscribe(result => {
+      this.isSmallerScreen = result.matches;
+      if(this.isSmallerScreen){
+        this.circleDiameter=100;
+      }
+    });
   
   }
 
