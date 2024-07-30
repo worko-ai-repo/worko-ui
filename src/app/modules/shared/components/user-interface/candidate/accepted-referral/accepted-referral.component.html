@@ -9,7 +9,7 @@
                 <!-- <div *ngIf="selectedReferral"> -->
 
                 <div *ngIf="selectedReferral" class="col-12 col-md-3 d-flex justify-content-start mb-3 mb-md-0 p-0 m-0  issues-btn">
-                    <app-raise-issue [userType]="userType" (raiseIssue1)="referralRaiseIssue($event)"></app-raise-issue>
+                    <app-raise-issue [userType]="userType" (raiseIssue1)="referralRaiseIssue($event)" [isHidden]="isHidden"></app-raise-issue>
                 </div>
                 <div *ngIf="selectedReferral"  class="col-12 col-md-3 d-flex justify-content-start mb-3 mb-md-0 done-btn  m-0">
                     <!-- <button class="btn-done text-center" (click)="referralMarkAsDone()">Mark As hello
@@ -20,7 +20,7 @@
                             </button> -->
 
                     <app-mark-as-done [userType]="userType" (markAsDone1)="markAsDoneBtn()"
-                        (referralRating1)="referralReviewRating($event)"
+                        (referralRating1)="referralReviewRating($event)" [isHidden]="isHidden"
                         (cancelRatingPopup1)="cancelReviewRatingPopup()"></app-mark-as-done>
                 </div>
 

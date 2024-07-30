@@ -36,7 +36,7 @@ export class ReferralDoneComponent implements OnChanges {
   modalMessage: string = "";
   modalTitle: string = "";
   showModal: ModalType | undefined;
-
+  isHidden:boolean=false
 
   finalRating: number = 0;
   noReviewReceived: string = "No review received from the candidate!!";

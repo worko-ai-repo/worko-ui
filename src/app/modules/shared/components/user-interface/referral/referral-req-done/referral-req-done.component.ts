@@ -23,6 +23,7 @@ export class ReferralReqDoneComponent {
   @Input() processStatus: any;
   referralRatingFlag: any = null;
   showRaiseIssueButton: boolean = false;
+  isHidden:boolean=true;
 
   constructor() {}
 

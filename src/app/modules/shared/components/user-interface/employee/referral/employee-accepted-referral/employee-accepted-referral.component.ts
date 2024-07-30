@@ -21,6 +21,7 @@ export class EmployeeAcceptedReferralComponent {
   modalMessage: string = "";
   modalTitle: string = "";
   showModal: ModalType | undefined;
+  isHidden:boolean=false
   constructor() { }
 
   ngOnInit(): void {

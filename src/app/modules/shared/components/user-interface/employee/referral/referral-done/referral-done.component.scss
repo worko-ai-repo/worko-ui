@@ -273,6 +273,7 @@ ngb-rating {
         width: 100%;
         text-align: left;
         padding-left: 15px;
+        padding-top: 10px;
     }
 
     .details-row {
@@ -298,8 +299,8 @@ ngb-rating {
         display: flex;
         flex-direction: column;
         position: absolute;
-        right: 10px; /* Adjust the value as needed to align parallel to the image */
-        top: 10px; /* Adjust the value as needed to align parallel to the image */
+        right: -4px;
+        top: 10px;
         padding: 10px;
         text-align: right;
     }
@@ -308,7 +309,7 @@ ngb-rating {
     //     margin-bottom: 10px; /* Space between buttons */
     // }
 
-    .issue-btn,.see-review-btn,.feedback-btn{
+    .issues-btn,.see-review-btn,.feedback-btn{
         margin-bottom: 10px; 
     }
 
@@ -338,5 +339,17 @@ ngb-rating {
         width: auto; /* Adjust as necessary */
         display:flex;
        margin-left: auto;
+       margin-right: 15px;
+    }
+
+    .p-image {
+        border-radius: 10px;
+    }
+    
+    .ref-name{
+        padding-left: 28px;
+    }
+    .issues-btn{
+        padding-left: 10px;
     }
 }

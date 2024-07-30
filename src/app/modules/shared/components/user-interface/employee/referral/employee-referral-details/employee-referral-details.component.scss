@@ -176,6 +176,7 @@
         width: 100%;
         text-align: left;
         padding-left: 15px;
+        padding-top: 10px;
     }
 
     .details-row {
@@ -236,5 +237,14 @@
         width: auto; /* Adjust as necessary */
         display:flex;
        margin-left: auto;
+       margin-right: 10px;
+    }
+
+    .p-image {
+        border-radius: 10px;
+    }
+
+    .ref-name{
+        padding-left:28px;
     }
 }

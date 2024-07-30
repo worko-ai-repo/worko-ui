@@ -14,6 +14,7 @@ export class SeeReviewComponent implements OnChanges {
   }
 
   @Input() userType:any;
+  @Input() isHidden:boolean=false
   @ViewChild(ModalComponent) modal!: ModalComponent;
   @Input() reviewData:any;
 

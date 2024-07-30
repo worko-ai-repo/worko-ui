@@ -1,5 +1,5 @@
 <button [disabled]="!showButton" (click)="raiseIssueBtnClicked()" class="issue-btn  ps-4">
-  <span class="text-center issue-text">Raise Issue</span> 
+  <span class="text-center issue-text" *ngIf="!isHidden">Raise Issue</span> 
   <svg xmlns="http://www.w3.org/2000/svg" width="22" height="28" viewBox="0 0 28 28" fill="none">
     <g clip-path="url(#clip0_3283_5036)">
       <mask id="mask0_3283_5036" style="mask-type:luminance" maskUnits="userSpaceOnUse" x="0" y="0" width="28"

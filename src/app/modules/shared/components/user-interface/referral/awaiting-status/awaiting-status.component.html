@@ -77,7 +77,7 @@
             </div>
         </div>
 
-            <div  class="no-referrals-container"  *ngIf="userType === 'Employee'">
+            <div  class="no-referrals-container"  *ngIf="isSmallScreen && userType === 'Employee'">
 
                 <div style="margin-top: 5px;">
                     <span class="text-white">No referral request found!</span> <br>

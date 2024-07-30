@@ -20,6 +20,7 @@ export class AcceptedReferralComponent {
   modalMessage: string = "";
   modalTitle: string = "";
   showModal: ModalType | undefined;
+  isHidden:boolean=true
   constructor() { }
 
   ngOnInit(): void {

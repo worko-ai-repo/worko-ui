@@ -7,7 +7,7 @@
             <div class="row" style="height: 100%;">
 
                 <div *ngIf="selectedReferral" class=" col-12 col-md-3 d-flex justify-content-start mb-3 mb-md-0 issues-btn">
-                    <app-raise-issue [showButton]="showRaiseIssueButton" [userType]="userType"
+                    <app-raise-issue [showButton]="showRaiseIssueButton" [userType]="userType" [isHidden]="isHidden"
                         (raiseIssue1)="referralRaiseIssue($event)"></app-raise-issue>
                 </div>
 
@@ -16,14 +16,14 @@
 
                 <div *ngIf="selectedReferral && (reviewData?.length > 0 && referralRatingFlag) && referralRatingFlag !== null"
                     class="col-12 col-md-3 d-flex justify-content-start mb-3 mb-md-0 see-review-btn">
-                    <app-see-review [userType]="userType" [reviewData]="reviewData"></app-see-review>
+                    <app-see-review [userType]="userType" [reviewData]="reviewData"  [isHidden]="isHidden"></app-see-review>
                 </div>
 
                 <!-- {{selectedReferral}} {{!(reviewData?.length>0)}} {{reviewDataApiCalled}} -->
 
                 <div *ngIf="selectedReferral && (reviewData?.length === 0 || (reviewData && !referralRatingFlag)) && referralRatingFlag !== null"
                     class="col-12 col-md-3  d-flex justify-content-start mb-3 mb-md-0 feedback-btn">
-                    <app-provide-feedback [userType]="userType"
+                    <app-provide-feedback [userType]="userType"  [isHidden]="isHidden"
                         (referralRating1)="referralReviewRating($event)"></app-provide-feedback>
                 </div>
 

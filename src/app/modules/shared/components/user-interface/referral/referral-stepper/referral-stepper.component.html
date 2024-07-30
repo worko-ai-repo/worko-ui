@@ -18,8 +18,7 @@
     <div class="row ">
      
       <div *ngIf="selectedReferral" class="text-white parent-div flex-column flex-md-row">
-        <h6 class="col-sm-6 request-heading text-overflow">Request ID #{{ selectedReferral?.SK ? getSlicedValue(selectedReferral?.SK)
-          : '' }}</h6>
+        <h6 class="col-sm-6 request-heading text-overflow" title="#{{selectedReferral?.SK ? getSlicedValue(selectedReferral?.SK) : ''}}">Request ID #{{ selectedReferral?.SK ? getSlicedValue(selectedReferral?.SK) : '' }}</h6>
         <div class="col-sm-6 p-0 stepper-wrapper">
 
           <div class="timeline">

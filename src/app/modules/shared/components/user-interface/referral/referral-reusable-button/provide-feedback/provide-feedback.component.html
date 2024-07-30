@@ -1,5 +1,5 @@
 <button class="btn-done text-center" (click)="giveReviewBtn()">
-  <span class="feedback-text">Provide Feedback</span>
+  <span class="feedback-text" *ngIf="!isHidden">Provide Feedback</span>
   
     <svg xmlns="http://www.w3.org/2000/svg" width="22" height="28" viewBox="0 0 29 28" fill="none">
       <path

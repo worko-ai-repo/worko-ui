@@ -6,10 +6,10 @@
                     <!-- Buttons container for medium and larger screens -->
                     <div class="d-none d-md-flex justify-content-between w-100">
                         <div>
-                            <app-raise-issue [userType]="userType" (raiseIssue1)="referralRaiseIssue($event)"></app-raise-issue>
+                            <app-raise-issue [userType]="userType" (raiseIssue1)="referralRaiseIssue($event)" [isHidden]="isHidden"></app-raise-issue>
                         </div>
                         <div>
-                            <app-mark-as-done [userType]="userType" (markAsDone1)="markAsDoneBtn()"
+                            <app-mark-as-done [userType]="userType" (markAsDone1)="markAsDoneBtn()"  [isHidden]="isHidden"
                                 (referralRating1)="referralReviewRating($event)"
                                 (cancelRatingPopup1)="cancelReviewRatingPopup()"></app-mark-as-done>
                         </div>
@@ -18,10 +18,10 @@
                     <!-- Buttons container for small screens -->
                     <div class="d-flex d-md-none flex-column w-100">
                         <div class="mb-2">
-                            <app-raise-issue [userType]="userType" (raiseIssue1)="referralRaiseIssue($event)"></app-raise-issue>
+                            <app-raise-issue [userType]="userType" (raiseIssue1)="referralRaiseIssue($event)"  [isHidden]="isHidden"></app-raise-issue>
                         </div>
                         <div>
-                            <app-mark-as-done [userType]="userType" (markAsDone1)="markAsDoneBtn()"
+                            <app-mark-as-done [userType]="userType" (markAsDone1)="markAsDoneBtn()"  [isHidden]="isHidden"
                                 (referralRating1)="referralReviewRating($event)"
                                 (cancelRatingPopup1)="cancelReviewRatingPopup()"></app-mark-as-done>
                         </div>

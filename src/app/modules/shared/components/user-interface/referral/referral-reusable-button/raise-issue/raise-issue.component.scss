@@ -38,9 +38,7 @@ button:disabled {
   display: block; /* Show the message on hover */
 }
 @media (max-width:798px) {
-  .issue-text{
-    display: none;
-  }
+
   button{
     width: auto;
     display: flex;
