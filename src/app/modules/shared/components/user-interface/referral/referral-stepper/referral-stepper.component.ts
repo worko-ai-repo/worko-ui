@@ -38,7 +38,7 @@ export class ReferralStepperComponent {
   ngOnInit(): void {
     // console.log(this.selectedReferral, "selectedReferral");
     this.userId = this.storage.get("userId");
-    console.log(this.isMainContentVisible, this.isAwaitingVisible)
+    // console.log(this.isMainContentVisible, this.isAwaitingVisible)
   }
 
   ngOnChanges(): void {
