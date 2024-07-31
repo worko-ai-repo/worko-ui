@@ -261,6 +261,7 @@ li{
     margin-left: 1.5rem;
     font-size: calc(1.2vw + 9px);
     margin-right: 4%;
+    cursor: pointer;
 }
 
 .navbar a{
@@ -268,6 +269,7 @@ li{
     text-decoration: none;
     font-weight: 500;
     transition: color 0.3s ease-in-out;
+    cursor: pointer;
 }
 
 // .navbar a:hover{

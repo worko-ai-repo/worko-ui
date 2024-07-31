@@ -8,10 +8,6 @@ const routes: Routes = [
   },
   {
     path: 'admin',
-    loadChildren: () => import('./modules/admin-dashboard/admin-dashboard.module').then(m => m.AdminDashboardModule)
-  },
-  {
-    path: 'admin-dashboard',
     loadChildren: () => import('./modules/admin/admin.module').then(m => m.AdminModule)
   },
   {
@@ -22,14 +18,14 @@ const routes: Routes = [
     path: 'employee',
     loadChildren: () => import('./modules/employee/employee.module').then(m => m.EmployeeModule)
   },
-  {
-    path: 'help',
-    loadChildren: () => import('./modules/help/help.module').then(m => m.HelpModule)
-  },
-  {
-    path: 'app-core',
-    loadChildren: () => import('./modules/app-core/app-core.module').then(m => m.AppCoreModule)
-  },
+  // {
+  //   path: 'help',
+  //   loadChildren: () => import('./modules/help/help.module').then(m => m.HelpModule)
+  // },
+  // {
+  //   path: 'app-core',
+  //   loadChildren: () => import('./modules/app-core/app-core.module').then(m => m.AppCoreModule)
+  // },
   {
     path: 'auth',
     loadChildren: () => import('./modules/auth/auth.module').then(m => m.AuthModule)

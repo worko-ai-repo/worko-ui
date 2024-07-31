@@ -1,5 +1,41 @@
-.back-color{
-    background-color: black;
+#wrapper {
+  display: flex;
+  min-height: 100vh;
+  background-color: #0A111C;
 }
 
+#wrapper {
+  display: flex;
+  flex-direction: row;
+}
 
+#content-wrapper {
+  flex: 1;
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+}
+
+#content {
+  flex: 1;
+  // overflow:auto;
+}
+
+#user-menubar {
+  width: 200px;
+  flex-shrink: 0;
+  /* Prevents the menu bar from shrinking */
+  background-color: #f0f0f0;
+  /* Example background color */
+}
+
+@media (max-width: 675px) {
+  #user-menubar {
+    width: 0;
+    flex-shrink: 0;
+    /* Prevents the menu bar from shrinking */
+    background-color: #f0f0f0;
+    /* Example background color */
+  }
+}

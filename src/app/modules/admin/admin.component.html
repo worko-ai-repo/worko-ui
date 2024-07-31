@@ -1,20 +1,19 @@
-<div class="container-fluid back-color">
-    <div class="row" style="height: 100%;">
-        <div class="col-md-2 m-0 p-0" style="height: 100%;">
-            <!-- <app-user-menubar [userType]="userType"></app-user-menubar> -->
-            
+<div id="wrapper">
+    <app-user-menubar id="user-menubar" [userType]="userType" [isSidebarExpanded]="isSidebarExpanded" (onToggleSidebar)="toggleSidebar()"></app-user-menubar>
+    <div id="content-wrapper" class="d-flex flex-column">
+      <div id="content">
+        <!-- <app-user-navbar  [userType]="userType"></app-user-navbar> -->
+        <div class="container-fluid routing-container">
+            <h4>Admin Dashboard</h4>
+          <router-outlet></router-outlet>
         </div>
-        <div class="col-md-10 ps-5">
-          <div class="container-fluid">
-            <div class="row">
-                <div class="col-md-12">
-                    <h4 class="mt-4">Admin Dashboard</h4>
-                </div>
-                <div class="col-md-12">
-                    <router-outlet></router-outlet>
-                </div>
-            </div>
-          </div>
-        </div>
+      </div>
+      <!-- <app-footer [variant]="'auth'"></app-footer> -->
     </div>
-</div>
+  </div>
+
+    <!-- <div class="admin-router">
+       
+        <router-outlet></router-outlet>
+    </div> -->
+<!-- </div> -->

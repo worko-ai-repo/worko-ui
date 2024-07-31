@@ -22,7 +22,7 @@ export class ReferralStepperComponent {
   @Input() statusitem = [{ name: 'Awaiting', status: '', date: '' },
   { name: 'Accepted', status: '', date: '' },
   { name: 'OnGoing', status: '', date: '' },
-  { name: 'Done', status: '', date: '' }];
+  { name: 'Referred', status: '', date: '' }];
   userId: any;
 
 
@@ -73,7 +73,9 @@ export class ReferralStepperComponent {
       index = this.statusitem.length;
     }
     else {
-      index = this.statusitem.findIndex((elem) => elem?.name?.toUpperCase() === this.selectedReferral?.status?.toUpperCase());
+      // index = this.statusitem.findIndex((elem) => elem?.name?.toUpperCase() === this.selectedReferral?.status?.toUpperCase());
+      let selectedReferralStatus = this.selectedReferral?.status?.toUpperCase() === 'DONE' ? 'REFERRED' : this.selectedReferral?.status?.toUpperCase();
+      index = this.statusitem.findIndex((elem) => elem?.name?.toUpperCase() === selectedReferralStatus?.toUpperCase());
     }
 
     if (this.selectedReferral?.status?.toUpperCase() === "ACCEPTED") {
@@ -100,13 +102,13 @@ export class ReferralStepperComponent {
       element.date = this.selectedReferral?.cancelledDate;
     }
     if (element?.name?.toUpperCase() === 'REJECTED') {
-      this.selectedReferral.rejectedByUserIds.forEach((elemt: any) => {
+      this.selectedReferral?.rejectedByUserIds?.forEach((elemt: any) => {
         if (this.userId === elemt.userId) {
           element.date = elemt.actionDate;
         }
       });
     }
-    if (element?.name?.toUpperCase() === 'DONE') {
+    if (element?.name?.toUpperCase() === 'REFERRED') {
       element.date = this.selectedReferral?.doneByEmployee ?? this.selectedReferral?.doneByCandidate;
     }
     if (element?.name?.toUpperCase() === 'WITHDRAWN') {

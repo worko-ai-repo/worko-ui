@@ -183,16 +183,16 @@ export class EmployeeReferralComponent implements OnDestroy {
       this.statusItem = [{ name: 'Awaiting', status: '', date: '' },
       { name: 'Cancelled', status: '', date: '' }]
     }
-    else if (status === 'DONE') {
+    else if (status === 'REFERRED') {
       this.statusItem = [{ name: 'Awaiting', status: '', date: '' },
       { name: 'Accepted', status: '', date: '' },
-      { name: 'Done', status: '', date: '' }];
+      { name: 'Referred', status: '', date: '' }];
     }
     else {
       this.statusItem = [{ name: 'Awaiting', status: '', date: '' },
       { name: 'Accepted', status: '', date: '' },
       { name: 'OnGoing', status: '', date: '' },
-      { name: 'Done', status: '', date: '' }];
+      { name: 'Referred', status: '', date: '' }];
     }
   }
 
@@ -216,7 +216,8 @@ export class EmployeeReferralComponent implements OnDestroy {
     // let companySK = "01HMR3G2QNYYM47YZ2P9ZVZBPR";
     let companyId = this.currentCompanyId;
     // let companyId = this.getSlicedValue(this.currentCompanySK);
-    await this.empService.getEmployeeReferral(this.emailAddress, companyId, this.selectedStatus).then(async (response) => {
+    const selectedStatus = this.selectedStatus === 'REFERRED' ? 'DONE' : this.selectedStatus;
+    await this.empService.getEmployeeReferral(this.emailAddress, companyId, selectedStatus).then(async (response) => {
       if (response) {
         this.spinner.hide();
         if (response.length > 0) {
@@ -294,7 +295,7 @@ export class EmployeeReferralComponent implements OnDestroy {
       const selectedEmail = this.getSlicedValue(this.selectedReferral?.PK);
      
       await this.getEmpReferralDetails(selectedEmail);
-      if (this.selectedStatus == 'DONE') {
+      if (this.selectedStatus == 'REFERRED') {
         this.reviewData = [];
         let referralId = this.getSlicedValue(this.selectedReferral?.SK);
         let forUserId = this.getSlicedValue(this.empdetailsList[0]?.SK);
@@ -486,7 +487,7 @@ export class EmployeeReferralComponent implements OnDestroy {
       if (response) {
        
         // this.getReferralReview(this.selectedReferral);
-        if (this.selectedStatus == 'DONE') {
+        if (this.selectedStatus == 'REFERRED') {
           this.reviewData = [];
           let referralId = this.getSlicedValue(this.selectedReferral?.SK);
           let forUserId = this.getSlicedValue(this.empdetailsList[0]?.SK);

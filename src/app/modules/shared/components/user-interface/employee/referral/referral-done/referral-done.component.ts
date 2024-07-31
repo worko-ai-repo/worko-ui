@@ -79,7 +79,7 @@ export class ReferralDoneComponent implements OnChanges {
       this.profileImage = this.empdetailsList[0].profileImageAwsS3SignedUrl ? this.empdetailsList[0]?.profileImageAwsS3SignedUrl : '/assets/public/candidate-img.png'
     }
 
-    if(this.selectedStatus === 'DONE') {
+    if(this.selectedStatus === 'REFERRED') {
       this.calculateRaiseIssueButtonVisibility();
     }
   }
@@ -132,7 +132,7 @@ export class ReferralDoneComponent implements OnChanges {
 
   formatScoreDetails(data: string): string {
     // Replacing all occurrences of \n with <br>
-    return data.replace(/\n/g, '<br>');
+    return data?.replace(/\n/g, '<br>');
   }
 
     /**

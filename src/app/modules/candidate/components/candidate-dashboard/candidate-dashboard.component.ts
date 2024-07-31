@@ -27,10 +27,12 @@ export class CandidateDashboardComponent {
   userName:any;
   successtitle: string="";
   successmessage: string="";
+  highestDegree: any = {};
 
   constructor( private candidateSrv: CandidateProfileService,private cognitoService: CognitoService, private router: Router,private storage: StorageService,private spinner: NgxSpinnerService) { }
 
   ngOnInit(): void {
+    console.log("In Candidate Dashboard Component");
     this.emailAddress = this.storage.get("useremail");
     
     this.getCandidateDetails()
@@ -96,8 +98,20 @@ export class CandidateDashboardComponent {
     try{
     await this.candidateSrv.getCandidateEducation(this.emailAddress).then(async (response) => {
       if (Array.isArray(response) && response.length > 0 ) {
-        this.educationList = response;
+         this.educationList = response;
+        // this.educationDetails = this.educationList;
+        
+         // If there are multiple entries, find the highest degree
+      if (this.educationList.length > 1) {
+        this.highestDegree = this.educationList.reduce((prev: { passingYear: any; }, current: { passingYear: any; }) => {
+          return (prev.passingYear > current.passingYear) ? prev : current;
+        });
+        this.educationDetails = this.highestDegree;
+      } else {
+        // If there's only one entry, it's already the highest degree
         this.educationDetails = this.educationList[0];
+      }
+    
       }
      // this.getWorkExperienceDetails();
      this.getAchievements();

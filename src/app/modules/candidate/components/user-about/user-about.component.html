@@ -46,6 +46,9 @@
             <div class="p-1  certificate-label" *ngFor="let certificate of certificationList?.certifications">
                 <span class="certification-boxes ps-2 pe-2">{{certificate.certName}}</span>
             </div>
+            <div *ngIf="!certificationList?.certifications?.length" class="p-1 certificate-label">
+                <span class="certification-boxes ps-2 pe-2" style="background-color: #0A1E35;"></span>
+            </div>
 
         </div> 
         <div class="p-4 pb-1 fs-5"></div>

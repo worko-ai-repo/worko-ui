@@ -58,7 +58,7 @@ import { EditBankDetailsComponent } from './components/user-interface/employee/e
 import { PublicSidebarComponent } from './components/public-profile/public-sidebar/public-sidebar.component';
 import { PublicServicePackagesComponent } from './components/public-profile/public-service-packages/public-service-packages.component';
 import { PublicReviewsComponent } from './components/public-profile/public-reviews/public-reviews.component';
-import { SlickCarouselModule } from 'ngx-slick-carousel';
+// import { SlickCarouselModule } from 'ngx-slick-carousel';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { AdminChartComponent } from './components/Admin/Dashboard/admin-chart/admin-chart.component';
 import { PaymentTrendComponent } from './components/Admin/Dashboard/payment-trend/payment-trend.component';
@@ -87,7 +87,6 @@ import { DetailedAnalysisComponent } from './components/user-interface/referral/
 import { AddCompanyComponent } from '../worko/components/add-company/add-company.component';
 import { PlansOrderPaymentModalComponent } from './components/plans-order-payment-modal/plans-order-payment-modal.component';
 import { PaymentConfirmationModalComponent } from './components/payment-confirmation-modal/payment-confirmation-modal.component';
-import { BilldeskResponseComponent } from './components/user-interface/subscription/billdesk-response/billdesk-response.component';
 import { PgResponseComponent } from './components/user-interface/subscription/pg-response/pg-response.component';
 export const routes: Routes = [
 
@@ -136,7 +135,6 @@ export const routes: Routes = [
     AddCompanyComponent,
     PlansOrderPaymentModalComponent,
     PaymentConfirmationModalComponent,
-    BilldeskResponseComponent,
     PgResponseComponent
     // DoneServiceComponent,
     // CancelledServiceComponent,
@@ -156,7 +154,7 @@ export const routes: Routes = [
     MatAutocompleteModule,
     MatSelectModule,
     ReactiveFormsModule,
-    SlickCarouselModule,
+    // SlickCarouselModule,
     NgbRatingModule,
     RouterModule,
     MatProgressSpinnerModule

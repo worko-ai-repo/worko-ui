@@ -1,4 +1,4 @@
-import { Component, EventEmitter, Input, Output, ViewChild } from '@angular/core';
+import { Component, EventEmitter, Input, Output, SimpleChanges, ViewChild } from '@angular/core';
 import { ModalComponent } from '../../../../modal/modal.component';
 import { ModalType } from 'src/app/modules/shared/interfaces/shared.interface';
 import { BreakpointObserver, Breakpoints } from '@angular/cdk/layout';
@@ -9,14 +9,29 @@ import { BreakpointObserver, Breakpoints } from '@angular/cdk/layout';
   styleUrls: ['./employee-accepted-referral.component.scss']
 })
 export class EmployeeAcceptedReferralComponent {
-  @Input() userType: any;
+  @Input() empdetailsList: any = "";
+  @Input() empEducationList: any = "";
+  @Input() empExperienceList: any = "";
+  @Input() empCoreSkillsList: any = "";
+  @Input() empAchievmentsList: any = "";
+  @Input() empDetails: any = {};
+  @Input() empEducationDetails: any = {};
+  @Input() empAchievmentsDetails: any = {};
+  @Input() empCoreSkillsDetails: any = {};
+  @Input() empExperienceDetails: any = {};
+  @Input() selectedStatus: any;
   @Input() selectedReferral: any;
+  @Input() userType: any;
   @Input() refereeDetails: any;
   @Output() markAsDone = new EventEmitter<any>();
   @Output() referralRating = new EventEmitter<any>();
   @Output() raiseIssue = new EventEmitter<any>();
   @Output() cancelRatingPopup = new EventEmitter<any>();
+  showCard: boolean = false;
   action: string = "";
+  scoreDetails: any = "";
+  matchingScore:number = 0;
+  profileImage: any;
   @ViewChild(ModalComponent) modal!: ModalComponent;
   modalType = ModalType;
   modalMessage: string = "";
@@ -27,6 +42,10 @@ export class EmployeeAcceptedReferralComponent {
   circleDiameter:number=105;
 
   constructor(private breakpointObserver: BreakpointObserver) {}
+  score: number = 0;
+  originalPoints = 2.1;
+  possiblePoints = 100;
+  isEmployeeReferralPage = true;
 
   ngOnInit(): void {
     this.breakpointObserver.observe([
@@ -41,7 +60,20 @@ export class EmployeeAcceptedReferralComponent {
   
   }
 
-  ngOnChanges(): void {
+  ngOnChanges(changes: SimpleChanges): void {
+
+    if (this.selectedReferral?.matchingScore === 251 || this.selectedReferral?.matchingScore === 250) {
+      this.matchingScore = 0;
+    } else {
+      this.matchingScore = this.selectedReferral?.matchingScore;
+    }
+    this.scoreDetails =this.formatScoreDetails(this.selectedReferral?.scoreDetails); 
+
+    if (this.empdetailsList?.length > 0) {
+
+      this.profileImage = this.empdetailsList[0].profileImageAwsS3SignedUrl ? this.empdetailsList[0]?.profileImageAwsS3SignedUrl : '/assets/public/candidate-img.png'
+
+    }
    
   }
 
@@ -73,6 +105,28 @@ export class EmployeeAcceptedReferralComponent {
     this.closeModal();
     this.action = "";
     this.markAsDone.emit(this.selectedReferral);
+  }
+
+  closeDetailedPopup() {
+    // this.modalSize = 'md';
+    this.closeModal();
+  }
+
+  openfile(event: { preventDefault: () => void; }) {
+    event.preventDefault();
+    // console.log(this.docResult.awsS3SignedUrl)
+    //window.open(this.docResult.awsS3SignedUrl,'_blank')
+    window.open(this.empdetailsList[0]?.cvAwsS3SignedUrl, '_blank');
+  }
+
+  viewDetails() {
+    // this.modalSize = 'xl';
+    this.openModal(ModalType.DETAILED_ANALYSIS);
+  }
+
+  formatScoreDetails(data: string): string {
+    // Replacing all occurrences of \n with <br>
+    return data?.replace(/\n/g, '<br>');
   }
 
   /**

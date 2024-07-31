@@ -4,7 +4,7 @@
             <div class="col-md-6">
                 <div class="dropdown">
                     <button class="dropdown-toggle text-capitalize" type="button" id="dropdownMenu2"
-                        data-toggle="dropdown" aria-expanded="false">
+                        data-bs-toggle="dropdown" aria-expanded="false">
                         {{selectedStatus | uppercase}}
                     </button>
 
@@ -21,7 +21,7 @@
                         <li *ngIf="userType === 'Candidate'"><button class="dropdown-item" type="button"
                                 (click)="onSelectStatus('WITHDRAWN')">Withdrawn</button></li>
                         <li style="border-bottom: none;"><button class="dropdown-item" type="button"
-                                (click)="onSelectStatus('DONE')">Done</button>
+                                (click)="onSelectStatus('REFERRED')">Referred</button>
                         </li>
                     </ul>
                 </div>
