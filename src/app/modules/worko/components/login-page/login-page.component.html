@@ -307,7 +307,8 @@
 
                         <input matInput #autoCompleteInput="matAutocompleteTrigger"
                           class="text-white material-input__group__input" [formControl]="myControl"
-                          [matAutocomplete]="auto" placeholder="Select Company Name" name="companyName" />
+                          [matAutocomplete]="auto" placeholder="Select Company Name" name="companyName" [title]="companyNameError"
+                           [ngClass]="{'error': companyNameError !== ''}" />
                         <mat-autocomplete #auto="matAutocomplete" [displayWith]="displayFn"
                           (optionSelected)="onOptionSelected($event)">
                           <mat-option class="custom-mat-option" *ngFor="let option of filteredOptions | async"

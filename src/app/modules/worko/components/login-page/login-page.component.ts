@@ -95,6 +95,7 @@ export class LoginPageComponent implements AfterViewInit, OnDestroy {
   showModal: ModalType | undefined;
   showAddCompanyScreen: boolean = false;
   showErrorMessageScreen: boolean = false;
+  companyNameError: string = '';
   form = {
     email: '',
     password: ''
@@ -274,7 +275,7 @@ export class LoginPageComponent implements AfterViewInit, OnDestroy {
 
 
   async ngOnInit() {
-    // console.log("In login Component");
+    console.log("In login Component");
     //Added check to pass userType to show enabled candidate and employee from index page
     //debugger
 
@@ -284,29 +285,53 @@ export class LoginPageComponent implements AfterViewInit, OnDestroy {
 
 
     this.blinkAndChangeWord()
+    // this.filteredOptions = this.myControl.valueChanges.pipe(
+    //   debounceTime(300),
+    //   distinctUntilChanged(),
+    //   switchMap((value: any) => {
+    //     // Edited by KA:
+    //     // if (value && value.length >= 1) {
+    //     //   return this.authService.getCompanyName(value);
+    //     // }
+    //     if (value && value.length >= 1) {
+    //       return this.authService.getCompanyName(value).pipe(
+    //         map((results: any[]) => [
+    //           ...results,
+    //           { id: 'add_new', name: "Add new company" } // Static option
+    //         ])
+    //       );
+    //     }
+    //     // End of edit by KA
+    //     else {
+    //       // If value.length is less than 1, return an empty array or null
+    //       return [];
+    //     }
+    //   })
+
+    // );
     this.filteredOptions = this.myControl.valueChanges.pipe(
       debounceTime(300),
       distinctUntilChanged(),
       switchMap((value: any) => {
-        // Edited by KA:
-        // if (value && value.length >= 1) {
-        //   return this.authService.getCompanyName(value);
-        // }
         if (value && value.length >= 1) {
           return this.authService.getCompanyName(value).pipe(
-            map((results: any[]) => [
-              ...results,
-              { id: 'add_new', name: "Add new company" } // Static option
-            ])
+            map((results: any[]) => {
+              if (results.length === 0) {
+                this.companyNameError = 'Company name not found. Please add company name by selecting "Add new company" in the dropdown.';
+              } else {
+                this.companyNameError = '';
+              }
+              return [
+                ...results,
+                { id: 'add_new', name: "Add new company" } // Static option
+              ];
+            })
           );
-        }
-        // End of edit by KA
-        else {
-          // If value.length is less than 1, return an empty array or null
+        } else {
+          this.companyNameError = '';
           return [];
         }
       })
-
     );
 
 
@@ -314,10 +339,6 @@ export class LoginPageComponent implements AfterViewInit, OnDestroy {
 
     //console.log(fieldType2);
   }
-
-
-
-
 
 
 
@@ -775,6 +796,7 @@ export class LoginPageComponent implements AfterViewInit, OnDestroy {
 
 
   onOptionSelected(event: any): void {
+  
     // this.selectedCompany = event.option.value;
     // debugger
     // Edited by KA:
@@ -784,8 +806,10 @@ export class LoginPageComponent implements AfterViewInit, OnDestroy {
       //this.openModal(ModalType.ADD_COMPANY);
       this.selectedCompany = '';
       this.myControl.reset();
-    } else {
+    } else if(event.option.value.id!=="" && event.option.value.id!==null) {
       this.selectedCompany = event.option.value;
+    }else{
+      this.myControl.reset();
     }
   }
 

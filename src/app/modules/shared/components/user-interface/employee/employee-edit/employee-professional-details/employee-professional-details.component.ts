@@ -113,6 +113,7 @@ export class EmployeeProfessionalDetailsComponent implements OnInit {
   isDisabled: boolean = false;
   isEmailVerified: boolean = false;
   experienceFieldsCompleted: boolean = true;
+  companyNameError: string = '';
   constructor(
     private router: Router,
     private cdr: ChangeDetectorRef,
@@ -209,22 +210,46 @@ this.disableAllFields();
     // this.fields = this.workExperienceDetailsList?.filter((company: any) => !company.isCurrent);
     // console.log(this.fields)
 
+    // this.filteredOptions = this.myControl.valueChanges.pipe(
+    //   debounceTime(300),
+    //   distinctUntilChanged(),
+    //   switchMap((value: any) => {
+    //     if (value == "") {
+    //       this.resetFormFields();
+    //     }
+    //     if (value && value.length >= 1) {
+    //       return this.authService.getCompanyName(value).pipe(
+    //         map((results: any[]) => [
+    //           ...results,
+    //           { id: "add_new", name: "Add new company" }, // Static option
+    //         ])
+    //       );
+    //     } else {
+    //       // If value.length is less than 1, return an empty array or null
+    //       return [];
+    //     }
+    //   })
+    // );
     this.filteredOptions = this.myControl.valueChanges.pipe(
       debounceTime(300),
       distinctUntilChanged(),
       switchMap((value: any) => {
-        if (value == "") {
-          this.resetFormFields();
-        }
         if (value && value.length >= 1) {
           return this.authService.getCompanyName(value).pipe(
-            map((results: any[]) => [
-              ...results,
-              { id: "add_new", name: "Add new company" }, // Static option
-            ])
+            map((results: any[]) => {
+              if (results.length === 0) {
+                this.companyNameError = 'Company name not found. Please  add company name by selecting "Add new company" in the dropdown.';
+              } else {
+                this.companyNameError = '';
+              }
+              return [
+                ...results,
+                { id: 'add_new', name: "Add new company" } // Static option
+              ];
+            })
           );
         } else {
-          // If value.length is less than 1, return an empty array or null
+          this.companyNameError = '';
           return [];
         }
       })

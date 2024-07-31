@@ -12,7 +12,9 @@
                     <label for="" class="form-lable required-form-field">Current Company Name</label>
                     <input matInput #autoCompleteInput="matAutocompleteTrigger" *ngIf="!isDisabled"
                         class="form-control form-input" [formControl]="myControl" [matAutocomplete]="auto"
-                        placeholder="Select Company Name" [(ngModel)]="employeeProfessionalData.companyName" required>
+                        placeholder="Select Company Name" [(ngModel)]="employeeProfessionalData.companyName"
+                        [title]="companyNameError" 
+                          [ngClass]="{'is-invalid': companyNameError !== ''}"  required>
                     <mat-autocomplete #auto="matAutocomplete" [displayWith]="displayFn"
                         (optionSelected)="onOptionSelected($event)">
                         <mat-option *ngFor="let option of filteredOptions | async" [value]="option"

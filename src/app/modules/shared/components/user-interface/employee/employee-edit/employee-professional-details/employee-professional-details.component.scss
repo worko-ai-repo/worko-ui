@@ -125,4 +125,8 @@
   display: block;
 }
 
+.form-control.is-invalid {
+  border: 1px solid red;
+}
+
 
