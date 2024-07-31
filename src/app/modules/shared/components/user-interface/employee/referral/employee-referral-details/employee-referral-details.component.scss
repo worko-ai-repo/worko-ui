@@ -177,6 +177,7 @@
         text-align: left;
         padding-left: 15px;
         padding-top: 10px;
+        z-index: 1;
     }
 
     .details-row {
@@ -206,6 +207,7 @@
         top: 10px; /* Adjust the value as needed to align parallel to the image */
         padding: 10px;
         text-align: right;
+        z-index: 1;
     }
 
     .action-buttons button {
@@ -216,6 +218,7 @@
         position: absolute;
         right: 10px; /* Align to the right */
         bottom: 126px; /* Position below the buttons */
+       
     }
 
     .referral-progree-bar {
@@ -231,6 +234,8 @@
     .referral-progree-bar .view-details,
     .referral-progree-bar .btn-cv {
         text-align: right;
+        position: relative;
+        z-index: 3;
     }
 
     .referral-progree-bar .btn-cv {
@@ -238,6 +243,7 @@
         display:flex;
        margin-left: auto;
        margin-right: 21px;
+       
     }
 
     .p-image {
