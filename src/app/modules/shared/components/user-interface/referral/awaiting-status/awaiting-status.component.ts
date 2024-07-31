@@ -46,7 +46,7 @@ export class AwaitingStatusComponent implements OnChanges {
   }
 
   ngOnChanges(): void {
-    console.log(this.referralList);
+  
     if (this.screenWidth > 1251) {
       if (this.referralList?.length > 0) {
         this.selectedReferralSK = this.referralList[0].SK;

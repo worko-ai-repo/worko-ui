@@ -23,7 +23,7 @@
     gap: 10px;
 }
 .referral-img{
-    width: 200px;
+    width: 225px;
 }
 
 .center-elements {
@@ -37,5 +37,9 @@
 @media (max-width: 768px) {
     .text-white{
         font-size: 12px;
+    }
+   
+    .referral-img{
+        width: 200px;
     }
 }
