@@ -12,6 +12,7 @@ export class RaiseIssueComponent {
   @Input() userType:any;
   @Input() showButton: boolean = true; // Default to true
   @Output() raiseIssue1 = new EventEmitter<any>();
+  @Input() isHidden:boolean=false; // Default to true
   @ViewChild(ModalComponent) modal!: ModalComponent;
   modalType = ModalType;
   modalMessage: string = "";

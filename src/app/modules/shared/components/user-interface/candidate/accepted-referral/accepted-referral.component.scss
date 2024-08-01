@@ -111,9 +111,8 @@ line-height: normal;
 
 }
 .referral-img{
-    width: 200px;
+    width: 225px;
 }
-
 .center-elements {
     height: 100%;
     width: 100%;
@@ -121,4 +120,28 @@ line-height: normal;
     flex-direction: column;
     align-items: center;
     justify-content: center;
+}
+
+
+.done-btn,
+.new-request-btn {
+    flex: 1;
+}
+
+@media (max-width: 1251px) {
+    .candidate-card{
+        height: 100%;
+    }
+    .text-white{
+        font-size: 12px;
+    }
+    .issues-btn,.done-btn,.new-request-btn {
+        flex: 1 1 25%; /* Each button takes up 25% of the row on smaller screens */
+        display: flex;
+        justify-content: center;
+        margin-bottom: 10px;
+    }
+    .referral-img {
+        width: 200px;
+    }
 }

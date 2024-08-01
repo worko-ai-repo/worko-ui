@@ -1,11 +1,12 @@
 <div class="row content-container referral-content-container referral-container">
-    <div class="left-container-content referral-left-container">
-        <app-awaiting-status [userType]="userType" (statusSelected)="onStatusSelected($event)"
-            [referralList]="empReferralList" (showReferralDetails)="showReferralDetails($event)"></app-awaiting-status>
+
+    <div class="left-container-content referral-left-container"  [ngClass]="{ 'hidden': !isAwaitingVisible}">
+        <app-awaiting-status [userType]="userType" (statusSelected)="onStatusSelected($event)" [screenWidth]="screenWidth"  [referralList]="empReferralList" (showReferralDetails)="showReferralDetails($event)"></app-awaiting-status>
     </div>
-    <div class="divide-55">
+    <div class="divide-55"  [ngClass]="{ 'hidden': !isMainContentVisible}" >
         <div class="row" style="height:100%">
-            <app-referral-stepper [selectedReferral]="selectedReferral"
+            <app-referral-stepper [selectedReferral]="selectedReferral" [isMainContentVisible]="isMainContentVisible"
+            [isAwaitingVisible]="isAwaitingVisible" (onClickBack)="onClickBack()"
                 [statusitem]="statusItem"></app-referral-stepper>
             <div class="status-container">
                 <ng-container *ngIf="selectedStatus === 'AWAITING'; else otherStatus">

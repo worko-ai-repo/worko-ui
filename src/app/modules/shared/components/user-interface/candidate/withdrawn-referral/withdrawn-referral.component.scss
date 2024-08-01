@@ -23,7 +23,7 @@
     gap: 10px;
 }
 .referral-img{
-    width: 200px;
+    width: 225px;
 }
 
 .center-elements {
@@ -33,4 +33,13 @@
     flex-direction: column;
     align-items: center;
     justify-content: center;
+}
+@media (max-width: 768px) {
+    .text-white{
+        font-size: 12px;
+    }
+   
+    .referral-img{
+        width: 200px;
+    }
 }

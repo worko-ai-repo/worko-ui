@@ -1,4 +1,4 @@
-import { Component, OnDestroy, OnInit, ViewChild } from '@angular/core';
+import { Component, HostListener, OnDestroy, OnInit, ViewChild } from '@angular/core';
 import { StorageService } from 'src/app/modules/app-core/services/storage.service';
 import { EmployeeProfileService } from '../../services/employee-profile.service';
 import { CandidateProfileService } from 'src/app/modules/candidate/services/candidate-profile.service';
@@ -50,6 +50,11 @@ export class EmployeeReferralComponent implements OnDestroy {
   candidateDetails: any;
   workExperienceDetails: any;
   popupStatus:boolean = false;
+  isAwaitingVisible!:boolean;
+  // isStepperVisible = true;
+  isMainContentVisible!:boolean;
+  screenWidth!: number;
+  previousScreenWidth!: number;
 
   constructor(private candidateSrv: CandidateProfileService, private empService: EmployeeProfileService, private storage: StorageService, private spinner: NgxSpinnerService, private router: Router, private stateService: StateService) { }
   ngOnDestroy(): void {
@@ -58,6 +63,9 @@ export class EmployeeReferralComponent implements OnDestroy {
   }
 
   ngOnInit(): void {
+    this.screenWidth = window.innerWidth;
+    this.performFunctionalityBasedOnScreenSize();
+    this.previousScreenWidth = this.screenWidth;
     this.emailAddress = this.storage.get("useremail");
     this.userId = this.storage.get("userId");
     this.userName = this.storage.get("userName");
@@ -68,6 +76,38 @@ export class EmployeeReferralComponent implements OnDestroy {
     // this.getEmpReferralDetails();
   
   }
+  @HostListener('window:resize', ['$event'])
+  onResize(event: any) {
+    this.screenWidth = event.target.innerWidth;
+    this.performFunctionalityBasedOnScreenSize();
+    this.previousScreenWidth = this.screenWidth;
+  }
+  onClickBack(){
+   
+    this.isMainContentVisible = false;
+    this.isAwaitingVisible = true;
+  }
+  
+  performFunctionalityBasedOnScreenSize() {
+    if (this.screenWidth < 1251) {
+      // Set values only if transitioning from a width >= 1251 or on initial load
+      if (this.previousScreenWidth === undefined || this.previousScreenWidth >= 1251) {
+        this.isAwaitingVisible = true;
+        this.isMainContentVisible = false;
+      }
+    } else {
+      // Always set values when width is >= 1251
+      this.isAwaitingVisible = true;
+      this.isMainContentVisible = true;
+    }
+  }
+
+  // Manually checking here screen size and performing actions
+  checkScreenSize() {
+    this.screenWidth = window.innerWidth;
+    this.performFunctionalityBasedOnScreenSize();
+  }
+
 
   async getWorkExperienceDetails() {
     this.spinner.show()
@@ -243,10 +283,15 @@ export class EmployeeReferralComponent implements OnDestroy {
   }
 
   async showReferralDetails(data: any) {
+   
     if (data) {
       this.processStatus = false;
       this.reviewData = null;
       this.selectedReferral = data;
+      if(this.screenWidth <= 1251) {
+        this.isAwaitingVisible = false;
+        this.isMainContentVisible = true;
+      }
       const selectedEmail = this.getSlicedValue(this.selectedReferral?.PK);
      
       await this.getEmpReferralDetails(selectedEmail);

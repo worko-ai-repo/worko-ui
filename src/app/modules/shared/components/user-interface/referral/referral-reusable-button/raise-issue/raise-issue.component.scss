@@ -1,10 +1,12 @@
 button {
   position: relative;
+  
 }
 
 button:disabled {
   opacity: 0.5;
   cursor: not-allowed; /* indicates the button is not clickable */
+ 
 }
 
 // .issue-btn:disabled svg {
@@ -34,4 +36,18 @@ button:disabled {
 
 .issue-btn:hover .disabled-message {
   display: block; /* Show the message on hover */
+}
+@media (max-width:798px) {
+
+  button{
+    width: auto;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    
+  }
+  .disabled-message {
+    width: 150px;
+  }
+  
 }

@@ -5,6 +5,7 @@ import {
   Input,
   SimpleChanges,
 } from "@angular/core";
+import { BreakpointObserver, Breakpoints } from '@angular/cdk/layout';
 
 @Component({
   selector: "app-referral-req-done",
@@ -23,10 +24,18 @@ export class ReferralReqDoneComponent {
   @Input() processStatus: any;
   referralRatingFlag: any = null;
   showRaiseIssueButton: boolean = false;
+  isHidden:boolean=false
+  constructor(private breakpointObserver: BreakpointObserver) {}
 
-  constructor() {}
-
-  ngOnInit(): void {}
+  ngOnInit(): void {
+    this.breakpointObserver.observe([
+      Breakpoints.Small,
+      Breakpoints.Handset
+    ]).subscribe(result => {
+      this.isHidden = result.matches;
+    });
+  
+  }
 
   ngOnChanges(changes: SimpleChanges): void {
     this.referralRatingFlag = null;

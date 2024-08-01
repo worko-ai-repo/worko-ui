@@ -119,7 +119,7 @@ export class IndexComponent {
     const userType = this.storage.get('lastAccessedDash');
     this.userName = this.storage.get('userName');
     const redirectAfterLogin = this.storage.get('redirectAfterLogin');
-    console.log(redirectAfterLogin)
+    // console.log(redirectAfterLogin)
     if (redirectAfterLogin) {
       this.storage.remove('redirectAfterLogin'); // Remove the stored URL after using it
       this.router.navigate([redirectAfterLogin]);

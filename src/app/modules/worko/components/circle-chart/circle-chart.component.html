@@ -1,7 +1,7 @@
 <div *ngIf="isEmployeeReferralPage; else elseBlock"
   class="circle-chart-container d-flex align-self-center justify-content-center ">
   <mat-progress-spinner class="circle-chart-referral" [ngClass]="{ 'hide-progress-bar': hideProgressBar }"
-    [class.red]="getColor() === 'red'" mode="determinate" [value]="chartValue" [diameter]="105">
+    [class.red]="getColor() === 'red'" mode="determinate" [value]="chartValue" [diameter]="circleDiameter">
   </mat-progress-spinner>
   <div class="circle-chart-text-referral">{{ chartText }}/100</div>
 </div>

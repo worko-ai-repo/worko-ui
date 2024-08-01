@@ -123,7 +123,7 @@
 }
 
 .referral-img {
-    width: 200px;
+    width: 225px;
 }
 
 .center-elements {
@@ -133,4 +133,27 @@
     flex-direction: column;
     align-items: center;
     justify-content: center;
+}
+
+@media (max-width: 768px) {
+    .candidate-card{
+        height: 100%;
+    }
+    .text-white{
+        font-size: 12px;
+    }
+
+    .issues-btn,.see-review-btn,.feedback-btn,.new-request-btn {
+        flex: 1 1 25%; /* Each button takes up 25% of the row on smaller screens */
+        display: flex;
+        justify-content: center;
+        margin-bottom: 10px;
+    }
+    .issues-btn{
+        width: 10px;
+    }
+    .referral-img {
+        width: 200px;
+    }
+
 }

@@ -2,7 +2,9 @@
   height: calc(100vh - 45px);
   overflow: auto;
 }
-
+.back-button{
+  display: none;
+}
 .divide-45 {
   flex: 1;
 }
@@ -30,4 +32,27 @@
   padding-right: 0px;
   height:100%;
   overflow:auto;
+}
+
+.hidden {
+  display: none;
+}
+
+@media (max-width: 1251px) {
+
+  .content-container {
+    height: calc(100vh - 45px);
+    overflow:auto;
+  }
+
+  .referral-candidate-left-container {
+    width: 100%;
+    padding-left: 0px;
+    padding-right: 0px;
+    height:100%;
+    overflow: auto;
+  }
+  .back-button{
+    display: block;
+  }
 }

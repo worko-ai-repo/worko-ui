@@ -90,3 +90,11 @@
   --mdc-circular-progress-active-indicator-color: #57FF68;
   /* Override with green color */
 }
+@media (max-width: 768px) {
+  .circle-chart-text-referral{
+    font-size: 15px;
+  }
+  .circle-chart-container{
+    right: 10px;
+  }
+}

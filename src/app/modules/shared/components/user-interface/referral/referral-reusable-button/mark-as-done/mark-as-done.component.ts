@@ -9,6 +9,7 @@ import { ModalType } from 'src/app/modules/shared/interfaces/shared.interface';
 })
 export class MarkAsDoneComponent {
   @Input() userType: any;
+  @Input() isHidden:boolean=false;
   @Output() referralRating1 = new EventEmitter<any>();
   @Output() markAsDone1 = new EventEmitter<any>();
   @Output() cancelRatingPopup1 = new EventEmitter<any>();

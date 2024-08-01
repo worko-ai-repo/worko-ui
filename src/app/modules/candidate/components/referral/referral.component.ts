@@ -1,5 +1,5 @@
 import { HttpClient } from '@angular/common/http';
-import { Component, OnInit, ViewChild } from '@angular/core';
+import { Component, HostListener, OnInit, ViewChild } from '@angular/core';
 // import { CandidateDropdownService } from 'src/app/modules/services/candidate-dropdown.service';
 import { CandidateProfileService } from '../../services/candidate-profile.service';
 import { StorageService } from 'src/app/modules/app-core/services/storage.service';
@@ -35,13 +35,62 @@ export class ReferralComponent implements OnInit {
   showModal: ModalType | undefined;
   statusItem: { name: string; status: string; date: any; }[] = [];
   constructor(private candidateSrv: CandidateProfileService, private router: Router, private storage: StorageService, private spinner: NgxSpinnerService) { }
+  isAwaitingVisible!:boolean;
+  // isStepperVisible = true;
+  isMainContentVisible!:boolean;
+  screenWidth!: number;
+  previousScreenWidth!: number;
 
   ngOnInit(): void {
+    this.screenWidth = window.innerWidth;
+    this.performFunctionalityBasedOnScreenSize();
+    this.previousScreenWidth = this.screenWidth;
+
     this.emailAddress = this.storage.get("useremail");
     this.userId = this.storage.get("userId");
     this.userName = this.storage.get("userName");
     this.getReferral();
+    
     this.onStatusSelected('AWAITING');
+  }
+
+  @HostListener('window:resize', ['$event'])
+  onResize(event: any) {
+    this.screenWidth = event.target.innerWidth;
+    this.performFunctionalityBasedOnScreenSize();
+    this.previousScreenWidth = this.screenWidth;
+  }
+
+  // performFunctionalityBasedOnScreenSize() {
+  //   if (this.screenWidth < 1251) {
+  //     this.isAwaitingVisible = true;
+  //     this.isMainContentVisible = false;
+  //     // this.selectedReferral = "";
+  //   }
+  //   else {
+  //     this.isAwaitingVisible = true;
+  //     this.isMainContentVisible = true;
+  //   }
+  // }
+
+  performFunctionalityBasedOnScreenSize() {
+    if (this.screenWidth < 1251) {
+      // Set values only if transitioning from a width >= 1251 or on initial load
+      if (this.previousScreenWidth === undefined || this.previousScreenWidth >= 1251) {
+        this.isAwaitingVisible = true;
+        this.isMainContentVisible = false;
+      }
+    } else {
+      // Always set values when width is >= 1251
+      this.isAwaitingVisible = true;
+      this.isMainContentVisible = true;
+    }
+  }
+
+  // Manually checking here screen size and performing actions
+  checkScreenSize() {
+    this.screenWidth = window.innerWidth;
+    this.performFunctionalityBasedOnScreenSize();
   }
 
   async getReferral() {
@@ -111,11 +160,20 @@ export class ReferralComponent implements OnInit {
     }
   }
 
+  onClickBack() {
+    this.isMainContentVisible = false;
+    this.isAwaitingVisible = true;
+  }
+
   async showReferralDetails(data: any) {
     if (data) {
       this.processStatus = false;
       this.reviewData = null;
       this.selectedReferral = data;
+      if(this.screenWidth <= 1251) {
+        this.isAwaitingVisible = false;
+        this.isMainContentVisible = true;
+      }
       this.refereeDetails = "";
       this.getRefereeDetials(this.selectedReferral);
       if (this.selectedStatus == 'REFERRED') {

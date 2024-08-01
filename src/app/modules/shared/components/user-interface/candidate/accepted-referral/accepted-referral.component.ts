@@ -1,6 +1,7 @@
 import { Component, EventEmitter, Output, Input, ViewChild, } from '@angular/core';
 import { ModalComponent } from '../../../modal/modal.component';
 import { ModalType } from 'src/app/modules/shared/interfaces/shared.interface';
+import { BreakpointObserver, Breakpoints } from '@angular/cdk/layout';
 @Component({
   selector: 'app-accepted-referral',
   templateUrl: './accepted-referral.component.html',
@@ -20,9 +21,16 @@ export class AcceptedReferralComponent {
   modalMessage: string = "";
   modalTitle: string = "";
   showModal: ModalType | undefined;
-  constructor() { }
+  isHidden:boolean=false
+  constructor(private breakpointObserver: BreakpointObserver) {}
 
   ngOnInit(): void {
+    this.breakpointObserver.observe([
+      Breakpoints.Small,
+      Breakpoints.Handset
+    ]).subscribe(result => {
+      this.isHidden = result.matches;
+    });
   
   }
 

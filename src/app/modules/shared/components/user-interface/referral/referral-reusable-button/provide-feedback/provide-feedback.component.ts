@@ -10,6 +10,7 @@ import { ModalComponent } from '../../../../modal/modal.component';
 export class ProvideFeedbackComponent {
 
   @Input() userType: any;
+  @Input() isHidden:boolean=false;
   @Output() referralRating1 = new EventEmitter<any>();
   @ViewChild(ModalComponent) modal!: ModalComponent;
   modalType = ModalType;

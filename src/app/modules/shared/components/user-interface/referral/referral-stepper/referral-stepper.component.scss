@@ -1,11 +1,12 @@
-.candidate-card{
+.candidate-card {
   border-radius: 10px;
   background: #0A1E35;
   width: 100%;
 
 }
-.referral-stepper-container{
-  height:80px;
+
+.referral-stepper-container {
+  height: 80px;
   margin-bottom: 0.75rem;
 }
 
@@ -15,13 +16,19 @@
   width: 100%;
   // width: 480.16px;
   // justify-content: center;
-  justify-content: end; 
+  justify-content: flex-end;
   position: relative;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 1rem;
+  padding: 0 1rem;
+
+
 }
-.h6{
+
+.h6 {
   width: Hug (250px);
   height: Hug (63px)
-
 }
 
 
@@ -32,9 +39,10 @@
   align-items: center;
   flex: 2;
   top: 5.73px;
-   left: 422px
+  left: 422px
 }
-.ref-startline{
+
+.ref-startline {
   position: absolute;
   content: "";
   display: flex;
@@ -52,53 +60,54 @@
 
 .stepper-item .step-counter {
   position: relative;
-//   z-index: 2.5;
+  //   z-index: 2.5;
   display: flex;
   justify-content: center;
   align-items: center;
   width: 40px;
   height: 30px;
-  border-radius: 50% ;
- background:transparent;
- border: 1.18px solid #1ED6FF;
-//   margin-bottom: 3px;
+  border-radius: 50%;
+  background: transparent;
+  border: 1.18px solid #1ED6FF;
+  //   margin-bottom: 3px;
 }
 
 
-.stepper-item .ref-line{
-position: absolute;
-content: "";
-display: flex;
-justify-content: center;
-align-items: center;
-//   border-bottom: 2px #1ED6FF;
-border: 1.18283px dashed #1ED6FF;
-width: 82%;
-bottom:24% ;
-left:58.7%;
-z-index: 3;
+.stepper-item .ref-line {
+  position: absolute;
+  content: "";
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  //   border-bottom: 2px #1ED6FF;
+  border: 1.18283px dashed #1ED6FF;
+  width: 82%;
+  bottom: 24%;
+  left: 58.7%;
+  z-index: 3;
 
 
 }
-.step-name{
-height: 14px;
-top: 6.64px;
-left: 447.29px;
-font-family: Poppins;
-font-size: 9px;
-font-weight: 400;
-line-height: 14px;
-letter-spacing: 0em;
-text-align: left;
+
+.step-name {
+  height: 14px;
+  top: 6.64px;
+  left: 447.29px;
+  font-family: Poppins;
+  font-size: 9px;
+  font-weight: 400;
+  line-height: 14px;
+  letter-spacing: 0em;
+  text-align: left;
 
 }
 
 
 .stepper-item .circle-outline {
-  width: 20px; 
-  height: 20px; 
-  border-radius: 50%; 
-  border: 2px solid  #1ED6FF; 
+  width: 20px;
+  height: 20px;
+  border-radius: 50%;
+  border: 2px solid #1ED6FF;
   display: flex;
   justify-content: center;
   align-items: center;
@@ -107,15 +116,18 @@ text-align: left;
 
 
 .stepper-item .circle {
-  width: 10px; 
-  height: 10px; 
+  width: 10px;
+  height: 10px;
   border-radius: 50%;
-  background-color:  #1ED6FF; 
-  
+  background-color: #1ED6FF;
+
 }
 
 .parent-div {
-display: flex;
+  display: flex;
+  position: relative;
+
+
 }
 
 .timeline {
@@ -123,6 +135,7 @@ display: flex;
   // flex-grow: 1;
   flex-direction: row;
   padding: 1rem;
+  justify-content: space-between;
 }
 
 .timeline-event {
@@ -192,4 +205,90 @@ display: flex;
 
 .remove-extra-track {
   display: none;
+}
+
+.back-button {
+  display: none;
+}
+
+@media (min-width: 798px) {
+  .request-heading {
+      pointer-events: none;
+  }
+}
+
+
+@media (min-width: 768px) and (max-width: 1251px) {
+  .parent-div {
+    flex-direction: row;
+    position: relative;
+
+    align-items: center;
+  }
+
+  .request-heading,
+  .stepper-wrapper {
+    width: 100%;
+    text-align: center;
+  }
+
+  .request-heading {
+    margin-left: 18px;
+  }
+}
+
+@media (max-width: 768px) {
+
+  .parent-div {
+    display: flex;
+    // flex-direction: column;
+    align-items: center;
+    margin-left: 15%;
+    width: 80%;
+  }
+
+  h6.request-heading {
+    display: flex;
+    font-size: 13px;
+    text-align: center;
+  }
+
+  .stepper-wrapper {
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+  }
+
+  .timeline-point {
+    width: 1rem;
+    height: 1rem;
+  }
+
+}
+
+@media (max-width: 1251px) {
+  .back-button {
+    display: block;
+    position: absolute;
+    padding-left: 0px;
+    padding-top: 18px;
+    z-index: 1;
+    /* Ensure it is on top */
+    cursor: pointer;
+  }
+
+  .text-overflow {
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    overflow: hidden;
+    width: 100%;
+  }
+
+  .referral-stepper-container {
+    height: 6rem;
+  }
+
+  .timeline-event {
+    min-width: 60px
+  }
 }

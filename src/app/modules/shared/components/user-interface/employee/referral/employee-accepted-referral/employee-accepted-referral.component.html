@@ -1,16 +1,15 @@
 <div class="candidate-card scroller">
     <div class="row">
         <div class="col-md-12">
-            <div class="m-3 d-flex" *ngIf="selectedReferral">
-                <div *ngIf="selectedReferral" class="col-md-3">
-                    <app-raise-issue [userType]="userType" (raiseIssue1)="referralRaiseIssue($event)"></app-raise-issue>
+            <div class="m-3 d-flex action-buttons" *ngIf="selectedReferral">
+                <div *ngIf="selectedReferral" class="col-12 col-md-3 d-flex justify-content-start mb-3 mb-md-0 issues-btn">
+                    <app-raise-issue [userType]="userType" (raiseIssue1)="referralRaiseIssue($event)" [isHidden]="isHidden"></app-raise-issue>
                 </div>
-                <div *ngIf="selectedReferral" class="col-md-3 p-0 m-0">
+                <div *ngIf="selectedReferral" class="col-12 col-md-3 p-0 m-0 d-flex justify-content-start mb-3 mb-md-0 done-btn">
                     <app-mark-as-done [userType]="userType" (markAsDone1)="markAsDoneBtn()"
                         (referralRating1)="referralReviewRating($event)"
-                        (cancelRatingPopup1)="cancelReviewRatingPopup()"></app-mark-as-done>
+                        (cancelRatingPopup1)="cancelReviewRatingPopup()" [isHidden]="isHidden"></app-mark-as-done>
                 </div>
-
                 <!-- <div *ngIf="selectedReferral" class="col-md-6">
                     <app-new-request-btn></app-new-request-btn>
                 </div> -->
@@ -25,11 +24,11 @@
         </div>
         <div class="col-md-5">
             <div class="row">
-                <div class="col-md-12">
+                <div class="col-md-12 ref-name">
                     <h3 class="pt-3">{{empdetailsList[0]?.name}}</h3>
                 </div>
                 <div class="col-md-12 ref-education">
-                    <div>{{empEducationList[0]?.degree}} , {{empEducationList[0]?.collage}} </div>
+                    <div class="text-overflow">{{empEducationList[0]?.degree}} , {{empEducationList[0]?.collage}} </div>
                     <!-- <div class="pt-1">Role Applied : SDE-1(Backend)</div> -->
                     <div class="pt-1">Experience: {{empdetailsList[0]?.YOE}} {{empdetailsList[0]?.YOE === 1 ? 'year' :
                         'years'}}</div>
@@ -38,9 +37,9 @@
                 </div>
             </div>
         </div>
-        <div class="col-md-4">
+        <div class="col-md-4 circle-chart-div">
             <div class="row">
-                <div class="col-md-12 text-center referral-progree-bar">
+                <div class="col-md-12  referral-progree-bar">
                     <div class="ms-3 mt-1">
                         <!-- <svg xmlns="http://www.w3.org/2000/svg" width="60" height="82" viewBox="0 0 80 82" fill="none">
                             <path
@@ -48,7 +47,7 @@
                                 fill="#57FF68" />
                         </svg> -->
                         <app-circle-chart [isEmployeeReferralPage]="isEmployeeReferralPage"
-                            [chartText]="matchingScore.toString()"
+                            [chartText]="matchingScore.toString()" [circleDiameter]="circleDiameter"
                             [chartValue]="(this.matchingScore / this.possiblePoints) * 100"></app-circle-chart>
                         <div class="m-0 p-0 referral-text">Matching Score : {{matchingScore}} </div>
                         <div (click)="viewDetails()" href="" class="m-0 p-0 view-details" style="cursor: pointer;">View
@@ -65,7 +64,7 @@
     <div class="row" *ngIf="selectedReferral">
         <div class="row">
             <div class="col-md-5 company-details">
-                <div class="d-flex justify-content-between">
+                <div class="d-flex justify-content-between details-row">
                     <h6 class="ms-4">Department: {{empdetailsList[0]?.candidateExperience?.department}}</h6>
                     <h6 class="">CTC: {{empdetailsList[0]?.CTC}}</h6>
 
@@ -75,7 +74,7 @@
 
         <div class="row pt-2">
             <div class="col-md-5 company-details">
-                <div class="d-flex justify-content-between">
+                <div class="d-flex justify-content-between details-row">
                     <h6 class="ms-4">Notice Period: {{empdetailsList[0]?.noticePeriod}}</h6>
                     <h6 class="">ECTC: {{empdetailsList[0]?.ECTC}}</h6>
 
@@ -89,21 +88,51 @@
             <h5 class=" m-4 mb-0 pb-2">Core Skills & Experience</h5>
         </div>
 
-        <div class="col-md-12">
+        <div class="d-flex">
+            <div class="col-md-8">
+                <div class="float-left achievments-list d-flex"
+                    *ngFor="let coreSkill of empCoreSkillsDetails[0]?.coreSkills">
+                    <div class="ps-3 m-1 text-in-box">{{coreSkill.skillName}}
+                        <span class="text-in-box-close-icon">
+                            <svg width="16" height="16" viewBox="0 0 16 16" fill="none"
+                                xmlns="http://www.w3.org/2000/svg">
+                            </svg>
+                        </span>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- <div class="col-md-12">
             <div class="row ms-4">
                 <div class="col-md-3  pt-1 " *ngFor="let skill of empCoreSkillsDetails[0]?.coreSkills">
                     <div class="core-skills p-1"> {{skill.skillName}}</div>
                 </div>
 
             </div>
-        </div>
+        </div> -->
 
 
         <div class="col-md-12">
             <h5 class=" m-4 mb-0 pb-2">Achievements</h5>
         </div>
 
-        <div class="col-md-12">
+        <div class="d-flex">
+            <div class="col-md-8">
+                <div class="float-left achievments-list d-flex"
+                *ngFor="let achievement of empCoreSkillsDetails[0]?.certifications">
+                    <div class="ps-3 m-1 text-in-box">{{ achievement.certName }}
+                        <span class="text-in-box-close-icon">
+                            <svg width="16" height="16" viewBox="0 0 16 16" fill="none"
+                                xmlns="http://www.w3.org/2000/svg">
+                            </svg>
+                        </span>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- <div class="col-md-12">
             <div class="row  ms-4 ">
                 <div class="col-md-3  pt-1" *ngFor="let achievement of empCoreSkillsDetails[0]?.certifications">
                     <div class="core-skills p-1"> {{ achievement.certName }}</div>
@@ -112,7 +141,7 @@
             </div>
         </div>
 
-    </div>
+    </div> -->
 
     <div class="row" *ngIf="!selectedReferral" class="center-elements">
 

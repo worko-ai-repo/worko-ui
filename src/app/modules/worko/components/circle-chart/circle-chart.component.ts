@@ -8,10 +8,12 @@ import { Component, Input, OnInit } from '@angular/core';
 })
 export class CircleChartComponent implements OnInit {
   @Input() isEmployeeReferralPage:any;
+  @Input() circleDiameter:number=105;
   private _chartText: string = '';
   selectedColor: string = "#D9D9D9";
   // Initialize the circle color
   circleColor: string = '#D9D9D9';
+
 
   @Input() get chartText() {
     return this._chartText;

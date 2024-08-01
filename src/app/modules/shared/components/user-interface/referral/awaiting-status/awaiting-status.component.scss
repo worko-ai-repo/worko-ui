@@ -6,16 +6,19 @@
 
 .dropdown .dropdown-menu {
     background-color: #0A1E35;
-    border:2px solid #4FAFCB;
+    border: 2px solid #4FAFCB;
 }
 
 .dropdown-menu::after {
     all: unset;
 }
-.dropdown-menu, li {
+
+.dropdown-menu,
+li {
     border-bottom: 1px solid #0E3877;
 }
-.dropdown-item{
+
+.dropdown-item {
     border-bottom: 2px solid #4FAFCB;
 }
 
@@ -47,7 +50,7 @@
 
 .text-size span {
     color: #4FAFCB;
-        font-size: 10px;
+    font-size: 10px;
     font-style: normal;
     font-weight: 300;
     line-height: normal;
@@ -74,11 +77,12 @@
 
 .candidate-card::-webkit-scrollbar {
     width: 5px;
-    display: none; 
+    display: none;
 }
 
 .text-size {
     padding-left: 15px;
+    width: 100%;
 }
 
 .number-size {
@@ -86,7 +90,7 @@
     color: #4FAFCB;
     margin-left: 30px;
     font-size: 14px;
- 
+
     font-style: italic;
     font-weight: 100;
     line-height: normal;
@@ -103,4 +107,69 @@
 
 .scroller::-webkit-scrollbar {
     display: none;
+}
+.no-referrals-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100%;
+    width: 100%;
+}
+
+.no-referrals-container div {
+    text-align: center;
+}
+
+
+
+@media (max-width: 1251px) {
+    .card.candidate-card.scroller {
+        margin-left: 1rem;
+        /* 16px */
+        margin-right: 1rem;
+        /* 16px */
+    }
+
+    .referral-list {
+        border-bottom: 1px solid #132A4C;
+        justify-content: start;
+        cursor: pointer;
+    }
+
+    .paddingSmallerScreens {
+        padding-left: 15px;
+        padding-right: 15px;
+    }
+  
+    .number-size {
+        width:100%
+    }
+    .text-overflow {
+        white-space:pre-wrap;
+    }
+  
+}
+
+@media (max-width: 1251px) and (min-width:990px) {
+
+    .text-overflow {
+        white-space:pre-wrap;
+        // width: 104%;
+        margin-left: 17rem;
+    }
+}
+@media (max-width: 798px) {
+ 
+    .number-size {
+        font-size:12px;
+        width: 45%;
+    }
+    .text-overflow {
+        white-space:nowrap;
+        // margin-left: 1rem;
+       
+    }
+    .text-size h5{
+        font-size: 12px;
+    }
 }
