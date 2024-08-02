@@ -308,13 +308,20 @@
                         <input matInput #autoCompleteInput="matAutocompleteTrigger"
                           class="text-white material-input__group__input" [formControl]="myControl"
                           [matAutocomplete]="auto" placeholder="Select Company Name" name="companyName" [title]="companyNameError"
-                           [ngClass]="{'error': companyNameError !== ''}" />
+                           [ngClass]="{'error': companyNameError !== ''}"    (blur)="onBlur(myControl)"
+                            />
                         <mat-autocomplete #auto="matAutocomplete" [displayWith]="displayFn"
                           (optionSelected)="onOptionSelected($event)">
                           <mat-option class="custom-mat-option" *ngFor="let option of filteredOptions | async"
-                          (click)="option.id === 'add_new' ? addNewCompany($event,  option) : null"
+                          (click)="option.id === 'add_new' ? addNewCompany($event,  option) : null" 
+                          [ngClass]="{'add-new-company': option.id === 'add_new'}"
                           [value]="option">
-                            {{ option.name }}
+                          <span *ngIf="option.id === 'add_new'" class="add-new-company-icon">
+                            <svg xmlns="http://www.w3.org/2000/svg" colour=" #034c7f" width="16" height="16" fill="currentColor" class="bi bi-plus-circle-fill" viewBox="0 0 16 16">
+                              <path d="M16 8A8 8 0 1 1 0 8a8 8 0 0 1 16 0M8.5 4.5a.5.5 0 0 0-1 0v3h-3a.5.5 0 0 0 0 1h3v3a.5.5 0 0 0 1 0v-3h3a.5.5 0 0 0 0-1h-3z"/>
+                            </svg>
+                          </span>
+                            {{ option.name }} 
                           </mat-option>
                           <!-- <mat-option class="custom-mat-option"
                             >

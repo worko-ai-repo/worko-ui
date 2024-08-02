@@ -192,6 +192,7 @@ export class LoginPageComponent implements AfterViewInit, OnDestroy {
   userLoggedIn: boolean = false;
   emailAddress: any;
   showLoginScreen: boolean = false;
+  touched:boolean=false
   constructor(private cdr: ChangeDetectorRef, private modalService: NgbModal, private companyListingService: CompanyListingService, private storage: StorageService, private amplify: CognitoService, private router: Router, private authService: AuthService, private spinner: NgxSpinnerService, private navbarToggleSwitchService: NavbarToggleSwitchService) {
 
 
@@ -309,6 +310,7 @@ export class LoginPageComponent implements AfterViewInit, OnDestroy {
     //   })
 
     // );
+   
     this.filteredOptions = this.myControl.valueChanges.pipe(
       debounceTime(300),
       distinctUntilChanged(),
@@ -334,12 +336,27 @@ export class LoginPageComponent implements AfterViewInit, OnDestroy {
       })
     );
 
-
+    //user select input from dropdown and  then clears the input 
+    this.myControl.valueChanges.subscribe(value => {
+      if (value === '' && this.myControl.touched) {
+        this.selectedCompany = null;
+        this.companyNameError = 'Please select a Company name from the dropdown';
+         
+      }
+    });
 
 
     //console.log(fieldType2);
   }
 
+  
+  //ensure the user selects a company from the dropdown.
+  onBlur(control:any) {
+    if (!this.selectedCompany && control.touched) {
+      this.companyNameError = 'Please select a Company name from the dropdown';
+      //control.setValue("")
+    } 
+  }
 
 
   displayFn(option: any): string {
@@ -806,11 +823,10 @@ export class LoginPageComponent implements AfterViewInit, OnDestroy {
       //this.openModal(ModalType.ADD_COMPANY);
       this.selectedCompany = '';
       this.myControl.reset();
-    } else if(event.option.value.id!=="" && event.option.value.id!==null) {
+    } else {
       this.selectedCompany = event.option.value;
-    }else{
-      this.myControl.reset();
     }
+  
   }
 
   uploadCVonS3Bucket(docResult: any) {

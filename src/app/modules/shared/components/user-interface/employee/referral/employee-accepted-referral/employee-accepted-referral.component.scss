@@ -281,7 +281,7 @@ ngb-rating {
     .details-row {
         display: flex;
         flex-direction: column;
-        padding-left: 16px;
+        padding-left: 31px;
     }
 
     .ms-4,.ms-2 {
@@ -314,8 +314,8 @@ ngb-rating {
 
     .circle-chart-div {
         position: absolute;
-        right: 10px; 
-        bottom: 126px; 
+        right: -10px;
+        bottom: -74px; 
     }
 
     .referral-progree-bar {
@@ -340,6 +340,7 @@ ngb-rating {
         display:flex;
        margin-left: auto;
        margin-right: 21px;
+       height: 25px;
     }
 
     .p-image {

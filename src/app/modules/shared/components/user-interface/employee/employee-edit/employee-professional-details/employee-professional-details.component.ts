@@ -113,7 +113,9 @@ export class EmployeeProfessionalDetailsComponent implements OnInit {
   isDisabled: boolean = false;
   isEmailVerified: boolean = false;
   experienceFieldsCompleted: boolean = true;
+  touched: boolean = false;
   companyNameError: string = '';
+  isCompanyNameSelected: boolean = false;
   constructor(
     private router: Router,
     private cdr: ChangeDetectorRef,
@@ -230,10 +232,19 @@ this.disableAllFields();
     //     }
     //   })
     // );
+
+    if (this.employeeProfessionalData.companyName) {
+      this.isCompanyNameSelected = true;
+      this.selectedCompany = this.employeeProfessionalData.companyName;
+    }
+    
     this.filteredOptions = this.myControl.valueChanges.pipe(
       debounceTime(300),
       distinctUntilChanged(),
       switchMap((value: any) => {
+        if (value == "") {
+                this.resetFormFields();
+              }
         if (value && value.length >= 1) {
           return this.authService.getCompanyName(value).pipe(
             map((results: any[]) => {
@@ -259,7 +270,33 @@ this.disableAllFields();
     //  this.perviousjobs= this.workExperienceDetailsList?.filter((company: any) => !company.isCurrent);
     //   console.log(this.perviousjobs)
   
+   //user types something into the input, then clears the input without selecting a company
+   this.myControl.valueChanges.subscribe(value => {
+    console.log("erase")
+    if (value === '' && this.myControl.valueChanges) {
+   
+      this.selectedCompany = null;
+      this.companyNameError = 'Please select a Company name from the dropdown';
+      this.isCompanyNameSelected = false;
+    }
+  });
+
+
+  //console.log(fieldType2);
+}
+
+
+
+//ensure the user selects a company from the dropdown.
+onBlur(myControl:any) {
+  if (!this.selectedCompany && myControl.touched) {
+    this.companyNameError = 'Please select a Company name from the dropdown';
+    this.isCompanyNameSelected = false;
+  } else {
+    this.companyNameError = '';
   }
+}
+
 
   disableAllFields()
 {
@@ -299,6 +336,7 @@ this.disableAllFields();
    
 
     this.selectedCompany = event.option.value;
+    this.isCompanyNameSelected = true;
   }
   onSelectedPastJob(event: any): void {
     this.perviousselectedCompany = event.option.value;

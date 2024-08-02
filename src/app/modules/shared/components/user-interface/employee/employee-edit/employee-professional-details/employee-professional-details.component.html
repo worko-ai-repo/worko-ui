@@ -13,13 +13,20 @@
                     <input matInput #autoCompleteInput="matAutocompleteTrigger" *ngIf="!isDisabled"
                         class="form-control form-input" [formControl]="myControl" [matAutocomplete]="auto"
                         placeholder="Select Company Name" [(ngModel)]="employeeProfessionalData.companyName"
-                        [title]="companyNameError" 
+                        [title]="companyNameError"   (blur)="onBlur(myControl)"
                           [ngClass]="{'is-invalid': companyNameError !== ''}"  required>
                     <mat-autocomplete #auto="matAutocomplete" [displayWith]="displayFn"
                         (optionSelected)="onOptionSelected($event)">
                         <mat-option *ngFor="let option of filteredOptions | async" [value]="option"
-                            (click)="option.id === 'add_new' ? addNewCompany() : null">
+                            (click)="option.id === 'add_new' ? addNewCompany() : null"
+                            [ngClass]="{'add-new-company': option.id === 'add_new'}">
+                            <span *ngIf="option.id === 'add_new'" class="add-new-company-icon">
+                                <svg xmlns="http://www.w3.org/2000/svg" colour=" #034c7f" width="16" height="16" fill="currentColor" class="bi bi-plus-circle-fill" viewBox="0 0 16 16">
+                                  <path d="M16 8A8 8 0 1 1 0 8a8 8 0 0 1 16 0M8.5 4.5a.5.5 0 0 0-1 0v3h-3a.5.5 0 0 0 0 1h3v3a.5.5 0 0 0 1 0v-3h3a.5.5 0 0 0 0-1h-3z"/>
+                                </svg>
+                              </span>
                             {{ option.name }}
+                           
                         </mat-option>
                     </mat-autocomplete>
 
@@ -108,7 +115,7 @@
                     <label for="" class="form-lable  required-form-field">Working since</label>
                     <input type="text" class="form-control form-input" placeholder="In months" name="workingSince"
                         id="workingSince" #workingSince="ngModel" [(ngModel)]="employeeProfessionalData.workingSince"
-                        required pattern="[0-9]+"
+                        required pattern="^(?:[1-9]|[1-9][0-9]|[1-9][0-9]{2}|1000)$"
                         [title]="workingSince.errors?.['pattern'] ? 'Working Since is invalid' : ''"
                         [title]="workingSince.errors?.['required'] ? 'Working Since is required' : ''"
                         [disabled]="isDisabled"
@@ -262,7 +269,7 @@
                 <div class="col-md-12 d-flex justify-content-end">
                     <button class="btn btn-next me-2" (click)="onPreviousClick()">Previous</button>
                     <button class="btn btn-next" type="submit"
-                        [disabled]="!employeeProf.form.valid || !employeeProfessionalData.workingSince || !employeeProfessionalData.officialEmail   ||!employeeProfessionalData.companyName  ||!employeeProfessionalData.designation || !employeeProfessionalData.department">Complete</button>
+                        [disabled]="!employeeProf.form.valid || !employeeProfessionalData.workingSince || !employeeProfessionalData.officialEmail   ||!employeeProfessionalData.companyName  ||!employeeProfessionalData.designation || !employeeProfessionalData.department || !isCompanyNameSelected">Complete</button>
                     <!-- <button class="btn btn-next" (click)="updateProfessionalDetails()" type="button" *ngIf="workExperienceDetails?.isEmailVerified"
                    >Next</button> -->
                 </div>
