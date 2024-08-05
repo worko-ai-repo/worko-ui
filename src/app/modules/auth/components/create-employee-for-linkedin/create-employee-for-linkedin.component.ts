@@ -67,6 +67,7 @@ export class CreateEmployeeForLinkedinComponent {
   form1: any;
   successmessage: string="";
   successtitle: string="";
+  companyNameError: string = '';
 
   constructor(private storage: StorageService, private cognitoService: CognitoService, private authService: AuthService, private spinner: NgxSpinnerService, private router: Router) { }
 
@@ -116,9 +117,28 @@ export class CreateEmployeeForLinkedinComponent {
       })
 
     );
+
+      //user select input from dropdown and  then clears the input 
+      this.myControl.valueChanges.subscribe(value => {
+        if (value === '' && this.myControl.touched) {
+          this.selectedCompany = null;
+          this.companyNameError = 'Please select a Company name from the dropdown';
+           
+        }
+      });
+
+      
     this.getCandidateData()
 
   }
+
+    //ensure the user selects a company from the dropdown.
+    onBlur(control:any) {
+      if (!this.selectedCompany && control.touched) {
+        this.companyNameError = 'Please select a Company name from the dropdown';
+        //control.setValue("")
+      } 
+    }
 
   async getCandidateData() {
     const {

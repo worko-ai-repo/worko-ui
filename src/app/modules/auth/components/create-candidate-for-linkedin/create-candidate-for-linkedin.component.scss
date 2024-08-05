@@ -322,6 +322,39 @@ option{
   border-radius: -3.5px;
   background: linear-gradient(90deg, #2F92C7 0%, rgba(47, 146, 199, 0) 205.38%);
 }
+
+.btn-signUp[disabled] {
+  position: relative;
+  cursor: not-allowed;
+  pointer-events: visible;
+}
+
+.btn-signUp[disabled]::after {
+  content: attr(data-tooltip);
+  position: absolute;
+  visibility: hidden;
+  width: 230px;
+  background-color: #0A1E36;
+  color: white;
+  border: 1px solid #0076B2;
+  border-radius: 6px;
+  padding: 5px;
+  font-size: 10px;
+  bottom: 125%;
+  left: 50%;
+  transform: translateX(-50%);
+  opacity: 0;
+  transition: opacity 0.3s;
+  z-index: 1;
+  text-align: center;
+  pointer-events: none; 
+}
+
+.btn-signUp[disabled]:hover::after {
+  visibility: visible;
+  opacity: 1;
+}
+
 .reset-button{
   width: auto !important;
 }

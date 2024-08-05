@@ -249,7 +249,8 @@
                         ) ||
                         !candidateForm.phoneNumber ||
                         !candidateForm.acceptedTermsAndConditions 
-                      ">
+                      "
+                      data-tooltip="Please make sure you have added the valid data in the above fields.">
                       SIGN UP
                     </button>
                   </div>
@@ -467,7 +468,10 @@
 
                     <div class="col-md-12 mt-4 ms-2 d-flex justify-content-center">
                         <button class="btn btn-signUp" type="submit"
-                          [disabled]="!employee.form.valid || !employeeForm.name || !employeeForm.emailId || !employeeForm.phoneNumber ||!employeeForm.companyEmailID ||!employeeForm.department || !employeeForm.confirmPassword ||!(employeeForm.password === employeeForm.confirmPassword) ||!employeeForm.acceptedTermsAndConditions ||!selectedCompany?.name ||!selectedCompany?.SK">
+                        
+                          [disabled]="!employee.form.valid || !employeeForm.name || !employeeForm.emailId || !employeeForm.phoneNumber ||!employeeForm.companyEmailID ||!employeeForm.department || !employeeForm.confirmPassword ||!(employeeForm.password === employeeForm.confirmPassword) ||!employeeForm.acceptedTermsAndConditions ||!selectedCompany?.name ||!selectedCompany?.SK ? 'Please fill out all required fields' : ''"
+                          data-tooltip="Please make sure you have added the valid data in the above fields."
+                          >
                           SIGN UP
                         </button>
                     </div>
