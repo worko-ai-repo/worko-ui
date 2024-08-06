@@ -37,16 +37,16 @@ export class AdminService {
   }
 
   getAllReferral() {
-    return this.http.get(`${API_URL}admin/ref/details`, this.authService.getHttpOptions()).toPromise();
+    return this.http.get(`${API_URL}admin/referral`, this.authService.getHttpOptions()).toPromise();
   }
 
-  getAllCandidate(){
-    return this.http.get(`${API_URL}admin/user/CAND`, this.authService.getHttpOptions()).toPromise();
+  getAllUserData(userType:any){
+    return this.http.get(`${API_URL}admin/user/?userType=${userType}`, this.authService.getHttpOptions()).toPromise();
   }
 
-  getAllEmployee(){
-    return this.http.get(`${API_URL}admin/user/EMP`, this.authService.getHttpOptions()).toPromise();
-  }
+  // getAllEmployee(){
+  //   return this.http.get(`${API_URL}admin/user/EMP`, this.authService.getHttpOptions()).toPromise();
+  // }
 
 
 

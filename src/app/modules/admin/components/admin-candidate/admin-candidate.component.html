@@ -1,4 +1,4 @@
-<div class="admin-table-main ms-3">
+<div class="admin-table-main ms-3 mx-2">
 
 <ul class="nav nav-tabs" id="myTab" role="tablist">
 
@@ -260,6 +260,15 @@
                 </td>
               </ng-container>
 
+              <ng-container matColumnDef="action">
+                <th mat-header-cell *matHeaderCellDef mat-sort-header>
+                  Action
+                </th>
+                <td mat-cell *matCellDef="let row">
+                  <button type="button" class="btn btn-next" (click)="viewRow(row)">View More</button>
+                </td>
+              </ng-container>
+
               <!-- Add more ng-container for additional fields -->
             </tbody>
 
@@ -507,6 +516,14 @@
                   {{ row.ServiceStartDate | date : "dd/MM/yyyy" }}
                 </td>
               </ng-container>
+              <ng-container matColumnDef="action">
+                <th mat-header-cell *matHeaderCellDef mat-sort-header>
+                  Action
+                </th>
+                <td mat-cell *matCellDef="let row">
+                  <button type="button" class="btn btn-next" (click)="viewRow(row)">View More</button>
+                </td>
+              </ng-container>
 
               <!-- Add more ng-container for additional fields -->
             </tbody>
@@ -530,3 +547,29 @@
   </div>
 </div>
 </div>
+
+
+<app-modal [theme]="'theme-k'" [centered]="true" [showHeader]="showModal === modalType.MESSAGE" [showClose]="true"
+    [showFooter]="showModal === modalType.MESSAGE" [modalSize]="'lg'" [title]="modalTitle" [message]="modalMessage"
+    [bodyClass]="modalMessage ? 'p-4' : 'p-0'">
+
+    <ng-container *ngIf="showModal === modalType.ADMINDETAIL_POPUP">
+      <div class="message-card"   *ngIf="rowData">
+        <p><strong>TITLE</strong> <strong>DETAILS</strong></p>
+        <p><strong>name</strong>:{{ rowData.Name }}</p>
+        <p><strong>CandidateID </strong>: {{ rowData.CandidateID }}</p>
+        <p><strong>EmployeeID</strong> :{{ rowData.EmployeeID }}</p>
+        <p><strong>Date</strong> : {{ rowData.Date | date : "dd/mm/yyyy" }}</p>
+        <p><strong>packagestatus</strong> :{{ rowData.packagestatus }}</p>
+        <p><strong>Paymentstatus</strong>: {{ rowData.Paymentstatus }}</p>
+        <p><strong>ServiceRequestDate</strong>: {{ rowData.ServiceRequestDate  | date : "dd/mm/yyyy" }}</p>
+        <p><strong>ServiceStartDate</strong> :{{ rowData.ServiceStartDate  | date : "dd/mm/yyyy" }}</p>
+        <p><strong>RequestStatus</strong>: {{ rowData.RequestStatus }}</p>
+        <p><strong>PackageBalance</strong> :{{ rowData.PackageBalance }}</p>
+        <p><strong>Rating</strong>: {{ rowData.Rating }}</p>
+        <p><strong>AccountType</strong> :{{ rowData.AccountType }}</p>
+       
+    </div>
+    </ng-container>
+
+</app-modal>

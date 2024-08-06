@@ -31,5 +31,6 @@ export enum ModalCloseResult {
     ADD_COMPANY=22,
     VERIFY_EMAIL = 23,
     PAYMENT_CONFIRMATION = 24,
+    ADMINDETAIL_POPUP=25
   }
   

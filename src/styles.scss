@@ -1553,7 +1553,7 @@ footer {
 
 // admin dashboard //
 .admin-table-main {
-    width: 98;
+    
 
     table {
         width: 100%;
@@ -1643,8 +1643,12 @@ footer {
         fill: #295CA8;
     }
 
+    // .mat-mdc-icon-button svg {
+    //     fill: #295CA8;
+    // }
     .mat-mdc-icon-button svg {
-        fill: #295CA8;
+        fill: #fff;
+        margin-bottom: 97%;
     }
 
     .mat-mdc-table {

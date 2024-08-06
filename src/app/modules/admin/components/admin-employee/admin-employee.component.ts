@@ -4,6 +4,8 @@ import { MatPaginator, MatPaginatorIntl } from '@angular/material/paginator';
 import { MatSort } from '@angular/material/sort';
 import { MatTableDataSource, MatTableDataSourcePaginator } from '@angular/material/table';
 import { ViewEncapsulation } from '@angular/core';
+import { Action } from 'rxjs/internal/scheduler/Action';
+import { AdminService } from '../../services/admin.service';
 
 export interface UserData {
   name: string;
@@ -34,13 +36,13 @@ export class AdminEmployeeComponent {
   @ViewChild('serviceSort') serviceSort!: MatSort;
 
   displayedColumns: string[] = ['name', 'emailId', 'Phonenumber', 'companyName', 'companyEmailId', 'referreeDesignation', 'referreeDepartment',
-    'referralCount', 'acceptedRequestCount', 'doneRequestCount'];
+    'referralCount', 'acceptedRequestCount', 'doneRequestCount','action'];
   candidatesDataSource: MatTableDataSource<UserData>;
   servicesDataSource: MatTableDataSource<UserData>;
   isFilterPopupOpen: boolean = true;
   isDropdownOpen: boolean = false;
-  nameslist: UserData[] = [];
-  constructor(private elementRef: ElementRef) {
+  nameslist: any[] = [];
+  constructor(private elementRef: ElementRef,private adminService: AdminService) {
     this.candidatesDataSource = new MatTableDataSource<UserData>(this.nameslist);
     this.servicesDataSource = new MatTableDataSource<UserData>(this.nameslist);
   }
@@ -60,6 +62,25 @@ export class AdminEmployeeComponent {
     fromDate: '',
     toDate: ''
   };
+
+  async ngOnInit(): Promise<void> {
+    this.getAllUserData();
+  }
+  async getAllUserData(){
+   await this.adminService.getAllUserData('EMP').then(async (response: any) => {
+    if(response){
+      this.nameslist = response;
+      //console.log("Issue list:", this.issueList);
+      this.updateData(this.nameslist);
+    }
+  })
+  }
+  updateData(newData: UserData[]){
+    this.candidatesDataSource.data = newData;
+    if (this.referralPaginator) {
+      this.referralPaginator.firstPage();
+    }
+  }
   applyFilters() {
     // Gather selected filter options
     const selectedFilters = {
@@ -158,6 +179,10 @@ export class AdminEmployeeComponent {
       this.isDropdownOpen = false;
       this.removeOutsideClickListener();
     }
+  }
+
+  viewRow(row: any) {
+    console.log('View button clicked for row:', row);
   }
 
 

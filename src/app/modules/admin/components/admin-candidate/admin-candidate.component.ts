@@ -3,6 +3,8 @@ import { MatPaginator, MatPaginatorIntl } from '@angular/material/paginator';
 import { MatSort } from '@angular/material/sort';
 import { MatTableDataSource, MatTableDataSourcePaginator } from '@angular/material/table';
 import { ViewEncapsulation } from '@angular/core';
+import { ModalComponent } from 'src/app/modules/shared/components/modal/modal.component';
+import { ModalType } from 'src/app/modules/shared/interfaces/shared.interface';
 
 export interface UserData {
   Name: string;
@@ -36,12 +38,18 @@ export class AdminCandidateComponent {
   // ViewChild declarations for paginator and sort for service table
   @ViewChild('servicePaginator') servicePaginator!: MatPaginator;
   @ViewChild('serviceSort') serviceSort!: MatSort;
+  @ViewChild(ModalComponent) modal!: ModalComponent;
+  modalType = ModalType;
+  modalMessage: string = "";
+  modalTitle: string = "";
+  showModal: ModalType | undefined;
 
-  displayedColumns: string[] = ['candidateId', 'employeeId', 'name', 'date', 'packageStatus', 'paymentStatus','requestStatus','packageBalance','rating','accountType','serviceRequestDate','serviceStartDate'];
+  displayedColumns: string[] = ['candidateId', 'employeeId', 'name', 'date', 'packageStatus', 'paymentStatus','requestStatus','packageBalance','rating','accountType','serviceRequestDate','serviceStartDate','action'];
   candidatesDataSource: MatTableDataSource<UserData>;
   servicesDataSource: MatTableDataSource<UserData>;
   isFilterPopupOpen: boolean = true;
   isDropdownOpen: boolean = false;
+  rowData: any;
   constructor(private elementRef: ElementRef) {
     this.candidatesDataSource = new MatTableDataSource<UserData>(this.nameslist);
     this.servicesDataSource = new MatTableDataSource<UserData>(this.nameslist);
@@ -214,8 +222,32 @@ export class AdminCandidateComponent {
     },
   ];
 
-
-
+  viewRow(row: any) {
+    this.openModal(ModalType.ADMINDETAIL_POPUP,"","",row);
+  }
+  /**
+  * Open modal.
+  *
+  * @param {ModalType} modalType
+  * @param {string} [message = ""]
+  * @param {string} [title = ""]
+  * @returns {void}
+  */
+  openModal(modalType: ModalType, message: string = "", title: string = "",rowData: any = null): void {
+    this.showModal = modalType;
+    this.modalMessage = message;
+    this.modalTitle = title;
+    this.rowData = rowData;
+    this.modal.open();
+  }
+  /**
+   * Close modal.
+   *
+   * @returns {void}
+   */
+  closeModal(): void {
+    this.modal.cancel();
+  }
 
 }
 
