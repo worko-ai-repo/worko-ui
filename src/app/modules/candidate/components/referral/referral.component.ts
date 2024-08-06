@@ -101,6 +101,10 @@ export class ReferralComponent implements OnInit {
         this.spinner.hide();
         this.referralList = response;
         this.referralList.sort((a: any, b: any) => a.updatedAt < b.updatedAt ? 1 : -1);
+        if(this.screenWidth <= 1251) {
+          this.isAwaitingVisible = true;
+          this.isMainContentVisible = false;
+        }
        
         // this.getRefereeDetials(response.accc);
       }

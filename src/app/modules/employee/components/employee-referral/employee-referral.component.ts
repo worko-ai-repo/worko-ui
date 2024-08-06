@@ -229,7 +229,10 @@ export class EmployeeReferralComponent implements OnDestroy {
         }
         this.empReferralList = response;
         this.empReferralList.sort((a: any, b: any) => a.updatedAt < b.updatedAt ? 1 : -1);
-  
+        if(this.screenWidth <= 1251) {
+          this.isAwaitingVisible = true;
+          this.isMainContentVisible = false;
+        }
       }
     }).catch((error: any) => {
       if (error.status==404) { 
