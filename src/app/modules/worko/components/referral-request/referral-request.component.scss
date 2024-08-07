@@ -306,3 +306,10 @@ line-height: normal;
   .tooltip-text span {
     display: block;
   }
+
+  @media (max-width: 990px) {
+
+    .input-jobDescription{
+        height: 4rem;
+    }
+}
