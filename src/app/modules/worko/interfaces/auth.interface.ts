@@ -3,9 +3,9 @@ export interface candidateInfo {
     name: string,
     email: string,
     number: string,
-    linkedinUrl: string,
-    ECTC: number,
-    YOE: number,
+    // linkedinUrl: string,
+    // ECTC: number,
+    // YOE: number,
 }
 
 export interface employeeInfo {

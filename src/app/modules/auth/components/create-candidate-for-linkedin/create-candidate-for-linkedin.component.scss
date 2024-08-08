@@ -335,8 +335,9 @@ option{
   visibility: hidden;
   width: 230px;
   background-color: #0A1E36;
-  color: white;
-  border: 1px solid #0076B2;
+  color: red;
+  border: 1px solid red;
+  font-weight: 900;
   border-radius: 6px;
   padding: 5px;
   font-size: 10px;
@@ -475,9 +476,15 @@ img.worko-logo-signup {
   font-size: 11px;
   left: 4rem
 }
+.text-danger{
+  position: absolute;
+}
 @media screen and (max-width:767px){
   .login-div,.para-div{
     display: none;
+  }
+  .text-danger{
+    position: static;
   }
 }
 

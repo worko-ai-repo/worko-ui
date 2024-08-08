@@ -65,8 +65,8 @@ export class CreateEmployeeForLinkedinComponent {
   form: any;
   companyData: any = [];
   form1: any;
-  successmessage: string="";
-  successtitle: string="";
+  successmessage: string = "";
+  successtitle: string = "";
   companyNameError: string = '';
 
   constructor(private storage: StorageService, private cognitoService: CognitoService, private authService: AuthService, private spinner: NgxSpinnerService, private router: Router) { }
@@ -96,6 +96,28 @@ export class CreateEmployeeForLinkedinComponent {
   }
   ngOnInit() {
     this.blinkAndChangeWord()
+    // this.filteredOptions = this.myControl.valueChanges.pipe(
+    //   debounceTime(300),
+    //   distinctUntilChanged(),
+    //   switchMap((value: any) => {
+
+
+    //     if (value && value.length >= 1) {
+    //       return this.authService.getCompanyName(value).pipe(
+    //         map((results: any[]) => [
+    //           ...results,
+    //           { id: 'add_new', name: "Add new company" } // Static option
+    //         ])
+    //       );
+
+    //     } else {
+    //       // If value.length is less than 1, return an empty array or null
+    //       return [];
+    //     }
+    //   })
+
+    // );
+
     this.filteredOptions = this.myControl.valueChanges.pipe(
       debounceTime(300),
       distinctUntilChanged(),
@@ -104,41 +126,46 @@ export class CreateEmployeeForLinkedinComponent {
 
         if (value && value.length >= 1) {
           return this.authService.getCompanyName(value).pipe(
-            map((results: any[]) => [
-              ...results,
-              { id: 'add_new', name: "Add new company" } // Static option
-            ])
+            map((results: any[]) => {
+              if (results.length === 0) {
+                this.companyNameError = 'Company name not found. Please  add company name by selecting "Add new company" in the dropdown.';
+              } else {
+                this.companyNameError = '';
+              }
+              return [
+                ...results,
+                { id: 'add_new', name: "Add new company" } // Static option
+              ];
+            })
           );
-
         } else {
-          // If value.length is less than 1, return an empty array or null
+          this.companyNameError = '';
           return [];
         }
       })
-
     );
 
-      //user select input from dropdown and  then clears the input 
-      this.myControl.valueChanges.subscribe(value => {
-        if (value === '' && this.myControl.touched) {
-          this.selectedCompany = null;
-          this.companyNameError = 'Please select a Company name from the dropdown';
-           
-        }
-      });
+    //user select input from dropdown and  then clears the input 
+    this.myControl.valueChanges.subscribe(value => {
+      if (value === '' && this.myControl.touched) {
+        this.selectedCompany = null;
+        this.companyNameError = 'Please select a Company name from the dropdown';
 
-      
+      }
+    });
+
+
     this.getCandidateData()
 
   }
 
-    //ensure the user selects a company from the dropdown.
-    onBlur(control:any) {
-      if (!this.selectedCompany && control.touched) {
-        this.companyNameError = 'Please select a Company name from the dropdown';
-        //control.setValue("")
-      } 
+  //ensure the user selects a company from the dropdown.
+  onBlur(control: any) {
+    if (!this.selectedCompany && control.touched) {
+      this.companyNameError = 'Please select a Company name from the dropdown';
+      //control.setValue("")
     }
+  }
 
   async getCandidateData() {
     const {
@@ -146,11 +173,11 @@ export class CreateEmployeeForLinkedinComponent {
 
       userSub
     } = await fetchAuthSession();
-  
+
     this.userEmail = tokens?.idToken?.payload['email']?.toString()
     this.userName = tokens?.idToken?.payload['name']?.toString()
     this.pictureUrl = tokens?.idToken?.payload['picture']
-    
+
 
     const {
       username,
@@ -178,36 +205,36 @@ export class CreateEmployeeForLinkedinComponent {
     this.spinner.show();
 
 
-      let employeeData = {
-        name: this.userName,
-        email: this.userEmail,
-        number: "+91" + this.employeeForm.phoneNumber,
-        // linkedinUrl: this.employeeForm.linkdinProfile,
-        YOE: Number(this.employeeForm.experience),
-        // designation: this.employeeForm.designation,
-        department: this.employeeForm.department,
-        companyEmailId: this.employeeForm.companyEmailID,
-        companyName: this.selectedCompany.name,
-        companySK: this.selectedCompany.SK,
-        userId: this.userId,
-        acceptedTermsAndConditions: this.employeeForm.acceptedTermsAndConditions // Include the acceptedTermsAndConditions field
+    let employeeData = {
+      name: this.userName,
+      email: this.userEmail,
+      number: "+91" + this.employeeForm.phoneNumber,
+      // linkedinUrl: this.employeeForm.linkdinProfile,
+      YOE: Number(this.employeeForm.experience),
+      // designation: this.employeeForm.designation,
+      department: this.employeeForm.department,
+      companyEmailId: this.employeeForm.companyEmailID,
+      companyName: this.selectedCompany.name,
+      companySK: this.selectedCompany.SK,
+      userId: this.userId,
+      acceptedTermsAndConditions: this.employeeForm.acceptedTermsAndConditions // Include the acceptedTermsAndConditions field
 
 
-        // designationTag: Number(this.employeeForm.designationTag)
-      }
+      // designationTag: Number(this.employeeForm.designationTag)
+    }
 
-      try{
-      let response=await this.authService.createEmployee(employeeData)
-      if(response){
+    try {
+      let response = await this.authService.createEmployee(employeeData)
+      if (response) {
         this.otpVerification(this.userEmail);
       }
-    
-        // this.storage.set("useremail", this.userEmail);
-        // console.log(this.userEmail);
-        // this.router.navigate(['/employee/Dashboard']);
+
+      // this.storage.set("useremail", this.userEmail);
+      // console.log(this.userEmail);
+      // this.router.navigate(['/employee/Dashboard']);
 
 
-    }catch (error: any) {
+    } catch (error: any) {
       if (error.status == 409) {
         this.spinner.hide()
         this.successmessage = "It looks like you already have an account with us.  Please Sign In with Linkedin to continue."
@@ -217,16 +244,16 @@ export class CreateEmployeeForLinkedinComponent {
         this.spinner.hide()
         this.cognitoService.handleSignOut()
       } else {
-         this.spinner.hide()
+        this.spinner.hide()
         this.successmessage = "Something went wrong. Please try again after sometime"
         this.successtitle = "Error"
         this.openModal(ModalType.SUCCESS_MESSAGE)
-    }
-     
-    }
+      }
 
     }
-  
+
+  }
+
 
   //To make isVerified Flag as true
   otpVerification(emailId: string): void {
@@ -245,11 +272,11 @@ export class CreateEmployeeForLinkedinComponent {
           //this.letter = this.userName.charAt(0).toUpperCase();
 
           // Redirect to the company listing page
-         
+
 
           this.router.navigate(['/companies']);
-        }else{
-        this.router.navigate(['/employee/Dashboard']);
+        } else {
+          this.router.navigate(['/employee/Dashboard']);
 
         }
       })

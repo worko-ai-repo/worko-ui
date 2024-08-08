@@ -40,11 +40,11 @@
                 <div class="col-md-12 text-white p-0 mt-4" style="font-size: 18px">
                   <p>Create your account as</p>
                 </div>
-                <div class="col-md-6 option p-0" style="justify-content: space-between">
+                <div class="col-md-6 option p-0" style="justify-content: space-evenly">
                   <a href="javascript:void(0);" [class.selected]="selectedUserType === 'candidate'"
-                    class="text-white fs-12" (click)="selectUserType('candidate')">Candidate</a>
+                    class="text-white fs-12" (click)="selectUserType('candidate')">Candidate/Job&nbsp;Seeker</a>
                   <a href="javascript:void(0);" [class.selected]="selectedUserType === 'employee'"
-                    (click)="selectUserType('employee')" class="fs-12 text-white ms-2">Employee</a>
+                    (click)="selectUserType('employee')" class="fs-12 text-white ms-2">Employee/Referee</a>
                 </div>
               </div>
 
@@ -121,7 +121,7 @@
                     </div>
                   </div>
 
-                  <div class="col-md-6">
+                  <!-- <div class="col-md-6">
                     <div class="material-input__group">
                       <i class="fa-brands fa-linkedin" style="color: #f6f7f9"></i>
                       <input type="text" placeholder="LinkdIn Profile" class="text-white material-input__group__input"
@@ -167,7 +167,7 @@
                         id="expectedCtc"
                       />
                     </div>
-                  </div>
+                  </div> -->
                   <div class="col-md-6">
                     <div class="material-input__group">
                       <i class="fa-solid fa-phone" style="color: #ffffff; font-size: 12px;"></i>
@@ -238,10 +238,7 @@
                         !candidate.form.valid ||
                         !candidateForm.name ||
                         !candidateForm.emailId ||
-                        !candidateForm.expectedCtc ||
                         !candidateForm.password ||
-                        !candidateForm.linkdinProfile ||
-                        !candidateForm.experience ||
                         !candidateForm.confirmPassword ||
                         !(
                           candidateForm.password ===

@@ -457,11 +457,12 @@ option{
   visibility: hidden;
   width: 230px;
   background-color: #0A1E36;
-  color: white;
-  border: 1px solid #0076B2;
+  color: red;
+  border: 1px solid red;
   border-radius: 6px;
   padding: 5px;
   font-size: 10px;
+  font-weight: 900;
   bottom: 125%;
   left: 50%;
   transform: translateX(-50%);
@@ -475,6 +476,9 @@ option{
 .btn-signUp[disabled]:hover::after {
   visibility: visible;
   opacity: 1;
+}
+.text-danger{
+  position: absolute;
 }
 
 
@@ -497,6 +501,9 @@ img.worko-logo-signup {
 @media screen and (max-width:767px){
   .login-div,.para-div{
     display: none;
+  }
+  .text-danger{
+    position: static;
   }
 }
 
