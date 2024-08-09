@@ -1,12 +1,13 @@
 <div class="card candidate-card">
   <div class="card-body">
 
-    <div class="row" style="height: 100%;">
+    <div class="row" style="height: 80%;">
       <!-- <div class="col-md-3">
                 <button class="issue-btn text-center ps-4">
                   Raise Issue
                   <svg
                     xmlns="http://www.w3.org/2000/svg"
+
                     width="22"
                     height="28"
                     viewBox="0 0 28 28"
@@ -97,8 +98,7 @@
         <app-new-request-btn></app-new-request-btn>
       </div>
 
-      <div *ngIf="selectedReferral" class="col-md-12"
-        style="display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 10px;">
+      <div *ngIf="selectedReferral" class="col-md-12 content-div">
 
         <div class="col-md-12" style="color: white; display: flex; flex-direction: row; justify-content: start;">
           <div style="width: fit-content; text-align: left;">
@@ -110,13 +110,14 @@
         </div>
 
         <div class="col-md-12">
-          <div class="col-md-12 d-flex justify-content-center">
-            <h5 class="content-req-rejected pt-2">Sorry, Your Request is Rejected!</h5>
+          <div class="col-md-12 d-flex justify-content-center" >
+            <h5 class="content-req-rejected pt-1">Sorry, Your Request is Rejected!</h5>
           </div>
           <div class="col-md-12 d-flex justify-content-center">
             <h6 class="content-experience text-center">
-              Because your experience is not sufficient <br> to Job applied! <a
-                style="cursor: pointer; text-decoration: underline;" (click)="showMore()">Show more</a>
+              We regret to inform you that your recent referral request was not accepted.<br>Please don't be discouraged; this can happen for various reasons.<br>We encourage you to try again with another request or<br> explore other referral opportunities on our platform.<br>
+              <!--Because your experience is not sufficient <br> to Job applied!  <a
+                style="cursor: pointer; text-decoration: underline;" (click)="showMore()">Show more</a> -->
             </h6>
           </div>
         </div>

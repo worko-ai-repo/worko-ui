@@ -139,11 +139,13 @@ li {
     .paddingSmallerScreens {
         padding-left: 15px;
         padding-right: 15px;
+        width: 100%;
     }
   
     .number-size {
         width:100%
     }
+   
     .text-overflow {
         white-space:pre-wrap;
     }
@@ -162,7 +164,7 @@ li {
  
     .number-size {
         font-size:12px;
-        width: 45%;
+        width:48%;
     }
     .text-overflow {
         white-space:nowrap;
@@ -171,5 +173,15 @@ li {
     }
     .text-size h5{
         font-size: 12px;
+    }
+    
+    .text-size {
+        padding-left: 11px;
+    }
+}
+@media (max-width: 490px) {
+ 
+    .number-size {
+      width:21%;
     }
 }
