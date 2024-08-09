@@ -99,14 +99,19 @@ export class ReferralStepperComponent {
       element.date = this.selectedReferral?.acceptedAtByUser;
     }
     if (element?.name?.toUpperCase() === 'CANCELLED') {
-      element.date = this.selectedReferral?.cancelledDate;
+      element.date = this.selectedReferral?.updatedAt;
     }
     if (element?.name?.toUpperCase() === 'REJECTED') {
-      this.selectedReferral?.rejectedByUserIds?.forEach((elemt: any) => {
-        if (this.userId === elemt.userId) {
-          element.date = elemt.actionDate;
-        }
-      });
+      if(this.selectedReferral?.rejectedByUserIds) {
+        this.selectedReferral?.rejectedByUserIds?.forEach((elemt: any) => {
+          if (this.userId === elemt.userId) {
+            element.date = elemt.actionDate;
+          }
+        });
+      }
+      else {
+        element.date = this.selectedReferral?.updatedAt;
+      }
     }
     if (element?.name?.toUpperCase() === 'REFERRED') {
       element.date = this.selectedReferral?.doneByEmployee ?? this.selectedReferral?.doneByCandidate;

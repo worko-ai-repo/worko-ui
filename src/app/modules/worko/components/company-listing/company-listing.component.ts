@@ -840,11 +840,12 @@ export class CompanyListingComponent implements OnInit, AfterViewInit, OnDestroy
     this.cdr.detectChanges(); // This resolves an issue where the ViewChild reference was sometimes undefined
     this.modalMessage = message;
     this.modalTitle = title;
-    if (ModalType.REQUEST_REFERRAL) {
+    if (this.showModal === ModalType.REQUEST_REFERRAL) {
       if (this.referrralComponent) {
         this.referrralComponent.showReferrelRow = true;
         this.referrralComponent.requestForm.reset();
         this.referrralComponent.showScore = false;
+        this.referrralComponent.showErrorMsg = false;
       }
     }
     if (ModalType.REQUEST_GUIDANCE) {

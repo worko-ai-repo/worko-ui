@@ -1,4 +1,4 @@
-import { Component, ElementRef, OnInit, ViewChild, Input, OnChanges, SimpleChanges } from '@angular/core';
+import { Component, ElementRef, OnInit, ViewChild, Input, OnChanges, SimpleChanges, Output, EventEmitter } from '@angular/core';
 import { CompanyListingService } from '../../services/company-listing.service';
 import { SubscriptionPackService } from '../../services/subscription-pack.service';
 import { StorageService } from 'src/app/modules/app-core/services/storage.service';
@@ -14,6 +14,7 @@ export class ReferralRequestComponent implements OnInit, OnChanges {
   @ViewChild('largeModal') largeModal!: ElementRef;
 
   @Input() selectedCompany: any;
+  @Output() onOkBtn: EventEmitter<any> = new EventEmitter<any>();
 
   showSubscription: boolean = false;
   showReferrelRow: boolean = true;
@@ -41,6 +42,8 @@ export class ReferralRequestComponent implements OnInit, OnChanges {
   matchingScore: number = 0;
   referralRequestId: string = "";
   emailId: string = "";
+  errorMsg: string | undefined;
+  showErrorMsg: boolean | undefined;
   constructor(private companyListing: CompanyListingService,private modalService: NgbModal,private router: Router, private subscriptionPack: SubscriptionPackService, private storage: StorageService, private formBuilder: FormBuilder,) { }
   ngOnInit(): void {
     // this.getSubcriptionPack();
@@ -146,18 +149,9 @@ export class ReferralRequestComponent implements OnInit, OnChanges {
           // this.getScore(this.referralRequestId);
         }
       }
-    })
-      .catch(error => {
-        if (error.status==404) { 
-       
-          this.router.navigate(['/auth/logout']);
-        }else if (error.status==401){
-       
-         this.router.navigate(['/']);
-        }else{
-        //console.error('Create Employee Error:', error);
-        }
-      });
+    }).catch(error => {
+      this.handleError(error);
+    });
   }
 
   getScore(referralRequestId: string) {
@@ -178,6 +172,31 @@ export class ReferralRequestComponent implements OnInit, OnChanges {
         }
        // console.error('Create Employee Error:', error);
       });
+  }
+
+  handleError(error: any) {
+    switch (error.status) {
+      case 400:
+        this.showErrorMsg = true;
+        this.showReferrelRow = false;
+        this.showScore=false;
+        this.errorMsg = "You have already requested a referral for this job. Check your dashboard for reference.";
+        break;
+      case 404:
+        this.router.navigate(['/auth/logout']);
+        break;
+      case 401:
+        this.router.navigate(['/']);
+        break;
+      default:
+        console.error('Unexpected Error:', error);
+        break;
+    }
+  }
+
+  okBtn() {
+    // this.showErrorMsg = false;
+    this.onOkBtn.emit();
   }
 
   // getSubcriptionPack(){

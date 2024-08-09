@@ -1,4 +1,4 @@
-<div class="row" *ngIf="!showsubscriptionPlan &&!showScore">
+<div class="row" *ngIf="!showsubscriptionPlan && !showErrorMsg && !showScore">
   <div class="body main-div">
     <div class="row" *ngIf="showReferrelRow">
       <div class="col-sm-6">
@@ -85,7 +85,7 @@
     </div> -->
   </div>
 </div>
-<div class="row d-flex align-self-center justify-content-center" *ngIf="!showsubscriptionPlan &&!showReferrelRow">
+<div class="row d-flex align-self-center justify-content-center" *ngIf="!showsubscriptionPlan && !showErrorMsg && !showReferrelRow">
   <div class="body main-div1">
     <div class="progress-bar" *ngIf="showScore">
       <app-referral-progress-bar [referralId]="referralRequestId"></app-referral-progress-bar>
@@ -104,6 +104,17 @@
     </div>
     <div class="text-center">
       <button class="btn req-btn" (click)="upgradeNow()">UPGRADE NOW</button>
+    </div>
+  </div>
+</div>
+
+<div class="row message-card px-sm-1 p-5" *ngIf="showErrorMsg &&!showScore  &&!showReferrelRow">
+  <div class="col-md-8 offset-md-2">
+    <div class="text-center mb-4">
+      <p>{{ errorMsg }}</p>
+    </div>
+    <div class="text-center">
+      <button style="height: 35px; width: 108px;" class="btn req-btn" (click)="okBtn()">OK</button>
     </div>
   </div>
 </div>
