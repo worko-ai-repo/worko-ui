@@ -110,20 +110,22 @@
         </div>
 
         <div class="col-md-12">
-          <div class="col-md-12 d-flex justify-content-center" >
+          <div class="col-md-12 d-flex justify-content-center">
             <h5 class="content-req-rejected pt-1">Sorry, Your Request is Rejected!</h5>
           </div>
           <div class="col-md-12 d-flex justify-content-center">
-            <!-- This h6 will display when there are rejection reasons -->
-            <h6 class="content-experience text-center" *ngIf="selectedReferral?.rejectedByUserIds?.length > 0">
-              Because your experience is not sufficient <br> to the job applied! 
-              <a style="cursor: pointer; text-decoration: underline;" (click)="showMore()">Show more</a>
-            </h6>
-        
-            <!-- This h6 will display when there are no rejection reasons -->
-            <h6 class="content-experience text-center" *ngIf="!selectedReferral?.rejectedByUserIds?.length">
-              We regret to inform you that your recent referral request was not accepted.<br>Please don't be discouraged; this can happen for various reasons.<br>We encourage you to try again with another request or<br> explore other referral opportunities on our platform.<br>
-            </h6>
+            <div class="text-center">
+              <h6 class="content-experience">
+                We regret to inform you that your recent referral request was rejected.<br>Please don't be discouraged;
+                this can happen for various reasons.<br>We encourage you to try again with another request or<br>
+                explore
+                other referral opportunities on our platform.<br>
+              </h6>
+
+              <h6 class="content-experience" *ngIf="selectedReferral?.rejectedByUserIds?.length > 0">
+                <a style="cursor: pointer; text-decoration: underline;" (click)="showMore()">Referral Reject Reason</a>
+              </h6>
+            </div>
           </div>
         </div>
 
@@ -159,7 +161,8 @@
   [bodyClass]="modalMessage ? 'p-4' : 'p-0'">
 
   <ng-container *ngIf="showModal === modalType.REJECT_DETAILS">
-    <app-referral-reject-details-popup [userType]="userType" [rejectReasonsData]="rejectedReasons" (onSuccess)="closeModal()"></app-referral-reject-details-popup>
+    <app-referral-reject-details-popup [userType]="userType" [rejectReasonsData]="rejectedReasons"
+      (onSuccess)="closeModal()"></app-referral-reject-details-popup>
   </ng-container>
 
 </app-modal>

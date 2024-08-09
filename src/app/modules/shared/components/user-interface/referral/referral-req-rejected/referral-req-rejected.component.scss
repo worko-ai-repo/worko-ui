@@ -95,8 +95,8 @@
     font-style: italic;
     font-weight: 400;
     line-height: 1.5;
-    padding: 1rem;
-    margin: 0.75rem 0; /* Slightly increased spacing */
+    padding: 0.5rem;
+    margin: 0.5rem 0; /* Slightly increased spacing */
     text-align: center;
 }
 
@@ -143,18 +143,40 @@
 @media (max-width: 768px) {
     .content-experience {
         font-size: 14px;
-        margin-left: -36px;
-
+        // margin-left: -36px;
+        line-height: 1;
+        padding: 0.2rem;
+        margin: 0.2rem 0;
     }
 
     .content-div {
-        gap: 90px;
+        gap: 60px;
     }
     .content-div span{
         font-size: 14px;
     }
     .content-req-rejected{
         font-size: 16px;
-        margin-left: -36px;
+        // margin-left: -36px;
+    }
+}
+
+/* For screen widths between 773px and 992px */
+@media (min-width: 773px) and (max-width: 992px) {
+    .content-experience {
+        font-size: 15px;
+        line-height: 1.2;
+        padding: 0.3rem;
+        margin: 0.3rem 0;
+    }
+
+    .content-div {
+        gap: 80px;
+    }
+    .content-div span {
+        font-size: 15px;
+    }
+    .content-req-rejected {
+        font-size: 17px;
     }
 }
