@@ -477,7 +477,7 @@ option{
   visibility: visible;
   opacity: 1;
 }
-.text-danger{
+.error-div{
   position: absolute;
 }
 
@@ -502,7 +502,7 @@ img.worko-logo-signup {
   .login-div,.para-div{
     display: none;
   }
-  .text-danger{
+  .error-div{
     position: static;
   }
 }

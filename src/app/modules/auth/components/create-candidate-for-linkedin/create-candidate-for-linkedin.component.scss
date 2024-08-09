@@ -476,14 +476,15 @@ img.worko-logo-signup {
   font-size: 11px;
   left: 4rem
 }
-.text-danger{
+.error-div{
   position: absolute;
+  margin-top: -6px;
 }
 @media screen and (max-width:767px){
   .login-div,.para-div{
     display: none;
   }
-  .text-danger{
+  .error-div{
     position: static;
   }
 }
