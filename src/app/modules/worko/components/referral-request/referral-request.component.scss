@@ -213,6 +213,9 @@ line-height: normal;
     .input-jobUrl, .input-jobDescription{
         width: 13rem;
     }
+    .input-jobDescription{
+        height: 4rem;
+    }
 
 }
 
@@ -242,6 +245,9 @@ line-height: normal;
     }
     .input-jobUrl, .input-jobDescription{
         width: 80%;
+    }
+    .input-jobDescription{
+        height: 4rem;
     }
 
     .title{
@@ -307,9 +313,3 @@ line-height: normal;
     display: block;
   }
 
-  @media (max-width: 990px) {
-
-    .input-jobDescription{
-        height: 4rem;
-    }
-}
