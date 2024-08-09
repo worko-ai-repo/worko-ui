@@ -6,7 +6,8 @@ import { Component, EventEmitter, Input, Output } from '@angular/core';
   styleUrls: ['./referral-reject-details-popup.component.scss']
 })
 export class ReferralRejectDetailsPopupComponent {
-
+  
+  @Input() userType:any;
   @Output() onSuccess: EventEmitter<any> = new EventEmitter<any>();
   @Input() rejectReasonsData:any;
 

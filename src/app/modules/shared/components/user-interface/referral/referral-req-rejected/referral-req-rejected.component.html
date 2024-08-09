@@ -114,10 +114,15 @@
             <h5 class="content-req-rejected pt-1">Sorry, Your Request is Rejected!</h5>
           </div>
           <div class="col-md-12 d-flex justify-content-center">
-            <h6 class="content-experience text-center">
+            <!-- This h6 will display when there are rejection reasons -->
+            <h6 class="content-experience text-center" *ngIf="selectedReferral?.rejectedByUserIds?.length > 0">
+              Because your experience is not sufficient <br> to the job applied! 
+              <a style="cursor: pointer; text-decoration: underline;" (click)="showMore()">Show more</a>
+            </h6>
+        
+            <!-- This h6 will display when there are no rejection reasons -->
+            <h6 class="content-experience text-center" *ngIf="!selectedReferral?.rejectedByUserIds?.length">
               We regret to inform you that your recent referral request was not accepted.<br>Please don't be discouraged; this can happen for various reasons.<br>We encourage you to try again with another request or<br> explore other referral opportunities on our platform.<br>
-              <!--Because your experience is not sufficient <br> to Job applied!  <a
-                style="cursor: pointer; text-decoration: underline;" (click)="showMore()">Show more</a> -->
             </h6>
           </div>
         </div>
@@ -149,12 +154,12 @@
   </div>
 </div>
 
-<app-modal [theme]="'theme-k'" [centered]="true" [showHeader]="showModal === modalType.MESSAGE" [showClose]="true"
-  [showFooter]="showModal === modalType.MESSAGE" [modalSize]="'lg'" [title]="modalTitle" [message]="modalMessage"
+<app-modal [theme]="'theme-k'" [centered]="true" [showHeader]="showModal === modalType.MESSAGE" [showClose]="false"
+  [showFooter]="showModal === modalType.MESSAGE" [modalSize]="'md'" [title]="modalTitle" [message]="modalMessage"
   [bodyClass]="modalMessage ? 'p-4' : 'p-0'">
 
   <ng-container *ngIf="showModal === modalType.REJECT_DETAILS">
-    <app-referral-reject-details-popup (onSuccess)="closeModal()"></app-referral-reject-details-popup>
+    <app-referral-reject-details-popup [userType]="userType" [rejectReasonsData]="rejectedReasons" (onSuccess)="closeModal()"></app-referral-reject-details-popup>
   </ng-container>
 
 </app-modal>
