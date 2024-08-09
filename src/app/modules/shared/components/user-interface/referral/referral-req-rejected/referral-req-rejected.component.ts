@@ -1,4 +1,4 @@
-import { Component, EventEmitter, Output, Input, ViewChild, } from '@angular/core';
+import { Component, EventEmitter, Output, Input, ViewChild, SimpleChanges, } from '@angular/core';
 import { ModalComponent } from 'src/app/modules/shared/components/modal/modal.component';
 import { ModalType } from 'src/app/modules/shared/interfaces/shared.interface';
 
@@ -14,17 +14,32 @@ export class ReferralReqRejectedComponent {
   modalMessage: string = "";
   modalTitle: string = "";
   showModal: ModalType | undefined;
+  @Input() userType: any;
   @Input() selectedReferral: any;
   @Output() markAsDone = new EventEmitter<string>();
+  latestRejectionReason: any;
+  latestUserComment: any;
+  rejectedReasons: { reason: any; comment: any; } | undefined;
   constructor() { }
 
   ngOnInit(): void {
    
   }
 
-  ngOnChanges(): void {
-   
-    // this.selectedReferral ="hello"
+  ngOnChanges(changes: SimpleChanges): void {
+    if (changes['selectedReferral']) {
+      this.checkReferralRejection();
+    }
+  }
+
+  checkReferralRejection(): void {
+    if (this.selectedReferral && this.selectedReferral?.rejectedByUserIds && this.selectedReferral?.rejectedByUserIds.length > 0) {
+      const latestRejection = this.selectedReferral.rejectedByUserIds[this.selectedReferral.rejectedByUserIds.length - 1];
+      this.rejectedReasons = {
+        reason: latestRejection?.reason,
+        comment: latestRejection?.userComment
+      };
+    }
   }
 
   referralMarkAsDone() {

@@ -9,7 +9,7 @@ import { StorageService } from 'src/app/modules/app-core/services/storage.servic
   styleUrls: ['./employee-referral-reject.component.scss']
 })
 export class EmployeeReferralRejectComponent implements OnInit {
-
+  @Input() userType: any;
   @Input() empdetailsList: any = "";
   @Input() empEducationList: any = "";
   @Input() empExperienceList: any = "";

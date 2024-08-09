@@ -29,7 +29,7 @@
                         [empAchievmentsDetails]="empAchievmentsDetails" [empEducationList]="empEducationList"
                         [empEducationDetails]="empEducationDetails" [empdetailsList]="empdetailsList"
                         [empDetails]="empDetails"></app-employee-accepted-referral>
-                    <app-employee-referral-reject *ngIf="selectedStatus === 'REJECTED'"
+                    <app-employee-referral-reject [userType]="userType" *ngIf="selectedStatus === 'REJECTED'"
                         [selectedReferral]="selectedReferral" [selectedStatus]="selectedStatus"
                         [empExperienceList]="empExperienceList" [empExperienceDetails]="empExperienceDetails"
                         [empCoreSkillsList]="empCoreSkillsList" [empCoreSkillsDetails]="empCoreSkillsDetails"

@@ -1,48 +1,25 @@
-<div class="card candidate-card" style="border-radius: 6px;">
-    <div class="card-body mb-4" >
+<div class="candidate-card" style="border-radius: 6px;">
+    <div class="row">
+        <div class="card-content">
+            <h4 class="card-title mb-4">Request Rejected</h4>
 
-        <div class="row" style="height: 100%;">
-
-
-            <div class="row d-flex justify-content-center">
-                <div class="col-md-11 mt-5">
-                    <div class="col-md-12 mt-2">
-                        <h5 class="req-rejected pt-2">Request Rejected</h5>
-                    </div>
-                    <div class="col-md-3 ps-4 pt-3 d-flex justify-content-center">
-                        <h6 class="req-content">Reason</h6>
-                    </div>
-                    <div class="row d-flex justify-content-center">
-                        <div class="col-md-10">
-                            <div class="reason-box">
-                                <h6 class="yourExperience-content pt-3 ps-4">
-                                    {{rejectReasonsData?.reason}}
-                                </h6>
-                            </div>
-                        </div>
-                    </div>
-
-                    <div class="col-md-3 mt-4" style="margin-left: 18px;">
-                        <h6 class="req-content">Comment</h6>
-                    </div>
-                    <div class="row d-flex justify-content-center">
-                        <div class="col-md-10">
-                            <div class="reason-box">
-                                <h6 class="comment-content pt-3 ps-4">
-                                    {{rejectReasonsData?.comment}}
-                                </h6>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="row">
-                        <div class="col-md-12 d-flex justify-content-center mt-3 mb-3">
-                            <button class="button-close" (click)="closePopup()">Close</button>
-                        </div>
-                    </div>
+            <div class="mt-4">
+                <h6 class="input-heading">Reason</h6>
+                <div class="reason-box p-2">
+                    <p class="reason-text">{{rejectReasonsData?.reason}}</p>
                 </div>
             </div>
 
+            <div class="mt-4">
+                <h6 class="input-heading">Comment</h6>
+                <div class="reason-box p-2">
+                    <p class="comment-text">{{rejectReasonsData?.comment}}</p>
+                </div>
+            </div>
 
+            <div class="mt-4 btn-div">
+                <button class="btn-submit" (click)="closePopup()">Close</button>
+            </div>
         </div>
     </div>
 </div>

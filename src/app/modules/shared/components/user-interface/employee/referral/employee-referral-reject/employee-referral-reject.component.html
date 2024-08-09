@@ -3,7 +3,8 @@
         <div class="container-fluid" style="height: 100%;">
             <div class="row d-flex flex-column" style="height: 100%;">
 
-                <div *ngIf="selectedReferral" class="col-md-3" style="width: 100%; display: flex; justify-content: end;">
+                <div *ngIf="selectedReferral" class="col-md-3"
+                    style="width: 100%; display: flex; justify-content: end;">
                     <button class="employee-rejected text-center">Rejected
                         <!-- <svg xmlns="http://www.w3.org/2000/svg" width="22" height="28" viewBox="0 0 29 28" fill="none">
                             <path
@@ -50,14 +51,16 @@
                     </div> -->
                 </div>
 
+
                 <div *ngIf="selectedReferral"
-                 class="col-md-12 take-remaining d-flex flex-column justify-content-center align-items-center"
+                    class="col-md-12 take-remaining d-flex flex-column justify-content-center align-items-center"
                     style="flex: 1;">
                     <h5 class="content-req-rejected pt-2">This referral request is rejected!</h5>
-                    <h6 class="content-experience text-center"> <a style="cursor: pointer; text-decoration: underline;"
-                            (click)="showMore()">Show more</a>
+                    <h6 class="content-experience text-center">
+                        <a style="cursor: pointer; text-decoration: underline;" (click)="showMore()">Show more</a>
                     </h6>
                 </div>
+
 
                 <div *ngIf="!selectedReferral" class="center-elements">
 
@@ -84,6 +87,7 @@
     </ng-container>
 
     <ng-container *ngIf="showModal === modalType.REJECT_DETAILS">
-        <app-referral-reject-details-popup [rejectReasonsData]="rejectedReasons" (onSuccess)="closeModal()"></app-referral-reject-details-popup>
-      </ng-container>
+        <app-referral-reject-details-popup [userType]="userType" [rejectReasonsData]="rejectedReasons"
+            (onSuccess)="closeModal()"></app-referral-reject-details-popup>
+    </ng-container>
 </app-modal>
