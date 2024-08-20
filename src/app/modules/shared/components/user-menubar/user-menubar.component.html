@@ -16,6 +16,17 @@
     </a>
   
     <div class="navbar-container">
+      <div class="menu-bar py-2 " *ngIf="adminUserType==='Admin'">
+      <span *ngIf="isNotAdminDashboard" routerLink="/admin/aDashboard"  class="ms-2 nav-link-text -pointer">
+        <img src="assets/icons/admin-icon-1.png" alt="" style="width: 21px;height: 23px">
+        Switch Account
+      </span>
+      <span *ngIf="!isNotAdminDashboard" routerLink="/candidate/dashboard"class="ms-2 nav-link-text -pointer">
+        <img src="assets/icons/user-icon-1.png" alt="" style="width: 21px; height: 23px">
+        Switch Account
+      </span>
+      </div>
+
       <div class="d-flex service-list" *ngFor="let menu of menuItems">
         <div class="menu-bar py-2 ">
           <span class="ms-2 nav-link-text -pointer" routerLink="/{{menu.router}}" routerLinkActive="active-navbar" (click)="toggleMenu($event)">
@@ -184,7 +195,9 @@
             </span>
             {{menu.name}}
           </span> 
+          
         </div>
+       
       </div>
     </div>
   

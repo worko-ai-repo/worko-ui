@@ -1,0 +1,22 @@
+<div class="cards">
+    <div class="card card-switcher position-relative">
+        <img class="position-absolute bg-gradient" src="assets/images/card-gradient.png" alt="">
+        <div class="inner-card">
+            <div class="heading-container">
+                <h3 class="account-heading">Choose an Account</h3>
+            </div>
+            <div class="account-options">
+                <div class="account-option" (click)="handleAccountSelection('admin')">
+                    <img class="user-icon" alt="" src="assets/Favicon1.png">
+                    <span>Admin Account</span>
+                </div>
+                <div class="account-option" (click)="handleAccountSelection('personal')">
+                    <img class="user-icon" alt="" src="assets/icons/usericon.png">
+                    <span>Personal Account</span>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+

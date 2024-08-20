@@ -1,10 +1,14 @@
 import { Component } from '@angular/core';
 import { ChangeDetectorRef, ElementRef, ViewChild, AfterViewInit } from '@angular/core';
-import { MatPaginator, MatPaginatorIntl } from '@angular/material/paginator';
+import { MatPaginator, MatPaginatorIntl, PageEvent } from '@angular/material/paginator';
 import { MatSort } from '@angular/material/sort';
 import { MatTableDataSource, MatTableDataSourcePaginator } from '@angular/material/table';
 import { ViewEncapsulation } from '@angular/core';
 import { AdminService } from '../../services/admin.service';
+import { ModalComponent } from 'src/app/modules/shared/components/modal/modal.component';
+import { ModalType } from 'src/app/modules/shared/interfaces/shared.interface';
+import { MatSnackBar } from '@angular/material/snack-bar';
+import { NgxSpinnerService } from 'ngx-spinner';
 export interface UserData {
 
   name: string;
@@ -15,6 +19,7 @@ export interface UserData {
   userRole: string;
   userSupportType: string;
   userEmail: string;
+  status:string;
 
 };
 
@@ -32,14 +37,20 @@ export class AdminIssuesComponent {
   // ViewChild declarations for paginator and sort for service table
   @ViewChild('servicePaginator') servicePaginator!: MatPaginator;
   @ViewChild('serviceSort') serviceSort!: MatSort;
+  @ViewChild(ModalComponent) modal!: ModalComponent;
+  modalType = ModalType;
+  modalMessage: string = "";
+  modalTitle: string = "";
+  showModal: ModalType | undefined;
 
-  displayedColumns: string[] = ['name', 'ID', 'contextType', 'date', 'userMessage', 'userRole', 'userSupportType', 'userEmail'];
+  displayedColumns: string[] = ['serialnumber','name', 'ID', 'contextType', 'date', 'userRole', 'userEmail','status','action'];
   candidatesDataSource: MatTableDataSource<UserData>;
   // servicesDataSource: MatTableDataSource<UserData>;
   isFilterPopupOpen: boolean = true;
   isDropdownOpen: boolean = false;
   issueList: any[] = [];
-
+  copiedContextId: string | null = null; // Stores the last copied context ID
+  iconTimeout: any;
 
   filterModel: any = {
     userFirstName: '',
@@ -59,7 +70,13 @@ export class AdminIssuesComponent {
     issuesStatus: "",
 
   }
-  constructor(private elementRef: ElementRef, private adminService: AdminService) {
+  pageSize: number=25;
+  lastKey: string | undefined = undefined;
+  rowData: any;
+  issuesData: any;
+  successmessage: string='';
+  successtitle: string='';
+  constructor(private elementRef: ElementRef, private adminService: AdminService,private spinner: NgxSpinnerService) {
     this.candidatesDataSource = new MatTableDataSource<UserData>(this.issueList);
     // this.servicesDataSource = new MatTableDataSource<UserData>(this.nameslist);
   }
@@ -67,27 +84,36 @@ export class AdminIssuesComponent {
     this.getAllIssues();
   }
 
-  ondateRangeChange($event: Event) {
-    throw new Error('Method not implemented.');
-  }
+  // ondateRangeChange($event: Event) {
+  //   throw new Error('Method not implemented.');
+  // }
 
-  async onissuesStatusChange(selectedIssueStatus: string) {
-    this.filterData.issuesStatus = selectedIssueStatus;
-    await this.getAllIssues();
-  }
+  // async onissuesStatusChange(selectedIssueStatus: string) {
+  //   this.filterData.issuesStatus = selectedIssueStatus;
+  //   await this.getAllIssues();
+  // }
 
 
 
   async getAllIssues() {
-    await this.adminService.getAllIssues().then(async (response: any) => {
+    this.spinner.show()
+    await this.adminService.getAllIssues(this.pageSize, this.lastKey).then(async (response: any) => {
       if (response) {
-        this.issueList = response;
+        this.spinner.hide()
+        this.issueList = response.data;
         //console.log("Issue list:", this.issueList);
         this.updateData(this.issueList);
+        this.lastKey = response.pagination.lastKey;
+        this.pageSize = response.pagination.pageSize;
         //this.candidatesDataSource = new MatTableDataSource<UserData>(this.issueList);
         // console.log("Issue  status 0:";
       }
-    })
+    }).catch((error: any) => {
+      this.spinner.hide()
+      this.successmessage = "Something went wrong. Please try again after sometime"
+        this.successtitle = "Error"
+        this.openModal(ModalType.SUCCESS_MESSAGE)
+    });
   }
   updateData(newData: UserData[]) {
     this.candidatesDataSource.data = newData;
@@ -131,9 +157,9 @@ export class AdminIssuesComponent {
       let filterObject: { [key: string]: string | undefined }; // Explicitly type filterObject
       try {
         filterObject = JSON.parse(filter);
-        console.log('Parsed Filter Object:', filterObject);
+       // console.log('Parsed Filter Object:', filterObject);
       } catch (e) {
-        console.error('Error parsing filter object:', e);
+        // console.error('Error parsing filter object:', e);
         return false; // If parsing fails, return false to exclude the item
       }
   
@@ -157,18 +183,26 @@ export class AdminIssuesComponent {
         return dataValue.includes(filterValue);
       });
   
-      return dateInRange && otherFilters;
+      //return dateInRange && otherFilters;
+   
+     // Combine the filters: date range, other fields, and the search input
+     const searchInput = filterObject['searchInput'] || '';
+
+     // Ensure data.name is defined before applying the search filter
+     const searchFilterPass = data.name ? data.name.toLowerCase().includes(searchInput.toLowerCase()) : true;
+ 
+     const combinedFilters = dateInRange && otherFilters && searchFilterPass;
+     return combinedFilters;
     };
-  
+   
     dataSource.filter = JSON.stringify(filters);
-    console.log('Data Source Filter:', dataSource.filter);
   }
   
   applyDateRangeFilter(createdAt: Date, fromDate: string | undefined, toDate: string | undefined): boolean {
     const from = fromDate ? new Date(fromDate) : null;
     const to = toDate ? new Date(toDate) : null;
   
-    console.log('Applying Date Range Filter:', 'Created At:', createdAt, 'From:', from, 'To:', to);
+    // console.log('Applying Date Range Filter:', 'Created At:', createdAt, 'From:', from, 'To:', to);
   
     if (from && to) {
       return createdAt >= from && createdAt <= to;
@@ -180,6 +214,12 @@ export class AdminIssuesComponent {
   
     return true;
   }
+  resetDatePickers() {
+    this.filterModel.fromDate =null;
+    this.filterModel.toDate = null;
+    // this.candidatesDataSource.filter = ''; 
+    this.applyFilters(); // Optionally reapply filters after reset
+  }
   
   ngAfterViewInit() {
 
@@ -190,11 +230,18 @@ export class AdminIssuesComponent {
     // Set paginator and sort for service table
     // this.servicesDataSource.paginator = this.servicePaginator;
     // this.servicesDataSource.sort = this.serviceSort;
+      // Listen for changes in the page size
+      this.referralPaginator.page.subscribe((event: PageEvent) => {
+        if (event.pageSize !== this.pageSize) {
+          this.pageSize = event.pageSize;
+          this.getAllIssues(); // Call getAllReferral with updated pageSize
+        }
+      });
   }
 
 
-
   search(event: Event, filterValue: string, dataSource: MatTableDataSource<UserData>) {
+ 
     const filterText = filterValue.trim().toLowerCase();
     dataSource.filter = filterText;
 
@@ -202,15 +249,25 @@ export class AdminIssuesComponent {
       dataSource.paginator.firstPage();
     }
   }
+
   handleSearchInput(event: Event, dataSource: MatTableDataSource<UserData>) {
-    const filterValue = (event.target as HTMLInputElement).value;
-    dataSource.filter = filterValue.trim().toLowerCase();
-
-    if (dataSource.paginator) {
-      dataSource.paginator.firstPage();
-    }
+  
+      const filterValue = (event.target as HTMLInputElement).value;
+      dataSource.filter = filterValue.trim().toLowerCase();
+    
+      if (dataSource.paginator) {
+        dataSource.paginator.firstPage();
+      }
+    
   }
+  clearSearchInput(input:any,dataSource: MatTableDataSource<UserData>){
+    input.value = ''; // Clear the input value
+  dataSource.filter = ''; // Reset the filter to show all data
 
+  if (dataSource.paginator) {
+    dataSource.paginator.firstPage();
+  }
+  }
 
 
   toggleDropdown(event: MouseEvent) {
@@ -239,6 +296,71 @@ export class AdminIssuesComponent {
   }
 
 
+  async viewRow(issuesDatas: any) {
+    this.spinner.show()
+    await this.adminService.getIssuesById(issuesDatas.id) .then(async (response: any) => {
+      this.spinner.hide()
+      // if(response && response.length > 0){
+        this.issuesData=response
+        // console.log(this.issuesData)
+        this.openModal(ModalType.ADMINDETAIL_POPUP,"","",this.issuesData);
+     
+      }).catch((error: any) => {
+        this.spinner.hide()
+        this.successmessage = "Something went wrong. Please try again after sometime"
+          this.successtitle = "Error"
+          this.openModal(ModalType.SUCCESS_MESSAGE)
+      });
+    
+  }
+
+  copyToClipboard(contextId: string) {
+    navigator.clipboard.writeText(contextId).then(() => {
+      this.copiedContextId = contextId; // Store the copied ID
+
+      // Reset the icon after 2 seconds
+      if (this.iconTimeout) {
+        clearTimeout(this.iconTimeout);
+      }
+      this.iconTimeout = setTimeout(() => {
+        this.copiedContextId = null;
+      }, 2000);
+    }).catch(err => {
+      console.error('Failed to copy text: ', err);
+    });
+  }
+
+  ngOnDestroy() {
+    if (this.iconTimeout) {
+      clearTimeout(this.iconTimeout);
+    }
+  }
+  
+
+
+  /**
+  * Open modal.
+  *
+  * @param {ModalType} modalType
+  * @param {string} [message = ""]
+  * @param {string} [title = ""]
+  * @returns {void}
+  */
+  openModal(modalType: ModalType, message: string = "", title: string = "",issuesData: any = null): void {
+    this.showModal = modalType;
+    this.modalMessage = message;
+    this.modalTitle = title;
+    this.issuesData = issuesData;
+    this.modal.open();
+  }
+  /**
+   * Close modal.
+   *
+   * @returns {void}
+   */
+  closeModal(): void {
+    this.modal.cancel();
+  }
 
 
 

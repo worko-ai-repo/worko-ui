@@ -118,12 +118,14 @@ export class IndexComponent {
     this.navbarToggleSwitchService.intializeToggleStatus();
     const userType = this.storage.get('lastAccessedDash');
     this.userName = this.storage.get('userName');
+    const adminUserType=this.storage.get('userType');
     const redirectAfterLogin = this.storage.get('redirectAfterLogin');
     // console.log(redirectAfterLogin)
-    if (redirectAfterLogin) {
+    if (redirectAfterLogin  && !adminUserType) {
       this.storage.remove('redirectAfterLogin'); // Remove the stored URL after using it
       this.router.navigate([redirectAfterLogin]);
-    }else{
+     }
+    else{
 
 
     if (userType === 'EMP') {
@@ -155,18 +157,21 @@ export class IndexComponent {
   async receiveDataFromChild(userType: any) {
     this.userLoggedIn = await this.cognitoService.isLoggedIn();
     this.emailAddress = this.storage.get("useremail");
+    const adminUserType=this.storage.get('userType');
     if (this.userLoggedIn) {
       if (this.router.url.includes('/companies')) {
         this.userLoggedIn = await this.cognitoService.isLoggedIn();
         this.userName = this.storage.get('userName');
-     
+       
         // this.letter=this.getInitials(this.userName)
         // console.log(this.letter);
         this.letter = this.userName.charAt(0).toUpperCase();
         // Redirect to the company listing page
         this.router.navigate(['/companies']);
         this.modal.cancel();
-      }
+      } else if (adminUserType) {
+        this.router.navigate(['/switcher']);
+    }
       else {
         const response = await this.candidateSrv.getProfileComplete(this.emailAddress);
         

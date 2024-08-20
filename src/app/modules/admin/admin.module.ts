@@ -24,6 +24,8 @@ import {MatFormFieldModule} from '@angular/material/form-field';
 import { FormsModule } from '@angular/forms';
 import { MatDatepickerModule } from '@angular/material/datepicker';
 import { MatNativeDateModule } from '@angular/material/core';
+import { MatIconModule } from '@angular/material/icon';
+import { AuthAdminGuardService } from '../worko/services/auth-admin-guard.service';
 
 
 export const routes: Routes = [
@@ -38,47 +40,47 @@ export const routes: Routes = [
   children: [
     {
       path: 'aDashboard',
-      component: AdminDashboardComponent,
+      component: AdminDashboardComponent,canActivate:[AuthAdminGuardService]
       
     },
     {
       path: 'aCandidate',
-     component:AdminCandidateComponent,
+     component:AdminCandidateComponent,canActivate:[AuthAdminGuardService]
 
     },
     {
       path: 'aEmployee',
-     component:AdminEmployeeComponent,
+     component:AdminEmployeeComponent,canActivate:[AuthAdminGuardService]
 
     },
     {
       path: 'aIssues',
-     component:AdminIssuesComponent,
+     component:AdminIssuesComponent,canActivate:[AuthAdminGuardService]
 
     },
     {
       path: 'aService',
-     component:AdminServiceComponent,
+     component:AdminServiceComponent,canActivate:[AuthAdminGuardService]
 
     },
     {
       path: 'aPayment',
-     component:AdminPaymentComponent,
+     component:AdminPaymentComponent,canActivate:[AuthAdminGuardService]
 
     },
     {
       path: 'aRefer-Earn',
-     component:AdminReferEarnComponent,
+     component:AdminReferEarnComponent,canActivate:[AuthAdminGuardService]
 
     },
     {
       path: 'aSetting',
-     component:AdminSettingComponent,
+     component:AdminSettingComponent,canActivate:[AuthAdminGuardService]
 
     },
     {
       path: 'aReferral',
-     component:AdminReferralComponent,
+     component:AdminReferralComponent,canActivate:[AuthAdminGuardService]
 
     },
   ]
@@ -109,7 +111,12 @@ export const routes: Routes = [
     CandidateModule,
     EmployeeModule,
     MatDatepickerModule,MatNativeDateModule,
-    MatFormFieldModule, MatInputModule, MatTableModule, MatSortModule, MatPaginatorModule,
+    MatFormFieldModule,
+    MatInputModule, 
+    MatTableModule, 
+    MatSortModule, 
+    MatPaginatorModule,
+    MatIconModule,
     RouterModule.forChild(routes)
   ]
 })

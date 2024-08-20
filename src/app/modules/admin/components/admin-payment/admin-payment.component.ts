@@ -1,21 +1,25 @@
 import { Component } from '@angular/core';
 import { ChangeDetectorRef, ElementRef, ViewChild, AfterViewInit } from '@angular/core';
-import { MatPaginator, MatPaginatorIntl } from '@angular/material/paginator';
+import { MatPaginator, MatPaginatorIntl, PageEvent } from '@angular/material/paginator';
 import { MatSort } from '@angular/material/sort';
 import { MatTableDataSource, MatTableDataSourcePaginator } from '@angular/material/table';
 import { ViewEncapsulation } from '@angular/core';
 import { AdminService } from '../../services/admin.service';
+import { ModalComponent } from 'src/app/modules/shared/components/modal/modal.component';
+import { ModalType } from 'src/app/modules/shared/interfaces/shared.interface';
+import { NgxSpinnerService } from 'ngx-spinner';
 export interface UserData {
-  name: string;
-  userEmail: string;
+  // name: string;
+  // userEmail: string;
   orderId: string;
-  packageName:string
+  packageName: string
   purchaseDate: Date;
   expiryDate: Date;
   Paymentstatus: string;
   creditedReferrals: string;
   requestedReferrals: string;
   acceptedReferrals: string;
+  status: string;
 
 }
 @Component({
@@ -31,19 +35,31 @@ export class AdminPaymentComponent {
   // ViewChild declarations for paginator and sort for service table
   @ViewChild('servicePaginator') servicePaginator!: MatPaginator;
   @ViewChild('serviceSort') serviceSort!: MatSort;
+  @ViewChild(ModalComponent) modal!: ModalComponent;
+  modalType = ModalType;
+  modalMessage: string = "";
+  modalTitle: string = "";
+  showModal: ModalType | undefined;
 
-  displayedColumns: string[] = ['name', 'userEmail','orderId', 'packageName', 'purchaseDate', 'expiryDate', 'requestedReferrals', 'creditedReferrals', 'acceptedReferrals'];
+  displayedColumns: string[] = ['serialnumber', 'orderId', 'packageName', 'purchaseDate', 'expiryDate', 'creditedReferrals', 'requestedReferrals', 'acceptedReferrals', 'status', 'action'];
   candidatesDataSource: MatTableDataSource<UserData>;
   servicesDataSource: MatTableDataSource<UserData>;
   isFilterPopupOpen: boolean = true;
   isDropdownOpen: boolean = false;
-  nameslist:any[]=[];
-  constructor(private elementRef: ElementRef, private adminService: AdminService) {
+  nameslist: any[] = [];
+  rowData: any;
+  successmessage: string = '';
+  successtitle: string = '';
+  copiedContextId: string | null = null; // Stores the last copied context ID
+  pageSize: number = 25;
+  lastKey: string | undefined = undefined;
+  iconTimeout: any;
+  constructor(private elementRef: ElementRef, private adminService: AdminService, private spinner: NgxSpinnerService) {
     this.candidatesDataSource = new MatTableDataSource<UserData>(this.nameslist);
     this.servicesDataSource = new MatTableDataSource<UserData>(this.nameslist);
   }
 
-  
+
   filterModel: any = {
     name: '',
     userEmail: '',
@@ -58,16 +74,25 @@ export class AdminPaymentComponent {
     toDate: ''
   };
 
-  
+
   async ngOnInit(): Promise<void> {
     this.getAllSubscriptions();
   }
   async getAllSubscriptions() {
-    await this.adminService.getAllSubscriptions().then(async (response: any) => {
+    this.spinner.show()
+    await this.adminService.getAllSubscriptions(this.pageSize, this.lastKey).then(async (response: any) => {
       if (response) {
-        this.nameslist = response;
+        this.spinner.hide()
+        this.nameslist = response.data;
+        this.lastKey = response.pagination.lastKey;
+        this.pageSize = response.pagination.pageSize;
         this.updateData(this.nameslist);
       }
+    }).catch((error: any) => {
+      this.spinner.hide()
+      this.successmessage = "Something went wrong. Please try again after sometime"
+      this.successtitle = "Error"
+      this.openModal(ModalType.SUCCESS_MESSAGE)
     });
   }
   updateData(newData: UserData[]) {
@@ -76,7 +101,7 @@ export class AdminPaymentComponent {
       this.referralPaginator.firstPage();
     }
   }
-  
+
   applyFilters() {
     // Gather selected filter options
     const selectedFilters = {
@@ -92,11 +117,11 @@ export class AdminPaymentComponent {
       fromDate: this.filterModel.fromDate,
       toDate: this.filterModel.toDate,
     };
-  
+
     // Apply filters to both data sources
     this.applyDataSourceFilters(this.candidatesDataSource, selectedFilters);
-  this.applyDataSourceFilters(this.servicesDataSource, selectedFilters);
-  
+    this.applyDataSourceFilters(this.servicesDataSource, selectedFilters);
+
     // Reset pagination to navigate to first page
     if (this.candidatesDataSource.paginator) {
       this.candidatesDataSource.paginator.firstPage();
@@ -105,51 +130,51 @@ export class AdminPaymentComponent {
       this.servicesDataSource.paginator.firstPage();
     }
   }
-  
+
   applyDataSourceFilters(dataSource: MatTableDataSource<UserData>, filters: { [key: string]: string | undefined }) {
     dataSource.filterPredicate = (data: UserData, filter: string) => {
       let filterObject: { [key: string]: string | undefined }; // Explicitly type filterObject
       try {
         filterObject = JSON.parse(filter);
-        console.log('Parsed Filter Object:', filterObject);
+
       } catch (e) {
-        console.error('Error parsing filter object:', e);
+
         return false; // If parsing fails, return false to exclude the item
       }
-  
+
       // Handle date range filtering
       const dateInRange = this.applyDateRangeFilter(new Date(data.purchaseDate), filterObject['fromDate'], filterObject['toDate']);
-  
+
       // Handle other fields
       const otherFilters = Object.keys(filterObject).every(key => {
         if (key === 'fromDate' || key === 'toDate') {
           // Skip date range fields
           return true;
         }
-  
+
         const filterKey = key as keyof UserData;
         if (!filterObject[filterKey]) {
           return true;
         }
-  
+
         const dataValue = data[filterKey] ? data[filterKey].toString().toLowerCase() : '';
         const filterValue = filterObject[filterKey] ? filterObject[filterKey]!.toString().toLowerCase() : '';
         return dataValue.includes(filterValue);
       });
-  
+
       return dateInRange && otherFilters;
     };
-  
+
     dataSource.filter = JSON.stringify(filters);
-    console.log('Data Source Filter:', dataSource.filter);
+
   }
-  
+
   applyDateRangeFilter(createdAt: Date, fromDate: string | undefined, toDate: string | undefined): boolean {
     const from = fromDate ? new Date(fromDate) : null;
     const to = toDate ? new Date(toDate) : null;
-  
-    console.log('Applying Date Range Filter:', 'Created At:', createdAt, 'From:', from, 'To:', to);
-  
+
+
+
     if (from && to) {
       return createdAt >= from && createdAt <= to;
     } else if (from) {
@@ -157,12 +182,16 @@ export class AdminPaymentComponent {
     } else if (to) {
       return createdAt <= to;
     }
-  
+
     return true;
   }
-  
 
-  
+  resetDatePickers() {
+    this.filterModel.fromDate = null;
+    this.filterModel.toDate = null;
+    this.applyFilters(); // Optionally reapply filters after reset
+  }
+
   ngAfterViewInit() {
     // Set paginator and sort for referral table
     this.candidatesDataSource.paginator = this.referralPaginator;
@@ -171,7 +200,15 @@ export class AdminPaymentComponent {
     // Set paginator and sort for service table
     this.servicesDataSource.paginator = this.servicePaginator;
     this.servicesDataSource.sort = this.serviceSort;
-}
+
+    // Listen for changes in the page size
+    this.referralPaginator.page.subscribe((event: PageEvent) => {
+      if (event.pageSize !== this.pageSize) {
+        this.pageSize = event.pageSize;
+        this.getAllSubscriptions(); // Call getAllReferral with updated pageSize
+      }
+    });
+  }
 
 
 
@@ -186,13 +223,20 @@ export class AdminPaymentComponent {
   handleSearchInput(event: Event, dataSource: MatTableDataSource<UserData>) {
     const filterValue = (event.target as HTMLInputElement).value;
     dataSource.filter = filterValue.trim().toLowerCase();
-  
+
+    if (dataSource.paginator) {
+      dataSource.paginator.firstPage();
+    }
+  }
+  clearSearchInput(input: any, dataSource: MatTableDataSource<UserData>) {
+    input.value = ''; // Clear the input value
+    dataSource.filter = ''; // Reset the filter to show all data
+
     if (dataSource.paginator) {
       dataSource.paginator.firstPage();
     }
   }
 
- 
 
   toggleDropdown(event: MouseEvent) {
     event.stopPropagation(); // Prevent event propagation to avoid immediate closing of the dropdown
@@ -219,6 +263,67 @@ export class AdminPaymentComponent {
     }
   }
 
-  
-  
+  async viewRow(row: any) {
+    let emailid = row.PK.split('#').pop() || "";
+    try {
+      let response = await this.adminService.getUserByEmailId(emailid)
+      //  let response= await this.adminService.getEmployeeReferralByEmailId('')
+      if (response) {
+        row = response
+        this.openModal(ModalType.ADMINDETAIL_POPUP, "", "", row);
+      }
+    } catch (error: any) {
+      this.spinner.hide()
+      this.successmessage = "Something went wrong. Please try again after sometime"
+      this.successtitle = "Error"
+      this.openModal(ModalType.SUCCESS_MESSAGE)
+    }
+
+  }
+
+  copyToClipboard(contextId: string) {
+    navigator.clipboard.writeText(contextId).then(() => {
+      this.copiedContextId = contextId; // Store the copied ID
+
+      // Reset the icon after 2 seconds
+      if (this.iconTimeout) {
+        clearTimeout(this.iconTimeout);
+      }
+      this.iconTimeout = setTimeout(() => {
+        this.copiedContextId = null;
+      }, 2000);
+    }).catch(err => {
+      console.error('Failed to copy text: ', err);
+    });
+  }
+
+
+  /**
+  * Open modal.
+  *
+  * @param {ModalType} modalType
+  * @param {string} [message = ""]
+  * @param {string} [title = ""]
+  * @returns {void}
+  */
+  openModal(modalType: ModalType, message: string = "", title: string = "", rowData: any = null): void {
+    this.showModal = modalType;
+    this.modalMessage = message;
+    this.modalTitle = title;
+    this.rowData = rowData;
+    this.modal.open();
+  }
+  /**
+   * Close modal.
+   *
+   * @returns {void}
+   */
+  closeModal(): void {
+    this.modal.cancel();
+  }
+
+
+
+
+
 }

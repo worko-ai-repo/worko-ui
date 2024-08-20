@@ -5,3 +5,62 @@
 .mat-mdc-form-field:not(.mat-form-field-no-animations) .mdc-text-field__input {
     font-size: medium;
 }
+.details-box {
+  padding: 16px;
+  margin-top: 10px;
+}
+
+.message-card {
+  padding: 23px;
+  background-color: #0A1E36;
+  border-radius: 6px;
+}
+
+.form-label {
+  font-size: 14px;
+  color: #FFF;
+  font-weight: 900;
+  text-align: left; /* Ensure labels are left-aligned */
+}
+
+.form-detail {
+  font-size: 14px;
+  color: #FFF;
+}
+
+.form-row {
+  margin-bottom: 12px; /* Space between rows */
+}
+
+
+.custom-clear-button {
+  background-color: transparent;
+  color: #FFFFFF;
+  border: none;
+  border-radius: 50%;
+  position: relative;
+  top: -36px;
+  right: -76%;
+}
+.id-container {
+  display: flex;
+  align-items: center;
+  max-width: 200px; /* Adjust this width as needed */
+}
+
+.text-overflow {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  flex-grow: 1;
+}
+
+.copy-icon {
+  cursor: pointer;
+  flex-shrink: 0; /* Prevents the icon from shrinking */
+  margin-left: 8px;
+}
+.mat-icon{
+  height: 24px;
+    width: 78px;
+}

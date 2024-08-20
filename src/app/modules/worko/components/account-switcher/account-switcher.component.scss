@@ -1,0 +1,95 @@
+.cards {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 100%;
+    height: 100%;
+    padding: 0; 
+}
+
+.card-switcher {
+    background-color: #50D5FF;
+    width: 60%;
+    max-width: 500px; 
+    padding: 20px;
+    border-radius: 30px;
+    position: relative;
+    box-shadow: 0px 8px 15px rgba(0, 0, 0, 0.5); /* Shadow effect */
+}
+
+.bg-gradient {
+    width: 100%;
+    top: 0;
+    left: 0;
+    border-radius: 25px;
+    position: absolute;
+    z-index: 0;
+  
+}
+
+.inner-card {
+    border-radius: 25px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    height: 100%;
+    background-color: #fff;
+    padding: 2rem;
+    text-align: center;
+    position: relative;
+    z-index: 1;
+}
+
+.heading-container {
+    margin-bottom: 20px;
+}
+
+.account-heading {
+    background: linear-gradient(90deg, #50D5FF 4.91%, #D1E4FB 73.96%);
+    background-size: 200%;
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    font-size: 24px;
+    font-weight: bold;
+    animation: gradientShift 3s linear infinite; 
+}
+
+.account-options {
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+    gap: 15px; 
+}
+
+.account-option {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 8px;
+    padding: 12px;
+    cursor: pointer;
+    background:#50D5FF;
+    transition: background-color 0.3s, transform 0.3s;
+    position: relative;
+    z-index: 1;
+}
+
+.account-option:hover {
+    box-shadow: blue;
+    transform: scale(1.05);
+}
+
+.account-option img {
+    height: 50px;
+    width: 50px;
+    margin-right: 15px;
+    transition: transform 0.3s;
+}
+
+.account-option span {
+    font-size: 20px;
+    font-weight: 600;
+    color: #ffffff; 
+}
+

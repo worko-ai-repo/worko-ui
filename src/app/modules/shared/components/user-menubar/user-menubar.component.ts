@@ -1,6 +1,8 @@
 import { Component, EventEmitter, Input, Output } from '@angular/core';
-import { Router } from '@angular/router';
+import { NavigationEnd, Router } from '@angular/router';
 import { signOut } from '@aws-amplify/auth';
+import { filter } from 'rxjs';
+import { StorageService } from 'src/app/modules/app-core/services/storage.service';
 
 import { CognitoService } from 'src/app/modules/services/cognito.service';
 import { environment } from 'src/environments/environment';
@@ -22,16 +24,22 @@ export class UserMenubarComponent {
   activeRoute: string = '';
   userLoggedIn: boolean = false;
   menuItems: any;
+  adminUserType: any;
+  isNotAdminDashboard!: boolean;
   /**
    * SidebarComponent constructor.
    *
    * @param {Router} router
    */
-  constructor(private router: Router, private cognitoService: CognitoService) { }
+  constructor(private router: Router, private cognitoService: CognitoService, private storage: StorageService) { }
 
   ngOnInit(): void {
     this.activeRoute = this.router.url;
-   
+    this.adminUserType = this.storage.get('userType');
+
+    this.checkRoute();
+
+
     if (this.userType == "Candidate") {
       this.menuItems = [
         {
@@ -140,7 +148,11 @@ export class UserMenubarComponent {
   toggleMenu(event: any) {
     // this.isMenuOpen = event.target.checked;
     this.isMenuOpen = !this.isMenuOpen;
-   
+
+  }
+  checkRoute(): void {
+
+    this.isNotAdminDashboard = !this.router.url.includes('admin');
   }
 
   /**
@@ -157,8 +169,8 @@ export class UserMenubarComponent {
     await signOut();
     this.userLoggedIn = await this.cognitoService.isLoggedIn();
     if (!this.userLoggedIn) {
-     // this.router.navigateByUrl('/');
-     window.location.href = environment.crossOriginUrl + '/';
+      // this.router.navigateByUrl('/');
+      window.location.href = environment.crossOriginUrl + '/';
     }
   }
 
@@ -177,7 +189,7 @@ export class UserMenubarComponent {
     //     this.router.navigateByUrl('/candidate/dashboard');
     //   }
     this.router.navigateByUrl('/companies');
-    
-    }
+
+  }
 
 }

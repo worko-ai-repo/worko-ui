@@ -445,13 +445,13 @@ option{
   width: 234px;
   height: 34px
 }
-.btn-signUp[disabled] {
+.error-message-div[disabled] {
   position: relative;
   cursor: not-allowed;
   pointer-events: visible;
 }
 
-.btn-signUp[disabled]::after {
+.error-message-div[disabled]::after {
   content: attr(data-tooltip);
   position: absolute;
   visibility: hidden;
@@ -473,7 +473,7 @@ option{
   pointer-events: none; 
 }
 
-.btn-signUp[disabled]:hover::after {
+.error-message-div[disabled]:hover::after {
   visibility: visible;
   opacity: 1;
 }

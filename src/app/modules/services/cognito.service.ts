@@ -12,6 +12,7 @@ import { AuthError, ConfirmSignUpInput, SignInInput, SignInOutput, confirmSignUp
 import { Hub } from '@aws-amplify/core';
 import { Router } from '@angular/router';
 import { environment } from 'src/environments/environment';
+import { group } from '@angular/animations';
 
 
 
@@ -175,6 +176,7 @@ export class CognitoService {
 
       try {
         const { username, userId, signInDetails } = await getCurrentUser();
+     
         //  console.log(`The username: ${username}`);
         //  console.log(`The userId: ${userId}`);
 
@@ -211,6 +213,7 @@ export class CognitoService {
       this.storage.remove('isCompanyListingRoute');
       this.storage.remove("type");
       this.storage.remove("companySK");
+      this.storage.remove("userType");
       this.removeAccessToken();
       // this.removeEmployeeDashboardToggleStatus();
       // this.removeCurrentDashboardToggleStatus();
@@ -311,9 +314,13 @@ export class CognitoService {
   async setAccessToken(): Promise<boolean> {
     // const accessToken = await this.keycloakService.getToken();
     // const accessToken = (await fetchAuthSession()).tokens?.idToken?.toString();
-    // const { accessToken, idToken } = (await fetchAuthSession()).tokens ?? {};
-    // console.log(idToken)
-    //console.log(accessToken)
+    const { accessToken, idToken } = (await fetchAuthSession()).tokens ?? {};
+
+   const userType=idToken?.payload['cognito:groups']
+
+   if (Array.isArray(userType) && userType.includes('admin')) {
+    this.storage.set('userType', 'Admin');
+  }
     // if (!accessToken) {
     //   this.storage.remove('accessToken');
     //   return false;

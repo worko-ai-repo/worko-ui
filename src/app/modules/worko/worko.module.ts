@@ -40,6 +40,9 @@ import { AddCompanyComponent } from './components/add-company/add-company.compon
 import { ContactUsComponent } from './components/contact-us/contact-us.component';
 import { JobCategoryComponent } from './components/job-category/job-category.component';
 import { jobCategoryMatcher } from './matchers/custom-route-matcher';
+import { AccountSwitcherComponent } from './components/account-switcher/account-switcher.component';
+import { AuthRouteGuardService } from './services/auth-route-guard.service';
+import { AuthAdminGuardService } from './services/auth-admin-guard.service';
 
 
 
@@ -71,6 +74,10 @@ export const routes: Routes = [
       { 
         matcher: jobCategoryMatcher,
         component: JobCategoryComponent 
+      },
+      {
+        path : 'switcher',
+        component:AccountSwitcherComponent ,canActivate:[AuthAdminGuardService]
       },
       // {
       //   path: 'contact',
@@ -209,7 +216,8 @@ export const routes: Routes = [
         TermsOfServiceComponent,
         IndexComponent,
         ContactUsComponent,
-        JobCategoryComponent
+        JobCategoryComponent,
+        AccountSwitcherComponent
     ],
     exports: [
         NavbarComponent,

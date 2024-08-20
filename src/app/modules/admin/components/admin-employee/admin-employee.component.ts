@@ -6,18 +6,21 @@ import { MatTableDataSource, MatTableDataSourcePaginator } from '@angular/materi
 import { ViewEncapsulation } from '@angular/core';
 import { Action } from 'rxjs/internal/scheduler/Action';
 import { AdminService } from '../../services/admin.service';
+import { ModalComponent } from 'src/app/modules/shared/components/modal/modal.component';
+import { ModalType } from 'src/app/modules/shared/interfaces/shared.interface';
+import { NgxSpinnerService } from 'ngx-spinner';
 
 export interface UserData {
   name: string;
   emailId: string;
   Phonenumber: string;
   companyName: string;
-  companyEmailId: string;
-  referreeDesignation: string;
-  referreeDepartment: string;
-  referralCount: string;
-  acceptedRequestCount: string;
-  doneRequestCount: string;
+  companyEmailIdVerifiedStatus: string;
+  // referreeDesignation: string;
+  // referreeDepartment: string;
+  // referralCount: string;
+  // acceptedRequestCount: string;
+  // doneRequestCount: string;
 
 }
 @Component({
@@ -34,15 +37,24 @@ export class AdminEmployeeComponent {
   // ViewChild declarations for paginator and sort for service table
   @ViewChild('servicePaginator') servicePaginator!: MatPaginator;
   @ViewChild('serviceSort') serviceSort!: MatSort;
+  @ViewChild(ModalComponent) modal!: ModalComponent;
+  modalType = ModalType;
+  modalMessage: string = "";
+  modalTitle: string = "";
+  showModal: ModalType | undefined;
 
-  displayedColumns: string[] = ['name', 'emailId', 'Phonenumber', 'companyName', 'companyEmailId', 'referreeDesignation', 'referreeDepartment',
-    'referralCount', 'acceptedRequestCount', 'doneRequestCount','action'];
+  displayedColumns: string[] = ['serialnumber','name', 'emailId', 'Phonenumber','companyName','companyEmailIdVerifiedStatus','action'];
   candidatesDataSource: MatTableDataSource<UserData>;
   servicesDataSource: MatTableDataSource<UserData>;
   isFilterPopupOpen: boolean = true;
   isDropdownOpen: boolean = false;
   nameslist: any[] = [];
-  constructor(private elementRef: ElementRef,private adminService: AdminService) {
+  userData: any;
+  userExperience: any;
+  userReferralData:any
+  successmessage: string='';
+  successtitle: string='';
+  constructor(private elementRef: ElementRef,private adminService: AdminService,private spinner: NgxSpinnerService) {
     this.candidatesDataSource = new MatTableDataSource<UserData>(this.nameslist);
     this.servicesDataSource = new MatTableDataSource<UserData>(this.nameslist);
   }
@@ -53,12 +65,7 @@ export class AdminEmployeeComponent {
     emailId: '',
     Phonenumber: '',
     companyName: '',
-    companyEmailId: '',
-    referreeDesignation: '',
-    referreeDepartment: '',
-    referralCount: '',
-    acceptedRequestCount: '',
-    doneRequestCount: '',
+    companyEmailIdVerifiedStatus: '',
     fromDate: '',
     toDate: ''
   };
@@ -67,13 +74,21 @@ export class AdminEmployeeComponent {
     this.getAllUserData();
   }
   async getAllUserData(){
+    this.spinner.show()
    await this.adminService.getAllUserData('EMP').then(async (response: any) => {
     if(response){
-      this.nameslist = response;
+      this.spinner.hide()
+      this.nameslist = response.data;
       //console.log("Issue list:", this.issueList);
       this.updateData(this.nameslist);
     }
-  })
+  }).catch((error: any) => {
+    this.spinner.hide()
+    this.successmessage = "Something went wrong. Please try again after sometime"
+      this.successtitle = "Error"
+      this.openModal(ModalType.SUCCESS_MESSAGE)
+  });
+
   }
   updateData(newData: UserData[]){
     this.candidatesDataSource.data = newData;
@@ -88,12 +103,7 @@ export class AdminEmployeeComponent {
       emailId: this.filterModel.emailId,
       Phonenumber: this.filterModel.Phonenumber,
       companyName: this.filterModel.companyName,
-      companyEmailId: this.filterModel.companyEmailId,
-      referreeDesignation: this.filterModel.referreeDesignation,
-      referreeDepartment: this.filterModel.referreeDepartment,
-      referralCount: this.filterModel.referralCount,
-      acceptedRequestCount: this.filterModel.acceptedRequestCount,
-      doneRequestCount: this.filterModel.doneRequestCount,
+      companyEmailIdVerifiedStatus: this.filterModel.companyEmailIdVerifiedStatus,
       fromDate: this.filterModel.fromDate,
       toDate: this.filterModel.toDate,
     };
@@ -111,17 +121,55 @@ export class AdminEmployeeComponent {
     }
   }
 
-  applyDataSourceFilters(dataSource: MatTableDataSource<UserData>, filters: any) {
+  // applyDataSourceFilters(dataSource: MatTableDataSource<UserData>, filters: any) {
+  //   dataSource.filterPredicate = (data: UserData, filter: string) => {
+  //     const searchString = Object.keys(filters)
+  //       .map(key => filters[key])
+  //       .join('');
+  //     return searchString.trim().toLowerCase().split(' ').every(term =>
+  //       Object.values(data).join('').toLowerCase().includes(term)
+  //     );
+  //   };
+  //   dataSource.filter = 'activate';
+  // }
+  applyDataSourceFilters(dataSource: MatTableDataSource<UserData>, filters: { [key: string]: string | undefined }) {
     dataSource.filterPredicate = (data: UserData, filter: string) => {
-      const searchString = Object.keys(filters)
-        .map(key => filters[key])
-        .join('');
-      return searchString.trim().toLowerCase().split(' ').every(term =>
-        Object.values(data).join('').toLowerCase().includes(term)
-      );
+      let filterObject: { [key: string]: string | undefined }; // Explicitly type filterObject
+      try {
+        filterObject = JSON.parse(filter);
+        
+      } catch (e) {
+       
+        return false; // If parsing fails, return false to exclude the item
+      }
+  
+      // // Handle date range filtering
+      // const dateInRange = this.applyDateRangeFilter(new Date(data.purchaseDate), filterObject['fromDate'], filterObject['toDate']);
+  
+      // Handle other fields
+      const otherFilters = Object.keys(filterObject).every(key => {
+        if (key === 'fromDate' || key === 'toDate') {
+          // Skip date range fields
+          return true;
+        }
+  
+        const filterKey = key as keyof UserData;
+        if (!filterObject[filterKey]) {
+          return true;
+        }
+  
+        const dataValue = data[filterKey] ? data[filterKey].toString().toLowerCase() : '';
+        const filterValue = filterObject[filterKey] ? filterObject[filterKey]!.toString().toLowerCase() : '';
+        return dataValue.includes(filterValue);
+      });
+  
+      return otherFilters;
     };
-    dataSource.filter = 'activate';
+  
+    dataSource.filter = JSON.stringify(filters);
+   
   }
+  
 
 
 
@@ -153,7 +201,14 @@ export class AdminEmployeeComponent {
       dataSource.paginator.firstPage();
     }
   }
+  clearSearchInput(input:any,dataSource: MatTableDataSource<UserData>){
+    input.value = ''; // Clear the input value
+  dataSource.filter = ''; // Reset the filter to show all data
 
+  if (dataSource.paginator) {
+    dataSource.paginator.firstPage();
+  }
+  }
 
 
   toggleDropdown(event: MouseEvent) {
@@ -181,9 +236,60 @@ export class AdminEmployeeComponent {
     }
   }
 
-  viewRow(row: any) {
-    console.log('View button clicked for row:', row);
+  async viewRow(userData: any) {
+    this.spinner.show()
+    await this.adminService.getUserExperienceByEmailId(userData.email) .then(async (response: any) => {
+     // if(response && response.length > 0){
+       this.userExperience=response[0]
+       //console.log(this.userExperience)
+       await this.adminService.getEmployeeReferralByEmailId(userData.email) .then(async (response: any) => {
+        this.spinner.hide()
+        // if(response && response.length > 0){
+          this.userReferralData=response
+          console.log(this.userReferralData)
+          //console.log(this.userReferralData)
+          this.openModal(ModalType.ADMINDETAIL_POPUP,"","",userData,this.userExperience,this.userReferralData);
+        });
+      
+     }).catch((error: any) => {
+      this.spinner.hide()
+      this.successmessage = "Something went wrong. Please try again after sometime"
+        this.successtitle = "Error"
+        this.openModal(ModalType.SUCCESS_MESSAGE)
+    });
+
+   
+    
+ 
+   }
+  async getEmployeeReferral(email: any) {
+   
   }
+   /**
+   * Open modal.
+   *
+   * @param {ModalType} modalType
+   * @param {string} [message = ""]
+   * @param {string} [title = ""]
+   * @returns {void}
+   */
+   openModal(modalType: ModalType, message: string = "", title: string = "",userData: any = null,userExperience:any=null,userReferralData:any=null): void {
+     this.showModal = modalType;
+     this.modalMessage = message;
+     this.modalTitle = title;
+     this.userData = userData;
+     this.userExperience=userExperience;
+     this.userReferralData=userReferralData;
+     this.modal.open();
+   }
+   /**
+    * Close modal.
+    *
+    * @returns {void}
+    */
+   closeModal(): void {
+     this.modal.cancel();
+   }
 
 
 }

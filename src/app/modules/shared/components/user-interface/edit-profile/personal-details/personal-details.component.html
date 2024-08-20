@@ -121,7 +121,7 @@
                 <div class="row  mt-2  d-flex justify-content-center"
                     *ngIf="!candidateProfessionalDetails.isCandidateFresher">
                     <div class="col-md-3">
-                        <label for="" class="form-label">Year Of Experience</label>
+                        <label for="" class="form-label required-form-field">Year Of Experience</label>
                         <input type="text" class="form-control form-ctc" placeholder="Year Of Experience"
                             pattern="^\d{1,3}(?:,\d{3})*(?:\.\d{1,2})?$" #yoe="ngModel" required
                             [title]="yoe.errors?.['pattern'] ? 'Year Of Experience is invalid' : ''"
