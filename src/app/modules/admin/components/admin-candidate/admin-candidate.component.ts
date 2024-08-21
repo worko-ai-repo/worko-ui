@@ -54,9 +54,9 @@ export class AdminCandidateComponent implements AfterViewInit {
   userData: any;
   userSubscription: any;
   nameslist: any[] = [];
-  successtitle: string='';
-  successmessage: string='';
-  constructor(private router: Router, private adminService: AdminService, private _liveAnnouncer: LiveAnnouncer,private spinner: NgxSpinnerService) {
+  successtitle: string = '';
+  successmessage: string = '';
+  constructor(private router: Router, private adminService: AdminService, private _liveAnnouncer: LiveAnnouncer, private spinner: NgxSpinnerService) {
     this.candidatesDataSource = new MatTableDataSource<UserData>(this.nameslist);
     this.servicesDataSource = new MatTableDataSource<UserData>(this.nameslist);
   }
@@ -88,7 +88,7 @@ export class AdminCandidateComponent implements AfterViewInit {
 
     // Apply filters to both data sources
     this.applyDataSourceFilters(this.candidatesDataSource, selectedFilters);
-  
+
     // Reset pagination to navigate to first page
     if (this.candidatesDataSource.paginator) {
       this.candidatesDataSource.paginator.firstPage();
@@ -112,37 +112,37 @@ export class AdminCandidateComponent implements AfterViewInit {
       let filterObject: { [key: string]: string | undefined }; // Explicitly type filterObject
       try {
         filterObject = JSON.parse(filter);
-        
+
       } catch (e) {
-       
+
         return false; // If parsing fails, return false to exclude the item
       }
-  
+
       // // Handle date range filtering
       // const dateInRange = this.applyDateRangeFilter(new Date(data.purchaseDate), filterObject['fromDate'], filterObject['toDate']);
-  
+
       // Handle other fields
       const otherFilters = Object.keys(filterObject).every(key => {
         if (key === 'fromDate' || key === 'toDate') {
           // Skip date range fields
           return true;
         }
-  
+
         const filterKey = key as keyof UserData;
         if (!filterObject[filterKey]) {
           return true;
         }
-  
+
         const dataValue = data[filterKey] ? data[filterKey].toString().toLowerCase() : '';
         const filterValue = filterObject[filterKey] ? filterObject[filterKey]!.toString().toLowerCase() : '';
         return dataValue.includes(filterValue);
       });
-  
+
       return otherFilters;
     };
-  
+
     dataSource.filter = JSON.stringify(filters);
-   
+
   }
 
   ngAfterViewInit() {
@@ -177,41 +177,40 @@ export class AdminCandidateComponent implements AfterViewInit {
       dataSource.paginator.firstPage();
     }
   }
-  clearSearchInput(input:any,dataSource: MatTableDataSource<UserData>){
+  clearSearchInput(input: any, dataSource: MatTableDataSource<UserData>) {
     input.value = ''; // Clear the input value
-  dataSource.filter = ''; // Reset the filter to show all data
+    dataSource.filter = ''; // Reset the filter to show all data
 
-  if (dataSource.paginator) {
-    dataSource.paginator.firstPage();
-  }
+    if (dataSource.paginator) {
+      dataSource.paginator.firstPage();
+    }
   }
 
   async ngOnInit(): Promise<void> {
     this.getAllUserData();
   }
   async getAllUserData() {
-this.spinner.show()
+    this.spinner.show()
     await this.adminService.getAllUserData('CAND').then(async (response: any) => {
       if (response) {
         this.nameslist = response.data;
         //console.log("Issue list:", this.issueList);
         this.updateData(this.nameslist);
       }
-    }) .catch((error: any) => {
-     this.spinner.hide()
-     debugger
-     if (error.status==404) { 
+    }).catch((error: any) => {
       this.spinner.hide()
-      this.router.navigate(['/auth/logout']);
-    }else if (error.status==401){
-   
-     this.router.navigate(['/']);
-    }else{
-     this.successmessage = "Something went wrong. Please try again after sometime"
-     this.successtitle = "Error"
-     this.openModal(ModalType.SUCCESS_MESSAGE)
-  }
-});
+      if (error.status == 404) {
+        this.spinner.hide()
+        this.router.navigate(['/auth/logout']);
+      } else if (error.status == 401) {
+
+        this.router.navigate(['/']);
+      } else {
+        this.successmessage = "Something went wrong. Please try again after sometime"
+        this.successtitle = "Error"
+        this.openModal(ModalType.SUCCESS_MESSAGE)
+      }
+    });
   }
   updateData(newData: UserData[]) {
     this.spinner.hide()
@@ -219,7 +218,7 @@ this.spinner.show()
     if (this.referralPaginator) {
       this.referralPaginator.firstPage();
     }
-   
+
   }
 
   toggleDropdown(event: MouseEvent) {
@@ -267,23 +266,23 @@ this.spinner.show()
       this.spinner.hide()
       this.userSubscription = response[0]
       this.openModal(ModalType.ADMINDETAIL_POPUP, "", "", userData, this.userSubscription);
- 
+
     }).catch((error: any) => {
       this.spinner.hide()
-      if (error.status==404) { 
+      if (error.status == 404) {
         this.spinner.hide()
         this.router.navigate(['/auth/logout']);
-      }else if (error.status==401){
-     
-       this.router.navigate(['/']);
-      }else{
-      this.successmessage = "Something went wrong. Please try again after sometime"
+      } else if (error.status == 401) {
+
+        this.router.navigate(['/']);
+      } else {
+        this.successmessage = "Something went wrong. Please try again after sometime"
         this.successtitle = "Error"
         this.openModal(ModalType.SUCCESS_MESSAGE)
       }
     });
 
-  
+
 
   }
   /**

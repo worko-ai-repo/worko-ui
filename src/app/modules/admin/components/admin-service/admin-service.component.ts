@@ -4,6 +4,10 @@ import { MatPaginator, MatPaginatorIntl } from '@angular/material/paginator';
 import { MatSort } from '@angular/material/sort';
 import { MatTableDataSource, MatTableDataSourcePaginator } from '@angular/material/table';
 import { ViewEncapsulation } from '@angular/core';
+import { NgxSpinnerService } from 'ngx-spinner';
+import { ModalComponent } from 'src/app/modules/shared/components/modal/modal.component';
+import { ModalType } from 'src/app/modules/shared/interfaces/shared.interface';
+import { Router } from '@angular/router';
 export interface UserData {
   Name: string;
   CandidateID: number;
@@ -44,9 +48,17 @@ export class AdminServiceComponent {
   servicesDataSource: MatTableDataSource<UserData>;
   isFilterPopupOpen: boolean = true;
   isDropdownOpen: boolean = false;
-  constructor(private elementRef: ElementRef) {
+  @ViewChild(ModalComponent) modal!: ModalComponent;
+  modalType = ModalType;
+  modalMessage: string = "";
+  modalTitle: string = "";
+  showModal: ModalType | undefined;
+  successmessage: string = "";
+  successtitle: string = "";
+  constructor(private elementRef: ElementRef,private spinner:NgxSpinnerService, private router: Router) {
     this.candidatesDataSource = new MatTableDataSource<UserData>(this.nameslist);
     this.servicesDataSource = new MatTableDataSource<UserData>(this.nameslist);
+
   }
 
   
@@ -81,6 +93,7 @@ export class AdminServiceComponent {
       accountType: this.filterModel.AccountType
     };
   
+
     // Apply filters to both data sources
     this.applyDataSourceFilters(this.candidatesDataSource, selectedFilters);
   this.applyDataSourceFilters(this.servicesDataSource, selectedFilters);
@@ -92,6 +105,29 @@ export class AdminServiceComponent {
     if (this.servicesDataSource.paginator) {
       this.servicesDataSource.paginator.firstPage();
     }
+  }
+
+
+  ngOnInit(): void {
+   
+    this.spinner.show();
+    this.successtitle = 'Alert!';
+    this.successmessage = "This section is currently in progress. Please check back later!";
+    setTimeout(()=> {
+      this.spinner.hide();
+      this.openModal(ModalType.SUCCESS_MESSAGE);
+    }, 2000);
+    // this.getServices();
+  }
+
+  ngOnDestroy(): void {
+    this.spinner.hide();
+    this.closeModal();
+  }
+  okBtn(){
+    this.spinner.hide();
+    this.closeModal();
+    this.router.navigate(['/admin/aCandidate']);
   }
   
   applyDataSourceFilters(dataSource: MatTableDataSource<UserData>, filters: any) {
@@ -214,6 +250,27 @@ export class AdminServiceComponent {
     ServiceRequestDate: new Date(), ServiceStartDate: new Date(), RequestStatus: 'Pending', PackageBalance: 100, Rating: 4.5, AccountType: 'Savings',
     },
   ];
-
+   /**
+ * Open modal.
+ *
+ * @param {ModalType} modalType
+ * @param {string} [message = ""]
+ * @param {string} [title = ""]
+ * @returns {void}
+ */
+   openModal(modalType: ModalType, message: string = "", title: string = ""): void {
+    this.showModal = modalType;
+    this.modalMessage = message;
+    this.modalTitle = title;
+    this.modal.open();
+  }
+  /**
+   * Close modal.
+   *
+   * @returns {void}
+   */
+  closeModal(): void {
+    this.modal.cancel();
+  }
 
 }

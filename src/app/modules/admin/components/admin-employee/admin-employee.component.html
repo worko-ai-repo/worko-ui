@@ -610,12 +610,12 @@
               <div class="col-12">
                 <ng-container *ngIf="userReferralData.acceptedRef?.length; else noAcceptedIds">
                   <div class="form-detail d-flex flex-column">
-                    <ng-container *ngFor="let id of userReferralData.acceptedRef">
+                    <ng-container *ngFor="let data of userReferralData.acceptedRef">
                       <div class="mb-2">
                         <label class="form-label">Referral ID:</label>
-                        <span class="form-detail ms-2">{{ id.referralId }}</span>
+                        <span class="form-detail ms-2">{{ data.id}}</span>
                         <label class="form-label ms-4">Job URL:</label>
-                        <a [href]="id.jobUrl" target="_blank" class="ms-2">Link</a>
+                        <a [href]="data.jobUrl" target="_blank" class="ms-2">Link</a>
                       </div>
                     </ng-container>
                   </div>
@@ -635,7 +635,7 @@
                     <ng-container *ngFor="let id of userReferralData.doneRef">
                       <div class="mb-2">
                         <label class="form-label">Referral ID:</label>
-                        <span class="form-detail ms-2">{{ id.referralId }}</span>
+                        <span class="form-detail ms-2">{{ id.id }}</span>
                         <label class="form-label ms-4">Job URL:</label>
                         <a [href]="id.jobUrl" target="_blank" class=" ms-2">Link</a>
                       </div>
@@ -657,7 +657,7 @@
                     <ng-container *ngFor="let id of userReferralData.passedRef">
                       <div class="mb-2">
                         <label class="form-label">Referral ID:</label>
-                        <span class="form-detail ms-2">{{ id.referralId }}</span>
+                        <span class="form-detail ms-2">{{ id.id }}</span>
                         <label class="form-label ms-4">Job URL:</label>
                         <a [href]="id.jobUrl" target="_blank" class=" ms-2">Link</a>
                       </div>
@@ -679,7 +679,7 @@
                     <ng-container *ngFor="let id of userReferralData.rejectedRef">
                       <div class="mb-2">
                         <label class="form-label">Referral ID:</label>
-                        <span class="form-detail ms-2">{{ id.referralId }}</span>
+                        <span class="form-detail ms-2">{{ id.id }}</span>
                         <label class="form-label ms-4">Job URL:</label>
                         <a [href]="id.jobUrl" target="_blank" class=" ms-2">Link</a>
                       </div>
