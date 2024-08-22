@@ -59,6 +59,7 @@ export class CreateCandidateForLinkedinComponent {
   successmessage: string = "";
   successtitle: string = "";
   letter: any;
+  groupType: any;
   constructor(private spinner: NgxSpinnerService, private candidateSrv: CandidateProfileService, private authService: AuthService, private storage: StorageService, private router: Router, private cognitoService: CognitoService) { }
   ngOnInit(): void {
     this.getCandidateData()
@@ -76,7 +77,11 @@ export class CreateCandidateForLinkedinComponent {
     this.userEmail = tokens?.idToken?.payload['email']?.toString()
     this.userName = tokens?.idToken?.payload['name']?.toString()
     this.pictureUrl = tokens?.idToken?.payload['picture']
-   
+    this.groupType=tokens?.idToken?.payload['cognito:groups']
+
+    if (Array.isArray(this.groupType) && this.groupType.includes('admin')) {
+     this.storage.set('userType', 'Admin');
+   }
 
     const {
       username,
@@ -246,7 +251,10 @@ export class CreateCandidateForLinkedinComponent {
 
           // Redirect to the company listing page
           this.router.navigate(['/companies']);
-        }else{
+        }else if(this.groupType.includes('admin')){
+          this.router.navigate(['/switcher']);
+    
+        } else{
         this.router.navigate(['/candidate/dashboard']);
         }
         this.spinner.hide();
