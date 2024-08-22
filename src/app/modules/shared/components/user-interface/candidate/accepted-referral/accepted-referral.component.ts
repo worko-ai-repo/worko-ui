@@ -68,6 +68,10 @@ export class AcceptedReferralComponent {
     this.markAsDone.emit(this.selectedReferral);
   }
 
+  openDetailsModal() {
+    this.openModal(ModalType.REFERRAL_DETAILS);
+  }
+
   /**
   * Open modal.
   *

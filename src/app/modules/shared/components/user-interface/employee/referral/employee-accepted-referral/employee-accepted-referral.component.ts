@@ -129,6 +129,10 @@ export class EmployeeAcceptedReferralComponent {
     return data?.replace(/\n/g, '<br>');
   }
 
+  openDetailsModal() {
+    this.openModal(ModalType.REFERRAL_DETAILS);
+  }
+
   /**
  * Open modal.
  *
