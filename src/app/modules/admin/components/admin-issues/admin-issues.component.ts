@@ -43,7 +43,7 @@ export class AdminIssuesComponent {
   modalTitle: string = "";
   showModal: ModalType | undefined;
 
-  displayedColumns: string[] = ['serialnumber','name', 'ID', 'contextType', 'date', 'userRole', 'userEmail','status','action'];
+  displayedColumns: string[] = ['serialnumber','name','userEmail', 'ID', 'contextType', 'date', 'userRole', 'status','action'];
   candidatesDataSource: MatTableDataSource<UserData>;
   // servicesDataSource: MatTableDataSource<UserData>;
   isFilterPopupOpen: boolean = true;
