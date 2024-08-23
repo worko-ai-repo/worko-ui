@@ -39,7 +39,7 @@ export class EmployeeAcceptedReferralComponent {
   showModal: ModalType | undefined;
   isSmallerScreen:boolean=false
   isHidden:boolean=false
-  circleDiameter:number=105;
+  circleDiameter:number=98;
 
   constructor(private breakpointObserver: BreakpointObserver) {}
   score: number = 0;
