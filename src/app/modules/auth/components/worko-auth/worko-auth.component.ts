@@ -30,6 +30,7 @@ export class WorkoAuthComponent {
   userType: any;
   userName: any;
   letter: any;
+  groupType: any;
   constructor(
     private router: Router,
     private activatedRoute: ActivatedRoute,
@@ -134,6 +135,12 @@ export class WorkoAuthComponent {
       this.userEmail = tokens?.idToken?.payload['email']?.toString();
       this.userName = tokens?.idToken?.payload['given_name']?.toString();
 
+      this.groupType=tokens?.idToken?.payload['cognito:groups']
+
+      if (Array.isArray(this.groupType) && this.groupType.includes('admin')) {
+       this.storage.set('userType', 'Admin');
+     }
+
       // Fetch the current user details
       const { username, userId: id } = await getCurrentUser();
       this.userId = id;
@@ -153,7 +160,6 @@ export class WorkoAuthComponent {
         this.storage.set('userName', userName);
         this.navbarToggleSwitchService.intializeToggleStatus();
      
-
         // this.userType = this.lastDashed[0].userType[0];
         this.storage.set("useremail", this.userEmail);
 
@@ -168,6 +174,9 @@ export class WorkoAuthComponent {
 
           // Redirect to the company listing page
           this.router.navigate(['/companies']);
+          return false;
+        }else if(this.groupType.includes('admin')){
+          this.router.navigate(['/switcher']);
           return false;
         } else {
           // Fetch the profile completion percentage

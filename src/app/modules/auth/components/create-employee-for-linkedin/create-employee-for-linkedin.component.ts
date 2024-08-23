@@ -68,6 +68,7 @@ export class CreateEmployeeForLinkedinComponent {
   successmessage: string = "";
   successtitle: string = "";
   companyNameError: string = '';
+  groupType: any;
 
   constructor(private storage: StorageService, private cognitoService: CognitoService, private authService: AuthService, private spinner: NgxSpinnerService, private router: Router) { }
 
@@ -178,7 +179,11 @@ export class CreateEmployeeForLinkedinComponent {
     this.userName = tokens?.idToken?.payload['name']?.toString()
     this.pictureUrl = tokens?.idToken?.payload['picture']
 
+    this.groupType=tokens?.idToken?.payload['cognito:groups']
 
+    if (Array.isArray(this.groupType) && this.groupType.includes('admin')) {
+     this.storage.set('userType', 'Admin');
+   }
     const {
       username,
       userId: id
@@ -275,7 +280,10 @@ export class CreateEmployeeForLinkedinComponent {
 
 
           this.router.navigate(['/companies']);
-        } else {
+        }else if(this.groupType.includes('admin')){
+          this.router.navigate(['/switcher']);
+    
+        }  else {
           this.router.navigate(['/employee/Dashboard']);
 
         }
