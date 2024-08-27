@@ -9,6 +9,7 @@ import { NgxSpinnerService } from 'ngx-spinner';
 import { ModalComponent } from 'src/app/modules/shared/components/modal/modal.component';
 import { ModalType } from 'src/app/modules/shared/interfaces/shared.interface';
 import { NgPluralCase } from '@angular/common';
+import { Router } from '@angular/router';
 export interface UserData {
   Name: string;
   emailId: string;
@@ -57,7 +58,7 @@ export class AdminReferralComponent {
   lastKey: string | undefined = undefined;
   companyDetails: any;
   userDetails: any;
-  constructor(private elementRef: ElementRef, private adminService: AdminService, private spinner: NgxSpinnerService) {
+  constructor(private router: Router,private elementRef: ElementRef, private adminService: AdminService, private spinner: NgxSpinnerService) {
     this.candidatesDataSource = new MatTableDataSource<UserData>(this.nameslist);
     this.servicesDataSource = new MatTableDataSource<UserData>(this.nameslist);
   }
@@ -94,9 +95,17 @@ export class AdminReferralComponent {
       }
     }).catch((error: any) => {
       this.spinner.hide()
-      this.successmessage = "Something went wrong. Please try again after sometime"
-      this.successtitle = "Error"
-      this.openModal(ModalType.SUCCESS_MESSAGE)
+      if (error.status == 404) {
+        this.spinner.hide()
+        this.router.navigate(['/auth/logout']);
+      } else if (error.status == 401) {
+
+        this.router.navigate(['/']);
+      } else {
+        this.successmessage = "Something went wrong. Please try again after sometime"
+        this.successtitle = "Error"
+        this.openModal(ModalType.SUCCESS_MESSAGE)
+      }
     });
   }
   updateData(newData: UserData[]) {
@@ -142,9 +151,9 @@ export class AdminReferralComponent {
       let filterObject: { [key: string]: string | undefined }; // Explicitly type filterObject
       try {
         filterObject = JSON.parse(filter);
-        console.log('Parsed Filter Object:', filterObject);
+        // console.log('Parsed Filter Object:', filterObject);
       } catch (e) {
-        console.error('Error parsing filter object:', e);
+       // console.error('Error parsing filter object:', e);
         return false; // If parsing fails, return false to exclude the item
       }
 
@@ -172,14 +181,14 @@ export class AdminReferralComponent {
     };
 
     dataSource.filter = JSON.stringify(filters);
-    console.log('Data Source Filter:', dataSource.filter);
+  //  console.log('Data Source Filter:', dataSource.filter);
   }
 
   applyDateRangeFilter(createdAt: Date, fromDate: string | undefined, toDate: string | undefined): boolean {
     const from = fromDate ? new Date(fromDate) : null;
     const to = toDate ? new Date(toDate) : null;
 
-    console.log('Applying Date Range Filter:', 'Created At:', createdAt, 'From:', from, 'To:', to);
+   // console.log('Applying Date Range Filter:', 'Created At:', createdAt, 'From:', from, 'To:', to);
 
     if (from && to) {
       return createdAt >= from && createdAt <= to;
@@ -280,7 +289,7 @@ export class AdminReferralComponent {
         this.copiedContextId = null;
       }, 2000);
     }).catch(err => {
-      console.error('Failed to copy text: ', err);
+     // console.error('Failed to copy text: ', err);
     });
   }
 
