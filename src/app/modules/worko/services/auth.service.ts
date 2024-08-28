@@ -87,7 +87,8 @@ export class AuthService {
     let url = `${API_URL}company`;
 
     if (value) {
-      url += `?companyName=${value}`;
+      const companyName =encodeURIComponent(value)
+      url += `?companyName=${companyName}`;
     }
 
     //return this.http.get(API_URL + `company/${value}`, this.getHttpOptions())
