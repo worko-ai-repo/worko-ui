@@ -54,6 +54,7 @@ export class CompanyListingComponent implements OnInit, AfterViewInit, OnDestroy
   loadedOnce: boolean = true;
   reqGuidanceData: any
   companyList: any[] = [];
+  hundreadCompanies: any[] = [];
   userLoggedIn: boolean = false;
   triggerReferral: boolean = false;
   triggerGuidance: boolean = false;
@@ -292,6 +293,7 @@ export class CompanyListingComponent implements OnInit, AfterViewInit, OnDestroy
     await this.getProfilePercentage();
 
     await this.getCompanyDetails();
+    await this.getCompanyDetails(100);
     this.filteredCompanyList = this.companyList;
 
 
@@ -311,8 +313,8 @@ export class CompanyListingComponent implements OnInit, AfterViewInit, OnDestroy
 
     );
     //check if the url contain data and initialize variables accordingly
-    if (this?.companySKFormUrl && this?.typeFromUrl) {
-      if (this?.companySKFormUrl.startsWith('ID#')) {
+    if (this.companySKFormUrl && this.typeFromUrl) {
+      if (this.companySKFormUrl.startsWith('ID#')) {
         this.indexData = this.companySKFormUrl;
       } else {
         this.indexData = 'ID#' + this?.companySKFormUrl;
@@ -507,10 +509,7 @@ export class CompanyListingComponent implements OnInit, AfterViewInit, OnDestroy
 
   //filter company data by using Sk
   filterCompanyBySk(companySk: string) {
-
-    return this.companyList.find(company => company.SK === companySk);
-
-
+    return this.hundreadCompanies.find(company => company.SK === companySk);
   }
 
   detectScroll(): void {
@@ -551,8 +550,25 @@ export class CompanyListingComponent implements OnInit, AfterViewInit, OnDestroy
   
    
   }
-  async getCompanyDetails() {
-    if ((this.lastKey || this.loadedOnce) && this.isNoLoadData) {
+  async getCompanyDetails(pageSize?:any) {
+
+    if(pageSize === 100) {
+      let lastKey = undefined;
+      const filterData = {
+      teamSize: "",
+      industryType: "",
+      companyName: ""
+      }
+     await this.companyListing.getCompanyListing(pageSize, lastKey, filterData.teamSize, filterData.industryType, filterData.companyName).then(async (response) => {
+      if (response) {
+        this.hundreadCompanies = response.data;
+      }
+    })
+      .catch(error => {
+        // console.error('Display Company Listing Error:', error);
+      });
+    }
+    else if((this.lastKey || this.loadedOnce) && this.isNoLoadData) {
       // if (this.lastKey || this.loadedOnce ) {
       this.spinner.show();
       // const encodedCompanyName = encodeURIComponent(this.filterData.companyName); // Encode the company name
