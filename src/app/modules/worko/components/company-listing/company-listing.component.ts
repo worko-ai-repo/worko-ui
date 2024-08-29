@@ -600,7 +600,7 @@ export class CompanyListingComponent implements OnInit, AfterViewInit, OnDestroy
             this.companyList = [];
           }
           this.companyList = this.companyList.concat(response.data);
-          this.checkLogos()
+          // this.checkLogos();
           this.lastKey = response.pagination.lastKey;
           this.loadedOnce = false;
           this.count = response.pagination.count;
@@ -621,28 +621,28 @@ export class CompanyListingComponent implements OnInit, AfterViewInit, OnDestroy
     }
   }
 
-  checkLogos(): void {
-    this.companyList.forEach(company => {
+  // checkLogos(): void {
+  //   this.companyList.forEach(company => {
 
-      // Skipping the check here if the logo is already in the assetLogos array
-      if (this.assetLogos.includes(company.logo)) {
-        return; // Exiting early here if logo is already present
-      }
+  //     // Skipping the check here if the logo is already in the assetLogos array
+  //     if (this.assetLogos.includes(company.logo)) {
+  //       return; // Exiting early here if logo is already present
+  //     }
 
-      const logoPath = `assets/company-logo/${company.logo}`;
-      this.http.get(logoPath, { responseType: 'blob' }).pipe(
-        catchError(() => of(false)) // Return false if logo doesn't exist
-      ).subscribe(exists => {
-        if (exists) {
-          this.assetLogos.push(company.logo); // Add to array if logo exists
-        }
-      });
-    });
-  }
-  isLogoAvailable(logo: string): boolean {
+  //     const logoPath = `assets/company-logo/${company.logo}`;
+  //     this.http.get(logoPath, { responseType: 'blob' }).pipe(
+  //       catchError(() => of(false)) // Return false if logo doesn't exist
+  //     ).subscribe(exists => {
+  //       if (exists) {
+  //         this.assetLogos.push(company.logo); // Add to array if logo exists
+  //       }
+  //     });
+  //   });
+  // }
+  // isLogoAvailable(logo: string): boolean {
 
-    return this.assetLogos.includes(logo); // Check if the logo is available in assets
-  }
+  //   return this.assetLogos.includes(logo); // Check if the logo is available in assets
+  // }
 
   async onTeamSizeChange(selectedTeamSize: string) {
     // if (selectedTeamSize !== "") {
