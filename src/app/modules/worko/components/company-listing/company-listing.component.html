@@ -82,14 +82,29 @@
               <div class="title"><u>{{item.name}}</u></div>
               <div class="col-5 d-lex align-items-center links-container">
                 <div class="float-left image-brand">
-                  <img *ngIf="assetLogos.includes(item.logo)" src="assets/company-logo/{{item.logo }}"
-                    class="company-name" alt="logo">
-                  <img *ngIf="!assetLogos.includes(item.logo)" src="{{ item.logoUrl }}" class="company-name" alt="logo">
+                  <!-- <ng-container *ngIf="checkImageExists(item.logo) | async as imageExists">
+                    <img *ngIf="imageExists" [src]="'assets/company-logo/' + item.logo" class="company-name" alt="logo">
+                    <img *ngIf="!imageExists" [src]="item.logoUrl" class="company-name" alt="logo">
+                  </ng-container> -->
+
                   <!-- <ng-container *ngIf="checkImage(item.logo)">
 
                   <img id="myImage"   *ngIf="checkImage(item.logo)" src="assets/company-logo/{{item.logo}}" alt="{{item.name}}"   >
                   <img id="myImage" *ngIf="!checkImage(item.logo)" src="{{ item.logoUrl }}" alt="{{item.name}}" >
                     </ng-container> -->
+
+
+                 <!--    <img *ngIf="assetLogos.includes(item.logo)" src="assets/company-logo/{{item.logo }}"
+                    class="company-name" alt="logo">
+                  <img *ngIf="!assetLogos.includes(item.logo)" src="{{ item.logoUrl }}" class="company-name" alt="logo"> -->
+
+                  <ng-container *ngIf="isLogoAvailable(item.logo); else useUrlLogo">
+                    <img src="assets/company-logo/{{item.logo}}" class="company-name" alt="logo">
+                    </ng-container>
+                    
+                    <ng-template #useUrlLogo>
+                    <img src="{{ item.logoUrl }}" class="company-name" alt="logo">
+                    </ng-template>
 
                 </div>
 

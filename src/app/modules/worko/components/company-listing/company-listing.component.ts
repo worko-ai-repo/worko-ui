@@ -5,7 +5,7 @@ import { ModalComponent } from 'src/app/modules/shared/components/modal/modal.co
 import { CognitoService } from 'src/app/modules/services/cognito.service';
 import { ReferralRequestComponent } from '../referral-request/referral-request.component';
 import { RequestGuidenceComponent } from '../request-guidence/request-guidence.component';
-import { debounceTime, distinctUntilChanged, map, switchMap } from 'rxjs/operators';
+import { catchError, debounceTime, distinctUntilChanged, map, switchMap } from 'rxjs/operators';
 import { BehaviorSubject, Observable, Subject, of } from 'rxjs';
 import { NgxSpinnerService } from 'ngx-spinner';
 import { HttpClient } from '@angular/common/http';
@@ -72,7 +72,8 @@ export class CompanyListingComponent implements OnInit, AfterViewInit, OnDestroy
   }
   companyData: any = [];
   form!: NgForm;
-  assetLogos: string[] = [];
+  assetLogos: any = [];
+
   emailAddress: any;
   profileCompletion: any;
   cvCurPerc: any;
@@ -247,16 +248,16 @@ export class CompanyListingComponent implements OnInit, AfterViewInit, OnDestroy
 
 
 
-  constructor(private spinner: NgxSpinnerService, private location: Location, private activatedRoute: ActivatedRoute, private cdr: ChangeDetectorRef, 
+  constructor(private spinner: NgxSpinnerService, private location: Location, private activatedRoute: ActivatedRoute, private cdr: ChangeDetectorRef,
     private storage: StorageService, private router: Router, private authService: AuthService, private http: HttpClient, private renderer: Renderer2, private el: ElementRef, private companyListing: CompanyListingService, private cognitoService: CognitoService, private candidateSrv: CandidateProfileService) {
- 
+
     this.searchTerms
       .pipe(
         debounceTime(300), // Adjust the debounce time as needed (300 milliseconds in this example)
         //distinctUntilChanged()
       )
       .subscribe((query: string) => {
-       
+
         // Call your API here with the query string
         this.callApiWithSearchQuery(query);
       });
@@ -297,7 +298,7 @@ export class CompanyListingComponent implements OnInit, AfterViewInit, OnDestroy
     this.filteredCompanyList = this.companyList;
 
 
-    this.assetLogos = await this.generateLogoFilenames(1, 1045);
+    // this.assetLogos = await this.generateLogoFilenames(1, 2000);
     this.filteredOptions = this.myControl.valueChanges.pipe(
 
       debounceTime(300),
@@ -320,7 +321,7 @@ export class CompanyListingComponent implements OnInit, AfterViewInit, OnDestroy
         this.indexData = 'ID#' + this?.companySKFormUrl;
       }
       this.selectedData = this.filterCompanyBySk(this.indexData);
-     
+
       // debugger
       if (this.typeFromUrl === 'referral') {
         this.triggerReferral = true;
@@ -334,8 +335,25 @@ export class CompanyListingComponent implements OnInit, AfterViewInit, OnDestroy
 
     }
 
+
+
     window.scrollTo(0, 0);
   }
+
+  checkImageExists(imageName: string): Promise<boolean> {
+    // debugger
+    const imageUrl = `assets/company-logo/${imageName}`;
+    return this.http.get(imageUrl, { observe: 'response' }).toPromise()
+      .then(response => {
+        if (response && response.status === 200) {
+          return true;
+        } else {
+          return false;
+        }
+      })
+      .catch(() => false);
+  }
+
 
   //receive data from static page
 
@@ -454,26 +472,26 @@ export class CompanyListingComponent implements OnInit, AfterViewInit, OnDestroy
   }
 
   //logic to show assest image 
-  generateLogoFilenames(start: number, end: number) {
-    const logos = [];
-    for (let i = start; i <= end; i++) {
+  // generateLogoFilenames(start: number, end: number) {
+  //   const logos = [];
+  //   for (let i = start; i <= end; i++) {
 
-      logos.push(`${i}.jpg`);
+  //     logos.push(`${i}.jpg`);
 
-    }
-    return logos;
-  }
+  //   }
+  //   return logos;
+  // }
 
 
   onSearchInputChange(): void {
-    
+
     if (this.searchQuery.length >= 3) {
       this.pageSize = 50;
       this.lastKey = "";
       this.loadedOnce = true;
       this.isCompanyNameFilterActive = true;
       this.searchTerms.next(this.searchQuery);
-    }else if(this.searchQuery.length<=0){
+    } else if (this.searchQuery.length <= 0) {
       this.clearSearchInput()
     }
   }
@@ -491,14 +509,14 @@ export class CompanyListingComponent implements OnInit, AfterViewInit, OnDestroy
   callApiWithSearchQuery(query: string): void {
     this.lastKey = "";
     this.loadedOnce = true;
-    this.isNoLoadData=true;
+    this.isNoLoadData = true;
     const encodedQuery = encodeURIComponent(query); // Encoding the query string
     this.filterData.companyName = encodedQuery; // Setting here encoded query to filterData
-    this.filterData.teamSize="", 
-    this.filterData.industryType="",
-    
-    this.getCompanyDetails();
-   
+    this.filterData.teamSize = "",
+      this.filterData.industryType = "",
+
+      this.getCompanyDetails();
+
   }
 
   filterCompanies(): void {
@@ -546,56 +564,84 @@ export class CompanyListingComponent implements OnInit, AfterViewInit, OnDestroy
     this.filterData.companyName = "";
     this.isNoLoadData = true
     this.isCompanyNameFilterActive = false;
-   await this.getCompanyDetails();
-  
-   
-  }
-  async getCompanyDetails(pageSize?:any) {
+    await this.getCompanyDetails();
 
-    if(pageSize === 100) {
+
+  }
+  async getCompanyDetails(pageSize?: any) {
+    // console.log(this.lastKey, this.loadedOnce, this.isNoLoadData)
+
+    if (pageSize === 100) {
       let lastKey = undefined;
       const filterData = {
-      teamSize: "",
-      industryType: "",
-      companyName: ""
+        teamSize: "",
+        industryType: "",
+        companyName: ""
       }
-     await this.companyListing.getCompanyListing(pageSize, lastKey, filterData.teamSize, filterData.industryType, filterData.companyName).then(async (response) => {
-      if (response) {
-        this.hundreadCompanies = response.data;
-      }
-    })
-      .catch(error => {
-        // console.error('Display Company Listing Error:', error);
-      });
+      await this.companyListing.getCompanyListing(pageSize, lastKey, filterData.teamSize, filterData.industryType, filterData.companyName).then(async (response) => {
+        if (response) {
+          this.hundreadCompanies = response.data;
+        }
+      })
+        .catch(error => {
+          // console.error('Display Company Listing Error:', error);
+        });
     }
-    else if((this.lastKey || this.loadedOnce) && this.isNoLoadData) {
+
+    else if ((this.lastKey || this.loadedOnce) && this.isNoLoadData) {
       // if (this.lastKey || this.loadedOnce ) {
       this.spinner.show();
       // const encodedCompanyName = encodeURIComponent(this.filterData.companyName); // Encode the company name
       await this.companyListing.getCompanyListing(this.pageSize, this.lastKey, this.filterData.teamSize, encodeURIComponent(this.filterData.industryType), this.filterData.companyName).then(async (response) => {
         if (response) {
-         
+
           this.spinner.hide();
           if (this.loadedOnce) {
             this.companyList = [];
           }
           this.companyList = this.companyList.concat(response.data);
+          this.checkLogos()
           this.lastKey = response.pagination.lastKey;
           this.loadedOnce = false;
           this.count = response.pagination.count;
           this.pageSize = response.pagination.pageSize;
-          if (this.count < this.pageSize) { //check to pervent multiple api call
-            // debugger
-            this.isNoLoadData = false;
-          }
+          
+          // if (this.count < this.pageSize) { //check to pervent multiple api call
+          //   // debugger
+          //   this.isNoLoadData = false;
+          // }
+          this.isNoLoadData=this.lastKey? true : false //check to pervent multiple api call
           //  this.filterCompanies(); // Filter companies after updating companyList
         }
       })
         .catch(error => {
-          console.error('Display Company Listing Error:', error);
+         // console.error('Display Company Listing Error:', error);
           this.spinner.hide();
         });
     }
+  }
+
+  checkLogos(): void {
+    this.companyList.forEach(company => {
+
+      // Skipping the check here if the logo is already in the assetLogos array
+      if (this.assetLogos.includes(company.logo)) {
+        return; // Exiting early here if logo is already present
+      }
+
+      const logoPath = `assets/company-logo/${company.logo}`;
+      this.http.get(logoPath, { responseType: 'blob' }).pipe(
+        catchError(() => of(false)) // Return false if logo doesn't exist
+      ).subscribe(exists => {
+        if (exists) {
+          this.assetLogos.push(company.logo); // Add to array if logo exists
+        }
+      });
+    });
+  }
+  isLogoAvailable(logo: string): boolean {
+
+    return this.assetLogos.includes(logo); // Check if the logo is available in assets
   }
 
   async onTeamSizeChange(selectedTeamSize: string) {
@@ -609,14 +655,14 @@ export class CompanyListingComponent implements OnInit, AfterViewInit, OnDestroy
 
     this.lastKey = "";
     this.loadedOnce = true;
-    if(this.filterData.companyName!==""){
+    if (this.filterData.companyName !== "") {
       this.filterData.teamSize = "";
       (document.getElementById('teamSize') as HTMLSelectElement).value = "";
-    }else{
+    } else {
       this.filterData.teamSize = selectedTeamSize;
       await this.getCompanyDetails();
     }
-   /// this.filterData.teamSize = selectedTeamSize;
+    /// this.filterData.teamSize = selectedTeamSize;
     // if(selectedTeamSize){
     //    // Assuming selectedTeamSize is a string representation of the selected team size value
     //    const [min, max] = selectedTeamSize.split('-').map(Number); // Assuming team size format is 'min-max'
@@ -627,7 +673,7 @@ export class CompanyListingComponent implements OnInit, AfterViewInit, OnDestroy
     // }
 
     // Call getCompanyDetails to fetch filtered companies
-   
+
   }
 
   async onIndustryNameChange(selectedIndustryName: string) {
@@ -651,20 +697,20 @@ export class CompanyListingComponent implements OnInit, AfterViewInit, OnDestroy
     // }
     this.loadedOnce = true;
     this.pageSize = selectedIndustryType !== "" ? 100 : 50; // if the selectIndustryType is selected then passing pageSize as 100
-    if(this.filterData.companyName!==""){
+    if (this.filterData.companyName !== "") {
       this.filterData.industryType = "";
       (document.getElementById('industryType') as HTMLSelectElement).value = "";
-    }else{
+    } else {
       this.filterData.industryType = selectedIndustryType;
       await this.getCompanyDetails();
     }
-    
+
     // this.appliedFilter = true;
     // const encodedQuery = encodeURIComponent(selectedIndustryType);
-   // this.filterData.industryType = selectedIndustryType; //commented now --working flow
-   
+    // this.filterData.industryType = selectedIndustryType; //commented now --working flow
+
     // Call getCompanyDetails to fetch filtered companies
-    
+
   }
 
 
@@ -689,7 +735,7 @@ export class CompanyListingComponent implements OnInit, AfterViewInit, OnDestroy
     this.selectedData = item;
     this.storage.set('selectedCompanySK', this?.selectedData?.SK);
     this.storage.set('type', "referral");
-  
+
     this.triggerReferral = true;
     this.triggerGuidance = false;
     this.triggerAddCompany = false;
@@ -830,7 +876,7 @@ export class CompanyListingComponent implements OnInit, AfterViewInit, OnDestroy
         userEmail: this.companyForm.personalemailid,
         userContactNumber: this.companyForm.contactNumber
       }
-      
+
       await this.companyListing.requestNewCompany(this.companyData)
       this.spinner.hide()
       this.companyFormDirective.resetForm()
@@ -961,7 +1007,7 @@ export class CompanyListingComponent implements OnInit, AfterViewInit, OnDestroy
           this.totalPercentage = profileType.reduce((sum: any, element: any) => sum + element.curPerc, 0);
           this.cvCurPerc = profileType[2].curPerc;
 
-        
+
         }
       }
     }
