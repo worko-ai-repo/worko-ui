@@ -120,21 +120,21 @@
                     </div>
     
                     <!-- Core Skills and Achievements -->
-                    <div class="col-md-12 mt-4 ">
+                    <div class="col-md-12 mt-4 " style="margin-left: 0.5rem;">
                         <h5 class=" mb-0 pb-2">Core Skills & Experience</h5>
                     </div>
-                    <div class="d-flex">
-                        <div class="col-md-12">
+                    <div class="d-flex" style="margin-left: 0.5rem;">
+                        <div class="col-md-12 ">
                             <div class="float-left achievments-list d-flex" *ngFor="let coreSkill of empCoreSkillsDetails[0]?.coreSkills">
                                 <div class="m-1 text-in-box">{{coreSkill.skillName}}</div>
                             </div>
                         </div>
                     </div>
     
-                    <div class="col-md-12">
+                    <div class="col-md-12" style="margin-left: 0.5rem;">
                         <h5 class=" mb-0 pb-2" *ngIf="empCoreSkillsDetails[0]?.certifications">Achievements</h5>
                     </div>
-                    <div class="d-flex">
+                    <div class="d-flex" style="margin-left: 0.5rem;">
                         <div class="col-md-12">
                             <div class="float-left achievments-list d-flex" *ngFor="let achievement of empCoreSkillsDetails[0]?.certifications">
                                 <div class="m-1 text-in-box">{{achievement.certName}}</div>

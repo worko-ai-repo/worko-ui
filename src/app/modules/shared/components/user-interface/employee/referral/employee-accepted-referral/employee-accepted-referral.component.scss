@@ -241,7 +241,7 @@ ngb-rating {
 
 .text-in-box {
     background: rgba(30, 214, 255, 0.50);
-    font-size: 13px;
+    font-size: 12px;
     color: #0A1E35;
     font-weight: 600;
     float: left;
@@ -416,9 +416,9 @@ padding-left: 21%;
 
     .circle-chart-div{
         position: absolute;
-        right: 4px;
+         right: 4px;
         // top: -14px;
-        top: -300px;
+        top: -273px;
     }
 
     .referral-progree-bar {
@@ -452,5 +452,11 @@ padding-left: 21%;
 
     .ref-name{
         padding-left:28px;
+    }
+}
+@media(max-width:480px){
+    .circle-chart-div{
+   
+        left: 20px;
     }
 }
