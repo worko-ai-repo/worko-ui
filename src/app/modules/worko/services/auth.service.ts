@@ -84,7 +84,15 @@ export class AuthService {
   }
 
   getCompanyName(value: any): Observable<any> {
-    return this.http.get(API_URL + `company/${value}`, this.getHttpOptions())
+    let url = `${API_URL}company`;
+
+    if (value) {
+      const companyName =encodeURIComponent(value)
+      url += `?companyName=${companyName}`;
+    }
+
+    //return this.http.get(API_URL + `company/${value}`, this.getHttpOptions())
+    return this.http.get(url, this.getHttpOptions())
       .pipe(
         catchError(error => {
           console.error('Error:', error);

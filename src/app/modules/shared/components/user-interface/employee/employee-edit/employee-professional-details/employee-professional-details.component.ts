@@ -247,14 +247,21 @@ this.disableAllFields();
               }
         if (value && value.length >= 1) {
           return this.authService.getCompanyName(value).pipe(
-            map((results: any[]) => {
+            // map((results: any[]) => {
+              map((response: any) => {
+                const results = Array.isArray(response.data) ? response.data : []; // Ensure results is an array
               if (results.length === 0) {
                 this.companyNameError = 'Company name not found. Please  add company name by selecting "Add new company" in the dropdown.';
               } else {
                 this.companyNameError = '';
               }
               return [
-                ...results,
+              //  ...results,
+              ...results.map((company: any) => ({
+
+                id: company.SK, 
+                name: company.name
+              })),
                 { id: 'add_new', name: "Add new company" } // Static option
               ];
             })
@@ -272,7 +279,7 @@ this.disableAllFields();
   
    //user types something into the input, then clears the input without selecting a company
    this.myControl.valueChanges.subscribe(value => {
-    console.log("erase")
+   // console.log("erase")
     if (value === '' && this.myControl.valueChanges) {
    
       this.selectedCompany = null;
@@ -366,8 +373,10 @@ onBlur(myControl:any) {
       // this.companySK ="";
       return option;
     } else if (typeof option === "object" && option?.name) {
+    
       this.companyName = option.name;
-      this.companySK = option.SK;
+      this.companySK = option.id;
+    
       return option.name;
     } else {
       return option ? option.name : "";
@@ -422,8 +431,8 @@ onBlur(myControl:any) {
       officialEmail: this.workExperienceDetails?.emailId
         ? this.workExperienceDetails?.emailId
         : "",
-      companySK: this.selectedCompany?.SK
-        ? this.selectedCompany?.SK
+      companySK: this.selectedCompany?.id
+        ? this.selectedCompany?.id
         : this.workExperienceDetails?.companyId,
       previousCompanies: "",
       isEmailVerified: false,
@@ -490,8 +499,8 @@ onBlur(myControl:any) {
       this.employeeProfessionalData.companyName = this.selectedCompany.name
         ? this.selectedCompany?.name
         : this.workExperienceDetails?.companyName;
-      this.employeeProfessionalData.companySK = this.selectedCompany.SK
-        ? this.selectedCompany?.SK
+      this.employeeProfessionalData.companySK = this.selectedCompany.id
+        ? this.selectedCompany?.id
         : this.workExperienceDetails?.companyId;
     }
     this.nextStepThird.emit(this.employeeProfessionalData);
@@ -553,8 +562,8 @@ onBlur(myControl:any) {
       this.employeeProfessionalData.companyName = this.selectedCompany.name
         ? this.selectedCompany?.name
         : this.workExperienceDetails?.companyName;
-      this.employeeProfessionalData.companySK = this.selectedCompany.SK
-        ? this.selectedCompany?.SK
+      this.employeeProfessionalData.companySK = this.selectedCompany.id
+        ? this.selectedCompany?.id
         : this.workExperienceDetails?.companyId;
     }
     this.nextStepThird.emit(this.employeeProfessionalData);

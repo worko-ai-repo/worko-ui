@@ -8,6 +8,7 @@ import { AdminService } from '../../services/admin.service';
 import { ModalComponent } from 'src/app/modules/shared/components/modal/modal.component';
 import { ModalType } from 'src/app/modules/shared/interfaces/shared.interface';
 import { NgxSpinnerService } from 'ngx-spinner';
+import { Router } from '@angular/router';
 export interface UserData {
   // name: string;
   // userEmail: string;
@@ -54,7 +55,7 @@ export class AdminPaymentComponent {
   pageSize: number = 25;
   lastKey: string | undefined = undefined;
   iconTimeout: any;
-  constructor(private elementRef: ElementRef, private adminService: AdminService, private spinner: NgxSpinnerService) {
+  constructor(private router: Router,private elementRef: ElementRef, private adminService: AdminService, private spinner: NgxSpinnerService) {
     this.candidatesDataSource = new MatTableDataSource<UserData>(this.nameslist);
     this.servicesDataSource = new MatTableDataSource<UserData>(this.nameslist);
   }
@@ -90,9 +91,17 @@ export class AdminPaymentComponent {
       }
     }).catch((error: any) => {
       this.spinner.hide()
-      this.successmessage = "Something went wrong. Please try again after sometime"
-      this.successtitle = "Error"
-      this.openModal(ModalType.SUCCESS_MESSAGE)
+      if (error.status == 404) {
+        this.spinner.hide()
+        this.router.navigate(['/auth/logout']);
+      } else if (error.status == 401) {
+
+        this.router.navigate(['/']);
+      } else {
+        this.successmessage = "Something went wrong. Please try again after sometime"
+        this.successtitle = "Error"
+        this.openModal(ModalType.SUCCESS_MESSAGE)
+      }
     });
   }
   updateData(newData: UserData[]) {

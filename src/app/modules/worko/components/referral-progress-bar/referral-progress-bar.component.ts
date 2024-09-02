@@ -20,7 +20,8 @@ export class ReferralProgressBarComponent implements OnChanges {
   cvError: boolean = false;
   jobDescription: boolean = false;
   // maxDuration: number = 2 * 60 * 1000;
-  maxDuration: number = 1.5 * 60 * 1000;
+  //maxDuration: number = 1.5 * 60 * 1000;
+  maxDuration: number = 5 * 60 * 1000;
   texts: string[] = [
     "Matching your educational qualification",
     "Checking your responsibilities and experiences",

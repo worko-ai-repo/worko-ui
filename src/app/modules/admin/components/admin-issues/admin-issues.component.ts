@@ -9,6 +9,7 @@ import { ModalComponent } from 'src/app/modules/shared/components/modal/modal.co
 import { ModalType } from 'src/app/modules/shared/interfaces/shared.interface';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { NgxSpinnerService } from 'ngx-spinner';
+import { Router } from '@angular/router';
 export interface UserData {
 
   name: string;
@@ -43,7 +44,7 @@ export class AdminIssuesComponent {
   modalTitle: string = "";
   showModal: ModalType | undefined;
 
-  displayedColumns: string[] = ['serialnumber','name', 'ID', 'contextType', 'date', 'userRole', 'userEmail','status','action'];
+  displayedColumns: string[] = ['serialnumber','name','userEmail', 'ID', 'contextType', 'date', 'userRole', 'status','action'];
   candidatesDataSource: MatTableDataSource<UserData>;
   // servicesDataSource: MatTableDataSource<UserData>;
   isFilterPopupOpen: boolean = true;
@@ -76,7 +77,7 @@ export class AdminIssuesComponent {
   issuesData: any;
   successmessage: string='';
   successtitle: string='';
-  constructor(private elementRef: ElementRef, private adminService: AdminService,private spinner: NgxSpinnerService) {
+  constructor(private router:Router,private elementRef: ElementRef, private adminService: AdminService,private spinner: NgxSpinnerService) {
     this.candidatesDataSource = new MatTableDataSource<UserData>(this.issueList);
     // this.servicesDataSource = new MatTableDataSource<UserData>(this.nameslist);
   }
@@ -110,9 +111,17 @@ export class AdminIssuesComponent {
       }
     }).catch((error: any) => {
       this.spinner.hide()
-      this.successmessage = "Something went wrong. Please try again after sometime"
+      if (error.status == 404) {
+        this.spinner.hide()
+        this.router.navigate(['/auth/logout']);
+      } else if (error.status == 401) {
+  
+        this.router.navigate(['/']);
+      } else {
+        this.successmessage = "Something went wrong. Please try again after sometime"
         this.successtitle = "Error"
         this.openModal(ModalType.SUCCESS_MESSAGE)
+      }
     });
   }
   updateData(newData: UserData[]) {

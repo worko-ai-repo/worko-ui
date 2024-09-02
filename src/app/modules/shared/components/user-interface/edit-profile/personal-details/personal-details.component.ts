@@ -2,7 +2,7 @@ import { ChangeDetectorRef, Component, ElementRef, EventEmitter, Input, OnInit, 
 import { MatAutocompleteModule, MatAutocompleteTrigger } from '@angular/material/autocomplete';
 import { FormControl, FormsModule, NgModel, ReactiveFormsModule } from '@angular/forms';
 import { Observable } from 'rxjs';
-import { debounceTime, distinctUntilChanged, switchMap, filter } from 'rxjs/operators';
+import { debounceTime, distinctUntilChanged, switchMap, filter, map } from 'rxjs/operators';
 import { Subscription } from 'rxjs';
 import { AuthService } from 'src/app/modules/worko/services/auth.service';
 import { ModalType } from 'src/app/modules/shared/interfaces/shared.interface';
@@ -78,21 +78,44 @@ export class PersonalDetailsComponent implements OnInit {
 
   constructor(private authService: AuthService, private elRef: ElementRef, private cdr: ChangeDetectorRef) { }
   ngOnInit(): void {
-    this.filteredOptions = this.myControl.valueChanges.pipe(
-      debounceTime(300),
-      distinctUntilChanged(),
-      switchMap((value: any) => {
-        if (value && value.length >= 1) {
-          return this.authService.getCompanyName(value);
-        } else {
-          // If value.length is less than 1, return an empty array or null
-          return [];
-        }
-      })
+  //   this.filteredOptions = this.myControl.valueChanges.pipe(
+  //     debounceTime(300),
+  //     distinctUntilChanged(),
+  //     switchMap((value: any) => {
+  //       if (value && value.length >= 1) {
+  //         return this.authService.getCompanyName(value);
+  //       } else {
+  //         // If value.length is less than 1, return an empty array or null
+  //         return [];
+  //       }
+  //     })
 
-    );
+  //   );
 
+  this.filteredOptions = this.myControl.valueChanges.pipe(
+    debounceTime(300),
+    distinctUntilChanged(),
+    switchMap((value: any) => {
+      if (value && value.length >= 1) {
+        return this.authService.getCompanyName(value).pipe(
+          map((response: any) => {
+            const results = Array.isArray(response.data) ? response.data : []; // Ensure results is an array
+  
+            return results.map((company: any)=> ({
+              id: company.SK, // Remove the 'ID#' prefix from SK
+              name: company.name
+            }));
+          })
+        );
+      } else {
+        return [];
+      }
+    })
+  );
+  
   }
+   
+
   focusInput(): void {
     this.softSkillInput.nativeElement.focus();
   }
@@ -121,9 +144,9 @@ export class PersonalDetailsComponent implements OnInit {
       // this.companySK ="";
       return option;
     } else if (typeof option === 'object' && option.name) {
-
+    
       this.companyName = option.name;
-      this.companySK = option.SK;
+      this.companySK = option.id;
       return option.name;
     } else {
 
@@ -343,7 +366,7 @@ export class PersonalDetailsComponent implements OnInit {
     if (!this.candidateProfessionalDetails.isCandidateFresher) {
       if (this.selectedCompany) {
         this.candidateProfessionalDetails.companyName = this.selectedCompany.name ? this.selectedCompany?.name : this.workExperienceDetails?.companyName
-        this.candidateProfessionalDetails.companySK = this.selectedCompany.SK ? this.selectedCompany?.SK : this.workExperienceDetails?.companyId
+        this.candidateProfessionalDetails.companySK = this.selectedCompany.id ? this.selectedCompany?.id : this.workExperienceDetails?.companyId
       }
     }
 

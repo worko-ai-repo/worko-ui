@@ -612,10 +612,18 @@
       </div>
       <div class="row form-row">
         <div class="col-4">
-          <label class="form-label">Job Description</label>
+          <label class="form-label">Score Details</label>
         </div>
         <div class="col-8">
-          <span class="form-detail">: {{ rowData.jdExtracted }}</span>
+          <span class="form-detail">: {{ rowData.scoreDetails }}</span>
+        </div>
+      </div>
+      <div class="row form-row">
+        <div class="col-4">
+          <label class="form-label">Job Description Extracted</label>
+        </div>
+        <div class="col-8">
+          <span class="form-detail" style="display: block; white-space: pre-wrap; word-wrap: break-word;">: {{ rowData.jdExtracted }}</span>
         </div>
       </div>
 
