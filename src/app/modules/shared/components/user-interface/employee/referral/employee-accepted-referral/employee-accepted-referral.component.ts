@@ -41,9 +41,10 @@ export class EmployeeAcceptedReferralComponent {
   showModal: ModalType | undefined;
   isSmallerScreen:boolean=false
   isHidden:boolean=false
-  circleDiameter:number=105;
+  // circleDiameter:number=105;
   userId: any;
   messages: any[] = [];
+  circleDiameter:number=98;
 
   constructor(private breakpointObserver: BreakpointObserver, private chatService: ChatService, private storage: StorageService) {}
   score: number = 0;

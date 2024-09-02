@@ -98,12 +98,12 @@
             <div class="col-md-8">
                 <div class="float-left achievments-list d-flex"
                     *ngFor="let coreSkill of empCoreSkillsDetails[0]?.coreSkills">
-                    <div class="ps-3 m-1 text-in-box">{{coreSkill.skillName}}
-                        <span class="text-in-box-close-icon">
+                    <div class="m-1 text-in-box">{{coreSkill.skillName}}
+                        <!-- <span class="text-in-box-close-icon">
                             <svg width="16" height="16" viewBox="0 0 16 16" fill="none"
                                 xmlns="http://www.w3.org/2000/svg">
                             </svg>
-                        </span>
+                        </span> -->
                     </div>
                 </div>
             </div>
@@ -119,7 +119,7 @@
         </div> -->
 
 
-        <div class="col-md-12">
+        <div class="col-md-12" *ngIf="empCoreSkillsDetails[0]?.certifications">
             <h5 class=" m-4 mb-0 pb-2">Achievements</h5>
         </div>
 
@@ -127,12 +127,12 @@
             <div class="col-md-8">
                 <div class="float-left achievments-list d-flex"
                 *ngFor="let achievement of empCoreSkillsDetails[0]?.certifications">
-                    <div class="ps-3 m-1 text-in-box">{{ achievement.certName }}
-                        <span class="text-in-box-close-icon">
+                    <div class="m-1 text-in-box">{{ achievement.certName }}
+                        <!-- <span class="text-in-box-close-icon">
                             <svg width="16" height="16" viewBox="0 0 16 16" fill="none"
                                 xmlns="http://www.w3.org/2000/svg">
                             </svg>
-                        </span>
+                        </span> -->
                     </div>
                 </div>
             </div>

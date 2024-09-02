@@ -1,22 +1,23 @@
 <div class="card candidate-card">
     <div class="card-body">
         <div class="container-fluid" style="height: 100%;">
-            <div class="row" style="height: 100%;">
+            <div class="row col-md-12" style="height: 100%;">
 
                 <div *ngIf="selectedReferral"
-                    class="col-12 col-md-3 d-flex justify-content-start mb-3 mb-md-0 p-0 m-0  issues-btn">
+                    class="col-3 col-md-3 d-flex justify-content-start mb-3 mb-md-0 p-0 m-0  issues-btn">
                     <app-raise-issue [userType]="userType" (raiseIssue1)="referralRaiseIssue($event)"
                         [isHidden]="isHidden"></app-raise-issue>
                 </div>
                 <div *ngIf="selectedReferral"
-                    class="col-12 col-md-3 d-flex justify-content-start mb-3 mb-md-0 done-btn  m-0">
+                    class="col-3 col-md-3 d-flex justify-content-start mb-3 mb-md-0 done-btn  m-0">
                     <app-mark-as-done [userType]="userType" (markAsDone1)="markAsDoneBtn()"
                         (referralRating1)="referralReviewRating($event)" [isHidden]="isHidden"
                         (cancelRatingPopup1)="cancelReviewRatingPopup()">
                     </app-mark-as-done>
                 </div>
 
-                <div *ngIf="selectedReferral" class="col-12 col-md-3 d-flex justify-content-end mb-3 mb-md-0 p-0 m-0">
+                <div *ngIf="selectedReferral"
+                    class="col-6 col-md-3 d-flex justify-content-end mb-3 mb-md-0 p-0 m-0">
                     <button class="btn-reqq text-center float-end me-2" (click)="openDetailsModal()">
                         <i class="fa-regular fa-address-card"></i>
                         <div>Details</div>
