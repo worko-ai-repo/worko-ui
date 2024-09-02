@@ -16,8 +16,7 @@
                     </app-mark-as-done>
                 </div>
 
-                <div *ngIf="selectedReferral"
-                    class="col-12 col-md-3 d-flex justify-content-end mb-3 mb-md-0 p-0 m-0">
+                <div *ngIf="selectedReferral" class="col-12 col-md-3 d-flex justify-content-end mb-3 mb-md-0 p-0 m-0">
                     <button class="btn-reqq text-center float-end me-2" (click)="openDetailsModal()">
                         <i class="fa-regular fa-address-card"></i>
                         <div>Details</div>
@@ -46,7 +45,8 @@
                 <!-- Chat UI -->
                 <div class="row mt-3">
                     <div class="col-12">
-                        <app-chat-ui></app-chat-ui>
+                        <app-chat-ui [messages]="messages" [userId]="userId"
+                            [referralId]="getSlicedValue(selectedReferral?.SK)">></app-chat-ui>
                     </div>
                 </div>
 
@@ -74,31 +74,31 @@
     </ng-container>
 
     <ng-container *ngIf="showModal === modalType.REFERRAL_DETAILS">
-        <div class="candidate-card"  style="border-radius: 6px;">
+        <div class="candidate-card" style="border-radius: 6px;">
             <div class="card-content">
                 <div class="popup-card">
                     <div *ngIf="selectedReferral" class="row">
                         <!-- Job Details Section -->
                         <div class="col-12 col-md-6 job-details">
-                            <span class="label">Job Url:</span> 
+                            <span class="label">Job Url:</span>
                             <a href="{{selectedReferral?.jobUrl}}" target="_blank" class="value">Link</a>
-    
-                            <span class="label">Company Name:</span> 
+
+                            <span class="label">Company Name:</span>
                             <span class="value">{{selectedReferral?.companyName}}</span>
-    
-                            <span class="label">Matching Score:</span> 
+
+                            <span class="label">Matching Score:</span>
                             <span class="value">{{selectedReferral?.matchingScore}}</span>
                         </div>
-    
+
                         <!-- Referee Details Section -->
                         <div *ngIf="refereeDetails" class="col-12 col-md-6 referee-details mt-3 mt-md-0">
-                            <span class="label">Referee Name:</span> 
+                            <span class="label">Referee Name:</span>
                             <span class="value">{{refereeDetails[0]?.name}}</span>
-    
-                            <span class="label">Referee Designation:</span> 
+
+                            <span class="label">Referee Designation:</span>
                             <span class="value">{{refereeDetails[0]?.userExperienceDetails?.designation}}</span>
-    
-                            <span class="label">Referee Department:</span> 
+
+                            <span class="label">Referee Department:</span>
                             <span class="value">{{refereeDetails[0]?.userExperienceDetails?.department}}</span>
                         </div>
                     </div>
@@ -106,6 +106,6 @@
             </div>
         </div>
     </ng-container>
-    
+
 
 </app-modal>

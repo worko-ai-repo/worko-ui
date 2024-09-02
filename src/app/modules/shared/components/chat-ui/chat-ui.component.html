@@ -1,10 +1,10 @@
 <div class="chat-container">
     <!-- Chat Messages -->
-    <div class="chat-messages">
+    <!-- <div class="chat-messages">
         <div class="message left">
             <img class="avatar" src="assets/chat-ui-images/person_logo.png" alt="Jack">
             <div class="message-content">
-                <span class="sender-name">Jack</span>
+                <span class="sender-name">Sender</span>
                 <p>Anyone is up for illustrations. I think there are less relatable images according to our brand.</p>
             </div>
         </div>
@@ -13,12 +13,22 @@
             <div class="message-content">
                 <p>Yes, it will decrease the loading 👍</p>
             </div>
-        </div>
+        </div> -->
 
-        <!-- Typing indicator -->
-        <div class="typing-indicator">
+    <!-- Typing indicator -->
+    <!-- <div class="typing-indicator">
             <img class="typing-avatar" src="assets/chat-ui-images/typing_logo.png" alt="John is typing...">
             <span>John is typing...</span>
+        </div>
+    </div> -->
+
+    <!-- Chat Messages -->
+    <div class="chat-messages">
+        <div *ngFor="let msg of messages"
+            [ngClass]="{'right': msg.senderId === userId, 'left': msg.senderId !== userId}" class="message">
+            <div class="message-content">
+                <p>{{ msg.text }}</p>
+            </div>
         </div>
     </div>
 
@@ -27,12 +37,12 @@
         <button class="attach-btn">
             <img src="assets/chat-ui-images/attachment_icon.png" alt="Attach">
         </button>
-    
+
         <button class="gallery-btn">
             <img src="assets/chat-ui-images/gallery_icon.png" alt="Gallery">
         </button>
-        <input type="text" placeholder="Write message here">
-        <button class="send-btn">
+        <input [(ngModel)]="newMessage" type="text" placeholder="Write message here">
+        <button (click)="sendMessage()" class="send-btn">
             <img src="assets/chat-ui-images/send_icon.png" alt="Send">
         </button>
     </div>

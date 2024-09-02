@@ -1,4 +1,5 @@
-import { Component } from '@angular/core';
+import { Component, Input } from '@angular/core';
+import { ChatService } from 'src/app/modules/services/chat.service';
 
 @Component({
   selector: 'app-chat-ui',
@@ -7,17 +8,43 @@ import { Component } from '@angular/core';
 })
 export class ChatUIComponent {
 
-  messages = [
-    { sender: 'Jack', text: 'Anyone is up for illustrations?' },
-    { sender: 'You', text: 'Yes, It will decrease the loading 👍' },
-  ];
+  @Input() messages: any[] = [];
+  @Input() userId!: string;
+  @Input() referralId!: string;
   newMessage = '';
 
-  sendMessage() {
+  constructor(private chatService: ChatService) {}
+
+  ngOnChanges(): void {
+    // This will handle the incoming messages and update the UI
+  }
+
+  sendMessage(): void {
     if (this.newMessage.trim()) {
-      this.messages.push({ sender: 'You', text: this.newMessage });
+      const message = {
+        action: "sendMessage",
+        messageData: {
+          text: this.newMessage,
+          referralId: this.referralId,
+          senderId: this.userId
+        }
+      };
+      this.chatService.sendMessage(message);
       this.newMessage = '';
     }
   }
+
+  // messages = [
+  //   { sender: 'Jack', text: 'Anyone is up for illustrations?' },
+  //   { sender: 'You', text: 'Yes, It will decrease the loading 👍' },
+  // ];
+  // newMessage = '';
+
+  // sendMessage() {
+  //   if (this.newMessage.trim()) {
+  //     this.messages.push({ sender: 'You', text: this.newMessage });
+  //     this.newMessage = '';
+  //   }
+  // }
 
 }
