@@ -18,11 +18,13 @@
                   <input
                     matInput
                     class="serachInput"
-                    (keyup)="handleSearchInput($event, candidatesDataSource)"
+                    (keyup)="handleSearchInput($event)"
+                    (keydown)="onSearchInputEnter($event)"
                     placeholder="Search"
+                    [(ngModel)]="searchQuery"
                     #input
                   />
-                  <button mat-button matSuffix mat-icon-button (click)="clearSearchInput(input,candidatesDataSource)"  *ngIf="input.value"
+                  <button mat-button matSuffix mat-icon-button (click)="clearSearchInput()"  *ngIf="searchQuery"
                   class="custom-clear-button">
                   <mat-icon>clear</mat-icon>
                 </button>
@@ -30,7 +32,7 @@
                   <div class="pe-2">
                     <mat-form-field  >
                       <mat-label style="color: white;">From Date</mat-label>
-                      <input matInput [matDatepicker]="fromPicker" [(ngModel)]="filterModel.fromDate" (dateChange)="applyFilters()" >
+                      <input matInput [matDatepicker]="fromPicker" [(ngModel)]="filterModel.fromDate" (dateChange)="applyFromDateFilters()" >
                       <mat-datepicker-toggle matSuffix [for]="fromPicker"></mat-datepicker-toggle>
                       <mat-datepicker #fromPicker></mat-datepicker>
                     </mat-form-field>
@@ -39,7 +41,7 @@
                   <div class="pe-2">
                     <mat-form-field>
                       <mat-label style="color: white;">To Date</mat-label>
-                      <input matInput [matDatepicker]="toPicker" [(ngModel)]="filterModel.toDate" (dateChange)="applyFilters()">
+                      <input matInput [matDatepicker]="toPicker" [(ngModel)]="filterModel.toDate" (dateChange)="applyToDateFilters()">
                       <mat-datepicker-toggle matSuffix [for]="toPicker"></mat-datepicker-toggle>
                       <mat-datepicker #toPicker></mat-datepicker>
                     </mat-form-field>
@@ -153,7 +155,10 @@
                 "
                 mat-table
                 [dataSource]="candidatesDataSource"
-                matSort
+                (matSortChange)="onSort($event)"
+                matSortDirection="desc" 
+                matSort matSortActive="purchaseDate"
+                matSortDisableClear="true"
               >
                 <tbody class="table content-style">
                   <!-- <ng-container matColumnDef="name">
@@ -212,7 +217,7 @@
                   </ng-container>
   
                   <ng-container matColumnDef="purchaseDate">
-                    <th mat-header-cell *matHeaderCellDef >
+                    <th mat-header-cell *matHeaderCellDef mat-sort-header >
                       Purchase Date
                     </th>
                     <td mat-cell *matCellDef="let row">

@@ -86,10 +86,18 @@
                             <div class="title"><u>{{item.name}}</u></div>
                             <div class="col-5 d-lex align-items-center links-container">
                                 <div class="float-left image-brand">
-                                    <img *ngIf="assetLogos.includes(item.logo)" src="assets/company-logo/{{item.logo }}"
+                                    <!-- <img *ngIf="assetLogos.includes(item.logo)" src="assets/company-logo/{{item.logo }}"
                                         class="company-name" alt="logo">
                                     <img *ngIf="!assetLogos.includes(item.logo)" src="{{ item.logoUrl }}"
-                                        class="company-name" alt="logo">
+                                        class="company-name" alt="logo"> -->
+
+                                        <ng-container *ngIf="item.logo; else useUrlLogo">
+                                            <img src="assets/company-logo/{{item.logo}}" class="company-name" alt="logo">
+                                          </ng-container>
+                                          
+                                          <ng-template #useUrlLogo>
+                                            <img src="{{ item.logoUrl }}" class="company-name" alt="logo">
+                                          </ng-template>
 
                                 </div>
 
@@ -150,7 +158,7 @@
                         insights.</p>
                     <p>Stay tuned for updates.</p>
                     <p> Need urgent assistance, like interview preparation from insiders?</p>
-                    <p>Email us at <a href="mailto:Guidance@worko.ai">Guidance@worko.ai</a> for support.</p>
+                    <p>Email us at <a href="mailto:Guidance@worko.ai">Guidance&#64;worko.ai</a> for support.</p>
                 </div>
                 <div class="text-center">
                     <button class="btn btn-next" (click)="cancel()">Cancel</button>
