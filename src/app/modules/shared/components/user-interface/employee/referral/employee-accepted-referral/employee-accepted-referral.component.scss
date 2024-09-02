@@ -254,6 +254,102 @@ ngb-rating {
     flex-direction: column;
 }
 
+// classes related to modal
+
+.popup-card {
+    border-radius: 12.69px;
+    // border: 0.634px solid rgba(87, 225, 255, 0.18);
+    background: rgba(10, 30, 54, 0.96);
+    backdrop-filter: blur(11.516115188598633px);
+    height: 100%;
+    width: 100%;
+    padding: 30px;
+}
+
+.card-content {
+    height: 100%;
+    width: 100%;
+}
+
+.label {
+    font-weight: 700;
+    color: #ffffff;
+    font-size: 16px;
+    display: block;
+    margin-bottom: 5px;
+}
+
+.value {
+    color: #f0f0f0;
+    font-size: 16px;
+    display: block;
+    margin-bottom: 15px;
+}
+
+// .job-details, .referee-details {
+//     // padding: 10px 15px;
+//     // border-radius: 4px;
+//     // background-color: #2a3f54; /* Slightly darker background for section separation */
+//     // margin-bottom: 15px;
+// }
+
+.popup-card a {
+    color: #57E1FF; /* Keeping the link color */
+    text-decoration: none;
+    font-weight: 500;
+}
+
+.popup-card a:hover {
+    text-decoration: underline;
+}
+
+//new buttons css
+
+.btn-reqq {
+    background-color: #ffffff;
+    border-radius: 50%;
+    width: 40px;
+    height: 40px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: #005bb5;
+    border: 2px solid #36D0FF;
+    font-size: 22px;
+    cursor: pointer;
+    margin: 0 10px;
+    position: relative;
+}
+
+/* Icon inside the button */
+.btn-reqq i {
+    font-size: 16px;
+}
+
+/* Text below the button */
+.btn-reqq div {
+    position: absolute;
+    top: 45px;  
+    width: 110%;
+    text-align: center;
+    font-size: 8px;
+    color: #ffffff;
+    z-index: 99;
+}
+
+/* Hover effect for buttons */
+.btn-reqq:hover {
+    background-color: #005bb5;
+    color: #ffffff;
+    border-color: #ffffff;
+}
+
+/* Disabled button state */
+.btn-reqq[disabled] {
+    opacity: 0.5; /* Reduced opacity for disabled state */
+    cursor: not-allowed; /* Not-allowed cursor to indicate non-clickable state */
+}
+
 /* Styles for mobile screens */
 @media (max-width: 768px) {
   

@@ -2,6 +2,8 @@ import { Component, EventEmitter, Input, Output, SimpleChanges, ViewChild } from
 import { ModalComponent } from '../../../../modal/modal.component';
 import { ModalType } from 'src/app/modules/shared/interfaces/shared.interface';
 import { BreakpointObserver, Breakpoints } from '@angular/cdk/layout';
+import { ChatService } from 'src/app/modules/services/chat.service';
+import { StorageService } from 'src/app/modules/app-core/services/storage.service';
 
 @Component({
   selector: 'app-employee-accepted-referral',
@@ -40,8 +42,10 @@ export class EmployeeAcceptedReferralComponent {
   isSmallerScreen:boolean=false
   isHidden:boolean=false
   circleDiameter:number=105;
+  userId: any;
+  messages: any[] = [];
 
-  constructor(private breakpointObserver: BreakpointObserver) {}
+  constructor(private breakpointObserver: BreakpointObserver, private chatService: ChatService, private storage: StorageService) {}
   score: number = 0;
   originalPoints = 2.1;
   possiblePoints = 100;
@@ -74,7 +78,38 @@ export class EmployeeAcceptedReferralComponent {
       this.profileImage = this.empdetailsList[0].profileImageAwsS3SignedUrl ? this.empdetailsList[0]?.profileImageAwsS3SignedUrl : '/assets/public/candidate-img.png'
 
     }
+
+    this.userId = this.storage.get("userId");
+
+    if (changes['selectedReferral'] && this.selectedReferral) {
+      // Checking if the status is ACCEPTED before connecting
+      if (this.selectedReferral.status === 'ACCEPTED') {
+
+        // Connecting to the chat with the selected referral ID and user ID
+        this.chatService.connect(this.userId, this.getSlicedValue(this.selectedReferral?.SK));
+
+        // Fetch existing messages
+        this.chatService.getMessages(this.getSlicedValue(this.selectedReferral?.SK), this.userId);
+
+        // Subscribe to new messages
+        this.chatService.onMessage().subscribe(message => {
+          if (message.referralId === this.getSlicedValue(this.selectedReferral?.SK)) {  //this.getSlicedValue(this.selectedReferral?.SK) is referral Id here
+            this.messages.push(message);
+          }
+        });
+
+      }
+    }
    
+  }
+
+  ngOnDestroy(): void {
+    this.chatService.disconnect();
+  }
+
+  getSlicedValue(value: string): string {
+    const parts = value?.split('#');
+    return parts?.length > 2 ? parts[2] : '';
   }
 
   // referralMarkAsDone() {
@@ -127,6 +162,10 @@ export class EmployeeAcceptedReferralComponent {
   formatScoreDetails(data: string): string {
     // Replacing all occurrences of \n with <br>
     return data?.replace(/\n/g, '<br>');
+  }
+
+  openDetailsModal() {
+    this.openModal(ModalType.REFERRAL_DETAILS);
   }
 
   /**

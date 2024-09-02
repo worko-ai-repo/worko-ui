@@ -88,6 +88,7 @@ import { AddCompanyComponent } from '../worko/components/add-company/add-company
 import { PlansOrderPaymentModalComponent } from './components/plans-order-payment-modal/plans-order-payment-modal.component';
 import { PaymentConfirmationModalComponent } from './components/payment-confirmation-modal/payment-confirmation-modal.component';
 import { PgResponseComponent } from './components/user-interface/subscription/pg-response/pg-response.component';
+import { ChatUIComponent } from './components/chat-ui/chat-ui.component';
 export const routes: Routes = [
 
   
@@ -135,7 +136,8 @@ export const routes: Routes = [
     AddCompanyComponent,
     PlansOrderPaymentModalComponent,
     PaymentConfirmationModalComponent,
-    PgResponseComponent
+    PgResponseComponent,
+    ChatUIComponent
     // DoneServiceComponent,
     // CancelledServiceComponent,
     // AwaitingServiceComponent,
@@ -203,7 +205,8 @@ export const routes: Routes = [
   DetailedAnalysisComponent,
   AddCompanyComponent,
   PlansOrderPaymentModalComponent,
-  PaymentConfirmationModalComponent
+  PaymentConfirmationModalComponent,
+  ChatUIComponent
   ],
 
 })
