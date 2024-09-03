@@ -27,6 +27,7 @@ Actions:
     Configuration:
       # Required - Steps are sequential instructions that run shell commands
       Steps:
+        - Run: npm install @angular/cli
         - Run: npm install
         - Run: ng build
     Compute:
@@ -50,6 +51,7 @@ Actions:
     Configuration:
       # Required - Steps are sequential instructions that run shell commands
       Steps:
+        - Run: npm install @angular/cli
         - Run: npm install
         - Run: ng test
     Compute:
