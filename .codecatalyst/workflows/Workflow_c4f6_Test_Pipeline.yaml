@@ -27,7 +27,7 @@ Actions:
     Configuration:
       # Required - Steps are sequential instructions that run shell commands
       Steps:
-        - Run: ng add
+        - Run: npm install
         - Run: ng build
     Compute:
       Type: Lambda
@@ -50,7 +50,7 @@ Actions:
     Configuration:
       # Required - Steps are sequential instructions that run shell commands
       Steps:
-        - Run: ng add
+        - Run: npm install
         - Run: ng test
     Compute:
       Type: Lambda
