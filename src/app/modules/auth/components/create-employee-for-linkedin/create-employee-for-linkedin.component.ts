@@ -136,11 +136,12 @@ export class CreateEmployeeForLinkedinComponent {
                 this.companyNameError = '';
               }
               return [
-               // ...results,
-               ...results.map((company: any) => ({
-                id: company.SK, 
-                name: company.name
-              })),
+                // ...results,
+                ...results.map((company: any) => ({
+
+                  id: company.SK, 
+                  name: company.name
+                })),
                 { id: 'add_new', name: "Add new company" } // Static option
               ];
             })
