@@ -27,6 +27,8 @@ Actions:
     Configuration:
       # Required - Steps are sequential instructions that run shell commands
       Steps:
+        - Run: nvm install 18
+        - Run: nvm use 18
         - Run: npm install -g @angular/cli
         - Run: npm install
         - Run: ng build
