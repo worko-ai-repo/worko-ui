@@ -127,14 +127,20 @@ export class CreateEmployeeForLinkedinComponent {
 
         if (value && value.length >= 1) {
           return this.authService.getCompanyName(value).pipe(
-            map((results: any[]) => {
+            // map((results: any[]) => {
+              map((response: any) => {
+                const results = Array.isArray(response.data) ? response.data : []; // Ensure results is an array
               if (results.length === 0) {
                 this.companyNameError = 'Company name not found. Please  add company name by selecting "Add new company" in the dropdown.';
               } else {
                 this.companyNameError = '';
               }
               return [
-                ...results,
+               // ...results,
+               ...results.map((company: any) => ({
+                id: company.SK, 
+                name: company.name
+              })),
                 { id: 'add_new', name: "Add new company" } // Static option
               ];
             })
@@ -199,7 +205,7 @@ export class CreateEmployeeForLinkedinComponent {
   displayFn(option: any): string {
     if (option) {
       this.companyName = option.name;
-      this.companySK = option.SK;
+      this.companySK = option.id;
       return option.name;
     } else {
       return '';
@@ -220,7 +226,7 @@ export class CreateEmployeeForLinkedinComponent {
       department: this.employeeForm.department,
       companyEmailId: this.employeeForm.companyEmailID,
       companyName: this.selectedCompany.name,
-      companySK: this.selectedCompany.SK,
+      companySK: this.selectedCompany.id,
       userId: this.userId,
       acceptedTermsAndConditions: this.employeeForm.acceptedTermsAndConditions // Include the acceptedTermsAndConditions field
 
