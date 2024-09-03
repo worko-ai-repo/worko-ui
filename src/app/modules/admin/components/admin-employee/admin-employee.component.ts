@@ -255,7 +255,7 @@ export class AdminEmployeeComponent {
         this.spinner.hide()
         // if(response && response.length > 0){
           this.userReferralData=response
-          console.log(this.userReferralData)
+          //console.log(this.userReferralData)
           //console.log(this.userReferralData)
           this.openModal(ModalType.ADMINDETAIL_POPUP,"","",userData,this.userExperience,this.userReferralData);
         });

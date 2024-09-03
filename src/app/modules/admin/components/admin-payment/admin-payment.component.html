@@ -9,12 +9,27 @@
         <div class="row p-3 pt-2">
           <div class="col-md-12">
             <div class="row pb-2 pt-2">
-              <div class="col-md-6">
+              <div class="col-md-4">
                 <h5 class="ps-2 pb-0">Payment</h5>
               </div>
-              <div class="col-md-6 d-flex justify-content-end">
+              <div class="col-md-8 d-flex justify-content-end">
 
-                <div class="pe-2">
+                <div class="pe-2 filter">
+                  <select class="serachInput  selector form-select" name="paymentStatus" id="paymentStatus" [(ngModel)]="selectedStatus"
+                    (ngModelChange)=" onStatusChange($event)"  [disabled]="isDropdownActive" [ngClass]="{'disabled-background': isDropdownActive}">
+                    <option value="">Select Status</option>
+                    <option *ngFor="let item of StatusOption" [value]="item.value">{{ item.name }}</option>
+                  </select>
+                </div>
+                <div class="pe-2 filter">
+                  <select class="serachInput  selector form-select" name="nameFilter" id="nameFilter" [(ngModel)]="selectedName"
+                    (ngModelChange)=" onNameChange($event)"  [disabled]="isSearchActive" [ngClass]="{'disabled-background': isSearchActive}">
+                    <option value="">Select Package Name</option>
+                    <option *ngFor="let item of nameOption" [value]="item.value">{{ item.name }}</option>
+                  </select>
+                </div>
+
+                <!-- <div class="pe-2">
                   <input
                     matInput
                     class="serachInput"
@@ -23,12 +38,14 @@
                     placeholder="Search"
                     [(ngModel)]="searchQuery"
                     #input
+                    [disabled]="isSearchActive"
+                    [ngClass]="{'disabled-background': isSearchActive}"
                   />
                   <button mat-button matSuffix mat-icon-button (click)="clearSearchInput()"  *ngIf="searchQuery"
                   class="custom-clear-button">
                   <mat-icon>clear</mat-icon>
                 </button>
-                </div>
+                </div> -->
                   <div class="pe-2">
                     <mat-form-field  >
                       <mat-label style="color: white;">From Date</mat-label>
@@ -287,7 +304,7 @@
   
                 <tr class="mat-row" *matNoDataRow>
                   <td class="mat-cell" colspan="6">
-                    No data matching the filter "{{ input.value }}"
+                    No data matching the filter 
                   </td>
                 </tr>
               </table>

@@ -63,6 +63,35 @@ export class AdminPaymentComponent {
   searchText: any='';
   searchTerm: string = '';
   searchQuery: string = '';
+  selectedStatus: string = '';
+  selectedName:string='';
+  StatusOption: any = [
+    {
+      name: "Active",
+      value: "active"
+    },
+    {
+      name: "Used",
+      value: "used"
+    },
+  ]
+  nameOption: any = [
+    {
+      name: "Starter",
+      value: "Starter"
+    },
+    {
+      name: "Accelerator",
+      value: "Accelerator"
+    },
+    {
+      name: "Maximiser",
+      value: "Maximiser"
+    },
+  ]
+
+  isDropdownActive: boolean = false;
+  isSearchActive: boolean = false;
   constructor(private router: Router,private elementRef: ElementRef, private adminService: AdminService, private spinner: NgxSpinnerService) {
     this.candidatesDataSource = new MatTableDataSource<UserData>(this.nameslist);
     this.servicesDataSource = new MatTableDataSource<UserData>(this.nameslist);
@@ -207,51 +236,13 @@ export class AdminPaymentComponent {
       }
     });
   }
-  handleSearchInput(event: Event) {
-    this.searchQuery = (event.target as HTMLInputElement).value;
-
-
-    if (this.searchQuery.length >= 3) {
-      this.pageSize ="";
-      this.lastKey = "";
-      this.searchTerms.next(this.searchQuery);
-    }else if(this.searchQuery.length<=0){
-     this.clearSearchInput()
-    }
-  
-    
-  }
-  onSearchInputEnter(event: KeyboardEvent): void {
-    if (event.key === 'Enter') { // Checking if the pressed key is Enter
-      this.pageSize = 50;
-      this.lastKey = "";
-      this.sortOrder = '';
-      this.fromDate = '';
-      this.toDate = '';
-      this.searchTerms.next(this.searchQuery);
-    }
-  }
-
-  clearSearchInput(){
-
  
-    this.pageSize =25;
-    this.lastKey = "";
-    this.sortOrder='';
-    this.fromDate=this.fromDate, 
-    this.toDate=this.toDate,
-    this.searchTerm="",
-    this.referralPaginator.pageSize = 25;
-    this.referralPaginator.firstPage();  // Go back to the first page
-    this.getAllSubscriptions();
-
-  }
 
   onSort(sort: Sort): void {
   
     if(sort.active==='purchaseDate'){
     this.lastKey = "";
-    this.pageSize = 50;
+    this.pageSize = 25;
     this.sortOrder = this.sortOrder === 'ascending' ? 'descending' : 'ascending';
     sort.direction === 'asc' ? 'ascending' : 'descending';
     this.sort.direction = sort.direction;
@@ -259,7 +250,29 @@ export class AdminPaymentComponent {
     this.getAllSubscriptions();
     }
   }
- 
+  onStatusChange(selectedStatus:string){
+  
+   this.isSearchActive=!!selectedStatus;
+    this.pageSize =25;
+    this.lastKey = "";
+    this.sortOrder = '';
+    this.fromDate = '';
+    this.toDate = '';
+    this.searchTerm=selectedStatus;
+    this.selectedStatus=selectedStatus;
+    this.getAllSubscriptions()
+  }
+  onNameChange(selectedName:string){
+    this.isDropdownActive=!!selectedName;
+    this.pageSize =25;
+    this.lastKey = "";
+    this.sortOrder = '';
+    this.fromDate = '';
+    this.toDate = '';
+    this.searchTerm=selectedName;
+    this.selectedStatus=selectedName;
+    this.getAllSubscriptions()
+  }
 
   async viewRow(row: any) {
     let emailid = row.PK.split('#').pop() || "";
@@ -321,6 +334,53 @@ export class AdminPaymentComponent {
   }
 
 
+  // handleSearchInput(event: Event) {
+ 
+
+  //   this.searchQuery = (event.target as HTMLInputElement).value;
+  //   this.isDropdownActive = !!this.searchQuery; // Disable dropdown if search query is active
+  
+  //   if (this.searchQuery.length >= 3) {
+  //     this.pageSize ="";
+  //     this.lastKey = "";
+  //     this.searchTerms.next(this.searchQuery);
+  //   }else if(this.searchQuery.length<=0){
+  //    this.clearSearchInput()
+  //   }
+  
+    
+  // }
+  // onSearchInputEnter(event: KeyboardEvent): void {
+ 
+  //   if (event.key === 'Enter') { // Checking if the pressed key is Enter
+  //     this.isDropdownActive = true; // Disable dropdown when search is active
+  //     this.selectedStatus = ''; 
+  //     this.pageSize = 25;
+  //     this.lastKey = "";
+  //     this.sortOrder = '';
+  //     this.fromDate = '';
+  //     this.toDate = '';
+  //     this.searchTerms.next(this.searchQuery);
+  //   } else {
+  //     this.isDropdownActive = false; // Enable dropdown if search query is cleared
+  //   }
+  // }
+
+  // clearSearchInput(){
+
+  //   this.searchQuery='',
+  //   this.pageSize =25;
+  //   this.lastKey = "";
+  //   this.sortOrder='';
+  //   this.fromDate=this.fromDate, 
+  //   this.toDate=this.toDate,
+  //   this.searchTerm="",
+  //   this.referralPaginator.pageSize = 25;
+  //   this.referralPaginator.firstPage();  // Go back to the first page
+  //   this.isDropdownActive=false;
+  //   this.getAllSubscriptions();
+
+  // }
   // applyFilters() {
   //   // Gather selected filter options
   //   const selectedFilters = {

@@ -11,6 +11,8 @@ import { ModalType } from 'src/app/modules/shared/interfaces/shared.interface';
 import { NgPluralCase } from '@angular/common';
 import { Router } from '@angular/router';
 import { debounceTime, Subject } from 'rxjs';
+import { MatSelectChange } from '@angular/material/select';
+
 export interface UserData {
   Name: string;
   emailId: string;
@@ -66,6 +68,36 @@ export class AdminReferralComponent {
   searchText: any = '';
   searchTerm: string = '';
   searchQuery: string = '';
+  selectedStatus: string = '';
+  isDropdownActive: boolean = false;
+  isSearchActive: boolean = false;
+  StatusOption: any = [
+    {
+      name: "Awaiting",
+      value: "awaiting"
+    },
+    {
+      name: "Accepted",
+      value: "accepted"
+    },
+    {
+      name: "Referred",
+      value: "done"
+    },
+  
+    {
+      name: "Rejected",
+      value: "rejected"
+    }, 
+    {
+      name: "Cancelled",
+      value: "cancelled"
+    },
+    {
+      name: "Withdrawn",
+      value: "withdrawn"
+    },
+  ]
   constructor(private router: Router, private elementRef: ElementRef, private adminService: AdminService, private spinner: NgxSpinnerService) {
     this.candidatesDataSource = new MatTableDataSource<UserData>(this.nameslist);
     this.servicesDataSource = new MatTableDataSource<UserData>(this.nameslist);
@@ -197,7 +229,7 @@ export class AdminReferralComponent {
 
   handleSearchInput(event: Event) {
     this.searchQuery = (event.target as HTMLInputElement).value;
-
+    this.isDropdownActive = !!this.searchQuery; // Disable dropdown if search query is active
 
     if (this.searchQuery.length >= 3) {
       this.pageSize = "";
@@ -215,14 +247,18 @@ export class AdminReferralComponent {
     this.lastKey = "";
     this.sortOrder = '';
     this.fromDate = this.fromDate,
-      this.toDate = this.toDate,
-      this.searchTerm = "",
-      this.referralPaginator.pageSize = 25;
+    this.toDate = this.toDate,
+    this.searchTerm = "",
+    this.searchQuery='',
+    this.referralPaginator.pageSize = 25;
     this.referralPaginator.firstPage();  // Go back to the first page
+    this.isDropdownActive=false
     this.getAllReferral();
   }
   onSearchInputEnter(event: KeyboardEvent): void {
     if (event.key === 'Enter') { // Checking if the pressed key is Enter
+      this.isDropdownActive = true; // Disable dropdown when search is active
+      this.selectedStatus = ''; 
       this.pageSize = 50;
       this.lastKey = "";
       this.sortOrder = '';
@@ -231,7 +267,17 @@ export class AdminReferralComponent {
       this.searchTerms.next(this.searchQuery);
     }
   }
-
+  onStatusChange(selectedStatus:string){
+    this.isSearchActive=!!selectedStatus
+    this.pageSize = 50;
+    this.lastKey = "";
+    this.sortOrder = '';
+    this.fromDate = '';
+    this.toDate = '';
+    this.searchTerm=selectedStatus;
+    this.selectedStatus=selectedStatus;
+    this.getAllReferral()
+  }
 
   ngAfterViewInit() {
     // Set paginator and sort for referral table
@@ -253,7 +299,7 @@ export class AdminReferralComponent {
   
     if(sort.active==='date'){
     this.lastKey = "";
-    this.pageSize = 50;
+    this.pageSize = 25;
     this.sortOrder = this.sortOrder === 'ascending' ? 'descending' : 'ascending';
     sort.direction === 'asc' ? 'ascending' : 'descending';
     this.sort.direction = sort.direction;

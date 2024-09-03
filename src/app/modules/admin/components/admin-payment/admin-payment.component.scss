@@ -42,14 +42,19 @@
   position: relative;
   // top: -36px;
   // right: -76%;
-  top: -36px;
-  right: -63%;
+  top: -34px;
+  right: -60%;
 }
+.selector {
+  width: 184px;
+}
+
 .id-container {
   display: flex;
   align-items: center;
   max-width: 200px; /* Adjust this width as needed */
 }
+
 
 .text-overflow {
   overflow: hidden;
@@ -57,6 +62,13 @@
   white-space: nowrap;
   flex-grow: 1;
 }
+
+.disabled-background {
+  background-color: #f0f0f0; /* Light gray background */
+  cursor: not-allowed; /* Change cursor to indicate disabled state */
+  opacity: 0.6; /* Optional: Make the element slightly transparent */
+}
+
 
 .copy-icon {
   cursor: pointer;

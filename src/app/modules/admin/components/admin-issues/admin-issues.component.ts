@@ -129,7 +129,6 @@ export class AdminIssuesComponent {
 
 
   async getAllIssues() {
-
     this.spinner.show()
     await this.adminService.getAllIssues(this.pageSize, this.lastKey, this.sortOrder, this.fromDate, this.toDate, this.searchTerm).then(async (response: any) => {
       if (response) {
@@ -220,7 +219,7 @@ export class AdminIssuesComponent {
 
     if (sort.active === 'date') {
       this.lastKey = "";
-      this.pageSize = 50;
+      this.pageSize = 25;
       this.sortOrder = this.sortOrder === 'ascending' ? 'descending' : 'ascending';
       sort.direction === 'asc' ? 'ascending' : 'descending';
       this.sort.direction = sort.direction;
@@ -281,7 +280,7 @@ export class AdminIssuesComponent {
 
   onSearchInputEnter(event: KeyboardEvent): void {
     if (event.key === 'Enter') { // Checking if the pressed key is Enter
-      this.pageSize = 50;
+      this.pageSize = 25;
       this.lastKey = "";
       this.sortOrder = '';
       this.fromDate = '';
@@ -291,15 +290,14 @@ export class AdminIssuesComponent {
   }
 
   clearSearchInput() {
-    debugger
-  
+
     this.pageSize = 25;
     this.lastKey = "";
     this.sortOrder = '';
     this.fromDate = this.fromDate,
     this.toDate = this.toDate,
     this.searchTerm = ""
-    this.searchTerms.next('')
+   this.searchQuery="";
     this.getAllIssues();
 
 
