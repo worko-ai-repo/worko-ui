@@ -28,7 +28,6 @@ Actions:
       # Required - Steps are sequential instructions that run shell commands
       Steps:
         - Run: curl -o- https://raw.githubusercontent.com/nvm-sh/nvm/v0.40.0/install.sh | bash
-        - Run: source ~/.bash_profile
         - Run: nvm install node
         - Run: npm install -g @angular/cli
         - Run: npm install
