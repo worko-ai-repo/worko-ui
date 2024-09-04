@@ -1,9 +1,10 @@
-import { Component, EventEmitter, Input, Output, SimpleChanges, ViewChild } from '@angular/core';
+import { ChangeDetectorRef, Component, EventEmitter, Input, Output, SimpleChanges, ViewChild } from '@angular/core';
 import { ModalComponent } from '../../../../modal/modal.component';
 import { ModalType } from 'src/app/modules/shared/interfaces/shared.interface';
 import { BreakpointObserver, Breakpoints } from '@angular/cdk/layout';
 import { ChatService } from 'src/app/modules/services/chat.service';
 import { StorageService } from 'src/app/modules/app-core/services/storage.service';
+import { first, Subscription } from 'rxjs';
 
 @Component({
   selector: 'app-employee-accepted-referral',
@@ -44,9 +45,10 @@ export class EmployeeAcceptedReferralComponent {
   // circleDiameter:number=105;
   userId: any;
   messages: any[] = [];
+  private messageSubscription: Subscription | null = null;
   circleDiameter:number=98;
 
-  constructor(private breakpointObserver: BreakpointObserver, private chatService: ChatService, private storage: StorageService) {}
+  constructor(private breakpointObserver: BreakpointObserver, private chatService: ChatService, private storage: StorageService, private cdrf:ChangeDetectorRef) {}
   score: number = 0;
   originalPoints = 2.1;
   possiblePoints = 100;
@@ -83,29 +85,82 @@ export class EmployeeAcceptedReferralComponent {
     this.userId = this.storage.get("userId");
 
     if (changes['selectedReferral'] && this.selectedReferral) {
+      // Unsubscribe from any previous message stream
+      this.unsubscribeFromMessages();
+
+      // Clearing the current messages to ensure we only display messages for the new referral ID
+      this.messages = [];
+      // Disconnect previous WebSocket connection if any
+      this.chatService.disconnect();
+
       // Checking if the status is ACCEPTED before connecting
       if (this.selectedReferral.status === 'ACCEPTED') {
-
-        // Connecting to the chat with the selected referral ID and user ID
-        this.chatService.connect(this.userId, this.getSlicedValue(this.selectedReferral?.SK));
-
-        // Fetch existing messages
-        this.chatService.getMessages(this.getSlicedValue(this.selectedReferral?.SK), this.userId);
-
-        // Subscribe to new messages
-        this.chatService.onMessage().subscribe(message => {
-          if (message.referralId === this.getSlicedValue(this.selectedReferral?.SK)) {  //this.getSlicedValue(this.selectedReferral?.SK) is referral Id here
-            this.messages.push(message);
-          }
-        });
-
+        // Connecting to the chat and subscribing to messages in one step
+        this.connectAndSubscribeToMessages();
       }
     }
    
   }
 
   ngOnDestroy(): void {
+    // Cleaning up the subscription on destroy
+    this.unsubscribeFromMessages();
     this.chatService.disconnect();
+  }
+
+  unsubscribeFromMessages(): void {
+    if (this.messageSubscription) {
+      this.messageSubscription.unsubscribe();
+    }
+  }
+
+  connectAndSubscribeToMessages(): void {
+    this.chatService.connect(this.userId, this.getSlicedValue(this.selectedReferral?.SK))
+      .then(() => {
+        this.subscribeToIncomingMessages();
+        this.getExistingMessages();
+      })
+      .catch((error) => {
+        console.error("WebSocket connection error: ", error);
+      });
+  }
+
+  subscribeToIncomingMessages(): void {
+    this.messageSubscription = this.chatService.onMessage().subscribe((response) => {
+      // Only handle new incoming messages here
+      if (response.eventName !== "getMessages") {
+        this.handleIncomingMessage(response);
+      }
+      this.cdrf.detectChanges();
+    });
+  }
+
+  getExistingMessages(): void {
+    this.chatService.onMessage().pipe(
+      first((response) => response.eventName === "getMessages")
+    ).subscribe((response) => {
+      console.log("response from get existing", response);
+      // this.messages = response.messages;
+      const messagesArray = Object.values(response.messages).filter(
+        (item) => typeof item === "object" && item?.hasOwnProperty("text")
+      );
+
+      this.messages.push(...messagesArray);
+      this.cdrf.detectChanges();
+    });
+  }
+
+  handleIncomingMessage(response: any): void {
+    // if (response.eventName === "getMessages") {
+    //   const messagesArray = Object.values(response).filter(
+    //     (item) => typeof item === "object" && item?.hasOwnProperty("text")
+    //   );
+
+    //   this.messages.push(...messagesArray);
+    // } else 
+    if (response && typeof response === "object" && response?.hasOwnProperty("text")) {
+      this.messages.push(response);
+    }
   }
 
   getSlicedValue(value: string): string {
