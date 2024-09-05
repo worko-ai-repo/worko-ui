@@ -32,7 +32,7 @@ Actions:
         - Run: touch /tmp/.profile
         - Run: source ~/.bashrc
         - Run: source ~/.profile
-        - Run: nvm install node
+        - Run: nvm install 20
         - Run: npm install -g @angular/cli
         - Run: npm install
         - Run: ng build
