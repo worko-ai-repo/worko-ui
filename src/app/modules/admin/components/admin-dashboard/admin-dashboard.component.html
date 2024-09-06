@@ -1,5 +1,41 @@
-<div class="container-fluid back-color" >
-    <div class="row" style="height: 100%;">
+<div class="container-fluid back-color">
+    <div class="admin-table-main mx-2 ms-3 row justify-content-end">
+        <div class="col-md-9 d-flex justify-content-end mt-3">
+            <div class="pe-2">
+                <div class="form-check">
+                    <input class="form-check-input" type="checkbox" id="lifetimeCheck"
+                        [(ngModel)]="filterModel.lifetime" (change)="toggleDateFilters()" />
+                    <label class="form-check-label" for="lifetimeCheck" style="color: white;">
+                        Lifetime
+                    </label>
+                </div>
+            </div>
+
+
+            <div class="pe-2">
+                <mat-form-field>
+                    <mat-label style="color: white">From Date</mat-label>
+                    <input matInput [matDatepicker]="fromPicker" [(ngModel)]="filterModel.fromDate"
+                        (dateChange)="applyFromDateFilters()" >
+                    <mat-datepicker-toggle matSuffix [for]="fromPicker"></mat-datepicker-toggle>
+                    <mat-datepicker #fromPicker></mat-datepicker>
+                </mat-form-field>
+            </div>
+            <div class="pe-2">
+                <mat-form-field>
+                    <mat-label style="color: white;">To Date</mat-label>
+                    <input matInput [matDatepicker]="toPicker" [(ngModel)]="filterModel.toDate"
+                        (dateChange)="applyToDateFilters()"  >
+                    <mat-datepicker-toggle matSuffix [for]="toPicker"></mat-datepicker-toggle>
+                    <mat-datepicker #toPicker></mat-datepicker>
+                </mat-form-field>
+            </div>
+            <div class="pe-2">
+                <button class="ps-4 pe-4 btn searchButton" (click)="resetDatePickers()">Reset</button>
+            </div>
+        </div>
+    </div>
+    <!-- <div class="row" style="height: 100%;">
         <div class="col-md-7">
             <app-admin-chart></app-admin-chart>
         </div>
@@ -12,5 +48,6 @@
         <div class="col-md-6 mt-2">
             <app-admin-total-amount></app-admin-total-amount>
         </div>
-    </div>
+    </div> -->
+
 </div>
