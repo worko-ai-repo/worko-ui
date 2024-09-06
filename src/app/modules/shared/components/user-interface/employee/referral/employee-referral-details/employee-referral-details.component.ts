@@ -61,7 +61,6 @@ export class EmployeeReferralDetailsComponent implements OnChanges {
         this.circleDiameter=100;
       }
     });
-  
   }
   acceptBtn() {
     // Handling the accept logic here

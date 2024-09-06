@@ -38,7 +38,7 @@
                         [empdetailsList]="empdetailsList" [empDetails]="empDetails"></app-employee-referral-reject>
                     <app-referral-done *ngIf="selectedStatus === 'REFERRED'" [processStatus]="processStatus"
                         [userType]="userType" (raiseIssue)="referralRaiseIssue($event)"
-                        (referralRating)="createReview($event)" [reviewData]="reviewData"
+                        (referralRating)="createReview($event)" [reviewData]="reviewData"  [empAchievmentsDetails]="empAchievmentsDetails"
                         [empdetailsList]="empdetailsList" [empEducationList]="empEducationList"
                         [empExperienceList]="empExperienceList" [empCoreSkillsDetails]="empCoreSkillsDetails"
                         [selectedReferral]="selectedReferral"></app-referral-done>
