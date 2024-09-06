@@ -1,0 +1,45 @@
+.candidate-card .job-div {
+    margin: 1rem;
+
+    .job-title {
+        font-size: 18px;
+        font-weight: 700;
+        line-height: 32px;
+
+      
+    }
+    .job-description {
+        font-size: 16px;
+        font-weight: 500;
+        line-height: 32px;
+
+        .job-sub-title {
+            font-weight: bold;
+        }
+
+       
+    }
+    .btn-next {
+        width: 208px;
+        height: 47px;
+        padding: 0.5rem;
+        font-size: 20px;
+        font-weight: 500;
+    }
+}
+
+
+/* RESPONSIVE CODE FOR SMALLER DEVICE*/
+
+@media (max-width:480px) {
+    .candidate-card{
+        width: 99% !important;
+        .job-div{
+        .job-description {
+            font-size: 14px;
+            line-height: 26px;
+            }
+        }
+    }
+   
+}

@@ -1,0 +1,40 @@
+.candidate-card {
+    .about-company-div {
+    margin: 1rem;
+
+    .about-title-div {
+        font-size: 18px;
+        font-weight: 700;
+        line-height: 32px;
+
+
+    }
+
+
+
+    }
+    .content-div {
+        font-style: normal;
+        font-weight: 500;
+        font-size: 18px;
+        line-height: 32px;
+    }
+}
+
+
+
+/* RESPONSIVE CODE FOR SMALLER DEVICE*/
+
+@media (max-width:480px) {
+    .candidate-card{
+        width: 99% !important;
+       
+            .content-div {
+     
+                font-size: 14px;
+                line-height: 26px;
+            }
+        
+    }
+   
+}

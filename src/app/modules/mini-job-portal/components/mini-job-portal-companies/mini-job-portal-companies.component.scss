@@ -1,0 +1,100 @@
+.mini-job-container {
+    background: linear-gradient(148deg, #000 5.99%, #182b45 70.16%);
+    color: black;
+    margin: 0;
+    padding: 0;
+    overflow: hidden;
+    margin-left: 3rem;
+    margin-right: 3rem;
+
+    .contents {
+        padding-top: 5rem;
+        z-index: 1;
+        position: relative;
+
+        .mini-job-headline {
+            height: 50px;
+            font-size: 40px;
+            line-height: 40px;
+            font-weight: 700;
+            background: linear-gradient(180deg, #50D5FF 12.5%, #D1E4FB 76.04%);
+            background-clip: text;
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+    }
+    .content-container{
+        /* Column layout */
+.divide-55 {
+    flex: 2;
+   // padding-left: 20px;
+}
+
+.divide-45 {
+    flex: 1;
+    height: 100%;
+}
+
+/* Individual component containers */
+.mini-job-title-container {
+    min-height: 120px;
+    margin-bottom: 10px;
+    /* Additional custom styles */
+}
+
+.mini-job-description-container {
+    min-height: 150px;
+    margin-bottom: 10px;
+    /* Additional custom styles */
+}
+
+.mini-job-about-container {
+    min-height: 180px;
+    margin-bottom: 10px;
+    /* Additional custom styles */
+}
+
+.mini-job-skills-container {
+    min-height: 130px;
+    margin-bottom: 10px;
+    /* Additional custom styles */
+}
+
+.mini-job-otherjob-container {
+    min-height: 140px;
+    margin-bottom: 10px;
+    /* Additional custom styles */
+}
+
+    }
+}
+
+// // ---------------Responsive for ipads---------------
+
+@media (max-width: 1025px) and (min-width: 480px){
+    .mini-job-container {
+        margin-left: 1rem;
+        margin-right: 1rem;
+    }
+}
+
+
+/* RESPONSIVE CODE FOR SMALLER DEVICE*/
+
+@media (max-width:480px) {
+    .mini-job-container {
+        margin-left: 0rem;
+        margin-right: 0rem;
+        .contents {
+    
+            .mini-job-headline {
+                height: 100px;
+                width: 350px;
+                font-size: 30px;
+                font-weight: 500;
+            }
+        }
+    }
+    
+    
+}

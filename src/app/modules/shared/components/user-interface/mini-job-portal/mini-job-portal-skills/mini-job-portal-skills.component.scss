@@ -1,0 +1,43 @@
+.candidate-card .skill-main-div {
+    margin: 1rem;
+
+    .skill-title {
+
+        font-size: 20px;
+        font-weight: 600;
+        line-height: 32px;
+
+    }
+
+    .skill-option {
+        font-style: normal;
+        font-weight: 500;
+        font-size: 16px;
+        line-height: 32px;
+    }
+
+    .separator {
+        border: 2px solid #0bbcf2
+    }
+
+}
+
+/* RESPONSIVE CODE FOR SMALLER DEVICE*/
+
+@media (max-width:480px) {
+    .candidate-card {
+        width: 99% !important;
+
+        .skill-main-div {
+            .skill-title {
+
+                font-size: 18px;
+            }
+
+            .skill-option {
+                font-size: 14px;
+            }
+
+        }
+    }
+}

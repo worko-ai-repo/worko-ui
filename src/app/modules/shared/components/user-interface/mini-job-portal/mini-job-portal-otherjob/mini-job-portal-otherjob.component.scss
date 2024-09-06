@@ -1,0 +1,41 @@
+.candidate-card .Other-job-main-div {
+    margin: 1rem;
+
+    .section-heading {
+
+        font-size: 18px;
+        font-weight: 500;
+        line-height: 32px;
+
+
+    }
+
+    .job-title {
+        font-size: 15px;
+        font-weight: 500;
+        line-height: 21px;
+
+    }
+
+    .details-row {
+
+        font-size: 15px;
+        font-weight: 500;
+     
+    }
+
+    .separator {
+        border: 2px solid #0bbcf2
+    }
+
+}
+
+
+
+/* RESPONSIVE CODE FOR SMALLER DEVICE*/
+
+@media (max-width:480px) {
+    .candidate-card{
+        width: 99% !important;
+    }
+}
