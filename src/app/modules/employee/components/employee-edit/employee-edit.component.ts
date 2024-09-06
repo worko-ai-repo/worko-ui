@@ -450,6 +450,7 @@ const candidateExperience = {
       number:"+91"+ this.firstStepData.number,
       noticePeriod: this.secondStepData.noticePeriod,
       userType: this.employeeDetails.userType,
+      userRole: this.employeeDetails.userRole, // added as per recent requriment
       linkedinUrl: this.employeeDetails.linkedinUrl,
       isEmailVerified: this.employeeDetails.isEmailVerified,
       isNumberVerified: this.employeeDetails.isNumberVerified,
