@@ -40,84 +40,16 @@
               <h5 class="ps-2 pb-0">Candidate</h5>
             </div>
             <div class="col-md-6 d-flex justify-content-end">
-              <!-- <div class="pe-2">
-              <div class="dropdown" #dropdown>
-                <button
-                  class="dropdown-btn ps-3 pe-3 serachInput dropdown-toggle"
-                  type="button"
-                  (click)="toggleDropdown($event)"
-                  aria-expanded="false"
-                >
-                  Filter Data <i class="fa-solid fa-filter ps-2 pe-2"></i>
-                </button>
-                <ul
-                  class="dropdown-menu ps-3 mt-1"
-                  [class.show]="isDropdownOpen"
-                  aria-labelledby="dropdownMenuButton1"
-                >
-                  <li class="d-flex">
-                    <input type="checkbox" /><a class="dropdown-item">Name</a>
-                  </li>
-                  <li class="d-flex">
-                    <input type="checkbox" /><a class="dropdown-item"
-                      >Candidate ID
-                    </a>
-                  </li>
-                  <li class="d-flex">
-                    <input type="checkbox" /><a class="dropdown-item"
-                      >Employee ID</a
-                    >
-                  </li>
-                  <li class="d-flex">
-                    <input type="checkbox" /><a class="dropdown-item">Date</a>
-                  </li>
-                  <li class="d-flex">
-                    <input type="checkbox" /><a class="dropdown-item"
-                      >package status
-                    </a>
-                  </li>
-                  <li class="d-flex">
-                    <input type="checkbox" /><a class="dropdown-item">
-                      Payment status</a
-                    >
-                  </li>
-                  <li class="d-flex">
-                    <input type="checkbox" /><a class="dropdown-item"
-                      >Service request date</a
-                    >
-                  </li>
-                  <li class="d-flex">
-                    <input type="checkbox" /><a class="dropdown-item"
-                      >service start date
-                    </a>
-                  </li>
-                  <li class="d-flex">
-                    <input type="checkbox" /><a class="dropdown-item">
-                      Request status</a
-                    >
-                  </li>
-                  <li class="d-flex">
-                    <input type="checkbox" /><a class="dropdown-item"
-                      >Package balance</a
-                    >
-                  </li>
-                  <li class="d-flex">
-                    <input type="checkbox" /><a class="dropdown-item"
-                      >Rating
-                    </a>
-                  </li>
-                  <li class="d-flex">
-                    <input type="checkbox" /><a class="dropdown-item">
-                      Account types</a
-                    >
-                  </li>
-                </ul>
-              </div>
-            </div> -->
               <div class="pe-2">
-                <input matInput class="serachInput" (keyup)="handleSearchInput($event, candidatesDataSource)"
-                  placeholder="Search" #input />
-                <button mat-button matSuffix mat-icon-button (click)="clearSearchInput(input,candidatesDataSource)"
+                <input
+                matInput
+                class="serachInput"
+                (keyup)="handleSearchInput($event)"
+                (keydown)="onSearchInputEnter($event)"
+                placeholder="Search"  [(ngModel)]="searchQuery"
+                #input
+              />
+                <button mat-button matSuffix mat-icon-button (click)="clearSearchInput()"
                   *ngIf="input.value" class="custom-clear-button">
                   <mat-icon>clear</mat-icon>
                 </button>
@@ -144,7 +76,7 @@
               background-color: #0a1e35;
               color: white;
               border-bottom: 2px solid #476baf;
-            " mat-table [dataSource]="candidatesDataSource" matSort (matSortChange)="announceSortChange($event)">
+            " mat-table [dataSource]="candidatesDataSource">
               <tbody class="table content-style">
                 <ng-container matColumnDef="serialnumber">
                   <th mat-header-cell *matHeaderCellDef class="small-column">
@@ -253,7 +185,7 @@
                 </td>
               </tr>
             </table>
-            <mat-paginator #referralPaginator [pageSizeOptions]="[5, 10, 25, 100]"
+            <mat-paginator #referralPaginator [pageSizeOptions]="[25,50,100,150,200]"
               aria-label="Select page of users"></mat-paginator>
 
           </div>

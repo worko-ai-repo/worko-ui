@@ -209,8 +209,8 @@ export class AdminReferralComponent {
     this.lastKey = "";
     this.sortOrder = '';
     this.searchTerm = "";
-    this.referralPaginator.pageSize = 25;
-    this.referralPaginator.firstPage();  // Go back to the first page
+    this.referralPaginator.pageIndex = 0;  // Reset to the first page
+    this.referralPaginator.pageSize = 25;  // Update the UI's pageSize
   }
 
   resetDatePickers() {
@@ -222,8 +222,12 @@ export class AdminReferralComponent {
     this.fromDate = "",
     this.toDate = "",
     this.searchTerm = "",
-    this.referralPaginator.pageSize = 25;
-    this.referralPaginator.firstPage();  // Go back to the first page
+    this.referralPaginator.pageIndex = 0;  // Reset to the first page
+    this.referralPaginator.pageSize = 25;  // Update the UI's pageSize
+    this.isSearchActive=false,
+    this.isDropdownActive=false;
+    this.searchQuery="";
+    (document.getElementById('issuesStatus') as HTMLSelectElement).value = "";
     this.getAllReferral();
   }
 
@@ -243,15 +247,15 @@ export class AdminReferralComponent {
 
   clearSearchInput() {
  
-    this.pageSize = 25;
+    this.referralPaginator.pageIndex = 0;  // Reset to the first page
+    this.pageSize = 25;                    // Set the pageSize to 25
+    this.referralPaginator.pageSize = 25;  // Update the UI's pageSize
     this.lastKey = "";
     this.sortOrder = '';
     this.fromDate = this.fromDate,
     this.toDate = this.toDate,
     this.searchTerm = "",
     this.searchQuery='',
-    this.referralPaginator.pageSize = 25;
-    this.referralPaginator.firstPage();  // Go back to the first page
     this.isDropdownActive=false
     this.getAllReferral();
   }

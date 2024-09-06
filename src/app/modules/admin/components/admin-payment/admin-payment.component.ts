@@ -201,21 +201,25 @@ export class AdminPaymentComponent {
     this.lastKey = "";
     this.sortOrder = '';
     this.searchTerm = "";
-    this.referralPaginator.pageSize = 25;
-  this.referralPaginator.firstPage();  // Go back to the first page
+    this.referralPaginator.pageIndex = 0;  // Reset to the first page
+    this.referralPaginator.pageSize = 25;  // Update the UI's pageSize
   }
 
   resetDatePickers() {
     this.filterModel.fromDate =null;
     this.filterModel.toDate = null;
+    (document.getElementById('paymentStatus') as HTMLSelectElement).value = "";
+    (document.getElementById('nameFilter') as HTMLSelectElement).value = "";
     this.pageSize =25;
-    this.referralPaginator.pageSize = 25;
-  this.referralPaginator.firstPage();  // Go back to the first page
+    this.referralPaginator.pageIndex = 0;  // Reset to the first page
+    this.referralPaginator.pageSize = 25;  // Update the UI's pageSize
     this.lastKey = "";
     this.sortOrder='';
     this.fromDate="", 
     this.toDate="",
-      this.searchTerm=""
+    this.searchTerm=""
+    this.isSearchActive=false;
+    this.isDropdownActive=false
     this.getAllSubscriptions();
   }
  

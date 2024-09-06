@@ -198,8 +198,8 @@ export class AdminIssuesComponent {
     this.lastKey = "";
     this.sortOrder = '';
     this.searchTerm = "";
-    this.referralPaginator.pageSize = 25;
-    this.referralPaginator.firstPage();  // Go back to the first page
+    this.referralPaginator.pageIndex = 0;  // Reset to the first page
+    this.referralPaginator.pageSize = 25;  // Update the UI's pageSize
   }
 
   resetDatePickers() {
@@ -209,10 +209,11 @@ export class AdminIssuesComponent {
     this.lastKey = "";
     this.sortOrder = '';
     this.fromDate = "",
-      this.toDate = "",
-      this.searchTerm = ""
-    this.referralPaginator.pageSize = 25;
-    this.referralPaginator.firstPage();  // Go back to the first page
+    this.toDate = "",
+    this.searchTerm = ""
+    this.searchQuery="";
+    this.referralPaginator.pageIndex = 0;  // Reset to the first page
+    this.referralPaginator.pageSize = 25;  // Update the UI's pageSize
     this.getAllIssues();
   }
   onSort(sort: Sort): void {
@@ -253,18 +254,18 @@ export class AdminIssuesComponent {
 
     // Set paginator and sort for referral table
     this.candidatesDataSource.paginator = this.referralPaginator;
-   
+
     this.referralPaginator.page.subscribe((event: PageEvent) => {
       if (event.pageSize !== this.pageSize) {
         this.pageSize = event.pageSize;
         this.getAllIssues(); // Call getAllReferral with updated pageSize
       }
     });
-  
+
   }
 
   handleSearchInput(event: Event) {
-   // this.searchQuery = (event.target as HTMLInputElement).value;
+    // this.searchQuery = (event.target as HTMLInputElement).value;
 
 
     if (this.searchQuery.length >= 3) {
@@ -291,13 +292,15 @@ export class AdminIssuesComponent {
 
   clearSearchInput() {
 
-    this.pageSize = 25;
+    this.referralPaginator.pageIndex = 0;  // Reset to the first page
+    this.pageSize = 25;                    // Set the pageSize to 25
+    this.referralPaginator.pageSize = 25;  // Update the UI's pageSize
     this.lastKey = "";
     this.sortOrder = '';
     this.fromDate = this.fromDate,
-    this.toDate = this.toDate,
-    this.searchTerm = ""
-   this.searchQuery="";
+      this.toDate = this.toDate,
+      this.searchTerm = ""
+    this.searchQuery = "";
     this.getAllIssues();
 
 

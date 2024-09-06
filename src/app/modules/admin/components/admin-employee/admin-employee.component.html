@@ -138,13 +138,14 @@
                 </div> -->
                 <div class="pe-2">
                   <input
-                    matInput
-                    class="serachInput"
-                    (keyup)="handleSearchInput($event, candidatesDataSource)"
-                    placeholder="Search"
-                    #input
-                  />
-                  <button mat-button matSuffix mat-icon-button (click)="clearSearchInput(input,candidatesDataSource)"  *ngIf="input.value"
+                  matInput
+                  class="serachInput"
+                  (keyup)="handleSearchInput($event)"
+                  (keydown)="onSearchInputEnter($event)"
+                  placeholder="Search"  [(ngModel)]="searchQuery"
+                  #input
+                />
+                  <button mat-button matSuffix mat-icon-button (click)="clearSearchInput()"  *ngIf="input.value"
                   class="custom-clear-button">
                   <mat-icon>clear</mat-icon>
                 </button>
@@ -263,7 +264,7 @@
                 </tr>
               </table>
               <mat-paginator #referralPaginator
-                [pageSizeOptions]="[5, 10, 25, 100]"
+                [pageSizeOptions]="[25,50,100,150,200]"
                 aria-label="Select page of users"
               ></mat-paginator>
               
