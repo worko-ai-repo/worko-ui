@@ -57,7 +57,7 @@ export class AdminReferralComponent {
   rowData: any;
   successmessage: string = '';
   successtitle: string = '';
-  pageSize: any = 25;
+  pageSize: any = 50;
   lastKey: string | undefined = undefined;
   companyDetails: any;
   userDetails: any;
@@ -205,25 +205,25 @@ export class AdminReferralComponent {
   }
 
   initializeData() {
-    this.pageSize = 25;
+    this.pageSize = 50;
     this.lastKey = "";
     this.sortOrder = '';
     this.searchTerm = "";
     this.referralPaginator.pageIndex = 0;  // Reset to the first page
-    this.referralPaginator.pageSize = 25;  // Update the UI's pageSize
+    this.referralPaginator.pageSize = 50;  // Update the UI's pageSize
   }
 
   resetDatePickers() {
     this.filterModel.fromDate = null;
     this.filterModel.toDate = null;
-    this.pageSize = 25;
+    this.pageSize = 50;
     this.lastKey = "";
     this.sortOrder = '';
     this.fromDate = "",
     this.toDate = "",
     this.searchTerm = "",
     this.referralPaginator.pageIndex = 0;  // Reset to the first page
-    this.referralPaginator.pageSize = 25;  // Update the UI's pageSize
+    this.referralPaginator.pageSize = 50;  // Update the UI's pageSize
     this.isSearchActive=false,
     this.isDropdownActive=false;
     this.searchQuery="";
@@ -248,8 +248,8 @@ export class AdminReferralComponent {
   clearSearchInput() {
  
     this.referralPaginator.pageIndex = 0;  // Reset to the first page
-    this.pageSize = 25;                    // Set the pageSize to 25
-    this.referralPaginator.pageSize = 25;  // Update the UI's pageSize
+    this.pageSize = 50;                    // Set the pageSize to 25
+    this.referralPaginator.pageSize = 50;  // Update the UI's pageSize
     this.lastKey = "";
     this.sortOrder = '';
     this.fromDate = this.fromDate,
@@ -303,7 +303,7 @@ export class AdminReferralComponent {
   
     if(sort.active==='date'){
     this.lastKey = "";
-    this.pageSize = 25;
+    this.pageSize = 50;
     this.sortOrder = this.sortOrder === 'ascending' ? 'descending' : 'ascending';
     sort.direction === 'asc' ? 'ascending' : 'descending';
     this.sort.direction = sort.direction;
