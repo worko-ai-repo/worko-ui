@@ -349,7 +349,6 @@ export class EditProfileComponent implements OnInit {
         "number": "+91"+this.firstStepData.phoneNo,
         "noticePeriod": this.secondStepData.noticePeriod,
         "userType": this.candidateList.userType,
-        "userRole": this.candidateList.userRole, // added as per recent requriment
         "linkedinUrl": this.candidateList.linkedinUrl,
         "isEmailVerified": this.candidateList.isEmailVerified,
         "isNumberVerified": this.candidateList.isNumberVerified,
