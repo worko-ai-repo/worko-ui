@@ -1,0 +1,141 @@
+.candidate-card {
+    width: 100%;
+    // max-width: 500px;
+    margin: 20px auto;
+    padding: 20px;
+    //border: 1px solid #f8f5f5;
+    border-radius: 10px;
+    background: transparent;
+
+    .card-title {
+        background: #57E1FF;
+        color: #070707;
+        padding: 10px;
+        border-radius: 10px;
+        font-size: 30px;
+        font-weight: 700;
+        height: fit-content;
+
+
+    }
+
+    .svg-circle {
+        width: 60px;
+        /* Set the width of the circle */
+        height: 60px;
+        /* Set the height of the circle */
+        background: #83A4C4;
+        /* Set the background color of the circle */
+        border-radius: 50%;
+        /* Make the div a perfect circle */
+        display: flex;
+        /* Center the SVG inside the circle */
+        justify-content: center;
+        align-items: center;
+        padding: 5px;
+        /* Add padding to position the SVG properly */
+    }
+
+    .job-container {
+
+        .selector {
+            width: 100%;
+            background-color: transparent;
+            color: #fff;
+        }
+
+        .job-listing-div {
+            .img-div {
+                margin: 0 1rem 0 0;
+                /* Removes top, bottom, and left margins; keeps right margin */
+                text-align: center;
+            }
+
+            .company-img {
+                width: 90px;
+                height: 90px;
+                border-radius: 50%;
+
+            }
+
+            .job-info {
+                padding-left: 15px;
+            }
+
+            .job-title {
+                color: white;
+                font-size: 1.5em;
+                margin: 0 0 28px 0;
+                font-weight: bold;
+            }
+
+            .details-row {
+                display: flex;
+                font-size: 1.1em;
+                color: white;
+
+            }
+
+
+            .separator {
+                border: 2px solid #0bbcf2
+            }
+
+        }
+
+
+    }
+
+}
+
+
+/* Responsive adjustments */
+@media (max-width: 880px) {
+    .candidate-card {
+        padding: 15px;
+
+        .company-img {
+            margin-bottom: 10px;
+        }
+
+        .job-info {
+            padding-left: 0;
+            text-align: center;
+
+            .details-row {
+                justify-content: center;
+            }
+
+        }
+    }
+
+
+
+
+
+}
+
+
+
+
+/* RESPONSIVE CODE FOR SMALLER DEVICE*/
+
+@media (max-width:480px) {
+    .candidate-card {
+        width: 99% !important;
+
+        .card-title {
+            font-size: 25px;
+        }
+
+        .details-row {
+
+            margin-right: 1rem;
+            margin-left: 1rem;
+        }
+    }
+
+
+
+
+}

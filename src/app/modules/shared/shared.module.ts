@@ -93,6 +93,8 @@ import { MiniJobPortalDescriptionComponent } from './components/user-interface/m
 import { MiniJobPortalAboutCompanyComponent } from './components/user-interface/mini-job-portal/mini-job-portal-about-company/mini-job-portal-about-company.component';
 import { MiniJobPortalSkillsComponent } from './components/user-interface/mini-job-portal/mini-job-portal-skills/mini-job-portal-skills.component';
 import { MiniJobPortalOtherjobComponent } from './components/user-interface/mini-job-portal/mini-job-portal-otherjob/mini-job-portal-otherjob.component';
+import { MinJobPortalJobListingComponent } from './components/user-interface/mini-job-portal/min-job-portal-job-listing/min-job-portal-job-listing.component';
+import { MinJobPortalReferralFormComponent } from './components/user-interface/mini-job-portal/min-job-portal-referral-form/min-job-portal-referral-form.component';
 export const routes: Routes = [
 
   
@@ -145,7 +147,9 @@ export const routes: Routes = [
     MiniJobPortalDescriptionComponent,
     MiniJobPortalAboutCompanyComponent,
     MiniJobPortalSkillsComponent,
-    MiniJobPortalOtherjobComponent
+    MiniJobPortalOtherjobComponent,
+    MinJobPortalJobListingComponent,
+    MinJobPortalReferralFormComponent
     // DoneServiceComponent,
     // CancelledServiceComponent,
     // AwaitingServiceComponent,
@@ -218,7 +222,9 @@ export const routes: Routes = [
   MiniJobPortalAboutCompanyComponent,
   MiniJobPortalDescriptionComponent,
   MiniJobPortalSkillsComponent,
-  MiniJobPortalOtherjobComponent
+  MiniJobPortalOtherjobComponent,
+  MinJobPortalJobListingComponent,
+  MinJobPortalReferralFormComponent
   ],
 
 })

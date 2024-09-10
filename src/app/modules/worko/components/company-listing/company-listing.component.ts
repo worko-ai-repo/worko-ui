@@ -568,6 +568,16 @@ export class CompanyListingComponent implements OnInit, AfterViewInit, OnDestroy
 
 
   }
+  navigateToJobLink(event: MouseEvent, companyName: string): void {
+    event.preventDefault(); // Prevent the default anchor behavior
+    this.getJobLink(companyName);
+  }
+
+  getJobLink(companyName: string): void {
+    const route = `/company/${companyName.toLowerCase().replace(/\s+/g, '-')}-jobs`;
+    console.log(route);
+    this.router.navigate([route]);
+  }
   async getCompanyDetails(pageSize?: any) {
     // console.log(this.lastKey, this.loadedOnce, this.isNoLoadData)
 

@@ -71,10 +71,7 @@ export const routes: Routes = [
         component: CompanyListingComponent
       },
       // { path: ':category-jobs', component: JobCategoryComponent },
-      { 
-        matcher: jobCategoryMatcher,
-        component: JobCategoryComponent 
-      },
+
       {
         path : 'switcher',
         component:AccountSwitcherComponent ,canActivate:[AuthAdminGuardService]

@@ -37,19 +37,6 @@
 
 }
 
-.location {
-    width: 350px; /* Fixed width for the location */
-    white-space: nowrap; /* Prevents the text from wrapping */
-    overflow: hidden; /* Ensures text overflows */
-    text-overflow: ellipsis; /* Adds ellipsis for long text */
-}
-
-.experience {
-    width: 200px; /* Fixed width for the experience */
-    white-space: nowrap; /* Prevents the text from wrapping */
-    overflow: hidden; /* Ensures text overflows */
-    text-overflow: ellipsis; /* Adds ellipsis for long text */
-}
 
 
 .separator {
@@ -74,6 +61,7 @@
     .company-img {
         margin-bottom: 10px;
     }
+
 }
 
 
@@ -86,10 +74,6 @@
         width: 99% !important;
     }
 
-    .details-row {
 
-        margin-right: 1rem;
-        margin-left: 1rem;
-    }
 
 }

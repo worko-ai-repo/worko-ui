@@ -1,5 +1,5 @@
 .mini-job-container {
-    background: linear-gradient(148deg, #000 5.99%, #182b45 70.16%);
+   // background: linear-gradient(148deg, #000 5.99%, #182b45 70.16%);
     color: black;
     margin: 0;
     padding: 0;
@@ -11,9 +11,10 @@
         padding-top: 5rem;
         z-index: 1;
         position: relative;
+        width: 100%;
 
         .mini-job-headline {
-            height: 50px;
+            height: fit-content;
             font-size: 40px;
             line-height: 40px;
             font-weight: 700;
@@ -21,6 +22,7 @@
             background-clip: text;
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
+
         }
     }
     .content-container{
@@ -94,6 +96,9 @@
                 font-weight: 500;
             }
         }
+        .ms-5{
+            margin-left: 0 !important;
+        } 
     }
     
     

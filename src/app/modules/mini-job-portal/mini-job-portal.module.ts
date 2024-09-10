@@ -6,6 +6,8 @@ import { SharedModule } from '../shared/shared.module';
 import { MiniJobPortalCompaniesComponent } from './components/mini-job-portal-companies/mini-job-portal-companies.component';
 import { MiniJobPortalComponent } from './mini-job-portal.component';
 import { WorkoModule } from '../worko/worko.module';
+import { MiniJobPortalJobListingComponent } from './components/mini-job-portal-job-listing/mini-job-portal-job-listing.component';
+
 
 
 export const routes: Routes = [
@@ -14,27 +16,34 @@ export const routes: Routes = [
     path: '',
     component: MiniJobPortalComponent,
     children: [
-    
-    
-        {
-          path: 'jobs',
-          component:MiniJobPortalCompaniesComponent 
-        },
-      
-      
-      
-      
-      
-      
-      
+
+      {
+        path: ':companyName-jobs',
+        component: MiniJobPortalJobListingComponent
+      },
+
+      {
+        path: ':companyName-jobs/:jd',
+        component: MiniJobPortalCompaniesComponent
+      },
+
+
+
+
+
+
+
+
     ]
-  }  
+  }
 ]
 
 @NgModule({
   declarations: [
     MiniJobPortalComponent,
-    MiniJobPortalCompaniesComponent
+    MiniJobPortalCompaniesComponent,
+    MiniJobPortalJobListingComponent,
+
   ],
   imports: [
     CommonModule,

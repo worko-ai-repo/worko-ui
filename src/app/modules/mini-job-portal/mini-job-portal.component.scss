@@ -1,29 +1,14 @@
 .mini-job-container {
-    background: linear-gradient(148deg, #000 5.99%, #182b45 70.16%);
+   // background: linear-gradient(148deg, #000 5.99%, #182b45 70.16%);
+   background: linear-gradient(147.55deg, #000000 34.1%, #182B45 70.16%);
+
     margin: 0;
     padding: 0;
     overflow: hidden;
-    background-color: #182b45;
+    // background-color: #182b45;
 }
 
-.mini-job-container .mini-job-headline {
-    height: 50px;
-    font-size: 40px;
-     line-height: 40px;
-    // height: 69px;
-    // font-size: 55px;
-    // line-height: 63px;
-    font-weight: 700;
-    background: linear-gradient(180deg, #50D5FF 12.5%, #D1E4FB 76.04%);;
-    background-clip: text;
-    -webkit-background-clip: text;
-    -webkit-text-fill-color: transparent;
-}
-.mini-job-container .contents {
-    padding-top: 5rem;
-    z-index: 1;
-    position: relative;
-}
+
 .mini-job-container .top-header-bg {
     position: absolute;
     top: 0;

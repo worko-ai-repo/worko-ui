@@ -1,5 +1,7 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
+import { jobCategoryMatcher } from './modules/worko/matchers/custom-route-matcher';
+import { JobCategoryComponent } from './modules/worko/components/job-category/job-category.component';
 
 const routes: Routes = [
   {
@@ -21,6 +23,10 @@ const routes: Routes = [
   {
     path: 'company',
     loadChildren: () => import('./modules/mini-job-portal/mini-job-portal.module').then(m => m.MiniJobPortalModule)
+  },
+  { 
+    matcher: jobCategoryMatcher,
+    component: JobCategoryComponent 
   },
 
   // {
