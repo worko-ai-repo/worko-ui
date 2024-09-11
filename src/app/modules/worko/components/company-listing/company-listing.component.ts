@@ -20,6 +20,7 @@ import { LoginPageComponent } from '../login-page/login-page.component';
 import { NavbarComponent } from '../navbar/navbar.component';
 import { Location } from '@angular/common';
 import { Subscription } from 'rxjs';
+import { debounce } from 'lodash';
 @Component({
   selector: 'app-company-listing',
   templateUrl: './company-listing.component.html',
@@ -227,6 +228,7 @@ export class CompanyListingComponent implements OnInit, AfterViewInit, OnDestroy
   typeFromUrl: any;
   triggerAddCompany: boolean = false;
   userDetails: any;
+  sortOrder: string = 'ascending';
 
 
 
@@ -243,6 +245,7 @@ export class CompanyListingComponent implements OnInit, AfterViewInit, OnDestroy
   filteredCompanyList: any[] = [];
   searchQuery: string = '';
   private searchTerms = new Subject<string>();
+  debouncedGetCompanyDetails: () => void;
 
 
 
@@ -250,6 +253,9 @@ export class CompanyListingComponent implements OnInit, AfterViewInit, OnDestroy
 
   constructor(private spinner: NgxSpinnerService, private location: Location, private activatedRoute: ActivatedRoute, private cdr: ChangeDetectorRef,
     private storage: StorageService, private router: Router, private authService: AuthService, private http: HttpClient, private renderer: Renderer2, private el: ElementRef, private companyListing: CompanyListingService, private cognitoService: CognitoService, private candidateSrv: CandidateProfileService) {
+
+      this.debouncedGetCompanyDetails = debounce(this.getCompanyDetails.bind(this), 4000); // Created a debounced version of the getCompanyDetails method to handle the scroll event.
+      // This ensures that API calls are triggered only once within a 400 millisecond interval during scrolling.
 
     this.searchTerms
       .pipe(
@@ -550,7 +556,8 @@ export class CompanyListingComponent implements OnInit, AfterViewInit, OnDestroy
     if (scrollPosition + windowHeight >= documentHeight - footerHeight) {
 
       // Load more data
-      this.getCompanyDetails();
+      // this.getCompanyDetails();
+      this.debouncedGetCompanyDetails();
     }
 
   }
@@ -592,7 +599,7 @@ export class CompanyListingComponent implements OnInit, AfterViewInit, OnDestroy
       // if (this.lastKey || this.loadedOnce ) {
       this.spinner.show();
       // const encodedCompanyName = encodeURIComponent(this.filterData.companyName); // Encode the company name
-      await this.companyListing.getCompanyListing(this.pageSize, this.lastKey, this.filterData.teamSize, encodeURIComponent(this.filterData.industryType), this.filterData.companyName).then(async (response) => {
+      await this.companyListing.getCompanyListing(this.pageSize, this.sortOrder, this.lastKey, this.filterData.teamSize, encodeURIComponent(this.filterData.industryType), this.filterData.companyName).then(async (response) => {
         if (response) {
 
           this.spinner.hide();
@@ -606,11 +613,11 @@ export class CompanyListingComponent implements OnInit, AfterViewInit, OnDestroy
           this.count = response.pagination.count;
           this.pageSize = response.pagination.pageSize;
           
-          // if (this.count < this.pageSize) { //check to pervent multiple api call
-          //   // debugger
-          //   this.isNoLoadData = false;
-          // }
-          this.isNoLoadData=this.lastKey? true : false //check to pervent multiple api call
+          if (this.count < this.pageSize) { //check to pervent multiple api call
+            // debugger
+            this.isNoLoadData = false;
+          }
+          // this.isNoLoadData=this.lastKey? true : false //check to pervent multiple api call
           //  this.filterCompanies(); // Filter companies after updating companyList
         }
       })
