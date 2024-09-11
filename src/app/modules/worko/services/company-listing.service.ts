@@ -29,8 +29,13 @@ export class CompanyListingService {
    *
    * @returns {Promise<any>}
    */
-  async getCompanyListing(pageSize: number, lastKey?: string, teamSize?: any, industryName?: any, companyName?: string): Promise<any> {
+  async getCompanyListing(pageSize: number, sortOrder?:any, lastKey?: string, teamSize?: any, industryName?: any, companyName?: string): Promise<any> {
     let url = `${API_URL}company?pageSize=${pageSize}`;
+
+    // Append sortOrder to the URL
+    if (sortOrder) {
+      url += `&sortOrder=${sortOrder}`;
+    }
 
     if (lastKey) {
       url += `&lastKey=${lastKey}`;
