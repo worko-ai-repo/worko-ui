@@ -26,7 +26,8 @@ export class AdminService {
     if (toDate) {
       url += `&toDate=${toDate}`;
     }  if (searchText) {
-      url += `&searchText=${searchText}`;
+      const searchTexts =encodeURIComponent(searchText)
+      url += `&searchText=${searchTexts}`;
     }
     // let url = `${API_URL}support`;
 
@@ -60,7 +61,8 @@ export class AdminService {
     if (toDate) {
       url += `&toDate=${toDate}`;
     }  if (searchText) {
-      url += `&searchText=${searchText}`;
+      const searchTexts =encodeURIComponent(searchText)
+      url += `&searchText=${searchTexts}`;
     }
     return this.http.get(url, this.authService.getHttpOptions()).toPromise();
   }
@@ -80,7 +82,8 @@ export class AdminService {
     if (toDate) {
       url += `&toDate=${toDate}`;
     }  if (searchText) {
-      url += `&searchText=${searchText}`;
+      const searchTexts =encodeURIComponent(searchText)
+      url += `&searchText=${searchTexts}`;
     }
     return this.http.get(url, this.authService.getHttpOptions()).toPromise();
   }
@@ -95,7 +98,8 @@ export class AdminService {
       url += `&lastKey=${lastKey}`;
     }
     if (searchText) {
-      url += `&searchText=${searchText}`;
+      const searchTexts =encodeURIComponent(searchText)
+      url += `&searchText=${searchTexts}`;
     }
 
   
