@@ -254,7 +254,7 @@ export class CompanyListingComponent implements OnInit, AfterViewInit, OnDestroy
   constructor(private spinner: NgxSpinnerService, private location: Location, private activatedRoute: ActivatedRoute, private cdr: ChangeDetectorRef,
     private storage: StorageService, private router: Router, private authService: AuthService, private http: HttpClient, private renderer: Renderer2, private el: ElementRef, private companyListing: CompanyListingService, private cognitoService: CognitoService, private candidateSrv: CandidateProfileService) {
 
-      this.debouncedGetCompanyDetails = debounce(this.getCompanyDetails.bind(this), 4000); // Created a debounced version of the getCompanyDetails method to handle the scroll event.
+      this.debouncedGetCompanyDetails = debounce(this.getCompanyDetails.bind(this), 400); // Created a debounced version of the getCompanyDetails method to handle the scroll event.
       // This ensures that API calls are triggered only once within a 400 millisecond interval during scrolling.
 
     this.searchTerms
