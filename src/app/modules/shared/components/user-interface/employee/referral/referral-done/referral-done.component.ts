@@ -17,6 +17,7 @@ export class ReferralDoneComponent implements OnChanges {
   @Input() selectedReferral: any;
   @Input() empdetailsList: any = "";
   @Input() empEducationList: any = '';
+  @Input() empAchievmentsDetails: any = {};
   @Input() empExperienceList: any = "";
   @Input() empCoreSkillsDetails: any = '';
   @Input() selectedStatus: any;

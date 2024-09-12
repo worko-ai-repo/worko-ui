@@ -9,97 +9,29 @@
       <div class="row p-3 pt-2">
         <div class="col-md-12">
           <div class="row pb-2 pt-2">
-            <div class="col-md-6">
+            <div class="col-md-5">
               <h5 class="ps-2 pb-0">Referral</h5>
             </div>
-            <div class="col-md-6 d-flex justify-content-end">
-
-             
-             
-
-              <!-- <div class="pe-2">
-                <div class="dropdown" #dropdown>
-                  <button
-                    class="dropdown-btn ps-3 pe-3 serachInput dropdown-toggle"
-                    type="button"
-                    (click)="toggleDropdown($event)"
-                    aria-expanded="false"
-                  >
-                    Filter Data <i class="fa-solid fa-filter ps-2 pe-2"></i>
-                  </button>
-                  <ul
-                    class="dropdown-menu ps-3 mt-1"
-                    [class.show]="isDropdownOpen"
-                    aria-labelledby="dropdownMenuButton1"
-                  >
-                    <li class="d-flex">
-                      <input type="checkbox" /><a class="dropdown-item">Name</a>
-                    </li>
-                    <li class="d-flex">
-                      <input type="checkbox" /><a class="dropdown-item"
-                        >emailId
-                      </a>
-                    </li>
-                    <li class="d-flex">
-                      <input type="checkbox" /><a class="dropdown-item"
-                        >Employee ID</a
-                      >
-                    </li>
-                    <li class="d-flex">
-                      <input type="checkbox" /><a class="dropdown-item">Date</a>
-                    </li>
-                    <li class="d-flex">
-                      <input type="checkbox" /><a class="dropdown-item"
-                        >package status
-                      </a>
-                    </li>
-                    <li class="d-flex">
-                      <input type="checkbox" /><a class="dropdown-item">
-                        Payment status</a
-                      >
-                    </li>
-                    <li class="d-flex">
-                      <input type="checkbox" /><a class="dropdown-item"
-                        >Service request date</a
-                      >
-                    </li>
-                    <li class="d-flex">
-                      <input type="checkbox" /><a class="dropdown-item"
-                        >service start date
-                      </a>
-                    </li>
-                    <li class="d-flex">
-                      <input type="checkbox" /><a class="dropdown-item">
-                        Request status</a
-                      >
-                    </li>
-                    <li class="d-flex">
-                      <input type="checkbox" /><a class="dropdown-item"
-                        >Package balance</a
-                      >
-                    </li>
-                    <li class="d-flex">
-                      <input type="checkbox" /><a class="dropdown-item"
-                        >Rating
-                      </a>
-                    </li>
-                    <li class="d-flex">
-                      <input type="checkbox" /><a class="dropdown-item">
-                        Account types</a
-                      >
-                    </li>
-                  </ul>
-                </div>
-              </div> -->
+            <div class="col-md-7 d-flex justify-content-end">
+              <div class="pe-2 filter">
+                <select class="serachInput  selector form-select" name="issuesStatus" id="issuesStatus" [(ngModel)]="selectedStatus"
+                  (ngModelChange)=" onStatusChange($event)" [disabled]="isDropdownActive" [ngClass]="{'disabled-background': isDropdownActive}">
+                  <option value="">Select Status</option>
+                  <option *ngFor="let item of StatusOption" [value]="item.value">{{ item.name }}</option>
+                </select>
+              </div>
               <div class="pe-2">
                 <input
                   matInput
                   class="serachInput"
-                  (keyup)="handleSearchInput($event, candidatesDataSource)"
-                  placeholder="Search"
+                  (keyup)="handleSearchInput($event)"
+                  (keydown)="onSearchInputEnter($event)"
+                  placeholder="Search"  [(ngModel)]="searchQuery"
                   #input
+                  [disabled]="isSearchActive"
+                  [ngClass]="{'disabled-background': isSearchActive}"
                 />
-                <button mat-button matSuffix mat-icon-button (click)="clearSearchInput(input,candidatesDataSource)"  *ngIf="input.value"
+                <button mat-button matSuffix mat-icon-button (click)="clearSearchInput()"  *ngIf="searchQuery"
                 class="custom-clear-button">
                 <mat-icon>clear</mat-icon>
               </button>
@@ -107,7 +39,7 @@
               <div class="pe-2">
                 <mat-form-field  >
                   <mat-label style="color: white;">From Date</mat-label>
-                  <input matInput [matDatepicker]="fromPicker" [(ngModel)]="filterModel.fromDate" (dateChange)="applyFilters()" >
+                  <input matInput [matDatepicker]="fromPicker" [(ngModel)]="filterModel.fromDate" (dateChange)="applyFromDateFilters()" >
                   <mat-datepicker-toggle matSuffix [for]="fromPicker"></mat-datepicker-toggle>
                   <mat-datepicker #fromPicker></mat-datepicker>
                 </mat-form-field>
@@ -115,7 +47,7 @@
               <div class="pe-2">
                 <mat-form-field>
                   <mat-label style="color: white;">To Date</mat-label>
-                  <input matInput [matDatepicker]="toPicker" [(ngModel)]="filterModel.toDate" (dateChange)="applyFilters()">
+                  <input matInput [matDatepicker]="toPicker" [(ngModel)]="filterModel.toDate" (dateChange)="applyToDateFilters()">
                   <mat-datepicker-toggle matSuffix [for]="toPicker"></mat-datepicker-toggle>
                   <mat-datepicker #toPicker></mat-datepicker>
                 </mat-form-field>
@@ -153,7 +85,10 @@
               "
               mat-table
               [dataSource]="candidatesDataSource"
-              matSort
+              (matSortChange)="onSort($event)"
+              matSortDirection="desc" 
+              matSort matSortActive="date"
+              matSortDisableClear="true"
             >
               <tbody class="table content-style">
                 <ng-container matColumnDef="serialnumber">
@@ -199,7 +134,7 @@
                 </ng-container> -->
 
                 <ng-container matColumnDef="date">
-                  <th mat-header-cell *matHeaderCellDef>
+                  <th mat-header-cell *matHeaderCellDef mat-sort-header>
                     Requested Date
                   </th>
                   <td mat-cell *matCellDef="let row">
@@ -300,7 +235,7 @@
             </table>
             <mat-paginator
               #referralPaginator
-              [pageSizeOptions]="[25,50,100,150,200]"
+              [pageSizeOptions]="[50,100,150,200]"
               aria-label="Select page of users"
             ></mat-paginator>
           </div>

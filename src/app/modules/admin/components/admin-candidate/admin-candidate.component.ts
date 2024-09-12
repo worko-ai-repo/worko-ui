@@ -1,5 +1,5 @@
 import { ChangeDetectorRef, Component, ElementRef, ViewChild, AfterViewInit } from '@angular/core';
-import { MatPaginator, MatPaginatorIntl } from '@angular/material/paginator';
+import { MatPaginator, MatPaginatorIntl, PageEvent } from '@angular/material/paginator';
 import { MatSort, Sort } from '@angular/material/sort';
 import { MatTableDataSource, MatTableDataSourcePaginator } from '@angular/material/table';
 import { ViewEncapsulation } from '@angular/core';
@@ -10,6 +10,7 @@ import { LiveAnnouncer } from '@angular/cdk/a11y';
 import { NgxSpinnerService } from 'ngx-spinner';
 import { error } from 'jquery';
 import { Router } from '@angular/router';
+import { debounceTime, Subject } from 'rxjs';
 
 export interface UserData {
   Name: string;
@@ -56,103 +57,41 @@ export class AdminCandidateComponent implements AfterViewInit {
   nameslist: any[] = [];
   successtitle: string = '';
   successmessage: string = '';
+  pageSize: any = 25;
+  lastKey: string | undefined = undefined;
+  private searchTerms = new Subject<string>();
+  searchTerm: string = '';
+  searchQuery: string = '';
   constructor(private router: Router, private adminService: AdminService, private _liveAnnouncer: LiveAnnouncer, private spinner: NgxSpinnerService) {
     this.candidatesDataSource = new MatTableDataSource<UserData>(this.nameslist);
     this.servicesDataSource = new MatTableDataSource<UserData>(this.nameslist);
-  }
+    this.searchTerms.pipe(
+      debounceTime(300), // Adjust the debounce time as needed (300 milliseconds in this example)
+      //distinctUntilChanged()
+    )
+      .subscribe((query: string) => {
 
-
-  filterModel: any = {
-    Name: '',
-    emailid: "",
-    number: "",
-    referralcount: "",
-    companyname: "",
-    department: "",
-    designation: "",
-    Subscribed: "",
-  };
-  applyFilters() {
-    // Gather selected filter options
-    const selectedFilters = {
-      name: this.filterModel.Name,
-      emailid: this.filterModel.emailid,
-      number: this.filterModel.number,
-      referralcount: this.filterModel.referralcount,
-      companyname: this.filterModel.companyname,
-      department: this.filterModel.department,
-      designation: this.filterModel.designation,
-      Subscribed: this.filterModel.Subscribed,
-
-    };
-
-    // Apply filters to both data sources
-    this.applyDataSourceFilters(this.candidatesDataSource, selectedFilters);
-
-    // Reset pagination to navigate to first page
-    if (this.candidatesDataSource.paginator) {
-      this.candidatesDataSource.paginator.firstPage();
-    }
-  }
-
-  // applyDataSourceFilters(dataSource: MatTableDataSource<UserData>, filters: any) {
-  //   dataSource.filterPredicate = (data: UserData, filter: string) => {
-  //     const searchString = Object.keys(filters)
-  //       .map(key => filters[key])
-  //       .join('');
-  //     return searchString.trim().toLowerCase().split(' ').every(term =>
-  //       Object.values(data).join('').toLowerCase().includes(term)
-  //     );
-  //   };
-  //   dataSource.filter = 'activate';
-  // }
-
-  applyDataSourceFilters(dataSource: MatTableDataSource<UserData>, filters: { [key: string]: string | undefined }) {
-    dataSource.filterPredicate = (data: UserData, filter: string) => {
-      let filterObject: { [key: string]: string | undefined }; // Explicitly type filterObject
-      try {
-        filterObject = JSON.parse(filter);
-
-      } catch (e) {
-
-        return false; // If parsing fails, return false to exclude the item
-      }
-
-      // // Handle date range filtering
-      // const dateInRange = this.applyDateRangeFilter(new Date(data.purchaseDate), filterObject['fromDate'], filterObject['toDate']);
-
-      // Handle other fields
-      const otherFilters = Object.keys(filterObject).every(key => {
-        if (key === 'fromDate' || key === 'toDate') {
-          // Skip date range fields
-          return true;
-        }
-
-        const filterKey = key as keyof UserData;
-        if (!filterObject[filterKey]) {
-          return true;
-        }
-
-        const dataValue = data[filterKey] ? data[filterKey].toString().toLowerCase() : '';
-        const filterValue = filterObject[filterKey] ? filterObject[filterKey]!.toString().toLowerCase() : '';
-        return dataValue.includes(filterValue);
+        // Call your API here with the query string
+        this.callApiWithSearchQuery(query);
       });
-
-      return otherFilters;
-    };
-
-    dataSource.filter = JSON.stringify(filters);
-
   }
+
+
+
 
   ngAfterViewInit() {
 
     // Set paginator and sort for referral table
     this.candidatesDataSource.paginator = this.referralPaginator;
-    // this.candidatesDataSource.sort = this.referralSort;
-    this.candidatesDataSource.sort = this.sort;
+    // // this.candidatesDataSource.sort = this.referralSort;
+    // this.candidatesDataSource.sort = this.sort;
 
-
+    this.referralPaginator.page.subscribe((event: PageEvent) => {
+      if (event.pageSize !== this.pageSize) {
+        this.pageSize = event.pageSize;
+        this.getAllUserData(); // Call getAllReferral with updated pageSize
+      }
+    });
 
     // // Set paginator and sort for service table
     // this.servicesDataSource.paginator = this.servicePaginator;
@@ -161,39 +100,18 @@ export class AdminCandidateComponent implements AfterViewInit {
 
 
 
-  search(event: Event, filterValue: string, dataSource: MatTableDataSource<UserData>) {
-    const filterText = filterValue.trim().toLowerCase();
-    dataSource.filter = filterText;
 
-    if (dataSource.paginator) {
-      dataSource.paginator.firstPage();
-    }
-  }
-  handleSearchInput(event: Event, dataSource: MatTableDataSource<UserData>) {
-    const filterValue = (event.target as HTMLInputElement).value;
-    dataSource.filter = filterValue.trim().toLowerCase();
-
-    if (dataSource.paginator) {
-      dataSource.paginator.firstPage();
-    }
-  }
-  clearSearchInput(input: any, dataSource: MatTableDataSource<UserData>) {
-    input.value = ''; // Clear the input value
-    dataSource.filter = ''; // Reset the filter to show all data
-
-    if (dataSource.paginator) {
-      dataSource.paginator.firstPage();
-    }
-  }
 
   async ngOnInit(): Promise<void> {
     this.getAllUserData();
   }
   async getAllUserData() {
     this.spinner.show()
-    await this.adminService.getAllUserData('CAND').then(async (response: any) => {
+    await this.adminService.getAllUserData('CAND', this.pageSize, this.lastKey, this.searchTerm).then(async (response: any) => {
       if (response) {
         this.nameslist = response.data;
+        this.lastKey = response.pagination.lastKey;
+        this.pageSize = response.pagination.pageSize;
         //console.log("Issue list:", this.issueList);
         this.updateData(this.nameslist);
       }
@@ -220,42 +138,52 @@ export class AdminCandidateComponent implements AfterViewInit {
     }
 
   }
+  callApiWithSearchQuery(query: string): void {
+    this.pageSize = "";
+    this.lastKey = "";
 
-  toggleDropdown(event: MouseEvent) {
-    event.stopPropagation(); // Prevent event propagation to avoid immediate closing of the dropdown
-    this.isDropdownOpen = !this.isDropdownOpen;
-    if (this.isDropdownOpen) {
-      this.listenForOutsideClick(); // Listen for clicks outside the dropdown to close it
-    } else {
-      this.removeOutsideClickListener(); // Remove the listener if the dropdown is closed
+    this.searchTerm = query; // Setting here encoded query to filterData
+    // console.log(this.sortOrder,this.fromDate,this.toDate,this.searchTerm)
+    this.getAllUserData();
+
+  }
+
+  handleSearchInput(event: Event) {
+    // this.searchQuery = (event.target as HTMLInputElement).value;
+
+
+    if (this.searchQuery.length >= 3) {
+      this.pageSize = "";
+      this.lastKey = "";
+      this.searchTerms.next(this.searchQuery);
+    } else if (this.searchQuery.length <= 0) {
+      this.clearSearchInput()
+    }
+
+
+  }
+
+  onSearchInputEnter(event: KeyboardEvent): void {
+    if (event.key === 'Enter') { // Checking if the pressed key is Enter
+      this.pageSize = 25;
+      this.lastKey = "";
+      this.searchTerms.next(this.searchQuery);
     }
   }
 
-  listenForOutsideClick() {
-    document.addEventListener('click', this.closeDropdownOnClickOutside);
+  clearSearchInput() {
+
+    this.referralPaginator.pageIndex = 0;  // Reset to the first page
+    this.pageSize = 25;                    // Set the pageSize to 25
+     this.referralPaginator.pageSize = 25;  // Update the UI's pageSize
+    this.lastKey = "";
+    this.searchTerm = ""
+    this.searchQuery = "";
+    this.getAllUserData();
   }
 
-  removeOutsideClickListener() {
-    document.removeEventListener('click', this.closeDropdownOnClickOutside);
-  }
 
-  closeDropdownOnClickOutside = (event: MouseEvent) => {
-    if (!this.dropdown.nativeElement.contains(event.target)) {
-      this.isDropdownOpen = false;
-      this.removeOutsideClickListener();
-    }
-  }
-  announceSortChange(sortState: Sort) {
-    // This example uses English messages. If your application supports
-    // multiple language, you would internationalize these strings.
-    // Furthermore, you can customize the message to add additional
-    // details about the values being sorted.
-    if (sortState.direction) {
-      this._liveAnnouncer.announce(`Sorted ${sortState.direction}ending`);
-    } else {
-      this._liveAnnouncer.announce('Sorting cleared');
-    }
-  }
+
 
 
 
@@ -309,6 +237,151 @@ export class AdminCandidateComponent implements AfterViewInit {
   closeModal(): void {
     this.modal.cancel();
   }
+
+
+  // filterModel: any = {
+  //   Name: '',
+  //   emailid: "",
+  //   number: "",
+  //   referralcount: "",
+  //   companyname: "",
+  //   department: "",
+  //   designation: "",
+  //   Subscribed: "",
+  // };
+
+
+  // applyFilters() {
+  //   // Gather selected filter options
+  //   const selectedFilters = {
+  //     name: this.filterModel.Name,
+  //     emailid: this.filterModel.emailid,
+  //     number: this.filterModel.number,
+  //     referralcount: this.filterModel.referralcount,
+  //     companyname: this.filterModel.companyname,
+  //     department: this.filterModel.department,
+  //     designation: this.filterModel.designation,
+  //     Subscribed: this.filterModel.Subscribed,
+
+  //   };
+
+  //   // Apply filters to both data sources
+  //   this.applyDataSourceFilters(this.candidatesDataSource, selectedFilters);
+
+  //   // Reset pagination to navigate to first page
+  //   if (this.candidatesDataSource.paginator) {
+  //     this.candidatesDataSource.paginator.firstPage();
+  //   }
+  // }
+
+  // // applyDataSourceFilters(dataSource: MatTableDataSource<UserData>, filters: any) {
+  // //   dataSource.filterPredicate = (data: UserData, filter: string) => {
+  // //     const searchString = Object.keys(filters)
+  // //       .map(key => filters[key])
+  // //       .join('');
+  // //     return searchString.trim().toLowerCase().split(' ').every(term =>
+  // //       Object.values(data).join('').toLowerCase().includes(term)
+  // //     );
+  // //   };
+  // //   dataSource.filter = 'activate';
+  // // }
+
+  // applyDataSourceFilters(dataSource: MatTableDataSource<UserData>, filters: { [key: string]: string | undefined }) {
+  //   dataSource.filterPredicate = (data: UserData, filter: string) => {
+  //     let filterObject: { [key: string]: string | undefined }; // Explicitly type filterObject
+  //     try {
+  //       filterObject = JSON.parse(filter);
+
+  //     } catch (e) {
+
+  //       return false; // If parsing fails, return false to exclude the item
+  //     }
+
+  //     // // Handle date range filtering
+  //     // const dateInRange = this.applyDateRangeFilter(new Date(data.purchaseDate), filterObject['fromDate'], filterObject['toDate']);
+
+  //     // Handle other fields
+  //     const otherFilters = Object.keys(filterObject).every(key => {
+  //       if (key === 'fromDate' || key === 'toDate') {
+  //         // Skip date range fields
+  //         return true;
+  //       }
+
+  //       const filterKey = key as keyof UserData;
+  //       if (!filterObject[filterKey]) {
+  //         return true;
+  //       }
+
+  //       const dataValue = data[filterKey] ? data[filterKey].toString().toLowerCase() : '';
+  //       const filterValue = filterObject[filterKey] ? filterObject[filterKey]!.toString().toLowerCase() : '';
+  //       return dataValue.includes(filterValue);
+  //     });
+
+  //     return otherFilters;
+  //   };
+
+  //   dataSource.filter = JSON.stringify(filters);
+
+  // }
+  // search(event: Event, filterValue: string, dataSource: MatTableDataSource<UserData>) {
+  //   const filterText = filterValue.trim().toLowerCase();
+  //   dataSource.filter = filterText;
+
+  //   if (dataSource.paginator) {
+  //     dataSource.paginator.firstPage();
+  //   }
+  // }
+  // handleSearchInput(event: Event, dataSource: MatTableDataSource<UserData>) {
+  //   const filterValue = (event.target as HTMLInputElement).value;
+  //   dataSource.filter = filterValue.trim().toLowerCase();
+
+  //   if (dataSource.paginator) {
+  //     dataSource.paginator.firstPage();
+  //   }
+  // }
+  // clearSearchInput(input: any, dataSource: MatTableDataSource<UserData>) {
+  //   input.value = ''; // Clear the input value
+  //   dataSource.filter = ''; // Reset the filter to show all data
+
+  //   if (dataSource.paginator) {
+  //     dataSource.paginator.firstPage();
+  //   }
+  // }
+  // toggleDropdown(event: MouseEvent) {
+  //   event.stopPropagation(); // Prevent event propagation to avoid immediate closing of the dropdown
+  //   this.isDropdownOpen = !this.isDropdownOpen;
+  //   if (this.isDropdownOpen) {
+  //     this.listenForOutsideClick(); // Listen for clicks outside the dropdown to close it
+  //   } else {
+  //     this.removeOutsideClickListener(); // Remove the listener if the dropdown is closed
+  //   }
+  // }
+
+  // listenForOutsideClick() {
+  //   document.addEventListener('click', this.closeDropdownOnClickOutside);
+  // }
+
+  // removeOutsideClickListener() {
+  //   document.removeEventListener('click', this.closeDropdownOnClickOutside);
+  // }
+
+  // closeDropdownOnClickOutside = (event: MouseEvent) => {
+  //   if (!this.dropdown.nativeElement.contains(event.target)) {
+  //     this.isDropdownOpen = false;
+  //     this.removeOutsideClickListener();
+  //   }
+  // }
+  // announceSortChange(sortState: Sort) {
+  //   // This example uses English messages. If your application supports
+  //   // multiple language, you would internationalize these strings.
+  //   // Furthermore, you can customize the message to add additional
+  //   // details about the values being sorted.
+  //   if (sortState.direction) {
+  //     this._liveAnnouncer.announce(`Sorted ${sortState.direction}ending`);
+  //   } else {
+  //     this._liveAnnouncer.announce('Sorting cleared');
+  //   }
+  // }
 
 }
 

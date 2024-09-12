@@ -907,13 +907,17 @@ export class LoginPageComponent implements AfterViewInit, OnDestroy {
         const { response, error } = await this.createUserWithConfirmation(this.candidateForm, this.verificationForm);
         if (response) {
           // this.otpVerification(this.candidateForm.emailId);
-          this.showSignInRow = false
+         // this.showSignInRow = false  commented to pervent the user to togggle to sign in 
           this.showAddCompanyScreen = false
-          this.showErrorMessageScreen = true
-          this.successtitle = 'Verification Successful' // success message displaying after verifing code
-          this.successmessage = 'Your account has been successfully created. Please log in to continue.'
+          // this.showErrorMessageScreen = true
+          // this.successtitle = 'Verification Successful' // success message displaying after verifing code
+          // this.successmessage = 'Your account has been successfully created. Please log in to continue.'
 
           // this.toggleSignInRow();
+
+            // redirect user to dashboard or edit profile with direct login
+          await this.submit(this.candidateForm)
+
           this.spinner.hide();
         }
 
@@ -927,13 +931,16 @@ export class LoginPageComponent implements AfterViewInit, OnDestroy {
         const { response, error } = await this.createUserWithConfirmation(this.employeeForm, this.verificationForm);
 
         if (response) {
-          this.showSignInRow = false
+       //   this.showSignInRow = false commented to pervent the user to togggle to sign in 
           this.showAddCompanyScreen = false
-          this.showErrorMessageScreen = true
-          this.successtitle = 'Verification Successful'
-          this.successmessage = 'Your account has been successfully created. Please log in to continue.'
+          // this.showErrorMessageScreen = true commented to pervent the user to togggle to sign in 
+          // this.successtitle = 'Verification Successful'
+          // this.successmessage = 'Your account has been successfully created. Please log in to continue.'
           // this.toggleSignInRow();
-          this.spinner.hide();
+
+          // redirect user to dashboard or edit profile with direct login
+          await this.submit(this.employeeForm)
+        
         }
 
         if (error) {
@@ -979,13 +986,13 @@ export class LoginPageComponent implements AfterViewInit, OnDestroy {
     this.setErrorMessage("");
     this.spinner.show();
     const loginData = {
-      email: this.form.email,
-      password: this.form.password
+      email: this.form.email || form.emailId,
+      password: this.form.password || form.password
     }
     let login = await this.amplify.handleSignIn(loginData);
     if (login.response?.nextStep?.signInStep === "CONFIRM_SIGN_UP") {
       this.spinner.hide();
-
+      this.confirmationEmail= this.maskEmail(this.form.email || form.emailId);
       this.showSignInRow = !this.showSignInRow;
       this.confirmationCodeScreen = !this.confirmationCodeScreen;
       // this.codeErrorScreen=!this.codeErrorScreen
@@ -996,7 +1003,7 @@ export class LoginPageComponent implements AfterViewInit, OnDestroy {
       this.setErrorMessage(login.error.message);
     }
     if (login!.response!.isSignedIn) {
-      await this.authService.getProfile(this.form.email).then(async (response) => {
+      await this.authService.getProfile(this.form.email || form.emailId).then(async (response) => {
 
         let userType = response.data.lastAccessedDash;
         let userName = response.data.name;
