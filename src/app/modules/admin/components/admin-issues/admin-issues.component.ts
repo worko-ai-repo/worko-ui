@@ -170,6 +170,8 @@ export class AdminIssuesComponent {
 
     if (this.filterModel.fromDate) {
       const dateObject = new Date(this.filterModel.fromDate);
+      // Adjusting time so that UTC conversion in toISOString() doesn't affect the date
+      dateObject.setMinutes(dateObject.getMinutes() - dateObject.getTimezoneOffset());
       const isoString = dateObject.toISOString();
       this.fromDate = isoString;
     } else {
@@ -184,6 +186,8 @@ export class AdminIssuesComponent {
 
     if (this.filterModel.toDate) {
       const dateObject = new Date(this.filterModel.toDate);
+      // Adjusting time so that UTC conversion in toISOString() doesn't affect the date
+      dateObject.setMinutes(dateObject.getMinutes() - dateObject.getTimezoneOffset());
       const isoString = dateObject.toISOString();
       this.toDate = isoString;
     } else {
@@ -209,9 +213,9 @@ export class AdminIssuesComponent {
     this.lastKey = "";
     this.sortOrder = '';
     this.fromDate = "",
-    this.toDate = "",
-    this.searchTerm = ""
-    this.searchQuery="";
+      this.toDate = "",
+      this.searchTerm = ""
+    this.searchQuery = "";
     this.referralPaginator.pageIndex = 0;  // Reset to the first page
     this.referralPaginator.pageSize = 25;  // Update the UI's pageSize
     this.getAllIssues();

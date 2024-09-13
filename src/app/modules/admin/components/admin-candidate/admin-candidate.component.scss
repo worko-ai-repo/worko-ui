@@ -252,8 +252,13 @@
 }
 
 .form-detail {
+  display: block;
   font-size: 14px;
   color: #FFF;
+  overflow: hidden;
+  text-wrap: nowrap;
+  text-overflow: ellipsis;
+  width: 290px;
 }
 
 .form-row {

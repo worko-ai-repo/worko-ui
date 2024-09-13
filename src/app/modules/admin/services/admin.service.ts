@@ -88,7 +88,7 @@ export class AdminService {
     return this.http.get(url, this.authService.getHttpOptions()).toPromise();
   }
 
-  getAllUserData(userType: any, pageSize?: any, lastKey?: any,searchText?:any) {
+  getAllUserData(userType: any, pageSize?: any, lastKey?: any,searchText?:any,sortOrder?:string) {
     let url = `${API_URL}admin/user/?userType=${userType}`;
   
     if (pageSize) {
@@ -100,6 +100,9 @@ export class AdminService {
     if (searchText) {
       const searchTexts =encodeURIComponent(searchText)
       url += `&searchText=${searchTexts}`;
+    }
+    if (sortOrder) {
+      url += `&sortOrder=${sortOrder}`;
     }
 
   
