@@ -65,6 +65,13 @@ export class AdminCandidateComponent implements AfterViewInit {
   sortOrder:any;
   userExperience:any;
   status: any;
+  fromDate: any = '';
+  toDate: any = '';
+  filterModel: any = {
+    fromDate: '',
+    toDate: ''
+
+  };
   constructor(private router: Router, private adminService: AdminService, private _liveAnnouncer: LiveAnnouncer, private spinner: NgxSpinnerService) {
     this.candidatesDataSource = new MatTableDataSource<UserData>(this.nameslist);
     this.servicesDataSource = new MatTableDataSource<UserData>(this.nameslist);
@@ -110,7 +117,7 @@ export class AdminCandidateComponent implements AfterViewInit {
   }
   async getAllUserData() {
     this.spinner.show()
-    await this.adminService.getAllUserData('CAND', this.pageSize, this.lastKey, this.searchTerm,this.sortOrder).then(async (response: any) => {
+    await this.adminService.getAllUserData('CAND', this.pageSize, this.lastKey, this.searchTerm,this.sortOrder,this.fromDate,this.toDate).then(async (response: any) => {
       if (response) {
         this.nameslist = response.data;
         this.lastKey = response.pagination.lastKey;
@@ -185,7 +192,60 @@ export class AdminCandidateComponent implements AfterViewInit {
     this.getAllUserData();
   }
 
+  applyFromDateFilters() {
 
+    if (this.filterModel.fromDate) {
+      const dateObject = new Date(this.filterModel.fromDate);
+      // Adjusting time so that UTC conversion in toISOString() doesn't affect the date
+      dateObject.setMinutes(dateObject.getMinutes() - dateObject.getTimezoneOffset());
+      const isoString = dateObject.toISOString();
+      this.fromDate = isoString;
+    } else {
+      this.fromDate = "";
+    }
+    this.initializeData();
+    this.getAllUserData();
+  }
+
+
+  applyToDateFilters() {
+
+    if (this.filterModel.toDate) {
+      const dateObject = new Date(this.filterModel.toDate);
+      // Adjusting time so that UTC conversion in toISOString() doesn't affect the date
+      dateObject.setMinutes(dateObject.getMinutes() - dateObject.getTimezoneOffset());
+      const isoString = dateObject.toISOString();
+      this.toDate = isoString;
+    } else {
+      this.toDate = "";
+    }
+    this.initializeData();
+    this.getAllUserData();
+  }
+
+  initializeData() {
+    this.pageSize = 25;
+    this.lastKey = "";
+    this.sortOrder = '';
+    this.searchTerm = "";
+    this.referralPaginator.pageIndex = 0;  // Reset to the first page
+    this.referralPaginator.pageSize = 25;  // Update the UI's pageSize
+  }
+
+  resetDatePickers() {
+    this.filterModel.fromDate = null;
+    this.filterModel.toDate = null;
+    this.pageSize = 25;
+    this.lastKey = "";
+    this.sortOrder = '';
+    this.fromDate = "",
+      this.toDate = "",
+      this.searchTerm = ""
+    this.searchQuery = "";
+    this.referralPaginator.pageIndex = 0;  // Reset to the first page
+    this.referralPaginator.pageSize = 25;  // Update the UI's pageSize
+    this.getAllUserData();
+  }
 
   onSort(sort: Sort): void {
   

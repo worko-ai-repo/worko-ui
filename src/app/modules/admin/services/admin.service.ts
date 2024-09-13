@@ -11,7 +11,7 @@ export class AdminService {
 
   constructor(private http: HttpClient, private authService: AuthService) { }
 
-  async getAllIssues(pageSize?: any, lastKey?: any,sortOrder?:string,fromDate?:string,toDate?:string,searchText?:string) {
+  async getAllIssues(pageSize?: any, lastKey?: any,sortOrder?:string,fromDate?:string,toDate?:string,searchText?:string,) {
     let url = `${API_URL}admin/support?pageSize=${pageSize}`;
 
     if (lastKey) {
@@ -88,7 +88,7 @@ export class AdminService {
     return this.http.get(url, this.authService.getHttpOptions()).toPromise();
   }
 
-  getAllUserData(userType: any, pageSize?: any, lastKey?: any,searchText?:any,sortOrder?:string) {
+  getAllUserData(userType: any, pageSize?: any, lastKey?: any,searchText?:any,sortOrder?:string,fromDate?:string,toDate?:string) {
     let url = `${API_URL}admin/user/?userType=${userType}`;
   
     if (pageSize) {
@@ -104,6 +104,12 @@ export class AdminService {
     if (sortOrder) {
       url += `&sortOrder=${sortOrder}`;
     }
+    if (fromDate) {
+      url += `&fromDate=${fromDate}`;
+    }
+    if (toDate) {
+      url += `&toDate=${toDate}`;
+    } 
 
   
     return this.http.get(url, this.authService.getHttpOptions()).toPromise();
