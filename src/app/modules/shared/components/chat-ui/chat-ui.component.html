@@ -1,49 +1,59 @@
 <div class="chat-container">
     <!-- Chat Messages -->
-    <!-- <div class="chat-messages">
-        <div class="message left">
-            <img class="avatar" src="assets/chat-ui-images/person_logo.png" alt="Jack">
-            <div class="message-content">
-                <span class="sender-name">Sender</span>
-                <p>Anyone is up for illustrations. I think there are less relatable images according to our brand.</p>
-            </div>
-        </div>
+    <div #chatContainer class="chat-messages" style="overflow-y: auto; ">
 
-        <div class="message right">
-            <div class="message-content">
-                <p>Yes, it will decrease the loading 👍</p>
-            </div>
-        </div> -->
+        <div #topSentinel></div>
 
-    <!-- Typing indicator -->
-    <!-- <div class="typing-indicator">
-            <img class="typing-avatar" src="assets/chat-ui-images/typing_logo.png" alt="John is typing...">
-            <span>John is typing...</span>
-        </div>
-    </div> -->
+        <div *ngIf="isFetchingMessages" class="loading-more-messages">
+            Loading more messages...
+          </div>
 
-    <!-- Chat Messages -->
-    <div class="chat-messages">
-        <div *ngFor="let msg of messages"
-            [ngClass]="{'right': msg.senderId === userId, 'left': msg.senderId !== userId}" class="message">
-            <div class="message-content">
-                <p>{{ msg.text }}</p>
+        <div *ngIf="noMoreMessages && !isFetchingMessages && isChatLoaded" class="no-more-messages">
+            No more messages to load.
+        </div>  
+
+        <div *ngFor="let group of groupedMessages">
+            <div class="date-label date-label-sticky">
+                {{ group.label === 'Today' || group.label === 'Yesterday' ? group.label : (group.label | date: 'MMMM d, y') }}
+            </div> <!-- Date grouping label -->
+
+            <div *ngFor="let msg of group.messages"
+                [ngClass]="{'right': msg.senderId === userId, 'left': msg.senderId !== userId}" class="message">
+                <div class="message-content">
+                    <p>{{ msg.text }}</p>
+                    <span class="message-timestamp">{{ formatTime(msg.createdAt) }}</span>
+                </div>
             </div>
         </div>
     </div>
 
-    <!-- Message Input -->
-    <div class="message-input">
-        <button class="attach-btn">
-            <img src="assets/chat-ui-images/attachment_icon.png" alt="Attach">
-        </button>
 
-        <button class="gallery-btn">
-            <img src="assets/chat-ui-images/gallery_icon.png" alt="Gallery">
-        </button>
-        <input [(ngModel)]="newMessage" type="text" placeholder="Write message here">
-        <button (click)="sendMessage()" class="send-btn">
-            <img src="assets/chat-ui-images/send_icon.png" alt="Send">
-        </button>
-    </div>
+<!-- Message Input -->
+<div class="message-input">
+    <!-- <button class="attach-btn">
+        <img src="assets/chat-ui-images/attachment_icon.png" alt="Attach">
+    </button>
+
+    <button class="gallery-btn">
+        <img src="assets/chat-ui-images/gallery_icon.png" alt="Gallery">
+    </button> -->
+    <!-- <input [(ngModel)]="newMessage" type="text" placeholder="Write message here"> -->
+    <!-- <button (click)="sendMessage()" class="send-btn">
+        <img src="assets/chat-ui-images/send_icon.png" alt="Send">
+    </button> -->
+    
+    <textarea
+      [(ngModel)]="newMessage"
+      placeholder="Write message here"
+      class="expanding-input"
+      autosize
+      [minRows]="1"
+      [maxRows]="4"
+    ></textarea>
+
+    <!-- Using Font Awesome for Send Icon -->
+    <button (click)="sendMessage()" class="send-btn">
+        <i class="fas fa-paper-plane"></i> <!-- Font Awesome Send Icon -->
+    </button>
+</div>
 </div>
