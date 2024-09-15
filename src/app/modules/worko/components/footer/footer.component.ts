@@ -12,6 +12,7 @@ export class FooterComponent {
  
   
   industryTypeOptions: any[] = (industryTypes as any).default;
+  currentYear!: number;
   // baseUrl=window.location.origin;
 
   industryName=[
@@ -41,6 +42,7 @@ export class FooterComponent {
     this.http.get<any[]>('assets/industry-types.json').subscribe(data => {
       this.industryTypeOptions = data;
     });
+    this.currentYear = new Date().getFullYear();
   }
   async redirectToCompanyListing() {
 
