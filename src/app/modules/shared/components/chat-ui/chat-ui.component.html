@@ -1,16 +1,17 @@
 <div class="chat-container">
+
+    <div *ngIf="isFetchingMessages && isPaginationEnabled" class="loading-more-messages">
+        Loading more messages...
+      </div>
+
+    <div *ngIf="noMoreMessages && !isFetchingMessages && isChatLoaded && isPaginationEnabled" class="no-more-messages">
+        No more messages to load.
+    </div>  
+
     <!-- Chat Messages -->
     <div #chatContainer class="chat-messages" style="overflow-y: auto; ">
 
         <div #topSentinel></div>
-
-        <div *ngIf="isFetchingMessages" class="loading-more-messages">
-            Loading more messages...
-          </div>
-
-        <div *ngIf="noMoreMessages && !isFetchingMessages && isChatLoaded" class="no-more-messages">
-            No more messages to load.
-        </div>  
 
         <div *ngFor="let group of groupedMessages">
             <div class="date-label date-label-sticky">

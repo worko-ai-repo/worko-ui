@@ -14,12 +14,18 @@
 
 .chat-messages {
     flex: 1;
+    display: flex;
+    flex-direction: column;
     overflow-y: auto;
     padding-bottom: 1rem;
-    margin-bottom: 1rem;
+    // margin-bottom: 1rem;
     padding-right: 10px;
     scrollbar-width: thin;
     scrollbar-color: rgba(255, 255, 255, 0.2) transparent;
+}
+
+.chat-messages > div:first-child {
+    margin-top: auto;
 }
 
 /* WebKit Scrollbar Styling */

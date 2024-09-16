@@ -19,6 +19,7 @@ export class ChatUIComponent implements AfterViewInit, OnDestroy {
   @Input() referralId!: string;
   newMessage = "";
   @Output() loadMoreMessages = new EventEmitter<void>();
+  isPaginationEnabled = false; // Flag to control pagination
 
   @ViewChild('chatContainer') chatContainerRef!: ElementRef;
   @ViewChild('topSentinel') topSentinel!: ElementRef;
@@ -29,6 +30,7 @@ export class ChatUIComponent implements AfterViewInit, OnDestroy {
   private noMoreMessagesSubscription!: Subscription;
   private isFetchingMessagesSubscription!: Subscription;
   observer!: IntersectionObserver;
+  timeoutId!: any;
 
   constructor(private chatService: ChatService, private cdr: ChangeDetectorRef) { }
 
@@ -41,7 +43,12 @@ export class ChatUIComponent implements AfterViewInit, OnDestroy {
     this.observer = new IntersectionObserver(
       (entries) => {
         // If the top sentinel is intersecting AND the scrollTop is at 0, load more messages
-        if (entries[0].isIntersecting && chatContainer && this.chatContainerRef.nativeElement.scrollTop === 0) {
+        if (entries[0].isIntersecting && chatContainer && this.chatContainerRef.nativeElement.scrollTop === 0 && this.isChatLoaded) {
+          this.isPaginationEnabled = true;
+          // Starting timeout to hide the "No more messages" indicator
+          this.timeoutId = setTimeout(() => {
+            this.isPaginationEnabled = false; // Hide the indicator
+          }, 3000);
           if (!this.isFetchingMessages && !this.noMoreMessages) {
             this.previousScrollHeight = chatContainer.scrollHeight;
             this.loadMoreMessages.emit();
@@ -57,13 +64,13 @@ export class ChatUIComponent implements AfterViewInit, OnDestroy {
     }
 
     // Subscribe to noMoreMessages and isFetchingMessages from ChatService
-    // this.noMoreMessagesSubscription = this.chatService.noMoreMessages$.subscribe(
-    //   (value: boolean) => (this.noMoreMessages = value)
-    // );
+    this.noMoreMessagesSubscription = this.chatService.noMoreMessages$.subscribe(
+      (value: boolean) => (this.noMoreMessages = value)
+    );
     // Subscribe to noMoreMessages with a delay
-    this.noMoreMessagesSubscription = this.chatService.noMoreMessages$
-      .pipe(delay(200)) // Add a 200ms delay (adjust as needed)
-      .subscribe((value: boolean) => (this.noMoreMessages = value));
+    // this.noMoreMessagesSubscription = this.chatService.noMoreMessages$
+    //   .pipe(delay(200)) // Add a 200ms delay (adjust as needed)
+    //   .subscribe((value: boolean) => (this.noMoreMessages = value));
     this.isFetchingMessagesSubscription = this.chatService.isFetchingMessages$.subscribe(
       (value: boolean) => (this.isFetchingMessages = value)
     );
@@ -78,6 +85,7 @@ export class ChatUIComponent implements AfterViewInit, OnDestroy {
 
     this.noMoreMessagesSubscription.unsubscribe();
     this.isFetchingMessagesSubscription.unsubscribe();
+    clearTimeout(this.timeoutId);
   }
 
 
@@ -90,11 +98,45 @@ export class ChatUIComponent implements AfterViewInit, OnDestroy {
   /**
    * Scrolls to the bottom of the chat container.
    */
+  // scrollToBottom(): void {
+  //   const chatContainer = this.chatContainerRef.nativeElement;
+  //   chatContainer.scrollTop = chatContainer.scrollHeight;
+  //   this.isChatLoaded = true;  // Mark chat as loaded, allowing scrolling to trigger
+  // }
+
   scrollToBottom(): void {
-    const chatContainer = this.chatContainerRef.nativeElement;
-    chatContainer.scrollTop = chatContainer.scrollHeight;
-    this.isChatLoaded = true;  // Mark chat as loaded, allowing scrolling to trigger
+    try {
+      const chatContainer = this.chatContainerRef.nativeElement; 
+      // Check if the container is scrollable or not
+      const isScrollable = chatContainer.scrollHeight > chatContainer.clientHeight;
+      if (isScrollable) {
+        chatContainer.scrollTop = chatContainer.scrollHeight;
+        this.isChatLoaded = true;
+      } else {
+        // Force scroll to the bottom if the container isn't scrollable
+        setTimeout(() => {
+          chatContainer.scrollTop = chatContainer.scrollHeight;
+          this.isChatLoaded = true;
+        }, 0); //I will adjust the delay if needed to wait more for rendering
+      }
+    } catch (err) {
+      console.error('Error scrolling to bottom: ', err);
+    }
   }
+
+  // scrollToBottom(): void {
+  //   try {
+  //     const chatContainer = document.querySelector('. chat-messages'); // Target the correct class here
+  //     if (chatContainer) {
+  //       chatContainer.scrollTop = chatContainer.scrollHeight; // Scroll to the bottom of the container
+  //     }
+  //   } catch (err) {
+  //     console.error('Scroll to bottom failed:', err);
+  //   }
+  // }
+  
+
+ 
 
   sendMessage(): void {
     if (this.newMessage.trim()) {
@@ -108,6 +150,13 @@ export class ChatUIComponent implements AfterViewInit, OnDestroy {
       };
       this.chatService.sendMessage(message);
       this.newMessage = "";
+
+      // Trigger change detection 
+      this.cdr.detectChanges();
+
+      // setTimeout(() => {
+      //   this.scrollToBottom();  // Ensure the chat scrolls to the bottom after sending the message
+      // }, 100);
     }
   }
 
@@ -129,6 +178,7 @@ export class ChatUIComponent implements AfterViewInit, OnDestroy {
     this.isFetchingMessages = false;
     this.noMoreMessages = false;
     this.isChatLoaded = false;  // Reset chat load state
+    this.isPaginationEnabled = false;
   }
 
 }

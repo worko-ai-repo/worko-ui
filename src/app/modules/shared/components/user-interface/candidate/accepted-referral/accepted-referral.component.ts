@@ -157,7 +157,7 @@ export class AcceptedReferralComponent {
     this.existMessageSubscription = this.chatService.onMessage().subscribe((response) => {
       // console.log("response from get existing", response);
       // this.messages = response.messages;
-      const messagesArray = Object.values(response.messages).filter(
+      const messagesArray = Object?.values(response.messages ?? {}).filter(
         (item) => typeof item === "object" && item?.hasOwnProperty("text")
       );
 
@@ -210,8 +210,7 @@ export class AcceptedReferralComponent {
     }
 
     this.cdrf.detectChanges();
-
-    setTimeout(() => this.chatUIComponent.scrollToBottom(), 0);
+    setTimeout(() => this.chatUIComponent.scrollToBottom(), 100);
 
   }
 
