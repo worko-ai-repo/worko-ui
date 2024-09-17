@@ -85,7 +85,7 @@ export class AcceptedReferralComponent {
     if (changes['selectedReferral'] && this.selectedReferral) {
       this.chatService.resetState();
 
-      this.chatUIComponent.isChatLoaded = false; // Reset chat loaded state in the child
+      // this.chatUIComponent.isChatLoaded = false; // Reset chat loaded state in the child
 
       // Unsubscribing here from any previous message stream
       this.unsubscribeFromMessages();
@@ -93,8 +93,9 @@ export class AcceptedReferralComponent {
       // Clearing the current messages to ensure we only display messages for the new referral ID
       this.messages = [];
 
+      if (this.chatUIComponent) {
       this.chatUIComponent.resetUI();  // Reset any UI states in the child
-
+      }
       // Disconnect previous WebSocket connection if any
       this.chatService.disconnect();
 

@@ -175,6 +175,7 @@ export class ChatUIComponent implements AfterViewInit, OnDestroy {
 
   // Reset UI states
   resetUI(): void {
+    this.isChatLoaded = false;
     this.isFetchingMessages = false;
     this.noMoreMessages = false;
     this.isChatLoaded = false;  // Reset chat load state
