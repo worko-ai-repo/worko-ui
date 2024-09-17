@@ -530,6 +530,10 @@ export class EmployeeReferralComponent implements OnDestroy {
         this.router.navigate(['/']);
       } else {
         this.spinner.hide();
+
+        this.successmessage = "Something went wrong. Please try again after sometime"
+        this.successtitle = "Error"
+        this.openModal(ModalType.SUCCESS_MESSAGE);
       }
 
     }
