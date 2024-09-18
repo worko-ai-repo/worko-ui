@@ -178,7 +178,7 @@
                   </td>
                 </ng-container> -->
 
-                <ng-container matColumnDef="companyId">
+                <!-- <ng-container matColumnDef="companyId">
                   <th mat-header-cell *matHeaderCellDef >
                     Company Id
                   </th>
@@ -190,13 +190,12 @@
                         style="cursor: pointer; margin-left: 8px;" 
                         (click)="copyToClipboard(row.companyId)">
                         {{ copiedContextId === row.companyId ? 'check' : 'content_copy' }}
-                        <!-- {{ copiedContextId === row.contextId ? 'check' : 'content_paste' }} -->
                       </mat-icon>
                     </div>
                   </td>
-                </ng-container>
+                </ng-container> -->
 
-                <ng-container matColumnDef="userSubscriptionId">
+                <!-- <ng-container matColumnDef="userSubscriptionId">
                   <th mat-header-cell *matHeaderCellDef >
                     User Subscription Id
                   </th>
@@ -207,11 +206,11 @@
                       style="cursor: pointer; margin-left: 8px;" 
                       (click)="copyToClipboard(row.userSubscriptionId)">
                       {{ copiedContextId === row.userSubscriptionId ? 'check' : 'content_copy' }}
-                      <!-- {{ copiedContextId === row.contextId ? 'check' : 'content_paste' }} -->
+                   
                     </mat-icon>
                   </div>
                 </td>
-                </ng-container>
+                </ng-container> -->
                 <ng-container matColumnDef="action">
                   <th mat-header-cell *matHeaderCellDef style="padding-left: 24px;">
                     Action
@@ -547,18 +546,66 @@
       </div>
       <div class="row form-row">
         <div class="col-4">
+          <label class="form-label">Company ID</label>
+        </div>
+        <div class="col-8">
+          <span class="form-detail">: {{ rowData.companyId }}</span>
+        </div>
+      </div>
+      <div class="row form-row">
+        <div class="col-4">
+          <label class="form-label">Score</label>
+        </div>
+        <div class="col-8">
+          <span class="form-detail">: {{ rowData.matchingScore }}</span>
+        </div>
+      </div>
+      <div class="row form-row">
+        <div class="col-4">
+          <label class="form-label">Referral Status</label>
+        </div>
+        <div class="col-8">
+          <span class="form-detail">: {{ rowData.status }}</span>
+        </div>
+      </div>
+
+      <div class="row form-row">
+        <div class="col-4">
+          <label class="form-label">Requested Date</label>
+        </div>
+        <div class="col-8">
+          <span class="form-detail">: {{ rowData.scoreFetchedDate  | date : "dd-MMM-yyyy" }}</span>
+        </div>
+      </div>
+      <div class="row form-row">
+        <div class="col-4">
+          <label class="form-label">Job URL</label>
+        </div>
+        <div class="col-8">
+          <span class="form-detail">:  <a [href]="rowData.jobUrl" target="_blank" rel="noopener noreferrer">LINK</a> </span>
+         
+        </div>
+      </div>
+      <div class="row form-row">
+        <div class="col-4">
           <label class="form-label">Score Details</label>
         </div>
         <div class="col-8">
-          <span class="form-detail">: {{ rowData.scoreDetails }}</span>
+          <span class="form-detail" style="display: block; white-space: pre-wrap; word-wrap: break-word; text-align: justify;">: {{ rowData.scoreDetails }}</span>
         </div>
       </div>
+
       <div class="row form-row">
         <div class="col-4">
           <label class="form-label">Job Description Extracted</label>
         </div>
         <div class="col-8">
-          <span class="form-detail" style="display: block; white-space: pre-wrap; word-wrap: break-word;">: {{ rowData.jdExtracted }}</span>
+          <div class="form-detail" >
+            <ng-container *ngFor="let line of formattedJD">
+              <p style="text-align: justify;">{{ line }}</p>
+            </ng-container>
+          </div>
+          <!-- <span class="form-detail" style="display: block; white-space: pre-wrap; word-wrap: break-word; text-align: justify;">: {{ rowData.jdExtracted }}</span> -->
         </div>
       </div>
 

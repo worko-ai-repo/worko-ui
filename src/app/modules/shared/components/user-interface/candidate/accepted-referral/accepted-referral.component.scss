@@ -1,118 +1,57 @@
-.candidate-card{
-    border-radius: 10px;
-background: #0A1E35;
-width: 100%;
-}
-// .issue-btn{
-//     background-color: transparent;
-//     font-size: 13px;
-//     display: flex;
-//     align-items: center;
-//     color: white;
-//     border-radius: 100px;
-//     background: #0A111C;
-//     border: 1px solid transparent;
-//     gap: 10px;
-   
-// }
-.btn-done{
-    background-color: transparent;
-    /* width: 91%; */
-    font-size: 13px;
-    display: flex;
-    align-items: center;
-    /* border: unset; */
-    /* border-radius: 100px; */
-    border-radius: 100px;
-    border: 1px solid #36D0FF;
-    color: white;
-    gap: 10px;
-}
-.btn-req{
-    background-color: rgba(45, 142, 194, 1);
-    font-size: 12px;
-    display: flex;
-    align-items: center;
-    border-radius: 100px;
-    border: 1px solid #36D0FF;
-    color: white;
-    gap: 10px;
+.disabled-message {
+    font-size: 0.8rem;
+    font-weight: bold;
+    color: #333;
+    /* Darkened the text color for better contrast */
+    display: none;
+    /* Initially hiding the message */
+    position: absolute;
+    top: -1.5em;
+    /* Position above the button */
+    left: -20%;
+    /* Center horizontally */
+    transform: translateX(-50%);
+    /* Center horizontally */
+    padding: 0.3rem 0.6rem;
+    background-color: #f0f0f0;
+    /* Lightened the background color */
+    border: 1px solid #ccc;
+    /* Lightened the border color */
+    border-radius: 4px;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+    z-index: 999;
+    // width: 200px;
+    text-align: center;
+    white-space: nowrap;
+    /* Force single line */
+    overflow: hidden;
+    /* Hide any overflow if the text is too long */
+    text-overflow: ellipsis;
+    opacity: 0;
+    transition: opacity 0.3s ease;
+    max-width: 20rem;
 }
 
-.box-border{
-    border-radius: 10px;
-border: 1px solid #1ED6FF;
+.video-call:hover .disabled-message {
+    display: block;
+    /* Show the message on hover */
+    opacity: 1;
 }
-.req-rejected{
-    color: #FFF;
-text-align: center;
-font-family: Poppins;
-font-size: 17px;
-font-style: normal;
-font-weight: 600;
-line-height: normal;
-}
-.req-content{
-    color: white;
-    font-size: 12px;
-}
-.reason-box{
-    border-radius: 10px;
-border: 1px solid #1ED6FF;
-width: 100%;
-}
-.yourExperience-content{
-    color: #FFF;
-// text-align: center;
-font-family: Poppins;
-font-size: 12px;
-font-style: italic;
-font-weight: 600;
-line-height: normal;
-}
-.comment-content{
-    color: #FFF;
-font-family: Poppins;
-font-size: 12px;
-font-style: normal;
-font-weight: 400;
-line-height: normal;
-}
-.button-close{
-    border-radius: 8px;
-    border: 1px solid #FFF;
-    background-color: transparent;
-    flex-shrink: 0;
-    width: 93px;
-    height: 32px;
-    color: white;
-}
-.content-req-rejected{
-    color: #FFF;
-text-align: center;
-font-family: Poppins;
-font-size: 18.036px;
-font-style: normal;
-font-weight: 400;
-line-height: normal;
-}
-.content-experience{
-    color: #E32727;
-font-family: Poppins;
-font-size: 20px;
-font-style: italic;
-font-weight: 600;
-line-height: normal;
-}
-.content-experience a{
-    font-size: 12px;
-    font-style: normal;
-    color: #E32727;
 
+.message-card {
+    background: #0A1E36;
 }
-.referral-img{
-    width: 225px;
+
+.chat-ui {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
 }
+
+.height-100 {
+    height: 100%;
+}
+
 .center-elements {
     height: 100%;
     width: 100%;
@@ -122,26 +61,173 @@ line-height: normal;
     justify-content: center;
 }
 
-
-.done-btn,
-.new-request-btn {
-    flex: 1;
+::placeholder {
+    color: white;
 }
 
-@media (max-width: 1251px) {
-    .candidate-card{
-        height: 100%;
-    }
-    .text-white{
-        font-size: 12px;
-    }
-    .issues-btn,.done-btn,.new-request-btn {
-        flex: 1 1 25%; /* Each button takes up 25% of the row on smaller screens */
+.scroller {
+    overflow-y: hidden;
+    overflow-y: scroll;
+}
+
+.scroller::-webkit-scrollbar {
+    display: none;
+}
+
+.text-in-box {
+    background: rgba(30, 214, 255, 0.50);
+    font-size: 12px;
+    color: #0A1E35;
+    font-weight: 600;
+    float: left;
+    padding: 5px;
+    border-radius: 10px;
+    width: fit-content;
+    font-style: normal;
+}
+
+// classes related to modal
+
+.popup-card {
+    border-radius: 12.69px;
+    // border: 0.634px solid rgba(87, 225, 255, 0.18);
+    background: rgba(10, 30, 54, 0.96);
+    backdrop-filter: blur(11.516115188598633px);
+    height: 100%;
+    width: 100%;
+    padding: 30px;
+}
+
+.card-content {
+    height: 100%;
+    width: 100%;
+}
+
+.label {
+    font-weight: 700;
+    color: #ffffff;
+    font-size: 16px;
+    display: block;
+    margin-bottom: 5px;
+}
+
+.value {
+    color: #f0f0f0;
+    font-size: 16px;
+    display: block;
+    margin-bottom: 15px;
+}
+
+.popup-card a {
+    color: #57E1FF;
+    /* Keeping the link color */
+    text-decoration: none;
+    font-weight: 500;
+}
+
+.popup-card a:hover {
+    text-decoration: underline;
+}
+
+//new buttons css
+
+.btn-reqq {
+    background-color: #ffffff;
+    border-radius: 50%;
+    width: 40px;
+    height: 40px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: #005bb5;
+    border: 2px solid #36D0FF;
+    font-size: 22px;
+    cursor: pointer;
+    margin: 0 10px;
+    position: relative;
+}
+
+/* Icon inside the button */
+.btn-reqq i {
+    font-size: 16px;
+}
+
+/* Text below the button */
+.btn-reqq div {
+    position: absolute;
+    top: 45px;
+    width: 110%;
+    text-align: center;
+    font-size: 8px;
+    color: #ffffff;
+    z-index: 99;
+}
+
+/* Hover effect for buttons */
+.btn-reqq:hover {
+    background-color: #005bb5;
+    color: #ffffff;
+    border-color: #ffffff;
+}
+
+/* Disabled button state */
+.btn-reqq[disabled] {
+    opacity: 0.5;
+    /* Reduced opacity for disabled state */
+    cursor: not-allowed;
+    /* Not-allowed cursor to indicate non-clickable state */
+}
+
+.ref-name {
+    padding-left: 21%;
+}
+
+
+/* Styles for mobile screens */
+@media (max-width: 768px) {
+
+    .candidate-card .row {
         display: flex;
-        justify-content: center;
-        margin-bottom: 10px;
+        flex-wrap: wrap;
     }
-    .referral-img {
-        width: 200px;
+
+    .text-overflow {
+        text-overflow: ellipsis;
+        white-space: nowrap;
+        overflow: hidden;
+        width: 57%;
+    }
+
+    .ms-4,
+    .ms-2 {
+        margin-left: 0 !important;
+    }
+
+    .pt-3,
+    .pt-2 {
+        padding-top: 0 !important;
+    }
+
+    .action-buttons {
+        display: flex;
+        // flex-direction: column;
+        // position: absolute;
+        right: 10px;
+        /* Adjust the value as needed to align parallel to the image */
+        top: 10px;
+        /* Adjust the value as needed to align parallel to the image */
+        padding: 10px;
+        text-align: right;
+        z-index: 1;
+    }
+
+    .action-buttons button {
+        margin-bottom: 37px;
+        /* Space between buttons */
+    }
+
+
+    .p-image {
+        border-radius: 10px;
     }
 }

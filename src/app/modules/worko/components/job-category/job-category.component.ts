@@ -45,6 +45,7 @@ export class JobCategoryComponent implements OnInit, AfterViewInit, OnDestroy {
   jobCategory!: string;
   pageSize = 50;
   lastKey: string | undefined = undefined;
+  sortOrder: string | undefined = undefined;
   loadedOnce: boolean = true;
   companyList: any[] = [];
   isNoLoadData: boolean = true;
@@ -149,7 +150,7 @@ export class JobCategoryComponent implements OnInit, AfterViewInit, OnDestroy {
   async getCompanyDetails() {
     if ((this.lastKey || this.loadedOnce) && this.isNoLoadData) {
       this.spinner.show();
-      await this.companyListing.getCompanyListing(this.pageSize, this.lastKey, this.teamSize, encodeURIComponent(this.industryType), this.companyName).then(async (response) => {
+      await this.companyListing.getCompanyListing(this.pageSize, this.sortOrder, this.lastKey, this.teamSize, encodeURIComponent(this.industryType), this.companyName).then(async (response) => {
         this.spinner.hide();
         if (response && response.data.length > 0) {
           if (this.loadedOnce) {

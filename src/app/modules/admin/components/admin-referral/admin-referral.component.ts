@@ -48,7 +48,7 @@ export class AdminReferralComponent {
   modalMessage: string = "";
   modalTitle: string = "";
   showModal: ModalType | undefined;
-  displayedColumns: string[] = ['serialnumber', 'emailId', 'matchingScore', 'status', 'date', 'companyId', 'userSubscriptionId', 'jobUrl', 'action'];
+  displayedColumns: string[] = ['serialnumber', 'emailId', 'matchingScore', 'status', 'date', 'jobUrl', 'action'];
   candidatesDataSource: MatTableDataSource<UserData>;
   servicesDataSource: MatTableDataSource<UserData>;
   isFilterPopupOpen: boolean = true;
@@ -84,11 +84,11 @@ export class AdminReferralComponent {
       name: "Referred",
       value: "done"
     },
-  
+
     {
       name: "Rejected",
       value: "rejected"
-    }, 
+    },
     {
       name: "Cancelled",
       value: "cancelled"
@@ -98,6 +98,7 @@ export class AdminReferralComponent {
       value: "withdrawn"
     },
   ]
+  formattedJD: any;
   constructor(private router: Router, private elementRef: ElementRef, private adminService: AdminService, private spinner: NgxSpinnerService) {
     this.candidatesDataSource = new MatTableDataSource<UserData>(this.nameslist);
     this.servicesDataSource = new MatTableDataSource<UserData>(this.nameslist);
@@ -181,6 +182,8 @@ export class AdminReferralComponent {
 
     if (this.filterModel.fromDate) {
       const dateObject = new Date(this.filterModel.fromDate);
+      // Adjusting time so that UTC conversion in toISOString() doesn't affect the date
+      dateObject.setMinutes(dateObject.getMinutes() - dateObject.getTimezoneOffset());
       const isoString = dateObject.toISOString();
       this.fromDate = isoString;
     } else {
@@ -195,6 +198,8 @@ export class AdminReferralComponent {
 
     if (this.filterModel.toDate) {
       const dateObject = new Date(this.filterModel.toDate);
+      // Adjusting time so that UTC conversion in toISOString() doesn't affect the date
+      dateObject.setMinutes(dateObject.getMinutes() - dateObject.getTimezoneOffset());
       const isoString = dateObject.toISOString();
       this.toDate = isoString;
     } else {
@@ -220,13 +225,13 @@ export class AdminReferralComponent {
     this.lastKey = "";
     this.sortOrder = '';
     this.fromDate = "",
-    this.toDate = "",
-    this.searchTerm = "",
-    this.referralPaginator.pageIndex = 0;  // Reset to the first page
+      this.toDate = "",
+      this.searchTerm = "",
+      this.referralPaginator.pageIndex = 0;  // Reset to the first page
     this.referralPaginator.pageSize = 50;  // Update the UI's pageSize
-    this.isSearchActive=false,
-    this.isDropdownActive=false;
-    this.searchQuery="";
+    this.isSearchActive = false,
+      this.isDropdownActive = false;
+    this.searchQuery = "";
     (document.getElementById('issuesStatus') as HTMLSelectElement).value = "";
     this.getAllReferral();
   }
@@ -246,23 +251,23 @@ export class AdminReferralComponent {
   }
 
   clearSearchInput() {
- 
+
     this.referralPaginator.pageIndex = 0;  // Reset to the first page
     this.pageSize = 50;                    // Set the pageSize to 25
     this.referralPaginator.pageSize = 50;  // Update the UI's pageSize
     this.lastKey = "";
     this.sortOrder = '';
     this.fromDate = this.fromDate,
-    this.toDate = this.toDate,
-    this.searchTerm = "",
-    this.searchQuery='',
-    this.isDropdownActive=false
+      this.toDate = this.toDate,
+      this.searchTerm = "",
+      this.searchQuery = '',
+      this.isDropdownActive = false
     this.getAllReferral();
   }
   onSearchInputEnter(event: KeyboardEvent): void {
     if (event.key === 'Enter') { // Checking if the pressed key is Enter
       this.isDropdownActive = true; // Disable dropdown when search is active
-      this.selectedStatus = ''; 
+      this.selectedStatus = '';
       this.pageSize = 50;
       this.lastKey = "";
       this.sortOrder = '';
@@ -271,22 +276,22 @@ export class AdminReferralComponent {
       this.searchTerms.next(this.searchQuery);
     }
   }
-  onStatusChange(selectedStatus:string){
-    this.isSearchActive=!!selectedStatus
+  onStatusChange(selectedStatus: string) {
+    this.isSearchActive = !!selectedStatus
     this.pageSize = 50;
     this.lastKey = "";
     this.sortOrder = '';
     this.fromDate = '';
     this.toDate = '';
-    this.searchTerm=selectedStatus;
-    this.selectedStatus=selectedStatus;
+    this.searchTerm = selectedStatus;
+    this.selectedStatus = selectedStatus;
     this.getAllReferral()
   }
 
   ngAfterViewInit() {
     // Set paginator and sort for referral table
     this.candidatesDataSource.paginator = this.referralPaginator;
-  
+
 
 
     // Listen for changes in the page size
@@ -300,15 +305,15 @@ export class AdminReferralComponent {
 
 
   onSort(sort: Sort): void {
-  
-    if(sort.active==='date'){
-    this.lastKey = "";
-    this.pageSize = 50;
-    this.sortOrder = this.sortOrder === 'ascending' ? 'descending' : 'ascending';
-    sort.direction === 'asc' ? 'ascending' : 'descending';
-    this.sort.direction = sort.direction;
-    // Call API with the new sort direction
-    this.getAllReferral();
+
+    if (sort.active === 'date') {
+      this.lastKey = "";
+      this.pageSize = 50;
+      this.sortOrder = this.sortOrder === 'ascending' ? 'descending' : 'ascending';
+      sort.direction === 'asc' ? 'ascending' : 'descending';
+      this.sort.direction = sort.direction;
+      // Call API with the new sort direction
+      this.getAllReferral();
     }
   }
 
@@ -341,6 +346,7 @@ export class AdminReferralComponent {
           const email = inputString.split('#').pop();
           this.userDetails = await this.adminService.getUserByEmailId(email);
         }
+        this.formattedJD = this.rowData.jdExtracted.split('\n').filter((line: string) => line.trim() !== ''); // Split by newline and remove empty lines
         this.openModal(ModalType.ADMINDETAIL_POPUP, "", "", this.rowData, this.companyDetails, this.userDetails);
       }
     } catch (error: any) {

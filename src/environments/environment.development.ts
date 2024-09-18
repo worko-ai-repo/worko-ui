@@ -27,6 +27,8 @@ export const environment = {
     crossOriginUrl:'https://dev.worko.work',
     localUrl: 'https://app.dev.worko.work',
     apiUrl: "https://api.dev.worko.work/",
+    chatApiUrl: 'https://chatapi.dev.worko.work/',
+    chatWsUrl: 'wss://chatws.dev.worko.work',
     // apiUrl: "https://api.worko.ai/",
     saveUserInfoApi:"https://w6zitv6ryk.execute-api.us-east-1.amazonaws.com/dev/adduserinfo",
     linkedInRedirection: "https://app.dev.worko.work/auth/checkRedirection",

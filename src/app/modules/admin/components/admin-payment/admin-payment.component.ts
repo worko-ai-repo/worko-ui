@@ -57,14 +57,14 @@ export class AdminPaymentComponent {
   lastKey: string | undefined = undefined;
   iconTimeout: any;
   private searchTerms = new Subject<string>();
-  sortOrder: any='';
-  fromDate: any='';
-  toDate: any='';
-  searchText: any='';
+  sortOrder: any = '';
+  fromDate: any = '';
+  toDate: any = '';
+  searchText: any = '';
   searchTerm: string = '';
   searchQuery: string = '';
   selectedStatus: string = '';
-  selectedName:string='';
+  selectedName: string = '';
   StatusOption: any = [
     {
       name: "Active",
@@ -92,18 +92,18 @@ export class AdminPaymentComponent {
 
   isDropdownActive: boolean = false;
   isSearchActive: boolean = false;
-  constructor(private router: Router,private elementRef: ElementRef, private adminService: AdminService, private spinner: NgxSpinnerService) {
+  constructor(private router: Router, private elementRef: ElementRef, private adminService: AdminService, private spinner: NgxSpinnerService) {
     this.candidatesDataSource = new MatTableDataSource<UserData>(this.nameslist);
     this.servicesDataSource = new MatTableDataSource<UserData>(this.nameslist);
     this.searchTerms.pipe(
       debounceTime(300), // Adjust the debounce time as needed (300 milliseconds in this example)
       //distinctUntilChanged()
     )
-    .subscribe((query: string) => {
-     
-      // Call your API here with the query string
-      this.callApiWithSearchQuery(query);
-    });
+      .subscribe((query: string) => {
+
+        // Call your API here with the query string
+        this.callApiWithSearchQuery(query);
+      });
   }
 
 
@@ -127,7 +127,7 @@ export class AdminPaymentComponent {
   }
   async getAllSubscriptions() {
     this.spinner.show()
-    await this.adminService.getAllSubscriptions(this.pageSize, this.lastKey,this.sortOrder,this.fromDate,this.toDate,this.searchTerm).then(async (response: any) => {
+    await this.adminService.getAllSubscriptions(this.pageSize, this.lastKey, this.sortOrder, this.fromDate, this.toDate, this.searchTerm).then(async (response: any) => {
       if (response) {
         this.spinner.hide()
         this.nameslist = response.data;
@@ -158,21 +158,23 @@ export class AdminPaymentComponent {
   }
 
   callApiWithSearchQuery(query: string): void {
-    this.pageSize ="";
+    this.pageSize = "";
     this.lastKey = "";
-    this.sortOrder='';
-    this.searchTerm =query ; // Setting here encoded query to filterData
-    this.fromDate="", 
-    this.toDate="",
-    // console.log(this.sortOrder,this.fromDate,this.toDate,this.searchTerm)
-    this.getAllSubscriptions();
-   
+    this.sortOrder = '';
+    this.searchTerm = query; // Setting here encoded query to filterData
+    this.fromDate = "",
+      this.toDate = "",
+      // console.log(this.sortOrder,this.fromDate,this.toDate,this.searchTerm)
+      this.getAllSubscriptions();
+
   }
 
   applyFromDateFilters() {
- 
+
     if (this.filterModel.fromDate) {
       const dateObject = new Date(this.filterModel.fromDate);
+      // Adjusting time so that UTC conversion in toISOString() doesn't affect the date
+      dateObject.setMinutes(dateObject.getMinutes() - dateObject.getTimezoneOffset());
       const isoString = dateObject.toISOString();
       this.fromDate = isoString;
     } else {
@@ -181,12 +183,14 @@ export class AdminPaymentComponent {
     this.initializeData();
     this.getAllSubscriptions();
   }
-  
+
 
   applyToDateFilters() {
 
     if (this.filterModel.toDate) {
       const dateObject = new Date(this.filterModel.toDate);
+      // Adjusting time so that UTC conversion in toISOString() doesn't affect the date
+      dateObject.setMinutes(dateObject.getMinutes() - dateObject.getTimezoneOffset());
       const isoString = dateObject.toISOString();
       this.toDate = isoString;
     } else {
@@ -206,23 +210,23 @@ export class AdminPaymentComponent {
   }
 
   resetDatePickers() {
-    this.filterModel.fromDate =null;
+    this.filterModel.fromDate = null;
     this.filterModel.toDate = null;
     (document.getElementById('paymentStatus') as HTMLSelectElement).value = "";
     (document.getElementById('nameFilter') as HTMLSelectElement).value = "";
-    this.pageSize =25;
+    this.pageSize = 25;
     this.referralPaginator.pageIndex = 0;  // Reset to the first page
     this.referralPaginator.pageSize = 25;  // Update the UI's pageSize
     this.lastKey = "";
-    this.sortOrder='';
-    this.fromDate="", 
-    this.toDate="",
-    this.searchTerm=""
-    this.isSearchActive=false;
-    this.isDropdownActive=false
+    this.sortOrder = '';
+    this.fromDate = "",
+      this.toDate = "",
+      this.searchTerm = ""
+    this.isSearchActive = false;
+    this.isDropdownActive = false
     this.getAllSubscriptions();
   }
- 
+
   ngAfterViewInit() {
     // Set paginator and sort for referral table
     this.candidatesDataSource.paginator = this.referralPaginator;
@@ -240,41 +244,41 @@ export class AdminPaymentComponent {
       }
     });
   }
- 
+
 
   onSort(sort: Sort): void {
-  
-    if(sort.active==='purchaseDate'){
-    this.lastKey = "";
-    this.pageSize = 25;
-    this.sortOrder = this.sortOrder === 'ascending' ? 'descending' : 'ascending';
-    sort.direction === 'asc' ? 'ascending' : 'descending';
-    this.sort.direction = sort.direction;
-    // Call API with the new sort direction
-    this.getAllSubscriptions();
+
+    if (sort.active === 'purchaseDate') {
+      this.lastKey = "";
+      this.pageSize = 25;
+      this.sortOrder = this.sortOrder === 'ascending' ? 'descending' : 'ascending';
+      sort.direction === 'asc' ? 'ascending' : 'descending';
+      this.sort.direction = sort.direction;
+      // Call API with the new sort direction
+      this.getAllSubscriptions();
     }
   }
-  onStatusChange(selectedStatus:string){
-  
-   this.isSearchActive=!!selectedStatus;
-    this.pageSize =25;
+  onStatusChange(selectedStatus: string) {
+
+    this.isSearchActive = !!selectedStatus;
+    this.pageSize = 25;
     this.lastKey = "";
     this.sortOrder = '';
     this.fromDate = '';
     this.toDate = '';
-    this.searchTerm=selectedStatus;
-    this.selectedStatus=selectedStatus;
+    this.searchTerm = selectedStatus;
+    this.selectedStatus = selectedStatus;
     this.getAllSubscriptions()
   }
-  onNameChange(selectedName:string){
-    this.isDropdownActive=!!selectedName;
-    this.pageSize =25;
+  onNameChange(selectedName: string) {
+    this.isDropdownActive = !!selectedName;
+    this.pageSize = 25;
     this.lastKey = "";
     this.sortOrder = '';
     this.fromDate = '';
     this.toDate = '';
-    this.searchTerm=selectedName;
-    this.selectedStatus=selectedName;
+    this.searchTerm = selectedName;
+    this.selectedStatus = selectedName;
     this.getAllSubscriptions()
   }
 
@@ -339,11 +343,11 @@ export class AdminPaymentComponent {
 
 
   // handleSearchInput(event: Event) {
- 
+
 
   //   this.searchQuery = (event.target as HTMLInputElement).value;
   //   this.isDropdownActive = !!this.searchQuery; // Disable dropdown if search query is active
-  
+
   //   if (this.searchQuery.length >= 3) {
   //     this.pageSize ="";
   //     this.lastKey = "";
@@ -351,11 +355,11 @@ export class AdminPaymentComponent {
   //   }else if(this.searchQuery.length<=0){
   //    this.clearSearchInput()
   //   }
-  
-    
+
+
   // }
   // onSearchInputEnter(event: KeyboardEvent): void {
- 
+
   //   if (event.key === 'Enter') { // Checking if the pressed key is Enter
   //     this.isDropdownActive = true; // Disable dropdown when search is active
   //     this.selectedStatus = ''; 

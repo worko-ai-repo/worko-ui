@@ -36,7 +36,7 @@ export interface UserData {
 export class AdminCandidateComponent implements AfterViewInit {
   @ViewChild('dropdown') dropdown!: ElementRef;
   @ViewChild('referralPaginator') referralPaginator!: MatPaginator;
-  @ViewChild('MatSort') sort!: MatSort;
+  @ViewChild(MatSort, { static: true }) sort!: MatSort;
 
   // ViewChild declarations for paginator and sort for service table
   // @ViewChild('servicePaginator') servicePaginator!: MatPaginator;
@@ -47,7 +47,7 @@ export class AdminCandidateComponent implements AfterViewInit {
   modalTitle: string = "";
   showModal: ModalType | undefined;
 
-  displayedColumns: string[] = ['serialnumber', 'name', 'emailid', 'number', 'referralcount', 'companyname', 'department', 'designation', 'Subscribed', 'action'];
+  displayedColumns: string[] = ['serialnumber', 'name', 'emailid', 'number','accountcreateddate', 'referralcount', 'companyname', 'department', 'designation', 'action'];
   candidatesDataSource: MatTableDataSource<UserData>;
   servicesDataSource: MatTableDataSource<UserData>;
   isFilterPopupOpen: boolean = true;
@@ -62,6 +62,16 @@ export class AdminCandidateComponent implements AfterViewInit {
   private searchTerms = new Subject<string>();
   searchTerm: string = '';
   searchQuery: string = '';
+  sortOrder:any;
+  userExperience:any;
+  status: any;
+  fromDate: any = '';
+  toDate: any = '';
+  filterModel: any = {
+    fromDate: '',
+    toDate: ''
+
+  };
   constructor(private router: Router, private adminService: AdminService, private _liveAnnouncer: LiveAnnouncer, private spinner: NgxSpinnerService) {
     this.candidatesDataSource = new MatTableDataSource<UserData>(this.nameslist);
     this.servicesDataSource = new MatTableDataSource<UserData>(this.nameslist);
@@ -107,7 +117,7 @@ export class AdminCandidateComponent implements AfterViewInit {
   }
   async getAllUserData() {
     this.spinner.show()
-    await this.adminService.getAllUserData('CAND', this.pageSize, this.lastKey, this.searchTerm).then(async (response: any) => {
+    await this.adminService.getAllUserData('CAND', this.pageSize, this.lastKey, this.searchTerm,this.sortOrder,this.fromDate,this.toDate).then(async (response: any) => {
       if (response) {
         this.nameslist = response.data;
         this.lastKey = response.pagination.lastKey;
@@ -182,18 +192,96 @@ export class AdminCandidateComponent implements AfterViewInit {
     this.getAllUserData();
   }
 
+  applyFromDateFilters() {
+
+    if (this.filterModel.fromDate) {
+      const dateObject = new Date(this.filterModel.fromDate);
+      // Adjusting time so that UTC conversion in toISOString() doesn't affect the date
+      dateObject.setMinutes(dateObject.getMinutes() - dateObject.getTimezoneOffset());
+      const isoString = dateObject.toISOString();
+      this.fromDate = isoString;
+    } else {
+      this.fromDate = "";
+    }
+    this.initializeData();
+    this.getAllUserData();
+  }
 
 
+  applyToDateFilters() {
 
+    if (this.filterModel.toDate) {
+      const dateObject = new Date(this.filterModel.toDate);
+      // Adjusting time so that UTC conversion in toISOString() doesn't affect the date
+      dateObject.setMinutes(dateObject.getMinutes() - dateObject.getTimezoneOffset());
+      const isoString = dateObject.toISOString();
+      this.toDate = isoString;
+    } else {
+      this.toDate = "";
+    }
+    this.initializeData();
+    this.getAllUserData();
+  }
+
+  initializeData() {
+    this.pageSize = 25;
+    this.lastKey = "";
+    this.sortOrder = '';
+    this.searchTerm = "";
+    this.referralPaginator.pageIndex = 0;  // Reset to the first page
+    this.referralPaginator.pageSize = 25;  // Update the UI's pageSize
+  }
+
+  resetDatePickers() {
+    this.filterModel.fromDate = null;
+    this.filterModel.toDate = null;
+    this.pageSize = 25;
+    this.lastKey = "";
+    this.sortOrder = '';
+    this.fromDate = "",
+      this.toDate = "",
+      this.searchTerm = ""
+    this.searchQuery = "";
+    this.referralPaginator.pageIndex = 0;  // Reset to the first page
+    this.referralPaginator.pageSize = 25;  // Update the UI's pageSize
+    this.getAllUserData();
+  }
+
+  onSort(sort: Sort): void {
+  
+    if(sort.active==='accountcreateddate'){
+    this.lastKey = "";
+    this.pageSize = 25;
+    this.sortOrder = this.sortOrder === 'ascending' ? 'descending' : 'ascending';
+    sort.direction === 'asc' ? 'ascending' : 'descending';
+    this.sort.direction = sort.direction;
+    // Call API with the new sort direction
+    this.getAllUserData();
+    }
+  }
 
 
   async viewRow(userData: any) {
     this.spinner.show()
     await this.adminService.getSubscriptionsByEmailId(userData.email).then(async (response: any) => {
+ 
       // if(response && response.length > 0){
       this.spinner.hide()
-      this.userSubscription = response[0]
-      this.openModal(ModalType.ADMINDETAIL_POPUP, "", "", userData, this.userSubscription);
+      this.userSubscription = response
+    //   this.userExperience= await this.adminService.getUserExperienceByEmailId(userData.email)  
+    // // Determine status
+
+    // if (this.userExperience.length > 0 && this.userExperience.isEmailVerified==='false') {
+    //   this.status = "Yes";
+    // } else if (this.userExperience.length ===0) {
+    //   this.status = "No";
+    // } else {
+    //   this.status = "Company EmailID Verified";
+    // }
+        
+        
+      this.openModal(ModalType.ADMINDETAIL_POPUP, "", "", userData, this.userSubscription, this.status);
+      
 
     }).catch((error: any) => {
       this.spinner.hide()
@@ -221,12 +309,13 @@ export class AdminCandidateComponent implements AfterViewInit {
   * @param {string} [title = ""]
   * @returns {void}
   */
-  openModal(modalType: ModalType, message: string = "", title: string = "", userData: any = null, userSubscription: any = null): void {
+  openModal(modalType: ModalType, message: string = "", title: string = "", userData: any = null, userSubscription: any = null,userExperience:any=null): void {
     this.showModal = modalType;
     this.modalMessage = message;
     this.modalTitle = title;
     this.userData = userData;
     this.userSubscription = userSubscription;
+    this.userExperience=userExperience
     this.modal.open();
   }
   /**

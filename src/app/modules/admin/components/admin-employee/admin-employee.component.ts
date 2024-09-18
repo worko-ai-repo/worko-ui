@@ -1,7 +1,7 @@
 import { Component } from '@angular/core';
 import { ChangeDetectorRef, ElementRef, ViewChild, AfterViewInit } from '@angular/core';
 import { MatPaginator, MatPaginatorIntl, PageEvent } from '@angular/material/paginator';
-import { MatSort } from '@angular/material/sort';
+import { MatSort, Sort } from '@angular/material/sort';
 import { MatTableDataSource, MatTableDataSourcePaginator } from '@angular/material/table';
 import { ViewEncapsulation } from '@angular/core';
 import { Action } from 'rxjs/internal/scheduler/Action';
@@ -35,6 +35,7 @@ export class AdminEmployeeComponent {
   @ViewChild('dropdown') dropdown!: ElementRef;
   @ViewChild('referralPaginator') referralPaginator!: MatPaginator;
   @ViewChild('referralSort') referralSort!: MatSort;
+  @ViewChild(MatSort, { static: true }) sort!: MatSort;
 
   // ViewChild declarations for paginator and sort for service table
   @ViewChild('servicePaginator') servicePaginator!: MatPaginator;
@@ -49,7 +50,7 @@ export class AdminEmployeeComponent {
   private searchTerms = new Subject<string>();
   searchTerm: string = '';
   searchQuery: string = '';
-  displayedColumns: string[] = ['serialnumber', 'name', 'emailId', 'Phonenumber', 'companyName', 'companyEmailIdVerifiedStatus', 'action'];
+  displayedColumns: string[] = ['serialnumber', 'name', 'emailId', 'Phonenumber','accountcreateddate', 'companyName', 'companyEmailIdVerifiedStatus', 'action'];
   candidatesDataSource: MatTableDataSource<UserData>;
   isFilterPopupOpen: boolean = true;
   isDropdownOpen: boolean = false;
@@ -59,6 +60,15 @@ export class AdminEmployeeComponent {
   userReferralData: any
   successmessage: string = '';
   successtitle: string = '';
+  sortOrder:any;
+  status:any;
+  fromDate: any = '';
+  toDate: any = '';
+  filterModel: any = {
+    fromDate: '',
+    toDate: ''
+
+  };
   constructor(private router: Router, private elementRef: ElementRef, private adminService: AdminService, private spinner: NgxSpinnerService) {
     this.candidatesDataSource = new MatTableDataSource<UserData>(this.nameslist);
     this.searchTerms.pipe(
@@ -80,7 +90,7 @@ export class AdminEmployeeComponent {
   }
   async getAllUserData() {
     this.spinner.show()
-    await this.adminService.getAllUserData('EMP', this.pageSize, this.lastKey, this.searchTerm).then(async (response: any) => {
+    await this.adminService.getAllUserData('EMP', this.pageSize, this.lastKey, this.searchTerm,this.sortOrder,this.fromDate,this.toDate).then(async (response: any) => {
       if (response) {
         this.spinner.hide()
         this.nameslist = response.data;
@@ -105,6 +115,7 @@ export class AdminEmployeeComponent {
     });
 
   }
+ 
   updateData(newData: UserData[]) {
     this.candidatesDataSource.data = newData;
     if (this.referralPaginator) {
@@ -172,6 +183,18 @@ export class AdminEmployeeComponent {
     });
   }
 
+  onSort(sort: Sort): void {
+  
+    if(sort.active==='accountcreateddate'){
+    this.lastKey = "";
+    this.pageSize = 25;
+    this.sortOrder = this.sortOrder === 'ascending' ? 'descending' : 'ascending';
+    sort.direction === 'asc' ? 'ascending' : 'descending';
+    this.sort.direction = sort.direction;
+    // Call API with the new sort direction
+    this.getAllUserData();
+    }
+  }
 
   async viewRow(userData: any) {
     this.spinner.show()
@@ -185,6 +208,17 @@ export class AdminEmployeeComponent {
         this.userReferralData = response
         //console.log(this.userReferralData)
         //console.log(this.userReferralData)
+    
+        // console.log(this.userData.isCandidateFresher);  // Log to check the values
+        // console.log(this.userData.candidateExperience); // Log to check the values
+        
+        // if (this.userData && (this.userData.isCandidateFresher !== undefined || this.userData.candidateExperience !== undefined)) {
+        //   this.status = "Yes";  // At least one of the properties exists
+        // } else {
+        //   this.status = "No";   // Neither of the properties exists
+        // }
+        
+        
         this.openModal(ModalType.ADMINDETAIL_POPUP, "", "", userData, this.userExperience, this.userReferralData);
       });
 
@@ -199,8 +233,59 @@ export class AdminEmployeeComponent {
 
 
   }
-  async getEmployeeReferral(email: any) {
+  applyFromDateFilters() {
 
+    if (this.filterModel.fromDate) {
+      const dateObject = new Date(this.filterModel.fromDate);
+      // Adjusting time so that UTC conversion in toISOString() doesn't affect the date
+      dateObject.setMinutes(dateObject.getMinutes() - dateObject.getTimezoneOffset());
+      const isoString = dateObject.toISOString();
+      this.fromDate = isoString;
+    } else {
+      this.fromDate = "";
+    }
+    this.initializeData();
+    this.getAllUserData();
+  }
+
+
+  applyToDateFilters() {
+
+    if (this.filterModel.toDate) {
+      const dateObject = new Date(this.filterModel.toDate);
+      // Adjusting time so that UTC conversion in toISOString() doesn't affect the date
+      dateObject.setMinutes(dateObject.getMinutes() - dateObject.getTimezoneOffset());
+      const isoString = dateObject.toISOString();
+      this.toDate = isoString;
+    } else {
+      this.toDate = "";
+    }
+    this.initializeData();
+    this.getAllUserData();
+  }
+
+  initializeData() {
+    this.pageSize = 25;
+    this.lastKey = "";
+    this.sortOrder = '';
+    this.searchTerm = "";
+    this.referralPaginator.pageIndex = 0;  // Reset to the first page
+    this.referralPaginator.pageSize = 25;  // Update the UI's pageSize
+  }
+
+  resetDatePickers() {
+    this.filterModel.fromDate = null;
+    this.filterModel.toDate = null;
+    this.pageSize = 25;
+    this.lastKey = "";
+    this.sortOrder = '';
+    this.fromDate = "",
+      this.toDate = "",
+      this.searchTerm = ""
+    this.searchQuery = "";
+    this.referralPaginator.pageIndex = 0;  // Reset to the first page
+    this.referralPaginator.pageSize = 25;  // Update the UI's pageSize
+    this.getAllUserData();
   }
   /**
   * Open modal.

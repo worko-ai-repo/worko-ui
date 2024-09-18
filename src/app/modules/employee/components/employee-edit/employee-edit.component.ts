@@ -108,6 +108,7 @@ export class EmployeeEditComponent {
         .then(async (response) => {
           if (response) {
             this.employeeDetails = response[0];
+            this.storage.set('userId', this.employeeDetails?.id);
             await this.getSocialProfile();
           }
         });

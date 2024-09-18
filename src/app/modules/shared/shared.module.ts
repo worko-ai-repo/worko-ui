@@ -88,6 +88,8 @@ import { AddCompanyComponent } from '../worko/components/add-company/add-company
 import { PlansOrderPaymentModalComponent } from './components/plans-order-payment-modal/plans-order-payment-modal.component';
 import { PaymentConfirmationModalComponent } from './components/payment-confirmation-modal/payment-confirmation-modal.component';
 import { PgResponseComponent } from './components/user-interface/subscription/pg-response/pg-response.component';
+import { ChatUIComponent } from './components/chat-ui/chat-ui.component';
+import { AutosizeModule } from 'ngx-autosize';
 import { MiniJobPortalTitleComponent } from './components/user-interface/mini-job-portal/mini-job-portal-title/mini-job-portal-title.component';
 import { MiniJobPortalDescriptionComponent } from './components/user-interface/mini-job-portal/mini-job-portal-description/mini-job-portal-description.component';
 import { MiniJobPortalAboutCompanyComponent } from './components/user-interface/mini-job-portal/mini-job-portal-about-company/mini-job-portal-about-company.component';
@@ -143,6 +145,7 @@ export const routes: Routes = [
     PlansOrderPaymentModalComponent,
     PaymentConfirmationModalComponent,
     PgResponseComponent,
+    ChatUIComponent,
     MiniJobPortalTitleComponent,
     MiniJobPortalDescriptionComponent,
     MiniJobPortalAboutCompanyComponent,
@@ -171,7 +174,8 @@ export const routes: Routes = [
     // SlickCarouselModule,
     NgbRatingModule,
     RouterModule,
-    MatProgressSpinnerModule
+    MatProgressSpinnerModule,
+    AutosizeModule,
     // BrowserAnimationsModule,
   ],
 
@@ -218,6 +222,7 @@ export const routes: Routes = [
   AddCompanyComponent,
   PlansOrderPaymentModalComponent,
   PaymentConfirmationModalComponent,
+  ChatUIComponent,
   MiniJobPortalTitleComponent,
   MiniJobPortalAboutCompanyComponent,
   MiniJobPortalDescriptionComponent,
