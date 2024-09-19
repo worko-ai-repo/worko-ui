@@ -210,7 +210,7 @@ export class ChatService {
     this.isFetchingMessagesSubject.next(false);
     this.paginationKey = null; // Reset pagination key if applicable
     this.isReconnecting = false;
-    // Reset any other relevant state in ChatService
+    // we can reset any other relevant state in ChatService
   }
 
   /**
