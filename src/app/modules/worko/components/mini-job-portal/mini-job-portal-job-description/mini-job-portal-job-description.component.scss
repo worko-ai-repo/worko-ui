@@ -37,6 +37,7 @@ background: linear-gradient(147.55deg, #000000 34.1%, #182B45 70.16%);
          width: 100%;
  
          .mini-job-headline {
+            padding: 20px;
              height: fit-content;
              font-size: 40px;
              line-height: 40px;
@@ -93,6 +94,24 @@ background: linear-gradient(147.55deg, #000000 34.1%, #182B45 70.16%);
  
      }
  }
+ .progress-bar{
+    height:100%;
+  }
+  
+  .message-card {
+  
+    background: #0A1E36;
+  
+  
+  }
+  .main-div1{
+    border-radius: 16px;
+    border: 1px solid rgba(87, 225, 255, 0.58);
+    background: #0A1E36;
+    backdrop-filter: blur(18.149999618530273px);
+    height: 480px;
+    width: 100%; 
+  }
  
  // // ---------------Responsive for ipads---------------
  

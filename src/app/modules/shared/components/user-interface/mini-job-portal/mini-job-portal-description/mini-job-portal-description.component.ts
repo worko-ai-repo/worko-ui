@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, EventEmitter, Output } from '@angular/core';
 
 @Component({
   selector: 'app-mini-job-portal-description',
@@ -6,5 +6,13 @@ import { Component } from '@angular/core';
   styleUrls: ['./mini-job-portal-description.component.scss']
 })
 export class MiniJobPortalDescriptionComponent {
+
+  @Output() requestReferral = new EventEmitter<void>();
+
+  constructor(){}
+
+  onRequestReferral() {
+    this.requestReferral.emit();
+  }
 
 }

@@ -49,13 +49,13 @@ export class MiniJobPortalJobListingComponent {
   referralRequestId: string = "";
   errorMsg: string | undefined;
   showErrorMsg: boolean | undefined;
-  companyID: any="";
+  companyID: any = "";
 
-  
-  constructor(private route: ActivatedRoute, private router: Router, private http: HttpClient,private cognitoService:CognitoService,private storage:StorageService
-    ,private cdr: ChangeDetectorRef, private candidateSrv: CandidateProfileService,private companyListing:CompanyListingService,private formBuilder: FormBuilder
+
+  constructor(private route: ActivatedRoute, private router: Router, private http: HttpClient, private cognitoService: CognitoService, private storage: StorageService
+    , private cdr: ChangeDetectorRef, private candidateSrv: CandidateProfileService, private companyListing: CompanyListingService, private formBuilder: FormBuilder
   ) { }
-  
+
   async ngOnInit() {
     this.initializeForm();
     //extract the compant name from url
@@ -108,28 +108,28 @@ export class MiniJobPortalJobListingComponent {
   //   }
   // }
 
-  async getJobByCompanyID(){
-     this.companyListing.getAllJob();
-    let response=await this.companyListing.getJobByCompanyID('01HZM7VF8D3CKNGGM4820D7FT9')
+  async getJobByCompanyID() {
+    this.companyListing.getAllJob();
+    let response = await this.companyListing.getJobByCompanyID('01HZM7VF8D3CKNGGM4820D7FT9')
   }
 
   initializeForm(): void {
     this.requestForm = this.formBuilder.group({
       jobUrl: ['', [Validators.required, Validators.pattern('^https:\/\/.*$')]],
-      jobDescription: ['', [Validators.required,this.jobDescriptionValidator()]]
+      jobDescription: ['', [Validators.required, this.jobDescriptionValidator()]]
     });
   }
 
   jobDescriptionValidator() {
     return (control: { value: any; }) => {
       const text = control.value || '';
-      const keywords = ['experience', 'education', 'skills', 'certifications', 'Preferred Skills', 'job description', 'responsibilities', 'role', 'Employment', 'Department']; 
-    
+      const keywords = ['experience', 'education', 'skills', 'certifications', 'Preferred Skills', 'job description', 'responsibilities', 'role', 'Employment', 'Department'];
+
       const containsKeywords = this.countKeywords(text, keywords) >= 5;
       return containsKeywords ? null : { notEnoughKeywords: true };
     };
   }
-  
+
   countKeywords(text: string, keywords: string[]): number {
     const regex = new RegExp(keywords.join('|'), 'ig');
     const matches = text.match(regex);
@@ -141,26 +141,26 @@ export class MiniJobPortalJobListingComponent {
 
   async openReferralPage(): Promise<void> {
 
-  //  event.preventDefault();
-  
+    //  event.preventDefault();
+
     // Step 1: Check if the user is logged in
     this.userLoggedIn = await this.cognitoService.isLoggedIn();
-  
+
     if (!this.userLoggedIn) {
       // Step 2: If not logged in, show login/signup modal
       this.openModal(ModalType.LOGIN_SIGNUP);
       return;
     }
-  
+
     // Step 3: If logged in, check profile completion
     await this.handlePostLoginProcess();
   }
-  
+
   // Function to handle post-login process (check profile and subscription)
   async handlePostLoginProcess(): Promise<void> {
 
     await this.getProfilePercentage();
-  
+
     // Step 4: Check if the profile is complete
     if (!this.checkProfileCompletion()) {
       this.profileCompletionRequired = true;
@@ -169,7 +169,7 @@ export class MiniJobPortalJobListingComponent {
       this.openModal(ModalType.SUCCESS_MESSAGE); // Profile completion modal
       return;
     }
-  
+
     // Step 5: If profile is complete, check subscription/referral count
     this.checkRequestReferral();
   }
@@ -186,92 +186,92 @@ export class MiniJobPortalJobListingComponent {
 
   checkRequestReferral(): void {
 
-     if (this.requestForm.valid) {
+    if (this.requestForm.valid) {
       this.companyListing.getReferralCount(this.emailAddress).then(async (response) => {
-        
-          let count = response.referralCount;
-     
-          if (count==0) {
-            this.showsubscriptionPlan = true;
-  
-           } 
-           else {
-            
-           this.createRequest();
-           this.requestForm.reset();
-         
-          }
+
+        let count = response.referralCount;
+
+        if (count == 0) {
+          this.showsubscriptionPlan = true;
+
         }
+        else {
+
+          this.createRequest();
+          this.requestForm.reset();
+
+        }
+      }
       ).catch((error: any) => {
-        if (error.status==404) { 
+        if (error.status == 404) {
           this.router.navigate(['/auth/logout']);
-        }else if (error.status==401){
-       
-         this.router.navigate(['/']);
-        }else{
-        //console.error('Error:', error);
+        } else if (error.status == 401) {
+
+          this.router.navigate(['/']);
+        } else {
+          //console.error('Error:', error);
         }
       });
 
     }
   }
-  upgradeNow(){
-    
+  upgradeNow() {
+
     this.router.navigate(['/candidate/subscription'])
-   
+
   }
 
-  
+
   createRequest() {
 
-if(this.companyID){
-    let data = {
-     "companyId": this.companyID,
-      "jobUrl": this.requestForm.value.jobUrl,
-      "jdExtracted": this.requestForm.value.jobDescription
-    }
-
-    this.companyListing.createReferralRequest(this.emailAddress, data).then(async (response) => {
-      if (response) {
-    
-
-        if (response.referralRequestId) {
-     
-          this.referralRequestId = response.referralRequestId;
-          this.showLoading = true;
-          this.showReferrelRow = false;
-          this.showScore = true;
-          this.openModal(ModalType.SUCCESS_MESSAGE);
-          // this.getScore(this.referralRequestId);
-        }
+    if (this.companyID) {
+      let data = {
+        "companyId": this.companyID,
+        "jobUrl": this.requestForm.value.jobUrl,
+        "jdExtracted": this.requestForm.value.jobDescription
       }
-    }).catch(error => {
-      this.handleError(error);
-    });
-  }else{
-    this.successmessage="job not found"
-    this.openModal(this.modalType.SUCCESS_MESSAGE)
-  }
+
+      this.companyListing.createReferralRequest(this.emailAddress, data).then(async (response) => {
+        if (response) {
+
+
+          if (response.referralRequestId) {
+
+            this.referralRequestId = response.referralRequestId;
+            this.showLoading = true;
+            this.showReferrelRow = false;
+            this.showScore = true;
+            this.openModal(ModalType.SUCCESS_MESSAGE);
+            // this.getScore(this.referralRequestId);
+          }
+        }
+      }).catch(error => {
+        this.handleError(error);
+      });
+    } else {
+      this.successmessage = "job not found"
+      this.openModal(this.modalType.SUCCESS_MESSAGE)
+    }
   }
 
   getScore(referralRequestId: string) {
     this.companyListing.getMatchingScore(this.emailAddress, referralRequestId).then(async (response) => {
       if (response) {
-        
+
         this.matchingScore = response.matchingScore;
         this.showLoading = false;
         this.showScore = true;
-        this.openModal(ModalType.SUCCESS_MESSAGE); 
+        this.openModal(ModalType.SUCCESS_MESSAGE);
       }
     })
       .catch(error => {
-        if (error.status==404) { 
+        if (error.status == 404) {
           this.router.navigate(['/auth/logout']);
-        }else if (error.status==401){
-       
-         this.router.navigate(['/']);
+        } else if (error.status == 401) {
+
+          this.router.navigate(['/']);
         }
-       // console.error('Create Employee Error:', error);
+        // console.error('Create Employee Error:', error);
       });
   }
 
@@ -281,7 +281,7 @@ if(this.companyID){
       case 400:
         this.showErrorMsg = true;
         this.showReferrelRow = false;
-        this.showScore=false;
+        this.showScore = false;
         this.errorMsg = "You have already requested a referral for this job. Check your dashboard for reference.";
         this.openModal(ModalType.SUCCESS_MESSAGE);
         break;
@@ -318,96 +318,96 @@ if(this.companyID){
     this.storage.remove("selectedCompanySK");
   }
 
-//   async receiveDataFromChild(data?: any) {
-//     this.userLoggedIn = await this.cognitoService.isLoggedIn();
-//     this.closeModal();
-//     if (this.userLoggedIn) {
-//       await this.getUserDetails();
-//       await this.getProfilePercentage();
-//       this.navbarComponent.initializeUserSession();
-  
-//   }
-// }
+  //   async receiveDataFromChild(data?: any) {
+  //     this.userLoggedIn = await this.cognitoService.isLoggedIn();
+  //     this.closeModal();
+  //     if (this.userLoggedIn) {
+  //       await this.getUserDetails();
+  //       await this.getProfilePercentage();
+  //       this.navbarComponent.initializeUserSession();
 
-async receiveDataFromChild(data?: any) {
+  //   }
+  // }
 
-  // User has successfully logged in
-  this.userLoggedIn = await this.cognitoService.isLoggedIn();
-  this.closeModal();
+  async receiveDataFromChild(data?: any) {
 
-  if (this.userLoggedIn) {  
+    // User has successfully logged in
+    this.userLoggedIn = await this.cognitoService.isLoggedIn();
+    this.closeModal();
 
-    // Step 3: Check profile completion after login
-    await this.handlePostLoginProcess();
-  }
-}
+    if (this.userLoggedIn) {
 
-
-async getUserDetails() {
-  this.emailAddress = this.storage.get("useremail");
-  try {
-    await this.candidateSrv.getUserDetails(this.emailAddress).then(async (response) => {
-      if (response) {
-        this.userDetails = response;
-      }
-    })
-  } catch (error: any) {
-    //console.log("error:", error);
-  }
-}
-async getProfilePercentage() {
-  if (this.userLoggedIn) {
-    this.emailAddress = this.storage.get("useremail");
-    const response = await this.candidateSrv.getProfileComplete(this.emailAddress);
-
-    if (response) {
-      this.profileCompletion = response;
-      // console.log(this.profileCompletion);
-
-      if (this.profileCompletion) {
-        const profileType = this.profileCompletion.candidate;
-        this.totalPercentage = profileType.reduce((sum: any, element: any) => sum + element.curPerc, 0);
-        this.cvCurPerc = profileType[2].curPerc;
-
-
-      }
+      // Step 3: Check profile completion after login
+      await this.handlePostLoginProcess();
     }
   }
-}
 
 
-    /**
-   * Open modal.
-   *
-   * @param {ModalType} modalType
-   * @param {string} [message = ""]
-   * @param {string} [title = ""]
-   * @returns {void}
-   */
-    openModal(modalType: ModalType, message: string = "", title: string = ""): void {
-      this.showModal = modalType;
-      this.cdr.detectChanges(); // This resolves an issue where the ViewChild reference was sometimes undefined
-      this.modalMessage = message;
-      this.modalTitle = title;
-  
-      if (ModalType.LOGIN_SIGNUP) {
-        if (this.LoginPageComponent) {
-          this.LoginPageComponent.showSignInRow = false;
-          this.LoginPageComponent.showAddCompanyScreen = false;
-          this.LoginPageComponent.showErrorMessageScreen = false;
-          this.LoginPageComponent.showLoginScreen = true
+  async getUserDetails() {
+    this.emailAddress = this.storage.get("useremail");
+    try {
+      await this.candidateSrv.getUserDetails(this.emailAddress).then(async (response) => {
+        if (response) {
+          this.userDetails = response;
+        }
+      })
+    } catch (error: any) {
+      //console.log("error:", error);
+    }
+  }
+  async getProfilePercentage() {
+    if (this.userLoggedIn) {
+      this.emailAddress = this.storage.get("useremail");
+      const response = await this.candidateSrv.getProfileComplete(this.emailAddress);
+
+      if (response) {
+        this.profileCompletion = response;
+        // console.log(this.profileCompletion);
+
+        if (this.profileCompletion) {
+          const profileType = this.profileCompletion.candidate;
+          this.totalPercentage = profileType.reduce((sum: any, element: any) => sum + element.curPerc, 0);
+          this.cvCurPerc = profileType[2].curPerc;
+
+
         }
       }
-      this.modal.open();
-  
     }
-    /**
-   * Close modal.
-   *
-   * @returns {void}
-   */
-    closeModal(): void {
-      this.modal.cancel();
+  }
+
+
+  /**
+ * Open modal.
+ *
+ * @param {ModalType} modalType
+ * @param {string} [message = ""]
+ * @param {string} [title = ""]
+ * @returns {void}
+ */
+  openModal(modalType: ModalType, message: string = "", title: string = ""): void {
+    this.showModal = modalType;
+    this.cdr.detectChanges(); // This resolves an issue where the ViewChild reference was sometimes undefined
+    this.modalMessage = message;
+    this.modalTitle = title;
+
+    if (ModalType.LOGIN_SIGNUP) {
+      if (this.LoginPageComponent) {
+        this.LoginPageComponent.showSignInRow = false;
+        this.LoginPageComponent.showAddCompanyScreen = false;
+        this.LoginPageComponent.showErrorMessageScreen = false;
+        this.LoginPageComponent.showLoginScreen = true
+      }
     }
+    this.modal.open();
+
+  }
+  /**
+ * Close modal.
+ *
+ * @returns {void}
+ */
+  closeModal(): void {
+    this.modal.cancel();
+  }
 
 }

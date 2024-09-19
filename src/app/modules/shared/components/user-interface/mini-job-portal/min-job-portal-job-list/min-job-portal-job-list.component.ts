@@ -23,7 +23,10 @@ export class MinJobPortalJobListComponent {
     const route = `/${companyName.toLowerCase().replace(/\s+/g, '-')}-jobs/${jobDescription.toLowerCase().replace(/\s+/g, '-')}`;
 
     // Navigate to the constructed route
-    this.router.navigate([route]);
+    // this.router.navigate([route],{
+    //   state: { companySK: SK}
+    // });
+    this.router.navigate([route])
   }
 
 }
