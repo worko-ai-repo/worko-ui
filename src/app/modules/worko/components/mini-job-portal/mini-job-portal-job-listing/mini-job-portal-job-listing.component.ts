@@ -50,7 +50,7 @@ export class MiniJobPortalJobListingComponent {
   errorMsg: string | undefined;
   showErrorMsg: boolean | undefined;
   companyID: any = "";
-
+  isJobContainerVisible = true; // Flag to control visibility
 
   constructor(private route: ActivatedRoute, private router: Router, private http: HttpClient, private cognitoService: CognitoService, private storage: StorageService
     , private cdr: ChangeDetectorRef, private candidateSrv: CandidateProfileService, private companyListing: CompanyListingService, private formBuilder: FormBuilder
@@ -76,6 +76,9 @@ export class MiniJobPortalJobListingComponent {
     // Replace dashes '-' with spaces ' ' and capitalize each word
     category = category.split('-').map(word => word.charAt(0).toUpperCase() + word.slice(1)).join(' ');
     return category;
+  }
+  toggleJobContainer() {
+    this.isJobContainerVisible = !this.isJobContainerVisible; // Toggle visibility
   }
 
   // async openReferralPage(event: Event): Promise<void> {

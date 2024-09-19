@@ -6,5 +6,17 @@ import { Component } from '@angular/core';
   styleUrls: ['./mini-job-portal-otherjob.component.scss']
 })
 export class MiniJobPortalOtherjobComponent {
-
+  jobListings = [
+    {
+      title: "Monitoring And Evaluation Officer - HCLTech",
+      location: "Hyderabad",
+      experience: "2-3 years"
+    },
+    {
+      title: "Data Analyst - ABC Corp",
+      location: "Bangalore",
+      experience: "3-4 years"
+    }
+  
+  ];
 }

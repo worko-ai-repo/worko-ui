@@ -1,34 +1,37 @@
-<div class="candidate-card p-4" style="background-color: white; color: black; width: 95%;">
+<div class="candidate-card p-4" style="background-color: white; color: black;">
+  
+    <!-- Core Skills -->
     <div class="skill-main-div">
-        <div class="skill-title"><u>Must Have Skills</u></div>
-        <div class="skill-option">Sales | Marketing | P&L | Project Management | Program Management | Designing</div>
-        <hr class="separator">
+      <div class="skill-title"><u>Core Skills</u></div>
+      <div class="skill-option">{{ getJoinedSkills(coreSkills) }}</div>
+      <hr class="separator">
     </div>
-   
-    
+  
+    <!-- Good to Have Skills -->
     <div class="skill-main-div">
-        <div class="skill-title"><u>Good to Have Skills</u></div>
-        <div class="skill-option">Team leader | Analytics | Partnership | Performance marketing</div>
-        <hr class="separator">
+      <div class="skill-title"><u>Good to Have Skills</u></div>
+      <div class="skill-option">{{ getJoinedSkills(goodToHaveSkills) }}</div>
+      <hr class="separator">
     </div>
-   
-    
+  
+    <!-- Technical Skills -->
     <div class="skill-main-div">
-        <div class="skill-title"><u>Technical Skills</u></div>
-        <div class="skill-option">Team leader | Analytics | Partnership | Performance marketing</div>
-        <hr class="separator">
+      <div class="skill-title"><u>Technical Skills</u></div>
+      <div class="skill-option">{{ getJoinedSkills(technicalSkills) }}</div>
+      <hr class="separator">
     </div>
-   
-    
+  
+    <!-- Other Requirements -->
     <div class="skill-main-div">
-        <div class="skill-title"><u>Other Requirement</u></div>
-        <div class="skill-option">Must have from Healthcare Industry | Preferred from Healthcare Industry | Experience in Analytics is preferred</div>
-        <hr class="separator">
+      <div class="skill-title"><u>Other Requirements</u></div>
+      <div class="skill-option">{{ getJoinedSkills(otherRequirements) }}</div>
+      <hr class="separator">
     </div>
-   
-    
+  
+    <!-- CTC -->
     <div class="skill-main-div">
-        <div class="skill-title"><u>CTC</u></div>
-        <div class="skill-option">10-15 LPA</div>
+      <div class="skill-title"><u>CTC</u></div>
+      <div class="skill-option">10-15 LPA</div>
     </div>
-</div>
+  </div>
+  

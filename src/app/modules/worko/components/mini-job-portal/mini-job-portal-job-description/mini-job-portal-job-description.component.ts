@@ -71,7 +71,7 @@ export class MiniJobPortalJobDescriptionComponent {
   }
   private extractCompanyName(fullCategory: string): string {
     // Extract the company name from the URL
-    const companyMatch = fullCategory.match(/^([^-]+)-jobs/);
+    const companyMatch = fullCategory.match(/companies\/([^-]+(?:-[^-]+)*)-jobs/);;
     return companyMatch ? this.formatCategory(companyMatch[1]) : '';
   }
 

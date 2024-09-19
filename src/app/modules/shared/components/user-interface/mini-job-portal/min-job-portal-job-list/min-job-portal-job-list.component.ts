@@ -8,16 +8,29 @@ import { Router } from '@angular/router';
 })
 export class MinJobPortalJobListComponent {
   @Input() companyName:any="";
+  isJobContainerVisible = true; // Flag to control visibility
+
+  jobs = [
+    {
+        jobTitle: "Assistant Manager - Sales & Marketing (Speciality Sales)",
+        location: "Hyderabad",
+        experience: "2-3 years",
+        department: "Sales & Marketing",
+        companyLogo: "assets/company-logo/301.jpg"
+    },
+    {
+        jobTitle: "Sales Executive - Retail",
+        location: "Bangalore",
+        experience: "1-2 years",
+        department: "Sales",
+        companyLogo: "assets/company-logo/301.jpg"
+    }
+];
 
   constructor(private router: Router) {}
 
  navigateToJobReferral(event: MouseEvent, companyName: string, jobDescription: string): void {
     event.preventDefault(); // Prevent the default anchor behavior
-
-    // Convert jobDescription to a URL-friendly format
-    // const formattedJobDescription = encodeURIComponent(jobDescription
-    //   .toLowerCase()
-    // );
 
     // Construct the route
     const route = `/${companyName.toLowerCase().replace(/\s+/g, '-')}-jobs/${jobDescription.toLowerCase().replace(/\s+/g, '-')}`;
@@ -27,6 +40,10 @@ export class MinJobPortalJobListComponent {
     //   state: { companySK: SK}
     // });
     this.router.navigate([route])
+  }
+
+  toggleJobContainer() {
+    this.isJobContainerVisible = !this.isJobContainerVisible; // Toggle visibility
   }
 
 }
