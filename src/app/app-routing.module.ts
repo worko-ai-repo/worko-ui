@@ -20,14 +20,11 @@ const routes: Routes = [
     path: 'employee',
     loadChildren: () => import('./modules/employee/employee.module').then(m => m.EmployeeModule)
   },
-  {
-    path: 'company',
-    loadChildren: () => import('./modules/mini-job-portal/mini-job-portal.module').then(m => m.MiniJobPortalModule)
-  },
-  { 
-    matcher: jobCategoryMatcher,
-    component: JobCategoryComponent 
-  },
+  // {
+  //   path: 'company',
+  //   loadChildren: () => import('./modules/mini-job-portal/mini-job-portal.module').then(m => m.MiniJobPortalModule)
+  // },
+
 
   // {
   //   path: 'help',

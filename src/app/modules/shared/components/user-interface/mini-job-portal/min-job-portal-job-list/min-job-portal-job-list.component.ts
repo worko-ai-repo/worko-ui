@@ -2,12 +2,11 @@ import { Component, Input } from '@angular/core';
 import { Router } from '@angular/router';
 
 @Component({
-  selector: 'app-min-job-portal-job-listing',
-  templateUrl: './min-job-portal-job-listing.component.html',
-  styleUrls: ['./min-job-portal-job-listing.component.scss']
+  selector: 'app-min-job-portal-job-list',
+  templateUrl: './min-job-portal-job-list.component.html',
+  styleUrls: ['./min-job-portal-job-list.component.scss']
 })
-export class MinJobPortalJobListingComponent {
- 
+export class MinJobPortalJobListComponent {
   @Input() companyName:any="";
 
   constructor(private router: Router) {}
@@ -21,9 +20,10 @@ export class MinJobPortalJobListingComponent {
     // );
 
     // Construct the route
-    const route = `/company/${companyName.toLowerCase().replace(/\s+/g, '-')}-jobs/${jobDescription.toLowerCase().replace(/\s+/g, '-')}`;
+    const route = `/${companyName.toLowerCase().replace(/\s+/g, '-')}-jobs/${jobDescription.toLowerCase().replace(/\s+/g, '-')}`;
 
     // Navigate to the constructed route
     this.router.navigate([route]);
   }
+
 }

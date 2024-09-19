@@ -43,6 +43,8 @@ import { jobCategoryMatcher } from './matchers/custom-route-matcher';
 import { AccountSwitcherComponent } from './components/account-switcher/account-switcher.component';
 import { AuthRouteGuardService } from './services/auth-route-guard.service';
 import { AuthAdminGuardService } from './services/auth-admin-guard.service';
+import { MiniJobPortalJobListingComponent } from './components/mini-job-portal/mini-job-portal-job-listing/mini-job-portal-job-listing.component';
+import { MiniJobPortalJobDescriptionComponent } from './components/mini-job-portal/mini-job-portal-job-description/mini-job-portal-job-description.component';
 
 
 
@@ -72,9 +74,23 @@ export const routes: Routes = [
       },
       // { path: ':category-jobs', component: JobCategoryComponent },
 
+      { 
+        matcher: jobCategoryMatcher,
+        component: JobCategoryComponent 
+      },
+
       {
         path : 'switcher',
         component:AccountSwitcherComponent ,canActivate:[AuthAdminGuardService]
+      },
+      {
+        path: 'companies/:companyName-jobs',
+        component: MiniJobPortalJobListingComponent
+      },
+
+      {
+        path: 'companies/:companyName-jobs/:jd',
+        component: MiniJobPortalJobDescriptionComponent
       },
       // {
       //   path: 'contact',
@@ -214,7 +230,9 @@ export const routes: Routes = [
         IndexComponent,
         ContactUsComponent,
         JobCategoryComponent,
-        AccountSwitcherComponent
+        AccountSwitcherComponent,
+        MiniJobPortalJobListingComponent,
+        MiniJobPortalJobDescriptionComponent
     ],
     exports: [
         NavbarComponent,

@@ -6,10 +6,10 @@ export function jobCategoryMatcher(segments: UrlSegment[]): UrlMatchResult | nul
   //   return { consumed: segments };
   // }
 
-// Do not match if the URL starts with 'company'
-  if (segments.length > 0 && segments[0].path === 'company') {
-    return null;
-  }
+// // Do not match if the URL starts with 'company'
+//   if (segments.length > 0 && segments[0].path === 'company') {
+//     return null;
+//   }
 
   // Match if there's exactly one segment and it ends with '-jobs'
   if (segments.length === 1 && segments[0].path.endsWith('-jobs')) {

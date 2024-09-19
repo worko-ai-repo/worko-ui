@@ -575,15 +575,19 @@ export class CompanyListingComponent implements OnInit, AfterViewInit, OnDestroy
 
 
   }
-  navigateToJobLink(event: MouseEvent, companyName: string): void {
+  navigateToJobLink(event: MouseEvent, data: any): void {
     event.preventDefault(); // Prevent the default anchor behavior
-    this.getJobLink(companyName);
+    this.getJobLink(data);
+
   }
 
-  getJobLink(companyName: string): void {
-    const route = `/company/${companyName.toLowerCase().replace(/\s+/g, '-')}-jobs`;
-    console.log(route);
-    this.router.navigate([route]);
+  getJobLink(data:any): void {
+    const  companyName=data.name
+    const route = `/companies/${companyName.toLowerCase().replace(/\s+/g, '-')}-jobs`;
+   // console.log(route);
+    this.router.navigate([route],{
+      state: { companySK: data.SK}
+    });;
   }
   async getCompanyDetails(pageSize?: any) {
     // console.log(this.lastKey, this.loadedOnce, this.isNoLoadData)

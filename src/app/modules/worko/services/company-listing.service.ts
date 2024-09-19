@@ -29,7 +29,7 @@ export class CompanyListingService {
    *
    * @returns {Promise<any>}
    */
-  async getCompanyListing(pageSize: number, sortOrder?:any, lastKey?: string, teamSize?: any, industryName?: any, companyName?: string): Promise<any> {
+  async getCompanyListing(pageSize: number, sortOrder?: any, lastKey?: string, teamSize?: any, industryName?: any, companyName?: string): Promise<any> {
     let url = `${API_URL}company?pageSize=${pageSize}`;
 
     // Append sortOrder to the URL
@@ -91,17 +91,40 @@ export class CompanyListingService {
   */
 
   requestNewCompany(data: any): Promise<any> {
-  return this.http.post(API_URL + `company/request`, data, this.authService.getHttpOptions()).toPromise();
-}
+    return this.http.post(API_URL + `company/request`, data, this.authService.getHttpOptions()).toPromise();
+  }
 
- /**Get New Company List
-   *
-* @returns {Promise<any>}
-  */
- getAllNewCompany(): Promise<any> {
-  return this.http.get(API_URL + `company/all`,  this.authService.getHttpOptions()).toPromise();
-}
+  /**Get New Company List
+    *
+ * @returns {Promise<any>}
+   */
+  getAllNewCompany(): Promise<any> {
+    return this.http.get(API_URL + `company/all`, this.authService.getHttpOptions()).toPromise();
+  }
 
+  /**Get ALl job List  
+    *
+ * @returns {Promise<any>}
+   */
+  getAllJob(): Promise<any> {
+    let url = `${API_URL}admin/jobs/?status=PUBLISHED`;
+
+    return this.http.get(url, this.authService.getHttpOptions()).toPromise();
+
+  }
+
+  /**Get New job List  By CompanyID
+    *
+ * @returns {Promise<any>}
+   */
+  getJobByCompanyID(companyID: any): Promise<any> {
+    let url = `${API_URL}admin/jobs/?status=PUBLISHED`;
+    if (companyID) {
+      url += `&companyId=${companyID}`;
+    }
+    return this.http.get(url, this.authService.getHttpOptions()).toPromise();
+   
+  }
 
 
 }
