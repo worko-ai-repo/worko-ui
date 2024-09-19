@@ -21,7 +21,8 @@ export interface UserData {
   companyName: string;
   department: string;
   designation: string;
-  Subscribed: string
+  Subscribed: string;
+  createdAt:any;
 
 }
 
@@ -113,6 +114,7 @@ export class AdminCandidateComponent implements AfterViewInit {
 
 
   async ngOnInit(): Promise<void> {
+
     this.getAllUserData();
   }
   async getAllUserData() {
@@ -122,10 +124,12 @@ export class AdminCandidateComponent implements AfterViewInit {
         this.nameslist = response.data;
         this.lastKey = response.pagination.lastKey;
         this.pageSize = response.pagination.pageSize;
+      //  await  this.sortCandidatesByDate('desc'); // Sort it in descending order when the component initializes
         //console.log("Issue list:", this.issueList);
         this.updateData(this.nameslist);
       }
     }).catch((error: any) => {
+      console.log(error)
       this.spinner.hide()
       if (error.status == 404) {
         this.spinner.hide()
@@ -215,6 +219,7 @@ export class AdminCandidateComponent implements AfterViewInit {
       // Adjusting time so that UTC conversion in toISOString() doesn't affect the date
       dateObject.setMinutes(dateObject.getMinutes() - dateObject.getTimezoneOffset());
       const isoString = dateObject.toISOString();
+
       this.toDate = isoString;
     } else {
       this.toDate = "";
@@ -247,8 +252,9 @@ export class AdminCandidateComponent implements AfterViewInit {
     this.getAllUserData();
   }
 
+    //backend sorting code
   onSort(sort: Sort): void {
-  
+ 
     if(sort.active==='accountcreateddate'){
     this.lastKey = "";
     this.pageSize = 25;
@@ -260,6 +266,35 @@ export class AdminCandidateComponent implements AfterViewInit {
     }
   }
 
+    //frontend sorting code
+  // onSort(event: Sort) {
+  //   const active = event.active;
+  //   const direction = event.direction;
+  
+  //   if (active === 'accountcreateddate') {
+  //     this.sortCandidatesByDate(direction);
+  //   }
+  //     // Update data source
+  // this.candidatesDataSource.data = this.nameslist;
+  // }
+  
+  // sortCandidatesByDate(direction: string) {
+
+  //   this.nameslist= this.nameslist.sort((a, b) => {
+  //     const dateA = new Date(a.createdAt).getTime();
+  //     const dateB = new Date(b.createdAt).getTime();
+  
+  //     if (direction === 'asc') {
+      
+  //       return dateA - dateB; // Ascending order
+  //     } else {
+     
+  //       return dateB - dateA; // Descending order
+  //     }
+  //   });
+  // }
+  
+
 
   async viewRow(userData: any) {
     this.spinner.show()
@@ -268,6 +303,13 @@ export class AdminCandidateComponent implements AfterViewInit {
       // if(response && response.length > 0){
       this.spinner.hide()
       this.userSubscription = response
+      if(userData.isCandidateFresher !== undefined && userData.isCandidateFresher){
+        this.status="Yes";
+      }else if (userData.isCandidateFresher !== undefined && !userData.isCandidateFresher){
+        this.status="No";
+      }else{
+        this.status="Candidate profile data Not Filled";
+      }
     //   this.userExperience= await this.adminService.getUserExperienceByEmailId(userData.email)  
     // // Determine status
 

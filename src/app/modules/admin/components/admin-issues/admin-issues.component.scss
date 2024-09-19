@@ -54,13 +54,30 @@
   height: 24px;
     width: 78px;
 }
+.search-container {
+  position: relative;
+ // display: inline-block;
+  width: 100%; /* Adjust based on your requirement */
+}
 
 .custom-clear-button {
+  position: absolute;
+  right: -15px; /* Adjust based on the padding of the input */
+  transform: translateY(50%);
   background-color: transparent;
   color: #FFFFFF;
   border: none;
   border-radius: 50%;
-  position: relative;
-  top: -36px;
-  right: -63%;
+  height: 24px;
+
 }
+
+// .custom-clear-button {
+//   background-color: transparent;
+//   color: #FFFFFF;
+//   border: none;
+//   border-radius: 50%;
+//   position: relative;
+//   top: -36px;
+//   right: -63%;
+// }

@@ -303,6 +303,16 @@ export class AdminReferralComponent {
     });
   }
 
+  openfile(event: { preventDefault: () => void; }){
+    event.preventDefault(); 
+ 
+   
+   
+    //window.open(this.docResult.awsS3SignedUrl,'_blank')
+    window.open(this.userDetails.CV,'_blank')
+    
+  }
+
 
   onSort(sort: Sort): void {
 

@@ -40,7 +40,7 @@
               <h5 class="ps-2 pb-0">Candidate</h5>
             </div>
             <div class="col-md-6 d-flex justify-content-end">
-              <div class="pe-2">
+              <div class="pe-2 search-container">
                 <input matInput class="serachInput" (keyup)="handleSearchInput($event)"
                   (keydown)="onSearchInputEnter($event)" placeholder="Search" [(ngModel)]="searchQuery" #input />
                 <button mat-button matSuffix mat-icon-button (click)="clearSearchInput()" *ngIf="input.value"
@@ -552,14 +552,14 @@
             <span class="form-detail">: {{ userData?.noticePeriod  ?  userData?.noticePeriod :'-' }}</span>
           </div>
         </div>
-        <!-- <div class="row form-row">
+        <div class="row form-row">
           <div class="col-4">
-            <label class="form-label">Employee Profile Created Status</label>
+            <label class="form-label">Candidate Fresher Status</label>
           </div>
           <div class="col-8">
             <span class="form-detail">: {{ status }}</span>
           </div>
-        </div> -->
+        </div>
         <div class="row form-row">
           <div class="col-4">
             <label class="form-label">Referral Count</label>

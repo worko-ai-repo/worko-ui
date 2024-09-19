@@ -18,6 +18,7 @@ export interface UserData {
   Phonenumber: string;
   companyName: string;
   companyEmailIdVerifiedStatus: string;
+  createdAt:any
   // referreeDesignation: string;
   // referreeDepartment: string;
   // referralCount: string;
@@ -97,6 +98,7 @@ export class AdminEmployeeComponent {
         this.lastKey = response.pagination.lastKey;
         this.pageSize = response.pagination.pageSize;
         //console.log("Issue list:", this.issueList);
+        this.sortCandidatesByDate("desc")
         this.updateData(this.nameslist);
       }
     }).catch((error: any) => {
@@ -183,18 +185,46 @@ export class AdminEmployeeComponent {
     });
   }
 
-  onSort(sort: Sort): void {
+  // onSort(sort: Sort): void {
   
-    if(sort.active==='accountcreateddate'){
-    this.lastKey = "";
-    this.pageSize = 25;
-    this.sortOrder = this.sortOrder === 'ascending' ? 'descending' : 'ascending';
-    sort.direction === 'asc' ? 'ascending' : 'descending';
-    this.sort.direction = sort.direction;
-    // Call API with the new sort direction
-    this.getAllUserData();
-    }
-  }
+  //   if(sort.active==='accountcreateddate'){
+  //   this.lastKey = "";
+  //   this.pageSize = 25;
+  //   this.sortOrder = this.sortOrder === 'ascending' ? 'descending' : 'ascending';
+  //   sort.direction === 'asc' ? 'ascending' : 'descending';
+  //   this.sort.direction = sort.direction;
+  //   // Call API with the new sort direction
+  //   this.getAllUserData();
+  //   }
+  // }
+
+      //frontend sorting code
+      onSort(event: Sort) {
+        const active = event.active;
+        const direction = event.direction;
+      
+        if (active === 'accountcreateddate') {
+          this.sortCandidatesByDate(direction);
+        }
+          // Update data source
+      this.candidatesDataSource.data = this.nameslist;
+      }
+      
+      sortCandidatesByDate(direction: string) {
+    
+        this.nameslist= this.nameslist.sort((a, b) => {
+          const dateA = new Date(a.createdAt).getTime();
+          const dateB = new Date(b.createdAt).getTime();
+      
+          if (direction === 'asc') {
+          
+            return dateA - dateB; // Ascending order
+          } else {
+         
+            return dateB - dateA; // Descending order
+          }
+        });
+      }
 
   async viewRow(userData: any) {
     this.spinner.show()

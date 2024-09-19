@@ -20,7 +20,7 @@
                   <option *ngFor="let item of StatusOption" [value]="item.value">{{ item.name }}</option>
                 </select>
               </div>
-              <div class="pe-2">
+              <div class="pe-2 search-container">
                 <input
                   matInput
                   class="serachInput"
@@ -577,6 +577,16 @@
           <span class="form-detail">: {{ rowData.scoreFetchedDate  | date : "dd-MMM-yyyy" }}</span>
         </div>
       </div>
+      <div class="row form-row">
+        <div class="col-4">
+          <label class="form-label">CV</label>
+        </div>
+        <div class="col-8">
+          <span class="form-detail">: <a [href]="rowData.cvAwsS3SignedUrl" target="_blank" rel="noopener noreferrer">View CV</a> </span>
+         
+        </div>
+      </div>
+      
       <div class="row form-row">
         <div class="col-4">
           <label class="form-label">Job URL</label>
