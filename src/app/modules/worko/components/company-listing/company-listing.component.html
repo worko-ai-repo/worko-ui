@@ -16,13 +16,13 @@
     <div class="col-8 ms-5">
       <div class="referred-headline">Get referred to over 1000+ companies</div>
     </div>
-    <div class="col-8 ms-5 paraReferral paragraph-content my-2 text-white">
-      <p>
-        Select a company you want a referral for. Enter the URL for the job
-        posting that you want, and send your profile off to our referral
-      </p>
+    <div class="col-8 ms-5 paraReferral paragraph-content my-2 text-white"> <!-- Added content-box for background effect -->
+      <p><i class="fas fa-building"></i> Choose your dream company and find a role on their website or LinkedIn.</p>
+      <p><i class="fas fa-link"></i> Submit the job URL, and our best referee will review and refer you.</p>
+      <p><i class="fas fa-comments"></i> Chat with the referee directly for updates.</p>
+      <p><i class="fas fa-handshake"></i> Need extra help? Request interview prep, mock interviews, or guidance from company employees.</p>
     </div>
-    <div class="col-8 ms-5 text-white my-2">
+    <div class="col-8 ms-5 text-white mb-2">
       <input class="searchInput" placeholder="Search by company name..." name="companyName" id="companyName"
         [(ngModel)]="searchQuery" (input)="onSearchInputChange()" (keydown)="onSearchInputEnter($event)" />
       <button mat-button *ngIf="searchQuery" matSuffix mat-icon-button (click)="clearSearchInput()"

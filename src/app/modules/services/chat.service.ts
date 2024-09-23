@@ -21,6 +21,7 @@ export class ChatService {
   private messageSubject: Subject<any> = new Subject<any>();
   private ws!: WebSocket;
   private paginationKey: string | null = null;  // Track the pagination key
+  private isReconnecting: boolean = false;
 
   constructor(private authService: AuthService, private http: HttpClient) { }
 
@@ -53,7 +54,10 @@ export class ChatService {
       this.ws.onopen = (event) => {
         // console.log("Connected to WebSocket server.");
         // Fetch existing messages when the connection opens
-        this.getMessages(referralId, userId);
+        // Fetch existing messages only if this is NOT a reconnection
+        if (!this.isReconnecting) {
+          this.getMessages(referralId, userId);  // Fetch messages only during initial connection
+        }
         //resolving here as connection is done
         resolve();
       };
@@ -169,13 +173,20 @@ export class ChatService {
    * Sends a message through the WebSocket connection.
    * @param message - The message to be sent.
    */
-  sendMessage(message: any): void {
+  sendMessage(message: any, userId?: any, referralId?: any): void {
     if (this.ws && this.ws.readyState === WebSocket.OPEN) {
       const messageString = JSON.stringify(message);
       // console.log("Sending message:", messageString);
       this.ws.send(messageString);
     } else {
-      console.warn("WebSocket is not open. Unable to send message.");
+      console.warn("Attempting to reconnect the chat...");
+      this.reconnectWebSocket(userId, referralId).then(() => {
+        // After reconnecting, send the message
+        const messageString = JSON.stringify(message);
+        this.ws.send(messageString);
+      }).catch((error) => {
+        console.error("Failed to reconnect chat:", error);
+      });
     }
   }
 
@@ -198,7 +209,8 @@ export class ChatService {
     this.noMoreMessagesSubject.next(false);
     this.isFetchingMessagesSubject.next(false);
     this.paginationKey = null; // Reset pagination key if applicable
-    // Reset any other relevant state in your ChatService
+    this.isReconnecting = false;
+    // we can reset any other relevant state in ChatService
   }
 
   /**
@@ -218,11 +230,35 @@ export class ChatService {
   }
 
   /**
+ * Attempts to reconnect the WebSocket.
+ */
+  reconnectWebSocket(userId: string, referralId: string): Promise<void> {
+    this.isReconnecting = true;  // Setting reconnection flag here
+    return new Promise((resolve, reject) => {
+      if (!this.ws || this.ws.readyState === WebSocket.CLOSED) {
+        this.connect(userId, referralId).then(() => {  // Calling connect method to establish a WebSocket connection
+          // console.log("Chat reconnected.");
+          resolve();
+        }).catch((error) => {
+          // console.error("Error during chat reconnection:", error);
+          reject(error);
+        });
+      } else {
+        resolve();
+      }
+    });
+  }
+
+  /**
    * Creates a new chat between two users.
    * @param data - The data to send to the API.
    * @returns A Promise of the API response.
    */
   createChat(data: any): Promise<any> {
     return this.http.post(`${CHAT_URL}chat/create`, data, this.authService.getHttpOptions()).toPromise();
+  }
+
+  isConnected(): boolean {
+    return this.ws && this.ws.readyState === WebSocket.OPEN;
   }
 }

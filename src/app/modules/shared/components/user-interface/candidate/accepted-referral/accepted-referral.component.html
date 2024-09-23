@@ -40,7 +40,8 @@
         <div class="col-12">
             <div class="mx-3 height-100">
                 <app-chat-ui class="chat-ui height-100" [groupedMessages]="groupedMessages" [userId]="userId"
-                            [referralId]="getSlicedValue(selectedReferral?.SK)" (loadMoreMessages)="onLoadMoreMessages()">
+                            [referralId]="getSlicedValue(selectedReferral?.SK)" (loadMoreMessages)="onLoadMoreMessages()" 
+                            (spinnerStatus)="onSpinnerStatusChange($event)">
                 </app-chat-ui>
             </div>
         </div>

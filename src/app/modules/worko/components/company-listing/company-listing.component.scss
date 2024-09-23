@@ -14,10 +14,26 @@
     background-clip: text;
     -webkit-background-clip: text;
     -webkit-text-fill-color: transparent;
+    // margin-bottom: 2rem;
 }
 
 .company-listing-container .paragraph-content {
-    line-height: 25px;
+    line-height: 30px;
+    padding: 1rem 1rem;
+}
+
+.company-listing-container .paragraph-content i {
+    min-width: 24px; /* Ensures all icons have the same width */
+    text-align: center;
+    margin-right: 1rem; /* consistent spacing between icon and text */
+    color: #50D5FF;
+    font-size: 1.2rem; // icon size
+}
+
+.company-listing-container .paragraph-content p {
+    display: flex;
+    align-items: center;
+    margin-bottom: 1rem;
 }
 
 .company-listing-container .vertical-bar {
@@ -262,6 +278,16 @@ img {
         padding-top: 7rem;
     }
 
+    .company-listing-container .paragraph-content i {
+        margin-right: 0.5rem;
+        font-size: 1rem; // icon size
+    }
+    
+    .company-listing-container .paragraph-content p {
+        display: block;
+        margin-bottom: 1rem;
+    }
+
 }
 
 @media (max-width: 480px) {
@@ -275,6 +301,16 @@ img {
 
     .company-listing-container .contents {
         padding-top: 3rem;
+    }
+
+    .company-listing-container .paragraph-content i {
+        margin-right: 0.5rem;
+        font-size: 1rem; // icon size
+    }
+    
+    .company-listing-container .paragraph-content p {
+        display: block;
+        margin-bottom: 1rem;
     }
 
     .company-listing-container .gradient-left1 {
