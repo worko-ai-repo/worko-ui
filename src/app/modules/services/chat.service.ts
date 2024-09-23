@@ -92,8 +92,19 @@ export class ChatService {
 
           // Emit the error event
           this.errorSubject.next(parsedMessage);
-          return;
+          return; // Stop further processing of the message
         }
+
+        // Check for internal server error in the message
+        if (parsedMessage?.message === "Internal server error") {
+          console.error("Received internal server error:", parsedMessage);
+
+          // Emitting the error event which will be handled by the listener in AcceptedReferralComponent
+          this.errorSubject.next(parsedMessage);
+
+          return;  // Stop further processing of the message
+        }
+
 
         // Check the eventName and process accordingly
         if (parsedMessage?.eventName === "getMessages" && Array.isArray(parsedMessage.data)) {
