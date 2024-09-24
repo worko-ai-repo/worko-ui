@@ -16,6 +16,7 @@
     width: 90px;
     height: 90px;
     border-radius: 50%;
+    background-color: black;
 
 }
 
@@ -28,16 +29,20 @@
     font-size: 1.5em;
     margin: 0 0 28px 0;
     font-weight: bold;
+    text-transform: capitalize;
 }
 
 .details-row {
     display: flex;
     font-size: 1.1em;
     color: black;
+    text-transform: capitalize;
 
 }
 
-
+svg{
+    fill: #0bbcf2;
+}
 
 .separator {
     color: black;
@@ -49,14 +54,14 @@
         padding: 15px;
     }
 
-    .job-info {
-        padding-left: 0;
-        text-align: center;
-    }
+    // .job-info {
+    //     padding-left: 0;
+    //     text-align: center;
+    // }
 
-    .details-row {
-        justify-content: center;
-    }
+    // .details-row {
+    //     justify-content: center;
+    // }
 
     .company-img {
         margin-bottom: 10px;

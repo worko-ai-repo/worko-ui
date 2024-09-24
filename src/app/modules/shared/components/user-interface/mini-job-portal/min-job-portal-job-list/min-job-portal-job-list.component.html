@@ -1,17 +1,17 @@
 <div class="candidate-card py-4">
     <div class="card-title d-flex justify-content-between align-items-center">
-        <span>Listed Open Jobs on Worko for {{companyName}}</span>
+        <span class="ms-3">Listed Open Jobs on Worko for {{companyName}}</span>
         <div class="svg-circle">
             <!-- <svg width="39" height="49" viewBox="0 0 59 69" fill="none" xmlns="http://www.w3.org/2000/svg">
                 <path d="M17.209 37.375L29.5007 51.75L41.7923 37.375M17.209 17.25L29.5007 31.625L41.7923 17.25"
                     stroke="#020202" stroke-width="4" stroke-linecap="round" stroke-linejoin="round" />
             </svg> -->
-            <svg class="downarrow" (click)="toggleJobContainer()" *ngIf="isJobContainerVisible"
+            <svg class="downarrow" (click)="toggleJobContainer()" *ngIf="isJobListing"
                 xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512">
                 <path
                     d="M201.4 374.6c12.5 12.5 32.8 12.5 45.3 0l160-160c12.5-12.5 12.5-32.8 0-45.3s-32.8-12.5-45.3 0L224 306.7 86.6 169.4c-12.5-12.5-32.8-12.5-45.3 0s-12.5 32.8 0 45.3l160 160z" />
             </svg>
-            <svg class="uparrow" (click)="toggleJobContainer()" *ngIf="!isJobContainerVisible"
+            <svg class="uparrow" (click)="toggleJobContainer()" *ngIf="!isJobListing"
                 xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512">
                 <path
                     d="M201.4 137.4c12.5-12.5 32.8-12.5 45.3 0l160 160c12.5 12.5 12.5 32.8 0 45.3s-32.8 12.5-45.3 0L224 205.3 86.6 342.6c-12.5 12.5-32.8 12.5-45.3 0s-12.5-32.8 0-45.3l160-160z" />
@@ -19,52 +19,62 @@
         </div>
     </div>
 
-    <div class="job-container" *ngIf="isJobContainerVisible">
+    <div class="job-container"  *ngIf="isJobListing">
         <!-- Row containing select inputs and job listing -->
-        <div class="row mt-3">
+        <div class="row mt-3" *ngIf="jobDetails.length>0 ;else noJobListing" >
             <!-- Column for the select inputs (Location, Department, Salary) -->
-            <div class="col-md-2">
+            <div class="col-md-3">
                 <!-- Location Select -->
                 <div class="mb-5">
-                    <select class="selector form-select" name="location" id="location">
-                        <option value="">Location</option>
-                        <!-- Add more location options here -->
-                    </select>
+                  <select class="selector form-select" name="location" id="location" [(ngModel)]="selectedLocation"   (ngModelChange)="getJobsByLocation($event)">
+                    <option value="">Location</option>
+                    <option *ngFor="let location of locations" [value]="location">{{ location }}</option>
+                  </select>
                 </div>
+              
                 <!-- Department Select -->
                 <div class="mb-5">
-                    <select class="selector form-select" name="Department" id="Department">
-                        <option value="">Department</option>
-                        <!-- Add more department options here -->
-                    </select>
+                  <select class="selector form-select" name="department" id="department" [(ngModel)]="selectedDepartment"   (ngModelChange)="getJobsByDepartment($event)">
+                    <option value="">Department</option>
+                    <option *ngFor="let department of departments" [value]="department">{{ department }}</option>
+                  </select>
                 </div>
+              
                 <!-- Salary Select -->
-                <div class="mb-5">
-                    <select class="selector form-select" name="Salary" id="Salary">
-                        <option value="">Salary</option>
-                        <!-- Add more salary options here -->
-                    </select>
-                </div>
-            </div>
+                <!-- <div class="mb-5">
+                  <select class="selector form-select" name="salary" id="salary" [(ngModel)]="selectedSalary"   (ngModelChange)="getJobsBySalary($event)">
+                    <option value="">Salary</option>
+                    <option *ngFor="let salary of salaryRanges" [value]="salary">{{ salary }}</option>
+                  </select>
+                </div> -->
+              </div>
+              
 
             <!-- Column for the job listing -->
-            <div class="col-md-10 ">
+            <div class="col-md-9 ">
 
-                <div class="job-listing-div" *ngFor="let job of jobs">
+                <div class="job-listing-div"  *ngFor="let job of filteredJobs">
                     <div class="row align-items-center">
                         <!-- Image on the left -->
-                        <div class="col-md-1 col-sm-12 mt-2 text-center">
+                        <div class="col-md-2 col-sm-4 mt-2 text-center">
                             <div class="img-div">
-                                <img [src]="job.companyLogo" alt="logo" class="company-img">
+                                <!-- <img [src]="job.companyDetails.companyLogo" alt="logo" class="company-img"> -->
+                                <ng-container *ngIf="job.companyDetails.logo; else useUrlLogo">
+                                    <img src="assets/company-logo/{{job.companyDetails.logo}}" class="company-img" alt="logo">
+                                  </ng-container>
+                                  
+                                  <ng-template #useUrlLogo>
+                                    <img src="{{ job.companyDetails.logoUrl }}" class="company-img" alt="logo">
+                                  </ng-template>
                             </div>
                         </div>
                         <!-- Job Title, Location, Experience -->
-                        <div class="col-md-9 col-sm-12">
+                        <div class="col-md-8 col-sm-6">
                             <div class="job-info">
                                 <h4 class="job-title">{{ job.jobTitle }}</h4>
                                 <div class="row details-row">
                                     <!-- Location -->
-                                    <div class="col-md-3 col-sm-12 d-flex align-items-center mb-2">
+                                    <div class="col-md-4 col-sm-12 d-flex align-items-center mb-2">
                                         <svg width="20" height="20" viewBox="0 0 24 24" fill="none"
                                             xmlns="http://www.w3.org/2000/svg">
                                             <path
@@ -85,10 +95,10 @@
                                         </svg>
 
 
-                                        <span class="experience ms-2">Experience: {{job.experience}}</span>
+                                        <span class="experience ms-2">Experience: {{job.experienceRange}}{{ job.experienceRange <= 1 ? ' year' : ' years' }}</span>
                                     </div>
                                     <!-- Industry Type -->
-                                    <div class="col-md-3 col-sm-12 d-flex align-items-center mb-2">
+                                    <div class="col-md-4 col-sm-12 d-flex align-items-center mb-2">
                                         <svg width="20" height="20" viewBox="0 0 24 24" fill="none"
                                             xmlns="http://www.w3.org/2000/svg">
                                             <path
@@ -102,18 +112,26 @@
                             </div>
                         </div>
                         <!-- Get Referral Link (Vertically Centered) -->
-                        <div class="col-md-2 col-sm-12 d-flex justify-content-center align-items-center">
+                        <div class="col-md-2 col-sm-2 d-flex justify-content-center align-items-center">
                             <a href="#"
-                                (click)="navigateToJobReferral($event,companyName, 'Assistant Manager - Sales & Marketing (Speciality Sales)')"
+                                (click)="navigateToJobReferral($event,job.companyDetails.name, job.jobTitle,job.id)"
                                 class="btn-get-referral" style="text-decoration: none; color: #57E1FF;">Get Referral</a>
                         </div>
                     </div>
                     <hr class="separator">
                 </div>
+                <div *ngIf="filteredJobs.length===0">
+                  <p> No jobs found matching your selected filters. Please adjust the filters and try again.</p>
+                </div>
             </div>
 
 
         </div>
+        
+    <ng-template #noJobListing>
+        <p>Currently, this job isn't listed on our website. Please provide the job URL and description in the fields above to request a referral.</p>
+      </ng-template>
     </div>
+
 
 </div>

@@ -8,4 +8,16 @@ import { Component, Input } from '@angular/core';
 export class MiniJobPortalAboutCompanyComponent {
 
   @Input() companyName:any="";
+  @Input() jobDetails:any=[];
+  aboutCompany:any;
+  companyURl:any;
+
+  constructor(){}
+  ngOnInit(): void {
+    this.aboutCompany=this.jobDetails[0]
+    this.companyURl=this.jobDetails[0].companyDetails
+    
+  }
+
+
 }

@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, Input, SimpleChanges } from '@angular/core';
 
 @Component({
   selector: 'app-mini-job-portal-skills',
@@ -7,11 +7,24 @@ import { Component } from '@angular/core';
 })
 export class MiniJobPortalSkillsComponent {
 
-  coreSkills: string[] = ["Java", "REACT", "Three.js"];
-  goodToHaveSkills: string[] = ["Team leader", "Analytics", "Partnership", "Performance marketing"];
-  technicalSkills: string[] = ["Team leader", "Analytics", "Partnership", "Performance marketing"];
-  otherRequirements: string[] = ["Must have from Healthcare Industry", "Preferred from Healthcare Industry", "Experience in Analytics is preferred"];
+  @Input() jobDescriptionDetails:any;
+  coreSkills: string[]=[]
+  softSkills: string[] = [];
+  technicalSkills: string[] = [];
+  otherRequirements: string[] = [];
 
+  ngOnChanges(changes: SimpleChanges): void {
+    if (changes['jobDescriptionDetails'] && changes['jobDescriptionDetails'].currentValue) {
+      this.updateSkills();
+    }
+  }
+
+  updateSkills(): void {
+   this.coreSkills=this.jobDescriptionDetails.coreSkills
+   this.softSkills=this.jobDescriptionDetails.softSkills
+   this.technicalSkills=this.jobDescriptionDetails.technicalSkills
+   this.otherRequirements=this.jobDescriptionDetails.mislaneiousSkills
+  }
   getJoinedSkills(skills: string[]): string {
     return skills.join(' | ');
   }

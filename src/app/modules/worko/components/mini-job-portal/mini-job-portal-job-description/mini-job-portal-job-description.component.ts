@@ -9,6 +9,7 @@ import { NavbarComponent } from '../../navbar/navbar.component';
 import { CognitoService } from 'src/app/modules/services/cognito.service';
 import { CandidateProfileService } from 'src/app/modules/candidate/services/candidate-profile.service';
 import { StorageService } from 'src/app/modules/app-core/services/storage.service';
+import { NgxSpinnerService } from 'ngx-spinner';
 
 @Component({
   selector: 'app-mini-job-portal-job-description',
@@ -21,7 +22,7 @@ export class MiniJobPortalJobDescriptionComponent {
   @ViewChild(LoginPageComponent) LoginPageComponent!: LoginPageComponent;
   @ViewChild(NavbarComponent) navbarComponent!: NavbarComponent;
   companyName!: string;
-  jobDescription!: string;
+  jobID!: string;
   showSubscription: boolean = false;
   showReferrelRow: boolean = true;
   showContent: boolean = true;
@@ -48,37 +49,42 @@ export class MiniJobPortalJobDescriptionComponent {
   showsubscriptionPlan: boolean = false;
   userName: any;
   letter: any;
+  jobDescriptionDetails: any;
+  otherJobDetails: any[] = [];
   constructor(private route: ActivatedRoute, private router: Router, private cognitoService: CognitoService, private http: HttpClient,
-    private companyListing: CompanyListingService, private cdr: ChangeDetectorRef, private candidateSrv: CandidateProfileService, private storage: StorageService) { }
+    private spinner: NgxSpinnerService, private companyListing: CompanyListingService, private cdr: ChangeDetectorRef, private candidateSrv: CandidateProfileService, private storage: StorageService) { }
 
-  ngOnInit(): void {
+  async ngOnInit(): Promise<void> {
     this.route.url.subscribe(urlSegments => {
-      const fullCategory = urlSegments.map(segment => segment.path).join('/');
+      const fullCategory = decodeURIComponent(urlSegments.map(segment => segment.path).join('/')); // Decode the URL
       this.companyName = this.extractCompanyName(fullCategory);
-      this.jobDescription = this.extractJobDescription(fullCategory);
+      this.jobID = this.extractJobID(fullCategory); // Extract the job ID if needed
     });
+    await this.getJobDescriptionDetails(this.jobID);
   }
+
+  private extractCompanyName(fullCategory: string): string {
+    // Extract and decode the company name from the URL
+    const companyMatch = fullCategory.match(/companies\/([^-]+(?:-[^-]+)*)-jobs/);
+    return companyMatch ? decodeURIComponent(companyMatch[1]).replace(/-/g, ' ') : ''; // Replace dashes with spaces
+  }
+
+  private extractJobID(fullCategory: string): string {
+    // Extract the job ID from the URL
+    const jobIDMatch = fullCategory.match(/-jobs\/.+-([A-Za-z0-9]+)$/);
+    return jobIDMatch ? jobIDMatch[1] : ''; // Return the job ID
+  }
+
 
   async initializeUserSession() {
     this.userLoggedIn = await this.cognitoService.isLoggedIn();
     if (this.userLoggedIn) {
       this.userName = this.storage.get('userName');
-   
+
       // this.letter=this.getInitials(this.userName)
       // console.log(this.letter);
       this.letter = this.userName.charAt(0).toUpperCase();
     }
-  }
-  private extractCompanyName(fullCategory: string): string {
-    // Extract the company name from the URL
-    const companyMatch = fullCategory.match(/companies\/([^-]+(?:-[^-]+)*)-jobs/);;
-    return companyMatch ? this.formatCategory(companyMatch[1]) : '';
-  }
-
-  private extractJobDescription(fullCategory: string): string {
-    // Extract the job description from the URL
-    const jobDescriptionMatch = fullCategory.match(/-jobs\/(.+)/);
-    return jobDescriptionMatch ? this.formatCategory(jobDescriptionMatch[1]) : '';
   }
 
   private formatCategory(category: string): string {
@@ -171,14 +177,13 @@ export class MiniJobPortalJobDescriptionComponent {
 
 
   createRequest() {
-    debugger
-    let jobUrl=''
-    let jobDescription=""
-    if (this.companyID) {
+
+
+    if (this.jobDescriptionDetails.companyId) {
       let data = {
-        "companyId": this.companyID,
-        "jobUrl":jobUrl ,
-        "jdExtracted":jobDescription
+        "companyId": this.jobDescriptionDetails.companyId,
+        "jobUrl": window.location.href,
+        "jdExtracted": this.jobDescriptionDetails.jobDescription 
       }
 
       this.companyListing.createReferralRequest(this.emailAddress, data).then(async (response) => {
@@ -207,7 +212,6 @@ export class MiniJobPortalJobDescriptionComponent {
   getScore(referralRequestId: string) {
     this.companyListing.getMatchingScore(this.emailAddress, referralRequestId).then(async (response) => {
       if (response) {
-
         this.matchingScore = response.matchingScore;
         this.showLoading = false;
         this.showScore = true;
@@ -249,6 +253,7 @@ export class MiniJobPortalJobDescriptionComponent {
 
   okBtn() {
     // this.showErrorMsg = false;
+
     this.modal.cancel()
     //this.onOkBtn.emit();
   }
@@ -309,6 +314,63 @@ export class MiniJobPortalJobDescriptionComponent {
       }
     }
   }
+
+  async getJobDescriptionDetails(jobID: any) {
+    this.spinner.show();
+    if (jobID) {
+      this.spinner.hide();
+      let response = await this.companyListing.getJobByJobID(jobID)
+      if (response) {
+        this.jobDescriptionDetails = response[0]
+        this.companyName=this.jobDescriptionDetails.companyDetails.name.toLowerCase()
+
+        this.getJobByCompanyId(this.jobDescriptionDetails.companyId, jobID)
+
+      } else {
+
+        this.spinner.hide();
+        this.successmessage = "Something went wrong. Please try again after sometime"
+        this.successtitle = "Error"
+        this.openModal(ModalType.SUCCESS_MESSAGE)
+
+      }
+
+    } else {
+
+      this.spinner.hide();
+      this.successmessage = "Something went wrong. Please try again after sometime"
+      this.successtitle = "Error"
+      this.openModal(ModalType.SUCCESS_MESSAGE)
+
+    }
+
+  }
+
+  async getJobByCompanyId(companyID: any, currentJobID: any) {
+    this.spinner.show();
+    try {
+      let response = await this.companyListing.getJobByCompanyID(companyID);
+      this.spinner.hide();
+
+      if (response.data) {
+        // Filter out the current job listing
+        this.otherJobDetails = response.data.filter((job: { id: any; }) => job.id !== currentJobID);
+      }
+    } catch (error) {
+      this.spinner.hide();
+      this.successmessage = "Something went wrong. Please try again after sometime";
+      this.successtitle = "Error";
+      this.openModal(ModalType.SUCCESS_MESSAGE);
+    }
+  }
+
+
+
+
+
+
+
+
 
 
   /**

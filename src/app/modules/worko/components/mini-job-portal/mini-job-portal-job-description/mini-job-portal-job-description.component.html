@@ -11,7 +11,7 @@
 <div class="mini-job-main-container">
     <div class="row mt-4 contents">
         <div class="col-10  col-md-12">
-            <div class="mini-job-headline">Get Direct Referral to {{companyName}}:</div>
+            <div class="mini-job-headline">Get Direct Referral to {{companyName}}</div>
         </div>
     </div>
 
@@ -19,30 +19,30 @@
         <!-- Left Column (55%) -->
         <div class="col-md-7 col-12 divide-55">
             <div class="mini-job-title-container">
-                <app-mini-job-portal-title ></app-mini-job-portal-title>
+                <app-mini-job-portal-title [jobDescriptionDetails]="jobDescriptionDetails" ></app-mini-job-portal-title>
             </div>
             <div class="mini-job-description-container">
-                <app-mini-job-portal-description (requestReferral)="handleRequestReferral()"></app-mini-job-portal-description>
+                <app-mini-job-portal-description (requestReferral)="handleRequestReferral()"  [jobDescriptionDetails]="jobDescriptionDetails"></app-mini-job-portal-description>
             </div>
-            <div class="mini-job-about-container">
+            <!-- <div class="mini-job-about-container">
                 <app-mini-job-portal-about-company></app-mini-job-portal-about-company>
-            </div>
+            </div> -->
         </div>
 
         <!-- Right Column (45%) -->
         <div class="col-md-5 col-12 divide-45">
             <div class="mini-job-skills-container">
-                <app-mini-job-portal-skills></app-mini-job-portal-skills>
+                <app-mini-job-portal-skills  [jobDescriptionDetails]="jobDescriptionDetails"></app-mini-job-portal-skills>
             </div>
             <div class="mini-job-otherjob-container">
-                <app-mini-job-portal-otherjob></app-mini-job-portal-otherjob>
+                <app-mini-job-portal-otherjob  [otherJobDetails]="otherJobDetails"></app-mini-job-portal-otherjob>
             </div>
         </div>
     </div>
 </div>
 </div>
 <app-modal  [theme]="'theme-k'" [centered]="true"
-[showHeader]="showModal === modalType.MESSAGE" [showClose]="true" [showFooter]="showModal === modalType.MESSAGE"
+[showHeader]="showModal === modalType.MESSAGE" [showFooter]="showModal === modalType.MESSAGE"
 [title]="modalTitle" [message]="modalMessage" [bodyClass]="modalMessage ? 'p-4' : 'p-0'">
 
 <ng-container *ngIf="showModal === modalType.LOGIN_SIGNUP">
@@ -117,7 +117,9 @@
           <div class="progress-bar" *ngIf="showScore">
             <app-referral-progress-bar [referralId]="referralRequestId"></app-referral-progress-bar>
           </div>
-      
+          <div class="text-center">
+            <button  class="btn btn-next" (click)="okBtn()">OK</button>
+          </div>
         </div>
       </div>
 

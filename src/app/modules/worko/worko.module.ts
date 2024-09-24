@@ -89,7 +89,7 @@ export const routes: Routes = [
       },
 
       {
-        path: 'companies/:companyName-jobs/:jd',
+        path: 'companies/:companyName-jobs/:jobTitle-:jobID',
         component: MiniJobPortalJobDescriptionComponent
       },
       // {

@@ -1,36 +1,53 @@
-.candidate-card .Other-job-main-div {
-    margin: 1rem;
-
+.candidate-card {
+    cursor: pointer;
     .section-heading {
-
+        
         font-size: 18px;
         font-weight: 500;
         line-height: 32px;
 
 
     }
+    .job-listings{
+        // max-height: 280px; /* Adjust this height as needed */
+        // overflow-y: auto; /* Enable vertical scrolling */
 
-    .job-title {
-        font-size: 16px;
-        font-weight: 500;
-        line-height: 21px;
+        .Other-job-main-div {
+            margin: 1rem;
+            text-transform: capitalize;
 
+        
+            .job-title {
+                font-size: 16px;
+                font-weight: 500;
+                line-height: 21px;
+        
+            }
+        
+            .details-row {
+        
+                font-size: 16px;
+                //font-weight: 500;
+                svg{
+                    fill: #0bbcf2;
+                }
+                
+            }
+        
+
+        
+        }
     }
-
-    .details-row {
-
-        font-size: 16px;
-        //font-weight: 500;
-     
-    }
-
-    .separator {
-        border: 2px solid #0bbcf2
-    }
-
+}
+.separator {
+    border: 2px solid #0bbcf2
 }
 
-
+@media (max-width:1350px) {
+    .job-listings{
+        max-height: 100% !important;
+    }
+}
 
 /* RESPONSIVE CODE FOR SMALLER DEVICE*/
 

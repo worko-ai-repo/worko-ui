@@ -496,12 +496,12 @@ export class EmployeeReferralComponent implements OnDestroy {
     // forUserId = this.empdetailsList[0].id;
 
     let payload = {
-      "ratingByUserId": userId,
+      // "ratingByUserId": userId,
       "ratingForUserType": "CAND",
       "rating": data?.rating,
       "reviewText": data?.review,
-      "createdByUserId": userId,
-      "updatedByUserId": userId,
+      // "createdByUserId": userId,
+      // "updatedByUserId": userId,
       "reviewContext": "CAND_USER",
       "referalId": referralId,
       // "masterServiceCode": "RESUME_REVIEW", 

@@ -1,6 +1,6 @@
 import { HttpClient } from '@angular/common/http';
 import { ChangeDetectorRef, Component, EventEmitter, Output, ViewChild } from '@angular/core';
-import { ActivatedRoute, Router } from '@angular/router';
+import { ActivatedRoute, Router, UrlSegment } from '@angular/router';
 import { StorageService } from 'src/app/modules/app-core/services/storage.service';
 import { CognitoService } from 'src/app/modules/services/cognito.service';
 import { ModalComponent } from 'src/app/modules/shared/components/modal/modal.component';
@@ -11,6 +11,9 @@ import { CandidateProfileService } from 'src/app/modules/candidate/services/cand
 import { event } from 'jquery';
 import { CompanyListingService } from '../../../services/company-listing.service';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { NgxSpinnerService } from 'ngx-spinner';
+import { AuthService } from '../../../services/auth.service';
+
 
 @Component({
   selector: 'app-mini-job-portal-job-listing',
@@ -23,6 +26,7 @@ export class MiniJobPortalJobListingComponent {
   @ViewChild(ModalComponent) modal!: ModalComponent;
   @ViewChild(LoginPageComponent) LoginPageComponent!: LoginPageComponent;
   @ViewChild(NavbarComponent) navbarComponent!: NavbarComponent;
+  @Output() onOkBtn: EventEmitter<any> = new EventEmitter<any>();
   userLoggedIn: boolean = false;
   profileCompletion: any;
   cvCurPerc: any;
@@ -37,8 +41,7 @@ export class MiniJobPortalJobListingComponent {
   emailAddress: any;
   userDetails: any;
   showsubscriptionPlan: boolean = false;
-  @Output() onOkBtn: EventEmitter<any> = new EventEmitter<any>();
-
+  jobDetails: any = [];
   showSubscription: boolean = false;
   showReferrelRow: boolean = true;
   showContent: boolean = true;
@@ -50,70 +53,187 @@ export class MiniJobPortalJobListingComponent {
   errorMsg: string | undefined;
   showErrorMsg: boolean | undefined;
   companyID: any = "";
-  isJobContainerVisible = true; // Flag to control visibility
+  isResponseEmpty: boolean = false; // True if response is empty, maximized by default
+  isJobContainerVisible: boolean = true; // True means form is visible (maximized)
+  isJobListing: boolean = true
+  allJobList: any[] = [];
+  filteredJobs: any;
+  companyDetail: any;
+  companyNameDetail: any;
 
-  constructor(private route: ActivatedRoute, private router: Router, private http: HttpClient, private cognitoService: CognitoService, private storage: StorageService
-    , private cdr: ChangeDetectorRef, private candidateSrv: CandidateProfileService, private companyListing: CompanyListingService, private formBuilder: FormBuilder
+  constructor(private route: ActivatedRoute, private router: Router, private http: HttpClient, private cognitoService: CognitoService, private storage: StorageService, private authService: AuthService,
+    private spinner: NgxSpinnerService, private cdr: ChangeDetectorRef, private candidateSrv: CandidateProfileService, private companyListing: CompanyListingService, private formBuilder: FormBuilder
   ) { }
 
   async ngOnInit() {
     this.initializeForm();
     //extract the compant name from url
-    this.route.url.subscribe(urlSegments => {
+    await this.route.url.subscribe(async urlSegments => {
       const fullCategory = urlSegments.map(segment => segment.path).join('/');
-      this.companyName = this.extractCategory(fullCategory);
+      this.companyName = await this.extractCategory(fullCategory);
+    
     });
-    this.getJobByCompanyID()
+
+    this.getCompanyDetails()
+
+
   }
   private extractCategory(fullCategory: string): string {
-    const state = window.history.state;
-    if (state && state.companySK) {
-      this.companyID = state.companySK.split('ID#')[1];;
-    }
-    // Remove '-jobs' from the end of the string
-    let category = fullCategory.replace(/-jobs$/, '');
 
-    // Replace dashes '-' with spaces ' ' and capitalize each word
-    category = category.split('-').map(word => word.charAt(0).toUpperCase() + word.slice(1)).join(' ');
-    return category;
+    // Extract the company name from the URL
+    const companyMatch = fullCategory.match(/companies\/([^-]+(?:-[^-]+)*)-jobs/);
+    return companyMatch ? this.formatCategory(companyMatch[1]) : '';
   }
+
+  private formatCategory(category: string): string {
+    // Decode URL components and replace hyphens with spaces
+    return decodeURIComponent(category)
+      .replace(/---/g, ' - ') // Handle cases like "cheil---samsung"
+      .replace(/--/g, '-')     // Handle cases like "foo--bar"
+      .replace(/-/g, ' ') // Replace hyphens with spaces
+      .split(' ')
+      .map(word => word.charAt(0).toUpperCase() + word.slice(1))
+      .join(' ');
+  }
+
   toggleJobContainer() {
     this.isJobContainerVisible = !this.isJobContainerVisible; // Toggle visibility
   }
 
-  // async openReferralPage(event: Event): Promise<void> {
-  //   event.preventDefault();
-  //   this.userLoggedIn = await this.cognitoService.isLoggedIn();
+  async getCompanyDetails() {
 
-  //   // this.storage.set('selectedCompanySK', this?.selectedData?.SK);
-  //   // this.storage.set('type', "referral");
+    this.spinner.show()
+    if (this.companyName.length > 0) {
 
-  //   // this.triggerReferral = true;
-  //   // this.triggerGuidance = false;
-  //   // this.triggerAddCompany = false;
 
-  //   if (this.userLoggedIn) {
-  //     if (this.checkProfileCompletion()) {
-  //       this.openModal(ModalType.SUCCESS_MESSAGE);
-  //     }
-  //     else {
-  //       this.profileCompletionRequired = true;
-  //       this.successmessage = "";
-  //       this.successtitle = "";
-  //       this.openModal(ModalType.SUCCESS_MESSAGE);
-  //     }
-  //     this.storage.remove("type");    // Removing 'type' and 'selectedCompanySK' from localStorage to prevent the popup from opening automatically on the next page refresh
-  //     this.storage.remove("selectedCompanySK");
-  //   }
-  //   else {
-  //     this.userLoggedIn = true
-  //     this.openModal(ModalType.LOGIN_SIGNUP);
-  //   }
-  // }
+      // Fetch company details and handle the response
+      let response = await this.authService.getCompanyName(this.companyName).toPromise();
 
+      if (response) {
+   
+    
+        this.companyDetail = response.data; // Store the company details
+
+        // Remove hyphens from the company name for comparison
+        const cleanedCompanyName = this.companyName.replace(/-/g, ' ').toLowerCase();
+
+        this.companyNameDetail = this.companyDetail.filter((job: any) =>
+          job.name?.replace(/-/g, ' ').toLowerCase() === cleanedCompanyName
+        );
+        this.companyDetail= this.companyNameDetail[0]
+        this.companyName= this.companyNameDetail[0].name.toLowerCase()
+         this.companyID =  this.companyDetail.SK.split('#')[1];
+        //  console.log( this.companyID,this.companyName )
+
+        this.getAllJob(); // Fetch jobs
+      }
+
+      else {
+        this.spinner.hide();
+        this.successmessage = "Something went wrong. Please try again after sometime"
+        this.successtitle = "Error"
+        this.openModal(ModalType.SUCCESS_MESSAGE)
+      }
+
+
+    }
+  }
+
+  async getAllJob() {
+
+    this.spinner.show()
+    let response = await this.companyListing.getAllJob();
+
+
+    // Ensure that response is an array or extract the array of jobs
+    if (Array.isArray(response.data)) {
+      this.allJobList = response.data; // If response is already an array
+      // Now filter by company name
+      this.filterByCompanyName(this.companyName);
+
+
+
+    } else {
+      this.spinner.hide();
+      this.successmessage = "Something went wrong. Please try again after sometime"
+      this.successtitle = "Error"
+      this.openModal(ModalType.SUCCESS_MESSAGE)
+    }
+
+
+
+
+  }
+
+  filterByCompanyName(companyName: any) {
+
+    if (Array.isArray(this.allJobList) && companyName) {
+      // const filteredJobs = this.allJobList.filter((job: any) => 
+      //   job.companyDetails?.name?.toLowerCase() === companyName.toLowerCase()
+      // );
+
+      // Remove hyphens from the company name for comparison
+      const cleanedCompanyName = companyName.replace(/-/g, ' ').toLowerCase();
+
+      this.filteredJobs = this.allJobList.filter((job: any) =>
+        job.companyDetails?.name?.replace(/-/g, ' ').toLowerCase() === cleanedCompanyName
+      );
+
+
+      if (this.filteredJobs.length > 0) {
+        // Extract company ID and perform further operations
+        const companyID = this.filteredJobs[0].companyId;
+        this.companyID = companyID;
+
+        // Set the referral form to minimized
+        this.isResponseEmpty = false;
+        this.isJobContainerVisible = false;
+        this.isJobListing = true
+
+        // Fetch jobs by company ID
+        this.getJobByCompanyID();
+      } else {
+        this.spinner.hide();
+        // Maximize the referral form if no jobs are found
+        this.isResponseEmpty = true;
+        this.isJobContainerVisible = true;
+        this.isJobListing = false
+      }
+    }
+
+  }
   async getJobByCompanyID() {
-    this.companyListing.getAllJob();
-    let response = await this.companyListing.getJobByCompanyID('01HZM7VF8D3CKNGGM4820D7FT9')
+
+
+    let response = await this.companyListing.getJobByCompanyID(this.companyID)
+
+
+    if (response.data.length > 0) {
+      this.spinner.hide();
+      this.jobDetails = response.data
+      this.isResponseEmpty = false; // Minimize if there is data
+      this.isJobContainerVisible = false; // Start minimized if data exists
+      this.isJobListing = true
+
+
+
+    } else if (response.data.length === 0) {
+      this.spinner.hide();
+      this.isResponseEmpty = true; // Maximize if no data
+      this.isJobContainerVisible = true; // Start maximized if no data
+      this.isJobListing = false
+
+
+    } else {
+
+      this.spinner.hide();
+      this.successmessage = "Something went wrong. Please try again after sometime"
+      this.successtitle = "Error"
+      this.openModal(ModalType.SUCCESS_MESSAGE)
+
+    }
+
+
   }
 
   initializeForm(): void {
@@ -191,7 +311,6 @@ export class MiniJobPortalJobListingComponent {
 
     if (this.requestForm.valid) {
       this.companyListing.getReferralCount(this.emailAddress).then(async (response) => {
-
         let count = response.referralCount;
 
         if (count == 0) {
@@ -201,7 +320,7 @@ export class MiniJobPortalJobListingComponent {
         else {
 
           this.createRequest();
-          this.requestForm.reset();
+
 
         }
       }
@@ -212,6 +331,7 @@ export class MiniJobPortalJobListingComponent {
 
           this.router.navigate(['/']);
         } else {
+        
           //console.error('Error:', error);
         }
       });
@@ -226,7 +346,7 @@ export class MiniJobPortalJobListingComponent {
 
 
   createRequest() {
-
+    debugger
     if (this.companyID) {
       let data = {
         "companyId": this.companyID,
@@ -260,11 +380,13 @@ export class MiniJobPortalJobListingComponent {
   getScore(referralRequestId: string) {
     this.companyListing.getMatchingScore(this.emailAddress, referralRequestId).then(async (response) => {
       if (response) {
-
+        this.requestForm.reset();
         this.matchingScore = response.matchingScore;
         this.showLoading = false;
         this.showScore = true;
+       
         this.openModal(ModalType.SUCCESS_MESSAGE);
+      
       }
     })
       .catch(error => {
@@ -276,10 +398,11 @@ export class MiniJobPortalJobListingComponent {
         }
         // console.error('Create Employee Error:', error);
       });
+
   }
 
   handleError(error: any) {
-
+    this.requestForm.reset();
     switch (error.status) {
       case 400:
         this.showErrorMsg = true;
@@ -302,6 +425,7 @@ export class MiniJobPortalJobListingComponent {
 
   okBtn() {
     // this.showErrorMsg = false;
+    this.requestForm.reset();
     this.modal.cancel()
     this.onOkBtn.emit();
   }
@@ -412,5 +536,37 @@ export class MiniJobPortalJobListingComponent {
   closeModal(): void {
     this.modal.cancel();
   }
+
+
+
+  // async openReferralPage(event: Event): Promise<void> {
+  //   event.preventDefault();
+  //   this.userLoggedIn = await this.cognitoService.isLoggedIn();
+
+  //   // this.storage.set('selectedCompanySK', this?.selectedData?.SK);
+  //   // this.storage.set('type', "referral");
+
+  //   // this.triggerReferral = true;
+  //   // this.triggerGuidance = false;
+  //   // this.triggerAddCompany = false;
+
+  //   if (this.userLoggedIn) {
+  //     if (this.checkProfileCompletion()) {
+  //       this.openModal(ModalType.SUCCESS_MESSAGE);
+  //     }
+  //     else {
+  //       this.profileCompletionRequired = true;
+  //       this.successmessage = "";
+  //       this.successtitle = "";
+  //       this.openModal(ModalType.SUCCESS_MESSAGE);
+  //     }
+  //     this.storage.remove("type");    // Removing 'type' and 'selectedCompanySK' from localStorage to prevent the popup from opening automatically on the next page refresh
+  //     this.storage.remove("selectedCompanySK");
+  //   }
+  //   else {
+  //     this.userLoggedIn = true
+  //     this.openModal(ModalType.LOGIN_SIGNUP);
+  //   }
+  // }
 
 }

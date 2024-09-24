@@ -19,6 +19,7 @@ export class ChatUIComponent implements AfterViewInit, OnDestroy {
   @Input() referralId!: string;
   newMessage = "";
   @Output() loadMoreMessages = new EventEmitter<void>();
+  @Output() spinnerStatus = new EventEmitter<any>();
   isPaginationEnabled = false; // Flag to control pagination
 
   @ViewChild('chatContainer') chatContainerRef!: ElementRef;
@@ -106,7 +107,7 @@ export class ChatUIComponent implements AfterViewInit, OnDestroy {
 
   scrollToBottom(): void {
     try {
-      const chatContainer = this.chatContainerRef.nativeElement; 
+      const chatContainer = this.chatContainerRef.nativeElement;
       // Check if the container is scrollable or not
       const isScrollable = chatContainer.scrollHeight > chatContainer.clientHeight;
       if (isScrollable) {
@@ -134,9 +135,9 @@ export class ChatUIComponent implements AfterViewInit, OnDestroy {
   //     console.error('Scroll to bottom failed:', err);
   //   }
   // }
-  
 
- 
+
+
 
   sendMessage(): void {
     if (this.newMessage.trim()) {
@@ -148,9 +149,33 @@ export class ChatUIComponent implements AfterViewInit, OnDestroy {
           senderId: this.userId,
         },
       };
-      this.chatService.sendMessage(message);
-      this.newMessage = "";
 
+
+      // Check if WebSocket is connected before sending
+      if (!this.chatService.isConnected()) {
+        // Show spinner when reconnecting 
+        this.spinnerStatus.emit({ showSpinner: true, showErrorMessage: false });
+
+        // Attempt reconnection before sending the message
+        this.chatService.reconnectWebSocket(this.userId, this.referralId)
+          .then(() => {
+            // Connection successful, send message and hide spinner
+            this.chatService.sendMessage(message, this.userId, this.referralId);
+            this.spinnerStatus.emit({showSpinner: false, showErrorMessage: false});  // Hide spinner after message send
+          })
+          .catch((error) => {
+            // Handling reconnection failure here, show error and hide spinner
+            // console.error("WebSocket reconnection error: ", error);
+            this.spinnerStatus.emit({ showSpinner: false, showErrorMessage: true });
+            // this.showErrorMessage("Reconnection failed. Please try again.");
+          });
+      } else {
+        // WebSocket is already connected, sending the message directly
+        this.chatService.sendMessage(message, this.userId, this.referralId);
+      }
+
+      //clearing the message input field here
+      this.newMessage = "";
       // Trigger change detection 
       this.cdr.detectChanges();
 

@@ -12,22 +12,88 @@
         font-size: 16px;
         font-weight: 500;
         line-height: 32px;
+    /* Styling for h2 */
+    h2 {
+        color: #00ffff; /* Aqua color */
+        font-family: Arial, Helvetica, sans-serif;
+        font-size: 24px;
+        font-weight: bold;
+        margin-bottom: 1rem;
+    }
 
-        .job-sub-title {
-            font-weight: bold;
-        }
+    /* Styling for p (paragraph) */
+    p {
+        font-size: 16px;
+        line-height: 1.6;
+        color: #333; /* Darker text color for better readability */
+        margin-bottom: 1rem;
+    }
+
+    /* Styling for h3 */
+    h3 {
+        font-size: 20px;
+        font-weight: 600;
+        color: #007bff; /* Light blue color for headings */
+        margin-top: 1.5rem;
+        margin-bottom: 0.5rem;
+    }
+
+    /* Styling for ul and li inside the job description */
+    ul {
+        padding-left: 1.5rem;
+        list-style-type: disc;
+    }
+
+    li {
+        margin-bottom: 0.5rem;
+        font-size: 16px;
+    }
+
 
        
     }
-    .btn-next {
+    .ref-next {
         width: 208px;
         height: 47px;
         padding: 0.5rem;
         font-size: 20px;
         font-weight: 500;
+        // background: transparent;
+        border: 1px solid;
+        border-radius: 10px;
+        // width: 113px;
+        // font-size: 10px;
+        // margin-top: 5px;
+        // text-align: center;
+        // padding: 3px;
+        // top: 5px;
+        // position: absolute;
+        border-color: #57E1FF;
+        border-width: 2px;
+    }
+    .ref-next:hover{
+        background :#57E1FF
+    }
+    .share-btn{
+        cursor: pointer;
     }
 }
 
+::ng-deep .candidate-card .job-div .job-description h2 ,h3{
+
+    font-size: 20px;
+    font-weight: bold;
+   
+}
+::ng-deep .candidate-card .job-div .job-description h3{
+
+    font-size: 20px;
+    font-weight: bold;
+   
+}
+::ng-deep .candidate-card .job-div .job-description p, ul,li {
+    text-align: justify;  
+}
 
 /* RESPONSIVE CODE FOR SMALLER DEVICE*/
 

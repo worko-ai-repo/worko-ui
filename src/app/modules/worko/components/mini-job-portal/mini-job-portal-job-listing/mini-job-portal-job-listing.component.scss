@@ -51,17 +51,17 @@
 .card-header {
   background: #57E1FF;
   color: #070707;
-  padding: 10px;
-  font-size: 30px;
+  // padding: 10px;
+  font-size: 25px;
   font-weight: 700;
   border-radius: 10px;
-
+  text-transform: capitalize;
 
 }
 
 .svg-circle {
-  width: 60px;
-  height: 60px;
+  width: 50px;
+  height: 50px;
   //background: #83A4C4;
   border-radius: 50%;
   display: flex;
@@ -77,7 +77,7 @@
 
 label {
   background: linear-gradient(180deg, #50D5FF 12.5%, #D1E4FB 76.04%);
-  font-size: 30px;
+  font-size: 25px;
   font-weight: 700;
   margin-bottom: 5px;
   background-clip: text;
@@ -100,10 +100,13 @@ textarea {
   box-sizing: border-box;
   background: none;
   color: white;
+  outline: none; 
 }
 
+
 textarea {
-  resize: vertical;
+
+    resize: vertical;
 }
 
 .btn-next {
@@ -130,6 +133,9 @@ textarea {
 
 
 }
+.icon-wrapper {
+  gap: 10px; /* Add space between the icons */
+}
 
 .main-div1 {
   border-radius: 16px;
@@ -140,16 +146,43 @@ textarea {
   width: 100%;
 }
 
+.maximized {
+  height: 100%; /* Adjust as needed to maximize */
+  transition: height 0.3s ease; /* Smooth transition */
+}
+
+.minimized {
+  height: 0; /* Adjust as needed to minimize */
+  overflow: hidden;
+  transition: height 0.3s ease; /* Smooth transition */
+}
+
+ // // ---------------Responsive for ipads---------------
+ 
+ @media (max-width: 1025px) and (min-width: 480px){
+
+.mini-job-container{
+ .top-header-bg{
+     img {
+         width: 80%;
+     }
+ }
+}  
+}
 /* Responsive Styling */
 @media (max-width: 480px) {
-  .card-header {
+  .card-header,label {
     font-size: 20px;
   }
-
-  .card-header,
-  label {
-    font-size: 25px;
+  .icon-wrapper{
+  
+  gap: 0px;
   }
+
+ 
+  // label {
+  //   font-size: 25px;
+  // }
 }
 
 @media (max-width: 760px) {
