@@ -300,6 +300,23 @@ export class EmployeeAcceptedReferralComponent {
     return groupedMessages;
   }
 
+  onSpinnerStatusChange(data: { showSpinner: boolean, showErrorMessage: boolean }): void {
+    if (data.showSpinner) {
+      this.spinner.show();
+    } else {
+      this.spinner.hide();
+      if (data.showErrorMessage) {
+        this.showErrorMessage();
+      }
+    }
+  }
+
+  showErrorMessage(): void {
+    this.successmessage = "Something went wrong. Please try again after sometime";
+    this.successtitle = "Error";
+    this.openModal(ModalType.SUCCESS_MESSAGE);
+  }
+
   getSlicedValue(value: string): string {
     const parts = value?.split('#');
     return parts?.length > 2 ? parts[2] : '';

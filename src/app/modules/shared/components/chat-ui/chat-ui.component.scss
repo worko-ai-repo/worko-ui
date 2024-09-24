@@ -77,6 +77,7 @@
     line-height: 1.4;
     position: relative;
     padding-right: 2rem;
+    word-break: break-word; //ensures that long words (without spaces) will break and wrap to the next line
 }
 
 .message.right .message-content {
