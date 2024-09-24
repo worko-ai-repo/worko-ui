@@ -10,7 +10,7 @@ export const environment = {
       domain:'worko-dev.auth.ap-south-1.amazoncognito.com'
     },
     razorpayKey:"REDACTED",
-    crossOriginUrl:'http://localhost:4400',
+    // crossOriginUrl:'http://localhost:4400',
     localUrl: 'http://localhost:4200',
     apiUrl: 'https://api.dev.worko.work/',
     chatApiUrl: 'https://chatapi.dev.worko.work/',

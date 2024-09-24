@@ -16,11 +16,12 @@ import { error, event } from 'jquery';
 import { ActivatedRoute, Router } from '@angular/router';
 import { StorageService } from 'src/app/modules/app-core/services/storage.service';
 import { CandidateProfileService } from 'src/app/modules/candidate/services/candidate-profile.service';
-import { LoginPageComponent } from '../login-page/login-page.component';
+// import { LoginPageComponent } from '../login-page/login-page.component';
 import { NavbarComponent } from '../navbar/navbar.component';
 import { Location } from '@angular/common';
 import { Subscription } from 'rxjs';
 import { debounce } from 'lodash';
+import { LoginFormComponent } from '../login-form/login-form.component';
 @Component({
   selector: 'app-company-listing',
   templateUrl: './company-listing.component.html',
@@ -34,7 +35,7 @@ export class CompanyListingComponent implements OnInit, AfterViewInit, OnDestroy
   @ViewChild(RequestGuidenceComponent) referrralguidanceComponent!: RequestGuidenceComponent;
   @ViewChild('autoCompleteInput', { static: false, read: MatAutocompleteTrigger }) trigger!: MatAutocompleteTrigger;
   @ViewChild('company') companyFormDirective!: NgForm;
-  @ViewChild(LoginPageComponent) LoginPageComponent!: LoginPageComponent;
+  @ViewChild(LoginFormComponent) LoginFormComponent!: LoginFormComponent;
   @ViewChild(NavbarComponent) navbarComponent!: NavbarComponent;
   userName: string = "";
   letter: string = ""
@@ -967,11 +968,11 @@ export class CompanyListingComponent implements OnInit, AfterViewInit, OnDestroy
 
     }
     if (ModalType.LOGIN_SIGNUP) {
-      if (this.LoginPageComponent) {
-        this.LoginPageComponent.showSignInRow = false;
-        this.LoginPageComponent.showAddCompanyScreen = false;
-        this.LoginPageComponent.showErrorMessageScreen = false;
-        this.LoginPageComponent.showLoginScreen = true
+      if (this.LoginFormComponent) {
+        this.LoginFormComponent.showSignInRow = false;
+        this.LoginFormComponent.showAddCompanyScreen = false;
+        this.LoginFormComponent.showErrorMessageScreen = false;
+        this.LoginFormComponent.showLoginScreen = true
       }
     }
     this.modal.open();

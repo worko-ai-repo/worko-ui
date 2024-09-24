@@ -169,8 +169,8 @@ export class UserMenubarComponent {
     await signOut();
     this.userLoggedIn = await this.cognitoService.isLoggedIn();
     if (!this.userLoggedIn) {
-      // this.router.navigateByUrl('/');
-      window.location.href = environment.crossOriginUrl + '/';
+      this.router.navigateByUrl('/');
+      // window.location.href = environment.crossOriginUrl + '/';
     }
   }
 

@@ -2,14 +2,15 @@ import { Component, ViewChild } from '@angular/core';
 import { CognitoService } from 'src/app/modules/services/cognito.service';
 import { ModalType } from 'src/app/modules/shared/interfaces/shared.interface';
 import { ModalComponent } from 'src/app/modules/shared/components/modal/modal.component';
-import { Router } from '@angular/router';
+import { NavigationEnd, Router } from '@angular/router';
 import { CandidateProfileService } from 'src/app/modules/candidate/services/candidate-profile.service';
 import { StorageService } from 'src/app/modules/app-core/services/storage.service';
 import { NavbarToggleSwitchService } from 'src/app/modules/candidate/services/navbar-toggle-switch.service';
 import { IndexComponent } from '../index/index.component';
 import { environment } from 'src/environments/environment';
-import { LoginPageComponent } from '../login-page/login-page.component';
+// import { LoginPageComponent } from '../login-page/login-page.component';
 import { BehaviorSubject, Observable } from 'rxjs';
+import { LoginFormComponent } from '../login-form/login-form.component';
 
 
 
@@ -20,10 +21,11 @@ import { BehaviorSubject, Observable } from 'rxjs';
 })
 
 export class NavbarComponent {
+  isCompanyPage: boolean = false;
   private eventSubject: BehaviorSubject<any> = new BehaviorSubject<any>(null);
   event$: Observable<any> = this.eventSubject.asObservable();
   @ViewChild(ModalComponent) modal!: ModalComponent;
-  @ViewChild(LoginPageComponent) LoginPageComponent!: LoginPageComponent;
+  @ViewChild(LoginFormComponent) LoginFormComponent!: LoginFormComponent;
   modalType = ModalType;
   modalMessage: string = "";
   modalTitle: string = "";
@@ -52,6 +54,13 @@ export class NavbarComponent {
     //   console.log(this.emailAddress, email, "dsd")
     // });
     this.initializeUserSession();
+    this.checkCurrentRoute();
+    // Subscribe to route changes to update the UI dynamically when navigating
+    this.router.events.subscribe(event => {
+      if (event instanceof NavigationEnd) {
+        this.checkCurrentRoute();
+      }
+    });
   }
 
   isMenuOpen: boolean = false;
@@ -75,7 +84,12 @@ export class NavbarComponent {
 
   }
   navigateToIndex() {
-    window.location.href = environment.crossOriginUrl + '/';
+    window.location.href = environment.localUrl + '/';
+  }
+
+  checkCurrentRoute() {
+    // Check if the current URL is '/companies'
+    this.isCompanyPage = this.router.url === '/companies';
   }
 
 
@@ -204,21 +218,21 @@ export class NavbarComponent {
       alert("User is Logged In")
 
     } else {
-      this.openModal(ModalType.LOGIN_SIGNUP);
-      //this.router.navigate(['/login']);
+      // this.openModal(ModalType.LOGIN_SIGNUP);
+      this.router.navigate(['/login']);
     }
   }
 
 
-  rediectToFaq() {
-    window.location.href = environment.crossOriginUrl + '/faq'
-  }
-  rediectToAboutUs() {
-    window.location.href = environment.crossOriginUrl + '/about-us'
-  }
-  rediectToCorporate() {
-    window.location.href = environment.crossOriginUrl + '/corporate'
-  }
+  // rediectToFaq() {
+  //   window.location.href = environment.crossOriginUrl + '/faq'
+  // }
+  // rediectToAboutUs() {
+  //   window.location.href = environment.crossOriginUrl + '/about-us'
+  // }
+  // rediectToCorporate() {
+  //   window.location.href = environment.crossOriginUrl + '/corporate'
+  // }
 
   /**
     * Open modal.
@@ -230,11 +244,11 @@ export class NavbarComponent {
     */
   openModal(modalType: ModalType, message: string = "", title: string = ""): void {
     // debugger
-    if (this.LoginPageComponent) {
-      this.LoginPageComponent.showSignInRow = false;
-      this.LoginPageComponent.showAddCompanyScreen = false;
-      this.LoginPageComponent.showErrorMessageScreen = false;
-      this.LoginPageComponent.showLoginScreen = true
+    if (this.LoginFormComponent) {
+      this.LoginFormComponent.showSignInRow = false;
+      this.LoginFormComponent.showAddCompanyScreen = false;
+      this.LoginFormComponent.showErrorMessageScreen = false;
+      this.LoginFormComponent.showLoginScreen = true
     }
 
     this.showModal = modalType;
