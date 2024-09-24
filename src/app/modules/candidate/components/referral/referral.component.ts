@@ -238,12 +238,12 @@ export class ReferralComponent implements OnInit {
     const forUserId = this.selectedReferral?.acceptedByUserId;
 
     let payload = {
-      "ratingByUserId": userId,
+      // "ratingByUserId": userId,
       "ratingForUserType": "EMP",
       "rating": data.rating,
       "reviewText": data.review,
-      "createdByUserId": userId,
-      "updatedByUserId": userId,
+      // "createdByUserId": userId,
+      // "updatedByUserId": userId,
       "reviewContext": "EMP_REFERRAL",
       "referalId": referralId,
       // "masterServiceCode": "RESUME_REVIEW", 
@@ -271,6 +271,10 @@ export class ReferralComponent implements OnInit {
        this.router.navigate(['/']);
       }else{
       this.spinner.hide();
+
+      this.successmessage = "Something went wrong. Please try again after sometime"
+      this.successtitle = "Error"
+      this.openModal(ModalType.SUCCESS_MESSAGE);
       }
     }
     );
