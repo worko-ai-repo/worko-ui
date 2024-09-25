@@ -88,9 +88,9 @@ export class MiniJobPortalJobListingComponent {
   private formatCategory(category: string): string {
     // Decode URL components and replace hyphens with spaces
     return decodeURIComponent(category)
-      .replace(/---/g, ' - ') // Handle cases like "cheil---samsung"
-      .replace(/--/g, '-')     // Handle cases like "foo--bar"
-      .replace(/-/g, ' ') // Replace hyphens with spaces
+      // .replace(/---/g, ' - ') // Handle cases like "cheil---samsung"
+      // .replace(/--/g, '-')     // Handle cases like "foo--bar"
+      // .replace(/-/g, ' ') // Replace hyphens with spaces
       .split(' ')
       .map(word => word.charAt(0).toUpperCase() + word.slice(1))
       .join(' ');

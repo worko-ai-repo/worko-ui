@@ -582,8 +582,8 @@ export class CompanyListingComponent implements OnInit, AfterViewInit, OnDestroy
   }
 
   getJobLink(data:any): void {
-    const  companyName=data.name
-    const route = `/companies/${companyName.toLowerCase().replace(/\s+/g, '-')}-jobs`;
+    const  companyName=encodeURIComponent(data.name);
+    const route = `/companies/${companyName.toLowerCase()}-jobs`;
    // console.log(route);
     this.router.navigate([route],{
       state: { companySK: data.SK}

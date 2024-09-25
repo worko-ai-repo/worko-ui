@@ -30,13 +30,16 @@
     margin: 0 0 28px 0;
     font-weight: bold;
     text-transform: capitalize;
+   // font-size: calc(1.5vw + 10px);
 }
 
 .details-row {
     display: flex;
     font-size: 1.1em;
+  font-weight: 400;
     color: black;
     text-transform: capitalize;
+    // font-size: calc(1vw + 8px);
 
 }
 

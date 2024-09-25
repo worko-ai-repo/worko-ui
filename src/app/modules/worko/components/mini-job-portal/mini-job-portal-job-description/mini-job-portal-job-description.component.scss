@@ -27,8 +27,8 @@ background: linear-gradient(147.55deg, #000000 34.1%, #182B45 70.16%);
      margin: 0;
      padding: 0;
      overflow: hidden;
-     margin-left: 3rem;
-     margin-right: 3.5rem;
+     margin-left: 6rem;
+     margin-right:6rem;
  
      .contents {
          padding-top: 5rem;
@@ -39,7 +39,7 @@ background: linear-gradient(147.55deg, #000000 34.1%, #182B45 70.16%);
          .mini-job-headline {
             padding-bottom: 20px;
              height: fit-content;
-             font-size: 40px;
+            //  font-size: 40px;
              line-height: 40px;
              font-weight: 700;
              background: linear-gradient(180deg, #50D5FF 12.5%, #D1E4FB 76.04%);
@@ -47,6 +47,7 @@ background: linear-gradient(147.55deg, #000000 34.1%, #182B45 70.16%);
              -webkit-background-clip: text;
              -webkit-text-fill-color: transparent;
              text-transform: capitalize;
+             font-size: calc(9.4px + 2vw);
  
          }
      }

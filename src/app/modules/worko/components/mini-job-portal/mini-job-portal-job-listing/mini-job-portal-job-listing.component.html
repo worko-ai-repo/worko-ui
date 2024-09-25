@@ -49,7 +49,7 @@
                         </div>
 
                     </div>
-                </div>
+
                 <form (ngSubmit)="openReferralPage()" [formGroup]="requestForm" class="p-0" novalidate
                 [ngClass]="{ 'maximized': isResponseEmpty && isJobContainerVisible, 'minimized': !isJobContainerVisible }">
                     <div class="form-group">
@@ -79,6 +79,7 @@
                     </div>
                 </form>
             </div>
+            </div>
             <!-- <app-min-job-portal-referral-form [companyName]="companyname"></app-min-job-portal-referral-form> -->
         </div>
 
@@ -89,6 +90,7 @@
         <!-- <div class="col-md-12">
                 <app-mini-job-portal-about-company [companyName]="companyName" [jobDetails]="jobDetails"></app-mini-job-portal-about-company>
             </div> -->
+         
     </div>
 </div>
 
