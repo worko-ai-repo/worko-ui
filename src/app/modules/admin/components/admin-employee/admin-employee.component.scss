@@ -73,20 +73,10 @@
 .mat-mdc-form-field:not(.mat-form-field-no-animations) .mdc-text-field__input {
   font-size: medium;
 }
-.search-container {
-  position: relative;
- // display: inline-block;
-  width: 100%;
-}
 
-.custom-clear-button {
-  position: absolute;
+.admin-custom-clear-button {
+
+
   right: 10px; /* Adjust based on the padding of the input */
-  transform: translateY(50%);
-  background-color: transparent;
-  color: #FFFFFF;
-  border: none;
-  border-radius: 50%;
-  height: 24px;
 
 }

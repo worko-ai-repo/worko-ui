@@ -44,7 +44,7 @@
                 <input matInput class="serachInput" (keyup)="handleSearchInput($event)"
                   (keydown)="onSearchInputEnter($event)" placeholder="Search" [(ngModel)]="searchQuery" #input />
                 <button mat-button matSuffix mat-icon-button (click)="clearSearchInput()" *ngIf="input.value"
-                  class="custom-clear-button">
+                  class="admin-custom-clear-button ">
                   <mat-icon>clear</mat-icon>
                 </button>
               </div>

@@ -53,39 +53,20 @@
 .form-detail {
   font-size: 14px;
   color: #FFF;
+  white-space: pre-wrap;
 }
 
 .form-row {
   margin-bottom: 12px; /* Space between rows */
 }
 
-.search-container {
-  position: relative;
- // display: inline-block;
-  width: 100%; /* Adjust based on your requirement */
-}
 
-.custom-clear-button {
-  position: absolute;
+
+.admin-custom-clear-button {
+
   right: -15px; /* Adjust based on the padding of the input */
-  transform: translateY(50%);
-  background-color: transparent;
-  color: #FFFFFF;
-  border: none;
-  border-radius: 50%;
-  height: 24px;
-
 }
 
-  // .custom-clear-button {
-  //   background-color: transparent;
-  //   color: #FFFFFF;
-  //   border: none;
-  //   border-radius: 50%;
-  //   position: absolute;
-  //   top: -34px;
-  //   right: -60%;
-  // }
   .selector {
     width:140px;
   }

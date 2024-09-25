@@ -32,7 +32,7 @@
                   [ngClass]="{'disabled-background': isSearchActive}"
                 />
                 <button mat-button matSuffix mat-icon-button (click)="clearSearchInput()"  *ngIf="searchQuery"
-                class="custom-clear-button">
+                class="admin-custom-clear-button ">
                 <mat-icon>clear</mat-icon>
               </button>
               </div>
@@ -601,7 +601,7 @@
           <label class="form-label">Score Details</label>
         </div>
         <div class="col-8">
-          <span class="form-detail" style="display: block; white-space: pre-wrap; word-wrap: break-word; text-align: justify;">: {{ rowData.scoreDetails }}</span>
+          <span class="form-detail w-100  d-block text-break text-justify " >: {{ rowData.scoreDetails }}</span>
         </div>
       </div>
 
@@ -610,9 +610,9 @@
           <label class="form-label">Job Description Extracted</label>
         </div>
         <div class="col-8">
-          <div class="form-detail" >
+          <div class="form-detail w-100" >
             <ng-container *ngFor="let line of formattedJD">
-              <p style="text-align: justify;">{{ line }}</p>
+              <p class="text-justify ">{{ line }}</p>
             </ng-container>
           </div>
           <!-- <span class="form-detail" style="display: block; white-space: pre-wrap; word-wrap: break-word; text-align: justify;">: {{ rowData.jdExtracted }}</span> -->

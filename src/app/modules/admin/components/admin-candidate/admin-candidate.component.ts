@@ -218,6 +218,11 @@ export class AdminCandidateComponent implements AfterViewInit {
       const dateObject = new Date(this.filterModel.toDate);
       // Adjusting time so that UTC conversion in toISOString() doesn't affect the date
       dateObject.setMinutes(dateObject.getMinutes() - dateObject.getTimezoneOffset());
+      // Set the time to 23:59:59:999
+      dateObject.setHours(23);
+      dateObject.setMinutes(59);
+      dateObject.setSeconds(59);
+      dateObject.setMilliseconds(999);
       const isoString = dateObject.toISOString();
 
       this.toDate = isoString;

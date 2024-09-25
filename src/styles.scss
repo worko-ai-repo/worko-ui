@@ -1739,6 +1739,20 @@ footer {
         // background-color: #0A1E35 !important;
     }
 
+    .search-container {
+        position: relative;
+       // display: inline-block;
+        width: 100%; 
+      }
+    .admin-custom-clear-button{
+        position: absolute;
+        transform: translateY(50%);
+        background-color: transparent;
+        color: #FFFFFF;
+        border: none;
+        border-radius: 50%;
+        height: 24px;
+    }
 
     .serachInput {
         // background-color: #0A1E35 !important;
