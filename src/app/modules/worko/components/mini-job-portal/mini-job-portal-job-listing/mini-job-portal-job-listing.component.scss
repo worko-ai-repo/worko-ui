@@ -60,8 +60,8 @@
 }
 
 .svg-circle {
-  width: 50px;
-  height: 50px;
+  width: 40px;
+  height: 40px;
   //background: #83A4C4;
   border-radius: 50%;
   display: flex;
@@ -100,27 +100,56 @@ textarea {
   box-sizing: border-box;
   background: none;
   color: white;
-  outline: none; 
+  outline: none;
   height: 70px;
 }
 
 
 textarea {
 
-    resize: vertical;
+  resize: vertical;
 }
 
-.btn-next {
-  width: 208px;
+// .btn-next {
+//   width: 208px;
+//   height: 47px;
+//   padding: 0.5rem;
+//   font-size: 20px;
+//   font-weight: 500;
+// }
+
+// .btn:disabled {
+//   background-color: #36D0FF;
+//   color: gray;
+// }
+
+.anchor-button {
+
+   width: 208px;
   height: 47px;
-  padding: 0.5rem;
-  font-size: 20px;
+   padding: 0.5rem;
+  font-size: 15px;
   font-weight: 500;
+  // margin-top: 5px;
+  // text-align: center;
+  // padding: 3px;
+  // top: 5px;
+  border: 2px solid #57E1FF;
+  background-color: transparent;
+  // border-color: #57E1FF;
+   border-width: 2px;
+   color: white;
 }
 
-.btn:disabled {
-  background-color: #36D0FF;
-  color: gray;
+button:hover {
+  background-color: #57E1FF;
+
+}
+
+.anchor-button button {
+  text-decoration: none;
+ // padding: 5px;
+  color: #fcf7f7
 }
 
 
@@ -134,8 +163,16 @@ textarea {
 
 
 }
+
 .icon-wrapper {
-  gap: 10px; /* Add space between the icons */
+  gap: 10px;
+  /* Add space between the icons */
+
+  .career-icon {
+    width: 25px;
+    height: 25px;
+  }
+
 }
 
 .main-div1 {
@@ -148,39 +185,47 @@ textarea {
 }
 
 .maximized {
-  height: 100%; /* Adjust as needed to maximize */
-  transition: height 0.3s ease; /* Smooth transition */
+  height: 100%;
+  /* Adjust as needed to maximize */
+  transition: height 0.3s ease;
+  /* Smooth transition */
 }
 
 .minimized {
-  height: 0; /* Adjust as needed to minimize */
+  height: 0;
+  /* Adjust as needed to minimize */
   overflow: hidden;
-  transition: height 0.3s ease; /* Smooth transition */
+  transition: height 0.3s ease;
+  /* Smooth transition */
 }
 
- // // ---------------Responsive for ipads---------------
- 
- @media (max-width: 1025px) and (min-width: 480px){
+// // ---------------Responsive for ipads---------------
 
-.mini-job-container{
- .top-header-bg{
-     img {
-         width: 80%;
-     }
- }
-}  
+@media (max-width: 1025px) and (min-width: 480px) {
+
+  .mini-job-container {
+    .top-header-bg {
+      img {
+        width: 80%;
+      }
+    }
+  }
 }
+
 /* Responsive Styling */
 @media (max-width: 480px) {
-  .card-header,label {
+
+  .card-header,
+  label {
     font-size: 20px;
   }
-  .icon-wrapper{
-  
-  gap: 0px;
+
+  .icon-wrapper {
+
+    gap: 0px;
   }
 
- 
+
   // label {
   //   font-size: 25px;
   // }

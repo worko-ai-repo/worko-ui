@@ -17,13 +17,13 @@
                         <span class="ms-3">Get Referral for Any Job in {{companyName}}</span>
                         <div class="d-flex align-items-center icon-wrapper">
                          
-                            <a href="{{companyNameDetail?.linkedIn}}" target="_blank" class="px-1"
+                            <a href="{{companyDetail?.linkedIn}}" target="_blank" class="px-1"
                                 title="LinkedIn Page">
                                 <i class="fa-brands fa-linkedin" style="color:#0077b5; font-size: 23px;"></i>
                             </a>
 
                            
-                            <a href="{{companyNameDetail?.carrierPage}}" target="_blank" class="px-1"
+                            <!-- <a href="{{companyNameDetail?.carrierPage}}" target="_blank" class="px-1"
                                 title="Career Page">
                                 <svg width="27" height="27" viewBox="0 0 27 27" fill="none"
                                     xmlns="http://www.w3.org/2000/svg" style="margin-bottom: 5px;">
@@ -31,7 +31,12 @@
                                         d="M21.7314 23.2837L14.7463 16.2985C14.1919 16.742 13.5544 17.0932 12.8337 17.3519C12.113 17.6106 11.3461 17.7399 10.533 17.7399C8.51882 17.7399 6.81411 17.0423 5.41894 15.6472C4.02376 14.252 3.32617 12.5473 3.32617 10.533C3.32617 8.51882 4.02376 6.81411 5.41894 5.41894C6.81411 4.02376 8.51882 3.32617 10.533 3.32617C12.5473 3.32617 14.252 4.02376 15.6472 5.41894C17.0423 6.81411 17.7399 8.51882 17.7399 10.533C17.7399 11.3461 17.6106 12.113 17.3519 12.8337C17.0932 13.5544 16.742 14.1919 16.2985 14.7463L23.2837 21.7314L21.7314 23.2837ZM10.533 15.5224C11.919 15.5224 13.097 15.0373 14.0672 14.0672C15.0373 13.097 15.5224 11.919 15.5224 10.533C15.5224 9.14711 15.0373 7.96906 14.0672 6.99891C13.097 6.02875 11.919 5.54367 10.533 5.54367C9.14711 5.54367 7.96906 6.02875 6.99891 6.99891C6.02875 7.96906 5.54367 9.14711 5.54367 10.533C5.54367 11.919 6.02875 13.097 6.99891 14.0672C7.96906 15.0373 9.14711 15.5224 10.533 15.5224Z"
                                         fill="#0274B3" />
                                 </svg>
-                            </a>
+                            </a> -->
+                        
+                            <a href="{{ companyDetail?.carrierPage }}"  target="_blank" title="Career Page">
+                                <img src="../../../../../assets/icons/career-icon.png" alt="icon" class="career-icon px-1" />
+                              </a>
+                            
 
                             <!-- Arrow SVG -->
                             <div class="svg-circle ">
@@ -73,8 +78,8 @@
                         </div>
                     </div>
 
-                    <div class="button-class mt-4 d-flex justify-content-center align-items-center col-md-12">
-                        <button class="btn btn-next" type="submit" [disabled]="!requestForm.valid">Request
+                    <div class="button-class mt-4 d-flex justify-content-center align-items-center col-md-12 ">
+                        <button class="btn anchor-button" type="submit" [disabled]="!requestForm.valid">Request
                             Referral</button>
                     </div>
                 </form>

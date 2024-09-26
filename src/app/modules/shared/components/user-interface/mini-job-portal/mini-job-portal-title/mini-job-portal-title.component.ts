@@ -7,7 +7,23 @@ import { Component, Input } from '@angular/core';
 })
 export class MiniJobPortalTitleComponent {
   @Input()  jobDescriptionDetails:any;
+  shareCurrentUrl() {
+    const url = window.location.href;
 
+    if (navigator.share) {
+        navigator.share({
+            title: document.title,
+            url: url
+        })
+    } else {
+        // Fallback for browsers that do not support the Web Share API
+        navigator.clipboard.writeText(url).then(() => {
+            alert('URL copied to clipboard: ' + url);
+        }).catch((error) => {
+           
+        });
+    }
+}
   
 
 

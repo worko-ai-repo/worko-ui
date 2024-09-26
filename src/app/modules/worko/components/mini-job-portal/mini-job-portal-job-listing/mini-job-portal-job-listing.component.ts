@@ -8,7 +8,7 @@ import { ModalType } from 'src/app/modules/shared/interfaces/shared.interface';
 import { LoginPageComponent } from '../../login-page/login-page.component';
 import { NavbarComponent } from '../../navbar/navbar.component';
 import { CandidateProfileService } from 'src/app/modules/candidate/services/candidate-profile.service';
-import { event } from 'jquery';
+import { error, event } from 'jquery';
 import { CompanyListingService } from '../../../services/company-listing.service';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { NgxSpinnerService } from 'ngx-spinner';
@@ -67,21 +67,22 @@ export class MiniJobPortalJobListingComponent {
 
   async ngOnInit() {
     this.initializeForm();
+    
     //extract the compant name from url
     await this.route.url.subscribe(async urlSegments => {
       const fullCategory = urlSegments.map(segment => segment.path).join('/');
       this.companyName = await this.extractCategory(fullCategory);
-    
+ 
     });
 
-    this.getCompanyDetails()
+    await this.getCompanyDetails()
 
 
   }
   private extractCategory(fullCategory: string): string {
 
     // Extract the company name from the URL
-    const companyMatch = fullCategory.match(/companies\/([^-]+(?:-[^-]+)*)-jobs/);
+    const companyMatch = fullCategory.match(/companies\/(.+)-jobs/);
     return companyMatch ? this.formatCategory(companyMatch[1]) : '';
   }
 
@@ -102,16 +103,16 @@ export class MiniJobPortalJobListingComponent {
 
   async getCompanyDetails() {
 
+
     this.spinner.show()
     if (this.companyName.length > 0) {
-
 
       // Fetch company details and handle the response
       let response = await this.authService.getCompanyName(this.companyName).toPromise();
 
       if (response) {
-   
-    
+
+
         this.companyDetail = response.data; // Store the company details
 
         // Remove hyphens from the company name for comparison
@@ -120,12 +121,13 @@ export class MiniJobPortalJobListingComponent {
         this.companyNameDetail = this.companyDetail.filter((job: any) =>
           job.name?.replace(/-/g, ' ').toLowerCase() === cleanedCompanyName
         );
-        this.companyDetail= this.companyNameDetail[0]
-        this.companyName= this.companyNameDetail[0].name.toLowerCase()
-         this.companyID =  this.companyDetail.SK.split('#')[1];
+        this.companyDetail = this.companyNameDetail[0]
+        this.companyName = this.companyNameDetail[0].name.toLowerCase()
+        this.companyID = this.companyDetail.SK.split('#')[1];
         //  console.log( this.companyID,this.companyName )
 
-        this.getAllJob(); // Fetch jobs
+
+        await this.getAllJob(); // Fetch jobs
       }
 
       else {
@@ -143,17 +145,20 @@ export class MiniJobPortalJobListingComponent {
 
     this.spinner.show()
     let response = await this.companyListing.getAllJob();
+ 
+    if (response) {
+   
+      // Ensure that response is an array or extract the array of jobs
+      if (Array.isArray(response.data)) {
+        this.allJobList = response.data; // If response is already an array
+        // Now filter by company name
+        await this.filterByCompanyName(this.companyName);
 
 
-    // Ensure that response is an array or extract the array of jobs
-    if (Array.isArray(response.data)) {
-      this.allJobList = response.data; // If response is already an array
-      // Now filter by company name
-      this.filterByCompanyName(this.companyName);
 
-
-
+      }
     } else {
+
       this.spinner.hide();
       this.successmessage = "Something went wrong. Please try again after sometime"
       this.successtitle = "Error"
@@ -165,8 +170,8 @@ export class MiniJobPortalJobListingComponent {
 
   }
 
-  filterByCompanyName(companyName: any) {
-
+  async filterByCompanyName(companyName: any) {
+  
     if (Array.isArray(this.allJobList) && companyName) {
       // const filteredJobs = this.allJobList.filter((job: any) => 
       //   job.companyDetails?.name?.toLowerCase() === companyName.toLowerCase()
@@ -181,6 +186,7 @@ export class MiniJobPortalJobListingComponent {
 
 
       if (this.filteredJobs.length > 0) {
+     
         // Extract company ID and perform further operations
         const companyID = this.filteredJobs[0].companyId;
         this.companyID = companyID;
@@ -191,8 +197,9 @@ export class MiniJobPortalJobListingComponent {
         this.isJobListing = true
 
         // Fetch jobs by company ID
-        this.getJobByCompanyID();
+        await this.getJobByCompanyID();
       } else {
+       
         this.spinner.hide();
         // Maximize the referral form if no jobs are found
         this.isResponseEmpty = true;
@@ -203,7 +210,6 @@ export class MiniJobPortalJobListingComponent {
 
   }
   async getJobByCompanyID() {
-
 
     let response = await this.companyListing.getJobByCompanyID(this.companyID)
 
@@ -331,7 +337,7 @@ export class MiniJobPortalJobListingComponent {
 
           this.router.navigate(['/']);
         } else {
-        
+
           //console.error('Error:', error);
         }
       });
@@ -346,7 +352,7 @@ export class MiniJobPortalJobListingComponent {
 
 
   createRequest() {
-    debugger
+
     if (this.companyID) {
       let data = {
         "companyId": this.companyID,
@@ -384,9 +390,9 @@ export class MiniJobPortalJobListingComponent {
         this.matchingScore = response.matchingScore;
         this.showLoading = false;
         this.showScore = true;
-       
+
         this.openModal(ModalType.SUCCESS_MESSAGE);
-      
+
       }
     })
       .catch(error => {

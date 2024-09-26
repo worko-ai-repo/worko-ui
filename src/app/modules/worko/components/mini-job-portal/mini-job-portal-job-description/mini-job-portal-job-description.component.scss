@@ -37,7 +37,7 @@ background: linear-gradient(147.55deg, #000000 34.1%, #182B45 70.16%);
          width: 100%;
  
          .mini-job-headline {
-            padding-bottom: 20px;
+           // padding-bottom: 20px;
              height: fit-content;
             //  font-size: 40px;
              line-height: 40px;
@@ -47,7 +47,7 @@ background: linear-gradient(147.55deg, #000000 34.1%, #182B45 70.16%);
              -webkit-background-clip: text;
              -webkit-text-fill-color: transparent;
              text-transform: capitalize;
-             font-size: calc(9.4px + 2vw);
+             font-size: 30px;
  
          }
      }

@@ -26,8 +26,8 @@
     
 
     .svg-circle {
-        width: 50px;
-        height: 50px;
+        width: 40px;
+        height: 40px;
         //background: #83A4C4;
         border-radius: 50%;
         display: flex;
@@ -98,6 +98,30 @@
             font-weight: bold;
 
         }
+        // .anchor-button {
+        //     border: 1px solid;
+        //     border-radius: 5px;
+        //     width: 113px;
+        //     font-size: 10px;
+        //     margin-top: 5px;
+        //     text-align: center;
+        //     padding: 3px;
+        //     top: 5px;
+        //     border-color: #57E1FF;
+        //     border-width: 2px;
+        // }
+        
+        // .anchor-button:hover {
+        //     background-color: #57E1FF;
+        
+        // }
+        
+        .anchor-button a {
+            text-decoration: none;
+           // padding: 5px;
+            color: #57E1FF
+
+        }
 
     }
 
@@ -113,15 +137,20 @@
             margin-bottom: 10px;
         }
 
-        // .job-info {
-        //     padding-left: 0;
-        //     text-align: center;
+        .job-info {
+            padding-left: 0;
+            // text-align: center;
 
-        //     .details-row {
-        //         justify-content: center;
-        //     }
+            .details-row {
+                justify-content: center;
+                font-size: 0.8rem !important;
+            }
 
-        // }
+        }
+        .svg-circle {
+            width: 50px;
+            height: 50px;
+        }
     }
 
 
