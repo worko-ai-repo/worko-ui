@@ -1739,11 +1739,34 @@ footer {
         // background-color: #0A1E35 !important;
     }
 
+    .search-container {
+        position: relative;
+       // display: inline-block;
+        width: 100%; 
+      }
+    .admin-custom-clear-button{
+        right: 10px;
+        position: absolute;
+        transform: translateY(50%);
+        background-color: transparent;
+        color: #FFFFFF;
+        border: none;
+        border-radius: 50%;
+        height: 24px;
+    }
 
     .serachInput {
+        // background-color: #0A1E35 !important;
+        // border: 2px solid #295CA8 !important;
+        // padding: 5px;
+        // border-radius: 3px;
+        // font-size: small;
+        // color: white !important;
+        // height: 46px;
         background-color: #0A1E35 !important;
         border: 2px solid #295CA8 !important;
         padding: 5px;
+        padding-right: 40px; /* Ensure space for the clear button on the right */
         border-radius: 3px;
         font-size: small;
         color: white !important;
