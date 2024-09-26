@@ -24,10 +24,10 @@
   flex-shrink: 0; /* Prevents the icon from shrinking */
   margin-left: 8px;
 }
-.mat-icon{
-  height: 24px;
-    width: 78px;
-}
+// .mat-icon{
+//   height: 24px;
+//     width: 78px;
+// }
 .highlight-red {
   color: red;
   font-weight: bold;
@@ -61,11 +61,6 @@
 }
 
 
-
-.admin-custom-clear-button {
-
-  right: -15px; /* Adjust based on the padding of the input */
-}
 
   .selector {
     width:140px;

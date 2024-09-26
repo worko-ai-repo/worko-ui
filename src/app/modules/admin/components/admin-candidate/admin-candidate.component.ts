@@ -22,7 +22,7 @@ export interface UserData {
   department: string;
   designation: string;
   Subscribed: string;
-  createdAt:any;
+  createdAt: any;
 
 }
 
@@ -48,7 +48,7 @@ export class AdminCandidateComponent implements AfterViewInit {
   modalTitle: string = "";
   showModal: ModalType | undefined;
 
-  displayedColumns: string[] = ['serialnumber', 'name', 'emailid', 'number','accountcreateddate', 'referralcount', 'companyname', 'department', 'designation', 'action'];
+  displayedColumns: string[] = ['serialnumber', 'name', 'emailid', 'number', 'accountcreateddate', 'referralcount', 'companyname', 'department', 'designation', 'action'];
   candidatesDataSource: MatTableDataSource<UserData>;
   servicesDataSource: MatTableDataSource<UserData>;
   isFilterPopupOpen: boolean = true;
@@ -63,8 +63,8 @@ export class AdminCandidateComponent implements AfterViewInit {
   private searchTerms = new Subject<string>();
   searchTerm: string = '';
   searchQuery: string = '';
-  sortOrder:any;
-  userExperience:any;
+  sortOrder: any;
+  userExperience: any;
   status: any;
   fromDate: any = '';
   toDate: any = '';
@@ -119,12 +119,12 @@ export class AdminCandidateComponent implements AfterViewInit {
   }
   async getAllUserData() {
     this.spinner.show()
-    await this.adminService.getAllUserData('CAND', this.pageSize, this.lastKey, this.searchTerm,this.sortOrder,this.fromDate,this.toDate).then(async (response: any) => {
+    await this.adminService.getAllUserData('CAND', this.pageSize, this.lastKey, this.searchTerm, this.sortOrder, this.fromDate, this.toDate).then(async (response: any) => {
       if (response) {
         this.nameslist = response.data;
         this.lastKey = response.pagination.lastKey;
         this.pageSize = response.pagination.pageSize;
-      //  await  this.sortCandidatesByDate('desc'); // Sort it in descending order when the component initializes
+        //  await  this.sortCandidatesByDate('desc'); // Sort it in descending order when the component initializes
         //console.log("Issue list:", this.issueList);
         this.updateData(this.nameslist);
       }
@@ -189,7 +189,7 @@ export class AdminCandidateComponent implements AfterViewInit {
 
     this.referralPaginator.pageIndex = 0;  // Reset to the first page
     this.pageSize = 25;                    // Set the pageSize to 25
-     this.referralPaginator.pageSize = 25;  // Update the UI's pageSize
+    this.referralPaginator.pageSize = 25;  // Update the UI's pageSize
     this.lastKey = "";
     this.searchTerm = ""
     this.searchQuery = "";
@@ -216,13 +216,12 @@ export class AdminCandidateComponent implements AfterViewInit {
 
     if (this.filterModel.toDate) {
       const dateObject = new Date(this.filterModel.toDate);
+
+      // Set the time to 23:59:59.999 for the end of the day
+      dateObject.setHours(23, 59, 59, 999);
       // Adjusting time so that UTC conversion in toISOString() doesn't affect the date
       dateObject.setMinutes(dateObject.getMinutes() - dateObject.getTimezoneOffset());
-      // Set the time to 23:59:59:999
-      dateObject.setHours(23);
-      dateObject.setMinutes(59);
-      dateObject.setSeconds(59);
-      dateObject.setMilliseconds(999);
+
       const isoString = dateObject.toISOString();
 
       this.toDate = isoString;
@@ -257,78 +256,78 @@ export class AdminCandidateComponent implements AfterViewInit {
     this.getAllUserData();
   }
 
-    //backend sorting code
+  //backend sorting code
   onSort(sort: Sort): void {
- 
-    if(sort.active==='accountcreateddate'){
-    this.lastKey = "";
-    this.pageSize = 25;
-    this.sortOrder = this.sortOrder === 'ascending' ? 'descending' : 'ascending';
-    sort.direction === 'asc' ? 'ascending' : 'descending';
-    this.sort.direction = sort.direction;
-    // Call API with the new sort direction
-    this.getAllUserData();
+
+    if (sort.active === 'accountcreateddate') {
+      this.lastKey = "";
+      this.pageSize = 25;
+      this.sortOrder = this.sortOrder === 'ascending' ? 'descending' : 'ascending';
+      sort.direction === 'asc' ? 'ascending' : 'descending';
+      this.sort.direction = sort.direction;
+      // Call API with the new sort direction
+      this.getAllUserData();
     }
   }
 
-    //frontend sorting code
+  //frontend sorting code
   // onSort(event: Sort) {
   //   const active = event.active;
   //   const direction = event.direction;
-  
+
   //   if (active === 'accountcreateddate') {
   //     this.sortCandidatesByDate(direction);
   //   }
   //     // Update data source
   // this.candidatesDataSource.data = this.nameslist;
   // }
-  
+
   // sortCandidatesByDate(direction: string) {
 
   //   this.nameslist= this.nameslist.sort((a, b) => {
   //     const dateA = new Date(a.createdAt).getTime();
   //     const dateB = new Date(b.createdAt).getTime();
-  
+
   //     if (direction === 'asc') {
-      
+
   //       return dateA - dateB; // Ascending order
   //     } else {
-     
+
   //       return dateB - dateA; // Descending order
   //     }
   //   });
   // }
-  
+
 
 
   async viewRow(userData: any) {
     this.spinner.show()
     await this.adminService.getSubscriptionsByEmailId(userData.email).then(async (response: any) => {
- 
+
       // if(response && response.length > 0){
       this.spinner.hide()
       this.userSubscription = response
-      if(userData.isCandidateFresher !== undefined && userData.isCandidateFresher){
-        this.status="Yes";
-      }else if (userData.isCandidateFresher !== undefined && !userData.isCandidateFresher){
-        this.status="No";
-      }else{
-        this.status="Candidate profile data Not Filled";
+      if (userData.isCandidateFresher !== undefined && userData.isCandidateFresher) {
+        this.status = "Yes";
+      } else if (userData.isCandidateFresher !== undefined && !userData.isCandidateFresher) {
+        this.status = "No";
+      } else {
+        this.status = "Candidate profile data Not Filled";
       }
-    //   this.userExperience= await this.adminService.getUserExperienceByEmailId(userData.email)  
-    // // Determine status
+      //   this.userExperience= await this.adminService.getUserExperienceByEmailId(userData.email)  
+      // // Determine status
 
-    // if (this.userExperience.length > 0 && this.userExperience.isEmailVerified==='false') {
-    //   this.status = "Yes";
-    // } else if (this.userExperience.length ===0) {
-    //   this.status = "No";
-    // } else {
-    //   this.status = "Company EmailID Verified";
-    // }
-        
-        
+      // if (this.userExperience.length > 0 && this.userExperience.isEmailVerified==='false') {
+      //   this.status = "Yes";
+      // } else if (this.userExperience.length ===0) {
+      //   this.status = "No";
+      // } else {
+      //   this.status = "Company EmailID Verified";
+      // }
+
+
       this.openModal(ModalType.ADMINDETAIL_POPUP, "", "", userData, this.userSubscription, this.status);
-      
+
 
     }).catch((error: any) => {
       this.spinner.hide()
@@ -356,13 +355,13 @@ export class AdminCandidateComponent implements AfterViewInit {
   * @param {string} [title = ""]
   * @returns {void}
   */
-  openModal(modalType: ModalType, message: string = "", title: string = "", userData: any = null, userSubscription: any = null,userExperience:any=null): void {
+  openModal(modalType: ModalType, message: string = "", title: string = "", userData: any = null, userSubscription: any = null, userExperience: any = null): void {
     this.showModal = modalType;
     this.modalMessage = message;
     this.modalTitle = title;
     this.userData = userData;
     this.userSubscription = userSubscription;
-    this.userExperience=userExperience
+    this.userExperience = userExperience
     this.modal.open();
   }
   /**

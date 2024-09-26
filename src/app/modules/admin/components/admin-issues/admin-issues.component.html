@@ -181,8 +181,7 @@
                   <td mat-cell *matCellDef="let row" class="small-column">
                     <div class="id-container">
                       <span class="text-overflow">{{ row.contextId }}</span>
-                      <mat-icon 
-                        style="cursor: pointer;" 
+                      <mat-icon  class="copy-icon"
                         (click)="copyToClipboard(row.contextId)">
                         {{ copiedContextId === row.contextId ? 'check' : 'content_copy' }}
                         <!-- {{ copiedContextId === row.contextId ? 'check' : 'content_paste' }} -->
