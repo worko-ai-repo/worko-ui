@@ -47,20 +47,8 @@
 
 .copy-icon {
   cursor: pointer;
-  flex-shrink: 0; /* Prevents the icon from shrinking */
-  margin-left: 8px;
-}
-.mat-icon{
-  height: 24px;
+  // flex-shrink: 0; /* Prevents the icon from shrinking */
+  // margin-left: 8px;
+    height: 24px;
     width: 78px;
-}
-
-.custom-clear-button {
-  background-color: transparent;
-  color: #FFFFFF;
-  border: none;
-  border-radius: 50%;
-  position: relative;
-  top: -36px;
-  right: -63%;
 }
