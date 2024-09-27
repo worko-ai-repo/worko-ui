@@ -175,15 +175,38 @@ export class MiniJobPortalJobDescriptionComponent {
 
   }
 
+  // Function to concatenate job description and skills
+  getFormattedJobDescription(jobDetails: any) {
+    // Combining all the skills arrays into a single array
+    let allSkills = [
+      ...(jobDetails.technicalSkills || []),
+      ...(jobDetails.coreSkills || []),
+      ...(jobDetails.softSkills || []),
+      ...(jobDetails.mislaneiousSkills || [])
+    ].join(', ');  // Joining all skills with a comma and space
+
+    // Extracting experience range
+    let experience = `${jobDetails.experienceRange?.min} - ${jobDetails.experienceRange?.max} years of experience`;
+
+    // Construct the jdExtracted field with job description and skills
+    let jdExtracted = `
+    ${jobDetails.jobDescription || ''}
+     \n\nExperience Required: ${experience}
+    \n\nSkills Required: ${allSkills}
+  `;
+
+    return jdExtracted.trim();  // Return the concatenated job description and skills
+  }
 
   createRequest() {
-
 
     if (this.jobDescriptionDetails.companyId) {
       let data = {
         "companyId": this.jobDescriptionDetails.companyId,
         "jobUrl": window.location.href,
-        "jdExtracted": this.jobDescriptionDetails.jobDescription 
+        //"jdExtracted": this.jobDescriptionDetails.jobDescription 
+        "jdExtracted": this.getFormattedJobDescription(this.jobDescriptionDetails)
+
       }
 
       this.companyListing.createReferralRequest(this.emailAddress, data).then(async (response) => {
@@ -322,7 +345,7 @@ export class MiniJobPortalJobDescriptionComponent {
       let response = await this.companyListing.getJobByJobID(jobID)
       if (response) {
         this.jobDescriptionDetails = response[0]
-        this.companyName=this.jobDescriptionDetails.companyDetails.name.toLowerCase()
+        this.companyName = this.jobDescriptionDetails.companyDetails.name.toLowerCase()
 
         this.getJobByCompanyId(this.jobDescriptionDetails.companyId, jobID)
 

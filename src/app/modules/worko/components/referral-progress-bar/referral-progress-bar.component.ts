@@ -113,10 +113,6 @@ export class ReferralProgressBarComponent implements OnChanges {
     // Toggle the visibility of the email content
     this.showEmailContent = true;
   }
-  routeToReferral(){
-      this.router.navigate(['candidate/referral']);
-  }
-
 
   //   getScore() {
   //     this.companyListing.getMatchingScore(this.emailId, this.referralId).then(async (response) => {

@@ -165,10 +165,10 @@ export class MiniJobPortalJobListingComponent {
         this.router.navigate(['/auth/logout']);
       } else {
 
-        this.spinner.hide();
-        this.successmessage = "Something went wrong. Please try again after sometime"
-        this.successtitle = "Error"
-        this.openModal(ModalType.SUCCESS_MESSAGE)
+        // this.spinner.hide();
+        // this.successmessage = "Something went wrong. Please try again after sometime"
+        // this.successtitle = "Error"
+        // this.openModal(ModalType.SUCCESS_MESSAGE)
       }
     }
 
