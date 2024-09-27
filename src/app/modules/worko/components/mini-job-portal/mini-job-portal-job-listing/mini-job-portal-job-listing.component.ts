@@ -67,12 +67,12 @@ export class MiniJobPortalJobListingComponent {
 
   async ngOnInit() {
     this.initializeForm();
-    
+
     //extract the compant name from url
     await this.route.url.subscribe(async urlSegments => {
       const fullCategory = urlSegments.map(segment => segment.path).join('/');
       this.companyName = await this.extractCategory(fullCategory);
- 
+
     });
 
     await this.getCompanyDetails()
@@ -142,27 +142,34 @@ export class MiniJobPortalJobListingComponent {
   }
 
   async getAllJob() {
+    try {
+      this.spinner.show()
+      let response = await this.companyListing.getAllJob();
 
-    this.spinner.show()
-    let response = await this.companyListing.getAllJob();
- 
-    if (response) {
-   
-      // Ensure that response is an array or extract the array of jobs
-      if (Array.isArray(response.data)) {
-        this.allJobList = response.data; // If response is already an array
-        // Now filter by company name
-        await this.filterByCompanyName(this.companyName);
+      if (response) {
+
+        // Ensure that response is an array or extract the array of jobs
+        if (Array.isArray(response.data)) {
+          this.allJobList = response.data; // If response is already an array
+          // Now filter by company name
+          await this.filterByCompanyName(this.companyName);
 
 
 
+        }
       }
-    } else {
+    } catch (error: any) {
+      this.spinner.hide()
+      if (error.status == 404) {
 
-      this.spinner.hide();
-      this.successmessage = "Something went wrong. Please try again after sometime"
-      this.successtitle = "Error"
-      this.openModal(ModalType.SUCCESS_MESSAGE)
+        this.router.navigate(['/auth/logout']);
+      } else {
+
+        this.spinner.hide();
+        this.successmessage = "Something went wrong. Please try again after sometime"
+        this.successtitle = "Error"
+        this.openModal(ModalType.SUCCESS_MESSAGE)
+      }
     }
 
 
@@ -171,7 +178,7 @@ export class MiniJobPortalJobListingComponent {
   }
 
   async filterByCompanyName(companyName: any) {
-  
+
     if (Array.isArray(this.allJobList) && companyName) {
       // const filteredJobs = this.allJobList.filter((job: any) => 
       //   job.companyDetails?.name?.toLowerCase() === companyName.toLowerCase()
@@ -186,7 +193,7 @@ export class MiniJobPortalJobListingComponent {
 
 
       if (this.filteredJobs.length > 0) {
-     
+
         // Extract company ID and perform further operations
         const companyID = this.filteredJobs[0].companyId;
         this.companyID = companyID;
@@ -199,7 +206,7 @@ export class MiniJobPortalJobListingComponent {
         // Fetch jobs by company ID
         await this.getJobByCompanyID();
       } else {
-       
+
         this.spinner.hide();
         // Maximize the referral form if no jobs are found
         this.isResponseEmpty = true;
@@ -437,7 +444,10 @@ export class MiniJobPortalJobListingComponent {
   }
 
   cancel() {
+
     this.modal.cancel();
+    this.router.navigate(['/companies']);
+
   }
 
   completeProfile() {

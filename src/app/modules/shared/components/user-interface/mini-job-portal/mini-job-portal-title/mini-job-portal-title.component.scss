@@ -6,7 +6,8 @@
 
     background-color: white;
     .title-main-div{
-        margin: 1rem;
+        margin-right: 1rem;
+        margin-left: 1rem;
     }
 }
 
@@ -43,12 +44,13 @@
     color: black;
     text-transform: capitalize;
     // font-size: calc(1vw + 8px);
-
-}
-
-svg{
+   svg {
+    flex-shrink: 0;
     fill: #0bbcf2;
+    }
+
 }
+
 
 .separator {
     color: black;

@@ -36,6 +36,11 @@
     // background: transparent;
   }
 }
+.job-container{
+  border: 1px solid #f8f5f5;
+  border-radius: 10px;
+  height: fit-content;
+}
 
 .cardidate-card {
   width: 100%;
@@ -77,7 +82,7 @@
 
 label {
   background: linear-gradient(180deg, #50D5FF 12.5%, #D1E4FB 76.04%);
-  font-size: 25px;
+  font-size: 22px;
   font-weight: 700;
   margin-bottom: 5px;
   background-clip: text;
@@ -110,18 +115,18 @@ textarea {
   resize: vertical;
 }
 
-// .btn-next {
-//   width: 208px;
-//   height: 47px;
-//   padding: 0.5rem;
-//   font-size: 20px;
-//   font-weight: 500;
-// }
+.btn-next {
+  width: 208px;
+  height: 47px;
+  padding: 0.5rem;
+  font-size: 20px;
+  font-weight: 500;
+}
 
-// .btn:disabled {
-//   background-color: #36D0FF;
-//   color: gray;
-// }
+.btn:disabled {
+  background-color: #36D0FF;
+  color: gray;
+}
 
 .anchor-button {
 
@@ -169,9 +174,14 @@ button:hover {
   /* Add space between the icons */
 
   .career-icon {
-    width: 25px;
-    height: 25px;
+    width: 22px;
+    height: 20px;
+    margin-bottom: 4px;
   }
+  img {
+    max-width: 100%;
+    max-height: 100%;
+}
 
 }
 

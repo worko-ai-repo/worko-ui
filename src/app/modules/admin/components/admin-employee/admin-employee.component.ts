@@ -18,6 +18,7 @@ export interface UserData {
   Phonenumber: string;
   companyName: string;
   companyEmailIdVerifiedStatus: string;
+  createdAt: any
   // referreeDesignation: string;
   // referreeDepartment: string;
   // referralCount: string;
@@ -50,7 +51,7 @@ export class AdminEmployeeComponent {
   private searchTerms = new Subject<string>();
   searchTerm: string = '';
   searchQuery: string = '';
-  displayedColumns: string[] = ['serialnumber', 'name', 'emailId', 'Phonenumber','accountcreateddate', 'companyName', 'companyEmailIdVerifiedStatus', 'action'];
+  displayedColumns: string[] = ['serialnumber', 'name', 'emailId', 'Phonenumber', 'accountcreateddate', 'companyName', 'companyEmailIdVerifiedStatus', 'action'];
   candidatesDataSource: MatTableDataSource<UserData>;
   isFilterPopupOpen: boolean = true;
   isDropdownOpen: boolean = false;
@@ -60,8 +61,8 @@ export class AdminEmployeeComponent {
   userReferralData: any
   successmessage: string = '';
   successtitle: string = '';
-  sortOrder:any;
-  status:any;
+  sortOrder: any;
+  status: any;
   fromDate: any = '';
   toDate: any = '';
   filterModel: any = {
@@ -90,13 +91,14 @@ export class AdminEmployeeComponent {
   }
   async getAllUserData() {
     this.spinner.show()
-    await this.adminService.getAllUserData('EMP', this.pageSize, this.lastKey, this.searchTerm,this.sortOrder,this.fromDate,this.toDate).then(async (response: any) => {
+    await this.adminService.getAllUserData('EMP', this.pageSize, this.lastKey, this.searchTerm, this.sortOrder, this.fromDate, this.toDate).then(async (response: any) => {
       if (response) {
         this.spinner.hide()
         this.nameslist = response.data;
         this.lastKey = response.pagination.lastKey;
         this.pageSize = response.pagination.pageSize;
         //console.log("Issue list:", this.issueList);
+        // this.sortCandidatesByDate("desc")
         this.updateData(this.nameslist);
       }
     }).catch((error: any) => {
@@ -115,7 +117,7 @@ export class AdminEmployeeComponent {
     });
 
   }
- 
+
   updateData(newData: UserData[]) {
     this.candidatesDataSource.data = newData;
     if (this.referralPaginator) {
@@ -184,17 +186,45 @@ export class AdminEmployeeComponent {
   }
 
   onSort(sort: Sort): void {
-  
-    if(sort.active==='accountcreateddate'){
-    this.lastKey = "";
-    this.pageSize = 25;
-    this.sortOrder = this.sortOrder === 'ascending' ? 'descending' : 'ascending';
-    sort.direction === 'asc' ? 'ascending' : 'descending';
-    this.sort.direction = sort.direction;
-    // Call API with the new sort direction
-    this.getAllUserData();
+
+    if (sort.active === 'accountcreateddate') {
+      this.lastKey = "";
+      this.pageSize = 25;
+      this.sortOrder = this.sortOrder === 'ascending' ? 'descending' : 'ascending';
+      sort.direction === 'asc' ? 'ascending' : 'descending';
+      this.sort.direction = sort.direction;
+      // Call API with the new sort direction
+      this.getAllUserData();
     }
   }
+
+  // //frontend sorting code
+  // onSort(event: Sort) {
+  //   const active = event.active;
+  //   const direction = event.direction;
+
+  //   if (active === 'accountcreateddate') {
+  //     this.sortCandidatesByDate(direction);
+  //   }
+  //     // Update data source
+  // this.candidatesDataSource.data = this.nameslist;
+  // }
+
+  // sortCandidatesByDate(direction: string) {
+
+  //   this.nameslist= this.nameslist.sort((a, b) => {
+  //     const dateA = new Date(a.createdAt).getTime();
+  //     const dateB = new Date(b.createdAt).getTime();
+
+  //     if (direction === 'asc') {
+
+  //       return dateA - dateB; // Ascending order
+  //     } else {
+
+  //       return dateB - dateA; // Descending order
+  //     }
+  //   });
+  // }
 
   async viewRow(userData: any) {
     this.spinner.show()
@@ -208,17 +238,17 @@ export class AdminEmployeeComponent {
         this.userReferralData = response
         //console.log(this.userReferralData)
         //console.log(this.userReferralData)
-    
+
         // console.log(this.userData.isCandidateFresher);  // Log to check the values
         // console.log(this.userData.candidateExperience); // Log to check the values
-        
+
         // if (this.userData && (this.userData.isCandidateFresher !== undefined || this.userData.candidateExperience !== undefined)) {
         //   this.status = "Yes";  // At least one of the properties exists
         // } else {
         //   this.status = "No";   // Neither of the properties exists
         // }
-        
-        
+
+
         this.openModal(ModalType.ADMINDETAIL_POPUP, "", "", userData, this.userExperience, this.userReferralData);
       });
 
@@ -253,8 +283,13 @@ export class AdminEmployeeComponent {
 
     if (this.filterModel.toDate) {
       const dateObject = new Date(this.filterModel.toDate);
+
+      // Set the time to 23:59:59.999 for the end of the day
+      dateObject.setHours(23, 59, 59, 999);
+
       // Adjusting time so that UTC conversion in toISOString() doesn't affect the date
       dateObject.setMinutes(dateObject.getMinutes() - dateObject.getTimezoneOffset());
+
       const isoString = dateObject.toISOString();
       this.toDate = isoString;
     } else {
