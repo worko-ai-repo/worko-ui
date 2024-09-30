@@ -107,7 +107,7 @@ export class CompanyListingService {
  * @returns {Promise<any>}
    */
   getAllJob(): Promise<any> {
-    let url = `${API_URL}admin/jobs/?status=PUBLISHED`;
+    let url = `${API_URL}job/?status=PUBLISHED`;
 
 
     return this.http.get(url, this.authService.getHttpOptions()).toPromise();
@@ -118,8 +118,8 @@ export class CompanyListingService {
     *
  * @returns {Promise<any>}
    */
-  getJobByCompanyID(companyID: any,location?:any,department?:any,salaryRange?:any): Promise<any> {
-    let url = `${API_URL}admin/jobs/?status=PUBLISHED`;
+  getJobByCompanyID(companyID: any,location?:any,department?:any,softSkills?:any,coreSkills?:any,salary?:any,experience?:any): Promise<any> {
+    let url = `${API_URL}job/?status=PUBLISHED`;
     if (companyID) {
       url += `&companyId=${companyID}`;
 
@@ -130,8 +130,21 @@ export class CompanyListingService {
     if(department){
       url+=`&department=${department}`
     }
-    if(salaryRange){
-      url+=`&salaryRange=${salaryRange}`
+    if(softSkills){
+      url+=`&softSkills=${softSkills}`
+    }
+    if(coreSkills){
+      url+=`&coreSkills=${coreSkills}`
+    }
+    if(salary){
+      url+=`&minSalary=${salary.minSalary}`
+       url+=`&maxSalary=${salary.maxSalary}`
+
+    }
+    if(experience){
+      url+=`&maxExperience=${experience.minSalary}`
+      //  url+=`&maxExperience=${experience.maxSalary}`
+
     }
     return this.http.get(url, this.authService.getHttpOptions()).toPromise();
    
@@ -142,7 +155,7 @@ export class CompanyListingService {
  * @returns {Promise<any>}
    */
     getJobByJobID(jobID: any): Promise<any> {
-      let url = `${API_URL}admin/jobs/${jobID}`;
+      let url = `${API_URL}job/${jobID}`;
      
       return this.http.get(url, this.authService.getHttpOptions()).toPromise();
      

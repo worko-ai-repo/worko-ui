@@ -11,61 +11,111 @@
                 <path
                     d="M201.4 374.6c12.5 12.5 32.8 12.5 45.3 0l160-160c12.5-12.5 12.5-32.8 0-45.3s-32.8-12.5-45.3 0L224 306.7 86.6 169.4c-12.5-12.5-32.8-12.5-45.3 0s-12.5 32.8 0 45.3l160 160z" />
             </svg>
-            <svg class="uparrow" (click)="toggleJobContainer()" *ngIf="!isJobListing"
-                xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512">
+            <svg class="uparrow" (click)="toggleJobContainer()" *ngIf="!isJobListing" xmlns="http://www.w3.org/2000/svg"
+                viewBox="0 0 448 512">
                 <path
                     d="M201.4 137.4c12.5-12.5 32.8-12.5 45.3 0l160 160c12.5 12.5 12.5 32.8 0 45.3s-32.8 12.5-45.3 0L224 205.3 86.6 342.6c-12.5 12.5-32.8 12.5-45.3 0s-12.5-32.8 0-45.3l160-160z" />
             </svg>
         </div>
     </div>
 
-    <div class="job-container"  *ngIf="isJobListing">
+    <div class="job-container" *ngIf="isJobListing">
         <!-- Row containing select inputs and job listing -->
-        <div class="row mt-3" *ngIf="jobDetails.length>0 ;else noJobListing" >
+        <div class="row mt-3" *ngIf="jobDetails.length>0 ;else noJobListing">
             <!-- Column for the select inputs (Location, Department, Salary) -->
             <div class="col-md-3">
                 <!-- Location Select -->
-                <div class="mb-5">
-                  <select class="selector form-select" name="location" id="location" [(ngModel)]="selectedLocation"   (ngModelChange)="getJobsByLocation($event)">
-                    <option value="">Location</option>
-                    <option *ngFor="let location of locations" [value]="location">{{ location }}</option>
-                  </select>
+                <div class="mb-4">
+                    <select class="selector form-select" name="location" id="location" [(ngModel)]="selectedLocation"
+                        (ngModelChange)="getJobsByLocation($event)">
+                        <option value="">Location</option>
+                        <option *ngFor="let location of locations" [value]="location">{{ location }}</option>
+                    </select>
                 </div>
-              
+
                 <!-- Department Select -->
-                <div class="mb-5">
-                  <select class="selector form-select" name="department" id="department" [(ngModel)]="selectedDepartment"   (ngModelChange)="getJobsByDepartment($event)">
-                    <option value="">Department</option>
-                    <option *ngFor="let department of departments" [value]="department">{{ department }}</option>
-                  </select>
+                <div class="mb-4">
+                    <select class="selector form-select" name="department" id="department"
+                        [(ngModel)]="selectedDepartment" (ngModelChange)="getJobsByDepartment($event)">
+                        <option value="">Department</option>
+                        <option *ngFor="let department of departments" [value]="department">{{ department }}</option>
+                    </select>
                 </div>
-              
+
                 <!-- Salary Select -->
-                <!-- <div class="mb-5">
-                  <select class="selector form-select" name="salary" id="salary" [(ngModel)]="selectedSalary"   (ngModelChange)="getJobsBySalary($event)">
-                    <option value="">Salary</option>
-                    <option *ngFor="let salary of salaryRanges" [value]="salary">{{ salary }}</option>
-                  </select>
+                <div class="mb-4">
+                    <select class="selector form-select" name="salary" id="salary" [(ngModel)]="selectedSalary"
+                        (ngModelChange)="getJobsBySalary($event)">
+                        <option value="">Salary</option>
+                        <option *ngFor="let range of salaryRanges" [ngValue]="{ minSalary: range.minSalary, maxSalary: range.maxSalary }">
+                            {{ range.label }} <!-- This displays the label correctly -->
+                        </option>
+                    </select>
+                </div>
+
+                <!-- Experience Select -->
+                <div class="mb-4">
+                    <select class="selector form-select" name="experience" id="experience"
+                        [(ngModel)]="selectedExperience" (ngModelChange)="getJobsByExperience($event)">
+                        <option value="">Experience</option>
+                        <!-- <option *ngFor="let experience of experienceRanges" [value]="experience">{{ experience }}
+                        </option> -->
+                        <!-- <option *ngFor="let range of experienceRanges" [ngValue]="{ minSalary: range.minExperience, maxSalary: range.maxExperience }"> -->
+                        <option *ngFor="let range of experienceRanges" [ngValue]="{ minSalary: range.minExperience }">
+                            {{range.label}}
+                        </option>
+
+                    </select>
+                </div>
+
+                <!-- Core Skill Select -->
+                <div class="mb-4">
+                    <select class="selector form-select" name="coreSkill" id="coreSkill" [(ngModel)]="selectedCoreSkill"
+                        (ngModelChange)="getJobsByCoreSkill($event)">
+                        <option value="">CoreSkill</option>
+                        <option *ngFor="let coreSkill of coreSkills" [value]="coreSkill">{{ coreSkill }}</option>
+                    </select>
+                </div>
+
+                <!-- Soft Skill Select -->
+                <div class="mb-4">
+                    <select class="selector form-select" name="softSkill" id="softSkill" [(ngModel)]="selectedSoftSkill"
+                        (ngModelChange)="getJobsBySoftSkill($event)">
+                        <option value="">SoftSkill</option>
+                        <option *ngFor="let softSkill of softSkills" [value]="softSkill">{{ softSkill }}</option>
+                    </select>
+                </div>
+
+                <!-- Technical Skill Select -->
+                <!-- <div class="mb-4">
+                    <select class="selector form-select" name="technicalSkill" id="technicalSkill"
+                        [(ngModel)]="selectedTechnicalSkill" (ngModelChange)="getJobsByTechnicalSkill($event)">
+                        <option value="">Technical Skill</option>
+                        <option *ngFor="let technicalSkill of technicalSkills" [value]="technicalSkill">{{
+                            technicalSkill }}</option>
+                    </select>
                 </div> -->
-              </div>
-              
+
+            </div>
+
 
             <!-- Column for the job listing -->
             <div class="col-md-9 ">
 
-                <div class="job-listing-div"  *ngFor="let job of filteredJobs">
+                <div class="job-listing-div" *ngFor="let job of filteredJobs">
                     <div class="row align-items-center">
                         <!-- Image on the left -->
                         <div class="col-lg-2 col-sm-4 mt-2 text-center">
                             <div class="img-div">
                                 <!-- <img [src]="job.companyDetails.companyLogo" alt="logo" class="company-img"> -->
                                 <ng-container *ngIf="job.companyDetails.logo; else useUrlLogo">
-                                    <img src="assets/company-logo/{{job.companyDetails.logo}}" class="company-img" alt="logo">
-                                  </ng-container>
-                                  
-                                  <ng-template #useUrlLogo>
+                                    <img src="assets/company-logo/{{job.companyDetails.logo}}" class="company-img"
+                                        alt="logo">
+                                </ng-container>
+
+                                <ng-template #useUrlLogo>
                                     <img src="{{ job.companyDetails.logoUrl }}" class="company-img" alt="logo">
-                                  </ng-template>
+                                </ng-template>
                             </div>
                         </div>
                         <!-- Job Title, Location, Experience -->
@@ -95,7 +145,8 @@
                                         </svg>
 
 
-                                        <span class="experience ms-2">  Experience: {{ job.experienceRange.min }} - {{ job.experienceRange.max }} 
+                                        <span class="experience ms-2"> Experience: {{ job.experienceRange.min }} - {{
+                                            job.experienceRange.max }}
                                             {{ job.experienceRange.max <= 1 ? ' year' : ' years' }}</span>
                                     </div>
                                     <!-- Industry Type -->
@@ -116,22 +167,23 @@
                         <div class="col-lg-2 col-sm-2 d-flex justify-content-center align-items-center anchor-button">
                             <a href="#"
                                 (click)="navigateToJobReferral($event,job.companyDetails.name, job.jobTitle,job.id)"
-                                class="btn-get-referral" >Get Referral</a>
+                                class="btn-get-referral">Get Referral</a>
                         </div>
                     </div>
                     <hr class="separator">
                 </div>
                 <div *ngIf="filteredJobs.length===0">
-                  <p> No jobs found matching your selected filters. Please adjust the filters and try again.</p>
+                    <p> No jobs found matching your selected filters. Please adjust the filters and try again.</p>
                 </div>
             </div>
 
 
         </div>
-        
-    <ng-template #noJobListing>
-        <p>Currently, this job isn't listed on our website. Please provide the job URL and description in the fields above to request a referral.</p>
-      </ng-template>
+
+        <ng-template #noJobListing>
+            <p>Currently, this job isn't listed on our website. Please provide the job URL and description in the fields
+                above to request a referral.</p>
+        </ng-template>
     </div>
 
 

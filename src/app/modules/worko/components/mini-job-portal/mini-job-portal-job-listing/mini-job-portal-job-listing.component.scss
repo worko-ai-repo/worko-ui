@@ -193,7 +193,7 @@ button:hover {
   /* Add space between the icons */
 
   .career-icon {
-    width: 22px;
+   // width: 22px;
     height: 20px;
     margin-bottom: 4px;
     // z-index: 1000;
@@ -237,6 +237,9 @@ button:hover {
       img {
         width: 80%;
       }
+    }
+    .gradient-left1 {
+      top: 500px;
     }
   }
 }

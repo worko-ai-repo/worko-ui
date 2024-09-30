@@ -85,6 +85,7 @@
                 font-size: 1em;
                 padding: 11px;
                 color: white;
+                width:-webkit-fill-available;
                 svg{
                     flex-shrink: 0;
                 }
@@ -180,6 +181,11 @@
         .card-title {
             font-size: 20px;
         }
+        .job-title {
+            display: flex;
+            justify-content: center;
+        }
+
 
         // .details-row {
 
