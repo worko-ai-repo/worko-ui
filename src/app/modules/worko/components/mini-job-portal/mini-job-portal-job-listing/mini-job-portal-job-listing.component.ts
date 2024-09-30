@@ -162,7 +162,7 @@ export class MiniJobPortalJobListingComponent {
       this.spinner.hide()
       if (error.status == 404) {
 
-        this.router.navigate(['/auth/logout']);
+      this.router.navigate(['/auth/logout']);
       } else {
 
         // this.spinner.hide();
@@ -328,6 +328,7 @@ export class MiniJobPortalJobListingComponent {
 
         if (count == 0) {
           this.showsubscriptionPlan = true;
+          this.openModal(ModalType.SUCCESS_MESSAGE);
 
         }
         else {
@@ -404,7 +405,7 @@ export class MiniJobPortalJobListingComponent {
     })
       .catch(error => {
         if (error.status == 404) {
-          this.router.navigate(['/auth/logout']);
+        this.router.navigate(['/auth/logout']);
         } else if (error.status == 401) {
 
           this.router.navigate(['/']);
@@ -425,7 +426,7 @@ export class MiniJobPortalJobListingComponent {
         this.openModal(ModalType.SUCCESS_MESSAGE);
         break;
       case 404:
-        this.router.navigate(['/auth/logout']);
+       this.router.navigate(['/auth/logout']);
         break;
       case 401:
         this.router.navigate(['/']);

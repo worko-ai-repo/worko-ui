@@ -147,6 +147,7 @@ export class MiniJobPortalJobDescriptionComponent {
 
       if (count == 0) {
         this.showsubscriptionPlan = true;
+        this.openModal(ModalType.SUCCESS_MESSAGE);
 
       }
       else {
@@ -175,8 +176,18 @@ export class MiniJobPortalJobDescriptionComponent {
 
   }
 
+  stripHtmlTags(html: string): string {
+    const tempElement = document.createElement('div');
+    tempElement.innerHTML = html;
+    return tempElement.innerText || tempElement.textContent || '';
+  }
+
   // Function to concatenate job description and skills
-  getFormattedJobDescription(jobDetails: any) {
+  async getFormattedJobDescription(jobDetails: any) {
+    
+    //convert job Description from HTML to Plain Text
+    const jobDescriptionPlainText = await this.stripHtmlTags(jobDetails.jobDescription || '');
+
     // Combining all the skills arrays into a single array
     let allSkills = [
       ...(jobDetails.technicalSkills || []),
@@ -190,7 +201,7 @@ export class MiniJobPortalJobDescriptionComponent {
 
     // Construct the jdExtracted field with job description and skills
     let jdExtracted = `
-    ${jobDetails.jobDescription || ''}
+    ${jobDescriptionPlainText}
      \n\nExperience Required: ${experience}
     \n\nSkills Required: ${allSkills}
   `;

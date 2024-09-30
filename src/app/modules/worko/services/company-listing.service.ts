@@ -107,7 +107,7 @@ export class CompanyListingService {
  * @returns {Promise<any>}
    */
   getAllJob(): Promise<any> {
-    let url = `${API_URL}job/?status=PUBLISHED`;
+    let url = `${API_URL}admin/jobs/?status=PUBLISHED`;
 
 
     return this.http.get(url, this.authService.getHttpOptions()).toPromise();
@@ -119,7 +119,7 @@ export class CompanyListingService {
  * @returns {Promise<any>}
    */
   getJobByCompanyID(companyID: any,location?:any,department?:any,softSkills?:any,coreSkills?:any,salary?:any,experience?:any): Promise<any> {
-    let url = `${API_URL}job/?status=PUBLISHED`;
+    let url = `${API_URL}admin/jobs/?status=PUBLISHED`;
     if (companyID) {
       url += `&companyId=${companyID}`;
 
@@ -155,7 +155,7 @@ export class CompanyListingService {
  * @returns {Promise<any>}
    */
     getJobByJobID(jobID: any): Promise<any> {
-      let url = `${API_URL}job/${jobID}`;
+      let url = `${API_URL}admin/jobs/${jobID}`;
      
       return this.http.get(url, this.authService.getHttpOptions()).toPromise();
      
