@@ -61,7 +61,7 @@
                         <!-- <option *ngFor="let experience of experienceRanges" [value]="experience">{{ experience }}
                         </option> -->
                         <!-- <option *ngFor="let range of experienceRanges" [ngValue]="{ minSalary: range.minExperience, maxSalary: range.maxExperience }"> -->
-                        <option *ngFor="let range of experienceRanges" [ngValue]="{ minSalary: range.minExperience }">
+                        <option *ngFor="let range of experienceRanges" [ngValue]="{ maxExperience: range.maxExperience }">
                             {{range.label}}
                         </option>
 
@@ -72,7 +72,7 @@
                 <div class="mb-4">
                     <select class="selector form-select" name="coreSkill" id="coreSkill" [(ngModel)]="selectedCoreSkill"
                         (ngModelChange)="getJobsByCoreSkill($event)">
-                        <option value="">CoreSkill</option>
+                        <option value="">Core Skill</option>
                         <option *ngFor="let coreSkill of coreSkills" [value]="coreSkill">{{ coreSkill }}</option>
                     </select>
                 </div>
@@ -81,20 +81,20 @@
                 <div class="mb-4">
                     <select class="selector form-select" name="softSkill" id="softSkill" [(ngModel)]="selectedSoftSkill"
                         (ngModelChange)="getJobsBySoftSkill($event)">
-                        <option value="">SoftSkill</option>
+                        <option value="">Soft Skill</option>
                         <option *ngFor="let softSkill of softSkills" [value]="softSkill">{{ softSkill }}</option>
                     </select>
                 </div>
 
                 <!-- Technical Skill Select -->
-                <!-- <div class="mb-4">
+                <div class="mb-4">
                     <select class="selector form-select" name="technicalSkill" id="technicalSkill"
                         [(ngModel)]="selectedTechnicalSkill" (ngModelChange)="getJobsByTechnicalSkill($event)">
                         <option value="">Technical Skill</option>
                         <option *ngFor="let technicalSkill of technicalSkills" [value]="technicalSkill">{{
                             technicalSkill }}</option>
                     </select>
-                </div> -->
+                </div>
 
             </div>
 

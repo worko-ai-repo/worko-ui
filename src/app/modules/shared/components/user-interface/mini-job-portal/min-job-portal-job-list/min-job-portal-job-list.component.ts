@@ -30,6 +30,7 @@ export class MinJobPortalJobListComponent {
   selectedSoftSkill: any = "";
   selectedTechnicalSkill: any = "";
   salaryRanges = [
+    { label: 'Less than 1 LPA', minSalary: 0, maxSalary: 99999 },
     { label: '1 LPA - 3 LPA', minSalary: 100000, maxSalary: 300000 },
     { label: '4 LPA - 6 LPA', minSalary: 400000, maxSalary: 600000 },
     { label: '7 LPA - 10 LPA', minSalary: 700000, maxSalary: 1000000 },
@@ -38,7 +39,7 @@ export class MinJobPortalJobListComponent {
     { label: '21 LPA - 30 LPA', minSalary: 2100000, maxSalary: 3000000 },
   ];
   experienceRanges = [
-    { label: 'Fresher', minExperience: 0 }
+    { label: 'Fresher', maxExperience: 0 }
   ];
   // experienceRanges = [
   //   { label: '0 - 1 Year', minExperience: 0, maxExperience: 1 },
@@ -73,9 +74,9 @@ export class MinJobPortalJobListComponent {
   async ngOnInit(): Promise<void> {
 
     // Dynamically generate the remaining experience ranges
-for (let i = 1; i <= 30; i++) {
-  this.experienceRanges.push({ label: `${i} Year${i > 1 ? 's' : ''}`, minExperience: i });
-}
+    for (let i = 1; i <= 30; i++) {
+      this.experienceRanges.push({ label: `${i} Year${i > 1 ? 's' : ''}`, maxExperience: i });
+    }
   }
 
   populateDropdowns(): void {
@@ -83,13 +84,13 @@ for (let i = 1; i <= 30; i++) {
     this.locations = [...new Set(this.jobListing.map((job: { location: any; }) => this.toTitleCase(job.location)))];
     this.departments = [...new Set(this.jobListing.map((job: { department: any; }) => this.toTitleCase(job.department)))];
     // Extract unique core skills
-    this.coreSkills = [...new Set(this.jobListing.flatMap((job: { coreSkills: string[]; }) => job.coreSkills))];
+    this.coreSkills = [...new Set(this.jobListing.flatMap((job: { coreSkills: string[]; }) => job.coreSkills.map(skill => this.toTitleCase(skill))))];
 
     // Extract unique soft skills
-    this.softSkills = [...new Set(this.jobListing.flatMap((job: { softSkills: string[]; }) => job.softSkills))];
+    this.softSkills = [...new Set(this.jobListing.flatMap((job: { softSkills: string[]; }) =>   job.softSkills.map(skill => this.toTitleCase(skill))))];
 
     // Extract unique technical skills
-    this.technicalSkills = [...new Set(this.jobListing.flatMap((job: { technicalSkills: string[]; }) => job.technicalSkills))];
+    this.technicalSkills = [...new Set(this.jobListing.flatMap((job: { technicalSkills: string[]; }) =>  job.technicalSkills.map(skill => this.toTitleCase(skill))))];
   }
 
   // Helper function to convert to title case
@@ -109,7 +110,7 @@ for (let i = 1; i <= 30; i++) {
 
   async getJobs(): Promise<void> {
 
-    let response = await this.companyListing.getJobByCompanyID(this.jobListing[0]?.companyId, this.selectedLocation, this.selectedDepartment, this.selectedSoftSkill, this.selectedCoreSkill,this.selectedSalary,this.selectedExperience);
+    let response = await this.companyListing.getJobByCompanyID(this.jobListing[0]?.companyId, this.selectedLocation, this.selectedDepartment, this.selectedSoftSkill, this.selectedCoreSkill, this.selectedSalary, this.selectedExperience,this.selectedTechnicalSkill);
     if (response) {
 
       this.filteredJobs = response.data

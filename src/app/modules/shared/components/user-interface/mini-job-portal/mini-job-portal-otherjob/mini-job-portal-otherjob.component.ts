@@ -25,7 +25,7 @@ export class MiniJobPortalOtherjobComponent {
 
   ngOnChanges(changes: SimpleChanges): void {
     if (changes['otherJobDetails'] && changes['otherJobDetails'].currentValue) {
-      this.companyName=this.otherJobDetails[0].companyDetails.name
+      this.companyName=this.otherJobDetails[0].companyDetails.name.toLowerCase()
    
     }
   }
