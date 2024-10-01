@@ -360,12 +360,22 @@ export class MiniJobPortalJobListingComponent {
 
 
   createRequest() {
+    let jobUrl = this.requestForm.value.jobUrl;
+
+    // Extract the domain name from the job URL
+    let domainName = new URL(jobUrl).hostname;
+    
+    // Update the "jobPortal" field with the extracted domain name (e.g., "naukri" from "www.naukri.com")
+    let jobPortal = domainName.split('.')[1];
 
     if (this.companyID) {
       let data = {
         "companyId": this.companyID,
         "jobUrl": this.requestForm.value.jobUrl,
-        "jdExtracted": this.requestForm.value.jobDescription
+        "jdExtracted": this.requestForm.value.jobDescription,
+        "jobId":"null",
+        "jobPortal":jobPortal,
+
       }
 
       this.companyListing.createReferralRequest(this.emailAddress, data).then(async (response) => {
@@ -391,28 +401,8 @@ export class MiniJobPortalJobListingComponent {
     }
   }
 
-  getScore(referralRequestId: string) {
-    this.companyListing.getMatchingScore(this.emailAddress, referralRequestId).then(async (response) => {
-      if (response) {
-        this.requestForm.reset();
-        this.matchingScore = response.matchingScore;
-        this.showLoading = false;
-        this.showScore = true;
-
-        this.openModal(ModalType.SUCCESS_MESSAGE);
-
-      }
-    })
-      .catch(error => {
-        if (error.status == 404) {
-        this.router.navigate(['/auth/logout']);
-        } else if (error.status == 401) {
-
-          this.router.navigate(['/']);
-        }
-        // console.error('Create Employee Error:', error);
-      });
-
+  handleResponse(){
+    this.requestForm.reset();
   }
 
   handleError(error: any) {

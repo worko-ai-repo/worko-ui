@@ -76,7 +76,7 @@
                                 for
                                 Above URL here:</label>
                             <textarea formControlName="jobDescription" minlength="100" id="job-description"
-                                class="job-description  text-white " rows="4"></textarea>
+                                class="job-description  text-white form-control" rows="4"></textarea>
                             <div *ngIf="requestForm.get('jobDescription')?.invalid && (requestForm.get('jobDescription')?.dirty || requestForm.get('jobDescription')?.touched) &&requestForm.get('jobDescription')?.errors?.['notEnoughKeywords']"
                                 class="text-danger">
                                 Please enter a valid job description.
@@ -181,7 +181,7 @@
         <div class="row d-flex align-self-center justify-content-center" *ngIf="showScore">
             <div class="body main-div1">
                 <div class="progress-bar" *ngIf="showScore">
-                    <app-referral-progress-bar [referralId]="referralRequestId"></app-referral-progress-bar>
+                    <app-referral-progress-bar [referralId]="referralRequestId" (response)="handleResponse()" ></app-referral-progress-bar>
                 </div>
 
             </div>

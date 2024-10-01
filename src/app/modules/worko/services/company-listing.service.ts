@@ -107,7 +107,7 @@ export class CompanyListingService {
  * @returns {Promise<any>}
    */
   getAllJob(): Promise<any> {
-    let url = `${API_URL}admin/jobs/?status=PUBLISHED`;
+    let url = `${API_URL}job/?status=PUBLISHED`;
 
 
     return this.http.get(url, this.authService.getHttpOptions()).toPromise();
@@ -118,48 +118,52 @@ export class CompanyListingService {
     *
  * @returns {Promise<any>}
    */
-  getJobByCompanyID(companyID: any,location?:any,department?:any,softSkills?:any,coreSkills?:any,salary?:any,experience?:any): Promise<any> {
-    let url = `${API_URL}admin/jobs/?status=PUBLISHED`;
+  getJobByCompanyID(companyID: any, location?: any, department?: any, softSkills?: any, coreSkills?: any, salary?: any, experience?: any, technicalSkill?: any): Promise<any> {
+    let url = `${API_URL}job/?status=PUBLISHED`;
     if (companyID) {
       url += `&companyId=${companyID}`;
 
     }
-    if(location){
-      url+=`&location=${location}`
+    if (location) {
+      url += `&location=${encodeURIComponent(location)}`
     }
-    if(department){
-      url+=`&department=${department}`
+    if (department) {
+      url += `&department=${encodeURIComponent(department)}`
     }
-    if(softSkills){
-      url+=`&softSkills=${softSkills}`
+    if (softSkills) {
+      url += `&softSkills=${encodeURIComponent(softSkills)}`
     }
-    if(coreSkills){
-      url+=`&coreSkills=${coreSkills}`
+    if (coreSkills) {
+      url += `&coreSkills=${encodeURIComponent(coreSkills)}`
     }
-    if(salary){
-      url+=`&minSalary=${salary.minSalary}`
-       url+=`&maxSalary=${salary.maxSalary}`
+    if (salary) {
+      url += `&minSalary=${salary.minSalary}`
+      url += `&maxSalary=${salary.maxSalary}`
 
     }
-    if(experience){
-      url+=`&maxExperience=${experience.minSalary}`
-      //  url+=`&maxExperience=${experience.maxSalary}`
+    if (experience) {
+      // url+=`&minExperience=0`
+      url += `&maxExperience=${experience.maxExperience}`
 
+    }
+    if (technicalSkill) {
+      url += `&technicalSkills=${encodeURIComponent(technicalSkill)}`
     }
     return this.http.get(url, this.authService.getHttpOptions()).toPromise();
-   
+
   }
 
-    /**Get New job List  By jobId
-    *
- * @returns {Promise<any>}
-   */
-    getJobByJobID(jobID: any): Promise<any> {
-      let url = `${API_URL}admin/jobs/${jobID}`;
-     
-      return this.http.get(url, this.authService.getHttpOptions()).toPromise();
-     
-    }
+  /**Get New job List  By jobId
+  *
+* @returns {Promise<any>}
+ */
+  getJobByJobID(jobID: any): Promise<any> {
+
+    let url = `${API_URL}job/${jobID}`;
+
+    return this.http.get(url, this.authService.getHttpOptions()).toPromise();
+
+  }
 
 }
 

@@ -184,9 +184,12 @@ export class MiniJobPortalJobDescriptionComponent {
 
   // Function to concatenate job description and skills
   async getFormattedJobDescription(jobDetails: any) {
-    
+
     //convert job Description from HTML to Plain Text
     const jobDescriptionPlainText = await this.stripHtmlTags(jobDetails.jobDescription || '');
+
+       // Extract the job title, with a fallback in case it's not provided
+       const jobTitle = jobDetails.jobTitle || 'Job Title not specified';
 
     // Combining all the skills arrays into a single array
     let allSkills = [
@@ -198,10 +201,12 @@ export class MiniJobPortalJobDescriptionComponent {
 
     // Extracting experience range
     let experience = `${jobDetails.experienceRange?.min} - ${jobDetails.experienceRange?.max} years of experience`;
+   // console.log(experience)
 
     // Construct the jdExtracted field with job description and skills
     let jdExtracted = `
     ${jobDescriptionPlainText}
+    \n Job Title: ${jobTitle}
      \n\nExperience Required: ${experience}
     \n\nSkills Required: ${allSkills}
   `;
@@ -209,16 +214,20 @@ export class MiniJobPortalJobDescriptionComponent {
     return jdExtracted.trim();  // Return the concatenated job description and skills
   }
 
-  createRequest() {
+  async createRequest() {
 
+  
     if (this.jobDescriptionDetails.companyId) {
       let data = {
         "companyId": this.jobDescriptionDetails.companyId,
         "jobUrl": window.location.href,
         //"jdExtracted": this.jobDescriptionDetails.jobDescription 
-        "jdExtracted": this.getFormattedJobDescription(this.jobDescriptionDetails)
+        "jdExtracted": await this.getFormattedJobDescription(this.jobDescriptionDetails), 
+        "jobId":this.jobDescriptionDetails.id,
+        "jobPortal":'worko',
 
       }
+      console.log(data.jdExtracted)
 
       this.companyListing.createReferralRequest(this.emailAddress, data).then(async (response) => {
         if (response) {

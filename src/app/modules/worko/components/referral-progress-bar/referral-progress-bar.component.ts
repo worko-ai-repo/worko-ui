@@ -1,4 +1,4 @@
-import { Component, Input, OnChanges, SimpleChanges } from '@angular/core';
+import { Component, EventEmitter, Input, OnChanges, Output, SimpleChanges } from '@angular/core';
 import { CompanyListingService } from '../../services/company-listing.service';
 import { SubscriptionPackService } from '../../services/subscription-pack.service';
 import { StorageService } from 'src/app/modules/app-core/services/storage.service';
@@ -9,6 +9,7 @@ import { Router } from '@angular/router';
   styleUrls: ['./referral-progress-bar.component.scss']
 })
 export class ReferralProgressBarComponent implements OnChanges {
+  @Output() response = new EventEmitter<void>();
   @Input() score: any;
   @Input() referralId: any;
   showScore: boolean = false;
@@ -52,6 +53,12 @@ export class ReferralProgressBarComponent implements OnChanges {
         }, 3000);   //30000
       }
     }, 5000); //7000
+
+
+  
+  }
+  routeToReferral(){
+    this.router.navigate(['/candidate/referral']);
   }
 
   async fetchScore() {
@@ -70,26 +77,39 @@ export class ReferralProgressBarComponent implements OnChanges {
             }, 20000); // Retry after 20 seconds
           } else {
             // Maximum duration exceeded
+            this.response.emit();
             this.jobDescription = false;
             this.errorFound = true;
             this.showScore = false;
             this.cvError = true;
           }
-
+         
           if (response.jdMatchErrorCode === 250) {
+            this.response.emit();
             this.jobDescription = false;
             this.errorFound = true;
             this.showScore = false;
             this.cvError = true;
           } else if (response.jdMatchErrorCode === 251) {
+            this.response.emit();
             this.cvError = false;
             this.jobDescription = true;
             this.errorFound = true;
             this.showScore = false;
           }
         } else if (response.jdMatchErrorCode === 200) {
+          this.response.emit();
           this.score = response.matchingScore;
           this.showScore = true;
+          if (this.score >= 70) {
+            this.showScore = true;
+      
+            // Display the message for 5 seconds and then navigate
+            setTimeout(() => {
+              this.showScore = false;  // Hide the message after 5 seconds
+              this.router.navigate(['/candidate/referral']);  // Navigate to another component
+            }, 5000);  // 5000 ms = 5 seconds
+          }
         }
       }
     };
