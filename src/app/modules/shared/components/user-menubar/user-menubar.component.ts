@@ -118,6 +118,10 @@ export class UserMenubarComponent {
           router: "admin/aReferral"
         },
         {
+          name: 'Jobs',
+          router: "admin/ajobs"
+        },
+        {
           name: 'Service',
           router: "admin/aService"
         },
