@@ -373,7 +373,7 @@ export class MiniJobPortalJobListingComponent {
         "companyId": this.companyID,
         "jobUrl": this.requestForm.value.jobUrl,
         "jdExtracted": this.requestForm.value.jobDescription,
-        "jobId":"null",
+        "jobId":"",
         "jobPortal":jobPortal,
 
       }
