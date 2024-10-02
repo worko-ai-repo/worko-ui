@@ -14,6 +14,7 @@ import { AdminSettingComponent } from './components/admin-setting/admin-setting.
 import { SharedModule } from '../shared/shared.module';
 //import { UserMenubarComponent } from '../candidate/components/user-menubar/user-menubar.component';
 import { CandidateModule } from '../candidate/candidate.module';
+import { CKEditorModule } from '@ckeditor/ckeditor5-angular';
 import { EmployeeModule } from '../employee/employee.module';
 // import { MatPaginatorModule } from '@angular/material/paginator';
 import {MatPaginator, MatPaginatorModule} from '@angular/material/paginator';
@@ -26,6 +27,9 @@ import { MatDatepickerModule } from '@angular/material/datepicker';
 import { MatNativeDateModule } from '@angular/material/core';
 import { MatIconModule } from '@angular/material/icon';
 import { AuthAdminGuardService } from '../worko/services/auth-admin-guard.service';
+import { AdminJobsComponent } from './components/admin-jobs/admin-jobs/admin-jobs.component';
+import { MatTooltipModule } from '@angular/material/tooltip';
+import { MatAutocompleteModule } from '@angular/material/autocomplete';
 
 
 export const routes: Routes = [
@@ -83,6 +87,10 @@ export const routes: Routes = [
      component:AdminReferralComponent,canActivate:[AuthAdminGuardService]
 
     },
+    {
+      path: 'ajobs',
+      component:AdminJobsComponent,canActivate:[AuthAdminGuardService]
+    },
   ]
 }
 
@@ -100,9 +108,7 @@ export const routes: Routes = [
     AdminReferEarnComponent,
     AdminSettingComponent,
     AdminComponent,
-   
-    
-   
+    AdminJobsComponent,
   ],
   imports: [
     CommonModule,
@@ -117,6 +123,9 @@ export const routes: Routes = [
     MatSortModule, 
     MatPaginatorModule,
     MatIconModule,
+    MatTooltipModule,
+    MatAutocompleteModule,
+    CKEditorModule,
     RouterModule.forChild(routes)
   ]
 })
