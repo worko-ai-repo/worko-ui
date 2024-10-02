@@ -198,8 +198,13 @@ export class AdminReferralComponent {
 
     if (this.filterModel.toDate) {
       const dateObject = new Date(this.filterModel.toDate);
+
+      // Set the time to 23:59:59.999 for the end of the day
+      dateObject.setHours(23, 59, 59, 999);
+
       // Adjusting time so that UTC conversion in toISOString() doesn't affect the date
       dateObject.setMinutes(dateObject.getMinutes() - dateObject.getTimezoneOffset());
+
       const isoString = dateObject.toISOString();
       this.toDate = isoString;
     } else {
@@ -301,6 +306,16 @@ export class AdminReferralComponent {
         this.getAllReferral(); // Call getAllReferral with updated pageSize
       }
     });
+  }
+
+  openfile(event: { preventDefault: () => void; }) {
+    event.preventDefault();
+
+
+
+    //window.open(this.docResult.awsS3SignedUrl,'_blank')
+    window.open(this.userDetails.CV, '_blank')
+
   }
 
 

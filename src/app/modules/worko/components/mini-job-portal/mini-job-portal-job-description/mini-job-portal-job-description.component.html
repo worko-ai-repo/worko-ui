@@ -1,0 +1,146 @@
+<div class="container-fluid mini-job-container position-relative">
+    <div class="top-header-bg">
+        <img src="assets/public/logo_bg.png" alt="">
+    </div>
+    <div class="row">
+        <div class="col-12">
+            <app-navbar></app-navbar>
+        </div>
+    </div>
+    <div class="gradient gradient-left1 position-absolute">
+        <img class="gradient-img" src="assets/about-images-KA/gradient-left1.png" alt="Gradient Left 1">
+    </div>
+    <div class="mini-job-main-container">
+        <div class="row mt-4 contents">
+            <div class="col-sm-12  col-lg-12" *ngIf="companyName">
+                <div class="mini-job-headline">Get Direct Referral To {{companyName | titlecase}}</div>
+            </div>
+        </div>
+
+        <div class="row content-container">
+            <!-- Left Column (55%) -->
+            <div class="col-md-7 col-12 divide-55">
+                <div class="mini-job-title-container">
+                    <app-mini-job-portal-title
+                        [jobDescriptionDetails]="jobDescriptionDetails"></app-mini-job-portal-title>
+                </div>
+                <div class="mini-job-description-container">
+                    <app-mini-job-portal-description (requestReferral)="handleRequestReferral()"
+                        [jobDescriptionDetails]="jobDescriptionDetails"></app-mini-job-portal-description>
+                </div>
+                <!-- <div class="mini-job-about-container">
+                <app-mini-job-portal-about-company></app-mini-job-portal-about-company>
+            </div> -->
+            </div>
+
+            <!-- Right Column (45%) -->
+            <div class="col-md-5 col-12 divide-45">
+                <div class="mini-job-skills-container">
+                    <app-mini-job-portal-skills
+                        [jobDescriptionDetails]="jobDescriptionDetails"></app-mini-job-portal-skills>
+                </div>
+                <div class="mini-job-otherjob-container">
+                    <app-mini-job-portal-otherjob [otherJobDetails]="otherJobDetails"></app-mini-job-portal-otherjob>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- <div class="gradient gradient-right1 position-absolute">
+        <img class="gradient-img" src="assets/index-images-KA/gradient-right1.png" alt="Gradient Right 1">
+    </div> -->
+</div>
+<app-footer></app-footer>
+<app-modal [theme]="'theme-k'" [centered]="true"  [showClose]="true" [showHeader]="showModal === modalType.MESSAGE"
+    [showFooter]="showModal === modalType.MESSAGE" [title]="modalTitle" [message]="modalMessage"
+    [bodyClass]="modalMessage ? 'p-4' : 'p-0'">
+
+    <ng-container *ngIf="showModal === modalType.LOGIN_SIGNUP">
+        <app-login-page (onSuccess)="receiveDataFromChild($event)" [userLoggedInData]="userLoggedIn"></app-login-page>
+    </ng-container>
+    <ng-container *ngIf="showModal === modalType.SUCCESS_MESSAGE">
+
+        <!-- <div class="row message-card px-sm-3 p-5"
+        *ngIf="!successtitle && !successmessage && !profileCompletionRequired">
+        <div class="col-md-8 offset-md-2">
+
+            <div class="text-center mb-4">
+                <p> our team started working on your request, you will be notified via e-mail once we add this
+                    company. </p>
+                <p>It might take 72 Hours.</p>
+                <p>Your Success is our priority.</p>
+            </div>
+            <div class="text-center">
+                <button class="btn btn-next" (click)="cancel()">OK</button>
+            </div>
+        </div>
+    </div> -->
+        <div class="row message-card px-sm-3 p-5" *ngIf="successtitle && successmessage && !profileCompletionRequired">
+            <div class="font-weight-bold text-color-red mb-3 d-flex justify-content-center"
+                style="color: #e40707; font-size: medium;" *ngIf="successtitle === 'Error'">
+                {{successtitle}}
+            </div>
+            <div class="font-weight-bold text-color-red mb-3 d-flex justify-content-center" style="font-size: medium;"
+                *ngIf="successtitle != 'Error'">
+                {{successtitle}}
+            </div>
+            <div class="d-flex justify-content-center"><span>{{successmessage}}</span> </div>
+            <div class=" mt-3 d-flex justify-content-center">
+                <button class="btn-next" (click)="cancel()" *ngIf="successtitle === 'Error'"> Close</button>
+            </div>
+            <div class=" mt-3 d-flex justify-content-center">
+                <button class="btn-next" (click)="cancel()" *ngIf="successtitle != 'Error'"> Ok</button>
+            </div>
+        </div>
+
+        <div class="row message-card px-sm-3 p-5" *ngIf="profileCompletionRequired">
+            <div class="col-md-8 offset-md-2">
+
+                <div class="text-center mb-4">
+                    <p>To proceed with your referral request, please complete your candidate profile and upload your
+                        CV.</p>
+                    <p>A complete profile increases your chances of getting referred.</p>
+                    <p>Let's make it happen!</p>
+                </div>
+                <div class="text-center">
+                    <button class=" btn-next" (click)="completeProfile()">OK</button>
+                </div>
+            </div>
+        </div>
+        <div class="row message-card px-sm-3 p-5" *ngIf="showsubscriptionPlan">
+            <div class="col-md-8 offset-md-2">
+                <div class="text-center mb-4">
+                    <p> Looks like you've used up your referral credits. </p>
+                    <p>To keep seizing opportunities, consider topping up your credits now at a price even cheaper than
+                        coffee.</p>
+
+
+                </div>
+                <div class="text-center">
+                    <button class="btn-next" (click)="upgradeNow()">UPGRADE NOW</button>
+                </div>
+            </div>
+        </div>
+        <div class="row d-flex align-self-center justify-content-center" *ngIf="showScore">
+            <div class="body main-div1">
+                <div class="progress-bar" *ngIf="showScore">
+                    <app-referral-progress-bar [referralId]="referralRequestId"></app-referral-progress-bar>
+                </div>
+                <!-- <div class="text-center">
+                    <button class="btn btn-next" (click)="okBtn()">OK</button>
+                </div> -->
+            </div>
+        </div>
+
+        <div class="row message-card px-sm-1 p-5" *ngIf="showErrorMsg &&!showScore  &&!showReferrelRow">
+            <div class="col-md-8 offset-md-2">
+                <div class="text-center mb-4">
+                    <p>{{ errorMsg }}</p>
+                </div>
+                <div class="text-center">
+                    <button class="btn-next" (click)="okBtn()">OK</button>
+                </div>
+            </div>
+        </div>
+
+    </ng-container>
+</app-modal>

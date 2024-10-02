@@ -1,4 +1,4 @@
-import { Component, OnInit, ViewChild, HostListener, Renderer2, ElementRef, ChangeDetectorRef, AfterViewInit, OnDestroy } from '@angular/core';
+import { Component, OnInit, ViewChild, Renderer2, ElementRef, ChangeDetectorRef, AfterViewInit, OnDestroy } from '@angular/core';
 import { CompanyListingService } from '../../services/company-listing.service';
 import { ModalType } from 'src/app/modules/shared/interfaces/shared.interface';
 import { ModalComponent } from 'src/app/modules/shared/components/modal/modal.component';
@@ -37,6 +37,8 @@ export class CompanyListingComponent implements OnInit, AfterViewInit, OnDestroy
   @ViewChild('company') companyFormDirective!: NgForm;
   @ViewChild(LoginFormComponent) LoginFormComponent!: LoginFormComponent;
   @ViewChild(NavbarComponent) navbarComponent!: NavbarComponent;
+  @ViewChild('scrollTrigger') scrollTrigger!: ElementRef;
+
   userName: string = "";
   letter: string = ""
   successmessage: string = "";
@@ -222,41 +224,24 @@ export class CompanyListingComponent implements OnInit, AfterViewInit, OnDestroy
     { name: "Warehousing", value: "Warehousing" },
     { name: "Water Treatment / Waste Management", value: "Water Treatment / Waste Management" },
 
-
-
   ]
   companySKFormUrl: any;
   typeFromUrl: any;
   triggerAddCompany: boolean = false;
   userDetails: any;
   sortOrder: string = 'ascending';
-
-
-
-  @HostListener('window:scroll', ['$event'])
-  onScroll(event: Event): void {
-    // Handle scroll event
-    this.detectScroll();
-  }
-
-
-
-
   searchTerm: string = '';
   filteredCompanyList: any[] = [];
   searchQuery: string = '';
   private searchTerms = new Subject<string>();
   debouncedGetCompanyDetails: () => void;
-
-
-
-
+  observer: IntersectionObserver | undefined;
 
   constructor(private spinner: NgxSpinnerService, private location: Location, private activatedRoute: ActivatedRoute, private cdr: ChangeDetectorRef,
     private storage: StorageService, private router: Router, private authService: AuthService, private http: HttpClient, private renderer: Renderer2, private el: ElementRef, private companyListing: CompanyListingService, private cognitoService: CognitoService, private candidateSrv: CandidateProfileService) {
 
-      this.debouncedGetCompanyDetails = debounce(this.getCompanyDetails.bind(this), 400); // Created a debounced version of the getCompanyDetails method to handle the scroll event.
-      // This ensures that API calls are triggered only once within a 400 millisecond interval during scrolling.
+    this.debouncedGetCompanyDetails = debounce(this.getCompanyDetails.bind(this), 400); // Created a debounced version of the getCompanyDetails method to handle the scroll event.
+    // This ensures that API calls are triggered only once within a 400 millisecond interval during scrolling.
 
     this.searchTerms
       .pipe(
@@ -291,6 +276,16 @@ export class CompanyListingComponent implements OnInit, AfterViewInit, OnDestroy
         this.receiveDataFromChild(eventData);
       }
     });
+
+    // Setting up the IntersectionObserver here
+    this.observer = new IntersectionObserver((entries) => {
+      if (entries[0].isIntersecting && this.lastKey && this.isNoLoadData) {
+        this.debouncedGetCompanyDetails(); // Fetch more companies when the trigger is visible
+      }
+    });
+
+    // observing the scroll trigger element here
+    this.observer.observe(this.scrollTrigger.nativeElement);
   }
 
   async ngOnInit(): Promise<void> {
@@ -537,32 +532,6 @@ export class CompanyListingComponent implements OnInit, AfterViewInit, OnDestroy
     return this.hundreadCompanies.find(company => company.SK === companySk);
   }
 
-  detectScroll(): void {
-
-    const scrollPosition = window.scrollY || document.documentElement.scrollTop || document.body.scrollTop || 0;
-    const windowHeight = window.innerHeight || document.documentElement.clientHeight || document.body.clientHeight || 0;
-    const documentHeight = Math.max(
-      document.body.scrollHeight,
-      document.documentElement.scrollHeight,
-      document.body.offsetHeight,
-      document.documentElement.offsetHeight,
-      document.body.clientHeight,
-      document.documentElement.clientHeight
-    );
-    const footer = document.querySelector('app-footer');
-    const footerHeight = footer ? (footer as HTMLElement).offsetHeight : 0;
-
-    // Check if the user has scrolled to the bottom
-
-    if (scrollPosition + windowHeight >= documentHeight - footerHeight) {
-
-      // Load more data
-      // this.getCompanyDetails();
-      this.debouncedGetCompanyDetails();
-    }
-
-  }
-
   async clearSearchInput(): Promise<void> {
     this.pageSize = 50
     this.lastKey = "";
@@ -575,6 +544,20 @@ export class CompanyListingComponent implements OnInit, AfterViewInit, OnDestroy
     await this.getCompanyDetails();
 
 
+  }
+  navigateToJobLink(event: MouseEvent, data: any): void {
+    event.preventDefault(); // Prevent the default anchor behavior
+    this.getJobLink(data);
+
+  }
+
+  getJobLink(data:any): void {
+    const  companyName=encodeURIComponent(data.name);
+    const route = `/companies/${companyName.toLowerCase()}-jobs`;
+   // console.log(route);
+    this.router.navigate([route],{
+      state: { companySK: data.SK}
+    });;
   }
   async getCompanyDetails(pageSize?: any) {
     // console.log(this.lastKey, this.loadedOnce, this.isNoLoadData)
@@ -613,7 +596,7 @@ export class CompanyListingComponent implements OnInit, AfterViewInit, OnDestroy
           this.loadedOnce = false;
           this.count = response.pagination.count;
           this.pageSize = response.pagination.pageSize;
-          
+
           if (this.count < this.pageSize) { //check to pervent multiple api call
             // debugger
             this.isNoLoadData = false;
@@ -623,7 +606,7 @@ export class CompanyListingComponent implements OnInit, AfterViewInit, OnDestroy
         }
       })
         .catch(error => {
-         // console.error('Display Company Listing Error:', error);
+          // console.error('Display Company Listing Error:', error);
           this.spinner.hide();
         });
     }
@@ -1030,6 +1013,10 @@ export class CompanyListingComponent implements OnInit, AfterViewInit, OnDestroy
   ngOnDestroy(): void {
     if (this.eventSubscription) {
       this.eventSubscription.unsubscribe();
+    }
+
+    if (this.observer) {
+      this.observer.disconnect(); // Cleaning up the IntersectionObserver here
     }
   }
 }
