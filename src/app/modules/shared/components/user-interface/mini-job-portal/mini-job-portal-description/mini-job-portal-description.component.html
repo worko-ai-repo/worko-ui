@@ -1,8 +1,9 @@
-<div class="candidate-card p-4" style="background-color: white; color: black;">
+<div class="candidate-card p-4" style="background-color: white; color: black;" *ngIf="jobDescriptionDetails">
     <div class="job-div">
         <!-- Job Title -->
         <div class="job-title d-flex justify-content-center "><u>Job Description</u></div>
-        <div class="job-description mt-2"  [innerHTML]="jobDescriptionDetails?.jobDescription" *ngIf="jobDescriptionDetails">
+        <div class="job-description mt-2" [innerHTML]="jobDescriptionDetails?.jobDescription"
+            *ngIf="jobDescriptionDetails">
             <!-- <div class="job-sub-title mb-3">{{jobDescriptionDetails.jobTitle}}</div> -->
 
 
@@ -18,7 +19,7 @@
             <div class="mx-auto">
                 <button class="btn ref-next d-flex justify-content-center" (click)="onRequestReferral()">Request
                     Referral</button>
-              </div>
+            </div>
             <div class="share-btn float-end" (click)="shareCurrentUrl()">
                 <svg width="40" height="46" viewBox="0 0 40 46" fill="none" xmlns="http://www.w3.org/2000/svg">
                     <path

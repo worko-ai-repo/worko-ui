@@ -7,26 +7,26 @@ import { Router } from '@angular/router';
   styleUrls: ['./mini-job-portal-otherjob.component.scss']
 })
 export class MiniJobPortalOtherjobComponent {
-  @Input()  otherJobDetails:any;
-  companyName:any;
-  constructor(private router: Router) {}
+  @Input() otherJobDetails: any;
+  companyName: any;
+  constructor(private router: Router) { }
 
-  navigateToJobReferral(event: MouseEvent, companyName: string, jobTitle: string,jobID:any): void {
-     event.preventDefault(); // Prevent the default anchor behavior
- 
-   const formattedCompanyName = companyName.toLowerCase().replace(/\s+/g, '-'); // Convert spaces to dashes
-   let formattedJobTitle = jobTitle.replace(/\s+/g, '-').replace(/\//g, '-'); // Preserve the case for job title but replace spaces with dashes
- 
-   const currentDomain = window.location.origin;
+  navigateToJobReferral(event: MouseEvent, companyName: string, jobTitle: string, jobID: any): void {
+    event.preventDefault(); // Prevent the default anchor behavior
+
+    const formattedCompanyName = companyName.toLowerCase().replace(/\s+/g, '-'); // Convert spaces to dashes
+    let formattedJobTitle = jobTitle.replace(/\s+/g, '-').replace(/\//g, '-'); // Preserve the case for job title but replace spaces with dashes
+
+    const currentDomain = window.location.origin;
     const url = `${currentDomain}/companies/${formattedCompanyName}-jobs/${formattedJobTitle}-${jobID}`;
-   
-   window.open(url, '_blank');
-   }
+
+    window.open(url, '_blank');
+  }
 
   ngOnChanges(changes: SimpleChanges): void {
     if (changes['otherJobDetails'] && changes['otherJobDetails'].currentValue) {
-      this.companyName=this.otherJobDetails[0].companyDetails.name.toLowerCase()
-   
+      this.companyName = this.otherJobDetails[0].companyDetails.name.toLowerCase()
+
     }
   }
 }

@@ -1,7 +1,10 @@
-import { Component, Input, SimpleChanges } from '@angular/core';
+import { Component, Input, SimpleChanges, ViewChild } from '@angular/core';
 import { Router } from '@angular/router';
+import { NgxSpinnerService } from 'ngx-spinner';
 import { CountryCodes } from 'src/app/modules/shared/data/country.data';
+import { ModalType } from 'src/app/modules/shared/interfaces/shared.interface';
 import { CompanyListingService } from 'src/app/modules/worko/services/company-listing.service';
+import { ModalComponent } from '../../../modal/modal.component';
 
 @Component({
   selector: 'app-min-job-portal-job-list',
@@ -11,7 +14,7 @@ import { CompanyListingService } from 'src/app/modules/worko/services/company-li
 export class MinJobPortalJobListComponent {
 
 
-
+  @ViewChild(ModalComponent) modal!: ModalComponent;
   @Input() jobDetails: any = [];
   @Input() isJobListing: boolean = true;
   @Input() companyName: any
@@ -29,31 +32,37 @@ export class MinJobPortalJobListComponent {
   selectedCoreSkill: any = "";
   selectedSoftSkill: any = "";
   selectedTechnicalSkill: any = "";
+  successmessage: string = "";
+  successtitle: string = "";
+  modalType = ModalType;
+  modalMessage: string = "";
+  modalTitle: string = "";
+  showModal: ModalType | undefined;
   salaryRanges = [
-    { label: 'Less than 1 LPA', minSalary: 0, maxSalary: 99999 },
-    { label: '1 LPA - 3 LPA', minSalary: 100000, maxSalary: 300000 },
-    { label: '4 LPA - 6 LPA', minSalary: 400000, maxSalary: 600000 },
-    { label: '7 LPA - 10 LPA', minSalary: 700000, maxSalary: 1000000 },
-    { label: '11 LPA - 15 LPA', minSalary: 1100000, maxSalary: 1500000 },
-    { label: '16 LPA - 20 LPA', minSalary: 1600000, maxSalary: 2000000 },
-    { label: '21 LPA - 30 LPA', minSalary: 2100000, maxSalary: 3000000 },
+    { label: '0 - 5 LPA', minSalary: 0, maxSalary: 5 },
+    { label: '5 - 8 LPA', minSalary: 5, maxSalary: 8 },
+    { label: '8 - 12 LPA', minSalary: 8, maxSalary: 12 },
+    { label: '12 - 15 LPA', minSalary: 12, maxSalary: 15 },
+    { label: '15 - 22 LPA', minSalary: 15, maxSalary: 22 },
+    { label: '22 - 30 LPA', minSalary: 22, maxSalary: 30 },
+    { label: '30 + LPA ', minSalary: 30, maxSalary: 99999 }
   ];
+
   experienceRanges = [
-    { label: 'Fresher', maxExperience: 0 }
+    { label: '0 - 2 years', minExperience: 0, maxExperience: 2 },
+    { label: '2 - 4 years', minExperience: 2, maxExperience: 4 },
+    { label: '4 - 6 years', minExperience: 4, maxExperience: 6 },
+    { label: '6 - 8 years', minExperience: 6, maxExperience: 8 },
+    { label: '8 - 10 years', minExperience: 8, maxExperience: 10 },
+    { label: '10 - 12 years', minExperience: 10, maxExperience: 12 },
+    { label: '12 + years', minExperience: 12, maxExperience: 9999 },
+
   ];
-  // experienceRanges = [
-  //   { label: '0 - 1 Year', minExperience: 0, maxExperience: 1 },
-  //   { label: '1 - 3 Years', minExperience: 1, maxExperience: 3 },
-  //   { label: '2 - 5 Years', minExperience: 2, maxExperience: 5 },
-  //   { label: '3 - 5 Years', minExperience: 3, maxExperience: 5 },
-  //   { label: '5 - 10 Years', minExperience: 5, maxExperience: 10 },
-  //   { label: '10+ Years', minExperience: 10, maxExperience: 20 }, // Assuming a max for "10+"
-  // ];
 
 
 
 
-  constructor(private router: Router, private companyListing: CompanyListingService) { }
+  constructor(private router: Router, private companyListing: CompanyListingService, private spinner: NgxSpinnerService) { }
 
   navigateToJobReferral(event: MouseEvent, companyName: string, jobTitle: string, jobID: any,): void {
     event.preventDefault(); // Prevent the default anchor behavior
@@ -73,30 +82,22 @@ export class MinJobPortalJobListComponent {
   }
   async ngOnInit(): Promise<void> {
 
-    // Dynamically generate the remaining experience ranges
-    for (let i = 1; i <= 30; i++) {
-      this.experienceRanges.push({ label: `${i} Year${i > 1 ? 's' : ''}`, maxExperience: i });
-    }
   }
 
   populateDropdowns(): void {
     // Extract unique locations, departments, and salary ranges from the jobListing array
-    this.locations = [...new Set(this.jobListing.map((job: { location: any; }) => this.toTitleCase(job.location)))];
-    this.departments = [...new Set(this.jobListing.map((job: { department: any; }) => this.toTitleCase(job.department)))];
+    this.locations = [...new Set(this.jobListing.map((job: { location: any; }) => job.location))];
+    this.departments = [...new Set(this.jobListing.map((job: { department: any; }) => job.department))];
     // Extract unique core skills
-    this.coreSkills = [...new Set(this.jobListing.flatMap((job: { coreSkills: string[]; }) => job.coreSkills.map(skill => this.toTitleCase(skill))))];
+    this.coreSkills = [...new Set(this.jobListing.flatMap((job: { coreSkills: string[]; }) => job.coreSkills))];
 
     // Extract unique soft skills
-    this.softSkills = [...new Set(this.jobListing.flatMap((job: { softSkills: string[]; }) =>   job.softSkills.map(skill => this.toTitleCase(skill))))];
+    this.softSkills = [...new Set(this.jobListing.flatMap((job: { softSkills: string[]; }) => job.softSkills))];
 
     // Extract unique technical skills
-    this.technicalSkills = [...new Set(this.jobListing.flatMap((job: { technicalSkills: string[]; }) =>  job.technicalSkills.map(skill => this.toTitleCase(skill))))];
+    this.technicalSkills = [...new Set(this.jobListing.flatMap((job: { technicalSkills: string[]; }) => job.technicalSkills))];
   }
 
-  // Helper function to convert to title case
-  toTitleCase(str: string) {
-    return str.replace(/\w\S*/g, (txt) => txt.charAt(0).toUpperCase() + txt.substr(1).toLowerCase());
-  }
 
   async ngOnChanges(changes: SimpleChanges): Promise<void> {
     if (changes['jobDetails'] && changes['jobDetails'].currentValue && this.jobDetails) {
@@ -109,14 +110,21 @@ export class MinJobPortalJobListComponent {
   }
 
   async getJobs(): Promise<void> {
-
-    let response = await this.companyListing.getJobByCompanyID(this.jobListing[0]?.companyId, this.selectedLocation, this.selectedDepartment, this.selectedSoftSkill, this.selectedCoreSkill, this.selectedSalary, this.selectedExperience,this.selectedTechnicalSkill);
-    if (response) {
-
-      this.filteredJobs = response.data
-      //console.log(response)
-      // this.companyName = this.jobListing.companyDetails.name
-      // this.populateDropdowns();
+    this.spinner.show()
+    try {
+      let response = await this.companyListing.getJobByCompanyID(this.jobListing[0]?.companyId, this.selectedLocation, this.selectedDepartment, this.selectedSoftSkill, this.selectedCoreSkill, this.selectedSalary, this.selectedExperience, this.selectedTechnicalSkill);
+      if (response) {
+        this.spinner.hide()
+        this.filteredJobs = response.data
+        //console.log(response)
+        // this.companyName = this.jobListing.companyDetails.name
+        // this.populateDropdowns();
+      }
+    } catch (error) {
+      this.spinner.hide();
+      this.successmessage = "Something went wrong. Please try again after sometime"
+      this.successtitle = "Error"
+      this.openModal(ModalType.SUCCESS_MESSAGE)
     }
 
   }
@@ -150,6 +158,42 @@ export class MinJobPortalJobListComponent {
   async getJobsByTechnicalSkill(selectedTechnicalSkill: string) {
     this.selectedTechnicalSkill = selectedTechnicalSkill
     await this.getJobs()
+  }
+  cancel() {
+    this.selectedLocation = ""
+    this.selectedDepartment = ""
+    this.selectedSalary = '',
+    this.selectedExperience = "",
+    this.selectedSoftSkill = "",
+    this.selectedCoreSkill = "",
+    this.selectedTechnicalSkill = "",
+    this.getJobs()
+    this.closeModal();
+
+  }
+
+  /**
+ * Open modal.
+ *
+ * @param {ModalType} modalType
+ * @param {string} [message = ""]
+ * @param {string} [title = ""]
+ * @returns {void}
+ */
+  openModal(modalType: ModalType, message: string = "", title: string = ""): void {
+
+    this.showModal = modalType;
+    this.modalMessage = message;
+    this.modalTitle = title;
+    this.modal.open();
+  }
+  /**
+ * Close modal.
+ *
+ * @returns {void}
+ */
+  closeModal(): void {
+    this.modal.cancel();
   }
 
 

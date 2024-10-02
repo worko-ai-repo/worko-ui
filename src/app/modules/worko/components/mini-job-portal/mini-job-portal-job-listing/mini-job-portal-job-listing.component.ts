@@ -162,7 +162,7 @@ export class MiniJobPortalJobListingComponent {
       this.spinner.hide()
       if (error.status == 404) {
 
-      this.router.navigate(['/auth/logout']);
+        this.router.navigate(['/auth/logout']);
       } else {
 
         // this.spinner.hide();
@@ -364,7 +364,7 @@ export class MiniJobPortalJobListingComponent {
 
     // Extract the domain name from the job URL
     let domainName = new URL(jobUrl).hostname;
-    
+
     // Update the "jobPortal" field with the extracted domain name (e.g., "naukri" from "www.naukri.com")
     let jobPortal = domainName.split('.')[1];
 
@@ -373,8 +373,8 @@ export class MiniJobPortalJobListingComponent {
         "companyId": this.companyID,
         "jobUrl": this.requestForm.value.jobUrl,
         "jdExtracted": this.requestForm.value.jobDescription,
-        "jobId":"",
-        "jobPortal":jobPortal,
+        "jobId": "",
+        "jobPortal": jobPortal,
 
       }
 
@@ -401,7 +401,7 @@ export class MiniJobPortalJobListingComponent {
     }
   }
 
-  handleResponse(){
+  handleResponse() {
     this.requestForm.reset();
   }
 
@@ -416,7 +416,7 @@ export class MiniJobPortalJobListingComponent {
         this.openModal(ModalType.SUCCESS_MESSAGE);
         break;
       case 404:
-       this.router.navigate(['/auth/logout']);
+        this.router.navigate(['/auth/logout']);
         break;
       case 401:
         this.router.navigate(['/']);

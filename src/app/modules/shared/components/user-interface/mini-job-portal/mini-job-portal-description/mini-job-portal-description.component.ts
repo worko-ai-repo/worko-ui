@@ -8,20 +8,20 @@ import { Component, EventEmitter, Input, Output, SimpleChanges } from '@angular/
 export class MiniJobPortalDescriptionComponent {
 
   @Output() requestReferral = new EventEmitter<void>();
-  @Input()  jobDescriptionDetails:any;
+  @Input() jobDescriptionDetails: any;
 
-  constructor(){}
+  constructor() { }
 
   ngOnChanges(changes: SimpleChanges): void {
-  
+
     if (changes['jobDescriptionDetails'] && changes['jobDescriptionDetails'].currentValue) {
 
 
     }
   }
 
-  ngOnInit(){
-    
+  ngOnInit() {
+
   }
 
   onRequestReferral() {
@@ -32,18 +32,18 @@ export class MiniJobPortalDescriptionComponent {
     const url = window.location.href;
 
     if (navigator.share) {
-        navigator.share({
-            title: document.title,
-            url: url
-        })
+      navigator.share({
+        title: document.title,
+        url: url
+      })
     } else {
-        // Fallback for browsers that do not support the Web Share API
-        navigator.clipboard.writeText(url).then(() => {
-            alert('URL copied to clipboard: ' + url);
-        }).catch((error) => {
-           
-        });
+      // Fallback for browsers that do not support the Web Share API
+      navigator.clipboard.writeText(url).then(() => {
+        alert('URL copied to clipboard: ' + url);
+      }).catch((error) => {
+
+      });
     }
-}
+  }
 
 }

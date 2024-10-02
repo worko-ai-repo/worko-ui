@@ -142,7 +142,7 @@ export class CompanyListingService {
 
     }
     if (experience) {
-      // url+=`&minExperience=0`
+       url+=`&minExperience=${experience.minExperience}`
       url += `&maxExperience=${experience.maxExperience}`
 
     }
