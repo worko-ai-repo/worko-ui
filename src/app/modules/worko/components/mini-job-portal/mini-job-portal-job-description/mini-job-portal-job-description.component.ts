@@ -57,7 +57,7 @@ export class MiniJobPortalJobDescriptionComponent {
   async ngOnInit(): Promise<void> {
     this.route.url.subscribe(urlSegments => {
       const fullCategory = decodeURIComponent(urlSegments.map(segment => segment.path).join('/')); // Decode the URL
-      this.companyName = this.extractCompanyName(fullCategory);
+     // this.companyName = this.extractCompanyName(fullCategory);
       this.jobID = this.extractJobID(fullCategory); // Extract the job ID if needed
     });
     await this.getJobDescriptionDetails(this.jobID);
@@ -227,7 +227,6 @@ export class MiniJobPortalJobDescriptionComponent {
         "jobPortal": 'worko',
 
       }
-      console.log(data.jdExtracted)
 
       this.companyListing.createReferralRequest(this.emailAddress, data).then(async (response) => {
         if (response) {
@@ -274,8 +273,9 @@ export class MiniJobPortalJobDescriptionComponent {
   }
 
   handleError(error: any) {
-
+    this.spinner.hide()
     switch (error.status) {
+     
       case 400:
         this.showErrorMsg = true;
         this.showReferrelRow = false;
@@ -299,6 +299,7 @@ export class MiniJobPortalJobDescriptionComponent {
     // this.showErrorMsg = false;
 
     this.modal.cancel()
+    this.router.navigate(['/candidate/referral']);
     //this.onOkBtn.emit();
   }
 
@@ -362,6 +363,7 @@ export class MiniJobPortalJobDescriptionComponent {
 
   async getJobDescriptionDetails(jobID: any) {
     this.spinner.show();
+    try{
     if (jobID) {
 
       let response = await this.companyListing.getJobByJobID(jobID)
@@ -372,22 +374,13 @@ export class MiniJobPortalJobDescriptionComponent {
 
         this.getJobByCompanyId(this.jobDescriptionDetails.companyId, jobID)
 
-      } else {
+      } 
 
-        this.spinner.hide();
-        this.successmessage = "Something went wrong. Please try again after sometime"
-        this.successtitle = "Error"
-        this.openModal(ModalType.SUCCESS_MESSAGE)
-
-      }
-
-    } else {
-
+    } }catch(error){
       this.spinner.hide();
       this.successmessage = "Something went wrong. Please try again after sometime"
       this.successtitle = "Error"
       this.openModal(ModalType.SUCCESS_MESSAGE)
-
     }
 
   }

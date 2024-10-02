@@ -105,40 +105,47 @@ export class MiniJobPortalJobListingComponent {
 
 
     this.spinner.show()
-    if (this.companyName.length > 0) {
+    try {
+      if (this.companyName.length > 0) {
 
-      // Fetch company details and handle the response
-      let response = await this.authService.getCompanyName(this.companyName).toPromise();
+        // Fetch company details and handle the response
+        let response = await this.authService.getCompanyName(this.companyName).toPromise();
 
-      if (response) {
-
-
-        this.companyDetail = response.data; // Store the company details
-
-        // Remove hyphens from the company name for comparison
-        const cleanedCompanyName = this.companyName.replace(/-/g, ' ').toLowerCase();
-
-        this.companyNameDetail = this.companyDetail.filter((job: any) =>
-          job.name?.replace(/-/g, ' ').toLowerCase() === cleanedCompanyName
-        );
-        this.companyDetail = this.companyNameDetail[0]
-        this.companyName = this.companyNameDetail[0].name.toLowerCase()
-        this.companyID = this.companyDetail.SK.split('#')[1];
-        //  console.log( this.companyID,this.companyName )
+        if (response) {
 
 
-        await this.getAllJob(); // Fetch jobs
-      }
+          this.companyDetail = response.data; // Store the company details
 
-      else {
+          // Remove hyphens from the company name for comparison
+          const cleanedCompanyName = this.companyName.replace(/-/g, ' ').toLowerCase();
+
+          this.companyNameDetail = this.companyDetail.filter((job: any) =>
+            job.name?.replace(/-/g, ' ').toLowerCase() === cleanedCompanyName
+          );
+          this.companyDetail = this.companyNameDetail[0]
+          this.companyName = this.companyNameDetail[0].name.toLowerCase()
+          this.companyID = this.companyDetail.SK.split('#')[1];
+          //  console.log( this.companyID,this.companyName )
+
+
+          await this.getAllJob(); // Fetch jobs
+        }
+
+
+      } else {
         this.spinner.hide();
         this.successmessage = "Something went wrong. Please try again after sometime"
         this.successtitle = "Error"
         this.openModal(ModalType.SUCCESS_MESSAGE)
       }
+    } catch (error) {
 
-
+      this.spinner.hide();
+      this.successmessage = "Something went wrong. Please try again after sometime"
+      this.successtitle = "Error"
+      this.openModal(ModalType.SUCCESS_MESSAGE)
     }
+
   }
 
   async getAllJob() {
@@ -165,10 +172,10 @@ export class MiniJobPortalJobListingComponent {
         this.router.navigate(['/auth/logout']);
       } else {
 
-        // this.spinner.hide();
-        // this.successmessage = "Something went wrong. Please try again after sometime"
-        // this.successtitle = "Error"
-        // this.openModal(ModalType.SUCCESS_MESSAGE)
+        this.spinner.hide();
+        this.successmessage = "Something went wrong. Please try again after sometime"
+        this.successtitle = "Error"
+        this.openModal(ModalType.SUCCESS_MESSAGE)
       }
     }
 
@@ -217,27 +224,28 @@ export class MiniJobPortalJobListingComponent {
 
   }
   async getJobByCompanyID() {
-
-    let response = await this.companyListing.getJobByCompanyID(this.companyID)
-
-
-    if (response.data.length > 0) {
-      this.spinner.hide();
-      this.jobDetails = response.data
-      this.isResponseEmpty = false; // Minimize if there is data
-      this.isJobContainerVisible = false; // Start minimized if data exists
-      this.isJobListing = true
+    try {
+      let response = await this.companyListing.getJobByCompanyID(this.companyID)
 
 
+      if (response.data.length > 0) {
+        this.spinner.hide();
+        this.jobDetails = response.data
+        this.isResponseEmpty = false; // Minimize if there is data
+        this.isJobContainerVisible = false; // Start minimized if data exists
+        this.isJobListing = true
 
-    } else if (response.data.length === 0) {
-      this.spinner.hide();
-      this.isResponseEmpty = true; // Maximize if no data
-      this.isJobContainerVisible = true; // Start maximized if no data
-      this.isJobListing = false
 
 
-    } else {
+      } else if (response.data.length === 0) {
+        this.spinner.hide();
+        this.isResponseEmpty = true; // Maximize if no data
+        this.isJobContainerVisible = true; // Start maximized if no data
+        this.isJobListing = false
+
+
+      }
+    } catch (error) {
 
       this.spinner.hide();
       this.successmessage = "Something went wrong. Please try again after sometime"

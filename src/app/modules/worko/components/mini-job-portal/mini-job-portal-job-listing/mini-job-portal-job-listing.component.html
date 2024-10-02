@@ -14,8 +14,8 @@
     <div class="mini-job-listing position-relative">
         <div class="row  contents">
 
-            <div class="col-md-12">
-                <div class="cardidate-card py-4 ">
+            <div class="col-md-12" *ngIf="companyName.length>0">
+                <div class="cardidate-card py-4 " >
                     <div class="card-header d-flex justify-content-between align-items-center">
                         <span class="ms-3">Get Referral for Any Job In {{companyName | titlecase}}</span>
                         <div class="d-flex align-items-center icon-wrapper">
@@ -84,7 +84,7 @@
                         </div>
 
                         <div class="button-class mt-4 d-flex justify-content-center align-items-center col-md-12 ">
-                            <button class="btn btn-next" type="submit" [disabled]="!requestForm.valid">Request
+                            <button class="btn-next" type="submit" [disabled]="!requestForm.valid">Request
                                 Referral</button>
                         </div>
                     </form>
@@ -93,7 +93,7 @@
             <!-- <app-min-job-portal-referral-form [companyName]="companyname"></app-min-job-portal-referral-form> -->
         </div>
 
-        <div class="col-md-12 job-container">
+        <div class="col-md-12 job-container" *ngIf="companyName.length>0">
             <app-min-job-portal-job-list [companyName]="companyName" [jobDetails]="jobDetails"
                 [isJobListing]="isJobListing"></app-min-job-portal-job-list>
         </div>
