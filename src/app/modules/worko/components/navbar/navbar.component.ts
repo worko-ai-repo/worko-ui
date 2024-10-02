@@ -63,7 +63,7 @@ export class NavbarComponent {
     this.navbarToggleSwitchService.intializeToggleStatus();
     const usertype = this.storage.get('lastAccessedDash');
     this.userName = this.storage.get('userName');
-   
+
     if (usertype === 'EMP') {
 
       this.router.navigate(['/employee/Dashboard']);
@@ -133,7 +133,7 @@ export class NavbarComponent {
     this.userLoggedIn = await this.cognitoService.isLoggedIn();
     if (this.userLoggedIn) {
       this.userName = this.storage.get('userName');
-   
+
       // this.letter=this.getInitials(this.userName)
       // console.log(this.letter);
       this.letter = this.userName.charAt(0).toUpperCase();
@@ -150,87 +150,103 @@ export class NavbarComponent {
     if (this.userLoggedIn) {
       if (currentUrl.includes('/companies') || currentUrl.match(/-jobs$/)) {
         this.userName = this.storage.get('userName');
-  
+
         // this.letter=this.getInitials(this.userName)
         // console.log(this.letter);
-        if(this.userName) {
+        if (this.userName) {
           this.letter = this.userName.charAt(0).toUpperCase();
         }
-        
-        if (currentUrl.includes('/companies')) {
-        // Redirect to the company listing page
-        this.router.navigate(['/companies']);
-        } else if (currentUrl.match(/-jobs$/)) {
-         // Refresh the current route ending with -jobs
-         this.router.navigateByUrl('/', { skipLocationChange: true }).then(() => {
-         this.router.navigate([currentUrl]);
-        });
-      }
-        this.eventSubject.next(userType); // Emit the userType each time a login is successful through the navbar component
-        // This event will be captured by the parent component (companyListing) to perform required actions 
-               
-        this.modal.cancel();
-      }
-      else {
-        const response = await this.candidateSrv.getProfileComplete(this.emailAddress);
+  
+        // Define the regular expression to match the URL pattern
+        const dynamicUrlPattern = /^\/companies\/[a-zA-Z0-9-]+-jobs\/[a-zA-Z0-9-]+\/[a-zA-Z0-9]+$/;
 
-        if (response) {
-          this.profileCompletion = response;
-       
+        // Check if the current URL matches the pattern
+        if (dynamicUrlPattern.test(currentUrl)) {
 
-          if (this.profileCompletion) {
-            const profileType = userType === "CAND" ? this.profileCompletion.candidate : this.profileCompletion.employee;
-            const totalPercentage = profileType.reduce((sum: any, element: any) => sum + element.curPerc, 0);
+          this.router.navigate([this.router.url]);
 
-            if (userType === "CAND" && totalPercentage >=60) {
-              this.router.navigate(['/candidate/dashboard']);
-            } else if (userType === "CAND" && totalPercentage < 60) {
-              this.router.navigate(['/candidate/edit-profile']);
-            } else if (userType !== "CAND" && totalPercentage >= 60) {
-              this.router.navigate(['/employee/Dashboard']);
-            } else if (userType !== "CAND" && totalPercentage < 60) {
-              this.router.navigate(['/employee/Edit-profile']);
-            }
+        } else if (this.router.url.includes('-jobs')) {
+
+            // If the URL contains "-jobs", route to the current dynamic route
+            this.router.navigate([this.router.url]);
+
+          } else if (currentUrl.includes('/companies')) {
+            // Redirect to the company listing page
+
+            this.router.navigate(['/companies']);
+
+          } else if (currentUrl.match(/-jobs$/)) {
+
+            // Refresh the current route ending with -jobs
+            this.router.navigateByUrl('/', { skipLocationChange: true }).then(() => {
+              this.router.navigate([currentUrl]);
+            });
           }
+          this.eventSubject.next(userType); // Emit the userType each time a login is successful through the navbar component
+          // This event will be captured by the parent component (companyListing) to perform required actions 
+
           this.modal.cancel();
         }
+        else {
+          const response = await this.candidateSrv.getProfileComplete(this.emailAddress);
+
+          if (response) {
+            this.profileCompletion = response;
+
+
+            if (this.profileCompletion) {
+              const profileType = userType === "CAND" ? this.profileCompletion.candidate : this.profileCompletion.employee;
+              const totalPercentage = profileType.reduce((sum: any, element: any) => sum + element.curPerc, 0);
+
+              if (userType === "CAND" && totalPercentage >= 60) {
+                this.router.navigate(['/candidate/dashboard']);
+              } else if (userType === "CAND" && totalPercentage < 60) {
+                this.router.navigate(['/candidate/edit-profile']);
+              } else if (userType !== "CAND" && totalPercentage >= 60) {
+                this.router.navigate(['/employee/Dashboard']);
+              } else if (userType !== "CAND" && totalPercentage < 60) {
+                this.router.navigate(['/employee/Edit-profile']);
+              }
+            }
+            this.modal.cancel();
+          }
+        }
+      }
+
+    }
+
+  async openLogin() {
+      if (this.userLoggedIn) {
+        alert("User is Logged In")
+
+      } else {
+        this.openModal(ModalType.LOGIN_SIGNUP);
+        //this.router.navigate(['/login']);
       }
     }
 
-  }
 
-  async openLogin() {
-    if (this.userLoggedIn) {
-      alert("User is Logged In")
-
-    } else {
-      this.openModal(ModalType.LOGIN_SIGNUP);
-      //this.router.navigate(['/login']);
+    rediectToFaq() {
+      window.location.href = environment.crossOriginUrl + '/faq'
     }
-  }
+    rediectToAboutUs() {
+      window.location.href = environment.crossOriginUrl + '/about-us'
+    }
+    rediectToCorporate() {
+      window.location.href = environment.crossOriginUrl + '/corporate'
+    }
 
-
-  rediectToFaq() {
-    window.location.href = environment.crossOriginUrl + '/faq'
-  }
-  rediectToAboutUs() {
-    window.location.href = environment.crossOriginUrl + '/about-us'
-  }
-  rediectToCorporate() {
-    window.location.href = environment.crossOriginUrl + '/corporate'
-  }
-
-  /**
-    * Open modal.
-    *
-    * @param {ModalType} modalType
-    * @param {string} [message = ""]
-    * @param {string} [title = ""]
-    * @returns {void}
-    */
-  openModal(modalType: ModalType, message: string = "", title: string = ""): void {
-    // debugger
-    if (this.LoginPageComponent) {
+    /**
+      * Open modal.
+      *
+      * @param {ModalType} modalType
+      * @param {string} [message = ""]
+      * @param {string} [title = ""]
+      * @returns {void}
+      */
+    openModal(modalType: ModalType, message: string = "", title: string = ""): void {
+      // debugger
+      if(this.LoginPageComponent) {
       this.LoginPageComponent.showSignInRow = false;
       this.LoginPageComponent.showAddCompanyScreen = false;
       this.LoginPageComponent.showErrorMessageScreen = false;
