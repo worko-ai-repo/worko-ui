@@ -2,6 +2,7 @@ import { HttpClient } from '@angular/common/http';
 import { Component } from '@angular/core';
 import * as industryTypes from '../../../../../assets/industry-types.json';
 import { environment } from 'src/environments/environment';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-footer',
@@ -9,8 +10,8 @@ import { environment } from 'src/environments/environment';
   styleUrls: ['./footer.component.scss']
 })
 export class FooterComponent {
- 
-  
+
+  isCompaniesRoute: boolean = false;
   industryTypeOptions: any[] = (industryTypes as any).default;
   currentYear!: number;
   // baseUrl=window.location.origin;
@@ -36,9 +37,14 @@ export class FooterComponent {
     {name:'INNOVACCER'},
   ]
 
-  constructor(private http: HttpClient){}
+  constructor(private http: HttpClient, private router: Router) { }
 
   async ngOnInit() {
+    // Checking if the current URL ends with '/companies'
+    this.router.events.subscribe(() => {
+      this.isCompaniesRoute = this.router.url.endsWith('/companies');
+    });
+
     this.http.get<any[]>('assets/industry-types.json').subscribe(data => {
       this.industryTypeOptions = data;
     });
