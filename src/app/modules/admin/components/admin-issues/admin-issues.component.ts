@@ -48,7 +48,7 @@ export class AdminIssuesComponent {
   modalTitle: string = "";
   showModal: ModalType | undefined;
   sortDirection: string = 'acs'; // Default to descending
-  displayedColumns: string[] = ['serialnumber', 'name', 'userEmail', 'ID', 'contextType', 'date', 'userRole', 'status', 'action'];
+  displayedColumns: string[] = ['serialNumber', 'name', 'userEmail', 'ID', 'contextType', 'date', 'userRole', 'status', 'action'];
   candidatesDataSource: MatTableDataSource<UserData>;
   // servicesDataSource: MatTableDataSource<UserData>;
   isFilterPopupOpen: boolean = true;

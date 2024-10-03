@@ -43,7 +43,7 @@ export class AdminPaymentComponent {
   modalTitle: string = "";
   showModal: ModalType | undefined;
 
-  displayedColumns: string[] = ['serialnumber', 'orderId', 'packageName', 'purchaseDate', 'expiryDate', 'creditedReferrals', 'requestedReferrals', 'acceptedReferrals', 'status', 'action'];
+  displayedColumns: string[] = ['serialNumber', 'orderId', 'packageName', 'purchaseDate', 'expiryDate', 'creditedReferrals', 'requestedReferrals', 'acceptedReferrals', 'status', 'action'];
   candidatesDataSource: MatTableDataSource<UserData>;
   servicesDataSource: MatTableDataSource<UserData>;
   isFilterPopupOpen: boolean = true;

@@ -51,9 +51,10 @@
 
               <div class="pe-2">
                 <!-- <label for="fromDate">From Date:</label> -->
-                <mat-form-field  >
+                <mat-form-field>
                   <mat-label style="color: white; padding-top: 10px;">From Date</mat-label>
-                  <input matInput [matDatepicker]="fromPicker" [(ngModel)]="filterModel.fromDate" (dateChange)="applyFromDateFilters()" >
+                  <input matInput [matDatepicker]="fromPicker" [(ngModel)]="filterModel.fromDate"
+                    (dateChange)="applyFromDateFilters()">
                   <mat-datepicker-toggle matSuffix [for]="fromPicker"></mat-datepicker-toggle>
                   <mat-datepicker #fromPicker></mat-datepicker>
                 </mat-form-field>
@@ -62,8 +63,9 @@
                 <!-- <label for="toDate">To Date:</label> -->
                 <mat-form-field>
                   <mat-label style="color: white;">To Date</mat-label>
-                  <input matInput [matDatepicker]="toPicker" [(ngModel)]="filterModel.toDate" (dateChange)="applyToDateFilters()">
-                  <mat-datepicker-toggle matSuffix [for]="toPicker" ></mat-datepicker-toggle>
+                  <input matInput [matDatepicker]="toPicker" [(ngModel)]="filterModel.toDate"
+                    (dateChange)="applyToDateFilters()">
+                  <mat-datepicker-toggle matSuffix [for]="toPicker"></mat-datepicker-toggle>
                   <mat-datepicker #toPicker></mat-datepicker>
                 </mat-form-field>
               </div>
@@ -94,13 +96,13 @@
               border-bottom: 2px solid #476baf;
             " mat-table [dataSource]="candidatesDataSource" (matSortChange)="onSort($event)" matSortDirection="desc"
               matSort matSortActive="accountcreateddate" matSortDisableClear="true"> -->
-              <table class="table-style" style="
+            <table class="table-style" style="
               background-color: #0a1e35;
               color: white;
               border-bottom: 2px solid #476baf;
             " mat-table [dataSource]="candidatesDataSource">
               <tbody class="table content-style">
-                <ng-container matColumnDef="serialnumber">
+                <ng-container matColumnDef="serialNumber">
                   <th mat-header-cell *matHeaderCellDef class="small-column">
                     S.No
                   </th>
@@ -126,7 +128,7 @@
                 </td>
               </ng-container> -->
 
-                <ng-container matColumnDef="emailid">
+                <ng-container matColumnDef="emailId">
                   <th mat-header-cell *matHeaderCellDef class="small-column">
                     Email ID
                   </th>
@@ -141,8 +143,8 @@
                     {{ row.createdAt | date : "dd-MMM-yyyy" }}
                   </td>
                 </ng-container> -->
-                <ng-container matColumnDef="accountcreateddate">
-                  <th mat-header-cell *matHeaderCellDef >Account Created Date</th>
+                <ng-container matColumnDef="accountCreatedDate">
+                  <th mat-header-cell *matHeaderCellDef>Account Created Date</th>
                   <td mat-cell *matCellDef="let row">
                     {{ row.createdAt | date : "dd-MMM-yyyy" }}
                   </td>
@@ -155,13 +157,13 @@
                   <td mat-cell *matCellDef="let row">{{ row.number }}</td>
                 </ng-container>
 
-                <ng-container matColumnDef="referralcount">
+                <ng-container matColumnDef="referralCount">
                   <th mat-header-cell *matHeaderCellDef>
                     Referral Count
                   </th>
                   <td mat-cell *matCellDef="let row">{{ row.referralCount }}</td>
                 </ng-container>
-                <ng-container matColumnDef="companyname">
+                <ng-container matColumnDef="companyName">
                   <th mat-header-cell *matHeaderCellDef>
                     Company Name
                   </th>
@@ -525,7 +527,7 @@
             <label class="form-label">Year of Experience</label>
           </div>
           <div class="col-8">
-            <span class="form-detail">: {{ userData?.YOE ?  userData?.YOE :'-'}}</span>
+            <span class="form-detail">: {{ userData?.YOE ? userData?.YOE :'-'}}</span>
           </div>
         </div>
         <div class="row form-row">
@@ -533,7 +535,7 @@
             <label class="form-label">CTC</label>
           </div>
           <div class="col-8">
-            <span class="form-detail">: {{ userData?.CTC  ? userData?.CTC  :'-'}}</span>
+            <span class="form-detail">: {{ userData?.CTC ? userData?.CTC :'-'}}</span>
           </div>
         </div>
         <div class="row form-row">
@@ -541,7 +543,7 @@
             <label class="form-label">ECTC</label>
           </div>
           <div class="col-8">
-            <span class="form-detail">: {{ userData?.ECTC ? userData?.ECTC   :'-'}}</span>
+            <span class="form-detail">: {{ userData?.ECTC ? userData?.ECTC :'-'}}</span>
           </div>
         </div>
         <div class="row form-row">
@@ -549,9 +551,24 @@
             <label class="form-label">Notice peroid</label>
           </div>
           <div class="col-8">
-            <span class="form-detail">: {{ userData?.noticePeriod  ?  userData?.noticePeriod :'-' }}</span>
+            <span class="form-detail">: {{ userData?.noticePeriod ? userData?.noticePeriod :'-' }}</span>
           </div>
         </div>
+        <!-- <div class="row form-row">
+          <div class="col-4">
+            <label class="form-label">CV</label>
+          </div>
+          <div class="col-8">
+            <span class="form-detail">
+              :
+              <ng-container *ngIf="userData?.cvAwsS3SignedUrl; else noCv">
+                <a [href]="userData.cvAwsS3SignedUrl" target="_blank" rel="noopener noreferrer">View CV</a>
+              </ng-container>
+              <ng-template #noCv> - </ng-template>
+            </span>
+          </div>
+        </div> -->
+        
         <div class="row form-row">
           <div class="col-4">
             <label class="form-label">Candidate Fresher Status</label>
@@ -627,7 +644,8 @@
               <label class="form-label">Requested Referrals</label>
             </div>
             <div class="col-8">
-              <span class="form-detail">: {{ userSubscription?.requestedReferrals  ? userSubscription?.requestedReferrals :'-'}}</span>
+              <span class="form-detail">: {{ userSubscription?.requestedReferrals ? userSubscription?.requestedReferrals
+                :'-'}}</span>
             </div>
           </div>
           <div class="row form-row">
@@ -635,7 +653,8 @@
               <label class="form-label">Accepted Referrals</label>
             </div>
             <div class="col-8">
-              <span class="form-detail">: {{ userSubscription?.acceptedReferrals  ? userSubscription?.acceptedReferrals :'-'}}</span>
+              <span class="form-detail">: {{ userSubscription?.acceptedReferrals ? userSubscription?.acceptedReferrals
+                :'-'}}</span>
             </div>
           </div>
           <div class="row form-row">
@@ -643,7 +662,8 @@
               <label class="form-label">Available Referrals</label>
             </div>
             <div class="col-8">
-              <span class="form-detail">: {{ userSubscription?.availableReferrals  ? userSubscription?.availableReferrals  :'-'}}</span>
+              <span class="form-detail">: {{ userSubscription?.availableReferrals ? userSubscription?.availableReferrals
+                :'-'}}</span>
             </div>
           </div>
         </ng-container>

@@ -1843,9 +1843,13 @@ footer {
 }
 
 .pe-2 mat-form-field {
-    max-width: 150px;
+   // max-width: 150px;
+    max-width: 165px;
     max-height: 69px;
 
+}
+.selector{
+    width: 191px;
 }
 .mat-mdc-text-field-wrapper .mat-mdc-form-field-infix .mat-mdc-floating-label{
     top:auto;

@@ -51,7 +51,7 @@ export class AdminEmployeeComponent {
   private searchTerms = new Subject<string>();
   searchTerm: string = '';
   searchQuery: string = '';
-  displayedColumns: string[] = ['serialnumber', 'name', 'emailId', 'Phonenumber', 'accountcreateddate', 'companyName', 'companyEmailIdVerifiedStatus', 'action'];
+  displayedColumns: string[] = ['serialNumber', 'name', 'emailId', 'PhoneNumber', 'accountCreatedDate', 'companyName', 'companyEmailIdVerifiedStatus', 'action'];
   candidatesDataSource: MatTableDataSource<UserData>;
   isFilterPopupOpen: boolean = true;
   isDropdownOpen: boolean = false;

@@ -48,7 +48,7 @@ export class AdminReferralComponent {
   modalMessage: string = "";
   modalTitle: string = "";
   showModal: ModalType | undefined;
-  displayedColumns: string[] = ['serialnumber', 'emailId', 'matchingScore', 'status', 'date', 'jobUrl', 'action'];
+  displayedColumns: string[] = ['serialNumber', 'emailId', 'matchingScore', 'status', 'date', 'jobUrl', 'action'];
   candidatesDataSource: MatTableDataSource<UserData>;
   servicesDataSource: MatTableDataSource<UserData>;
   isFilterPopupOpen: boolean = true;

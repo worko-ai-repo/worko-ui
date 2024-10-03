@@ -48,7 +48,8 @@ export class AdminCandidateComponent implements AfterViewInit {
   modalTitle: string = "";
   showModal: ModalType | undefined;
 
-  displayedColumns: string[] = ['serialnumber', 'name', 'emailid', 'number', 'accountcreateddate', 'referralcount', 'companyname', 'department', 'designation', 'action'];
+  displayedColumns: string[] = ['serialNumber', 'name', 'emailId', 'number', 'accountCreatedDate', 'referralCount', 'companyName', 'department', 'designation', 'action'];
+
   candidatesDataSource: MatTableDataSource<UserData>;
   servicesDataSource: MatTableDataSource<UserData>;
   isFilterPopupOpen: boolean = true;
