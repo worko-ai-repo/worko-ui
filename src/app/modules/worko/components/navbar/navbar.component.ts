@@ -240,15 +240,15 @@ export class NavbarComponent {
     }
 
 
-    rediectToFaq() {
-      window.location.href = environment.localUrl + '/faq'
-    }
-    rediectToAboutUs() {
-      window.location.href = environment.localUrl + '/about-us'
-    }
-    rediectToCorporate() {
-      window.location.href = environment.localUrl + '/corporate'
-    }
+    // rediectToFaq() {
+    //   window.location.href = environment.localUrl + '/faq'
+    // }
+    // rediectToAboutUs() {
+    //   window.location.href = environment.localUrl + '/about-us'
+    // }
+    // rediectToCorporate() {
+    //   window.location.href = environment.localUrl + '/corporate'
+    // }
 
     /**
       * Open modal.
