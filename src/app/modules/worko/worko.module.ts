@@ -121,7 +121,8 @@ export const routes: Routes = [
       {
         path : 'privacy-policy',
         component: PrivacyPolicyComponent,
-      }{
+      },
+      {
         path: 'companies/:companyName-jobs',
         component: MiniJobPortalJobListingComponent
       },

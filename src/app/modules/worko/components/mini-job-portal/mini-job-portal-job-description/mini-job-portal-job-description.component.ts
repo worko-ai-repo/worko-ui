@@ -4,12 +4,13 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { CompanyListingService } from '../../../services/company-listing.service';
 import { ModalType } from 'src/app/modules/shared/interfaces/shared.interface';
 import { ModalComponent } from 'src/app/modules/shared/components/modal/modal.component';
-import { LoginPageComponent } from '../../login-page/login-page.component';
+
 import { NavbarComponent } from '../../navbar/navbar.component';
 import { CognitoService } from 'src/app/modules/services/cognito.service';
 import { CandidateProfileService } from 'src/app/modules/candidate/services/candidate-profile.service';
 import { StorageService } from 'src/app/modules/app-core/services/storage.service';
 import { NgxSpinnerService } from 'ngx-spinner';
+import { LoginFormComponent } from '../../login-form/login-form.component';
 
 @Component({
   selector: 'app-mini-job-portal-job-description',
@@ -19,7 +20,7 @@ import { NgxSpinnerService } from 'ngx-spinner';
 export class MiniJobPortalJobDescriptionComponent {
 
   @ViewChild(ModalComponent) modal!: ModalComponent;
-  @ViewChild(LoginPageComponent) LoginPageComponent!: LoginPageComponent;
+  @ViewChild(LoginFormComponent) loginFormComponent!:LoginFormComponent
   @ViewChild(NavbarComponent) navbarComponent!: NavbarComponent;
   companyName!: string;
   jobID!: string;
@@ -427,11 +428,11 @@ export class MiniJobPortalJobDescriptionComponent {
     this.modalTitle = title;
 
     if (ModalType.LOGIN_SIGNUP) {
-      if (this.LoginPageComponent) {
-        this.LoginPageComponent.showSignInRow = false;
-        this.LoginPageComponent.showAddCompanyScreen = false;
-        this.LoginPageComponent.showErrorMessageScreen = false;
-        this.LoginPageComponent.showLoginScreen = true
+      if (this.loginFormComponent) {
+        this.loginFormComponent.showSignInRow = false;
+        this.loginFormComponent.showAddCompanyScreen = false;
+        this.loginFormComponent.showErrorMessageScreen = false;
+        this.loginFormComponent.showLoginScreen = true
       }
     }
     this.modal.open();
