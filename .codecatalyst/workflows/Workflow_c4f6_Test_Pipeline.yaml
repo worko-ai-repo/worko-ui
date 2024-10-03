@@ -28,7 +28,7 @@ Actions:
       # Required - Steps are sequential instructions that run shell commands
       Steps:
         - Run: echo "Building Backend Artifacts..."
-        - Run: npm insall -g n
+        - Run: npm install -g n
         - Run: n lts
         - Run: npm install -g @angular/cli
         - Run: npm install
