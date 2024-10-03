@@ -28,8 +28,8 @@ Actions:
       # Required - Steps are sequential instructions that run shell commands
       Steps:
         - Run: echo "Building Backend Artifacts..."
-        - Run: curl -o- https://raw.githubusercontent.com/nvm-sh/nvm/v0.39.1/install.sh | bash
-        - Run: . ~/.nvm/nvm.sh && nvm install 18
+        - Run: npm insall -g n
+        - Run: n lts
         - Run: npm install -g @angular/cli
         - Run: npm install
         - Run: ng build
