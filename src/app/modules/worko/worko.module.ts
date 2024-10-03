@@ -49,6 +49,8 @@ import { FaqComponent } from './components/faq/faq.component';
 import { PrivacyPolicyComponent } from './components/privacy-policy/privacy-policy.component';
 import { RefundPolicyComponent } from './components/refund-policy/refund-policy.component';
 import { LoginFormComponent } from './components/login-form/login-form.component';
+import { MiniJobPortalJobListingComponent } from './components/mini-job-portal/mini-job-portal-job-listing/mini-job-portal-job-listing.component';
+import { MiniJobPortalJobDescriptionComponent } from './components/mini-job-portal/mini-job-portal-job-description/mini-job-portal-job-description.component';
 
 
 
@@ -77,10 +79,12 @@ export const routes: Routes = [
         component: CompanyListingComponent
       },
       // { path: ':category-jobs', component: JobCategoryComponent },
+
       { 
         matcher: jobCategoryMatcher,
         component: JobCategoryComponent 
       },
+
       {
         path : 'switcher',
         component:AccountSwitcherComponent ,canActivate:[AuthAdminGuardService]
@@ -116,7 +120,15 @@ export const routes: Routes = [
       },
       {
         path : 'privacy-policy',
-        component: PrivacyPolicyComponent
+        component: PrivacyPolicyComponent,
+      }{
+        path: 'companies/:companyName-jobs',
+        component: MiniJobPortalJobListingComponent
+      },
+
+      {
+        path: 'companies/:companyName-jobs/:jobTitle-:jobID',
+        component: MiniJobPortalJobDescriptionComponent
       },
       // {
       //   path: 'contact',
@@ -233,7 +245,9 @@ export const routes: Routes = [
         FaqComponent,
         PrivacyPolicyComponent,
         RefundPolicyComponent,
-        LoginFormComponent
+        LoginFormComponent,
+        MiniJobPortalJobListingComponent,
+        MiniJobPortalJobDescriptionComponent
     ],
     exports: [
         NavbarComponent,
