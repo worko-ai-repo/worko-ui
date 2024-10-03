@@ -66,11 +66,11 @@
               <td id="editbtns">
                 <span *ngIf="job.status != status.CLOSED" (click)="editJob(job)" matTooltip="Edit" matTooltipPosition="above" style="background:#2716bb;"><i
                     class="fa-solid fa-pen-to-square"></i></span>
-                <span *ngIf="job.status !== status.ARCHIVED && selectedStatus !== status.CLOSED" (click)="archiveJob(job,'ARCHIVED')" matTooltip="Archive" matTooltipPosition="above" style="background: #ffc107;"><i
-                    class="fa-solid fa-file-arrow-down"></i></span>
-                <span *ngIf="job.status != status.CLOSED" (click)="deleteJob(job)" matTooltip="Delete" matTooltipPosition="above" style="background: red;"><i
-                    class="fa-solid fa-trash"></i></span>
-                <span *ngIf="job.status === status.ARCHIVED" (click)="archiveJob(job,'PUBLISHED')" matTooltip="Make Publish" matTooltipPosition="above" style="background: #ffc107;">
+                <span *ngIf="job.status !== status.ARCHIVED && selectedStatus !== status.CLOSED" (click)="updateJobStatus(job,'ARCHIVED')" matTooltip="Archive" matTooltipPosition="above" style="background: #ffc107;">
+                  <i class="fa-solid fa-file-arrow-down"></i></span>
+                <span *ngIf="job.status != status.CLOSED" (click)="updateJobStatus(job,'CLOSED')" matTooltip="Delete" matTooltipPosition="above" style="background: red;">
+                  <i class="fa-solid fa-trash"></i></span>
+                <span *ngIf="job.status === status.ARCHIVED" (click)="updateJobStatus(job,'PUBLISHED')" matTooltip="Make Publish" matTooltipPosition="above" style="background: #ffc107;">
                   <i class="fa-solid fa-eye"></i></span>
                 <span *ngIf="job.status != status.CLOSED" matTooltip="Visit" matTooltipPosition="above" style="background: green;">
                   <i class="fa-solid fa-link"></i></span>
@@ -80,7 +80,7 @@
           </tbody>
         </table>
         <!--Pagination-->
-        <mat-paginator #referralPaginator 
+        <mat-paginator #companyJobMatPaginator 
           aria-label="Select page of users"
           [pageSize]="10"
           [pageSizeOptions]="[10,25,50,100]"
@@ -134,12 +134,13 @@
         <div class="ajobs-fitem">
           <label for="salaryRange" class="form-label required-form-field">Salary Range:</label>
           <select id="salaryRange" class="selector form-select required-form-field"
-            (change)="onSalaryRangeChange($event)">
+            (change)="rangeDropdownHandler($event , 'salaryRange' )" [ngClass]="{ 'is-invalid': isInvalid('salaryRange') }">
             <option value="" disabled selected>Select Salary</option>
-            <option *ngFor="let range of salaryRanges" [value]="range.label">
+            <option *ngFor="let range of salaryRange" [value]="range.label">
               {{ range.label }}
             </option>
           </select>
+          <span *ngIf="isInvalid('salaryRange')" class="text-danger">{{ getErrorMessage('salaryRange') }}</span>
         </div> 
 
         <!-- Number of Openings -->
@@ -161,41 +162,36 @@
           </select>
           <span *ngIf="isInvalid('workMode')" class="text-danger">{{ getErrorMessage('workMode') }}</span>
         </div>
-
         <!-- Experience Range -->
         <div class="ajobs-fitem">
           <label for="experienceRange" class="form-label required-form-field">Experience Range:</label>
-          <select id="experienceRange" class="selector form-select required-form-field"
-            [ngClass]="{ 'is-invalid': isInvalid('experienceRange') }" 
-            (change)="onExperienceRangeChange($event)">
+          <select id="experienceRange"  class="selector form-select required-form-field"
+          (change)="rangeDropdownHandler($event , 'experienceRange' )" [ngClass]="{ 'is-invalid': isInvalid('experienceRange') }">
             <option value="" disabled selected>Select Experience</option>
-            <option *ngFor="let range of experienceRanges" [value]="range.label">
+            <option *ngFor="let range of experienceRange" [value]="range.label">
               {{ range.label }}
             </option>
           </select>
-          <span *ngIf="isInvalid('experienceRange')" class="text-danger">
-            {{ getErrorMessage('experienceRange') }}
-          </span>
+          <span *ngIf="isInvalid('experienceRange')" class="text-danger">{{ getErrorMessage('experienceRange') }}</span>
         </div>
         
-
         <!-- Location -->
         <div class="ajobs-fitem">
           <label for="location" class="form-label required-form-field">Location:</label>
           <select id="location" formControlName="location" class="selector form-select required-form-field"
             [ngClass]="{ 'is-invalid': isInvalid('location') }">
             <option value="" disabled selected>Select Location</option> <!-- Placeholder-like option -->
-            <option value="Noida">Noida</option>
-            <option value="Bangalore">Bangalore</option>
-            <option value="Hyderabad">Hyderabad</option>
-            <option value="Pune">Pune</option>
-            <option value="Mumbai">Mumbai</option>
-            <option value="Chennai">Chennai</option>
-            <option value="Delhi">Delhi</option>
-            <option value="Gurgaon">Gurgaon</option>
-            <option value="Kolkata">Kolkata</option>
-            <option value="Ahmedabad">Ahmedabad</option>
-            <option value="Chandigarh">Chandigarh</option>
+            <option value="noida">Noida</option>
+            <option value="bangalore">Bangalore</option>
+            <option value="hyderabad">Hyderabad</option>
+            <option value="pune">Pune</option>
+            <option value="mumbai">Mumbai</option>
+            <option value="chennai">Chennai</option>
+            <option value="delhi">Delhi</option>
+            <option value="gurgaon">Gurgaon</option>
+            <option value="kolkata">Kolkata</option>
+            <option value="ahmedabad">Ahmedabad</option>
+            <option value="chandigarh">Chandigarh</option>
           </select>
           <span *ngIf="isInvalid('location')" class="text-danger">{{ getErrorMessage('location') }}</span>
         </div>
