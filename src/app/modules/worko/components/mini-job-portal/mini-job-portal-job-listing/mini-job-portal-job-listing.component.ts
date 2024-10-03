@@ -5,7 +5,6 @@ import { StorageService } from 'src/app/modules/app-core/services/storage.servic
 import { CognitoService } from 'src/app/modules/services/cognito.service';
 import { ModalComponent } from 'src/app/modules/shared/components/modal/modal.component';
 import { ModalType } from 'src/app/modules/shared/interfaces/shared.interface';
-import { LoginPageComponent } from '../../login-page/login-page.component';
 import { NavbarComponent } from '../../navbar/navbar.component';
 import { CandidateProfileService } from 'src/app/modules/candidate/services/candidate-profile.service';
 import { error, event } from 'jquery';
@@ -13,6 +12,7 @@ import { CompanyListingService } from '../../../services/company-listing.service
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { NgxSpinnerService } from 'ngx-spinner';
 import { AuthService } from '../../../services/auth.service';
+import { LoginFormComponent } from '../../login-form/login-form.component';
 
 
 @Component({
@@ -22,9 +22,9 @@ import { AuthService } from '../../../services/auth.service';
 })
 export class MiniJobPortalJobListingComponent {
 
-  companyName!: string;
+  companyName: string="";
   @ViewChild(ModalComponent) modal!: ModalComponent;
-  @ViewChild(LoginPageComponent) LoginPageComponent!: LoginPageComponent;
+  @ViewChild(LoginFormComponent) loginFormComponent!: LoginFormComponent;
   @ViewChild(NavbarComponent) navbarComponent!: NavbarComponent;
   @Output() onOkBtn: EventEmitter<any> = new EventEmitter<any>();
   userLoggedIn: boolean = false;
@@ -304,7 +304,7 @@ export class MiniJobPortalJobListingComponent {
   async handlePostLoginProcess(): Promise<void> {
 
     await this.getProfilePercentage();
-
+    this.navbarComponent.initializeUserSession();
     // Step 4: Check if the profile is complete
     if (!this.checkProfileCompletion()) {
       this.profileCompletionRequired = true;
@@ -533,11 +533,11 @@ export class MiniJobPortalJobListingComponent {
     this.modalTitle = title;
 
     if (ModalType.LOGIN_SIGNUP) {
-      if (this.LoginPageComponent) {
-        this.LoginPageComponent.showSignInRow = false;
-        this.LoginPageComponent.showAddCompanyScreen = false;
-        this.LoginPageComponent.showErrorMessageScreen = false;
-        this.LoginPageComponent.showLoginScreen = true
+      if (this.loginFormComponent) {
+        this.loginFormComponent.showSignInRow = false;
+        this.loginFormComponent.showAddCompanyScreen = false;
+        this.loginFormComponent.showErrorMessageScreen = false;
+        this.loginFormComponent.showLoginScreen = true
       }
     }
     this.modal.open();

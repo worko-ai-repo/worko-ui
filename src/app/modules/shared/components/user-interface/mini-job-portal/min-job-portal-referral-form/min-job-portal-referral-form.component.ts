@@ -4,7 +4,7 @@ import { CognitoService } from 'src/app/modules/services/cognito.service';
 import { ModalType } from 'src/app/modules/shared/interfaces/shared.interface';
 import { ModalComponent } from '../../../modal/modal.component';
 import { Router } from '@angular/router';
-import { LoginPageComponent } from 'src/app/modules/worko/components/login-page/login-page.component';
+import { LoginFormComponent } from 'src/app/modules/worko/components/login-form/login-form.component';
 
 @Component({
   selector: 'app-min-job-portal-referral-form',
@@ -15,7 +15,7 @@ export class MinJobPortalReferralFormComponent {
 
   @Input()  companyName:any
   @ViewChild(ModalComponent) modal!: ModalComponent;
-  @ViewChild(LoginPageComponent) LoginPageComponent!: LoginPageComponent;
+  @ViewChild(LoginFormComponent) LoginFormComponent!: LoginFormComponent;
   userLoggedIn: boolean = false;
   profileCompletion: any;
   cvCurPerc: any;
@@ -99,11 +99,11 @@ export class MinJobPortalReferralFormComponent {
       this.modalTitle = title;
   
       if (ModalType.LOGIN_SIGNUP) {
-        if (this.LoginPageComponent) {
-          this.LoginPageComponent.showSignInRow = false;
-          this.LoginPageComponent.showAddCompanyScreen = false;
-          this.LoginPageComponent.showErrorMessageScreen = false;
-          this.LoginPageComponent.showLoginScreen = true
+        if (this.LoginFormComponent) {
+          this.LoginFormComponent.showSignInRow = false;
+          this.LoginFormComponent.showAddCompanyScreen = false;
+          this.LoginFormComponent.showErrorMessageScreen = false;
+          this.LoginFormComponent.showLoginScreen = true
         }
       }
       this.modal.open();

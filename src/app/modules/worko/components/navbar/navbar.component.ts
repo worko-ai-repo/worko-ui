@@ -240,15 +240,15 @@ export class NavbarComponent {
     }
 
 
-    rediectToFaq() {
-      window.location.href = environment.localUrl + '/faq'
-    }
-    rediectToAboutUs() {
-      window.location.href = environment.localUrl + '/about-us'
-    }
-    rediectToCorporate() {
-      window.location.href = environment.localUrl + '/corporate'
-    }
+    // rediectToFaq() {
+    //   window.location.href = environment.localUrl + '/faq'
+    // }
+    // rediectToAboutUs() {
+    //   window.location.href = environment.localUrl + '/about-us'
+    // }
+    // rediectToCorporate() {
+    //   window.location.href = environment.localUrl + '/corporate'
+    // }
 
     /**
       * Open modal.
@@ -260,12 +260,12 @@ export class NavbarComponent {
       */
     openModal(modalType: ModalType, message: string = "", title: string = ""): void {
       // debugger
-    //   if(this.LoginPageComponent) {
-    //   this.LoginPageComponent.showSignInRow = false;
-    //   this.LoginPageComponent.showAddCompanyScreen = false;
-    //   this.LoginPageComponent.showErrorMessageScreen = false;
-    //   this.LoginPageComponent.showLoginScreen = true
-    // }
+      if(this.LoginFormComponent) {
+      this.LoginFormComponent.showSignInRow = false;
+      this.LoginFormComponent.showAddCompanyScreen = false;
+      this.LoginFormComponent.showErrorMessageScreen = false;
+      this.LoginFormComponent.showLoginScreen = true
+    }
 
     this.showModal = modalType;
     this.modalMessage = message;
