@@ -22,7 +22,7 @@ import { LoginFormComponent } from '../../login-form/login-form.component';
 })
 export class MiniJobPortalJobListingComponent {
 
-  companyName: string="";
+  companyName: string = "";
   @ViewChild(ModalComponent) modal!: ModalComponent;
   @ViewChild(LoginFormComponent) loginFormComponent!: LoginFormComponent;
   @ViewChild(NavbarComponent) navbarComponent!: NavbarComponent;
@@ -416,7 +416,7 @@ export class MiniJobPortalJobListingComponent {
   handleError(error: any) {
     this.requestForm.reset();
     switch (error.status) {
-      case 400:
+      case 403:
         this.showErrorMsg = true;
         this.showReferrelRow = false;
         this.showScore = false;
@@ -431,7 +431,7 @@ export class MiniJobPortalJobListingComponent {
         break;
       default:
         console.error('Unexpected Error:', error);
-        break;
+        break;  
     }
   }
 

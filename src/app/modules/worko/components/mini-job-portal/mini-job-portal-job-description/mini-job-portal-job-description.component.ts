@@ -226,7 +226,7 @@ export class MiniJobPortalJobDescriptionComponent {
         "jdExtracted": await this.getFormattedJobDescription(this.jobDescriptionDetails),
         "jobId": this.jobDescriptionDetails.id,
         "jobPortal": 'worko',
-
+  
       }
 
       this.companyListing.createReferralRequest(this.emailAddress, data).then(async (response) => {
@@ -277,7 +277,7 @@ export class MiniJobPortalJobDescriptionComponent {
     this.spinner.hide()
     switch (error.status) {
      
-      case 400:
+      case 403:
         this.showErrorMsg = true;
         this.showReferrelRow = false;
         this.showScore = false;

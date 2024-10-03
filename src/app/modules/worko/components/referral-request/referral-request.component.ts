@@ -176,7 +176,7 @@ export class ReferralRequestComponent implements OnInit, OnChanges {
 
   handleError(error: any) {
     switch (error.status) {
-      case 400:
+      case 403:
         this.showErrorMsg = true;
         this.showReferrelRow = false;
         this.showScore=false;
