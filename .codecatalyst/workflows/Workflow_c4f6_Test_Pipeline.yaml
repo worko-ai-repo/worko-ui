@@ -29,7 +29,6 @@ Actions:
       Steps:
         - Run: echo "Building Backend Artifacts..."
         - Run: npm install -g n
-        - Run: sudo n lts
         - Run: npm install -g @angular/cli
         - Run: npm install
         - Run: ng build
