@@ -895,6 +895,7 @@ export class CompanyListingComponent implements OnInit, AfterViewInit, OnDestroy
     this.modalTitle = title;
     if (this.showModal === ModalType.REQUEST_REFERRAL) {
       if (this.referrralComponent) {
+        this.referrralComponent.showFeedback = false;
         this.referrralComponent.showReferrelRow = true;
         this.referrralComponent.requestForm.reset();
         this.referrralComponent.showScore = false;

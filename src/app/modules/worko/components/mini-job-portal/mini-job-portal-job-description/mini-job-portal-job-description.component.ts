@@ -11,6 +11,7 @@ import { CandidateProfileService } from 'src/app/modules/candidate/services/cand
 import { StorageService } from 'src/app/modules/app-core/services/storage.service';
 import { NgxSpinnerService } from 'ngx-spinner';
 import { LoginFormComponent } from '../../login-form/login-form.component';
+import { ReferralProgressBarComponent } from '../../referral-progress-bar/referral-progress-bar.component';
 
 @Component({
   selector: 'app-mini-job-portal-job-description',
@@ -21,6 +22,7 @@ export class MiniJobPortalJobDescriptionComponent {
 
   @ViewChild(ModalComponent) modal!: ModalComponent;
   @ViewChild(LoginFormComponent) loginFormComponent!:LoginFormComponent
+  @ViewChild(ReferralProgressBarComponent) referralProgressBarComponent!: ReferralProgressBarComponent;
   @ViewChild(NavbarComponent) navbarComponent!: NavbarComponent;
   companyName!: string;
   jobID!: string;
@@ -52,6 +54,7 @@ export class MiniJobPortalJobDescriptionComponent {
   letter: any;
   jobDescriptionDetails: any;
   otherJobDetails: any[] = [];
+  showFeedback!: boolean;
   constructor(private route: ActivatedRoute, private router: Router, private cognitoService: CognitoService, private http: HttpClient,
     private spinner: NgxSpinnerService, private companyListing: CompanyListingService, private cdr: ChangeDetectorRef, private candidateSrv: CandidateProfileService, private storage: StorageService) { }
 
@@ -239,7 +242,8 @@ export class MiniJobPortalJobDescriptionComponent {
             this.referralRequestId = response.referralRequestId;
             this.showLoading = true;
             this.showReferrelRow = false;
-            this.showScore = true;
+            this.showFeedback = false;
+            this.showScore=true;
             this.openModal(ModalType.SUCCESS_MESSAGE);
             // this.getScore(this.referralRequestId);
           }
@@ -411,7 +415,9 @@ export class MiniJobPortalJobDescriptionComponent {
 
 
 
-
+  onModalClose(){
+    this.showFeedback=false
+  }
 
 
 
@@ -437,6 +443,9 @@ export class MiniJobPortalJobDescriptionComponent {
         this.loginFormComponent.showErrorMessageScreen = false;
         this.loginFormComponent.showLoginScreen = true
       }
+    }
+    if (this.referralProgressBarComponent) {
+      this.referralProgressBarComponent.showFeedback=false;
     }
     this.modal.open();
 

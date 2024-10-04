@@ -16,6 +16,7 @@ export class ReferralRequestComponent implements OnInit, OnChanges {
   @Input() selectedCompany: any;
   @Output() onOkBtn: EventEmitter<any> = new EventEmitter<any>();
 
+  showFeedback!:boolean;
   showSubscription: boolean = false;
   showReferrelRow: boolean = true;
   showContent: boolean = true;
@@ -160,7 +161,7 @@ export class ReferralRequestComponent implements OnInit, OnChanges {
         
         this.matchingScore = response.matchingScore;
         this.showLoading = false;
-        this.showScore = true;
+        this.showScore = true;       
       }
     })
       .catch(error => {

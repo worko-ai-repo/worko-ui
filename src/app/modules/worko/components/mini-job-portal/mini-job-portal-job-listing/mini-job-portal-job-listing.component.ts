@@ -13,6 +13,7 @@ import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { NgxSpinnerService } from 'ngx-spinner';
 import { AuthService } from '../../../services/auth.service';
 import { LoginFormComponent } from '../../login-form/login-form.component';
+import { ReferralProgressBarComponent } from '../../referral-progress-bar/referral-progress-bar.component';
 
 
 @Component({
@@ -25,6 +26,7 @@ export class MiniJobPortalJobListingComponent {
   companyName: string = "";
   @ViewChild(ModalComponent) modal!: ModalComponent;
   @ViewChild(LoginFormComponent) loginFormComponent!: LoginFormComponent;
+  @ViewChild(ReferralProgressBarComponent) referralProgressBarComponent!: ReferralProgressBarComponent;
   @ViewChild(NavbarComponent) navbarComponent!: NavbarComponent;
   @Output() onOkBtn: EventEmitter<any> = new EventEmitter<any>();
   userLoggedIn: boolean = false;
@@ -60,6 +62,7 @@ export class MiniJobPortalJobListingComponent {
   filteredJobs: any;
   companyDetail: any;
   companyNameDetail: any;
+  showFeedback!: boolean;
 
   constructor(private route: ActivatedRoute, private router: Router, private http: HttpClient, private cognitoService: CognitoService, private storage: StorageService, private authService: AuthService,
     private spinner: NgxSpinnerService, private cdr: ChangeDetectorRef, private candidateSrv: CandidateProfileService, private companyListing: CompanyListingService, private formBuilder: FormBuilder
@@ -335,6 +338,7 @@ export class MiniJobPortalJobListingComponent {
         let count = response.referralCount;
 
         if (count == 0) {
+
           this.showsubscriptionPlan = true;
           this.openModal(ModalType.SUCCESS_MESSAGE);
 
@@ -388,14 +392,14 @@ export class MiniJobPortalJobListingComponent {
 
       this.companyListing.createReferralRequest(this.emailAddress, data).then(async (response) => {
         if (response) {
-
-
           if (response.referralRequestId) {
 
             this.referralRequestId = response.referralRequestId;
             this.showLoading = true;
             this.showReferrelRow = false;
             this.showScore = true;
+            this.showFeedback = false;
+            this.cdr.detectChanges()
             this.openModal(ModalType.SUCCESS_MESSAGE);
             // this.getScore(this.referralRequestId);
           }
@@ -461,6 +465,8 @@ export class MiniJobPortalJobListingComponent {
   onModalClose() {
     this.storage.remove("type");
     this.storage.remove("selectedCompanySK");
+    this.showFeedback=false
+    window.location.reload();
   }
 
   //   async receiveDataFromChild(data?: any) {
@@ -543,6 +549,10 @@ export class MiniJobPortalJobListingComponent {
         this.loginFormComponent.showLoginScreen = true
       }
     }
+      if (this.referralProgressBarComponent) {
+        this.referralProgressBarComponent.showFeedback=false;
+      }
+    
     this.modal.open();
 
   }
