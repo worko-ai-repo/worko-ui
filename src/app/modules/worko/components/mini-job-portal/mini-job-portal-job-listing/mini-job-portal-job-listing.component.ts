@@ -431,6 +431,9 @@ export class MiniJobPortalJobListingComponent {
         break;
       default:
         console.error('Unexpected Error:', error);
+        this.successmessage = "Something went wrong. Please try again after sometime"
+        this.successtitle = "Error"
+        this.openModal(ModalType.SUCCESS_MESSAGE)
         break;  
     }
   }
