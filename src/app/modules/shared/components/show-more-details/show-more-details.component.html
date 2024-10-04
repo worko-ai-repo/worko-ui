@@ -1,0 +1,21 @@
+<div #modalContent class="candidate-card" style="border-radius: 6px;">
+  <div class="row">
+    <div class="card-content">
+      <div class="popup-card">
+        <div style="display: flex; justify-content: center; text-align: center;">
+          <h6 style="font-size: 20px; text-decoration: underline;" class="mt-2">{{ title }}</h6>
+        </div>
+
+        <div class="mt-5" style="width: 100%;">
+          <div *ngIf="details" style="display: flex; justify-content: center;">
+            <div [innerHTML]="details" class="white-text"></div>
+          </div>
+        </div>
+
+        <div class="mt-5" style="width: 100%; display: flex; justify-content: center;">
+          <button class="btn-cancel" (click)="cancelBtn()" tabindex="-1">Close</button>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
