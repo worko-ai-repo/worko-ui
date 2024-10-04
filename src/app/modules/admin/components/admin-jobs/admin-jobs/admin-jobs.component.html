@@ -301,7 +301,7 @@
           <span *ngIf="isInvalid('jobDescription')" class="text-danger">{{ getErrorMessage('jobDescription') }}</span>
         </div>
         <!-- Other Requirements -->
-        <div class="ajobs-fitem gCloumnTwo">
+        <div class="ajobs-fitem gCloumnTwo required-form-field">
           <label for="otherRequirements" class="form-label">Other Requirements:</label>
           <textarea id="otherRequirements" formControlName="otherRequirements" class="form-control form-input jobDesc" rows="4"
             [ngClass]="{ 'is-invalid': isInvalid('otherRequirements') }">
