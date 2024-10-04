@@ -29,7 +29,8 @@ Actions:
       Steps:
         - Run: echo "Building Backend Artifacts..."
         - Run: npm install -g n
-        - Run: n 18.19
+        - Run: nvm ls-remote
+        - Run: nvm install node
         - Run: npm install -g @angular/cli
         - Run: npm install
         - Run: ng build
