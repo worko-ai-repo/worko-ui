@@ -10,6 +10,9 @@ import { Router } from '@angular/router';
 })
 export class ReferralProgressBarComponent implements OnChanges {
   @Output() response = new EventEmitter<void>();
+
+  public PASSING_SCORE = 70;
+  @Input() showFeedback: boolean = false;
   @Input() score: any;
   @Input() referralId: any;
   showScore: boolean = false;
@@ -30,6 +33,8 @@ export class ReferralProgressBarComponent implements OnChanges {
     "We are almost done"
   ];
   emailId: string = "";
+  feedbackDetails: any;
+  feedbackTitle = "Rejection Feedback";
   constructor(private companyListing: CompanyListingService, private storage: StorageService,private router: Router) { }
   ngOnChanges(changes: SimpleChanges): void {
     // console.log(this.score);
@@ -68,6 +73,15 @@ export class ReferralProgressBarComponent implements OnChanges {
       const response = await this.companyListing.getMatchingScore(this.emailId, this.referralId);
 
       if (response && response.matchingScore !== undefined) {
+
+        // this.feedbackDetails = "Feedback:\n\n- The job description specifically mentions a preference for experience with TypeScript, which is not listed among your technical skills.\n- While you have experience with front-end development using JavaScript frameworks like React and Angular, the job requires expertise in building reusable UX components or libraries, which is not explicitly mentioned in your resume.\n- The job requires 3+ years of professional front-end, web, or mobile software development experience, but based on the information provided, your experience appears to be around 5 years, which may not meet the minimum requirement.\n\nSuitable roles:\n\n- Full-Stack Developer: Your experience with both front-end (React, HTML, CSS, JavaScript) and back-end technologies (Node.js) makes you a suitable candidate for full-stack developer roles.\n- Front-End Developer: While you may not meet all the preferred qualifications for the specific role at Amazon, your skills in front-end development using React, JavaScript, HTML, and CSS make you a strong candidate for other front-end developer positions.\n- Software Engineer: Your Bachelor's degree in Computer Science and experience in software development, problem-solving, and algorithm design align well with software engineering roles across various industries.\n- Web Developer: Your expertise in web development technologies like HTML, CSS, JavaScript, and frameworks like React and Angular make you a good fit for web developer roles.\n\nRemember, while you may not be an ideal match for this particular role, your skills and experience can be valuable assets for other suitable positions. It's essential to highlight your strengths and align them with the job requirements during the application and interview process."
+        if(response?.rejectionFeedbackBySystem) {
+          this.feedbackDetails = response?.rejectionFeedbackBySystem;
+        }
+        else {
+          this.feedbackDetails = "";
+        }
+        
         const elapsedTime = Date.now() - this.startTime;
 
         if (response.matchingScore === 0) {
@@ -131,7 +145,9 @@ export class ReferralProgressBarComponent implements OnChanges {
 
   onViewMore(): void {
     // Toggle the visibility of the email content
-    this.showEmailContent = true;
+    this.showScore = false;
+    this.showFeedback = true;
+    // this.showEmailContent = true;
   }
 
   //   getScore() {
