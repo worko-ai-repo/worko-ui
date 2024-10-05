@@ -226,6 +226,20 @@ export class JobCategoryComponent implements OnInit, AfterViewInit, OnDestroy {
       this.openModal(ModalType.LOGIN_SIGNUP);
     }
   }
+  navigateToJobLink(event: MouseEvent, data: any): void {
+    event.preventDefault(); // Prevent the default anchor behavior
+    this.getJobLink(data);
+
+  }
+
+  getJobLink(data:any): void {
+    const  companyName=encodeURIComponent(data.name);
+    const route = `/companies/${companyName.toLowerCase()}-jobs`;
+   // console.log(route);
+    this.router.navigate([route],{
+      state: { companySK: data.SK}
+    });;
+  }
 
   async openGuidancePage(event: Event, item: any): Promise<void> {
 
