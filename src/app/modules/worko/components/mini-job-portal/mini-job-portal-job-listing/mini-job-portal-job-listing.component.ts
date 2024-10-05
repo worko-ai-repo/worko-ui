@@ -466,7 +466,7 @@ export class MiniJobPortalJobListingComponent {
     this.storage.remove("type");
     this.storage.remove("selectedCompanySK");
     this.showFeedback=false
-    window.location.reload();
+   // window.location.reload();
   }
 
   //   async receiveDataFromChild(data?: any) {
@@ -551,6 +551,11 @@ export class MiniJobPortalJobListingComponent {
     }
       if (this.referralProgressBarComponent) {
         this.referralProgressBarComponent.showFeedback=false;
+        this.referralProgressBarComponent.errorFound = false;
+        this.referralProgressBarComponent.cvError = false;
+        this.referralProgressBarComponent.jobDescription = false;
+        this.referralProgressBarComponent. showScore = false;
+        this.referralProgressBarComponent.showEmailContent = false;
       }
     
     this.modal.open();
