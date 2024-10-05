@@ -72,7 +72,7 @@
                   <i class="fa-solid fa-trash"></i></span>
                 <span *ngIf="job.status === status.ARCHIVED" (click)="updateJobStatus(job,'PUBLISHED')" matTooltip="Make Publish" matTooltipPosition="above" style="background: #ffc107;">
                   <i class="fa-solid fa-eye"></i></span>
-                <span *ngIf="job.status != status.CLOSED" matTooltip="Visit" matTooltipPosition="above" style="background: green;">
+                <span *ngIf="false" matTooltip="Visit" matTooltipPosition="above" style="background: grey;" aria-disabled="true" >
                   <i class="fa-solid fa-link"></i></span>
 
               </td>
@@ -302,7 +302,7 @@
         </div>
         <!-- Other Requirements -->
         <div class="ajobs-fitem gCloumnTwo">
-          <label for="otherRequirements" class="form-label">Other Requirements:</label>
+          <label for="otherRequirements" class="form-label required-form-field">Other Requirements:</label>
           <textarea id="otherRequirements" formControlName="otherRequirements" class="form-control form-input jobDesc" rows="4"
             [ngClass]="{ 'is-invalid': isInvalid('otherRequirements') }">
         </textarea>

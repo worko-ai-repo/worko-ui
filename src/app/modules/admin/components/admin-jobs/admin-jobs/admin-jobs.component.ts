@@ -476,8 +476,8 @@ export class AdminJobsComponent implements OnInit {
    */
   async searchJobs(event: any) {
     this.searchQuery = event.target.value;
-    console.log("Search query:", this.searchQuery);
-    this.fetchJobs({ jobStatus: this.selectedStatus, searchText: this.searchQuery, pageSize: 100 });
+/*     console.log("Search query:", this.searchQuery);
+ */    this.fetchJobs({ jobStatus: this.selectedStatus, searchText: this.searchQuery, pageSize: 100 });
     if (this.filteredJobs.length == 0) {
       this.noJobsMessage = "No Jobs present with this name or description";
     }
@@ -486,8 +486,8 @@ export class AdminJobsComponent implements OnInit {
    * Resets the search input and shows all jobs.
    */
   resetBtnHandler(): void {
-    console.log("Reset button clicked");
-    this.searchQuery = "";
+/*     console.log("Reset button clicked");
+ */    this.searchQuery = "";
     this.selectedStatus = this.status.PUBLISHED;
     this.fetchJobs({ jobStatus: this.selectedStatus, pageSize: this.pageSize, resetPagination: true }); // Fetch jobs with the new status
   }
@@ -513,8 +513,8 @@ export class AdminJobsComponent implements OnInit {
    * Updates the sort order of the jobs.
    */
   onSortOrderChange(event: any) {
-    console.log("Sort order:", event.target.value);
-    this.fetchJobs({ jobStatus: this.selectedStatus, pageSize: this.pageSize, sortOrder: event.target.value, resetPagination: true });
+/*     console.log("Sort order:", event.target.value);
+ */    this.fetchJobs({ jobStatus: this.selectedStatus, pageSize: this.pageSize, sortOrder: event.target.value, resetPagination: true });
   }
     // Function to find the corresponding label for a given range
     private findLabelForRange(min: number, max: number , rangeKey: keyof AdminJobsComponent ): string {
@@ -596,8 +596,8 @@ export class AdminJobsComponent implements OnInit {
    * @param job - The job object to archive.
    */
   updateJobStatus = async (job: any, newStatus: string) => {
-    console.log(job);
-    try {
+/*     console.log(job);
+ */    try {
       this.spinner.show();
       const jobData = {
         companyId: job.PK.startsWith("COMP#ID#") ? job.PK.slice(8, -1) : job.PK,
@@ -627,18 +627,18 @@ export class AdminJobsComponent implements OnInit {
    */
   onSubmit(): void {
     // Log whether the form is invalid or not
-    console.log("Form is invalid:", this.jobForm.invalid);
-
+/*     console.log("Form is invalid:", this.jobForm.invalid);
+ */
     // Loop through all form controls and print their validation status
     Object.keys(this.jobForm.controls).forEach((controlName) => {
       const control = this.jobForm.get(controlName);
-      console.log(`${controlName} is valid: ${control?.valid}`);
-
+/*       console.log(`${controlName} is valid: ${control?.valid}`);
+ */
       // If the control is a FormArray, log its inner controls' statuses
       if (control instanceof FormArray) {
         control.controls.forEach((arrayControl, index) => {
-          console.log(`${controlName}[${index}] is valid: ${arrayControl.valid}`);
-        });
+/*           console.log(`${controlName}[${index}] is valid: ${arrayControl.valid}`);
+ */        });
       }
     });
 
