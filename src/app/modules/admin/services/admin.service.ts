@@ -155,17 +155,17 @@ export class AdminService {
   }
 
   getJobs(param:any): Promise<any> {
-    console.log(`params ${param.pageSize} ${param.lastKey} ${param.status} ${param.sortOrder}`);
-    let url = `${API_URL}admin/job/?pageSize=${param.pageSize}`;
+/*     console.log(`params ${param.pageSize} ${param.lastKey} ${param.status} ${param.sortOrder}`);
+ */    let url = `${API_URL}admin/job/?pageSize=${param.pageSize}`;
     if(param.status) {
       url += `&status=${param.status}`;
     }
     if(param.searchText) {
       const searchTextEncoded = encodeURIComponent(param.searchText);
-      console.log(`service serachText ${searchTextEncoded}`);
-      url += `&searchText=${searchTextEncoded}`;
-      console.log(`After searchText ${url}`);
-    }
+/*       console.log(`service serachText ${searchTextEncoded}`);
+ */      url += `&searchText=${searchTextEncoded}`;
+/*       console.log(`After searchText ${url}`);
+ */    }
     if (param.lastKey) {
       url += `&lastKey=${param.lastKey}`;
     }
@@ -202,8 +202,8 @@ export class AdminService {
     return this.http.get(url, this.authService.getHttpOptions())
       .pipe(
         catchError(error => {
-          console.error('Error:', error);
-          throw error;
+/*           console.error('Error:', error);
+ */          throw error;
         })
       );
   }
