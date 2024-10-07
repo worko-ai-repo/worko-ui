@@ -15,8 +15,8 @@
         <div class="col-lg-12 text-center">
           <div class="footer-text pr-0">
 
-            <!-- Content visible only on '/companies' route -->
-            <div *ngIf="isCompaniesRoute">
+            <!-- Content visible only on 'companies', 'mini-job-portal' or on dynamic 'industry', 'company' page -->
+            <div *ngIf="displayIndustriesAndCompanies">
               <!-- Industries List -->
               <div class="row">
                 <div class="col-lg-12">

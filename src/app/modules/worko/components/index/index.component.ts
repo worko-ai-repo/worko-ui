@@ -20,7 +20,7 @@ export class IndexComponent {
   }
   getReferral: boolean = true;
   giveReferral: boolean = false;
-  assetLogos: string[] = [];
+  // assetLogos: string[] = [];
   intervalId: any;
 
   stepsList = [
@@ -56,7 +56,7 @@ export class IndexComponent {
     localStorage.removeItem('userType')
     const excludedNumbers = [83, 87, 90, 101, 103, 108, 110, 140, 147, 150, 158, 161, 177, 179, 217, 218, 224, 231, 243, 256, 289, 291, 298, 301, 308, 317, 323, 328, 334, 337, 354, 359, 362, 382, 403, 405, 431, 442, 452, 457, 477, 489, 503, 513, 520, 521, 525, 528, 531, 536, 540, 563, 566, 567, 579, 583, 585, 631, 634, 636, 638, 659, 660, 677, 689, 697, 704, 716, 720, 738, 757, 770, 796, 798, 809, 823, 828, 837, 843, 850, 852, 932, 935, 947, 949, 954, 971, 983, 984, 986, 992, 1024, 1040];
 
-    this.assetLogos = await this.generateLogoFilenames(1, 1045, excludedNumbers);
+    // this.assetLogos = await this.generateLogoFilenames(1, 1045, excludedNumbers);
 
   }
 

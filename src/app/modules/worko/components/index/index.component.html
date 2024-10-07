@@ -120,17 +120,26 @@
                 <div class="company-slides d-flex" *ngFor="let lineIndex of [0, 1, 2]">
                     <ng-container *ngFor="let item of getCompaniesForLine(lineIndex)">
                         <div class="company company1" tabindex="0">
-                            <img *ngIf="assetLogos.includes(item.logo)" src="assets/company-logo/{{item.logo }}"
-                                class="company-name" alt="{{item.name}}">
-                            <img *ngIf="!assetLogos.includes(item.logo)" src="{{ item.logoUrl }}" class="company-name"
-                                alt="{{item.name}}">
+
+                            <ng-container *ngIf="item.logo; else useUrlLogo">
+                                <img src="assets/company-logo/{{item.logo}}" class="company-name" alt="{{item.name}}">
+                            </ng-container>
+                            <ng-template #useUrlLogo>
+                                <img src="{{ item.logoUrl }}" class="company-name" alt="{{item.name}}">
+                            </ng-template>
+
                             <div class="hover hover1 onHoverClass">
+
                                 <div class="logo-container">
-                                    <img *ngIf="assetLogos.includes(item.logo)" src="assets/company-logo/{{item.logo }}"
-                                        class="company-name" alt="{{item.name}}">
-                                    <img *ngIf="!assetLogos.includes(item.logo)" src="{{ item.logoUrl }}"
-                                        class="company-name" alt="{{item.name}}">
+                                    <ng-container *ngIf="item.logo; else useUrlLogoHover">
+                                        <img src="assets/company-logo/{{item.logo}}" class="company-name"
+                                            alt="{{item.name}}">
+                                    </ng-container>
+                                    <ng-template #useUrlLogoHover>
+                                        <img src="{{ item.logoUrl }}" class="company-name" alt="{{item.name}}">
+                                    </ng-template>
                                 </div>
+
                                 <div style="display: flex; flex-direction: column; align-items: center;">
                                     <button class="referral button" (click)="openReferralPage(item.SK)">Request
                                         Referral</button>
@@ -143,17 +152,26 @@
 
                     <ng-container *ngFor="let item of getCompaniesForLine(lineIndex)">
                         <div class="company company1" tabindex="0">
-                            <img *ngIf="assetLogos.includes(item.logo)" src="assets/company-logo/{{item.logo }}"
-                                class="company-name" alt="{{item.name}}">
-                            <img *ngIf="!assetLogos.includes(item.logo)" src="{{ item.logoUrl }}" class="company-name"
-                                alt="{{item.name}}">
+
+                            <ng-container *ngIf="item.logo; else useUrlLogoSecond">
+                                <img src="assets/company-logo/{{item.logo}}" class="company-name" alt="{{item.name}}">
+                            </ng-container>
+                            <ng-template #useUrlLogoSecond>
+                                <img src="{{ item.logoUrl }}" class="company-name" alt="{{item.name}}">
+                            </ng-template>
+
                             <div class="hover hover1">
+
                                 <div class="logo-container">
-                                    <img *ngIf="assetLogos.includes(item.logo)" src="assets/company-logo/{{item.logo }}"
-                                        class="company-name" alt="{{item.name}}">
-                                    <img *ngIf="!assetLogos.includes(item.logo)" src="{{ item.logoUrl }}"
-                                        class="company-name" alt="{{item.name}}">
+                                    <ng-container *ngIf="item.logo; else useUrlLogoHoverSecond">
+                                        <img src="assets/company-logo/{{item.logo}}" class="company-name"
+                                            alt="{{item.name}}">
+                                    </ng-container>
+                                    <ng-template #useUrlLogoHoverSecond>
+                                        <img src="{{ item.logoUrl }}" class="company-name" alt="{{item.name}}">
+                                    </ng-template>
                                 </div>
+
                                 <button class="referral button" (click)="openReferralPage(item.SK)">Request
                                     Referral</button>
                                 <button class="referral button" (click)="openGudiancePage(item.SK)">Request

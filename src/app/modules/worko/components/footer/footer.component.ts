@@ -2,7 +2,8 @@ import { HttpClient } from '@angular/common/http';
 import { Component } from '@angular/core';
 import * as industryTypes from '../../../../../assets/industry-types.json';
 import { environment } from 'src/environments/environment';
-import { Router } from '@angular/router';
+import { NavigationEnd, Router } from '@angular/router';
+import { Subscription } from 'rxjs';
 
 @Component({
   selector: 'app-footer',
@@ -11,9 +12,10 @@ import { Router } from '@angular/router';
 })
 export class FooterComponent {
 
-  isCompaniesRoute: boolean = false;
+  displayIndustriesAndCompanies: boolean = false;
   industryTypeOptions: any[] = (industryTypes as any).default;
   currentYear!: number;
+  private routeSub!: Subscription;
   // baseUrl=window.location.origin;
 
   industryName = [
@@ -39,16 +41,37 @@ export class FooterComponent {
 
   constructor(private http: HttpClient, private router: Router) { }
 
-  async ngOnInit() {
-    // Checking if the current URL ends with '/companies'
-    this.router.events.subscribe(() => {
-      this.isCompaniesRoute = this.router.url.endsWith('/companies');
+  ngOnInit() {
+    this.checkRoute();
+
+    // Subscribe to router events and check only after NavigationEnd events
+    this.routeSub = this.router.events.subscribe((event) => {
+      if (event instanceof NavigationEnd) {
+        this.checkRoute();
+      }
     });
 
+    // Fetch industry types from the local JSON file
     this.http.get<any[]>('assets/industry-types.json').subscribe(data => {
       this.industryTypeOptions = data;
     });
     this.currentYear = new Date().getFullYear();
+  }
+
+  checkRoute(): void {
+    const url = this.router.url;
+    if (url.includes('/companies') || url.includes('-jobs')) {
+      this.displayIndustriesAndCompanies = true;  // show on specific routes
+    } else {
+      this.displayIndustriesAndCompanies = false;   // hide on all other routes
+    }
+  }
+
+  ngOnDestroy(): void {
+    // Unsubscribe route subscription here
+    if (this.routeSub) {
+      this.routeSub.unsubscribe();
+    }
   }
   // async redirectToCompanyListing() {
 
