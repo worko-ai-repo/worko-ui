@@ -214,6 +214,7 @@ export class CognitoService {
       this.storage.remove("type");
       this.storage.remove("companySK");
       this.storage.remove("userType");
+      this.storage.remove('dynamicRoute')
       this.removeAccessToken();
       // this.removeEmployeeDashboardToggleStatus();
       // this.removeCurrentDashboardToggleStatus();

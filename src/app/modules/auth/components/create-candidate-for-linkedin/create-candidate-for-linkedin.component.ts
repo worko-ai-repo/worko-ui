@@ -250,7 +250,12 @@ export class CreateCandidateForLinkedinComponent {
           //this.letter = this.userName.charAt(0).toUpperCase();
 
           // Redirect to the company listing page
-          this.router.navigate(['/companies']);
+         // this.router.navigate(['/companies']);
+
+         //redirect to dynamic routes
+         const dynamicRoutes=this.storage.get('dynamicRoute')
+         const decodedRoute = decodeURIComponent(dynamicRoutes); // Decode the route
+         this.router.navigate([decodedRoute]);  // Navigate using the decoded route
         }else if(this.groupType.includes('admin')){
           this.router.navigate(['/switcher']);
     

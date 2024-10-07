@@ -128,37 +128,45 @@ export class MinJobPortalJobListComponent {
     }
 
   }
+  async handleFilterChange(filterType: string, selectedValue: any) {
+    // Dynamically assign the selected value to the corresponding property
+    (this as any)[filterType] = selectedValue;
+    
+    // Call getJobs once the filter is changed
+    await this.getJobs();
+  }
+  
 
-  async getJobsByLocation(selectedLocation: string) {
-    this.selectedLocation = selectedLocation
-    await this.getJobs()
-  }
-  async getJobsByDepartment(selectedDepartment: string) {
+  // async getJobsByLocation(selectedLocation: string) {
+  //   this.selectedLocation = selectedLocation
+  //   await this.getJobs()
+  // }
+  // async getJobsByDepartment(selectedDepartment: string) {
 
-    this.selectedDepartment = selectedDepartment;
-    await this.getJobs()
-  }
-  async getJobsBySalary(selectedSalary: string) {
+  //   this.selectedDepartment = selectedDepartment;
+  //   await this.getJobs()
+  // }
+  // async getJobsBySalary(selectedSalary: string) {
 
-    this.selectedSalary = selectedSalary
-    await this.getJobs()
-  }
-  async getJobsByExperience(selectedExperience: string) {
-    this.selectedExperience = selectedExperience
-    await this.getJobs()
-  }
-  async getJobsByCoreSkill(selectedCoreSkill: string) {
-    this.selectedCoreSkill = selectedCoreSkill
-    await this.getJobs()
-  }
-  async getJobsBySoftSkill(selectedSoftSkill: string) {
-    this.selectedSoftSkill = selectedSoftSkill
-    await this.getJobs()
-  }
-  async getJobsByTechnicalSkill(selectedTechnicalSkill: string) {
-    this.selectedTechnicalSkill = selectedTechnicalSkill
-    await this.getJobs()
-  }
+  //   this.selectedSalary = selectedSalary
+  //   await this.getJobs()
+  // }
+  // async getJobsByExperience(selectedExperience: string) {
+  //   this.selectedExperience = selectedExperience
+  //   await this.getJobs()
+  // }
+  // async getJobsByCoreSkill(selectedCoreSkill: string) {
+  //   this.selectedCoreSkill = selectedCoreSkill
+  //   await this.getJobs()
+  // }
+  // async getJobsBySoftSkill(selectedSoftSkill: string) {
+  //   this.selectedSoftSkill = selectedSoftSkill
+  //   await this.getJobs()
+  // }
+  // async getJobsByTechnicalSkill(selectedTechnicalSkill: string) {
+  //   this.selectedTechnicalSkill = selectedTechnicalSkill
+  //   await this.getJobs()
+  // }
   cancel() {
     this.selectedLocation = ""
     this.selectedDepartment = ""

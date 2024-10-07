@@ -69,7 +69,7 @@ export class WorkoAuthComponent {
             this.storage.set('accessToken', this.linkedinAccessToken.toString());
 
             const usertype = this.storage.get('LinkedinUserType');
-          
+
             if (usertype === 'employeeSignUp') {
               this.employeeSignUp()
             } else if (usertype === 'candidateSignUp') {
@@ -98,7 +98,7 @@ export class WorkoAuthComponent {
     //this.getCandidateData()
     const isCandidatePresent = await this.getCandidateDetails();
     if (isCandidatePresent) {
-    
+
       this.router.navigate(['/auth/employeecompleteSignUp']);
     }
   }
@@ -107,7 +107,7 @@ export class WorkoAuthComponent {
     // this.getCandidateData()
     const isCandidatePresent = await this.getCandidateDetails();
     if (isCandidatePresent) {
-     
+
       this.router.navigate(['/auth/candidatecompleteSignUp']);
     }
 
@@ -115,37 +115,37 @@ export class WorkoAuthComponent {
   }
 
 
-//if user is not registered and clicking on sign in with linkedin
+  //if user is not registered and clicking on sign in with linkedin
   async signIn() {
     // this.getCandidateData()
-  
+
     const isCandidatePresent = await this.getCandidateDetails();
     if (isCandidatePresent) {
       this.registerOptionScreen = true;
       this.register();
     }
   }
-    //check whether user is sign in or not.
+  //check whether user is sign in or not.
   async getCandidateDetails() {
     try {
       // Fetch the authentication session
       const { tokens, userSub } = await fetchAuthSession();
-   
+
 
       this.userEmail = tokens?.idToken?.payload['email']?.toString();
       this.userName = tokens?.idToken?.payload['given_name']?.toString();
 
-      this.groupType=tokens?.idToken?.payload['cognito:groups']
+      this.groupType = tokens?.idToken?.payload['cognito:groups']
 
       if (Array.isArray(this.groupType) && this.groupType.includes('admin')) {
-       this.storage.set('userType', 'Admin');
-     }
+        this.storage.set('userType', 'Admin');
+      }
 
       // Fetch the current user details
       const { username, userId: id } = await getCurrentUser();
       this.userId = id;
       this.storage.set('userName', this.userName);
-  
+
 
       // Fetch the user details from the candidate service
       const response = await this.candidateSrv.getUserDetails(this.userEmail);
@@ -159,7 +159,7 @@ export class WorkoAuthComponent {
         this.storage.set('lastAccessedDash', this.userType);   //functionality to navigate to the lastAccessed dashboard
         this.storage.set('userName', userName);
         this.navbarToggleSwitchService.intializeToggleStatus();
-     
+
         // this.userType = this.lastDashed[0].userType[0];
         this.storage.set("useremail", this.userEmail);
 
@@ -167,15 +167,21 @@ export class WorkoAuthComponent {
         const isCompanyListingRoute = this.storage.get('isCompanyListingRoute');
         if (isCompanyListingRoute) {
           this.userName = this.storage.get('userName');
-         
+
           this.storage.set("useremail", this.userEmail);
 
           this.letter = this.userName.charAt(0).toUpperCase();
 
-          // Redirect to the company listing page
-          this.router.navigate(['/companies']);
+          // // Redirect to the company listing page
+          // this.router.navigate(['/companies']);
+
+          //redirect to dynamic routes
+          const dynamicRoutes = this.storage.get('dynamicRoute')
+          const decodedRoute = decodeURIComponent(dynamicRoutes); // Decode the route
+          this.router.navigate([decodedRoute]);  // Navigate using the decoded route
+
           return false;
-        }else if(this.groupType.includes('admin')){
+        } else if (this.groupType.includes('admin')) {
           this.router.navigate(['/switcher']);
           return false;
         } else {
@@ -183,7 +189,7 @@ export class WorkoAuthComponent {
           const percentageresponse = await this.candidateSrv.getProfileComplete(this.userEmail);
           if (percentageresponse) {
             this.profileCompletion = percentageresponse;
-            
+
 
             if (this.profileCompletion) {
               const profileType = this.userType === "CAND" ? this.profileCompletion.candidate : this.profileCompletion.employee;
@@ -204,7 +210,7 @@ export class WorkoAuthComponent {
           return false;
         }
 
-      }else{
+      } else {
         return true;
       }
     } catch (error) {
@@ -222,18 +228,18 @@ export class WorkoAuthComponent {
 
       userSub
     } = await fetchAuthSession();
-  
+
     this.userEmail = tokens?.idToken?.payload['email']?.toString();
     const {
       username,
       userId: id
     } = await getCurrentUser();
     this.userId = id
- 
+
     await this.getCandidateDetails()
   }
 
-//user will be shown a selection form for candidate and employee when non register user click on sign in with linkedin
+  //user will be shown a selection form for candidate and employee when non register user click on sign in with linkedin
   register() {
     if (this.registrationType === 'candidate') { // if user select candidate
       this.router.navigate(['/auth/candidatecompleteSignUp']);
