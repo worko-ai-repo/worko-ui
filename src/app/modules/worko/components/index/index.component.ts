@@ -287,7 +287,7 @@ export class IndexComponent {
    // console.log(route);
     this.router.navigate([route],{
       state: { companySK: item.SK}
-    });;
+    });
 
    // this.router.navigate(['/companies'], { queryParams: { companyID: companySk, Type: 'referral' } });
 

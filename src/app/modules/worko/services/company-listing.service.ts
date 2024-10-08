@@ -160,8 +160,6 @@ export class CompanyListingService {
   getJobByJobID(jobID: any): Promise<any> {
     let url = `${API_URL}job/${jobID}`;
 
-    // let url = `${API_URL}job/${jobID}`;
-
     return this.http.get(url, this.authService.getHttpOptions()).toPromise();
 
   }

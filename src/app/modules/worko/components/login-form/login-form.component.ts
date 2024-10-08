@@ -1194,7 +1194,7 @@ export class LoginFormComponent implements AfterViewInit, OnDestroy {
       const isCompanyListingRoute = this.storage.get('isCompanyListingRoute');
       if (isCompanyListingRoute !== null && isCompanyListingRoute !== undefined) {
         this.storage.remove('isCompanyListingRoute');
-        this.storage.remove('jobDetailsRoute');
+        this.storage.remove('dynamicRoute');
       }
     }
     this.storage.set('LinkedinUserType', usertype);
