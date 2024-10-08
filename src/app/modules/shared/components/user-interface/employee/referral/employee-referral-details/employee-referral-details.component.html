@@ -144,7 +144,7 @@
     </div>
 
     <app-modal [theme]="'theme-k'" [centered]="true" [showHeader]="showModal === modalType.MESSAGE" [showClose]="true"
-        [showFooter]="showModal === modalType.MESSAGE" [modalSize]="'md'" [title]="modalTitle" [message]="modalMessage"
+        [showFooter]="showModal === modalType.MESSAGE" [modalSize]="modalSize" [title]="modalTitle" [message]="modalMessage"
         [bodyClass]="modalMessage ? 'p-4' : 'p-0'">
 
         <ng-container *ngIf="showModal === modalType.REJECTED_REQUEST">
@@ -156,9 +156,9 @@
                 (onCancel)="closeModal()"></app-confirmation-dialog-popup>
         </ng-container>
 
-        <ng-container *ngIf="showModal === modalType.DETAILED_ANALYSIS">
-            <app-detailed-analysis [scoreDetails]="scoreDetails"
-                (onCancel)="closeDetailedPopup()"></app-detailed-analysis>
+        <ng-container *ngIf="showModal === modalType.SHOW_MORE_DETAILS">
+            <app-show-more-details [details]="scoreDetails" [title]="detailsTitle"
+                (onCancel)="closeDetailedPopup()"></app-show-more-details>
         </ng-container>
 
     </app-modal>
