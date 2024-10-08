@@ -1,13 +1,10 @@
 //Angular Imports
 import { Router } from "@angular/router";
-import { Component, OnInit, ViewChild } from "@angular/core";
+import { ChangeDetectorRef, Component, ElementRef, OnInit, ViewChild, ViewEncapsulation } from "@angular/core";
 import { FormBuilder, FormGroup, FormArray, Validators, FormControl } from "@angular/forms";
 
-// CKEditor import for rich text editor
-import ClassicEditor from "@ckeditor/ckeditor5-build-classic";
-
 // Rxjs import for observable debounceTime, distinctUntilChanged, of, switchMap
-import { Observable, debounceTime, distinctUntilChanged, map, of, range, switchMap } from "rxjs";
+import { Observable, debounceTime, distinctUntilChanged, map, of,  switchMap } from "rxjs";
 
 // Service module import for Api calling
 import { AdminService } from "../../../services/admin.service";
@@ -21,19 +18,27 @@ import { NgxSpinnerService } from "ngx-spinner";
 import { MatTableDataSource } from "@angular/material/table";
 import { MatAutocompleteTrigger } from "@angular/material/autocomplete";
 
-// Interface for FetchJobsOptions
-interface FetchJobsOptions {
+// Interface for FetchJobsOptionsDto
+interface FetchJobsOptionsDto {
   jobStatus?: string;
   searchText?: string;
   pageSize?: number;
   sortOrder?: string;
   resetPagination?: boolean;
 }
+interface RangeDropDownDto {
+  label: string;
+  value: {
+    min: number;
+    max: number;
+  };
+}
 
 @Component({
   selector: "app-admin-jobs",
   templateUrl: "./admin-jobs.component.html",
   styleUrls: ["./admin-jobs.component.scss"],
+  encapsulation: ViewEncapsulation.None,
 })
 
 /**
@@ -47,6 +52,58 @@ interface FetchJobsOptions {
  * @property {companyControl} FormControl - The form control for the company selection.
  */
 export class AdminJobsComponent implements OnInit {
+  ngxSummerConfig: any = {
+    airMode: false,
+    tabDisable: true,
+    popover: {
+      table: [
+        ['add', ['addRowDown', 'addRowUp', 'addColLeft', 'addColRight']],
+        ['delete', ['deleteRow', 'deleteCol', 'deleteTable']]
+      ],
+      image: [
+        ['image', ['resizeFull', 'resizeHalf', 'resizeQuarter', 'resizeNone']],
+        ['float', ['floatLeft', 'floatRight', 'floatNone']],
+        ['remove', ['removeMedia']]
+      ],
+      link: [['link', ['linkDialogShow', 'unlink']]],
+      air: [
+        [
+          'font',
+          [
+            'bold',
+            'italic',
+            'underline',
+            'strikethrough',
+            'superscript',
+            'subscript',
+            'clear'
+          ]
+        ]
+      ]
+    },
+    height: '200px',
+    uploadImagePath: '/api/upload',
+    toolbar: [
+      ['misc', ['undo', 'redo']],
+      [
+        'font',
+        [
+          'bold',
+          'italic',
+          'underline',
+          'strikethrough',
+          'superscript',
+          'subscript',
+          'clear'
+        ]
+      ],
+      ['fontsize', ['fontname', 'fontsize', 'color']],
+      ['para', ['style0', 'ul', 'ol', 'paragraph', 'height']],
+      ['insert', ['table', 'picture', 'link', 'video', 'hr']],
+      ['customButtons', ['testBtn']]
+    ]
+  };
+
   // Common Enums
   status = {
     ALL: "",
@@ -71,44 +128,36 @@ export class AdminJobsComponent implements OnInit {
   };
 
   // List of experience ranges and salary ranges
-  experienceRange = [
-    { min: 0, max: 2, label: "0-2" },
-    { min: 2, max: 4, label: "2-4" },
-    { min: 4, max: 6, label: "4-6" },
-    { min: 6, max: 8, label: "6-8" },
-    { min: 8, max: 10, label: "8-10" },
-    { min: 10, max: 12, label: "10-12" },
-    { min: 12, max: 9999, label: "12+" },
+  experienceRange: RangeDropDownDto[] = [
+    { label: "0-1", value: { min: 0 , max: 1, } },
+    { label: "1-3", value: { min: 1, max: 3 } },
+    { label: "3-6", value: { min: 3, max: 6 } },
+    { label: "6-9", value: { min: 6, max: 9 } },
+    { label: "9-12", value: { min: 9, max: 12 } },
+    { label: "12-15", value: { min: 12, max: 15 } },
+    { label: "15-20", value: { min: 15, max: 20 } },
+    { label: "20-25", value: { min: 20, max: 25 } },
+    { label: "25+", value: { min: 25, max: 9999 } },
   ];
+  
 
-  salaryRange = [
-    { label: "0L - 5L", min: 0, max: 5 },
-    { label: "5L - 8L", min: 5, max: 8 },
-    { label: "8L - 12L", min: 8, max: 12 },
-    { label: "12L - 15L", min: 12, max: 15 },
-    { label: "15L - 22L", min: 15, max: 22 },
-    { label: "22L - 30L", min: 22, max: 30 },
-    { label: "30L +", min: 30, max: Infinity },
+  salaryRange: RangeDropDownDto[] = [
+    { label: "0L - 5L", value: { min: 0, max: 5 } },
+    { label: "5L - 10L", value: { min: 5, max: 10 } },
+    { label: "10L - 15L", value: { min: 10, max: 15 } },
+    { label: "15L - 22L", value: { min: 15, max: 22 } },
+    { label: "22L - 30L", value: { min: 22, max: 30 } },
+    { label: "30L - 40L", value: { min: 30, max: 40 } },
+    { label: "40L - 50L", value: { min: 40, max: 50 } },
+    { label: "50L - 70L", value: { min: 50, max: 70 } },
+    { label: "70L+", value: { min: 70, max: 9999 } },
   ];
-
-  // CKEditor configuration
-  public Editor = ClassicEditor;
-
-  public config: any = {
-    ckfinder: {
-      uploadUrl: "/your-upload-url",
-    },
-    toolbar: ["heading", "|", "bold", "italic", "link", "bulletedList", "numberedList", "blockQuote"],
-    heading: {
-      options: [
-        { model: "paragraph", title: "Paragraph", class: "ck-heading_paragraph" },
-        { model: "heading1", view: "h1", title: "Heading 1", class: "ck-heading_heading1" },
-        { model: "heading2", view: "h2", title: "Heading 2", class: "ck-heading_heading2" },
-      ],
-    },
-    enterMode: 1, // 'paragraph' mode
-    shiftEnterMode: 2, // 'br' mode for Shift+Enter
-  };
+  
+  workMode = [
+    {value : "WFH", name: "Work From Home"},
+    {value : "WFO", name: "Work From Office"},
+    {value : "HYBRID", name: "Hybrid"},
+  ]
 
   // Properties related to job management
   jobs: any[] = []; // To store the fetched jobs
@@ -116,7 +165,7 @@ export class AdminJobsComponent implements OnInit {
   dataSource = new MatTableDataSource<any>(); // To store the updated data in the table
   isEditMode: boolean = false;
   selectedStatus: string = this.status.ALL;
-  selectedSortOrder: string = this.sortOrder.ASC;
+  selectedSortOrder: string = this.sortOrder.DESC;
   noJobsMessage: string = "No Jobs Present"; // Will be showin inside the table
 
   //Filters Properties
@@ -129,8 +178,8 @@ export class AdminJobsComponent implements OnInit {
   companyNameError: string = "";
   filteredCompanies$: Observable<any[]> = of([]);
   selectedCompany: any = null;
-  selectedExperienceLabel: string = "";
-  selectedSalaryLabel: string = "";
+  @ViewChild('refSalaryRange') refSalaryRange!: ElementRef;
+  @ViewChild('refExpRange') refExpRange!: ElementRef;
   @ViewChild("autoCompleteInput", { static: false, read: MatAutocompleteTrigger }) trigger!: MatAutocompleteTrigger;
 
   // Properties related to modal handling
@@ -142,6 +191,7 @@ export class AdminJobsComponent implements OnInit {
 
   // Properties related to modal messages
   successtitle: string = "";
+  modalSize : string = "xl";
   successmessage: string = "";
 
   //Pagination Properties
@@ -152,6 +202,7 @@ export class AdminJobsComponent implements OnInit {
 
   // Component properties
   copiedContextId: any;
+  skillsTooltipMessage = "Type a skill and press Enter to add it to the list.";
 
   /**
    * Initializes the AdminJobsComponent with the required services and sets up the job form.
@@ -161,28 +212,22 @@ export class AdminJobsComponent implements OnInit {
    * @param {AdminService} adminService - The admin service for API calls.
    * @param {NgxSpinnerService} spinner - The service for displaying a loading spinner.
    */
-  constructor(private router: Router, private fb: FormBuilder, private adminService: AdminService, private spinner: NgxSpinnerService) {
+  constructor(private router: Router, private fb: FormBuilder, private adminService: AdminService, private spinner: NgxSpinnerService ,private cdr: ChangeDetectorRef) {
     // Initialize the job form with necessary fields and validation
     this.jobForm = this.fb.group({
       status: [this.status.PUBLISHED],
       companyId: [""],
       coreSkills: this.fb.array([], Validators.required),
       department: ["", Validators.required],
-      experienceRange: this.fb.group({
-        min: [0, [Validators.required, Validators.min(0)]],
-        max: [0, [Validators.required, Validators.min(0)]],
-      }),
-      jobTitle: ["", [Validators.required, Validators.minLength(3), Validators.maxLength(50)]],
+      experienceRange:[null, Validators.required],
+      jobTitle: ["", [Validators.required, Validators.minLength(3)]],
       jobDescription: ["", [Validators.required, Validators.minLength(20)]],
       location: ["", Validators.required],
       mislaneiousSkills: this.fb.array([]),
       numOfOpenings: [1, [Validators.required, Validators.min(1)]],
       noticePeriod: [0, [Validators.required, Validators.min(0)]],
       otherRequirements: [""],
-      salaryRange: this.fb.group({
-        min: [0, [Validators.required, Validators.min(0)]],
-        max: [5, [Validators.required, Validators.min(0)]],
-      }),
+      salaryRange: [null, Validators.required],
       softSkills: this.fb.array([], Validators.required),
       technicalSkills: this.fb.array([], Validators.required),
       typeofEmployment: ["", Validators.required],
@@ -197,9 +242,8 @@ export class AdminJobsComponent implements OnInit {
       distinctUntilChanged(),
       switchMap((value) => this.filterCompanies(value))
     );
-
     // Fetch jobs on component initialization
-    this.fetchJobs({ pageSize: 10, sortOrder: this.sortOrder.ASC, jobStatus: this.status.ALL, resetPagination: true });
+    this.fetchJobs({ pageSize: 10, sortOrder: this.sortOrder.DESC, jobStatus: this.status.ALL, resetPagination: true });
   }
 
   /**
@@ -207,7 +251,7 @@ export class AdminJobsComponent implements OnInit {
    *
    * Fetches jobs from the server.By taking options as args and
    */
-  async fetchJobs(options: FetchJobsOptions) {
+  async fetchJobs(options: FetchJobsOptionsDto) {
     this.spinner.show();
     try {
       // If resetPagination is true, reset the lastKey
@@ -309,6 +353,13 @@ export class AdminJobsComponent implements OnInit {
     return null;
   }
 
+  // Method to mark form control as touched when user leaves the input
+  markControlAsTouched(controlName: string): void {
+    const control = this.jobForm.get(controlName);
+    if (control) {
+      control.markAsTouched(); // Marks control as touched to trigger validation
+    }
+  }
   /* Company Selector starts here: This gorup of method will help in selecting company from a dynamic dropdown menu */
 
   // Fetch the companies and return the list
@@ -340,10 +391,14 @@ export class AdminJobsComponent implements OnInit {
   // Validate the company name on blur
   onInputBlur(): void {
     const companyNameValue = this.companyControl.value?.trim(); // Check if the input is empty
-
+    // If the input is empty, show an error
     if (!companyNameValue) {
       this.companyNameError = "Company name is required.";
-    } else {
+    } 
+   /*  if(this.jobForm.get("companyId")?.value === null || this.jobForm.get("companyId")?.value === "") {
+      this.companyNameError = "Please select a company from the list.";
+    } */
+    else {
       this.companyNameError = ""; // Clear the error if companies are found
     }
   }
@@ -414,6 +469,14 @@ export class AdminJobsComponent implements OnInit {
    */
   openModal(modalType: ModalType, message: string = "", title: string = ""): void {
     this.showModal = modalType;
+    // Reset modal size every time you open the modal
+    if(modalType === this.modalType.SUCCESS_MESSAGE ){
+      this.modalSize = "md";
+    }
+    else {
+        this.modalSize = "xl";
+    }
+    this.cdr.detectChanges();
     this.modalMessage = message;
     this.modalTitle = title;
     this.modal.open();
@@ -429,11 +492,12 @@ export class AdminJobsComponent implements OnInit {
   openModalone(): void {
     this.openModal(ModalType.ADMINJOBS_POPUP);
   }
-
+  
   // Reset the job Form modal
   resetModal(): void {
     // Reset the form to its initial state
     this.jobForm.reset();
+    this.jobForm.get('status')?.patchValue(this.status.PUBLISHED);
     this.isEditMode = false;
     this.companyControl.reset();
     if (this.trigger) {
@@ -445,32 +509,22 @@ export class AdminJobsComponent implements OnInit {
     (this.jobForm.get("coreSkills") as FormArray).clear();
     (this.jobForm.get("technicalSkills") as FormArray).clear();
     (this.jobForm.get("mislaneiousSkills") as FormArray).clear();
-    this.jobForm.get('salaryRange')?.patchValue({
-      min: 0,  // or any default value you prefer
-      max: 5   // or any default value you prefer
-    });
-    this.jobForm.get('experienceRange')?.patchValue({
-      min: 0,  // or any default value you prefer
-      max: 5   // or any default value you prefer
-    });
-    this.jobForm.get('salaryRange')?.patchValue({
-      min: 0,  // or any default value you prefer
-      max: 2   // or any default value you prefer
-    })
-    this.selectedExperienceLabel = '';
-    this.selectedSalaryLabel = '';
+
+    this.jobForm.get('experienceRange')?.patchValue(null);
+    this.jobForm.get('salaryRange')?.patchValue(null)
+
     // You can also set the form back to its default values if necessary
     this.jobForm.patchValue({
       jobDescription: "",
-      salaryRange: "",
       workMode: "",
-      // add any other fields you want to reset
+      location: "",
+      noticePeriod: 0,
+      typeofEmployment: "",
+      numOfOpenings: 1,
     });
   }
 
-  /*  Modal Methods ends here */
-
-  /**
+  /*
    * @method searchJobs
    * @param query - The search query.
    */
@@ -516,11 +570,7 @@ export class AdminJobsComponent implements OnInit {
 /*     console.log("Sort order:", event.target.value);
  */    this.fetchJobs({ jobStatus: this.selectedStatus, pageSize: this.pageSize, sortOrder: event.target.value, resetPagination: true });
   }
-    // Function to find the corresponding label for a given range
-    private findLabelForRange(min: number, max: number , rangeKey: keyof AdminJobsComponent ): string {
-      const selectedRange = this[rangeKey].find((range:any) => range.min === min && range.max === max);
-      return selectedRange ? selectedRange.label : ""; // Return label or empty string
-    }
+
   // Edit Job Function
   editJob(job: any): void {
     this.openModal(ModalType.ADMINJOBS_POPUP);
@@ -547,16 +597,9 @@ export class AdminJobsComponent implements OnInit {
     });
 
     // Patch experienceRange separately
-    this.jobForm.get("experienceRange")?.patchValue({
-      min: job.experienceRange.min,
-      max: job.experienceRange.max,
-    });
-   
-    // Set the selected experience label using the new function
-    this.selectedExperienceLabel = this.findLabelForRange(job.experienceRange.min, job.experienceRange.max,'experienceRange');
-      
-    // Set the selected salary label using the same function (if you have a similar property for salary)
-    this.selectedSalaryLabel = this.findLabelForRange(job.salaryRange.min, job.salaryRange.max,'salaryRange');
+    this.jobForm.get("experienceRange")?.patchValue(
+     job.experienceRange
+    );
 
     // Manually set the company name and ID
     this.companyControl.setValue(job.companyDetails.name || ""); // Set company name
@@ -589,6 +632,27 @@ export class AdminJobsComponent implements OnInit {
     job.mislaneiousSkills.forEach((skill: string) => {
       mislaneiousSkillsArray.push(this.fb.control(skill));
     });
+    // Reset the Ranges
+    const ranges = {
+      refSalaryRange: this.salaryRange,
+      refExpRange: this.experienceRange,
+    };
+
+      // Loop through the ranges and reset selectedIndex
+      setTimeout(() => {
+        Object.entries(ranges).forEach(([refKey, RangeKey]) => {
+          for (const [index, key] of RangeKey.entries()) {
+            const isMatched = 
+              (refKey === 'refSalaryRange' && key.value.min === job.salaryRange.min && key.value.max === job.salaryRange.max) ||
+              (refKey === 'refExpRange' && key.value.min === job.experienceRange.min && key.value.max === job.experienceRange.max);
+    
+            if (isMatched) {
+              this[refKey].nativeElement.selectedIndex = index + 1; 
+              break; // Exit the loop after finding the match 
+            }
+          }
+        });
+      }, 100); // Adjust the timeout as necessary
   }
 
   /**
@@ -708,19 +772,17 @@ export class AdminJobsComponent implements OnInit {
     }, 2000);
   };
 
-  rangeDropdownHandler(event: Event, rangeKey: keyof AdminJobsComponent) {
-    const selectElement = event.target as HTMLSelectElement;
-    const selectedLabel = selectElement.value;
-
-    // Dynamically access the array or object (like this['salary'] or this['exp'])
-    const selectedRange = this[rangeKey]?.find((range: any) => range.label === selectedLabel);
-
-    if (selectedRange) {
-      // Update the form's fields dynamically
-      this.jobForm.get(rangeKey)?.patchValue({
-        min: selectedRange.min,
-        max: selectedRange.max,
-      });
-    }
+  navigateToJobReferral(event: MouseEvent, companyName: string, jobTitle: string, jobID: any): void {
+    event.preventDefault(); // Prevent default anchor behavior
+  
+    // Encode the company name and job title for URL-safe navigation
+    const formattedCompanyName = encodeURIComponent(companyName.toLowerCase().replace(/\s+/g, '-').replace(/[()]/g, '-')); // Convert spaces to dashes and encode special characters
+    const formattedJobTitle = encodeURIComponent(jobTitle.replace(/\s+/g, '-').replace(/\//g, '-')); // Replace spaces and slashes with dashes, then encode
+  
+    const route = `/companies/${formattedCompanyName}-jobs/${formattedJobTitle}-${jobID}`;
+  
+    // Open the route in a new tab
+    window.open(route, '_blank');
   }
+  
 }

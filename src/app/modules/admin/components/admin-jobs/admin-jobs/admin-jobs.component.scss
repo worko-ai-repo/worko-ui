@@ -1,19 +1,7 @@
-@import 'ckeditor5/ckeditor5.css';
-
-::ng-deep .ck.ck-editor__editable {
-  background-color: transparent !important;  // Your preferred background color
-  color: white;                // Your preferred text color
-  height: 200px;               // Your preferred height
-}
-::ng-deep .ck.ck-sticky-panel *{
-  background-color: transparent !important;  // Your preferred background color
-  color: white;               // Your preferred text color
-}
-
 //This is very Important dont remove it .
 ::ng-deep .cdk-overlay-container {
   position: fixed;
-  z-index: 99999 !important;
+  z-index: 9999999 !important;
   .mat-mdc-autocomplete-panel{
     background-color: #0a1e35;
     .mat-mdc-option{
@@ -139,6 +127,9 @@ $statuses: (
     grid-gap: 20px;
     //Grid Managment Starts
     //All the commmon fields should resides within 3 columns
+    .selector{
+      width:100%;
+    }
     .ajobs-fitem {
       grid-column: span 2;
       position: relative;
@@ -237,7 +228,7 @@ $statuses: (
       }
     }
 
-    button[type="button"] {
+    #ajobResetBtn[type="button"] {
       background-color: #ff2a00c9;
       color: white;
       padding: 5px;
@@ -283,6 +274,40 @@ $statuses: (
     background-color: var(--color-darkslategray-300);
     color: var(--color-white);
     border-radius: 3px;
+  }
+}
+#ajobDesc-rte > div *{  
+  border-color: white;
+  .note-editable{
+    color: white ;
+    border: 1px solid white;
+  }
+ .ajobDesc-rte_editor *{
+    color: white;
+    border-color: white !important;
+  }
+}
+.cdk-overlay-container {
+  position: fixed;
+  z-index: 9999999 !important;
+  .mat-mdc-autocomplete-panel{
+    background-color: #0a1e35;
+    .mat-mdc-option{
+      color: white;
+      &:hover{
+        background-color: #476baf;
+      }
+    }
+  }
+}
+.form-control:focus {
+  color:white !important;
+}
+.note-modal-content{
+  background-color: #0a1e35;
+  color:white;
+  .note-modal-footer{
+    margin: 10px;
   }
 }
 @media screen and (max-width: 992px) {

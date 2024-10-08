@@ -14,15 +14,14 @@ import { AdminSettingComponent } from './components/admin-setting/admin-setting.
 import { SharedModule } from '../shared/shared.module';
 //import { UserMenubarComponent } from '../candidate/components/user-menubar/user-menubar.component';
 import { CandidateModule } from '../candidate/candidate.module';
-import { CKEditorModule } from '@ckeditor/ckeditor5-angular';
 import { EmployeeModule } from '../employee/employee.module';
 // import { MatPaginatorModule } from '@angular/material/paginator';
-import {MatPaginator, MatPaginatorModule} from '@angular/material/paginator';
-import {MatSort, MatSortModule} from '@angular/material/sort';
+import { MatPaginatorModule} from '@angular/material/paginator';
+import { MatSortModule} from '@angular/material/sort';
 import {MatTableDataSource, MatTableModule} from '@angular/material/table';
 import {MatInputModule} from '@angular/material/input';
 import {MatFormFieldModule} from '@angular/material/form-field';
-import { FormsModule } from '@angular/forms';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { MatDatepickerModule } from '@angular/material/datepicker';
 import { MatNativeDateModule } from '@angular/material/core';
 import { MatIconModule } from '@angular/material/icon';
@@ -30,6 +29,10 @@ import { AuthAdminGuardService } from '../worko/services/auth-admin-guard.servic
 import { AdminJobsComponent } from './components/admin-jobs/admin-jobs/admin-jobs.component';
 import { MatTooltipModule } from '@angular/material/tooltip';
 import { MatAutocompleteModule } from '@angular/material/autocomplete';
+
+// Rich Text Editor
+import { NgxSummernoteModule } from 'ngx-summernote';
+import { HttpClientModule } from '@angular/common/http';
 
 
 export const routes: Routes = [
@@ -125,7 +128,9 @@ export const routes: Routes = [
     MatIconModule,
     MatTooltipModule,
     MatAutocompleteModule,
-    CKEditorModule,
+    ReactiveFormsModule,
+    NgxSummernoteModule,
+    HttpClientModule,
     RouterModule.forChild(routes)
   ]
 })
