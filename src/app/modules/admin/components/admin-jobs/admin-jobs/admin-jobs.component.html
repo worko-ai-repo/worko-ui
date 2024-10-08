@@ -284,7 +284,7 @@
             <span *ngFor="let skill of mislaneiousSkills; let i = index" class="skill-chip">
               <div class="skill-chip-item">{{ skill }}</div>
               <i class="fa-solid fa-circle-xmark skill-chip-button" type="button"
-                (click)="removeSkill(i, 'coreSkills')"></i>
+                (click)="removeSkill(i, 'mislaneiousSkills')"></i>
             </span>
           </div>
           <span *ngIf="isInvalid('mislaneiousSkills')" class="text-danger">{{ getErrorMessage('mislaneiousSkills')
