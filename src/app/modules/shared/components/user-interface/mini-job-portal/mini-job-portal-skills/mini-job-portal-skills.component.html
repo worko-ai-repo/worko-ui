@@ -32,7 +32,7 @@
   <!-- CTC -->
   <div class="skill-main-div">
     <div class="skill-title"><u>CTC</u></div>
-    <div class="skill-option">{{ jobDescriptionDetails.salaryRange.min }} - {{ jobDescriptionDetails.salaryRange.max }}
-      {{ jobDescriptionDetails.salaryRange.max <= 1 ? ' ' : 'LPA' }}</div>
+    <div class="skill-option"> {{ jobDescriptionDetails.salaryRange.min }} 
+      {{ jobDescriptionDetails.salaryRange.max >= 9999 ? '+' : '- ' + jobDescriptionDetails.salaryRange.max }} LPA</div>
     </div>
   </div>

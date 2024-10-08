@@ -1173,12 +1173,28 @@ export class LoginFormComponent implements AfterViewInit, OnDestroy {
   }
 
   signUpWithLinkedin(usertype: any) {
-    if (this.router.url.includes('/companies')) {
+    // if (this.router.url.includes('/companies')) {
+    //   this.storage.set('isCompanyListingRoute', true);
+    // } 
+    
+    const currentUrl = this.router.url;
+
+    // Check if the URL is in any of the expected job-related patterns
+    const isJobListing = /\/companies\/[^/]+-jobs/.test(currentUrl);
+    const isJobDescriptionRoute = /\/companies\/[^/]+-jobs\/[^/]+-[0-9]+/.test(currentUrl);
+    const isJobRoute = /\/[^/]+-jobs/.test(currentUrl);
+    const isCompanyListingRoute=this.router.url.includes('/companies')
+  
+    if (isCompanyListingRoute || isJobDescriptionRoute || isJobRoute ||isJobListing) {
       this.storage.set('isCompanyListingRoute', true);
-    } else {
+      this.storage.set('dynamicRoute', currentUrl);  // Store the full job details route if necessary
+    }
+    
+    else {
       const isCompanyListingRoute = this.storage.get('isCompanyListingRoute');
       if (isCompanyListingRoute !== null && isCompanyListingRoute !== undefined) {
         this.storage.remove('isCompanyListingRoute');
+        this.storage.remove('jobDetailsRoute');
       }
     }
     this.storage.set('LinkedinUserType', usertype);

@@ -280,10 +280,16 @@ export class IndexComponent {
 
   //sending data through url
   async openReferralPage(item: any) {
-    const companySk = item.replace(/^ID#/, '');
-    const Type = "referral";
+    // const companySk = item.replace(/^ID#/, '');
+    // const Type = "referral";
+    const  companyName=encodeURIComponent(item.name);
+    const route = `/companies/${companyName.toLowerCase()}-jobs`;
+   // console.log(route);
+    this.router.navigate([route],{
+      state: { companySK: item.SK}
+    });;
 
-    this.router.navigate(['/companies'], { queryParams: { companyID: companySk, Type: 'referral' } });
+   // this.router.navigate(['/companies'], { queryParams: { companyID: companySk, Type: 'referral' } });
 
     // const url = `${environment.crossOriginUrl}/companies?companyID=${companySk}&Type=${Type}`;
     // window.location.href = url;

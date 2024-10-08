@@ -6,12 +6,12 @@
                 <path d="M17.209 37.375L29.5007 51.75L41.7923 37.375M17.209 17.25L29.5007 31.625L41.7923 17.25"
                     stroke="#020202" stroke-width="4" stroke-linecap="round" stroke-linejoin="round" />
             </svg> -->
-            <svg class="downarrow" (click)="toggleJobContainer()" *ngIf="isJobListing"
+            <svg class="downarrow" (click)="toggleJobContainer()" *ngIf="!isJobListing"
                 xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512">
                 <path
                     d="M201.4 374.6c12.5 12.5 32.8 12.5 45.3 0l160-160c12.5-12.5 12.5-32.8 0-45.3s-32.8-12.5-45.3 0L224 306.7 86.6 169.4c-12.5-12.5-32.8-12.5-45.3 0s-12.5 32.8 0 45.3l160 160z" />
             </svg>
-            <svg class="uparrow" (click)="toggleJobContainer()" *ngIf="!isJobListing" xmlns="http://www.w3.org/2000/svg"
+            <svg class="uparrow" (click)="toggleJobContainer()" *ngIf="isJobListing" xmlns="http://www.w3.org/2000/svg"
                 viewBox="0 0 448 512">
                 <path
                     d="M201.4 137.4c12.5-12.5 32.8-12.5 45.3 0l160 160c12.5 12.5 12.5 32.8 0 45.3s-32.8 12.5-45.3 0L224 205.3 86.6 342.6c-12.5 12.5-32.8 12.5-45.3 0s-12.5-32.8 0-45.3l160-160z" />
@@ -26,83 +26,72 @@
             <div class="col-md-3">
                 <!-- Location Select -->
                 <div class="mb-4">
-                    <select class="selector form-select" name="location" id="location" [(ngModel)]="selectedLocation"
-                        (ngModelChange)="getJobsByLocation($event)">
-                        <option value="">Location</option>
-                        <option *ngFor="let location of locations" [value]="location">{{ location | titlecase }}
-                        </option>
-                    </select>
+                  <select class="selector form-select" name="location" id="location" [(ngModel)]="selectedLocation"
+                      (ngModelChange)="handleFilterChange('selectedLocation', $event)">
+                    <option value="">Location</option>
+                    <option *ngFor="let location of locations" [value]="location">{{ location | titlecase }}</option>
+                  </select>
                 </div>
-
+              
                 <!-- Department Select -->
                 <div class="mb-4">
-                    <select class="selector form-select" name="department" id="department"
-                        [(ngModel)]="selectedDepartment" (ngModelChange)="getJobsByDepartment($event)">
-                        <option value="">Department</option>
-                        <option *ngFor="let department of departments" [value]="department">{{ department | titlecase}}
-                        </option>
-                    </select>
+                  <select class="selector form-select" name="department" id="department" [(ngModel)]="selectedDepartment"
+                      (ngModelChange)="handleFilterChange('selectedDepartment', $event)">
+                    <option value="">Department</option>
+                    <option *ngFor="let department of departments" [value]="department">{{ department | titlecase }}</option>
+                  </select>
                 </div>
-
+              
                 <!-- Salary Select -->
                 <div class="mb-4">
-                    <select class="selector form-select" name="salary" id="salary" [(ngModel)]="selectedSalary"
-                        (ngModelChange)="getJobsBySalary($event)">
-                        <option value="">Salary</option>
-                        <option *ngFor="let range of salaryRanges"
-                            [ngValue]="{ minSalary: range.minSalary, maxSalary: range.maxSalary }">
-                            {{ range.label }} <!-- This displays the label correctly -->
-                        </option>
-                    </select>
+                  <select class="selector form-select" name="salary" id="salary" [(ngModel)]="selectedSalary"
+                      (ngModelChange)="handleFilterChange('selectedSalary', $event)">
+                    <option value="">Salary</option>
+                    <option *ngFor="let range of salaryRanges" [ngValue]="{ minSalary: range.minSalary, maxSalary: range.maxSalary }">
+                      {{ range.label }}
+                    </option>
+                  </select>
                 </div>
-
+              
                 <!-- Experience Select -->
                 <div class="mb-4">
-                    <select class="selector form-select" name="experience" id="experience"
-                        [(ngModel)]="selectedExperience" (ngModelChange)="getJobsByExperience($event)">
-                        <option value="">Experience</option>
-                        <option *ngFor="let range of experienceRanges"
-                            [ngValue]="{ minExperience: range.minExperience, maxExperience: range.maxExperience }">
-                            {{range.label}}
-                        </option>
-                        <!-- <option *ngFor="let range of experienceRanges" [ngValue]="{ maxExperience: range.maxExperience }">
-                            {{range.label}}
-                        </option> -->
-
-                    </select>
+                  <select class="selector form-select" name="experience" id="experience" [(ngModel)]="selectedExperience"
+                      (ngModelChange)="handleFilterChange('selectedExperience', $event)">
+                    <option value="">Experience</option>
+                    <option *ngFor="let range of experienceRanges" [ngValue]="{ minExperience: range.minExperience, maxExperience: range.maxExperience }">
+                      {{ range.label }}
+                    </option>
+                  </select>
                 </div>
-
+              
                 <!-- Core Skill Select -->
                 <div class="mb-4">
-                    <select class="selector form-select" name="coreSkill" id="coreSkill" [(ngModel)]="selectedCoreSkill"
-                        (ngModelChange)="getJobsByCoreSkill($event)">
-                        <option value="">Core Skill</option>
-                        <option *ngFor="let coreSkill of coreSkills" [value]="coreSkill">{{ coreSkill | titlecase }}
-                        </option>
-                    </select>
+                  <select class="selector form-select" name="coreSkill" id="coreSkill" [(ngModel)]="selectedCoreSkill"
+                      (ngModelChange)="handleFilterChange('selectedCoreSkill', $event)">
+                    <option value="">Core Skill</option>
+                    <option *ngFor="let coreSkill of coreSkills" [value]="coreSkill">{{ coreSkill | titlecase }}</option>
+                  </select>
                 </div>
-
+              
                 <!-- Soft Skill Select -->
                 <div class="mb-4">
-                    <select class="selector form-select" name="softSkill" id="softSkill" [(ngModel)]="selectedSoftSkill"
-                        (ngModelChange)="getJobsBySoftSkill($event)">
-                        <option value="">Soft Skill</option>
-                        <option *ngFor="let softSkill of softSkills" [value]="softSkill">{{ softSkill | titlecase }}
-                        </option>
-                    </select>
+                  <select class="selector form-select" name="softSkill" id="softSkill" [(ngModel)]="selectedSoftSkill"
+                      (ngModelChange)="handleFilterChange('selectedSoftSkill', $event)">
+                    <option value="">Soft Skill</option>
+                    <option *ngFor="let softSkill of softSkills" [value]="softSkill">{{ softSkill | titlecase }}</option>
+                  </select>
                 </div>
-
+              
                 <!-- Technical Skill Select -->
                 <div class="mb-4">
-                    <select class="selector form-select" name="technicalSkill" id="technicalSkill"
-                        [(ngModel)]="selectedTechnicalSkill" (ngModelChange)="getJobsByTechnicalSkill($event)">
-                        <option value="">Technical Skill</option>
-                        <option *ngFor="let technicalSkill of technicalSkills" [value]="technicalSkill">{{
-                            technicalSkill | titlecase}}</option>
-                    </select>
+                  <select class="selector form-select" name="technicalSkill" id="technicalSkill" [(ngModel)]="selectedTechnicalSkill"
+                      (ngModelChange)="handleFilterChange('selectedTechnicalSkill', $event)">
+                    <option value="">Technical Skill</option>
+                    <option *ngFor="let technicalSkill of technicalSkills" [value]="technicalSkill">{{ technicalSkill | titlecase }}</option>
+                  </select>
                 </div>
-
-            </div>
+              </div>
+              
 
 
             <!-- Column for the job listing -->
@@ -151,9 +140,8 @@
                                         </svg>
 
 
-                                        <span class="experience ms-2"> Experience: {{ job.experienceRange.min }} - {{
-                                            job.experienceRange.max }}
-                                            {{ job.experienceRange.max <= 1 ? ' year' : ' years' }}</span>
+                                        <span class="experience ms-2"> Experience:  {{ job.experienceRange.min }} 
+                                            {{ job.experienceRange.max <= 1 ? '- ' + job.experienceRange.max + ' Year' : (job.experienceRange.max >= 9999 ? '+' : '- ' + job.experienceRange.max + ' Years') }}</span>
                                     </div>
                                     <!-- Industry Type -->
                                     <div class="col-lg-4 col-sm-12 d-flex align-items-center mb-2">
