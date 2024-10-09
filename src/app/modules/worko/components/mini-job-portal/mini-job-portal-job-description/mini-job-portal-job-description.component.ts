@@ -21,7 +21,7 @@ import { ReferralProgressBarComponent } from '../../referral-progress-bar/referr
 export class MiniJobPortalJobDescriptionComponent {
 
   @ViewChild(ModalComponent) modal!: ModalComponent;
-  @ViewChild(LoginFormComponent) loginFormComponent!:LoginFormComponent
+  @ViewChild(LoginFormComponent) loginFormComponent!: LoginFormComponent
   @ViewChild(ReferralProgressBarComponent) referralProgressBarComponent!: ReferralProgressBarComponent;
   @ViewChild(NavbarComponent) navbarComponent!: NavbarComponent;
   companyName!: string;
@@ -38,6 +38,7 @@ export class MiniJobPortalJobDescriptionComponent {
   companyID: any = "";
   userLoggedIn: boolean = false;
   profileCompletion: any;
+  jobClosed:any
   cvCurPerc: any;
   totalPercentage: any;
   profileCompletionRequired: boolean = false;
@@ -55,13 +56,16 @@ export class MiniJobPortalJobDescriptionComponent {
   jobDescriptionDetails: any;
   otherJobDetails: any[] = [];
   showFeedback!: boolean;
+  isShowCloseButton: boolean = true;
+  modalSize: string = 'lg';
+
   constructor(private route: ActivatedRoute, private router: Router, private cognitoService: CognitoService, private http: HttpClient,
     private spinner: NgxSpinnerService, private companyListing: CompanyListingService, private cdr: ChangeDetectorRef, private candidateSrv: CandidateProfileService, private storage: StorageService) { }
 
   async ngOnInit(): Promise<void> {
     this.route.url.subscribe(urlSegments => {
       const fullCategory = decodeURIComponent(urlSegments.map(segment => segment.path).join('/')); // Decode the URL
-     // this.companyName = this.extractCompanyName(fullCategory);
+      // this.companyName = this.extractCompanyName(fullCategory);
       this.jobID = this.extractJobID(fullCategory); // Extract the job ID if needed
     });
     await this.getJobDescriptionDetails(this.jobID);
@@ -122,6 +126,7 @@ export class MiniJobPortalJobDescriptionComponent {
     // Step 4: Check if the profile is complete
     if (!this.checkProfileCompletion()) {
       this.profileCompletionRequired = true;
+      this.isShowCloseButton = false
       this.successmessage = "";
       this.successtitle = "";
       this.openModal(ModalType.SUCCESS_MESSAGE); // Profile completion modal
@@ -150,6 +155,7 @@ export class MiniJobPortalJobDescriptionComponent {
       let count = response.referralCount;
 
       if (count == 0) {
+        this.isShowCloseButton = false
         this.showsubscriptionPlan = true;
         this.openModal(ModalType.SUCCESS_MESSAGE);
 
@@ -243,7 +249,7 @@ export class MiniJobPortalJobDescriptionComponent {
             this.showLoading = true;
             this.showReferrelRow = false;
             this.showFeedback = false;
-            this.showScore=true;
+            this.showScore = true;
             this.openModal(ModalType.SUCCESS_MESSAGE);
             // this.getScore(this.referralRequestId);
           }
@@ -280,11 +286,12 @@ export class MiniJobPortalJobDescriptionComponent {
   handleError(error: any) {
     this.spinner.hide()
     switch (error.status) {
-     
+
       case 403:
         this.showErrorMsg = true;
         this.showReferrelRow = false;
         this.showScore = false;
+        this.isShowCloseButton=false
         this.errorMsg = "You have already requested a referral for this job. Check your dashboard for reference.";
         this.openModal(ModalType.SUCCESS_MESSAGE);
         break;
@@ -296,6 +303,8 @@ export class MiniJobPortalJobDescriptionComponent {
         break;
       default:
         console.error('Unexpected Error:', error);
+        this.isShowCloseButton = false
+        this.modalSize = 'md'
         this.successmessage = "Something went wrong. Please try again after sometime"
         this.successtitle = "Error"
         this.openModal(ModalType.SUCCESS_MESSAGE)
@@ -371,21 +380,33 @@ export class MiniJobPortalJobDescriptionComponent {
 
   async getJobDescriptionDetails(jobID: any) {
     this.spinner.show();
-    try{
-    if (jobID) {
+    try {
+      if (jobID) {
 
-      let response = await this.companyListing.getJobByJobID(jobID)
-      if (response) {
-        this.spinner.hide();
-        this.jobDescriptionDetails = response[0]
-        this.companyName = this.jobDescriptionDetails.companyDetails.name.toLowerCase()
+        let response = await this.companyListing.getJobByJobID(jobID)
+        if (response) {
+          this.spinner.hide();
+          this.jobDescriptionDetails = response[0];
 
-        this.getJobByCompanyId(this.jobDescriptionDetails.companyId, jobID)
+          // Check if the job is published
+          if (this.jobDescriptionDetails.status === 'PUBLISHED') {
+            this.companyName = this.jobDescriptionDetails.companyDetails.name.toLowerCase();
+            this.getJobByCompanyId(this.jobDescriptionDetails.companyId, jobID);
+          } else {
+         
+            this.isShowCloseButton = false
+            this.modalSize = 'md'
+            this.jobClosed=true;
+            this.openModal(ModalType.SUCCESS_MESSAGE)
+          }
 
-      } 
+        }
 
-    } }catch(error){
+      }
+    } catch (error) {
       this.spinner.hide();
+      this.isShowCloseButton = false
+      this.modalSize = 'md'
       this.successmessage = "Something went wrong. Please try again after sometime"
       this.successtitle = "Error"
       this.openModal(ModalType.SUCCESS_MESSAGE)
@@ -405,6 +426,8 @@ export class MiniJobPortalJobDescriptionComponent {
       }
     } catch (error) {
       this.spinner.hide();
+      this.isShowCloseButton = false
+      this.modalSize = 'md'
       this.successmessage = "Something went wrong. Please try again after sometime";
       this.successtitle = "Error";
       this.openModal(ModalType.SUCCESS_MESSAGE);
@@ -415,8 +438,8 @@ export class MiniJobPortalJobDescriptionComponent {
 
 
 
-  onModalClose(){
-    this.showFeedback=false
+  onModalClose() {
+    this.showFeedback = false
   }
 
 
@@ -445,7 +468,7 @@ export class MiniJobPortalJobDescriptionComponent {
       }
     }
     if (this.referralProgressBarComponent) {
-      this.referralProgressBarComponent.showFeedback=false;
+      this.referralProgressBarComponent.showFeedback = false;
     }
     this.modal.open();
 

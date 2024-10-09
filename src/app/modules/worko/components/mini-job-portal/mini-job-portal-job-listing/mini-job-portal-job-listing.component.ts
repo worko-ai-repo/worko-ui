@@ -1,5 +1,5 @@
 import { HttpClient } from '@angular/common/http';
-import { ChangeDetectorRef, Component, EventEmitter, Output, ViewChild } from '@angular/core';
+import { ChangeDetectorRef, Component, EventEmitter, Input, Output, ViewChild } from '@angular/core';
 import { ActivatedRoute, Router, UrlSegment } from '@angular/router';
 import { StorageService } from 'src/app/modules/app-core/services/storage.service';
 import { CognitoService } from 'src/app/modules/services/cognito.service';
@@ -63,6 +63,8 @@ export class MiniJobPortalJobListingComponent {
   companyDetail: any;
   companyNameDetail: any;
   showFeedback!: boolean;
+  isShowCloseButton: boolean=true;
+  modalSize: string='lg';
 
   constructor(private route: ActivatedRoute, private router: Router, private http: HttpClient, private cognitoService: CognitoService, private storage: StorageService, private authService: AuthService,
     private spinner: NgxSpinnerService, private cdr: ChangeDetectorRef, private candidateSrv: CandidateProfileService, private companyListing: CompanyListingService, private formBuilder: FormBuilder
@@ -139,6 +141,8 @@ export class MiniJobPortalJobListingComponent {
         this.spinner.hide();
         this.successmessage = "Something went wrong. Please try again after sometime"
         this.successtitle = "Error"
+        this.isShowCloseButton = false
+        this.modalSize = 'md'
         this.openModal(ModalType.SUCCESS_MESSAGE)
       }
     } catch (error) {
@@ -146,6 +150,8 @@ export class MiniJobPortalJobListingComponent {
       this.spinner.hide();
       this.successmessage = "Something went wrong. Please try again after sometime"
       this.successtitle = "Error"
+      this.isShowCloseButton = false
+      this.modalSize = 'md'
       this.openModal(ModalType.SUCCESS_MESSAGE)
     }
 
@@ -176,6 +182,8 @@ export class MiniJobPortalJobListingComponent {
       } else {
 
         this.spinner.hide();
+        this.isShowCloseButton = false
+        this.modalSize = 'md'
         this.successmessage = "Something went wrong. Please try again after sometime"
         this.successtitle = "Error"
         this.openModal(ModalType.SUCCESS_MESSAGE)
@@ -251,6 +259,8 @@ export class MiniJobPortalJobListingComponent {
     } catch (error) {
 
       this.spinner.hide();
+      this.isShowCloseButton = false
+      this.modalSize = 'md'
       this.successmessage = "Something went wrong. Please try again after sometime"
       this.successtitle = "Error"
       this.openModal(ModalType.SUCCESS_MESSAGE)
@@ -311,6 +321,7 @@ export class MiniJobPortalJobListingComponent {
     // Step 4: Check if the profile is complete
     if (!this.checkProfileCompletion()) {
       this.profileCompletionRequired = true;
+      this.isShowCloseButton=false
       this.successmessage = "";
       this.successtitle = "";
       this.openModal(ModalType.SUCCESS_MESSAGE); // Profile completion modal
@@ -338,6 +349,7 @@ export class MiniJobPortalJobListingComponent {
         let count = response.referralCount;
 
         if (count == 0) {
+          this.isShowCloseButton=false
 
           this.showsubscriptionPlan = true;
           this.openModal(ModalType.SUCCESS_MESSAGE);
@@ -435,10 +447,12 @@ export class MiniJobPortalJobListingComponent {
         break;
       default:
         console.error('Unexpected Error:', error);
+        this.isShowCloseButton=false
+        this.modalSize='md'
         this.successmessage = "Something went wrong. Please try again after sometime"
         this.successtitle = "Error"
         this.openModal(ModalType.SUCCESS_MESSAGE)
-        break;  
+        break;
     }
   }
 
@@ -465,8 +479,8 @@ export class MiniJobPortalJobListingComponent {
   onModalClose() {
     this.storage.remove("type");
     this.storage.remove("selectedCompanySK");
-    this.showFeedback=false
-   // window.location.reload();
+    this.showFeedback = false
+    // window.location.reload();
   }
 
   //   async receiveDataFromChild(data?: any) {
@@ -541,6 +555,7 @@ export class MiniJobPortalJobListingComponent {
     this.modalMessage = message;
     this.modalTitle = title;
 
+
     if (ModalType.LOGIN_SIGNUP) {
       if (this.loginFormComponent) {
         this.loginFormComponent.showSignInRow = false;
@@ -549,15 +564,15 @@ export class MiniJobPortalJobListingComponent {
         this.loginFormComponent.showLoginScreen = true
       }
     }
-      if (this.referralProgressBarComponent) {
-        this.referralProgressBarComponent.showFeedback=false;
-        this.referralProgressBarComponent.errorFound = false;
-        this.referralProgressBarComponent.cvError = false;
-        this.referralProgressBarComponent.jobDescription = false;
-        this.referralProgressBarComponent. showScore = false;
-        this.referralProgressBarComponent.showEmailContent = false;
-      }
-    
+    if (this.referralProgressBarComponent) {
+      this.referralProgressBarComponent.showFeedback = false;
+      this.referralProgressBarComponent.errorFound = false;
+      this.referralProgressBarComponent.cvError = false;
+      this.referralProgressBarComponent.jobDescription = false;
+      this.referralProgressBarComponent.showScore = false;
+      this.referralProgressBarComponent.showEmailContent = false;
+    }
+
     this.modal.open();
 
   }

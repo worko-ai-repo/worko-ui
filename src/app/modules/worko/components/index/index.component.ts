@@ -284,10 +284,11 @@ export class IndexComponent {
     // const Type = "referral";
     const  companyName=encodeURIComponent(item.name);
     const route = `/companies/${companyName.toLowerCase()}-jobs`;
+    this.router.navigate([route]);
    // console.log(route);
-    this.router.navigate([route],{
-      state: { companySK: item.SK}
-    });
+    // this.router.navigate([route],{
+    //   state: { companySK: item.SK}
+    // });
 
    // this.router.navigate(['/companies'], { queryParams: { companyID: companySk, Type: 'referral' } });
 

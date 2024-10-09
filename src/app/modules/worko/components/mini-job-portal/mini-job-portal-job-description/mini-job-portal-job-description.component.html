@@ -50,9 +50,9 @@
     </div> -->
 </div>
 <app-footer></app-footer>
-<app-modal [theme]="'theme-k'" [centered]="true"  [showClose]="true" [showHeader]="showModal === modalType.MESSAGE"
+<app-modal [theme]="'theme-k'" [centered]="true"  [showClose]="isShowCloseButton" [showHeader]="showModal === modalType.MESSAGE"
     [showFooter]="showModal === modalType.MESSAGE" [title]="modalTitle" [message]="modalMessage" (onModalClose)="onModalClose()"
-    [bodyClass]="modalMessage ? 'p-4' : 'p-0'">
+    [bodyClass]="modalMessage ? 'p-4' : 'p-0'" [modalSize]="modalSize">
 
     <ng-container *ngIf="showModal === modalType.LOGIN_SIGNUP">
         <app-login-form (onSuccess)="receiveDataFromChild($event)" [userLoggedInData]="userLoggedIn"></app-login-form>
@@ -117,6 +117,26 @@
                 </div>
                 <div class="text-center">
                     <button class="btn-next" (click)="upgradeNow()">UPGRADE NOW</button>
+                </div>
+            </div>
+        </div>
+        <div class="row message-card px-sm-1 p-5" *ngIf="jobClosed">
+            <div class="col-md-8 offset-md-2 text-justify job-div">
+ 
+                <div class="text-center mb-4 ">
+                    <p>Oops! It looks like the job you requested is no longer available.😕 But don’t worry!</p>
+                   </div>
+                   <p>You can:</p>
+                    <ul>
+                      <li>Explore other relevant roles listed on Worko.</li>
+                      <li>Or, request a referral for any job you find on the company’s career site or LinkedIn page.</li>
+                    </ul>
+                    <div class="text-center mb-4">
+                    <p>Let’s help you land that dream role🚀</p>
+                        
+                </div>
+                <div class="text-center">
+                    <button class=" btn-next job-btn" (click)="cancel()">OK</button>
                 </div>
             </div>
         </div>
