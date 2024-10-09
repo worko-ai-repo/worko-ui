@@ -98,6 +98,7 @@ import { MiniJobPortalOtherjobComponent } from './components/user-interface/mini
 import { MinJobPortalReferralFormComponent } from './components/user-interface/mini-job-portal/min-job-portal-referral-form/min-job-portal-referral-form.component';
 import { MinJobPortalJobListComponent } from './components/user-interface/mini-job-portal/min-job-portal-job-list/min-job-portal-job-list.component';
 import { ShowMoreDetailsComponent } from './components/show-more-details/show-more-details.component';
+import { EllipsisPipe } from './pipes/ellipsis/ellipsis.pipe';
 export const routes: Routes = [
 
   
@@ -155,6 +156,7 @@ export const routes: Routes = [
     MinJobPortalReferralFormComponent,
     MinJobPortalJobListComponent,
     ShowMoreDetailsComponent,
+    EllipsisPipe,
     // DoneServiceComponent,
     // CancelledServiceComponent,
     // AwaitingServiceComponent,
@@ -234,7 +236,8 @@ export const routes: Routes = [
   MiniJobPortalOtherjobComponent,
   MinJobPortalReferralFormComponent,
   MinJobPortalJobListComponent,
-  ShowMoreDetailsComponent
+  ShowMoreDetailsComponent,
+  EllipsisPipe
   ],
 
 })

@@ -113,6 +113,9 @@ $statuses: (
   background: #0a1e36;
   border-radius: 6px;
 
+  .form-control:focus {
+    color:white !important;
+  }
   input {
     background-color: transparent !important;
     border: 2px solid #476baf;
@@ -278,10 +281,26 @@ $statuses: (
 }
 #ajobDesc-rte > div *{  
   border-color: white;
+  table{color: white;}
+  .note-btn-group{
+   background-color: #d4d4d4;
+   .note-para{box-shadow: 0 0 0 0.2rem #dfdfdf;}
+   color: black;
+   button{
+     border-color: black;
+     background-color: white;
+    }
+  }
+  .note-editable{
+    background-color: #0a1e36;
+  }
   .note-editable{
     color: white ;
     border: 1px solid white;
   }
+  .note-icon-caret::before {
+    content: "";
+}
  .ajobDesc-rte_editor *{
     color: white;
     border-color: white !important;
@@ -289,7 +308,7 @@ $statuses: (
 }
 .cdk-overlay-container {
   position: fixed;
-  z-index: 9999999 !important;
+  z-index: 9999 !important;
   .mat-mdc-autocomplete-panel{
     background-color: #0a1e35;
     .mat-mdc-option{
@@ -300,9 +319,7 @@ $statuses: (
     }
   }
 }
-.form-control:focus {
-  color:white !important;
-}
+
 .note-modal-content{
   background-color: #0a1e35;
   color:white;
@@ -315,5 +332,8 @@ $statuses: (
     display: flex !important;
     flex-direction: column;
     flex-wrap: wrap;
+    .btn.btn-next {
+        width: 100%;
+    }
   }
 }

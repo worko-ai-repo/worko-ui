@@ -55,7 +55,7 @@
                   <!-- {{ copiedContextId === row.contextId ? 'check' : 'content_paste' }} -->
                 </mat-icon>
               </td>
-              <td>{{ job.jobTitle }}</td>
+              <td matTooltip={{job.jobTitle}} matTooltipPosition="above" style="cursor: pointer;">{{ job.jobTitle |  ellipsis:30 }}</td>
               <td id="tuple-with-logo">
                 <ng-container *ngIf="job.companyDetails?.logo; else useUrlLogoSecond">
                   <img src="assets/company-logo/{{job.companyDetails?.logo}}" alt="{{job.companyDetails?.name}}" width="50"
@@ -214,7 +214,7 @@
         <!-- Soft Skills Input -->
         <div class="ajobs-fitem gCloumnOne">
           <label for="softSkills" class="form-label required-form-field">Soft Skills</label> &nbsp;
-            <span  class="ajob-tooltip"  matTooltip="Visit" matTooltipPosition="above" style=" cursor: pointer; width: min-content; position:relative ;height: min-content;">
+            <span  class="ajob-tooltip" style=" cursor: pointer; width: min-content; position:relative ;height: min-content;">
             <i  class="fa-solid fa-circle-info " matTooltip="{{skillsTooltipMessage}}" matTooltipPosition="above"></i>
           </span>
           <input type="text" id="softSkills" (keydown.enter)="onSkillInput($event, 'softSkills')"
@@ -234,7 +234,7 @@
         <!-- Core Skills Input -->
         <div class="ajobs-fitem gCloumnOne">
           <label for="coreSkills" class="form-label required-form-field">Core Skills</label>&nbsp;
-          <span  class="ajob-tooltip"  matTooltip="Visit" matTooltipPosition="above" style=" cursor: pointer; width: min-content; position:relative ;height: min-content;">
+          <span  class="ajob-tooltip" style=" cursor: pointer; width: min-content; position:relative ;height: min-content;">
             <i  class="fa-solid fa-circle-info " matTooltip="{{skillsTooltipMessage}}" matTooltipPosition="above"></i>
           </span>
           <input type="text" id="coreSkills" (keydown.enter)="onSkillInput($event, 'coreSkills')"
@@ -254,7 +254,7 @@
         <!-- Technical  Skills Input -->
         <div class="ajobs-fitem gCloumnOne">
           <label for="technicalSkills" class="form-label required-form-field">Technical Skills</label>&nbsp;
-          <span  class="ajob-tooltip"  matTooltip="Visit" matTooltipPosition="above" style=" cursor: pointer; width: min-content; position:relative ;height: min-content;">
+          <span  class="ajob-tooltip"  style=" cursor: pointer; width: min-content; position:relative ;height: min-content;">
             <i  class="fa-solid fa-circle-info " matTooltip="{{skillsTooltipMessage}}" matTooltipPosition="above"></i>
           </span>
           <input type="text" id="technicalSkills" (keydown.enter)="onSkillInput($event, 'technicalSkills')"
@@ -274,7 +274,7 @@
         <!-- GoodToHave Skills Input -->
         <div class="ajobs-fitem gCloumnOne">
           <label for="mislaneiousSkills" class="form-label">Good to have Skills</label>&nbsp;
-          <span  class="ajob-tooltip"  matTooltip="Visit" matTooltipPosition="above" style=" cursor: pointer; width: min-content; position:relative ;height: min-content;">
+          <span  class="ajob-tooltip"  style=" cursor: pointer; width: min-content; position:relative ;height: min-content;">
             <i  class="fa-solid fa-circle-info " matTooltip="{{skillsTooltipMessage}}" matTooltipPosition="above"></i>
           </span>
           <input type="text" id="mislaneiousSkills" (keydown.enter)="onSkillInput($event, 'mislaneiousSkills')"
@@ -327,8 +327,8 @@
         <!-- Job Description -->
         <div class="ajobs-fitem gCloumnTwo"  id="ajobDesc-rte">
           <label for="jobDescription" class="form-label required-form-field">Job Description:</label>&nbsp;
-          <span  class="ajob-tooltip"  matTooltip="Visit" matTooltipPosition="above" style=" z-index: 9999999; ;cursor: pointer; width: min-content; position:relative ;height: min-content;">
-            <i  class="fa-solid fa-circle-info " matTooltip="For New Line Press Shift + Enter Keys." matTooltipPosition="above"></i>
+          <span  class="ajob-tooltip"  style="cursor: pointer; width: min-content; position:relative ;height: min-content;">
+            <i  class="fa-solid fa-circle-info " matTooltip="1.For New Line Press Shift + Enter Keys." matTooltipPosition="above"></i>
           </span>
         
         <div  formControlName="jobDescription" [ngxSummernote]="ngxSummerConfig" class="ajobDesc-rte_editor" [ngClass]="{ 'is-invalid': isInvalid('jobDescription') }"></div>
@@ -345,7 +345,7 @@
             }}</span>
         </div>
 
-        <button type="submit" [disabled]="!jobForm.valid" class="ajobs-fitem-submitBtn">
+        <button type="submit" [disabled]="!jobForm.valid || !isCompanyNameValid" class="ajobs-fitem-submitBtn">
           {{ isEditMode ? 'Update' : 'Create' }}
         </button>
         <button type="button" id="ajobResetBtn" (click)="resetModal()" class="ajobs-fitem-resetBtn">Reset</button>

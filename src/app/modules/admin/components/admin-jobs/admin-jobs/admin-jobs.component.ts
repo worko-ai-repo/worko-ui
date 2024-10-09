@@ -98,10 +98,10 @@ export class AdminJobsComponent implements OnInit {
         ]
       ],
       ['fontsize', ['fontname', 'fontsize', 'color']],
-      ['para', ['style0', 'ul', 'ol', 'paragraph', 'height']],
-      ['insert', ['table', 'picture', 'link', 'video', 'hr']],
-      ['customButtons', ['testBtn']]
-    ]
+      ['para', ['style', 'ul', 'ol', 'paragraph', 'height']],
+      ['insert', ['link', 'hr']],
+      ['view',['help','fullscreen']],
+    ],
   };
 
   // Common Enums
@@ -167,6 +167,7 @@ export class AdminJobsComponent implements OnInit {
   selectedStatus: string = this.status.ALL;
   selectedSortOrder: string = this.sortOrder.DESC;
   noJobsMessage: string = "No Jobs Present"; // Will be showin inside the table
+  isCompanyNameValid: boolean = false;
 
   //Filters Properties
   searchQuery: string = "";
@@ -216,9 +217,9 @@ export class AdminJobsComponent implements OnInit {
     // Initialize the job form with necessary fields and validation
     this.jobForm = this.fb.group({
       status: [this.status.PUBLISHED],
-      companyId: [""],
+      companyId: ["",Validators.required],
       coreSkills: this.fb.array([], Validators.required),
-      department: ["", Validators.required],
+      department: ["", [Validators.required]],
       experienceRange:[null, Validators.required],
       jobTitle: ["", [Validators.required, Validators.minLength(3)]],
       jobDescription: ["", [Validators.required, Validators.minLength(20)]],
@@ -367,6 +368,7 @@ export class AdminJobsComponent implements OnInit {
     return this.adminService.getCompanyName(value).pipe(
       map((response) => {
         const companies = Array.isArray(response.data) ? response.data : [];
+        this.isCompanyNameValid = companies.length === 0 ? false : true;
         this.companyNameError = companies.length === 0 ? "No companies found." : "";
         return companies;
       })
@@ -392,14 +394,18 @@ export class AdminJobsComponent implements OnInit {
   onInputBlur(): void {
     const companyNameValue = this.companyControl.value?.trim(); // Check if the input is empty
     // If the input is empty, show an error
-    if (!companyNameValue) {
+    let companyIdCheck = this.jobForm.get("companyId")?.value === null || this.jobForm.get("companyId")?.value === "";
+    if (companyNameValue === "" || companyNameValue === null) {
       this.companyNameError = "Company name is required.";
+      this.isCompanyNameValid =false;
     } 
-   /*  if(this.jobForm.get("companyId")?.value === null || this.jobForm.get("companyId")?.value === "") {
+     if(companyIdCheck) {
       this.companyNameError = "Please select a company from the list.";
-    } */
-    else {
+      this.isCompanyNameValid =false;
+    }
+    if(companyIdCheck && companyNameValue === "") {
       this.companyNameError = ""; // Clear the error if companies are found
+      this.isCompanyNameValid =true;
     }
   }
 
@@ -520,6 +526,7 @@ export class AdminJobsComponent implements OnInit {
       location: "",
       noticePeriod: 0,
       typeofEmployment: "",
+      otherRequirements: "",
       numOfOpenings: 1,
     });
   }
@@ -706,7 +713,7 @@ export class AdminJobsComponent implements OnInit {
       }
     });
 
-    if (this.jobForm.valid) {
+    if (this.jobForm.valid && this.companyNameError === "") {
       // Call createJob when in create mode
       if (this.isEditMode && this.jobId) {
         this.spinner.show();
@@ -714,7 +721,7 @@ export class AdminJobsComponent implements OnInit {
         this.adminService
           .updateJob(this.jobId, this.jobForm.value)
           .then((response) => {
-            this.fetchJobs({ jobStatus: this.status.PUBLISHED, pageSize: this.pageSize, resetPagination: true, sortOrder: this.selectedSortOrder });
+            this.fetchJobs({ jobStatus: this.selectedStatus, pageSize: this.pageSize, resetPagination: true, sortOrder: this.selectedSortOrder });
             this.closeModal();
             this.jobId = null;
           })
@@ -731,7 +738,7 @@ export class AdminJobsComponent implements OnInit {
         this.adminService
           .createJob(this.jobForm.value)
           .then((response) => {
-            this.fetchJobs({ jobStatus: this.status.PUBLISHED, pageSize: this.pageSize });
+            this.fetchJobs({ jobStatus: this.selectedStatus, pageSize: this.pageSize, resetPagination: true, sortOrder: this.selectedSortOrder });
             this.closeModal();
           })
           .catch((error) => {
