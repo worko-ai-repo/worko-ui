@@ -73,6 +73,17 @@ export class FooterComponent {
       this.routeSub.unsubscribe();
     }
   }
+
+  viewAllCompanies() {
+    // Check if the current URL is '/companies'
+    if (this.router.url === '/companies') {
+      // If so, reload the page
+      window.location.reload();
+    } else {
+      // Navigate to '/companies' if not on that route
+      this.router.navigate(['/companies']);
+    }
+  }
   // async redirectToCompanyListing() {
 
   //   window.location.href = window.location.origin + '/companies';
