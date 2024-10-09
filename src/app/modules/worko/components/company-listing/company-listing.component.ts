@@ -296,7 +296,7 @@ export class CompanyListingComponent implements OnInit, AfterViewInit, OnDestroy
     await this.getProfilePercentage();
 
     await this.getCompanyDetails();
-    await this.getCompanyDetails(100);
+    // await this.getCompanyDetails(100);
     this.filteredCompanyList = this.companyList;
 
 
