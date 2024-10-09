@@ -187,7 +187,7 @@ export class LoginFormComponent implements AfterViewInit, OnDestroy {
   userLoggedIn: boolean = false;
   emailAddress: any;
   showLoginScreen: boolean = false;
-  touched:boolean=false
+  touched: boolean = false
   constructor(private cdr: ChangeDetectorRef, private modalService: NgbModal, private companyListingService: CompanyListingService, private storage: StorageService, private amplify: CognitoService, private router: Router, private authService: AuthService, private spinner: NgxSpinnerService, private navbarToggleSwitchService: NavbarToggleSwitchService) {
 
 
@@ -214,11 +214,11 @@ export class LoginFormComponent implements AfterViewInit, OnDestroy {
     // if (this.resetForm && this.resetForm.code && this.resetForm.code === otp) {
     this.authService.otpVerification(emailId)
       .then(response => {
-       // console.log('OTP verification successful');
+        // console.log('OTP verification successful');
 
       })
       .catch(error => {
-       // console.error('OTP verification failed:', error);
+        // console.error('OTP verification failed:', error);
       });
     // } else {
     //   console.log('OTP is not valid');
@@ -266,7 +266,7 @@ export class LoginFormComponent implements AfterViewInit, OnDestroy {
       return new bootstrap.Tooltip(tooltipTriggerEl)
     })
 
-   
+
   }
 
 
@@ -305,7 +305,7 @@ export class LoginFormComponent implements AfterViewInit, OnDestroy {
     //   })
 
     // );
-   
+
     this.filteredOptions = this.myControl.valueChanges.pipe(
       debounceTime(300),
       distinctUntilChanged(),
@@ -313,18 +313,18 @@ export class LoginFormComponent implements AfterViewInit, OnDestroy {
         if (value && value.length >= 1) {
           return this.authService.getCompanyName(value).pipe(
             // map((results: any[]) => {
-              map((response: any) => {
-                const results = Array.isArray(response.data) ? response.data : []; // Ensure results is an array
+            map((response: any) => {
+              const results = Array.isArray(response.data) ? response.data : []; // Ensure results is an array
               if (results.length === 0) {
                 this.companyNameError = 'Company name not found. Please add company name by selecting "Add new company" in the dropdown.';
               } else {
                 this.companyNameError = '';
               }
               return [
-                
+
                 // ...results,
                 ...results.map((company: any) => ({
-                  id: company.SK, 
+                  id: company.SK,
                   name: company.name
                 })),
                 { id: 'add_new', name: "Add new company" } // Static option
@@ -343,7 +343,7 @@ export class LoginFormComponent implements AfterViewInit, OnDestroy {
       if (value === '' && this.myControl.touched) {
         this.selectedCompany = null;
         this.companyNameError = 'Please select a Company name from the dropdown';
-         
+
       }
     });
 
@@ -351,13 +351,13 @@ export class LoginFormComponent implements AfterViewInit, OnDestroy {
     //console.log(fieldType2);
   }
 
-  
+
   //ensure the user selects a company from the dropdown.
-  onBlur(control:any) {
+  onBlur(control: any) {
     if (!this.selectedCompany && control.touched) {
       this.companyNameError = 'Please select a Company name from the dropdown';
       //control.setValue("")
-    } 
+    }
   }
 
 
@@ -394,7 +394,7 @@ export class LoginFormComponent implements AfterViewInit, OnDestroy {
 
   async handleRememberDevice() {
 
-   
+
     try {
       if (this.rememberMe) {
 
@@ -407,7 +407,7 @@ export class LoginFormComponent implements AfterViewInit, OnDestroy {
 
       }
     } catch (error) {
-      
+
     }
   }
 
@@ -430,20 +430,20 @@ export class LoginFormComponent implements AfterViewInit, OnDestroy {
       await this.amplify.setAccessToken()
       const authToken = response.tokens?.idToken?.toString();
       // console.log(accessToken, "Acces");
-   
+
     } catch (err) {
-     // console.log(err);
+      // console.log(err);
     }
   }
 
   async currentAuthenticatedUser() {
     try {
       const { username, userId, signInDetails } = await getCurrentUser();
-    
+
 
 
       if (signInDetails) {
-       // console.log('The signInDetails:', signInDetails);
+        // console.log('The signInDetails:', signInDetails);
 
 
 
@@ -500,7 +500,7 @@ export class LoginFormComponent implements AfterViewInit, OnDestroy {
       this.handleResetPasswordNextSteps(output);
 
     } catch (error) {
-     // console.log(error);
+      // console.log(error);
     }
   }
 
@@ -509,9 +509,9 @@ export class LoginFormComponent implements AfterViewInit, OnDestroy {
     switch (nextStep.resetPasswordStep) {
       case 'CONFIRM_RESET_PASSWORD_WITH_CODE':
         const codeDeliveryDetails = nextStep.codeDeliveryDetails;
-        // console.log(
-        //   `Confirmation code was sent to ${codeDeliveryDetails.deliveryMedium}`
-        // );
+      // console.log(
+      //   `Confirmation code was sent to ${codeDeliveryDetails.deliveryMedium}`
+      // );
     }
   }
 
@@ -524,7 +524,7 @@ export class LoginFormComponent implements AfterViewInit, OnDestroy {
 
     try {
       await confirmResetPassword({ username, confirmationCode, newPassword });
-     
+
 
 
       // this.successPasswordMessage=true;
@@ -538,7 +538,7 @@ export class LoginFormComponent implements AfterViewInit, OnDestroy {
 
 
     } catch (error) {
-     
+
       this.errorMessage = "Invalid verification code provided, please try again."
     }
   }
@@ -576,7 +576,7 @@ export class LoginFormComponent implements AfterViewInit, OnDestroy {
             this.spinner.hide();
           } catch (error: any) {
             this.spinner.hide();
-           
+
           }
         })
           .catch(error => {
@@ -590,17 +590,17 @@ export class LoginFormComponent implements AfterViewInit, OnDestroy {
       if (error && error.message) {
         this.spinner.hide();
         this.errorMessage = error.message;
-       
+
       }
 
 
     } catch (error: any) {
-      
-        this.spinner.hide();
-       // this.setErrorMessage("It looks like you already have an account with us.  Please log in to continue.If you’ve forgotten your password, use the 'Forgot Password' link to reset it.")
-       
-      }
-    
+
+      this.spinner.hide();
+      // this.setErrorMessage("It looks like you already have an account with us.  Please log in to continue.If you’ve forgotten your password, use the 'Forgot Password' link to reset it.")
+
+    }
+
   }
 
 
@@ -611,7 +611,7 @@ export class LoginFormComponent implements AfterViewInit, OnDestroy {
       this.confirmationEmail = this.maskEmail(this.candidateForm.emailId);
 
       const { response, error } = await this.createUser(this.candidateForm);
-   
+
 
       if (response) {
         try {
@@ -636,7 +636,7 @@ export class LoginFormComponent implements AfterViewInit, OnDestroy {
                   resumeFileMimeType: this.fileType
                 }
                 let docResult = await this.authService.uploadCV(documentDetails);
-               
+
 
                 this.uploadedCvName = docResult.cloudFileName;
                 this.uploadCVonS3Bucket(docResult);
@@ -644,7 +644,7 @@ export class LoginFormComponent implements AfterViewInit, OnDestroy {
               }
             } catch (error) {
               this.spinner.hide();
-          
+
             }
           })
             .catch(error => {
@@ -673,7 +673,7 @@ export class LoginFormComponent implements AfterViewInit, OnDestroy {
 
     } catch (error) {
       this.spinner.hide();
-     // console.log('Error signing up candidate createCandidate:', error);
+      // console.log('Error signing up candidate createCandidate:', error);
     }
 
 
@@ -815,12 +815,12 @@ export class LoginFormComponent implements AfterViewInit, OnDestroy {
 
 
   onOptionSelected(event: any): void {
-  
+
     // this.selectedCompany = event.option.value;
     // debugger
     // Edited by KA:
     if (event.option.value.id == "add_new") {
-   
+
       this.showAddCompanyScreen = true
       //this.openModal(ModalType.ADD_COMPANY);
       this.selectedCompany = '';
@@ -828,7 +828,7 @@ export class LoginFormComponent implements AfterViewInit, OnDestroy {
     } else {
       this.selectedCompany = event.option.value;
     }
-  
+
   }
 
   uploadCVonS3Bucket(docResult: any) {
@@ -836,7 +836,7 @@ export class LoginFormComponent implements AfterViewInit, OnDestroy {
     try {
       this.authService.uploadFileOnS3Bucket(this.fileToUpload!, docResult.awsS3SignedUrl, docResult.awsS3Tag)
         .then(async () => {
-        
+
           try {
             let a = await this.authService.linkResumewithUser(this.candidateForm.emailId, this.uploadedCvName);
             this.confirmationCodeScreen = true;
@@ -879,10 +879,10 @@ export class LoginFormComponent implements AfterViewInit, OnDestroy {
           this.fileToUpload = file;
           this.fileName = file.name;
           this.fileType = file.type;
-        
+
         } else {
           // Display an error for invalid file type
-         
+
           this.fileErr = "Invalid file type. Please upload a PDF file."
           this.fileName = "";
           // Optionally, you can reset the input to clear the invalid selection
@@ -902,7 +902,7 @@ export class LoginFormComponent implements AfterViewInit, OnDestroy {
         const { response, error } = await this.createUserWithConfirmation(this.candidateForm, this.verificationForm);
         if (response) {
           // this.otpVerification(this.candidateForm.emailId);
-         // this.showSignInRow = false  commented to pervent the user to togggle to sign in 
+          // this.showSignInRow = false  commented to pervent the user to togggle to sign in 
           this.showAddCompanyScreen = false
           // this.showErrorMessageScreen = true
           // this.successtitle = 'Verification Successful' // success message displaying after verifing code
@@ -910,7 +910,7 @@ export class LoginFormComponent implements AfterViewInit, OnDestroy {
 
           // this.toggleSignInRow();
 
-            // redirect user to dashboard or edit profile with direct login
+          // redirect user to dashboard or edit profile with direct login
           await this.submit(this.candidateForm)
 
           this.spinner.hide();
@@ -926,7 +926,7 @@ export class LoginFormComponent implements AfterViewInit, OnDestroy {
         const { response, error } = await this.createUserWithConfirmation(this.employeeForm, this.verificationForm);
 
         if (response) {
-       //   this.showSignInRow = false commented to pervent the user to togggle to sign in 
+          //   this.showSignInRow = false commented to pervent the user to togggle to sign in 
           this.showAddCompanyScreen = false
           // this.showErrorMessageScreen = true commented to pervent the user to togggle to sign in 
           // this.successtitle = 'Verification Successful'
@@ -935,7 +935,7 @@ export class LoginFormComponent implements AfterViewInit, OnDestroy {
 
           // redirect user to dashboard or edit profile with direct login
           await this.submit(this.employeeForm)
-        
+
         }
 
         if (error) {
@@ -987,7 +987,7 @@ export class LoginFormComponent implements AfterViewInit, OnDestroy {
     let login = await this.amplify.handleSignIn(loginData);
     if (login.response?.nextStep?.signInStep === "CONFIRM_SIGN_UP") {
       this.spinner.hide();
-      this.confirmationEmail= this.maskEmail(this.form.email || form.emailId);
+      this.confirmationEmail = this.maskEmail(this.form.email || form.emailId);
       this.showSignInRow = !this.showSignInRow;
       this.confirmationCodeScreen = !this.confirmationCodeScreen;
       // this.codeErrorScreen=!this.codeErrorScreen
@@ -1005,7 +1005,7 @@ export class LoginFormComponent implements AfterViewInit, OnDestroy {
         this.storage.set('lastAccessedDash', userType);
         this.storage.set('userName', userName);
         this.navbarToggleSwitchService.intializeToggleStatus();
-      
+
 
         await this.currentSession();
         await this.currentAuthenticatedUser();
@@ -1064,30 +1064,30 @@ export class LoginFormComponent implements AfterViewInit, OnDestroy {
         phone_number: "+91" + form.phoneNumber
       }
       const { response, error } = await this.amplify.handleSignUp(signupform);
-    
+
       if (response) {
         // Handle the successful sign-up response
 
         this.userId = response.userId;
-       
+
         return { response: response };
       }
 
       if (error) {
         // Handle the sign-up error
-       
+
         return { error: error };
       }
     } catch (error: any) {
-     // debugger
+      // debugger
       this.candidateFormDirective?.resetForm();
-      this.fileName="";
+      this.fileName = "";
       this.employeeFormDirective?.resetForm();
       this.myControl?.reset()
       if (error.message === 'User already exists') {
         this.spinner.hide();
-        this.setErrorMessage("It looks like you already have an account with us.  Please log in to continue.If you’ve forgotten your password, use the 'Forgot Password' link to reset it."); 
-       
+        this.setErrorMessage("It looks like you already have an account with us.  Please log in to continue.If you’ve forgotten your password, use the 'Forgot Password' link to reset it.");
+
       }
     }
 
@@ -1110,19 +1110,19 @@ export class LoginFormComponent implements AfterViewInit, OnDestroy {
 
       // Check if the confirmation was successful
       if (response) {
-       
+
         // Handle the confirmed sign-up as needed
         return { response: response };
       } else if (error) {
         // Handle confirmation error
-        
+
         return { error: error };
       }
 
       // If no response or error was encountered, return a default value
       return { error: new Error('Unexpected error: No response or error.') };
     } catch (error) {
-     // console.error('Unexpected error:', error);
+      // console.error('Unexpected error:', error);
       // Return the unexpected error
       // return { error: error };
     }
@@ -1176,41 +1176,48 @@ export class LoginFormComponent implements AfterViewInit, OnDestroy {
     // if (this.router.url.includes('/companies')) {
     //   this.storage.set('isCompanyListingRoute', true);
     // } 
-    
+
     const currentUrl = this.router.url;
 
-    // Check if the URL is in any of the expected job-related patterns
-    const isJobListing = /\/companies\/[^/]+-jobs/.test(currentUrl);
-    const isJobDescriptionRoute = /\/companies\/[^/]+-jobs\/[^/]+-[0-9]+/.test(currentUrl);
-    const isJobRoute = /\/[^/]+-jobs/.test(currentUrl);
-    const isCompanyListingRoute=this.router.url.includes('/companies')
-  
-    if (isCompanyListingRoute || isJobDescriptionRoute || isJobRoute ||isJobListing) {
-      this.storage.set('isCompanyListingRoute', true);
-      this.storage.set('dynamicRoute', currentUrl);  // Store the full job details route if necessary
-    }
+    // // Check if the URL is in any of the expected job-related patterns
+    // const isJobListing = /\/companies\/[^/]+-jobs/.test(currentUrl);
+    // const isJobDescriptionRoute = /\/companies\/[^/]+-jobs\/[^/]+-[0-9]+/.test(currentUrl);
+    // const isJobRoute = /\/[^/]+-jobs/.test(currentUrl);
+    // const isCompanyListingRoute=this.router.url.includes('/companies')
+
+    // if (isCompanyListingRoute || isJobDescriptionRoute || isJobRoute ||isJobListing) {
+    
+    // Define a single regular expression to match job-related routes and company routes
+    const jobRoutePattern = /^(\/companies\/[^/]+-jobs(?:\/[^/]+-[A-Za-z0-9]+)?|\/[^/]+-jobs|\/companies)$/;
+
+    // Check if the URL matches any of the job-related or company-related routes
+    const isCompanyRoute = jobRoutePattern.test(currentUrl);
+    if(isCompanyRoute){
+    this.storage.set('isCompanyListingRoute', true);
+    this.storage.set('dynamicRoute', currentUrl);  // Store the full job details route if necessary
+  }
     
     else {
-      const isCompanyListingRoute = this.storage.get('isCompanyListingRoute');
-      if (isCompanyListingRoute !== null && isCompanyListingRoute !== undefined) {
-        this.storage.remove('isCompanyListingRoute');
-        this.storage.remove('dynamicRoute');
-      }
-    }
-    this.storage.set('LinkedinUserType', usertype);
-  
-    // Show a spinner or perform any other necessary actions
-    this.spinner.show();
+  const isCompanyListingRoute = this.storage.get('isCompanyListingRoute');
+  if (isCompanyListingRoute !== null && isCompanyListingRoute !== undefined) {
+    this.storage.remove('isCompanyListingRoute');
+    this.storage.remove('dynamicRoute');
+  }
+}
+this.storage.set('LinkedinUserType', usertype);
 
-    //"https://worko.auth.ap-south-1.amazoncognito.com/oauth2/authorize?identity_provider=LinkedIn&redirect_uri=https://localhost:4200/&response_type=CODE&client_id=5evf019rrkaijtnjf2j1vvdf33&state=h8HvXvQ2W4QvOE18H68wwcgWh3pIkANy&code_challenge=kI8A-NbOUiZw9Iv14YltZO5iTk6MTkK2Lu1PVAEsOyI&code_challenge_method=S256&scope=email%20openid%20phone";
-    // Redirect to the specified URL
-    //window.location.href =
-    // "https://worko.auth.ap-south-1.amazoncognito.com/oauth2/authorize?identity_provider=LinkedIn&redirect_uri=http://localhost:4200/auth/checkRedirection&response_type=CODE&client_id=5evf019rrkaijtnjf2j1vvdf33&state=h8HvXvQ2W4QvOE18H68wwcgWh3pIkANy&code_challenge=kI8A-NbOUiZw9Iv14YltZO5iTk6MTkK2Lu1PVAEsOyI&code_challenge_method=S256&scope=email%20openid%20phone";
-    //
+// Show a spinner or perform any other necessary actions
+this.spinner.show();
+
+//"https://worko.auth.ap-south-1.amazoncognito.com/oauth2/authorize?identity_provider=LinkedIn&redirect_uri=https://localhost:4200/&response_type=CODE&client_id=5evf019rrkaijtnjf2j1vvdf33&state=h8HvXvQ2W4QvOE18H68wwcgWh3pIkANy&code_challenge=kI8A-NbOUiZw9Iv14YltZO5iTk6MTkK2Lu1PVAEsOyI&code_challenge_method=S256&scope=email%20openid%20phone";
+// Redirect to the specified URL
+//window.location.href =
+// "https://worko.auth.ap-south-1.amazoncognito.com/oauth2/authorize?identity_provider=LinkedIn&redirect_uri=http://localhost:4200/auth/checkRedirection&response_type=CODE&client_id=5evf019rrkaijtnjf2j1vvdf33&state=h8HvXvQ2W4QvOE18H68wwcgWh3pIkANy&code_challenge=kI8A-NbOUiZw9Iv14YltZO5iTk6MTkK2Lu1PVAEsOyI&code_challenge_method=S256&scope=email%20openid%20phone";
+//
 
 
 
-    this.amplify.handleSocialSignIn()
+this.amplify.handleSocialSignIn()
 
   }
 
