@@ -64,7 +64,7 @@ export class EmployeeEditDetailsComponent {
 
   ngOnChanges(): void {
 
-    if (this.employeePersonalData && this.employeePersonalData.about && this.employeePersonalData.location && this.employeePersonalData.socialLinklinkdin
+    if (this.employeePersonalData  && this.employeePersonalData.location 
     ) {
 
     } else {

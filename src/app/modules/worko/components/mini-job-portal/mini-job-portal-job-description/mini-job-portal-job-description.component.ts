@@ -421,13 +421,22 @@ export class MiniJobPortalJobDescriptionComponent {
         }
 
       }
-    } catch (error) {
+    } catch (error:any) {
       this.spinner.hide();
+      if(error.status===404){
+        this.isShowCloseButton = false
+        this.modalSize = 'md'
+        this.jobClosed = true;
+        this.openModal(ModalType.SUCCESS_MESSAGE)
+
+      }else{
+   
       this.isShowCloseButton = false
       this.modalSize = 'md'
       this.successmessage = "Something went wrong. Please try again after sometime"
       this.successtitle = "Error"
       this.openModal(ModalType.SUCCESS_MESSAGE)
+      }
     }
 
   }
