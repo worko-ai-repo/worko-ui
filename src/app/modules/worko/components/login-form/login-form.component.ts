@@ -838,7 +838,7 @@ export class LoginFormComponent implements AfterViewInit, OnDestroy {
         .then(async () => {
 
           try {
-            let a = await this.authService.linkResumewithUser(this.candidateForm.emailId, this.uploadedCvName);
+            let a = await this.authService.linkResumewithUser(this.candidateForm.emailId.toLowerCase(), this.uploadedCvName);
             this.confirmationCodeScreen = true;
             this.spinner.hide();
           } catch (error: any) {
@@ -1059,7 +1059,7 @@ export class LoginFormComponent implements AfterViewInit, OnDestroy {
     try {
       let signupform = {
         password: form.password,
-        username: form.emailId,
+        username: form.emailId.toLowerCase(),
         name: form.name,
         phone_number: "+91" + form.phoneNumber
       }
