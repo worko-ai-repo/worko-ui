@@ -38,7 +38,7 @@ export class MiniJobPortalJobDescriptionComponent {
   companyID: any = "";
   userLoggedIn: boolean = false;
   profileCompletion: any;
-  jobClosed:any
+  jobClosed: any
   cvCurPerc: any;
   totalPercentage: any;
   profileCompletionRequired: boolean = false;
@@ -105,16 +105,32 @@ export class MiniJobPortalJobDescriptionComponent {
   }
 
   async handleRequestReferral() {
-    // Step 1: Check if the user is logged in
+
+    // Check if the job is  published 
+    if (this.jobDescriptionDetails.status === 'PUBLISHED') {
+      this.handleLogin()
+
+    } else {
+      this.isShowCloseButton = false
+      this.modalSize = 'md'
+      this.jobClosed = true;
+      this.openModal(ModalType.SUCCESS_MESSAGE)
+     
+    }
+
+
+  }
+  async handleLogin() {
+    // Step 2: Check if the user is logged in
     this.userLoggedIn = await this.cognitoService.isLoggedIn();
 
     if (!this.userLoggedIn) {
-      // Step 2: If not logged in, show login/signup modal
+      // Step 3: If not logged in, show login/signup modal
       this.openModal(ModalType.LOGIN_SIGNUP);
       return;
     }
 
-    // Step 3: If logged in, check profile completion
+    // Step 4: If logged in, check profile completion
     await this.handlePostLoginProcess();
   }
 
@@ -123,7 +139,7 @@ export class MiniJobPortalJobDescriptionComponent {
 
     await this.getProfilePercentage();
 
-    // Step 4: Check if the profile is complete
+    // Step 5: Check if the profile is complete
     if (!this.checkProfileCompletion()) {
       this.profileCompletionRequired = true;
       this.isShowCloseButton = false
@@ -133,7 +149,7 @@ export class MiniJobPortalJobDescriptionComponent {
       return;
     }
 
-    // Step 5: If profile is complete, check subscription/referral count
+    // Step 6: If profile is complete, check subscription/referral count
     this.checkRequestReferral();
   }
 
@@ -235,7 +251,7 @@ export class MiniJobPortalJobDescriptionComponent {
         "jdExtracted": await this.getFormattedJobDescription(this.jobDescriptionDetails),
         "jobId": this.jobDescriptionDetails.id,
         "jobPortal": 'worko',
-  
+
       }
 
       this.companyListing.createReferralRequest(this.emailAddress, data).then(async (response) => {
@@ -291,7 +307,7 @@ export class MiniJobPortalJobDescriptionComponent {
         this.showErrorMsg = true;
         this.showReferrelRow = false;
         this.showScore = false;
-        this.isShowCloseButton=false
+        this.isShowCloseButton = false
         this.errorMsg = "You have already requested a referral for this job. Check your dashboard for reference.";
         this.openModal(ModalType.SUCCESS_MESSAGE);
         break;
@@ -387,18 +403,20 @@ export class MiniJobPortalJobDescriptionComponent {
         if (response) {
           this.spinner.hide();
           this.jobDescriptionDetails = response[0];
+          this.companyName = this.jobDescriptionDetails.companyDetails.name.toLowerCase();
+          this.getJobByCompanyId(this.jobDescriptionDetails.companyId, jobID);
 
-          // Check if the job is published
-          if (this.jobDescriptionDetails.status === 'PUBLISHED') {
-            this.companyName = this.jobDescriptionDetails.companyDetails.name.toLowerCase();
-            this.getJobByCompanyId(this.jobDescriptionDetails.companyId, jobID);
-          } else {
-         
-            this.isShowCloseButton = false
-            this.modalSize = 'md'
-            this.jobClosed=true;
-            this.openModal(ModalType.SUCCESS_MESSAGE)
-          }
+          // // Check if the job is published
+          // if (this.jobDescriptionDetails.status === 'PUBLISHED') {
+          //   this.companyName = this.jobDescriptionDetails.companyDetails.name.toLowerCase();
+          //   this.getJobByCompanyId(this.jobDescriptionDetails.companyId, jobID);
+          // } else {
+
+          //   this.isShowCloseButton = false
+          //   this.modalSize = 'md'
+          //   this.jobClosed=true;
+          //   this.openModal(ModalType.SUCCESS_MESSAGE)
+          // }
 
         }
 
