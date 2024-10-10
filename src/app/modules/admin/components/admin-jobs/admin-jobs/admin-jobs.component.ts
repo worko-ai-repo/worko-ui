@@ -56,30 +56,7 @@ export class AdminJobsComponent implements OnInit {
     airMode: false,
     tabDisable: true,
     popover: {
-      table: [
-        ['add', ['addRowDown', 'addRowUp', 'addColLeft', 'addColRight']],
-        ['delete', ['deleteRow', 'deleteCol', 'deleteTable']]
-      ],
-      image: [
-        ['image', ['resizeFull', 'resizeHalf', 'resizeQuarter', 'resizeNone']],
-        ['float', ['floatLeft', 'floatRight', 'floatNone']],
-        ['remove', ['removeMedia']]
-      ],
       link: [['link', ['linkDialogShow', 'unlink']]],
-      air: [
-        [
-          'font',
-          [
-            'bold',
-            'italic',
-            'underline',
-            'strikethrough',
-            'superscript',
-            'subscript',
-            'clear'
-          ]
-        ]
-      ]
     },
     height: '200px',
     uploadImagePath: '/api/upload',
@@ -242,8 +219,8 @@ export class AdminJobsComponent implements OnInit {
       debounceTime(300),
       distinctUntilChanged(),
       switchMap((value) => this.filterCompanies(value))
-    );
-    // Fetch jobs on component initialization
+    )
+      // Fetch jobs on component initialization
     this.fetchJobs({ pageSize: 10, sortOrder: this.sortOrder.DESC, jobStatus: this.status.ALL, resetPagination: true });
   }
 
@@ -491,6 +468,8 @@ export class AdminJobsComponent implements OnInit {
   // Closes the currently opened modal
   closeModal(): void {
     this.resetModal();
+    this.companyControl.enable();
+    this.isEditMode = false;
     this.modal.cancel();
   }
 
@@ -502,10 +481,32 @@ export class AdminJobsComponent implements OnInit {
   // Reset the job Form modal
   resetModal(): void {
     // Reset the form to its initial state
-    this.jobForm.reset();
+    if (this.isEditMode) {
+      // Reset other fields but keep companyId as is
+      this.jobForm.patchValue({
+        status: this.status.PUBLISHED,
+        coreSkills: [],
+        department: "",
+        experienceRange: null,
+        jobTitle: "",
+        jobDescription: "",
+        location: "",
+        mislaneiousSkills: [],
+        numOfOpenings: 1,
+        noticePeriod: 0,
+        otherRequirements: "",
+        salaryRange: null,
+        softSkills: [],
+        technicalSkills: [],
+        typeofEmployment: "",
+        workMode: "",
+      });
+    } else {
+      // If not in edit mode, reset the entire form including companyId
+      this.jobForm.reset();
+      this.companyControl.reset();
+    }
     this.jobForm.get('status')?.patchValue(this.status.PUBLISHED);
-    this.isEditMode = false;
-    this.companyControl.reset();
     if (this.trigger) {
       this.trigger.closePanel(); // Manually close the autocomplete
     }
@@ -581,6 +582,7 @@ export class AdminJobsComponent implements OnInit {
   // Edit Job Function
   editJob(job: any): void {
     this.openModal(ModalType.ADMINJOBS_POPUP);
+    this.companyControl.disable(); // Disable the company input
     this.isEditMode = true; // Set edit mode to true
     this.jobId = job.id; // Store the job ID
     // Update the form with job data except for the skills

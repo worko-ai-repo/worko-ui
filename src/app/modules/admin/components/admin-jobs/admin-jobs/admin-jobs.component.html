@@ -7,7 +7,7 @@
           <!-- Button to open the Add Job modal -->
           <button (click)="openModalone()" class="ps-4 pe-4 btn searchButton">Add Job</button>
         </span>
-        
+
         <span class="ajobs-search">
           <input type="text" class="form-control serachInput" placeholder="Search Jobs" (keyup)="searchJobs($event)"
             [(ngModel)]="searchQuery" />
@@ -55,15 +55,16 @@
                   <!-- {{ copiedContextId === row.contextId ? 'check' : 'content_paste' }} -->
                 </mat-icon>
               </td>
-              <td matTooltip={{job.jobTitle}} matTooltipPosition="above" style="cursor: pointer;">{{ job.jobTitle |  ellipsis:30 }}</td>
+              <td matTooltip={{job.jobTitle}} matTooltipPosition="above" style="cursor: pointer;">{{ job.jobTitle |
+                ellipsis:30 }}</td>
               <td id="tuple-with-logo">
                 <ng-container *ngIf="job.companyDetails?.logo; else useUrlLogoSecond">
-                  <img src="assets/company-logo/{{job.companyDetails?.logo}}" alt="{{job.companyDetails?.name}}" width="50"
-                  height="50">
+                  <img src="assets/company-logo/{{job.companyDetails?.logo}}" alt="{{job.companyDetails?.name}}"
+                    width="50" height="50">
                 </ng-container>
                 <ng-template #useUrlLogoSecond>
                   <img src="{{ job.companyDetails?.logoUrl }}" alt="{{job.companyDetails?.name}}" width="50"
-                  height="50">
+                    height="50">
                 </ng-template>
                 {{ job.companyDetails?.name }}
               </td>
@@ -85,9 +86,8 @@
                 <span *ngIf="job.status === status.ARCHIVED" (click)="updateJobStatus(job,'PUBLISHED')"
                   matTooltip="Make Publish" matTooltipPosition="above" style="background: #ffc107;">
                   <i class="fa-solid fa-eye"></i></span>
-                <span *ngIf="true" (click)="navigateToJobReferral($event,job.companyDetails.name, job.jobTitle,job.id)" 
-                matTooltip="Visit" matTooltipPosition="above" style="background: green;"
-                  >
+                <span *ngIf="true" (click)="navigateToJobReferral($event,job.companyDetails.name, job.jobTitle,job.id)"
+                  matTooltip="Visit" matTooltipPosition="above" style="background: green;">
                   <i class="fa-solid fa-link"></i></span>
 
               </td>
@@ -146,7 +146,7 @@
         <div class="ajobs-fitem">
           <label for="salaryRange" class="form-label required-form-field">Salary Range:</label>
           <select id="salaryRange" class="selector form-select required-form-field"
-            [ngClass]="{ 'is-invalid': isInvalid('salaryRange') }" formControlName="salaryRange">
+            [ngClass]="{ 'is-invalid': isInvalid('salaryRange') }" formControlName="salaryRange" #refSalaryRange>
             <option [ngValue]="null" disabled selected>Select Salary</option>
             <option *ngFor="let range of salaryRange" [ngValue]="range.value">
               {{ range.label }}
@@ -159,7 +159,7 @@
         <div class="ajobs-fitem">
           <label for="experienceRange" class="form-label required-form-field">Experience Range:</label>
           <select id="experienceRange" class="selector form-select required-form-field"
-            [ngClass]="{ 'is-invalid': isInvalid('experienceRange') }" formControlName="experienceRange" >
+            [ngClass]="{ 'is-invalid': isInvalid('experienceRange') }" formControlName="experienceRange" #refExpRange>
             <option [ngValue]="null" disabled>Select Experience Range</option>
             <option *ngFor="let range of experienceRange" [ngValue]="range.value">
               {{ range.label }}
@@ -210,87 +210,6 @@
           <span *ngIf="isInvalid('location')" class="text-danger">{{ getErrorMessage('location') }}</span>
         </div>
 
-
-        <!-- Soft Skills Input -->
-        <div class="ajobs-fitem gCloumnOne">
-          <label for="softSkills" class="form-label required-form-field">Soft Skills</label> &nbsp;
-            <span  class="ajob-tooltip" style=" cursor: pointer; width: min-content; position:relative ;height: min-content;">
-            <i  class="fa-solid fa-circle-info " matTooltip="{{skillsTooltipMessage}}" matTooltipPosition="above"></i>
-          </span>
-          <input type="text" id="softSkills" (keydown.enter)="onSkillInput($event, 'softSkills')"
-          (blur)="markControlAsTouched('softSkills')" class="form-control form-input required-form-field"
-          [ngClass]="{ 'is-invalid': isInvalid('softSkills') }" />
-          
-          <div class="skill-chip-box">
-            <span *ngFor="let skill of softSkills; let i = index" class="skill-chip">
-              <div class="skill-chip-item">{{ skill }}</div>
-              <i class="fa-solid fa-circle-xmark skill-chip-button" type="button"
-                (click)="removeSkill(i, 'softSkills')"></i>
-            </span>
-          </div>
-          <span *ngIf="isInvalid('softSkills')" class="text-danger">{{ getErrorMessage('softSkills') }}</span>
-        </div>
-
-        <!-- Core Skills Input -->
-        <div class="ajobs-fitem gCloumnOne">
-          <label for="coreSkills" class="form-label required-form-field">Core Skills</label>&nbsp;
-          <span  class="ajob-tooltip" style=" cursor: pointer; width: min-content; position:relative ;height: min-content;">
-            <i  class="fa-solid fa-circle-info " matTooltip="{{skillsTooltipMessage}}" matTooltipPosition="above"></i>
-          </span>
-          <input type="text" id="coreSkills" (keydown.enter)="onSkillInput($event, 'coreSkills')"
-            (blur)="markControlAsTouched('coreSkills')" class="form-control form-input required-form-field"
-            [ngClass]="{ 'is-invalid': isInvalid('coreSkills') }" />
-
-          <div class="skill-chip-box">
-            <span *ngFor="let skill of coreSkills; let i = index" class="skill-chip">
-              <div class="skill-chip-item">{{ skill }}</div>
-              <i class="fa-solid fa-circle-xmark skill-chip-button" type="button"
-                (click)="removeSkill(i, 'coreSkills')"></i>
-            </span>
-          </div>
-          <span *ngIf="isInvalid('coreSkills')" class="text-danger">{{ getErrorMessage('coreSkills') }}</span>
-        </div>
-
-        <!-- Technical  Skills Input -->
-        <div class="ajobs-fitem gCloumnOne">
-          <label for="technicalSkills" class="form-label required-form-field">Technical Skills</label>&nbsp;
-          <span  class="ajob-tooltip"  style=" cursor: pointer; width: min-content; position:relative ;height: min-content;">
-            <i  class="fa-solid fa-circle-info " matTooltip="{{skillsTooltipMessage}}" matTooltipPosition="above"></i>
-          </span>
-          <input type="text" id="technicalSkills" (keydown.enter)="onSkillInput($event, 'technicalSkills')"
-            (blur)="markControlAsTouched('technicalSkills')" class="form-control form-input required-form-field"
-            [ngClass]="{ 'is-invalid': isInvalid('technicalSkills') }" />
-
-          <div class="skill-chip-box">
-            <span *ngFor="let skill of technicalSkills; let i = index" class="skill-chip">
-              <div class="skill-chip-item">{{ skill }}</div>
-              <i class="fa-solid fa-circle-xmark skill-chip-button" type="button"
-                (click)="removeSkill(i, 'technicalSkills')"></i>
-            </span>
-          </div>
-          <span *ngIf="isInvalid('technicalSkills')" class="text-danger">{{ getErrorMessage('technicalSkills') }}</span>
-        </div>
-
-        <!-- GoodToHave Skills Input -->
-        <div class="ajobs-fitem gCloumnOne">
-          <label for="mislaneiousSkills" class="form-label">Good to have Skills</label>&nbsp;
-          <span  class="ajob-tooltip"  style=" cursor: pointer; width: min-content; position:relative ;height: min-content;">
-            <i  class="fa-solid fa-circle-info " matTooltip="{{skillsTooltipMessage}}" matTooltipPosition="above"></i>
-          </span>
-          <input type="text" id="mislaneiousSkills" (keydown.enter)="onSkillInput($event, 'mislaneiousSkills')"
-            class="form-control form-input " [ngClass]="{ 'is-invalid': isInvalid('mislaneiousSkills') }" />
-
-          <div class="skill-chip-box">
-            <span *ngFor="let skill of mislaneiousSkills; let i = index" class="skill-chip">
-              <div class="skill-chip-item">{{ skill }}</div>
-              <i class="fa-solid fa-circle-xmark skill-chip-button" type="button"
-                (click)="removeSkill(i, 'mislaneiousSkills')"></i>
-            </span>
-          </div>
-          <span *ngIf="isInvalid('mislaneiousSkills')" class="text-danger">{{ getErrorMessage('mislaneiousSkills')
-            }}</span>
-        </div>
-
         <!-- Notice Period -->
         <div class="ajobs-fitem">
           <label for="noticePeriod" class="form-label required-form-field">Notice Period (Months):</label>
@@ -324,15 +243,103 @@
           <span *ngIf="isInvalid('department')" class="text-danger">{{ getErrorMessage('department') }}</span>
         </div>
 
-        <!-- Job Description -->
-        <div class="ajobs-fitem gCloumnTwo"  id="ajobDesc-rte">
-          <label for="jobDescription" class="form-label required-form-field">Job Description:</label>&nbsp;
-          <span  class="ajob-tooltip"  style="cursor: pointer; width: min-content; position:relative ;height: min-content;">
-            <i  class="fa-solid fa-circle-info " matTooltip="1.For New Line Press Shift + Enter Keys." matTooltipPosition="above"></i>
+        <!-- Core Skills Input -->
+        <div class="ajobs-fitem gCloumnOne">
+          <label for="coreSkills" class="form-label required-form-field">Core Skills</label>&nbsp;
+          <span class="ajob-tooltip"
+            style=" cursor: pointer; width: min-content; position:relative ;height: min-content;">
+            <i class="fa-solid fa-circle-info " matTooltip="{{skillsTooltipMessage}}" matTooltipPosition="above"></i>
           </span>
-        
-        <div  formControlName="jobDescription" [ngxSummernote]="ngxSummerConfig" class="ajobDesc-rte_editor" [ngClass]="{ 'is-invalid': isInvalid('jobDescription') }"></div>
-        
+          <input type="text" id="coreSkills" (keydown.enter)="onSkillInput($event, 'coreSkills')"
+            (blur)="markControlAsTouched('coreSkills')" class="form-control form-input required-form-field"
+            [ngClass]="{ 'is-invalid': isInvalid('coreSkills') }" />
+
+          <div class="skill-chip-box">
+            <span *ngFor="let skill of coreSkills; let i = index" class="skill-chip">
+              <div class="skill-chip-item">{{ skill }}</div>
+              <i class="fa-solid fa-circle-xmark skill-chip-button" type="button"
+                (click)="removeSkill(i, 'coreSkills')"></i>
+            </span>
+          </div>
+          <span *ngIf="isInvalid('coreSkills')" class="text-danger">{{ getErrorMessage('coreSkills') }}</span>
+        </div>
+        <!-- Soft Skills Input -->
+        <div class="ajobs-fitem gCloumnOne">
+          <label for="softSkills" class="form-label required-form-field">Soft Skills</label> &nbsp;
+          <span class="ajob-tooltip"
+            style=" cursor: pointer; width: min-content; position:relative ;height: min-content;">
+            <i class="fa-solid fa-circle-info " matTooltip="{{skillsTooltipMessage}}" matTooltipPosition="above"></i>
+          </span>
+          <input type="text" id="softSkills" (keydown.enter)="onSkillInput($event, 'softSkills')"
+            (blur)="markControlAsTouched('softSkills')" class="form-control form-input required-form-field"
+            [ngClass]="{ 'is-invalid': isInvalid('softSkills') }" />
+
+          <div class="skill-chip-box">
+            <span *ngFor="let skill of softSkills; let i = index" class="skill-chip">
+              <div class="skill-chip-item">{{ skill }}</div>
+              <i class="fa-solid fa-circle-xmark skill-chip-button" type="button"
+                (click)="removeSkill(i, 'softSkills')"></i>
+            </span>
+          </div>
+          <span *ngIf="isInvalid('softSkills')" class="text-danger">{{ getErrorMessage('softSkills') }}</span>
+        </div>
+
+
+
+        <!-- Technical  Skills Input -->
+        <div class="ajobs-fitem gCloumnOne">
+          <label for="technicalSkills" class="form-label required-form-field">Technical Skills</label>&nbsp;
+          <span class="ajob-tooltip"
+            style=" cursor: pointer; width: min-content; position:relative ;height: min-content;">
+            <i class="fa-solid fa-circle-info " matTooltip="{{skillsTooltipMessage}}" matTooltipPosition="above"></i>
+          </span>
+          <input type="text" id="technicalSkills" (keydown.enter)="onSkillInput($event, 'technicalSkills')"
+            (blur)="markControlAsTouched('technicalSkills')" class="form-control form-input required-form-field"
+            [ngClass]="{ 'is-invalid': isInvalid('technicalSkills') }" />
+
+          <div class="skill-chip-box">
+            <span *ngFor="let skill of technicalSkills; let i = index" class="skill-chip">
+              <div class="skill-chip-item">{{ skill }}</div>
+              <i class="fa-solid fa-circle-xmark skill-chip-button" type="button"
+                (click)="removeSkill(i, 'technicalSkills')"></i>
+            </span>
+          </div>
+          <span *ngIf="isInvalid('technicalSkills')" class="text-danger">{{ getErrorMessage('technicalSkills') }}</span>
+        </div>
+
+        <!-- GoodToHave Skills Input -->
+        <div class="ajobs-fitem gCloumnOne">
+          <label for="mislaneiousSkills" class="form-label">Good to have Skills</label>&nbsp;
+          <span class="ajob-tooltip"
+            style=" cursor: pointer; width: min-content; position:relative ;height: min-content;">
+            <i class="fa-solid fa-circle-info " matTooltip="{{skillsTooltipMessage}}" matTooltipPosition="above"></i>
+          </span>
+          <input type="text" id="mislaneiousSkills" (keydown.enter)="onSkillInput($event, 'mislaneiousSkills')"
+            class="form-control form-input " [ngClass]="{ 'is-invalid': isInvalid('mislaneiousSkills') }" />
+
+          <div class="skill-chip-box">
+            <span *ngFor="let skill of mislaneiousSkills; let i = index" class="skill-chip">
+              <div class="skill-chip-item">{{ skill }}</div>
+              <i class="fa-solid fa-circle-xmark skill-chip-button" type="button"
+                (click)="removeSkill(i, 'mislaneiousSkills')"></i>
+            </span>
+          </div>
+          <span *ngIf="isInvalid('mislaneiousSkills')" class="text-danger">{{ getErrorMessage('mislaneiousSkills')
+            }}</span>
+        </div>
+
+        <!-- Job Description -->
+        <div class="ajobs-fitem gCloumnTwo" id="ajobDesc-rte">
+          <label for="jobDescription" class="form-label required-form-field">Job Description:</label>&nbsp;
+          <span class="ajob-tooltip"
+            style="cursor: pointer; width: min-content; position:relative ;height: min-content;">
+            <i class="fa-solid fa-circle-info " matTooltip="1.For New Line Press Shift + Enter Keys."
+              matTooltipPosition="above"></i>
+          </span>
+
+          <div formControlName="jobDescription" [ngxSummernote]="ngxSummerConfig" class="ajobDesc-rte_editor"
+            [ngClass]="{ 'is-invalid': isInvalid('jobDescription') }"></div>
+
           <span *ngIf="isInvalid('jobDescription')" class="text-danger">{{ getErrorMessage('jobDescription') }}</span>
         </div>
         <!-- Other Requirements -->

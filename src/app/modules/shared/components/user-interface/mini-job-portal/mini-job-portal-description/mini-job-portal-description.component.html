@@ -2,7 +2,7 @@
     <div class="job-div">
         <!-- Job Title -->
         <div class="job-title d-flex justify-content-center "><u>Job Description</u></div>
-        <div class="job-description mt-2" [innerHTML]="jobDescriptionDetails?.jobDescription"
+        <div class="job-description mt-2" [innerHTML]="sanitizedHtml"
             *ngIf="jobDescriptionDetails">
             <!-- <div class="job-sub-title mb-3">{{jobDescriptionDetails.jobTitle}}</div> -->
 
