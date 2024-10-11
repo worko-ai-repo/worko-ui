@@ -89,7 +89,7 @@
                         <!-- Referee Details Section -->
                         <div *ngIf="refereeDetails" class="col-12 col-md-6 referee-details mt-3 mt-md-0">
                             <span class="label">Referee Name:</span>
-                            <span class="value">{{refereeDetails[0]?.name}}</span>
+                            <span class="value">{{refereeDetails[0]?.name | titlecase}}</span>
 
                             <span class="label">Referee Designation:</span>
                             <span class="value">{{refereeDetails[0]?.userExperienceDetails?.designation}}</span>

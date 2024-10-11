@@ -16,7 +16,7 @@
 
                 <div *ngIf="selectedReferral" class="col-md-12 d-flex justify-content-start pt-1">
                     <div style="width: fit-content; text-align: left;">
-                        <h3 style="color: white;">{{empdetailsList[0].name}}</h3>
+                        <h3 style="color: white;">{{empdetailsList[0].name | titlecase}}</h3>
 
                         <div class="ref-education">
                             <div>Company Name : {{selectedReferral?.companyName}}</div>

@@ -58,13 +58,15 @@ export class EmployeeEditDetailsComponent {
   picErrorMessage: string = ""
 
   ngOnInit() {
-   
+  
   
   }
 
   ngOnChanges(): void {
-
-    if (this.employeePersonalData  && this.employeePersonalData.location 
+    console.log(this.employeeSocial)
+    console.log(this.employeePersonalData)
+    /* if (this.employeePersonalData  && this.employeePersonalData.location 
+    ) */ if (this.employeePersonalData  && this.employeePersonalData.location && this.employeePersonalData.socialLinklinkdin
     ) {
 
     } else {
