@@ -56,7 +56,7 @@
                 </mat-icon>
               </td>
               <td matTooltip={{job.jobTitle}} matTooltipPosition="above" style="cursor: pointer;">{{ job.jobTitle |
-                ellipsis:30 }}</td>
+                ellipsis:30 | titlecase }}</td>
               <td id="tuple-with-logo">
                 <ng-container *ngIf="job.companyDetails?.logo; else useUrlLogoSecond">
                   <img src="assets/company-logo/{{job.companyDetails?.logo}}" alt="{{job.companyDetails?.name}}"

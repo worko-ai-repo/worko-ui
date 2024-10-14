@@ -998,7 +998,7 @@ export class LoginFormComponent implements AfterViewInit, OnDestroy {
       this.setErrorMessage(login.error.message);
     }
     if (login!.response!.isSignedIn) {
-      await this.authService.getProfile(this.form.email || form.emailId).then(async (response) => {
+      await this.authService.getProfile(this.form.email.toLowerCase() || form.emailId.toLowerCase()).then(async (response) => {
 
         let userType = response.data.lastAccessedDash;
         let userName = response.data.name;

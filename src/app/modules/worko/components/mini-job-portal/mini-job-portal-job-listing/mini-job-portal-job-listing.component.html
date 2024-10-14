@@ -74,7 +74,7 @@
                         <div class="form-group">
                             <label for="job-description" class="form-lable required-form-field">Paste Job Description
                                 for
-                                Above URL here:</label>
+                                Above URL Here:</label>
                             <textarea formControlName="jobDescription" minlength="100" id="job-description"
                                 class="job-description  text-white form-control" rows="4"></textarea>
                             <div *ngIf="requestForm.get('jobDescription')?.invalid && (requestForm.get('jobDescription')?.dirty || requestForm.get('jobDescription')?.touched) &&requestForm.get('jobDescription')?.errors?.['notEnoughKeywords']"

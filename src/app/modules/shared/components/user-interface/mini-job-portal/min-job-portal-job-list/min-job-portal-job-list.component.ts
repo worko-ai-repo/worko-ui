@@ -106,7 +106,7 @@ export class MinJobPortalJobListComponent {
     if (changes['jobDetails'] && changes['jobDetails'].currentValue && this.jobDetails) {
 
       this.jobListing = this.jobDetails
-      this.companyName = this.jobDetails[0]?.companyDetails?.name.toLowerCase()
+      //this.companyName = this.jobDetails[0]?.companyDetails?.name.toLowerCase()
       this.populateDropdowns();
       await this.getJobs()
     }
