@@ -108,7 +108,10 @@ export class CompanyListingService {
    */
   getAllJob(): Promise<any> {
     let url = `${API_URL}job?status=PUBLISHED`;
-
+    const pageSize=200;
+    if (pageSize) {
+      url += `&pageSize=${pageSize}`;
+    }
 
     return this.http.get(url, this.authService.getHttpOptions()).toPromise();
 
@@ -120,6 +123,11 @@ export class CompanyListingService {
    */
   getJobByCompanyID(companyID: any, location?: any, department?: any, softSkills?: any, coreSkills?: any, salary?: any, experience?: any, technicalSkill?: any): Promise<any> {
     let url = `${API_URL}job?status=PUBLISHED`;
+    const pageSize=200;
+    if (pageSize) {
+      url += `&pageSize=${pageSize}`;
+    }
+
     if (companyID) {
       url += `&companyId=${companyID}`;
 
