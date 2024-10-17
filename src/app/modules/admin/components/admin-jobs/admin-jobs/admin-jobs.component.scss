@@ -169,6 +169,7 @@ $statuses: (
       padding: 5px;
       .skill-chip {
         display: grid;
+        cursor: pointer;
         align-items: center;
         grid-template-columns: 1fr 28px;
         color: #0a1e35;

@@ -255,7 +255,7 @@
             [ngClass]="{ 'is-invalid': isInvalid('coreSkills') }" />
 
           <div class="skill-chip-box">
-            <span *ngFor="let skill of coreSkills; let i = index" class="skill-chip">
+            <span *ngFor="let skill of coreSkills; let i = index" class="skill-chip" matTooltip="{{skill}}" matTooltipPosition="above">
               <div class="skill-chip-item">{{ skill }}</div>
               <i class="fa-solid fa-circle-xmark skill-chip-button" type="button"
                 (click)="removeSkill(i, 'coreSkills')"></i>
@@ -275,7 +275,7 @@
             [ngClass]="{ 'is-invalid': isInvalid('softSkills') }" />
 
           <div class="skill-chip-box">
-            <span *ngFor="let skill of softSkills; let i = index" class="skill-chip">
+            <span *ngFor="let skill of softSkills; let i = index" class="skill-chip" matTooltip="{{skill}}" matTooltipPosition="above">
               <div class="skill-chip-item">{{ skill }}</div>
               <i class="fa-solid fa-circle-xmark skill-chip-button" type="button"
                 (click)="removeSkill(i, 'softSkills')"></i>
@@ -298,7 +298,7 @@
             [ngClass]="{ 'is-invalid': isInvalid('technicalSkills') }" />
 
           <div class="skill-chip-box">
-            <span *ngFor="let skill of technicalSkills; let i = index" class="skill-chip">
+            <span *ngFor="let skill of technicalSkills; let i = index" class="skill-chip" matTooltip="{{skill}}" matTooltipPosition="above">
               <div class="skill-chip-item">{{ skill }}</div>
               <i class="fa-solid fa-circle-xmark skill-chip-button" type="button"
                 (click)="removeSkill(i, 'technicalSkills')"></i>
@@ -318,7 +318,7 @@
             class="form-control form-input " [ngClass]="{ 'is-invalid': isInvalid('mislaneiousSkills') }" />
 
           <div class="skill-chip-box">
-            <span *ngFor="let skill of mislaneiousSkills; let i = index" class="skill-chip">
+            <span *ngFor="let skill of mislaneiousSkills; let i = index" class="skill-chip" matTooltip="{{skill}}" matTooltipPosition="above">
               <div class="skill-chip-item">{{ skill }}</div>
               <i class="fa-solid fa-circle-xmark skill-chip-button" type="button"
                 (click)="removeSkill(i, 'mislaneiousSkills')"></i>
