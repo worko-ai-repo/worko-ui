@@ -88,6 +88,17 @@ export class PersonalInformationComponent implements OnInit {
 
   }
 
+  /**
+   * toTitleCase
+   * 
+   * Converts a string to title case.
+   */
+  toTitleCase(str: string): string {
+    return str.replace(/\w\S*/g, (txt) => {
+      return txt.charAt(0).toUpperCase() + txt.substr(1).toLowerCase();
+    });
+  }
+
   ngOnChanges(): void {
     //
     if (this.candidatePersonalDetails.name && this.candidatePersonalDetails.socialLinklinkdin) {
@@ -140,7 +151,7 @@ export class PersonalInformationComponent implements OnInit {
 
   getData() {
     this.candidatePersonalDetails = {
-      name: this.candidateList?.name,
+      name: this.toTitleCase(this.candidateList?.name),
       email: this.candidateList?.emailList?.primary,
       phoneNo: this.candidateList?.number.toString().substr(3),
       location: this.candidateList?.location,

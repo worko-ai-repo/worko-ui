@@ -106,10 +106,19 @@ export class EmployeeEditDetailsComponent {
       }
     }
   }
-
+  /**
+   * toTitleCase
+   * 
+   * Converts a string to title case.
+   */
+  toTitleCase(str: string): string {
+    return str.replace(/\w\S*/g, (txt) => {
+      return txt.charAt(0).toUpperCase() + txt.substr(1).toLowerCase();
+    });
+  }
   getData() {
     this.employeePersonalData = {
-      name: this.employeeDetails?.name,
+      name: this.employeeDetails?.name ? this.toTitleCase(this.employeeDetails.name) : '',  
       email: this.employeeDetails?.emailList?.primary,
       number: this.employeeDetails?.number.toString().substr(3),
       about: this.employeeDetails?.about,

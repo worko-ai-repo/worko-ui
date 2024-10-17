@@ -224,6 +224,17 @@ export class AdminJobsComponent implements OnInit {
     this.fetchJobs({ pageSize: 10, sortOrder: this.sortOrder.DESC, jobStatus: this.status.ALL, resetPagination: true });
   }
 
+  // @TODO Add to reusable code
+  /**
+   * toTitleCase
+   * 
+   * Converts a string to title case.
+   */
+  toTitleCase(str: string): string {
+    return str.replace(/\w\S*/g, (txt) => {
+      return txt.charAt(0).toUpperCase() + txt.substr(1).toLowerCase();
+    });
+  }
   /**
    * fetchJobs
    *
@@ -588,7 +599,7 @@ export class AdminJobsComponent implements OnInit {
     // Update the form with job data except for the skills
     this.jobForm.patchValue({
       companyId: job.companyId,
-      jobTitle: job.jobTitle,
+      jobTitle: this.toTitleCase(job.jobTitle), 
       numOfOpenings: job.numOfOpenings,
       workMode: job.workMode,
       noticePeriod: job.noticePeriod,
@@ -596,7 +607,7 @@ export class AdminJobsComponent implements OnInit {
       otherRequirements: job.otherRequirements,
       location: job.location,
       typeofEmployment: job.typeofEmployment,
-      department: job.department,
+      department: this.toTitleCase(job.department),
       status: job.status,
     });
     // Patch salaryRange separately
@@ -618,28 +629,28 @@ export class AdminJobsComponent implements OnInit {
     const softSkillsArray = this.jobForm.get("softSkills") as FormArray;
     softSkillsArray.clear();
     job.softSkills.forEach((skill: string) => {
-      softSkillsArray.push(this.fb.control(skill));
+      softSkillsArray.push(this.fb.control(this.toTitleCase(skill)));
     });
 
     // Clear and repopulate the core skills FormArray
     const coreSkillsArray = this.jobForm.get("coreSkills") as FormArray;
     coreSkillsArray.clear();
     job.coreSkills.forEach((skill: string) => {
-      coreSkillsArray.push(this.fb.control(skill));
+      coreSkillsArray.push(this.fb.control(this.toTitleCase(skill)));
     });
 
     // Clear and repopulate the technicalSkills FormArray
     const technicalSkillsArray = this.jobForm.get("technicalSkills") as FormArray;
     technicalSkillsArray.clear();
     job.technicalSkills.forEach((skill: string) => {
-      technicalSkillsArray.push(this.fb.control(skill));
+      technicalSkillsArray.push(this.fb.control(this.toTitleCase(skill)));
     });
 
     // Clear and repopulate the mislaneious skills FormArray
     const mislaneiousSkillsArray = this.jobForm.get("mislaneiousSkills") as FormArray;
     mislaneiousSkillsArray.clear();
     job.mislaneiousSkills.forEach((skill: string) => {
-      mislaneiousSkillsArray.push(this.fb.control(skill));
+      mislaneiousSkillsArray.push(this.fb.control(this.toTitleCase(skill)));
     });
     // Reset the Ranges
     const ranges = {
