@@ -172,6 +172,19 @@ export class CompanyListingService {
 
   }
 
+    /**Get  company detail By companyId
+  *
+* @returns {Promise<any>}
+ */
+    getcompanyDetailsByCompanyID(companyID: any): Promise<any> {
+      let url = `${API_URL}company/${companyID}`;
+  
+      return this.http.get(url, this.authService.getHttpOptions()).toPromise();
+  
+    }
+
+
+
 }
 
 

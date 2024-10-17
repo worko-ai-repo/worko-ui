@@ -71,8 +71,8 @@ export class MinJobPortalJobListComponent {
   navigateToJobReferral(event: MouseEvent, companyName: string, jobTitle: string, jobID: any,): void {
     event.preventDefault(); // Prevent the default anchor behavior
     // Encode the company name and job title for URL-safe navigation
-    const formattedCompanyName = encodeURIComponent(companyName.toLowerCase().replace(/\s+/g, '-').replace(/\//g, '-').replace(/[()]/g, '-')); // Convert spaces to dashes and encode special characters
-    const formattedJobTitle = encodeURIComponent(jobTitle.replace(/\s+/g, '-').replace(/\//g, '-').replace(/[()]/g, '-')); // Replace spaces and slashes with dashes, then encode
+    const formattedCompanyName = encodeURIComponent(companyName.toLowerCase().replace(/\(.*?\)/g, '').replace(/[\s&]+/g, '-').replace(/-+/g, '-').replace(/^-|-$/g, '')); // Convert spaces to dashes and encode special characters
+    const formattedJobTitle = encodeURIComponent(jobTitle.toLowerCase().replace(/\(.*?\)/g, '').replace(/[\s&]+/g, '-').replace(/-+/g, '-').replace(/^-|-$/g, '')); // Replace spaces and slashes with dashes, then encode
 
     const route = `/companies/${formattedCompanyName}-jobs/${formattedJobTitle}-${jobID}`;
 
@@ -108,7 +108,10 @@ export class MinJobPortalJobListComponent {
       this.jobListing = this.jobDetails
       //this.companyName = this.jobDetails[0]?.companyDetails?.name.toLowerCase()
       this.populateDropdowns();
-      await this.getJobs()
+      this.filteredJobs=this.jobDetails
+      // if(this.jobListing.length>0){
+      // await this.getJobs()
+      // }
     }
   }
 

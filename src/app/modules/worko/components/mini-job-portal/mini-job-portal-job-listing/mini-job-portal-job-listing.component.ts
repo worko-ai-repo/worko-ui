@@ -76,7 +76,7 @@ export class MiniJobPortalJobListingComponent {
     //extract the compant name from url
     await this.route.url.subscribe(async urlSegments => {
       const fullCategory = urlSegments.map(segment => segment.path).join('/');
-      this.companyName = await this.extractCategory(fullCategory);
+      this.companyID = await this.extractCompanyID(fullCategory);
 
     });
 
@@ -84,163 +84,197 @@ export class MiniJobPortalJobListingComponent {
 
 
   }
-  private extractCategory(fullCategory: string): string {
-
-    // Extract the company name from the URL
-    const companyMatch = fullCategory.match(/companies\/(.+)-jobs/);
-    return companyMatch ? this.formatCategory(companyMatch[1]) : '';
+  private extractCompanyID(fullCategory: string): string {
+    // Extract the job ID from the URL
+    const companyIDMatch = fullCategory.match(/.*-jobs-([A-Za-z0-9]+)$/);
+    return companyIDMatch ? companyIDMatch[1] : ''; // Return the job ID
   }
+  // private extractCategory(fullCategory: string): string {
 
-  private formatCategory(category: string): string {
-    // Decode URL components and replace hyphens with spaces
-    return decodeURIComponent(category)
-      // .replace(/---/g, ' - ') // Handle cases like "cheil---samsung"
-      // .replace(/--/g, '-')     // Handle cases like "foo--bar"
-      // .replace(/-/g, ' ') // Replace hyphens with spaces
-      .split(' ')
-      .map(word => word.charAt(0).toUpperCase() + word.slice(1))
-      .join(' ');
-  }
+  //   // Extract the company name from the URL
+  //   const companyMatch = fullCategory.match(/companies\/(.+)-jobs/);
+  //   return companyMatch ? this.formatCategory(companyMatch[1]) : '';
+  // }
+
+  // private formatCategory(category: string): string {
+  //   // Decode URL components and replace hyphens with spaces
+  //   return decodeURIComponent(category)
+  //     // .replace(/---/g, ' - ') // Handle cases like "cheil---samsung"
+  //     // .replace(/--/g, '-')     // Handle cases like "foo--bar"
+  //     // .replace(/-/g, ' ') // Replace hyphens with spaces
+  //     .split(' ')
+  //     .map(word => word.charAt(0).toUpperCase() + word.slice(1))
+  //     .join(' ');
+  // }
 
   toggleJobContainer() {
     this.isJobContainerVisible = !this.isJobContainerVisible; // Toggle visibility
   }
 
-  async getCompanyDetails() {
+  // async getCompanyDetails() {
 
 
+  //   this.spinner.show()
+  //   try {
+  //     if (this.companyName.length > 0) {
+
+  //       // Fetch company details and handle the response
+  //       let response = await this.authService.getCompanyName(this.companyName).toPromise();
+
+  //       if (response) {
+
+
+  //         this.companyDetail = response.data; // Store the company details
+
+  //         // Remove hyphens from the company name for comparison
+  //         const cleanedCompanyName = this.companyName.replace(/-/g, ' ').toLowerCase();
+
+  //         this.companyNameDetail = this.companyDetail.filter((job: any) =>
+  //           job.name?.replace(/-/g, ' ').toLowerCase() === cleanedCompanyName
+  //         );
+  //         this.companyDetail = this.companyNameDetail[0]
+  //         this.companyName = this.companyNameDetail[0].name.toLowerCase()
+  //         this.companyID = this.companyDetail.SK.split('#')[1];
+  //         //  console.log( this.companyID,this.companyName )
+
+
+  //         await this.getAllJob(); // Fetch jobs
+  //       }
+
+
+  //     } else {
+  //       this.spinner.hide();
+  //       this.successmessage = "Something went wrong. Please try again after sometime"
+  //       this.successtitle = "Error"
+  //       this.isShowCloseButton = false
+  //       this.modalSize = 'md'
+  //       this.openModal(ModalType.SUCCESS_MESSAGE)
+  //     }
+  //   } catch (error) {
+
+  //     this.spinner.hide();
+  //     this.successmessage = "Something went wrong. Please try again after sometime"
+  //     this.successtitle = "Error"
+  //     this.isShowCloseButton = false
+  //     this.modalSize = 'md'
+  //     this.openModal(ModalType.SUCCESS_MESSAGE)
+  //   }
+
+  // }
+
+  // async getAllJob() {
+  //   try {
+  //     this.spinner.show()
+  //     let response = await this.companyListing.getAllJob();
+
+  //     if (response) {
+
+  //       // Ensure that response is an array or extract the array of jobs
+  //       if (Array.isArray(response.data)) {
+  //         this.allJobList = response.data; // If response is already an array
+  //         // Now filter by company name
+  //         await this.filterByCompanyName(this.companyName);
+
+
+
+  //       }
+  //     }
+  //   } catch (error: any) {
+  //     this.spinner.hide()
+  //     if (error.status == 404) {
+
+  //       this.router.navigate(['/auth/logout']);
+  //     } else {
+
+  //       this.spinner.hide();
+  //       this.isShowCloseButton = false
+  //       this.modalSize = 'md'
+  //       this.successmessage = "Something went wrong. Please try again after sometime"
+  //       this.successtitle = "Error"
+  //       this.openModal(ModalType.SUCCESS_MESSAGE)
+  //     }
+  //   }
+
+
+
+
+  // }
+
+  // async filterByCompanyName(companyName: any) {
+
+  //   if (Array.isArray(this.allJobList) && companyName) {
+  //     // const filteredJobs = this.allJobList.filter((job: any) => 
+  //     //   job.companyDetails?.name?.toLowerCase() === companyName.toLowerCase()
+  //     // );
+
+  //     // Remove hyphens from the company name for comparison
+  //     const cleanedCompanyName = companyName.replace(/-/g, ' ').toLowerCase();
+
+  //     this.filteredJobs = this.allJobList.filter((job: any) =>
+  //       job.companyDetails?.name?.replace(/-/g, ' ').toLowerCase() === cleanedCompanyName
+  //     );
+
+
+  //     if (this.filteredJobs.length > 0) {
+
+  //       // Extract company ID and perform further operations
+  //       const companyID = this.filteredJobs[0].companyId;
+  //       this.companyID = companyID;
+
+  //       // Set the referral form to minimized
+  //       this.isResponseEmpty = false;
+  //       this.isJobContainerVisible = false;
+  //       this.isJobListing = true
+
+  //       // Fetch jobs by company ID
+  //       await this.getJobByCompanyID();
+  //     } else {
+
+  //       this.spinner.hide();
+  //       // Maximize the referral form if no jobs are found
+  //       this.isResponseEmpty = true;
+  //       this.isJobContainerVisible = true;
+  //       this.isJobListing = false
+  //     }
+  //   }
+
+  // }
+
+  async getCompanyDetails(){
     this.spinner.show()
-    try {
-      if (this.companyName.length > 0) {
+    try{
+      let response=await this.companyListing.getcompanyDetailsByCompanyID(this.companyID)
+        if (response[0]) {
+          this.companyName=response[0].name
+          this.getJobByCompanyID()
 
-        // Fetch company details and handle the response
-        let response = await this.authService.getCompanyName(this.companyName).toPromise();
+        }else{
 
-        if (response) {
-
-
-          this.companyDetail = response.data; // Store the company details
-
-          // Remove hyphens from the company name for comparison
-          const cleanedCompanyName = this.companyName.replace(/-/g, ' ').toLowerCase();
-
-          this.companyNameDetail = this.companyDetail.filter((job: any) =>
-            job.name?.replace(/-/g, ' ').toLowerCase() === cleanedCompanyName
-          );
-          this.companyDetail = this.companyNameDetail[0]
-          this.companyName = this.companyNameDetail[0].name.toLowerCase()
-          this.companyID = this.companyDetail.SK.split('#')[1];
-          //  console.log( this.companyID,this.companyName )
-
-
-          await this.getAllJob(); // Fetch jobs
+          this.spinner.hide();
+          this.isShowCloseButton = false
+          this.modalSize = 'md'
+          this.successmessage = "Something went wrong. Please try again after sometime"
+          this.successtitle = "Error"
+          this.openModal(ModalType.SUCCESS_MESSAGE)
         }
-
-
-      } else {
-        this.spinner.hide();
-        this.successmessage = "Something went wrong. Please try again after sometime"
-        this.successtitle = "Error"
-        this.isShowCloseButton = false
-        this.modalSize = 'md'
-        this.openModal(ModalType.SUCCESS_MESSAGE)
-      }
-    } catch (error) {
+      
+    }catch (error) {
 
       this.spinner.hide();
-      this.successmessage = "Something went wrong. Please try again after sometime"
-      this.successtitle = "Error"
       this.isShowCloseButton = false
       this.modalSize = 'md'
+      this.successmessage = "Something went wrong. Please try again after sometime"
+      this.successtitle = "Error"
       this.openModal(ModalType.SUCCESS_MESSAGE)
+
     }
-
-  }
-
-  async getAllJob() {
-    try {
-      this.spinner.show()
-      let response = await this.companyListing.getAllJob();
-
-      if (response) {
-
-        // Ensure that response is an array or extract the array of jobs
-        if (Array.isArray(response.data)) {
-          this.allJobList = response.data; // If response is already an array
-          // Now filter by company name
-          await this.filterByCompanyName(this.companyName);
-
-
-
-        }
-      }
-    } catch (error: any) {
-      this.spinner.hide()
-      if (error.status == 404) {
-
-        this.router.navigate(['/auth/logout']);
-      } else {
-
-        this.spinner.hide();
-        this.isShowCloseButton = false
-        this.modalSize = 'md'
-        this.successmessage = "Something went wrong. Please try again after sometime"
-        this.successtitle = "Error"
-        this.openModal(ModalType.SUCCESS_MESSAGE)
-      }
-    }
-
-
-
-
-  }
-
-  async filterByCompanyName(companyName: any) {
-
-    if (Array.isArray(this.allJobList) && companyName) {
-      // const filteredJobs = this.allJobList.filter((job: any) => 
-      //   job.companyDetails?.name?.toLowerCase() === companyName.toLowerCase()
-      // );
-
-      // Remove hyphens from the company name for comparison
-      const cleanedCompanyName = companyName.replace(/-/g, ' ').toLowerCase();
-
-      this.filteredJobs = this.allJobList.filter((job: any) =>
-        job.companyDetails?.name?.replace(/-/g, ' ').toLowerCase() === cleanedCompanyName
-      );
-
-
-      if (this.filteredJobs.length > 0) {
-
-        // Extract company ID and perform further operations
-        const companyID = this.filteredJobs[0].companyId;
-        this.companyID = companyID;
-
-        // Set the referral form to minimized
-        this.isResponseEmpty = false;
-        this.isJobContainerVisible = false;
-        this.isJobListing = true
-
-        // Fetch jobs by company ID
-        await this.getJobByCompanyID();
-      } else {
-
-        this.spinner.hide();
-        // Maximize the referral form if no jobs are found
-        this.isResponseEmpty = true;
-        this.isJobContainerVisible = true;
-        this.isJobListing = false
-      }
-    }
-
   }
   async getJobByCompanyID() {
     try {
       let response = await this.companyListing.getJobByCompanyID(this.companyID)
-
+      this.spinner.hide();
 
       if (response.data.length > 0) {
-        this.spinner.hide();
         this.jobDetails = response.data
         this.isResponseEmpty = false; // Minimize if there is data
         this.isJobContainerVisible = false; // Start minimized if data exists
@@ -249,7 +283,7 @@ export class MiniJobPortalJobListingComponent {
 
 
       } else if (response.data.length === 0) {
-        this.spinner.hide();
+        
         this.isResponseEmpty = true; // Maximize if no data
         this.isJobContainerVisible = true; // Start maximized if no data
         this.isJobListing = false

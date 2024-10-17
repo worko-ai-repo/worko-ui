@@ -441,6 +441,7 @@ export class MiniJobPortalJobDescriptionComponent {
 
   }
 
+  // to get other jobs which was lisited for same company name
   async getJobByCompanyId(companyID: any, currentJobID: any) {
     this.spinner.show();
     try {
