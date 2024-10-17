@@ -19,7 +19,7 @@ export class ReferralProgressBarComponent implements OnChanges {
   showEmailContent: boolean = false;
   originalPoints = 2.1;
   possiblePoints = 100;
-  startTime: number = Date.now();
+  startTime!: number;
   errorFound: boolean = false;
   cvError: boolean = false;
   jobDescription: boolean = false;
@@ -36,20 +36,21 @@ export class ReferralProgressBarComponent implements OnChanges {
   feedbackDetails: any;
   feedbackTitle = "Rejection Feedback";
   constructor(private companyListing: CompanyListingService, private storage: StorageService, private router: Router) { }
-  ngOnChanges(): void {
-    this.startTextLoop();
+  ngOnChanges(changes: SimpleChanges): void {
+    // Check if referralId has changed
+    if (changes['referralId'] && changes['referralId'].currentValue) {
+      this.emailId = this.storage.get("useremail");
+      this.startTextLoop();
+    }
   }
   ngOnInit(): void {
     // console.log("current score is", this.score);
     this.emailId = this.storage.get("useremail");
-    this.startTextLoop();
-
-    // console.log("score",this.showScore)
-    // console.log("feeback",this.showFeedback)
-
-
+    // this.startTextLoop();
   }
   startTextLoop() {
+    this.startTime = Date.now();
+
     let index = 0;
     const interval = setInterval(() => {
       if (index < this.texts.length) {
@@ -91,46 +92,55 @@ export class ReferralProgressBarComponent implements OnChanges {
 
           const elapsedTime = Date.now() - this.startTime;
 
-          if (response.matchingScore === 0) {
-            if (elapsedTime < this.maxDuration) {
-              setTimeout(async () => {
-                await fetchScoreWithRetry();
-              }, 20000); // Retry after 20 seconds
-            } else {
-              // Maximum duration exceeded
+          // Switch statement to handle jdMatchErrorCode
+          switch (response.jdMatchErrorCode) {
+            case 250:
               this.response.emit();
               this.jobDescription = false;
               this.errorFound = true;
               this.showScore = false;
               this.cvError = true;
-            }
+              break;
 
-            if (response.jdMatchErrorCode === 250) {
-              this.response.emit();
-              this.jobDescription = false;
-              this.errorFound = true;
-              this.showScore = false;
-              this.cvError = true;
-            } else if (response.jdMatchErrorCode === 251) {
+            case 251:
               this.response.emit();
               this.cvError = false;
               this.jobDescription = true;
               this.errorFound = true;
               this.showScore = false;
-            }
-          } else if (response.jdMatchErrorCode === 200) {
-            this.response.emit();
-            this.score = response.matchingScore;
-            this.showScore = true;
-            if (this.score >= 70) {
-              this.showScore = true;
+              break;
 
-              // Display the message for 5 seconds and then navigate
-              setTimeout(() => {
-                this.showScore = false;  // Hide the message after 5 seconds
-                this.router.navigate(['/candidate/referral']);  // Navigate to another component
-              }, 5000);  // 5000 ms = 5 seconds
-            }
+            case 200:
+              this.response.emit();
+              this.score = response.matchingScore;
+              this.showScore = true;
+              if (this.score >= 70) {
+                this.showScore = true;
+
+                // Display the message for 5 seconds and then navigate
+                setTimeout(() => {
+                  this.showScore = false;  // Hide the message after 5 seconds
+                  this.router.navigate(['/candidate/referral']);  // Navigate to another component
+                }, 5000);  // 5000 ms = 5 seconds
+              }
+              break;
+
+            default:
+              if (response.matchingScore === 0) {
+                if (elapsedTime < this.maxDuration) {
+                  setTimeout(async () => {
+                    await fetchScoreWithRetry();
+                  }, 20000); // Retry after 20 seconds
+                } else {
+                  // Maximum duration exceeded
+                  this.response.emit();
+                  this.jobDescription = false;
+                  this.errorFound = true;
+                  this.showScore = false;
+                  this.cvError = true;
+                }
+              }
+              break;
           }
         }
       };
