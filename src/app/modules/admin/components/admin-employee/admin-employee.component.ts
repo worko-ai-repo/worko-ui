@@ -70,7 +70,8 @@ export class AdminEmployeeComponent {
     toDate: ''
 
   };
-  constructor(private router: Router, private elementRef: ElementRef, private adminService: AdminService, private spinner: NgxSpinnerService) {
+  modalSize : string = 'lg';
+  constructor(private router: Router,private cdr: ChangeDetectorRef, private elementRef: ElementRef, private adminService: AdminService, private spinner: NgxSpinnerService) {
     this.candidatesDataSource = new MatTableDataSource<UserData>(this.nameslist);
     this.searchTerms.pipe(
       debounceTime(300), // Adjust the debounce time as needed (300 milliseconds in this example)
@@ -110,6 +111,7 @@ export class AdminEmployeeComponent {
 
         this.router.navigate(['/']);
       } else {
+        this.modalSize = 'md'
         this.successmessage = "Something went wrong. Please try again after sometime"
         this.successtitle = "Error"
         this.openModal(ModalType.SUCCESS_MESSAGE)
@@ -254,6 +256,7 @@ export class AdminEmployeeComponent {
 
     }).catch((error: any) => {
       this.spinner.hide()
+       this.modalSize = 'md'
       this.successmessage = "Something went wrong. Please try again after sometime"
       this.successtitle = "Error"
       this.openModal(ModalType.SUCCESS_MESSAGE)
@@ -331,6 +334,7 @@ export class AdminEmployeeComponent {
   * @returns {void}
   */
   openModal(modalType: ModalType, message: string = "", title: string = "", userData: any = null, userExperience: any = null, userReferralData: any = null): void {
+    this.cdr.detectChanges();
     this.showModal = modalType;
     this.modalMessage = message;
     this.modalTitle = title;

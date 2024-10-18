@@ -92,7 +92,8 @@ export class AdminPaymentComponent {
 
   isDropdownActive: boolean = false;
   isSearchActive: boolean = false;
-  constructor(private router: Router, private elementRef: ElementRef, private adminService: AdminService, private spinner: NgxSpinnerService) {
+  modalSize: string = 'md';
+  constructor(private router: Router, private elementRef: ElementRef, private cdr: ChangeDetectorRef,private adminService: AdminService, private spinner: NgxSpinnerService) {
     this.candidatesDataSource = new MatTableDataSource<UserData>(this.nameslist);
     this.servicesDataSource = new MatTableDataSource<UserData>(this.nameslist);
     this.searchTerms.pipe(
@@ -144,6 +145,7 @@ export class AdminPaymentComponent {
 
         this.router.navigate(['/']);
       } else {
+        this.modalSize = 'md'
         this.successmessage = "Something went wrong. Please try again after sometime"
         this.successtitle = "Error"
         this.openModal(ModalType.SUCCESS_MESSAGE)
@@ -296,6 +298,7 @@ export class AdminPaymentComponent {
       }
     } catch (error: any) {
       this.spinner.hide()
+      this.modalSize = 'md'
       this.successmessage = "Something went wrong. Please try again after sometime"
       this.successtitle = "Error"
       this.openModal(ModalType.SUCCESS_MESSAGE)
@@ -329,6 +332,7 @@ export class AdminPaymentComponent {
   * @returns {void}
   */
   openModal(modalType: ModalType, message: string = "", title: string = "", rowData: any = null): void {
+    this.cdr.detectChanges();
     this.showModal = modalType;
     this.modalMessage = message;
     this.modalTitle = title;

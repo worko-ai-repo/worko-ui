@@ -154,6 +154,10 @@ export class AdminService {
     return this.http.get(`${API_URL}admin/company/${id}`, this.authService.getHttpOptions()).toPromise();
   }
 
+  getCVUrl(userId:any,filename:any){
+    return this.http.get(`${API_URL}file/${userId}/${filename}/USER_RESUME`, this.authService.getHttpOptions()).toPromise();
+  }
+
   getJobs(param:any): Promise<any> {
 /*     console.log(`params ${param.pageSize} ${param.lastKey} ${param.status} ${param.sortOrder}`);
  */    let url = `${API_URL}admin/job/?pageSize=${param.pageSize}`;

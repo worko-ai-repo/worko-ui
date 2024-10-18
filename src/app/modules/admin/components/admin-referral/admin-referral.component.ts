@@ -99,7 +99,8 @@ export class AdminReferralComponent {
     },
   ]
   formattedJD: any;
-  constructor(private router: Router, private elementRef: ElementRef, private adminService: AdminService, private spinner: NgxSpinnerService) {
+  cvUrl: any;
+  constructor(private router: Router, private elementRef: ElementRef, private cdr: ChangeDetectorRef,private adminService: AdminService, private spinner: NgxSpinnerService) {
     this.candidatesDataSource = new MatTableDataSource<UserData>(this.nameslist);
     this.servicesDataSource = new MatTableDataSource<UserData>(this.nameslist);
     this.searchTerms.pipe(
@@ -128,6 +129,7 @@ export class AdminReferralComponent {
     fromDate: '',
     toDate: ''
   };
+  modalSize: string = 'lg';
 
 
   async ngOnInit(): Promise<void> {
@@ -152,6 +154,7 @@ export class AdminReferralComponent {
 
         this.router.navigate(['/']);
       } else {
+        this.modalSize = 'md'
         this.successmessage = "Something went wrong. Please try again after sometime"
         this.successtitle = "Error"
         this.openModal(ModalType.SUCCESS_MESSAGE)
@@ -360,16 +363,49 @@ export class AdminReferralComponent {
           const inputString = data.PK;
           const email = inputString.split('#').pop();
           this.userDetails = await this.adminService.getUserByEmailId(email);
+          this.getCVUrl()
         }
-        this.formattedJD = this.rowData.jdExtracted.split('\n').filter((line: string) => line.trim() !== ''); // Split by newline and remove empty lines
-        this.openModal(ModalType.ADMINDETAIL_POPUP, "", "", this.rowData, this.companyDetails, this.userDetails);
+        
       }
     } catch (error: any) {
       this.spinner.hide()
+      this.modalSize = 'md'
       this.successmessage = "Something went wrong. Please try again after sometime"
       this.successtitle = "Error"
       this.openModal(ModalType.SUCCESS_MESSAGE)
     }
+  }
+  async getCVUrl(){
+    this.spinner.show()
+    if(this.userDetails.CV && this.userDetails.id){
+    await this.adminService.getCVUrl(this.userDetails.id,this.userDetails.CV).then(async (response: any) => {
+      this.spinner.hide()
+      this.cvUrl=response.objectUrl;
+      this.formattedJD = this.rowData.jdExtracted.split('\n').filter((line: string) => line.trim() !== ''); // Split by newline and remove empty lines
+      this.openModal(ModalType.ADMINDETAIL_POPUP, "", "", this.rowData, this.companyDetails, this.userDetails);
+
+    }).catch((error: any) => {
+      this.spinner.hide()
+      if (error.status == 404) {
+        this.spinner.hide()
+        this.router.navigate(['/auth/logout']);
+      } else if (error.status == 401) {
+
+        this.router.navigate(['/']);
+      } else {
+        this.modalSize = 'md'
+        this.successmessage = "Something went wrong. Please try again after sometime"
+        this.successtitle = "Error"
+        this.openModal(ModalType.SUCCESS_MESSAGE)
+      }
+    });
+  }else{
+    this.spinner.hide()
+    this.formattedJD = this.rowData.jdExtracted.split('\n').filter((line: string) => line.trim() !== ''); // Split by newline and remove empty lines
+    this.openModal(ModalType.ADMINDETAIL_POPUP, "", "", this.rowData, this.companyDetails, this.userDetails);
+  }
+
+
   }
 
   /**
@@ -381,6 +417,7 @@ export class AdminReferralComponent {
 * @returns {void}
 */
   openModal(modalType: ModalType, message: string = "", title: string = "", rowData: any = null, companyDetails: any = null, userDetails: any = NgPluralCase): void {
+    this.cdr.detectChanges();
     this.showModal = modalType;
     this.modalMessage = message;
     this.modalTitle = title;

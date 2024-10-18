@@ -233,12 +233,16 @@ export class JobCategoryComponent implements OnInit, AfterViewInit, OnDestroy {
   }
 
   getJobLink(data:any): void {
-    const  companyName=encodeURIComponent(data.name);
-    const route = `/companies/${companyName.toLowerCase()}-jobs`;
-   // console.log(route);
-    this.router.navigate([route],{
-      state: { companySK: data.SK}
-    });;
+  //   const  companyName=encodeURIComponent(data.name);
+  //   const route = `/companies/${companyName.toLowerCase()}-jobs`;
+  //  // console.log(route);
+  //   this.router.navigate([route],{
+  //     state: { companySK: data.SK}
+  //   });;
+  const  companyName= data.name.toLowerCase().replace(/\(.*?\)/g, '').replace(/[\s&]+/g, '-').replace(/-+/g, '-').replace(/^-|-$/g, '');
+  const companyID=data.SK.replace("ID#", "");
+  const route = `/companies/${companyName}-jobs-${companyID}`;
+  this.router.navigate([route]);
   }
 
   async openGuidancePage(event: Event, item: any): Promise<void> {
