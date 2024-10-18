@@ -514,6 +514,7 @@ export class MiniJobPortalJobListingComponent {
     this.storage.remove("type");
     this.storage.remove("selectedCompanySK");
     this.showFeedback = false
+    this.showScore=false
     // window.location.reload();
   }
 
