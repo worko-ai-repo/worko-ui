@@ -468,6 +468,7 @@ export class MiniJobPortalJobDescriptionComponent {
 
   onModalClose() {
     this.showFeedback = false
+    this.showScore=false;
   }
 
 
