@@ -81,7 +81,7 @@ export class EditProfileComponent implements OnInit {
           "department": this.secondStepData?.department,
           "SK": this.workExperienceDetails ? this.workExperienceDetails.SK : "",
           "PK": this.workExperienceDetails ? this.workExperienceDetails.PK : "",
-          "userType": "CAND",
+         // "userType": "CAND",
           "isCurrent": this.secondStepData?.isCurrent ? this.secondStepData?.isCurrent : true
         }
         ]

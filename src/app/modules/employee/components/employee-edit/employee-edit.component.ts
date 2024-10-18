@@ -298,7 +298,7 @@ export class EmployeeEditComponent {
           SK: this.workExperienceDetails ? this.workExperienceDetails.SK : "",
           PK: this.workExperienceDetails ? this.workExperienceDetails.PK : "",
           experienceInMonths: this.secondStepData.workingSince,
-          userType: "EMP",
+         // userType: "EMP",
           isCurrent:
             this.secondStepData.isCurrent !== undefined
               ? this.secondStepData.isCurrent
@@ -320,7 +320,7 @@ export class EmployeeEditComponent {
                 department: "frontend",
                 emailId: this.secondStepData.officialEmail,
                 experienceInMonths: previousCompany.previousExperience,
-                userType: "EMP",
+               // userType: "EMP",
                 isCurrent: false, // Assuming isCurrent is always false for previous companies
               };
             }
