@@ -39,8 +39,8 @@ export class EmployeeReferralComponent implements OnDestroy {
   selectedStatus: string = 'AWAITING';
   selectedReferral: any;
   currentDate: any;
-  successmessage: string = "";
-  successtitle: string = "";
+  successMessage: string = "";
+  successTitle: string = "";
   modalType = ModalType;
   modalMessage: string = "";
   modalTitle: string = "";
@@ -126,7 +126,7 @@ export class EmployeeReferralComponent implements OnDestroy {
         if (!this.popupStatus) {
           this.spinner.hide();
           // this.successmessage = "Please verify the email to see the referral requests!!"
-          this.successtitle = "";
+          this.successTitle = "";
           this.openModal(ModalType.VERIFY_EMAIL);
         }
       }
@@ -140,9 +140,9 @@ export class EmployeeReferralComponent implements OnDestroy {
       } else {
         this.spinner.hide();
 
-        this.successmessage = "Something went wrong. Please try again after sometime"
-        this.successtitle = "Error"
-        this.openModal(ModalType.SUCCESS_MESSAGE);
+        this.successMessage = "Something went wrong. Please try again after sometime";
+        this.successTitle = "Error";
+        this.openModal(ModalType.SUCCESS_ERROR_MESSAGE);
       }
     });
   }
@@ -376,9 +376,9 @@ export class EmployeeReferralComponent implements OnDestroy {
       } else {
         this.spinner.hide();
 
-        this.successmessage = "Something went wrong. Please try again after sometime"
-        this.successtitle = "Error"
-        this.openModal(ModalType.SUCCESS_MESSAGE);
+        this.successMessage = "Something went wrong. Please try again after sometime";
+        this.successTitle = "Error";
+        this.openModal(ModalType.SUCCESS_ERROR_MESSAGE);
       }
     }
     );
@@ -402,17 +402,17 @@ export class EmployeeReferralComponent implements OnDestroy {
       if (response) {
         this.spinner.hide();
 
-        this.successmessage = "You have rejected the Candidate's request. Thanks for putting your feedback.";
-        this.successtitle = "";
-        this.openModal(ModalType.SUCCESS_MESSAGE);
+        this.successMessage = "You have rejected the Candidate's request. Thanks for putting your feedback.";
+        this.successTitle = "";
+        this.openModal(ModalType.SUCCESS_ERROR_MESSAGE);
         this.getEmpReferral();
       }
     }).catch((error: any) => {
       this.spinner.hide();
 
-      this.successmessage = "Something went wrong. Please try again after sometime"
-      this.successtitle = "Error"
-      this.openModal(ModalType.SUCCESS_MESSAGE)
+      this.successMessage = "Something went wrong. Please try again after sometime";
+      this.successTitle = "Error";
+      this.openModal(ModalType.SUCCESS_ERROR_MESSAGE);
     }
     );
 
@@ -453,16 +453,16 @@ export class EmployeeReferralComponent implements OnDestroy {
       if (response) {
         this.spinner.hide();
 
-        this.successmessage = "An issue has been raised for this request. You will get an e-mail for further communication.";
-        this.successtitle = "";
-        this.openModal(ModalType.SUCCESS_MESSAGE);
+        this.successMessage = "An issue has been raised for this request. You will get an e-mail for further communication.";
+        this.successTitle = "";
+        this.openModal(ModalType.SUCCESS_ERROR_MESSAGE);
       }
     }).catch((error: any) => {
       this.spinner.hide();
 
-      this.successmessage = "Something went wrong. Please try again after sometime"
-      this.successtitle = "Error"
-      this.openModal(ModalType.SUCCESS_MESSAGE);
+      this.successMessage = "Something went wrong. Please try again after sometime";
+      this.successTitle = "Error";
+      this.openModal(ModalType.SUCCESS_ERROR_MESSAGE);
     }
     );
 
@@ -531,9 +531,9 @@ export class EmployeeReferralComponent implements OnDestroy {
       } else {
         this.spinner.hide();
 
-        this.successmessage = "Something went wrong. Please try again after sometime"
-        this.successtitle = "Error"
-        this.openModal(ModalType.SUCCESS_MESSAGE);
+        this.successMessage = "Something went wrong. Please try again after sometime";
+        this.successTitle = "Error";
+        this.openModal(ModalType.SUCCESS_ERROR_MESSAGE);
       }
 
     }

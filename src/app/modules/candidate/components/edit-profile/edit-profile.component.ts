@@ -45,12 +45,13 @@ export class EditProfileComponent implements OnInit {
   userId: string | undefined;
   uploadedProfilePicName: string = "";
 
-  successmessage: string = "";
-  successtitle: string = "";
+  successMessage: string = "";
+  successTitle: string = "";
   modalType = ModalType;
   modalMessage: string = "";
   modalTitle: string = "";
   showModal: ModalType | undefined;
+  
   details: any;
   constructor(private spinner: NgxSpinnerService,private cognitoService: CognitoService, private router: Router, private candidateSrv: CandidateProfileService, private storage: StorageService, private authService: AuthService) { }
   ngOnInit(): void {
@@ -105,9 +106,9 @@ export class EditProfileComponent implements OnInit {
        this.router.navigate(['/']);
       } else {
         this.spinner.hide();
-        this.successmessage = "Something went wrong. Please try again after sometime"
-        this.successtitle = "Error"
-        this.openModal(ModalType.SUCCESS_MESSAGE)
+        this.successMessage = "Something went wrong. Please try again after sometime";
+        this.successTitle = "Error";
+        this.openModal(ModalType.SUCCESS_ERROR_MESSAGE);
       }
     }
   }
@@ -149,9 +150,9 @@ export class EditProfileComponent implements OnInit {
        this.router.navigate(['/']);
       } else {
         this.spinner.hide();
-        this.successmessage = "Something went wrong. Please try again after sometime"
-        this.successtitle = "Error"
-        this.openModal(ModalType.SUCCESS_MESSAGE)
+        this.successMessage = "Something went wrong. Please try again after sometime";
+        this.successTitle = "Error";
+        this.openModal(ModalType.SUCCESS_ERROR_MESSAGE);
       }
     }
     
@@ -182,9 +183,9 @@ export class EditProfileComponent implements OnInit {
        this.router.navigate(['/']);
       } else {
         this.spinner.hide();
-        this.successmessage = "Something went wrong. Please try again after sometime"
-        this.successtitle = "Error"
-        this.openModal(ModalType.SUCCESS_MESSAGE)
+        this.successMessage = "Something went wrong. Please try again after sometime";
+        this.successTitle = "Error";
+        this.openModal(ModalType.SUCCESS_ERROR_MESSAGE);
       }
     }
   }
@@ -217,9 +218,9 @@ export class EditProfileComponent implements OnInit {
        this.router.navigate(['/']);
       } else {
         this.spinner.hide();
-        this.successmessage = "Something went wrong. Please try again after sometime"
-        this.successtitle = "Error"
-        this.openModal(ModalType.SUCCESS_MESSAGE)
+        this.successMessage = "Something went wrong. Please try again after sometime";
+        this.successTitle = "Error";
+        this.openModal(ModalType.SUCCESS_ERROR_MESSAGE);
       }
     }
 
@@ -298,17 +299,17 @@ export class EditProfileComponent implements OnInit {
        this.router.navigate(['/']);
       } else {
         this.spinner.hide();
-        this.successmessage = "Something went wrong. Please try again after sometime"
-        this.successtitle = "Error"
-        this.openModal(ModalType.SUCCESS_MESSAGE)
+        this.successMessage = "Something went wrong. Please try again after sometime";
+        this.successTitle = "Error";
+        this.openModal(ModalType.SUCCESS_ERROR_MESSAGE);
       }
     }
   }
   modelOpen() {
 
-    this.successmessage = "Your profile has been updated successfully.";
-    this.successtitle = "Congratulations!";
-    this.openModal(ModalType.SUCCESS_MESSAGE)
+    this.successMessage = "Your profile has been updated successfully.";
+    this.successTitle = "Congratulations!";
+    this.openModal(ModalType.SUCCESS_ERROR_MESSAGE);
   }
 
 
@@ -395,9 +396,9 @@ export class EditProfileComponent implements OnInit {
        this.router.navigate(['/']);
       }else {
         this.spinner.hide();
-        this.successmessage = "Something went wrong. Please try again after sometime"
-        this.successtitle = "Error"
-        this.openModal(ModalType.SUCCESS_MESSAGE)
+        this.successMessage = "Something went wrong. Please try again after sometime";
+        this.successTitle = "Error";
+        this.openModal(ModalType.SUCCESS_ERROR_MESSAGE);
       }
     }
   };
@@ -430,9 +431,9 @@ export class EditProfileComponent implements OnInit {
        else {
         // Handle other errors
         this.spinner.hide();
-        this.successmessage = "Something went wrong. Please try again after sometime"
-        this.successtitle = "Error"
-        this.openModal(ModalType.SUCCESS_MESSAGE)
+        this.successMessage = "Something went wrong. Please try again after sometime";
+        this.successTitle = "Error";
+        this.openModal(ModalType.SUCCESS_ERROR_MESSAGE);
         console.error('An error occurred:', error);
         // For example, display an error message to the user
       }
@@ -465,9 +466,9 @@ export class EditProfileComponent implements OnInit {
        else {
         // Handle other errors
         this.spinner.hide();
-        this.successmessage = "Something went wrong. Please try again after sometime"
-        this.successtitle = "Error"
-        this.openModal(ModalType.SUCCESS_MESSAGE)
+        this.successMessage = "Something went wrong. Please try again after sometime";
+        this.successTitle = "Error";
+        this.openModal(ModalType.SUCCESS_ERROR_MESSAGE);
         console.error('An error occurred:', error);
         // For example, display an error message to the user
       }
@@ -493,9 +494,9 @@ export class EditProfileComponent implements OnInit {
       } else {
         // Handle other errors
         this.spinner.hide();
-        this.successmessage = "Something went wrong. Please try again after sometime"
-        this.successtitle = "Error"
-        this.openModal(ModalType.SUCCESS_MESSAGE)
+        this.successMessage = "Something went wrong. Please try again after sometime";
+        this.successTitle = "Error";
+        this.openModal(ModalType.SUCCESS_ERROR_MESSAGE);
         console.error('An error occurred:', error);
         // For example, display an error message to the user
       }
@@ -526,9 +527,9 @@ export class EditProfileComponent implements OnInit {
       }else {
         // Handle other errors
         this.spinner.hide();
-        this.successmessage = "Something went wrong. Please try again after sometime"
-        this.successtitle = "Error"
-        this.openModal(ModalType.SUCCESS_MESSAGE)
+        this.successMessage = "Something went wrong. Please try again after sometime";
+        this.successTitle = "Error";
+        this.openModal(ModalType.SUCCESS_ERROR_MESSAGE);
         console.error('An error occurred:', error);
         // For example, display an error message to the user
       }
@@ -556,9 +557,9 @@ export class EditProfileComponent implements OnInit {
       } else {
         // Handle other errors
         this.spinner.hide();
-        this.successmessage = "Something went wrong. Please try again after sometime"
-        this.successtitle = "Error"
-        this.openModal(ModalType.SUCCESS_MESSAGE)
+        this.successMessage = "Something went wrong. Please try again after sometime";
+        this.successTitle = "Error";
+        this.openModal(ModalType.SUCCESS_ERROR_MESSAGE);
         console.error('An error occurred:', error);
         // For example, display an error message to the user
       }
@@ -587,9 +588,9 @@ export class EditProfileComponent implements OnInit {
       } else {
         // Handle other errors
         this.spinner.hide();
-        this.successmessage = "Something went wrong. Please try again after sometime"
-        this.successtitle = "Error"
-        this.openModal(ModalType.SUCCESS_MESSAGE)
+        this.successMessage = "Something went wrong. Please try again after sometime";
+        this.successTitle = "Error";
+        this.openModal(ModalType.SUCCESS_ERROR_MESSAGE);
         console.error('An error occurred:', error);
         // For example, display an error message to the user
       }
@@ -704,9 +705,9 @@ export class EditProfileComponent implements OnInit {
        this.router.navigate(['/']);
       } else {
         this.spinner.hide();
-        this.successmessage = "Something went wrong. Please try again after sometime"
-        this.successtitle = "Error"
-        this.openModal(ModalType.SUCCESS_MESSAGE)
+        this.successMessage = "Something went wrong. Please try again after sometime";
+        this.successTitle = "Error";
+        this.openModal(ModalType.SUCCESS_ERROR_MESSAGE);
       }
     }
 
@@ -743,9 +744,9 @@ export class EditProfileComponent implements OnInit {
        this.router.navigate(['/']);
       } else {
         this.spinner.hide();
-        this.successmessage = "Something went wrong. Please try again after sometime"
-        this.successtitle = "Error"
-        this.openModal(ModalType.SUCCESS_MESSAGE)
+        this.successMessage = "Something went wrong. Please try again after sometime";
+        this.successTitle = "Error";
+        this.openModal(ModalType.SUCCESS_ERROR_MESSAGE);
       }
     }
   }
@@ -775,34 +776,33 @@ export class EditProfileComponent implements OnInit {
               // this.errorMessage = error.error.message;
               // this.setErrorMessage('File Link error linkResumewithUser:- '+ error.error.message);
               this.spinner.hide();
-              this.successmessage = "Something went wrong. Please try again after sometime"
-              this.successtitle = "Error"
-              this.openModal(ModalType.SUCCESS_MESSAGE)
+              this.successMessage = "Something went wrong. Please try again after sometime";
+              this.successTitle = "Error";
+              this.openModal(ModalType.SUCCESS_ERROR_MESSAGE);
             }
             this.spinner.hide();
-            this.successmessage = "Something went wrong. Please try again after sometime"
-            this.successtitle = "Error"
-            this.openModal(ModalType.SUCCESS_MESSAGE)
+            this.successMessage = "Something went wrong. Please try again after sometime";
+            this.successTitle = "Error";
+            this.openModal(ModalType.SUCCESS_ERROR_MESSAGE);
             console.error('File Link error linkResumewithUser:', error);
           }
 
         })
         .catch(error => {
           this.spinner.hide();
-          this.successmessage = "Something went wrong. Please try again after sometime"
-          this.successtitle = "Error"
-          this.openModal(ModalType.SUCCESS_MESSAGE)
+          this.successMessage = "Something went wrong. Please try again after sometime";
+          this.successTitle = "Error";
+          this.openModal(ModalType.SUCCESS_ERROR_MESSAGE);
           console.error('File upload error:', error);
-
 
         }
         );
 
     } catch (error) {
       this.spinner.hide();
-      this.successmessage = "Something went wrong. Please try again after sometime"
-      this.successtitle = "Error"
-      this.openModal(ModalType.SUCCESS_MESSAGE)
+      this.successMessage = "Something went wrong. Please try again after sometime";
+      this.successTitle = "Error";
+      this.openModal(ModalType.SUCCESS_ERROR_MESSAGE);
      
     }
 
@@ -825,23 +825,23 @@ export class EditProfileComponent implements OnInit {
               // this.errorMessage = error.error.message;
               // this.setErrorMessage('File Link error linkResumewithUser:- '+ error.error.message);
               this.spinner.hide();
-              this.successmessage = "Something went wrong. Please try again after sometime"
-              this.successtitle = "Error"
-              this.openModal(ModalType.SUCCESS_MESSAGE)
+              this.successMessage = "Something went wrong. Please try again after sometime";
+              this.successTitle = "Error";
+              this.openModal(ModalType.SUCCESS_ERROR_MESSAGE);
             }
             this.spinner.hide();
-            this.successmessage = "Something went wrong. Please try again after sometime"
-            this.successtitle = "Error"
-            this.openModal(ModalType.SUCCESS_MESSAGE)
+            this.successMessage = "Something went wrong. Please try again after sometime";
+            this.successTitle = "Error";
+            this.openModal(ModalType.SUCCESS_ERROR_MESSAGE);
             console.error('File Link error linkResumewithUser:', error);
           }
 
         })
         .catch(error => {
           this.spinner.hide();
-          this.successmessage = "Something went wrong. Please try again after sometime"
-          this.successtitle = "Error"
-          this.openModal(ModalType.SUCCESS_MESSAGE)
+          this.successMessage = "Something went wrong. Please try again after sometime";
+          this.successTitle = "Error";
+          this.openModal(ModalType.SUCCESS_ERROR_MESSAGE);
 
           console.error('File upload error:', error);
 
@@ -850,9 +850,9 @@ export class EditProfileComponent implements OnInit {
 
     } catch (error) {
       this.spinner.hide();
-      this.successmessage = "Something went wrong. Please try again after sometime"
-      this.successtitle = "Error"
-      this.openModal(ModalType.SUCCESS_MESSAGE)
+      this.successMessage = "Something went wrong. Please try again after sometime";
+      this.successTitle = "Error";
+      this.openModal(ModalType.SUCCESS_ERROR_MESSAGE);
      
     }
   }
@@ -880,7 +880,6 @@ export class EditProfileComponent implements OnInit {
   closeModal(): void {
     this.modal.cancel();
   }
-
 
 }
 
