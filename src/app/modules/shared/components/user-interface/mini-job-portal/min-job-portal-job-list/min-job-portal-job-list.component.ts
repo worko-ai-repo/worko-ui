@@ -74,7 +74,7 @@ export class MinJobPortalJobListComponent {
     const formattedCompanyName = encodeURIComponent(companyName.toLowerCase().replace(/\(.*?\)/g, '').replace(/[\s&]+/g, '-').replace(/-+/g, '-').replace(/^-|-$/g, '')); // Convert spaces to dashes and encode special characters
     const formattedJobTitle = encodeURIComponent(jobTitle.toLowerCase().replace(/\(.*?\)/g, '').replace(/[\s&]+/g, '-').replace(/-+/g, '-').replace(/^-|-$/g, '')); // Replace spaces and slashes with dashes, then encode
 
-    const route = `/companies/${formattedCompanyName}-jobs/${formattedJobTitle}-${jobID}`;
+    const route = `/companies/jobs/${formattedCompanyName}-jobs/${formattedJobTitle}-${jobID}`;
 
     this.router.navigateByUrl(route);
   }
