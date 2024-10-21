@@ -132,7 +132,7 @@ export class WorkoAuthComponent {
       const { tokens, userSub } = await fetchAuthSession();
 
 
-      this.userEmail = tokens?.idToken?.payload['email']?.toString();
+      this.userEmail = tokens?.idToken?.payload['email']?.toString().toLowerCase();
       this.userName = tokens?.idToken?.payload['given_name']?.toString();
 
       this.groupType = tokens?.idToken?.payload['cognito:groups']

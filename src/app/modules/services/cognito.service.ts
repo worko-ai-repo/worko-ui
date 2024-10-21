@@ -160,7 +160,7 @@ export class CognitoService {
         const { tokens, userSub } = await fetchAuthSession()
 
         if (!this.storage.get("useremail")) {
-          this.storage.set("useremail", tokens?.idToken?.payload['email']?.toString());
+          this.storage.set("useremail", tokens?.idToken?.payload['email']?.toString().toLowerCase());
         }
       
         return true;
@@ -191,7 +191,7 @@ export class CognitoService {
 
           if(tokens){
           if (!this.storage.get("useremail")) {
-            this.storage.set("useremail", tokens?.idToken?.payload['email']?.toString());
+            this.storage.set("useremail", tokens?.idToken?.payload['email']?.toString().toLowerCase());
           }
 
           

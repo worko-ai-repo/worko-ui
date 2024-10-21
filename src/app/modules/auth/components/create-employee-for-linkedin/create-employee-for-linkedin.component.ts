@@ -182,7 +182,7 @@ export class CreateEmployeeForLinkedinComponent {
       userSub
     } = await fetchAuthSession();
 
-    this.userEmail = tokens?.idToken?.payload['email']?.toString()
+    this.userEmail = tokens?.idToken?.payload['email']?.toString().toLowerCase()
     this.userName = tokens?.idToken?.payload['name']?.toString()
     this.pictureUrl = tokens?.idToken?.payload['picture']
 
