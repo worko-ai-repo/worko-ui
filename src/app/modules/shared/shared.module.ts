@@ -99,6 +99,7 @@ import { MinJobPortalReferralFormComponent } from './components/user-interface/m
 import { MinJobPortalJobListComponent } from './components/user-interface/mini-job-portal/min-job-portal-job-list/min-job-portal-job-list.component';
 import { ShowMoreDetailsComponent } from './components/show-more-details/show-more-details.component';
 import { EllipsisPipe } from './pipes/ellipsis/ellipsis.pipe';
+import { MessageModalComponent } from './components/modal/message-modal/message-modal.component';
 export const routes: Routes = [
 
   
@@ -157,6 +158,7 @@ export const routes: Routes = [
     MinJobPortalJobListComponent,
     ShowMoreDetailsComponent,
     EllipsisPipe,
+    MessageModalComponent,
     // DoneServiceComponent,
     // CancelledServiceComponent,
     // AwaitingServiceComponent,
@@ -237,6 +239,7 @@ export const routes: Routes = [
   MinJobPortalReferralFormComponent,
   MinJobPortalJobListComponent,
   ShowMoreDetailsComponent,
+  MessageModalComponent,
   EllipsisPipe
   ],
 
