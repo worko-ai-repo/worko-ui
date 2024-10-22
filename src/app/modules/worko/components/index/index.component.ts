@@ -101,7 +101,7 @@ export class IndexComponent {
 
   async redirectToCompanyListing() {
     // Navigate to company listing
-    this.router.navigateByUrl('/companies');
+    this.router.navigateByUrl('/company');
     // window.location.href = environment.crossOriginUrl + '/companies';
   }
 
@@ -283,7 +283,7 @@ export class IndexComponent {
     // const companySk = item.replace(/^ID#/, '');
     // const Type = "referral";
     const  companyName=encodeURIComponent(item.name);
-    const route = `/companies/${companyName.toLowerCase()}-jobs`;
+    const route = `/company/${companyName.toLowerCase()}-jobs`;
     this.router.navigate([route]);
    // console.log(route);
     // this.router.navigate([route],{
@@ -304,7 +304,7 @@ export class IndexComponent {
     const companySk = item.replace(/^ID#/, '');
     // console.log(companySk)
     // const Type = "guidance";
-    this.router.navigate(['/companies'], { queryParams: { companyID: companySk, Type: 'guidance' } });
+    this.router.navigate(['/company'], { queryParams: { companyID: companySk, Type: 'guidance' } });
 
     // const url = `${environment.crossOriginUrl}/companies?companyID=${companySk}&Type=${Type}`;
     // window.location.href = url;

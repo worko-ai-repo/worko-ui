@@ -88,8 +88,8 @@ export class NavbarComponent {
   }
 
   checkCurrentRoute() {
-    // Check if the current URL is '/companies'
-    this.isCompanyPage = this.router.url === '/companies';
+    // Check if the current URL is '/company'
+    this.isCompanyPage = this.router.url === '/company';
   }
 
 
@@ -162,7 +162,7 @@ export class NavbarComponent {
     this.emailAddress = this.storage.get("useremail");
 
     if (this.userLoggedIn) {
-      if (currentUrl.includes('/companies') || currentUrl.match(/-jobs$/)) {
+      if (currentUrl.includes('/company') || currentUrl.match(/-jobs$/)) {
         this.userName = this.storage.get('userName');
 
         // this.letter=this.getInitials(this.userName)
@@ -172,7 +172,7 @@ export class NavbarComponent {
         }
   
         // Define the regular expression to match the URL pattern
-        const dynamicUrlPattern = /^\/companies\/[a-zA-Z0-9-]+-jobs\/[a-zA-Z0-9-]+\/[a-zA-Z0-9]+$/;
+        const dynamicUrlPattern = /^\/company\/[a-zA-Z0-9-]+-jobs\/[a-zA-Z0-9-]+\/[a-zA-Z0-9]+$/;
 
         // Check if the current URL matches the pattern
         if (dynamicUrlPattern.test(currentUrl)) {
@@ -184,10 +184,10 @@ export class NavbarComponent {
             // If the URL contains "-jobs", route to the current dynamic route
             this.router.navigate([this.router.url]);
 
-          } else if (currentUrl.includes('/companies')) {
+          } else if (currentUrl.includes('/company')) {
             // Redirect to the company listing page
 
-            this.router.navigate(['/companies']);
+            this.router.navigate(['/company']);
 
           } else if (currentUrl.match(/-jobs$/)) {
 

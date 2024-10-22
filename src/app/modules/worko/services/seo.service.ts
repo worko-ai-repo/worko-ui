@@ -34,8 +34,7 @@ export class SeoService {
   }
 
   urlNeedsIndexing(url: string): boolean {
-    const indexableUrls = ['', '/', '/faq', '/corporate', '/about-us', '/companies'];
-    // const indexableUrls = ['/companies'];
+    const indexableUrls = ['', '/', '/faq', '/corporate', '/about-us', '/company'];
     return indexableUrls.includes(url);
   }
 }

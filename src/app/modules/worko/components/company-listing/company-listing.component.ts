@@ -560,7 +560,7 @@ export class CompanyListingComponent implements OnInit, AfterViewInit, OnDestroy
   .replace(/-+/g, '-')                   // Ensure there's only one hyphen in between
   .replace(/^-|-$/g, '');                 // Remove hyphen at start or end
     const companyID=data.SK.replace("ID#", "");
-    const route = `/companies/jobs/${companyName}-jobs-${companyID}`;
+    const route = `/company/jobs/${companyName}-jobs-${companyID}`;
     this.router.navigate([route]);
    // console.log(route);
     // this.router.navigate([route],{

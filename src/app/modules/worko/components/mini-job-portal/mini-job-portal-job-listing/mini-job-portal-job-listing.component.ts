@@ -500,7 +500,7 @@ export class MiniJobPortalJobListingComponent {
   cancel() {
 
     this.modal.cancel();
-    this.router.navigate(['/companies']);
+    this.router.navigate(['/company']);
 
   }
 

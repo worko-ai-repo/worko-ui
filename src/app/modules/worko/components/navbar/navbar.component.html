@@ -84,9 +84,9 @@
         <span class="line line3"></span>
       </div>
       <ul class="menu-items">
-        <!-- Conditionally show the "Request a Referral" button if the route is not /companies -->
+        <!-- Conditionally show the "Request a Referral" button if the route is not /company -->
         <li *ngIf="!isCompanyPage">
-          <button class="btn btn-dark font-inria" routerLink="/companies">Request a Referral</button>
+          <button class="btn btn-dark font-inria" routerLink="/company">Request a Referral</button>
         </li>
         <!-- <li><a (click)="rediectToAboutUs()">About Us</a></li> -->
         <li><a routerLink="/about-us">About Us</a></li>
@@ -104,7 +104,7 @@
         <!-- <li>
           <a (click)="rediectToFaq()">FAQ</a>
         </li> -->
-        <!-- Conditionally show the FAQ link only when on the /companies page -->
+        <!-- Conditionally show the FAQ link only when on the /company page -->
         <li *ngIf="isCompanyPage">
           <a routerLink="/faq">FAQ</a>
         </li>

@@ -192,7 +192,7 @@ export class UserMenubarComponent {
     //     console.log('can')
     //     this.router.navigateByUrl('/candidate/dashboard');
     //   }
-    this.router.navigateByUrl('/companies');
+    this.router.navigateByUrl('/company');
 
   }
 

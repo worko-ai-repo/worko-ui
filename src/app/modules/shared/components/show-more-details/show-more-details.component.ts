@@ -19,7 +19,7 @@ export class ShowMoreDetailsComponent {
     this.onCancel.emit();
   }
   async ngOnInit(): Promise<void> {
-    if (this.router.url.includes('/companies')) {
+    if (this.router.url.includes('/company')) {
       this.showCloseButton = false;
     }
   }

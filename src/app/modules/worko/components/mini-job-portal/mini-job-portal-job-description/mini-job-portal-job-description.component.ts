@@ -73,7 +73,7 @@ export class MiniJobPortalJobDescriptionComponent {
 
   private extractCompanyName(fullCategory: string): string {
     // Extract and decode the company name from the URL
-    const companyMatch = fullCategory.match(/companies\/([^-]+(?:-[^-]+)*)-jobs/);
+    const companyMatch = fullCategory.match(/company\/([^-]+(?:-[^-]+)*)-jobs/);
     return companyMatch ? decodeURIComponent(companyMatch[1]).replace(/-/g, ' ') : ''; // Replace dashes with spaces
   }
 
@@ -338,7 +338,7 @@ export class MiniJobPortalJobDescriptionComponent {
 
   cancel() {
     this.modal.cancel();
-    this.router.navigate(['/companies']);
+    this.router.navigate(['/company']);
   }
 
   completeProfile() {

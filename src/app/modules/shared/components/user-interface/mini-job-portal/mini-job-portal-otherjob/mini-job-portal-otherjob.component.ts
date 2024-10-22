@@ -18,7 +18,7 @@ export class MiniJobPortalOtherjobComponent {
     let formattedJobTitle = jobTitle.replace(/\s+/g, '-').replace(/\//g, '-'); // Preserve the case for job title but replace spaces with dashes
 
     const currentDomain = window.location.origin;
-    const url = `${currentDomain}/companies/${formattedCompanyName}-jobs/${formattedJobTitle}-${jobID}`;
+    const url = `${currentDomain}/company/${formattedCompanyName}-jobs/${formattedJobTitle}-${jobID}`;
 
     window.open(url, '_blank');
   }

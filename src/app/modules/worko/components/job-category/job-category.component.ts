@@ -241,7 +241,7 @@ export class JobCategoryComponent implements OnInit, AfterViewInit, OnDestroy {
   //   });;
   const  companyName= data.name.toLowerCase().replace(/\(.*?\)/g, '').replace(/\s*&\s*/g, '&').replace(/\s+/g, '-').replace(/-+/g, '-').replace(/^-|-$/g, '');
   const companyID=data.SK.replace("ID#", "");
-  const route = `/companies/jobs/${companyName}-jobs-${companyID}`;
+  const route = `/company/jobs/${companyName}-jobs-${companyID}`;
   this.router.navigate([route]);
   }
 

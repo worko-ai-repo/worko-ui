@@ -60,7 +60,7 @@ export class FooterComponent {
 
   checkRoute(): void {
     const url = this.router.url;
-    if (url.includes('/companies') || url.includes('-jobs')) {
+    if (url.includes('/company') || url.includes('-jobs')) {
       this.displayIndustriesAndCompanies = true;  // show on specific routes
     } else {
       this.displayIndustriesAndCompanies = false;   // hide on all other routes
@@ -75,13 +75,13 @@ export class FooterComponent {
   }
 
   viewAllCompanies() {
-    // Check if the current URL is '/companies'
-    if (this.router.url === '/companies') {
+    // Check if the current URL is '/company'
+    if (this.router.url === '/company') {
       // If so, reload the page
       window.location.reload();
     } else {
-      // Navigate to '/companies' if not on that route
-      this.router.navigate(['/companies']);
+      // Navigate to '/company' if not on that route
+      this.router.navigate(['/company']);
     }
   }
   // async redirectToCompanyListing() {

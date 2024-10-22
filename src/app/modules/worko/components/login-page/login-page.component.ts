@@ -163,7 +163,7 @@ export class LoginPageComponent {
     this.emailAddress = this.storage.get("useremail");
     const adminUserType=this.storage.get('userType');
     if (this.userLoggedIn) {
-      if (this.router.url.includes('/companies')) {
+      if (this.router.url.includes('/company')) {
         this.userLoggedIn = await this.cognitoService.isLoggedIn();
         this.userName = this.storage.get('userName');
        
@@ -171,7 +171,7 @@ export class LoginPageComponent {
         // console.log(this.letter);
         this.letter = this.userName.charAt(0).toUpperCase();
         // Redirect to the company listing page
-        this.router.navigate(['/companies']);
+        this.router.navigate(['/company']);
         this.modal.cancel();
       } else if (adminUserType) {
         this.router.navigate(['/switcher']);

@@ -1188,7 +1188,8 @@ export class LoginFormComponent implements AfterViewInit, OnDestroy {
     // if (isCompanyListingRoute || isJobDescriptionRoute || isJobRoute ||isJobListing) {
     
     // Define a single regular expression to match job-related routes and company routes
-    const jobRoutePattern = /^(\/companies\/[^/]+-jobs(?:\/[^/]+-[A-Za-z0-9]+)?|\/[^/]+-jobs|\/companies)$/;
+    const jobRoutePattern = /^(\/company\/jobs\/[^/]+-jobs(?:\/[^/]+-[A-Za-z0-9]+)?|\/company\/[^/]+-jobs)$/;
+    // const jobRoutePattern = /^(\/company\/[^/]+-jobs(?:\/[^/]+-[A-Za-z0-9]+)?|\/[^/]+-jobs|\/company)$/;
 
     // Check if the URL matches any of the job-related or company-related routes
     const isCompanyRoute = jobRoutePattern.test(currentUrl);

@@ -75,7 +75,7 @@ export const routes: Routes = [
         component: LoginPageComponent
       },
       {
-        path : 'companies',
+        path : 'company',
         component: CompanyListingComponent
       },
       // { path: ':category-jobs', component: JobCategoryComponent },
@@ -123,12 +123,12 @@ export const routes: Routes = [
         component: PrivacyPolicyComponent,
       },
       {
-        path: 'companies/jobs/:companyName-jobs-:companyID',
+        path: 'company/jobs/:companyName-jobs-:companyID',
         component: MiniJobPortalJobListingComponent
       },
 
       {
-        path: 'companies/jobs/:companyName-jobs/:jobTitle-:jobID',
+        path: 'company/jobs/:companyName-jobs/:jobTitle-:jobID',
         component: MiniJobPortalJobDescriptionComponent
       },
       // {

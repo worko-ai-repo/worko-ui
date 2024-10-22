@@ -798,7 +798,7 @@ export class AdminJobsComponent implements OnInit {
     // Encode the company name and job title for URL-safe navigation
     const formattedCompanyName = companyName.toLowerCase().replace(/\(.*?\)/g, '').replace(/\s*&\s*/g, '&').replace(/\s+/g, '-').replace(/-+/g, '-').replace(/^-|-$/g, '');
     const formattedJobTitle = jobTitle.toLowerCase().replace(/\(.*?\)/g, '').replace(/\s*&\s*/g, '&').replace(/\s+/g, '-').replace(/-+/g, '-').replace(/^-|-$/g, '');
-    const route = `/companies/jobs/${formattedCompanyName}-jobs/${formattedJobTitle}-${jobID}`;
+    const route = `/company/jobs/${formattedCompanyName}-jobs/${formattedJobTitle}-${jobID}`;
 
     // Open the route in a new tab
     window.open(route, '_blank');

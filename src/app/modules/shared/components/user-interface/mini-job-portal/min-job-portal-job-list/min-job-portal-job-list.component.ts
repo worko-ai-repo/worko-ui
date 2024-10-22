@@ -74,7 +74,7 @@ export class MinJobPortalJobListComponent {
     const formattedCompanyName =companyName.toLowerCase().replace(/\(.*?\)/g, '').replace(/\s*&\s*/g, '&').replace(/\s+/g, '-').replace(/-+/g, '-').replace(/^-|-$/g, '');
     const formattedJobTitle = jobTitle.toLowerCase().replace(/\(.*?\)/g, '').replace(/\s*&\s*/g, '&').replace(/\s+/g, '-').replace(/-+/g, '-').replace(/^-|-$/g, '');
 
-    const route = `/companies/jobs/${formattedCompanyName}-jobs/${formattedJobTitle}-${jobID}`;
+    const route = `/company/jobs/${formattedCompanyName}-jobs/${formattedJobTitle}-${jobID}`;
 
     this.router.navigateByUrl(route);
   }
