@@ -365,7 +365,7 @@
   </ng-container>
   
  
-    <ng-container *ngIf="showModal=== modalType.SUCCESS_MESSAGE">
+    <!-- <ng-container *ngIf="showModal=== modalType.SUCCESS_MESSAGE">
       <div class="row message-card px-sm-3 p-4">
         <div class="font-weight-bold text-color-red mb-3 d-flex justify-content-center"
           style="color: #e40707; font-size: medium;" *ngIf="successtitle === 'Error'">
@@ -379,6 +379,9 @@
   
         </div>
       </div>
-    </ng-container> 
-  
+    </ng-container>  -->
+    <ng-container *ngIf="showModal === modalType.SUCCESS_ERROR_MESSAGE">
+      <app-message-modal [title]="successtitle" [message]="successmessage" (onCancel)="closeModal()">
+      </app-message-modal>
+  </ng-container>
 </app-modal>

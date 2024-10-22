@@ -552,9 +552,15 @@ export class CompanyListingComponent implements OnInit, AfterViewInit, OnDestroy
   }
 
   getJobLink(data:any): void {
-    const  companyName= data.name.toLowerCase().replace(/\(.*?\)/g, '').replace(/[\s&]+/g, '-').replace(/-+/g, '-').replace(/^-|-$/g, '');
+    const companyName = data.name
+  .toLowerCase()                        // Convert to lowercase
+  .replace(/\(.*?\)/g, '')               // Remove content inside parentheses
+  .replace(/\s*&\s*/g, '&')              // Remove spaces around the '&' symbol
+  .replace(/\s+/g, '-')                  // Replace remaining spaces with hyphen
+  .replace(/-+/g, '-')                   // Ensure there's only one hyphen in between
+  .replace(/^-|-$/g, '');                 // Remove hyphen at start or end
     const companyID=data.SK.replace("ID#", "");
-    const route = `/companies/${companyName}-jobs-${companyID}`;
+    const route = `/companies/jobs/${companyName}-jobs-${companyID}`;
     this.router.navigate([route]);
    // console.log(route);
     // this.router.navigate([route],{

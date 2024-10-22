@@ -35,5 +35,6 @@ export enum ModalCloseResult {
     REFERRAL_DETAILS=26,
     SHOW_MORE_DETAILS = 27,
     ADMINJOBS_POPUP=28,
+    SUCCESS_ERROR_MESSAGE = 29
   }
   

@@ -38,8 +38,8 @@ export class AcceptedReferralComponent {
   // isFetchingMessages!: boolean;
 
   @ViewChild(ChatUIComponent) chatUIComponent!: ChatUIComponent;
-  successmessage!: string;
-  successtitle!: string;
+  successMessage!: string;
+  successTitle!: string;
 
   // private noMoreMessagesSubscription!: Subscription;
   private isFetchingMessagesSubscription!: Subscription;
@@ -72,9 +72,9 @@ export class AcceptedReferralComponent {
     this.errorSubscription = this.chatService.onError().subscribe((error) => {
       console.error("WebSocket OnMessage error:", error);
       this.spinner.hide();
-      this.successmessage = "Something went wrong. Please try again after sometime";
-      this.successtitle = "Error";
-      this.openModal(ModalType.SUCCESS_MESSAGE);
+      this.successMessage = "Something went wrong. Please try again after sometime";
+      this.successTitle = "Error";
+      this.openModal(ModalType.SUCCESS_ERROR_MESSAGE);
     });
   }
 
@@ -132,9 +132,9 @@ export class AcceptedReferralComponent {
       .catch((error) => {
         console.error("WebSocket connection error: ", error);
         this.spinner.hide();
-        this.successmessage = "Something went wrong. Please try again after sometime"
-        this.successtitle = "Error"
-        this.openModal(ModalType.SUCCESS_MESSAGE);
+        this.successMessage = "Something went wrong. Please try again after sometime"
+        this.successTitle = "Error"
+        this.openModal(ModalType.SUCCESS_ERROR_MESSAGE);
       });
   }
 
@@ -267,9 +267,9 @@ export class AcceptedReferralComponent {
   }
 
   showErrorMessage(): void {
-    this.successmessage = "Something went wrong. Please try again after sometime";
-    this.successtitle = "Error";
-    this.openModal(ModalType.SUCCESS_MESSAGE);
+    this.successMessage = "Something went wrong. Please try again after sometime";
+    this.successTitle = "Error";
+    this.openModal(ModalType.SUCCESS_ERROR_MESSAGE);
   }
 
   // referralMarkAsDone() {

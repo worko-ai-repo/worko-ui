@@ -123,12 +123,12 @@ export const routes: Routes = [
         component: PrivacyPolicyComponent,
       },
       {
-        path: 'companies/:companyName-jobs-:companyID',
+        path: 'companies/jobs/:companyName-jobs-:companyID',
         component: MiniJobPortalJobListingComponent
       },
 
       {
-        path: 'companies/:companyName-jobs/:jobTitle-:jobID',
+        path: 'companies/jobs/:companyName-jobs/:jobTitle-:jobID',
         component: MiniJobPortalJobDescriptionComponent
       },
       // {

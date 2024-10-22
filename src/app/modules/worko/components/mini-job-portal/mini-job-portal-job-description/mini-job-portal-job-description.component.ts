@@ -42,8 +42,8 @@ export class MiniJobPortalJobDescriptionComponent {
   cvCurPerc: any;
   totalPercentage: any;
   profileCompletionRequired: boolean = false;
-  successmessage: string = "";
-  successtitle: string = "";
+  successMessage: string = "";
+  successTitle: string = "";
   modalType = ModalType;
   modalMessage: string = "";
   modalTitle: string = "";
@@ -143,8 +143,8 @@ export class MiniJobPortalJobDescriptionComponent {
     if (!this.checkProfileCompletion()) {
       this.profileCompletionRequired = true;
       this.isShowCloseButton = false
-      this.successmessage = "";
-      this.successtitle = "";
+      this.successMessage = "";
+      this.successTitle = "";
       this.openModal(ModalType.SUCCESS_MESSAGE); // Profile completion modal
       return;
     }
@@ -274,7 +274,7 @@ export class MiniJobPortalJobDescriptionComponent {
         this.handleError(error);
       });
     } else {
-      this.successmessage = "job not found"
+      this.successMessage = "job not found"
       this.openModal(this.modalType.SUCCESS_MESSAGE)
     }
   }
@@ -321,9 +321,9 @@ export class MiniJobPortalJobDescriptionComponent {
         console.error('Unexpected Error:', error);
         this.isShowCloseButton = false
         this.modalSize = 'md'
-        this.successmessage = "Something went wrong. Please try again after sometime"
-        this.successtitle = "Error"
-        this.openModal(ModalType.SUCCESS_MESSAGE)
+        this.successMessage = "Something went wrong. Please try again after sometime"
+        this.successTitle = "Error"
+        this.openModal(ModalType.SUCCESS_ERROR_MESSAGE)
         break;
     }
   }
@@ -433,9 +433,9 @@ export class MiniJobPortalJobDescriptionComponent {
    
       this.isShowCloseButton = false
       this.modalSize = 'md'
-      this.successmessage = "Something went wrong. Please try again after sometime"
-      this.successtitle = "Error"
-      this.openModal(ModalType.SUCCESS_MESSAGE)
+      this.successMessage = "Something went wrong. Please try again after sometime"
+      this.successTitle = "Error"
+      this.openModal(ModalType.SUCCESS_ERROR_MESSAGE)
       }
     }
 
@@ -456,9 +456,9 @@ export class MiniJobPortalJobDescriptionComponent {
       this.spinner.hide();
       this.isShowCloseButton = false
       this.modalSize = 'md'
-      this.successmessage = "Something went wrong. Please try again after sometime";
-      this.successtitle = "Error";
-      this.openModal(ModalType.SUCCESS_MESSAGE);
+      this.successMessage = "Something went wrong. Please try again after sometime";
+      this.successTitle = "Error";
+      this.openModal(ModalType.SUCCESS_ERROR_MESSAGE);
     }
   }
 
@@ -469,6 +469,10 @@ export class MiniJobPortalJobDescriptionComponent {
   onModalClose() {
     this.showFeedback = false
     this.showScore=false;
+    this.profileCompletionRequired=false;
+    this.showsubscriptionPlan=false
+    this.showErrorMsg=false
+    this.showReferrelRow=false
   }
 
 

@@ -115,6 +115,10 @@
     <ng-container *ngIf="showModal === modalType.LOGIN_SIGNUP">
         <app-login-form (onSuccess)="receiveDataFromChild($event)" [userLoggedInData]="userLoggedIn"></app-login-form>
     </ng-container>
+    <ng-container *ngIf="showModal === modalType.SUCCESS_ERROR_MESSAGE">
+        <app-message-modal [title]="successTitle" [message]="successMessage" (onCancel)="cancel()">
+        </app-message-modal>
+    </ng-container>
     <ng-container *ngIf="showModal === modalType.SUCCESS_MESSAGE">
 
         <!-- <div class="row message-card px-sm-3 p-5"
@@ -132,7 +136,7 @@
                     </div>
                 </div>
             </div> -->
-        <div class="row message-card px-sm-3 p-5" *ngIf="successtitle && successmessage && !profileCompletionRequired">
+        <!-- <div class="row message-card px-sm-3 p-5" *ngIf="successtitle && successmessage && !profileCompletionRequired">
             <div class="font-weight-bold text-color-red mb-3 d-flex justify-content-center"
                 style="color: #e40707; font-size: medium;" *ngIf="successtitle === 'Error'">
                 {{successtitle}}
@@ -148,7 +152,9 @@
             <div class=" mt-3 d-flex justify-content-center">
                 <button class="btn-next" (click)="cancel()" *ngIf="successtitle != 'Error'"> Ok</button>
             </div>
-        </div>
+        </div> -->
+
+
 
         <div class="row message-card px-sm-3 p-5" *ngIf="profileCompletionRequired">
             <div class="col-md-8 offset-md-2">

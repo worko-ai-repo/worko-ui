@@ -153,7 +153,7 @@ export class AdminIssuesComponent {
         this.modalSize = 'md'
         this.successmessage = "Something went wrong. Please try again after sometime"
         this.successtitle = "Error"
-        this.openModal(ModalType.SUCCESS_MESSAGE)
+        this.openModal(ModalType.SUCCESS_ERROR_MESSAGE)
       }
     });
   }
@@ -339,7 +339,7 @@ export class AdminIssuesComponent {
       this.modalSize = 'md'
       this.successmessage = "Something went wrong. Please try again after sometime"
       this.successtitle = "Error"
-      this.openModal(ModalType.SUCCESS_MESSAGE)
+      this.openModal(ModalType.SUCCESS_ERROR_MESSAGE)
     });
 
   }
