@@ -18,7 +18,10 @@ export class UserStepperComponent implements OnInit {
   constructor(private router: Router) {}
   ngOnInit() {
     // Initialize circles based on userType
-    this.circles = Array.from({ length: this.userType === "Employee" ? 2 : 3 });
+    // this.circles = Array.from({ length: this.userType === "Employee" ? 2 : 3 });
+    this.circles = Array.from({ length: (this.userType === "Employee" || this.userType === "Candidate") ? 2 : 3 });
+
+
 
     if (this.userType == "Candidate") {
       this.url = "/candidate/dashboard";
