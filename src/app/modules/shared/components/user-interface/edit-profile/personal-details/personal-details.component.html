@@ -419,10 +419,10 @@
                                           candidateProfessionalDetails?.coreSkillList?.length<=0||
                                           candidateProfessionalDetails?.noticePeriod?.toString() === '' ||
                                           candidateProfessionalDetails?.noticePeriod?.toString() ===null ||
-                                          !candidate.form.valid ||(!candidateProfessionalDetails.candidateUploadDetails.fileName || !candidateList.CV)
+                                          !candidate.form.valid ||(!fileName || !candidateList.CV)
                                         )) || 
                                         (candidateProfessionalDetails.isCandidateFresher &&(  candidateProfessionalDetails?.softSkills?.length<=0 ||
-                                          candidateProfessionalDetails?.coreSkillList?.length<=0 ||(!candidateProfessionalDetails.candidateUploadDetails.fileName || !candidateList.CV)))">Complete</button>
+                                          candidateProfessionalDetails?.coreSkillList?.length<=0 ||(!fileName || candidateList.CV)))">Complete</button>
                                           <!-- <button class="btn btn-next" type="submit"></button> -->
                     </div>
 
