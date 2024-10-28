@@ -100,6 +100,9 @@ import { MinJobPortalJobListComponent } from './components/user-interface/mini-j
 import { ShowMoreDetailsComponent } from './components/show-more-details/show-more-details.component';
 import { EllipsisPipe } from './pipes/ellipsis/ellipsis.pipe';
 import { MessageModalComponent } from './components/modal/message-modal/message-modal.component';
+import { EmployeeDashboardReferralComponent } from './components/user-interface/employee/dashboard/employee-dashboard-referral/employee-dashboard-referral.component';
+import { EmployeeDashboardGuidanceComponent } from './components/user-interface/employee/dashboard/employee-dashboard-guidance/employee-dashboard-guidance.component';
+
 export const routes: Routes = [
 
   
@@ -159,6 +162,8 @@ export const routes: Routes = [
     ShowMoreDetailsComponent,
     EllipsisPipe,
     MessageModalComponent,
+    EmployeeDashboardReferralComponent,
+    EmployeeDashboardGuidanceComponent
     // DoneServiceComponent,
     // CancelledServiceComponent,
     // AwaitingServiceComponent,
@@ -240,7 +245,9 @@ export const routes: Routes = [
   MinJobPortalJobListComponent,
   ShowMoreDetailsComponent,
   MessageModalComponent,
-  EllipsisPipe
+  EllipsisPipe,
+  EmployeeDashboardReferralComponent,
+  EmployeeDashboardGuidanceComponent
   ],
 
 })

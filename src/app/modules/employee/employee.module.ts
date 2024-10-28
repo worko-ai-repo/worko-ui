@@ -34,6 +34,7 @@ import { AuthRouteGuardService } from '../worko/services/auth-route-guard.servic
 
 
 
+
 export const routes: Routes = [
 
   {
@@ -89,7 +90,8 @@ export const routes: Routes = [
     EmployeeEditDetailsComponent,
     EmployeeProfessionalDetailsComponent,
     AddBankDetailsComponent,
-    ReferralRejectedPopupComponent
+    ReferralRejectedPopupComponent,
+  
     
     
     
