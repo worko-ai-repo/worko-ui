@@ -441,7 +441,7 @@ export class HomeComponent {
   }
 
   async redirectToCompanyListing() {
-    this.router.navigateByUrl('/companies');
+    this.router.navigateByUrl('/company');
   }
 
   async openLogin() {

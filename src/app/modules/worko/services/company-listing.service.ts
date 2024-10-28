@@ -29,7 +29,7 @@ export class CompanyListingService {
    *
    * @returns {Promise<any>}
    */
-  async getCompanyListing(pageSize: number, sortOrder?:any, lastKey?: string, teamSize?: any, industryName?: any, companyName?: string): Promise<any> {
+  async getCompanyListing(pageSize: number, sortOrder?: any, lastKey?: string, teamSize?: any, industryName?: any, companyName?: string): Promise<any> {
     let url = `${API_URL}company?pageSize=${pageSize}`;
 
     // Append sortOrder to the URL
@@ -91,16 +91,97 @@ export class CompanyListingService {
   */
 
   requestNewCompany(data: any): Promise<any> {
-  return this.http.post(API_URL + `company/request`, data, this.authService.getHttpOptions()).toPromise();
-}
+    return this.http.post(API_URL + `company/request`, data, this.authService.getHttpOptions()).toPromise();
+  }
 
- /**Get New Company List
-   *
+  /**Get New Company List
+    *
+ * @returns {Promise<any>}
+   */
+  getAllNewCompany(): Promise<any> {
+    return this.http.get(API_URL + `company/all`, this.authService.getHttpOptions()).toPromise();
+  }
+
+  /**Get ALl job List  
+    *
+ * @returns {Promise<any>}
+   */
+  getAllJob(): Promise<any> {
+    let url = `${API_URL}job?status=PUBLISHED`;
+    const pageSize=200;
+    if (pageSize) {
+      url += `&pageSize=${pageSize}`;
+    }
+
+    return this.http.get(url, this.authService.getHttpOptions()).toPromise();
+
+  }
+
+  /**Get New job List  By CompanyID
+    *
+ * @returns {Promise<any>}
+   */
+  getJobByCompanyID(companyID: any, location?: any, department?: any, softSkills?: any, coreSkills?: any, salary?: any, experience?: any, technicalSkill?: any): Promise<any> {
+    let url = `${API_URL}job?status=PUBLISHED`;
+    const pageSize=200;
+    if (pageSize) {
+      url += `&pageSize=${pageSize}`;
+    }
+
+    if (companyID) {
+      url += `&companyId=${companyID}`;
+
+    }
+    if (location) {
+      url += `&location=${encodeURIComponent(location)}`
+    }
+    if (department) {
+      url += `&department=${encodeURIComponent(department)}`
+    }
+    if (softSkills) {
+      url += `&softSkills=${encodeURIComponent(softSkills)}`
+    }
+    if (coreSkills) {
+      url += `&coreSkills=${encodeURIComponent(coreSkills)}`
+    }
+    if (salary) {
+      url += `&minSalary=${salary.minSalary}`
+      url += `&maxSalary=${salary.maxSalary}`
+
+    }
+    if (experience) {
+       url+=`&minExperience=${experience.minExperience}`
+      url += `&maxExperience=${experience.maxExperience}`
+
+    }
+    if (technicalSkill) {
+      url += `&technicalSkills=${encodeURIComponent(technicalSkill)}`
+    }
+    return this.http.get(url, this.authService.getHttpOptions()).toPromise();
+
+  }
+
+  /**Get New job List  By jobId
+  *
 * @returns {Promise<any>}
-  */
- getAllNewCompany(): Promise<any> {
-  return this.http.get(API_URL + `company/all`,  this.authService.getHttpOptions()).toPromise();
-}
+ */
+  getJobByJobID(jobID: any): Promise<any> {
+    let url = `${API_URL}job/${jobID}`;
+
+    return this.http.get(url, this.authService.getHttpOptions()).toPromise();
+
+  }
+
+    /**Get  company detail By companyId
+  *
+* @returns {Promise<any>}
+ */
+    getcompanyDetailsByCompanyID(companyID: any): Promise<any> {
+      let url = `${API_URL}company/${companyID}`;
+  
+      return this.http.get(url, this.authService.getHttpOptions()).toPromise();
+  
+    }
 
 
 

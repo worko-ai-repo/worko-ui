@@ -6,7 +6,7 @@ import { ReferralRequestComponent } from '../referral-request/referral-request.c
 import { ModalComponent } from 'src/app/modules/shared/components/modal/modal.component';
 import { RequestGuidenceComponent } from '../request-guidence/request-guidence.component';
 import { Subscription } from 'rxjs';
-import { LoginPageComponent } from '../login-page/login-page.component';
+// import { LoginPageComponent } from '../login-page/login-page.component';
 import { NavbarComponent } from '../navbar/navbar.component';
 import { ModalType } from 'src/app/modules/shared/interfaces/shared.interface';
 import { StorageService } from 'src/app/modules/app-core/services/storage.service';
@@ -16,6 +16,7 @@ import { Location } from '@angular/common';
 import { environment } from 'src/environments/environment';
 import { HttpClient } from '@angular/common/http';
 import * as industryTypes from '../../../../../assets/industry-types.json';
+import { LoginFormComponent } from '../login-form/login-form.component';
 
 @Component({
   selector: 'app-job-category',
@@ -28,7 +29,7 @@ export class JobCategoryComponent implements OnInit, AfterViewInit, OnDestroy {
   @ViewChild(ModalComponent) modal!: ModalComponent;
   @ViewChild(ReferralRequestComponent) referrralComponent!: ReferralRequestComponent;
   @ViewChild(RequestGuidenceComponent) referrralguidanceComponent!: RequestGuidenceComponent;
-  @ViewChild(LoginPageComponent) LoginPageComponent!: LoginPageComponent;
+  @ViewChild(LoginFormComponent) LoginFormComponent!: LoginFormComponent;
   @ViewChild(NavbarComponent) navbarComponent!: NavbarComponent;
 
   successmessage: string = "";
@@ -225,6 +226,24 @@ export class JobCategoryComponent implements OnInit, AfterViewInit, OnDestroy {
       this.openModal(ModalType.LOGIN_SIGNUP);
     }
   }
+  navigateToJobLink(event: MouseEvent, data: any): void {
+    event.preventDefault(); // Prevent the default anchor behavior
+    this.getJobLink(data);
+
+  }
+
+  getJobLink(data:any): void {
+  //   const  companyName=encodeURIComponent(data.name);
+  //   const route = `/companies/${companyName.toLowerCase()}-jobs`;
+  //  // console.log(route);
+  //   this.router.navigate([route],{
+  //     state: { companySK: data.SK}
+  //   });;
+  const  companyName= data.name.toLowerCase().replace(/\(.*?\)/g, '').replace(/\s*&\s*/g, '&').replace(/\s+/g, '-').replace(/-+/g, '-').replace(/^-|-$/g, '');
+  const companyID=data.SK.replace("ID#", "");
+  const route = `/company/jobs/${companyName}-jobs-${companyID}`;
+  this.router.navigate([route]);
+  }
 
   async openGuidancePage(event: Event, item: any): Promise<void> {
 
@@ -334,7 +353,8 @@ export class JobCategoryComponent implements OnInit, AfterViewInit, OnDestroy {
   }
 
   navigateToIndex() {
-    window.location.href = environment.crossOriginUrl + '/';
+    // window.location.href = environment.crossOriginUrl + '/';
+    this.router.navigateByUrl('/');
   }
 
   cancel() {
@@ -400,11 +420,11 @@ export class JobCategoryComponent implements OnInit, AfterViewInit, OnDestroy {
       }
     }
     if (ModalType.LOGIN_SIGNUP) {
-      if (this.LoginPageComponent) {
-        this.LoginPageComponent.showSignInRow = false;
-        this.LoginPageComponent.showAddCompanyScreen = false;
-        this.LoginPageComponent.showErrorMessageScreen = false;
-        this.LoginPageComponent.showLoginScreen = true
+      if (this.LoginFormComponent) {
+        this.LoginFormComponent.showSignInRow = false;
+        this.LoginFormComponent.showAddCompanyScreen = false;
+        this.LoginFormComponent.showErrorMessageScreen = false;
+        this.LoginFormComponent.showLoginScreen = true
       }
     }
     this.modal.open();

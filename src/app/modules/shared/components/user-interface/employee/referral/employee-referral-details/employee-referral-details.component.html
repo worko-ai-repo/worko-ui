@@ -21,15 +21,16 @@
         </div>
         <div class="col-md-5">
             <div class="row">
+                <!--@TODO@-->
                 <div class="col-md-12 ref-name">
-                    <h3 class="pt-3">{{empdetailsList[0]?.name}}</h3>
+                    <h3 class="pt-3">{{empdetailsList[0]?.name | titlecase}}</h3> 
                 </div>
                 <div class="col-md-12 ref-education">
                     <div class="text-overflow">{{empEducationList[0]?.degree}} , {{empEducationList[0]?.collage}} </div>
                     <!-- <div class="pt-1">Role Applied : SDE-1(Backend)</div> -->
                     <div class="pt-1">Experience: {{empdetailsList[0]?.YOE}} {{empdetailsList[0]?.YOE === 1 ? 'year' :
                         'years'}}</div>
-                    <div class="pt-1">Job Url: <span class="text-white"><a href="{{selectedReferral?.jobUrl}}"
+                    <div class="pt-1">Job URL: <span class="text-white"><a href="{{selectedReferral?.jobUrl}}"
                                 target="_blank">Link</a></span></div>
                 </div>
             </div>
@@ -144,7 +145,7 @@
     </div>
 
     <app-modal [theme]="'theme-k'" [centered]="true" [showHeader]="showModal === modalType.MESSAGE" [showClose]="true"
-        [showFooter]="showModal === modalType.MESSAGE" [modalSize]="'md'" [title]="modalTitle" [message]="modalMessage"
+        [showFooter]="showModal === modalType.MESSAGE" [modalSize]="modalSize" [title]="modalTitle" [message]="modalMessage"
         [bodyClass]="modalMessage ? 'p-4' : 'p-0'">
 
         <ng-container *ngIf="showModal === modalType.REJECTED_REQUEST">
@@ -156,9 +157,9 @@
                 (onCancel)="closeModal()"></app-confirmation-dialog-popup>
         </ng-container>
 
-        <ng-container *ngIf="showModal === modalType.DETAILED_ANALYSIS">
-            <app-detailed-analysis [scoreDetails]="scoreDetails"
-                (onCancel)="closeDetailedPopup()"></app-detailed-analysis>
+        <ng-container *ngIf="showModal === modalType.SHOW_MORE_DETAILS">
+            <app-show-more-details [details]="scoreDetails" [title]="detailsTitle"
+                (onCancel)="closeDetailedPopup()"></app-show-more-details>
         </ng-container>
 
     </app-modal>

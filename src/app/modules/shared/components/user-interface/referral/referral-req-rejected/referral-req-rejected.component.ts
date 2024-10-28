@@ -1,4 +1,4 @@
-import { Component, EventEmitter, Output, Input, ViewChild, SimpleChanges, } from '@angular/core';
+import { Component, EventEmitter, Output, Input, ViewChild, SimpleChanges, ChangeDetectorRef, } from '@angular/core';
 import { ModalComponent } from 'src/app/modules/shared/components/modal/modal.component';
 import { ModalType } from 'src/app/modules/shared/interfaces/shared.interface';
 
@@ -20,10 +20,15 @@ export class ReferralReqRejectedComponent {
   latestRejectionReason: any;
   latestUserComment: any;
   rejectedReasons: { reason: any; comment: any; } | undefined;
-  constructor() { }
+  feedbackTitle: string = "Rejection Feedback"
+  feedbackDetails: string = "";
+  modalSize: string = 'md';  // Default modal size
+  showClose: boolean = false;  // Default close button visibility
+
+  constructor(private cdrf: ChangeDetectorRef) { }
 
   ngOnInit(): void {
-   
+
   }
 
   ngOnChanges(changes: SimpleChanges): void {
@@ -57,6 +62,20 @@ export class ReferralReqRejectedComponent {
     */
   openModal(modalType: ModalType, message: string = "", title: string = ""): void {
     this.showModal = modalType;
+
+    // Dynamically set modalSize and showClose based on modalType
+    if (modalType === this.modalType.SHOW_MORE_DETAILS) {
+      this.modalSize = 'lg';
+      this.showClose = true;  // Show the close icon for Show More Details
+    } else if (modalType === this.modalType.REJECT_DETAILS) {
+      this.modalSize = 'md';
+      this.showClose = false;  // Hide the close button for Reject Details
+    } else {
+      this.modalSize = 'md';  // Default size
+      this.showClose = false;
+    }
+
+    this.cdrf.detectChanges();
     this.modalMessage = message;
     this.modalTitle = title;
     this.modal.open();
@@ -71,6 +90,11 @@ export class ReferralReqRejectedComponent {
   }
 
   showMore() {
-    this.openModal(ModalType.REJECT_DETAILS);
+    if (this.selectedReferral?.rejectedByUserIds?.length > 0) {
+      this.openModal(ModalType.REJECT_DETAILS);
+    } else if (this.selectedReferral?.rejectionFeedbackBySystem) {
+      this.feedbackDetails = this.selectedReferral.rejectionFeedbackBySystem;
+      this.openModal(ModalType.SHOW_MORE_DETAILS);
+    }
   }
 }

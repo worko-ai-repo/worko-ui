@@ -36,4 +36,29 @@ Actions:
     Compute:
       Type: Lambda
       Fleet: Linux.Arm64.Large
-
+  Worko_UI_Test_Test:
+    # Identifies the action. Do not modify this value.
+    Identifier: aws/managed-test@v1.0.0
+    # Specifies the source and/or artifacts to pass to the action as input.
+    Inputs:
+      # Optional
+      Sources:
+        - WorkflowSource # This specifies that the action requires this Workflow as a source
+    Outputs:
+      # Optional; Automatically discover reports for popular test frameworks
+      AutoDiscoverReports:
+        Enabled: true
+        # Use as prefix for the report files
+        ReportNamePrefix: rpt
+    # Defines the action's properties.
+    Configuration:
+      # Required - Steps are sequential instructions that run shell commands
+      Steps:
+        - Run: npm install -g @angular/cli
+        - Run: npm install
+        - Run: ng test
+    Compute:
+      Type: Lambda
+      Fleet: Linux.Arm64.Large
+    DependsOn:
+      - Worko_UI_Build_Test

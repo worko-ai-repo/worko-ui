@@ -160,7 +160,7 @@ export class CognitoService {
         const { tokens, userSub } = await fetchAuthSession()
 
         if (!this.storage.get("useremail")) {
-          this.storage.set("useremail", tokens?.idToken?.payload['email']?.toString());
+          this.storage.set("useremail", tokens?.idToken?.payload['email']?.toString().toLowerCase());
         }
       
         return true;
@@ -175,18 +175,25 @@ export class CognitoService {
 
 
       try {
-        const { username, userId, signInDetails } = await getCurrentUser();
+        // const { username, userId, signInDetails } = await getCurrentUser();
      
         //  console.log(`The username: ${username}`);
         //  console.log(`The userId: ${userId}`);
 
-        if (signInDetails) {
-          // console.log('The signInDetails:', signInDetails);
+        // if (signInDetails) {
+        //   // console.log('The signInDetails:', signInDetails);
 
-          // console.log(this.storage.get("useremail"), "Before")
+        //   // console.log(this.storage.get("useremail"), "Before")
+        //   if (!this.storage.get("useremail")) {
+        //     this.storage.set("useremail", signInDetails.loginId);
+        //   }
+          const { tokens, userSub } = await fetchAuthSession()
+
+          if(tokens){
           if (!this.storage.get("useremail")) {
-            this.storage.set("useremail", signInDetails.loginId);
+            this.storage.set("useremail", tokens?.idToken?.payload['email']?.toString().toLowerCase());
           }
+
           
           return true;
         } else {
@@ -214,6 +221,7 @@ export class CognitoService {
       this.storage.remove("type");
       this.storage.remove("companySK");
       this.storage.remove("userType");
+      this.storage.remove('dynamicRoute')
       this.removeAccessToken();
       // this.removeEmployeeDashboardToggleStatus();
       // this.removeCurrentDashboardToggleStatus();

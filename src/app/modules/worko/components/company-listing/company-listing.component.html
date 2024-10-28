@@ -136,11 +136,14 @@
               <div class="col-7 p-2">
                 <div class="vertical-bar"></div>
                 <div class="anchor-button">
-                  <a href="#" (click)="openReferralPage($event, item)">Request Referral</a>
+                  <a href="#" (click)="navigateToJobLink($event, item)">Request Referral</a>
                 </div>
                 <div class="anchor-button" style="top:37px;">
                   <a href="#" (click)="openGuidancePage($event, item)">Request Guidance</a>
                 </div>
+                <!-- <div class="anchor-button"style="top:65px;">
+                  <a href="#"(click)="navigateToJobLink($event, item)">Jobs</a>
+                </div> -->
                 <!-- <div class="float-right">
                   <div class="px-1 float-left">
                     <i class=" far fa-file" style="color: #0077b5;"></i>
@@ -199,7 +202,7 @@
   </ng-container>
 
   <ng-container *ngIf="showModal === modalType.LOGIN_SIGNUP">
-    <app-login-page (onSuccess)="receiveDataFromChild($event)" [userLoggedInData]="userLoggedIn"></app-login-page>
+    <app-login-form (onSuccess)="receiveDataFromChild($event)" [userLoggedInData]="userLoggedIn"></app-login-form>
   </ng-container>
   <ng-container *ngIf="showModal === modalType.SUCCESS_MESSAGE">
 

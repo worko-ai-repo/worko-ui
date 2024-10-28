@@ -38,11 +38,14 @@ export class EmployeeAcceptedReferralComponent {
   scoreDetails: any = "";
   matchingScore: number = 0;
   profileImage: any;
+
   @ViewChild(ModalComponent) modal!: ModalComponent;
   modalType = ModalType;
   modalMessage: string = "";
   modalTitle: string = "";
+  modalSize: string = "md";
   showModal: ModalType | undefined;
+
   isSmallerScreen: boolean = false
   isHidden: boolean = false
   // circleDiameter:number=105;
@@ -55,8 +58,9 @@ export class EmployeeAcceptedReferralComponent {
   noMoreMessages!: boolean;
 
   circleDiameter: number = 98;
-  successmessage!: string;
-  successtitle!: string;
+  successMessage!: string;
+  successTitle!: string;
+  detailsTitle: string = "Detailed Analysis"
 
   private isFetchingMessagesSubscription!: Subscription;
   private errorSubscription!: Subscription;
@@ -95,9 +99,9 @@ export class EmployeeAcceptedReferralComponent {
     this.errorSubscription = this.chatService.onError().subscribe((error) => {
       console.error("WebSocket OnMessage error:", error);
       this.spinner.hide();
-      this.successmessage = "Something went wrong. Please try again after sometime";
-      this.successtitle = "Error";
-      this.openModal(ModalType.SUCCESS_MESSAGE);
+      this.successMessage = "Something went wrong. Please try again after sometime";
+      this.successTitle = "Error";
+      this.openModal(ModalType.SUCCESS_ERROR_MESSAGE);
     });
 
   }
@@ -177,9 +181,9 @@ export class EmployeeAcceptedReferralComponent {
       .catch((error) => {
         console.error("WebSocket connection error: ", error);
         this.spinner.hide();
-        this.successmessage = "Something went wrong. Please try again after sometime"
-        this.successtitle = "Error"
-        this.openModal(ModalType.SUCCESS_MESSAGE);
+        this.successMessage = "Something went wrong. Please try again after sometime"
+        this.successTitle = "Error"
+        this.openModal(ModalType.SUCCESS_ERROR_MESSAGE);
       });
   }
 
@@ -312,9 +316,9 @@ export class EmployeeAcceptedReferralComponent {
   }
 
   showErrorMessage(): void {
-    this.successmessage = "Something went wrong. Please try again after sometime";
-    this.successtitle = "Error";
-    this.openModal(ModalType.SUCCESS_MESSAGE);
+    this.successMessage = "Something went wrong. Please try again after sometime";
+    this.successTitle = "Error";
+    this.openModal(ModalType.SUCCESS_ERROR_MESSAGE);
   }
 
   getSlicedValue(value: string): string {
@@ -366,7 +370,7 @@ export class EmployeeAcceptedReferralComponent {
 
   viewDetails() {
     // this.modalSize = 'xl';
-    this.openModal(ModalType.DETAILED_ANALYSIS);
+    this.openModal(ModalType.SHOW_MORE_DETAILS);
   }
 
   formatScoreDetails(data: string): string {
@@ -398,6 +402,14 @@ export class EmployeeAcceptedReferralComponent {
  */
   openModal(modalType: ModalType, message: string = "", title: string = ""): void {
     this.showModal = modalType;
+    if (modalType === this.modalType.SHOW_MORE_DETAILS) {
+      this.modalSize = "lg"
+    }
+    else {
+      this.modalSize = "md";
+    }
+
+    this.cdrf.detectChanges();
     this.modalMessage = message;
     this.modalTitle = title;
     this.modal.open();

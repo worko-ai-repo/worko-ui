@@ -22,8 +22,8 @@ export class ReferralDoneComponent implements OnChanges {
   @Input() empCoreSkillsDetails: any = '';
   @Input() selectedStatus: any;
   @Input() userType: any;
-  @Input() processStatus:any;
-  referralRatingFlag:any = null;
+  @Input() processStatus: any;
+  referralRatingFlag: any = null;
   profileImage: any;
   scoreDetails: any = "";
   matchingScore: number = 0;
@@ -33,19 +33,23 @@ export class ReferralDoneComponent implements OnChanges {
   isEmployeeReferralPage = true;
   showRaiseIssueButton: boolean = false;
   detailedAnalysisModalSize = false;
+
   @ViewChild(ModalComponent) modal!: ModalComponent;
   modalType = ModalType;
   modalMessage: string = "";
   modalTitle: string = "";
+  modalSize: string = "lg";
   showModal: ModalType | undefined;
-  isHidden:boolean=false
-  isSmallerScreen:boolean=false
+
+  isHidden: boolean = false
+  isSmallerScreen: boolean = false
   finalRating: number = 0;
   noReviewReceived: string = "No review received from the candidate!!";
   candidateName: any;
-  circleDiameter:number=105;
+  circleDiameter: number = 105;
+  detailsTitle: string = "Detailed Analysis"
 
-  constructor(private breakpointObserver: BreakpointObserver) {}
+  constructor(private breakpointObserver: BreakpointObserver) { }
 
   ngOnInit(): void {
     this.breakpointObserver.observe([
@@ -53,15 +57,15 @@ export class ReferralDoneComponent implements OnChanges {
       Breakpoints.Handset
     ]).subscribe(result => {
       this.isSmallerScreen = result.matches;
-      if(this.isSmallerScreen){
-        this.circleDiameter=100;
+      if (this.isSmallerScreen) {
+        this.circleDiameter = 100;
       }
     });
-  
+
   }
 
   ngOnChanges(changes: SimpleChanges) {
-   
+
     this.referralRatingFlag = null;
 
     if (this.processStatus) {
@@ -73,14 +77,14 @@ export class ReferralDoneComponent implements OnChanges {
     } else {
       this.matchingScore = this.selectedReferral?.matchingScore;
     }
-    this.scoreDetails =this.formatScoreDetails(this.selectedReferral?.scoreDetails); 
+    this.scoreDetails = this.formatScoreDetails(this.selectedReferral?.scoreDetails);
 
     if (this.empdetailsList?.length > 0) {
       this.candidateName = this.empdetailsList[0].name;
       this.profileImage = this.empdetailsList[0].profileImageAwsS3SignedUrl ? this.empdetailsList[0]?.profileImageAwsS3SignedUrl : '/assets/public/candidate-img.png'
     }
 
-    if(this.selectedStatus === 'REFERRED') {
+    if (this.selectedStatus === 'REFERRED') {
       this.calculateRaiseIssueButtonVisibility();
     }
   }
@@ -123,7 +127,7 @@ export class ReferralDoneComponent implements OnChanges {
 
   viewDetails() {
     this.detailedAnalysisModalSize = true;
-    this.openModal(ModalType.DETAILED_ANALYSIS);
+    this.openModal(ModalType.SHOW_MORE_DETAILS);
   }
 
   closeDetailedPopup() {
@@ -136,29 +140,29 @@ export class ReferralDoneComponent implements OnChanges {
     return data?.replace(/\n/g, '<br>');
   }
 
-    /**
- * Open modal.
- *
- * @param {ModalType} modalType
- * @param {string} [message = ""]
- * @param {string} [title = ""]
- * @returns {void}
- */
-    openModal(modalType: ModalType, message: string = "", title: string = ""): void {
-      this.showModal = modalType;
-      this.modalMessage = message;
-      this.modalTitle = title;
-      this.modal.open();
-    }
-    /**
-     * Close modal.
-     *
-     * @returns {void}
-     */
-    closeModal(): void {
-      this.modal.cancel();
-    }
-  
+  /**
+* Open modal.
+*
+* @param {ModalType} modalType
+* @param {string} [message = ""]
+* @param {string} [title = ""]
+* @returns {void}
+*/
+  openModal(modalType: ModalType, message: string = "", title: string = ""): void {
+    this.showModal = modalType;
+    this.modalMessage = message;
+    this.modalTitle = title;
+    this.modal.open();
+  }
+  /**
+   * Close modal.
+   *
+   * @returns {void}
+   */
+  closeModal(): void {
+    this.modal.cancel();
+  }
+
 
 
 }

@@ -1,5 +1,7 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
+import { jobCategoryMatcher } from './modules/worko/matchers/custom-route-matcher';
+import { JobCategoryComponent } from './modules/worko/components/job-category/job-category.component';
 
 const routes: Routes = [
   {
@@ -19,6 +21,12 @@ const routes: Routes = [
     loadChildren: () => import('./modules/employee/employee.module').then(m => m.EmployeeModule)
   },
   // {
+  //   path: 'company',
+  //   loadChildren: () => import('./modules/mini-job-portal/mini-job-portal.module').then(m => m.MiniJobPortalModule)
+  // },
+
+
+  // {
   //   path: 'help',
   //   loadChildren: () => import('./modules/help/help.module').then(m => m.HelpModule)
   // },
@@ -34,7 +42,9 @@ const routes: Routes = [
 ];
 
 @NgModule({
-  imports: [RouterModule.forRoot(routes)],
+  imports: [RouterModule.forRoot(routes, {
+    scrollPositionRestoration: 'enabled'  // Enabling scroll to top globally
+  })],
   exports: [RouterModule]
 })
 export class AppRoutingModule { }

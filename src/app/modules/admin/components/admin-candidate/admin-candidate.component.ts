@@ -48,7 +48,8 @@ export class AdminCandidateComponent implements AfterViewInit {
   modalTitle: string = "";
   showModal: ModalType | undefined;
 
-  displayedColumns: string[] = ['serialnumber', 'name', 'emailid', 'number', 'accountcreateddate', 'referralcount', 'companyname', 'department', 'designation', 'action'];
+  displayedColumns: string[] = ['serialNumber', 'name', 'emailId', 'number', 'accountCreatedDate', 'referralCount', 'companyName', 'department', 'designation', 'action'];
+
   candidatesDataSource: MatTableDataSource<UserData>;
   servicesDataSource: MatTableDataSource<UserData>;
   isFilterPopupOpen: boolean = true;
@@ -73,7 +74,9 @@ export class AdminCandidateComponent implements AfterViewInit {
     toDate: ''
 
   };
-  constructor(private router: Router, private adminService: AdminService, private _liveAnnouncer: LiveAnnouncer, private spinner: NgxSpinnerService) {
+  cvUrl: any;
+  modalSize: string = 'md';
+  constructor(private router: Router, private adminService: AdminService, private cdr: ChangeDetectorRef,private _liveAnnouncer: LiveAnnouncer, private spinner: NgxSpinnerService) {
     this.candidatesDataSource = new MatTableDataSource<UserData>(this.nameslist);
     this.servicesDataSource = new MatTableDataSource<UserData>(this.nameslist);
     this.searchTerms.pipe(
@@ -138,9 +141,10 @@ export class AdminCandidateComponent implements AfterViewInit {
 
         this.router.navigate(['/']);
       } else {
+         this.modalSize = 'md'
         this.successmessage = "Something went wrong. Please try again after sometime"
         this.successtitle = "Error"
-        this.openModal(ModalType.SUCCESS_MESSAGE)
+        this.openModal(ModalType.SUCCESS_ERROR_MESSAGE)
       }
     });
   }
@@ -307,6 +311,7 @@ export class AdminCandidateComponent implements AfterViewInit {
       // if(response && response.length > 0){
       this.spinner.hide()
       this.userSubscription = response
+      this.userData=userData
       if (userData.isCandidateFresher !== undefined && userData.isCandidateFresher) {
         this.status = "Yes";
       } else if (userData.isCandidateFresher !== undefined && !userData.isCandidateFresher) {
@@ -324,9 +329,10 @@ export class AdminCandidateComponent implements AfterViewInit {
       // } else {
       //   this.status = "Company EmailID Verified";
       // }
+      await this.getCVUrl()
 
 
-      this.openModal(ModalType.ADMINDETAIL_POPUP, "", "", userData, this.userSubscription, this.status);
+      
 
 
     }).catch((error: any) => {
@@ -338,12 +344,43 @@ export class AdminCandidateComponent implements AfterViewInit {
 
         this.router.navigate(['/']);
       } else {
+        this.modalSize = 'md'
         this.successmessage = "Something went wrong. Please try again after sometime"
         this.successtitle = "Error"
-        this.openModal(ModalType.SUCCESS_MESSAGE)
+        this.openModal(ModalType.SUCCESS_ERROR_MESSAGE)
       }
     });
 
+
+
+  }
+  async getCVUrl(){
+    this.spinner.show()
+    if(this.userData.CV && this.userData.id){
+    await this.adminService.getCVUrl(this.userData.id,this.userData.CV).then(async (response: any) => {
+      this.spinner.hide()
+      this.cvUrl=response.objectUrl;
+      this.openModal(ModalType.ADMINDETAIL_POPUP, "", "", this.userData, this.userSubscription, this.status);
+
+    }).catch((error: any) => {
+      this.spinner.hide()
+      if (error.status == 404) {
+        this.spinner.hide()
+        this.router.navigate(['/auth/logout']);
+      } else if (error.status == 401) {
+
+        this.router.navigate(['/']);
+      } else {
+         this.modalSize = 'md'
+        this.successmessage = "Something went wrong. Please try again after sometime"
+        this.successtitle = "Error"
+        this.openModal(ModalType.SUCCESS_ERROR_MESSAGE)
+      }
+    });
+  }else{
+    this.spinner.hide()
+    this.openModal(ModalType.ADMINDETAIL_POPUP, "", "", this.userData, this.userSubscription, this.status);
+  }
 
 
   }
@@ -356,6 +393,7 @@ export class AdminCandidateComponent implements AfterViewInit {
   * @returns {void}
   */
   openModal(modalType: ModalType, message: string = "", title: string = "", userData: any = null, userSubscription: any = null, userExperience: any = null): void {
+    this.cdr.detectChanges();
     this.showModal = modalType;
     this.modalMessage = message;
     this.modalTitle = title;

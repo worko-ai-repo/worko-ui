@@ -1,0 +1,27 @@
+import { Component, ElementRef, EventEmitter, Input, Output, ViewChild } from '@angular/core';
+import { Router } from '@angular/router';
+
+@Component({
+  selector: 'app-show-more-details',
+  templateUrl: './show-more-details.component.html',
+  styleUrls: ['./show-more-details.component.scss']
+})
+export class ShowMoreDetailsComponent {
+  @Input() title: string = '';
+  @Input() details: string = '';
+  @Output() onCancel: EventEmitter<any> = new EventEmitter<any>();
+  showCloseButton: boolean = true;
+
+  constructor(private router: Router) {}
+
+
+  cancelBtn() {
+    this.onCancel.emit();
+  }
+  async ngOnInit(): Promise<void> {
+    if (this.router.url.includes('/company')) {
+      this.showCloseButton = false;
+    }
+  }
+
+}

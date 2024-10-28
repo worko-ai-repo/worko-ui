@@ -1,0 +1,215 @@
+.candidate-card {
+    width: 100%;
+    // max-width: 500px;
+    //  margin: 20px auto;
+    // padding: 20px;
+    //border: 1px solid #f8f5f5;
+    border-radius: 10px;
+    background: transparent;
+
+
+    .card-title {
+        background: #57E1FF;
+        color: #070707;
+        //padding: 10px;
+        border-radius: 10px;
+        font-size: 25px;
+        font-weight: 700;
+        height: fit-content;
+
+
+    }
+
+    .downarrow,
+    .uparrow {
+        position: relative;
+        z-index: 1000;
+        /* Ensure SVG is on top */
+        cursor: pointer;
+        /* Ensure a pointer cursor is shown */
+    }
+
+
+    .svg-circle {
+        width: 40px;
+        height: 40px;
+        //background: #83A4C4;
+        border-radius: 50%;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        padding: 5px;
+    }
+
+    .job-container {
+        position: relative;
+
+        .selector {
+            position: relative;
+            width: 100%;
+            height: 100%;
+            background-color: #0A1E36;
+            color: #fff;
+            font-size: 13px;
+            z-index: 1000;
+            cursor: pointer;
+
+        }
+
+        .job-listing-div {
+            padding: 10px;
+
+            .img-div {
+                margin: 0 1rem 0 0;
+                /* Removes top, bottom, and left margins; keeps right margin */
+                text-align: center;
+            }
+
+            .company-img {
+                width: 90px;
+                height: 90px;
+                border-radius: 50%;
+
+            }
+
+            // .job-info {
+            //     padding-left: 15px;
+            // }
+
+            .job-title {
+                color: white;
+                font-size: 1em;
+                padding: 11px;
+                font-weight: bold;
+            }
+
+            .details-row {
+                display: flex;
+                font-size: 1em;
+                padding: 11px;
+                color: white;
+                width: -webkit-fill-available;
+
+                svg {
+                    flex-shrink: 0;
+                }
+
+            }
+
+
+            .separator {
+                border: 2px solid #0bbcf2
+            }
+
+        }
+
+        p {
+            display: flex;
+            justify-content: center;
+            color: white;
+            font-size: 1em;
+            padding: 11px;
+            font-weight: bold;
+
+        }
+
+        // .anchor-button {
+        //     border: 1px solid;
+        //     border-radius: 5px;
+        //     width: 113px;
+        //     font-size: 10px;
+        //     margin-top: 5px;
+        //     text-align: center;
+        //     padding: 3px;
+        //     top: 5px;
+        //     border-color: #57E1FF;
+        //     border-width: 2px;
+        // }
+
+        // .anchor-button:hover {
+        //     background-color: #57E1FF;
+
+        // }
+
+        .anchor-button a {
+            text-decoration: none;
+            // padding: 5px;
+            color: #57E1FF;
+            z-index: 1000;
+
+        }
+
+    }
+
+}
+
+.message-card {
+
+    background: #0A1E36;
+
+
+}
+
+
+/* Responsive adjustments */
+@media (max-width: 880px) {
+    .candidate-card {
+     //   padding: 15px;
+
+        .company-img {
+            margin-bottom: 10px;
+        }
+
+        .job-info {
+            padding-left: 0;
+            // text-align: center;
+
+            .details-row {
+                justify-content: center;
+                font-size: 0.8rem !important;
+            }
+
+        }
+
+        // .svg-circle {
+        //     width: 50px;
+        //     height: 50px;
+        // }
+    }
+
+
+
+
+
+}
+
+
+
+
+/* RESPONSIVE CODE FOR SMALLER DEVICE*/
+
+@media (max-width:480px) {
+    .candidate-card {
+        width: 99% !important;
+
+        .card-title {
+            font-size: 20px;
+        }
+
+        .job-title {
+            display: flex;
+            justify-content: center;
+        }
+
+
+        // .details-row {
+
+        //     margin-right: 1rem;
+        //     margin-left: 1rem;
+        // }
+    }
+
+
+
+
+}

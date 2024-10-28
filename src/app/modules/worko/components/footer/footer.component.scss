@@ -29,36 +29,44 @@
     color: #010c0e;
 }
 
-.btn-dark{
-    background-color:#57E1FF;;
-    color: #f5f7f9;
-    font-size: calc(1vw + 4px);
-    border: 1px solid #57E1FF;;
-    padding: 0.5rem 6%;
-    border-radius: 8px;
-    width: 27%;
+.footer-content {
+    .btn-next{
+        background-color:rgb(87, 225, 225);
+        color: black;
+        font-size: calc(1vw + 4px);
+        border: 1px solid rgb(87, 225, 225);
+       // padding: 0.5rem 6%;
+       padding: 0rem;
+        border-radius: 20px;
+        width: 22%;
+    }
 }
 
 @media (max-width: 768px) {
-    .btn-dark {
+    .footer-content {
+    .btn-next {
         font-size: 15px; 
         width: 40%;
     }
 }
+}
 
 @media (max-width: 576px) {
-    .btn-dark {
+    .footer-content {.btn-next {
         font-size: 15px;
         width: 40%; 
     }
 }
+}
 
 /* Extra small devices (portrait phones, less than 576px) */
 @media (max-width: 575px) {
-    .btn-dark {
+   .footer-content{ .btn-next {
         font-size: 14px;
-        width: 45%;
+        width: 66%;
     }
+
+}
 }
 
 

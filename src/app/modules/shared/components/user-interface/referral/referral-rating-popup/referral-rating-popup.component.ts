@@ -18,7 +18,7 @@ export class ReferralRatingPopupComponent implements OnChanges {
   @Input() userType: any;
 
   ratingControl = new FormControl(null, Validators.required);
-  reviewControl = new FormControl();
+  reviewControl = new FormControl("");
   isSubmitDisabled = true; // Initially disable the submit button
 
   getRating() {

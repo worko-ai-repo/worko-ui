@@ -128,8 +128,8 @@ export class CreateEmployeeForLinkedinComponent {
         if (value && value.length >= 1) {
           return this.authService.getCompanyName(value).pipe(
             // map((results: any[]) => {
-              map((response: any) => {
-                const results = Array.isArray(response.data) ? response.data : []; // Ensure results is an array
+            map((response: any) => {
+              const results = Array.isArray(response.data) ? response.data : []; // Ensure results is an array
               if (results.length === 0) {
                 this.companyNameError = 'Company name not found. Please  add company name by selecting "Add new company" in the dropdown.';
               } else {
@@ -139,7 +139,7 @@ export class CreateEmployeeForLinkedinComponent {
                 // ...results,
                 ...results.map((company: any) => ({
 
-                  id: company.SK, 
+                  id: company.SK,
                   name: company.name
                 })),
                 { id: 'add_new', name: "Add new company" } // Static option
@@ -182,15 +182,15 @@ export class CreateEmployeeForLinkedinComponent {
       userSub
     } = await fetchAuthSession();
 
-    this.userEmail = tokens?.idToken?.payload['email']?.toString()
+    this.userEmail = tokens?.idToken?.payload['email']?.toString().toLowerCase()
     this.userName = tokens?.idToken?.payload['name']?.toString()
     this.pictureUrl = tokens?.idToken?.payload['picture']
 
-    this.groupType=tokens?.idToken?.payload['cognito:groups']
+    this.groupType = tokens?.idToken?.payload['cognito:groups']
 
     if (Array.isArray(this.groupType) && this.groupType.includes('admin')) {
-     this.storage.set('userType', 'Admin');
-   }
+      this.storage.set('userType', 'Admin');
+    }
     const {
       username,
       userId: id
@@ -284,13 +284,17 @@ export class CreateEmployeeForLinkedinComponent {
           //this.letter = this.userName.charAt(0).toUpperCase();
 
           // Redirect to the company listing page
+          // this.router.navigate(['/companies']);
 
+          //redirect to dynamic routes
+          const dynamicRoutes = this.storage.get('dynamicRoute')
+          const decodedRoute = decodeURIComponent(dynamicRoutes); // Decode the route
+          this.router.navigate([decodedRoute]);  // Navigate using the decoded route
 
-          this.router.navigate(['/companies']);
-        }else if(this.groupType.includes('admin')){
+        } else if (this.groupType.includes('admin')) {
           this.router.navigate(['/switcher']);
-    
-        }  else {
+
+        } else {
           this.router.navigate(['/employee/Dashboard']);
 
         }

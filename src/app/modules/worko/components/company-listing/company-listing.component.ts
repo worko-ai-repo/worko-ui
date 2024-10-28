@@ -16,11 +16,12 @@ import { error, event } from 'jquery';
 import { ActivatedRoute, Router } from '@angular/router';
 import { StorageService } from 'src/app/modules/app-core/services/storage.service';
 import { CandidateProfileService } from 'src/app/modules/candidate/services/candidate-profile.service';
-import { LoginPageComponent } from '../login-page/login-page.component';
+// import { LoginPageComponent } from '../login-page/login-page.component';
 import { NavbarComponent } from '../navbar/navbar.component';
 import { Location } from '@angular/common';
 import { Subscription } from 'rxjs';
 import { debounce } from 'lodash';
+import { LoginFormComponent } from '../login-form/login-form.component';
 @Component({
   selector: 'app-company-listing',
   templateUrl: './company-listing.component.html',
@@ -34,7 +35,7 @@ export class CompanyListingComponent implements OnInit, AfterViewInit, OnDestroy
   @ViewChild(RequestGuidenceComponent) referrralguidanceComponent!: RequestGuidenceComponent;
   @ViewChild('autoCompleteInput', { static: false, read: MatAutocompleteTrigger }) trigger!: MatAutocompleteTrigger;
   @ViewChild('company') companyFormDirective!: NgForm;
-  @ViewChild(LoginPageComponent) LoginPageComponent!: LoginPageComponent;
+  @ViewChild(LoginFormComponent) LoginFormComponent!: LoginFormComponent;
   @ViewChild(NavbarComponent) navbarComponent!: NavbarComponent;
   @ViewChild('scrollTrigger') scrollTrigger!: ElementRef;
 
@@ -295,7 +296,7 @@ export class CompanyListingComponent implements OnInit, AfterViewInit, OnDestroy
     await this.getProfilePercentage();
 
     await this.getCompanyDetails();
-    await this.getCompanyDetails(100);
+    // await this.getCompanyDetails(100);
     this.filteredCompanyList = this.companyList;
 
 
@@ -543,6 +544,28 @@ export class CompanyListingComponent implements OnInit, AfterViewInit, OnDestroy
     await this.getCompanyDetails();
 
 
+  }
+  navigateToJobLink(event: MouseEvent, data: any): void {
+    event.preventDefault(); // Prevent the default anchor behavior
+    this.getJobLink(data);
+
+  }
+
+  getJobLink(data:any): void {
+    const companyName = data.name
+  .toLowerCase()                        // Convert to lowercase
+  .replace(/\(.*?\)/g, '')               // Remove content inside parentheses
+  .replace(/\s*&\s*/g, '&')              // Remove spaces around the '&' symbol
+  .replace(/\s+/g, '-')                  // Replace remaining spaces with hyphen
+  .replace(/-+/g, '-')                   // Ensure there's only one hyphen in between
+  .replace(/^-|-$/g, '');                 // Remove hyphen at start or end
+    const companyID=data.SK.replace("ID#", "");
+    const route = `/company/jobs/${companyName}-jobs-${companyID}`;
+    this.router.navigate([route]);
+   // console.log(route);
+    // this.router.navigate([route],{
+    //   state: { companySK: data.SK}
+    // });;
   }
   async getCompanyDetails(pageSize?: any) {
     // console.log(this.lastKey, this.loadedOnce, this.isNoLoadData)
@@ -880,6 +903,7 @@ export class CompanyListingComponent implements OnInit, AfterViewInit, OnDestroy
     this.modalTitle = title;
     if (this.showModal === ModalType.REQUEST_REFERRAL) {
       if (this.referrralComponent) {
+        this.referrralComponent.showFeedback = false;
         this.referrralComponent.showReferrelRow = true;
         this.referrralComponent.requestForm.reset();
         this.referrralComponent.showScore = false;
@@ -936,11 +960,11 @@ export class CompanyListingComponent implements OnInit, AfterViewInit, OnDestroy
 
     }
     if (ModalType.LOGIN_SIGNUP) {
-      if (this.LoginPageComponent) {
-        this.LoginPageComponent.showSignInRow = false;
-        this.LoginPageComponent.showAddCompanyScreen = false;
-        this.LoginPageComponent.showErrorMessageScreen = false;
-        this.LoginPageComponent.showLoginScreen = true
+      if (this.LoginFormComponent) {
+        this.LoginFormComponent.showSignInRow = false;
+        this.LoginFormComponent.showAddCompanyScreen = false;
+        this.LoginFormComponent.showErrorMessageScreen = false;
+        this.LoginFormComponent.showLoginScreen = true
       }
     }
     this.modal.open();

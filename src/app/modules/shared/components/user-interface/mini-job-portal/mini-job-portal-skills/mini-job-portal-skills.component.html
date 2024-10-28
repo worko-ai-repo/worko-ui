@@ -1,0 +1,38 @@
+<div class="candidate-card p-4" style="background-color: white; color: black;" *ngIf="jobDescriptionDetails">
+
+  <!-- Core Skills -->
+  <div class="skill-main-div">
+    <div class="skill-title"><u>Core Skills</u></div>
+    <div class="skill-option">{{ getJoinedSkills(coreSkills) | titlecase }}</div>
+    <hr class="separator">
+  </div>
+
+  <!-- Good to Have Skills -->
+  <div class="skill-main-div" *ngIf="mislaneiousSkills.length>0">
+    <div class="skill-title"><u>Good to Have Skills</u></div>
+    <div class="skill-option">{{ getJoinedSkills(mislaneiousSkills) | titlecase }}</div>
+    <hr class="separator">
+  </div>
+
+  <!-- Technical Skills -->
+  <div class="skill-main-div">
+    <div class="skill-title"><u>Technical Skills</u></div>
+    <div class="skill-option">{{ getJoinedSkills(technicalSkills) | titlecase }}</div>
+    <hr class="separator">
+  </div>
+
+  <!-- Other Requirements -->
+  <div class="skill-main-div"  *ngIf="otherRequirements.length>0">
+    <div class="skill-title"><u>Other Requirements</u></div>
+    <!-- <div class="skill-option">{{ getJoinedSkills(otherRequirements) }}</div> -->
+    <div class="skill-option">{{ otherRequirements }}</div>
+    <hr class="separator">
+  </div>
+
+  <!-- CTC -->
+  <div class="skill-main-div">
+    <div class="skill-title"><u>CTC</u></div>
+    <div class="skill-option"> {{ jobDescriptionDetails.salaryRange.min }} 
+      {{ jobDescriptionDetails.salaryRange.max >= 9999 ? '+' : '- ' + jobDescriptionDetails.salaryRange.max }} LPA</div>
+    </div>
+  </div>

@@ -2,7 +2,9 @@ import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { AuthService } from '../../worko/services/auth.service';
 import { environment } from 'src/environments/environment';
+import { Observable, catchError } from 'rxjs';
 const API_URL = environment.apiUrl;
+
 
 @Injectable({
   providedIn: 'root'
@@ -150,6 +152,64 @@ export class AdminService {
 
   getCompanyById(id:any){
     return this.http.get(`${API_URL}admin/company/${id}`, this.authService.getHttpOptions()).toPromise();
+  }
+
+  getCVUrl(userId:any,filename:any){
+    return this.http.get(`${API_URL}file/${userId}/${filename}/USER_RESUME`, this.authService.getHttpOptions()).toPromise();
+  }
+
+  getJobs(param:any): Promise<any> {
+/*     console.log(`params ${param.pageSize} ${param.lastKey} ${param.status} ${param.sortOrder}`);
+ */    let url = `${API_URL}admin/job/?pageSize=${param.pageSize}`;
+    if(param.status) {
+      url += `&status=${param.status}`;
+    }
+    if(param.searchText) {
+      const searchTextEncoded = encodeURIComponent(param.searchText);
+/*       console.log(`service serachText ${searchTextEncoded}`);
+ */      url += `&searchText=${searchTextEncoded}`;
+/*       console.log(`After searchText ${url}`);
+ */    }
+    if (param.lastKey) {
+      url += `&lastKey=${param.lastKey}`;
+    }
+    if (param.sortOrder) {
+      url += `&sortOrder=${param.sortOrder}`;
+    }
+    return this.http.get(url, this.authService.getHttpOptions()).toPromise();
+  }
+  //POST DATA
+  createJob(jobData: any) {
+    return this.http.post(`${API_URL}admin/job/`, jobData, this.authService.getHttpOptions()).toPromise();
+  }
+
+  archiveJob(jobId: string, jobData: object) {
+    return this.http.put(`${API_URL}admin/job/${jobId}`, jobData, this.authService.getHttpOptions()).toPromise();
+  }
+  updateJob(jobId: string, jobData: object) {
+    return this.http.put(`${API_URL}admin/job/${jobId}`, jobData, this.authService.getHttpOptions()).toPromise();
+  }
+  deleteJob(jobId: string, jobData: object) {
+    return this.http.put(`${API_URL}admin/job/${jobId}/delete`, jobData, this.authService.getHttpOptions()).toPromise();
+  }
+
+  // For fetching the dynamic dropdown values
+  getCompanyName(value: any): Observable<any> {
+    let url = `${API_URL}company`;
+
+    if (value) {
+      const companyName =encodeURIComponent(value)
+      url += `?companyName=${companyName}`;
+    }
+
+    //return this.http.get(API_URL + `company/${value}`, this.getHttpOptions())
+    return this.http.get(url, this.authService.getHttpOptions())
+      .pipe(
+        catchError(error => {
+/*           console.error('Error:', error);
+ */          throw error;
+        })
+      );
   }
 
 }
