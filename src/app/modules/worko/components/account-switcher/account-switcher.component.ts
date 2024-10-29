@@ -11,7 +11,7 @@ export class AccountSwitcherComponent {
 
   handleAccountSelection(userType:any){
     if(userType==='admin'){
-      this.router.navigate(['/admin/aDashboard']);
+      this.router.navigate(['/admin/aCandidate']);
     }else{
       this.router.navigate(['/candidate/dashboard']);
     }

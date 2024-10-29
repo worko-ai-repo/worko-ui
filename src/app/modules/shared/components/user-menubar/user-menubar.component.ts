@@ -122,6 +122,10 @@ export class UserMenubarComponent {
           router: "admin/ajobs"
         },
         {
+          name: 'Company',
+          router: "admin/aCompany"
+        },
+        {
           name: 'Service',
           router: "admin/aService"
         },

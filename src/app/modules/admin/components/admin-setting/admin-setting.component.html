@@ -3,7 +3,7 @@
 [bodyClass]="modalMessage ? 'p-4' : 'p-0'" [modalSize]="'lg'">
 
 <!-- <app-messagmodal  [message]="successmessage" [title]="successtitle"></app-messagmodal> -->
-<div class="row message-card px-sm-3 p-4"
+<!-- <div class="row message-card px-sm-3 p-4"
     style="border-radius: 6px;">
     <div class="font-weight-bold text-color-red mb-3 d-flex justify-content-center"
         style="color: #e40707; font-size: 20px;" *ngIf="successtitle === 'Alert!'">
@@ -20,6 +20,10 @@
             (click)="okBtn()" *ngIf="successtitle">
             Ok</button>
     </div>
-</div>
+</div> -->
 
+<ng-container *ngIf="showModal === modalType.SUCCESS_ERROR_MESSAGE">
+    <app-message-modal [title]="successtitle" [message]="successmessage"  (click)="okBtn()">
+    </app-message-modal>
+    </ng-container>
 </app-modal>

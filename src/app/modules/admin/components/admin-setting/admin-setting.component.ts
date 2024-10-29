@@ -26,7 +26,7 @@ export class AdminSettingComponent {
     this.successmessage = "This section is currently in progress. Please check back later!";
     setTimeout(()=> {
       this.spinner.hide();
-      this.openModal(ModalType.SUCCESS_MESSAGE);
+      this.openModal(ModalType.SUCCESS_ERROR_MESSAGE);
     }, 2000);
     // this.getServices();
   }

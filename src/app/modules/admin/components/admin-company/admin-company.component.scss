@@ -1,0 +1,54 @@
+.modal-contents {
+    background: #0A1E36;
+    padding-top: 2rem;
+
+    .title {
+        font-size: 16px;
+        padding-bottom: 1rem;
+        padding-right: 7%;
+    }
+
+    form {
+
+        input,
+        textarea {
+            background: none;
+            color: white;
+            font-size: 14px;
+            margin-top: 0.2rem;
+        }
+
+        input::placeholder,
+        textarea::placeholder {
+            color: #b9b8b8;
+        }
+
+        input.ng-invalid.ng-touched {
+            border: 1px solid red;
+        }
+        .btn-signUp {
+            //display: flex;
+            color: white;
+            
+            // padding: 2.5px 51px;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            border-radius: -3.5px;
+            background: linear-gradient(90deg, #2F92C7 0%, rgba(47, 146, 199, 0) 205.38%);
+          }
+          .selector{
+            width: 100% !important;
+          }
+    }
+}
+
+@media (max-width: 575px) {
+    .modal-contents {
+        padding-left: 3rem;
+    }
+}
+
+input.ng-invalid.ng-touched {
+    border: 1px solid red;
+}

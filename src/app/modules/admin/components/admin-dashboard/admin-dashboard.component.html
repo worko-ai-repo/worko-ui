@@ -51,3 +51,14 @@
     </div> -->
 
 </div>
+
+<app-modal [theme]="'theme-k'" [centered]="true" [showHeader]="showModal === modalType.MESSAGE" [showClose]="false"
+[showFooter]="showModal === modalType.MESSAGE" [title]="modalTitle" [message]="modalMessage"
+[bodyClass]="modalMessage ? 'p-4' : 'p-0'" [modalSize]="'lg'">
+
+<ng-container *ngIf="showModal === modalType.SUCCESS_ERROR_MESSAGE">
+<app-message-modal [title]="successTitle" [message]="successMessage"  (click)="okBtn()">
+</app-message-modal>
+</ng-container>
+
+</app-modal>

@@ -1,0 +1,233 @@
+<div class="admin-table-main ms-3 mx-2">
+    <div class="tab-content mt-2" id="myTabContent">
+        <div class="candidate-card tab-pane fade show active" id="home" role="tabpanel" aria-labelledby="home-tab">
+            <div class="row p-3 pt-2">
+                <div class="col-md-12">
+                    <div class="row pb-2 pt-2">
+                        <div class="col-md-6">
+                            <h5 class="ps-2 pb-0">Company</h5>
+
+                        </div>
+                        <div class="col-md-6 d-flex justify-content-end">
+                            <div class="pe-2 search-container">
+                                <div class="pe-2 ">
+                                    <button class=" ps-4 pe-4 btn searchButton" (click)="addCompany()">Add
+                                        Company</button>
+                                </div>
+                            </div>
+
+                        </div>
+                    </div>
+
+                    <div class="mat-elevation-z8 table-wrapper" style="
+                background-color: #0a1e35;
+                color: white;
+                border: 2px solid #476baf;
+                border-bottom-right-radius: 5px;
+                border-bottom-left-radius: 5px;
+              ">
+                        <table class="table-style" style="
+                  background-color: #0a1e35;
+                  color: white;
+                  border-bottom: 2px solid #476baf;
+                " mat-table [dataSource]="candidatesDataSource" matSort>
+                            <tbody class="table content-style">
+
+                                <ng-container matColumnDef="serialNumber">
+                                    <th mat-header-cell *matHeaderCellDef class="small-column">
+                                        S.No
+                                    </th>
+                                    <td mat-cell *matCellDef="let row; let i = index" class="small-column">
+                                        {{ i + 1 }}
+                                    </td>
+                                </ng-container>
+
+                                <ng-container matColumnDef="companyID">
+                                    <th mat-header-cell *matHeaderCellDef>
+                                        Company ID
+                                    </th>
+                                    <td mat-cell *matCellDef="let row">{{ row.Name }}</td>
+                                </ng-container>
+
+                                <ng-container matColumnDef="companyName">
+                                    <th mat-header-cell *matHeaderCellDef class="small-column">
+                                        Company Name
+                                    </th>
+                                    <td mat-cell *matCellDef="let row" class="small-column">
+                                        {{ row.CandidateID }}
+                                    </td>
+                                </ng-container>
+
+                                <ng-container matColumnDef="status">
+                                    <th mat-header-cell *matHeaderCellDef >
+                                        Status
+                                    </th>
+                                    <td mat-cell *matCellDef="let row">
+                                        {{ row.packagestatus }}
+                                    </td>
+                                </ng-container>
+
+
+
+                                <ng-container matColumnDef="companyDate">
+                                    <th mat-header-cell *matHeaderCellDef mat-sort-header>
+                                        created Date
+                                    </th>
+                                    <td mat-cell *matCellDef="let row">
+                                        {{ row.Date | date : "dd/mm/yyyy" }}
+                                    </td>
+                                </ng-container>
+
+                                <ng-container matColumnDef="action">
+                                    <th mat-header-cell *matHeaderCellDef >
+                                        Action
+                                    </th>
+                                    <td mat-cell *matCellDef="let row">
+                                        <span *ngIf="row.status != status.CLOSED" (click)="editCompanyDetails()"
+                                            matTooltip="Edit" matTooltipPosition="above" style="background:#2716bb;"><i
+                                                class="fa-solid fa-pen-to-square"></i></span>
+                                        <!-- <span *ngIf="row.status !== status.ARCHIVED && selectedStatus !== status.CLOSED"
+                                        (click)="updateJobStatus(job,'ARCHIVED')" matTooltip="Archive" matTooltipPosition="above"
+                                        style="background: #ffc107;">
+                                        <i class="fa-solid fa-file-arrow-down"></i></span>
+                                      <span *ngIf="row.status != status.CLOSED" (click)="updateJobStatus(job,'CLOSED')" matTooltip="Delete"
+                                        matTooltipPosition="above" style="background: red;">
+                                        <i class="fa-solid fa-trash"></i></span>
+                                      <span *ngIf="row.status === status.ARCHIVED" (click)="updateJobStatus(job,'PUBLISHED')"
+                                        matTooltip="Make Publish" matTooltipPosition="above" style="background: #ffc107;">
+                                        <i class="fa-solid fa-eye"></i></span> -->
+                                    </td>
+                                </ng-container>
+
+
+
+                            </tbody>
+
+                            <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+                            <tr mat-row *matRowDef="let row; columns: displayedColumns"></tr>
+
+                            <tr class="mat-row" *matNoDataRow>
+                                <td class="mat-cell" colspan="6">
+                                    No data matching the filter ""
+                                </td>
+                            </tr>
+                        </table>
+                        <mat-paginator #referralPaginator [pageSizeOptions]="[5, 10, 25, 100]"
+                            aria-label="Select page of users"></mat-paginator>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+
+    </div>
+</div>
+
+
+<app-modal [theme]="'theme-k'" [centered]="true" [showHeader]="showModal === modalType.MESSAGE" [showClose]="true"
+    [showFooter]="showModal === modalType.MESSAGE" [title]="modalTitle" [message]="modalMessage"
+    [bodyClass]="modalMessage ? 'p-4' : 'p-0'" [modalSize]="modalSize">
+
+    <ng-container *ngIf="showModal === modalType.ADMINJOBS_POPUP">
+
+        <div class="modal-contents">
+            <div class="title d-flex justify-content-center">
+                Create Jobs
+            </div>
+            <div class="row d-flex justify-content-center">
+
+                <div class="col-md-10 form-container">
+                    <form (ngSubmit)="company.form.valid && requestCampanyData(company)" #company="ngForm" novalidate>
+                        <div class="row d-flex justify-content-center mt-2">
+                            <div class="col-md-5">
+                                <label for="" class="form-label required-form-field">Company Name</label>
+                                <input class="form-control form-input " type="text" placeholder="Company Name"
+                                    id="CompanyName" name="CompanyName" [(ngModel)]="companyForm.CompanyName" required
+                                    #CompanyName="ngModel"
+                                    [ngClass]="{ 'is-invalid': CompanyName.invalid && (CompanyName.dirty || CompanyName.touched) }">
+
+                            </div>
+                            <div class="col-md-5">
+                                <label for="" class="form-label  required-form-field">LinkedIn Page URL</label>
+                                <input class="form-control form-input" type="text" placeholder="LinkedIn Page"
+                                    id="linkedIn" name="linkedIn" [(ngModel)]="companyForm.linkedIn" required
+                                    pattern="^(https?:\/\/((www|[in]{2})\.)?linkedin\.com\/company\/[a-zA-Z0-9_\-&]+\/?)$"
+                                    #linkedIn="ngModel"
+                                    [ngClass]="{ 'is-invalid': linkedIn.invalid && (linkedIn.dirty || linkedIn.touched) }">
+
+                            </div>
+                        </div>
+                        <div class="row d-flex justify-content-center mt-2">
+                            <div class="col-md-5">
+                                <label for="" class="form-label  required-form-field">Career Page URL</label>
+                                <input class="form-control form-input" type="text" placeholder="Career Page"
+                                    id="carrierPage" name="carrierPage" [(ngModel)]="companyForm.carrierPage" required
+                                    #carrierPage="ngModel" pattern='^(https:\/\/.*)$'
+                                    [ngClass]="{ 'is-invalid': carrierPage.invalid && (carrierPage.dirty || carrierPage.touched) }">
+                            </div>
+                            <div class="col-md-5">
+                                <label for="" class="form-label  required-form-field">Website URL</label>
+                                <input class="form-control form-input" type="text" placeholder="Website" id="website"
+                                    name="website" [(ngModel)]="companyForm.website" required #website="ngModel"
+                                    pattern='^(https:\/\/.*)$'
+                                    [ngClass]="{ 'is-invalid': website.invalid && (website.dirty || website.touched) }">
+                            </div>
+                        </div>
+                        <div class="row d-flex justify-content-center mt-2">
+                            <div class="col-md-5">
+                                <label for="" class="form-label  required-form-field">Logo URL</label>
+                                <input class="form-control form-input" type="text" placeholder="Logo URL" id="logoUrl"
+                                    name="logoUrl" [(ngModel)]="companyForm.logoUrl" required #logoUrl="ngModel"
+                                    [ngClass]="{ 'is-invalid': logoUrl.invalid && (logoUrl.dirty || logoUrl.touched) }">
+                            </div>
+                            <div class="col-md-5">
+                                <label for="" class="form-label  required-form-field">Team Size</label>
+                                <input class="form-control form-input" type="number" placeholder="Team Size" id="teamSize"
+                                    name="teamSize" [(ngModel)]="companyForm.teamSize" required #teamSize="ngModel"
+                                    min="2"
+                                    [ngClass]="{ 'is-invalid': teamSize.invalid && (teamSize.dirty || teamSize.touched) }">
+                            </div>
+                        </div>
+
+                        <div class="row d-flex justify-content-center mt-2">
+                            <div class="col-md-10">
+                                <label for="industry" class="form-label required-form-field">Industry Type</label>
+                                <select class="selector form-select" name="industry" id="industry" [(ngModel)]="companyForm.industry"
+                                (ngModelChange)="handleFilterChange('selectedIndustry', $event)">
+                              <option value="">Industry</option>
+                              <option *ngFor="let industry of industryTypeOptions" [value]="industry.value">{{ industry.value}}</option>
+                            </select>
+                            </div>
+                            
+                            </div>
+
+                        <div class="row d-flex justify-content-center mt-2">
+                            <div class="col-md-10">
+                                <label for="" class="form-label required-form-field">About Company</label>
+                                <textarea class="form-control form-input" placeholder="About Company" cols="10" rows="3"
+                                    minlength="40" #about="ngModel" [(ngModel)]="companyForm.aboutCompany" name="about"
+                                    id="about" required
+                                    [ngClass]="{ 'is-invalid': about.invalid && (about.dirty || about.touched) }">
+                                        </textarea>
+                            </div>
+                        </div>
+
+
+                        <div class=" row mt-4  mb-4  d-flex justify-content-between ">
+                            <div>
+                                <button class="btn btn-signUp me-2" type="submit"
+                                [disabled]="
+                                !companyForm.CompanyName ||!companyForm.carrierPage ||!companyForm.linkedIn ||!company.form.valid">Create</button>
+                                <button type="button" class="btn btn btn-danger "  (click)="resetForm()">Reset</button>
+                                <button type="button" class="btn btn-next mt-2 float-right" (click)="closeModal()" > Close</button>
+                            </div>
+                            
+                           
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </ng-container>
+
+</app-modal>
