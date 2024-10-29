@@ -7,6 +7,7 @@ import { ModalComponent } from 'src/app/modules/shared/components/modal/modal.co
 import { NgxSpinnerService } from 'ngx-spinner';
 import { Router } from '@angular/router';
 import { StateService } from '../../services/state.service';
+import { ChatService } from 'src/app/modules/services/chat.service';
 @Component({
   selector: 'app-employee-referral',
   templateUrl: './employee-referral.component.html',
@@ -38,8 +39,8 @@ export class EmployeeReferralComponent implements OnDestroy {
   selectedStatus: string = 'AWAITING';
   selectedReferral: any;
   currentDate: any;
-  successmessage: string = "";
-  successtitle: string = "";
+  successMessage: string = "";
+  successTitle: string = "";
   modalType = ModalType;
   modalMessage: string = "";
   modalTitle: string = "";
@@ -49,17 +50,17 @@ export class EmployeeReferralComponent implements OnDestroy {
   statusItem: { name: string; status: string; date: any; }[] = [];
   candidateDetails: any;
   workExperienceDetails: any;
-  popupStatus:boolean = false;
-  isAwaitingVisible!:boolean;
+  popupStatus: boolean = false;
+  isAwaitingVisible!: boolean;
   // isStepperVisible = true;
-  isMainContentVisible!:boolean;
+  isMainContentVisible!: boolean;
   screenWidth!: number;
   previousScreenWidth!: number;
 
-  constructor(private candidateSrv: CandidateProfileService, private empService: EmployeeProfileService, private storage: StorageService, private spinner: NgxSpinnerService, private router: Router, private stateService: StateService) { }
+  constructor(private candidateSrv: CandidateProfileService, private empService: EmployeeProfileService, private storage: StorageService, private spinner: NgxSpinnerService, private router: Router, private stateService: StateService, private chatService: ChatService) { }
   ngOnDestroy(): void {
     this.closeModal();
-   
+
   }
 
   ngOnInit(): void {
@@ -74,7 +75,7 @@ export class EmployeeReferralComponent implements OnDestroy {
     this.getWorkExperienceDetails();
     // this.getCandidateDetails();
     // this.getEmpReferralDetails();
-  
+
   }
   @HostListener('window:resize', ['$event'])
   onResize(event: any) {
@@ -82,12 +83,12 @@ export class EmployeeReferralComponent implements OnDestroy {
     this.performFunctionalityBasedOnScreenSize();
     this.previousScreenWidth = this.screenWidth;
   }
-  onClickBack(){
-   
+  onClickBack() {
+
     this.isMainContentVisible = false;
     this.isAwaitingVisible = true;
   }
-  
+
   performFunctionalityBasedOnScreenSize() {
     if (this.screenWidth < 1251) {
       // Set values only if transitioning from a width >= 1251 or on initial load
@@ -125,23 +126,23 @@ export class EmployeeReferralComponent implements OnDestroy {
         if (!this.popupStatus) {
           this.spinner.hide();
           // this.successmessage = "Please verify the email to see the referral requests!!"
-          this.successtitle = "";
+          this.successTitle = "";
           this.openModal(ModalType.VERIFY_EMAIL);
         }
       }
     }).catch((error: any) => {
-      if (error.status==404) { 
+      if (error.status == 404) {
         this.spinner.hide()
         this.router.navigate(['/auth/logout']);
-      }else if (error.status==401){
-        this.storage.set('redirectAfterLogin', '/employee/Referral'); 
-       this.router.navigate(['/']);
-      }else{
-      this.spinner.hide();
-     
-      this.successmessage = "Something went wrong. Please try again after sometime"
-      this.successtitle = "Error"
-      this.openModal(ModalType.SUCCESS_MESSAGE);
+      } else if (error.status == 401) {
+        this.storage.set('redirectAfterLogin', '/employee/Referral');
+        this.router.navigate(['/']);
+      } else {
+        this.spinner.hide();
+
+        this.successMessage = "Something went wrong. Please try again after sometime";
+        this.successTitle = "Error";
+        this.openModal(ModalType.SUCCESS_ERROR_MESSAGE);
       }
     });
   }
@@ -229,18 +230,18 @@ export class EmployeeReferralComponent implements OnDestroy {
         }
         this.empReferralList = response;
         this.empReferralList.sort((a: any, b: any) => a.updatedAt < b.updatedAt ? 1 : -1);
-        if(this.screenWidth <= 1251) {
+        if (this.screenWidth <= 1251) {
           this.isAwaitingVisible = true;
           this.isMainContentVisible = false;
         }
       }
     }).catch((error: any) => {
-      if (error.status==404) { 
+      if (error.status == 404) {
         this.spinner.hide()
         this.router.navigate(['/auth/logout']);
-      }else if (error.status==401){
-        this.storage.set('redirectAfterLogin','/employee/Referral'); 
-       this.router.navigate(['/']);
+      } else if (error.status == 401) {
+        this.storage.set('redirectAfterLogin', '/employee/Referral');
+        this.router.navigate(['/']);
       }
       this.spinner.hide();
       this.empReferralList = [];
@@ -253,7 +254,7 @@ export class EmployeeReferralComponent implements OnDestroy {
       this.empdetailsList = response;
       this.empDetails = this.empdetailsList;
 
-    
+
     })
     this.getEmpEducationDetails(selectedUserEmail);
   }
@@ -275,7 +276,7 @@ export class EmployeeReferralComponent implements OnDestroy {
     await this.candidateSrv.getCandidateSkills(selectedUserEmail).then(async (response) => {
 
       this.empCoreSkillsDetails = response; // Assign response to empCoreSkillsDetails
-   
+
     })
     this.getEmpAchievments(selectedUserEmail);
   }
@@ -286,17 +287,17 @@ export class EmployeeReferralComponent implements OnDestroy {
   }
 
   async showReferralDetails(data: any) {
-   
+
     if (data) {
       this.processStatus = false;
       this.reviewData = null;
       this.selectedReferral = data;
-      if(this.screenWidth <= 1251) {
+      if (this.screenWidth <= 1251) {
         this.isAwaitingVisible = false;
         this.isMainContentVisible = true;
       }
       const selectedEmail = this.getSlicedValue(this.selectedReferral?.PK);
-     
+
       await this.getEmpReferralDetails(selectedEmail);
       if (this.selectedStatus == 'REFERRED') {
         this.reviewData = [];
@@ -304,7 +305,7 @@ export class EmployeeReferralComponent implements OnDestroy {
         let forUserId = this.getSlicedValue(this.empdetailsList[0]?.SK);
         await this.getReferralReview(referralId, this.userId);
         this.getReferralReview(referralId, forUserId, true);
-        
+
       }
     }
     else {
@@ -348,12 +349,13 @@ export class EmployeeReferralComponent implements OnDestroy {
     await this.empService.updateReferralStatus(referralId, payload).then(async (response) => {
       if (response) {
         this.spinner.hide();
-       
+
         if (action === 'ACCEPT' || this.selectedStatus === 'AWAITING') {
           // this.successmessage = "Referral request accepted successfully.";
           // this.successtitle = "Congratulations!";
           // this.openModal(ModalType.SUCCESS_MESSAGE);
           this.getEmpReferral();
+          this.createChat();
         }
 
         // else if (action === 'DONE') {
@@ -365,18 +367,18 @@ export class EmployeeReferralComponent implements OnDestroy {
         }
       }
     }).catch((error: any) => {
-      if (error.status==404) { 
+      if (error.status == 404) {
         this.spinner.hide()
         this.router.navigate(['/auth/logout']);
-      }else if (error.status==401){
-        this.storage.set('redirectAfterLogin', '/employee/Referral'); 
-       this.router.navigate(['/']);
-      }else{
-      this.spinner.hide();
-      
-      this.successmessage = "Something went wrong. Please try again after sometime"
-      this.successtitle = "Error"
-      this.openModal(ModalType.SUCCESS_MESSAGE);
+      } else if (error.status == 401) {
+        this.storage.set('redirectAfterLogin', '/employee/Referral');
+        this.router.navigate(['/']);
+      } else {
+        this.spinner.hide();
+
+        this.successMessage = "Something went wrong. Please try again after sometime";
+        this.successTitle = "Error";
+        this.openModal(ModalType.SUCCESS_ERROR_MESSAGE);
       }
     }
     );
@@ -385,7 +387,7 @@ export class EmployeeReferralComponent implements OnDestroy {
   async rejectAction(action: string, data: any) {
     this.spinner.show();
     let rejectReasonsData = data;
-   
+
     const userId = this.userId;
     // let currentDate = this.getCurrentDateISO();
     const payload = {
@@ -399,18 +401,18 @@ export class EmployeeReferralComponent implements OnDestroy {
     await this.empService.updateReferralStatus(referralId, payload).then(async (response) => {
       if (response) {
         this.spinner.hide();
-      
-        this.successmessage = "You have rejected the Candidate's request. Thanks for putting your feedback.";
-        this.successtitle = "";
-        this.openModal(ModalType.SUCCESS_MESSAGE);
+
+        this.successMessage = "You have rejected the Candidate's request. Thanks for putting your feedback.";
+        this.successTitle = "";
+        this.openModal(ModalType.SUCCESS_ERROR_MESSAGE);
         this.getEmpReferral();
       }
     }).catch((error: any) => {
       this.spinner.hide();
-      
-      this.successmessage = "Something went wrong. Please try again after sometime"
-      this.successtitle = "Error"
-      this.openModal(ModalType.SUCCESS_MESSAGE)
+
+      this.successMessage = "Something went wrong. Please try again after sometime";
+      this.successTitle = "Error";
+      this.openModal(ModalType.SUCCESS_ERROR_MESSAGE);
     }
     );
 
@@ -450,19 +452,38 @@ export class EmployeeReferralComponent implements OnDestroy {
     await this.candidateSrv.raiseIssue(payload).then(async (response) => {
       if (response) {
         this.spinner.hide();
-        
-        this.successmessage = "An issue has been raised for this request. You will get an e-mail for further communication.";
-        this.successtitle = "";
-        this.openModal(ModalType.SUCCESS_MESSAGE);
+
+        this.successMessage = "An issue has been raised for this request. You will get an e-mail for further communication.";
+        this.successTitle = "";
+        this.openModal(ModalType.SUCCESS_ERROR_MESSAGE);
       }
     }).catch((error: any) => {
       this.spinner.hide();
-      
-      this.successmessage = "Something went wrong. Please try again after sometime"
-      this.successtitle = "Error"
-      this.openModal(ModalType.SUCCESS_MESSAGE);
+
+      this.successMessage = "Something went wrong. Please try again after sometime";
+      this.successTitle = "Error";
+      this.openModal(ModalType.SUCCESS_ERROR_MESSAGE);
     }
     );
+
+  }
+
+  createChat() {
+    let referralId = this.getSlicedValue(this.selectedReferral?.SK);
+
+    const createChatPayload = {
+      "referralId": referralId,
+      "userIdOne": this.userId, //own userId
+      "userIdTwo": this.getSlicedValue(this.empdetailsList[0]?.SK) //candidate's userId
+    }
+    this.chatService.createChat(createChatPayload).then((chatResponse: any) => {
+      if (chatResponse) {
+        // Handle successful chat creation if needed
+        console.log("Chat Creation Response", chatResponse);
+      }
+    }).catch((error: any) => {
+      console.error('Chat creation error:', error);
+    });
 
   }
 
@@ -475,12 +496,12 @@ export class EmployeeReferralComponent implements OnDestroy {
     // forUserId = this.empdetailsList[0].id;
 
     let payload = {
-      "ratingByUserId": userId,
+      // "ratingByUserId": userId,
       "ratingForUserType": "CAND",
       "rating": data?.rating,
       "reviewText": data?.review,
-      "createdByUserId": userId,
-      "updatedByUserId": userId,
+      // "createdByUserId": userId,
+      // "updatedByUserId": userId,
       "reviewContext": "CAND_USER",
       "referalId": referralId,
       // "masterServiceCode": "RESUME_REVIEW", 
@@ -488,7 +509,7 @@ export class EmployeeReferralComponent implements OnDestroy {
     }
     await this.candidateSrv.createReview(forUserId, payload).then(async (response) => {
       if (response) {
-       
+
         // this.getReferralReview(this.selectedReferral);
         if (this.selectedStatus == 'REFERRED') {
           this.reviewData = [];
@@ -496,21 +517,25 @@ export class EmployeeReferralComponent implements OnDestroy {
           let forUserId = this.getSlicedValue(this.empdetailsList[0]?.SK);
           await this.getReferralReview(referralId, this.userId);
           this.getReferralReview(referralId, forUserId, true);
-         
+
         }
         this.spinner.hide();
       }
     }).catch((error: any) => {
-      if (error.status==404) { 
+      if (error.status == 404) {
         this.spinner.hide()
         this.router.navigate(['/auth/logout']);
-      }else if (error.status==401){
-        this.storage.set('redirectAfterLogin', '/employee/Referral'); 
-       this.router.navigate(['/']);
-      }else{
-      this.spinner.hide();
+      } else if (error.status == 401) {
+        this.storage.set('redirectAfterLogin', '/employee/Referral');
+        this.router.navigate(['/']);
+      } else {
+        this.spinner.hide();
+
+        this.successMessage = "Something went wrong. Please try again after sometime";
+        this.successTitle = "Error";
+        this.openModal(ModalType.SUCCESS_ERROR_MESSAGE);
       }
-      
+
     }
     );
 
@@ -524,11 +549,11 @@ export class EmployeeReferralComponent implements OnDestroy {
       if (executeProcessedStatus) {
         this.processStatus = true;
       }
-      
+
       let backupReview = JSON.parse(JSON.stringify(this.reviewData));
       this.reviewData = [];
       if (response) {
-        
+
         response.forEach((element: any) => {
           if (element.referalId == referralId) {
             backupReview.push(element);
@@ -541,7 +566,7 @@ export class EmployeeReferralComponent implements OnDestroy {
         this.processStatus = true;
       }
       this.reviewData = [];
-     
+
     }
     );
 
@@ -549,14 +574,14 @@ export class EmployeeReferralComponent implements OnDestroy {
   }
 
   referralRaiseIssue(data: any) {
-   
+
     this.rasieIssue(data);
   }
 
   async receiveDataFromChild(reviewRatingData: any) {
     // await this.createReview(reviewRatingData);
     this.createReview(reviewRatingData);
-  
+
     if (this.selectedStatus === 'ACCEPTED') {
       this.getEmpReferral();
     }

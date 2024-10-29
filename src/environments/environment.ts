@@ -10,9 +10,11 @@ export const environment = {
       domain:'worko-dev.auth.ap-south-1.amazoncognito.com'
     },
     razorpayKey:"REDACTED",
-    crossOriginUrl:'http://localhost:4400',
+    // crossOriginUrl:'http://localhost:4400',
     localUrl: 'http://localhost:4200',
     apiUrl: 'https://api.dev.worko.work/',
+    chatApiUrl: 'https://chatapi.dev.worko.work/',
+    chatWsUrl: 'wss://chatws.dev.worko.work',
     saveUserInfoApi:"https://w6zitv6ryk.execute-api.us-east-1.amazonaws.com/dev/adduserinfo",
     linkedInRedirection: "http://localhost:4200/auth/checkRedirection",
     linkedInLogout:"http://localhost:4200/auth/logout"

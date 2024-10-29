@@ -1,7 +1,7 @@
 import { Component } from '@angular/core';
 import { ChangeDetectorRef, ElementRef, ViewChild, AfterViewInit } from '@angular/core';
 import { MatPaginator, MatPaginatorIntl, PageEvent } from '@angular/material/paginator';
-import { MatSort } from '@angular/material/sort';
+import { MatSort, Sort } from '@angular/material/sort';
 import { MatTableDataSource, MatTableDataSourcePaginator } from '@angular/material/table';
 import { ViewEncapsulation } from '@angular/core';
 import { AdminService } from '../../services/admin.service';
@@ -10,6 +10,9 @@ import { ModalComponent } from 'src/app/modules/shared/components/modal/modal.co
 import { ModalType } from 'src/app/modules/shared/interfaces/shared.interface';
 import { NgPluralCase } from '@angular/common';
 import { Router } from '@angular/router';
+import { debounceTime, Subject } from 'rxjs';
+import { MatSelectChange } from '@angular/material/select';
+
 export interface UserData {
   Name: string;
   emailId: string;
@@ -33,7 +36,7 @@ export class AdminReferralComponent {
 
   @ViewChild('dropdown') dropdown!: ElementRef;
   @ViewChild('referralPaginator') referralPaginator!: MatPaginator;
-  @ViewChild('referralSort') referralSort!: MatSort;
+  @ViewChild(MatSort, { static: true }) sort!: MatSort;
 
   // ViewChild declarations for paginator and sort for service table
   @ViewChild('servicePaginator') servicePaginator!: MatPaginator;
@@ -45,7 +48,7 @@ export class AdminReferralComponent {
   modalMessage: string = "";
   modalTitle: string = "";
   showModal: ModalType | undefined;
-  displayedColumns: string[] = ['serialnumber', 'emailId', 'matchingScore', 'status', 'date', 'companyId', 'userSubscriptionId', 'jobUrl', 'action'];
+  displayedColumns: string[] = ['serialNumber', 'emailId', 'matchingScore', 'status', 'date', 'jobUrl', 'action'];
   candidatesDataSource: MatTableDataSource<UserData>;
   servicesDataSource: MatTableDataSource<UserData>;
   isFilterPopupOpen: boolean = true;
@@ -54,13 +57,61 @@ export class AdminReferralComponent {
   rowData: any;
   successmessage: string = '';
   successtitle: string = '';
-  pageSize: number = 25;
+  pageSize: any = 50;
   lastKey: string | undefined = undefined;
   companyDetails: any;
   userDetails: any;
-  constructor(private router: Router,private elementRef: ElementRef, private adminService: AdminService, private spinner: NgxSpinnerService) {
+  private searchTerms = new Subject<string>();
+  sortOrder: any = '';
+  fromDate: any = '';
+  toDate: any = '';
+  searchText: any = '';
+  searchTerm: string = '';
+  searchQuery: string = '';
+  selectedStatus: string = '';
+  isDropdownActive: boolean = false;
+  isSearchActive: boolean = false;
+  StatusOption: any = [
+    {
+      name: "Awaiting",
+      value: "awaiting"
+    },
+    {
+      name: "Accepted",
+      value: "accepted"
+    },
+    {
+      name: "Referred",
+      value: "done"
+    },
+
+    {
+      name: "Rejected",
+      value: "rejected"
+    },
+    {
+      name: "Cancelled",
+      value: "cancelled"
+    },
+    {
+      name: "Withdrawn",
+      value: "withdrawn"
+    },
+  ]
+  formattedJD: any;
+  cvUrl: any;
+  constructor(private router: Router, private elementRef: ElementRef, private cdr: ChangeDetectorRef,private adminService: AdminService, private spinner: NgxSpinnerService) {
     this.candidatesDataSource = new MatTableDataSource<UserData>(this.nameslist);
     this.servicesDataSource = new MatTableDataSource<UserData>(this.nameslist);
+    this.searchTerms.pipe(
+      debounceTime(300), // Adjust the debounce time as needed (300 milliseconds in this example)
+      //distinctUntilChanged()
+    )
+      .subscribe((query: string) => {
+
+        // Call your API here with the query string
+        this.callApiWithSearchQuery(query);
+      });
   }
 
 
@@ -78,6 +129,7 @@ export class AdminReferralComponent {
     fromDate: '',
     toDate: ''
   };
+  modalSize: string = 'lg';
 
 
   async ngOnInit(): Promise<void> {
@@ -85,7 +137,7 @@ export class AdminReferralComponent {
   }
   async getAllReferral() {
     this.spinner.show()
-    await this.adminService.getAllReferral(this.pageSize, this.lastKey).then(async (response: any) => {
+    await this.adminService.getAllReferral(this.pageSize, this.lastKey, this.sortOrder, this.fromDate, this.toDate, this.searchTerm).then(async (response: any) => {
       if (response) {
         this.spinner.hide()
         this.nameslist = response.data;
@@ -102,9 +154,10 @@ export class AdminReferralComponent {
 
         this.router.navigate(['/']);
       } else {
+        this.modalSize = 'md'
         this.successmessage = "Something went wrong. Please try again after sometime"
         this.successtitle = "Error"
-        this.openModal(ModalType.SUCCESS_MESSAGE)
+        this.openModal(ModalType.SUCCESS_ERROR_MESSAGE)
       }
     });
   }
@@ -116,165 +169,170 @@ export class AdminReferralComponent {
     }
   }
 
-  applyFilters() {
-    // Gather selected filter options
-    const selectedFilters = {
-      name: this.filterModel.Name,
-      emailId: this.filterModel.emailId,
-      jobDescription: this.filterModel.jd,
-      date: this.filterModel.Date,
-      userSubscriptionId: this.filterModel.userSubscriptionId,
-      matchingScore: this.filterModel.matchingScore,
-      jobUrl: this.filterModel.jobUrl,
-      status: this.filterModel.status,
-      companyName: this.filterModel.companyName,
-      companyId: this.filterModel.companyId,
-      fromDate: this.filterModel.fromDate,
-      toDate: this.filterModel.toDate,
-    };
+  callApiWithSearchQuery(query: string): void {
+    this.pageSize = "";
+    this.lastKey = "";
+    this.sortOrder = '';
+    this.searchTerm = query; // Setting here encoded query to filterData
+    this.fromDate = "",
+      this.toDate = "",
+      // console.log(this.sortOrder,this.fromDate,this.toDate,this.searchTerm)
+      this.getAllReferral();
 
-    // Apply filters to both data sources
-    this.applyDataSourceFilters(this.candidatesDataSource, selectedFilters);
-    this.applyDataSourceFilters(this.servicesDataSource, selectedFilters);
-
-    // Reset pagination to navigate to first page
-    if (this.candidatesDataSource.paginator) {
-      this.candidatesDataSource.paginator.firstPage();
-    }
-    if (this.servicesDataSource.paginator) {
-      this.servicesDataSource.paginator.firstPage();
-    }
   }
 
-  applyDataSourceFilters(dataSource: MatTableDataSource<UserData>, filters: { [key: string]: string | undefined }) {
-    dataSource.filterPredicate = (data: UserData, filter: string) => {
-      let filterObject: { [key: string]: string | undefined }; // Explicitly type filterObject
-      try {
-        filterObject = JSON.parse(filter);
-        // console.log('Parsed Filter Object:', filterObject);
-      } catch (e) {
-       // console.error('Error parsing filter object:', e);
-        return false; // If parsing fails, return false to exclude the item
-      }
+  applyFromDateFilters() {
 
-      // Handle date range filtering
-      const dateInRange = this.applyDateRangeFilter(new Date(data.Date), filterObject['fromDate'], filterObject['toDate']);
-
-      // Handle other fields
-      const otherFilters = Object.keys(filterObject).every(key => {
-        if (key === 'fromDate' || key === 'toDate') {
-          // Skip date range fields
-          return true;
-        }
-
-        const filterKey = key as keyof UserData;
-        if (!filterObject[filterKey]) {
-          return true;
-        }
-
-        const dataValue = data[filterKey] ? data[filterKey].toString().toLowerCase() : '';
-        const filterValue = filterObject[filterKey] ? filterObject[filterKey]!.toString().toLowerCase() : '';
-        return dataValue.includes(filterValue);
-      });
-
-      return dateInRange && otherFilters;
-    };
-
-    dataSource.filter = JSON.stringify(filters);
-  //  console.log('Data Source Filter:', dataSource.filter);
-  }
-
-  applyDateRangeFilter(createdAt: Date, fromDate: string | undefined, toDate: string | undefined): boolean {
-    const from = fromDate ? new Date(fromDate) : null;
-    const to = toDate ? new Date(toDate) : null;
-
-   // console.log('Applying Date Range Filter:', 'Created At:', createdAt, 'From:', from, 'To:', to);
-
-    if (from && to) {
-      return createdAt >= from && createdAt <= to;
-    } else if (from) {
-      return createdAt >= from;
-    } else if (to) {
-      return createdAt <= to;
-    }
-
-    return true;
-  }
-
-
-
-  ngAfterViewInit() {
-    // Set paginator and sort for referral table
-    this.candidatesDataSource.paginator = this.referralPaginator;
-    this.candidatesDataSource.sort = this.referralSort;
-
-
-      // Listen for changes in the page size
-      this.referralPaginator.page.subscribe((event: PageEvent) => {
-        if (event.pageSize !== this.pageSize) {
-          this.pageSize = event.pageSize;
-          this.getAllReferral(); // Call getAllReferral with updated pageSize
-        }
-      });
-  }
-
-
-
-  search(event: Event, filterValue: string, dataSource: MatTableDataSource<UserData>) {
-    const filterText = filterValue.trim().toLowerCase();
-    dataSource.filter = filterText;
-
-    if (dataSource.paginator) {
-      dataSource.paginator.firstPage();
-    }
-  }
-  handleSearchInput(event: Event, dataSource: MatTableDataSource<UserData>) {
-    const filterValue = (event.target as HTMLInputElement).value;
-    dataSource.filter = filterValue.trim().toLowerCase();
-
-    if (dataSource.paginator) {
-      dataSource.paginator.firstPage();
-    }
-  }
-  clearSearchInput(input: any, dataSource: MatTableDataSource<UserData>) {
-    input.value = ''; // Clear the input value
-    dataSource.filter = ''; // Reset the filter to show all data
-
-    if (dataSource.paginator) {
-      dataSource.paginator.firstPage();
-    }
-  }
-
-
-  toggleDropdown(event: MouseEvent) {
-    event.stopPropagation(); // Prevent event propagation to avoid immediate closing of the dropdown
-    this.isDropdownOpen = !this.isDropdownOpen;
-    if (this.isDropdownOpen) {
-      this.listenForOutsideClick(); // Listen for clicks outside the dropdown to close it
+    if (this.filterModel.fromDate) {
+      const dateObject = new Date(this.filterModel.fromDate);
+      // Adjusting time so that UTC conversion in toISOString() doesn't affect the date
+      dateObject.setMinutes(dateObject.getMinutes() - dateObject.getTimezoneOffset());
+      const isoString = dateObject.toISOString();
+      this.fromDate = isoString;
     } else {
-      this.removeOutsideClickListener(); // Remove the listener if the dropdown is closed
+      this.fromDate = "";
     }
+    this.initializeData();
+    this.getAllReferral();
   }
 
-  listenForOutsideClick() {
-    document.addEventListener('click', this.closeDropdownOnClickOutside);
-  }
 
-  removeOutsideClickListener() {
-    document.removeEventListener('click', this.closeDropdownOnClickOutside);
-  }
+  applyToDateFilters() {
 
-  closeDropdownOnClickOutside = (event: MouseEvent) => {
-    if (!this.dropdown.nativeElement.contains(event.target)) {
-      this.isDropdownOpen = false;
-      this.removeOutsideClickListener();
+    if (this.filterModel.toDate) {
+      const dateObject = new Date(this.filterModel.toDate);
+
+      // Set the time to 23:59:59.999 for the end of the day
+      dateObject.setHours(23, 59, 59, 999);
+
+      // Adjusting time so that UTC conversion in toISOString() doesn't affect the date
+      dateObject.setMinutes(dateObject.getMinutes() - dateObject.getTimezoneOffset());
+
+      const isoString = dateObject.toISOString();
+      this.toDate = isoString;
+    } else {
+      this.toDate = "";
     }
+    this.initializeData();
+    this.getAllReferral();
+  }
+
+  initializeData() {
+    this.pageSize = 50;
+    this.lastKey = "";
+    this.sortOrder = '';
+    this.searchTerm = "";
+    this.referralPaginator.pageIndex = 0;  // Reset to the first page
+    this.referralPaginator.pageSize = 50;  // Update the UI's pageSize
   }
 
   resetDatePickers() {
     this.filterModel.fromDate = null;
     this.filterModel.toDate = null;
-    this.applyFilters(); // Optionally reapply filters after reset
+    this.pageSize = 50;
+    this.lastKey = "";
+    this.sortOrder = '';
+    this.fromDate = "",
+      this.toDate = "",
+      this.searchTerm = "",
+      this.referralPaginator.pageIndex = 0;  // Reset to the first page
+    this.referralPaginator.pageSize = 50;  // Update the UI's pageSize
+    this.isSearchActive = false,
+      this.isDropdownActive = false;
+    this.searchQuery = "";
+    (document.getElementById('issuesStatus') as HTMLSelectElement).value = "";
+    this.getAllReferral();
+  }
+
+  handleSearchInput(event: Event) {
+    this.searchQuery = (event.target as HTMLInputElement).value;
+    this.isDropdownActive = !!this.searchQuery; // Disable dropdown if search query is active
+
+    if (this.searchQuery.length >= 3) {
+      this.pageSize = "";
+      this.lastKey = "";
+      this.searchTerms.next(this.searchQuery);
+    } else if (this.searchQuery.length <= 0) {
+      this.clearSearchInput()
+    }
+
+  }
+
+  clearSearchInput() {
+
+    this.referralPaginator.pageIndex = 0;  // Reset to the first page
+    this.pageSize = 50;                    // Set the pageSize to 25
+    this.referralPaginator.pageSize = 50;  // Update the UI's pageSize
+    this.lastKey = "";
+    this.sortOrder = '';
+    this.fromDate = this.fromDate,
+      this.toDate = this.toDate,
+      this.searchTerm = "",
+      this.searchQuery = '',
+      this.isDropdownActive = false
+    this.getAllReferral();
+  }
+  onSearchInputEnter(event: KeyboardEvent): void {
+    if (event.key === 'Enter') { // Checking if the pressed key is Enter
+      this.isDropdownActive = true; // Disable dropdown when search is active
+      this.selectedStatus = '';
+      this.pageSize = 50;
+      this.lastKey = "";
+      this.sortOrder = '';
+      this.fromDate = '';
+      this.toDate = '';
+      this.searchTerms.next(this.searchQuery);
+    }
+  }
+  onStatusChange(selectedStatus: string) {
+    this.isSearchActive = !!selectedStatus
+    this.pageSize = 50;
+    this.lastKey = "";
+    this.sortOrder = '';
+    this.fromDate = '';
+    this.toDate = '';
+    this.searchTerm = selectedStatus;
+    this.selectedStatus = selectedStatus;
+    this.getAllReferral()
+  }
+
+  ngAfterViewInit() {
+    // Set paginator and sort for referral table
+    this.candidatesDataSource.paginator = this.referralPaginator;
+
+
+
+    // Listen for changes in the page size
+    this.referralPaginator.page.subscribe((event: PageEvent) => {
+      if (event.pageSize !== this.pageSize) {
+        this.pageSize = event.pageSize;
+        this.getAllReferral(); // Call getAllReferral with updated pageSize
+      }
+    });
+  }
+
+  openfile(event: { preventDefault: () => void; }) {
+    event.preventDefault();
+
+
+
+    //window.open(this.docResult.awsS3SignedUrl,'_blank')
+    window.open(this.userDetails.CV, '_blank')
+
+  }
+
+
+  onSort(sort: Sort): void {
+
+    if (sort.active === 'date') {
+      this.lastKey = "";
+      this.pageSize = 50;
+      this.sortOrder = this.sortOrder === 'ascending' ? 'descending' : 'ascending';
+      sort.direction === 'asc' ? 'ascending' : 'descending';
+      this.sort.direction = sort.direction;
+      // Call API with the new sort direction
+      this.getAllReferral();
+    }
   }
 
   copyToClipboard(contextId: string) {
@@ -289,7 +347,7 @@ export class AdminReferralComponent {
         this.copiedContextId = null;
       }, 2000);
     }).catch(err => {
-     // console.error('Failed to copy text: ', err);
+      // console.error('Failed to copy text: ', err);
     });
   }
 
@@ -300,20 +358,54 @@ export class AdminReferralComponent {
       //  let response= await this.adminService.getEmployeeReferralByEmailId('')
       if (response) {
         this.rowData = response
-       this. companyDetails=await this.adminService.getCompanyById(data.companyId);
-       if(this.companyDetails){
-        const inputString = data.PK;
-        const email = inputString.split('#').pop();
-        this.userDetails=await this.adminService.getUserByEmailId(email);
-       }
-         this.openModal(ModalType.ADMINDETAIL_POPUP, "", "", this.rowData,this.companyDetails,this.userDetails);
+        this.companyDetails = await this.adminService.getCompanyById(data.companyId);
+        if (this.companyDetails) {
+          const inputString = data.PK;
+          const email = inputString.split('#').pop();
+          this.userDetails = await this.adminService.getUserByEmailId(email);
+          this.getCVUrl()
+        }
+        
       }
     } catch (error: any) {
       this.spinner.hide()
+      this.modalSize = 'md'
       this.successmessage = "Something went wrong. Please try again after sometime"
       this.successtitle = "Error"
-      this.openModal(ModalType.SUCCESS_MESSAGE)
+      this.openModal(ModalType.SUCCESS_ERROR_MESSAGE)
     }
+  }
+  async getCVUrl(){
+    this.spinner.show()
+    if(this.userDetails.CV && this.userDetails.id){
+    await this.adminService.getCVUrl(this.userDetails.id,this.userDetails.CV).then(async (response: any) => {
+      this.spinner.hide()
+      this.cvUrl=response.objectUrl;
+      this.formattedJD = this.rowData.jdExtracted.split('\n').filter((line: string) => line.trim() !== ''); // Split by newline and remove empty lines
+      this.openModal(ModalType.ADMINDETAIL_POPUP, "", "", this.rowData, this.companyDetails, this.userDetails);
+
+    }).catch((error: any) => {
+      this.spinner.hide()
+      if (error.status == 404) {
+        this.spinner.hide()
+        this.router.navigate(['/auth/logout']);
+      } else if (error.status == 401) {
+
+        this.router.navigate(['/']);
+      } else {
+        this.modalSize = 'md'
+        this.successmessage = "Something went wrong. Please try again after sometime"
+        this.successtitle = "Error"
+        this.openModal(ModalType.SUCCESS_ERROR_MESSAGE)
+      }
+    });
+  }else{
+    this.spinner.hide()
+    this.formattedJD = this.rowData.jdExtracted.split('\n').filter((line: string) => line.trim() !== ''); // Split by newline and remove empty lines
+    this.openModal(ModalType.ADMINDETAIL_POPUP, "", "", this.rowData, this.companyDetails, this.userDetails);
+  }
+
+
   }
 
   /**
@@ -324,13 +416,14 @@ export class AdminReferralComponent {
 * @param {string} [title = ""]
 * @returns {void}
 */
-  openModal(modalType: ModalType, message: string = "", title: string = "", rowData: any = null,companyDetails:any=null,userDetails:any=NgPluralCase): void {
+  openModal(modalType: ModalType, message: string = "", title: string = "", rowData: any = null, companyDetails: any = null, userDetails: any = NgPluralCase): void {
+    this.cdr.detectChanges();
     this.showModal = modalType;
     this.modalMessage = message;
     this.modalTitle = title;
     this.rowData = rowData;
-    this.companyDetails=companyDetails;
-    this.userDetails=userDetails
+    this.companyDetails = companyDetails;
+    this.userDetails = userDetails
     this.modal.open();
   }
   /**
@@ -342,5 +435,146 @@ export class AdminReferralComponent {
     this.modal.cancel();
   }
 
+
+  // applyFilters() {
+  //   // Gather selected filter options
+  //   const selectedFilters = {
+  //     name: this.filterModel.Name,
+  //     emailId: this.filterModel.emailId,
+  //     jobDescription: this.filterModel.jd,
+  //     date: this.filterModel.Date,
+  //     userSubscriptionId: this.filterModel.userSubscriptionId,
+  //     matchingScore: this.filterModel.matchingScore,
+  //     jobUrl: this.filterModel.jobUrl,
+  //     status: this.filterModel.status,
+  //     companyName: this.filterModel.companyName,
+  //     companyId: this.filterModel.companyId,
+  //     fromDate: this.filterModel.fromDate,
+  //     toDate: this.filterModel.toDate,
+  //   };
+
+  //   // Apply filters to both data sources
+  //   this.applyDataSourceFilters(this.candidatesDataSource, selectedFilters);
+  //   this.applyDataSourceFilters(this.servicesDataSource, selectedFilters);
+
+  //   // Reset pagination to navigate to first page
+  //   if (this.candidatesDataSource.paginator) {
+  //     this.candidatesDataSource.paginator.firstPage();
+  //   }
+  //   if (this.servicesDataSource.paginator) {
+  //     this.servicesDataSource.paginator.firstPage();
+  //   }
+  // }
+
+  // applyDataSourceFilters(dataSource: MatTableDataSource<UserData>, filters: { [key: string]: string | undefined }) {
+  //   dataSource.filterPredicate = (data: UserData, filter: string) => {
+  //     let filterObject: { [key: string]: string | undefined }; // Explicitly type filterObject
+  //     try {
+  //       filterObject = JSON.parse(filter);
+  //       // console.log('Parsed Filter Object:', filterObject);
+  //     } catch (e) {
+  //      // console.error('Error parsing filter object:', e);
+  //       return false; // If parsing fails, return false to exclude the item
+  //     }
+
+  //     // Handle date range filtering
+  //     const dateInRange = this.applyDateRangeFilter(new Date(data.Date), filterObject['fromDate'], filterObject['toDate']);
+
+  //     // Handle other fields
+  //     const otherFilters = Object.keys(filterObject).every(key => {
+  //       if (key === 'fromDate' || key === 'toDate') {
+  //         // Skip date range fields
+  //         return true;
+  //       }
+
+  //       const filterKey = key as keyof UserData;
+  //       if (!filterObject[filterKey]) {
+  //         return true;
+  //       }
+
+  //       const dataValue = data[filterKey] ? data[filterKey].toString().toLowerCase() : '';
+  //       const filterValue = filterObject[filterKey] ? filterObject[filterKey]!.toString().toLowerCase() : '';
+  //       return dataValue.includes(filterValue);
+  //     });
+
+  //     return dateInRange && otherFilters;
+  //   };
+
+  //   dataSource.filter = JSON.stringify(filters);
+  // //  console.log('Data Source Filter:', dataSource.filter);
+  // }
+
+  // applyDateRangeFilter(createdAt: Date, fromDate: string | undefined, toDate: string | undefined): boolean {
+  //   const from = fromDate ? new Date(fromDate) : null;
+  //   const to = toDate ? new Date(toDate) : null;
+
+  //  // console.log('Applying Date Range Filter:', 'Created At:', createdAt, 'From:', from, 'To:', to);
+
+  //   if (from && to) {
+  //     return createdAt >= from && createdAt <= to;
+  //   } else if (from) {
+  //     return createdAt >= from;
+  //   } else if (to) {
+  //     return createdAt <= to;
+  //   }
+
+  //   return true;
+  // }
+  // search(event: Event, filterValue: string, dataSource: MatTableDataSource<UserData>) {
+  //   const filterText = filterValue.trim().toLowerCase();
+  //   dataSource.filter = filterText;
+
+  //   if (dataSource.paginator) {
+  //     dataSource.paginator.firstPage();
+  //   }
+  // }
+  // handleSearchInput(event: Event, dataSource: MatTableDataSource<UserData>) {
+  //   const filterValue = (event.target as HTMLInputElement).value;
+  //   dataSource.filter = filterValue.trim().toLowerCase();
+
+  //   if (dataSource.paginator) {
+  //     dataSource.paginator.firstPage();
+  //   }
+  // }
+  // clearSearchInput(input: any, dataSource: MatTableDataSource<UserData>) {
+  //   input.value = ''; // Clear the input value
+  //   dataSource.filter = ''; // Reset the filter to show all data
+
+  //   if (dataSource.paginator) {
+  //     dataSource.paginator.firstPage();
+  //   }
+  // }
+
+
+  // toggleDropdown(event: MouseEvent) {
+  //   event.stopPropagation(); // Prevent event propagation to avoid immediate closing of the dropdown
+  //   this.isDropdownOpen = !this.isDropdownOpen;
+  //   if (this.isDropdownOpen) {
+  //     this.listenForOutsideClick(); // Listen for clicks outside the dropdown to close it
+  //   } else {
+  //     this.removeOutsideClickListener(); // Remove the listener if the dropdown is closed
+  //   }
+  // }
+
+  // listenForOutsideClick() {
+  //   document.addEventListener('click', this.closeDropdownOnClickOutside);
+  // }
+
+  // removeOutsideClickListener() {
+  //   document.removeEventListener('click', this.closeDropdownOnClickOutside);
+  // }
+
+  // closeDropdownOnClickOutside = (event: MouseEvent) => {
+  //   if (!this.dropdown.nativeElement.contains(event.target)) {
+  //     this.isDropdownOpen = false;
+  //     this.removeOutsideClickListener();
+  //   }
+  // }
+
+  // resetDatePickers() {
+  //   this.filterModel.fromDate = null;
+  //   this.filterModel.toDate = null;
+  //   this.applyFilters(); // Optionally reapply filters after reset
+  // }
 
 }

@@ -1,7 +1,7 @@
 <!-- <mat-card> -->
 <!-- <mat-card-title>Original Item Score</mat-card-title> -->
 
-<div class="row" *ngIf="!showScore && !showEmailContent && !errorFound">
+<div class="row" *ngIf="!showScore && !showEmailContent && !errorFound && !showFeedback">
   <div class="d-flex align-self-center justify-content-center">
     <div class="row">
       <div class="col-md-12">
@@ -22,10 +22,14 @@
 <div class="row" *ngIf="showScore && !showEmailContent && !errorFound">
   <div class="col-md-12 mt-4">
     <h1 class="yourScore">Your Score</h1>
-    <p *ngIf="score >= 70" class="send-cv-text">You are a good match for the job. We are sending your <br> CV to the best suitable Referee
+    <p *ngIf="score >= PASSING_SCORE" class="send-cv-text">You are a good match for the job. We are sending your <br> CV to the best suitable Referee
       who can refer you.</p>
-    <p *ngIf="score < 70" class="send-cv-text">We regret to inform you that we are unable to proceed with this referral request as your profile<br> and experience may not align well with the Job requirement. If there's anything you haven't<br> mentioned in your profile, consider updating it on your Worko profile and trying again.<br> Remember, we're dedicated to supporting you on your career path.<br> If you need expert advice, like a CV review or career guidance,<br> feel free to reach out to us at <span style="color: rgb(160, 158, 158); text-decoration: underline; cursor: pointer;">Guidance&#64;worko.ai</span> <br>We're here to assist you in any way we can.</p>
     <!-- <button class="btn btn-light-blue view-more-btn mb-2" (click)="onViewMore()">View More</button> -->
+    <div class="text-center" *ngIf="score >= PASSING_SCORE">
+      <button class="btn btn-next" (click)="routeToReferral()">OK</button>
+    </div>
+    <p *ngIf="score < PASSING_SCORE" class="send-cv-text">We regret to inform you that we are unable to proceed with this referral request as your profile<br> and experience may not align well with the Job requirement. If you need expert advice, <br> like a CV review or career guidance, feel free to reach out to us <br> at <span style="color: rgb(160, 158, 158); text-decoration: underline; cursor: pointer;">Guidance&#64;worko.ai</span> We're here to assist you in any way we can.</p>
+    <button *ngIf="score < PASSING_SCORE && feedbackDetails" class="btn req-btn mb-2" (click)="onViewMore()">See Feedback Report</button>
   </div>
 </div>
 
@@ -35,6 +39,13 @@
 
   </div>
 </div>
+
+<div *ngIf="showFeedback && feedbackDetails && !showScore && !showEmailContent && !errorFound">
+  <app-show-more-details 
+    [title]="feedbackTitle" 
+    [details]="feedbackDetails">
+  </app-show-more-details>
+</div> 
 
 <div class="cv-not-found" *ngIf="errorFound"> <!-- Show email content when the button is clicked -->
   <div *ngIf="cvError"> Apologies, we couldn't find your CV to match with the job description. Please ensure your CV is

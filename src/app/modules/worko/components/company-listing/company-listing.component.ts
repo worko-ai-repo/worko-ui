@@ -1,4 +1,4 @@
-import { Component, OnInit, ViewChild, HostListener, Renderer2, ElementRef, ChangeDetectorRef, AfterViewInit, OnDestroy } from '@angular/core';
+import { Component, OnInit, ViewChild, Renderer2, ElementRef, ChangeDetectorRef, AfterViewInit, OnDestroy } from '@angular/core';
 import { CompanyListingService } from '../../services/company-listing.service';
 import { ModalType } from 'src/app/modules/shared/interfaces/shared.interface';
 import { ModalComponent } from 'src/app/modules/shared/components/modal/modal.component';
@@ -16,10 +16,12 @@ import { error, event } from 'jquery';
 import { ActivatedRoute, Router } from '@angular/router';
 import { StorageService } from 'src/app/modules/app-core/services/storage.service';
 import { CandidateProfileService } from 'src/app/modules/candidate/services/candidate-profile.service';
-import { LoginPageComponent } from '../login-page/login-page.component';
+// import { LoginPageComponent } from '../login-page/login-page.component';
 import { NavbarComponent } from '../navbar/navbar.component';
 import { Location } from '@angular/common';
 import { Subscription } from 'rxjs';
+import { debounce } from 'lodash';
+import { LoginFormComponent } from '../login-form/login-form.component';
 @Component({
   selector: 'app-company-listing',
   templateUrl: './company-listing.component.html',
@@ -33,8 +35,10 @@ export class CompanyListingComponent implements OnInit, AfterViewInit, OnDestroy
   @ViewChild(RequestGuidenceComponent) referrralguidanceComponent!: RequestGuidenceComponent;
   @ViewChild('autoCompleteInput', { static: false, read: MatAutocompleteTrigger }) trigger!: MatAutocompleteTrigger;
   @ViewChild('company') companyFormDirective!: NgForm;
-  @ViewChild(LoginPageComponent) LoginPageComponent!: LoginPageComponent;
+  @ViewChild(LoginFormComponent) LoginFormComponent!: LoginFormComponent;
   @ViewChild(NavbarComponent) navbarComponent!: NavbarComponent;
+  @ViewChild('scrollTrigger') scrollTrigger!: ElementRef;
+
   userName: string = "";
   letter: string = ""
   successmessage: string = "";
@@ -220,36 +224,24 @@ export class CompanyListingComponent implements OnInit, AfterViewInit, OnDestroy
     { name: "Warehousing", value: "Warehousing" },
     { name: "Water Treatment / Waste Management", value: "Water Treatment / Waste Management" },
 
-
-
   ]
   companySKFormUrl: any;
   typeFromUrl: any;
   triggerAddCompany: boolean = false;
   userDetails: any;
-
-
-
-  @HostListener('window:scroll', ['$event'])
-  onScroll(event: Event): void {
-    // Handle scroll event
-    this.detectScroll();
-  }
-
-
-
-
+  sortOrder: string = 'ascending';
   searchTerm: string = '';
   filteredCompanyList: any[] = [];
   searchQuery: string = '';
   private searchTerms = new Subject<string>();
-
-
-
-
+  debouncedGetCompanyDetails: () => void;
+  observer: IntersectionObserver | undefined;
 
   constructor(private spinner: NgxSpinnerService, private location: Location, private activatedRoute: ActivatedRoute, private cdr: ChangeDetectorRef,
     private storage: StorageService, private router: Router, private authService: AuthService, private http: HttpClient, private renderer: Renderer2, private el: ElementRef, private companyListing: CompanyListingService, private cognitoService: CognitoService, private candidateSrv: CandidateProfileService) {
+
+    this.debouncedGetCompanyDetails = debounce(this.getCompanyDetails.bind(this), 400); // Created a debounced version of the getCompanyDetails method to handle the scroll event.
+    // This ensures that API calls are triggered only once within a 400 millisecond interval during scrolling.
 
     this.searchTerms
       .pipe(
@@ -284,6 +276,16 @@ export class CompanyListingComponent implements OnInit, AfterViewInit, OnDestroy
         this.receiveDataFromChild(eventData);
       }
     });
+
+    // Setting up the IntersectionObserver here
+    this.observer = new IntersectionObserver((entries) => {
+      if (entries[0].isIntersecting && this.lastKey && this.isNoLoadData) {
+        this.debouncedGetCompanyDetails(); // Fetch more companies when the trigger is visible
+      }
+    });
+
+    // observing the scroll trigger element here
+    this.observer.observe(this.scrollTrigger.nativeElement);
   }
 
   async ngOnInit(): Promise<void> {
@@ -294,7 +296,7 @@ export class CompanyListingComponent implements OnInit, AfterViewInit, OnDestroy
     await this.getProfilePercentage();
 
     await this.getCompanyDetails();
-    await this.getCompanyDetails(100);
+    // await this.getCompanyDetails(100);
     this.filteredCompanyList = this.companyList;
 
 
@@ -530,31 +532,6 @@ export class CompanyListingComponent implements OnInit, AfterViewInit, OnDestroy
     return this.hundreadCompanies.find(company => company.SK === companySk);
   }
 
-  detectScroll(): void {
-
-    const scrollPosition = window.scrollY || document.documentElement.scrollTop || document.body.scrollTop || 0;
-    const windowHeight = window.innerHeight || document.documentElement.clientHeight || document.body.clientHeight || 0;
-    const documentHeight = Math.max(
-      document.body.scrollHeight,
-      document.documentElement.scrollHeight,
-      document.body.offsetHeight,
-      document.documentElement.offsetHeight,
-      document.body.clientHeight,
-      document.documentElement.clientHeight
-    );
-    const footer = document.querySelector('app-footer');
-    const footerHeight = footer ? (footer as HTMLElement).offsetHeight : 0;
-
-    // Check if the user has scrolled to the bottom
-
-    if (scrollPosition + windowHeight >= documentHeight - footerHeight) {
-
-      // Load more data
-      this.getCompanyDetails();
-    }
-
-  }
-
   async clearSearchInput(): Promise<void> {
     this.pageSize = 50
     this.lastKey = "";
@@ -567,6 +544,28 @@ export class CompanyListingComponent implements OnInit, AfterViewInit, OnDestroy
     await this.getCompanyDetails();
 
 
+  }
+  navigateToJobLink(event: MouseEvent, data: any): void {
+    event.preventDefault(); // Prevent the default anchor behavior
+    this.getJobLink(data);
+
+  }
+
+  getJobLink(data:any): void {
+    const companyName = data.name
+  .toLowerCase()                        // Convert to lowercase
+  .replace(/\(.*?\)/g, '')               // Remove content inside parentheses
+  .replace(/\s*&\s*/g, '&')              // Remove spaces around the '&' symbol
+  .replace(/\s+/g, '-')                  // Replace remaining spaces with hyphen
+  .replace(/-+/g, '-')                   // Ensure there's only one hyphen in between
+  .replace(/^-|-$/g, '');                 // Remove hyphen at start or end
+    const companyID=data.SK.replace("ID#", "");
+    const route = `/company/jobs/${companyName}-jobs-${companyID}`;
+    this.router.navigate([route]);
+   // console.log(route);
+    // this.router.navigate([route],{
+    //   state: { companySK: data.SK}
+    // });;
   }
   async getCompanyDetails(pageSize?: any) {
     // console.log(this.lastKey, this.loadedOnce, this.isNoLoadData)
@@ -592,7 +591,7 @@ export class CompanyListingComponent implements OnInit, AfterViewInit, OnDestroy
       // if (this.lastKey || this.loadedOnce ) {
       this.spinner.show();
       // const encodedCompanyName = encodeURIComponent(this.filterData.companyName); // Encode the company name
-      await this.companyListing.getCompanyListing(this.pageSize, this.lastKey, this.filterData.teamSize, encodeURIComponent(this.filterData.industryType), this.filterData.companyName).then(async (response) => {
+      await this.companyListing.getCompanyListing(this.pageSize, this.sortOrder, this.lastKey, this.filterData.teamSize, encodeURIComponent(this.filterData.industryType), this.filterData.companyName).then(async (response) => {
         if (response) {
 
           this.spinner.hide();
@@ -605,17 +604,17 @@ export class CompanyListingComponent implements OnInit, AfterViewInit, OnDestroy
           this.loadedOnce = false;
           this.count = response.pagination.count;
           this.pageSize = response.pagination.pageSize;
-          
-          // if (this.count < this.pageSize) { //check to pervent multiple api call
-          //   // debugger
-          //   this.isNoLoadData = false;
-          // }
-          this.isNoLoadData=this.lastKey? true : false //check to pervent multiple api call
+
+          if (this.count < this.pageSize) { //check to pervent multiple api call
+            // debugger
+            this.isNoLoadData = false;
+          }
+          // this.isNoLoadData=this.lastKey? true : false //check to pervent multiple api call
           //  this.filterCompanies(); // Filter companies after updating companyList
         }
       })
         .catch(error => {
-         // console.error('Display Company Listing Error:', error);
+          // console.error('Display Company Listing Error:', error);
           this.spinner.hide();
         });
     }
@@ -904,6 +903,7 @@ export class CompanyListingComponent implements OnInit, AfterViewInit, OnDestroy
     this.modalTitle = title;
     if (this.showModal === ModalType.REQUEST_REFERRAL) {
       if (this.referrralComponent) {
+        this.referrralComponent.showFeedback = false;
         this.referrralComponent.showReferrelRow = true;
         this.referrralComponent.requestForm.reset();
         this.referrralComponent.showScore = false;
@@ -960,11 +960,11 @@ export class CompanyListingComponent implements OnInit, AfterViewInit, OnDestroy
 
     }
     if (ModalType.LOGIN_SIGNUP) {
-      if (this.LoginPageComponent) {
-        this.LoginPageComponent.showSignInRow = false;
-        this.LoginPageComponent.showAddCompanyScreen = false;
-        this.LoginPageComponent.showErrorMessageScreen = false;
-        this.LoginPageComponent.showLoginScreen = true
+      if (this.LoginFormComponent) {
+        this.LoginFormComponent.showSignInRow = false;
+        this.LoginFormComponent.showAddCompanyScreen = false;
+        this.LoginFormComponent.showErrorMessageScreen = false;
+        this.LoginFormComponent.showLoginScreen = true
       }
     }
     this.modal.open();
@@ -1022,6 +1022,10 @@ export class CompanyListingComponent implements OnInit, AfterViewInit, OnDestroy
   ngOnDestroy(): void {
     if (this.eventSubscription) {
       this.eventSubscription.unsubscribe();
+    }
+
+    if (this.observer) {
+      this.observer.disconnect(); // Cleaning up the IntersectionObserver here
     }
   }
 }

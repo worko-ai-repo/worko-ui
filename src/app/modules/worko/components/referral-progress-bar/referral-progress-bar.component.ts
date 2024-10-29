@@ -1,4 +1,4 @@
-import { Component, Input, OnChanges, SimpleChanges } from '@angular/core';
+import { Component, EventEmitter, Input, OnChanges, Output, SimpleChanges } from '@angular/core';
 import { CompanyListingService } from '../../services/company-listing.service';
 import { SubscriptionPackService } from '../../services/subscription-pack.service';
 import { StorageService } from 'src/app/modules/app-core/services/storage.service';
@@ -9,13 +9,17 @@ import { Router } from '@angular/router';
   styleUrls: ['./referral-progress-bar.component.scss']
 })
 export class ReferralProgressBarComponent implements OnChanges {
+  @Output() response = new EventEmitter<void>();
+
+  public PASSING_SCORE = 70;
+  @Input() showFeedback: boolean = false;
   @Input() score: any;
   @Input() referralId: any;
   showScore: boolean = false;
   showEmailContent: boolean = false;
   originalPoints = 2.1;
   possiblePoints = 100;
-  startTime: number = Date.now();
+  startTime!: number;
   errorFound: boolean = false;
   cvError: boolean = false;
   jobDescription: boolean = false;
@@ -29,13 +33,24 @@ export class ReferralProgressBarComponent implements OnChanges {
     "We are almost done"
   ];
   emailId: string = "";
-  constructor(private companyListing: CompanyListingService, private storage: StorageService,private router: Router) { }
+  feedbackDetails: any;
+  feedbackTitle = "Rejection Feedback";
+  constructor(private companyListing: CompanyListingService, private storage: StorageService, private router: Router) { }
   ngOnChanges(changes: SimpleChanges): void {
-    // console.log(this.score);
+    // Check if referralId has changed
+    if (changes['referralId'] && changes['referralId'].currentValue) {
+      this.emailId = this.storage.get("useremail");
+      this.startTextLoop();
+    }
   }
   ngOnInit(): void {
     // console.log("current score is", this.score);
     this.emailId = this.storage.get("useremail");
+    // this.startTextLoop();
+  }
+  startTextLoop() {
+    this.startTime = Date.now();
+
     let index = 0;
     const interval = setInterval(() => {
       if (index < this.texts.length) {
@@ -54,64 +69,102 @@ export class ReferralProgressBarComponent implements OnChanges {
     }, 5000); //7000
   }
 
-  async fetchScore() {
-    try{
 
-    const fetchScoreWithRetry = async () => {
-      const response = await this.companyListing.getMatchingScore(this.emailId, this.referralId);
-
-      if (response && response.matchingScore !== undefined) {
-        const elapsedTime = Date.now() - this.startTime;
-
-        if (response.matchingScore === 0) {
-          if (elapsedTime < this.maxDuration) {
-            setTimeout(async () => {
-              await fetchScoreWithRetry();
-            }, 20000); // Retry after 20 seconds
-          } else {
-            // Maximum duration exceeded
-            this.jobDescription = false;
-            this.errorFound = true;
-            this.showScore = false;
-            this.cvError = true;
-          }
-
-          if (response.jdMatchErrorCode === 250) {
-            this.jobDescription = false;
-            this.errorFound = true;
-            this.showScore = false;
-            this.cvError = true;
-          } else if (response.jdMatchErrorCode === 251) {
-            this.cvError = false;
-            this.jobDescription = true;
-            this.errorFound = true;
-            this.showScore = false;
-          }
-        } else if (response.jdMatchErrorCode === 200) {
-          this.score = response.matchingScore;
-          this.showScore = true;
-        }
-      }
-    };
-
-    // Start the initial call
-    await fetchScoreWithRetry();
-  }catch(error:any){
-    if (error.status==404) { 
-   
-      this.router.navigate(['/auth/logout']);
-    }else if (error.status==401){
-   
-     this.router.navigate(['/']);
-    }else{
-    //console.error('Create Employee Error:', error);
-    }
+  routeToReferral() {
+    this.router.navigate(['/candidate/referral']);
   }
+
+  async fetchScore() {
+    try {
+
+      const fetchScoreWithRetry = async () => {
+        const response = await this.companyListing.getMatchingScore(this.emailId, this.referralId);
+
+        if (response && response.matchingScore !== undefined) {
+
+          // this.feedbackDetails = "Feedback:\n\n- The job description specifically mentions a preference for experience with TypeScript, which is not listed among your technical skills.\n- While you have experience with front-end development using JavaScript frameworks like React and Angular, the job requires expertise in building reusable UX components or libraries, which is not explicitly mentioned in your resume.\n- The job requires 3+ years of professional front-end, web, or mobile software development experience, but based on the information provided, your experience appears to be around 5 years, which may not meet the minimum requirement.\n\nSuitable roles:\n\n- Full-Stack Developer: Your experience with both front-end (React, HTML, CSS, JavaScript) and back-end technologies (Node.js) makes you a suitable candidate for full-stack developer roles.\n- Front-End Developer: While you may not meet all the preferred qualifications for the specific role at Amazon, your skills in front-end development using React, JavaScript, HTML, and CSS make you a strong candidate for other front-end developer positions.\n- Software Engineer: Your Bachelor's degree in Computer Science and experience in software development, problem-solving, and algorithm design align well with software engineering roles across various industries.\n- Web Developer: Your expertise in web development technologies like HTML, CSS, JavaScript, and frameworks like React and Angular make you a good fit for web developer roles.\n\nRemember, while you may not be an ideal match for this particular role, your skills and experience can be valuable assets for other suitable positions. It's essential to highlight your strengths and align them with the job requirements during the application and interview process."
+          if (response?.rejectionFeedbackBySystem) {
+            this.feedbackDetails = response?.rejectionFeedbackBySystem;
+          }
+          else {
+            this.feedbackDetails = "";
+          }
+
+          const elapsedTime = Date.now() - this.startTime;
+
+          // Switch statement to handle jdMatchErrorCode
+          switch (response.jdMatchErrorCode) {
+            case 250:
+              this.response.emit();
+              this.jobDescription = false;
+              this.errorFound = true;
+              this.showScore = false;
+              this.cvError = true;
+              break;
+
+            case 251:
+              this.response.emit();
+              this.cvError = false;
+              this.jobDescription = true;
+              this.errorFound = true;
+              this.showScore = false;
+              break;
+
+            case 200:
+              this.response.emit();
+              this.score = response.matchingScore;
+              this.showScore = true;
+              if (this.score >= 70) {
+                this.showScore = true;
+
+                // Display the message for 5 seconds and then navigate
+                setTimeout(() => {
+                  this.showScore = false;  // Hide the message after 5 seconds
+                  this.router.navigate(['/candidate/referral']);  // Navigate to another component
+                }, 5000);  // 5000 ms = 5 seconds
+              }
+              break;
+
+            default:
+              if (response.matchingScore === 0) {
+                if (elapsedTime < this.maxDuration) {
+                  setTimeout(async () => {
+                    await fetchScoreWithRetry();
+                  }, 20000); // Retry after 20 seconds
+                } else {
+                  // Maximum duration exceeded
+                  this.response.emit();
+                  this.jobDescription = false;
+                  this.errorFound = true;
+                  this.showScore = false;
+                  this.cvError = true;
+                }
+              }
+              break;
+          }
+        }
+      };
+
+      // Start the initial call
+      await fetchScoreWithRetry();
+    } catch (error: any) {
+      if (error.status == 404) {
+
+        this.router.navigate(['/auth/logout']);
+      } else if (error.status == 401) {
+
+        this.router.navigate(['/']);
+      } else {
+        //console.error('Create Employee Error:', error);
+      }
+    }
   }
 
   onViewMore(): void {
     // Toggle the visibility of the email content
-    this.showEmailContent = true;
+    this.showScore = false;
+    this.showFeedback = true;
+    // this.showEmailContent = true;
   }
 
   //   getScore() {

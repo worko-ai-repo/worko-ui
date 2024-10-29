@@ -192,15 +192,7 @@
 //     color: white;
 //   }
 // }
-.custom-clear-button {
-  background-color: transparent;
-  color: #FFFFFF;
-  border: none;
-  border-radius: 50%;
-  position: absolute;
-  top:  10px;
-  right: 20px;
-}
+
 // .details-box {
 
 //   padding: 16px;
@@ -252,13 +244,31 @@
 }
 
 .form-detail {
+  display: block;
   font-size: 14px;
   color: #FFF;
+  overflow: hidden;
+  text-wrap: nowrap;
+  text-overflow: ellipsis;
+  width: 290px;
 }
 
 .form-row {
   margin-bottom: 12px; /* Space between rows */
 }
+// .custom-clear-button {
+//   background-color: transparent;
+//   color: #FFFFFF;
+//   border: none;
+//   border-radius: 50%;
+//   position: absolute;
+//   top: 10px;
+//   left: 155px;
+// }
+.mat-mdc-form-field:not(.mat-form-field-no-animations) .mdc-text-field__input {
+  font-size: medium;
+}
+
 
 
 

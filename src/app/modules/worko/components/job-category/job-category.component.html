@@ -23,8 +23,8 @@
                     </li>
                     <ng-container *ngIf="!isIndustryType">
                         <li class="breadcrumb-item" itemprop="itemListElement" itemscope itemtype="http://schema.org/ListItem">
-                            <a routerLink="/companies" itemprop="item">
-                                <span itemprop="name">Companies</span>
+                            <a routerLink="/company" itemprop="item">
+                                <span itemprop="name">Company</span>
                             </a>
                             <meta itemprop="position" content="2" />
                         </li>
@@ -121,7 +121,7 @@
                             <div class="col-7 p-2">
                                 <div class="vertical-bar"></div>
                                 <div class="anchor-button">
-                                    <a href="#" (click)="openReferralPage($event, item)">Request Referral</a>
+                                    <a href="#" (click)="navigateToJobLink($event, item)">Request Referral</a>
                                 </div>
                                 <div class="anchor-button" style="top:37px;">
                                     <a href="#" (click)="openGuidancePage($event, item)">Request Guidance</a>
@@ -168,7 +168,7 @@
     </ng-container>
 
     <ng-container *ngIf="showModal === modalType.LOGIN_SIGNUP">
-        <app-login-page (onSuccess)="receiveDataFromChild($event)" [userLoggedInData]="userLoggedIn"></app-login-page>
+        <app-login-form (onSuccess)="receiveDataFromChild($event)" [userLoggedInData]="userLoggedIn"></app-login-form>
     </ng-container>
     <ng-container *ngIf="showModal === modalType.SUCCESS_MESSAGE">
 

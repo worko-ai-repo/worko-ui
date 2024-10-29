@@ -24,13 +24,15 @@ export const environment = {
       domain:'worko-dev.auth.ap-south-1.amazoncognito.com'
     },
     razorpayKey:"REDACTED",
-    crossOriginUrl:'https://dev.worko.work',
-    localUrl: 'https://app.dev.worko.work',
+    // crossOriginUrl:'https://dev.worko.work',
+    localUrl: 'https://dev.worko.work',
     apiUrl: "https://api.dev.worko.work/",
+    chatApiUrl: 'https://chatapi.dev.worko.work/',
+    chatWsUrl: 'wss://chatws.dev.worko.work',
     // apiUrl: "https://api.worko.ai/",
     saveUserInfoApi:"https://w6zitv6ryk.execute-api.us-east-1.amazonaws.com/dev/adduserinfo",
-    linkedInRedirection: "https://app.dev.worko.work/auth/checkRedirection",
-    linkedInLogout:  "https://app.dev.worko.work/auth/logout"
+    linkedInRedirection: "https://dev.worko.work/auth/checkRedirection",
+    linkedInLogout:  "https://dev.worko.work/auth/logout"
   };
   
     

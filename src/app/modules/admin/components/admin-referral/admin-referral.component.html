@@ -9,105 +9,37 @@
       <div class="row p-3 pt-2">
         <div class="col-md-12">
           <div class="row pb-2 pt-2">
-            <div class="col-md-6">
+            <div class="col-md-5">
               <h5 class="ps-2 pb-0">Referral</h5>
             </div>
-            <div class="col-md-6 d-flex justify-content-end">
-
-             
-             
-
-              <!-- <div class="pe-2">
-                <div class="dropdown" #dropdown>
-                  <button
-                    class="dropdown-btn ps-3 pe-3 serachInput dropdown-toggle"
-                    type="button"
-                    (click)="toggleDropdown($event)"
-                    aria-expanded="false"
-                  >
-                    Filter Data <i class="fa-solid fa-filter ps-2 pe-2"></i>
-                  </button>
-                  <ul
-                    class="dropdown-menu ps-3 mt-1"
-                    [class.show]="isDropdownOpen"
-                    aria-labelledby="dropdownMenuButton1"
-                  >
-                    <li class="d-flex">
-                      <input type="checkbox" /><a class="dropdown-item">Name</a>
-                    </li>
-                    <li class="d-flex">
-                      <input type="checkbox" /><a class="dropdown-item"
-                        >emailId
-                      </a>
-                    </li>
-                    <li class="d-flex">
-                      <input type="checkbox" /><a class="dropdown-item"
-                        >Employee ID</a
-                      >
-                    </li>
-                    <li class="d-flex">
-                      <input type="checkbox" /><a class="dropdown-item">Date</a>
-                    </li>
-                    <li class="d-flex">
-                      <input type="checkbox" /><a class="dropdown-item"
-                        >package status
-                      </a>
-                    </li>
-                    <li class="d-flex">
-                      <input type="checkbox" /><a class="dropdown-item">
-                        Payment status</a
-                      >
-                    </li>
-                    <li class="d-flex">
-                      <input type="checkbox" /><a class="dropdown-item"
-                        >Service request date</a
-                      >
-                    </li>
-                    <li class="d-flex">
-                      <input type="checkbox" /><a class="dropdown-item"
-                        >service start date
-                      </a>
-                    </li>
-                    <li class="d-flex">
-                      <input type="checkbox" /><a class="dropdown-item">
-                        Request status</a
-                      >
-                    </li>
-                    <li class="d-flex">
-                      <input type="checkbox" /><a class="dropdown-item"
-                        >Package balance</a
-                      >
-                    </li>
-                    <li class="d-flex">
-                      <input type="checkbox" /><a class="dropdown-item"
-                        >Rating
-                      </a>
-                    </li>
-                    <li class="d-flex">
-                      <input type="checkbox" /><a class="dropdown-item">
-                        Account types</a
-                      >
-                    </li>
-                  </ul>
-                </div>
-              </div> -->
-              <div class="pe-2">
+            <div class="col-md-7 d-flex justify-content-end">
+              <div class="pe-2 filter">
+                <select class="serachInput  selector form-select" name="issuesStatus" id="issuesStatus" [(ngModel)]="selectedStatus"
+                  (ngModelChange)=" onStatusChange($event)" [disabled]="isDropdownActive" [ngClass]="{'disabled-background': isDropdownActive}">
+                  <option value="">Select Status</option>
+                  <option *ngFor="let item of StatusOption" [value]="item.value">{{ item.name }}</option>
+                </select>
+              </div>
+              <div class="pe-2 search-container">
                 <input
                   matInput
                   class="serachInput"
-                  (keyup)="handleSearchInput($event, candidatesDataSource)"
-                  placeholder="Search"
+                  (keyup)="handleSearchInput($event)"
+                  (keydown)="onSearchInputEnter($event)"
+                  placeholder="Search"  [(ngModel)]="searchQuery"
                   #input
+                  [disabled]="isSearchActive"
+                  [ngClass]="{'disabled-background': isSearchActive}"
                 />
-                <button mat-button matSuffix mat-icon-button (click)="clearSearchInput(input,candidatesDataSource)"  *ngIf="input.value"
-                class="custom-clear-button">
+                <button mat-button matSuffix mat-icon-button (click)="clearSearchInput()"  *ngIf="searchQuery"
+                class="admin-custom-clear-button ">
                 <mat-icon>clear</mat-icon>
               </button>
               </div>
               <div class="pe-2">
                 <mat-form-field  >
                   <mat-label style="color: white;">From Date</mat-label>
-                  <input matInput [matDatepicker]="fromPicker" [(ngModel)]="filterModel.fromDate" (dateChange)="applyFilters()" >
+                  <input matInput [matDatepicker]="fromPicker" [(ngModel)]="filterModel.fromDate" (dateChange)="applyFromDateFilters()" >
                   <mat-datepicker-toggle matSuffix [for]="fromPicker"></mat-datepicker-toggle>
                   <mat-datepicker #fromPicker></mat-datepicker>
                 </mat-form-field>
@@ -115,7 +47,7 @@
               <div class="pe-2">
                 <mat-form-field>
                   <mat-label style="color: white;">To Date</mat-label>
-                  <input matInput [matDatepicker]="toPicker" [(ngModel)]="filterModel.toDate" (dateChange)="applyFilters()">
+                  <input matInput [matDatepicker]="toPicker" [(ngModel)]="filterModel.toDate" (dateChange)="applyToDateFilters()">
                   <mat-datepicker-toggle matSuffix [for]="toPicker"></mat-datepicker-toggle>
                   <mat-datepicker #toPicker></mat-datepicker>
                 </mat-form-field>
@@ -153,10 +85,13 @@
               "
               mat-table
               [dataSource]="candidatesDataSource"
-              matSort
+              (matSortChange)="onSort($event)"
+              matSortDirection="desc" 
+              matSort matSortActive="date"
+              matSortDisableClear="true"
             >
               <tbody class="table content-style">
-                <ng-container matColumnDef="serialnumber">
+                <ng-container matColumnDef="serialNumber">
                   <th mat-header-cell *matHeaderCellDef  class="small-column">
                     S.No
                   </th>
@@ -199,7 +134,7 @@
                 </ng-container> -->
 
                 <ng-container matColumnDef="date">
-                  <th mat-header-cell *matHeaderCellDef>
+                  <th mat-header-cell *matHeaderCellDef mat-sort-header>
                     Requested Date
                   </th>
                   <td mat-cell *matCellDef="let row">
@@ -243,7 +178,7 @@
                   </td>
                 </ng-container> -->
 
-                <ng-container matColumnDef="companyId">
+                <!-- <ng-container matColumnDef="companyId">
                   <th mat-header-cell *matHeaderCellDef >
                     Company Id
                   </th>
@@ -255,13 +190,12 @@
                         style="cursor: pointer; margin-left: 8px;" 
                         (click)="copyToClipboard(row.companyId)">
                         {{ copiedContextId === row.companyId ? 'check' : 'content_copy' }}
-                        <!-- {{ copiedContextId === row.contextId ? 'check' : 'content_paste' }} -->
                       </mat-icon>
                     </div>
                   </td>
-                </ng-container>
+                </ng-container> -->
 
-                <ng-container matColumnDef="userSubscriptionId">
+                <!-- <ng-container matColumnDef="userSubscriptionId">
                   <th mat-header-cell *matHeaderCellDef >
                     User Subscription Id
                   </th>
@@ -272,17 +206,17 @@
                       style="cursor: pointer; margin-left: 8px;" 
                       (click)="copyToClipboard(row.userSubscriptionId)">
                       {{ copiedContextId === row.userSubscriptionId ? 'check' : 'content_copy' }}
-                      <!-- {{ copiedContextId === row.contextId ? 'check' : 'content_paste' }} -->
+                   
                     </mat-icon>
                   </div>
                 </td>
-                </ng-container>
+                </ng-container> -->
                 <ng-container matColumnDef="action">
                   <th mat-header-cell *matHeaderCellDef style="padding-left: 24px;">
                     Action
                   </th>
                   <td mat-cell *matCellDef="let row">
-                    <button type="button" class="btn btn-next" (click)="viewRow(row)">View More</button>
+                    <button type="button" class=" btn-next" (click)="viewRow(row)">View More</button>
                   </td>
                 </ng-container>
 
@@ -300,7 +234,7 @@
             </table>
             <mat-paginator
               #referralPaginator
-              [pageSizeOptions]="[25,50,100,150,200]"
+              [pageSizeOptions]="[50,100,150,200]"
               aria-label="Select page of users"
             ></mat-paginator>
           </div>
@@ -572,7 +506,7 @@
   </div>
 </div>
 <app-modal [theme]="'theme-k'" [centered]="true" [showHeader]="showModal === modalType.MESSAGE" [showClose]="true"
-[showFooter]="showModal === modalType.MESSAGE" [modalSize]="'lg'" [title]="modalTitle" [message]="modalMessage"
+[showFooter]="showModal === modalType.MESSAGE" [modalSize]="modalSize" [title]="modalTitle" [message]="modalMessage"
 [bodyClass]="modalMessage ? 'p-4' : 'p-0'">
 
 <ng-container *ngIf="showModal === modalType.ADMINDETAIL_POPUP">
@@ -583,7 +517,7 @@
           <label class="form-label">Name</label>
         </div>
         <div class="col-8">
-          <span class="form-detail">: {{ userDetails.name }}</span>
+          <span class="form-detail">: {{ userDetails.name | titlecase}}</span>
         </div>
       </div>
       <div class="row form-row">
@@ -612,18 +546,90 @@
       </div>
       <div class="row form-row">
         <div class="col-4">
+          <label class="form-label">Company ID</label>
+        </div>
+        <div class="col-8">
+          <span class="form-detail">: {{ rowData.companyId }}</span>
+        </div>
+      </div>
+      <div class="row form-row">
+        <div class="col-4">
+          <label class="form-label">Score</label>
+        </div>
+        <div class="col-8">
+          <span class="form-detail">: {{ rowData.matchingScore }}</span>
+        </div>
+      </div>
+      <div class="row form-row">
+        <div class="col-4">
+          <label class="form-label">Referral Status</label>
+        </div>
+        <div class="col-8">
+          <span class="form-detail">: {{ rowData.status }}</span>
+        </div>
+      </div>
+
+      <div class="row form-row">
+        <div class="col-4">
+          <label class="form-label">Requested Date</label>
+        </div>
+        <div class="col-8">
+          <span class="form-detail">: {{ rowData.scoreFetchedDate  | date : "dd-MMM-yyyy" }}</span>
+        </div>
+      </div>
+      <!-- <div class="row form-row">
+        <div class="col-4">
+          <label class="form-label">CV</label>
+        </div>
+        <div class="col-8">
+          <span class="form-detail">: <a [href]="rowData.cvAwsS3SignedUrl" target="_blank" rel="noopener noreferrer">View CV</a> </span>
+         
+        </div>
+      </div> -->
+      <div class="row form-row">
+        <div class="col-4">
+          <label class="form-label">CV URL</label>
+        </div>
+        <div class="col-8">
+          <span class="form-detail">
+            :
+            <ng-container *ngIf="cvUrl; else noCv">
+              <a [href]="cvUrl" target="_blank" rel="noopener noreferrer">View CV</a>
+            </ng-container>
+            <ng-template #noCv> - </ng-template>
+          </span>
+        </div>
+      </div>
+      
+      <div class="row form-row">
+        <div class="col-4">
+          <label class="form-label">Job URL</label>
+        </div>
+        <div class="col-8">
+          <span class="form-detail">:  <a [href]="rowData.jobUrl" target="_blank" rel="noopener noreferrer">LINK</a> </span>
+         
+        </div>
+      </div>
+      <div class="row form-row">
+        <div class="col-4">
           <label class="form-label">Score Details</label>
         </div>
         <div class="col-8">
-          <span class="form-detail">: {{ rowData.scoreDetails }}</span>
+          <span class="form-detail w-100  d-block text-break text-justify " >: {{ rowData.scoreDetails }}</span>
         </div>
       </div>
+
       <div class="row form-row">
         <div class="col-4">
           <label class="form-label">Job Description Extracted</label>
         </div>
         <div class="col-8">
-          <span class="form-detail" style="display: block; white-space: pre-wrap; word-wrap: break-word;">: {{ rowData.jdExtracted }}</span>
+          <div class="form-detail w-100" >
+            <ng-container *ngFor="let line of formattedJD">
+              <p class="text-justify ">{{ line }}</p>
+            </ng-container>
+          </div>
+          <!-- <span class="form-detail" style="display: block; white-space: pre-wrap; word-wrap: break-word; text-align: justify;">: {{ rowData.jdExtracted }}</span> -->
         </div>
       </div>
 
@@ -631,7 +637,7 @@
     </div>
   </div>
 </ng-container>
-<ng-container *ngIf="showModal=== modalType.SUCCESS_MESSAGE">
+<!-- <ng-container *ngIf="showModal=== modalType.SUCCESS_MESSAGE">
   <div class="row message-card px-sm-3 p-4">
     <div class="font-weight-bold text-color-red mb-3 d-flex justify-content-center"
       style="color: #e40707; font-size: medium;" *ngIf="successtitle === 'Error'">
@@ -641,10 +647,13 @@
     <div class="d-flex justify-content-center"><span>{{successmessage}}</span> </div>
 
     <div class=" mt-3 d-flex justify-content-center">
-      <button class="btn btn-next" (click)="closeModal()" *ngIf="successtitle === 'Error'"> Close</button>
+      <button class="btn-next" (click)="closeModal()" *ngIf="successtitle === 'Error'"> Close</button>
 
     </div>
   </div>
+</ng-container> -->
+<ng-container *ngIf="showModal === modalType.SUCCESS_ERROR_MESSAGE">
+  <app-message-modal [title]="successtitle" [message]="successmessage" (onCancel)="closeModal()">
+  </app-message-modal>
 </ng-container>
-
 </app-modal>

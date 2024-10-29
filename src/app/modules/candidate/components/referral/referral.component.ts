@@ -26,8 +26,8 @@ export class ReferralComponent implements OnInit {
   selectedReferral: any;
   reviewData: any = null;
   refereeDetails: any;
-  successmessage: string = "";
-  successtitle: string = "";
+  successMessage: string = "";
+  successTitle: string = "";
   modalType = ModalType;
   modalMessage: string = "";
   modalTitle: string = "";
@@ -222,9 +222,9 @@ export class ReferralComponent implements OnInit {
       }else{
       this.spinner.hide();
     
-      this.successmessage = "Something went wrong. Please try again after sometime"
-      this.successtitle = "Error"
-      this.openModal(ModalType.SUCCESS_MESSAGE);
+      this.successMessage = "Something went wrong. Please try again after sometime";
+      this.successTitle = "Error";
+      this.openModal(ModalType.SUCCESS_ERROR_MESSAGE);
       }
     }
     );
@@ -238,12 +238,12 @@ export class ReferralComponent implements OnInit {
     const forUserId = this.selectedReferral?.acceptedByUserId;
 
     let payload = {
-      "ratingByUserId": userId,
+      // "ratingByUserId": userId,
       "ratingForUserType": "EMP",
       "rating": data.rating,
       "reviewText": data.review,
-      "createdByUserId": userId,
-      "updatedByUserId": userId,
+      // "createdByUserId": userId,
+      // "updatedByUserId": userId,
       "reviewContext": "EMP_REFERRAL",
       "referalId": referralId,
       // "masterServiceCode": "RESUME_REVIEW", 
@@ -271,6 +271,10 @@ export class ReferralComponent implements OnInit {
        this.router.navigate(['/']);
       }else{
       this.spinner.hide();
+
+      this.successMessage = "Something went wrong. Please try again after sometime";
+      this.successTitle = "Error";
+      this.openModal(ModalType.SUCCESS_ERROR_MESSAGE);
       }
     }
     );
@@ -350,9 +354,9 @@ export class ReferralComponent implements OnInit {
       if (response) {
         this.spinner.hide();
         
-        this.successmessage = "An issue has been raised for this request. You will get an e-mail for further communication.";
-        this.successtitle = "";
-        this.openModal(ModalType.SUCCESS_MESSAGE);
+        this.successMessage = "An issue has been raised for this request. You will get an e-mail for further communication.";
+        this.successTitle = "";
+        this.openModal(ModalType.SUCCESS_ERROR_MESSAGE);
       }
     }).catch((error: any) => {
       if (error.status==404) { 
@@ -364,9 +368,9 @@ export class ReferralComponent implements OnInit {
       }else{
       this.spinner.hide();
      
-      this.successmessage = "Something went wrong. Please try again after sometime"
-      this.successtitle = "Error"
-      this.openModal(ModalType.SUCCESS_MESSAGE);
+      this.successMessage = "Something went wrong. Please try again after sometime";
+      this.successTitle = "Error";
+      this.openModal(ModalType.SUCCESS_ERROR_MESSAGE);
       }
     }
     );
@@ -400,9 +404,9 @@ export class ReferralComponent implements OnInit {
        this.router.navigate(['/']);
       }else{
       this.spinner.hide();
-      this.successmessage = "Something went wrong. Please try again after sometime"
-      this.successtitle = "Error"
-      this.openModal(ModalType.SUCCESS_MESSAGE);
+      this.successMessage = "Something went wrong. Please try again after sometime";
+      this.successTitle = "Error";
+      this.openModal(ModalType.SUCCESS_ERROR_MESSAGE);
       }
     }
     );

@@ -109,10 +109,10 @@
 
                 <div class="row">
                     <div class="col-md-12 mt-1">
-                        <label for="" class="form-lable required-form-field">About</label>
+                        <label for="" class="form-lable ">About</label>
                         <textarea class="about-textarea form-control" placeholder="About" cols="10" rows="3" minlength="40"
-                            name="about" id="about" [(ngModel)]="employeePersonalData.about" required
-                            #about="ngModel"    [title]="about.errors?.['required'] ? 'about is required' : ''"
+                            name="about" id="about" [(ngModel)]="employeePersonalData.about"
+                            #about="ngModel" 
                             
                             [ngClass]="{ 'is-invalid': about.invalid && (about.dirty || about.touched) }">
                             </textarea>
@@ -139,14 +139,13 @@
                     </div>
                     <div class="col-md-4">
                         <div class="material-input__group">
-                            <label for="" class="form-lable required-form-field">LinkedIn</label>
+                            <label for="" class="form-lable">LinkedIn</label>
                             <i class="fa-brands fa-linkedin" style="color: #f6f7f9; font-size: 16px"></i>
-                            <input type="text" placeholder="LinkdIn" required
+                            <input type="text" placeholder="LinkdIn" 
                                 class="text-white material-input__group__input form-input form-control"
                                 #socialLinklinkdin="ngModel" [(ngModel)]="employeePersonalData.socialLinklinkdin" 
                                 pattern="^(https?:\/\/(www\.)?linkedin\.com\/in\/[a-zA-Z0-9_\-]+\/?)$"
                                 [title]="socialLinklinkdin.errors?.['pattern'] ? 'Linkedin URL is invalid' : ''"
-                                [title]="socialLinklinkdin.errors?.['required'] ? 'Linkedin URL is required' : ''"
                                 [ngClass]="{ 'is-invalid': socialLinklinkdin.invalid && (socialLinklinkdin.dirty || socialLinklinkdin.touched) }"
                                 name="socialLinklinkdin" id="socialLinklinkdin">
                         </div>
@@ -172,7 +171,7 @@
                 <div class="row">
                     <div class="col-md-12 mt-5 mb-3">
                         <button class="btn btn-next float-end" type="submit"
-                            [disabled]="!employee.form.valid || !employeePersonalData.about || !employeePersonalData.socialLinklinkdin || !employeePersonalData.name || !employeePersonalData.email || !employeePersonalData.country || !employeePersonalData.location || !employeePersonalData.number ">Next</button>
+                            [disabled]="!employee.form.valid  || !employeePersonalData.name || !employeePersonalData.email || !employeePersonalData.country || !employeePersonalData.location || !employeePersonalData.number ">Next</button>
                     </div>
 
                 </div>

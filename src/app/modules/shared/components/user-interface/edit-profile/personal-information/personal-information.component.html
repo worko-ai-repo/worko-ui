@@ -167,7 +167,7 @@
                             <label for="" class="form-lable required-form-field">About</label>
                             <textarea class="about-textarea form-control" placeholder="About" cols="10" rows="3" minlength="40"
                                 #about="ngModel" [(ngModel)]="candidatePersonalDetails.about" name="about" id="about" 
-                                required [title]="about.errors?.['required'] ? 'About is required' : ''"
+                                required 
                                 [ngClass]="{ 'is-invalid': about.invalid && (about.dirty || about.touched) }">
                                     </textarea>
                         </div>

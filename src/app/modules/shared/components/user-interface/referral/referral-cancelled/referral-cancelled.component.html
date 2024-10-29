@@ -12,7 +12,7 @@
                 <div class="col-md-12"
                     style="color: white; display: flex; flex-direction: row; justify-content: start;">
                     <div style="width: fit-content; text-align: left;">
-                        <span class="text-white">Job Url : <a href="{{selectedReferral?.jobUrl}}"
+                        <span class="text-white">Job URL : <a href="{{selectedReferral?.jobUrl}}"
                                 target="_blank">Link</a></span>
                         <br>
                         <span class="text-white">Company Name : {{selectedReferral?.companyName}}</span> <br>
@@ -72,11 +72,11 @@
 
                 <div *ngIf="selectedReferral" class="col-md-12 d-flex justify-content-end pt-1">
                     <div style="width: fit-content; text-align: left;">
-                        <h3 style="color: white;">{{empdetailsList[0].name}}</h3>
+                        <h3 style="color: white;">{{empdetailsList[0].name | titlecase}}</h3>
 
                         <div class="ref-education">
                             <div>Company Name : </div>
-                            <div class="pt-1">Job Description: <span class="text-white"><a
+                            <div class="pt-1">Job URL: <span class="text-white"><a
                                         href="{{selectedReferral?.jobUrl}}" target="_blank">Link</a></span></div>
                             <div class="pt-1">Matching Score : {{selectedReferral?.matchingScore}}</div>
                         </div>

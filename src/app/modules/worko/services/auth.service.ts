@@ -84,6 +84,7 @@ export class AuthService {
   }
 
   getCompanyName(value: any): Observable<any> {
+
     let url = `${API_URL}company`;
 
     if (value) {
@@ -95,6 +96,7 @@ export class AuthService {
     return this.http.get(url, this.getHttpOptions())
       .pipe(
         catchError(error => {
+          console.log(error)
           console.error('Error:', error);
           throw error;
         })

@@ -1,4 +1,4 @@
-import { Component, ElementRef, EventEmitter, Input, OnChanges, Output, SimpleChanges, ViewChild } from '@angular/core';
+import { ChangeDetectorRef, Component, ElementRef, EventEmitter, Input, OnChanges, Output, SimpleChanges, ViewChild } from '@angular/core';
 import { ModalComponent } from 'src/app/modules/shared/components/modal/modal.component';
 import { ModalType } from 'src/app/modules/shared/interfaces/shared.interface';
 import { BreakpointObserver, Breakpoints } from '@angular/cdk/layout';
@@ -26,21 +26,25 @@ export class EmployeeReferralDetailsComponent implements OnChanges {
   showCard: boolean = false;
   action: string = "";
   scoreDetails: any = "";
-  matchingScore:number = 0;
+  matchingScore: number = 0;
   profileImage: any;
+
   @ViewChild(ModalComponent) modal!: ModalComponent;
   modalType = ModalType;
   modalMessage: string = "";
   modalTitle: string = "";
+  modalSize: string = "md";
   showModal: ModalType | undefined;
+
   score: number = 0;
   originalPoints = 2.1;
   possiblePoints = 100;
   isEmployeeReferralPage = true;
-  circleDiameter:number=105;
-  isHidden:boolean=false
-  isSmallerScreen:boolean=false
-  // modalSize = 'md';
+  circleDiameter: number = 105;
+  isHidden: boolean = false
+  isSmallerScreen: boolean = false
+  detailsTitle: string = "Detailed Analysis"
+
   // selectedStatus!: string; 
 
   //   // ...
@@ -48,8 +52,8 @@ export class EmployeeReferralDetailsComponent implements OnChanges {
   //   onStatusSelected(status: string): void {
   //       this.selectedStatus = status;
   //   }
-  
-  constructor(private breakpointObserver: BreakpointObserver) {}
+
+  constructor(private breakpointObserver: BreakpointObserver, private cdrf: ChangeDetectorRef) { }
 
   ngOnInit(): void {
     this.breakpointObserver.observe([
@@ -57,17 +61,16 @@ export class EmployeeReferralDetailsComponent implements OnChanges {
       Breakpoints.Handset
     ]).subscribe(result => {
       this.isSmallerScreen = result.matches;
-      if(this.isSmallerScreen){
-        this.circleDiameter=100;
+      if (this.isSmallerScreen) {
+        this.circleDiameter = 100;
       }
     });
-  
   }
   acceptBtn() {
     // Handling the accept logic here
     this.action = "accept";
     this.openModal(ModalType.CONFIRMATION_DIALOG);
-    
+
   }
 
   rejectBtn(): void {
@@ -77,11 +80,11 @@ export class EmployeeReferralDetailsComponent implements OnChanges {
 
   onLeave(): void {
     // Handle the leave logic
-  
+
   }
 
   ngOnChanges(changes: SimpleChanges): void {
-   
+
 
     // if (changes['selectedReferral']) {
     //   this.handleSelectedReferralChange(changes['selectedReferral'].currentValue);
@@ -92,7 +95,7 @@ export class EmployeeReferralDetailsComponent implements OnChanges {
     } else {
       this.matchingScore = this.selectedReferral?.matchingScore;
     }
-    this.scoreDetails =this.formatScoreDetails(this.selectedReferral?.scoreDetails); 
+    this.scoreDetails = this.formatScoreDetails(this.selectedReferral?.scoreDetails);
 
     if (this.empdetailsList?.length > 0) {
 
@@ -122,6 +125,15 @@ export class EmployeeReferralDetailsComponent implements OnChanges {
  */
   openModal(modalType: ModalType, message: string = "", title: string = ""): void {
     this.showModal = modalType;
+
+    if (modalType === this.modalType.SHOW_MORE_DETAILS) {
+      this.modalSize = "lg"
+    }
+    else {
+      this.modalSize = "md";
+    }
+
+    this.cdrf.detectChanges();
     this.modalMessage = message;
     this.modalTitle = title;
     this.modal.open();
@@ -160,7 +172,7 @@ export class EmployeeReferralDetailsComponent implements OnChanges {
 
   viewDetails() {
     // this.modalSize = 'xl';
-    this.openModal(ModalType.DETAILED_ANALYSIS);
+    this.openModal(ModalType.SHOW_MORE_DETAILS);
   }
 
   formatScoreDetails(data: string): string {
@@ -170,7 +182,7 @@ export class EmployeeReferralDetailsComponent implements OnChanges {
 
   getModalSize() {
     let modalSize = '';
-    if(this.showModal === this.modalType.DETAILED_ANALYSIS) {
+    if (this.showModal === this.modalType.DETAILED_ANALYSIS) {
       modalSize = 'xl';
     }
     else {

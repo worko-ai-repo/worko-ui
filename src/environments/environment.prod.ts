@@ -10,12 +10,14 @@ export const environment = {
       domain: 'worko-congnito.auth.ap-south-1.amazoncognito.com'
     },
     razorpayKey:'REDACTED',
-    crossOriginUrl:'https://worko.ai',
-    localUrl: 'https://app.worko.ai',
+    // crossOriginUrl:'https://worko.ai',
+    localUrl: 'https://worko.ai',
     apiUrl: "https://api.worko.ai/",
+    chatApiUrl: 'https://chatapi.worko.ai/',
+    chatWsUrl: 'wss://chatws.worko.ai',
     saveUserInfoApi:"https://w6zitv6ryk.execute-api.us-east-1.amazonaws.com/dev/adduserinfo",
-    linkedInRedirection: "https://app.worko.ai/auth/checkRedirection",
-    linkedInLogout: "https://app.worko.ai"
+    linkedInRedirection: "https://worko.ai/auth/checkRedirection",
+    linkedInLogout: "https://worko.ai"
   };
   
   /*

@@ -114,6 +114,17 @@ li{
     display: none;
 }
 
+.btn-dark{
+    background-color: rgb(87, 225, 225) !important;
+    color: #182b45 !important;
+    //font-size: calc(1vw + 14px);
+    width: 100%;
+    padding: 0.1rem 0.5rem;
+    border: 5px solid rgb(87 204 255) !important; 
+    font-weight: 500;
+    font-size: 27px;
+}
+
 @media (max-width: 1030px) and (min-width: 550px) {
 
     hr {
@@ -131,7 +142,7 @@ li{
         }
     }
 
-    .nav-link{
+    .nav-link, .btn-dark{
         font-size: calc(10px + 1vw);
     }
 
@@ -182,12 +193,19 @@ li{
 
         img{
             width: 87px;
+            // margin-top: 1rem;
         }
     }
 
     .navbar-container input[type="checkbox"]{
         
         top: 20px !important;
+    }
+
+    .btn-dark{
+        margin-left: -1rem;
+        background-color: #0D1929;
+        color: white;
     }
 
 }
@@ -551,6 +569,15 @@ li{
         display: block;
     }
 
+    .btn-dark{
+        font-size: 1rem;
+        background-color: #0D1929 !important;
+        border: 2px solid rgb(87, 204, 255) !important;
+        color: white !important;
+        width: 82%;
+        padding: 0.1rem 0.1rem;
+    }
+
 
 }
 
@@ -606,5 +633,10 @@ li{
   
   .letter {
     font-weight: bold;
+  }
+
+  .header {
+    position: relative;
+    z-index: 2;
   }
   

@@ -33,12 +33,13 @@ export class EmployeeEditComponent {
   uploadedProfilePicName: string = "";
 
   companyId: any = "";
-  successmessage: string = "";
-  successtitle: string = "";
+  successMessage: string = "";
+  successTitle: string = "";
   modalType = ModalType;
   modalMessage: string = "";
   modalTitle: string = "";
   showModal: ModalType | undefined;
+
   id: any;
   emailid: any;
   isEmailVerified: any;
@@ -108,6 +109,7 @@ export class EmployeeEditComponent {
         .then(async (response) => {
           if (response) {
             this.employeeDetails = response[0];
+            this.storage.set('userId', this.employeeDetails?.id);
             await this.getSocialProfile();
           }
         });
@@ -120,10 +122,10 @@ export class EmployeeEditComponent {
        this.router.navigate(['/']);
       } else {
         this.spinner.hide();
-        this.successmessage =
+        this.successMessage =
           "Something went wrong. Please try again after sometime";
-        this.successtitle = "Error";
-        this.openModal(ModalType.SUCCESS_MESSAGE);
+        this.successTitle = "Error";
+        this.openModal(ModalType.SUCCESS_ERROR_MESSAGE);
       }
     }
   }
@@ -153,10 +155,10 @@ export class EmployeeEditComponent {
        this.router.navigate(['/']);
       } else {
         this.spinner.hide();
-        this.successmessage =
+        this.successMessage =
           "Something went wrong. Please try again after sometime";
-        this.successtitle = "Error";
-        this.openModal(ModalType.SUCCESS_MESSAGE);
+        this.successTitle = "Error";
+        this.openModal(ModalType.SUCCESS_ERROR_MESSAGE);
       }
     }
   }
@@ -192,10 +194,10 @@ export class EmployeeEditComponent {
        this.router.navigate(['/']);
       } else {
         this.spinner.hide();
-        this.successmessage =
+        this.successMessage =
           "Something went wrong. Please try again after sometime";
-        this.successtitle = "Error";
-        this.openModal(ModalType.SUCCESS_MESSAGE);
+        this.successTitle = "Error";
+        this.openModal(ModalType.SUCCESS_ERROR_MESSAGE);
       }
     }
   }
@@ -217,36 +219,36 @@ export class EmployeeEditComponent {
           } catch (error: any) {
             if (error && error.error.message) {
               this.spinner.hide();
-              this.successmessage =
+              this.successMessage =
                 "Something went wrong. Please try again after sometime";
-              this.successtitle = "Error";
-              this.openModal(ModalType.SUCCESS_MESSAGE);
+              this.successTitle = "Error";
+              this.openModal(ModalType.SUCCESS_ERROR_MESSAGE);
               // this.errorMessage = error.error.message;
               // this.setErrorMessage('File Link error linkResumewithUser:- '+ error.error.message);
             }
             this.spinner.hide();
-            this.successmessage =
+            this.successMessage =
               "Something went wrong. Please try again after sometime";
-            this.successtitle = "Error";
-            this.openModal(ModalType.SUCCESS_MESSAGE);
+            this.successTitle = "Error";
+            this.openModal(ModalType.SUCCESS_ERROR_MESSAGE);
             console.error("File Link error linkResumewithUser:", error);
           }
         })
         .catch((error) => {
           this.spinner.hide();
-          this.successmessage =
+          this.successMessage =
             "Something went wrong. Please try again after sometime";
-          this.successtitle = "Error";
-          this.openModal(ModalType.SUCCESS_MESSAGE);
+          this.successTitle = "Error";
+          this.openModal(ModalType.SUCCESS_ERROR_MESSAGE);
 
           console.error("File upload error:", error);
         });
     } catch (error) {
       this.spinner.hide();
-      this.successmessage =
+      this.successMessage =
         "Something went wrong. Please try again after sometime";
-      this.successtitle = "Error";
-      this.openModal(ModalType.SUCCESS_MESSAGE);
+      this.successTitle = "Error";
+      this.openModal(ModalType.SUCCESS_ERROR_MESSAGE);
       
     }
   }
@@ -297,7 +299,7 @@ export class EmployeeEditComponent {
           SK: this.workExperienceDetails ? this.workExperienceDetails.SK : "",
           PK: this.workExperienceDetails ? this.workExperienceDetails.PK : "",
           experienceInMonths: this.secondStepData.workingSince,
-          userType: "EMP",
+         // userType: "EMP",
           isCurrent:
             this.secondStepData.isCurrent !== undefined
               ? this.secondStepData.isCurrent
@@ -319,7 +321,7 @@ export class EmployeeEditComponent {
                 department: "frontend",
                 emailId: this.secondStepData.officialEmail,
                 experienceInMonths: previousCompany.previousExperience,
-                userType: "EMP",
+               // userType: "EMP",
                 isCurrent: false, // Assuming isCurrent is always false for previous companies
               };
             }
@@ -341,10 +343,10 @@ export class EmployeeEditComponent {
        this.router.navigate(['/']);
       } else {
         this.spinner.hide();
-        this.successmessage =
+        this.successMessage =
           "Something went wrong. Please try again after sometime";
-        this.successtitle = "Error";
-        this.openModal(ModalType.SUCCESS_MESSAGE);
+        this.successTitle = "Error";
+        this.openModal(ModalType.SUCCESS_ERROR_MESSAGE);
       }
     }
   }
@@ -419,10 +421,10 @@ export class EmployeeEditComponent {
        this.router.navigate(['/']);
       } else {
         this.spinner.hide();
-        this.successmessage =
+        this.successMessage =
           "Something went wrong. Please try again after sometime";
-        this.successtitle = "Error";
-        this.openModal(ModalType.SUCCESS_MESSAGE);
+        this.successTitle = "Error";
+        this.openModal(ModalType.SUCCESS_ERROR_MESSAGE);
       }
     }
   }
@@ -501,10 +503,10 @@ const candidateExperience = {
        this.router.navigate(['/']);
       } else {
         this.spinner.hide();
-        this.successmessage =
+        this.successMessage =
           "Something went wrong. Please try again after sometime";
-        this.successtitle = "Error";
-        this.openModal(ModalType.SUCCESS_MESSAGE);
+        this.successTitle = "Error";
+        this.openModal(ModalType.SUCCESS_ERROR_MESSAGE);
       }
     }
   }
@@ -539,10 +541,10 @@ const candidateExperience = {
        this.router.navigate(['/']);
       } else {
         this.spinner.hide();
-        this.successmessage =
+        this.successMessage =
           "Something went wrong. Please try again after sometime";
-        this.successtitle = "Error";
-        this.openModal(ModalType.SUCCESS_MESSAGE);
+        this.successTitle = "Error";
+        this.openModal(ModalType.SUCCESS_ERROR_MESSAGE);
       }
     }
   }
@@ -561,10 +563,10 @@ const candidateExperience = {
       }
     } catch (error: any) {
       this.spinner.hide();
-      this.successmessage =
+      this.successMessage =
         "Something went wrong. Please try again after sometime";
-      this.successtitle = "Error";
-      this.openModal(ModalType.SUCCESS_MESSAGE);
+      this.successTitle = "Error";
+      this.openModal(ModalType.SUCCESS_ERROR_MESSAGE);
     }
   }
 
@@ -578,10 +580,10 @@ const candidateExperience = {
     }
     else if( data == "error") {
       this.spinner.hide()
-      this.successmessage =
+      this.successMessage =
         "Something went wrong. Please try again after sometime";
-      this.successtitle = "Error";
-      this.openModal(ModalType.SUCCESS_MESSAGE);
+      this.successTitle = "Error";
+      this.openModal(ModalType.SUCCESS_ERROR_MESSAGE);
     }
   }
 
@@ -604,10 +606,10 @@ const candidateExperience = {
        this.router.navigate(['/']);
       } else {
         this.spinner.hide();
-        this.successmessage =
+        this.successMessage =
           "Something went wrong. Please try again after sometime";
-        this.successtitle = "Error";
-        this.openModal(ModalType.SUCCESS_MESSAGE);
+        this.successTitle = "Error";
+        this.openModal(ModalType.SUCCESS_ERROR_MESSAGE);
       }
     }
   }
@@ -651,17 +653,17 @@ const candidateExperience = {
        this.router.navigate(['/']);
       } else {
         this.spinner.hide();
-        this.successmessage =
+        this.successMessage =
           "Something went wrong. Please try again after sometime";
-        this.successtitle = "Error";
-        this.openModal(ModalType.SUCCESS_MESSAGE);
+        this.successTitle = "Error";
+        this.openModal(ModalType.SUCCESS_ERROR_MESSAGE);
       }
     }
   }
   modalopen() {
-    this.successmessage = "Your profile has been updated successfully.";
-    this.successtitle = "Congratulations!";
-    this.openModal(ModalType.SUCCESS_MESSAGE);
+    this.successMessage = "Your profile has been updated successfully.";
+    this.successTitle = "Congratulations!";
+    this.openModal(ModalType.SUCCESS_ERROR_MESSAGE);
   }
 
   continue() {

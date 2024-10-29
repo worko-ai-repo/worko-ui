@@ -66,8 +66,8 @@ export class SubscriptionPlanComponent {
   decryptedPaymentResponse: any;
   emailAddress: any;
   subscriptionStatus: any;
-  successmessage: string = "";
-  successtitle: string = "";
+  successMessage: string = "";
+  successTitle: string = "";
   paymentGateways: PaymentGatewayData[] = PAYMENT_GATEWAYS;
   isModalVisible: boolean = false;
 
@@ -111,9 +111,9 @@ export class SubscriptionPlanComponent {
     this.isOrderDetails = false;
     // this.openModal(ModalType.SUBSCRIPTION_CHECKOUT);
     if (this?.subscriptionStatus?.isSubscribed) {
-      this.successmessage = `You already have ${this?.subscriptionStatus?.referralCount} referral count left in your account. Please use it before buying another one.`;
-      this.successtitle = ""
-      this.openModal(ModalType.SUCCESS_MESSAGE);
+      this.successMessage = `You already have ${this?.subscriptionStatus?.referralCount} referral count left in your account. Please use it before buying another one.`;
+      this.successTitle = ""
+      this.openModal(ModalType.SUCCESS_ERROR_MESSAGE);
     }
     else {
       const enabledPaymentGateways = this.paymentGateways.filter(gateway => gateway.isEnabled);
@@ -224,9 +224,9 @@ export class SubscriptionPlanComponent {
       } else {
       this.spinner.hide();
      
-      this.successmessage = "Something went wrong. Please try again after sometime"
-      this.successtitle = "Error"
-      this.openModal(ModalType.SUCCESS_MESSAGE);
+      this.successMessage = "Something went wrong. Please try again after sometime";
+      this.successTitle = "Error";
+      this.openModal(ModalType.SUCCESS_ERROR_MESSAGE);
     }
   }
     );
@@ -363,9 +363,9 @@ export class SubscriptionPlanComponent {
       } else {
       this.spinner.hide();
       
-      this.successmessage = "Something went wrong. Please try again after sometime"
-      this.successtitle = "Error"
-      this.openModal(ModalType.SUCCESS_MESSAGE);
+      this.successMessage = "Something went wrong. Please try again after sometime";
+      this.successTitle = "Error";
+      this.openModal(ModalType.SUCCESS_ERROR_MESSAGE);
     }
   }
     );
@@ -490,9 +490,9 @@ export class SubscriptionPlanComponent {
        this.router.navigate(['/']);
       } else {
     
-      this.successmessage = "Something went wrong. Please try again after sometime"
-      this.successtitle = "Error"
-      this.openModal(ModalType.SUCCESS_MESSAGE);
+      this.successMessage = "Something went wrong. Please try again after sometime";
+      this.successTitle = "Error";
+      this.openModal(ModalType.SUCCESS_ERROR_MESSAGE);
       }
     });
   }

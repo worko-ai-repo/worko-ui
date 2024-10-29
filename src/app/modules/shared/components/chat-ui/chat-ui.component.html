@@ -1,0 +1,60 @@
+<div class="chat-container">
+
+    <div *ngIf="isFetchingMessages && isPaginationEnabled" class="loading-more-messages">
+        Loading more messages...
+      </div>
+
+    <div *ngIf="noMoreMessages && !isFetchingMessages && isChatLoaded && isPaginationEnabled" class="no-more-messages">
+        No more messages to load.
+    </div>  
+
+    <!-- Chat Messages -->
+    <div #chatContainer class="chat-messages" style="overflow-y: auto; ">
+
+        <div #topSentinel></div>
+
+        <div *ngFor="let group of groupedMessages">
+            <div class="date-label date-label-sticky">
+                {{ group.label === 'Today' || group.label === 'Yesterday' ? group.label : (group.label | date: 'MMMM d, y') }}
+            </div> <!-- Date grouping label -->
+
+            <div *ngFor="let msg of group.messages"
+                [ngClass]="{'right': msg.senderId === userId, 'left': msg.senderId !== userId}" class="message">
+                <div class="message-content">
+                    <p>{{ msg.text }}</p>
+                    <span class="message-timestamp">{{ formatTime(msg.createdAt) }}</span>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+<!-- Message Input -->
+<div class="message-input">
+    <!-- <button class="attach-btn">
+        <img src="assets/chat-ui-images/attachment_icon.png" alt="Attach">
+    </button>
+
+    <button class="gallery-btn">
+        <img src="assets/chat-ui-images/gallery_icon.png" alt="Gallery">
+    </button> -->
+    <!-- <input [(ngModel)]="newMessage" type="text" placeholder="Write message here"> -->
+    <!-- <button (click)="sendMessage()" class="send-btn">
+        <img src="assets/chat-ui-images/send_icon.png" alt="Send">
+    </button> -->
+    
+    <textarea
+      [(ngModel)]="newMessage"
+      placeholder="Write message here"
+      class="expanding-input"
+      autosize
+      [minRows]="1"
+      [maxRows]="4"
+    ></textarea>
+
+    <!-- Using Font Awesome for Send Icon -->
+    <button (click)="sendMessage()" class="send-btn">
+        <i class="fas fa-paper-plane"></i> <!-- Font Awesome Send Icon -->
+    </button>
+</div>
+</div>

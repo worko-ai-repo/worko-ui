@@ -1,0 +1,41 @@
+.message-card {
+    border-radius: 6px;
+    background: #0A1E36;
+}
+
+.message-title-error {
+    color: #e40707;
+    font-size: 20px;
+    font-weight: bold;
+    margin-bottom: 1rem; /* mb-3 */
+    display: flex;
+    justify-content: center;
+}
+
+.message-title-success {
+    color: #2371CB;
+    font-size: 20px;
+    font-weight: bold;
+    margin-bottom: 1rem; /* mb-3 */
+    display: flex;
+    justify-content: center;
+}
+
+.message-text {
+    text-align: center;
+    font-size: 19px;
+    display: flex;
+    justify-content: center;
+}
+
+.button-group {
+    margin-top: 1rem; /* mt-3 */
+    display: flex;
+    justify-content: center;
+}
+
+.btn-next {
+    background: #2371CB;
+    font-size: 15px;
+    color: white;
+}

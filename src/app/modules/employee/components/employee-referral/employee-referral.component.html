@@ -1,12 +1,14 @@
 <div class="row content-container referral-content-container referral-container">
 
-    <div class="left-container-content referral-left-container"  [ngClass]="{ 'hidden': !isAwaitingVisible}">
-        <app-awaiting-status [userType]="userType" (statusSelected)="onStatusSelected($event)" [screenWidth]="screenWidth"  [referralList]="empReferralList" (showReferralDetails)="showReferralDetails($event)"></app-awaiting-status>
+    <div class="left-container-content referral-left-container" [ngClass]="{ 'hidden': !isAwaitingVisible}">
+        <app-awaiting-status [userType]="userType" (statusSelected)="onStatusSelected($event)"
+            [screenWidth]="screenWidth" [referralList]="empReferralList"
+            (showReferralDetails)="showReferralDetails($event)"></app-awaiting-status>
     </div>
-    <div class="divide-55"  [ngClass]="{ 'hidden': !isMainContentVisible}" >
+    <div class="divide-55" [ngClass]="{ 'hidden': !isMainContentVisible}">
         <div class="row" style="height:100%">
             <app-referral-stepper [selectedReferral]="selectedReferral" [isMainContentVisible]="isMainContentVisible"
-            [isAwaitingVisible]="isAwaitingVisible" (onClickBack)="onClickBack()"
+                [isAwaitingVisible]="isAwaitingVisible" (onClickBack)="onClickBack()"
                 [statusitem]="statusItem"></app-referral-stepper>
             <div class="status-container">
                 <ng-container *ngIf="selectedStatus === 'AWAITING'; else otherStatus">
@@ -22,13 +24,13 @@
 
                 <ng-template #otherStatus>
                     <app-employee-accepted-referral [userType]="userType" *ngIf="selectedStatus === 'ACCEPTED'"
-                        [selectedReferral]="selectedReferral" [selectedStatus]="selectedStatus" (markAsDone)="referralAction('DONE')"
-                        (raiseIssue)="referralRaiseIssue($event)" [empExperienceList]="empExperienceList"
-                        [empExperienceDetails]="empExperienceDetails" [empCoreSkillsList]="empCoreSkillsList"
-                        [empCoreSkillsDetails]="empCoreSkillsDetails" [empAchievmentsList]="empAchievmentsList"
-                        [empAchievmentsDetails]="empAchievmentsDetails" [empEducationList]="empEducationList"
-                        [empEducationDetails]="empEducationDetails" [empdetailsList]="empdetailsList"
-                        [empDetails]="empDetails"></app-employee-accepted-referral>
+                        [selectedReferral]="selectedReferral" [selectedStatus]="selectedStatus"
+                        (markAsDone)="referralAction('DONE')" (raiseIssue)="referralRaiseIssue($event)"
+                        [empExperienceList]="empExperienceList" [empExperienceDetails]="empExperienceDetails"
+                        [empCoreSkillsList]="empCoreSkillsList" [empCoreSkillsDetails]="empCoreSkillsDetails"
+                        [empAchievmentsList]="empAchievmentsList" [empAchievmentsDetails]="empAchievmentsDetails"
+                        [empEducationList]="empEducationList" [empEducationDetails]="empEducationDetails"
+                        [empdetailsList]="empdetailsList" [empDetails]="empDetails"></app-employee-accepted-referral>
                     <app-employee-referral-reject [userType]="userType" *ngIf="selectedStatus === 'REJECTED'"
                         [selectedReferral]="selectedReferral" [selectedStatus]="selectedStatus"
                         [empExperienceList]="empExperienceList" [empExperienceDetails]="empExperienceDetails"
@@ -39,8 +41,9 @@
                     <app-referral-done *ngIf="selectedStatus === 'REFERRED'" [processStatus]="processStatus"
                         [userType]="userType" (raiseIssue)="referralRaiseIssue($event)"
                         (referralRating)="createReview($event)" [reviewData]="reviewData"
-                        [empdetailsList]="empdetailsList" [empEducationList]="empEducationList"
-                        [empExperienceList]="empExperienceList" [empCoreSkillsDetails]="empCoreSkillsDetails"
+                        [empAchievmentsDetails]="empAchievmentsDetails" [empdetailsList]="empdetailsList"
+                        [empEducationList]="empEducationList" [empExperienceList]="empExperienceList"
+                        [empCoreSkillsDetails]="empCoreSkillsDetails"
                         [selectedReferral]="selectedReferral"></app-referral-done>
                     <app-referral-cancelled [userType]="userType" [empdetailsList]="empdetailsList"
                         [selectedReferral]="selectedReferral"
@@ -58,39 +61,19 @@
     [showFooter]="showModal === modalType.MESSAGE" [title]="modalTitle" [message]="modalMessage"
     [bodyClass]="modalMessage ? 'p-4' : 'p-0'" [modalSize]="'md'">
 
-    <!-- <app-messagmodal  [message]="successmessage" [title]="successtitle"></app-messagmodal> -->
-    <div *ngIf="showModal === modalType.SUCCESS_MESSAGE" class="row message-card px-sm-3 p-4"
-        style="border-radius: 6px;">
-        <div class="font-weight-bold text-color-red mb-3 d-flex justify-content-center"
-            style="color: #e40707; font-size: 20px;" *ngIf="successtitle === 'Error'">
-            {{successtitle}}
-        </div>
-        <div class="font-weight-bold text-color-blue mb-3 d-flex justify-content-center" style="font-size: 20px;"
-            *ngIf="successtitle === 'Congratulations!'">
-            {{successtitle}}
-        </div>
-
-        <div class="d-flex justify-content-center" style="text-align: center; font-size: 19px;">
-            <span>{{successmessage}}</span>
-        </div>
-
-        <div class=" mt-3 d-flex justify-content-center">
-            <button style="background: #2371CB; font-size: 15px; color: white;" class="btn btn-next" (click)="cancel()"
-                *ngIf="successtitle === 'Error'"> Cancel</button>
-            <button style="background: #2371CB; font-size: 15px; color: white;" class="btn btn-next"
-                (click)="continue()" *ngIf="successtitle === ''">
-                Continue</button>
-        </div>
-    </div>
+    <ng-container *ngIf="showModal === modalType.SUCCESS_ERROR_MESSAGE">
+        <app-message-modal [title]="successTitle" [message]="successMessage" (onCancel)="cancel()" (onOk)="continue()">
+        </app-message-modal>
+    </ng-container>
 
     <div *ngIf="showModal === modalType.VERIFY_EMAIL" class="row message-card px-sm-2 p-4" style="border-radius: 6px;">
         <div class="font-weight-bold text-color-red mb-3 d-flex justify-content-center"
-            style="color: #e40707; font-size: 20px;" *ngIf="successtitle === ''">
+            style="color: #e40707; font-size: 20px;" *ngIf="successTitle === ''">
             {{"Verification Required!"}}
         </div>
         <div class="font-weight-bold text-color-blue mb-3 d-flex justify-content-center" style="font-size: 20px;"
-            *ngIf="successtitle === 'Congratulations!'">
-            {{successtitle}}
+            *ngIf="successTitle === 'Congratulations!'">
+            {{successTitle}}
         </div>
 
         <div>
@@ -113,9 +96,9 @@
 
         <div class=" mt-3 d-flex justify-content-center">
             <button style="background: #2371CB; font-size: 15px; color: white;" class="btn btn-next" (click)="cancel()"
-                *ngIf="successtitle === 'Error'"> Cancel</button>
+                *ngIf="successTitle === 'Error'"> Cancel</button>
             <button style="background: #2371CB; font-size: 15px; color: white;" class="btn btn-next"
-                (click)="continueToEditDetails()" *ngIf="successtitle === ''">
+                (click)="continueToEditDetails()" *ngIf="successTitle === ''">
                 Continue</button>
         </div>
     </div>

@@ -1,0 +1,15 @@
+export const corporateStepperData = [
+    { "type": "imgcard", "class": "one", "src": "assets/corporate-images/corporateimage1.png" },
+    { "type": "datacard", "class": "one", "title": "Become Worko Champions:", "content": "Your employees join Worko as elite referees." ,"step":"1"},
+    { "type": "datacard", "class": "two", "title": "Spotlight Your Jobs:", "content": "Job openings are showcased on Worko.ai, reaching a dynamic pool of talent." ,"step":"2"},
+    { "type": "imgcard", "class": "two", "src": "assets/corporate-images/corporateimage2.png" },
+    { "type": "imgcard", "class": "three", "src": "assets/corporate-images/corporateimage3.png" },
+    { "type": "datacard", "class": "three", "title": "Top-Matched Candidate Requests:", "content": "Best-fit candidates request referrals." ,"step":"3"},
+    { "type": "datacard", "class": "four", "title": "Review Referral Requests:", "content": "Employees review requests and have the option to conduct a quick 15-minute call for deeper insights." ,"step":"4"},
+    { "type": "imgcard", "class": "four", "src": "assets/corporate-images/corporateimage4.png" },
+    { "type": "imgcard", "class": "five", "src": "assets/corporate-images/corporateimage5.png" },
+    { "type": "datacard", "class": "five", "title": "Share the Stars:", "content": "Selected candidates are forwarded to your hiring managers for final consideration." ,"step":"5"},
+    { "type": "datacard", "class": "six", "title": "Rewards for Success:", "content": "Employees receive their referral bonuses after the candidate is successfully hired." ,"step":"6"},
+    { "type": "imgcard", "class": "six", "src": "assets/corporate-images/corporateimage6.png" }
+  ];
+  

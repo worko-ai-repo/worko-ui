@@ -118,6 +118,10 @@ export class UserMenubarComponent {
           router: "admin/aReferral"
         },
         {
+          name: 'Jobs',
+          router: "admin/ajobs"
+        },
+        {
           name: 'Service',
           router: "admin/aService"
         },
@@ -169,8 +173,8 @@ export class UserMenubarComponent {
     await signOut();
     this.userLoggedIn = await this.cognitoService.isLoggedIn();
     if (!this.userLoggedIn) {
-      // this.router.navigateByUrl('/');
-      window.location.href = environment.crossOriginUrl + '/';
+      this.router.navigateByUrl('/');
+      // window.location.href = environment.crossOriginUrl + '/';
     }
   }
 
@@ -188,7 +192,7 @@ export class UserMenubarComponent {
     //     console.log('can')
     //     this.router.navigateByUrl('/candidate/dashboard');
     //   }
-    this.router.navigateByUrl('/companies');
+    this.router.navigateByUrl('/company');
 
   }
 

@@ -43,6 +43,14 @@ import { jobCategoryMatcher } from './matchers/custom-route-matcher';
 import { AccountSwitcherComponent } from './components/account-switcher/account-switcher.component';
 import { AuthRouteGuardService } from './services/auth-route-guard.service';
 import { AuthAdminGuardService } from './services/auth-admin-guard.service';
+import { AboutUsComponent } from './components/about-us/about-us.component';
+import { CorporateComponent } from './components/corporate/corporate.component';
+import { FaqComponent } from './components/faq/faq.component';
+import { PrivacyPolicyComponent } from './components/privacy-policy/privacy-policy.component';
+import { RefundPolicyComponent } from './components/refund-policy/refund-policy.component';
+import { LoginFormComponent } from './components/login-form/login-form.component';
+import { MiniJobPortalJobListingComponent } from './components/mini-job-portal/mini-job-portal-job-listing/mini-job-portal-job-listing.component';
+import { MiniJobPortalJobDescriptionComponent } from './components/mini-job-portal/mini-job-portal-job-description/mini-job-portal-job-description.component';
 
 
 
@@ -64,20 +72,64 @@ export const routes: Routes = [
       },
       {
         path : 'login',
-        component:IndexComponent
+        component: LoginPageComponent
       },
       {
-        path : 'companies',
+        path : 'company',
         component: CompanyListingComponent
       },
       // { path: ':category-jobs', component: JobCategoryComponent },
+
       { 
         matcher: jobCategoryMatcher,
         component: JobCategoryComponent 
       },
+
       {
         path : 'switcher',
         component:AccountSwitcherComponent ,canActivate:[AuthAdminGuardService]
+      },
+      {
+        path: 'contact-us',
+        component: ContactUsComponent
+      },
+      {
+        path: 'refund-policy',
+        component: RefundPolicyComponent
+      },
+      {
+        path : 'faq',
+        component: FaqComponent
+      },
+      {
+        path : 'corporate',
+        component: CorporateComponent,
+        // data: {
+        //   title: 'Enhance Your Hiring with Peer-to-Peer Referrals',
+        //   description: 'Join Worko’s Peer-to-Peer Referral Network to streamline your hiring process. Connect with top talent through verified referrals and boost your recruitment efficiency.',
+        //   tags: 'Worko.ai, Peer-to-Peer Referrals, Recruitment Solutions, Employee Referrals, Talent Acquisition, Hiring Network, Worko Corporate Services, Streamlined Recruitment, Verified Referrals'
+        // }
+      },
+      {
+        path : 'about-us',
+        component: AboutUsComponent
+      },
+      {
+        path : 'terms-of-service',
+        component: TermsOfServiceComponent
+      },
+      {
+        path : 'privacy-policy',
+        component: PrivacyPolicyComponent,
+      },
+      {
+        path: 'company/jobs/:companyName-jobs-:companyID',
+        component: MiniJobPortalJobListingComponent
+      },
+
+      {
+        path: 'company/jobs/:companyName-jobs/:jobTitle-:jobID',
+        component: MiniJobPortalJobDescriptionComponent
       },
       // {
       //   path: 'contact',
@@ -158,41 +210,12 @@ export const routes: Routes = [
       //   component: PublicProfileComponent
       // },
       // {
-      //   path : 'about-us',
-      //   component: HomeAboutUsComponent
-      // },
-      // {
-      //   path : 'faq',
-      //   component: HomeFaqComponent
-      // },
-      // {
-      //   path : 'corporate',
-      //   component: HomeCorporateComponent
-      // },
-      {
-        path : 'terms-of-service',
-        component: TermsOfServiceComponent
-      },
-      // {
-      //   path : 'refund-policy',
-      //   component:RefundPolicyComponent 
-      // },
-      // {
-      //   path : 'privacy-policy',
-      //   component: PrivacyPolicyComponent
-      // },
-    
-      // {
       //   path: 'faq-candidate',
       //   component: FaqCandidateComponent
       // },
       // {
       //   path: 'faq-referee',
       //   component: FaqRefereeComponent
-      // },
-      // {
-      //   path : 'contact-us',
-      //   component:ContactUsComponent 
       // },
     ]
   }  
@@ -217,7 +240,15 @@ export const routes: Routes = [
         IndexComponent,
         ContactUsComponent,
         JobCategoryComponent,
-        AccountSwitcherComponent
+        AccountSwitcherComponent,
+        AboutUsComponent,
+        CorporateComponent,
+        FaqComponent,
+        PrivacyPolicyComponent,
+        RefundPolicyComponent,
+        LoginFormComponent,
+        MiniJobPortalJobListingComponent,
+        MiniJobPortalJobDescriptionComponent
     ],
     exports: [
         NavbarComponent,

@@ -1,4 +1,4 @@
-<header>
+<header class="header">
   <!-- <nav class="navbar navbar-dark font-inria navbar-expand-sm">
     <div class="container-fluid">
       <a class="navbar-brand" href="/"><img class="worko-logo-ai-2-icon" alt=""
@@ -84,9 +84,13 @@
         <span class="line line3"></span>
       </div>
       <ul class="menu-items">
-        <!-- <li><a href="/about-us">About Us</a></li> -->
-        <li><a (click)="rediectToAboutUs()">About Us</a></li>
-      
+        <!-- Conditionally show the "Request a Referral" button if the route is not /company -->
+        <li *ngIf="!isCompanyPage">
+          <button class="btn btn-dark font-inria" routerLink="/company">Request a Referral</button>
+        </li>
+        <!-- <li><a (click)="rediectToAboutUs()">About Us</a></li> -->
+        <li><a routerLink="/about-us">About Us</a></li>
+
         <!-- <li class="has-children" (click)="toggleSubMenu()" (mouseenter)="showSubMenuOnHover()"
           (mouseleave)="hideSubMenuOnHover()">
           FAQ's<span class="caret"></span>
@@ -97,12 +101,17 @@
             <li><a href="/faq-referee">FAQ's for Referee</a></li>
 
           </ul> -->
-        <li>
+        <!-- <li>
           <a (click)="rediectToFaq()">FAQ</a>
+        </li> -->
+        <!-- Conditionally show the FAQ link only when on the /company page -->
+        <li *ngIf="isCompanyPage">
+          <a routerLink="/faq">FAQ</a>
         </li>
-        
 
-       <li><a (click)="rediectToCorporate()">Corporate</a></li>
+
+        <!-- <li><a (click)="rediectToCorporate()">Corporate</a></li> -->
+        <li><a routerLink="/corporate">Corporate</a></li>
         <!--  <li  *ngIf="userLoggedIn">
           <a style="cursor: pointer;" (click)="logout()">Log Out</a>
         </li>
@@ -118,12 +127,12 @@
         </li> -->
 
 
-       
-        
+
+
         <li class="icon-lg " *ngIf="userLoggedIn">
-         
-        
-            <!-- <div class="d-flex -pointer user-icon-container"  data-toggle="dropdown" aria-haspopup="false" aria-expanded="false" >
+
+
+          <!-- <div class="d-flex -pointer user-icon-container"  data-toggle="dropdown" aria-haspopup="false" aria-expanded="false" >
             
                <h6 style="width: 15;height: 15;">{{userName}}</h6>
               
@@ -145,28 +154,33 @@
           
           </div>-->
 
-          <div class="circle" (mouseover)="showOptions = true" style="background-color: #0076B2;" >
+          <div class="circle" (mouseover)="showOptions = true" style="background-color: #0076B2;">
             <span class="letter">{{ letter }}</span>
             <div *ngIf="showOptions" class="option" (mouseleave)="showOptions = false" (mouseover)="showOptions = true">
               <button class="dropdown-item d-flex justify-content-right " type="button" (click)="dashboard()">
-                
-                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-person-circle" viewBox="0 0 16 16">
-                  <path d="M11 6a3 3 0 1 1-6 0 3 3 0 0 1 6 0"/>
-                  <path fill-rule="evenodd" d="M0 8a8 8 0 1 1 16 0A8 8 0 0 1 0 8m8-7a7 7 0 0 0-5.468 11.37C3.242 11.226 4.805 10 8 10s4.757 1.225 5.468 2.37A7 7 0 0 0 8 1"/>
+
+                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor"
+                  class="bi bi-person-circle" viewBox="0 0 16 16">
+                  <path d="M11 6a3 3 0 1 1-6 0 3 3 0 0 1 6 0" />
+                  <path fill-rule="evenodd"
+                    d="M0 8a8 8 0 1 1 16 0A8 8 0 0 1 0 8m8-7a7 7 0 0 0-5.468 11.37C3.242 11.226 4.805 10 8 10s4.757 1.225 5.468 2.37A7 7 0 0 0 8 1" />
                 </svg>
-            &nbsp;  Dashboard</button>
-                <button class="dropdown-item d-flex justify-content-right" type="button" (click)="logout()">
-                 
-                  <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-box-arrow-right" viewBox="0 0 16 16">
-                    <path fill-rule="evenodd" d="M10 12.5a.5.5 0 0 1-.5.5h-8a.5.5 0 0 1-.5-.5v-9a.5.5 0 0 1 .5-.5h8a.5.5 0 0 1 .5.5v2a.5.5 0 0 0 1 0v-2A1.5 1.5 0 0 0 9.5 2h-8A1.5 1.5 0 0 0 0 3.5v9A1.5 1.5 0 0 0 1.5 14h8a1.5 1.5 0 0 0 1.5-1.5v-2a.5.5 0 0 0-1 0z"/>
-                    <path fill-rule="evenodd" d="M15.854 8.354a.5.5 0 0 0 0-.708l-3-3a.5.5 0 0 0-.708.708L14.293 7.5H5.5a.5.5 0 0 0 0 1h8.793l-2.147 2.146a.5.5 0 0 0 .708.708z"/>
-                  </svg> &nbsp; 
-                  
-                  Logout
-                 </button>
+                &nbsp; Dashboard</button>
+              <button class="dropdown-item d-flex justify-content-right" type="button" (click)="logout()">
+
+                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor"
+                  class="bi bi-box-arrow-right" viewBox="0 0 16 16">
+                  <path fill-rule="evenodd"
+                    d="M10 12.5a.5.5 0 0 1-.5.5h-8a.5.5 0 0 1-.5-.5v-9a.5.5 0 0 1 .5-.5h8a.5.5 0 0 1 .5.5v2a.5.5 0 0 0 1 0v-2A1.5 1.5 0 0 0 9.5 2h-8A1.5 1.5 0 0 0 0 3.5v9A1.5 1.5 0 0 0 1.5 14h8a1.5 1.5 0 0 0 1.5-1.5v-2a.5.5 0 0 0-1 0z" />
+                  <path fill-rule="evenodd"
+                    d="M15.854 8.354a.5.5 0 0 0 0-.708l-3-3a.5.5 0 0 0-.708.708L14.293 7.5H5.5a.5.5 0 0 0 0 1h8.793l-2.147 2.146a.5.5 0 0 0 .708.708z" />
+                </svg> &nbsp;
+
+                Logout
+              </button>
             </div>
           </div>
-          
+
           <!-- <div class="circle icon-lg" >
             <span class="letter">{{ letter }}</span>
           </div>
@@ -183,8 +197,8 @@
               </svg>  Logout</button>
           
           </div> -->
-          
-          
+
+
         </li>
         <!-- <li class="icon-lg " *ngIf="!userLoggedIn">
           <div class="d-flex -pointer user-icon-container" *ngIf="!userLoggedIn" (click)="openLogin()">
@@ -194,41 +208,45 @@
         </div>
             
         </li> -->
-        <li class="icon-lg circle hide-on-small-screen" *ngIf="!userLoggedIn"   (mouseover)="showOptions = true"   (mouseleave)="showOptions = false" >
+        <li class="icon-lg circle hide-on-small-screen" *ngIf="!userLoggedIn" (mouseover)="showOptions = true"
+          (mouseleave)="showOptions = false">
           <!-- <div class="d-flex -pointer user-icon-container" *ngIf="!userLoggedIn" > -->
-            <img class="user-icon" _ngcontent-ng-c280476550="" alt=""
-              src="assets/public/iconamoonprofilecirclefill.svg">
-              <div *ngIf="showOptions" class="option"  (mouseover)="showOptions = true">
-                <button class="dropdown-item d-flex justify-content-right"  (click)="openLogin()"   (mouseleave)="showOptions = false" type="button">
-                  
-                  <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-person-circle" viewBox="0 0 16 16">
-                    <path d="M11 6a3 3 0 1 1-6 0 3 3 0 0 1 6 0"/>
-                    <path fill-rule="evenodd" d="M0 8a8 8 0 1 1 16 0A8 8 0 0 1 0 8m8-7a7 7 0 0 0-5.468 11.37C3.242 11.226 4.805 10 8 10s4.757 1.225 5.468 2.37A7 7 0 0 0 8 1"/>
-                  </svg>
+          <img class="user-icon" _ngcontent-ng-c280476550="" alt="" src="assets/public/iconamoonprofilecirclefill.svg">
+          <div *ngIf="showOptions" class="option" (mouseover)="showOptions = true">
+            <button class="dropdown-item d-flex justify-content-right" (click)="openLogin()"
+              (mouseleave)="showOptions = false" type="button">
+
+              <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor"
+                class="bi bi-person-circle" viewBox="0 0 16 16">
+                <path d="M11 6a3 3 0 1 1-6 0 3 3 0 0 1 6 0" />
+                <path fill-rule="evenodd"
+                  d="M0 8a8 8 0 1 1 16 0A8 8 0 0 1 0 8m8-7a7 7 0 0 0-5.468 11.37C3.242 11.226 4.805 10 8 10s4.757 1.225 5.468 2.37A7 7 0 0 0 8 1" />
+              </svg>
               &nbsp;Login</button>
-              </div>
+          </div>
           <!-- </div> -->
         </li>
 
         <li class="text-sm" *ngIf="userLoggedIn">
-         
-         <a (click)="dashboard()" style="cursor: pointer;">Dashboard</a></li>
-         <li class="text-sm" *ngIf="userLoggedIn">
-         
-          <a (click)="logout()" style="cursor: pointer;">logout </a>
-          </li>
-          
 
-          <li class="text-sm" *ngIf="!userLoggedIn">
-            <a (click)="openLogin()" style="cursor: pointer;">Signin / Signup</a>
-          </li> 
+          <a (click)="dashboard()" style="cursor: pointer;">Dashboard</a>
+        </li>
+        <li class="text-sm" *ngIf="userLoggedIn">
+
+          <a (click)="logout()" style="cursor: pointer;">logout </a>
+        </li>
+
+
+        <li class="text-sm" *ngIf="!userLoggedIn">
+          <a (click)="openLogin()" style="cursor: pointer;">Signin / Signup</a>
+        </li>
 
 
         <!-- <li class="text-sm" *ngIf="userLoggedIn">
           <a style="cursor: pointer;" (click)="logout()">Log Out</a>
         </li> -->
       </ul>
-      <a class="navbar-brand" (click)="navigateToIndex()"><img class="worko-logo-ai-2-icon" alt=""
+      <a class="navbar-brand" routerLink="/"><img class="worko-logo-ai-2-icon" alt=""
           src="assets/public/workologoai-2@2x.png" />
       </a>
 
@@ -241,6 +259,6 @@
   [showFooter]="showModal === modalType.MESSAGE" [title]="modalTitle" [message]="modalMessage"
   [bodyClass]="modalMessage ? 'p-4' : 'p-0'">
   <ng-container *ngIf="showModal === modalType.LOGIN_SIGNUP">
-    <app-login-page (onSuccess)="receiveDataFromChild($event)"></app-login-page>
+    <app-login-form (onSuccess)="receiveDataFromChild($event)"></app-login-form>
   </ng-container>
 </app-modal>

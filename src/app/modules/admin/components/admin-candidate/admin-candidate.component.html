@@ -40,87 +40,37 @@
               <h5 class="ps-2 pb-0">Candidate</h5>
             </div>
             <div class="col-md-6 d-flex justify-content-end">
-              <!-- <div class="pe-2">
-              <div class="dropdown" #dropdown>
-                <button
-                  class="dropdown-btn ps-3 pe-3 serachInput dropdown-toggle"
-                  type="button"
-                  (click)="toggleDropdown($event)"
-                  aria-expanded="false"
-                >
-                  Filter Data <i class="fa-solid fa-filter ps-2 pe-2"></i>
-                </button>
-                <ul
-                  class="dropdown-menu ps-3 mt-1"
-                  [class.show]="isDropdownOpen"
-                  aria-labelledby="dropdownMenuButton1"
-                >
-                  <li class="d-flex">
-                    <input type="checkbox" /><a class="dropdown-item">Name</a>
-                  </li>
-                  <li class="d-flex">
-                    <input type="checkbox" /><a class="dropdown-item"
-                      >Candidate ID
-                    </a>
-                  </li>
-                  <li class="d-flex">
-                    <input type="checkbox" /><a class="dropdown-item"
-                      >Employee ID</a
-                    >
-                  </li>
-                  <li class="d-flex">
-                    <input type="checkbox" /><a class="dropdown-item">Date</a>
-                  </li>
-                  <li class="d-flex">
-                    <input type="checkbox" /><a class="dropdown-item"
-                      >package status
-                    </a>
-                  </li>
-                  <li class="d-flex">
-                    <input type="checkbox" /><a class="dropdown-item">
-                      Payment status</a
-                    >
-                  </li>
-                  <li class="d-flex">
-                    <input type="checkbox" /><a class="dropdown-item"
-                      >Service request date</a
-                    >
-                  </li>
-                  <li class="d-flex">
-                    <input type="checkbox" /><a class="dropdown-item"
-                      >service start date
-                    </a>
-                  </li>
-                  <li class="d-flex">
-                    <input type="checkbox" /><a class="dropdown-item">
-                      Request status</a
-                    >
-                  </li>
-                  <li class="d-flex">
-                    <input type="checkbox" /><a class="dropdown-item"
-                      >Package balance</a
-                    >
-                  </li>
-                  <li class="d-flex">
-                    <input type="checkbox" /><a class="dropdown-item"
-                      >Rating
-                    </a>
-                  </li>
-                  <li class="d-flex">
-                    <input type="checkbox" /><a class="dropdown-item">
-                      Account types</a
-                    >
-                  </li>
-                </ul>
-              </div>
-            </div> -->
-              <div class="pe-2">
-                <input matInput class="serachInput" (keyup)="handleSearchInput($event, candidatesDataSource)"
-                  placeholder="Search" #input />
-                <button mat-button matSuffix mat-icon-button (click)="clearSearchInput(input,candidatesDataSource)"
-                  *ngIf="input.value" class="custom-clear-button">
+              <div class="pe-2 search-container">
+                <input matInput class="serachInput" (keyup)="handleSearchInput($event)"
+                  (keydown)="onSearchInputEnter($event)" placeholder="Search" [(ngModel)]="searchQuery" #input />
+                <button mat-button matSuffix mat-icon-button (click)="clearSearchInput()" *ngIf="input.value"
+                  class="admin-custom-clear-button ">
                   <mat-icon>clear</mat-icon>
                 </button>
+              </div>
+
+              <div class="pe-2">
+                <!-- <label for="fromDate">From Date:</label> -->
+                <mat-form-field>
+                  <mat-label style="color: white; padding-top: 10px;">From Date</mat-label>
+                  <input matInput [matDatepicker]="fromPicker" [(ngModel)]="filterModel.fromDate"
+                    (dateChange)="applyFromDateFilters()">
+                  <mat-datepicker-toggle matSuffix [for]="fromPicker"></mat-datepicker-toggle>
+                  <mat-datepicker #fromPicker></mat-datepicker>
+                </mat-form-field>
+              </div>
+              <div class="pe-2">
+                <!-- <label for="toDate">To Date:</label> -->
+                <mat-form-field>
+                  <mat-label style="color: white;">To Date</mat-label>
+                  <input matInput [matDatepicker]="toPicker" [(ngModel)]="filterModel.toDate"
+                    (dateChange)="applyToDateFilters()">
+                  <mat-datepicker-toggle matSuffix [for]="toPicker"></mat-datepicker-toggle>
+                  <mat-datepicker #toPicker></mat-datepicker>
+                </mat-form-field>
+              </div>
+              <div class="pe-2 ">
+                <button class=" ps-4 pe-4 btn searchButton " (click)="resetDatePickers()">Reset</button>
               </div>
               <!-- <div class="">
               <button
@@ -140,13 +90,19 @@
             border-bottom-right-radius: 5px;
             border-bottom-left-radius: 5px;
           ">
+            <!-- <table class="table-style" style="
+              background-color: #0a1e35;
+              color: white;
+              border-bottom: 2px solid #476baf;
+            " mat-table [dataSource]="candidatesDataSource" (matSortChange)="onSort($event)" matSortDirection="desc"
+              matSort matSortActive="accountcreateddate" matSortDisableClear="true"> -->
             <table class="table-style" style="
               background-color: #0a1e35;
               color: white;
               border-bottom: 2px solid #476baf;
-            " mat-table [dataSource]="candidatesDataSource" matSort (matSortChange)="announceSortChange($event)">
+            " mat-table [dataSource]="candidatesDataSource">
               <tbody class="table content-style">
-                <ng-container matColumnDef="serialnumber">
+                <ng-container matColumnDef="serialNumber">
                   <th mat-header-cell *matHeaderCellDef class="small-column">
                     S.No
                   </th>
@@ -156,7 +112,7 @@
                 </ng-container>
                 <ng-container matColumnDef="name">
                   <th mat-header-cell *matHeaderCellDef>Name</th>
-                  <td mat-cell *matCellDef="let row">{{ row.name }}</td>
+                  <td mat-cell *matCellDef="let row">{{ row.name | titlecase}}</td>
                 </ng-container>
 
                 <!-- <ng-container matColumnDef="userId">
@@ -172,7 +128,7 @@
                 </td>
               </ng-container> -->
 
-                <ng-container matColumnDef="emailid">
+                <ng-container matColumnDef="emailId">
                   <th mat-header-cell *matHeaderCellDef class="small-column">
                     Email ID
                   </th>
@@ -181,12 +137,18 @@
                   </td>
                 </ng-container>
 
-                <!-- <ng-container matColumnDef="date">
-                <th mat-header-cell *matHeaderCellDef mat-sort-header>Date</th>
-                <td mat-cell *matCellDef="let row">
-                  {{ row.Date | date : "dd/mm/yyyy" }}
-                </td>
-              </ng-container> -->
+                <!-- <ng-container matColumnDef="accountcreateddate">
+                  <th mat-header-cell *matHeaderCellDef mat-sort-header>account created date</th>
+                  <td mat-cell *matCellDef="let row">
+                    {{ row.createdAt | date : "dd-MMM-yyyy" }}
+                  </td>
+                </ng-container> -->
+                <ng-container matColumnDef="accountCreatedDate">
+                  <th mat-header-cell *matHeaderCellDef>Account Created Date</th>
+                  <td mat-cell *matCellDef="let row">
+                    {{ row.createdAt | date : "dd-MMM-yyyy" }}
+                  </td>
+                </ng-container>
 
                 <ng-container matColumnDef="number">
                   <th mat-header-cell *matHeaderCellDef>
@@ -195,13 +157,13 @@
                   <td mat-cell *matCellDef="let row">{{ row.number }}</td>
                 </ng-container>
 
-                <ng-container matColumnDef="referralcount">
+                <ng-container matColumnDef="referralCount">
                   <th mat-header-cell *matHeaderCellDef>
                     Referral Count
                   </th>
                   <td mat-cell *matCellDef="let row">{{ row.referralCount }}</td>
                 </ng-container>
-                <ng-container matColumnDef="companyname">
+                <ng-container matColumnDef="companyName">
                   <th mat-header-cell *matHeaderCellDef>
                     Company Name
                   </th>
@@ -225,19 +187,14 @@
                     row.candidateExperience?.designation :'-'}}</td>
                 </ng-container>
 
-                <ng-container matColumnDef="Subscribed">
-                  <th mat-header-cell *matHeaderCellDef>
-                    Subscribed status
-                  </th>
-                  <td mat-cell *matCellDef="let row">{{ row.isSubscribed }}</td>
-                </ng-container>
+
 
                 <ng-container matColumnDef="action">
                   <th mat-header-cell *matHeaderCellDef style="padding-left: 24px;">
                     Action
                   </th>
                   <td mat-cell *matCellDef="let row">
-                    <button type="button" class="btn btn-next" (click)="viewRow(row)">View More</button>
+                    <button type="button" class=" btn-next" (click)="viewRow(row)">View More</button>
                   </td>
                 </ng-container>
 
@@ -253,7 +210,7 @@
                 </td>
               </tr>
             </table>
-            <mat-paginator #referralPaginator [pageSizeOptions]="[5, 10, 25, 100]"
+            <mat-paginator #referralPaginator [pageSizeOptions]="[25,50,100,150,200]"
               aria-label="Select page of users"></mat-paginator>
 
           </div>
@@ -519,7 +476,7 @@
 
 
 <app-modal [theme]="'theme-k'" [centered]="true" [showHeader]="showModal === modalType.MESSAGE" [showClose]="true"
-  [showFooter]="showModal === modalType.MESSAGE" [modalSize]="'md'" [title]="modalTitle" [message]="modalMessage"
+  [showFooter]="showModal === modalType.MESSAGE" [modalSize]="modalSize" [title]="modalTitle" [message]="modalMessage"
   [bodyClass]="modalMessage ? 'p-4' : 'p-0'">
   <ng-container *ngIf="modalType.ADMINDETAIL_POPUP">
     <div class="message-card" *ngIf="userData">
@@ -529,7 +486,7 @@
             <label class="form-label">Name</label>
           </div>
           <div class="col-8">
-            <span class="form-detail">: {{ userData.name }}</span>
+            <span class="form-detail">: {{ userData.name | titlecase}}</span>
           </div>
         </div>
         <div class="row form-row">
@@ -540,6 +497,7 @@
             <span class="form-detail">: {{ userData.email }}</span>
           </div>
         </div>
+
         <div class="row form-row">
           <div class="col-4">
             <label class="form-label">UserID</label>
@@ -548,7 +506,114 @@
             <span class="form-detail">: {{ userData.userId }}</span>
           </div>
         </div>
+        <div class="row form-row">
+          <div class="col-4">
+            <label class="form-label">Phone Number</label>
+          </div>
+          <div class="col-8">
+            <span class="form-detail">: {{ userData.number }}</span>
+          </div>
+        </div>
+        <div class="row form-row">
+          <div class="col-4">
+            <label class="form-label">Account Created Date</label>
+          </div>
+          <div class="col-8">
+            <span class="form-detail">: {{ userData.createdAt | date : "dd-MMM-yyyy" }}</span>
+          </div>
+        </div>
+        <div class="row form-row">
+          <div class="col-4">
+            <label class="form-label">Year of Experience</label>
+          </div>
+          <div class="col-8">
+            <span class="form-detail">: {{ userData?.YOE ? userData?.YOE :'-'}}</span>
+          </div>
+        </div>
+        <div class="row form-row">
+          <div class="col-4">
+            <label class="form-label">CTC</label>
+          </div>
+          <div class="col-8">
+            <span class="form-detail">: {{ userData?.CTC ? userData?.CTC :'-'}}</span>
+          </div>
+        </div>
+        <div class="row form-row">
+          <div class="col-4">
+            <label class="form-label">ECTC</label>
+          </div>
+          <div class="col-8">
+            <span class="form-detail">: {{ userData?.ECTC ? userData?.ECTC :'-'}}</span>
+          </div>
+        </div>
+        <div class="row form-row">
+          <div class="col-4">
+            <label class="form-label">Notice peroid</label>
+          </div>
+          <div class="col-8">
+            <span class="form-detail">: {{ userData?.noticePeriod ? userData?.noticePeriod :'-' }}</span>
+          </div>
+        </div>
+        <div class="row form-row">
+          <div class="col-4">
+            <label class="form-label">CV URL</label>
+          </div>
+          <div class="col-8">
+            <span class="form-detail">
+              :
+              <ng-container *ngIf="cvUrl; else noCv">
+                <a [href]="cvUrl" target="_blank" rel="noopener noreferrer">View CV</a>
+              </ng-container>
+              <ng-template #noCv> - </ng-template>
+            </span>
+          </div>
+        </div>
         
+        <div class="row form-row">
+          <div class="col-4">
+            <label class="form-label">I am Fresher</label>
+          </div>
+          <div class="col-8">
+            <span class="form-detail">: {{ status }}</span>
+          </div>
+        </div>
+        <div class="row form-row">
+          <div class="col-4">
+            <label class="form-label">Referral Count</label>
+          </div>
+          <div class="col-8">
+            <span class="form-detail">: {{ userData.referralCount }}</span>
+          </div>
+        </div>
+        <div class="row form-row">
+          <div class="col-4">
+            <label class="form-label">Company Name</label>
+          </div>
+          <div class="col-8">
+            <span class="form-detail">: {{ userData.candidateExperience?.companyName ?
+              userData.candidateExperience?.companyName : '-' }}</span>
+          </div>
+        </div>
+
+        <div class="row form-row">
+          <div class="col-4">
+            <label class="form-label">Department</label>
+          </div>
+          <div class="col-8">
+            <span class="form-detail">: {{ userData.candidateExperience?.department ?
+              userData.candidateExperience?.department : '-' }}</span>
+          </div>
+        </div>
+        <div class="row form-row">
+          <div class="col-4">
+            <label class="form-label">Designation</label>
+          </div>
+          <div class="col-8">
+            <span class="form-detail">: {{ userData.candidateExperience?.designation ?
+              userData.candidateExperience?.designation : '-' }}</span>
+          </div>
+        </div>
+
         <ng-container *ngIf="userSubscription">
           <div class="row form-row">
             <div class="col-4">
@@ -579,7 +644,8 @@
               <label class="form-label">Requested Referrals</label>
             </div>
             <div class="col-8">
-              <span class="form-detail">: {{ userSubscription.requestedReferrals }}</span>
+              <span class="form-detail">: {{ userSubscription?.requestedReferrals ? userSubscription?.requestedReferrals
+                :'-'}}</span>
             </div>
           </div>
           <div class="row form-row">
@@ -587,7 +653,8 @@
               <label class="form-label">Accepted Referrals</label>
             </div>
             <div class="col-8">
-              <span class="form-detail">: {{ userSubscription.acceptedReferrals }}</span>
+              <span class="form-detail">: {{ userSubscription?.acceptedReferrals ? userSubscription?.acceptedReferrals
+                :'-'}}</span>
             </div>
           </div>
           <div class="row form-row">
@@ -595,17 +662,18 @@
               <label class="form-label">Available Referrals</label>
             </div>
             <div class="col-8">
-              <span class="form-detail">: {{ userSubscription.availableReferrals }}</span>
+              <span class="form-detail">: {{ userSubscription?.availableReferrals ? userSubscription?.availableReferrals
+                :'-'}}</span>
             </div>
           </div>
         </ng-container>
       </div>
     </div>
   </ng-container>
-  
-  
-  
-  <ng-container *ngIf="showModal=== modalType.SUCCESS_MESSAGE">
+
+
+
+  <!-- <ng-container *ngIf="showModal=== modalType.SUCCESS_MESSAGE">
     <div class="row message-card px-sm-3 p-4">
       <div class="font-weight-bold text-color-red mb-3 d-flex justify-content-center"
         style="color: #e40707; font-size: medium;" *ngIf="successtitle === 'Error'">
@@ -615,12 +683,15 @@
       <div class="d-flex justify-content-center"><span>{{successmessage}}</span> </div>
 
       <div class=" mt-3 d-flex justify-content-center">
-        <button class="btn btn-next" (click)="closeModal()" *ngIf="successtitle === 'Error'"> Close</button>
+        <button class=" btn-next" (click)="closeModal()" *ngIf="successtitle === 'Error'"> Close</button>
 
       </div>
     </div>
-  </ng-container>
-
+  </ng-container> -->
+  <ng-container *ngIf="showModal === modalType.SUCCESS_ERROR_MESSAGE">
+    <app-message-modal [title]="successtitle" [message]="successmessage" (onCancel)="closeModal()">
+    </app-message-modal>
+</ng-container>
 
 
 

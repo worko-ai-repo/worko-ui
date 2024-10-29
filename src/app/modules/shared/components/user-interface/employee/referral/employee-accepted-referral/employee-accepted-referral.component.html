@@ -1,166 +1,172 @@
-<div class="candidate-card scroller">
+<div class="candidate-card scroller d-flex flex-column">
     <div class="row">
         <div class="col-md-12">
-            <div class="m-3 d-flex action-buttons" *ngIf="selectedReferral">
-                <div *ngIf="selectedReferral" class="col-12 col-md-3 d-flex justify-content-start mb-3 mb-md-0 issues-btn">
-                    <app-raise-issue [userType]="userType" (raiseIssue1)="referralRaiseIssue($event)" [isHidden]="isHidden"></app-raise-issue>
-                </div>
-                <div *ngIf="selectedReferral" class="col-12 col-md-3 p-0 m-0 d-flex justify-content-start mb-3 mb-md-0 done-btn">
-                    <app-mark-as-done [userType]="userType" (markAsDone1)="markAsDoneBtn()"
-                        (referralRating1)="referralReviewRating($event)"
-                        (cancelRatingPopup1)="cancelReviewRatingPopup()" [isHidden]="isHidden"></app-mark-as-done>
-                </div>
-                <!-- <div *ngIf="selectedReferral" class="col-md-6">
-                    <app-new-request-btn></app-new-request-btn>
-                </div> -->
-            </div>
-
-        </div>
-    </div>
-
-    <div class="row col-md-12" *ngIf="selectedReferral">
-        <div class="col-md-3">
-            <img class="p-image" src="{{profileImage}}" alt="">
-        </div>
-        <div class="col-md-5">
-            <div class="row">
-                <div class="col-md-12 ref-name">
-                    <h3 class="pt-3">{{empdetailsList[0]?.name}}</h3>
-                </div>
-                <div class="col-md-12 ref-education">
-                    <div class="text-overflow">{{empEducationList[0]?.degree}} , {{empEducationList[0]?.collage}} </div>
-                    <!-- <div class="pt-1">Role Applied : SDE-1(Backend)</div> -->
-                    <div class="pt-1">Experience: {{empdetailsList[0]?.YOE}} {{empdetailsList[0]?.YOE === 1 ? 'year' :
-                        'years'}}</div>
-                    <div class="pt-1">Job Description: <span class="text-white"><a href="{{selectedReferral?.jobUrl}}"
-                                target="_blank">Link</a></span></div>
-                </div>
-            </div>
-        </div>
-        <div class="col-md-4 circle-chart-div">
-            <div class="row">
-                <div class="col-md-12  referral-progree-bar">
-                    <div class="ms-3 mt-1">
-                        <!-- <svg xmlns="http://www.w3.org/2000/svg" width="60" height="82" viewBox="0 0 80 82" fill="none">
-                            <path
-                                d="M37.2193 4.46523C37.05 2.25735 35.1565 0.591351 33.0184 0.982514C25.3445 2.38648 18.2146 6.07842 12.5508 11.6357C5.93897 18.1232 1.73425 26.7514 0.653038 36.0501C-0.428179 45.3488 1.681 54.7427 6.62121 62.6313C11.5614 70.5198 19.027 76.4149 27.7458 79.312C36.4647 82.2091 45.8974 81.929 54.4368 78.5195C62.9762 75.11 70.0938 68.782 74.5769 60.6137C79.0601 52.4453 80.6314 42.9421 79.0231 33.7233C77.6453 25.8259 74.0072 18.5557 68.6109 12.8088C67.1104 11.2107 64.6095 11.4268 63.1955 13.1163C61.7842 14.8026 61.9948 17.3166 63.4543 18.9483C67.489 23.4592 70.2132 29.0654 71.2719 35.1338C72.5606 42.5211 71.3015 50.1364 67.709 56.6819C64.1165 63.2274 58.4129 68.2983 51.5701 71.0305C44.7272 73.7626 37.1685 73.987 30.1817 71.6655C23.195 69.3439 17.2126 64.62 13.2539 58.2987C9.29514 51.9773 7.60498 44.4497 8.4714 36.9983C9.33781 29.547 12.7072 22.6329 18.0054 17.4343C22.3478 13.1736 27.7656 10.2812 33.6118 9.05371C35.7507 8.60461 37.3894 6.6847 37.2193 4.46523Z"
-                                fill="#57FF68" />
-                        </svg> -->
-                        <app-circle-chart [isEmployeeReferralPage]="isEmployeeReferralPage"
-                            [chartText]="matchingScore.toString()" [circleDiameter]="circleDiameter"
-                            [chartValue]="(this.matchingScore / this.possiblePoints) * 100"></app-circle-chart>
-                        <div class="m-0 p-0 referral-text">Matching Score : {{matchingScore}} </div>
-                        <div (click)="viewDetails()" href="" class="m-0 p-0 view-details" style="cursor: pointer;">View
-                            detailed Analysis</div>
-                        <button class="btn-cv mt-2" [hidden]="!empdetailsList[0]?.cvAwsS3SignedUrl"
-                            (click)="openfile($event)">view CV</button>
-
+            <div class="m-3 d-flex justify-content-between align-items-center action-buttons" *ngIf="selectedReferral">
+                <div class="d-flex">
+                    <div class="d-flex justify-content-start issues-btn me-3">
+                        <app-raise-issue [userType]="userType" (raiseIssue1)="referralRaiseIssue($event)"
+                            [isHidden]="isHidden"></app-raise-issue>
                     </div>
+                    <div class="d-flex justify-content-start done-btn">
+                        <app-mark-as-done [userType]="userType" (markAsDone1)="markAsDoneBtn()"
+                            (referralRating1)="referralReviewRating($event)"
+                            (cancelRatingPopup1)="cancelReviewRatingPopup()" [isHidden]="isHidden"></app-mark-as-done>
+                    </div>
+                </div>
+
+                <!-- New buttons for Details and Video Call -->
+                <div class="d-flex justify-content-end">
+                    <button class="btn-reqq text-center me-2" (click)="openDetailsModal()">
+                        <i class="fa-regular fa-address-card"></i>
+                        <div>Details</div>
+                    </button>
+                    <button class="btn-reqq text-center" disabled>
+                        <i class="fa-solid fa-video"></i>
+                        <div>Video Call</div>
+                    </button>
                 </div>
             </div>
         </div>
     </div>
 
-    <div class="row" *ngIf="selectedReferral">
-        <div class="row">
-            <div class="col-md-5 company-details">
-                <div class="d-flex justify-content-between details-row">
-                    <h6 class="ms-4 text-overflow">Department: {{empdetailsList[0]?.candidateExperience?.department}}</h6>
-                    <h6 class="">CTC: {{empdetailsList[0]?.CTC}}</h6>
-
-                </div>
+    <div *ngIf="selectedReferral" class="row flex-grow-1">
+        <div class="col-12">
+            <div class="mx-3 height-100">
+                <app-chat-ui class="chat-ui height-100" [groupedMessages]="groupedMessages"
+                    [noMoreMessages]="noMoreMessages" [userId]="userId"
+                    [referralId]="getSlicedValue(selectedReferral?.SK)" (loadMoreMessages)="onLoadMoreMessages()"
+                    (spinnerStatus)="onSpinnerStatusChange($event)">
+                </app-chat-ui>
             </div>
         </div>
-
-        <div class="row pt-2">
-            <div class="col-md-5 company-details">
-                <div class="d-flex justify-content-between details-row">
-                    <h6 class="ms-4">Notice Period: {{empdetailsList[0]?.noticePeriod}}</h6>
-                    <h6 class="">ECTC: {{empdetailsList[0]?.ECTC}}</h6>
-
-                </div>
-            </div>
-        </div>
-
-
-
-        <div class="col-md-12">
-            <h5 class=" m-4 mb-0 pb-2">Core Skills & Experience</h5>
-        </div>
-
-        <div class="d-flex">
-            <div class="col-md-8">
-                <div class="float-left achievments-list d-flex"
-                    *ngFor="let coreSkill of empCoreSkillsDetails[0]?.coreSkills">
-                    <div class="ps-3 m-1 text-in-box">{{coreSkill.skillName}}
-                        <span class="text-in-box-close-icon">
-                            <svg width="16" height="16" viewBox="0 0 16 16" fill="none"
-                                xmlns="http://www.w3.org/2000/svg">
-                            </svg>
-                        </span>
-                    </div>
-                </div>
-            </div>
-        </div>
-
-        <!-- <div class="col-md-12">
-            <div class="row ms-4">
-                <div class="col-md-3  pt-1 " *ngFor="let skill of empCoreSkillsDetails[0]?.coreSkills">
-                    <div class="core-skills p-1"> {{skill.skillName}}</div>
-                </div>
-
-            </div>
-        </div> -->
-
-
-        <div class="col-md-12">
-            <h5 class=" m-4 mb-0 pb-2">Achievements</h5>
-        </div>
-
-        <div class="d-flex">
-            <div class="col-md-8">
-                <div class="float-left achievments-list d-flex"
-                *ngFor="let achievement of empCoreSkillsDetails[0]?.certifications">
-                    <div class="ps-3 m-1 text-in-box">{{ achievement.certName }}
-                        <span class="text-in-box-close-icon">
-                            <svg width="16" height="16" viewBox="0 0 16 16" fill="none"
-                                xmlns="http://www.w3.org/2000/svg">
-                            </svg>
-                        </span>
-                    </div>
-                </div>
-            </div>
-        </div>
-
-        <!-- <div class="col-md-12">
-            <div class="row  ms-4 ">
-                <div class="col-md-3  pt-1" *ngFor="let achievement of empCoreSkillsDetails[0]?.certifications">
-                    <div class="core-skills p-1"> {{ achievement.certName }}</div>
-                </div>
-
-            </div>
-        </div>
-
-    </div> -->
+    </div>
 
     <div class="row" *ngIf="!selectedReferral" class="center-elements">
-
         <div style="margin-top: 5px;">
             <span class="text-white">No referral request found!</span> <br>
         </div>
     </div>
-
 </div>
 
 <app-modal [theme]="'theme-k'" [centered]="true" [showHeader]="showModal === modalType.MESSAGE" [showClose]="true"
-    [showFooter]="showModal === modalType.MESSAGE" [modalSize]="'md'" [title]="modalTitle" [message]="modalMessage"
+    [showFooter]="showModal === modalType.MESSAGE" [modalSize]="modalSize" [title]="modalTitle" [message]="modalMessage"
     [bodyClass]="modalMessage ? 'p-4' : 'p-0'">
     <ng-container *ngIf="showModal === modalType.CONFIRMATION_DIALOG">
         <app-confirmation-dialog-popup [action]="action" (onSuccess)="doneRequest()"
             (onCancel)="closeModal()"></app-confirmation-dialog-popup>
     </ng-container>
 
-    <ng-container *ngIf="showModal === modalType.DETAILED_ANALYSIS">
-        <app-detailed-analysis [scoreDetails]="scoreDetails" (onCancel)="closeDetailedPopup()"></app-detailed-analysis>
+    <ng-container *ngIf="showModal === modalType.SHOW_MORE_DETAILS">
+        <app-show-more-details [details]="scoreDetails" [title]="detailsTitle"
+            (onCancel)="closeDetailedPopup()"></app-show-more-details>
     </ng-container>
+
+    <ng-container *ngIf="showModal === modalType.REFERRAL_DETAILS">
+        <div class="candidate-card" style="border-radius: 6px;">
+            <div class="card-content">
+                <div class="popup-card">
+                    <div class="row col-md-12" *ngIf="selectedReferral">
+                        <!-- Image, Name, and Education -->
+                        <div class="col-4 col-md-3">
+                            <img class="p-image" src="{{profileImage}}" alt="">
+                        </div>
+                        <div class="col-9 col-md-9">
+                            <div class="row">
+                                <div class="col-12 ref-name">
+                                    <h3 class="pt-3">{{empdetailsList[0]?.name | titlecase}}</h3>
+                                </div>
+                                <div class="col-12 ref-education">
+                                    <div>{{empEducationList[0]?.degree}}, {{empEducationList[0]?.collage}}</div>
+                                    <div class="pt-1">Experience: {{empdetailsList[0]?.YOE}} {{empdetailsList[0]?.YOE
+                                        === 1 ? 'year' : 'years'}}</div>
+                                    <div class="pt-1">Job URL: <span class="text-white"><a
+                                                href="{{selectedReferral?.jobUrl}}" target="_blank">Link</a></span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Company Details and Circle Chart aligned in the same row -->
+                    <div class="row mt-3" *ngIf="selectedReferral">
+                        <div class="col-md-12">
+                            <div class="row">
+                                <div class="col-12 col-md-6 company-details pt-2">
+                                    <div class="details-row pt-3">
+                                        <h6 class="ms-4">Department:
+                                            {{empdetailsList[0]?.candidateExperience?.department}}</h6>
+                                    </div>
+                                    <div class="details-row pt-3">
+                                        <h6 class="ms-4">CTC: {{empdetailsList[0]?.CTC}}</h6>
+                                    </div>
+                                    <div class="details-row pt-3">
+                                        <h6 class="ms-4">ECTC: {{empdetailsList[0]?.ECTC}}</h6>
+                                    </div>
+                                    <div class="details-row pt-2">
+                                        <h6 class="ms-4">Notice Period: {{empdetailsList[0]?.noticePeriod}}</h6>
+                                    </div>
+                                </div>
+
+                                <!-- Circle Chart aligned to the right -->
+                                <div class="col-12 col-md-6 circle-chart-div">
+                                    <div class="referral-progree-bar">
+                                        <div class="ms-3 mt-1">
+                                            <app-circle-chart [isEmployeeReferralPage]="isEmployeeReferralPage"
+                                                [chartText]="matchingScore.toString()" [circleDiameter]="circleDiameter"
+                                                [chartValue]="(this.matchingScore / this.possiblePoints) * 100">
+                                            </app-circle-chart>
+                                            <div class="m-0 p-0 referral-text">Matching Score: {{matchingScore}}</div>
+                                            <div (click)="viewDetails()" class="m-0 p-0 view-details"
+                                                style="cursor: pointer;">
+                                                View detailed Analysis
+                                            </div>
+                                            <button class="btn-cv mt-2" [hidden]="!empdetailsList[0]?.cvAwsS3SignedUrl"
+                                                (click)="openfile($event)">View CV</button>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Core Skills and Achievements -->
+                    <div class="col-md-12 mt-4 " style="margin-left: 0.5rem;">
+                        <h5 class=" mb-0 pb-2">Core Skills & Experience</h5>
+                    </div>
+                    <div class="d-flex" style="margin-left: 0.5rem;">
+                        <div class="col-md-12 ">
+                            <div class="float-left achievments-list d-flex"
+                                *ngFor="let coreSkill of empCoreSkillsDetails[0]?.coreSkills">
+                                <div class="m-1 text-in-box">{{coreSkill.skillName}}</div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="col-md-12" style="margin-left: 0.5rem;">
+                        <h5 class=" mb-0 pb-2" *ngIf="empAchievmentsDetails?.[0]?.achievements?.length > 0">Achievements
+                        </h5>
+                        <!-- <h5 class=" mb-0 pb-2" *ngIf="empCoreSkillsDetails[0]?.certifications">Achievements</h5> -->
+                    </div>
+                    <div class="d-flex" style="margin-left: 0.5rem;">
+                        <div class="col-md-12">
+                            <!-- <div class="float-left achievments-list d-flex"
+                                *ngFor="let achievement of empCoreSkillsDetails[0]?.certifications">
+                                <div class="m-1 text-in-box">{{achievement.certName}}</div>
+                            </div> -->
+                            <div class="float-left achievments-list d-flex"
+                                *ngFor="let achievement of empAchievmentsDetails[0]?.achievements">
+                                <div class="m-1 text-in-box">{{achievement.title}}</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </ng-container>
+
+    <ng-container *ngIf="showModal === modalType.SUCCESS_ERROR_MESSAGE">
+        <app-message-modal [title]="successTitle" [message]="successMessage" (onCancel)="cancel()" (onOk)="continue()">
+        </app-message-modal>
+    </ng-container>
+
 </app-modal>

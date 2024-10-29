@@ -17,11 +17,11 @@
         <!-- <div class="ps-2"> -->
           <div class="employee-details px-1">
             <div class="col-md-12">
-              <h6 class="mb-0 pb-0 name-title">{{candidateDetails.name}}</h6>
+              <h6 class="mb-0 pb-0 name-title">{{candidateDetails.name | titlecase}}</h6>
             </div>
             <div class="col-md-12 user-small-text">
               <div class="m-0 p-0">
-                Public Name : {{ candidateDetails?.name?.split(' ')[0] }}
+                Public Name : {{ candidateDetails?.name?.split(' ')[0]  | titlecase }}
               </div>
               <div class="mt-2">Phone no: {{ candidateDetails.number }}</div>
               <div class="mt-1">
