@@ -171,8 +171,8 @@
                                         <img src="assets/images/Group.png" alt="" />
                                       </div> -->
                                      
-                                      <div class="upload-text w-100"   *ngIf="candidateProfessionalDetails.candidateUploadDetails.fileName ||candidateList.CV; else defaultText">
-                                        {{candidateProfessionalDetails.candidateUploadDetails.fileName || candidateList.CV }}
+                                      <div class="upload-text w-100"   *ngIf="candidateProfessionalDetails.fileName || fileName; else defaultText">
+                                        {{candidateProfessionalDetails.fileName || fileName}}
                                       </div>
                                       <ng-template #defaultText>
                                         <div class="float-left w-100" style="color: gray;">Upload CV</div>
@@ -419,10 +419,11 @@
                                           candidateProfessionalDetails?.coreSkillList?.length<=0||
                                           candidateProfessionalDetails?.noticePeriod?.toString() === '' ||
                                           candidateProfessionalDetails?.noticePeriod?.toString() ===null ||
-                                          !candidate.form.valid ||(!fileName || !candidateList.CV)
+                                          !candidate.form.valid ||
+                                          (!candidateProfessionalDetails.fileName &&!fileName)
                                         )) || 
                                         (candidateProfessionalDetails.isCandidateFresher &&(  candidateProfessionalDetails?.softSkills?.length<=0 ||
-                                          candidateProfessionalDetails?.coreSkillList?.length<=0 ||(!fileName || candidateList.CV)))">Complete</button>
+                                          candidateProfessionalDetails?.coreSkillList?.length<=0 || (!candidateProfessionalDetails.fileName && !fileName)))">Complete</button>
                                           <!-- <button class="btn btn-next" type="submit"></button> -->
                     </div>
 
