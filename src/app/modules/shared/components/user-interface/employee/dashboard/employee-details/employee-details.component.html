@@ -21,16 +21,20 @@
             </div>
             <div class="col-md-12 user-small-text">
               <div class="m-0 p-0">
-                Public Name : {{ candidateDetails?.name?.split(' ')[0]  | titlecase }}
+                Contact Number:  {{candidateDetails.number }}
               </div>
-              <div class="mt-2">Phone no: {{ candidateDetails.number }}</div>
+              <div class="mt-2">E-mail: {{ candidateDetails?.emailList?.primary }}</div>
               <div class="mt-1">
-                Email: {{ candidateDetails?.emailList?.primary }}
+                Current Company: {{currentCompany?.companyName || '-'}}
               </div>
               <!-- <div class="mt-1">
                 Collage Degree: {{ educationDetails.degree }}
               </div> -->
-              <div class="mt-1">Location: {{ candidateDetails.location }}</div>
+              <div class="mt-1">Current designation: {{currentCompany?.designation || '-'}}</div>
+              <div class="mt-1">
+                Official mail ID: {{ currentCompany?.isEmailVerified === true ? 'Verified' : currentCompany?.isEmailVerified === false ? 'Not Verified' : '-' }}
+              </div>
+              
             </div>
 
             <!-- <div class="col-md-12 mt-2">

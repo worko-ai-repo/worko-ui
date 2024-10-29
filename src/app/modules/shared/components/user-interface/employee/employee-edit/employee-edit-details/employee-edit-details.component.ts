@@ -63,8 +63,8 @@ export class EmployeeEditDetailsComponent {
   }
 
   ngOnChanges(): void {
-    console.log(this.employeeSocial)
-    console.log(this.employeePersonalData)
+    // console.log(this.employeeSocial)
+    // console.log(this.employeePersonalData)
     /* if (this.employeePersonalData  && this.employeePersonalData.location 
     ) */ if (this.employeePersonalData  && this.employeePersonalData.location && this.employeePersonalData.socialLinklinkdin
     ) {
