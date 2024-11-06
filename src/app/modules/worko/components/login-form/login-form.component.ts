@@ -581,8 +581,14 @@ export class LoginFormComponent implements AfterViewInit, OnDestroy {
         })
           .catch(error => {
             this.spinner.hide();
-            this.setErrorMessage(error.error?.errors[0].message);
+           // this.setErrorMessage(error.error?.errors[0].message);
             console.error('Create Employee Error:', error);
+            this.employeeFormDirective?.resetForm();
+            this.myControl?.reset()
+            if(error.status === 409) {
+              this.setErrorMessage("It looks like you already have an account with us.  Please log in to continue.If you’ve forgotten your password, use the 'Forgot Password' link to reset it.");
+            }
+
 
           });
       }
@@ -648,9 +654,15 @@ export class LoginFormComponent implements AfterViewInit, OnDestroy {
             }
           })
             .catch(error => {
-              this.setErrorMessage(error.error?.errors[0].message);
+              //this.setErrorMessage(error.error?.errors[0].message);
               this.spinner.hide();
               console.error('File upload error:', error);
+              if(error.status === 409) {
+                this.candidateFormDirective?.resetForm();
+                this.fileName = "";
+
+                this.setErrorMessage("It looks like you already have an account with us.  Please log in to continue.If you’ve forgotten your password, use the 'Forgot Password' link to reset it.");
+              }
 
 
 
