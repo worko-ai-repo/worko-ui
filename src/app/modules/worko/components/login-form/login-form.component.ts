@@ -25,7 +25,7 @@ import { ChangeDetectorRef } from '@angular/core';
 import { CognitoService } from '../../../services/cognito.service';
 import 'aws-amplify/auth/enable-oauth-listener';
 import { Hub } from 'aws-amplify/utils';
-import { ConfirmResetPasswordInput, fetchDevices, ResetPasswordOutput, confirmResetPassword, fetchAuthSession, getCurrentUser, rememberDevice, resetPassword, FetchDevicesOutput, confirmSignUp, fetchUserAttributes, } from '@aws-amplify/auth';
+import { ConfirmResetPasswordInput, fetchDevices, ResetPasswordOutput, confirmResetPassword, fetchAuthSession, getCurrentUser, rememberDevice, resetPassword, FetchDevicesOutput, confirmSignUp, fetchUserAttributes, ResendSignUpCodeInput, } from '@aws-amplify/auth';
 import { event } from 'jquery';
 import { CompanyListingService } from '../../services/company-listing.service';
 import { NavbarToggleSwitchService } from 'src/app/modules/candidate/services/navbar-toggle-switch.service';
@@ -1226,12 +1226,21 @@ export class LoginFormComponent implements AfterViewInit, OnDestroy {
     this.spinner.show();
 
     try {
-      let signupform = {
-        username: this.employeeForm.emailId.toLowerCase(),
+
+      let signupform;
+
+      if (this.selectedUserType === 'candidate') {
+        signupform = {
+        username: this.candidateForm.emailId.toLowerCase()
+        }
+      } else if (this.selectedUserType === 'employee') {
+        signupform = {
+          username: this.employeeForm.emailId.toLowerCase()
+        }
       }
 
       // Call resendOtp with the user's email (username)
-      const { response, error } = await this.amplify.resendOtp(signupform);
+      const { response, error } = await this.amplify.resendOtp(signupform as ResendSignUpCodeInput);
 
       if (response) {
         // Handle successful resend
