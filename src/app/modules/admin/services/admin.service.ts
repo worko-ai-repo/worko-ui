@@ -69,7 +69,7 @@ export class AdminService {
     return this.http.get(url, this.authService.getHttpOptions()).toPromise();
   }
 
-  getAllReferral(pageSize?: any, lastKey?: any,sortOrder?:string,fromDate?:string,toDate?:string,searchText?:string) {
+  getAllReferral(pageSize?: any, lastKey?: any,sortOrder?:string,fromDate?:string,toDate?:string,status?:string) {
     let url = `${API_URL}admin/referral?pageSize=${pageSize}`;
 
     if (lastKey) {
@@ -83,9 +83,9 @@ export class AdminService {
     }
     if (toDate) {
       url += `&toDate=${toDate}`;
-    }  if (searchText) {
-      const searchTexts =encodeURIComponent(searchText)
-      url += `&searchText=${searchTexts}`;
+    }  if (status) {
+      const encodedStatus = encodeURIComponent(status)
+      url += `&status=${encodedStatus}`;
     }
     return this.http.get(url, this.authService.getHttpOptions()).toPromise();
   }

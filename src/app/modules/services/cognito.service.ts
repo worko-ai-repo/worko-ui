@@ -8,7 +8,7 @@ import { NavbarToggleSwitchService } from '../candidate/services/navbar-toggle-s
 
 
 import 'aws-amplify/auth/enable-oauth-listener';
-import { AuthError, ConfirmSignUpInput, SignInInput, SignInOutput, confirmSignUp, fetchAuthSession, getCurrentUser, signIn, signInWithRedirect, signOut, signUp } from '@aws-amplify/auth';
+import { AuthError, ConfirmSignUpInput, SignInInput, SignInOutput, confirmSignUp, fetchAuthSession, getCurrentUser, resendSignUpCode, signIn, signInWithRedirect, signOut, signUp, ResendSignUpCodeInput } from '@aws-amplify/auth';
 import { Hub } from '@aws-amplify/core';
 import { Router } from '@angular/router';
 import { environment } from 'src/environments/environment';
@@ -289,6 +289,16 @@ export class CognitoService {
 
       // Return the error
       return { error };
+    }
+  }
+
+  async resendOtp({username}: ResendSignUpCodeInput): Promise<{ response?: any; error?: any }> {
+    try {
+      const response = await resendSignUpCode({username});
+      return { response }; // Return response if resend is successful
+    } catch (error) {
+      console.error("Error resending OTP:", error);
+      return { error }; // Return error if something goes wrong
     }
   }
 

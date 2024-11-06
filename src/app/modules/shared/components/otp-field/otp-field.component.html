@@ -1,0 +1,12 @@
+<div *ngIf="otpForm" [formGroup]="otpForm" class="material-input__group otp-box" [class.invalid]="isOtpInvalid()">
+    <span class="otp-label">OTP</span>
+    <div class="otp-inputs" formArrayName="otpArray">
+        <input *ngFor="let control of otpControls; let i = index" #otpInput class="otp-input" type="text"
+            [formControl]="control" maxlength="1" inputmode="numeric" (input)="onOtpInput($event, i)"
+            (keydown)="onOtpKeyDown($event, i)" />
+    </div>
+
+    <button class="resend-btn" (click)="onResendOtp()" [disabled]="isResendDisabled">
+        Re-Send
+    </button>
+</div>

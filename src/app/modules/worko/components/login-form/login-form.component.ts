@@ -1,4 +1,4 @@
-import { Component, EventEmitter, Output, ViewChild, AfterViewInit, OnDestroy, Input, ElementRef, HostListener, SimpleChanges } from '@angular/core';
+import { Component, EventEmitter, Output, ViewChild, AfterViewInit, OnDestroy, Input, ElementRef, HostListener, SimpleChanges, ViewChildren, QueryList } from '@angular/core';
 // import { CognitoService } from 'src/app/modules/services/cognito.service';
 
 
@@ -13,7 +13,7 @@ import { NgxSpinnerService } from 'ngx-spinner';
 import { MatAutocompleteModule, MatAutocompleteTrigger } from '@angular/material/autocomplete';
 // import { MatInputModule } from '@angular/material/input';
 // import { MatFormFieldModule } from '@angular/material/form-field';
-import { FormControl, FormsModule, NgForm, NgModel, ReactiveFormsModule } from '@angular/forms';
+import { FormArray, FormBuilder, FormControl, FormGroup, FormsModule, NgForm, NgModel, ReactiveFormsModule, Validators } from '@angular/forms';
 import { Observable } from 'rxjs';
 // import { delay } from 'rxjs/operators';
 // import { of } from 'rxjs';
@@ -187,12 +187,17 @@ export class LoginFormComponent implements AfterViewInit, OnDestroy {
   userLoggedIn: boolean = false;
   emailAddress: any;
   showLoginScreen: boolean = false;
-  touched: boolean = false
-  constructor(private cdr: ChangeDetectorRef, private modalService: NgbModal, private companyListingService: CompanyListingService, private storage: StorageService, private amplify: CognitoService, private router: Router, private authService: AuthService, private spinner: NgxSpinnerService, private navbarToggleSwitchService: NavbarToggleSwitchService) {
+  touched: boolean = false;
+
+  showOtpInput: boolean = false; // Initially hide the OTP field
+  otpForm: FormGroup;
+  isResendDisabled = false;
 
 
-
-
+  constructor(private cdr: ChangeDetectorRef, private modalService: NgbModal, private companyListingService: CompanyListingService, private storage: StorageService, private amplify: CognitoService, private router: Router, private authService: AuthService, private spinner: NgxSpinnerService, private navbarToggleSwitchService: NavbarToggleSwitchService, private fb: FormBuilder) {
+    this.otpForm = this.fb.group({
+      otpArray: this.fb.array(Array(6).fill('').map(() => new FormControl('', [Validators.required, Validators.pattern('[0-9]')])))
+    });
   }
 
 
@@ -225,6 +230,14 @@ export class LoginFormComponent implements AfterViewInit, OnDestroy {
     // }
   }
 
+  get otpControls(): FormControl[] {
+    return (this.otpForm.get('otpArray') as FormArray).controls as FormControl[];
+  }
+
+  // Helper to check if all OTP values are filled
+  otpValuesFilled(): boolean {
+    return this.otpControls.every(control => control.value !== '');
+  }
 
   // onInputChange(): void {
   //   // Check if the input value matches any of the options
@@ -270,15 +283,34 @@ export class LoginFormComponent implements AfterViewInit, OnDestroy {
   }
 
 
+  // isVerifyButtonVisible(form: NgForm): boolean {
+  //   // Ensure all necessary fields are filled and valid
+  //   return form.valid &&
+  //     this.employeeForm.name &&
+  //     this.employeeForm.emailId &&
+  //     this.isValidEmail(this.employeeForm.emailId) && // Check email validity
+  //     this.employeeForm.phoneNumber &&
+  //     !this.employeeForm.companyEmailID &&
+  //     !this.employeeForm.department &&
+  //     this.employeeForm.password &&
+  //     this.employeeForm.confirmPassword &&
+  //     (this.employeeForm.password === this.employeeForm.confirmPassword) && // Ensure passwords match
+  //     this.employeeForm.acceptedTermsAndConditions &&
+  //     this.selectedCompany?.name &&
+  //     this.selectedCompany?.id;
+  // }
+
+  // isValidEmail(email: string): boolean {
+  //   const emailPattern = /^[a-zA-Z0-9._%+-]+@(gmail\.com|outlook\.com|aol\.com|yahoo\.com|icloud\.com|protonmail\.com|zoho\.com|yandex\.com|gmx\.com|hubspot\.com|mail\.com|tutanota\.com|10minutemail\.com|outlook\.in|worko\.ai)$/;
+  //   return emailPattern.test(email);
+  // }
+
   async ngOnInit() {
-    console.log("In login Component");
     //Added check to pass userType to show enabled candidate and employee from index page
     //debugger
 
     // this.selectedUserType = this.userType;
     //console.log(this.selectedUserType)
-
-
 
     this.blinkAndChangeWord()
     // this.filteredOptions = this.myControl.valueChanges.pipe(
@@ -371,14 +403,24 @@ export class LoginFormComponent implements AfterViewInit, OnDestroy {
     }
   }
 
-
   selectUserType(userType: string) {
     this.selectedUserType = userType;
     this.errorMessage = "";
     this.userTypeSelected.emit(userType);
+
+    // Clearing any OTP-related status if the user switches tabs
+    if (this.showOtpInput) {
+      this.resetOtpField(); // Method to clear/reset OTP fields
+      this.showOtpInput = false; // Hide OTP field on tab switch
+      this.myControl.enable();
+    }
     this.clearBlinkTimer();
     this.currentWordIndex = 0;
     this.blinkAndChangeWord();
+  }
+
+  resetOtpField() {
+    this.otpControls.forEach(control => control.reset()); // Clear each OTP input
   }
 
   toggleHover(fieldName: string, isHovered: boolean) {
@@ -559,20 +601,22 @@ export class LoginFormComponent implements AfterViewInit, OnDestroy {
           // linkedinUrl: this.employeeForm.linkdinProfile,
           YOE: Number(this.employeeForm.experience),
           // designation: this.employeeForm.designation,
-          department: this.employeeForm.department,
-          companyEmailId: this.employeeForm.companyEmailID,
+          // department: this.employeeForm.department,
+          // companyEmailId: this.employeeForm.companyEmailID,
           companyName: this.selectedCompany.name,
           companySK: this.selectedCompany.id,
           userId: response.userId,
           acceptedTermsAndConditions: this.employeeForm.acceptedTermsAndConditions // Include the acceptedTermsAndConditions field
-
-
           // designationTag: Number(this.employeeForm.designationTag)
         }
 
         this.authService.createEmployee(employeeData).then(async () => {
           try {
-            this.confirmationCodeScreen = true;
+            // this.confirmationCodeScreen = true;
+            // this.showLoader = true;
+            this.showOtpInput = true;
+            this.myControl.disable();
+            this.setErrorMessage("Registration successful! A verification code has been sent to your email. Please enter the code below to verify your account.");
             this.spinner.hide();
           } catch (error: any) {
             this.spinner.hide();
@@ -581,12 +625,12 @@ export class LoginFormComponent implements AfterViewInit, OnDestroy {
         })
           .catch(error => {
             this.spinner.hide();
-           // this.setErrorMessage(error.error?.errors[0].message);
+            // this.setErrorMessage(error.error?.errors[0].message);
             console.error('Create Employee Error:', error);
             this.employeeFormDirective?.resetForm();
             this.myControl?.reset()
-            if(error.status === 409) {
-              this.setErrorMessage("It looks like you already have an account with us.  Please log in to continue.If you’ve forgotten your password, use the 'Forgot Password' link to reset it.");
+            if (error.status === 409) {
+              this.setErrorMessage("It looks like you already have an account with us.  Please log in to continue. If you’ve forgotten your password, use the 'Forgot Password' link to reset it.");
             }
 
 
@@ -657,7 +701,7 @@ export class LoginFormComponent implements AfterViewInit, OnDestroy {
               //this.setErrorMessage(error.error?.errors[0].message);
               this.spinner.hide();
               console.error('File upload error:', error);
-              if(error.status === 409) {
+              if (error.status === 409) {
                 this.candidateFormDirective?.resetForm();
                 this.fileName = "";
 
@@ -775,6 +819,8 @@ export class LoginFormComponent implements AfterViewInit, OnDestroy {
   }
   routeToLogin() {
 
+    this.showOtpInput = false;
+    this.myControl.enable();
     this.confirmationCodeScreen = false
     this.toggleSignInRow();
   }
@@ -851,7 +897,10 @@ export class LoginFormComponent implements AfterViewInit, OnDestroy {
 
           try {
             let a = await this.authService.linkResumewithUser(this.candidateForm.emailId.toLowerCase(), this.uploadedCvName);
-            this.confirmationCodeScreen = true;
+            // this.confirmationCodeScreen = true;
+            this.showOtpInput = true;
+            this.myControl.disable();
+            this.setErrorMessage("Registration successful! A verification code has been sent to your email. Please enter the code below to verify your account.");
             this.spinner.hide();
           } catch (error: any) {
             if (error && error.error.message) {
@@ -906,57 +955,78 @@ export class LoginFormComponent implements AfterViewInit, OnDestroy {
   }
 
 
-  async confirmSignUp(form: any): Promise<void> {
+  async confirmSignUp(form?: any): Promise<void> {
     this.setErrorMessage("")
     this.spinner.show();
     try {
       if (this.selectedUserType === "candidate") {
-        const { response, error } = await this.createUserWithConfirmation(this.candidateForm, this.verificationForm);
-        if (response) {
-          // this.otpVerification(this.candidateForm.emailId);
-          // this.showSignInRow = false  commented to pervent the user to togggle to sign in 
-          this.showAddCompanyScreen = false
-          // this.showErrorMessageScreen = true
-          // this.successtitle = 'Verification Successful' // success message displaying after verifing code
-          // this.successmessage = 'Your account has been successfully created. Please log in to continue.'
 
-          // this.toggleSignInRow();
+        // Retrieve the OTP value, using either the otp form controls or verification form code
+        const otp = this.otpControls.map(control => control.value).join('') || this.verificationForm?.code;
+        if (otp) {
+          const { response, error } = await this.createUserWithConfirmation(this.candidateForm, otp);
+          if (response) {
+            // this.otpVerification(this.candidateForm.emailId);
+            // this.showSignInRow = false  commented to pervent the user to togggle to sign in 
+            this.showAddCompanyScreen = false;
+            this.showOtpInput = false;
+            this.myControl.enable();
+            // this.showErrorMessageScreen = true
+            // this.successtitle = 'Verification Successful' // success message displaying after verifing code
+            // this.successmessage = 'Your account has been successfully created. Please log in to continue.'
 
-          // redirect user to dashboard or edit profile with direct login
-          await this.submit(this.candidateForm)
+            // this.toggleSignInRow();
 
+            // redirect user to dashboard or edit profile with direct login
+            await this.submit(this.candidateForm)
+
+            this.spinner.hide();
+          }
+          else if (error) {
+            this.errorMessage = error.message;
+            this.spinner.hide();
+          }
+
+        } else {
+          // Handle missing OTP error
+          this.errorMessage = 'Please enter a valid OTP.';
           this.spinner.hide();
         }
 
-        if (error) {
-          this.errorMessage = error.message;
-          this.spinner.hide();
-        }
+
       }
 
       if (this.selectedUserType === "employee") {
-        const { response, error } = await this.createUserWithConfirmation(this.employeeForm, this.verificationForm);
+        // Retrieve the OTP value, using either the otp form controls or verification form code
+        const otp = this.otpControls.map(control => control.value).join('') || this.verificationForm?.code;
+        if (otp) {
+          const { response, error } = await this.createUserWithConfirmation(this.employeeForm, otp);
 
-        if (response) {
-          //   this.showSignInRow = false commented to pervent the user to togggle to sign in 
-          this.showAddCompanyScreen = false
-          // this.showErrorMessageScreen = true commented to pervent the user to togggle to sign in 
-          // this.successtitle = 'Verification Successful'
-          // this.successmessage = 'Your account has been successfully created. Please log in to continue.'
-          // this.toggleSignInRow();
+          if (response) {
+            // Successful verification, update UI and navigate
+            this.showAddCompanyScreen = false;
+            // this.showLoader = false;
+            this.showOtpInput = false;
+            this.myControl.enable();
 
-          // redirect user to dashboard or edit profile with direct login
-          await this.submit(this.employeeForm)
+            // Redirect user to dashboard or edit profile with direct login
+            await this.submit(this.employeeForm);
 
-        }
-
-        if (error) {
-          this.errorMessage = error.message;
+          } else if (error) {
+            // Handle API error message
+            this.errorMessage = error.message;
+            this.spinner.hide();
+          }
+        } else {
+          // Handle missing OTP error
+          this.errorMessage = 'Please enter a valid OTP.';
           this.spinner.hide();
         }
+
       }
     } catch (error) {
       // console.log('Error signing up candidate confirmSignUp:', error);
+      this.errorMessage = 'An unexpected error occurred. Please try again.';
       this.spinner.hide();
     }
 
@@ -1002,6 +1072,7 @@ export class LoginFormComponent implements AfterViewInit, OnDestroy {
       this.confirmationEmail = this.maskEmail(this.form.email || form.emailId);
       this.showSignInRow = !this.showSignInRow;
       this.confirmationCodeScreen = !this.confirmationCodeScreen;
+      this.resetOtpField();
       // this.codeErrorScreen=!this.codeErrorScreen
       // this.setErrorMessage("User is not confirmed.");
     }
@@ -1040,6 +1111,15 @@ export class LoginFormComponent implements AfterViewInit, OnDestroy {
   setErrorMessage(message: string) {
     this.errorMessage = message;
   }
+
+
+  // verifyEmail(form: NgForm) {
+  //   if (form.valid) {
+  //     this.createEmployee(form);
+  //   } else {
+  //     this.errorMessage = "Please fill out all required fields";
+  //   }
+  // }
 
 
   //   async FieldTypeFromAutocompleteAttributeValue(autocompleteAttributeValue: string): Promise<any> {
@@ -1099,7 +1179,6 @@ export class LoginFormComponent implements AfterViewInit, OnDestroy {
       if (error.message === 'User already exists') {
         this.spinner.hide();
         this.setErrorMessage("It looks like you already have an account with us.  Please log in to continue.If you’ve forgotten your password, use the 'Forgot Password' link to reset it.");
-
       }
     }
 
@@ -1108,13 +1187,13 @@ export class LoginFormComponent implements AfterViewInit, OnDestroy {
   }
 
 
-  async createUserWithConfirmation(form: any, verificationForm: any): Promise<{ response?: any; error?: Error }> {
+  async createUserWithConfirmation(form: any, otp: any): Promise<{ response?: any; error?: Error }> {
     this.setErrorMessage("");
 
     try {
       let signupform = {
         username: form.emailId || this.form.email,
-        confirmationCode: verificationForm.code,
+        confirmationCode: otp,
       }
 
       // Call handleSignUpConfirmation and await the result
@@ -1141,6 +1220,36 @@ export class LoginFormComponent implements AfterViewInit, OnDestroy {
     return {};
   }
 
+  async resendOtp() {
+    if (this.isResendDisabled) return; // Prevent multiple clicks
+    this.isResendDisabled = true;      // Disable button temporarily
+    this.spinner.show();
+
+    try {
+      let signupform = {
+        username: this.employeeForm.emailId.toLowerCase(),
+      }
+
+      // Call resendOtp with the user's email (username)
+      const { response, error } = await this.amplify.resendOtp(signupform);
+
+      if (response) {
+        // Handle successful resend
+        this.setErrorMessage("A new verification code has been sent to your email. Please check your inbox and spam folder.");
+        // console.log("OTP resent:", response);
+      } else if (error) {
+        // Handle any error from the resend call
+        this.setErrorMessage("Error resending OTP. Please try again.");
+        console.error("Resend OTP Error:", error);
+      }
+    } catch (error) {
+      this.setErrorMessage("An unexpected error occurred.");
+      console.error("Unexpected error in resendOtp:", error);
+    } finally {
+      this.spinner.hide(); // Hide loading indicator
+      setTimeout(() => (this.isResendDisabled = false), 30000); // Re-enable after 30 seconds
+    }
+  }
 
 
   maskEmail(email: string): string {
@@ -1198,39 +1307,39 @@ export class LoginFormComponent implements AfterViewInit, OnDestroy {
     // const isCompanyListingRoute=this.router.url.includes('/companies')
 
     // if (isCompanyListingRoute || isJobDescriptionRoute || isJobRoute ||isJobListing) {
-    
+
     // Define a single regular expression to match job-related routes and company routes
     const jobRoutePattern = /^(\/company\/jobs\/[^/]+-jobs(?:\/[^/]+-[A-Za-z0-9]+)?|\/company\/jobs\/[^/]+-jobs-[A-Za-z0-9]+|\/[^/]+-jobs)$/;
     // const jobRoutePattern = /^(\/company\/[^/]+-jobs(?:\/[^/]+-[A-Za-z0-9]+)?|\/[^/]+-jobs|\/company)$/;
 
     // Check if the URL matches any of the job-related or company-related routes
     const isCompanyRoute = jobRoutePattern.test(currentUrl);
-    if(isCompanyRoute){
-    this.storage.set('isCompanyListingRoute', true);
-    this.storage.set('dynamicRoute', currentUrl);  // Store the full job details route if necessary
-  }
-    
+    if (isCompanyRoute) {
+      this.storage.set('isCompanyListingRoute', true);
+      this.storage.set('dynamicRoute', currentUrl);  // Store the full job details route if necessary
+    }
+
     else {
-  const isCompanyListingRoute = this.storage.get('isCompanyListingRoute');
-  if (isCompanyListingRoute !== null && isCompanyListingRoute !== undefined) {
-    this.storage.remove('isCompanyListingRoute');
-    this.storage.remove('dynamicRoute');
-  }
-}
-this.storage.set('LinkedinUserType', usertype);
+      const isCompanyListingRoute = this.storage.get('isCompanyListingRoute');
+      if (isCompanyListingRoute !== null && isCompanyListingRoute !== undefined) {
+        this.storage.remove('isCompanyListingRoute');
+        this.storage.remove('dynamicRoute');
+      }
+    }
+    this.storage.set('LinkedinUserType', usertype);
 
-// Show a spinner or perform any other necessary actions
-this.spinner.show();
+    // Show a spinner or perform any other necessary actions
+    this.spinner.show();
 
-//"https://worko.auth.ap-south-1.amazoncognito.com/oauth2/authorize?identity_provider=LinkedIn&redirect_uri=https://localhost:4200/&response_type=CODE&client_id=5evf019rrkaijtnjf2j1vvdf33&state=h8HvXvQ2W4QvOE18H68wwcgWh3pIkANy&code_challenge=kI8A-NbOUiZw9Iv14YltZO5iTk6MTkK2Lu1PVAEsOyI&code_challenge_method=S256&scope=email%20openid%20phone";
-// Redirect to the specified URL
-//window.location.href =
-// "https://worko.auth.ap-south-1.amazoncognito.com/oauth2/authorize?identity_provider=LinkedIn&redirect_uri=http://localhost:4200/auth/checkRedirection&response_type=CODE&client_id=5evf019rrkaijtnjf2j1vvdf33&state=h8HvXvQ2W4QvOE18H68wwcgWh3pIkANy&code_challenge=kI8A-NbOUiZw9Iv14YltZO5iTk6MTkK2Lu1PVAEsOyI&code_challenge_method=S256&scope=email%20openid%20phone";
-//
+    //"https://worko.auth.ap-south-1.amazoncognito.com/oauth2/authorize?identity_provider=LinkedIn&redirect_uri=https://localhost:4200/&response_type=CODE&client_id=5evf019rrkaijtnjf2j1vvdf33&state=h8HvXvQ2W4QvOE18H68wwcgWh3pIkANy&code_challenge=kI8A-NbOUiZw9Iv14YltZO5iTk6MTkK2Lu1PVAEsOyI&code_challenge_method=S256&scope=email%20openid%20phone";
+    // Redirect to the specified URL
+    //window.location.href =
+    // "https://worko.auth.ap-south-1.amazoncognito.com/oauth2/authorize?identity_provider=LinkedIn&redirect_uri=http://localhost:4200/auth/checkRedirection&response_type=CODE&client_id=5evf019rrkaijtnjf2j1vvdf33&state=h8HvXvQ2W4QvOE18H68wwcgWh3pIkANy&code_challenge=kI8A-NbOUiZw9Iv14YltZO5iTk6MTkK2Lu1PVAEsOyI&code_challenge_method=S256&scope=email%20openid%20phone";
+    //
 
 
 
-this.amplify.handleSocialSignIn()
+    this.amplify.handleSocialSignIn()
 
   }
 

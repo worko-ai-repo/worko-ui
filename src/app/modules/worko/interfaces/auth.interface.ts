@@ -16,8 +16,8 @@ export interface employeeInfo {
     // linkedinUrl: string,
     YOE: number,
     // designation: string,
-    department: string,
-    companyEmailId: string,
+    // department: string,
+    // companyEmailId: string,
     companyName: string,
     // designationTag: number
 }

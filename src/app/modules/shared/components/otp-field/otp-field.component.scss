@@ -1,0 +1,149 @@
+.material-input__group {
+    position: relative;
+    margin-bottom: 25px;
+    width: 100%;
+}
+
+.material-input__group__input.error {
+    border-bottom-color: red;
+}
+
+/* ------- MATERIAL-INPUT ------- */
+.material-input__group {
+    position: relative;
+    margin-bottom: 15px;
+}
+
+.material-input__group i {
+    position: absolute;
+    top: 5px;
+    left: 5px;
+    color: #6b33ee;
+    font-size: 12px;
+}
+
+.material-input__group p {
+    position: absolute;
+    // top: 5px;
+    left: 19px;
+    color: #6b33ee;
+    font-size: 12px;
+    font-family: "Ubuntu", sans-serif
+}
+
+.material-input__group__input {
+    font-family: 'Ubuntu', sans-serif;
+    padding: 0px 0px 3px 22px;
+    display: block;
+    width: 100%;
+    border: none;
+    border-bottom: 1px solid #fff;
+    font-size: 12px;
+}
+
+.material-input__group__input.textarea {
+    resize: vertical;
+    overflow: auto;
+}
+
+.material-input__group__input:focus {
+    outline: none;
+    // border-bottom: 1px solid #477dc0;
+}
+
+.material-input__group-bar {
+    position: relative;
+    display: block;
+}
+
+.material-input__group input {
+    flex-grow: 1;
+}
+
+.otp-inputs {
+    display: flex;
+    justify-content: space-between;
+    width: fit-content;
+}
+
+.otp-input {
+    width: 12px;
+    border: none;
+    border-bottom: 2px solid rgba(255, 255, 255, 0.5);
+    margin: 0 5px;
+    text-align: center;
+    font-size: 12px;
+    background-color: transparent;
+    color: white;
+}
+
+.otp-input:focus {
+    border-bottom: 2px solid #5cc3e6 !important;
+    outline: none;
+}
+
+.otp-container {
+    display: flex;
+    gap: 5px;
+}
+
+.otp-box {
+    position: relative;
+    display: flex;
+    align-items: center;
+    border: 1px solid white;
+    border-radius: 4px;
+    padding: 5px 5px;
+    background-color: transparent;
+    width: 100%;
+    // max-width: 300px;
+    justify-content: space-between;
+}
+
+.otp-box.invalid {
+    border-color: red;
+}
+
+.otp-input.ng-invalid {
+    border-bottom: 2px solid rgba(255, 255, 255, 0.5) !important;
+}
+
+/* Normal invalid state */
+.otp-input.ng-invalid.ng-touched {
+    border-bottom: 2px solid rgba(255, 255, 255, 0.5) !important;
+}
+
+/* Overriding invalid state on focus */
+.otp-input.ng-invalid:focus,
+.otp-input:focus {
+    border-bottom: 2px solid #5cc3e6 !important;
+    outline: none;
+}
+
+
+.otp-label {
+    color: #a3a3a3;
+    font-size: 12px;
+}
+
+.resend-btn {
+    position: absolute;
+    top: 50%;
+    right: -70px;
+    transform: translateY(-50%);
+    color: #5cc3e6;
+    font-size: 12px;
+    background: none;
+    border: none;
+    cursor: pointer;
+    // margin-left: 15px;
+}
+
+.resend-btn:hover {
+    color: #68dbff;
+}
+
+.resend-btn:disabled {
+    color: grey;
+    cursor: not-allowed;
+}

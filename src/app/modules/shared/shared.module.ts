@@ -8,7 +8,7 @@ import { ReferralStepperComponent } from './components/user-interface/referral/r
 import {MatStep, MatStepperModule} from '@angular/material/stepper';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { MatButtonModule } from '@angular/material/button';
-import { MatFormFieldModule } from '@angular/material/form-field';
+
 import { MatInputModule } from '@angular/material/input';
 import { NgbRatingModule} from '@ng-bootstrap/ng-bootstrap'
 import { ReferralCancelledComponent } from './components/user-interface/referral/referral-cancelled/referral-cancelled.component';
@@ -51,6 +51,7 @@ import { CancelledServiceComponent } from './components/user-interface/service/c
 import { DoneServiceComponent } from './components/user-interface/service/done-service/done-service.component';
 import { UserStepperComponent } from './components/user-interface/employee/employee-edit/user-stepper/user-stepper.component';
 import { MatAutocompleteModule } from '@angular/material/autocomplete';
+import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatSelectModule } from '@angular/material/select';
 import { FormControl, NgModel } from '@angular/forms';
 import { EditBankDetailsComponent } from './components/user-interface/employee/edit-bank-details/edit-bank-details.component';
@@ -100,6 +101,7 @@ import { MinJobPortalJobListComponent } from './components/user-interface/mini-j
 import { ShowMoreDetailsComponent } from './components/show-more-details/show-more-details.component';
 import { EllipsisPipe } from './pipes/ellipsis/ellipsis.pipe';
 import { MessageModalComponent } from './components/modal/message-modal/message-modal.component';
+import { OtpFieldComponent } from './components/otp-field/otp-field.component';
 export const routes: Routes = [
 
   
@@ -159,6 +161,7 @@ export const routes: Routes = [
     ShowMoreDetailsComponent,
     EllipsisPipe,
     MessageModalComponent,
+    OtpFieldComponent,
     // DoneServiceComponent,
     // CancelledServiceComponent,
     // AwaitingServiceComponent,
@@ -240,6 +243,7 @@ export const routes: Routes = [
   MinJobPortalJobListComponent,
   ShowMoreDetailsComponent,
   MessageModalComponent,
+  OtpFieldComponent,
   EllipsisPipe
   ],
 
