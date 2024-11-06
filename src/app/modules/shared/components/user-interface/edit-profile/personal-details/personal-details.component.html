@@ -130,62 +130,7 @@
                             [(ngModel)]="candidateProfessionalDetails.yoe" name="yoe" id="yoe">
 
 
-                    </div> -->
-                    <div class="row  mt-2  d-flex justify-content-center">
-                     
-                            <div class="col-md-3">
-                                <!-- <label for="file" class="form-label required-form-field">Upload CV (PDF format only)</label>
-                                <div class="form-control form-ctc">
-                                    <input type="file" id="file" class="file-input"   [value]="fileName ? fileName : 'Upload CV'"  (change)="handleFileInput($event)" />
-                                   
-                                        <div class="doc-icon">
-                                        <img src="assets/images/mingcute_upload-line.png" alt="upload icon" class="upload-icon" />
-                                    </div>
-                                   
-                                </div> -->
-                                <label for="file" class="form-label required-form-field">Upload CV (PDF format only)</label>
-                                <div class="file-container">
-
-                                    <label for="file" class="form-control form-ctc file-label">
-                                      <!-- <div style="width: 12px">
-                                        <img src="assets/images/Group.png" alt="" />
-                                      </div> -->
-                                     
-                                      <div class="upload-text w-100"   *ngIf="candidateProfessionalDetails.fileName || fileName; else defaultText">
-                                        {{candidateProfessionalDetails.fileName || fileName}}
-                                      </div>
-                                      <ng-template #defaultText>
-                                        <div class="float-left w-100" style="color: gray;">Upload CV</div>
-                                      </ng-template>
-                                      <!-- <input type="file" id="file" class="file-input" (change)="handleFileInput($event)" 
-                                      #file="ngModel" required name="file" /> -->
-                                      <input
-                                      type="file"
-                                      id="file"
-                                      class="file-input"
-                                      (change)="handleFileInput($event)"
-                                      required
-                                      name="file"
-                                      [title]="fileErr"
-                                      [ngClass]="{ 'is-invalid': fileErr }"
-                                    />
-                                      <div class="doc-icon float-end">
-                                        <svg width="20" height="23" viewBox="0 0 28 25" fill="none" xmlns="http://www.w3.org/2000/svg">
-                                            <path d="M24.5 15.625V19.7917C24.5 20.3442 24.2542 20.8741 23.8166 21.2648C23.379 21.6555 22.7855 21.875 22.1667 21.875H5.83333C5.21449 21.875 4.621 21.6555 4.18342 21.2648C3.74583 20.8741 3.5 20.3442 3.5 19.7917V15.625M19.8333 8.33333L14 3.125M14 3.125L8.16667 8.33333M14 3.125V15.625" stroke="white" stroke-width="4" stroke-linecap="round" stroke-linejoin="round"/>
-                                            </svg>
-                                            
-                                        <!-- <img src="assets/images/mingcute_upload-line.png" alt="" class="upload-icon" /> -->
-                                      </div>
-                                    </label>
-                                  </div>
-                                  <div class="error text-danger error-div py-2" style="font-size: 14px;" *ngIf="fileErr">
-                                    {{ fileErr }}
-                                  </div>
-                               
-                            </div>
-
-                        
-                    
+                    </div>
                     <div class="col-md-3"></div>
                     <div class="col-md-2"></div>
                 </div>
