@@ -339,8 +339,7 @@ export class EditProfileComponent implements OnInit {
         // },
         "ECTC": this.secondStepData.ectc,
         "location": this.firstStepData.location,
-       // "coverLetter": this.thirdStepData.coverLetter,
-        "coverLetter": this.secondStepData.coverLetter,
+        "coverLetter": this.thirdStepData.coverLetter,
         "name": this.firstStepData.name,
         "CTC": this.secondStepData.ctc,
         "emailList": {
@@ -671,30 +670,24 @@ export class EditProfileComponent implements OnInit {
     this.secondStepData = data;
     this.candidateProfessionalDetails = data;
     this.candidatePersonalDetails = this.firstStepData;
-    // if (this.currentStep < 3) {
-    //   this.currentStep++;
-    // }
-    this.uploadUserCV();
+    if (this.currentStep < 3) {
+      this.currentStep++;
+    }
   }
   async uploadUserCV(): Promise<void> {
     try {
       // if (this.userId && this.thirdStepData.fileType && this.thirdStepData.fileName) {
-      //if (this.thirdStepData.fileType && this.thirdStepData.fileName) {
-        if (this.secondStepData.candidateUploadDetails.fileType && this.secondStepData.candidateUploadDetails.fileName) {
+      if (this.thirdStepData.fileType && this.thirdStepData.fileName) {
         let documentDetails = {
           // userId: this.userId,
           userId: this.candidateList.SK.split("#")[1],
-          // resumeUserFileName: this.thirdStepData.fileName,
-          // resumeFileMimeType: this.thirdStepData.fileType
-          resumeUserFileName: this.secondStepData.candidateUploadDetails.fileName,
-          resumeFileMimeType: this.secondStepData.candidateUploadDetails.fileType
+          resumeUserFileName: this.thirdStepData.fileName,
+          resumeFileMimeType: this.thirdStepData.fileType
         }
         let docResult = await this.authService.uploadCV(documentDetails);
 
-        // this.uploadedCvName = docResult.cloudFileName;
-        // this.candidatePersonalDetails.CV = docResult.cloudFileName;
-         this.uploadedCvName = docResult.userFileName;
-        this.candidatePersonalDetails.CV = docResult.userFileName;
+        this.uploadedCvName = docResult.cloudFileName;
+        this.candidatePersonalDetails.CV = docResult.cloudFileName;
         this.uploadCVonS3Bucket(docResult);
 
 
@@ -760,11 +753,10 @@ export class EditProfileComponent implements OnInit {
 
 
   uploadCVonS3Bucket(docResult: any) {
-    debugger
+    
     try {
-      // this.authService.uploadFileOnS3Bucket(this.thirdStepData.fileToUpload!, docResult.awsS3SignedUrl, docResult.awsS3Tag)
-      this.authService.uploadFileOnS3Bucket(this.secondStepData.candidateUploadDetails.fileToUpload!, docResult.awsS3SignedUrl, docResult.awsS3Tag)  
-      .then(async () => {
+      this.authService.uploadFileOnS3Bucket(this.thirdStepData.fileToUpload!, docResult.awsS3SignedUrl, docResult.awsS3Tag)
+        .then(async () => {
 
         
           try {

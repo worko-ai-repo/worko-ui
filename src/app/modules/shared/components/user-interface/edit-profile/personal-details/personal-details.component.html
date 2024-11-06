@@ -53,19 +53,8 @@
                 </div>
                 <div class="row d-flex justify-content-center mt-2"
                     *ngIf="!candidateProfessionalDetails.isCandidateFresher">
-                    <div class="col-md-2">
-                        <label for="" class="form-label required-form-field">Year Of Experience</label>
-                        <input type="text" class="form-control form-ctc" placeholder="Year Of Experience"
-                            pattern="^\d{1,3}(?:,\d{3})*(?:\.\d{1,2})?$" #yoe="ngModel" required
-                            [title]="yoe.errors?.['pattern'] ? 'Year Of Experience is invalid' : ''"
-                            [title]="yoe.errors?.['required'] ? 'Year Of Experience is required' : ''"
-                            [ngClass]="{ 'is-invalid': yoe.invalid && (yoe.dirty || yoe.touched) }"
-                            [(ngModel)]="candidateProfessionalDetails.yoe" name="yoe" id="yoe">
-
-
-                    </div>
                     <div class="col-md-3 ">
-                        <label for="" class="form-label required-form-field">Current / Last Company Name</label>
+                        <label for="" class="form-label required-form-field">Current Company Name</label>
                         <input matInput #autoCompleteInput="matAutocompleteTrigger" class="form-control form-ctc"
                             [formControl]="myControl" [matAutocomplete]="auto" placeholder="Select Company Name"
                             required [(ngModel)]="candidateProfessionalDetails.companyName" />
@@ -79,25 +68,12 @@
                     <div class="col-md-3">
                         <label for="" class="form-label  required-form-field">Designation</label>
                         <input type="text" class="form-control form-ctc" placeholder="Designation"
-                            #designation="ngModel" required pattern="^[A-Za-z\s!@#$%^&*()\/.,\-]+$" minlength="4"
-                            maxlength="30" [title]="designation.errors?.['pattern'] ? 'designation is invalid' : ''"
+                            #designation="ngModel" required pattern="^[A-Za-z\s!@#$%^&*()\/.,\-]+$" minlength="4" maxlength="30"
+                            [title]="designation.errors?.['pattern'] ? 'designation is invalid' : ''"
                             [title]="designation.errors?.['required'] ? 'designation is required':''"
                             [ngClass]="{ 'is-invalid': designation.invalid && (designation.dirty || designation.touched) }"
                             [(ngModel)]="candidateProfessionalDetails.designation" name="designation" id="designation">
                     </div>
-                    <!-- <div class="col-md-2">
-                        <label for="" class="form-label  required-form-field">Department</label>
-                        <input type="text" class="form-control form-ctc" placeholder="Department" #Department="ngModel"
-                            required pattern="^[A-Za-z\s!@#$%^&*()\/.,\-]+$" maxlength="30"
-                            [title]="Department.errors?.['pattern'] ? 'Department is invalid' : ''"
-                            [title]="Department.errors?.['required'] ? 'Department is required':''"
-                            [ngClass]="{ 'is-invalid': Department.invalid && (Department.dirty || Department.touched) }"
-                            [(ngModel)]="candidateProfessionalDetails.department" name="department" id="department">
-                    </div> -->
-                </div>
-
-                <div class="row d-flex justify-content-center mt-2"
-                    *ngIf="!candidateProfessionalDetails.isCandidateFresher">
                     <div class="col-md-2">
                         <label for="" class="form-label  required-form-field">Department</label>
                         <input type="text" class="form-control form-ctc" placeholder="Department" #Department="ngModel"
@@ -107,7 +83,11 @@
                             [ngClass]="{ 'is-invalid': Department.invalid && (Department.dirty || Department.touched) }"
                             [(ngModel)]="candidateProfessionalDetails.department" name="department" id="department">
                     </div>
-                    <div class="col-md-2">
+                </div>
+
+                <div class="row d-flex justify-content-center mt-2"
+                    *ngIf="!candidateProfessionalDetails.isCandidateFresher">
+                    <div class="col-md-3">
                         <label for="" class="form-label  required-form-field">CTC</label>
                         <input type="text" class="form-control form-ctc" placeholder="CTC(in LPA)"
                             pattern="^(?!0*\.?0*$)0*([1-9][0-9]*)(\.[0-9]{1,2})?$" #ctc="ngModel" required
@@ -116,7 +96,7 @@
                             [ngClass]="{ 'is-invalid': ctc.invalid && (ctc.dirty || ctc.touched) }"
                             [(ngModel)]="candidateProfessionalDetails.ctc" name="ctc" id="ctc">
                     </div>
-                    <div class="col-md-2">
+                    <div class="col-md-3">
                         <label for="" class="form-label  required-form-field">ECTC</label>
                         <input type="text" class="form-control form-ctc" placeholder="Expected CTC(in LPA)"
                             pattern="^(?!0*\.?0*$)0*([1-9][0-9]*)(\.[0-9]{1,2})?$" #ectc="ngModel" required
@@ -138,7 +118,7 @@
                     </div>
 
                 </div>
-                <!-- <div class="row  mt-2  d-flex justify-content-center"
+                <div class="row  mt-2  d-flex justify-content-center"
                     *ngIf="!candidateProfessionalDetails.isCandidateFresher">
                     <div class="col-md-3">
                         <label for="" class="form-label required-form-field">Year Of Experience</label>
@@ -419,12 +399,10 @@
                                           candidateProfessionalDetails?.coreSkillList?.length<=0||
                                           candidateProfessionalDetails?.noticePeriod?.toString() === '' ||
                                           candidateProfessionalDetails?.noticePeriod?.toString() ===null ||
-                                          !candidate.form.valid ||
-                                          (!candidateProfessionalDetails.fileName &&!fileName)
+                                          !candidate.form.valid 
                                         )) || 
                                         (candidateProfessionalDetails.isCandidateFresher &&(  candidateProfessionalDetails?.softSkills?.length<=0 ||
-                                          candidateProfessionalDetails?.coreSkillList?.length<=0 || (!candidateProfessionalDetails.fileName && !fileName)))">Complete</button>
-                                          <!-- <button class="btn btn-next" type="submit"></button> -->
+                                          candidateProfessionalDetails?.coreSkillList?.length<=0))">Next</button>
                     </div>
 
                 </div>

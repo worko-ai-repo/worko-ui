@@ -60,7 +60,7 @@
 
                     </div>
                     <div class="row mt-1">
-                        <!-- <div class="col-md-5">
+                        <div class="col-md-5">
                             <label for="" class="form-lable required-form-field">Country</label>
                             <select class="selector form-select" name="country" id="country"
                                 [(ngModel)]="candidatePersonalDetails.country">
@@ -69,8 +69,21 @@
                                     {{ item.countryName }}
                                 </option>
                             </select>
-                        </div> -->
-                        
+                        </div>
+                        <div class="col-md-5">
+                            <label for="" class="form-lable required-form-field">City</label>
+                            <input type="text" class="form-control form-input" placeholder="City Name" required
+                            pattern="^([ \u00c0-\u01ffa-zA-Z'.])+$"  
+                            [title]="location.errors?.['pattern'] ? 'location is invalid' : ''"
+                            [title]="location.errors?.['required'] ? 'location is required':''"
+                            [ngClass]="{ 'is-invalid': location.invalid && (location.dirty || location.touched) }"
+                                #location="ngModel" [(ngModel)]="candidatePersonalDetails.location" name="location"
+                                id="location"  >
+
+                        </div>
+                    </div>
+
+                    <div class="row mt-1">
                         <div class="col-md-5">
                             <div class="material-input__group">
                                 <label for="" class="form-lable required-form-field">Phone no</label>
@@ -88,40 +101,7 @@
                                 <h2 *ngIf="candidatePersonalDetails.isNumberVerified && !phoneNo.invalid" class="badge  verify-text-label text-green">Verified</h2> -->
                         </div>
                         </div>
-
-
-                        <div class="col-md-5">
-                            <label for="" class="form-lable required-form-field">City</label>
-                            <input type="text" class="form-control form-input" placeholder="City Name" required
-                            pattern="^([ \u00c0-\u01ffa-zA-Z'.])+$"  
-                            [title]="location.errors?.['pattern'] ? 'location is invalid' : ''"
-                            [title]="location.errors?.['required'] ? 'location is required':''"
-                            [ngClass]="{ 'is-invalid': location.invalid && (location.dirty || location.touched) }"
-                                #location="ngModel" [(ngModel)]="candidatePersonalDetails.location" name="location"
-                                id="location"  >
-
-                        </div>
                     </div>
-
-                    <!-- <div class="row mt-1">
-                        <div class="col-md-5">
-                            <div class="material-input__group">
-                                <label for="" class="form-lable required-form-field">Phone no</label>
-                                <p style="color: #ffffff; font-size: 11px;">+91</p> -->
-                            <!-- <label for="" class="form-lable required-form-field">Phone no</label> -->
-                            <!-- <input type="text" class="form-control form-input" placeholder="Phone no" style=" padding: 0px 0px 0px 35px;"
-                            pattern="^[6-9]\d{9}$" maxlength="17" #phoneNo="ngModel"
-                                [(ngModel)]="candidatePersonalDetails.phoneNo" name="phoneNo" required
-                                [title]="phoneNo.errors?.['pattern'] ? 'phoneNo is invalid' : ''"
-                                [title]="phoneNo.errors?.['required'] ? 'phoneNo is required':''"
-                                [ngClass]="{ 'is-invalid': phoneNo.invalid && (phoneNo.dirty || phoneNo.touched) }"
-                                id="phoneNo"> -->
-                                
-                                <!-- <h2 *ngIf="!candidatePersonalDetails.isNumberVerified && !phoneNo.invalid" (click)="openOtpModal()" class="badge  verify-text-label -pointer">Verify</h2>
-                                <h2 *ngIf="candidatePersonalDetails.isNumberVerified && !phoneNo.invalid" class="badge  verify-text-label text-green">Verified</h2> -->
-                        <!-- </div>
-                        </div>
-                    </div> -->
 
                     <div *ngFor="let details of candidatePersonalDetails.collegeData; let i = index" class="row mt-1">
                      
@@ -244,7 +224,7 @@
                     <div class="row">
                         <div class="col-md-10 mt-3">
                             <button class="btn btn-next float-end" (click)="updateEducationDetails()" type="submit"
-                                [disabled]="(  !candidatePersonalDetails.socialLinklinkdin || candidatePersonalDetails.socialLinklinkdin.length === 0  || !candidatePersonalDetails.phoneNo || !candidatePersonalDetails.name || !candidatePersonalDetails.location  || !candidatePersonalDetails.about || !areAllPreviousFieldsFilled()  ||!candidate.form.valid)">Next</button>
+                                [disabled]="(  !candidatePersonalDetails.socialLinklinkdin || candidatePersonalDetails.socialLinklinkdin.length === 0  || !candidatePersonalDetails.phoneNo || !candidatePersonalDetails.name || !candidatePersonalDetails.location  || !candidatePersonalDetails.about || !areAllPreviousFieldsFilled()  ||!candidatePersonalDetails.country ||!candidate.form.valid)">Next</button>
                         </div>
 
                     </div>

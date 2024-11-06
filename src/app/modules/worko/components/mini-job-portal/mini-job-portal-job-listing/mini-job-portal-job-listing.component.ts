@@ -243,11 +243,10 @@ export class MiniJobPortalJobListingComponent {
   async getCompanyDetails(){
     this.spinner.show()
     try{
-      let response = await this.companyListing.getcompanyDetailsByCompanyID(this.companyID)
+      let response=await this.companyListing.getcompanyDetailsByCompanyID(this.companyID)
         if (response[0]) {
-          this.companyDetail = response[0];
-          this.companyName = response[0].name;
-          this.getJobByCompanyID();
+          this.companyName=response[0].name
+          this.getJobByCompanyID()
 
         }else{
 

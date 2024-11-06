@@ -26,7 +26,6 @@ export class PersonalDetailsComponent implements OnInit {
   @Output() previousStep = new EventEmitter<void>();
   @Output() onSuccess = new EventEmitter<void>();
   @Input() achievementsList: any;
-  @Input() candidateUploadDetails: any;
   @ViewChild('softSkillInput') softSkillInput!: ElementRef<HTMLInputElement>;
   successmessage: string = "";
   successtitle: string = "";
@@ -76,10 +75,6 @@ export class PersonalDetailsComponent implements OnInit {
   maxDate = this.currentYear + "-" + (this.currentMonth.length === 1 ? '0' + this.currentMonth : this.currentMonth);
   month: number = 0;
   achmonth: number = 0;
-  fileErr: string = "";
-  fileName: string = "";
-  fileType: string = "";
-  fileToUpload: File | null = null;
 
   constructor(private authService: AuthService, private elRef: ElementRef, private cdr: ChangeDetectorRef) { }
   ngOnInit(): void {
@@ -234,20 +229,8 @@ export class PersonalDetailsComponent implements OnInit {
       achievements: this.achievementsList,
       // companySK: this.selectedCompany?.SK ? this.selectedCompany?.SK : this.workExperienceDetails?.companyId,
       // isCandidateFresher: this.candidateList.isCandidateFresher
-      isCandidateFresher: this.candidateList?.isCandidateFresher ?? false,
-      fileName : this.candidateList.CV,
-      candidateUploadDetails: {
-        uploadCV: this.candidateList?.CV,
-        coverLetter: this.candidateList?.coverLetter,
-        fileName: "",
-        fileToUpload: "",
-        fileType: ""
-      }
-     
+      isCandidateFresher: this.candidateList?.isCandidateFresher ?? false
     }
-  
-
-   
 
 
   }
@@ -626,43 +609,6 @@ export class PersonalDetailsComponent implements OnInit {
     // If the achievement is found, remove it
     if (indexToRemove !== -1) {
       this.candidateProfessionalDetails.certificationNames.splice(indexToRemove, 1);
-    }
-  }
-
-  handleFileInput(event: Event): void {
-    const inputElement = event.target as HTMLInputElement;
-  
-    if (inputElement.files) {
-      const files: FileList | null = inputElement.files;
-  
-      if (files && files.length > 0) {
-        const file: File = files[0];
-      //  || file.type === 'application/vnd.openxmlformats-officedocument.wordprocessingml.document'
-        // Check if the file type is PDF or DOCX
-        if (file.type === 'application/pdf' ) {
-          // Process the file as needed
-          this.fileToUpload = file;
-          this.fileName = file.name;
-          this.fileType = file.type;
-          this.candidateProfessionalDetails.candidateUploadDetails.fileName = this.fileName;
-          this.candidateProfessionalDetails.candidateUploadDetails.fileToUpload = this.fileToUpload;
-          this.candidateProfessionalDetails.candidateUploadDetails.fileType = this.fileType;
-         // this.showfileError = false;
-        } else {
-          this.successmessage="Invalid file type. Please upload a PDF file."
-          this.successtitle="Error"
-          this.openModal(ModalType.SUCCESS_MESSAGE)
-          // Display an error for invalid file type
-         // console.error('Invalid file type. Please upload a PDF or DOCX file.');
-          // Optionally, you can reset the input to clear the invalid selection
-         // this.showfileError = true;
-          inputElement.value = '';
-          this.fileToUpload = null;
-          this.fileName = "";
-          this.fileType = "";
-    
-        }
-      }
     }
   }
 
