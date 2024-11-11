@@ -192,6 +192,7 @@ export class LoginFormComponent implements AfterViewInit, OnDestroy {
   showOtpInput: boolean = false; // Initially hide the OTP field
   otpForm: FormGroup;
   isResendDisabled = false;
+  successMsg: string = "";
 
 
   constructor(private cdr: ChangeDetectorRef, private modalService: NgbModal, private companyListingService: CompanyListingService, private storage: StorageService, private amplify: CognitoService, private router: Router, private authService: AuthService, private spinner: NgxSpinnerService, private navbarToggleSwitchService: NavbarToggleSwitchService, private fb: FormBuilder) {
@@ -406,6 +407,7 @@ export class LoginFormComponent implements AfterViewInit, OnDestroy {
   selectUserType(userType: string) {
     this.selectedUserType = userType;
     this.errorMessage = "";
+    this.successMsg = "";
     this.userTypeSelected.emit(userType);
 
     // Clearing any OTP-related status if the user switches tabs
@@ -503,6 +505,7 @@ export class LoginFormComponent implements AfterViewInit, OnDestroy {
   toggleSignInRow() {
     // debugger
     this.setErrorMessage("");
+    this.setSuccessMessage("");
     // this.currentSession();
     // this.currentAuthenticatedUser();
     // const autocompleteValue1 = "email";
@@ -522,7 +525,7 @@ export class LoginFormComponent implements AfterViewInit, OnDestroy {
 
   toggleSignUpRow() {
     this.setErrorMessage("");
-
+    this.setSuccessMessage("");
     this.showSignInRow = true;
   }
 
@@ -591,6 +594,7 @@ export class LoginFormComponent implements AfterViewInit, OnDestroy {
     this.spinner.show();
     try {
       this.setErrorMessage("");
+      this.setSuccessMessage("");
       this.confirmationEmail = this.maskEmail(this.employeeForm.emailId);
       const { response, error } = await this.createUser(this.employeeForm);
       if (response) {
@@ -616,7 +620,7 @@ export class LoginFormComponent implements AfterViewInit, OnDestroy {
             // this.showLoader = true;
             this.showOtpInput = true;
             this.myControl.disable();
-            this.setErrorMessage("Registration successful! A verification code has been sent to your email. Please enter the code below to verify your account.");
+            this.setSuccessMessage("Registration successful! A verification code has been sent to your email. Please enter the code below to verify your account.");
             this.spinner.hide();
           } catch (error: any) {
             this.spinner.hide();
@@ -658,6 +662,7 @@ export class LoginFormComponent implements AfterViewInit, OnDestroy {
     this.spinner.show();
     try {
       this.setErrorMessage("");
+      this.setSuccessMessage("");
       this.confirmationEmail = this.maskEmail(this.candidateForm.emailId);
 
       const { response, error } = await this.createUser(this.candidateForm);
@@ -900,7 +905,7 @@ export class LoginFormComponent implements AfterViewInit, OnDestroy {
             // this.confirmationCodeScreen = true;
             this.showOtpInput = true;
             this.myControl.disable();
-            this.setErrorMessage("Registration successful! A verification code has been sent to your email. Please enter the code below to verify your account.");
+            this.setSuccessMessage("Registration successful! A verification code has been sent to your email. Please enter the code below to verify your account.");
             this.spinner.hide();
           } catch (error: any) {
             if (error && error.error.message) {
@@ -1112,6 +1117,9 @@ export class LoginFormComponent implements AfterViewInit, OnDestroy {
     this.errorMessage = message;
   }
 
+  setSuccessMessage(message: string) {
+    this.successMsg = message;
+  }
 
   // verifyEmail(form: NgForm) {
   //   if (form.valid) {
@@ -1221,6 +1229,7 @@ export class LoginFormComponent implements AfterViewInit, OnDestroy {
   }
 
   async resendOtp() {
+    this.successMsg = "";
     if (this.isResendDisabled) return; // Prevent multiple clicks
     this.isResendDisabled = true;      // Disable button temporarily
     this.spinner.show();
@@ -1244,7 +1253,7 @@ export class LoginFormComponent implements AfterViewInit, OnDestroy {
 
       if (response) {
         // Handle successful resend
-        this.setErrorMessage("A new verification code has been sent to your email. Please check your inbox and spam folder.");
+        this.setSuccessMessage("A new verification code has been sent to your email. Please check your inbox and spam folder.");
         // console.log("OTP resent:", response);
       } else if (error) {
         // Handle any error from the resend call

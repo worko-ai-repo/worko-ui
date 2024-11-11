@@ -55,14 +55,23 @@
                   ">
                 <form (ngSubmit)="candidate.form.valid && createCandidate(candidate)" #candidate="ngForm" novalidate
                   class="row mt-4">
-                  <div class="error text-danger py-2" *ngIf="errorMessage" style="font-size: small;">
-                    {{ errorMessage }}
-                  </div>
+                  <ng-container *ngIf="successMsg; else errorBlock">
+                    <div class="success-msg py-2" style="font-size: small;">
+                      {{ successMsg }}
+                    </div>
+                  </ng-container>
+
+                  <ng-template #errorBlock>
+                    <div *ngIf="errorMessage" class="error text-danger py-2" style="font-size: small;">
+                      {{ errorMessage }}
+                    </div>
+                  </ng-template>
+
                   <div class="col-md-6">
                     <div class="material-input__group">
                       <i class="fa-solid fa-user" style="color: #f4f5f5; font-size: 12px"></i>
                       <input type="text" placeholder="Full Name" class="text-white material-input__group__input"
-                        pattern="^([ \u00c0-\u01ffa-zA-Z'.])+$" #nameInput="ngModel" [(ngModel)]="candidateForm.name" 
+                        pattern="^([ \u00c0-\u01ffa-zA-Z'.])+$" #nameInput="ngModel" [(ngModel)]="candidateForm.name"
                         [disabled]="showOtpInput" name="name" id="name" (blur)="validateName()" />
                       <div *ngIf="
                             (nameInput.touched || candidate.submitted) &&
@@ -78,7 +87,8 @@
                       <p style="color: #ffffff; font-size: 12px;">+91</p>
                       <input type="otp" placeholder=" Phone Number" class="text-white material-input__group__input"
                         style="padding: 0px 0px 3px 40px" #phoneNumber="ngModel" pattern="^[6-9]\d{9}$" maxlength="17"
-                        [(ngModel)]="candidateForm.phoneNumber" [disabled]="showOtpInput" name="phoneNumber" id="phoneNumber" />
+                        [(ngModel)]="candidateForm.phoneNumber" [disabled]="showOtpInput" name="phoneNumber"
+                        id="phoneNumber" />
                       <div *ngIf="
                             phoneNumber.invalid &&
                             (phoneNumber.dirty || phoneNumber.touched)
@@ -139,7 +149,8 @@
                             candidateForm.password
                               ? 'Confirm Password should match with password field'
                               : ''
-                          " [(ngModel)]="candidateForm.confirmPassword" [disabled]="showOtpInput" name="confirmPassword" id="confirmPassword" />
+                          " [(ngModel)]="candidateForm.confirmPassword" [disabled]="showOtpInput"
+                        name="confirmPassword" id="confirmPassword" />
                     </div>
                   </div>
 
@@ -155,13 +166,14 @@
                         <ng-template #defaultText>
                           <div class="upload-text w-100">Upload CV</div>
                         </ng-template>
-                        <input type="file" id="file" class="file-input" (change)="handleFileInput($event)" [disabled]="showOtpInput" />
+                        <input type="file" id="file" class="file-input" (change)="handleFileInput($event)"
+                          [disabled]="showOtpInput" />
                         <div class="doc-icon">
                           <img src="assets/images/mingcute_upload-line.png" alt="" class="upload-icon" />
                         </div>
                       </label>
                     </div>
-                    <div class="error text-danger error-div py-2" style="font-size: 14px;" *ngIf="fileErr">
+                    <div class="error text-danger error-div pb-1" style="font-size: 14px;" *ngIf="fileErr">
                       {{ fileErr }}
                     </div>
                   </div>
@@ -177,13 +189,9 @@
                     </div>
                   </div>
 
-                  <div *ngIf="showOtpInput"  class="col-8 col-sm-6">
-                    <app-otp-field 
-                    [otpForm]="otpForm"
-                    [otpControls]="otpControls"
-                    [isResendDisabled]="isResendDisabled"
-                    (resendOtp)="resendOtp()"
-                    (confirmSignUp)="confirmSignUp()">
+                  <div *ngIf="showOtpInput" class="col-8 col-sm-6">
+                    <app-otp-field [otpForm]="otpForm" [otpControls]="otpControls" [isResendDisabled]="isResendDisabled"
+                      (resendOtp)="resendOtp()" (confirmSignUp)="confirmSignUp()">
                     </app-otp-field>
                   </div>
 
@@ -266,7 +274,8 @@
                   </div>
 
                   <div *ngIf="showOtpInput" class="col-md-12 mt-4 ms-2 d-flex justify-content-center">
-                    <button type="button" class="btn btn-signUp error-message-div" style="font-size: unset;" (click)="confirmSignUp()" [disabled]="
+                    <button type="button" class="btn btn-signUp error-message-div" style="font-size: unset;"
+                      (click)="confirmSignUp()" [disabled]="
 
 
                           !otpForm.valid || 
@@ -310,9 +319,18 @@
                   ">
                 <form class="row mt-4" (ngSubmit)="employee.form.valid && createEmployee(employee)" #employee="ngForm"
                   novalidate>
-                  <div class="error text-danger py-2" *ngIf="errorMessage" style="font-size: small;">
-                    {{ errorMessage }}
-                  </div>
+                  <ng-container *ngIf="successMsg; else errorBlock">
+                    <div class="success-msg py-2" style="font-size: small;">
+                      {{ successMsg }}
+                    </div>
+                  </ng-container>
+
+                  <ng-template #errorBlock>
+                    <div *ngIf="errorMessage" class="error text-danger py-2" style="font-size: small;">
+                      {{ errorMessage }}
+                    </div>
+                  </ng-template>
+
                   <div class="col-md-6">
                     <div class="material-input__group">
                       <i class="fa-solid fa-user" style="color: #f4f5f5; font-size: 12px"></i>
@@ -396,7 +414,7 @@
                     <div class="material-input__group">
                       <i class="fa-solid fa-phone" style="color: #ffffff; font-size: 12px"></i>
                       <p style="color: #ffffff; font-size: 12px;">+91</p>
-                      <input type="text" placeholder="Phone Number" class="text-white material-input__group__input"
+                      <input type="text" placeholder=" Phone Number" class="text-white material-input__group__input"
                         #phoneNumber="ngModel" style="padding: 0px 0px 3px 40px"
                         [title]="phoneNumber.errors?.['pattern'] ? 'Phone number is invalid' : ''"
                         pattern="^[6-9]\d{9}$" maxlength="17" [(ngModel)]="employeeForm.phoneNumber"
@@ -434,9 +452,9 @@
 
                   <div class="col-md-6">
                     <div class="material-input__group">
-                      <i class="fa-solid fa-user" style="color: #f4f5f5; font-size: 12px"></i>
-                      <input type="text" placeholder="Personal E-mail" class="text-white material-input__group__input"
-                        #emailId="ngModel"
+                      <i class="fa-solid fa-envelope" style="color: #f4f5f5; font-size: 12px"></i>
+                      <input type="text" placeholder="Personal E-mail Id"
+                        class="text-white material-input__group__input" #emailId="ngModel"
                         pattern="^[a-zA-Z0-9._%+-]+@(?:gmail\.com|outlook\.com|aol\.com|yahoo\.com|icloud\.com|protonmail\.com|zoho\.com|yandex\.com|gmx\.com|hubspot\.com|mail\.com|tutanota\.com|10minutemail\.com|outlook\.in|worko\.ai)$"
                         [title]="emailId.errors?.['pattern'] ? 'Email is invalid' : ''"
                         [(ngModel)]="employeeForm.emailId" [disabled]="showOtpInput" name="emailId" id="emailId" />
@@ -450,13 +468,9 @@
 
                   </div>
 
-                  <div *ngIf="showOtpInput"  class="col-8 col-sm-6">
-                    <app-otp-field 
-                    [otpForm]="otpForm"
-                    [otpControls]="otpControls"
-                    [isResendDisabled]="isResendDisabled"
-                    (resendOtp)="resendOtp()"
-                    (confirmSignUp)="confirmSignUp()">
+                  <div *ngIf="showOtpInput" class="col-8 col-sm-6">
+                    <app-otp-field [otpForm]="otpForm" [otpControls]="otpControls" [isResendDisabled]="isResendDisabled"
+                      (resendOtp)="resendOtp()" (confirmSignUp)="confirmSignUp()">
                     </app-otp-field>
                   </div>
 

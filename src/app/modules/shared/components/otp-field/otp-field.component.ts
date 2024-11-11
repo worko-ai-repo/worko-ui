@@ -18,17 +18,18 @@ export class OtpFieldComponent {
   @ViewChildren('otpInput') otpInputs!: QueryList<ElementRef>; // Reference to individual OTP inputs
   formSubmitted!: boolean;
 
-  constructor(private cdr:ChangeDetectorRef){
-    
+  constructor(private cdr: ChangeDetectorRef) {
+
   }
 
   ngAfterViewInit() {
     this.cdr.detectChanges(); // Manually triggering change detection
     if (this.otpInputs.length) {
+      this.otpControls.forEach(control => control.reset());
       this.focusOtpInput(0); // Setting initial focus on the first input
     }
   }
-  
+
 
   onOtpInput(event: any, index: number) {
     const input = event.target as HTMLInputElement;
@@ -59,6 +60,35 @@ export class OtpFieldComponent {
       // this.focusOtpInput(index - 1);
       setTimeout(() => this.focusOtpInput(index - 1), 0);
 
+    }
+  }
+
+  // Method to handle pasting an OTP code
+  onOtpPaste(event: ClipboardEvent): void {
+    event.preventDefault();
+
+    // Get the pasted data from the clipboard
+    let pastedData = event.clipboardData?.getData('text') || '';
+
+    // Remove any non-numeric characters from the pasted data
+    pastedData = pastedData.replace(/\D/g, '');
+
+    if (pastedData && pastedData.length >= this.otpControls.length) {
+
+      // Truncate to the exact OTP length if pasted data is too long
+      pastedData = pastedData.slice(0, this.otpControls.length);
+      // Split the pasted string into individual characters and populate each control
+      this.otpControls.forEach((control, index) => {
+        control.setValue(pastedData[index]);
+      });
+
+      // Optionally, move focus to the last OTP input after pasting
+      this.focusOtpInput(this.otpControls.length - 1);
+
+      // Trigger the OTP confirmation if the entire OTP is filled
+      if (this.otpValuesFilled()) {
+        this.confirmSignUp.emit();
+      }
     }
   }
 

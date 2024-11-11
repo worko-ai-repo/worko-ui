@@ -3,7 +3,7 @@
     <div class="otp-inputs" formArrayName="otpArray">
         <input *ngFor="let control of otpControls; let i = index" #otpInput class="otp-input" type="text"
             [formControl]="control" maxlength="1" inputmode="numeric" (input)="onOtpInput($event, i)"
-            (keydown)="onOtpKeyDown($event, i)" />
+            (keydown)="onOtpKeyDown($event, i)" (paste)="onOtpPaste($event)" />
     </div>
 
     <button class="resend-btn" (click)="onResendOtp()" [disabled]="isResendDisabled">

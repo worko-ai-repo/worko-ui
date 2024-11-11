@@ -356,6 +356,11 @@ option {
 //   height: 128px;
 //   width: 128px;
 // }
+
+.success-msg {
+  color: #0dcaf0;
+}
+
 .btn-signUp {
   display: flex;
   font-size: 13px;
@@ -508,9 +513,9 @@ option {
   opacity: 1;
 }
 
-.error-div {
-  position: absolute;
-}
+// .error-div {
+//   position: absolute;
+// }
 
 
 img.worko-logo-signup {
