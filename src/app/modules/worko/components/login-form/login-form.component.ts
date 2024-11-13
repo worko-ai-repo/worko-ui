@@ -54,6 +54,7 @@ export class LoginFormComponent implements AfterViewInit, OnDestroy {
   @ViewChild(ModalComponent) modal!: ModalComponent;
   // @ViewChild('autocompleteInput') autocompleteInput: any; 
   @ViewChild('autoCompleteInput', { static: false, read: MatAutocompleteTrigger }) trigger!: MatAutocompleteTrigger;
+  @ViewChild('codeInput') codeInputRef!: ElementRef;
   myControl = new FormControl<any>('');
   filteredOptions!: Observable<any[]>;
   allOptions: any[] = [];
@@ -193,6 +194,7 @@ export class LoginFormComponent implements AfterViewInit, OnDestroy {
   otpForm: FormGroup;
   isResendDisabled = false;
   successMsg: string = "";
+  cvErr: string = "";
 
 
   constructor(private cdr: ChangeDetectorRef, private modalService: NgbModal, private companyListingService: CompanyListingService, private storage: StorageService, private amplify: CognitoService, private router: Router, private authService: AuthService, private spinner: NgxSpinnerService, private navbarToggleSwitchService: NavbarToggleSwitchService, private fb: FormBuilder) {
@@ -660,82 +662,153 @@ export class LoginFormComponent implements AfterViewInit, OnDestroy {
 
   async createCandidate(form: NgForm): Promise<void> {
     this.spinner.show();
+    this.cvErr = "";
     try {
       this.setErrorMessage("");
       this.setSuccessMessage("");
       this.confirmationEmail = this.maskEmail(this.candidateForm.emailId);
 
+      // Step 1: Register user in Cognito
       const { response, error } = await this.createUser(this.candidateForm);
 
-
       if (response) {
-        try {
-          let candidateData = {
-            name: this.candidateForm.name,
-            email: this.candidateForm.emailId,
-            number: "+91" + this.candidateForm.phoneNumber,
-            // linkedinUrl: this.candidateForm.linkdinProfile,
-            // ECTC: Number(this.candidateForm.expectedCtc),
-            // YOE: Number(this.candidateForm.experience),
-            userId: response.userId,
-            acceptedTermsAndConditions: this.candidateForm.acceptedTermsAndConditions
 
-          }
-          this.authService.createCandidate(candidateData).then(async () => {
-            try {
-              if (response && response.userId && this.fileName) {
-
-                let documentDetails = {
-                  userId: this.userId,
-                  resumeUserFileName: this.fileName,
-                  resumeFileMimeType: this.fileType
-                }
-                let docResult = await this.authService.uploadCV(documentDetails);
-
-
-                this.uploadedCvName = docResult.cloudFileName;
-                this.uploadCVonS3Bucket(docResult);
-
-              }
-            } catch (error) {
-              this.spinner.hide();
-
-            }
-          })
-            .catch(error => {
-              //this.setErrorMessage(error.error?.errors[0].message);
-              this.spinner.hide();
-              console.error('File upload error:', error);
-              if (error.status === 409) {
-                this.candidateFormDirective?.resetForm();
-                this.fileName = "";
-
-                this.setErrorMessage("It looks like you already have an account with us.  Please log in to continue.If you’ve forgotten your password, use the 'Forgot Password' link to reset it.");
-              }
-
-
-
-            });
-
-
-        } catch (error: any) {
-          this.setErrorMessage(error.error?.errors[0].message);
-          this.spinner.hide();
-          console.error('File upload error:', error);
+        // Step 2: Register candidate in the backend
+        let candidateData = {
+          name: this.candidateForm.name,
+          email: this.candidateForm.emailId,
+          number: "+91" + this.candidateForm.phoneNumber,
+          // linkedinUrl: this.candidateForm.linkdinProfile,
+          // ECTC: Number(this.candidateForm.expectedCtc),
+          // YOE: Number(this.candidateForm.experience),
+          userId: response.userId,
+          acceptedTermsAndConditions: this.candidateForm.acceptedTermsAndConditions
         }
 
+        try {
+          await this.authService.createCandidate(candidateData);
+        } catch (backendError) {
+          console.error("Backend registration error:", backendError);
+          this.setErrorMessage("An error occurred while saving your details. Please try again later.");
+          return; // Stop here if backend registration fails
+        }
+
+        // Step 3: Check if a file was uploaded
+
+        if (this.fileName) {
+
+          try {
+            // Prepare document details if file is uploaded
+            const documentDetails = {
+              userId: response.userId,
+              resumeUserFileName: this.fileName,
+              resumeFileMimeType: this.fileType
+            };
+
+            // Upload CV metadata and get document details
+            let docResult = await this.authService.uploadCV(documentDetails);
+            this.uploadedCvName = docResult.cloudFileName;
+
+            // Step 3a: Upload CV to S3 Bucket
+            await this.uploadCVonS3Bucket(docResult);
+          }
+          catch (cvError) {
+            // Handle CV upload/link error: show an error but continue to OTP step
+            console.error('CV upload/link error:', cvError);
+            // this.setErrorMessage("Your registration was successful, but there was an issue uploading your CV. You can try uploading it again later.");
+            this.cvErr = "There was an issue uploading your CV. You can try uploading it again later.";
+          }
+
+        }
+
+        // Step 4: Show OTP input and confirmation message
+        this.showOtpInput = true;
+        this.myControl.disable();
+        this.setSuccessMessage("Registration successful! A verification code has been sent to your email. Please enter the code below to verify your account.");
 
       }
-
-      if (error && error.message) {
+      else if (error && error.message) {
+        // Handle any errors from Cognito registration
         this.errorMessage = error.message;
-        this.spinner.hide();
       }
 
     } catch (error) {
+      console.error("Error in createCandidate:", error);
+      this.setErrorMessage("An unexpected error occurred during registration. Please try again.");
+    } finally {
+      // Ensure the spinner is hidden once all actions are complete
       this.spinner.hide();
-      // console.log('Error signing up candidate createCandidate:', error);
     }
+
+
+    // if (response) {
+    //   try {
+    //     let candidateData = {
+    //       name: this.candidateForm.name,
+    //       email: this.candidateForm.emailId,
+    //       number: "+91" + this.candidateForm.phoneNumber,
+    //       // linkedinUrl: this.candidateForm.linkdinProfile,
+    //       // ECTC: Number(this.candidateForm.expectedCtc),
+    //       // YOE: Number(this.candidateForm.experience),
+    //       userId: response.userId,
+    //       acceptedTermsAndConditions: this.candidateForm.acceptedTermsAndConditions
+
+    //     }
+    //     this.authService.createCandidate(candidateData).then(async () => {
+    //       try {
+    //         if (response && response.userId && this.fileName) {
+
+    //           let documentDetails = {
+    //             userId: this.userId,
+    //             resumeUserFileName: this.fileName,
+    //             resumeFileMimeType: this.fileType
+    //           }
+    //           let docResult = await this.authService.uploadCV(documentDetails);
+
+
+    //           this.uploadedCvName = docResult.cloudFileName;
+    //           this.uploadCVonS3Bucket(docResult);
+
+    //         }
+    //       } catch (error) {
+    //         this.spinner.hide();
+
+    //       }
+    //     })
+    //       .catch(error => {
+    //         //this.setErrorMessage(error.error?.errors[0].message);
+    //         this.spinner.hide();
+    //         console.error('File upload error:', error);
+    //         if (error.status === 409) {
+    //           this.candidateFormDirective?.resetForm();
+    //           this.fileName = "";
+
+    //           this.setErrorMessage("It looks like you already have an account with us.  Please log in to continue.If you’ve forgotten your password, use the 'Forgot Password' link to reset it.");
+    //         }
+
+
+
+    //       });
+
+
+    //   } catch (error: any) {
+    //     this.setErrorMessage(error.error?.errors[0].message);
+    //     this.spinner.hide();
+    //     console.error('File upload error:', error);
+    //   }
+
+
+    // }
+
+    // if (error && error.message) {
+    //   this.errorMessage = error.message;
+    //   this.spinner.hide();
+    // }
+
+    // } catch (error) {
+    //   this.spinner.hide();
+    //   // console.log('Error signing up candidate createCandidate:', error);
+    // }
 
 
   }
@@ -895,39 +968,60 @@ export class LoginFormComponent implements AfterViewInit, OnDestroy {
   }
 
   uploadCVonS3Bucket(docResult: any) {
+    this.cvErr = "";
     this.setErrorMessage("");
-    try {
-      this.authService.uploadFileOnS3Bucket(this.fileToUpload!, docResult.awsS3SignedUrl, docResult.awsS3Tag)
-        .then(async () => {
-
-          try {
-            let a = await this.authService.linkResumewithUser(this.candidateForm.emailId.toLowerCase(), this.uploadedCvName);
-            // this.confirmationCodeScreen = true;
-            this.showOtpInput = true;
-            this.myControl.disable();
-            this.setSuccessMessage("Registration successful! A verification code has been sent to your email. Please enter the code below to verify your account.");
-            this.spinner.hide();
-          } catch (error: any) {
-            if (error && error.error.message) {
-              // this.errorMessage = error.error.message;
-              this.spinner.hide();
-              this.setErrorMessage('File Link error linkResumewithUser:- ' + error.error.message);
-            }
-            console.error('File Link error linkResumewithUser:', error);
-          }
-
-        })
-        .catch(error => {
-
-          console.error('File upload error:', error);
-
-
-        });
-
-    } catch (error) {
-      //console.log(error)
-    }
+    return this.authService.uploadFileOnS3Bucket(this.fileToUpload!, docResult.awsS3SignedUrl, docResult.awsS3Tag)
+      .then(async () => {
+        try {
+          await this.authService.linkResumewithUser(this.candidateForm.emailId.toLowerCase(), this.uploadedCvName);
+        } catch (error: any) {
+          console.error('File Link error linkResumewithUser:', error);
+          // this.setErrorMessage('File Link error: ' + (error.error?.message || 'Error linking resume'));
+          // this.setErrorMessage('Your registration was successful, but there was an issue linking your CV. You can try linking it again later.');
+          this.cvErr = 'There was an issue linking your CV. You can try linking it again later.';
+        }
+      })
+      .catch(error => {
+        console.error('File upload error:', error);
+        // this.setErrorMessage("Your registration was successful, but there was an issue uploading your file to the server. Please try again later.");
+        this.cvErr = 'There was an issue uploading your file to the server. Please try again later.';
+      });
   }
+
+  // uploadCVonS3Bucket(docResult: any) {
+  //   this.setErrorMessage("");
+  //   try {
+  //     this.authService.uploadFileOnS3Bucket(this.fileToUpload!, docResult.awsS3SignedUrl, docResult.awsS3Tag)
+  //       .then(async () => {
+
+  //         try {
+  //           let a = await this.authService.linkResumewithUser(this.candidateForm.emailId.toLowerCase(), this.uploadedCvName);
+  //           // this.confirmationCodeScreen = true;
+  //           this.showOtpInput = true;
+  //           this.myControl.disable();
+  //           this.setSuccessMessage("Registration successful! A verification code has been sent to your email. Please enter the code below to verify your account.");
+  //           this.spinner.hide();
+  //         } catch (error: any) {
+  //           if (error && error.error.message) {
+  //             // this.errorMessage = error.error.message;
+  //             this.spinner.hide();
+  //             this.setErrorMessage('File Link error linkResumewithUser:- ' + error.error.message);
+  //           }
+  //           console.error('File Link error linkResumewithUser:', error);
+  //         }
+
+  //       })
+  //       .catch(error => {
+
+  //         console.error('File upload error:', error);
+
+
+  //       });
+
+  //   } catch (error) {
+  //     //console.log(error)
+  //   }
+  // }
 
   handleFileInput(event: Event): void {
     const inputElement = event.target as HTMLInputElement;
@@ -961,7 +1055,8 @@ export class LoginFormComponent implements AfterViewInit, OnDestroy {
 
 
   async confirmSignUp(form?: any): Promise<void> {
-    this.setErrorMessage("")
+    this.setErrorMessage("");
+    this.setSuccessMessage("");
     this.spinner.show();
     try {
       if (this.selectedUserType === "candidate") {
@@ -1066,6 +1161,7 @@ export class LoginFormComponent implements AfterViewInit, OnDestroy {
 
   async submit(form: any): Promise<void> {
     this.setErrorMessage("");
+    this.setSuccessMessage("");
     this.spinner.show();
     const loginData = {
       email: this.form.email || form.emailId,
@@ -1182,6 +1278,8 @@ export class LoginFormComponent implements AfterViewInit, OnDestroy {
       // debugger
       this.candidateFormDirective?.resetForm();
       this.fileName = "";
+      this.fileErr = "";
+      this.cvErr = "";
       this.employeeFormDirective?.resetForm();
       this.myControl?.reset()
       if (error.message === 'User already exists') {
@@ -1228,7 +1326,7 @@ export class LoginFormComponent implements AfterViewInit, OnDestroy {
     return {};
   }
 
-  async resendOtp() {
+  async resendOtp(context?: string) {
     this.successMsg = "";
     if (this.isResendDisabled) return; // Prevent multiple clicks
     this.isResendDisabled = true;      // Disable button temporarily
@@ -1236,25 +1334,38 @@ export class LoginFormComponent implements AfterViewInit, OnDestroy {
 
     try {
 
-      let signupform;
+      let username: any;
 
-      if (this.selectedUserType === 'candidate') {
-        signupform = {
-        username: this.candidateForm.emailId.toLowerCase()
+      // Check if `context` is "isSignInPage" for sign-in scenario
+      if (context === "isSignInPage") {
+        username = this.form.email.toLowerCase();
+      }
+      // Else block will handle the sign-up scenario
+      else {
+
+        if (this.selectedUserType === 'candidate') {
+          // signupform = {
+          //   username: this.candidateForm.emailId.toLowerCase()
+          //   }
+          username = this.candidateForm.emailId.toLowerCase();
+        } else if (this.selectedUserType === 'employee') {
+          username = this.employeeForm.emailId.toLowerCase();
         }
-      } else if (this.selectedUserType === 'employee') {
-        signupform = {
-          username: this.employeeForm.emailId.toLowerCase()
-        }
+
       }
 
       // Call resendOtp with the user's email (username)
-      const { response, error } = await this.amplify.resendOtp(signupform as ResendSignUpCodeInput);
+      const { response, error } = await this.amplify.resendOtp({ username });
+      // const { response, error } = await this.amplify.resendOtp(signupform as ResendSignUpCodeInput);
 
       if (response) {
         // Handle successful resend
         this.setSuccessMessage("A new verification code has been sent to your email. Please check your inbox and spam folder.");
         // console.log("OTP resent:", response);
+        if (context === "isSignInPage") {
+          this.verificationForm.code = '';  // Clear the verification code
+          this.codeInputRef.nativeElement.focus();  // Set focus on the code input
+        }
       } else if (error) {
         // Handle any error from the resend call
         this.setErrorMessage("Error resending OTP. Please try again.");

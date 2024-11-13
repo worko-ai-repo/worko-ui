@@ -173,8 +173,11 @@
                         </div>
                       </label>
                     </div>
-                    <div class="error text-danger error-div pb-1" style="font-size: 14px;" *ngIf="fileErr">
+                    <div class="error text-danger error-div pb-2" style="font-size: small" *ngIf="fileErr">
                       {{ fileErr }}
+                    </div>
+                    <div class="error text-danger error-div pb-2" style="font-size: small;" *ngIf="cvErr">
+                      {{ cvErr }}
                     </div>
                   </div>
 
@@ -568,7 +571,7 @@
                 </form>
               </div>
 
-              <!--Confirmation Code Form -->
+              <!-- Confirmation Code Form -->
               <div *ngIf="confirmationCodeScreen" class="row px-4">
                 <div class="row">
                   <div class="col-md-12 text-white" style="font-size: 18px">
@@ -580,20 +583,34 @@
                   </div>
 
                   <form (ngSubmit)="verification.form.valid && confirmSignUp(form)" #verification="ngForm" novalidate>
-                    <div class="error text-danger py-2" *ngIf="errorMessage">
-                      {{ errorMessage }}
-                    </div>
+
+                    <ng-container *ngIf="successMsg; else errorBlock">
+                      <div class="success-msg py-2">
+                        {{ successMsg }}
+                      </div>
+                    </ng-container>
+
+                    <ng-template #errorBlock>
+                      <div *ngIf="errorMessage" class="error text-danger py-2">
+                        {{ errorMessage }}
+                      </div>
+                    </ng-template>
+
                     <div class="row">
                       <div class="col-md-12 pt-3">
-                        <div class="material-input__group field-wrapper">
+                        <div class="material-input__group field-wrapper verification-container">
                           <i class="fa-solid fa-user" style="color: #f4f5f5; font-size: 12px"></i>
                           <input type="text" placeholder="Verification code"
-                            class="text-white material-input__group__input" #code="ngModel" pattern="^[0-9]{6}$"
-                            [class.invalid]="
+                            class="text-white material-input__group__input verification-code" #codeInput #code="ngModel"
+                            pattern="^[0-9]{6}$" [class.invalid]="
                                 (verification.submitted || code.touched) &&
                                 code.invalid
                               " [(ngModel)]="verificationForm.code" name="code" id="code"
                             [title]="code.errors?.['pattern'] ? 'Code is invalid' : ''" />
+
+                          <button class="resend-btn" (click)="resendOtp('isSignInPage')" [disabled]="isResendDisabled">
+                            Re-Send
+                          </button>
                         </div>
                       </div>
                     </div>

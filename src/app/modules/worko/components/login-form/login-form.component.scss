@@ -361,6 +361,37 @@ option {
   color: #0dcaf0;
 }
 
+.verification-container {
+  position: relative;
+}
+
+.verification-code {
+  padding-right: 63px;
+}
+
+.resend-btn {
+  position: absolute;
+  top: 50%;
+  right: 0px;
+  transform: translateY(-50%);
+  // color: #5cc3e6;
+  color: #0dcaf0;
+  font-size: 12px;
+  background: none;
+  border: none;
+  cursor: pointer;
+  // margin-left: 15px;
+}
+
+.resend-btn:hover {
+  color: #68dbff;
+}
+
+.resend-btn:disabled {
+  color: grey;
+  cursor: not-allowed;
+}
+
 .btn-signUp {
   display: flex;
   font-size: 13px;
