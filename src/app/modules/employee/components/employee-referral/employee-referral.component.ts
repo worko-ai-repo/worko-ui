@@ -57,6 +57,12 @@ export class EmployeeReferralComponent implements OnDestroy {
   screenWidth!: number;
   previousScreenWidth!: number;
 
+  lastKey: string = "";
+  loadedOnce: boolean = false;
+  isNoLoadData: boolean = false;
+  count!: number;
+  pageSize!: number;
+
   constructor(private candidateSrv: CandidateProfileService, private empService: EmployeeProfileService, private storage: StorageService, private spinner: NgxSpinnerService, private router: Router, private stateService: StateService, private chatService: ChatService) { }
   ngOnDestroy(): void {
     this.closeModal();
@@ -87,6 +93,12 @@ export class EmployeeReferralComponent implements OnDestroy {
 
     this.isMainContentVisible = false;
     this.isAwaitingVisible = true;
+  }
+
+  onScrollToBottom() {
+    if ((this.lastKey && this.loadedOnce) && !this.isNoLoadData) {
+      this.getEmpReferral();
+    }
   }
 
   performFunctionalityBasedOnScreenSize() {
@@ -173,6 +185,9 @@ export class EmployeeReferralComponent implements OnDestroy {
   // }
 
   onStatusSelected(status: string): void {
+    this.lastKey = "";
+    this.loadedOnce = false;
+    this.isNoLoadData = false;
     this.selectedReferral = "";
     this.selectedStatus = status;
     this.getEmpReferral();
@@ -218,9 +233,12 @@ export class EmployeeReferralComponent implements OnDestroy {
     let companyId = this.currentCompanyId;
     // let companyId = this.getSlicedValue(this.currentCompanySK);
     const selectedStatus = this.selectedStatus === 'REFERRED' ? 'DONE' : this.selectedStatus;
-    await this.empService.getEmployeeReferral(this.emailAddress, companyId, selectedStatus).then(async (response) => {
+    await this.empService.getEmployeeReferral(this.emailAddress, companyId, selectedStatus, this.lastKey).then(async (response) => {
       if (response) {
         this.spinner.hide();
+        if (!this.loadedOnce) {
+          this.empReferralList = [];
+        }
         if (response.length > 0) {
           response.forEach((element: any, index: any) => {
             if (Array.isArray(element)) {
@@ -228,8 +246,18 @@ export class EmployeeReferralComponent implements OnDestroy {
             }
           });
         }
-        this.empReferralList = response;
+        // this.empReferralList = response.data;
+        this.empReferralList = this.empReferralList.concat(response.data);
+        this.loadedOnce = true;
+        this.lastKey = response.pagination.lastKey;
+        this.count = response.pagination.count;
+        this.pageSize = response.pagination.pageSize;
         this.empReferralList.sort((a: any, b: any) => a.updatedAt < b.updatedAt ? 1 : -1);
+
+        if (this.count < this.pageSize) { //check to pervent multiple api call
+          this.isNoLoadData = true;
+        }
+
         if (this.screenWidth <= 1251) {
           this.isAwaitingVisible = true;
           this.isMainContentVisible = false;

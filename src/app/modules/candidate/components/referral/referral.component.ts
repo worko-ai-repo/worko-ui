@@ -34,10 +34,17 @@ export class ReferralComponent implements OnInit {
   processStatus = false;
   showModal: ModalType | undefined;
   statusItem: { name: string; status: string; date: any; }[] = [];
+
+  loadedOnce: boolean = false;
+  lastKey: string = "";
+  count!: number;
+  pageSize!: number;
+  isNoLoadData: boolean = false;
+
   constructor(private candidateSrv: CandidateProfileService, private router: Router, private storage: StorageService, private spinner: NgxSpinnerService) { }
-  isAwaitingVisible!:boolean;
+  isAwaitingVisible!: boolean;
   // isStepperVisible = true;
-  isMainContentVisible!:boolean;
+  isMainContentVisible!: boolean;
   screenWidth!: number;
   previousScreenWidth!: number;
 
@@ -49,8 +56,8 @@ export class ReferralComponent implements OnInit {
     this.emailAddress = this.storage.get("useremail");
     this.userId = this.storage.get("userId");
     this.userName = this.storage.get("userName");
-    this.getReferral();
-    
+    // this.getReferral();
+
     this.onStatusSelected('AWAITING');
   }
 
@@ -93,33 +100,53 @@ export class ReferralComponent implements OnInit {
     this.performFunctionalityBasedOnScreenSize();
   }
 
-  async getReferral() {
-    this.spinner.show();
-    const selectedStatus = this.selectedStatus === 'REFERRED' ? 'DONE' : this.selectedStatus;
-    await this.candidateSrv.getReferral(this.emailAddress, selectedStatus).then(async (response) => {
-      if (response) {
-        this.spinner.hide();
-        this.referralList = response;
-        this.referralList.sort((a: any, b: any) => a.updatedAt < b.updatedAt ? 1 : -1);
-        if(this.screenWidth <= 1251) {
-          this.isAwaitingVisible = true;
-          this.isMainContentVisible = false;
-        }
-       
-        // this.getRefereeDetials(response.accc);
-      }
-    }).catch((error: any) => {
-      if (error.status==404) { 
-        this.spinner.hide()
-        this.router.navigate(['/auth/logout']);
-      }else if (error.status==401){
-        this.storage.set('redirectAfterLogin','/candidate/referral'); 
-       this.router.navigate(['/']);
-      }
-      this.spinner.hide();
-      this.referralList = [];
+  onScrollToBottom() {
+    if ((this.lastKey && this.loadedOnce) && !this.isNoLoadData) {
+      this.getReferral();
     }
-    );
+  }
+
+  async getReferral() {
+      this.spinner.show();
+      const selectedStatus = this.selectedStatus === 'REFERRED' ? 'DONE' : this.selectedStatus;
+      await this.candidateSrv.getReferral(this.emailAddress, selectedStatus, this.lastKey).then(async (response) => {
+        if (response) {
+          this.spinner.hide();
+          if (!this.loadedOnce) {
+            this.referralList = [];
+          }
+          this.referralList = this.referralList.concat(response.data);
+          this.loadedOnce = true;
+          // console.log("response structure is",response);
+          this.lastKey = response.pagination.lastKey;
+          // console.log("laskey here is", this.lastKey);
+          this.count = response.pagination.count;
+          this.pageSize = response.pagination.pageSize;
+
+          this.referralList.sort((a: any, b: any) => a.updatedAt < b.updatedAt ? 1 : -1);
+
+          if (this.count < this.pageSize) { //check to pervent multiple api call
+            this.isNoLoadData = true;
+          }
+          if (this.screenWidth <= 1251) {
+            this.isAwaitingVisible = true;
+            this.isMainContentVisible = false;
+          }
+
+          // this.getRefereeDetials(response.accc);
+        }
+      }).catch((error: any) => {
+        if (error.status == 404) {
+          this.spinner.hide()
+          this.router.navigate(['/auth/logout']);
+        } else if (error.status == 401) {
+          this.storage.set('redirectAfterLogin', '/candidate/referral');
+          this.router.navigate(['/']);
+        }
+        this.spinner.hide();
+        this.referralList = [];
+      }
+      );
   }
 
   async getRefereeDetials(data: any) {
@@ -136,6 +163,9 @@ export class ReferralComponent implements OnInit {
   }
 
   onStatusSelected(status: string): void {
+    this.lastKey = "";
+    this.loadedOnce = false;
+    this.isNoLoadData = false;
     this.selectedReferral = "";
     this.selectedStatus = status;
     this.getReferral();
@@ -174,7 +204,7 @@ export class ReferralComponent implements OnInit {
       this.processStatus = false;
       this.reviewData = null;
       this.selectedReferral = data;
-      if(this.screenWidth <= 1251) {
+      if (this.screenWidth <= 1251) {
         this.isAwaitingVisible = false;
         this.isMainContentVisible = true;
       }
@@ -187,7 +217,7 @@ export class ReferralComponent implements OnInit {
 
         await this.getReferralReview(referralId, this.userId);
         this.getReferralReview(referralId, forUserId, true);
-        
+
       }
     }
     else {
@@ -209,22 +239,22 @@ export class ReferralComponent implements OnInit {
       if (response) {
         // this.referralList = response;
         this.spinner.hide();
-     
+
         this.openModal(ModalType.REFERRAL_RATING);
       }
     }).catch((error: any) => {
-      if (error.status==404) { 
+      if (error.status == 404) {
         this.spinner.hide()
         this.router.navigate(['/auth/logout']);
-      }else if (error.status==401){
-        this.storage.set('redirectAfterLogin', '/candidate/referral'); 
-       this.router.navigate(['/']);
-      }else{
-      this.spinner.hide();
-    
-      this.successMessage = "Something went wrong. Please try again after sometime";
-      this.successTitle = "Error";
-      this.openModal(ModalType.SUCCESS_ERROR_MESSAGE);
+      } else if (error.status == 401) {
+        this.storage.set('redirectAfterLogin', '/candidate/referral');
+        this.router.navigate(['/']);
+      } else {
+        this.spinner.hide();
+
+        this.successMessage = "Something went wrong. Please try again after sometime";
+        this.successTitle = "Error";
+        this.openModal(ModalType.SUCCESS_ERROR_MESSAGE);
       }
     }
     );
@@ -258,23 +288,23 @@ export class ReferralComponent implements OnInit {
           let forUserId = this.selectedReferral?.acceptedByUserId;
           await this.getReferralReview(referralId, this.userId);
           this.getReferralReview(referralId, forUserId, true);
-         
+
         }
         this.spinner.hide();
       }
     }).catch((error: any) => {
-      if (error.status==404) { 
+      if (error.status == 404) {
         this.spinner.hide()
         this.router.navigate(['/auth/logout']);
-      }else if (error.status==401){
-        this.storage.set('redirectAfterLogin', '/candidate/referral'); 
-       this.router.navigate(['/']);
-      }else{
-      this.spinner.hide();
+      } else if (error.status == 401) {
+        this.storage.set('redirectAfterLogin', '/candidate/referral');
+        this.router.navigate(['/']);
+      } else {
+        this.spinner.hide();
 
-      this.successMessage = "Something went wrong. Please try again after sometime";
-      this.successTitle = "Error";
-      this.openModal(ModalType.SUCCESS_ERROR_MESSAGE);
+        this.successMessage = "Something went wrong. Please try again after sometime";
+        this.successTitle = "Error";
+        this.openModal(ModalType.SUCCESS_ERROR_MESSAGE);
       }
     }
     );
@@ -289,11 +319,11 @@ export class ReferralComponent implements OnInit {
       if (executeProcessedStatus) {
         this.processStatus = true;
       }
-     
+
       let backupReview = JSON.parse(JSON.stringify(this.reviewData));
       this.reviewData = [];
       if (response) {
-        
+
         response.forEach((element: any) => {
           if (element.referalId == referralId) {
             backupReview.push(element);
@@ -303,17 +333,17 @@ export class ReferralComponent implements OnInit {
 
       }
     }).catch((error: any) => {
-      if (error.status==404) { 
+      if (error.status == 404) {
         this.spinner.hide()
         this.router.navigate(['/auth/logout']);
-      }else if (error.status==401){
-        this.storage.set('redirectAfterLogin', '/candidate/referral'); 
-       this.router.navigate(['/']);
-      }else if (executeProcessedStatus) {
+      } else if (error.status == 401) {
+        this.storage.set('redirectAfterLogin', '/candidate/referral');
+        this.router.navigate(['/']);
+      } else if (executeProcessedStatus) {
         this.processStatus = true;
       }
       this.reviewData = [];
-    
+
     }
     );
 
@@ -353,24 +383,24 @@ export class ReferralComponent implements OnInit {
     await this.candidateSrv.raiseIssue(payload).then(async (response) => {
       if (response) {
         this.spinner.hide();
-        
+
         this.successMessage = "An issue has been raised for this request. You will get an e-mail for further communication.";
         this.successTitle = "";
         this.openModal(ModalType.SUCCESS_ERROR_MESSAGE);
       }
     }).catch((error: any) => {
-      if (error.status==404) { 
+      if (error.status == 404) {
         this.spinner.hide()
         this.router.navigate(['/auth/logout']);
-      }else if (error.status==401){
-        this.storage.set('redirectAfterLogin', '/candidate/referral'); 
-       this.router.navigate(['/']);
-      }else{
-      this.spinner.hide();
-     
-      this.successMessage = "Something went wrong. Please try again after sometime";
-      this.successTitle = "Error";
-      this.openModal(ModalType.SUCCESS_ERROR_MESSAGE);
+      } else if (error.status == 401) {
+        this.storage.set('redirectAfterLogin', '/candidate/referral');
+        this.router.navigate(['/']);
+      } else {
+        this.spinner.hide();
+
+        this.successMessage = "Something went wrong. Please try again after sometime";
+        this.successTitle = "Error";
+        this.openModal(ModalType.SUCCESS_ERROR_MESSAGE);
       }
     }
     );
@@ -393,20 +423,20 @@ export class ReferralComponent implements OnInit {
         // this.successtitle = "Congratulations!";
         // this.openModal(ModalType.SUCCESS_MESSAGE);
         this.getReferral();
-        
+
       }
     }).catch((error: any) => {
-      if (error.status==404) { 
+      if (error.status == 404) {
         this.spinner.hide()
         this.router.navigate(['/auth/logout']);
-      }else if (error.status==401){
-        this.storage.set('redirectAfterLogin', '/candidate/referral'); 
-       this.router.navigate(['/']);
-      }else{
-      this.spinner.hide();
-      this.successMessage = "Something went wrong. Please try again after sometime";
-      this.successTitle = "Error";
-      this.openModal(ModalType.SUCCESS_ERROR_MESSAGE);
+      } else if (error.status == 401) {
+        this.storage.set('redirectAfterLogin', '/candidate/referral');
+        this.router.navigate(['/']);
+      } else {
+        this.spinner.hide();
+        this.successMessage = "Something went wrong. Please try again after sometime";
+        this.successTitle = "Error";
+        this.openModal(ModalType.SUCCESS_ERROR_MESSAGE);
       }
     }
     );
@@ -447,12 +477,12 @@ export class ReferralComponent implements OnInit {
   }
 
   referralWithdraw(data: any) {
-   
+
     this.withdrawReferralRequest(data);
   }
 
   referralRaiseIssue(data: any) {
-  
+
     this.rasieIssue(data);
   }
 

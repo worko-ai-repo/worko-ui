@@ -70,15 +70,24 @@ li {
     cursor: pointer;
 }
 
-.candidate-card {
-    // height: 558px;
+.scroll-container {
     overflow-y: auto;
 }
 
-.candidate-card::-webkit-scrollbar {
+.scroll-container::-webkit-scrollbar {
     width: 5px;
     display: none;
 }
+
+// .candidate-card {
+//     // height: 558px;
+//     overflow-y: auto;
+// }
+
+// .candidate-card::-webkit-scrollbar {
+//     width: 5px;
+//     display: none;
+// }
 
 .text-size {
     padding-left: 15px;
@@ -94,20 +103,20 @@ li {
     font-style: italic;
     font-weight: 100;
     line-height: normal;
-
+    
 }
 
 .referral-list-clicked-item {
     background-color: #061634
 }
 
-.scroller {
-    overflow-y: scroll;
-}
+// .scroller {
+//     overflow-y: scroll;
+// }
 
-.scroller::-webkit-scrollbar {
-    display: none;
-}
+// .scroller::-webkit-scrollbar {
+//     display: none;
+// }
 .no-referrals-container {
     display: flex;
     justify-content: center;
@@ -120,7 +129,11 @@ li {
     text-align: center;
 }
 
-
+.sentinel {
+    height: 1px;
+    width: 100%;
+    opacity: 0;
+}
 
 @media (max-width: 1251px) {
     .card.candidate-card.scroller {
@@ -141,47 +154,51 @@ li {
         padding-right: 15px;
         width: 100%;
     }
-  
+
     .number-size {
-        width:100%
+        width: 100%
     }
-   
+
     .text-overflow {
-        white-space:pre-wrap;
+        white-space: pre-wrap;
     }
-  
+
 }
 
 @media (max-width: 1251px) and (min-width:990px) {
 
     .text-overflow {
-        white-space:pre-wrap;
+        white-space: pre-wrap;
         // width: 104%;
         margin-left: 17rem;
     }
 }
+
 @media (max-width: 798px) {
- 
+
     .number-size {
-        font-size:12px;
-        width:48%;
+        font-size: 12px;
+        width: 48%;
     }
+
     .text-overflow {
-        white-space:nowrap;
+        white-space: nowrap;
         // margin-left: 1rem;
-       
+
     }
-    .text-size h5{
+
+    .text-size h5 {
         font-size: 12px;
     }
-    
+
     .text-size {
         padding-left: 11px;
     }
 }
+
 @media (max-width: 490px) {
- 
+
     .number-size {
-      width:21%;
+        width: 21%;
     }
 }

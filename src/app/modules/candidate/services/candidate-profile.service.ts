@@ -59,8 +59,22 @@ export class CandidateProfileService {
 
   /*************REferral APIS */
 
-  getReferral(emailAddress: string, status: string) {
-    return this.http.get(`${API_URL}user/${emailAddress}/referral?status=${status}`, this.authService.getHttpOptions()).toPromise();
+  async getReferral(emailAddress: string, status: string, lastKey?: string): Promise<any> {
+    // console.log("lastkey in service is", lastKey)
+
+    let url = `${API_URL}user/${emailAddress}/referral?status=${status}`;
+
+    if (lastKey) {
+      url += `&lastKey=${lastKey}`;
+    }
+
+    try {
+      return await this.http.get(url, this.authService.getHttpOptions()).toPromise();
+    } catch (error) {
+      console.error('Error fetching referral list:', error);
+      throw error; // Rethrow the error to be handled by the caller
+    }
+    // return this.http.get(`${API_URL}user/${emailAddress}/referral?status=${status}`, this.authService.getHttpOptions()).toPromise();
   }
 
   markasDoneReferral(emailAddress: string, status: string, referralId: string) {

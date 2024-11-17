@@ -23,8 +23,20 @@ export class EmployeeProfileService {
     return this.http.post(`${API_URL}user/${emailAddress}/bankDetail`,data,this.authService.getHttpOptions()).toPromise();
   }
 
-  getEmployeeReferral(emailAddress:string, companyId: string, status: string): Promise<any> {
-    return this.http.get(`${API_URL}emp/referral/${emailAddress}/?companyId=${companyId}&status=${status}`,this.authService.getHttpOptions()).toPromise();
+  async getEmployeeReferral(emailAddress:string, companyId: string, status: string, lastKey?: string): Promise<any> {
+
+    let url = `${API_URL}emp/referral/${emailAddress}/?companyId=${companyId}&status=${status}`;
+    if (lastKey) {
+      url += `&lastKey=${lastKey}`;
+    }
+
+    try {
+      return await this.http.get(url, this.authService.getHttpOptions()).toPromise();
+    } catch (error) {
+      console.error('Error fetching referral list:', error);
+      throw error; // Rethrow the error to be handled by the caller
+    }
+    // return this.http.get(`${API_URL}emp/referral/${emailAddress}/?companyId=${companyId}&status=${status}`,this.authService.getHttpOptions()).toPromise();
   }
 
   updateReferralStatus(referralId:any, data:any) {

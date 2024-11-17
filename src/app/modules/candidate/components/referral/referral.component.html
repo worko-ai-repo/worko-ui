@@ -2,7 +2,7 @@
     <!-- <button (click)="reverse()">Back</button> -->
     <div [ngClass]="{ 'hidden': !isAwaitingVisible}" class="left-container-content referral-candidate-left-container">
         <!-- divide-45 -->
-        <app-awaiting-status [screenWidth]="screenWidth" [userType]="userType" (statusSelected)="onStatusSelected($event)" [referralList]="referralList" (showReferralDetails)="showReferralDetails($event)">  </app-awaiting-status>
+        <app-awaiting-status [screenWidth]="screenWidth" [userType]="userType" (statusSelected)="onStatusSelected($event)" [referralList]="referralList" (showReferralDetails)="showReferralDetails($event)" (scrolledToBottom)="onScrollToBottom()">  </app-awaiting-status>
     </div>
     <div [ngClass]="{ 'hidden': !isMainContentVisible}" class="divide-55">
         <div class="row" style="height:100%">
