@@ -210,9 +210,36 @@
                 </td>
               </tr>
             </table>
-            <mat-paginator #referralPaginator [pageSizeOptions]="[25,50,100,150,200]"
-              aria-label="Select page of users"></mat-paginator>
+            <!-- <mat-paginator #referralPaginator [pageSizeOptions]="[25,50,100,150,200]"
+              aria-label="Select page of users"></mat-paginator> -->
 
+          </div>
+          <div class="row pe-2 pt-4">
+            <div class="pagination-controls">
+              <div class="dropdown-container">
+                <div style="display: flex; align-items: center;">
+                  <label for="pageSizeSelect" class="dropdown-label">Items per page:</label>
+                </div>
+                <div class="dropdown-wrapper">
+                  <select id="pageSizeSelect" class="styled-dropdown" [(ngModel)]="pageSize"
+                    (change)="onPageSizeChange($event)">
+                    <option *ngFor="let option of pageSizeOptions" [value]="option">
+                      {{ option }}
+                    </option>
+                  </select>
+                </div>
+              </div>
+
+
+
+              <button class="prev-button" [disabled]="!hasPrevious" (click)="onPrevious()">
+                &lt; Previous
+              </button>
+
+              <button class="next-button" [disabled]="!hasNext" (click)="onNext()">
+                Next &gt;
+              </button>
+            </div>
           </div>
         </div>
       </div>
@@ -568,7 +595,7 @@
             </span>
           </div>
         </div>
-        
+
         <div class="row form-row">
           <div class="col-4">
             <label class="form-label">I am Fresher</label>
@@ -691,7 +718,7 @@
   <ng-container *ngIf="showModal === modalType.SUCCESS_ERROR_MESSAGE">
     <app-message-modal [title]="successtitle" [message]="successmessage" (onCancel)="closeModal()">
     </app-message-modal>
-</ng-container>
+  </ng-container>
 
 
 

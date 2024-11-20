@@ -61,7 +61,7 @@ body {
     --color-darkslategray-100: #004759;
     --color-darkslategray-200: #20324b;
     --color-darkslategray-300: rgba(24, 43, 69, 0.99);
-    --color-modal-bg:#0A1E36;
+    --color-modal-bg: #0A1E36;
     --color-aliceblue: #e5ebf2;
     --color-deepskyblue-100: rgba(0, 194, 255, 0.4);
     --color-deepskyblue-200: rgba(0, 210, 255, 0.4);
@@ -1554,7 +1554,7 @@ footer {
 
 // admin dashboard //
 .admin-table-main {
-    
+
 
     table {
         width: 100%;
@@ -1742,10 +1742,11 @@ footer {
 
     .search-container {
         position: relative;
-       // display: inline-block;
-       // width: 100%; 
-      }
-    .admin-custom-clear-button{
+        // display: inline-block;
+        // width: 100%; 
+    }
+
+    .admin-custom-clear-button {
         right: 10px;
         position: absolute;
         transform: translateY(50%);
@@ -1767,7 +1768,8 @@ footer {
         background-color: #0A1E35 !important;
         border: 2px solid #295CA8 !important;
         padding: 5px;
-        padding-right: 40px; /* Ensure space for the clear button on the right */
+        padding-right: 40px;
+        /* Ensure space for the clear button on the right */
         border-radius: 3px;
         font-size: small;
         color: white !important;
@@ -1844,16 +1846,18 @@ footer {
 }
 
 .pe-2 mat-form-field {
-   // max-width: 150px;
+    // max-width: 150px;
     max-width: 165px;
     max-height: 69px;
 
 }
-.selector{
+
+.selector {
     width: 191px;
 }
-.mat-mdc-text-field-wrapper .mat-mdc-form-field-infix .mat-mdc-floating-label{
-    top:auto;
+
+.mat-mdc-text-field-wrapper .mat-mdc-form-field-infix .mat-mdc-floating-label {
+    top: auto;
     font-size: small;
 }
 
@@ -2145,7 +2149,7 @@ footer {
 
 .index-section .btn-light {
     font-size: calc(1vw + 14px);
-    color: rgb(87, 225, 225) ;
+    color: rgb(87, 225, 225);
     padding: 0.8rem 6%;
     margin-left: 0px;
 }
@@ -2182,7 +2186,7 @@ footer {
 
 .index-section .grad-left2 {
     //left: 0; removed code for timeline
-    left: -4.7rem 
+    left: -4.7rem
 }
 
 .index-section .grad-right2 {
@@ -2223,8 +2227,8 @@ footer {
 
 .index-section .side-timeline img {
     // width: calc(225px + 5vw);
-//    width: calc(206px + 6vw);
-     width: calc(199px + 6vw);
+    //    width: calc(206px + 6vw);
+    width: calc(199px + 6vw);
     // max-width: 310px;
 }
 
@@ -2243,18 +2247,18 @@ footer {
 
 .index-section .rows {
     // padding-left: 16%; removing code for timeline
- }
+}
 
- .index-section .intro {
+.index-section .intro {
     // padding-top: 4rem;   removing code for timeline
-    padding-top: 1rem; 
-     position: relative;
- 
-     .content {
-         width: 65%;
-         padding-top: 10rem;
-     }
- }
+    padding-top: 1rem;
+    position: relative;
+
+    .content {
+        width: 65%;
+        padding-top: 10rem;
+    }
+}
 
 .index-section .intro-image {
     position: absolute;
@@ -2274,14 +2278,16 @@ footer {
 .index-section .stats-section {
     justify-content: space-between;
     padding-top: 10rem;
-   // padding-left: 21%; removing code for timeline
+    // padding-left: 21%; removing code for timeline
     width: 98%;
-    .line-right{
+
+    .line-right {
         border-right: 1px solid #fff;
         height: 61px;
         opacity: 36%;
     }
-    .line-right1{
+
+    .line-right1 {
         padding-left: 8%;
     }
 }
@@ -2632,11 +2638,14 @@ footer {
 .index-section .companies-section {
     padding-top: 11rem;
     overflow: hidden;
-    .slide-container{
+
+    .slide-container {
         background-color: #fff;
         margin-top: 5rem; //added code for timeline
     }
+
     .company-content {
+
         .title,
         .para {
             text-align: center;
@@ -2668,7 +2677,8 @@ footer {
                 z-index: 1;
                 border-radius: 8px;
                 padding-top: 20px;
-                .logo-container{
+
+                .logo-container {
                     display: flex;
                     justify-content: center;
                     margin-bottom: 0.5rem;
@@ -2684,17 +2694,18 @@ footer {
                     margin-top: 7px;
                     // margin-left: 30px;
                     font-size: 0.9rem;
-                
+
                 }
             }
 
             img {
                 height: 75px;
-                width: 75px; 
+                width: 75px;
                 color: black;
             }
         }
     }
+
     button {
         // padding: 0.5rem 10%;
         margin-top: 7rem;
@@ -3037,15 +3048,161 @@ footer {
     display: none;
 }
 
-html, body { height: 100%; }
-body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
+html,
+body {
+    height: 100%;
+}
 
-.btn-next, .btn-secondary, .btn-secondary:hover, .btn-next:hover  {
+body {
+    margin: 0;
+    font-family: Roboto, "Helvetica Neue", sans-serif;
+}
+
+.btn-next,
+.btn-secondary,
+.btn-secondary:hover,
+.btn-next:hover {
     background-color: #36D0FF;
     width: 108px;
     height: 35px;
     border-radius: 9px;
     border: unset;
     text-align: center;
-    color:#000
+    color: #000
+}
+
+// Material Table footer css
+
+.pagination-controls {
+    display: flex;
+    justify-content: end;
+    align-items: center;
+    margin: 0px 0;
+    gap: 10px;
+}
+
+.prev-button,
+.next-button {
+    color: black;
+    border: none;
+    padding: 8px 16px;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 5px;
+    /* Space between text and icon */
+
+    background-color: #50c7f3;
+    /* Light blue base color */
+    // border: 2px solid #0a1e35; /* Dark border for contrast */
+    border-radius: 6px;
+    height: 44px;
+    box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);
+    /* Subtle shadow for depth */
+    font-size: 16px;
+    transition: background-color 0.3s ease, transform 0.2s ease;
+}
+
+/* Hover effect for enabled buttons */
+.prev-button:hover:not(:disabled),
+.next-button:hover:not(:disabled) {
+    // background-color: #4297d4;
+    color: white;
+    // transform: translateY(-2px);
+    box-shadow: 0px 6px 8px rgba(0, 0, 0, 0.15);
+    /* Enhanced shadow */
+}
+
+/* Active button effect */
+.prev-button:active,
+.next-button:active {
+    // transform: translateY(0);
+    // background-color: #365a92;
+    box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.2);
+    /* Stronger shadow */
+}
+
+/* Disabled state */
+.prev-button:disabled,
+.next-button:disabled {
+    background-color: #e0e0e0;
+    /* Light gray for disabled */
+    color: #888;
+    /* Muted text color */
+    cursor: not-allowed;
+    border-color: #ccc;
+    /* Match disabled gray */
+    box-shadow: none;
+    /* Remove shadow for disabled state */
+}
+
+/* focus outline for accessibility */
+.prev-button:focus,
+.next-button:focus {
+    outline: 2px solid #50c7f3;
+    /* Blue focus outline */
+    outline-offset: 2px;
+}
+
+
+.pagination-controls label {
+    margin-right: 8px;
+    font-size: 14px;
+}
+
+/* Dropdown container for alignment */
+.dropdown-container {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    font-family: Arial, sans-serif;
+}
+
+/* Label styling */
+.dropdown-label {
+    font-size: 12px !important;
+    color: white;
+    font-weight: 500;
+    margin: 0 !important;
+}
+
+/* Wrapper for the dropdown */
+.dropdown-wrapper {
+    position: relative;
+    width: 85px;
+}
+
+/* Styled dropdown */
+.styled-dropdown {
+    height: 44px;
+    width: 100%;
+    padding: 8px 12px;
+    font-size: small;
+    color: white;
+    /* Text color */
+    background-color: transparent;
+    /* Dropdown background */
+    border: 2px solid #476baf;
+    /* Border color */
+    border-radius: 6px;
+    appearance: none;
+    /* Removes default browser styles */
+    cursor: pointer;
+    outline: none;
+    background-image: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" height="24" width="24" viewBox="0 0 24 24"><path fill="%23476baf" d="M7 10l5 5 5-5H7z"/></svg>');
+    background-repeat: no-repeat;
+    background-position: right 10px center;
+    background-size: 22px;
+}
+
+/* Hover and focus effects */
+.styled-dropdown:hover {
+    border-color: #334f8c;
+    /* Darker blue on hover */
+}
+
+.styled-dropdown:focus {
+    border-color: #334f8c;
+    box-shadow: 0 0 4px rgba(71, 107, 175, 0.5);
 }

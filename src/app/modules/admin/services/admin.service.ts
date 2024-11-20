@@ -13,7 +13,7 @@ export class AdminService {
 
   constructor(private http: HttpClient, private authService: AuthService) { }
 
-  async getAllIssues(pageSize?: any, lastKey?: any,sortOrder?:string,fromDate?:string,toDate?:string,searchText?:string,) {
+  async getAllIssues(pageSize?: any, lastKey?: any, sortOrder?: string, fromDate?: string, toDate?: string, searchText?: string,) {
     let url = `${API_URL}admin/support?pageSize=${pageSize}`;
 
     if (lastKey) {
@@ -27,8 +27,8 @@ export class AdminService {
     }
     if (toDate) {
       url += `&toDate=${toDate}`;
-    }  if (searchText) {
-      const searchTexts =encodeURIComponent(searchText)
+    } if (searchText) {
+      const searchTexts = encodeURIComponent(searchText)
       url += `&searchText=${searchTexts}`;
     }
     // let url = `${API_URL}support`;
@@ -37,7 +37,7 @@ export class AdminService {
     //   url += `/status=RESOLVED`;
     // }
     // try {
-    
+
     //   return await this.http.get(url, this.authService.getHttpOptions()).toPromise();
     // } catch (error) {
     //   console.error('Error fetching issues:', error);
@@ -48,7 +48,7 @@ export class AdminService {
   }
 
 
-  getAllSubscriptions(pageSize?: any, lastKey?: any,sortOrder?:string,fromDate?:string,toDate?:string,searchText?:string) {
+  getAllSubscriptions(pageSize?: any, lastKey?: any, sortOrder?: string, fromDate?: string, toDate?: string, searchText?: string) {
     let url = `${API_URL}admin/subscription?pageSize=${pageSize}`;
 
     if (lastKey) {
@@ -62,14 +62,14 @@ export class AdminService {
     }
     if (toDate) {
       url += `&toDate=${toDate}`;
-    }  if (searchText) {
-      const searchTexts =encodeURIComponent(searchText)
+    } if (searchText) {
+      const searchTexts = encodeURIComponent(searchText)
       url += `&searchText=${searchTexts}`;
     }
     return this.http.get(url, this.authService.getHttpOptions()).toPromise();
   }
 
-  getAllReferral(pageSize?: any, lastKey?: any,sortOrder?:string,fromDate?:string,toDate?:string,status?:string) {
+  getAllReferral(pageSize?: any, lastKey?: any, sortOrder?: string, fromDate?: string, toDate?: string, searchText?: string, status?: string) {
     let url = `${API_URL}admin/referral?pageSize=${pageSize}`;
 
     if (lastKey) {
@@ -83,16 +83,20 @@ export class AdminService {
     }
     if (toDate) {
       url += `&toDate=${toDate}`;
-    }  if (status) {
-      const encodedStatus = encodeURIComponent(status)
-      url += `&status=${encodedStatus}`;
+    } 
+    if (searchText) {
+      const searchTexts = encodeURIComponent(searchText)
+      url += `&searchText=${searchTexts}`;
+    }
+    if (status) {
+      url += `&status=${status}`;
     }
     return this.http.get(url, this.authService.getHttpOptions()).toPromise();
   }
 
-  getAllUserData(userType: any, pageSize?: any, lastKey?: any,searchText?:any,sortOrder?:string,fromDate?:string,toDate?:string) {
+  getAllUserData(userType: any, pageSize?: any, lastKey?: any, searchText?: any, sortOrder?: string, fromDate?: string, toDate?: string) {
     let url = `${API_URL}admin/user/?userType=${userType}`;
-  
+
     if (pageSize) {
       url += `&pageSize=${pageSize}`;
     }
@@ -100,7 +104,7 @@ export class AdminService {
       url += `&lastKey=${lastKey}`;
     }
     if (searchText) {
-      const searchTexts =encodeURIComponent(searchText)
+      const searchTexts = encodeURIComponent(searchText)
       url += `&searchText=${searchTexts}`;
     }
     if (sortOrder) {
@@ -111,60 +115,60 @@ export class AdminService {
     }
     if (toDate) {
       url += `&toDate=${toDate}`;
-    } 
+    }
 
-  
+
     return this.http.get(url, this.authService.getHttpOptions()).toPromise();
   }
-  
 
-  getSubscriptionsById(id:any){
+
+  getSubscriptionsById(id: any) {
     return this.http.get(`${API_URL}admin/subscription/${id}`, this.authService.getHttpOptions()).toPromise();
   }
 
-  getIssuesById(id:any){
+  getIssuesById(id: any) {
     return this.http.get(`${API_URL}admin/support/${id}`, this.authService.getHttpOptions()).toPromise();
   }
 
-  getSubscriptionsByEmailId(emailId:any){
+  getSubscriptionsByEmailId(emailId: any) {
     return this.http.get(`${API_URL}admin/user/${emailId}/subscription`, this.authService.getHttpOptions()).toPromise();
   }
 
-  getUserByEmailId(userEmailid:any){
+  getUserByEmailId(userEmailid: any) {
     return this.http.get(`${API_URL}admin/user/${userEmailid}/detail`, this.authService.getHttpOptions()).toPromise();
   }
 
-  getUserExperienceByEmailId(userEmailid:any){
+  getUserExperienceByEmailId(userEmailid: any) {
     return this.http.get(`${API_URL}admin/user/${userEmailid}/experience`, this.authService.getHttpOptions()).toPromise();
   }
 
-  getUserSubscriptionByEmailId(userEmailid:any){
+  getUserSubscriptionByEmailId(userEmailid: any) {
     return this.http.get(`${API_URL}admin/user/${userEmailid}/subscription`, this.authService.getHttpOptions()).toPromise();
   }
 
-  getEmployeeReferralByEmailId(userEmailid:any){
+  getEmployeeReferralByEmailId(userEmailid: any) {
     return this.http.get(`${API_URL}admin/user/${userEmailid}/emp-referral-responses`, this.authService.getHttpOptions()).toPromise();
   }
- 
-  getReferralById(id:any){
+
+  getReferralById(id: any) {
     return this.http.get(`${API_URL}admin/referral/${id}`, this.authService.getHttpOptions()).toPromise();
   }
 
-  getCompanyById(id:any){
+  getCompanyById(id: any) {
     return this.http.get(`${API_URL}admin/company/${id}`, this.authService.getHttpOptions()).toPromise();
   }
 
-  getCVUrl(userId:any,filename:any){
+  getCVUrl(userId: any, filename: any) {
     return this.http.get(`${API_URL}file/${userId}/${filename}/USER_RESUME`, this.authService.getHttpOptions()).toPromise();
   }
 
-  getJobs(param:any): Promise<any> {
+  getJobs(param: any): Promise<any> {
 /*     console.log(`params ${param.pageSize} ${param.lastKey} ${param.status} ${param.sortOrder}`);
  */    let url = `${API_URL}admin/job/?pageSize=${param.pageSize}`;
-    if(param.status) {
+    if (param.status) {
       url += `&status=${param.status}`;
     }
-    if(param.searchText) {
+    if (param.searchText) {
       const searchTextEncoded = encodeURIComponent(param.searchText);
 /*       console.log(`service serachText ${searchTextEncoded}`);
  */      url += `&searchText=${searchTextEncoded}`;
@@ -198,7 +202,7 @@ export class AdminService {
     let url = `${API_URL}company`;
 
     if (value) {
-      const companyName =encodeURIComponent(value)
+      const companyName = encodeURIComponent(value)
       url += `?companyName=${companyName}`;
     }
 

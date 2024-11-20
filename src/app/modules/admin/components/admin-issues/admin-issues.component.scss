@@ -52,3 +52,12 @@
     height: 24px;
     width: 78px;
 }
+
+/* Dropdown options */
+.styled-dropdown option {
+  background-color: transparent !important;
+  /* transparent background */
+  color: black;
+  /* black text for options */
+  font-size: 16px;
+}

@@ -53,7 +53,7 @@ export class AdminPaymentComponent {
   successmessage: string = '';
   successtitle: string = '';
   copiedContextId: string | null = null; // Stores the last copied context ID
-  pageSize: any = 25;
+  // pageSize: any = 25;
   lastKey: string | undefined = undefined;
   iconTimeout: any;
   private searchTerms = new Subject<string>();
@@ -93,7 +93,14 @@ export class AdminPaymentComponent {
   isDropdownActive: boolean = false;
   isSearchActive: boolean = false;
   modalSize: string = 'md';
-  constructor(private router: Router, private elementRef: ElementRef, private cdr: ChangeDetectorRef,private adminService: AdminService, private spinner: NgxSpinnerService) {
+
+  currentLastKey: string | null = null; // The current lastKey for the current page
+  previousKeys: string[] = []; // Stack to store previous lastKeys for "Previous" functionality
+  hasNext: boolean = false; // To enable/disable "Next" button
+  hasPrevious: boolean = false; // To enable/disable "Previous" button
+  pageSize: number = 25; // Default page size
+  pageSizeOptions: number[] = [25, 50, 100, 150];
+  constructor(private router: Router, private elementRef: ElementRef, private cdr: ChangeDetectorRef, private adminService: AdminService, private spinner: NgxSpinnerService) {
     this.candidatesDataSource = new MatTableDataSource<UserData>(this.nameslist);
     this.servicesDataSource = new MatTableDataSource<UserData>(this.nameslist);
     this.searchTerms.pipe(
@@ -124,17 +131,20 @@ export class AdminPaymentComponent {
 
 
   async ngOnInit(): Promise<void> {
-    this.getAllSubscriptions();
+    this.getAllSubscriptions(null);
   }
-  async getAllSubscriptions() {
+  async getAllSubscriptions(lastKey: string | null) {
     this.spinner.show()
-    await this.adminService.getAllSubscriptions(this.pageSize, this.lastKey, this.sortOrder, this.fromDate, this.toDate, this.searchTerm).then(async (response: any) => {
+    await this.adminService.getAllSubscriptions(this.pageSize, lastKey, this.sortOrder, this.fromDate, this.toDate, this.searchTerm).then(async (response: any) => {
       if (response) {
         this.spinner.hide()
         this.nameslist = response.data;
-        this.lastKey = response.pagination.lastKey;
-        this.pageSize = response.pagination.pageSize;
         this.updateData(this.nameslist);
+
+        this.pageSize = response.pagination.pageSize;
+        this.currentLastKey = response.pagination.lastKey || null;
+        this.hasNext = !!response.pagination.lastKey;
+        this.hasPrevious = this.previousKeys.length > 0;
       }
     }).catch((error: any) => {
       this.spinner.hide()
@@ -154,20 +164,20 @@ export class AdminPaymentComponent {
   }
   updateData(newData: UserData[]) {
     this.candidatesDataSource.data = newData;
-    if (this.referralPaginator) {
-      this.referralPaginator.firstPage();
-    }
+    // if (this.referralPaginator) {
+    //   this.referralPaginator.firstPage();
+    // }
   }
 
   callApiWithSearchQuery(query: string): void {
-    this.pageSize = "";
-    this.lastKey = "";
-    this.sortOrder = '';
+    // this.pageSize = "";
+    // this.lastKey = "";
+    // this.sortOrder = '';
     this.searchTerm = query; // Setting here encoded query to filterData
-    this.fromDate = "",
-      this.toDate = "",
-      // console.log(this.sortOrder,this.fromDate,this.toDate,this.searchTerm)
-      this.getAllSubscriptions();
+
+    // Use the previous lastKey if available; otherwise, start fresh
+    const keyToUse = this.getKeyForCurrentPage();
+    this.getAllSubscriptions(keyToUse);
 
   }
 
@@ -182,8 +192,12 @@ export class AdminPaymentComponent {
     } else {
       this.fromDate = "";
     }
-    this.initializeData();
-    this.getAllSubscriptions();
+
+    // this.initializeData();
+
+    // Use the previous lastKey if available; otherwise, start fresh
+    const keyToUse = this.getKeyForCurrentPage();
+    this.getAllSubscriptions(keyToUse);
   }
 
 
@@ -201,8 +215,10 @@ export class AdminPaymentComponent {
     } else {
       this.toDate = "";
     }
-    this.initializeData();
-    this.getAllSubscriptions();
+    // this.initializeData();
+    // Use the previous lastKey if available; otherwise, start fresh
+    const keyToUse = this.getKeyForCurrentPage();
+    this.getAllSubscriptions(keyToUse);
   }
 
   initializeData() {
@@ -219,22 +235,26 @@ export class AdminPaymentComponent {
     this.filterModel.toDate = null;
     (document.getElementById('paymentStatus') as HTMLSelectElement).value = "";
     (document.getElementById('nameFilter') as HTMLSelectElement).value = "";
-    this.pageSize = 25;
-    this.referralPaginator.pageIndex = 0;  // Reset to the first page
-    this.referralPaginator.pageSize = 25;  // Update the UI's pageSize
-    this.lastKey = "";
+    // this.pageSize = 25;
+    // this.referralPaginator.pageIndex = 0;  // Reset to the first page
+    // this.referralPaginator.pageSize = 25;  // Update the UI's pageSize
+    // this.lastKey = "";
     this.sortOrder = '';
-    this.fromDate = "",
-      this.toDate = "",
-      this.searchTerm = ""
+    this.fromDate = "";
+    this.toDate = "";
+    this.searchTerm = "";
+    this.searchQuery = "";
     this.isSearchActive = false;
-    this.isDropdownActive = false
-    this.getAllSubscriptions();
+    this.isDropdownActive = false;
+
+    // Use the previous lastKey if available; otherwise, start fresh
+    const keyToUse = this.getKeyForCurrentPage();
+    this.getAllSubscriptions(keyToUse);
   }
 
   ngAfterViewInit() {
     // Set paginator and sort for referral table
-    this.candidatesDataSource.paginator = this.referralPaginator;
+    // this.candidatesDataSource.paginator = this.referralPaginator;
     // this.candidatesDataSource.sort = this.referralSort;
 
     // // Set paginator and sort for service table
@@ -242,49 +262,68 @@ export class AdminPaymentComponent {
     // this.servicesDataSource.sort = this.serviceSort;
 
     // Listen for changes in the page size
-    this.referralPaginator.page.subscribe((event: PageEvent) => {
-      if (event.pageSize !== this.pageSize) {
-        this.pageSize = event.pageSize;
-        this.getAllSubscriptions(); // Call getAllReferral with updated pageSize
-      }
-    });
+    // this.referralPaginator.page.subscribe((event: PageEvent) => {
+    //   if (event.pageSize !== this.pageSize) {
+    //     this.pageSize = event.pageSize;
+    //     this.getAllSubscriptions(); // Call getAllReferral with updated pageSize
+    //   }
+    // });
+  }
+
+  onPageSizeChange(event: Event): void {
+    const selectedPageSize = (event.target as HTMLSelectElement).value;
+    this.pageSize = Number(selectedPageSize);
+    this.previousKeys = [];
+    this.getAllSubscriptions(null); // Call getAllUserData refresh the data with the new page size
   }
 
 
   onSort(sort: Sort): void {
 
     if (sort.active === 'purchaseDate') {
-      this.lastKey = "";
-      this.pageSize = 25;
+      // this.lastKey = "";
+      // this.pageSize = 25;
       this.sortOrder = this.sortOrder === 'ascending' ? 'descending' : 'ascending';
       sort.direction === 'asc' ? 'ascending' : 'descending';
       this.sort.direction = sort.direction;
-      // Call API with the new sort direction
-      this.getAllSubscriptions();
+
+      // Use the previous lastKey if available; otherwise, start fresh
+      const keyToUse = this.getKeyForCurrentPage();
+      // Call API to get data with the new sort direction
+      this.getAllSubscriptions(keyToUse);
     }
   }
   onStatusChange(selectedStatus: string) {
 
     this.isSearchActive = !!selectedStatus;
-    this.pageSize = 25;
-    this.lastKey = "";
-    this.sortOrder = '';
-    this.fromDate = '';
-    this.toDate = '';
+    // this.pageSize = 25;
+    // this.lastKey = "";
+    // this.sortOrder = '';
+    // this.fromDate = '';
+    // this.toDate = '';
     this.searchTerm = selectedStatus;
     this.selectedStatus = selectedStatus;
-    this.getAllSubscriptions()
+
+    // Use the previous lastKey if available; otherwise, start fresh
+    const keyToUse = this.getKeyForCurrentPage();
+    // Call API to get data
+    this.getAllSubscriptions(keyToUse);
   }
+
   onNameChange(selectedName: string) {
     this.isDropdownActive = !!selectedName;
-    this.pageSize = 25;
-    this.lastKey = "";
-    this.sortOrder = '';
-    this.fromDate = '';
-    this.toDate = '';
+    // this.pageSize = 25;
+    // this.lastKey = "";
+    // this.sortOrder = '';
+    // this.fromDate = '';
+    // this.toDate = '';
     this.searchTerm = selectedName;
     this.selectedStatus = selectedName;
-    this.getAllSubscriptions()
+
+    // Use the previous lastKey if available; otherwise, start fresh
+    const keyToUse = this.getKeyForCurrentPage();
+    // Call API to get data
+    this.getAllSubscriptions(keyToUse);
   }
 
   async viewRow(row: any) {
@@ -320,6 +359,41 @@ export class AdminPaymentComponent {
     }).catch(err => {
       console.error('Failed to copy text: ', err);
     });
+  }
+
+  onNext() {
+    if (!this.hasNext) return;
+
+    // Store the current lastKey in the stack before moving forward
+    if (this.currentLastKey) {
+      this.previousKeys.push(this.currentLastKey);
+    }
+
+    // Fetch the next page
+    this.getAllSubscriptions(this.currentLastKey);
+  }
+
+  onPrevious() {
+    if (!this.hasPrevious) return;
+
+    // Retrieve the second-to-last key in the stack, which corresponds to the last key used for the previous page
+    const previousLastKey = this.previousKeys.length > 1 ? this.previousKeys[this.previousKeys.length - 2] : null;
+
+    // Remove the current page's lastKey from the stack
+    this.previousKeys.pop();
+
+    if (!previousLastKey) {
+      // If no valid previous key, fetch the first page
+      this.getAllSubscriptions(null);
+    } else {
+      // Fetch the previous page using the second-to-last key
+      this.getAllSubscriptions(previousLastKey);
+    }
+  }
+
+  private getKeyForCurrentPage(): string | null {
+    // Return the last key from the stack or null if the stack is empty
+    return this.previousKeys.length > 0 ? this.previousKeys[this.previousKeys.length - 1] : null;
   }
 
 

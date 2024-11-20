@@ -63,7 +63,6 @@ export class AdminIssuesComponent {
   successmessage: string = '';
   successtitle: string = '';
   private searchTerms = new Subject<string>();
-  pageSize: any = 25;
   lastKey: string | undefined = undefined;
   sortOrder: any = '';
   fromDate: any = '';
@@ -87,8 +86,15 @@ export class AdminIssuesComponent {
   };
   modalSize: string = 'md';
 
+  currentLastKey: string | null = null; // The current lastKey for the current page
+  previousKeys: string[] = []; // Stack to store previous lastKeys for "Previous" functionality
+  hasNext: boolean = false; // To enable/disable "Next" button
+  hasPrevious: boolean = false; // To enable/disable "Previous" button
+  pageSize: number = 25; // Default page size
+  pageSizeOptions: number[] = [25, 50, 100, 150];
 
-  constructor(private router: Router, private elementRef: ElementRef,private cdr: ChangeDetectorRef, private adminService: AdminService, private spinner: NgxSpinnerService) {
+
+  constructor(private router: Router, private elementRef: ElementRef, private cdr: ChangeDetectorRef, private adminService: AdminService, private spinner: NgxSpinnerService) {
     this.candidatesDataSource = new MatTableDataSource<UserData>(this.issueList);
     // this.servicesDataSource = new MatTableDataSource<UserData>(this.nameslist);
     this.searchTerms.pipe(
@@ -102,8 +108,7 @@ export class AdminIssuesComponent {
       });
   }
   async ngOnInit(): Promise<void> {
-
-    this.getAllIssues();
+    this.getAllIssues(null);
   }
 
 
@@ -115,31 +120,34 @@ export class AdminIssuesComponent {
   //   this.filterData.issuesStatus = selectedIssueStatus;
   //   await this.getAllIssues();
   // }
-  callApiWithSearchQuery(query: string): void {
-    this.pageSize = "";
-    this.lastKey = "";
-    this.sortOrder = '';
-    this.searchTerm = query; // Setting here encoded query to filterData
-    this.fromDate = "",
-      this.toDate = "",
-      // console.log(this.sortOrder,this.fromDate,this.toDate,this.searchTerm)
-      this.getAllIssues();
 
+  callApiWithSearchQuery(query: string): void {
+    // this.pageSize = "";
+    // this.lastKey = "";
+
+    this.searchTerm = query; // Setting here encoded query to filterData
+    // this.initializeData();
+
+    // Use the previous lastKey if available; otherwise, start fresh
+    const keyToUse = this.getKeyForCurrentPage();
+    this.getAllIssues(keyToUse);
   }
 
 
-  async getAllIssues() {
+  async getAllIssues(lastKey: string | null) {
     this.spinner.show()
-    await this.adminService.getAllIssues(this.pageSize, this.lastKey, this.sortOrder, this.fromDate, this.toDate, this.searchTerm).then(async (response: any) => {
+    await this.adminService.getAllIssues(this.pageSize, lastKey, this.sortOrder, this.fromDate, this.toDate, this.searchTerm).then(async (response: any) => {
       if (response) {
         this.spinner.hide()
         this.issueList = response.data;
         //console.log("Issue list:", this.issueList);
         this.updateData(this.issueList);
-        this.lastKey = response.pagination.lastKey;
-        this.pageSize = response.pagination.pageSize;
         //this.candidatesDataSource = new MatTableDataSource<UserData>(this.issueList);
-        // console.log("Issue  status 0:";
+
+        this.pageSize = response.pagination.pageSize;
+        this.currentLastKey = response.pagination.lastKey || null;
+        this.hasNext = !!response.pagination.lastKey;
+        this.hasPrevious = this.previousKeys.length > 0;
       }
     }).catch((error: any) => {
       this.spinner.hide()
@@ -160,9 +168,9 @@ export class AdminIssuesComponent {
 
   updateData(newData: UserData[]) {
     this.candidatesDataSource.data = newData;
-    if (this.referralPaginator) {
-      this.referralPaginator.firstPage();
-    }
+    // if (this.referralPaginator) {
+    //   this.referralPaginator.firstPage();
+    // }
   }
 
 
@@ -178,8 +186,11 @@ export class AdminIssuesComponent {
     } else {
       this.fromDate = "";
     }
-    this.initializeData();
-    this.getAllIssues();
+    // this.initializeData();
+
+    // Use the previous lastKey if available; otherwise, start fresh
+    const keyToUse = this.getKeyForCurrentPage();
+    this.getAllIssues(keyToUse);
   }
 
 
@@ -198,8 +209,11 @@ export class AdminIssuesComponent {
     } else {
       this.toDate = "";
     }
-    this.initializeData();
-    this.getAllIssues();
+
+    // this.initializeData();
+    // Use the previous lastKey if available; otherwise, start fresh
+    const keyToUse = this.getKeyForCurrentPage();
+    this.getAllIssues(keyToUse);
   }
 
   initializeData() {
@@ -214,27 +228,41 @@ export class AdminIssuesComponent {
   resetDatePickers() {
     this.filterModel.fromDate = null;
     this.filterModel.toDate = null;
-    this.pageSize = 25;
-    this.lastKey = "";
+    // this.pageSize = 25;
+    // this.lastKey = "";
     this.sortOrder = '';
     this.fromDate = "",
       this.toDate = "",
-      this.searchTerm = ""
+      this.searchTerm = "";
     this.searchQuery = "";
-    this.referralPaginator.pageIndex = 0;  // Reset to the first page
-    this.referralPaginator.pageSize = 25;  // Update the UI's pageSize
-    this.getAllIssues();
+    // this.referralPaginator.pageIndex = 0;  // Reset to the first page
+    // this.referralPaginator.pageSize = 25;  // Update the UI's pageSize
+
+    // Use the previous lastKey if available; otherwise, start fresh
+    const keyToUse = this.getKeyForCurrentPage();
+    this.getAllIssues(keyToUse);
   }
+
+  onPageSizeChange(event: Event): void {
+    const selectedPageSize = (event.target as HTMLSelectElement).value;
+    this.pageSize = Number(selectedPageSize);
+    this.previousKeys = [];
+    this.getAllIssues(null); // Call getAllUserData refresh the data with the new page size
+  }
+
   onSort(sort: Sort): void {
 
     if (sort.active === 'date') {
-      this.lastKey = "";
-      this.pageSize = 25;
+      // this.lastKey = "";
+      // this.pageSize = 25;
       this.sortOrder = this.sortOrder === 'ascending' ? 'descending' : 'ascending';
       sort.direction === 'asc' ? 'ascending' : 'descending';
       this.sort.direction = sort.direction;
-      // Call API with the new sort direction
-      this.getAllIssues();
+
+      // Use the previous lastKey if available; otherwise, start fresh
+      const keyToUse = this.getKeyForCurrentPage();
+      // Call API to get data with the new sort direction
+      this.getAllIssues(keyToUse);
     }
     // debugger
     //     if (sort.active !== this.sortField) {
@@ -261,15 +289,15 @@ export class AdminIssuesComponent {
 
   ngAfterViewInit() {
 
-    // Set paginator and sort for referral table
-    this.candidatesDataSource.paginator = this.referralPaginator;
+    // // Set paginator and sort for referral table
+    // this.candidatesDataSource.paginator = this.referralPaginator;
 
-    this.referralPaginator.page.subscribe((event: PageEvent) => {
-      if (event.pageSize !== this.pageSize) {
-        this.pageSize = event.pageSize;
-        this.getAllIssues(); // Call getAllReferral with updated pageSize
-      }
-    });
+    // this.referralPaginator.page.subscribe((event: PageEvent) => {
+    //   if (event.pageSize !== this.pageSize) {
+    //     this.pageSize = event.pageSize;
+    //     this.getAllIssues(); // Call getAllReferral with updated pageSize
+    //   }
+    // });
 
   }
 
@@ -278,8 +306,8 @@ export class AdminIssuesComponent {
 
 
     if (this.searchQuery.length >= 3) {
-      this.pageSize = "";
-      this.lastKey = "";
+      // this.pageSize = "";
+      // this.lastKey = "";
       this.searchTerms.next(this.searchQuery);
     } else if (this.searchQuery.length <= 0) {
       this.clearSearchInput()
@@ -290,27 +318,30 @@ export class AdminIssuesComponent {
 
   onSearchInputEnter(event: KeyboardEvent): void {
     if (event.key === 'Enter') { // Checking if the pressed key is Enter
-      this.pageSize = 25;
-      this.lastKey = "";
-      this.sortOrder = '';
-      this.fromDate = '';
-      this.toDate = '';
+      // this.pageSize = 25;
+      // this.lastKey = "";
+      // this.sortOrder = '';
+      // this.fromDate = '';
+      // this.toDate = '';
       this.searchTerms.next(this.searchQuery);
     }
   }
 
   clearSearchInput() {
 
-    this.referralPaginator.pageIndex = 0;  // Reset to the first page
-    this.pageSize = 25;                    // Set the pageSize to 25
-    this.referralPaginator.pageSize = 25;  // Update the UI's pageSize
-    this.lastKey = "";
-    this.sortOrder = '';
-    this.fromDate = this.fromDate,
-      this.toDate = this.toDate,
-      this.searchTerm = ""
+    // this.referralPaginator.pageIndex = 0;  // Reset to the first page
+    // this.pageSize = 25;                    // Set the pageSize to 25
+    // this.referralPaginator.pageSize = 25;  // Update the UI's pageSize
+    // this.lastKey = "";
+    // this.sortOrder = '';
+    // this.fromDate = this.fromDate,
+    // this.toDate = this.toDate,
+    this.searchTerm = "";
     this.searchQuery = "";
-    this.getAllIssues();
+
+    // Use the previous lastKey if available; otherwise, start fresh
+    const keyToUse = this.getKeyForCurrentPage();
+    this.getAllIssues(keyToUse);
 
 
     //   input.value = ''; // Clear the input value
@@ -321,9 +352,40 @@ export class AdminIssuesComponent {
     // }
   }
 
+  onNext() {
+    if (!this.hasNext) return;
 
+    // Store the current lastKey in the stack before moving forward
+    if (this.currentLastKey) {
+      this.previousKeys.push(this.currentLastKey);
+    }
 
+    // Fetch the next page
+    this.getAllIssues(this.currentLastKey);
+  }
 
+  onPrevious() {
+    if (!this.hasPrevious) return;
+
+    // Retrieve the second-to-last key in the stack, which corresponds to the last key used for the previous page
+    const previousLastKey = this.previousKeys.length > 1 ? this.previousKeys[this.previousKeys.length - 2] : null;
+
+    // Remove the current page's lastKey from the stack
+    this.previousKeys.pop();
+
+    if (!previousLastKey) {
+      // If no valid previous key, fetch the first page
+      this.getAllIssues(null);
+    } else {
+      // Fetch the previous page using the second-to-last key
+      this.getAllIssues(previousLastKey);
+    }
+  }
+
+  private getKeyForCurrentPage(): string | null {
+    // Return the last key from the stack or null if the stack is empty
+    return this.previousKeys.length > 0 ? this.previousKeys[this.previousKeys.length - 1] : null;
+  }
 
   async viewRow(issuesDatas: any) {
     this.spinner.show()

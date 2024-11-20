@@ -1,15 +1,16 @@
-.dropdown-item:hover{
-    background-color: #3A85D9;
+.dropdown-item:hover {
+  background-color: #3A85D9;
 }
 
 .mat-mdc-form-field:not(.mat-form-field-no-animations) .mdc-text-field__input {
-    font-size: medium;
+  font-size: medium;
 }
 
 .id-container {
   display: flex;
   align-items: center;
-  max-width: 100px; /* Adjust this width as needed */
+  max-width: 100px;
+  /* Adjust this width as needed */
 }
 
 .text-overflow {
@@ -21,9 +22,11 @@
 
 .copy-icon {
   cursor: pointer;
-  flex-shrink: 0; /* Prevents the icon from shrinking */
+  flex-shrink: 0;
+  /* Prevents the icon from shrinking */
   margin-left: 8px;
 }
+
 // .mat-icon{
 //   height: 24px;
 //     width: 78px;
@@ -32,6 +35,7 @@
   color: red;
   font-weight: bold;
 }
+
 .details-box {
   padding: 16px;
   margin-top: 10px;
@@ -47,7 +51,8 @@
   font-size: 14px;
   color: #FFF;
   font-weight: 900;
-  text-align: left; /* Ensure labels are left-aligned */
+  text-align: left;
+  /* Ensure labels are left-aligned */
 }
 
 .form-detail {
@@ -57,21 +62,30 @@
 }
 
 .form-row {
-  margin-bottom: 12px; /* Space between rows */
+  margin-bottom: 12px;
+  /* Space between rows */
 }
 
 
 
-  // .selector {
-  //   width:140px;
-  // }
+// .selector {
+//   width:140px;
+// }
 
-  .disabled-background {
-    background-color: #f0f0f0; /* Light gray background */
-    cursor: not-allowed; /* Change cursor to indicate disabled state */
-    opacity: 0.6; /* Optional: Make the element slightly transparent */
-  }
-  
-  
-  
- 
+.disabled-background {
+  background-color: #f0f0f0;
+  /* Light gray background */
+  cursor: not-allowed;
+  /* Change cursor to indicate disabled state */
+  opacity: 0.6;
+  /* Optional: Make the element slightly transparent */
+}
+
+/* Dropdown options */
+.styled-dropdown option {
+  background-color: transparent !important;
+  /* transparent background */
+  color: black;
+  /* black text for options */
+  font-size: 16px;
+}

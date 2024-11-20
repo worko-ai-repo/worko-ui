@@ -59,7 +59,6 @@ export class AdminCandidateComponent implements AfterViewInit {
   nameslist: any[] = [];
   successtitle: string = '';
   successmessage: string = '';
-  pageSize: any = 25;
   lastKey: string | undefined = undefined;
   private searchTerms = new Subject<string>();
   searchTerm: string = '';
@@ -76,7 +75,15 @@ export class AdminCandidateComponent implements AfterViewInit {
   };
   cvUrl: any;
   modalSize: string = 'md';
-  constructor(private router: Router, private adminService: AdminService, private cdr: ChangeDetectorRef,private _liveAnnouncer: LiveAnnouncer, private spinner: NgxSpinnerService) {
+
+  currentLastKey: string | null = null; // The current lastKey for the current page
+  previousKeys: string[] = []; // Stack to store previous lastKeys for "Previous" functionality
+  hasNext: boolean = false; // To enable/disable "Next" button
+  hasPrevious: boolean = false; // To enable/disable "Previous" button
+  pageSize: number = 25; // Default page size
+  pageSizeOptions: number[] = [25, 50, 100, 150];
+
+  constructor(private router: Router, private adminService: AdminService, private cdr: ChangeDetectorRef, private _liveAnnouncer: LiveAnnouncer, private spinner: NgxSpinnerService) {
     this.candidatesDataSource = new MatTableDataSource<UserData>(this.nameslist);
     this.servicesDataSource = new MatTableDataSource<UserData>(this.nameslist);
     this.searchTerms.pipe(
@@ -96,40 +103,47 @@ export class AdminCandidateComponent implements AfterViewInit {
   ngAfterViewInit() {
 
     // Set paginator and sort for referral table
-    this.candidatesDataSource.paginator = this.referralPaginator;
+    // this.candidatesDataSource.paginator = this.referralPaginator;
     // // this.candidatesDataSource.sort = this.referralSort;
     // this.candidatesDataSource.sort = this.sort;
 
-    this.referralPaginator.page.subscribe((event: PageEvent) => {
-      if (event.pageSize !== this.pageSize) {
-        this.pageSize = event.pageSize;
-        this.getAllUserData(); // Call getAllReferral with updated pageSize
-      }
-    });
+    // this.referralPaginator.page.subscribe((event: PageEvent) => {
+    //   if (event.pageSize !== this.pageSize) {
+    //     this.pageSize = event.pageSize;
+    //     this.getAllUserData(null); // Call getAllReferral with updated pageSize
+    //   }
+    // });
 
     // // Set paginator and sort for service table
     // this.servicesDataSource.paginator = this.servicePaginator;
     // this.servicesDataSource.sort = this.serviceSort;
   }
 
-
-
-
-
   async ngOnInit(): Promise<void> {
-
-    this.getAllUserData();
+    this.getAllUserData(null);
   }
-  async getAllUserData() {
+
+  onPageSizeChange(event: Event): void {
+    const selectedPageSize = (event.target as HTMLSelectElement).value;
+    this.pageSize = Number(selectedPageSize);
+    this.previousKeys = [];
+    this.getAllUserData(null); // Call getAllUserData refresh the data with the new page size
+  }
+
+  async getAllUserData(lastKey: string | null) {
     this.spinner.show()
-    await this.adminService.getAllUserData('CAND', this.pageSize, this.lastKey, this.searchTerm, this.sortOrder, this.fromDate, this.toDate).then(async (response: any) => {
+    await this.adminService.getAllUserData('CAND', this.pageSize, lastKey, this.searchTerm, this.sortOrder, this.fromDate, this.toDate).then(async (response: any) => {
       if (response) {
         this.nameslist = response.data;
-        this.lastKey = response.pagination.lastKey;
-        this.pageSize = response.pagination.pageSize;
+        // this.lastKey = response.pagination.lastKey;
+        // this.pageSize = response.pagination.pageSize;
         //  await  this.sortCandidatesByDate('desc'); // Sort it in descending order when the component initializes
-        //console.log("Issue list:", this.issueList);
         this.updateData(this.nameslist);
+
+        this.pageSize = response.pagination.pageSize;
+        this.currentLastKey = response.pagination.lastKey || null;
+        this.hasNext = !!response.pagination.lastKey;
+        this.hasPrevious = this.previousKeys.length > 0;
       }
     }).catch((error: any) => {
       console.log(error)
@@ -141,7 +155,7 @@ export class AdminCandidateComponent implements AfterViewInit {
 
         this.router.navigate(['/']);
       } else {
-         this.modalSize = 'md'
+        this.modalSize = 'md'
         this.successmessage = "Something went wrong. Please try again after sometime"
         this.successtitle = "Error"
         this.openModal(ModalType.SUCCESS_ERROR_MESSAGE)
@@ -151,18 +165,19 @@ export class AdminCandidateComponent implements AfterViewInit {
   updateData(newData: UserData[]) {
     this.spinner.hide()
     this.candidatesDataSource.data = newData;
-    if (this.referralPaginator) {
-      this.referralPaginator.firstPage();
-    }
-
+    // if (this.referralPaginator) {
+    //   this.referralPaginator.firstPage();
+    // }
   }
   callApiWithSearchQuery(query: string): void {
-    this.pageSize = "";
-    this.lastKey = "";
+    // this.pageSize = "";
+    // this.lastKey = "";
 
     this.searchTerm = query; // Setting here encoded query to filterData
-    // console.log(this.sortOrder,this.fromDate,this.toDate,this.searchTerm)
-    this.getAllUserData();
+
+    // Use the previous lastKey if available; otherwise, start fresh
+    const keyToUse = this.getKeyForCurrentPage();
+    this.getAllUserData(keyToUse);
 
   }
 
@@ -171,11 +186,11 @@ export class AdminCandidateComponent implements AfterViewInit {
 
 
     if (this.searchQuery.length >= 3) {
-      this.pageSize = "";
-      this.lastKey = "";
+      // this.pageSize = "";
+      // this.lastKey = "";
       this.searchTerms.next(this.searchQuery);
     } else if (this.searchQuery.length <= 0) {
-      this.clearSearchInput()
+      this.clearSearchInput();
     }
 
 
@@ -183,21 +198,24 @@ export class AdminCandidateComponent implements AfterViewInit {
 
   onSearchInputEnter(event: KeyboardEvent): void {
     if (event.key === 'Enter') { // Checking if the pressed key is Enter
-      this.pageSize = 25;
-      this.lastKey = "";
+      // this.pageSize = 25;
+      // this.lastKey = "";
       this.searchTerms.next(this.searchQuery);
     }
   }
 
   clearSearchInput() {
 
-    this.referralPaginator.pageIndex = 0;  // Reset to the first page
-    this.pageSize = 25;                    // Set the pageSize to 25
-    this.referralPaginator.pageSize = 25;  // Update the UI's pageSize
-    this.lastKey = "";
+    // this.referralPaginator.pageIndex = 0;  // Reset to the first page
+    // this.pageSize = 25;                    // Set the pageSize to 25
+    // this.referralPaginator.pageSize = 25;  // Update the UI's pageSize
+    // this.lastKey = "";
     this.searchTerm = ""
     this.searchQuery = "";
-    this.getAllUserData();
+
+    // Use the previous lastKey if available; otherwise, start fresh
+    const keyToUse = this.getKeyForCurrentPage();
+    this.getAllUserData(keyToUse);
   }
 
   applyFromDateFilters() {
@@ -211,8 +229,11 @@ export class AdminCandidateComponent implements AfterViewInit {
     } else {
       this.fromDate = "";
     }
-    this.initializeData();
-    this.getAllUserData();
+    // this.initializeData();
+
+    // Use the previous lastKey if available; otherwise, start fresh
+    const keyToUse = this.getKeyForCurrentPage();
+    this.getAllUserData(keyToUse);
   }
 
 
@@ -232,8 +253,10 @@ export class AdminCandidateComponent implements AfterViewInit {
     } else {
       this.toDate = "";
     }
-    this.initializeData();
-    this.getAllUserData();
+    // this.initializeData();
+    // Use the previous lastKey if available; otherwise, start fresh
+    const keyToUse = this.getKeyForCurrentPage();
+    this.getAllUserData(keyToUse);
   }
 
   initializeData() {
@@ -248,30 +271,71 @@ export class AdminCandidateComponent implements AfterViewInit {
   resetDatePickers() {
     this.filterModel.fromDate = null;
     this.filterModel.toDate = null;
-    this.pageSize = 25;
-    this.lastKey = "";
-    this.sortOrder = '';
+    // this.pageSize = 25;
+    // this.lastKey = "";
+    // this.sortOrder = '';
     this.fromDate = "",
       this.toDate = "",
       this.searchTerm = ""
     this.searchQuery = "";
-    this.referralPaginator.pageIndex = 0;  // Reset to the first page
-    this.referralPaginator.pageSize = 25;  // Update the UI's pageSize
-    this.getAllUserData();
+    // this.referralPaginator.pageIndex = 0;  // Reset to the first page
+    // this.referralPaginator.pageSize = 25;  // Update the UI's pageSize
+
+    // Use the previous lastKey if available; otherwise, start fresh
+    const keyToUse = this.getKeyForCurrentPage();
+    this.getAllUserData(keyToUse);
   }
 
   //backend sorting code
   onSort(sort: Sort): void {
 
     if (sort.active === 'accountcreateddate') {
-      this.lastKey = "";
-      this.pageSize = 25;
+      // this.lastKey = "";
+      // this.pageSize = 25;
       this.sortOrder = this.sortOrder === 'ascending' ? 'descending' : 'ascending';
       sort.direction === 'asc' ? 'ascending' : 'descending';
       this.sort.direction = sort.direction;
-      // Call API with the new sort direction
-      this.getAllUserData();
+
+      // Use the previous lastKey if available; otherwise, start fresh
+      const keyToUse = this.getKeyForCurrentPage();
+      // Call API to get data with the new sort direction
+      this.getAllUserData(keyToUse);
     }
+  }
+
+  onNext() {
+    if (!this.hasNext) return;
+
+    // Store the current lastKey in the stack before moving forward
+    if (this.currentLastKey) {
+      this.previousKeys.push(this.currentLastKey);
+    }
+
+    // Fetch the next page
+    this.getAllUserData(this.currentLastKey);
+  }
+
+  onPrevious() {
+    if (!this.hasPrevious) return;
+
+    // Retrieve the second-to-last key in the stack, which corresponds to the last key used for the previous page
+    const previousLastKey = this.previousKeys.length > 1 ? this.previousKeys[this.previousKeys.length - 2] : null;
+
+    // Remove the current page's lastKey from the stack
+    this.previousKeys.pop();
+
+    if (!previousLastKey) {
+      // If no valid previous key, fetch the first page
+      this.getAllUserData(null);
+    } else {
+      // Fetch the previous page using the second-to-last key
+      this.getAllUserData(previousLastKey);
+    }
+  }
+
+  private getKeyForCurrentPage(): string | null {
+    // Return the last key from the stack or null if the stack is empty
+    return this.previousKeys.length > 0 ? this.previousKeys[this.previousKeys.length - 1] : null;
   }
 
   //frontend sorting code
@@ -311,7 +375,7 @@ export class AdminCandidateComponent implements AfterViewInit {
       // if(response && response.length > 0){
       this.spinner.hide()
       this.userSubscription = response
-      this.userData=userData
+      this.userData = userData
       if (userData.isCandidateFresher !== undefined && userData.isCandidateFresher) {
         this.status = "Yes";
       } else if (userData.isCandidateFresher !== undefined && !userData.isCandidateFresher) {
@@ -332,7 +396,7 @@ export class AdminCandidateComponent implements AfterViewInit {
       await this.getCVUrl()
 
 
-      
+
 
 
     }).catch((error: any) => {
@@ -354,33 +418,33 @@ export class AdminCandidateComponent implements AfterViewInit {
 
 
   }
-  async getCVUrl(){
+  async getCVUrl() {
     this.spinner.show()
-    if(this.userData.CV && this.userData.id){
-    await this.adminService.getCVUrl(this.userData.id,this.userData.CV).then(async (response: any) => {
-      this.spinner.hide()
-      this.cvUrl=response.objectUrl;
-      this.openModal(ModalType.ADMINDETAIL_POPUP, "", "", this.userData, this.userSubscription, this.status);
-
-    }).catch((error: any) => {
-      this.spinner.hide()
-      if (error.status == 404) {
+    if (this.userData.CV && this.userData.id) {
+      await this.adminService.getCVUrl(this.userData.id, this.userData.CV).then(async (response: any) => {
         this.spinner.hide()
-        this.router.navigate(['/auth/logout']);
-      } else if (error.status == 401) {
+        this.cvUrl = response.objectUrl;
+        this.openModal(ModalType.ADMINDETAIL_POPUP, "", "", this.userData, this.userSubscription, this.status);
 
-        this.router.navigate(['/']);
-      } else {
-         this.modalSize = 'md'
-        this.successmessage = "Something went wrong. Please try again after sometime"
-        this.successtitle = "Error"
-        this.openModal(ModalType.SUCCESS_ERROR_MESSAGE)
-      }
-    });
-  }else{
-    this.spinner.hide()
-    this.openModal(ModalType.ADMINDETAIL_POPUP, "", "", this.userData, this.userSubscription, this.status);
-  }
+      }).catch((error: any) => {
+        this.spinner.hide()
+        if (error.status == 404) {
+          this.spinner.hide()
+          this.router.navigate(['/auth/logout']);
+        } else if (error.status == 401) {
+
+          this.router.navigate(['/']);
+        } else {
+          this.modalSize = 'md'
+          this.successmessage = "Something went wrong. Please try again after sometime"
+          this.successtitle = "Error"
+          this.openModal(ModalType.SUCCESS_ERROR_MESSAGE)
+        }
+      });
+    } else {
+      this.spinner.hide()
+      this.openModal(ModalType.ADMINDETAIL_POPUP, "", "", this.userData, this.userSubscription, this.status);
+    }
 
 
   }

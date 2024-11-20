@@ -49,7 +49,8 @@
   font-size: 14px;
   color: #FFF;
   font-weight: 900;
-  text-align: left; /* Ensure labels are left-aligned */
+  text-align: left;
+  /* Ensure labels are left-aligned */
 }
 
 .form-detail {
@@ -58,7 +59,8 @@
 }
 
 .form-row {
-  margin-bottom: 12px; /* Space between rows */
+  margin-bottom: 12px;
+  /* Space between rows */
 }
 
 // .custom-clear-button {
@@ -74,3 +76,11 @@
   font-size: medium;
 }
 
+/* Dropdown options */
+.styled-dropdown option {
+    background-color: transparent !important;
+    /* transparent background */
+    color: black;
+    /* black text for options */
+    font-size: 16px;
+}
