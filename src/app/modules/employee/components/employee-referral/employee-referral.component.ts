@@ -60,8 +60,9 @@ export class EmployeeReferralComponent implements OnDestroy {
   lastKey: string = "";
   loadedOnce: boolean = false;
   isNoLoadData: boolean = false;
-  count!: number;
-  pageSize!: number;
+  count: number = 0;
+  pageSize: number = 0;
+
 
   constructor(private candidateSrv: CandidateProfileService, private empService: EmployeeProfileService, private storage: StorageService, private spinner: NgxSpinnerService, private router: Router, private stateService: StateService, private chatService: ChatService) { }
   ngOnDestroy(): void {
@@ -97,7 +98,7 @@ export class EmployeeReferralComponent implements OnDestroy {
 
   onScrollToBottom() {
     if ((this.lastKey && this.loadedOnce) && !this.isNoLoadData) {
-      this.getEmpReferral();
+      this.getEmpReferral(true);
     }
   }
 
@@ -227,7 +228,15 @@ export class EmployeeReferralComponent implements OnDestroy {
 
 
 
-  async getEmpReferral() {
+  async getEmpReferral(isScrollToBottom: boolean = false) {
+    if (!isScrollToBottom) {
+      this.lastKey = "";
+      this.loadedOnce = false;
+      this.isNoLoadData = false;
+      this.count = 0;
+      this.pageSize = 0;
+    }
+
     this.spinner.show();
     // let companySK = "01HMR3G2QNYYM47YZ2P9ZVZBPR";
     let companyId = this.currentCompanyId;
@@ -239,14 +248,15 @@ export class EmployeeReferralComponent implements OnDestroy {
         if (!this.loadedOnce) {
           this.empReferralList = [];
         }
-        if (response.length > 0) {
-          response.forEach((element: any, index: any) => {
-            if (Array.isArray(element)) {
-              response[index] = element[0];
-            }
-          });
-        }
+        // if (response.length > 0) {
+        //   response.forEach((element: any, index: any) => {
+        //     if (Array.isArray(element)) {
+        //       response[index] = element[0];
+        //     }
+        //   });
+        // }
         // this.empReferralList = response.data;
+
         this.empReferralList = this.empReferralList.concat(response.data);
         this.loadedOnce = true;
         this.lastKey = response.pagination.lastKey;

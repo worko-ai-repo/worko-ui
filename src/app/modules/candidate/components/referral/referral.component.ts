@@ -36,10 +36,10 @@ export class ReferralComponent implements OnInit {
   statusItem: { name: string; status: string; date: any; }[] = [];
 
   loadedOnce: boolean = false;
-  lastKey: string = "";
-  count!: number;
-  pageSize!: number;
   isNoLoadData: boolean = false;
+  lastKey: string = "";
+  count: number = 0;
+  pageSize: number = 0;
 
   constructor(private candidateSrv: CandidateProfileService, private router: Router, private storage: StorageService, private spinner: NgxSpinnerService) { }
   isAwaitingVisible!: boolean;
@@ -102,51 +102,60 @@ export class ReferralComponent implements OnInit {
 
   onScrollToBottom() {
     if ((this.lastKey && this.loadedOnce) && !this.isNoLoadData) {
-      this.getReferral();
+      this.getReferral(true);
     }
   }
 
-  async getReferral() {
-      this.spinner.show();
-      const selectedStatus = this.selectedStatus === 'REFERRED' ? 'DONE' : this.selectedStatus;
-      await this.candidateSrv.getReferral(this.emailAddress, selectedStatus, this.lastKey).then(async (response) => {
-        if (response) {
-          this.spinner.hide();
-          if (!this.loadedOnce) {
-            this.referralList = [];
-          }
-          this.referralList = this.referralList.concat(response.data);
-          this.loadedOnce = true;
-          // console.log("response structure is",response);
-          this.lastKey = response.pagination.lastKey;
-          // console.log("laskey here is", this.lastKey);
-          this.count = response.pagination.count;
-          this.pageSize = response.pagination.pageSize;
+  async getReferral(isScrollToBottom: boolean = false) {
 
-          this.referralList.sort((a: any, b: any) => a.updatedAt < b.updatedAt ? 1 : -1);
+    if (!isScrollToBottom) {
+      this.lastKey = "";
+      this.loadedOnce = false;
+      this.isNoLoadData = false;
+      this.count = 0;
+      this.pageSize = 0;
+    }
 
-          if (this.count < this.pageSize) { //check to pervent multiple api call
-            this.isNoLoadData = true;
-          }
-          if (this.screenWidth <= 1251) {
-            this.isAwaitingVisible = true;
-            this.isMainContentVisible = false;
-          }
-
-          // this.getRefereeDetials(response.accc);
-        }
-      }).catch((error: any) => {
-        if (error.status == 404) {
-          this.spinner.hide()
-          this.router.navigate(['/auth/logout']);
-        } else if (error.status == 401) {
-          this.storage.set('redirectAfterLogin', '/candidate/referral');
-          this.router.navigate(['/']);
-        }
+    this.spinner.show();
+    const selectedStatus = this.selectedStatus === 'REFERRED' ? 'DONE' : this.selectedStatus;
+    await this.candidateSrv.getReferral(this.emailAddress, selectedStatus, this.lastKey).then(async (response) => {
+      if (response) {
         this.spinner.hide();
-        this.referralList = [];
+        if (!this.loadedOnce) {
+          this.referralList = [];
+        }
+        this.referralList = this.referralList.concat(response.data);
+        this.loadedOnce = true;
+        // console.log("response structure is",response);
+        this.lastKey = response.pagination.lastKey;
+        // console.log("laskey here is", this.lastKey);
+        this.count = response.pagination.count;
+        this.pageSize = response.pagination.pageSize;
+
+        this.referralList.sort((a: any, b: any) => a.updatedAt < b.updatedAt ? 1 : -1);
+
+        if (this.count < this.pageSize) { //check to pervent multiple api call
+          this.isNoLoadData = true;
+        }
+        if (this.screenWidth <= 1251) {
+          this.isAwaitingVisible = true;
+          this.isMainContentVisible = false;
+        }
+
+        // this.getRefereeDetials(response.accc);
       }
-      );
+    }).catch((error: any) => {
+      if (error.status == 404) {
+        this.spinner.hide()
+        this.router.navigate(['/auth/logout']);
+      } else if (error.status == 401) {
+        this.storage.set('redirectAfterLogin', '/candidate/referral');
+        this.router.navigate(['/']);
+      }
+      this.spinner.hide();
+      this.referralList = [];
+    }
+    );
   }
 
   async getRefereeDetials(data: any) {
