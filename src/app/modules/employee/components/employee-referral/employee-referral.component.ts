@@ -5,7 +5,7 @@ import { CandidateProfileService } from 'src/app/modules/candidate/services/cand
 import { ModalType } from 'src/app/modules/shared/interfaces/shared.interface';
 import { ModalComponent } from 'src/app/modules/shared/components/modal/modal.component';
 import { NgxSpinnerService } from 'ngx-spinner';
-import { Router } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { StateService } from '../../services/state.service';
 import { ChatService } from 'src/app/modules/services/chat.service';
 @Component({
@@ -63,14 +63,15 @@ export class EmployeeReferralComponent implements OnDestroy {
   count: number = 0;
   pageSize: number = 0;
 
+  status: string = '';
 
-  constructor(private candidateSrv: CandidateProfileService, private empService: EmployeeProfileService, private storage: StorageService, private spinner: NgxSpinnerService, private router: Router, private stateService: StateService, private chatService: ChatService) { }
+  constructor(private candidateSrv: CandidateProfileService, private empService: EmployeeProfileService, private storage: StorageService, private spinner: NgxSpinnerService, private router: Router, private stateService: StateService, private chatService: ChatService, private route: ActivatedRoute) { }
   ngOnDestroy(): void {
     this.closeModal();
 
   }
 
-  ngOnInit(): void {
+  async ngOnInit(): Promise<void> {
     this.screenWidth = window.innerWidth;
     this.performFunctionalityBasedOnScreenSize();
     this.previousScreenWidth = this.screenWidth;
@@ -79,7 +80,19 @@ export class EmployeeReferralComponent implements OnDestroy {
     this.userName = this.storage.get("userName");
     // this.currentCompanySK = this.storage.get("currentCompanySK");
     this.currentCompanyId = this.storage.get("currentCompanyId");
-    this.getWorkExperienceDetails();
+    // this.getWorkExperienceDetails(); Previous code before the referral submenu
+
+    // Wait for work experience details before proceeding (New code implmentation after referral substatus added)
+    await this.getWorkExperienceDetails();
+
+    // Only proceed if popupStatus is true after the API call
+    if(this.popupStatus) {
+      this.route.paramMap.subscribe(params => {
+        this.status = params.get('status') || 'Awaiting'; // Default to 'Awaiting' if no status
+        this.onStatusSelected(this.status.toUpperCase());
+      });
+    }
+    
     // this.getCandidateDetails();
     // this.getEmpReferralDetails();
 
@@ -132,7 +145,7 @@ export class EmployeeReferralComponent implements OnDestroy {
           if (element?.isCurrent == true && element?.isEmailVerified) {
             this.currentCompanyId = element?.companyId; //extra line to re-assure that the companyId value should not be null
             // this.getEmpReferral(); //commented mutiple times same API call
-            this.onStatusSelected('AWAITING');
+            // this.onStatusSelected('AWAITING'); Previous code before the referral submenu feature
             this.popupStatus = true;
           }
         });

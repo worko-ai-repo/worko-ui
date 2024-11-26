@@ -72,8 +72,19 @@ export const routes: Routes = [
       },
       {
         path: 'referral',
-        component: ReferralComponent,canActivate:[AuthRouteGuardService]
-       
+        canActivate: [AuthRouteGuardService],
+        children: [
+          {
+            path: '',
+            redirectTo: 'awaiting', // Redirect to "awaiting" by default
+            pathMatch: 'full'
+          },
+          {
+            path: ':status', // Handle dynamic statuses
+            component: ReferralComponent,
+            canActivate: [AuthRouteGuardService]
+          }
+        ]
       },
       {
         path: 'service',

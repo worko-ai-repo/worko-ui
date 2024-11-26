@@ -49,6 +49,7 @@
   }
   .nav-link-text{
     color: #999999;
+    font-size: 15px;
   }
   .active-navbar svg {
     fill: #FFFFFF !important; 
@@ -199,7 +200,7 @@ input[type="checkbox"],
   justify-content: flex-start;
   align-items: center;
   padding-left: 3%;
-  max-height: 525px;
+  // max-height: 525px;
   max-width: 300px;
 }
 
@@ -216,3 +217,53 @@ input[type="checkbox"],
   }
 }
 }
+
+.left-space {
+  padding-left: 3px;
+  font-size: 14px;
+}
+
+.sub-menu {
+  list-style: none;
+}
+
+.sub-menu li {
+  display: flex; /* Flex for icon and text alignment */
+  align-items: center; /* Vertically align icon and text */
+}
+
+.sub-menu li a {
+  color: #999999; /* Default color for submenu links */
+  text-decoration: none;
+  display: inline-block;
+  padding: 2px 0;
+  font-size: 14px;
+  transition: all 0.2s ease;
+}
+
+.sub-menu li a.active-link {
+  color: #FFF; /* White color for the active link */
+}
+
+.sub-menu li a:hover {
+  color: #FFF; /* Hover color */
+  background-color: #142E48;
+  transform: translateX(5px);
+}
+
+
+/* When submenu is visible */
+.sub-menu.ng-animate {
+  max-height: 300px;
+  opacity: 1;
+}
+
+/* Chevron rotation */
+.fas.fa-chevron-right {
+  transition: transform 0.3s ease;
+}
+
+.fas.fa-chevron-right.rotated {
+  transform: rotate(90deg);
+}
+

@@ -1,7 +1,7 @@
 import { Component, EventEmitter, Input, Output } from '@angular/core';
 import { NavigationEnd, Router } from '@angular/router';
 import { signOut } from '@aws-amplify/auth';
-import { filter } from 'rxjs';
+import { filter, Subject, takeUntil } from 'rxjs';
 import { StorageService } from 'src/app/modules/app-core/services/storage.service';
 
 import { CognitoService } from 'src/app/modules/services/cognito.service';
@@ -26,6 +26,8 @@ export class UserMenubarComponent {
   menuItems: any;
   adminUserType: any;
   isNotAdminDashboard!: boolean;
+  isReferralSubmenuOpen: boolean = false;
+  private destroy$ = new Subject<void>(); // Subject for managing unsubscription
   /**
    * SidebarComponent constructor.
    *
@@ -39,6 +41,19 @@ export class UserMenubarComponent {
 
     this.checkRoute();
 
+    // Check the initial state on load
+    this.updateReferralSubmenuState();
+
+    // Listen for route changes to update the submenu state
+    this.router.events
+      .pipe(
+        filter((event) => event instanceof NavigationEnd), // Only handle navigation completions
+        takeUntil(this.destroy$)
+      )
+      .subscribe(() => {
+        this.updateReferralSubmenuState();
+      });
+
 
     if (this.userType == "Candidate") {
       this.menuItems = [
@@ -49,6 +64,14 @@ export class UserMenubarComponent {
         {
           name: 'Referral',
           router: "candidate/referral",
+          submenu: [
+            { name: 'Awaiting', router: '/candidate/referral/awaiting' },
+            { name: 'Accepted', router: '/candidate/referral/accepted' },
+            { name: 'Rejected', router: '/candidate/referral/rejected' },
+            { name: 'Cancelled', router: '/candidate/referral/cancelled' },
+            { name: 'Withdrawn', router: '/candidate/referral/withdrawn' },
+            { name: 'Referred', router: '/candidate/referral/referred' },
+          ]
         },
         {
           name: 'Service',
@@ -79,7 +102,14 @@ export class UserMenubarComponent {
         },
         {
           name: 'Referral request',
-          router: "employee/Referral"
+          router: "employee/Referral",
+          submenu: [
+            { name: 'Awaiting', router: '/employee/Referral/awaiting' },
+            { name: 'Accepted', router: '/employee/Referral/accepted' },
+            { name: 'Rejected', router: '/employee/Referral/rejected' },
+            { name: 'Cancelled', router: '/employee/Referral/cancelled' },
+            { name: 'Referred', router: '/employee/Referral/referred' },
+          ]
         },
         {
           name: 'Service request',
@@ -159,6 +189,13 @@ export class UserMenubarComponent {
     this.isNotAdminDashboard = !this.router.url.includes('admin');
   }
 
+  private updateReferralSubmenuState(): void {
+    const currentUrl = this.router.url.toLowerCase();
+    this.isReferralSubmenuOpen =
+      currentUrl.startsWith('/candidate/referral/') ||
+      currentUrl.startsWith('/employee/referral/');
+  }
+
   /**
    * Toggle sidebar.
    *
@@ -195,5 +232,43 @@ export class UserMenubarComponent {
     this.router.navigateByUrl('/company');
 
   }
+
+  toggleSubmenu(menu: any): void {
+    if (menu.name === 'Referral' && this.isNotAdminDashboard) {
+      this.isReferralSubmenuOpen = !this.isReferralSubmenuOpen;
+    }
+    else {
+      this.isReferralSubmenuOpen = false;
+    }
+
+    // console.log(menu.submenu);
+    // console.log(this.isReferralSubmenuOpen)
+  }
+
+  getIcon(name: string): string {
+    switch (name.toLowerCase()) {
+      case 'awaiting':
+        return 'fas fa-clock'; // Icon for 'Awaiting'
+      case 'accepted':
+        return 'fas fa-check-circle'; // Icon for 'Accepted'
+      case 'rejected':
+        return 'fas fa-times-circle'; // Icon for 'Rejected'
+      case 'cancelled':
+        return 'fas fa-ban'; // Icon for 'Cancelled'
+      case 'withdrawn':
+        return 'fas fa-undo'; // Icon for 'Withdrawn'
+      case 'referred':
+        return 'fas fa-user-plus'; // Icon for 'Referred'
+      default:
+        return 'fas fa-circle'; // Default icon
+    }
+  }
+
+  ngOnDestroy(): void {
+    // Complete the destroy$ subject to clean up subscriptions
+    this.destroy$.next();
+    this.destroy$.complete();
+  }
+  
 
 }

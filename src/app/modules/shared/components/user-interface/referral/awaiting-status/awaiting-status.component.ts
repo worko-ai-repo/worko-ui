@@ -8,8 +8,9 @@ export class AwaitingStatusComponent implements OnChanges, OnInit, AfterViewInit
 
   @Input() screenWidth: any;
   @Input() userType: any;
-  @Output() statusSelected = new EventEmitter<string>();
+  @Input() selectedStatus: string = 'Awaiting';
   @Input() referralList: any;
+  @Output() statusSelected = new EventEmitter<string>();
   @Output() showReferralDetails = new EventEmitter<string>();
   @Output() scrolledToBottom = new EventEmitter<any>();
   @ViewChild('sentinel') sentinelElement!: ElementRef; // Reference to the sentinel element that triggers bottom scroll detection
@@ -18,7 +19,6 @@ export class AwaitingStatusComponent implements OnChanges, OnInit, AfterViewInit
   private observer!: IntersectionObserver; // IntersectionObserver instance for detecting scroll-to-bottom
   private isInitialLoad = true; // Flag to ignore the first trigger of intersection observer
 
-  selectedStatus: string = 'Awaiting';
   selectedReferralSK: any;
   isSmallScreen: boolean = false;
   @HostListener('window:resize', ['$event'])
@@ -53,7 +53,6 @@ export class AwaitingStatusComponent implements OnChanges, OnInit, AfterViewInit
   onSelectStatus(status: string): void {
     this.selectedStatus = status;
     this.statusSelected.emit(status);
-
   }
 
   ngOnChanges(): void {

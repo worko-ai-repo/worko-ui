@@ -6,7 +6,7 @@ import { StorageService } from 'src/app/modules/app-core/services/storage.servic
 import { NgxSpinnerService } from 'ngx-spinner';
 import { ModalType } from 'src/app/modules/shared/interfaces/shared.interface';
 import { ModalComponent } from 'src/app/modules/shared/components/modal/modal.component';
-import { Router } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 
 @Component({
   selector: 'app-referral',
@@ -41,14 +41,16 @@ export class ReferralComponent implements OnInit {
   count: number = 0;
   pageSize: number = 0;
 
-  constructor(private candidateSrv: CandidateProfileService, private router: Router, private storage: StorageService, private spinner: NgxSpinnerService) { }
+  constructor(private candidateSrv: CandidateProfileService, private router: Router, private storage: StorageService, private spinner: NgxSpinnerService, private route: ActivatedRoute) { }
   isAwaitingVisible!: boolean;
   // isStepperVisible = true;
   isMainContentVisible!: boolean;
   screenWidth!: number;
   previousScreenWidth!: number;
+  status: string = '';
 
   ngOnInit(): void {
+
     this.screenWidth = window.innerWidth;
     this.performFunctionalityBasedOnScreenSize();
     this.previousScreenWidth = this.screenWidth;
@@ -58,7 +60,11 @@ export class ReferralComponent implements OnInit {
     this.userName = this.storage.get("userName");
     // this.getReferral();
 
-    this.onStatusSelected('AWAITING');
+    // this.onStatusSelected('AWAITING'); previous code before the referral submenu feature
+    this.route.paramMap.subscribe(params => {
+      this.status = params.get('status') || 'Awaiting'; // Default to 'Awaiting' if no status
+      this.onStatusSelected(this.status.toUpperCase());
+    });
   }
 
   @HostListener('window:resize', ['$event'])

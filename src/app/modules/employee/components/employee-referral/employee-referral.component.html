@@ -1,7 +1,7 @@
 <div class="row content-container referral-content-container referral-container">
 
     <div class="left-container-content referral-left-container" [ngClass]="{ 'hidden': !isAwaitingVisible}">
-        <app-awaiting-status [userType]="userType" (statusSelected)="onStatusSelected($event)"
+        <app-awaiting-status [userType]="userType" [selectedStatus]="status" (statusSelected)="onStatusSelected($event)"
             [screenWidth]="screenWidth" [referralList]="empReferralList"
             (showReferralDetails)="showReferralDetails($event)" (scrolledToBottom)="onScrollToBottom()"></app-awaiting-status>
     </div>

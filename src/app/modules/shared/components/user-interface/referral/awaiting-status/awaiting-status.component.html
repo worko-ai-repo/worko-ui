@@ -3,13 +3,18 @@
         <div class="d-flex">
             <div class="col-md-6">
                 <div class="dropdown">
-                    <button class="dropdown-toggle text-capitalize" type="button" id="dropdownMenu2"
+                    <button class="text-capitalize" type="button" id="dropdownMenu2"
                         data-bs-toggle="dropdown" aria-expanded="false">
                         {{selectedStatus | uppercase}}
                     </button>
 
+                    <!-- <button class="dropdown-toggle text-capitalize" type="button" id="dropdownMenu2" //Previous code for referral status dropdown starts from here
+                        data-bs-toggle="dropdown" aria-expanded="false">
+                        {{selectedStatus | uppercase}}
+                    </button> -->
 
-                    <ul class="dropdown-menu" aria-labelledby="dropdownMenu2">
+
+                    <!-- <ul class="dropdown-menu" aria-labelledby="dropdownMenu2">
                         <li><button class="dropdown-item" type="button"
                                 (click)="onSelectStatus('AWAITING')">Awaiting</button></li>
                         <li><button class="dropdown-item" type="button"
@@ -23,7 +28,7 @@
                         <li style="border-bottom: none;"><button class="dropdown-item" type="button"
                                 (click)="onSelectStatus('REFERRED')">Referred</button>
                         </li>
-                    </ul>
+                    </ul> -->
                 </div>
 
             </div>

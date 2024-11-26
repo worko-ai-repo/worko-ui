@@ -28,8 +28,8 @@
       </div>
 
       <div class="d-flex service-list" *ngFor="let menu of menuItems">
-        <div class="menu-bar py-2 ">
-          <span class="ms-2 nav-link-text -pointer" routerLink="/{{menu.router}}" routerLinkActive="active-navbar" (click)="toggleMenu($event)">
+        <div class="menu-bar" [ngClass]="{'py-1': isReferralSubmenuOpen, 'py-2': !isReferralSubmenuOpen}">
+          <span class="ms-2 nav-link-text -pointer" routerLink="/{{menu.router}}" routerLinkActive="active-navbar" (click)="toggleSubmenu(menu)">
             <span *ngIf="menu.name === 'Dashboard'">
               <svg xmlns='http://www.w3.org/2000/svg' width='21' height='31' viewBox='0 0 31 31' fill='none'>
                 <path
@@ -201,7 +201,30 @@
                 
             </span>
             {{menu.name}}
+            <span *ngIf="(menu.name === 'Referral' || menu.name === 'Referral request') && isNotAdminDashboard" class="left-space">
+              <i class="fas fa-chevron-right" 
+              [ngClass]="{ 'rotated': isReferralSubmenuOpen }"></i> 
+            </span>
           </span> 
+
+          <ul *ngIf="menu.submenu && isReferralSubmenuOpen" class="sub-menu">
+            <li *ngFor="let item of menu.submenu">
+              <a 
+               [routerLink]="item.router" 
+               [queryParamsHandling]="'preserve'" 
+               routerLinkActive="active-link"
+               [routerLinkActiveOptions]="{ exact: true }">
+               <i [class]="getIcon(item.name)"></i> <!-- Dynamically set the icon -->
+               {{ item.name }}
+              </a>
+            </li>
+          </ul>
+
+          <!-- <ul *ngIf="menu.submenu && isReferralSubmenuOpen" class="sub-menu">
+            <li *ngFor="let item of menu.submenu">
+              <a [routerLink]="['/', menu.router, item.router]" [queryParamsHandling]="'preserve'">{{ item.name }}</a>
+            </li>
+          </ul> -->
           
         </div>
        
@@ -209,7 +232,7 @@
     </div>
   
     <div class="col-md-12 logout-container">
-      <button class="btn-logOut position-fixed bottom-0 mb-5"  (click)="logout()">
+      <button class="btn-logOut position-fixed bottom-0 mb-2"  (click)="logout()">
         Logout
         <span>
           <svg xmlns="http://www.w3.org/2000/svg" width="15" height="21" viewBox="0 0 21 21" fill="none">
