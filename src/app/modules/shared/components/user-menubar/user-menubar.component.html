@@ -29,7 +29,8 @@
 
       <div class="d-flex service-list" *ngFor="let menu of menuItems">
         <div class="menu-bar" [ngClass]="{'py-1': isReferralSubmenuOpen, 'py-2': !isReferralSubmenuOpen}">
-          <span class="ms-2 nav-link-text -pointer" routerLink="/{{menu.router}}" routerLinkActive="active-navbar" (click)="toggleSubmenu(menu)">
+          <span class="ms-2 nav-link-text -pointer" [routerLink]="menu.name !== 'Referral' ? '/' + menu.router : null"
+          routerLinkActive="active-navbar" [class.active-navbar]="menu.name === 'Referral' && isReferralActive()" (click)="toggleSubmenu(menu)">
             <span *ngIf="menu.name === 'Dashboard'">
               <svg xmlns='http://www.w3.org/2000/svg' width='21' height='31' viewBox='0 0 31 31' fill='none'>
                 <path
@@ -213,7 +214,8 @@
                [routerLink]="item.router" 
                [queryParamsHandling]="'preserve'" 
                routerLinkActive="active-link"
-               [routerLinkActiveOptions]="{ exact: true }">
+               [routerLinkActiveOptions]="{ exact: true }"
+               (click)="onSubmenuClick(item.name)">
                <i [class]="getIcon(item.name)"></i> <!-- Dynamically set the icon -->
                {{ item.name }}
               </a>

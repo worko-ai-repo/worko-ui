@@ -1,11 +1,12 @@
 import { Component, EventEmitter, Input, Output } from '@angular/core';
-import { NavigationEnd, Router } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { signOut } from '@aws-amplify/auth';
-import { filter, Subject, takeUntil } from 'rxjs';
 import { StorageService } from 'src/app/modules/app-core/services/storage.service';
 
 import { CognitoService } from 'src/app/modules/services/cognito.service';
+import { takeUntil } from 'rxjs/operators';
 import { environment } from 'src/environments/environment';
+import { Subject } from 'rxjs';
 
 @Component({
   selector: 'app-user-menubar',
@@ -27,13 +28,15 @@ export class UserMenubarComponent {
   adminUserType: any;
   isNotAdminDashboard!: boolean;
   isReferralSubmenuOpen: boolean = false;
-  private destroy$ = new Subject<void>(); // Subject for managing unsubscription
+  currentSubmenuStatus: string | null = null;
+
+  private destroy$ = new Subject<void>();
   /**
    * SidebarComponent constructor.
    *
    * @param {Router} router
    */
-  constructor(private router: Router, private cognitoService: CognitoService, private storage: StorageService) { }
+  constructor(private router: Router, private cognitoService: CognitoService, private storage: StorageService, private route: ActivatedRoute) { }
 
   ngOnInit(): void {
     this.activeRoute = this.router.url;
@@ -45,14 +48,9 @@ export class UserMenubarComponent {
     this.updateReferralSubmenuState();
 
     // Listen for route changes to update the submenu state
-    this.router.events
-      .pipe(
-        filter((event) => event instanceof NavigationEnd), // Only handle navigation completions
-        takeUntil(this.destroy$)
-      )
-      .subscribe(() => {
-        this.updateReferralSubmenuState();
-      });
+    this.route.url.pipe(takeUntil(this.destroy$)).subscribe((segments) => {
+      this.updateReferralSubmenuState();
+    });
 
 
     if (this.userType == "Candidate") {
@@ -234,15 +232,24 @@ export class UserMenubarComponent {
   }
 
   toggleSubmenu(menu: any): void {
-    if (menu.name === 'Referral' && this.isNotAdminDashboard) {
+
+    if ((menu.name === 'Referral' || menu.name === 'Referral request') && this.isNotAdminDashboard) {
+      // Toggle the submenu
       this.isReferralSubmenuOpen = !this.isReferralSubmenuOpen;
+
+      if (this.isReferralSubmenuOpen && !this.currentSubmenuStatus) {
+        this.router.navigate(['/candidate/referral']);
+      }
     }
     else {
       this.isReferralSubmenuOpen = false;
+      this.currentSubmenuStatus = null;
     }
+  }
 
-    // console.log(menu.submenu);
-    // console.log(this.isReferralSubmenuOpen)
+  isReferralActive(): boolean {
+    const currentUrl = this.router.url.toLowerCase();
+    return currentUrl.startsWith('/candidate/referral') || currentUrl.startsWith('/employee/referral');
   }
 
   getIcon(name: string): string {
@@ -264,11 +271,14 @@ export class UserMenubarComponent {
     }
   }
 
+  onSubmenuClick(currentSubmenu: string) {
+    this.currentSubmenuStatus = currentSubmenu.toLowerCase();
+  }
+
   ngOnDestroy(): void {
-    // Complete the destroy$ subject to clean up subscriptions
+    // Notify all subscriptions to complete
     this.destroy$.next();
     this.destroy$.complete();
   }
-  
 
 }
