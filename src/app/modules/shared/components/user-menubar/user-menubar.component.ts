@@ -232,16 +232,22 @@ export class UserMenubarComponent {
   }
 
   toggleSubmenu(menu: any): void {
+    const isReferralMenu = (menu.name === 'Referral' || menu.name === 'Referral request');
 
-    if ((menu.name === 'Referral' || menu.name === 'Referral request') && this.isNotAdminDashboard) {
+    if (isReferralMenu && this.isNotAdminDashboard) {
       // Toggle the submenu
       this.isReferralSubmenuOpen = !this.isReferralSubmenuOpen;
 
+      // Navigate to default route if opening and no current submenu status
       if (this.isReferralSubmenuOpen && !this.currentSubmenuStatus) {
-        this.router.navigate(['/candidate/referral']);
+        const defaultRoute = menu.name === 'Referral request'
+          ? '/employee/Referral'
+          : '/candidate/referral';
+
+        this.router.navigate([defaultRoute]);
       }
-    }
-    else {
+    } else {
+      // Collapse submenu and reset current status
       this.isReferralSubmenuOpen = false;
       this.currentSubmenuStatus = null;
     }
