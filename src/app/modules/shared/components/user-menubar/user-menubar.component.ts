@@ -142,7 +142,7 @@ export class UserMenubarComponent {
           router: "admin/aEmployee"
         },
         {
-          name: 'Referral',
+          name: 'Referrals',
           router: "admin/aReferral"
         },
         {
