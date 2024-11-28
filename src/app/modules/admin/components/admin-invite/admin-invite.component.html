@@ -1,0 +1,94 @@
+<div class="admin-table-main mx-2 ms-3" id="admin-job-main">
+   <div class="tab-content mt-2" id="myTabContent">
+      <div class="candidate-card tab-pane fade show active" id="home" role="tabpanel" aria-labelledby="home-tab">
+         <h5>Invite Listings</h5>
+         <div class="ajobs-filters">
+
+            <span class="aInvites-add">
+               <button class="ps-4 pe-4 btn searchButton">Add Invite</button>
+            </span>
+            <span class="ajobs-search">
+               <input type="text" class="form-control serachInput" placeholder="Search Company" />
+               <button class="ps-4 pe-4 btn searchButton">Reset</button>
+            </span>
+
+         </div>
+         <div class="mat-elevation-z8 table-wrapper">
+            <table class="table-style">
+               <thead>
+                  <tr>
+                     <th>Company Id</th>
+                     <th>Company Name</th>
+                     <th>Name</th>
+                     <th>Email</th>
+                     <th>Access Type</th>
+                     <th>Status</th>
+                     <th>Actions</th>
+                  </tr>
+               </thead>
+               <tbody>
+                  <tr *ngIf="filteredInvites.length === 0">
+                     <!-- For Displaying No Data is present for the searching text -->
+                     <td colspan="7" class="no-jobs-message">{{ noUsersMessage }}</td>
+                  </tr>
+                  <tr *ngFor="let invite of filteredInvites; let i = index">
+                     <td>
+                        <span style="margin-right:30px">{{ invite.id | ellipsis:30 | titlecase }}</span>
+                        <mat-icon style="cursor: pointer; position: absolute; right: 10px;"
+                           (click)="copyToClipboard(invite.id)" matTooltip="Copy to Clipboard"
+                           matTooltipPosition="above">
+                           {{ copiedContextId === invite.id ? 'check' : 'content_copy' }}
+                        </mat-icon>
+                     </td>
+                     <td matTooltip={{invite.companyName}} matTooltipPosition="above" style="cursor: pointer;">{{
+                        invite.companyName | ellipsis:30 | titlecase }}
+                     </td>
+                     <td matTooltip={{invite.name}}>{{ invite.name | ellipsis:30 | titlecase }}
+                     </td>
+                     <td matTooltip={{invite.email}}>{{ invite.email | ellipsis:30 | titlecase }}
+                     </td>
+                     <!-- GetAccessType -->
+                     <td>
+                        <p [ngClass]="getStatusClass(invite.accessType)">{{ invite.accessType}}</p>
+                     </td>
+                     <!-- Get Status -->
+                     <td>
+                        <p [ngClass]="getStatusClass(invite.status)">{{ invite.status}}</p>
+                     </td>
+                     <td>
+                        {{ invite.createdAt | date: 'd MMM yyyy, h:mm a' }}
+                     </td>
+                     <!--  <td id="editbtns">
+                         <span *ngIf="job.status != status.CLOSED" (click)="editJob(job)" matTooltip="Edit" matTooltipPosition="above" style="background:#2716bb;"><i
+                         class="fa-solid fa-pen-to-square"></i></span>
+                         <span *ngIf="job.status !== status.ARCHIVED && selectedStatus !== status.CLOSED" (click)="updateJobStatus(job,'ARCHIVED')" matTooltip="Archive" matTooltipPosition="above" style="background: #ffc107;">
+                         <i class="fa-solid fa-file-arrow-down"></i></span>
+                         <span *ngIf="job.status != status.CLOSED" (click)="updateJobStatus(job,'CLOSED')" matTooltip="Delete" matTooltipPosition="above" style="background: red;">
+                         <i class="fa-solid fa-trash"></i></span>
+                         <span *ngIf="job.status === status.ARCHIVED" (click)="updateJobStatus(job,'PUBLISHED')" matTooltip="Make Publish" matTooltipPosition="above" style="background: #ffc107;">
+                         <i class="fa-solid fa-eye"></i></span>
+                         <span *ngIf="true" (click)="navigateToJobReferral($event,job.companyDetails.name, job.jobTitle,job.id)" matTooltip="Visit" matTooltipPosition="above" style="background: green;">
+                         <i class="fa-solid fa-link"></i></span>
+                         </td>  -->
+                  </tr>
+               </tbody>
+            </table>
+            <!--Pagination-->
+            <mat-paginator #companyJobMatPaginator aria-label="Select page of users" [pageSize]="10"
+               [pageSizeOptions]="[10,25,50,100]" [showFirstLastButtons]="true">
+            </mat-paginator>
+         </div>
+      </div>
+   </div>
+</div>
+
+<!--- This is the container for the common Modal -->
+<app-modal [theme]="'theme-k'" [centered]="true" [showHeader]="showModal === modalType.MESSAGE" [showClose]="true"
+   [showFooter]="showModal === modalType.MESSAGE" [modalSize]="modalSize" [title]="modalTitle" [message]="modalMessage"
+   [bodyClass]="modalMessage ? 'p-4' : 'p-0'">
+
+   <ng-container *ngIf="showModal === modalType.SUCCESS_ERROR_MESSAGE">
+      <app-message-modal [title]="errorTitle" [message]="errorMessage" (onCancel)="closeModal()">
+      </app-message-modal>
+   </ng-container>
+</app-modal>

@@ -33,6 +33,8 @@ import { MatAutocompleteModule } from '@angular/material/autocomplete';
 // Rich Text Editor
 import { NgxSummernoteModule } from 'ngx-summernote';
 import { HttpClientModule } from '@angular/common/http';
+import { AdminCorporateComponent } from './components/admin-corporate/admin-corporate.component';
+import { AdminInviteComponent } from './components/admin-invite/admin-invite.component';
 
 
 export const routes: Routes = [
@@ -94,6 +96,14 @@ export const routes: Routes = [
       path: 'ajobs',
       component:AdminJobsComponent,canActivate:[AuthAdminGuardService]
     },
+    {
+      path: 'aCorporate',
+      component:AdminCorporateComponent,canActivate:[AuthAdminGuardService]
+    },
+    {
+      path: 'aInvite',
+      component:AdminInviteComponent,canActivate:[AuthAdminGuardService]
+    },
   ]
 }
 
@@ -112,6 +122,8 @@ export const routes: Routes = [
     AdminSettingComponent,
     AdminComponent,
     AdminJobsComponent,
+    AdminCorporateComponent,
+    AdminInviteComponent,
   ],
   imports: [
     CommonModule,

@@ -4,6 +4,7 @@ import { AuthService } from '../../worko/services/auth.service';
 import { environment } from 'src/environments/environment';
 import { Observable, catchError } from 'rxjs';
 const API_URL = environment.apiUrl;
+const API_URL_local = "http://localhost:3000/local/"
 
 
 @Injectable({
@@ -216,4 +217,36 @@ export class AdminService {
       );
   }
 
+  // Corporate Users API
+  getCorporateInvites(params: any): Promise<any> {
+    let url = `${API_URL_local}corporate/invite/?pageSize=${params.pageSize}`;
+
+    if (params.searchText) {
+      const searchTextEncoded = encodeURIComponent(params.searchText);
+      url += `&searchText=${searchTextEncoded}`;
+    }
+    if (params.lastKey) {
+      url += `&lastKey=${params.lastKey}`;
+    }
+    if (params.sortOrder) {
+      url += `&sortOrder=${params.sortOrder}`;
+    }
+    return this.http.get(url, this.authService.getHttpOptions()).toPromise();
+  }
+  // Corporate Users API
+  getCorporateUsers(params: any): Promise<any> {
+    let url = `${API_URL_local}corporate/invite/?pageSize=${params.pageSize}`;
+
+    if (params.searchText) {
+      const searchTextEncoded = encodeURIComponent(params.searchText);
+      url += `&searchText=${searchTextEncoded}`;
+    }
+    if (params.lastKey) {
+      url += `&lastKey=${params.lastKey}`;
+    }
+    if (params.sortOrder) {
+      url += `&sortOrder=${params.sortOrder}`;
+    }
+    return this.http.get(url, this.authService.getHttpOptions()).toPromise();
+  }
 }

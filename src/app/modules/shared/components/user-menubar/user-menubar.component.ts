@@ -1,5 +1,5 @@
 import { Component, EventEmitter, Input, Output } from '@angular/core';
-import { ActivatedRoute, Router } from '@angular/router';
+import { ActivatedRoute, NavigationEnd, Router } from '@angular/router';
 import { signOut } from '@aws-amplify/auth';
 import { StorageService } from 'src/app/modules/app-core/services/storage.service';
 
@@ -17,7 +17,7 @@ export class UserMenubarComponent {
   @Input() isSidebarExpanded: boolean = true;
   @Output() onToggleSidebar: EventEmitter<void> = new EventEmitter<void>();
   @Input() userType: string = "";
-
+  isCorporateRoute: boolean = false;
   // iconChevronLeft: IconDefinition = faChevronLeft;
   // iconChevronRight: IconDefinition = faChevronRight;
   panelOpenState = false;
@@ -52,7 +52,32 @@ export class UserMenubarComponent {
       this.updateReferralSubmenuState();
     });
 
+    // Check if the use is on the corporate Page or not
+    this.router.events.subscribe((event) => {
+      if (event instanceof NavigationEnd) {
+        this.isCorporateRoute = event.url.startsWith('/corporate');
+      }
+    });
 
+    if(true){
+      this.menuItems = [
+        {
+          name: 'Post Jobs',
+          router: "corporate/cJobs"
+        },
+        {
+          name: "Applicants",
+          router: "corporate/cApplicants"
+        },
+        {
+          name: 'Manage Access',
+          router: "corporate/cRecruiter"
+        },
+        {
+          name: "Settings",
+          router: "corporate/cSettings"
+        }
+      ]}
     if (this.userType == "Candidate") {
       this.menuItems = [
         {
@@ -148,6 +173,14 @@ export class UserMenubarComponent {
         {
           name: 'Jobs',
           router: "admin/ajobs"
+        },
+        {
+          name: 'Corporate',
+          router: "admin/aCorporate"
+        },
+        {
+          name: 'Invite',
+          router: "admin/aInvite"
         },
         {
           name: 'Service',

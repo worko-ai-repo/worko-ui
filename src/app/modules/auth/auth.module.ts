@@ -7,6 +7,8 @@ import { CreateCandidateForLinkedinComponent } from './components/create-candida
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { MatAutocompleteModule } from '@angular/material/autocomplete';
 import { SharedModule } from "../shared/shared.module";
+import { CreateUserForCorporateComponent } from './components/create-user-for-corporate/create-user-for-corporate.component';
+import { MatFormFieldModule } from '@angular/material/form-field';
 
 
 export const routes: Routes = [
@@ -44,10 +46,14 @@ export const routes: Routes = [
   },
   {
     path: 'employeecompleteSignUp',
-    component: CreateEmployeeForLinkedinComponent,
-   
+    component: CreateEmployeeForLinkedinComponent, 
   },
-  
+
+  // Corporate section for signup
+  {
+    path: 'corporate/signup/:inviteId',
+    component: CreateUserForCorporateComponent, 
+  }
 
 //  {
 //   path: 'logout',
@@ -61,12 +67,14 @@ export const routes: Routes = [
         WorkoAuthComponent,
         CreateEmployeeForLinkedinComponent,
         CreateCandidateForLinkedinComponent,
+        CreateUserForCorporateComponent,
     ],
     imports: [
         CommonModule,
         RouterModule.forChild(routes),
         FormsModule,
         MatAutocompleteModule,
+        MatFormFieldModule,
         ReactiveFormsModule,
         SharedModule
     ]
