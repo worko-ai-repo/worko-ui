@@ -86,10 +86,13 @@
                 <span *ngIf="job.status === status.ARCHIVED" (click)="updateJobStatus(job,'PUBLISHED')"
                   matTooltip="Make Publish" matTooltipPosition="above" style="background: #ffc107;">
                   <i class="fa-solid fa-eye"></i></span>
-                <span *ngIf="true" (click)="navigateToJobReferral($event,job.companyDetails.name, job.jobTitle,job.id)"
+                  <span *ngIf="true" (click)="navigateToJobReferral($event,job.companyDetails.name, job.jobTitle,job.id)"
                   matTooltip="Visit" matTooltipPosition="above" style="background: green;">
-                  <i class="fa-solid fa-link"></i></span>
-
+                  <i class="fa-solid fa-arrow-up-right-from-square"></i></span>
+                  <span *ngIf="true" (click)="viewJobDetailsandApplications(job.id)"
+                    matTooltip="View More Details for this Job" matTooltipPosition="above" style="background: #2cf504;">
+                    <i class="fa-solid fa-circle-info"></i></span>
+                  
               </td>
             </tr>
           </tbody>
