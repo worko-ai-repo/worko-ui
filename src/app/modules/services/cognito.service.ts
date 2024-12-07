@@ -222,6 +222,7 @@ export class CognitoService {
       this.storage.remove("companySK");
       this.storage.remove("userType");
       this.storage.remove('dynamicRoute')
+      this.storage.remove('cognitoUserId')
       this.removeAccessToken();
       // this.removeEmployeeDashboardToggleStatus();
       // this.removeCurrentDashboardToggleStatus();
@@ -333,9 +334,15 @@ export class CognitoService {
     // const accessToken = await this.keycloakService.getToken();
     // const accessToken = (await fetchAuthSession()).tokens?.idToken?.toString();
     const { accessToken, idToken } = (await fetchAuthSession()).tokens ?? {};
-
    const userType=idToken?.payload['cognito:groups']
 
+   // Store the cognito user id in local storage
+   this.storage.set('cognitoUserId' , idToken?.payload['sub'])
+
+   // Check the user type and store it in local storage
+   if (Array.isArray(userType) && userType.includes('corporate-user')) {
+    this.storage.set('userType', 'Corporate');
+  }
    if (Array.isArray(userType) && userType.includes('admin')) {
     this.storage.set('userType', 'Admin');
   }

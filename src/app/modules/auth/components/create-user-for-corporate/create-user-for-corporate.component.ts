@@ -17,7 +17,7 @@ import { AuthService } from 'src/app/modules/worko/services/auth.service';
 })
 export class CreateUserForCorporateComponent {
   // Invite-details
-  inviteDetails = {} as CorporateUserInviteCreateDto ;
+  inviteDetails = {} as CorporateUserInviteCreateDto;
 
   // FrontEnd Variables
   isBlinking = true;
@@ -50,7 +50,6 @@ export class CreateUserForCorporateComponent {
   errorTitle = "Error";
   userId: any;
 
-
   constructor(
     private router: Router,
     private fb: FormBuilder,
@@ -59,14 +58,16 @@ export class CreateUserForCorporateComponent {
     private authService: AuthService,
     private spinner: NgxSpinnerService,
     private cdr: ChangeDetectorRef,
-    private amplify: CognitoService, 
+    private amplify: CognitoService,
   ) {
     this.userForm = this.fb.group(
       {
-        name: ['', Validators.required],
+        firstName: ['', Validators.required],
+        lastName: ['', Validators.required],
         accessType: ['', Validators.required],
         email: ['', [Validators.required, Validators.email]],
         companyName: ['', Validators.required],
+        phoneNumber: ['', [Validators.required, Validators.pattern(/^[0-9]{10}$/)]],
         password: [
           '',
           [
@@ -84,7 +85,7 @@ export class CreateUserForCorporateComponent {
       {
         validators: this.passwordMatchValidator
       }
-    );    
+    );
   }
 
 
@@ -115,15 +116,16 @@ export class CreateUserForCorporateComponent {
       if (!inviteId) {
         throw new Error("Invite ID not found in the URL");
       }
-  
+
       const response = await this.authService.getInviteById(inviteId);
-      if (response.length > 0) {
-        this.inviteDetails = response[0]; // Assign the first object
+      if (response) {
+        this.inviteDetails = response; // Assign the first object
         console.log('Fetched Invite Details:', this.inviteDetails); // Log for debugging
+        debugger;
         this.updateForm(this.inviteDetails); // Populate the form with data
 
         // check if the invitation that we got has expired or not
-        this.inviteDetails.status === CorpInviteStatusEnum.EXPIRED ? this.openModal(ModalType.CORPORATE_USER_INVITE_EXPIRED): null;
+        this.inviteDetails.status === CorpInviteStatusEnum.EXPIRED ? this.openModal(ModalType.CORPORATE_USER_INVITE_EXPIRED) : null;
 
       } else {
         this.modalSize = "md";
@@ -143,121 +145,146 @@ export class CreateUserForCorporateComponent {
       this.spinner.hide();
     }
   }
-  
-/**
- * Update Form Values
- */
-updateForm(inviteDetails: any): void {  
-  console.log('Invite Details:', inviteDetails);
-  this.userForm.patchValue({
-    name: inviteDetails.name,
-    email: inviteDetails.email,
-    companyName: inviteDetails.companyName,
-    accessType: inviteDetails.accessType
-  });
-}
+
+  /**
+   * Update Form Values
+   */
+  updateForm(inviteDetails: any): void {
+    console.log('Invite Details:', inviteDetails);
+    this.userForm.patchValue({
+      firstName: inviteDetails.firstName,
+      lastName: inviteDetails.lastName,
+      email: inviteDetails.email,
+      companyName: inviteDetails.companyName,
+      accessType: inviteDetails.corporateUserType
+    });
+  }
   // Check if the current form is invalid or not
 
-    // Validation function for common and specific checks
-    isInvalid(controlName: string): boolean {
-      const control = this.userForm.get(controlName);
-  
-      if (!control) {
-        return false;
-      }
-      // Common validation: control should be invalid and touched/dirty
-      return control.invalid && (control.dirty || control.touched);
-    }
-/**
- * Custom Validator for Password Match
- */
-passwordMatchValidator(formGroup: FormGroup): null | { mismatch: boolean } {
-  const password = formGroup.get('password')?.value;
-  const retypePassword = formGroup.get('retypePassword')?.value;
+  // Validation function for common and specific checks
+  isInvalid(controlName: string): boolean {
+    const control = this.userForm.get(controlName);
 
-  if (password && retypePassword && password !== retypePassword) {
-    return { mismatch: true }; // Return an error object if passwords don't match
+    if (!control) {
+      return false;
+    }
+    // Common validation: control should be invalid and touched/dirty
+    return control.invalid && (control.dirty || control.touched);
+  }
+  /**
+   * Custom Validator for Password Match
+   */
+  passwordMatchValidator(formGroup: FormGroup): null | { mismatch: boolean } {
+    const password = formGroup.get('password')?.value;
+    const retypePassword = formGroup.get('retypePassword')?.value;
+
+    if (password && retypePassword && password !== retypePassword) {
+      return { mismatch: true }; // Return an error object if passwords don't match
+    }
+
+    return null; // Return null if validation passes
   }
 
-  return null; // Return null if validation passes
-}
+  getErrorMessage(controlName: string): string | null {
+    const control = this.userForm.get(controlName);
 
-    getErrorMessage(controlName: string): string | null {
-      const control = this.userForm.get(controlName);
-  
-      // Check if the control is invalid and touched/dirty
-      if (this.isInvalid(controlName)) {
-        // Check and return specific validation error messages
-        if (control?.errors) {
-          if (control.errors["required"]) {
-            return "This field is required";
-          }
-          if (control.errors["pattern"]) {
-            return "Invalid format , allowed symbols [.,?!-'\"]";
-          }
-          if (control.errors["minlength"]) {
-            return `Minimum length is ${control.errors["minlength"].requiredLength} characters`;
-          }
-          // Check for the Password Match
-          if (control.errors["passwordsMismatch"] && controlName === 'retypePassword') {
-            return "Passwords do not match";
-          }
+    // Check if the control is invalid and touched/dirty
+    if (this.isInvalid(controlName)) {
+      // Check and return specific validation error messages
+      if (control?.errors) {
+        if (control.errors["required"]) {
+          return "This field is required";
+        }
+        if (control.errors["pattern"]) {
+          return "Invalid format , allowed symbols [.,?!-'\"]";
+        }
+        if (control.errors["minlength"]) {
+          return `Minimum length is ${control.errors["minlength"].requiredLength} characters`;
+        }
+        // Check for the Password Match
+        if (control.errors["passwordsMismatch"] && controlName === 'retypePassword') {
+          return "Passwords do not match";
         }
       }
-  
-      return null;
     }
 
+    return null;
+  }
 
-    /**
-   * Form Submission Handler
-   */
-    async onSubmit(): Promise<void> {
-     /*  if (!this.userForm.valid) {
-        return;
-      } */
-  
-      try {
-        this.spinner.show();
-        const { response, error } = await this.amplify.addUserToGroup("bsk.72544@gmail.com","corporate-user" );
-        if (response) {
-          this.userId = response.userId;
-          window.alert(`User created successfully! your user id is ${this.userId}`);
-        }/* else if(error) {
-          this.handleError(error.message);
-       }  */
-       /*  const formData = this.prepareFormData();
-        const { response, error } = await this.amplify.handleSignUp(formData);
-  
-        if (response) {
-          this.userId = response.userId;
-          window.alert(`User created successfully! your user id is ${this.userId}`);
-          // this.showSuccessModal("User created successfully!");
-          //f1130dca-6001-707f-345a-d2ea45cc495e
-        } else if (error) {
-          // this.handleError(error.message);
-        } */
-        
-      } catch (error: any) {
-        console.log('Error:', error);
-        // this.handleError("An unexpected error occurred.", error);
-      } finally {
-        this.spinner.hide();
-      }
-    }
-  
-    /**
-     * Prepare Form Data for Submission
-     */
-    private prepareFormData(): any {
-      const { password, email,name,phoneNumber } = this.userForm.value;
-      return {
-      username: email.toLowerCase(),
-        password,
-        name,
-        phone_number: `+91${phoneNumber}`
+
+  /**
+ * Form Submission Handler
+ */
+  async onSubmit(): Promise<void> {
+    this.spinner.show(); // Ensure spinner is shown at the start
+
+    try {
+      const signupData = {
+        password: this.userForm.get('password')?.value,
+        username: this.userForm.get('email')?.value.toLowerCase(),
+        name: `${this.userForm.get('name')?.value} ${this.userForm.get('companyName')?.value}`,
+        phone_number: "+91" + this.userForm.get('phoneNumber')?.value
       };
+
+      const { response, error } = await this.amplify.handleSignUp(signupData);
+      if (error) {
+        // Throw error to be caught in the catch block
+        throw new Error(error.message);
+      }
+
+      if (response) {
+        // Successful sign-up handling
+        this.userId = response.userId;
+
+        const requestPayload = this.prepareDataforDB(signupData, response.userId);
+
+        const DBResponse = await this.authService.createCorporateUser(requestPayload);
+        if (DBResponse) {
+          this.modalMessage = "Sign-up successful! Please check your email to verify your account.";
+          this.redirectTitle = "Sign-Up Successful";
+          this.modalSize = "md";
+          this.redirectMessage = "Your Account has been created successfully \u{1F389} .";
+
+          this.openModal(ModalType.CORPORATE_USER_INVITE_REDIRECT);
+          this.startCountdown('login');
+        }
+      }
+
+
+
+    } catch (error: any) {
+      this.spinner.hide();
+      // Handle specific errors
+      if (error.message === 'User already exists') {
+        this.errorMessage =
+          "It looks like you already have an account with us. Please log in to continue. If you’ve forgotten your password, use the 'Forgot Password' link to reset it.";
+        this.modalSize = "lg";
+        this.modalTitle = "User Already Exists";
+      } else {
+        this.errorMessage = "An error occurred during sign-up. Please try again later.";
+        this.modalSize = "md";
+        this.modalTitle = "Sign-Up Error";
+      }
+      this.openModal(ModalType.SUCCESS_ERROR_MESSAGE);
+    } finally {
+      this.spinner.hide(); // Ensure spinner is hidden in all cases
     }
+  }
+
+  /**
+   * Prepare Form Data for Submission
+   */
+  private prepareDataforDB(signupData: any, cognitoId: string): any {
+    return {
+      cognitoUserId: cognitoId, // This is the cognito id of the user
+      companyId: this.inviteDetails.companyId,
+      email: this.inviteDetails.email,
+      inviteId: this.inviteDetails.id,
+      firstName: this.userForm.get('firstName')?.value,
+      lastName: this.userForm.get('lastName')?.value,
+      corporateUserType: this.inviteDetails.corporateUserType,
+    }
+  }
 
   /**
    * renewInviteRequest
@@ -265,31 +292,31 @@ passwordMatchValidator(formGroup: FormGroup): null | { mismatch: boolean } {
    * Generate request for the re-invitation of the user
    */
   async renewInviteRequest(): Promise<void> {
-     try {
-       this.spinner.show();
+    try {
+      this.spinner.show();
 
-       // Prepare the data for the request
-       const updateData:CorporateUserInviteUpdateApiDto = {
-          renewInvite: true
-        };
+      // Prepare the data for the request
+      const updateData: CorporateUserInviteUpdateApiDto = {
+        renewInvite: true
+      };
 
-       const response= await this.authService.renewInviteRequest(this.inviteDetails.id,updateData);
-       if (response) {
+      const response = await this.authService.renewInviteRequest(this.inviteDetails.id, updateData);
+      if (response) {
         this.redirectTitle = "Invite Renewed";
         this.modalSize = "md";
         this.redirectMessage = "Your Invite request has been sent successfully \u{1F389} .";
-        
+
         this.openModal(ModalType.CORPORATE_USER_INVITE_REDIRECT);
-        this.startCountdown();
-       }
-      } catch (error: any) {
-        console.log('Error:', error);
+        this.startCountdown('home');
       }
-      finally {
-        this.spinner.hide();
-      }
+    } catch (error: any) {
+      console.log('Error:', error);
     }
-  
+    finally {
+      this.spinner.hide();
+    }
+  }
+
   // Modal Functions
   openModal(modalType: ModalType, message: string = "", title: string = ""): void {
     this.showModal = modalType;
@@ -317,7 +344,7 @@ passwordMatchValidator(formGroup: FormGroup): null | { mismatch: boolean } {
 
   // Reset the job Form modal
   resetModal(): void {
-    
+
   }
 
 
@@ -341,10 +368,10 @@ passwordMatchValidator(formGroup: FormGroup): null | { mismatch: boolean } {
 
 
   // Redirect to the worko page
-  startCountdown(): void {
+  startCountdown(route: string): void {
     if (!this.countdownStarted) {
       this.countdownStarted = true;
-      
+
       this.countdownInterval = setInterval(() => {
         this.timer--;
       }, 1000);
@@ -352,8 +379,14 @@ passwordMatchValidator(formGroup: FormGroup): null | { mismatch: boolean } {
       setTimeout(() => {
         console.log('Redirecting to login page...');
         this.closeModal();
-        this.router.navigate(['/']); // Redirects to home or login page
+        if (route === 'home') {
+          this.router.navigate(['/']); // Redirects to home or login page
+        }
+        else {
+          this.router.navigate([`/auth/corporate/login`]); // Redirects to home or login page
+        }
       }, 5000);
     }
   }
+
 }

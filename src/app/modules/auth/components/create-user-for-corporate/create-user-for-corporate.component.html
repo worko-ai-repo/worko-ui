@@ -26,8 +26,14 @@
         <form [formGroup]="userForm" (keydown.enter)="$event.preventDefault()" (ngSubmit)="onSubmit()" class="common-form-main">
           <div class="form-group">
 
-            <label>Name</label>
-            <input matInput class="form-control form-input" formControlName="name" [readonly]="true"  />
+            <label>First Name</label>
+            <input matInput class="form-control form-input" formControlName="firstName" [readonly]="true"  />
+          </div>
+
+          <div class="form-group">
+
+            <label>Last Name</label>
+            <input matInput class="form-control form-input" formControlName="lastName" [readonly]="true"  />
           </div>
 
           <div class="form-group">
@@ -48,6 +54,19 @@
             <label>Company Name</label>
             <input matInput class="form-control form-input" formControlName="companyName" [readonly]="true" />
 
+          </div>
+
+          <div class="form-group">
+            <label class="form-label required-form-field">Phone Number</label>
+            <input
+              matInput
+              class="form-control form-input"
+              formControlName="phoneNumber"
+              type="text"
+              [ngClass]="{ 'is-invalidInput': isInvalid('phoneNumber') }" />
+            <span *ngIf="isInvalid('phoneNumber')" class="text-danger">
+              {{ getErrorMessage('phoneNumber') }}
+            </span>
           </div>
           
           <div class="form-group">

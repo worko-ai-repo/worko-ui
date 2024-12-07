@@ -62,16 +62,20 @@ export class UserMenubarComponent {
     if(true){
       this.menuItems = [
         {
-          name: 'Post Jobs',
+          name: 'Jobs',
           router: "corporate/cJobs"
         },
         {
-          name: "Applicants",
-          router: "corporate/cApplicants"
+          name: "Application",
+          router: "corporate/cApplicants/"
         },
         {
-          name: 'Manage Access',
-          router: "corporate/cRecruiter"
+          name: 'Invites',
+          router: "corporate/cInvites"
+        },
+        {
+          name: 'Manage Users',
+          router: "corporate/cManageUsers"
         },
         {
           name: "Settings",
@@ -171,16 +175,24 @@ export class UserMenubarComponent {
           router: "admin/aReferral"
         },
         {
+          name: 'Company',
+          router: "admin/aCompany"
+        },
+        {
           name: 'Jobs',
           router: "admin/ajobs"
         },
         {
-          name: 'Corporate',
-          router: "admin/aCorporate"
+          name: "Application",
+          router: "admin/aCorporate/jobApplDetail/"
         },
         {
-          name: 'Invite',
-          router: "admin/aInvite"
+          name: 'Corporate Users',
+          router: "admin/aCorporate/Users"
+        },
+        {
+          name: 'Invites',
+          router: "admin/aCorporate/Invite"
         },
         {
           name: 'Service',

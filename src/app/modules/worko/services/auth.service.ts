@@ -169,12 +169,21 @@ export class AuthService {
    * @function renewInviteRequest - Renew the invite request
    */
 
+    // Check where it is getting called @TODO
    getInviteById(inviteId: string): Promise<any> {
       return this.http.get(`http://localhost:3000/local/corporate/invite/${inviteId}`, this.getHttpOptions()).toPromise();
     }
 
     renewInviteRequest(inviteId: string , updateData : CorporateUserInviteUpdateApiDto): Promise<any> {
       return this.http.patch(`http://localhost:3000/local/corporate/invite/${inviteId}/renew`, { renewInvite:true }, this.getHttpOptions()).toPromise();
+    }
+    // Check where it is getting called @TODO
+    getCorporateUser(userId:string):Promise<any>{
+      return this.http.get(`http://localhost:3000/local/corporate/user/?searchText=${userId}`,this.getHttpOptions()).toPromise()
+    }
+
+    createCorporateUser(data: any): Promise<any> {
+      return this.http.post(`http://localhost:3000/local/corporate/user`, data, this.getHttpOptions()).toPromise();
     }
 }
 

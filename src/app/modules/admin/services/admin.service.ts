@@ -4,7 +4,7 @@ import { AuthService } from '../../worko/services/auth.service';
 import { environment } from 'src/environments/environment';
 import { Observable, catchError } from 'rxjs';
 const API_URL = environment.apiUrl;
-const API_URL_local = "http://localhost:3000/local/"
+
 
 
 @Injectable({
@@ -164,17 +164,17 @@ export class AdminService {
   }
 
   getJobs(param: any): Promise<any> {
-/*     console.log(`params ${param.pageSize} ${param.lastKey} ${param.status} ${param.sortOrder}`);
- */    let url = `${API_URL}admin/job/?pageSize=${param.pageSize}`;
+    //  console.log(`params ${param.pageSize} ${param.lastKey} ${param.status} ${param.sortOrder}`);
+    let url = `${API_URL}admin/job/?pageSize=${param.pageSize}`;
     if (param.status) {
       url += `&status=${param.status}`;
     }
     if (param.searchText) {
       const searchTextEncoded = encodeURIComponent(param.searchText);
-/*       console.log(`service serachText ${searchTextEncoded}`);
- */      url += `&searchText=${searchTextEncoded}`;
-/*       console.log(`After searchText ${url}`);
- */    }
+      // console.log(`service serachText ${searchTextEncoded}`);
+      url += `&searchText=${searchTextEncoded}`;
+      // console.log(`After searchText ${url}`);
+    }
     if (param.lastKey) {
       url += `&lastKey=${param.lastKey}`;
     }
@@ -218,25 +218,13 @@ export class AdminService {
   }
 
   // Corporate Users API
-  getCorporateInvites(params: any): Promise<any> {
-    let url = `${API_URL_local}corporate/invite/?pageSize=${params.pageSize}`;
-
-    if (params.searchText) {
-      const searchTextEncoded = encodeURIComponent(params.searchText);
-      url += `&searchText=${searchTextEncoded}`;
-    }
-    if (params.lastKey) {
-      url += `&lastKey=${params.lastKey}`;
-    }
-    if (params.sortOrder) {
-      url += `&sortOrder=${params.sortOrder}`;
-    }
-    return this.http.get(url, this.authService.getHttpOptions()).toPromise();
-  }
-  // Corporate Users API
   getCorporateUsers(params: any): Promise<any> {
-    let url = `${API_URL_local}corporate/invite/?pageSize=${params.pageSize}`;
-
+    let url = `${API_URL}corporate/user/?pageSize=${params.pageSize}`;
+    
+    if(params.corporateUserType){
+      // debugger;
+      url += `&corporateUserType=${params.corporateUserType}`;
+    }
     if (params.searchText) {
       const searchTextEncoded = encodeURIComponent(params.searchText);
       url += `&searchText=${searchTextEncoded}`;
@@ -249,4 +237,43 @@ export class AdminService {
     }
     return this.http.get(url, this.authService.getHttpOptions()).toPromise();
   }
+
+  deleteCorporateUserById(userId: string) {
+    return this.http.patch(`${API_URL}corporate/user/${userId}/delete`, this.authService.getHttpOptions()).toPromise();
+  }
+
+  // Corporate Users Invite API
+
+  getCorporateInvites(params: any): Promise<any> {
+    let url = `${API_URL}corporate/invite/?pageSize=${params.pageSize}`;
+
+    if(params.corporateUserType){
+      // debugger;
+      url += `&corporateUserType=${params.corporateUserType}`;
+    }
+
+    if(params.inviteStatus) {
+      url += `&inviteStatus=${params.inviteStatus}`;
+    }
+    if (params.searchText) {
+      const searchTextEncoded = encodeURIComponent(params.searchText);
+      url += `&searchText=${searchTextEncoded}`;
+    }
+    if (params.lastKey) {
+      url += `&lastKey=${params.lastKey}`;
+    }
+    if (params.sortOrder) {
+      url += `&sortOrder=${params.sortOrder}`;
+    }
+    return this.http.get(url, this.authService.getHttpOptions()).toPromise();
+  }
+
+  createInvite(inviteData: any) {
+    return this.http.post(`${API_URL}corporate/invite/`, inviteData, this.authService.getHttpOptions()).toPromise();
+  }
+
+  updateInviteStatus(inviteId: string, inviteStatus: string) {
+    return this.http.patch(`${API_URL}corporate/invite/${inviteId}`, { inviteStatus }, this.authService.getHttpOptions()).toPromise();
+  }
+
 }

@@ -1184,9 +1184,9 @@ export class LoginFormComponent implements AfterViewInit, OnDestroy {
     if (login!.response!.isSignedIn) {
       await this.authService.getProfile(this.form.email.toLowerCase() || form.emailId.toLowerCase()).then(async (response) => {
 
-        let userType = response.data.lastAccessedDash;
-        let userName = response.data.name;
-        this.storage.set('lastAccessedDash', userType);
+        let userType = response.data.lastAccessedDash; //??
+        let userName = response.data.name;//??
+        this.storage.set('lastAccessedDash', userType);//??
         this.storage.set('userName', userName);
         this.navbarToggleSwitchService.intializeToggleStatus();
 

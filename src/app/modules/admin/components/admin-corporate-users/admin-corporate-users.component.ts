@@ -17,6 +17,7 @@ import { MatAutocompleteTrigger } from "@angular/material/autocomplete";
 
 // Interface for FetchJobsOptionsDto
 interface FetchJobsOptionsDto {
+  corporateUserType?: string;
   name?: string;
   searchText?: string;
   pageSize?: number;
@@ -26,16 +27,24 @@ interface FetchJobsOptionsDto {
 
 
 @Component({
-  selector: 'app-admin-corporate',
-  templateUrl: './admin-corporate.component.html',
-  styleUrls: ['./admin-corporate.component.scss']
+  selector: 'app-admin-corporate-users',
+  templateUrl: './admin-corporate-users.component.html',
+  styleUrls: ['./admin-corporate-users.component.scss']
 })
-export class AdminCorporateComponent implements OnInit {
+export class AdminCorporateUsersComponent implements OnInit {
   // DEFAULT MEMBER VARIABLES
   sortOrder = {
     ASC: "ascending",
     DESC: "descending",
   };
+  
+  // Corporate User Type 
+  userType = {
+    ALL:"",
+    ADMIN: "ADMIN",
+    RECRUITER: "RECRUITER",
+  };
+
   //Pagination Properties
   pageSize: number = 10;
   lastKey: string | undefined = undefined;
@@ -46,6 +55,10 @@ export class AdminCorporateComponent implements OnInit {
   users: any = [];
   dataSource = new MatTableDataSource<any>(); // To store the updated data in the table
   noUsersMessage: string = "No Users Present";
+  selectedCorporateUserType = "";
+  selectedSortOrder: string = this.sortOrder.DESC;
+  currentSeletedUser: string = "";
+
   //Filters Properties
   searchQuery: string = "";
   filteredUsers: any[] = [];
@@ -58,6 +71,9 @@ export class AdminCorporateComponent implements OnInit {
   modalTitle: string = "";
 
   // Properties related to modal messages
+  modalCustomTitle : string = "";
+  modalCustomMessage : string = "";
+
   successtitle: string = "";
   modalSize : string = "xl";
   successmessage: string = "";
@@ -71,16 +87,14 @@ export class AdminCorporateComponent implements OnInit {
    * @param {AdminService} adminService - The admin service for API calls.
    * @param {NgxSpinnerService} spinner - The service for displaying a loading spinner.
    */
-  constructor(private router: Router, private fb: FormBuilder, private adminService: AdminService, private spinner: NgxSpinnerService ,private cdr: ChangeDetectorRef) {
+  constructor(private router: Router,
+     private fb: FormBuilder,
+     private adminService: AdminService,
+     private spinner: NgxSpinnerService ,
+    private cdr: ChangeDetectorRef) {
   }
   // Implement the OnInit function to fetch the records on component initialization
   ngOnInit(): void {
-    /* // Setup the filteredCompanies$ for the company autocomplete
-    this.filteredCompanies$ = this.companyControl.valueChanges.pipe(
-      debounceTime(300),
-      distinctUntilChanged(),
-      switchMap((value) => this.filterCompanies(value))
-    ) */
       // Fetch jobs on component initialization
     this.fetchUsers({ pageSize: 10, sortOrder: this.sortOrder.DESC,  resetPagination: true });
   }
@@ -98,6 +112,7 @@ export class AdminCorporateComponent implements OnInit {
         this.lastKey = undefined;
       }
       const params = {
+        corporateUserType: options.corporateUserType,
         searchText: options.searchText,
         pageSize: options.pageSize,
         lastKey: this.lastKey,
@@ -125,7 +140,7 @@ export class AdminCorporateComponent implements OnInit {
       } else {
         this.successmessage = "Something went wrong. Please try again later.";
         this.successtitle = "Error";
-        this.openModal(ModalType.SUCCESS_MESSAGE);
+        this.openModal(ModalType.SUCCESS_ERROR_MESSAGE);
       }
     } finally {
       this.spinner.hide();
@@ -148,6 +163,91 @@ export class AdminCorporateComponent implements OnInit {
     }
   }
   /**
+   * deleteUser
+   * 
+   * Deletes the user with the given ID.
+   * 
+   * @param userId - The ID of the user to be deleted.
+   */
+  deleteUser(userId: string) {
+    debugger;
+    this.modalSize = "md";
+    this.modalCustomTitle = "Warning!!";
+    this.modalCustomMessage = "Are you sure you want to delete this user?";
+    this.currentSeletedUser = userId;
+    this.openModal(ModalType.CORPORATE_USER_WARNING);
+  }
+   async confirmDelete(){
+     try {
+      this.spinner.show();
+      const response = await this.adminService.deleteCorporateUserById(this.currentSeletedUser);
+      if (response) {
+        this.successmessage = "User deleted successfully.";
+        this.successtitle = "Success";
+        this.openModal(ModalType.SUCCESS_MESSAGE);
+        this.fetchUsers({ pageSize: this.pageSize, resetPagination: true });
+      }
+    } catch (error: any) {
+      this.spinner.hide();
+      if (error.status === 404) {
+        this.router.navigate(["/admin/aCorporate"]);
+      } else if (error.status === 401) {
+        this.router.navigate(["/"]);
+      } else {
+        this.successmessage = "Something went wrong. Please try again later.";
+        this.successtitle = "Error";
+        this.openModal(ModalType.SUCCESS_ERROR_MESSAGE);
+      }
+    } finally {
+      this.spinner.hide();
+    } 
+  }
+   /**
+   * onSortOrderChange
+   *
+   * Updates the sort order of the jobs.
+   */
+   onSortOrderChange(event: any) {
+    // console.log("Sort order:", event.target.value);
+    this.fetchUsers({corporateUserType : this.selectedCorporateUserType,searchText:this.searchQuery, pageSize: this.pageSize, sortOrder: event.target.value, resetPagination: true });
+  }
+
+  /**
+   * onCorporateUserTypeChange
+   * 
+   * Updates the corporate user type and fetch the desired jobs based on the user type.
+   */
+  onCorporateUserTypeChange(corporateUserType: any) {
+    if (corporateUserType.target.value === this.userType.ALL) {
+      this.selectedCorporateUserType = this.userType.ALL;
+      this.fetchUsers({ pageSize: this.pageSize, resetPagination: true }); // Fetch all jobs
+      return;
+    }
+      this.selectedCorporateUserType = corporateUserType.target.value; // Update global variable
+      this.fetchUsers({ corporateUserType : this.selectedCorporateUserType , searchText:this.searchQuery,pageSize: this.pageSize, resetPagination: true }); // Fetch jobs with the new status
+    }
+
+  /*
+   * @method searchJobs
+   * @param query - The search query.
+   */
+  async searchJobs(event: any) {
+    this.searchQuery = event.target.value;
+    //  console.log("Search query:", this.searchQuery);
+   this.fetchUsers({ corporateUserType:this.selectedCorporateUserType, searchText: this.searchQuery, pageSize: 200 });
+    if (this.filteredUsers.length == 0) {
+      this.noUsersMessage = "No Invite present with this name or description";
+    }
+  }
+
+  // Reset the job Form modal
+  resetModal(): void {
+    this.searchQuery = "";
+    this.selectedCorporateUserType = this.userType.ALL;
+    this.selectedSortOrder = this.sortOrder.DESC;
+    this.fetchUsers({ corporateUserType :this.selectedCorporateUserType, pageSize: this.pageSize, resetPagination: true }); // Fetch jobs with the new status
+  }
+  /**
    * openModal
    * 
    * Opens the modal with the given message and title.
@@ -159,16 +259,19 @@ export class AdminCorporateComponent implements OnInit {
   openModal(modalType: ModalType, message: string = "", title: string = ""): void {
     this.showModal = modalType;
     // Reset modal size every time you open the modal
-    if(modalType === this.modalType.SUCCESS_MESSAGE ){
+    if (modalType === this.modalType.SUCCESS_MESSAGE) {
       this.modalSize = "md";
-    }
-    else {
-        this.modalSize = "xl";
     }
     this.cdr.detectChanges();
     this.modalMessage = message;
     this.modalTitle = title;
     this.modal.open();
+  }
+
+  // Closes the currently opened modal
+  closeModal(): void {
+    this.modal.cancel();
+    this.currentSeletedUser = "";
   }
 
     // Misc method

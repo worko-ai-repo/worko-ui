@@ -9,6 +9,7 @@ import { MatAutocompleteModule } from '@angular/material/autocomplete';
 import { SharedModule } from "../shared/shared.module";
 import { CreateUserForCorporateComponent } from './components/create-user-for-corporate/create-user-for-corporate.component';
 import { MatFormFieldModule } from '@angular/material/form-field';
+import { LoginUserForCorporateComponent } from './components/login-user-for-corporate/login-user-for-corporate.component';
 
 
 export const routes: Routes = [
@@ -53,6 +54,11 @@ export const routes: Routes = [
   {
     path: 'corporate/signup/:inviteId',
     component: CreateUserForCorporateComponent, 
+  },
+  // Corporate section for login
+  {
+    path: 'corporate/login',
+    component: LoginUserForCorporateComponent, 
   }
 
 //  {
@@ -68,6 +74,7 @@ export const routes: Routes = [
         CreateEmployeeForLinkedinComponent,
         CreateCandidateForLinkedinComponent,
         CreateUserForCorporateComponent,
+        LoginUserForCorporateComponent,
     ],
     imports: [
         CommonModule,

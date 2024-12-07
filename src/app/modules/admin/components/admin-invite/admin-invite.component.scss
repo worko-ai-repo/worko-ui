@@ -1,8 +1,24 @@
+//This is very Important dont remove it .
+::ng-deep .cdk-overlay-container {
+  position: fixed;
+  z-index: 9999999 !important;
+  .mat-mdc-autocomplete-panel{
+    background-color: #0a1e35;
+    .mat-mdc-option{
+      color: white;
+      &:hover{
+        background-color: #476baf;
+      }
+    }
+  }
+}
 
 $statuses: (
-    'PUBLISHED': #2716bb,
+    'RECRUITER': #2716bb,
+    'ADMIN': red,
+    'AWAITING': #ffc107,
+    'ACCEPTED':rgb(0, 168, 22)107,
     'CLOSED': red,
-    'ARCHIVED': #ffc107,
   );
   
   //Common Styles
@@ -77,7 +93,7 @@ $statuses: (
         td {
           // Dynamic status color
           @each $status, $color in $statuses {
-            .job-#{to-lower-case($status)} {
+            .invite-#{to-lower-case($status)} {
               background-color: $color;
               color: white;
               font-weight: 500;
@@ -118,10 +134,81 @@ $statuses: (
     input {
       background-color: transparent !important;
       border: 2px solid #476baf;
+      width: 100%;
     }
     .error {
       color: red;
     }
+  form {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    grid-gap: 20px;
+
+    select {
+      color: white;
+      height: auto;
+      border: 2px solid #476baf;
+      width: 100%;
+    }
+    button[type="submit"] {
+      background-color: #2f92c7;
+      color: white;
+      padding: 5px;
+      border: transparent;
+      border-radius: 5px;
+      outline: none;
+      cursor: pointer;
+      &:hover {
+        background-color: #1d5e81;
+      }
+      &:disabled {
+        background-color: #8696b3;
+        &hover {
+          background-color: #8696b3 !important;
+        }
+      }
+    }
+  }
+  //The companyName Field Should be full width
+  .cinvite-fitem:first-child {
+    grid-column: 1 / span 2;
+  }
 }
+#editbtns span {
+  position: relative;
+  padding: 5px;
+  box-shadow: 7px 6px 28px 1px rgba(0, 0, 0, 0.24); 
+  text-align: center;
+  cursor: pointer;
+  border-radius: 5px;
+  margin: 5px;
+  transition: 0.2s all; 
+  .fa-solid {
+    width: 50px;
+  }
+}
+
+#editbtns span:hover{
+    background: grey !important;
+}
+#editbtns>span:active {
+  box-shadow:  7px 6px 28px 1px rgba(0, 0, 0, 0.24); 
+  top:4px; 
+}
+.cdk-overlay-container {
+  position: fixed;
+  z-index: 9999 !important;
+  .mat-mdc-autocomplete-panel{
+    background-color: #0a1e35;
+    .mat-mdc-option{
+      color: white;
+      &:hover{
+        background-color: #476baf;
+      }
+    }
+  }
+  
+}
+
 
 // Common Css Ends here

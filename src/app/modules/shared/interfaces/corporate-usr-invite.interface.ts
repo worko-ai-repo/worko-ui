@@ -37,6 +37,7 @@ export interface CorporateUserInviteCreateDto extends CorporateUserInviteCreateA
     mailLogId: string;
     createdBy: string;
     renewInvite: boolean;
+    corporateUserType: string;
 } 
 
 /**

@@ -33,8 +33,10 @@ import { MatAutocompleteModule } from '@angular/material/autocomplete';
 // Rich Text Editor
 import { NgxSummernoteModule } from 'ngx-summernote';
 import { HttpClientModule } from '@angular/common/http';
-import { AdminCorporateComponent } from './components/admin-corporate/admin-corporate.component';
+import { AdminCorporateUsersComponent } from './components/admin-corporate-users/admin-corporate-users.component';
 import { AdminInviteComponent } from './components/admin-invite/admin-invite.component';
+import { AdminCompanyComponent } from './components/admin-company/admin-company.component';
+import { CorporateJobApplicationDetailComponent } from './components/corporate-job-application-detail/corporate-job-application-detail.component';
 
 
 export const routes: Routes = [
@@ -96,13 +98,21 @@ export const routes: Routes = [
       path: 'ajobs',
       component:AdminJobsComponent,canActivate:[AuthAdminGuardService]
     },
+/*     {
+      path: 'aCompany',
+      component:AdminCompanyComponent,canActivate:[AuthAdminGuardService]
+    }, */
     {
-      path: 'aCorporate',
-      component:AdminCorporateComponent,canActivate:[AuthAdminGuardService]
+      path: 'aCorporate/Users',
+      component:AdminCorporateUsersComponent,canActivate:[AuthAdminGuardService]
     },
     {
-      path: 'aInvite',
+      path: 'aCorporate/Invite',
       component:AdminInviteComponent,canActivate:[AuthAdminGuardService]
+    },
+    {
+      path: 'aCorporate/jobApplDetail/:id',
+      component:CorporateJobApplicationDetailComponent,canActivate:[AuthAdminGuardService]
     },
   ]
 }
@@ -122,8 +132,9 @@ export const routes: Routes = [
     AdminSettingComponent,
     AdminComponent,
     AdminJobsComponent,
-    AdminCorporateComponent,
+    AdminCorporateUsersComponent,
     AdminInviteComponent,
+    AdminCompanyComponent,
   ],
   imports: [
     CommonModule,

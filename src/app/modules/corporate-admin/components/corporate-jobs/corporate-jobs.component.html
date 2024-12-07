@@ -9,8 +9,7 @@
           </span>
   
           <span class="ajobs-search">
-            <input type="text" class="form-control serachInput" placeholder="Search Jobs" (keyup)="searchJobs($event)"
-              [(ngModel)]="searchQuery" />
+            
             <span class="ajobs-status">
               <select name="status" [(ngModel)]="selectedStatus" class="selector form-select"
                 (change)="onStatusChange($event)">
@@ -27,8 +26,11 @@
                 <option value={{sortOrder.DESC}}>DESCENDING</option>
               </select>
             </span>
+            <input type="text" class="form-control serachInput" placeholder="Search Jobs" (keyup)="searchJobs($event)"
+            [(ngModel)]="searchQuery" />
             <button class="ps-4 pe-4 btn searchButton" (click)="resetBtnHandler()">Reset</button>
           </span>
+
         </div>
         <div class="mat-elevation-z8 table-wrapper">
           <table class="table-style">
@@ -36,8 +38,8 @@
               <tr>
                 <th>Job ID</th>
                 <th>Job Title</th>
-                <th>Company Name</th>
                 <th>Status</th>
+                <th>CreatedBy</th>
                 <th>Created At</th>
                 <th>Actions</th>
               </tr>
@@ -55,22 +57,19 @@
                     <!-- {{ copiedContextId === row.contextId ? 'check' : 'content_paste' }} -->
                   </mat-icon>
                 </td>
-                <td matTooltip={{job.jobTitle}} matTooltipPosition="above" style="cursor: pointer;">{{ job.jobTitle |
-                  ellipsis:30 | titlecase }}</td>
-                <td id="tuple-with-logo">
-                  <ng-container *ngIf="job.companyDetails?.logo; else useUrlLogoSecond">
-                    <img src="assets/company-logo/{{job.companyDetails?.logo}}" alt="{{job.companyDetails?.name}}"
-                      width="50" height="50">
-                  </ng-container>
-                  <ng-template #useUrlLogoSecond>
-                    <img src="{{ job.companyDetails?.logoUrl }}" alt="{{job.companyDetails?.name}}" width="50"
-                      height="50">
-                  </ng-template>
-                  {{ job.companyDetails?.name }}
-                </td>
                 <td>
                   <p [ngClass]="getStatusClass(job.status)">{{ job.status | uppercase }}</p>
                 </td>
+                <td matTooltip={{job.jobTitle}} matTooltipPosition="above" style="cursor: pointer;">{{ job.jobTitle |
+                  ellipsis:30 | titlecase }}</td>
+                  <td>
+                    <span style="margin-right:30px">{{ job.createdByUserId }}</span>
+                    <mat-icon style="cursor: pointer; position: absolute; right: 10px;" (click)="copyToClipboard(job.createdByUserId)"
+                      matTooltip="Copy to Clipboard" matTooltipPosition="above">
+                      {{ copiedContextId === job.createdByUserId ? 'check' : 'content_copy' }}
+                      <!-- {{ copiedContextId === row.contextId ? 'check' : 'content_paste' }} -->
+                    </mat-icon>
+                  </td>
                 <td>{{ job.createdAt | date: 'd MMM yyyy, h:mm a' }}</td>
                 <td id="editbtns">
                   <span *ngIf="job.status != status.CLOSED" (click)="editJob(job)" matTooltip="Edit"
@@ -89,6 +88,9 @@
                   <span *ngIf="true" (click)="navigateToJobReferral($event,job.companyDetails.name, job.jobTitle,job.id)"
                     matTooltip="Visit" matTooltipPosition="above" style="background: green;">
                     <i class="fa-solid fa-link"></i></span>
+                    <span *ngIf="true" (click)="viewJobDetailsandApplications(job.id)"
+                    matTooltip="View More Details for this Job" matTooltipPosition="above" style="background: #2cf504;">
+                    <i class="fa-solid fa-circle-info"></i></span>
   
                 </td>
               </tr>
@@ -99,9 +101,7 @@
             [pageSizeOptions]="[10,25,50,100]" [showFirstLastButtons]="true" (page)="onPageChange($event)">
           </mat-paginator>
         </div>
-  
-  
-  
+
       </div>
   
     </div>

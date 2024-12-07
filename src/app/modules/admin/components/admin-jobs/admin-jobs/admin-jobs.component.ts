@@ -156,9 +156,9 @@ export class AdminJobsComponent implements OnInit {
   companyNameError: string = "";
   filteredCompanies$: Observable<any[]> = of([]);
   selectedCompany: any = null;
+  @ViewChild("autoCompleteInput", { static: false, read: MatAutocompleteTrigger }) trigger!: MatAutocompleteTrigger;
   @ViewChild('refSalaryRange') refSalaryRange!: ElementRef;
   @ViewChild('refExpRange') refExpRange!: ElementRef;
-  @ViewChild("autoCompleteInput", { static: false, read: MatAutocompleteTrigger }) trigger!: MatAutocompleteTrigger;
 
   // Properties related to modal handling
   @ViewChild(ModalComponent) modal!: ModalComponent;
@@ -716,13 +716,13 @@ export class AdminJobsComponent implements OnInit {
     // Loop through all form controls and print their validation status
     Object.keys(this.jobForm.controls).forEach((controlName) => {
       const control = this.jobForm.get(controlName);
-/*       console.log(`${controlName} is valid: ${control?.valid}`);
- */
+      // console.log(`${controlName} is valid: ${control?.valid}`);
+ 
       // If the control is a FormArray, log its inner controls' statuses
       if (control instanceof FormArray) {
         control.controls.forEach((arrayControl, index) => {
-/*           console.log(`${controlName}[${index}] is valid: ${arrayControl.valid}`);
- */        });
+          //  console.log(`${controlName}[${index}] is valid: ${arrayControl.valid}`);
+        });
       }
     });
 
@@ -804,4 +804,7 @@ export class AdminJobsComponent implements OnInit {
     window.open(route, '_blank');
   }
  
+  viewJobDetailsandApplications(jobId: any): void {
+    this.router.navigate(["/admin/aCorporate/jobApplDetail/"+jobId]);
+  }
 }

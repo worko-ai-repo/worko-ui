@@ -1,0 +1,230 @@
+<div class="admin-table-main mx-2 ms-3" id="admin-job-main">
+    <div class="tab-content mt-2" id="myTabContent">
+       <div class="candidate-card tab-pane fade show active" id="home" role="tabpanel" aria-labelledby="home-tab">
+          <h5>Invite Listings</h5>
+          <div class="ajobs-filters">
+ 
+             <span class="aInvites-add">
+                <button class="ps-4 pe-4 btn searchButton" (click)="openModal(modalType.CORPORATE_USER_ADD_INVITE)">Add Company</button>
+             </span>
+             <span class="ajobs-search">
+                   <span class="ajobs-status">
+                   <select name="status" [(ngModel)]="selectedCorporateUserType" class="selector form-select"
+                        (change)="onCorporateUserTypeChange($event)">
+                        <option value={{userType.ALL}}>Access Type</option>
+                        <option value={{userType.ADMIN}}>ADMIN</option>
+                        <option value={{userType.RECRUITER}}>RECRUITER</option>
+                      </select>
+                   </span>
+                <span class="ajobs-status">
+                   <select name="status" [(ngModel)]="selectedStatus" class="selector form-select"
+                     (change)="onStatusChange($event)">
+                     <option value={{status.ALL}}>ALL INVITES</option>
+                     <option value={{status.AWAITING}}>AWAITING</option>
+                     <option value={{status.ACCEPTED}}>ACCEPTED</option>
+                     <option value={{status.EXPIRED}}>EXPIRED</option>
+                     <option value={{status.CLOSED}}>CLOSED</option>
+                   </select>
+                 </span>
+                 <span class="ajobs-status">
+                   <select name="status" [(ngModel)]="selectedSortOrder" class="selector form-select"
+                     (change)="onSortOrderChange($event)">
+                     <option value={{sortOrder.ASC}}>ASCENDING</option>
+                     <option value={{sortOrder.DESC}}>DESCENDING</option>
+                   </select>
+                 </span>
+                <input type="text" [(ngModel)]="searchQuery" class="form-control serachInput" placeholder="Search Invite" (keyup)="searchJobs($event)"/>
+                <button class="ps-4 pe-4 btn searchButton">Reset</button>
+             </span>
+          </div>
+          
+          <div class="mat-elevation-z8 table-wrapper">
+             <table class="table-style">
+                <thead>
+                   <tr>
+                      <th>Invite Id</th>
+                      <th>Company Id</th>
+                      <th>Company Name</th>
+                      <th>Name</th>           
+                      <th>Email</th>
+                      <th>Access Type</th>
+                      <th>Status</th>
+                      <th>Created At</th>
+                      <th>Expires At</th>
+                      <th>Actions</th>
+                   </tr>
+                </thead>
+                <tbody>
+                   <tr *ngIf="filteredInvites.length === 0">
+                      <!-- For Displaying No Data is present for the searching text -->
+                      <td colspan="15" class="no-jobs-message">{{ noInviteMessage }}</td>
+                   </tr>
+                   <tr *ngFor="let invite of filteredInvites; let i = index">
+                      <td>
+                         <span style="margin-right:30px">{{ invite.id | ellipsis:30 | uppercase }}</span>
+                         <mat-icon style="cursor: pointer; position: absolute; right: 10px;"
+                            (click)="copyToClipboard(invite.id)" matTooltip="Copy to Clipboard"
+                            matTooltipPosition="above">
+                            {{ copiedContextId === invite.id ? 'check' : 'content_copy' }}
+                         </mat-icon>
+                      </td>
+                      <td>
+                         <span style="margin-right:30px">{{ invite.companyId | ellipsis:30 | uppercase }}</span>
+                         <mat-icon style="cursor: pointer; position: absolute; right: 10px;"
+                            (click)="copyToClipboard(invite.companyId)" matTooltip="Copy to Clipboard"
+                            matTooltipPosition="above">
+                            {{ copiedContextId === invite.companyId ? 'check' : 'content_copy' }}
+                         </mat-icon>
+                      </td>
+                      <td matTooltip={{invite.companyName}} matTooltipPosition="above" style="cursor: pointer;">
+                         <ng-container *ngIf="invite.companyDetails?.logo; else useUrlLogoSecond">
+                            <img src="assets/company-logo/{{invite.companyDetails?.logo}}" alt="{{invite.companyDetails?.name}}"
+                              width="50" height="50">
+                          </ng-container>
+                          <ng-template #useUrlLogoSecond>
+                            <img src="{{ invite.companyDetails?.logoUrl }}" alt="{{invite.companyDetails?.name}}" width="50"
+                              height="50">
+                          </ng-template>
+                         {{invite.companyDetails.name | ellipsis:30 | titlecase }}
+                      </td>
+                      <td>{{ (invite.firstName + ' ' + invite.lastName) | ellipsis:30 | titlecase }}
+                      </td>
+                      <td matTooltip={{invite.email}}>{{ invite.email | ellipsis:30 | titlecase }}
+                      </td>
+                      <!-- GetAccessType -->
+                      <td>
+                         <p [ngClass]="getStatusClass(invite.corporateUserType)">{{ invite.corporateUserType}}</p>
+                      </td>
+                      <!-- Get Status -->
+                      <td>
+                         <p [ngClass]="getStatusClass(invite.inviteStatus)">{{ invite.inviteStatus}}</p>
+                      </td>
+                      <td>
+                         {{ invite.createdAt | date: 'd MMM yyyy, h:mm a' }}
+                      </td>
+                      <td>
+                         {{ invite.expiresAt | date: 'd MMM yyyy, h:mm a' }}
+                      </td>
+                      <td id="editbtns">
+                          <span *ngIf="invite.inviteStatus !== status.AWAITING && invite.inviteStatus !== status.ACCEPTED" 
+                          (click) = "updateStatus(status.AWAITING,invite.id)"  matTooltip="Move to Awaiting" matTooltipPosition="above" style="background:#2716bb;">
+                            <i class="fa-solid fa-trash-can-arrow-up"></i></span>
+                          <span *ngIf="invite.inviteStatus!= status.CLOSED"  (click) = "updateStatus(status.CLOSED,invite.id)" matTooltip="Close Invite" matTooltipPosition="above" style="background: red;">
+                          <i class="fa-solid fa-trash"></i></span>
+                          </td> 
+                   </tr>
+                </tbody>
+             </table>
+             <!--Pagination-->
+             <mat-paginator #companyJobMatPaginator aria-label="Select page of users" [pageSize]="10"
+                [pageSizeOptions]="[10,25,50,100]" [showFirstLastButtons]="true">
+             </mat-paginator>
+          </div>
+       </div>
+    </div>
+ </div>
+ 
+ <!--- This is the container for the common Modal -->
+ <app-modal [theme]="'theme-k'" [centered]="true" [showHeader]="showModal === modalType.MESSAGE" [showClose]="true"
+    [showFooter]="showModal === modalType.MESSAGE" [modalSize]="modalSize" [title]="modalTitle" [message]="modalMessage"
+    [bodyClass]="modalMessage ? 'p-4' : 'p-0'">
+ 
+    <ng-container *ngIf="showModal === modalType.SUCCESS_ERROR_MESSAGE">
+       <app-message-modal [title]="errorTitle" [message]="errorMessage" (onCancel)="closeModal()">
+       </app-message-modal>
+    </ng-container>
+ 
+    <ng-container *ngIf="showModal === modalType.CORPORATE_USER_ADD_INVITE">
+        <!-- If you want to use this kind of Modal then you have to use the css of this component where the selector starts with message-card -->
+        <div class="row message-card px-sm-3 p-4">
+          <h3>Create Invite</h3>
+          <form [formGroup]="companyForm" (ngSubmit)="onSubmit()">
+            <!-- Company Name -->
+            <div class="form-group">
+              <label for="companyName" class="form-label required-form-field">Company Name</label>
+              <input 
+                id="companyName" 
+                formControlName="name" 
+                class="form-control" 
+                placeholder="Enter Company Name"
+              />
+              <span *ngIf="isInvalid('name')" class="text-danger">{{ getErrorMessage('name') }}</span>
+            </div>
+          
+            <!-- Industry -->
+            <div class="form-group">
+              <label for="industry" class="form-label required-form-field">Industry</label>
+              <input 
+                id="industry" 
+                formControlName="industry" 
+                class="form-control" 
+                placeholder="Enter Industry"
+              />
+              <span *ngIf="isInvalid('industry')" class="text-danger">{{ getErrorMessage('industry') }}</span>
+            </div>
+          
+            <!-- Team Size -->
+            <div class="form-group">
+              <label for="teamSize" class="form-label required-form-field">Team Size</label>
+              <input 
+                id="teamSize" 
+                formControlName="teamSize" 
+                type="number" 
+                class="form-control" 
+                placeholder="Enter Team Size"
+              />
+              <span *ngIf="isInvalid('teamSize')" class="text-danger">{{ getErrorMessage('teamSize') }}</span>
+            </div>
+          
+            <!-- Career Page URL -->
+            <div class="form-group">
+              <label for="carrierPage" class="form-label required-form-field">Career Page URL</label>
+              <input 
+                id="carrierPage" 
+                formControlName="carrierPage" 
+                class="form-control" 
+                placeholder="Enter Career Page URL"
+              />
+              <span *ngIf="isInvalid('carrierPage')" class="text-danger">{{ getErrorMessage('carrierPage') }}</span>
+            </div>
+          
+            <!-- LinkedIn URL -->
+            <div class="form-group">
+              <label for="linkedIn" class="form-label required-form-field">LinkedIn URL</label>
+              <input 
+                id="linkedIn" 
+                formControlName="linkedIn" 
+                class="form-control" 
+                placeholder="Enter LinkedIn URL"
+              />
+              <span *ngIf="isInvalid('linkedIn')" class="text-danger">{{ getErrorMessage('linkedIn') }}</span>
+            </div>
+          
+            <!-- Logo URL -->
+            <div class="form-group">
+              <label for="logoUrl" class="form-label">Logo URL</label>
+              <input 
+                id="logoUrl" 
+                formControlName="logoUrl" 
+                class="form-control" 
+                placeholder="Enter Logo URL"
+              />
+              <div >
+                <!-- <img [src]="companyForm.get('logoUrl').value" alt="Company Logo" class="img-thumbnail mt-2" /> -->
+              </div>
+            </div>
+          
+            <!-- Submit Button -->
+            <button 
+              type="submit" 
+              [disabled]="companyForm.invalid" 
+              class="btn btn-primary mt-3"
+            >
+              Submit
+            </button>
+          </form>
+          
+ 
+        </div>  
+    </ng-container>
+ </app-modal>

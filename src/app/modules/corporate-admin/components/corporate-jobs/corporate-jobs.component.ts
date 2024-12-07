@@ -7,7 +7,7 @@ import { FormBuilder, FormGroup, FormArray, Validators, FormControl } from "@ang
 import { Observable, debounceTime, distinctUntilChanged, map, of,  switchMap } from "rxjs";
 
 // Service module import for Api calling
-import { AdminService } from "src/app/modules/admin/services/admin.service";
+import { CorporateService } from "../../services/corporate.service";
 
 // Shared components like spinner ,modals and etcetras.
 import { MatSort } from "@angular/material/sort";
@@ -17,9 +17,11 @@ import { ModalComponent } from "src/app/modules/shared/components/modal/modal.co
 import { NgxSpinnerService } from "ngx-spinner";
 import { MatTableDataSource } from "@angular/material/table";
 import { MatAutocompleteTrigger } from "@angular/material/autocomplete";
+import { CorporateVitalDetails } from "../../corporate.component";
 
 // Interface for FetchJobsOptionsDto
 interface FetchJobsOptionsDto {
+  companyId?: string;
   jobStatus?: string;
   searchText?: string;
   pageSize?: number;
@@ -35,9 +37,9 @@ interface RangeDropDownDto {
 }
 
 @Component({
-  selector: 'app-corporate-dashboard',
-  templateUrl: './corporate-dashboard.component.html',
-  styleUrls: ['./corporate-dashboard.component.scss'],
+  selector: 'app-corporate-jobs',
+  templateUrl: './corporate-jobs.component.html',
+  styleUrls: ['./corporate-jobs.component.scss'],
   encapsulation: ViewEncapsulation.None,
 })
 
@@ -51,7 +53,7 @@ interface RangeDropDownDto {
  * @property {jobForm} FormGroup - The form group for the job form, responsible for managing the state of jobs properties.
  * @property {companyControl} FormControl - The form control for the company selection.
  */
-export class CorporateDashboardComponent implements OnInit {
+export class CorporateJobsComponent implements OnInit {
   ngxSummerConfig: any = {
     airMode: false,
     tabDisable: true,
@@ -135,7 +137,9 @@ export class CorporateDashboardComponent implements OnInit {
     {value : "WFO", name: "Work From Office"},
     {value : "HYBRID", name: "Hybrid"},
   ]
-
+  // Corporate Jobs Component Properties
+  corporateVitalDetails:CorporateVitalDetails = {};
+  
   // Properties related to job management
   jobs: any[] = []; // To store the fetched jobs
   jobId: string | null = null; // Variable to store the job ID
@@ -187,10 +191,10 @@ export class CorporateDashboardComponent implements OnInit {
    *
    * @param {Router} router - The Angular router service.
    * @param {FormBuilder} fb - The Angular form builder service.
-   * @param {AdminService} adminService - The admin service for API calls.
+   * @param {corporateService} corporateService - The admin service for API calls.
    * @param {NgxSpinnerService} spinner - The service for displaying a loading spinner.
    */
-  constructor(private router: Router, private fb: FormBuilder, private adminService: AdminService, private spinner: NgxSpinnerService ,private cdr: ChangeDetectorRef) {
+  constructor(private router: Router, private fb: FormBuilder, private corporateService: CorporateService, private spinner: NgxSpinnerService ,private cdr: ChangeDetectorRef) {
     // Initialize the job form with necessary fields and validation
     this.jobForm = this.fb.group({
       status: [this.status.PUBLISHED],
@@ -213,7 +217,26 @@ export class CorporateDashboardComponent implements OnInit {
     });
   }
 
-  ngOnInit(): void {
+  async ngOnInit() {
+    // Set up the corporateVitalDetails
+    this.corporateService.corporateDetails$.subscribe((details) => {
+      if (details) {
+        this.corporateVitalDetails = details;
+  
+        this.jobForm.patchValue({
+          companyId: this.corporateVitalDetails.companyId,
+        });
+
+        this.fetchJobs({
+          companyId:this.corporateVitalDetails.companyId,
+          pageSize: 10,
+          sortOrder: this.sortOrder.DESC,
+          jobStatus: this.status.ALL,
+          resetPagination: true,
+        });
+      }
+    });
+
     // Setup the filteredCompanies$ for the company autocomplete
     this.filteredCompanies$ = this.companyControl.valueChanges.pipe(
       debounceTime(300),
@@ -221,7 +244,6 @@ export class CorporateDashboardComponent implements OnInit {
       switchMap((value) => this.filterCompanies(value))
     )
       // Fetch jobs on component initialization
-    this.fetchJobs({ pageSize: 10, sortOrder: this.sortOrder.DESC, jobStatus: this.status.ALL, resetPagination: true });
   }
 
   // @TODO Add to reusable code
@@ -248,13 +270,15 @@ export class CorporateDashboardComponent implements OnInit {
         this.lastKey = undefined;
       }
       const params = {
+        companyId : this.corporateVitalDetails.companyId,
         status: options.jobStatus,
         searchText: options.searchText,
         pageSize: options.pageSize,
         lastKey: this.lastKey,
         sortOrder: options.sortOrder,
       };
-      const response = await this.adminService.getJobs(params);
+      debugger;
+      const response = await this.corporateService.getJobs(params);
       if (response) {
         this.jobs = response.data;
         this.lastKey = response.pagination.lastKey;
@@ -353,7 +377,7 @@ export class CorporateDashboardComponent implements OnInit {
 
   // Fetch the companies and return the list
   filterCompanies(value: string): Observable<any[]> {
-    return this.adminService.getCompanyName(value).pipe(
+    return this.corporateService.getCompanyName(value).pipe(
       map((response) => {
         const companies = Array.isArray(response.data) ? response.data : [];
         this.isCompanyNameValid = companies.length === 0 ? false : true;
@@ -688,9 +712,9 @@ export class CorporateDashboardComponent implements OnInit {
         status: newStatus,
       };
       if (newStatus === this.status.CLOSED) {
-        await this.adminService.deleteJob(job.id, jobData);
+        await this.corporateService.deleteJob(job.id, jobData);
       } else {
-        this.adminService.archiveJob(job.id, jobData);
+        this.corporateService.archiveJob(job.id, jobData);
       }
 
       // This will  Give time to If  Codition in the HTML to work as expected
@@ -731,7 +755,7 @@ export class CorporateDashboardComponent implements OnInit {
       if (this.isEditMode && this.jobId) {
         this.spinner.show();
         // Update job with the stored job ID
-        this.adminService
+        this.corporateService
           .updateJob(this.jobId, this.jobForm.value)
           .then((response) => {
             this.fetchJobs({ jobStatus: this.selectedStatus, pageSize: this.pageSize, resetPagination: true, sortOrder: this.selectedSortOrder });
@@ -748,7 +772,7 @@ export class CorporateDashboardComponent implements OnInit {
           });
       } else {
         this.spinner.show();
-        this.adminService
+        this.corporateService
           .createJob(this.jobForm.value)
           .then((response) => {
             this.fetchJobs({ jobStatus: this.selectedStatus, pageSize: this.pageSize, resetPagination: true, sortOrder: this.selectedSortOrder });
@@ -803,5 +827,8 @@ export class CorporateDashboardComponent implements OnInit {
     // Open the route in a new tab
     window.open(route, '_blank');
   }
- 
+  
+  viewJobDetailsandApplications(jobId: any): void {
+    this.router.navigate(["corporate/cApplicants/"+jobId]);
+  }
 }
