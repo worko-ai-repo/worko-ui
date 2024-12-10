@@ -178,11 +178,38 @@ input:-webkit-autofill {
     }
   }
   .forgotPasswordField{
-    width: 60%;
-    input{
+    form{
+      width: 60%;
+      input{
+      width: 100%;
       font-size: 14px;
+    }}
+  }
+   .form-group.forgotPasswordField{
+    margin-bottom: 0rem !important;
+    label{
+      margin-top:5px;
     }
   }
+  .clogin-resetPassword{
+    margin: 5px;
+    background-color: #2f92c7;
+    color: white;
+    padding: 5px;
+    border: transparent;
+    border-radius: 5px;
+    outline: none;
+    min-width: 80%;
+    height: min-content;
+    cursor: pointer;
+  }
+  .clogin-resetPassword:disabled{
+    background-color: #8696b3;
+  }
+  .clogin-resetPassword:hover{
+    background-color: #1d5e81;
+  }
+  
   
   @media screen and (max-width: 1024px) {
     .corporate-auth-main {

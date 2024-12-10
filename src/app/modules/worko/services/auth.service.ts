@@ -7,6 +7,7 @@ import { CognitoService } from '../../services/cognito.service';
 import { CorporateUserInviteCreateDto, CorporateUserInviteUpdateApiDto } from '../../shared/interfaces/corporate-usr-invite.interface';
 const API_URL = environment.apiUrl;
 
+
 @Injectable({
   providedIn: 'root'
 })
@@ -171,19 +172,19 @@ export class AuthService {
 
     // Check where it is getting called @TODO
    getInviteById(inviteId: string): Promise<any> {
-      return this.http.get(`http://localhost:3000/local/corporate/invite/${inviteId}`, this.getHttpOptions()).toPromise();
+      return this.http.get(`${API_URL}corporate-invite/${inviteId}`, this.getHttpOptions()).toPromise();
     }
 
     renewInviteRequest(inviteId: string , updateData : CorporateUserInviteUpdateApiDto): Promise<any> {
-      return this.http.patch(`http://localhost:3000/local/corporate/invite/${inviteId}/renew`, { renewInvite:true }, this.getHttpOptions()).toPromise();
+      return this.http.patch(`${API_URL}corporate-invite/${inviteId}/renew`, { renewInvite:true }, this.getHttpOptions()).toPromise();
     }
     // Check where it is getting called @TODO
     getCorporateUser(userId:string):Promise<any>{
-      return this.http.get(`http://localhost:3000/local/corporate/user/?searchText=${userId}`,this.getHttpOptions()).toPromise()
+      return this.http.get(`${API_URL}corporate-user/${userId}/cognito`,this.getHttpOptions()).toPromise()
     }
 
     createCorporateUser(data: any): Promise<any> {
-      return this.http.post(`http://localhost:3000/local/corporate/user`, data, this.getHttpOptions()).toPromise();
+      return this.http.post(`${API_URL}corporate-user/`, data, this.getHttpOptions()).toPromise();
     }
 }
 

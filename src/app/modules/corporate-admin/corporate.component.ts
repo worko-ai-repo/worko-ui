@@ -57,9 +57,10 @@ export class CorporateComponent {
       let userDetail = await this.CorporateService.getCorporateUserDetailById(cognitoUserId);
       
       if(userDetail){
-        this.corporateVitelDetails.companyId = userDetail?.data[0]?.companyId;
-        this.corporateVitelDetails.corporateUserType = userDetail?.data[0]?.corporateUserType;
-        this.corporateVitelDetails.companyName = userDetail?.data[0]?.companyDetails?.name;
+        let companyDetails = await this.CorporateService.getCompanyDetailsById(userDetail[0]?.companyId);
+        this.corporateVitelDetails.companyId = userDetail[0]?.companyId;
+        this.corporateVitelDetails.corporateUserType = userDetail[0]?.corporateUserType;
+        this.corporateVitelDetails.companyName = companyDetails[0]?.name;
 
         this.CorporateDashHeading = `${this.corporateVitelDetails.companyName} Dashboard`;
         debugger;

@@ -41,7 +41,6 @@ export class CorporateInvitesComponent implements OnInit{
     AWAITING: "AWAITING",
     ACCEPTED: "ACCEPTED",
     EXPIRED: "EXPIRED",
-    CLOSED : "CLOSED"
   };
 
   // DEFAULT MEMBER VARIABLES
@@ -157,12 +156,14 @@ export class CorporateInvitesComponent implements OnInit{
   async fetchInvites(options: FetchInviteOptionDto) {
     this.spinner.show();
     try {
+      const companyId = this.corporateVitalDetails.companyId;
+
       // If resetPagination is true, reset the lastKey
       if (options.resetPagination) {
         this.lastKey = undefined;
       }
       const params = {
-        companyId: options.companyId,
+        companyId ,
         corporateUserType:options.corporateUserType,
         inviteStatus: options.inviteStatus,
         searchText: options.searchText,
@@ -337,7 +338,8 @@ export class CorporateInvitesComponent implements OnInit{
   async updateStatus(status: string, inviteId: string): Promise<void> {
     this.spinner.show();
     try {
-      await this.corporateService.updateInviteStatus(inviteId, status );
+      const companyId = this.corporateVitalDetails.companyId;
+    await this.corporateService.updateInviteStatus(inviteId, status , companyId! );
       await this.fetchInvites({ pageSize: this.pageSize, resetPagination: true });
     } catch (error) {
       console.error("Invite status update failed:", error);
