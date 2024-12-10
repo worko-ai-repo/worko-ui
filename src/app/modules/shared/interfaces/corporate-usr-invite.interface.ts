@@ -32,7 +32,7 @@ export interface CorporateUserInviteCreateDto extends CorporateUserInviteCreateA
     id:string;
     companyName: string;
     expiresAt: Date; // The expiration date of the invite.
-    status: CorpInviteStatusEnum; // The status of the corporate invite. Enum [AWAITING, ACCEPTED]
+    inviteStatus: CorpInviteStatusEnum; // The status of the corporate invite. Enum [AWAITING, ACCEPTED]
     templateType: string; // @Todo Enum Add Enum here
     mailLogId: string;
     createdBy: string;

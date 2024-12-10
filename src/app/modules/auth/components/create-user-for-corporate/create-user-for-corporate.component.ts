@@ -121,11 +121,13 @@ export class CreateUserForCorporateComponent {
       if (response) {
         this.inviteDetails = response; // Assign the first object
         console.log('Fetched Invite Details:', this.inviteDetails); // Log for debugging
-        debugger;
+      
         this.updateForm(this.inviteDetails); // Populate the form with data
 
+        
+        const check = this.inviteDetails.inviteStatus === CorpInviteStatusEnum.EXPIRED ;
         // check if the invitation that we got has expired or not
-        this.inviteDetails.status === CorpInviteStatusEnum.EXPIRED ? this.openModal(ModalType.CORPORATE_USER_INVITE_EXPIRED) : null;
+        this.inviteDetails.inviteStatus === CorpInviteStatusEnum.EXPIRED ? this.openModal(ModalType.CORPORATE_USER_INVITE_EXPIRED) : null;
 
       } else {
         this.modalSize = "md";
@@ -219,6 +221,10 @@ export class CreateUserForCorporateComponent {
     this.spinner.show(); // Ensure spinner is shown at the start
 
     try {
+      if(this.inviteDetails.inviteStatus === CorpInviteStatusEnum.EXPIRED) {
+          throw new Error("Invite has expired");
+        };
+
       const signupData = {
         password: this.userForm.get('password')?.value,
         username: this.userForm.get('email')?.value.toLowerCase(),
@@ -250,11 +256,12 @@ export class CreateUserForCorporateComponent {
         }
       }
 
-
-
     } catch (error: any) {
       this.spinner.hide();
       // Handle specific errors
+      if(error.message === 'Invite has expired') {
+        this.openModal(ModalType.CORPORATE_USER_INVITE_EXPIRED)
+      }
       if (error.message === 'User already exists') {
         this.errorMessage =
           "It looks like you already have an account with us. Please log in to continue. If you’ve forgotten your password, use the 'Forgot Password' link to reset it.";

@@ -8,7 +8,7 @@ import { NavbarToggleSwitchService } from '../candidate/services/navbar-toggle-s
 
 
 import 'aws-amplify/auth/enable-oauth-listener';
-import { AuthError, ConfirmSignUpInput, SignInInput, SignInOutput, confirmSignUp, fetchAuthSession, getCurrentUser, resendSignUpCode, signIn, signInWithRedirect, signOut, signUp, ResendSignUpCodeInput } from '@aws-amplify/auth';
+import {  AuthError, ConfirmSignUpInput, SignInInput, SignInOutput, confirmSignUp, fetchAuthSession, getCurrentUser, resendSignUpCode, signIn, signInWithRedirect, signOut, signUp, ResendSignUpCodeInput, updatePassword } from '@aws-amplify/auth';
 import { Hub } from '@aws-amplify/core';
 import { Router } from '@angular/router';
 import { environment } from 'src/environments/environment';
@@ -271,6 +271,41 @@ export class CognitoService {
     }
   }
 
+  async handleChangePassword({
+    oldPassword,
+    newPassword,
+  }: {
+    oldPassword: string;
+    newPassword: string;
+  }): Promise<{ response?: any; error?: any }> {
+    try {
+      // Step 1: Check if the user is authenticated
+      const user = await getCurrentUser(); // Replace with your method to get the user
+      if (!user) {
+        throw new Error("User not authenticated");
+      }
+  
+      // Step 2: Get access token to authorize the request
+      const accessToken = this.getAccessToken(); // Replace with your method
+      if (!accessToken) {
+        throw new Error("Access token is missing or expired");
+      }
+  
+      // Step 3: Proceed with password change
+      const response = await updatePassword({
+        oldPassword,
+        newPassword,
+      });
+  
+      console.log("Password changed successfully:", response);
+      return { response };
+    } catch (error) {
+      console.error("Error changing password:", error);
+      return { error };
+    }
+  }
+  
+  
 
 
   async handleSignUpConfirmation({
@@ -340,9 +375,10 @@ export class CognitoService {
    this.storage.set('cognitoUserId' , idToken?.payload['sub'])
 
    // Check the user type and store it in local storage
-   if (Array.isArray(userType) && userType.includes('corporate-user')) {
+   if (Array.isArray(userType) && (userType.includes('corporate-admin') || userType.includes('corporate-recruiter'))) {
     this.storage.set('userType', 'Corporate');
   }
+  
    if (Array.isArray(userType) && userType.includes('admin')) {
     this.storage.set('userType', 'Admin');
   }

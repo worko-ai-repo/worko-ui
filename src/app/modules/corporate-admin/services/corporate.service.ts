@@ -27,6 +27,10 @@ export class CorporateService {
   }
 // ===========================================Base store for the corporate user===========================================
     
+  // Fetch company by id
+  getCompanyDetailsById(companyId: string): Promise<any> {
+    return this.http.get(`${API_URL}company/${companyId}`, this.authService.getHttpOptions()).toPromise();
+  }
 
     // For fetching the dynamic dropdown values
     getCompanyName(value: any): Observable<any> {
@@ -87,7 +91,7 @@ export class CorporateService {
 
   // Corporate Users API
   getCorporateUsers(params: any): Promise<any> {
-    let url = `${API_URL}corporate/user/?pageSize=${params.pageSize}`;
+    let url = `${API_URL}corporate-user/?pageSize=${params.pageSize}`;
     
     if(params.corporateUserType){
       // debugger;
@@ -107,16 +111,16 @@ export class CorporateService {
   }
   
     deleteCorporateUserById(userId: string) {
-      return this.http.patch(`${API_URL}corporate/user/${userId}/delete`, this.authService.getHttpOptions()).toPromise();
+      return this.http.patch(`${API_URL}corporate-user/${userId}/delete`, this.authService.getHttpOptions()).toPromise();
     }
   
    getCorporateUserDetailById(userId: string) : Promise<any>{
-      return this.http.get(`${API_URL}corporate/user/?cognitoUserId=${userId}`, this.authService.getHttpOptions()).toPromise();
+      return this.http.get(`${API_URL}corporate-user/${userId}/cognito`, this.authService.getHttpOptions()).toPromise();
     }
 
     // Corporate Users Invite API
   getCorporateInvites(params: any): Promise<any> {
-    let url = `${API_URL}corporate/invite/?pageSize=${params.pageSize}`;
+    let url = `${API_URL}corporate-invite/?pageSize=${params.pageSize}`;
 
     if(params.companyId){
       url += `&companyId=${params.companyId}`;
@@ -144,10 +148,10 @@ export class CorporateService {
   }
 
   createInvite(inviteData: any) {
-    return this.http.post(`${API_URL}corporate/invite/`, inviteData, this.authService.getHttpOptions()).toPromise();
+    return this.http.post(`${API_URL}corporate-invite/`, inviteData, this.authService.getHttpOptions()).toPromise();
   }
 
-  updateInviteStatus(inviteId: string, inviteStatus: string) {
-    return this.http.patch(`${API_URL}corporate/invite/${inviteId}`, { inviteStatus }, this.authService.getHttpOptions()).toPromise();
+  updateInviteStatus(inviteId: string, inviteStatus: string , companyId: string) {
+    return this.http.patch(`${API_URL}corporate-invite/${inviteId}?companyId=${companyId}`, { inviteStatus }, this.authService.getHttpOptions()).toPromise();
   }
 }

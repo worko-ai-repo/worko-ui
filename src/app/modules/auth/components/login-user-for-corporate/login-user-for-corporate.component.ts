@@ -2,7 +2,7 @@ import { HttpClient } from '@angular/common/http';
 import { ChangeDetectorRef, Component, EventEmitter, Output, ViewChild } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
-import { fetchAuthSession, getCurrentUser } from '@aws-amplify/auth';
+import { ConfirmResetPasswordInput, confirmResetPassword, fetchAuthSession, getCurrentUser, resetPassword } from '@aws-amplify/auth';
 import { NgxSpinnerService } from 'ngx-spinner';
 import { StorageService } from 'src/app/modules/app-core/services/storage.service';
 import { CognitoService } from 'src/app/modules/services/cognito.service';
@@ -29,15 +29,19 @@ export class LoginUserForCorporateComponent {
  currentWord = '';
 
  userLoginForm: FormGroup;
+ forgotPasswordForm: FormGroup;
 
  // Modal Variables
- @ViewChild(ModalComponent) modal!: ModalComponent;
  @Output() onSuccess: EventEmitter<void> = new EventEmitter<void>();
- modalType = ModalType;
- showModal: ModalType | undefined;
- modalMessage: string = "";
- modalTitle: string = "";
+  // Properties related to modal handling
+  @ViewChild(ModalComponent) modal!: ModalComponent;
+  modalType = ModalType;
+  showModal: ModalType | undefined;
+  modalMessage: string = "";
+  modalTitle: string = "";
 
+ modalMessageText: string = "";
+ modalTitleText: string = "";
  // Redirect Timer
  timer: number = 5;
  countdownInterval: any; // Holds the interval reference
@@ -52,17 +56,17 @@ export class LoginUserForCorporateComponent {
  redirectMessage = "";
  errorTitle = "Error";
  userId: any;
-confirmationEmail: any;
-currentLoggedInUser: any;
-currentUserSessionToken: any;
-forgotPasswordScreen: boolean = false;
+ confirmationEmail: any;
+ currentLoggedInUser: any;
+ currentUserSessionToken: any;
+ forgotPasswordScreen: boolean = false;
+ changePasswordWithOtpScreen: boolean = false;
+  invalidOtp: any;
 
 
  constructor(
    private router: Router,
    private fb: FormBuilder,
-   private route: ActivatedRoute,
-   private http: HttpClient,
    private authService: AuthService,
    private spinner: NgxSpinnerService,
    private cdr: ChangeDetectorRef,
@@ -85,7 +89,26 @@ forgotPasswordScreen: boolean = false;
          ]
        ],
      }
-   );    
+   );
+
+   // Form to reset the password
+   this.forgotPasswordForm = this.fb.group({
+     email: ['', [Validators.required, Validators.email]],
+     code: ['', [
+      Validators.required,
+      Validators.pattern('^[0-9]+$')  // Ensures the input is only numeric
+    ]],
+     newPassword: [
+       '',
+       [
+         Validators.required,
+         Validators.minLength(8),
+         Validators.pattern(/^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[!@#$%^&*(),.?":{}|<>])[A-Za-z\d!@#$%^&*(),.?":{}|<>]{8,}$/)
+       ]
+     ],
+     retypePassword: ['',Validators.required]
+    },
+  );
  }
 
 
@@ -99,10 +122,8 @@ forgotPasswordScreen: boolean = false;
  }
 
  ngOnInit() {
-
     this.currentUserSessionToken = this.amplify.getAccessToken();
     this.currentLoggedInUser = this.storage.get('cognitoUserId');
-    window.alert('UserType is :'+ this.currentLoggedInUser );
 
     // Ckeck If the user is already logged in
     this.isUserLoggedIn();
@@ -123,18 +144,38 @@ forgotPasswordScreen: boolean = false;
 
    // Validation function for common and specific checks
    isInvalid(controlName: string): boolean {
-     const control = this.userLoginForm.get(controlName);
- 
-     if (!control) {
-       return false;
-     }
-     // Common validation: control should be invalid and touched/dirty
-     return control.invalid && (control.dirty || control.touched);
+
+      let control;
+    
+      if (!this.changePasswordWithOtpScreen) {
+        control = this.userLoginForm.get(controlName);
+      } else {
+        control = this.forgotPasswordForm.get(controlName);
+      }
+    
+      if (!control) {
+        return false;
+      }
+    
+      const isInvalid = control.invalid && (control.dirty || control.touched);
+    
+      // Log the invalid control and its errors
+      if (isInvalid) {
+        console.log(`Invalid control: ${controlName}`, control.errors);
+      }
+    
+      return isInvalid;
    }
 
    getErrorMessage(controlName: string): string | null {
-     const control = this.userLoginForm.get(controlName);
- 
+    let control;
+    
+      if (!this.changePasswordWithOtpScreen) {
+        control = this.userLoginForm.get(controlName);
+      } else {
+        control = this.forgotPasswordForm.get(controlName);
+      }
+    
      // Check if the control is invalid and touched/dirty
      if (this.isInvalid(controlName)) {
        // Check and return specific validation error messages
@@ -200,22 +241,29 @@ forgotPasswordScreen: boolean = false;
     };
 
     try {
-      let login = await this.amplify.handleSignIn(loginData);
-      debugger;
-      if (login?.response?.isSignedIn) {
+      let {response , error} = await this.amplify.handleSignIn(loginData);
+      if(error){
+        throw error.message;
+      }
+      if (response?.isSignedIn) {
+
+        // fetch the cognito Id from the session
+        const userId = this.storage.get('cognitoUserId');
         // Fetch user profile after successful sign-in
-        const response = await this.authService.getCorporateUser(loginData.email.toLowerCase());
+        const response = await this.authService.getCorporateUser(userId);
 
         this.onLoginSuccess(response);
       }
-    } catch (error) {
+    } catch (error : any) {
       this.spinner.hide();
-      console.log(error)
+      this.modalMessageText = error.toString();
+      this.modalTitleText = "Error";
+      this.openModal(ModalType.SUCCESS_ERROR_MESSAGE);
     }
   }
 
   private async onLoginSuccess(response: any): Promise<void> {
-    debugger;
+    
     const userType = response.data?.lastAccessedDash ?? 'Corporate'; //CORP emp
     const userName = response.data?.name;
     window.alert('UserType is :'+ this.storage.get('userId') );
@@ -229,26 +277,71 @@ forgotPasswordScreen: boolean = false;
  
     this.spinner.hide();
     debugger;
+    const tf = userType === 'Corporate' ? '/corporate/cJobs' : '/';
     this.router.navigate([userType === 'Corporate' ? '/corporate/cJobs' : '/']);
   }
 
   setSuccessMessage(arg0: string) {
     throw new Error('Method not implemented.');
   }
-   /**
-    * Prepare Form Data for Submission
-    */
-   private prepareFormData(): any {
-     const { password, email,name,phoneNumber } = this.userLoginForm.value;
-     return {
-     username: email.toLowerCase(),
-       password,
-       name,
-       phone_number: `+91${phoneNumber}`
-     };
-   }
+
+/**
+ * Forgot Password Section 
+ */
 
 
+ // STEP 1 : This will be opened Once you set the email and clicked on the forgot password, it will open the handleResetPassword page and pass your email to next function
+ async onSendCode() {
+ // STEP 2: Cognito is accepting username as email so we are using calling resetPassword function and passing the email to the next function 
+  try {
+     // use email as username
+    const username = (this.forgotPasswordForm.get('email')?.value);
+    // Send the reset code to the user
+    const output = await resetPassword({ username });
+
+    // Open the Otp screen
+    this.changePasswordWithOtpScreen = true;
+
+    // Code Delivery Details
+    const { nextStep } = output;
+    if(nextStep.resetPasswordStep === 'CONFIRM_RESET_PASSWORD_WITH_CODE'){
+        nextStep.codeDeliveryDetails;
+    }
+  } catch (error) {
+     console.log(error);
+  }
+  
+}
+
+// STEP 3: After getting the code from the user we will confirm the reset password from cognito, and we have already match the password with confirm password of verification
+async onChangePassword() {
+  const resetPasswordData : ConfirmResetPasswordInput = {
+    username: this.forgotPasswordForm.get('email')?.value,
+    confirmationCode: this.forgotPasswordForm.get('code')?.value,
+    newPassword: this.forgotPasswordForm.get('newPassword')?.value
+  }
+  try {
+    await confirmResetPassword(resetPasswordData);
+    // Show the popUp
+    debugger;
+    this.modalMessageText = "Password has been reset successfully.";
+    this.modalTitleText = "Congratulations!";
+    this.modalSize = "md";
+    this.openModal(ModalType.SUCCESS_ERROR_MESSAGE);
+
+    // Change the screen after 3 seconds
+    setTimeout(() => {
+      this.changePasswordWithOtpScreen = false;
+      this.forgotPasswordScreen = false;
+      this.forgotPasswordForm.reset();
+    }, 3000)
+  } catch (error: any) {
+   this.invalidOtp = "Invalid OTP,Please enter the correct OTP";
+  }
+}
+/**
+ * Forgot Password Section Ends Here
+ */
  
  // Modal Functions
  openModal(modalType: ModalType, message: string = "", title: string = ""): void {
@@ -281,8 +374,15 @@ forgotPasswordScreen: boolean = false;
  }
 
  // Forgot Password section starts here
- initiateFpScreen(): void {
+ initiateFpScreen(screenType:string): void {
+  
+  if(screenType != 'login') {
   this.forgotPasswordScreen = true;
+  }
+  else{
+    this.forgotPasswordScreen = false;
+    this.changePasswordWithOtpScreen = false;
+  }
 }
 
  // Css functions for the blinking animation
