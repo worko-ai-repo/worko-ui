@@ -162,6 +162,7 @@ export const routes: Routes = [
     EllipsisPipe,
     MessageModalComponent,
     OtpFieldComponent,
+    ReferralRejectedPopupComponent
     // DoneServiceComponent,
     // CancelledServiceComponent,
     // AwaitingServiceComponent,
@@ -244,7 +245,8 @@ export const routes: Routes = [
   ShowMoreDetailsComponent,
   MessageModalComponent,
   OtpFieldComponent,
-  EllipsisPipe
+  EllipsisPipe,
+  ReferralRejectedPopupComponent
   ],
 
 })

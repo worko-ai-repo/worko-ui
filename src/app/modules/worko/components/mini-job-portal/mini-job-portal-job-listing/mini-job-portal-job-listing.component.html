@@ -187,7 +187,7 @@
         <div class="row d-flex align-self-center justify-content-center" *ngIf="showScore">
             <div class="body main-div1">
                 <div class="progress-bar" *ngIf="showScore">
-                    <app-referral-progress-bar [referralId]="referralRequestId"
+                    <app-referral-progress-bar [referralId]="referralRequestId" [jobApplicationRequestId]="jobApplicationRequestId"
                         (response)="handleResponse()" [showFeedback]="showFeedback"></app-referral-progress-bar>
                 </div>
 

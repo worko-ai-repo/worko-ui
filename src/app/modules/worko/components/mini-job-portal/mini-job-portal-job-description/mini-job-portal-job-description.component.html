@@ -13,7 +13,7 @@
     <div class="mini-job-main-container">
         <div class="row mt-4 contents">
             <div class="col-sm-12  col-lg-12" *ngIf="companyName">
-                <div class="mini-job-headline">Get Direct Referral To {{companyName | titlecase}}</div>
+                <div class="mini-job-headline">Apply for Job in {{companyName | titlecase}}</div>
             </div>
         </div>
 
@@ -147,7 +147,7 @@
         <div class="row d-flex align-self-center justify-content-center" *ngIf="showScore">
             <div class="body main-div1">
                 <div class="progress-bar" *ngIf="showScore">
-                    <app-referral-progress-bar [referralId]="referralRequestId" [showFeedback]="showFeedback"></app-referral-progress-bar>
+                    <app-referral-progress-bar [referralId]="referralRequestId" [jobApplicationRequestId]="jobApplicationRequestId" [showFeedback]="showFeedback"></app-referral-progress-bar>
                 </div>
                 <!-- <div class="text-center">
                     <button class="btn btn-next" (click)="okBtn()">OK</button>

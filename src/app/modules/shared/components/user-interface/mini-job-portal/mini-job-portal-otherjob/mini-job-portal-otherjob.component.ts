@@ -14,11 +14,14 @@ export class MiniJobPortalOtherjobComponent {
   navigateToJobReferral(event: MouseEvent, companyName: string, jobTitle: string, jobID: any): void {
     event.preventDefault(); // Prevent the default anchor behavior
 
-    const formattedCompanyName = companyName.toLowerCase().replace(/\s+/g, '-'); // Convert spaces to dashes
-    let formattedJobTitle = jobTitle.replace(/\s+/g, '-').replace(/\//g, '-'); // Preserve the case for job title but replace spaces with dashes
+    // const formattedCompanyName = companyName.toLowerCase().replace(/\s+/g, '-'); // Convert spaces to dashes
+    // let formattedJobTitle = jobTitle.replace(/\s+/g, '-').replace(/\//g, '-'); // Preserve the case for job title but replace spaces with dashes
+
+    const formattedCompanyName =companyName.toLowerCase().replace(/\(.*?\)/g, '').replace(/\s*&\s*/g, '&').replace(/\s+/g, '-').replace(/-+/g, '-').replace(/^-|-$/g, '');
+    const formattedJobTitle = jobTitle.toLowerCase().replace(/\(.*?\)/g, '').replace(/\s*&\s*/g, '&').replace(/\s+/g, '-').replace(/-+/g, '-').replace(/^-|-$/g, '');
 
     const currentDomain = window.location.origin;
-    const url = `${currentDomain}/company/${formattedCompanyName}-jobs/${formattedJobTitle}-${jobID}`;
+    const url = `${currentDomain}/company/jobs/${formattedCompanyName}-jobs/${formattedJobTitle}-${jobID}`;
 
     window.open(url, '_blank');
   }

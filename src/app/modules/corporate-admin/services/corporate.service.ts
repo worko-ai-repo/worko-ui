@@ -10,13 +10,13 @@ const API_URL = environment.apiUrl;
 })
 
 export class CorporateService {
-  
+
   private corporateDetailsSubject = new BehaviorSubject<CorporateVitalDetails | null>(null);
   corporateDetails$ = this.corporateDetailsSubject.asObservable();
 
   constructor(private http: HttpClient, private authService: AuthService) { }
 
-// ===========================================Base store for the corporate user===========================================
+  // ===========================================Base store for the corporate user===========================================
 
   setCorporateVitalDetails(details: CorporateVitalDetails): void {
     this.corporateDetailsSubject.next(details);
@@ -25,31 +25,31 @@ export class CorporateService {
   getCorporateVitalDetails(): CorporateVitalDetails | null {
     return this.corporateDetailsSubject.getValue();
   }
-// ===========================================Base store for the corporate user===========================================
-    
+  // ===========================================Base store for the corporate user===========================================
+
   // Fetch company by id
   getCompanyDetailsById(companyId: string): Promise<any> {
     return this.http.get(`${API_URL}company/${companyId}`, this.authService.getHttpOptions()).toPromise();
   }
 
-    // For fetching the dynamic dropdown values
-    getCompanyName(value: any): Observable<any> {
-      let url = `${API_URL}company`;
-  
-      if (value) {
-        const companyName = encodeURIComponent(value)
-        url += `?companyName=${companyName}`;
-      }
-  
-      //return this.http.get(API_URL + `company/${value}`, this.getHttpOptions())
-      return this.http.get(url, this.authService.getHttpOptions())
-        .pipe(
-          catchError(error => {
-         throw error;
-          })
-        );
+  // For fetching the dynamic dropdown values
+  getCompanyName(value: any): Observable<any> {
+    let url = `${API_URL}company`;
+
+    if (value) {
+      const companyName = encodeURIComponent(value)
+      url += `?companyName=${companyName}`;
     }
-  
+
+    //return this.http.get(API_URL + `company/${value}`, this.getHttpOptions())
+    return this.http.get(url, this.authService.getHttpOptions())
+      .pipe(
+        catchError(error => {
+          throw error;
+        })
+      );
+  }
+
 
   // Corporate Job API
   getJobs(param: any): Promise<any> {
@@ -58,7 +58,7 @@ export class CorporateService {
     if (param.status) {
       url += `&status=${param.status}`;
     }
-    if(param.companyId){
+    if (param.companyId) {
       url += `&companyId=${param.companyId}`;
     }
     if (param.searchText) {
@@ -92,8 +92,8 @@ export class CorporateService {
   // Corporate Users API
   getCorporateUsers(params: any): Promise<any> {
     let url = `${API_URL}corporate-user/?pageSize=${params.pageSize}&companyId=${params.companyId}`;
-    
-    if(params.corporateUserType){
+
+    if (params.corporateUserType) {
       // debugger;
       url += `&corporateUserType=${params.corporateUserType}`;
     }
@@ -109,29 +109,29 @@ export class CorporateService {
     }
     return this.http.get(url, this.authService.getHttpOptions()).toPromise();
   }
-  
-    deleteCorporateUserById(userId: string, companyId: string) : Promise<any> {
-      return this.http.patch(`${API_URL}corporate-user/${userId}/delete?companyId=${companyId}`, this.authService.getHttpOptions()).toPromise();
-    }
-  
-   getCorporateUserDetailById(userId: string) : Promise<any>{
-      return this.http.get(`${API_URL}corporate-user/${userId}/cognito`, this.authService.getHttpOptions()).toPromise();
-    }
 
-    // Corporate Users Invite API
+  deleteCorporateUserById(userId: string, companyId: string): Promise<any> {
+    return this.http.patch(`${API_URL}corporate-user/${userId}/delete?companyId=${companyId}`, this.authService.getHttpOptions()).toPromise();
+  }
+
+  getCorporateUserDetailById(userId: string): Promise<any> {
+    return this.http.get(`${API_URL}corporate-user/${userId}/cognito`, this.authService.getHttpOptions()).toPromise();
+  }
+
+  // Corporate Users Invite API
   getCorporateInvites(params: any): Promise<any> {
     let url = `${API_URL}corporate-invite/?pageSize=${params.pageSize}`;
 
-    if(params.companyId){
+    if (params.companyId) {
       url += `&companyId=${params.companyId}`;
     }
 
-    if(params.corporateUserType){
+    if (params.corporateUserType) {
       // debugger;
       url += `&corporateUserType=${params.corporateUserType}`;
     }
 
-    if(params.inviteStatus) {
+    if (params.inviteStatus) {
       url += `&inviteStatus=${params.inviteStatus}`;
     }
     if (params.searchText) {
@@ -151,10 +151,46 @@ export class CorporateService {
     return this.http.post(`${API_URL}corporate-invite/`, inviteData, this.authService.getHttpOptions()).toPromise();
   }
 
-  updateInviteStatus(inviteId: string, inviteStatus: string , companyId: string) {
+  updateInviteStatus(inviteId: string, inviteStatus: string, companyId: string) {
     return this.http.patch(`${API_URL}corporate-invite/${inviteId}?companyId=${companyId}`, { inviteStatus }, this.authService.getHttpOptions()).toPromise();
   }
   deleteInvite(inviteId: string, companyId: string) {
     return this.http.patch(`${API_URL}corporate-invite/${inviteId}/delete?companyId=${companyId}`, this.authService.getHttpOptions()).toPromise();
   }
+
+  // API's for Corporate Applicants page
+
+  getJobDetailsById(jobId: string) {
+    return this.http.get(API_URL + `job/${jobId}`, this.authService.getHttpOptions()).toPromise();
+  }
+
+  getAllJobApplicants(userType: any, companyId: any, jobId: any, status: any, pageSize?: number, lastKey?: any, sortOrder?: string, searchText?: any) {
+    let url = `${API_URL}job-application/?companyId=${companyId}&jobId=${jobId}&userType=${userType}`;
+
+    if (lastKey) {
+      url += `&lastKey=${lastKey}`;
+    }
+    if (sortOrder) {
+      url += `&sortOrder=${sortOrder}`;
+    }
+    // if (fromDate) {
+    //   url += `&fromDate=${fromDate}`;
+    // }
+    // if (toDate) {
+    //   url += `&toDate=${toDate}`;
+    // } 
+    if (searchText) {
+      const searchTexts = encodeURIComponent(searchText)
+      url += `&searchText=${searchTexts}`;
+    }
+    if (status) {
+      url += `&status=${status}`;
+    }
+    return this.http.get(url, this.authService.getHttpOptions()).toPromise();
+  }
+
+  updateJobApplicationStatus(jobApplicationId: string, data: any) {
+    return this.http.patch(`${API_URL}job-application/${jobApplicationId}/corp-action`, data, this.authService.getHttpOptions()).toPromise();
+  }
+
 }

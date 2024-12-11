@@ -80,7 +80,7 @@ export class CompanyListingService {
 *
 * @returns {Promise<any>}
 */
-  getMatchingScore(emailId: string, referralId: string): Promise<any> {
+  getReferralMatchingScore(emailId: string, referralId: string): Promise<any> {
     return this.http.get(`${API_URL}user/${emailId}/referral/${referralId}/score`, this.authService.getHttpOptions()).toPromise();
   }
 
@@ -108,7 +108,7 @@ export class CompanyListingService {
    */
   getAllJob(): Promise<any> {
     let url = `${API_URL}job?status=PUBLISHED`;
-    const pageSize=200;
+    const pageSize = 200;
     if (pageSize) {
       url += `&pageSize=${pageSize}`;
     }
@@ -123,7 +123,7 @@ export class CompanyListingService {
    */
   getJobByCompanyID(companyID: any, location?: any, department?: any, softSkills?: any, coreSkills?: any, salary?: any, experience?: any, technicalSkill?: any): Promise<any> {
     let url = `${API_URL}job?status=PUBLISHED`;
-    const pageSize=200;
+    const pageSize = 200;
     if (pageSize) {
       url += `&pageSize=${pageSize}`;
     }
@@ -150,7 +150,7 @@ export class CompanyListingService {
 
     }
     if (experience) {
-       url+=`&minExperience=${experience.minExperience}`
+      url += `&minExperience=${experience.minExperience}`
       url += `&maxExperience=${experience.maxExperience}`
 
     }
@@ -172,18 +172,34 @@ export class CompanyListingService {
 
   }
 
-    /**Get  company detail By companyId
-  *
+  /**Get  company detail By companyId
+*
 * @returns {Promise<any>}
- */
-    getcompanyDetailsByCompanyID(companyID: any): Promise<any> {
-      let url = `${API_URL}company/${companyID}`;
-  
-      return this.http.get(url, this.authService.getHttpOptions()).toPromise();
-  
-    }
+*/
+  getcompanyDetailsByCompanyID(companyID: any): Promise<any> {
+    let url = `${API_URL}company/${companyID}`;
 
+    return this.http.get(url, this.authService.getHttpOptions()).toPromise();
 
+  }
+
+  /**
+* Candidate apply job at mini job portal
+*
+* @returns {Promise<any>}
+*/
+  applyJobByEmail(data: any): Promise<any> {
+    return this.http.post(API_URL + `job-application/`, data, this.authService.getHttpOptions()).toPromise();
+  }
+
+  /**
+* GetMatching Score
+*
+* @returns {Promise<any>}
+*/
+  getJobMatchingScore(jobApplicationId: string): Promise<any> {
+    return this.http.get(`${API_URL}job-application/${jobApplicationId}/score`, this.authService.getHttpOptions()).toPromise();
+  }
 
 }
 

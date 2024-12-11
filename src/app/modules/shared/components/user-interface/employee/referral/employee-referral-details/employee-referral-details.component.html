@@ -149,7 +149,7 @@
         [bodyClass]="modalMessage ? 'p-4' : 'p-0'">
 
         <ng-container *ngIf="showModal === modalType.REJECTED_REQUEST">
-            <app-referral-rejected-popup (onSuccess)="receiveDataFromChild($event)"></app-referral-rejected-popup>
+            <app-referral-rejected-popup [userType]="userType" (onSuccess)="receiveDataFromChild($event)"></app-referral-rejected-popup>
         </ng-container>
 
         <ng-container *ngIf="showModal === modalType.CONFIRMATION_DIALOG">

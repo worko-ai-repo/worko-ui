@@ -21,6 +21,7 @@ import { CorporateUserSettingsComponent } from './components/corporate-user-sett
 import { CorporateInvitesComponent } from './components/corporate-invites/corporate-invites.component';
 import { AuthAdminGuardService } from '../worko/services/auth-admin-guard.service';
 import { AuthCoporateGuardService } from '../worko/services/auth-coporate-guard.service';
+import { CorporateApplicantsComponent } from './components/corporate-applicants/corporate-applicants.component';
 
 export const routes: Routes = [
   {
@@ -37,8 +38,14 @@ export const routes: Routes = [
         component: CorporateJobsComponent,canActivate:[AuthCoporateGuardService]
       },
       {
+        path: 'cApplicants',
+        component: CorporateApplicantsComponent,
+        canActivate: [AuthCoporateGuardService]
+      },
+      {
         path: 'cApplicants/:id',
-        component: CorporateJobsComponent ,canActivate:[AuthCoporateGuardService]//Rename the Component 
+        component: CorporateApplicantsComponent,
+        canActivate: [AuthCoporateGuardService]
       },
       {
         path: 'cManageUsers',
@@ -63,7 +70,8 @@ export const routes: Routes = [
     CorporateJobApplicationDetailComponent,
     CorporateUsersComponent,
     CorporateUserSettingsComponent,
-    CorporateInvitesComponent
+    CorporateInvitesComponent,
+    CorporateApplicantsComponent
   ],
   imports: [
     CommonModule,

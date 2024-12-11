@@ -33,6 +33,7 @@ export class MiniJobPortalJobDescriptionComponent {
   showScore: boolean = false;
   matchingScore: number = 0;
   referralRequestId: string = "";
+  jobApplicationRequestId: string = "";
   errorMsg: string | undefined;
   showErrorMsg: boolean | undefined;
   companyID: any = "";
@@ -149,8 +150,11 @@ export class MiniJobPortalJobDescriptionComponent {
       return;
     }
 
-    // Step 6: If profile is complete, check subscription/referral count
-    this.checkRequestReferral();
+    // Step 6: If profile is complete, check subscription/referral count  //This was previous code, when the jobs module was not introduced
+    // this.checkRequestReferral();
+
+    this.createRequest();
+
   }
 
   checkProfileCompletion(): any {
@@ -242,26 +246,29 @@ export class MiniJobPortalJobDescriptionComponent {
 
   async createRequest() {
     this.spinner.show()
+    // console.log(this.jobDescriptionDetails);
 
     if (this.jobDescriptionDetails.companyId) {
       let data = {
         "companyId": this.jobDescriptionDetails.companyId,
+        "companyName": this.companyName,
+        "jobTitle": this.jobDescriptionDetails?.jobTitle,
         "jobUrl": window.location.href,
         //"jdExtracted": this.jobDescriptionDetails.jobDescription 
         "jdExtracted": await this.getFormattedJobDescription(this.jobDescriptionDetails),
         "jobId": this.jobDescriptionDetails.id,
         "jobPortal": 'worko',
-
       }
 
-      this.companyListing.createReferralRequest(this.emailAddress, data).then(async (response) => {
+      this.companyListing.applyJobByEmail(data).then(async (response) => {
         if (response) {
 
 
-          if (response.referralRequestId) {
+          if (response.jobApplicationRequestId) {
             this.spinner.hide()
 
-            this.referralRequestId = response.referralRequestId;
+            this.referralRequestId = '';
+            this.jobApplicationRequestId = response.jobApplicationRequestId;
             this.showLoading = true;
             this.showReferrelRow = false;
             this.showFeedback = false;
@@ -280,7 +287,7 @@ export class MiniJobPortalJobDescriptionComponent {
   }
 
   getScore(referralRequestId: string) {
-    this.companyListing.getMatchingScore(this.emailAddress, referralRequestId).then(async (response) => {
+    this.companyListing.getReferralMatchingScore(this.emailAddress, referralRequestId).then(async (response) => {
       if (response) {
         this.matchingScore = response.matchingScore;
         this.showLoading = false;
@@ -308,7 +315,8 @@ export class MiniJobPortalJobDescriptionComponent {
         this.showReferrelRow = false;
         this.showScore = false;
         this.isShowCloseButton = false
-        this.errorMsg = "You have already requested a referral for this job. Check your dashboard for reference.";
+        // this.errorMsg = "You have already requested a referral for this job. Check your dashboard for reference.";
+        this.errorMsg = "You have already applied for this job. Check your dashboard for the status.";
         this.openModal(ModalType.SUCCESS_MESSAGE);
         break;
       case 404:
@@ -330,9 +338,8 @@ export class MiniJobPortalJobDescriptionComponent {
 
   okBtn() {
     // this.showErrorMsg = false;
-
     this.modal.cancel()
-    this.router.navigate(['/candidate/referral']);
+    this.router.navigate(['/candidate/jobs']);
     //this.onOkBtn.emit();
   }
 
@@ -401,6 +408,7 @@ export class MiniJobPortalJobDescriptionComponent {
 
         let response = await this.companyListing.getJobByJobID(jobID)
         if (response) {
+          debugger
           this.spinner.hide();
           this.jobDescriptionDetails = response[0];
           this.companyName = this.jobDescriptionDetails.companyDetails.name.toLowerCase();
