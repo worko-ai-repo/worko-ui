@@ -15,10 +15,10 @@
   
   $statuses: (
       'RECRUITER': #2716bb,
-      'ADMIN': red,
+      'ADMIN': GREEN,
       'AWAITING': #ffc107,
       'ACCEPTED':rgb(3, 170, 3),
-      'CLOSED': red,
+      'DELETED': red,
     );
     
     //Common Styles
@@ -143,7 +143,9 @@
       display: grid;
       grid-template-columns: repeat(2, 1fr);
       grid-gap: 20px;
-  
+      :last-child {
+        grid-column: 2;
+      }
       select {
         color: white;
         height: auto;

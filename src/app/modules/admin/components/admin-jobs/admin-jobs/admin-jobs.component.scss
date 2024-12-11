@@ -72,7 +72,7 @@ $statuses: (
         border: 2px solid #476baf;
         border-inline-color: #283a5bd1;
         padding: 10px;
-        //width: min-content;
+        width: min-content;
       }
 
       td {
@@ -132,6 +132,7 @@ $statuses: (
     //All the commmon fields should resides within 3 columns
     .selector{
       width:100%;
+      border: 2px solid #476baf;
     }
     .ajobs-fitem {
       grid-column: span 2;

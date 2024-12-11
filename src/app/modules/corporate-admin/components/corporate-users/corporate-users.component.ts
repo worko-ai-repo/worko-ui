@@ -13,10 +13,12 @@ import { ModalComponent } from "src/app/modules/shared/components/modal/modal.co
 import { NgxSpinnerService } from "ngx-spinner";
 import { MatTableDataSource } from "@angular/material/table";
 import { MatAutocompleteTrigger } from "@angular/material/autocomplete";
+import { CorporateVitalDetails } from '../../corporate.component';
 
 
 // Interface for FetchJobsOptionsDto
 interface FetchJobsOptionsDto {
+  companyId?:string;
   corporateUserType?: string;
   name?: string;
   searchText?: string;
@@ -32,6 +34,11 @@ interface FetchJobsOptionsDto {
   styleUrls: ['./corporate-users.component.scss']
 })
 export class CorporateUsersComponent implements OnInit {
+  // Corporate Vital Details
+  corporateVitalDetails : CorporateVitalDetails = {}
+  
+  corporateCompanyName : string ="";
+
   // DEFAULT MEMBER VARIABLES
   sortOrder = {
     ASC: "ascending",
@@ -79,6 +86,8 @@ export class CorporateUsersComponent implements OnInit {
   successmessage: string = "";
   copiedContextId: any;
   
+
+  isRecruiter: boolean = false;
   /**
    * Initializes the AdminJobsComponent with the required services and sets up the job form.
    *
@@ -95,9 +104,26 @@ export class CorporateUsersComponent implements OnInit {
   }
   // Implement the OnInit function to fetch the records on component initialization
   ngOnInit(): void {
+     // Set up the corporateVitalDetails
+     this.corporateService.corporateDetails$.subscribe((details) => {
+      if (details) {
+        this.corporateVitalDetails = details;
+        this.corporateCompanyName = this.corporateVitalDetails.companyName || "";
+        this.corporateVitalDetails.corporateUserType === "RECRUITER" ? this.isRecruiter = true : this.isRecruiter = false;
+
       // Fetch jobs on component initialization
-    this.fetchUsers({ pageSize: 10, sortOrder: this.sortOrder.DESC,  resetPagination: true });
-  }
+    this.fetchUsers({ 
+      companyId:this.corporateVitalDetails.companyId,
+      pageSize: 10, 
+      sortOrder: this.sortOrder.DESC, 
+       resetPagination: true 
+      });
+
+    }
+  });
+   
+  // Fetch jobs on component initialization
+}
 
    /**
    * fetchUsers
@@ -107,11 +133,13 @@ export class CorporateUsersComponent implements OnInit {
    async fetchUsers(options: FetchJobsOptionsDto) {
     this.spinner.show();
     try {
+      const companyId = this.corporateVitalDetails.companyId;
       // If resetPagination is true, reset the lastKey
       if (options.resetPagination) {
         this.lastKey = undefined;
       }
       const params = {
+        companyId ,
         corporateUserType: options.corporateUserType,
         searchText: options.searchText,
         pageSize: options.pageSize,
@@ -180,7 +208,8 @@ export class CorporateUsersComponent implements OnInit {
    async confirmDelete(){
      try {
       this.spinner.show();
-      const response = await this.corporateService.deleteCorporateUserById(this.currentSeletedUser);
+      const companyId = this.corporateVitalDetails.companyId;
+      const response = await this.corporateService.deleteCorporateUserById(this.currentSeletedUser ,companyId!);
       if (response) {
         this.successmessage = "User deleted successfully.";
         this.successtitle = "Success";

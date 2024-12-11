@@ -13,6 +13,7 @@ import { ModalComponent } from "src/app/modules/shared/components/modal/modal.co
 import { NgxSpinnerService } from "ngx-spinner";
 import { MatTableDataSource } from "@angular/material/table";
 import { MatAutocompleteTrigger } from "@angular/material/autocomplete";
+import { emailDomainDenyListValidator } from 'src/app/modules/shared/data/email-domain-validator';
 
 
 // Interface for FetchJobsOptionsDto
@@ -38,7 +39,7 @@ export class AdminInviteComponent implements OnInit {
     AWAITING: "AWAITING",
     ACCEPTED: "ACCEPTED",
     EXPIRED: "EXPIRED",
-    CLOSED : "CLOSED"
+    DELETED : "DELETED"
   };
 
   // DEFAULT MEMBER VARIABLES
@@ -102,6 +103,7 @@ export class AdminInviteComponent implements OnInit {
 
   // Misc Vars
   copiedContextId: any;
+  showCloseBtn: boolean = true;
 
   /**
    * Initializes the Component with the required services and sets up the job form.
@@ -122,7 +124,10 @@ export class AdminInviteComponent implements OnInit {
       companyId: ["", Validators.required],
       firstName: ["", Validators.required],
       lastName: ["", Validators.required],
-      email: ["", [Validators.required, Validators.email]],
+      email: [
+        "",
+        [Validators.required, Validators.email, emailDomainDenyListValidator ()]
+      ],
       corporateUserType: ["", Validators.required],
     });
   }
@@ -219,25 +224,31 @@ export class AdminInviteComponent implements OnInit {
     return control.invalid && (control.dirty || control.touched);
   }
 
-  // Helper method to get the error message
-  getErrorMessage(controlName: string): string | null {
-    const control = this.inviteForm.get(controlName);
+    // Helper method to get the error message
+    getErrorMessage(controlName: string): string | null {
+      const control = this.inviteForm.get(controlName);
 
-    // Check if the control is invalid and touched/dirty
-    if (this.isInvalid(controlName)) {
-      // Check and return specific validation error messages
-      if (control?.errors) {
-        if (control.errors["required"]) {
-          return "This field is required";
-        }
-        if (control.errors["pattern"]) {
-          return "Invalid format , allowed symbols [.,?!-'\"]";
+      // Check if the control is invalid and touched/dirty
+      if (this.isInvalid(controlName)) {
+        // Check and return specific validation error messages
+        if (control?.errors) {
+          if (control.errors["required"]) {
+            return "This field is required";
+          }
+          if (control.errors["pattern"]) {
+            return "Invalid format, allowed symbols [.,?!-'\"]";
+          }
+          if (control.errors["email"]) {
+            return "Please enter a valid email address";
+          }
+          if (control.errors["personalEmail"]) {
+            return "Personal email addresses are not allowed";
+          }
         }
       }
-    }
 
-    return null;
-  }
+      return null;
+    }
 
   // Method to mark form control as touched when user leaves the input
   markControlAsTouched(controlName: string): void {
@@ -260,6 +271,14 @@ export class AdminInviteComponent implements OnInit {
     );
   }
 
+  
+/**
+ * OpenCreateInviteModal
+ */
+  openCreateInviteModal(): void {
+    this.showCloseBtn = false;
+    this.openModal(this.modalType.CORPORATE_USER_ADD_INVITE)
+  }
   // Display the company name in the input when selected
   onCompanySelect(event: any): void {
     const selectedCompany = event.option.value; // Now selectedCompany is the whole object
@@ -346,10 +365,10 @@ export class AdminInviteComponent implements OnInit {
         await this.adminService.createInvite(this.inviteForm.value);  // Await the async call
         await this.fetchInvites({ pageSize: 10, sortOrder: this.sortOrder.DESC, resetPagination: true });
         this.closeModal();  // Close modal only after a successful fetch
-      } catch (error) {
+      } catch (error: any) {
         console.error("Invite creation failed:", error);  // Log the actual error for debugging
         this.errorTitle = "Error";
-        this.errorMessage = "Something went wrong. Please try again later.";  // Show specific error message if available
+        this.errorMessage = error.status === 409 ? error.error?.errorMsg : "Something went wrong. Please try again later.";  // Show specific error message if available
         this.openModal(ModalType.SUCCESS_ERROR_MESSAGE);  // Ensure correct modal type
       } finally {
         this.spinner.hide();  // Always hide spinner regardless of success or failure
@@ -381,7 +400,21 @@ export class AdminInviteComponent implements OnInit {
       this.spinner.hide();
     }
   }
-
+  // Delete invite
+  async deleteInvite(inviteId: string): Promise<void> {
+    this.spinner.show();
+    try {
+      await this.adminService.deleteInvite(inviteId );
+      await this.fetchInvites({ pageSize: this.pageSize, resetPagination: true });
+    } catch (error) {
+      console.error("Invite status update failed:", error);
+      this.errorTitle = "Error";
+      this.errorMessage = "Something went wrong. Please try again later.";
+      this.openModal(ModalType.SUCCESS_ERROR_MESSAGE);
+    } finally {
+      this.spinner.hide();
+    }
+  }
   /**
    * openModal
    * 
@@ -424,11 +457,8 @@ export class AdminInviteComponent implements OnInit {
 
   // Reset the job Form modal
   resetModal(): void {
-    this.searchQuery = "";
-    this.selectedStatus = this.status.ALL;
-    this.selectedCorporateUserType = this.userType.ALL;
-    this.selectedSortOrder = this.sortOrder.DESC;
-    this.fetchInvites({ corporateUserType :this.selectedCorporateUserType,inviteStatus: this.selectedStatus, pageSize: this.pageSize, resetPagination: true }); // Fetch jobs with the new status
+    this.inviteForm.reset();
+    this.resetBtnHandler()
   }
 
   // Misc method
@@ -444,4 +474,22 @@ export class AdminInviteComponent implements OnInit {
       this.copiedContextId = null;
     }, 2000);
   };
+
+   /**
+   * Resets the search input and shows all jobs.
+   */
+   resetBtnHandler(): void {
+    /*     console.log("Reset button clicked");
+     */ 
+        this.searchQuery = "";
+        this.selectedStatus = this.status.ALL;
+        this.selectedCorporateUserType = this.userType.ALL;
+        this.fetchInvites({
+          pageSize: this.pageSize,
+          sortOrder: this.sortOrder.DESC,
+          resetPagination: true });
+
+     }
 }
+
+

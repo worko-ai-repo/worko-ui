@@ -185,6 +185,8 @@ export class CorporateJobsComponent implements OnInit {
   // Component properties
   copiedContextId: any;
   skillsTooltipMessage = "Type a skill and press Enter to add it to the list.";
+  corporateCompanyName: string = "";
+  isRecruiter: boolean = false;
 
   /**
    * Initializes the AdminJobsComponent with the required services and sets up the job form.
@@ -198,7 +200,7 @@ export class CorporateJobsComponent implements OnInit {
     // Initialize the job form with necessary fields and validation
     this.jobForm = this.fb.group({
       status: [this.status.PUBLISHED],
-      companyId: ["",Validators.required],
+      companyId: ["", Validators.required],
       coreSkills: this.fb.array([], Validators.required),
       department: ["", [Validators.required]],
       experienceRange:[null, Validators.required],
@@ -207,7 +209,7 @@ export class CorporateJobsComponent implements OnInit {
       location: ["", Validators.required],
       mislaneiousSkills: this.fb.array([]),
       numOfOpenings: [1, [Validators.required, Validators.min(1)]],
-      noticePeriod: [0, [Validators.required, Validators.min(0)]],
+      noticePeriod: [0 , Validators.required],
       otherRequirements: [""],
       salaryRange: [null, Validators.required],
       softSkills: this.fb.array([], Validators.required),
@@ -219,17 +221,22 @@ export class CorporateJobsComponent implements OnInit {
 
   async ngOnInit() {
     // Set up the corporateVitalDetails
-    this.corporateService.corporateDetails$.subscribe((details) => {
-      if (details) {
-        this.corporateVitalDetails = details;
-  
-        this.jobForm.patchValue({
-          companyId: this.corporateVitalDetails.companyId,
-        });
+     // Set up the corporateVitalDetails
+  // Set up the corporateVitalDetails
+  this.corporateService.corporateDetails$.subscribe((details) => {
+    if (details) {
+      this.corporateVitalDetails = details;
+      this.corporateCompanyName = this.corporateVitalDetails.companyName || "";
+      this.jobForm.patchValue({
+        companyId: this.corporateVitalDetails.companyId,
+        noticePeriod: 0,
+      });
+      this.corporateVitalDetails.corporateUserType === "RECRUITER" ? this.isRecruiter = true : this.isRecruiter = false;
+     
 
         this.fetchJobs({
-          companyId:this.corporateVitalDetails.companyId,
-          pageSize: 10,
+          companyId: this.corporateVitalDetails.companyId,
+          pageSize: 25,
           sortOrder: this.sortOrder.DESC,
           jobStatus: this.status.ALL,
           resetPagination: true,
@@ -257,6 +264,8 @@ export class CorporateJobsComponent implements OnInit {
       return txt.charAt(0).toUpperCase() + txt.substr(1).toLowerCase();
     });
   }
+
+
   /**
    * fetchJobs
    *
@@ -264,20 +273,21 @@ export class CorporateJobsComponent implements OnInit {
    */
   async fetchJobs(options: FetchJobsOptionsDto) {
     this.spinner.show();
+    const companyId = this.corporateVitalDetails.companyId;
     try {
       // If resetPagination is true, reset the lastKey
       if (options.resetPagination) {
         this.lastKey = undefined;
       }
       const params = {
-        companyId : this.corporateVitalDetails.companyId,
+        companyId : companyId,
         status: options.jobStatus,
         searchText: options.searchText,
         pageSize: options.pageSize,
         lastKey: this.lastKey,
         sortOrder: options.sortOrder,
       };
-      debugger;
+
       const response = await this.corporateService.getJobs(params);
       if (response) {
         this.jobs = response.data;
@@ -294,10 +304,8 @@ export class CorporateJobsComponent implements OnInit {
     } catch (error: any) {
       this.spinner.hide();
       if (error.status === 404) {
-        this.router.navigate(["/admin/dashboard"]);
-      } else if (error.status === 401) {
-        this.router.navigate(["/"]);
-      } else {
+        this.router.navigate(["/corporate/cJobs"]);
+      }  else {
         this.successmessage = "Something went wrong. Please try again later.";
         this.successtitle = "Error";
         this.openModal(ModalType.SUCCESS_MESSAGE);
@@ -330,8 +338,17 @@ export class CorporateJobsComponent implements OnInit {
     if (!control) {
       return false;
     }
-    // Common validation: control should be invalid and touched/dirty
-    return control.invalid && (control.dirty || control.touched);
+    const isInvalid = control.invalid && (control.dirty || control.touched);
+    
+      // Log the invalid control and its errors
+      if (isInvalid) {
+        console.log(`Invalid control: ${controlName}`, control.errors);
+      }
+      if (!isInvalid) {
+        console.log(`valid`);
+      }
+    
+      return isInvalid;
   }
 
   // Helper method to get the error message
@@ -505,6 +522,10 @@ export class CorporateJobsComponent implements OnInit {
     this.resetModal();
     this.companyControl.enable();
     this.isEditMode = false;
+    this.jobForm.patchValue({ 
+      companyId: this.corporateVitalDetails.companyId,
+      noticePeriod: 0,
+    });
     this.modal.cancel();
   }
 
@@ -539,7 +560,7 @@ export class CorporateJobsComponent implements OnInit {
     } else {
       // If not in edit mode, reset the entire form including companyId
       this.jobForm.reset();
-      this.companyControl.reset();
+//      this.companyControl.reset();
     }
     this.jobForm.get('status')?.patchValue(this.status.PUBLISHED);
     if (this.trigger) {
@@ -646,7 +667,7 @@ export class CorporateJobsComponent implements OnInit {
     );
 
     // Manually set the company name and ID
-    this.companyControl.setValue(job.companyDetails.name || ""); // Set company name
+    // this.companyControl.setValue(job.companyDetails.name || ""); // Set company name
     this.jobForm.get("companyId")?.setValue(job.companyId || ""); // Set company ID
 
     // Clear and repopulate the soft skills FormArray
@@ -831,4 +852,15 @@ export class CorporateJobsComponent implements OnInit {
   viewJobDetailsandApplications(jobId: any): void {
     this.router.navigate(["corporate/cApplicants/"+jobId]);
   }
+
+formatRange(min: number, max: number, type: string): string {
+if (type === 'experience') {
+if (min === 0 && max === 0) return '-'; // Handling edge case for no experience range
+return `${min}-${max} ${max === 1 ? 'Year' : 'Years'}`;
+} else if (type === 'salary') {
+if (min === 0 && max === 0) return '-'; // Handling edge case for no salary range
+return `${min}-${max} LPA`;
+}
+return '-'; // Default value
+}
 }

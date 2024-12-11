@@ -276,4 +276,8 @@ export class AdminService {
     return this.http.patch(`${API_URL}corporate-invite/${inviteId}`, { inviteStatus }, this.authService.getHttpOptions()).toPromise();
   }
 
+    deleteInvite(inviteId: string) {
+    return this.http.patch(`${API_URL}corporate-invite/${inviteId}/delete`, this.authService.getHttpOptions()).toPromise();
+  }
+
 }

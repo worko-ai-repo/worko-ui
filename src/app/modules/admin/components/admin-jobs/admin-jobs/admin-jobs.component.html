@@ -14,17 +14,17 @@
           <span class="ajobs-status">
             <select name="status" [(ngModel)]="selectedStatus" class="selector form-select"
               (change)="onStatusChange($event)">
-              <option value={{status.ALL}}>ALL JOBS</option>
-              <option value={{status.PUBLISHED}}>PUBLISHED</option>
-              <option value={{status.ARCHIVED}}>ARCHIVED</option>
-              <option value={{status.CLOSED}}>CLOSED</option>
+              <option value={{status.ALL}}>All Jobs</option>
+              <option value={{status.PUBLISHED}}>Published</option>
+              <option value={{status.ARCHIVED}}>Archived</option>
+              <option value={{status.CLOSED}}>Closed</option>
             </select>
           </span>
           <span class="ajobs-status">
             <select name="status" [(ngModel)]="selectedSortOrder" class="selector form-select"
               (change)="onSortOrderChange($event)">
-              <option value={{sortOrder.ASC}}>ASCENDING</option>
-              <option value={{sortOrder.DESC}}>DESCENDING</option>
+              <option value={{sortOrder.ASC}}>Ascending</option>
+              <option value={{sortOrder.DESC}}>Descending</option>
             </select>
           </span>
           <button class="ps-4 pe-4 btn searchButton" (click)="resetBtnHandler()">Reset</button>
@@ -34,29 +34,36 @@
         <table class="table-style">
           <thead>
             <tr>
-              <th>Job ID</th>
-              <th>Job Title</th>
-              <th>Company Name</th>
+              <th style="width: 20% !important;">Job Title</th>
               <th>Status</th>
+              <!-- <th>CreatedBy</th> -->
               <th>Created At</th>
+              <th>Company</th>
+              <th>Experience</th>
+              <th>Salary</th>
+              <th>Location</th>
+              <th>Job ID</th>
               <th>Actions</th>
             </tr>
           </thead>
           <tbody>
             <tr *ngIf="filteredJobs.length === 0">
-              <td colspan="7" class="no-jobs-message">{{ noJobsMessage }}</td>
+              <td colspan="14" class="no-jobs-message">{{ noJobsMessage }}</td>
             </tr>
             <tr *ngFor="let job of filteredJobs; let i = index">
-              <td>
-                <span style="margin-right:30px">{{ job.id }}</span>
-                <mat-icon style="cursor: pointer; position: absolute; right: 10px;" (click)="copyToClipboard(job.id)"
-                  matTooltip="Copy to Clipboard" matTooltipPosition="above">
-                  {{ copiedContextId === job.id ? 'check' : 'content_copy' }}
-                  <!-- {{ copiedContextId === row.contextId ? 'check' : 'content_paste' }} -->
-                </mat-icon>
+              
+
+              <td matTooltip={{job.jobTitle}} matTooltipPosition="above"  (click)="viewJobDetailsandApplications(job.id)" id="job-table-row">{{ job.jobTitle |
+                ellipsis:30 | titlecase }}
               </td>
-              <td matTooltip={{job.jobTitle}} matTooltipPosition="above" style="cursor: pointer;">{{ job.jobTitle |
-                ellipsis:30 | titlecase }}</td>
+
+                <td>
+                  <p [ngClass]="getStatusClass(job.status)">{{ job.status | titlecase }}</p>
+                </td>
+                
+
+              <td>{{ job.createdAt | date: 'd MMM yyyy, h:mm a' }}</td>
+              
               <td id="tuple-with-logo">
                 <ng-container *ngIf="job.companyDetails?.logo; else useUrlLogoSecond">
                   <img src="assets/company-logo/{{job.companyDetails?.logo}}" alt="{{job.companyDetails?.name}}"
@@ -68,11 +75,26 @@
                 </ng-template>
                 {{ job.companyDetails?.name }}
               </td>
-              <td>
-                <p [ngClass]="getStatusClass(job.status)">{{ job.status | uppercase }}</p>
-              </td>
-              <td>{{ job.createdAt | date: 'd MMM yyyy, h:mm a' }}</td>
+              
+              <td>  {{ formatRange(job?.experienceRange.min, job?.experienceRange.max,
+                'experience') }}</td>
+              <td>  {{ formatRange(job?.salaryRange.min, job?.salaryRange.max,
+                'salary') }}</td>
+              <td>{{ job.location | titlecase }}</td>
+
+                <td>
+                  <span style="margin-right:30px"  matTooltip={{job.id}} matTooltipPosition="above">{{ job.id | ellipsis:8 }}</span>
+                  <mat-icon style="cursor: pointer; position: absolute; right: 10px;" (click)="copyToClipboard(job.id)"
+                    matTooltip="Copy to Clipboard" matTooltipPosition="above">
+                    {{ copiedContextId === job.id ? 'check' : 'content_copy' }}
+                    <!-- {{ copiedContextId === row.contextId ? 'check' : 'content_paste' }} -->
+                  </mat-icon>
+                </td>
+
               <td id="editbtns">
+                <span *ngIf="true" (click)="viewJobDetailsandApplications(job.id)"
+                matTooltip="View More Details for this Job" matTooltipPosition="above" style="background: #9b00cb;">
+                <i class="fa-solid fa-circle-info"></i></span>
                 <span *ngIf="job.status != status.CLOSED" (click)="editJob(job)" matTooltip="Edit"
                   matTooltipPosition="above" style="background:#2716bb;"><i
                     class="fa-solid fa-pen-to-square"></i></span>
@@ -86,13 +108,9 @@
                 <span *ngIf="job.status === status.ARCHIVED" (click)="updateJobStatus(job,'PUBLISHED')"
                   matTooltip="Make Publish" matTooltipPosition="above" style="background: #ffc107;">
                   <i class="fa-solid fa-eye"></i></span>
-                  <span *ngIf="true" (click)="navigateToJobReferral($event,job.companyDetails.name, job.jobTitle,job.id)"
+                <span *ngIf="true" (click)="navigateToJobReferral($event,job.companyDetails.name, job.jobTitle,job.id)"
                   matTooltip="Visit" matTooltipPosition="above" style="background: green;">
                   <i class="fa-solid fa-arrow-up-right-from-square"></i></span>
-                  <span *ngIf="true" (click)="viewJobDetailsandApplications(job.id)"
-                    matTooltip="View More Details for this Job" matTooltipPosition="above" style="background: #2cf504;">
-                    <i class="fa-solid fa-circle-info"></i></span>
-                  
               </td>
             </tr>
           </tbody>
