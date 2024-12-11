@@ -72,7 +72,7 @@
           border: 2px solid #476baf;
           border-inline-color: #283a5bd1;
           padding: 10px;
-          //width: min-content;
+          width: min-content;
         }
   
         td {
@@ -132,6 +132,7 @@
       //All the commmon fields should resides within 3 columns
       .selector{
         width:100%;
+        border: 2px solid #476baf;
       }
       .ajobs-fitem {
         grid-column: span 2;
@@ -142,16 +143,11 @@
         &.gCloumnTwo {
           grid-column: span 6;
         }
-        /*         i{
-            position: absolute;
-            top: 50px;
-            left: 10px;
-            cursor: pointer;
-          } */
+        
       }
       //The companyName Field Should be full width
       .ajobs-fitem:first-child {
-        grid-column: 1 / span 6;
+        grid-column: 1 / span 4;
       }
       //Grid Managment Ends
       .skill-chip-box {
@@ -243,6 +239,12 @@
           background-color: #853224;
         }
       }
+    }
+  }
+  #job-table-row{
+    cursor: pointer;
+    :hover *{
+      color: #1ed6ff;
     }
   }
   

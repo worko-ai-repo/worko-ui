@@ -13,6 +13,7 @@ import { ModalComponent } from "src/app/modules/shared/components/modal/modal.co
 import { NgxSpinnerService } from "ngx-spinner";
 import { MatTableDataSource } from "@angular/material/table";
 import { CorporateVitalDetails } from '../../corporate.component';
+import { emailDomainDenyListValidator } from 'src/app/modules/shared/data/email-domain-validator';
 
 
 // Interface for FetchInviteOptionDto
@@ -41,6 +42,7 @@ export class CorporateInvitesComponent implements OnInit{
     AWAITING: "AWAITING",
     ACCEPTED: "ACCEPTED",
     EXPIRED: "EXPIRED",
+    DELETED: "DELETED",
   };
 
   // DEFAULT MEMBER VARIABLES
@@ -100,6 +102,8 @@ export class CorporateInvitesComponent implements OnInit{
 
   // Misc Vars
   copiedContextId: any;
+  isRecruiter: boolean = false;
+  showCloseBtn: boolean = true;
 
   /**
    * Initializes the Component with the required services and sets up the job form.
@@ -120,7 +124,10 @@ export class CorporateInvitesComponent implements OnInit{
       companyId: ["", Validators.required],
       firstName: ["", Validators.required],
       lastName: ["", Validators.required],
-      email: ["", [Validators.required, Validators.email]],
+      email: [
+        "",
+        [Validators.required, Validators.email, emailDomainDenyListValidator()]
+      ],
       corporateUserType: ["RECRUITER", Validators.required],
     });
   }
@@ -135,10 +142,10 @@ export class CorporateInvitesComponent implements OnInit{
         this.inviteForm.patchValue({
           companyId: this.corporateVitalDetails.companyId,
         });
-
+        this.corporateVitalDetails.corporateUserType === "RECRUITER" ? this.isRecruiter = true : this.isRecruiter = false;
         this.fetchInvites({
            companyId:this.corporateVitalDetails.companyId,
-           pageSize: 10,
+           pageSize: 25,
            sortOrder: this.sortOrder.DESC,
            resetPagination: true });
 
@@ -244,7 +251,13 @@ export class CorporateInvitesComponent implements OnInit{
           return "This field is required";
         }
         if (control.errors["pattern"]) {
-          return "Invalid format , allowed symbols [.,?!-'\"]";
+          return "Invalid format, allowed symbols [.,?!-'\"]";
+        }
+        if (control.errors["email"]) {
+          return "Please enter a valid email address";
+        }
+        if (control.errors["personalEmail"]) {
+          return "Personal email addresses are not allowed";
         }
       }
     }
@@ -260,7 +273,13 @@ export class CorporateInvitesComponent implements OnInit{
     }
   }
 
-
+/**
+ * OpenCreateInviteModal
+ */
+  openCreateInviteModal(): void {
+    this.showCloseBtn = false;
+    this.openModal(this.modalType.CORPORATE_USER_ADD_INVITE)
+  }
   
   /* Company Selector Ends Here */
 
@@ -314,10 +333,10 @@ export class CorporateInvitesComponent implements OnInit{
         await this.corporateService.createInvite(this.inviteForm.value);  // Await the async call
         await this.fetchInvites({ pageSize: 10, sortOrder: this.sortOrder.DESC, resetPagination: true });
         this.closeModal();  // Close modal only after a successful fetch
-      } catch (error) {
+      } catch (error: any) {
         console.error("Invite creation failed:", error);  // Log the actual error for debugging
         this.errorTitle = "Error";
-        this.errorMessage = "Something went wrong. Please try again later.";  // Show specific error message if available
+        this.errorMessage = error.status === 409 ? error.error?.errorMsg : "Something went wrong. Please try again later.";  // Show specific error message if available
         this.openModal(ModalType.SUCCESS_ERROR_MESSAGE);  // Ensure correct modal type
       } finally {
         this.spinner.hide();  // Always hide spinner regardless of success or failure
@@ -350,6 +369,24 @@ export class CorporateInvitesComponent implements OnInit{
       this.spinner.hide();
     }
   }
+
+  // Delete invite
+  async deleteInvite(inviteId: string): Promise<void> {
+    this.spinner.show();
+    try {
+      const companyId = this.corporateVitalDetails.companyId;
+    await this.corporateService.deleteInvite(inviteId , companyId! );
+      await this.fetchInvites({ pageSize: this.pageSize, resetPagination: true });
+    } catch (error) {
+      console.error("Invite status update failed:", error);
+      this.errorTitle = "Error";
+      this.errorMessage = "Something went wrong. Please try again later.";
+      this.openModal(ModalType.SUCCESS_ERROR_MESSAGE);
+    } finally {
+      this.spinner.hide();
+    }
+  }
+  
 
   /**
    * openModal
@@ -393,11 +430,12 @@ export class CorporateInvitesComponent implements OnInit{
 
   // Reset the job Form modal
   resetModal(): void {
-    this.searchQuery = "";
-    this.selectedStatus = this.status.ALL;
-    this.selectedCorporateUserType = this.userType.ALL;
-    this.selectedSortOrder = this.sortOrder.DESC;
-    this.fetchInvites({ corporateUserType :this.selectedCorporateUserType,inviteStatus: this.selectedStatus, pageSize: this.pageSize, resetPagination: true }); // Fetch jobs with the new status
+    this.inviteForm.reset();
+    this.inviteForm.patchValue({
+      companyId: this.corporateVitalDetails.companyId,
+      corporateUserType: "RECRUITER",
+    });
+    this.resetBtnHandler()
   }
 
   // Misc method
@@ -413,4 +451,21 @@ export class CorporateInvitesComponent implements OnInit{
       this.copiedContextId = null;
     }, 2000);
   };
+
+    /**
+   * Resets the search input and shows all jobs.
+   */
+    resetBtnHandler(): void {
+      /*     console.log("Reset button clicked");
+       */ 
+          this.searchQuery = "";
+          this.selectedStatus = this.status.ALL;
+          this.selectedCorporateUserType = this.userType.ALL;
+          this.fetchInvites({
+            companyId:this.corporateVitalDetails.companyId,
+            pageSize: this.pageSize,
+            sortOrder: this.sortOrder.DESC,
+            resetPagination: true });
+ 
+       }
 }

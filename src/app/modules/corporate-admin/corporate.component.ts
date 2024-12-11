@@ -63,7 +63,6 @@ export class CorporateComponent {
         this.corporateVitelDetails.companyName = companyDetails[0]?.name;
 
         this.CorporateDashHeading = `${this.corporateVitelDetails.companyName} Dashboard`;
-        debugger;
         if(this.corporateVitelDetails){
           this.CorporateService.setCorporateVitalDetails(this.corporateVitelDetails);
         }

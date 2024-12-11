@@ -123,21 +123,20 @@ export class CreateUserForCorporateComponent {
         console.log('Fetched Invite Details:', this.inviteDetails); // Log for debugging
       
         this.updateForm(this.inviteDetails); // Populate the form with data
-
         
-        const check = this.inviteDetails.inviteStatus === CorpInviteStatusEnum.EXPIRED ;
         // check if the invitation that we got has expired or not
         this.inviteDetails.inviteStatus === CorpInviteStatusEnum.EXPIRED ? this.openModal(ModalType.CORPORATE_USER_INVITE_EXPIRED) : null;
 
-      } else {
-        this.modalSize = "md";
-        this.errorMessage = "Invite not found";
-        this.openModal(ModalType.SUCCESS_ERROR_MESSAGE);
       }
     } catch (error: any) {
       this.spinner.hide();
       if (error.status === 404 || error.status === 401) {
-        this.router.navigate([`/auth/corporate/signup/${this.route.snapshot.paramMap.get('inviteId')}`]);
+        this.redirectTitle = "Invalid Invite";
+        this.modalSize = "lg";
+        this.redirectMessage = "Oops! The invite you are trying to access is not valid. Please contact the company administrator for a new invite.";
+      
+        this.openModal(ModalType.CORPORATE_USER_INVITE_REDIRECT);
+        this.startCountdown('home');
       } else {
         this.modalSize = "md";
         this.errorMessage = "Something went wrong. Please try again later.";

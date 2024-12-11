@@ -159,11 +159,6 @@ export class LoginUserForCorporateComponent {
     
       const isInvalid = control.invalid && (control.dirty || control.touched);
     
-      // Log the invalid control and its errors
-      if (isInvalid) {
-        console.log(`Invalid control: ${controlName}`, control.errors);
-      }
-    
       return isInvalid;
    }
 
@@ -266,7 +261,6 @@ export class LoginUserForCorporateComponent {
     
     const userType = response.data?.lastAccessedDash ?? 'Corporate'; //CORP emp
     const userName = response.data?.name;
-    window.alert('UserType is :'+ this.storage.get('userId') );
     this.storage.set('lastAccessedDash', userType);
     this.storage.set('userName', userName);
 
@@ -276,7 +270,7 @@ export class LoginUserForCorporateComponent {
     this.onSuccess.emit(userType);
  
     this.spinner.hide();
-    debugger;
+    
     const tf = userType === 'Corporate' ? '/corporate/cJobs' : '/';
     this.router.navigate([userType === 'Corporate' ? '/corporate/cJobs' : '/']);
   }
@@ -323,7 +317,7 @@ async onChangePassword() {
   try {
     await confirmResetPassword(resetPasswordData);
     // Show the popUp
-    debugger;
+    
     this.modalMessageText = "Password has been reset successfully.";
     this.modalTitleText = "Congratulations!";
     this.modalSize = "md";
@@ -414,7 +408,6 @@ async onChangePassword() {
      }, 1000);
 
      setTimeout(() => {
-       console.log('Redirecting to login page...');
        this.closeModal();
        this.router.navigate(['/']); // Redirects to home or login page
      }, 5000);

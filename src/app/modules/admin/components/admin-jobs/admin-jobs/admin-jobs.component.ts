@@ -173,7 +173,7 @@ export class AdminJobsComponent implements OnInit {
   successmessage: string = "";
 
   //Pagination Properties
-  pageSize: number = 10;
+  pageSize: number = 25;
   lastKey: string | undefined = undefined;
   @ViewChild("companyJobMatSort") companyJobMatSort!: MatSort;
   @ViewChild("companyJobMatPaginator") companyJobMatPaginator!: MatPaginator;
@@ -221,7 +221,7 @@ export class AdminJobsComponent implements OnInit {
       switchMap((value) => this.filterCompanies(value))
     )
       // Fetch jobs on component initialization
-    this.fetchJobs({ pageSize: 10, sortOrder: this.sortOrder.DESC, jobStatus: this.status.ALL, resetPagination: true });
+    this.fetchJobs({ pageSize: 25, sortOrder: this.sortOrder.DESC, jobStatus: this.status.ALL, resetPagination: true });
   }
 
   // @TODO Add to reusable code
@@ -807,4 +807,20 @@ export class AdminJobsComponent implements OnInit {
   viewJobDetailsandApplications(jobId: any): void {
     this.router.navigate(["/admin/aCorporate/jobApplDetail/"+jobId]);
   }
+  
+  /**
+   * formatRange 
+   * 
+   * Formats the range values based on the type.
+   */
+  formatRange(min: number, max: number, type: string): string {
+    if (type === 'experience') {
+    if (min === 0 && max === 0) return '-'; // Handling edge case for no experience range
+    return `${min}-${max} ${max === 1 ? 'Year' : 'Years'}`;
+    } else if (type === 'salary') {
+    if (min === 0 && max === 0) return '-'; // Handling edge case for no salary range
+    return `${min}-${max} LPA`;
+    }
+    return '-'; // Default value
+    }
 }

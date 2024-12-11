@@ -3,13 +3,64 @@
         <div class="candidate-card tab-pane fade show active" id="home" role="tabpanel" aria-labelledby="home-tab">
             <h5>Settings</h5>
             <div class="ajobs-filters">
-                <span class="cjobs-settings-container">
-                    <input type="text" class="form-control serachInput" placeholder="user.name" />
-                    <input type="text" class="form-control serachInput" placeholder="user.email" />
-                    <input type="text" class="form-control serachInput" placeholder="user.password" />
-                    <button class="ps-4 pe-4 btn searchButton">Reset</button>
-                </span>
-            </div>
+                <form [formGroup]="passwordForm" (ngSubmit)="onSubmit()" class="cjobs-settings-container">
+                  <!-- Current Password -->
+                  <div class="form-group">
+                    <label for="oldPassword">Current Password</label>
+                    <input
+                      type="password"
+                      id="oldPassword"
+                      class="form-control serachInput"
+                      formControlName="oldPassword"
+                      placeholder="Enter current password"
+                    />
+                    <div *ngIf="passwordForm.get('oldPassword')?.touched && passwordForm.get('oldPassword')?.invalid" class="error">
+                      <span *ngIf="passwordForm.get('oldPassword')?.errors?.['required']">Current password is required.</span>
+                    </div>
+                  </div>
+              
+                  <!-- New Password -->
+                  <div class="form-group">
+                    <label for="newPassword">New Password</label>
+                    <input
+                      type="password"
+                      id="newPassword"
+                      class="form-control serachInput"
+                      formControlName="newPassword"
+                      placeholder="Enter new password"
+                    />
+                    <div *ngIf="passwordForm.get('newPassword')?.touched && passwordForm.get('newPassword')?.invalid" class="error">
+                      <span *ngIf="passwordForm.get('newPassword')?.errors?.['required']">New password is required.</span>
+                      <span *ngIf="passwordForm.get('newPassword')?.errors?.['minlength']">Password must be at least 6 characters.</span>
+                    </div>
+                  </div>
+              
+                  <!-- Confirm New Password -->
+                  <div class="form-group">
+                    <label for="confirmPassword">Confirm New Password</label>
+                    <input
+                      type="password"
+                      id="confirmPassword"
+                      class="form-control serachInput"
+                      formControlName="confirmPassword"
+                      placeholder="Confirm new password"
+                    />
+                    <div *ngIf="passwordForm.get('confirmPassword')?.touched && passwordForm.errors?.['mismatch']" class="error">
+                      Passwords do not match.
+                    </div>
+                  </div>
+              
+                  <!-- Submit Button -->
+                  <button type="submit" class="ps-4 pe-4 btn searchButton" [disabled]="isSubmitting || passwordForm.invalid">
+                    Reset Password
+                  </button>
+              
+                  <!-- Messages -->
+                  <div *ngIf="errorMessage" class="resetPasswordError text-danger mt-2"><i class="fa-solid fa-triangle-exclamation fa-sm" style="color: #ff0505;"></i>&nbsp;{{ errorMessage }}</div>
+                  <div *ngIf="successMessage" class="resetPasswordSuccess text-success mt-2"><i class="fa-solid fa-square-check fa-sm" style="color: #63E6BE;"></i> &nbsp;{{ successMessage}}</div>
+                </form>
+              </div>
+              
         </div>
     </div>
 </div>
