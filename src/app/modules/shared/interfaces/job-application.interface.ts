@@ -5,7 +5,6 @@ export interface JobApplicationsResponse {
 }
 
 export interface JobApplication {
-    jobTitle?: string
     jobUrl: string;
     companyId: string;
     companyName: string;
@@ -13,6 +12,13 @@ export interface JobApplication {
     createdAt: string;
     jobId: string;
     scoreDetails: string;
+    statusTracker: {
+        userType: string;
+        newStatus: string;
+        oldStatus: string;
+        actionDate: string;
+        userId: string;
+    }[];
     GSI1SK: string;
     matchingScore: number;
     GSI2SK: string;
@@ -26,9 +32,15 @@ export interface JobApplication {
     jdMatchErrorDesc: string;
     PK: string;
     id: string;
+    jobTitle: string;
     rejectionFeedbackBySystem: string;
     jdMatchErrorCode: number;
+
+    // Optional properties for the timeline
+    timelineSteps?: string[]; // Steps in the timeline
+    currentStepIndex?: number; // Current step index in the timeline
 }
+
 
 export interface Pagination {
     count: number;

@@ -56,6 +56,7 @@ import { ProvideFeedbackComponent } from '../shared/components/user-interface/re
 import { WithdrawnReferralComponent } from '../shared/components/user-interface/candidate/withdrawn-referral/withdrawn-referral.component';
 import { AuthRouteGuardService } from '../worko/services/auth-route-guard.service';
 import { PgResponseComponent } from '../shared/components/user-interface/subscription/pg-response/pg-response.component';
+import { CandidateJobsComponent } from './components/candidate-jobs/candidate-jobs.component';
 
 
 
@@ -69,6 +70,22 @@ export const routes: Routes = [
         path: 'dashboard',
         component: CandidateDashboardComponent,canActivate:[AuthRouteGuardService]
         // canActivate: [ candidateGuard]
+      },
+      {
+        path: 'jobs',
+        canActivate:[AuthRouteGuardService],
+        children: [
+          {
+            path: '',
+            redirectTo: 'applied', // Redirect to "applied" by default
+            pathMatch: 'full'
+          },
+          {
+            path: ':status', // Handle dynamic statuses
+            component: CandidateJobsComponent,
+            canActivate: [AuthRouteGuardService]
+          }
+        ]
       },
       {
         path: 'referral',
@@ -165,6 +182,7 @@ export const routes: Routes = [
    AwaitingServiceComponent,
    CancelledServiceComponent,
    DoneServiceComponent,
+   CandidateJobsComponent
    
    
    

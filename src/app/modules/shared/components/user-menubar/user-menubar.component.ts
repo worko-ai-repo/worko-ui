@@ -91,7 +91,7 @@ export class UserMenubarComponent {
           router: "candidate/dashboard",
         },
         {
-          name: 'Jobs',
+          name: 'Job',
           router: "candidate/jobs",
           submenu: [
             { name: 'Applied', router: '/candidate/jobs/applied' },
@@ -345,20 +345,24 @@ export class UserMenubarComponent {
 
   toggleSubmenu(menu: any): void {
     const isReferralMenu = menu.name === 'Referral';
-    const isJobsMenu = menu.name === 'Jobs';
-  
+    const isJobsMenu = menu.name === 'Job';
+
     if (isReferralMenu && this.isNotAdminDashboard) {
       this.isReferralSubmenuOpen = !this.isReferralSubmenuOpen;
       this.isJobsSubmenuOpen = false;
-  
-      if (this.isReferralSubmenuOpen && !this.currentSubmenuStatus) {
+
+      // if (this.isReferralSubmenuOpen && !this.currentSubmenuStatus) { Previous working code
+
+      if (this.isReferralSubmenuOpen) {
         this.router.navigate(['/candidate/referral']);
       }
     } else if (isJobsMenu && this.isNotAdminDashboard) {
       this.isJobsSubmenuOpen = !this.isJobsSubmenuOpen;
       this.isReferralSubmenuOpen = false;
-  
-      if (this.isJobsSubmenuOpen && !this.currentSubmenuStatus) {
+
+      // if (this.isJobsSubmenuOpen && !this.currentSubmenuStatus) { Previous working code
+
+      if (this.isJobsSubmenuOpen) {
         this.router.navigate(['/candidate/jobs']);
       }
     } else {
@@ -383,6 +387,25 @@ export class UserMenubarComponent {
     return currentUrl.startsWith('/candidate/jobs');
   }
 
+  // getIcon(name: string): string {
+  //   switch (name.toLowerCase()) {
+  //     case 'awaiting':
+  //       return 'fas fa-clock'; // Icon for 'Awaiting'
+  //     case 'accepted':
+  //       return 'fas fa-check-circle'; // Icon for 'Accepted'
+  //     case 'rejected':
+  //       return 'fas fa-times-circle'; // Icon for 'Rejected'
+  //     case 'cancelled':
+  //       return 'fas fa-ban'; // Icon for 'Cancelled'
+  //     case 'withdrawn':
+  //       return 'fas fa-undo'; // Icon for 'Withdrawn'
+  //     case 'referred':
+  //       return 'fas fa-user-plus'; // Icon for 'Referred'
+  //     default:
+  //       return 'fas fa-circle'; // Default icon
+  //   }
+  // }
+
   getIcon(name: string): string {
     switch (name.toLowerCase()) {
       case 'awaiting':
@@ -397,10 +420,23 @@ export class UserMenubarComponent {
         return 'fas fa-undo'; // Icon for 'Withdrawn'
       case 'referred':
         return 'fas fa-user-plus'; // Icon for 'Referred'
+      case 'applied':
+        return 'fas fa-file-alt'; // Icon for 'Applied'
+      case 'cv downloaded':
+        return 'fas fa-download'; // Icon for 'CV Downloaded'
+      case 'under evaluation':
+        return 'fas fa-search'; // Icon for 'Under Evaluation'
+      case 'processing interview':
+        return 'fas fa-user-clock'; // Icon for 'Processing Interview'
+      case 'interview done':
+        return 'fas fa-user-check'; // Icon for 'Interview Done'
+      case 'hired':
+        return 'fas fa-user-tie'; // Icon for 'Hired'
       default:
         return 'fas fa-circle'; // Default icon
     }
   }
+  
 
   onSubmenuClick(currentSubmenu: string) {
     this.currentSubmenuStatus = currentSubmenu.toLowerCase();

@@ -176,6 +176,21 @@ export class CandidateProfileService {
     return this.http.get(API_URL + `user/${emailAddress}/subscription/status`, this.authService.getHttpOptions()).toPromise();
   }
 
+  // Candidate Jobs API
+
+  getAllJobApplication(userType:string, emailAddress:string, status:string) {
+    return this.http.get(API_URL + `job-application/?status=${status}&userEmail=${emailAddress}&userType=${userType}`, this.authService.getHttpOptions()).toPromise();
+  }
+
+
+  jobApplicationRequestFeedback(jobId:any, data:any) {
+    return this.http.patch(API_URL + `job-application/${jobId}/request-feedback`, data, this.authService.getHttpOptions()).toPromise();
+  }
+
+  // markasDoneService(emailAddress: string, status: string, serviceId: string) {
+  //   return this.http.patch(`${API_URL}user/${emailAddress}/service/${serviceId}/${status}`, {}, this.authService.getHttpOptions()).toPromise();
+  // }
+
 }
 
 

@@ -95,7 +95,7 @@ export class CorporateApplicantsComponent {
 
   // Properties related to modal messages
   successTitle: string = "";
-  modalSize: string = "lg";
+  modalSize: string = "md";
   successMessage: string = "";
 
   // Component properties
@@ -202,10 +202,10 @@ export class CorporateApplicantsComponent {
     // this.cvUrl = this.sanitizer.bypassSecurityTrustResourceUrl(this.cvPath);
 
     // Set up the corporateVitalDetails
-    this.corporateService.corporateDetails$.subscribe((details) => {
-      if (details) {
-        console.log("user details is", details)
-        this.corporateVitalDetails = details;
+    // this.corporateService.corporateDetails$.subscribe((details) => {
+    //   if (details) {
+    //     console.log("user details is", details)
+    //     this.corporateVitalDetails = details;
 
         // this.jobForm.patchValue({
         //   companyId: this.corporateVitalDetails.companyId,
@@ -219,8 +219,8 @@ export class CorporateApplicantsComponent {
         //   jobStatus: this.status.ALL,
         //   resetPagination: true,
         // });
-      }
-    });
+    //   }
+    // });
 
   }
 
@@ -233,6 +233,9 @@ export class CorporateApplicantsComponent {
         this.corporateVitalDetails.companyId = userDetail[0]?.companyId || null;
         this.corporateVitalDetails.corporateUserType = userDetail[0]?.corporateUserType || null;
         this.corporateVitalDetails.userId = userDetail[0]?.id || null;
+        this.corporateVitalDetails.email = userDetail[0]?.email || null;
+
+        // console.log(this.corporateVitalDetails);
 
         // Fetch job details and applications after user details are fetched
         if (this.jobId) {
@@ -511,13 +514,6 @@ export class CorporateApplicantsComponent {
 
   handleAction(job: any, newStatus: any) {
 
-    debugger;
-    // Check the statusTracker before proceeding
-    if (this.hasStatusInTracker(job.statusTracker, newStatus)) {
-      console.warn(`Status '${newStatus}' already exists in statusTracker. Skipping update.`);
-      return; // Exit early if the status is already in the tracker
-    }
-
     // Check if the current job's status is already at or beyond "View CV" (CV_DOWNLOADED)
     if (this.isStatusBeyondCurrent(job.status, newStatus)) {
       if (newStatus === "CV_DOWNLOADED") {
@@ -526,6 +522,12 @@ export class CorporateApplicantsComponent {
         this.openModal(ModalType.VIEW_CV);
       }
       return;
+    }
+
+    // Check the statusTracker before proceeding
+    if (this.hasStatusInTracker(job.statusTracker, newStatus)) {
+      console.warn(`Status '${newStatus}' already exists in statusTracker. Skipping update.`);
+      return; // Exit early if the status is already in the tracker
     }
 
     this.currentJob = job;
@@ -582,7 +584,8 @@ export class CorporateApplicantsComponent {
   async updateJobApplicationStatus(
     jobApplicationId: string,
     newStatus: string,
-    rejectReasons?: { reason: string; userComment: string }
+    rejectReasons?: { rejectTitle
+      : string; rejectComments: string }
   ): Promise<void> {
     this.spinner.show(); //spinner at the start
 
@@ -594,8 +597,8 @@ export class CorporateApplicantsComponent {
 
     // Add rejection-specific data if the status is "REJECTED"
     if (newStatus === "REJECTED" && rejectReasons) {
-      payload.reason = rejectReasons.reason;
-      payload.userComment = rejectReasons.userComment;
+      payload.reason = rejectReasons.rejectTitle;
+      payload.userComment = rejectReasons.rejectComments;
     }
 
     try {
@@ -677,14 +680,14 @@ export class CorporateApplicantsComponent {
   openModal(modalType: ModalType, message: string = "", title: string = ""): void {
     this.showModal = modalType;
     // Reset modal size every time you open the modal
-    if (modalType === this.modalType.SUCCESS_MESSAGE || modalType === this.modalType.SUCCESS_ERROR_MESSAGE) {
-      this.modalSize = "md";
+    if (modalType === this.modalType.SHOW_MORE_DETAILS) {
+      this.modalSize = "lg";
     }
     else if (modalType === this.modalType.VIEW_CV) {
       this.modalSize = "xl";
     }
     else {
-      this.modalSize = "lg";
+      this.modalSize = "md";
     }
 
     this.cdr.detectChanges();

@@ -325,7 +325,7 @@
     </ng-container>
 
     <ng-container *ngIf="showModal === modalType.SUCCESS_ERROR_MESSAGE">
-        <app-message-modal [title]="successTitle" [message]="successMessage" (onOk)="continue()">
+        <app-message-modal [title]="successTitle" [message]="successMessage" (onOk)="continue()" (onCancel)="closeModal()">
         </app-message-modal>
     </ng-container>
 
