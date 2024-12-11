@@ -170,7 +170,7 @@ export class AdminCorporateUsersComponent implements OnInit {
    * @param userId - The ID of the user to be deleted.
    */
   deleteUser(userId: string) {
-    debugger;
+    // debugger;
     this.modalSize = "md";
     this.modalCustomTitle = "Warning!!";
     this.modalCustomMessage = "Are you sure you want to delete this user?";
