@@ -13,11 +13,11 @@
 
 .search-container.disabled {
     cursor: not-allowed;
+    pointer-events: none;
 }
 
 .search-container input.disabled-background {
     background-color: #f5f5f5;
-    /* Optional: To make the input visually look disabled */
     cursor: not-allowed;
 }
 

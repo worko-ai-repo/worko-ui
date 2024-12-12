@@ -63,24 +63,42 @@
 
 
 
-
-
-
-                <div *ngIf="application.rejectionFeedbackBySystem; else noFeedbackBlock" class="job-action">
-                  <button (click)="showMore(application.rejectionFeedbackBySystem)" class="btn btn-upgrade">Show
+                <div
+                  *ngIf="(application?.status === 'REJECTED' && (application?.rejectedByUserId || application?.rejectionFeedbackBySystem))"
+                  class="job-action">
+                  <button (click)="showMore(application)" class="btn btn-upgrade">Show
                     Feedback</button>
                 </div>
+
+                <div *ngIf="application?.status !== 'REJECTED'" class="job-action">
+                  <!-- Enabled Button for Followup -->
+                  <button *ngIf="!application?.followUpRequest?.length" (click)="requestFeedback(application.jobId)"
+                    class="btn btn-upgrade">
+                    Request Follow-Up
+                  </button>
+
+                  <!-- Disabled Button for Followup Request Sent -->
+                  <button *ngIf="application?.followUpRequest?.length" class="btn btn-upgrade btn-disabled" disabled>
+                    <i class="fa fa-check-circle" aria-hidden="true"></i>
+                    Follow-Up Request Sent
+                  </button>
+                </div>
+
+                <!-- <div *ngIf="application.rejectionFeedbackBySystem; else noFeedbackBlock" class="job-action">
+                  <button (click)="showMore(application.rejectionFeedbackBySystem)" class="btn btn-upgrade">Show
+                    Feedback</button>
+                </div> -->
                 <!-- <h6 class="content-experience" *ngIf="application?.rejectedByUserIds?.length > 0 || application?.rejectionFeedbackBySystem">
                   <a style="cursor: pointer; text-decoration: underline;" (click)="showMore()">
                     {{ selectedReferral?.rejectedByUserIds?.length > 0 ? 'Referral Reject Reason' : 'Show Feedback' }}
                   </a>
                 </h6> -->
-                <ng-template #noFeedbackBlock>
+                <!-- <ng-template #noFeedbackBlock>
                   <div class="job-action">
                     <button (click)="requestFeedback(application.jobId)" class="btn btn-upgrade"> {{ application.status
                       === "REJECTED" ? 'Request Feedaback' : 'Followup / Request Feedaback' }}</button>
                   </div>
-                </ng-template>
+                </ng-template> -->
               </div>
 
             </div>

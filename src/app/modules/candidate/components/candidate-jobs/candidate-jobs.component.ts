@@ -64,7 +64,7 @@ export class CandidateJobsComponent implements OnInit {
   modalSize: string = 'md';  // Default modal size
   showClose: boolean = false;  // Default close button visibility
   showModal: ModalType | undefined;
-  rejectedReasons: { reason: any; comment: any; } | undefined;
+  rejectedReasons: { reason: any; comment: any; userId:any, actionDate:any } | undefined;
   feedbackTitle: string = "Rejection Feedback"
   feedbackDetails: string = "";
   userType = "CAND"
@@ -253,6 +253,7 @@ export class CandidateJobsComponent implements OnInit {
 
       if (response) {
         this.spinner.hide();
+        this.getAllJobApplicantions(this.currentStatus);
       }
 
     }).catch((error: any) => {
@@ -274,17 +275,24 @@ export class CandidateJobsComponent implements OnInit {
 
   }
 
-  showMore(rejectionFeedbackBySystem: string) {
-    // if (this.selectedReferral?.rejectedByUserIds?.length > 0) {
-    //   this.openModal(ModalType.REJECT_DETAILS);
-    // } else if (this.selectedReferral?.rejectionFeedbackBySystem) {
-    //   this.feedbackDetails = this.selectedReferral.rejectionFeedbackBySystem;
-    //   this.openModal(ModalType.SHOW_MORE_DETAILS);
-    // }
+  // canRequestFeedback(application: JobApplication): boolean {
+  //   return (
+  //     application?.status !== 'REJECTED' &&
+  //     application?.followUpRequest !== undefined && // Check if followUpRequest exists
+  //     application.followUpRequest.length > 0 // Safely check length
+  //   );
+  // }
+  
+  
 
-    this.feedbackDetails = rejectionFeedbackBySystem;
-
-    this.openModal(ModalType.SHOW_MORE_DETAILS);
+  showMore(jobApplication:any) {
+    if (jobApplication?.rejectedByUserId) {
+      this.rejectedReasons = jobApplication.rejectedByUserId;
+      this.openModal(ModalType.REJECT_DETAILS);
+    } else if (jobApplication?.rejectionFeedbackBySystem) {
+      this.feedbackDetails = jobApplication.rejectionFeedbackBySystem;
+      this.openModal(ModalType.SHOW_MORE_DETAILS);
+    }
   }
 
   /**

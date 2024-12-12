@@ -2,7 +2,7 @@
   /* border-radius: 10.863px; */
   // background: #2F92C7;
   
-  background-color: rgb(45, 142, 194);
+  background-color:  rgb(45, 142, 194);
   color: #FFF;
   text-align: center;
   font-family: Poppins;
@@ -13,6 +13,36 @@
   letter-spacing: 1.09px;
   width: 212px;
 }
+
+/* Disabled btn-upgrade style */
+.btn-disabled {
+  background-color: #3c8bb1;
+  color: white; 
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  padding: 10px 20px;
+  border-radius: 8px;
+  border: 1px solid #7a9fa8;
+  font-weight: 500;
+  cursor: not-allowed; 
+  pointer-events: none;
+  font-size: 16px;
+}
+
+/* Icon color for disabled state */
+.btn-disabled i {
+  font-size: 22px;
+  color: #32ab54; /* Slightly muted icon to match the disabled state */
+}
+
+.btn-disabled:hover {
+  background-color: #3c8bb1;
+}
+
+
+
 
 .custom-center {
   display: flex;
@@ -123,7 +153,9 @@
 }
 
 .job-action {
-  text-align: right;
+  // text-align: right;
+  display: flex;
+  justify-content: flex-end;
   padding: 10px;
 }
 

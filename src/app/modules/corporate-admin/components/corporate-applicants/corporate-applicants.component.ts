@@ -114,7 +114,7 @@ export class CorporateApplicantsComponent {
   searchTerm: string = '';
   searchQuery: string = '';
   private searchTerms = new Subject<string>();
-  isSearchActive: boolean = false;
+  isSearchActive: boolean = true;
 
   sortOrder = {
     ASC: "ascending",
@@ -207,18 +207,18 @@ export class CorporateApplicantsComponent {
     //     console.log("user details is", details)
     //     this.corporateVitalDetails = details;
 
-        // this.jobForm.patchValue({
-        //   companyId: this.corporateVitalDetails.companyId,
-        // });
+    // this.jobForm.patchValue({
+    //   companyId: this.corporateVitalDetails.companyId,
+    // });
 
-        // this.fetchJobs({
-        //   // companyId:this.corporateVitalDetails.companyId,
-        //   companyId: "01HZM77T3F331PMJP1C8B75N1P",
-        //   pageSize: 10,
-        //   sortOrder: this.sortOrder.DESC,
-        //   jobStatus: this.status.ALL,
-        //   resetPagination: true,
-        // });
+    // this.fetchJobs({
+    //   // companyId:this.corporateVitalDetails.companyId,
+    //   companyId: "01HZM77T3F331PMJP1C8B75N1P",
+    //   pageSize: 10,
+    //   sortOrder: this.sortOrder.DESC,
+    //   jobStatus: this.status.ALL,
+    //   resetPagination: true,
+    // });
     //   }
     // });
 
@@ -269,7 +269,7 @@ export class CorporateApplicantsComponent {
     const selectedPageSize = (event.target as HTMLSelectElement).value;
     this.pageSize = Number(selectedPageSize);
     this.previousKeys = [];
-    // this.getAllJobApplications(null); // Call getAllUserData refresh the data with the new page size
+    this.getAllJobApplications(null); // Call getAllJobApplications refresh the data with the new page size
   }
 
   onSortOrderChange(event: any) {
@@ -353,20 +353,20 @@ export class CorporateApplicantsComponent {
       console.warn("Company ID is missing. Cannot fetch job applications.");
       return;
     }
-  
+
     this.spinner.show();
     try {
       const response: any = await this.corporateService.getAllJobApplicants(
+        this.pageSize,
         this.userType.toUpperCase(),
         companyId,
         this.jobId,
         this.selectedStatus,
-        this.pageSize,
         lastKey,
         this.selectedSortOrder,
         this.searchTerm
       );
-  
+
       if (response) {
         this.filteredJobs = response.data || [];
         this.pageSize = response.pagination.pageSize;
@@ -392,7 +392,7 @@ export class CorporateApplicantsComponent {
       this.spinner.hide();
     }
   }
-  
+
   // CompanyId(CompanyId: any, pageSize: number, lastKey: string | null, sortOrder: { ASC: string; DESC: string; }, searchTerm: string, arg5: string) {
   //   throw new Error("Method not implemented.");
   // }
@@ -510,7 +510,7 @@ export class CorporateApplicantsComponent {
       this.spinner.hide();
     }
   }
-  
+
 
   handleAction(job: any, newStatus: any) {
 
@@ -584,8 +584,10 @@ export class CorporateApplicantsComponent {
   async updateJobApplicationStatus(
     jobApplicationId: string,
     newStatus: string,
-    rejectReasons?: { rejectTitle
-      : string; rejectComments: string }
+    rejectReasons?: {
+      rejectTitle
+      : string; rejectComments: string
+    }
   ): Promise<void> {
     this.spinner.show(); //spinner at the start
 
@@ -720,9 +722,10 @@ export class CorporateApplicantsComponent {
   resetBtnHandler(): void {
 /*     console.log("Reset button clicked");
  */    this.searchQuery = "";
-    this.selectedStatus = this.status.APPLIED;
+    this.selectedStatus = "Applied";
     this.searchTerm = "",
       this.searchQuery = "";
+    this.selectedSortOrder = this.sortOrder.DESC;
 
     // (document.getElementById('referralStatus') as HTMLSelectElement).value = "";
 

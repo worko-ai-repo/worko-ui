@@ -237,7 +237,7 @@
             </span>
 
             <!-- Referral Submenu -->
-            <ul *ngIf="menu.name === 'Referral' && isReferralSubmenuOpen" class="sub-menu">
+            <ul *ngIf="(menu.name === 'Referral' || menu.name === 'Referral request') && isReferralSubmenuOpen" class="sub-menu">
               <li *ngFor="let item of menu.submenu">
                 <a [routerLink]="item.router" [queryParamsHandling]="'preserve'" routerLinkActive="active-link"
                   [routerLinkActiveOptions]="{ exact: true }" (click)="onSubmenuClick(item.name)">
@@ -251,7 +251,7 @@
             <ul *ngIf="menu.name === 'Job' && isJobsSubmenuOpen" class="sub-menu">
               <li *ngFor="let item of menu.submenu">
                 <a [routerLink]="item.router" [queryParamsHandling]="'preserve'" routerLinkActive="active-link"
-                  [routerLinkActiveOptions]="{ exact: true }" (click)="onSubmenuClick(item.companyName)">
+                  [routerLinkActiveOptions]="{ exact: true }" (click)="onSubmenuClick(item.name)">
                   <i [class]="getIcon(item.name)"></i> <!-- Dynamically set the icon -->
                   {{ item.name }}
                 </a>

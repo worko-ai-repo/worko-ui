@@ -37,6 +37,7 @@ import { AdminCorporateUsersComponent } from './components/admin-corporate-users
 import { AdminInviteComponent } from './components/admin-invite/admin-invite.component';
 import { AdminCompanyComponent } from './components/admin-company/admin-company.component';
 import { CorporateJobApplicationDetailComponent } from './components/corporate-job-application-detail/corporate-job-application-detail.component';
+import { AdminApplicantsComponent } from './components/admin-applicants/admin-applicants.component';
 
 
 export const routes: Routes = [
@@ -114,6 +115,16 @@ export const routes: Routes = [
       path: 'aCorporate/jobApplDetail/:id',
       component:CorporateJobApplicationDetailComponent,canActivate:[AuthAdminGuardService]
     },
+    {
+      path: 'aApplicants',
+      component: AdminApplicantsComponent,
+      canActivate: [AuthAdminGuardService]
+    },
+    {
+      path: 'aApplicants/:id',
+      component: AdminApplicantsComponent,
+      canActivate: [AuthAdminGuardService]
+    }
   ]
 }
 
@@ -135,6 +146,7 @@ export const routes: Routes = [
     AdminCorporateUsersComponent,
     AdminInviteComponent,
     AdminCompanyComponent,
+    AdminApplicantsComponent
   ],
   imports: [
     CommonModule,
