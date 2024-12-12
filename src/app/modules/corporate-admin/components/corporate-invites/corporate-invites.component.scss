@@ -18,6 +18,7 @@
       'ADMIN': GREEN,
       'AWAITING': #ffc107,
       'ACCEPTED':rgb(3, 170, 3),
+      'EXPIRED': #737373,
       'DELETED': red,
     );
     
@@ -87,7 +88,7 @@
             border: 2px solid #476baf;
             border-inline-color: #283a5bd1;
             padding: 10px;
-            //width: min-content;
+            width: min-content;
           }
     
           td {
@@ -97,7 +98,7 @@
                 background-color: $color;
                 color: white;
                 font-weight: 500;
-                width: min-content;
+                padding:2px;
                 border-radius: 5px;
                 margin: unset !important; //@review: some global margin is interfaring with the layout
                 padding-inline: 5px;

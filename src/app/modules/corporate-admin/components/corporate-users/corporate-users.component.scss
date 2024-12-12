@@ -15,7 +15,7 @@
 
 $statuses: (
     'RECRUITER': #2716bb,
-    'ADMIN': red,
+    'ADMIN': GREEN,
   );
   
   //Common Styles
@@ -84,7 +84,7 @@ $statuses: (
           border: 2px solid #476baf;
           border-inline-color: #283a5bd1;
           padding: 10px;
-          //width: min-content;
+          width: min-content;
         }
   
         td {
@@ -94,7 +94,7 @@ $statuses: (
               background-color: $color;
               color: white;
               font-weight: 500;
-              width: min-content;
+              padding: 2px;
               border-radius: 5px;
               margin: unset !important; //@review: some global margin is interfaring with the layout
               padding-inline: 5px;

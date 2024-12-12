@@ -176,9 +176,15 @@ export class CorporateJobsComponent implements OnInit {
   modalSize : string = "xl";
   successmessage: string = "";
 
-  //Pagination Properties
-  pageSize: number = 10;
-  lastKey: string | undefined = undefined;
+ //Pagination Properties
+  
+ lastKey: string | null = null; // The current lastKey for the current page
+ previousKeys: string[] = []; // Stack to store previous lastKeys for "Previous" functionality
+ hasNext: boolean = false; // To enable/disable "Next" button
+ hasPrevious: boolean = false; // To enable/disable "Previous" button
+ pageSize: number = 25; // Default page size
+ pageSizeOptions: number[] = [25, 50, 100, 150];
+ 
   @ViewChild("companyJobMatSort") companyJobMatSort!: MatSort;
   @ViewChild("companyJobMatPaginator") companyJobMatPaginator!: MatPaginator;
 
@@ -277,7 +283,7 @@ export class CorporateJobsComponent implements OnInit {
     try {
       // If resetPagination is true, reset the lastKey
       if (options.resetPagination) {
-        this.lastKey = undefined;
+        this.lastKey = null;
       }
       const params = {
         companyId : companyId,
@@ -293,6 +299,9 @@ export class CorporateJobsComponent implements OnInit {
         this.jobs = response.data;
         this.lastKey = response.pagination.lastKey;
         this.pageSize = response.pagination.pageSize;
+
+        this.hasNext = !!response.pagination.lastKey;
+        this.hasPrevious = this.previousKeys.length > 0;
 
         this.updateData(this.jobs);
 
@@ -822,6 +831,52 @@ export class CorporateJobsComponent implements OnInit {
     // Fetch jobs with pagination reset
     this.fetchJobs({ jobStatus: this.selectedStatus, pageSize: this.pageSize, resetPagination: false, sortOrder: this.selectedSortOrder });
   }
+
+   //Pagination methods
+  /**
+   * @method onPageChange - this will be called when the user changes the page size
+   * @param event
+   */
+
+  onNext() {
+    if (!this.hasNext) return;
+
+    // Store the current lastKey in the stack before moving forward
+    if (this.lastKey) {
+      this.previousKeys.push(this.lastKey);
+    }
+
+    // Fetch the next page
+    this.fetchJobs({ jobStatus: this.selectedStatus, searchText: this.searchQuery, pageSize: this.pageSize, sortOrder: this.selectedSortOrder , resetPagination: false });
+  }
+
+
+  onPrevious() {
+    if (!this.hasPrevious) return;
+
+    // Retrieve the second-to-last key in the stack, which corresponds to the last key used for the previous page
+    const previousLastKey = this.previousKeys.length > 1 ? this.previousKeys[this.previousKeys.length - 2] : null;
+
+    // Remove the current page's lastKey from the stack
+    this.previousKeys.pop();
+
+    if (!previousLastKey) {
+      // If no valid previous key, fetch the first page
+      this.fetchJobs({ jobStatus: this.selectedStatus, searchText: this.searchQuery, pageSize: this.pageSize, sortOrder: this.selectedSortOrder, resetPagination: true });
+    } else {
+      // Fetch the previous page using the second-to-last key
+     this.lastKey = previousLastKey;
+     this.fetchJobs({ jobStatus: this.selectedStatus, searchText: this.searchQuery, pageSize: this.pageSize, sortOrder: this.selectedSortOrder, resetPagination: false });
+    }
+  }
+
+  onPageSizeChange(event: Event): void {
+    const selectedPageSize = (event.target as HTMLSelectElement).value;
+    this.pageSize = Number(selectedPageSize);
+    this.previousKeys = [];
+    this.fetchJobs({ jobStatus: this.selectedStatus, searchText: this.searchQuery, pageSize: this.pageSize, sortOrder: this.selectedSortOrder, resetPagination: true });
+  }
+
 
   // Misc method
   getStatusClass(status: string): string {

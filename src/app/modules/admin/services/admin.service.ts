@@ -165,7 +165,7 @@ export class AdminService {
 
   getJobs(param: any): Promise<any> {
     //  console.log(`params ${param.pageSize} ${param.lastKey} ${param.status} ${param.sortOrder}`);
-    let url = `${API_URL}admin/job/?pageSize=${param.pageSize}`;
+    let url = `${API_URL}job/?pageSize=${param.pageSize}`;
     if (param.status) {
       url += `&status=${param.status}`;
     }
@@ -185,17 +185,17 @@ export class AdminService {
   }
   //POST DATA
   createJob(jobData: any) {
-    return this.http.post(`${API_URL}admin/job/`, jobData, this.authService.getHttpOptions()).toPromise();
+    return this.http.post(`${API_URL}job/`, jobData, this.authService.getHttpOptions()).toPromise();
   }
 
   archiveJob(jobId: string, jobData: object) {
-    return this.http.put(`${API_URL}admin/job/${jobId}`, jobData, this.authService.getHttpOptions()).toPromise();
+    return this.http.put(`${API_URL}job/${jobId}`, jobData, this.authService.getHttpOptions()).toPromise();
   }
   updateJob(jobId: string, jobData: object) {
-    return this.http.put(`${API_URL}admin/job/${jobId}`, jobData, this.authService.getHttpOptions()).toPromise();
+    return this.http.put(`${API_URL}job/${jobId}`, jobData, this.authService.getHttpOptions()).toPromise();
   }
   deleteJob(jobId: string, jobData: object) {
-    return this.http.put(`${API_URL}admin/job/${jobId}/delete`, jobData, this.authService.getHttpOptions()).toPromise();
+    return this.http.put(`${API_URL}job/${jobId}/delete`, jobData, this.authService.getHttpOptions()).toPromise();
   }
 
   // For fetching the dynamic dropdown values

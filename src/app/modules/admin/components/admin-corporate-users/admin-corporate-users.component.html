@@ -69,7 +69,7 @@
                 </td>
                 <!-- GetAccessType -->
                 <td>
-                   <p [ngClass]="getStatusClass(user.corporateUserType)">{{ user.corporateUserType | titlecase}}
+                   <p [ngClass]="getStatusClass(user.corporateUserType)">{{ user.corporateUserType | uppercase}}
                   </p>
                 </td>
                 <td>
@@ -89,8 +89,33 @@
               </tr>
             </tbody>
           </table>
-          <!--Pagination-->
-          <mat-paginator #companyJobMatPaginator aria-label="Select page of users" [pageSize]="25" [pageSizeOptions]="[25,50,100]" [showFirstLastButtons]="true"></mat-paginator>
+                <!-- pagination block starts here -->
+       <div class="row pe-2 pt-4">
+        <div class="pagination-controls">
+          <div class="dropdown-container">
+            <div style="display: flex; align-items: center;">
+              <label for="pageSizeSelect" class="dropdown-label">Items per page:</label>
+            </div>
+            <div class="dropdown-wrapper">
+              <select id="pageSizeSelect" class="styled-dropdown" [(ngModel)]="pageSize"
+                (change)="onPageSizeChange($event)">
+                <option *ngFor="let option of pageSizeOptions" [value]="option" class="text-dark">
+                  {{ option }}
+                </option>
+              </select>
+            </div>
+          </div>
+
+          <button class="prev-button" [disabled]="!hasPrevious" (click)="onPrevious()">
+            &lt; Previous
+          </button>
+
+          <button class="next-button" [disabled]="!hasNext" (click)="onNext()">
+            Next &gt;
+          </button>
+        </div>
+      </div>
+      <!-- pagination blocl ends here -->
         </div>
       </div>
     </div>

@@ -82,7 +82,7 @@ $statuses: (
             background-color: $color;
             color: white;
             font-weight: 500;
-            width: min-content;
+           padding: 2px;
             border-radius: 5px;
             margin: unset !important; //@review: some global margin is interfaring with the layout
             padding-inline: 5px;
@@ -329,6 +329,16 @@ $statuses: (
     margin: 10px;
   }
 }
+
+#job-table-row{
+  cursor: pointer;
+
+}
+
+#job-table-row:hover{
+    color: #1ed6ff !important;
+}
+
 @media screen and (max-width: 992px) {
   form {
     display: flex !important;

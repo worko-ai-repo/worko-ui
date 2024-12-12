@@ -17,7 +17,8 @@ $statuses: (
     'RECRUITER': #2716bb,
     'ADMIN': red,
     'AWAITING': #ffc107,
-    'ACCEPTED':rgb(0, 168, 22)107,
+    'ACCEPTED':rgb(3, 170, 3),
+    'EXPIRED': #737373,
     'DELETED': red,
   );
   
@@ -97,7 +98,7 @@ $statuses: (
               background-color: $color;
               color: white;
               font-weight: 500;
-              width: min-content;
+              padding:2px;
               border-radius: 5px;
               margin: unset !important; //@review: some global margin is interfaring with the layout
               padding-inline: 5px;
