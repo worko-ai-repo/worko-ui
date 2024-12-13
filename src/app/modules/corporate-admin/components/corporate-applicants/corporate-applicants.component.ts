@@ -541,21 +541,22 @@ export class CorporateApplicantsComponent {
       return;
     }
 
+    this.updateJobApplicationStatus(job.id, newStatus);
     // Call updateStatus API if the status is not already in the tracker
-    this.updateJobApplicationStatus(job.id, newStatus).then(async (response: any) => {
-      if (response) {
-        // Refresh jobApplicationListing data
-        await this.getAllJobApplications(null);
-        if (response.status === "CV_DOWNLOADED") {
-          this.cvUrl = this.sanitizer.bypassSecurityTrustResourceUrl(this.currentJob?.applicantDetails?.cvAwsS3SignedUrl);
-          this.openModal(ModalType.VIEW_CV);
-        }
-      }
-    }).catch((error) => {
-      this.successMessage = "Something went wrong. Please try again later.";
-      this.successTitle = "Error";
-      this.openModal(ModalType.SUCCESS_ERROR_MESSAGE);
-    });
+    // this.updateJobApplicationStatus(job.id, newStatus).then(async (response: any) => {
+    //   if (response) {
+    //     // Refresh jobApplicationListing data
+    //     await this.getAllJobApplications(null);
+    //     if (response.status === "CV_DOWNLOADED") {
+    //       this.cvUrl = this.sanitizer.bypassSecurityTrustResourceUrl(this.currentJob?.applicantDetails?.cvAwsS3SignedUrl);
+    //       this.openModal(ModalType.VIEW_CV);
+    //     }
+    //   }
+    // }).catch((error) => {
+    //   this.successMessage = "Something went wrong. Please try again later.";
+    //   this.successTitle = "Error";
+    //   this.openModal(ModalType.SUCCESS_ERROR_MESSAGE);
+    // });
   }
 
   // Utility to check if the current status is already at or beyond the target status
@@ -591,7 +592,7 @@ export class CorporateApplicantsComponent {
       rejectTitle
       : string; rejectComments: string
     }
-  ): Promise<void> {
+  ): Promise<any> {
     this.spinner.show(); //spinner at the start
 
     const payload: any = {
@@ -609,11 +610,16 @@ export class CorporateApplicantsComponent {
 
     try {
       // Call the service to update status
-      const response = await this.corporateService.updateJobApplicationStatus(jobApplicationId, payload);
+      const response: any = await this.corporateService.updateJobApplicationStatus(jobApplicationId, payload);
 
       if (response) {
         // Refresh jobApplicationListing data
-        this.getAllJobApplications(null);
+        await this.getAllJobApplications(null);
+        if (response.status === "CV_DOWNLOADED") {
+          this.cvUrl = this.sanitizer.bypassSecurityTrustResourceUrl(this.currentJob?.applicantDetails?.cvAwsS3SignedUrl);
+          this.openModal(ModalType.VIEW_CV);
+        }
+        return response; // Return the response for the caller
       } else {
         throw new Error("No response received from server.");
       }
@@ -645,7 +651,7 @@ export class CorporateApplicantsComponent {
         this.spinner.hide();
         this.closeModal();
         // Refresh jobApplicationListing data
-        await this.getAllJobApplications(null);
+        // await this.getAllJobApplications(null);
       }
     }).catch((error) => {
       this.spinner.hide();
