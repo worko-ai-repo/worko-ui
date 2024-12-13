@@ -25,6 +25,7 @@ export class AdminApplicantsComponent {
 
   // Common Enums
   status = {
+    ALL_APPLICATIONS: "",
     APPLIED: "APPLIED",
     CV_DOWNLOADED: "CV_DOWNLOADED",
     UNDER_EVALUATION: "UNDER_EVALUATION",
@@ -41,7 +42,7 @@ export class AdminApplicantsComponent {
   jobs: any[] = []; // To store the fetched jobs
   jobId: string | null = null; // Variable to store the job ID
   dataSource = new MatTableDataSource<any>(); // To store the updated data in the table
-  selectedStatus: string = this.status.APPLIED;
+  selectedStatus: string = this.status.ALL_APPLICATIONS;
   noJobsMessage: string = "No Jobs Present"; // Will be showin inside the table
 
   //Filters Properties
@@ -120,7 +121,7 @@ export class AdminApplicantsComponent {
       setTimeout(() => {
         this.spinner.hide();
         this.openModal(ModalType.SUCCESS_ERROR_MESSAGE);
-      }, 2000);
+      }, 1000);
 
       // this.openModal(ModalType.SUCCESS_ERROR_MESSAGE);
       return;
@@ -159,6 +160,10 @@ export class AdminApplicantsComponent {
       return `${min}-${max} LPA`;
     }
     return '-'; // Default value
+  }
+
+  transformStatus(status: string): string {
+    return status ? status.replace(/_/g, ' ') : status;
   }
 
   onPageSizeChange(event: Event): void {
@@ -481,10 +486,10 @@ export class AdminApplicantsComponent {
   resetBtnHandler(): void {
 /*     console.log("Reset button clicked");
  */   this.searchQuery = "";
-      this.selectedStatus = "Applied";
-      this.searchTerm = "",
+    this.selectedStatus = this.status.ALL_APPLICATIONS;
+    this.searchTerm = "",
       this.searchQuery = "";
-      this.selectedSortOrder = this.sortOrder.DESC;
+    this.selectedSortOrder = this.sortOrder.DESC;
 
     // (document.getElementById('referralStatus') as HTMLSelectElement).value = "";
 

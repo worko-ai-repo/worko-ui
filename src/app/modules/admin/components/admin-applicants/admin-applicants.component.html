@@ -75,6 +75,7 @@
                     <span class="ajobs-status">
                         <select name="status" [(ngModel)]="selectedStatus" class="selector form-select"
                             (change)="onStatusChange($event)">
+                            <option value="{{status.ALL_APPLICATIONS}}">All Applications</option>
                             <option value={{status.APPLIED}}>Applied</option>
                             <option value={{status.CV_DOWNLOADED}}>CV Downloaded</option>
                             <option value={{status.UNDER_EVALUATION}}>Under Evaluation</option>
@@ -160,7 +161,7 @@
                             <!-- </mat-icon> -->
                             <!-- </td> -->
                             <td>
-                                <p [ngClass]="getStatusClass(job.status)">{{ job.status | uppercase }}</p>
+                                <p [ngClass]="getStatusClass(job.status)">{{ transformStatus(job.status) | uppercase }}</p>
                             </td>
                             <td>{{ job.createdAt | date: 'd MMM yyyy, h:mm a' }}</td>
                             <!-- <td matTooltip={{job.jobTitle}} matTooltipPosition="above" style="cursor: pointer;">{{

@@ -7,7 +7,7 @@
         <div class="card candidate-card">
           <div class="card-body">
             <div class="container-fluid">
-              <div class="row row-cols-1 row-cols-md-2 row-cols-lg-5">
+              <div class="row row-cols-1 row-cols-md-2 row-cols-lg-6">
                 <div class="col">
                   <span class="label">Applied on</span>
                   <span class="value">{{ application.createdAt ? (application.createdAt | date:'MMM dd, yyyy') : '-'
@@ -27,8 +27,18 @@
                 </div>
                 <div class="col">
                   <span class="label">Status</span>
-                  <span class="value">{{ application.status ? application.status : '-' }}</span>
+                  <span class="value">{{ statusLabels[application.status] || '-' }}</span>
                 </div>
+                <div class="col">
+                  <span class="label">Job Url</span>
+                  <span class="value">
+                      <a *ngIf="application?.jobUrl; else noUrl" [href]="application?.jobUrl" target="_blank"
+                          rel="noopener noreferrer">
+                          Link
+                      </a>
+                      <ng-template #noUrl>-</ng-template>
+                  </span>
+              </div>
                 <!-- <div class="col">
                   <span class="label">Job URL</span>
                   <a 
@@ -72,7 +82,7 @@
 
                 <div *ngIf="application?.status !== 'REJECTED'" class="job-action">
                   <!-- Enabled Button for Followup -->
-                  <button *ngIf="!application?.followUpRequest?.length" (click)="requestFeedback(application.jobId)"
+                  <button *ngIf="!application?.followUpRequest?.length" (click)="requestFeedback(application.id)"
                     class="btn btn-upgrade">
                     Request Follow-Up
                   </button>

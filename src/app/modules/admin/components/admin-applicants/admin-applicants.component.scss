@@ -2,6 +2,7 @@
     background-color: rgb(45, 142, 194);
     color: white;
     font-weight: 500;
+    padding: 2px;
     width: min-content;
     border-radius: 5px;
     margin: unset !important; //@review: some global margin is interfaring with the layout
@@ -306,6 +307,7 @@ $statuses: (
                         background-color: $color;
                         color: white;
                         font-weight: 500;
+                        padding: 2px;
                         width: min-content;
                         border-radius: 5px;
                         margin: unset !important; //@review: some global margin is interfaring with the layout
