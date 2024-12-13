@@ -179,7 +179,8 @@ export class CandidateProfileService {
   // Candidate Jobs API
 
   getAllJobApplication(userType:string, emailAddress:string, status:string) {
-    return this.http.get(API_URL + `job-application/?status=${status}&userEmail=${emailAddress}&userType=${userType}`, this.authService.getHttpOptions()).toPromise();
+    const emailAddressEncoded = encodeURIComponent(emailAddress);
+    return this.http.get(API_URL + `job-application/?status=${status}&userEmail=${emailAddressEncoded}&userType=${userType}`, this.authService.getHttpOptions()).toPromise();
   }
 
 

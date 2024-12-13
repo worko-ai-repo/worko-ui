@@ -37,7 +37,8 @@
     background: #0A1E35;
 }
 
-.reason-text, .comment-text {
+.reason-text,
+.comment-text {
     color: #FFF;
     font-size: 15px;
     font-weight: 400;
@@ -61,6 +62,23 @@
     color: white;
     cursor: pointer;
     text-align: center;
+}
+
+.no-comment {
+    font-style: normal;
+    /* Remove italic styling for placeholder */
+    color: #B0B0B0;
+    /* A lighter shade to indicate placeholder text */
+}
+
+.reason-box {
+    border-radius: 11px;
+    border: 1px solid #1ED6FF;
+    background: #0A1E35;
+    min-height: 50px;
+    /* Maintain a minimum height for consistency */
+    display: flex;
+    align-items: center;
 }
 
 // .btn-submit:hover {

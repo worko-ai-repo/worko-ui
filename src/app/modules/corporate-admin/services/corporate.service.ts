@@ -164,8 +164,8 @@ export class CorporateService {
     return this.http.get(API_URL + `job/${jobId}`, this.authService.getHttpOptions()).toPromise();
   }
 
-  getAllJobApplicants(userType: any, companyId: any, jobId: any, status: any, pageSize?: number, lastKey?: any, sortOrder?: string, searchText?: any) {
-    let url = `${API_URL}job-application/?companyId=${companyId}&jobId=${jobId}&userType=${userType}`;
+  getAllJobApplicants(pageSize: any, userType: any, companyId: any, jobId: any, status: any, lastKey?: any, sortOrder?: string, searchText?: any) {
+    let url = `${API_URL}job-application/?companyId=${companyId}&jobId=${jobId}&userType=${userType}&pageSize=${pageSize}`;
 
     if (lastKey) {
       url += `&lastKey=${lastKey}`;

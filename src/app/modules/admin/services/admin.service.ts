@@ -280,4 +280,41 @@ export class AdminService {
     return this.http.patch(`${API_URL}corporate-invite/${inviteId}/delete`, {} ,this.authService.getHttpOptions()).toPromise();
   }
 
+  // API's for Admin Applicants page
+
+  // API's for Corporate Applicants page
+
+  getJobDetailsById(jobId: string) {
+    return this.http.get(API_URL + `job/${jobId}`, this.authService.getHttpOptions()).toPromise();
+  }
+
+  getAllJobApplicants(pageSize: any, userType: any, jobId: any, status: any, lastKey?: any, sortOrder?: string, searchText?: any) {
+    let url = `${API_URL}job-application/?jobId=${jobId}&userType=${userType}&pageSize=${pageSize}`;
+
+    if (lastKey) {
+      url += `&lastKey=${lastKey}`;
+    }
+    if (sortOrder) {
+      url += `&sortOrder=${sortOrder}`;
+    }
+    // if (fromDate) {
+    //   url += `&fromDate=${fromDate}`;
+    // }
+    // if (toDate) {
+    //   url += `&toDate=${toDate}`;
+    // } 
+    if (searchText) {
+      const searchTexts = encodeURIComponent(searchText)
+      url += `&searchText=${searchTexts}`;
+    }
+    if (status) {
+      url += `&status=${status}`;
+    }
+    return this.http.get(url, this.authService.getHttpOptions()).toPromise();
+  }
+
+  updateJobApplicationStatus(jobApplicationId: string, data: any) {
+    return this.http.patch(`${API_URL}job-application/${jobApplicationId}/corp-action`, data, this.authService.getHttpOptions()).toPromise();
+  }
+
 }

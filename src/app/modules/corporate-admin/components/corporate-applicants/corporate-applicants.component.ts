@@ -56,7 +56,7 @@ export interface CorporateVitalDetails {
 
 export class CorporateApplicantsComponent {
 
-  userType: any = "Recruiter";
+  userType: any;
 
   cvUrl: SafeResourceUrl | null = null;
   cvPath: any = "";
@@ -64,6 +64,7 @@ export class CorporateApplicantsComponent {
 
   // Common Enums
   status = {
+    ALL_APPLICATIONS: "",
     APPLIED: "APPLIED",
     CV_DOWNLOADED: "CV_DOWNLOADED",
     UNDER_EVALUATION: "UNDER_EVALUATION",
@@ -80,7 +81,7 @@ export class CorporateApplicantsComponent {
   jobs: any[] = []; // To store the fetched jobs
   jobId: string | null = null; // Variable to store the job ID
   dataSource = new MatTableDataSource<any>(); // To store the updated data in the table
-  selectedStatus: string = this.status.APPLIED;
+  selectedStatus: string = this.status.ALL_APPLICATIONS;
   noJobsMessage: string = "No Jobs Present"; // Will be showin inside the table
 
   //Filters Properties
@@ -114,7 +115,7 @@ export class CorporateApplicantsComponent {
   searchTerm: string = '';
   searchQuery: string = '';
   private searchTerms = new Subject<string>();
-  isSearchActive: boolean = false;
+  isSearchActive: boolean = true;
 
   sortOrder = {
     ASC: "ascending",
@@ -159,7 +160,7 @@ export class CorporateApplicantsComponent {
       setTimeout(() => {
         this.spinner.hide();
         this.openModal(ModalType.SUCCESS_ERROR_MESSAGE);
-      }, 2000);
+      }, 1000);
 
       // this.openModal(ModalType.SUCCESS_ERROR_MESSAGE);
       return;
@@ -207,18 +208,18 @@ export class CorporateApplicantsComponent {
     //     console.log("user details is", details)
     //     this.corporateVitalDetails = details;
 
-        // this.jobForm.patchValue({
-        //   companyId: this.corporateVitalDetails.companyId,
-        // });
+    // this.jobForm.patchValue({
+    //   companyId: this.corporateVitalDetails.companyId,
+    // });
 
-        // this.fetchJobs({
-        //   // companyId:this.corporateVitalDetails.companyId,
-        //   companyId: "01HZM77T3F331PMJP1C8B75N1P",
-        //   pageSize: 10,
-        //   sortOrder: this.sortOrder.DESC,
-        //   jobStatus: this.status.ALL,
-        //   resetPagination: true,
-        // });
+    // this.fetchJobs({
+    //   // companyId:this.corporateVitalDetails.companyId,
+    //   companyId: "01HZM77T3F331PMJP1C8B75N1P",
+    //   pageSize: 10,
+    //   sortOrder: this.sortOrder.DESC,
+    //   jobStatus: this.status.ALL,
+    //   resetPagination: true,
+    // });
     //   }
     // });
 
@@ -232,6 +233,7 @@ export class CorporateApplicantsComponent {
       if (userDetail) {
         this.corporateVitalDetails.companyId = userDetail[0]?.companyId || null;
         this.corporateVitalDetails.corporateUserType = userDetail[0]?.corporateUserType || null;
+        this.userType = userDetail[0]?.corporateUserType || null;
         this.corporateVitalDetails.userId = userDetail[0]?.id || null;
         this.corporateVitalDetails.email = userDetail[0]?.email || null;
 
@@ -265,11 +267,15 @@ export class CorporateApplicantsComponent {
     return '-'; // Default value
   }
 
+  transformStatus(status: string): string {
+    return status ? status.replace(/_/g, ' ') : status;
+  }
+
   onPageSizeChange(event: Event): void {
     const selectedPageSize = (event.target as HTMLSelectElement).value;
     this.pageSize = Number(selectedPageSize);
     this.previousKeys = [];
-    // this.getAllJobApplications(null); // Call getAllUserData refresh the data with the new page size
+    this.getAllJobApplications(null); // Call getAllJobApplications refresh the data with the new page size
   }
 
   onSortOrderChange(event: any) {
@@ -353,20 +359,20 @@ export class CorporateApplicantsComponent {
       console.warn("Company ID is missing. Cannot fetch job applications.");
       return;
     }
-  
+
     this.spinner.show();
     try {
       const response: any = await this.corporateService.getAllJobApplicants(
-        this.userType.toUpperCase(),
+        this.pageSize,
+        this.userType,
         companyId,
         this.jobId,
         this.selectedStatus,
-        this.pageSize,
         lastKey,
         this.selectedSortOrder,
         this.searchTerm
       );
-  
+
       if (response) {
         this.filteredJobs = response.data || [];
         this.pageSize = response.pagination.pageSize;
@@ -377,9 +383,7 @@ export class CorporateApplicantsComponent {
         console.warn("Job applications response is empty or undefined.");
       }
     } catch (error: any) {
-      if (error.status === 404) {
-        console.error("404 Error: Resource not found.");
-      } else if (error.status === 401) {
+      if (error.status === 401) {
         this.router.navigate(['/']);
       } else {
         console.error("Error fetching job applications:", error);
@@ -392,7 +396,7 @@ export class CorporateApplicantsComponent {
       this.spinner.hide();
     }
   }
-  
+
   // CompanyId(CompanyId: any, pageSize: number, lastKey: string | null, sortOrder: { ASC: string; DESC: string; }, searchTerm: string, arg5: string) {
   //   throw new Error("Method not implemented.");
   // }
@@ -495,9 +499,7 @@ export class CorporateApplicantsComponent {
         this.jobDetails = [];
       }
     } catch (error: any) {
-      if (error.status === 404) {
-        this.router.navigate(['/auth/logout']);
-      } else if (error.status === 401) {
+      if (error.status === 401) {
         this.router.navigate(['/']);
       } else {
         console.error("Error fetching job details:", error);
@@ -510,7 +512,7 @@ export class CorporateApplicantsComponent {
       this.spinner.hide();
     }
   }
-  
+
 
   handleAction(job: any, newStatus: any) {
 
@@ -584,8 +586,10 @@ export class CorporateApplicantsComponent {
   async updateJobApplicationStatus(
     jobApplicationId: string,
     newStatus: string,
-    rejectReasons?: { rejectTitle
-      : string; rejectComments: string }
+    rejectReasons?: {
+      rejectTitle
+      : string; rejectComments: string
+    }
   ): Promise<void> {
     this.spinner.show(); //spinner at the start
 
@@ -720,9 +724,10 @@ export class CorporateApplicantsComponent {
   resetBtnHandler(): void {
 /*     console.log("Reset button clicked");
  */    this.searchQuery = "";
-    this.selectedStatus = this.status.APPLIED;
+    this.selectedStatus = this.status.ALL_APPLICATIONS;
     this.searchTerm = "",
       this.searchQuery = "";
+    this.selectedSortOrder = this.sortOrder.DESC;
 
     // (document.getElementById('referralStatus') as HTMLSelectElement).value = "";
 

@@ -132,7 +132,12 @@ export class ReferralProgressBarComponent implements OnChanges {
                 // Display the message for 5 seconds and then navigate
                 setTimeout(() => {
                   this.showScore = false;  // Hide the message after 5 seconds
-                  this.router.navigate(['/candidate/jobs']);  // Navigate to another component
+                  if (this.jobApplicationRequestId) {
+                    this.router.navigate(['/candidate/jobs']);  // Navigate to jobs component                    
+                  }
+                  else if (this.referralId) {
+                    this.routeToReferral(); // Navigate to referral component   
+                  }
                 }, 5000);  // 5000 ms = 5 seconds
               }
               break;

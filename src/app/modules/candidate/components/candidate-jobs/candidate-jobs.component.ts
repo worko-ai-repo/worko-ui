@@ -64,7 +64,7 @@ export class CandidateJobsComponent implements OnInit {
   modalSize: string = 'md';  // Default modal size
   showClose: boolean = false;  // Default close button visibility
   showModal: ModalType | undefined;
-  rejectedReasons: { reason: any; comment: any; } | undefined;
+  rejectedReasons: { reason: any; comment: any; userId: any, actionDate: any } | undefined;
   feedbackTitle: string = "Rejection Feedback"
   feedbackDetails: string = "";
   userType = "CAND"
@@ -98,7 +98,7 @@ export class CandidateJobsComponent implements OnInit {
     INTERVIEW_DONE: 'INTERVIEW DONE',
     HIRED: 'HIRED',
     REJECTED: 'REJECTED',
-  };  
+  };
 
   currentStepIndex: number = 0;
 
@@ -199,7 +199,7 @@ export class CandidateJobsComponent implements OnInit {
   }
 
 
-  getAllJobApplicantions(status: string) {
+  async getAllJobApplicantions(status: string): Promise<void> {
     this.spinner.show();
     this.candidateSrv.getAllJobApplication(this.userType, this.emailAddress, status).then((response: any) => {
       if (response) {
@@ -225,12 +225,11 @@ export class CandidateJobsComponent implements OnInit {
       }
     }).catch((error: any) => {
       this.spinner.hide();
-      if (error.status == 404) {
-        // Handle no applications case
-      } else if (error.status == 401) {
-        this.storage.set('redirectAfterLogin', '/candidate/referral');
+      if (error.status == 401) {
+        this.storage.set('redirectAfterLogin', '/candidate/jobs');
         this.router.navigate(['/']);
-      } else {
+      }
+      else {
         this.errorMessage = "Something went wrong. Please try again later.";
         this.errorTitle = "Error";
         this.openModal(ModalType.SUCCESS_ERROR_MESSAGE);
@@ -238,9 +237,7 @@ export class CandidateJobsComponent implements OnInit {
     });
   }
 
-
-
-  async requestFeedback(jobId: string) {
+  async requestFeedback(jobApplicationId: string) {
 
     this.spinner.show();
 
@@ -249,42 +246,49 @@ export class CandidateJobsComponent implements OnInit {
       applicationDate: applicationDate
     };
 
-    await this.candidateSrv.jobApplicationRequestFeedback(jobId, payload).then(async (response: any) => {
+    await this.candidateSrv.jobApplicationRequestFeedback(jobApplicationId, payload).then(async (response: any) => {
 
       if (response) {
         this.spinner.hide();
+        await this.getAllJobApplicantions(this.currentStatus);
+        this.errorMessage = "Your request has been successfully sent to the HR team. Please check your email for feedback or a reply.";
+        this.errorTitle = "";
+        this.openModal(ModalType.SUCCESS_ERROR_MESSAGE);
       }
 
     }).catch((error: any) => {
-      if (error.status == 404) {
-        this.spinner.hide()
-        // this.router.navigate(['/auth/logout']);
-      } else if (error.status == 401) {
-        this.storage.set('redirectAfterLogin', '/candidate/referral');
+      if (error.status == 401) {
+        this.storage.set('redirectAfterLogin', '/candidate/jobs');
         this.router.navigate(['/']);
-      } else {
+      }
+      else {
         this.spinner.hide();
-
         this.errorMessage = "Something went wrong. Please try again after sometime";
         this.errorTitle = "Error";
         this.openModal(ModalType.SUCCESS_ERROR_MESSAGE);
       }
     }
     );
-
   }
 
-  showMore(rejectionFeedbackBySystem: string) {
-    // if (this.selectedReferral?.rejectedByUserIds?.length > 0) {
-    //   this.openModal(ModalType.REJECT_DETAILS);
-    // } else if (this.selectedReferral?.rejectionFeedbackBySystem) {
-    //   this.feedbackDetails = this.selectedReferral.rejectionFeedbackBySystem;
-    //   this.openModal(ModalType.SHOW_MORE_DETAILS);
-    // }
+  // canRequestFeedback(application: JobApplication): boolean {
+  //   return (
+  //     application?.status !== 'REJECTED' &&
+  //     application?.followUpRequest !== undefined && // Check if followUpRequest exists
+  //     application.followUpRequest.length > 0 // Safely check length
+  //   );
+  // }
 
-    this.feedbackDetails = rejectionFeedbackBySystem;
 
-    this.openModal(ModalType.SHOW_MORE_DETAILS);
+
+  showMore(jobApplication: any) {
+    if (jobApplication?.rejectedByUserId) {
+      this.rejectedReasons = jobApplication.rejectedByUserId;
+      this.openModal(ModalType.REJECT_DETAILS);
+    } else if (jobApplication?.rejectionFeedbackBySystem) {
+      this.feedbackDetails = jobApplication.rejectionFeedbackBySystem;
+      this.openModal(ModalType.SHOW_MORE_DETAILS);
+    }
   }
 
   /**

@@ -61,7 +61,7 @@ export class UserMenubarComponent {
       }
     });
 
-    if(true){
+    if (true) {
       this.menuItems = [
         {
           name: 'Jobs',
@@ -83,7 +83,8 @@ export class UserMenubarComponent {
           name: "Settings",
           router: "corporate/cSettings"
         }
-      ]}
+      ]
+    }
     if (this.userType == "Candidate") {
       this.menuItems = [
         {
@@ -199,7 +200,7 @@ export class UserMenubarComponent {
         },
         {
           name: "Application",
-          router: "admin/aCorporate/jobApplDetail/"
+          router: "admin/aApplicants/"
         },
         {
           name: 'Corporate Users',
@@ -256,7 +257,7 @@ export class UserMenubarComponent {
 
   private updateSubmenuStates(): void {
     const currentUrl = this.router.url.toLowerCase();
-  
+
     this.isReferralSubmenuOpen = currentUrl.startsWith('/candidate/referral/') || currentUrl.startsWith('/employee/referral/');
     this.isJobsSubmenuOpen = currentUrl.startsWith('/candidate/jobs/');
   }
@@ -344,7 +345,7 @@ export class UserMenubarComponent {
   // }
 
   toggleSubmenu(menu: any): void {
-    const isReferralMenu = menu.name === 'Referral';
+    const isReferralMenu = (menu.name === 'Referral' || menu.name === 'Referral request');
     const isJobsMenu = menu.name === 'Job';
 
     if (isReferralMenu && this.isNotAdminDashboard) {
@@ -354,7 +355,9 @@ export class UserMenubarComponent {
       // if (this.isReferralSubmenuOpen && !this.currentSubmenuStatus) { Previous working code
 
       if (this.isReferralSubmenuOpen) {
-        this.router.navigate(['/candidate/referral']);
+        const defaultRoute = menu.name === 'Referral request' ? '/employee/Referral' : '/candidate/referral';
+        this.router.navigate([defaultRoute]);
+        // this.router.navigate(['/candidate/referral']);
       }
     } else if (isJobsMenu && this.isNotAdminDashboard) {
       this.isJobsSubmenuOpen = !this.isJobsSubmenuOpen;
@@ -381,7 +384,7 @@ export class UserMenubarComponent {
     const currentUrl = this.router.url.toLowerCase();
     return currentUrl.startsWith('/candidate/referral') || currentUrl.startsWith('/employee/referral');
   }
-  
+
   isJobsActive(): boolean {
     const currentUrl = this.router.url.toLowerCase();
     return currentUrl.startsWith('/candidate/jobs');
@@ -436,7 +439,7 @@ export class UserMenubarComponent {
         return 'fas fa-circle'; // Default icon
     }
   }
-  
+
 
   onSubmenuClick(currentSubmenu: string) {
     this.currentSubmenuStatus = currentSubmenu.toLowerCase();

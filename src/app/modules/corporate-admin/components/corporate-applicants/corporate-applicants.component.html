@@ -75,24 +75,25 @@
                     <span class="ajobs-status">
                         <select name="status" [(ngModel)]="selectedStatus" class="selector form-select"
                             (change)="onStatusChange($event)">
-                            <option value={{status.APPLIED}}>APPLIED</option>
-                            <option value={{status.CV_DOWNLOADED}}>CV DOWNLOADED</option>
-                            <option value={{status.UNDER_EVALUATION}}>UNDER EVALUATION</option>
-                            <option value={{status.PROCESSING_INTERVIEW}}>PROCESSING INTERVIEW</option>
-                            <option value={{status.INTERVIEW_DONE}}>INTERVIEW DONE</option>
+                            <option value="{{status.ALL_APPLICATIONS}}">All Applications</option>
+                            <option value={{status.APPLIED}}>Applied</option>
+                            <option value={{status.CV_DOWNLOADED}}>CV Downloaded</option>
+                            <option value={{status.UNDER_EVALUATION}}>Under Evaluation</option>
+                            <option value={{status.PROCESSING_INTERVIEW}}>Processing Interview</option>
+                            <option value={{status.INTERVIEW_DONE}}>Interview Done</option>
                             <!-- <option value={{status.PROCESSING_INTERVIEW}}>PROCESSING INTERVIEW</option> -->
-                            <option value={{status.HIRED}}>HIRED</option>
-                            <option value={{status.REJECTED}}>REJECTED</option>
+                            <option value={{status.HIRED}}>Hired</option>
+                            <option value={{status.REJECTED}}>Rejected</option>
                         </select>
                     </span>
                     <span class="ajobs-status">
                         <select name="status" [(ngModel)]="selectedSortOrder" class="selector form-select"
                             (change)="onSortOrderChange($event)">
-                            <option value={{sortOrder.ASC}}>ASCENDING</option>
-                            <option value={{sortOrder.DESC}}>DESCENDING</option>
+                            <option value={{sortOrder.ASC}}>Ascending</option>
+                            <option value={{sortOrder.DESC}}>Descending</option>
                         </select>
                     </span>
-                    <div class="pe-2 search-container" [ngClass]="{'disabled': isSearchActive}">
+                    <div class="pe-2 search-container disabled" [ngClass]="{'disabled': isSearchActive}">
                         <input matInput class="serachInput" (keyup)="handleSearchInput($event)"
                             (keydown)="onSearchInputEnter($event)" placeholder="Search Candidate"
                             [(ngModel)]="searchQuery" #input [disabled]="isSearchActive"
@@ -160,7 +161,7 @@
                             <!-- </mat-icon> -->
                             <!-- </td> -->
                             <td>
-                                <p [ngClass]="getStatusClass(job.status)">{{ job.status | uppercase }}</p>
+                                <p [ngClass]="getStatusClass(job.status)">{{ transformStatus(job.status) | uppercase }}</p>
                             </td>
                             <td>{{ job.createdAt | date: 'd MMM yyyy, h:mm a' }}</td>
                             <!-- <td matTooltip={{job.jobTitle}} matTooltipPosition="above" style="cursor: pointer;">{{

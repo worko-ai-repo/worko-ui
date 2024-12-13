@@ -35,6 +35,16 @@ export interface JobApplication {
     jobTitle: string;
     rejectionFeedbackBySystem: string;
     jdMatchErrorCode: number;
+    rejectedByUserId?: {
+        reason: string;
+        userComment: string;
+        userId: string;
+        actionDate: string;
+    };
+
+    followUpRequest?: {
+        actionDate: string;
+    }[];
 
     // Optional properties for the timeline
     timelineSteps?: string[]; // Steps in the timeline
