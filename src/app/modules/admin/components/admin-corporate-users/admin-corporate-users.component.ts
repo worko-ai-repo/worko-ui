@@ -79,11 +79,11 @@ export class AdminCorporateUsersComponent implements OnInit {
 
   // Properties related to modal messages
   modalCustomTitle : string = "";
-  modalCustomMessage : string = "";
+  modalCustomMessage : string = ""; 
 
-  successtitle: string = "";
+  successTitle: string = "";
+  successMessage: string = "";
   modalSize : string = "xl";
-  successmessage: string = "";
   copiedContextId: any;
   
   /**
@@ -147,8 +147,8 @@ export class AdminCorporateUsersComponent implements OnInit {
       } else if (error.status === 401) {
         this.router.navigate(["/"]);
       } else {
-        this.successmessage = "Something went wrong. Please try again later.";
-        this.successtitle = "Error";
+        this.successMessage = "Something went wrong. Please try again later.";
+        this.successTitle = "Error";
         this.openModal(ModalType.SUCCESS_ERROR_MESSAGE);
       }
     } finally {
@@ -188,27 +188,25 @@ export class AdminCorporateUsersComponent implements OnInit {
   }
    async confirmDelete(){
      try {
+      /* this.closeModal() */
       this.spinner.show();
-      const response = await this.adminService.deleteCorporateUserById(this.currentSeletedUser);
-      if (response) {
-        this.successmessage = "User deleted successfully.";
-        this.successtitle = "Success";
-        this.openModal(ModalType.SUCCESS_MESSAGE);
-        this.fetchUsers({ pageSize: this.pageSize, resetPagination: true });
-      }
+      await this.adminService.deleteCorporateUserById(this.currentSeletedUser);
     } catch (error: any) {
+      this.closeModal();
       this.spinner.hide();
       if (error.status === 404) {
-        this.router.navigate(["/admin/aCorporate"]);
-      } else if (error.status === 401) {
-        this.router.navigate(["/"]);
+        this.successMessage = "Something went wrong. Please try again later.";
+        this.successTitle = "Error";
+        this.openModal(ModalType.SUCCESS_ERROR_MESSAGE);
       } else {
-        this.successmessage = "Something went wrong. Please try again later.";
-        this.successtitle = "Error";
+        this.successMessage = "Something went wrong. Please try again later.";
+        this.successTitle = "Error";
         this.openModal(ModalType.SUCCESS_ERROR_MESSAGE);
       }
     } finally {
+      this.fetchUsers({corporateUserType : this.selectedCorporateUserType,searchText:this.searchQuery, pageSize: this.pageSize, sortOrder: this.selectedSortOrder, resetPagination: true });
       this.spinner.hide();
+      this.closeModal()
     } 
   }
    /**
@@ -243,7 +241,7 @@ export class AdminCorporateUsersComponent implements OnInit {
   async searchJobs(event: any) {
     this.searchQuery = event.target.value;
     //  console.log("Search query:", this.searchQuery);
-   this.fetchUsers({ corporateUserType:this.selectedCorporateUserType, searchText: this.searchQuery, pageSize: 200 });
+   this.fetchUsers({ corporateUserType:this.selectedCorporateUserType, searchText: this.searchQuery, pageSize: this.pageSize });
     if (this.filteredUsers.length == 0) {
       this.noUsersMessage = "No Invite present with this name or description";
     }

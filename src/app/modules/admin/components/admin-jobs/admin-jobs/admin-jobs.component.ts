@@ -559,7 +559,7 @@ export class AdminJobsComponent implements OnInit {
   async searchJobs(event: any) {
     this.searchQuery = event.target.value;
 /*     console.log("Search query:", this.searchQuery);
- */    this.fetchJobs({ jobStatus: this.selectedStatus, searchText: this.searchQuery, pageSize: 200 });
+ */    this.fetchJobs({ jobStatus: this.selectedStatus, searchText: this.searchQuery, pageSize: this.pageSize });
     if (this.filteredJobs.length == 0) {
       this.noJobsMessage = "No Jobs present with this name or description";
     }

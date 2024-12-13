@@ -39,7 +39,7 @@ export class AdminInviteComponent implements OnInit {
     AWAITING: "AWAITING",
     ACCEPTED: "ACCEPTED",
     EXPIRED: "EXPIRED",
-    DELETED : "DELETED"
+    DELETED: "DELETED"
   };
 
   // DEFAULT MEMBER VARIABLES
@@ -48,7 +48,7 @@ export class AdminInviteComponent implements OnInit {
     DESC: "descending",
   };
   userType = {
-    ALL:"",
+    ALL: "",
     ADMIN: "ADMIN",
     RECRUITER: "RECRUITER",
   };
@@ -63,7 +63,7 @@ export class AdminInviteComponent implements OnInit {
   isCompanyNameValid: boolean = false;
   dataSource = new MatTableDataSource<any>(); // To store the updated data in the table
   noInviteMessage: string = "No Invite Present";
-  selectedStatus:string = this.status.ALL;
+  selectedStatus: string = this.status.ALL;
   selectedCorporateUserType = "";
   selectedSortOrder: string = this.sortOrder.DESC;
 
@@ -95,14 +95,14 @@ export class AdminInviteComponent implements OnInit {
   errorTitle = "Error";
   userId: any;
 
- //Pagination Properties
-  
- lastKey: string | null = null; // The current lastKey for the current page
- previousKeys: string[] = []; // Stack to store previous lastKeys for "Previous" functionality
- hasNext: boolean = false; // To enable/disable "Next" button
- hasPrevious: boolean = false; // To enable/disable "Previous" button
- pageSize: number = 25; // Default page size
- pageSizeOptions: number[] = [25, 50, 100, 150];
+  //Pagination Properties
+
+  lastKey: string | null = null; // The current lastKey for the current page
+  previousKeys: string[] = []; // Stack to store previous lastKeys for "Previous" functionality
+  hasNext: boolean = false; // To enable/disable "Next" button
+  hasPrevious: boolean = false; // To enable/disable "Previous" button
+  pageSize: number = 25; // Default page size
+  pageSizeOptions: number[] = [25, 50, 100, 150];
 
   @ViewChild("companyJobMatSort") companyJobMatSort!: MatSort; //@todo RENAME THIS AND SEE WHERE ITS GETTING UTILIZED
   @ViewChild("companyJobMatPaginator") companyJobMatPaginator!: MatPaginator;
@@ -132,19 +132,19 @@ export class AdminInviteComponent implements OnInit {
       lastName: ["", Validators.required],
       email: [
         "",
-        [Validators.required, Validators.email, emailDomainDenyListValidator ()]
+        [Validators.required, Validators.email, emailDomainDenyListValidator()]
       ],
       corporateUserType: ["", Validators.required],
     });
   }
   // Implement the OnInit function to fetch the records on component initialization
   ngOnInit(): void {
-     // Setup the filteredCompanies$ for the company autocomplete
+    // Setup the filteredCompanies$ for the company autocomplete
     this.filteredCompanies$ = this.companyControl.valueChanges.pipe(
       debounceTime(300),
       distinctUntilChanged(),
       switchMap((value) => this.filterCompanies(value))
-    ) 
+    )
     // Fetch jobs on component initialization
     this.fetchInvites({ pageSize: 25, sortOrder: this.sortOrder.DESC, resetPagination: true });
   }
@@ -162,7 +162,7 @@ export class AdminInviteComponent implements OnInit {
         this.lastKey = null;
       }
       const params = {
-        corporateUserType:options.corporateUserType,
+        corporateUserType: options.corporateUserType,
         inviteStatus: options.inviteStatus,
         searchText: options.searchText,
         pageSize: options.pageSize,
@@ -234,31 +234,31 @@ export class AdminInviteComponent implements OnInit {
     return control.invalid && (control.dirty || control.touched);
   }
 
-    // Helper method to get the error message
-    getErrorMessage(controlName: string): string | null {
-      const control = this.inviteForm.get(controlName);
+  // Helper method to get the error message
+  getErrorMessage(controlName: string): string | null {
+    const control = this.inviteForm.get(controlName);
 
-      // Check if the control is invalid and touched/dirty
-      if (this.isInvalid(controlName)) {
-        // Check and return specific validation error messages
-        if (control?.errors) {
-          if (control.errors["required"]) {
-            return "This field is required";
-          }
-          if (control.errors["pattern"]) {
-            return "Invalid format, allowed symbols [.,?!-'\"]";
-          }
-          if (control.errors["email"]) {
-            return "Please enter a valid email address";
-          }
-          if (control.errors["personalEmail"]) {
-            return "Personal email addresses are not allowed";
-          }
+    // Check if the control is invalid and touched/dirty
+    if (this.isInvalid(controlName)) {
+      // Check and return specific validation error messages
+      if (control?.errors) {
+        if (control.errors["required"]) {
+          return "This field is required";
+        }
+        if (control.errors["pattern"]) {
+          return "Invalid format, allowed symbols [.,?!-'\"]";
+        }
+        if (control.errors["email"]) {
+          return "Please enter a valid email address";
+        }
+        if (control.errors["personalEmail"]) {
+          return "Personal email addresses are not allowed";
         }
       }
-
-      return null;
     }
+
+    return null;
+  }
 
   // Method to mark form control as touched when user leaves the input
   markControlAsTouched(controlName: string): void {
@@ -281,14 +281,7 @@ export class AdminInviteComponent implements OnInit {
     );
   }
 
-  
-/**
- * OpenCreateInviteModal
- */
-  openCreateInviteModal(): void {
-    this.showCloseBtn = false;
-    this.openModal(this.modalType.CORPORATE_USER_ADD_INVITE)
-  }
+
   // Display the company name in the input when selected
   onCompanySelect(event: any): void {
     const selectedCompany = event.option.value; // Now selectedCompany is the whole object
@@ -325,30 +318,38 @@ export class AdminInviteComponent implements OnInit {
 
   /* Company Selector Ends Here */
 
-    /**
-   * onStausChange
-   *
-   * Updates the status of a job. and fetch the desired jobs based on the status.
-   */
-    onStatusChange(statusVal: any) {
-      if (statusVal.target.value === this.status.ALL) {
-        this.selectedStatus = this.status.ALL;
-        this.fetchInvites({ pageSize: this.pageSize, resetPagination: true }); // Fetch all jobs
-        return;
-      }
-      this.selectedStatus = statusVal.target.value; // Update global variable
-      this.fetchInvites({corporateUserType : this.selectedCorporateUserType, searchText:this.searchQuery,inviteStatus: this.selectedStatus, pageSize: this.pageSize, resetPagination: true }); // Fetch jobs with the new status
-    }
+/**
+ * OpenCreateInviteModal
+ */
+  openCreateInviteModal(): void {
+    this.showCloseBtn = false;
+    this.openModal(this.modalType.CORPORATE_USER_ADD_INVITE)
+  }
 
- /**
-   * onSortOrderChange
-   *
-   * Updates the sort order of the jobs.
-   */
+  /**
+    * onStausChange
+    *
+    * Updates the status of a job. and fetch the desired jobs based on the status.
+    */
+  onStatusChange(statusVal: any) {
+    if (statusVal.target.value === this.status.ALL) {
+      this.selectedStatus = this.status.ALL;
+      this.fetchInvites({ pageSize: this.pageSize, resetPagination: true }); // Fetch all jobs
+      return;
+    }
+    this.selectedStatus = statusVal.target.value; // Update global variable
+    this.fetchInvites({ corporateUserType: this.selectedCorporateUserType, searchText: this.searchQuery, inviteStatus: this.selectedStatus, pageSize: this.pageSize, resetPagination: true }); // Fetch jobs with the new status
+  }
+
+  /**
+    * onSortOrderChange
+    *
+    * Updates the sort order of the jobs.
+    */
   onSortOrderChange(event: any) {
-        // console.log("Sort order:", event.target.value);
-        this.fetchInvites({corporateUserType : this.selectedCorporateUserType, searchText:this.searchQuery,inviteStatus: this.selectedStatus, pageSize: this.pageSize, sortOrder: event.target.value, resetPagination: true });
-      }
+    // console.log("Sort order:", event.target.value);
+    this.fetchInvites({ corporateUserType: this.selectedCorporateUserType, searchText: this.searchQuery, inviteStatus: this.selectedStatus, pageSize: this.pageSize, sortOrder: event.target.value, resetPagination: true });
+  }
 
   /**
    * onCorporateUserTypeChange
@@ -361,9 +362,9 @@ export class AdminInviteComponent implements OnInit {
       this.fetchInvites({ pageSize: this.pageSize, resetPagination: true }); // Fetch all jobs
       return;
     }
-      this.selectedCorporateUserType = corporateUserType.target.value; // Update global variable
-      this.fetchInvites({ corporateUserType : this.selectedCorporateUserType ,searchText:this.searchQuery,inviteStatus: this.selectedStatus, pageSize: this.pageSize, resetPagination: true }); // Fetch jobs with the new status
-    }
+    this.selectedCorporateUserType = corporateUserType.target.value; // Update global variable
+    this.fetchInvites({ corporateUserType: this.selectedCorporateUserType, searchText: this.searchQuery, inviteStatus: this.selectedStatus, pageSize: this.pageSize, resetPagination: true }); // Fetch jobs with the new status
+  }
 
   /**
    * Submits the job form and creates a new job.
@@ -399,7 +400,7 @@ export class AdminInviteComponent implements OnInit {
   async updateStatus(status: string, inviteId: string): Promise<void> {
     this.spinner.show();
     try {
-      await this.adminService.updateInviteStatus(inviteId, status );
+      await this.adminService.updateInviteStatus(inviteId, status);
       await this.fetchInvites({ pageSize: this.pageSize, resetPagination: true });
     } catch (error) {
       console.error("Invite status update failed:", error);
@@ -414,7 +415,7 @@ export class AdminInviteComponent implements OnInit {
   async deleteInvite(inviteId: string): Promise<void> {
     this.spinner.show();
     try {
-      await this.adminService.deleteInvite(inviteId );
+      await this.adminService.deleteInvite(inviteId);
       await this.fetchInvites({ pageSize: this.pageSize, resetPagination: true });
     } catch (error) {
       console.error("Invite status update failed:", error);
@@ -456,19 +457,20 @@ export class AdminInviteComponent implements OnInit {
    * @method searchJobs
    * @param query - The search query.
    */
-    async searchJobs(event: any) {
-      this.searchQuery = event.target.value;
-      //  console.log("Search query:", this.searchQuery);
-     this.fetchInvites({ inviteStatus: this.selectedStatus, searchText: this.searchQuery, pageSize: 200 });
-      if (this.filteredInvites.length == 0) {
-        this.noInviteMessage = "No Invite present with this name or description";
-      }
+  async searchJobs(event: any) {
+    this.searchQuery = event.target.value;
+    //  console.log("Search query:", this.searchQuery);
+    this.fetchInvites({ inviteStatus: this.selectedStatus, searchText: this.searchQuery, pageSize: this.pageSize });
+    if (this.filteredInvites.length == 0) {
+      this.noInviteMessage = "No Invite present with this name or description";
     }
+  }
 
   // Reset the job Form modal
   resetModal(): void {
     this.inviteForm.reset();
     this.resetBtnHandler()
+    this.companyControl.reset();
   }
 
   // Misc method
@@ -500,7 +502,7 @@ export class AdminInviteComponent implements OnInit {
     }
 
     // Fetch the next page
-    this.fetchInvites({ inviteStatus:this.selectedStatus,corporateUserType:this.selectedCorporateUserType, searchText: this.searchQuery, pageSize: this.pageSize, sortOrder: this.selectedSortOrder , resetPagination: false });
+    this.fetchInvites({ inviteStatus: this.selectedStatus, corporateUserType: this.selectedCorporateUserType, searchText: this.searchQuery, pageSize: this.pageSize, sortOrder: this.selectedSortOrder, resetPagination: false });
   }
 
 
@@ -515,11 +517,11 @@ export class AdminInviteComponent implements OnInit {
 
     if (!previousLastKey) {
       // If no valid previous key, fetch the first page
-      this.fetchInvites({ inviteStatus:this.selectedStatus,corporateUserType:this.selectedCorporateUserType, searchText: this.searchQuery, pageSize: this.pageSize, sortOrder: this.selectedSortOrder, resetPagination: true });
+      this.fetchInvites({ inviteStatus: this.selectedStatus, corporateUserType: this.selectedCorporateUserType, searchText: this.searchQuery, pageSize: this.pageSize, sortOrder: this.selectedSortOrder, resetPagination: true });
     } else {
       // Fetch the previous page using the second-to-last key
-     this.lastKey = previousLastKey;
-     this.fetchInvites({ inviteStatus:this.selectedStatus,corporateUserType:this.selectedCorporateUserType, searchText: this.searchQuery, pageSize: this.pageSize, sortOrder: this.selectedSortOrder, resetPagination: false });
+      this.lastKey = previousLastKey;
+      this.fetchInvites({ inviteStatus: this.selectedStatus, corporateUserType: this.selectedCorporateUserType, searchText: this.searchQuery, pageSize: this.pageSize, sortOrder: this.selectedSortOrder, resetPagination: false });
     }
   }
 
@@ -527,25 +529,26 @@ export class AdminInviteComponent implements OnInit {
     const selectedPageSize = (event.target as HTMLSelectElement).value;
     this.pageSize = Number(selectedPageSize);
     this.previousKeys = [];
-    this.fetchInvites({ inviteStatus:this.selectedStatus,corporateUserType:this.selectedCorporateUserType, searchText: this.searchQuery, pageSize: this.pageSize, sortOrder: this.selectedSortOrder, resetPagination: true });
+    this.fetchInvites({ inviteStatus: this.selectedStatus, corporateUserType: this.selectedCorporateUserType, searchText: this.searchQuery, pageSize: this.pageSize, sortOrder: this.selectedSortOrder, resetPagination: true });
   }
 
 
-   /**
-   * Resets the search input and shows all jobs.
-   */
-   resetBtnHandler(): void {
+  /**
+  * Resets the search input and shows all jobs.
+  */
+  resetBtnHandler(): void {
     /*     console.log("Reset button clicked");
-     */ 
-        this.searchQuery = "";
-        this.selectedStatus = this.status.ALL;
-        this.selectedCorporateUserType = this.userType.ALL;
-        this.fetchInvites({
-          pageSize: this.pageSize,
-          sortOrder: this.sortOrder.DESC,
-          resetPagination: true });
+     */
+    this.searchQuery = "";
+    this.selectedStatus = this.status.ALL;
+    this.selectedCorporateUserType = this.userType.ALL;
+    this.fetchInvites({
+      pageSize: this.pageSize,
+      sortOrder: this.sortOrder.DESC,
+      resetPagination: true
+    });
 
-     }
+  }
 }
 
 

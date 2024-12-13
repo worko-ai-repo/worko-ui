@@ -151,7 +151,7 @@ export class CognitoService {
     }
   }
 
-  async isLoggedIn() {
+  async isLoggedIn() : Promise<boolean> {
 
     this.UserRegistered = this.storage.get("isLinkedinUser");
     this.linkedinSignInDetails = this.storage.get('signInDetails')

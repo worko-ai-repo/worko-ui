@@ -1,6 +1,6 @@
 import { HttpClient } from '@angular/common/http';
 import { ChangeDetectorRef, Component, ViewChild } from '@angular/core';
-import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { AbstractControl, FormBuilder, FormGroup, ValidationErrors, Validators } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
 import { NgxSpinnerService } from 'ngx-spinner';
 import { CognitoService } from 'src/app/modules/services/cognito.service';
@@ -49,6 +49,8 @@ export class CreateUserForCorporateComponent {
   redirectMessage = "";
   errorTitle = "Error";
   userId: any;
+  isLoggedIn: boolean = false;
+  currentLoggedInUser: string = "";
 
   constructor(
     private router: Router,
@@ -82,9 +84,7 @@ export class CreateUserForCorporateComponent {
         ],
         retypePassword: ['', Validators.required]
       },
-      {
-        validators: this.passwordMatchValidator
-      }
+      { validators: this.passwordMatchValidator() } // Apply the custom validator
     );
   }
 
@@ -98,8 +98,16 @@ export class CreateUserForCorporateComponent {
     }
   }
 
-  ngOnInit() {
+ async  ngOnInit() {
 
+    // Ckeck If the user is already logged in
+    this.isLoggedIn = await this.amplify.isLoggedIn();
+
+    // If the user is already logged in, log them out
+    if(this.isLoggedIn) {
+      this.amplify.handleSignOut()
+    }
+    
     // start the blinking animation in the form container text
     this.blinkAndChangeWord()
 
@@ -107,6 +115,7 @@ export class CreateUserForCorporateComponent {
     this.fetchInviteDetails();
 
   }
+
 
   // Fetch the invite details from the local storage\
   async fetchInviteDetails() {
@@ -175,15 +184,15 @@ export class CreateUserForCorporateComponent {
   /**
    * Custom Validator for Password Match
    */
-  passwordMatchValidator(formGroup: FormGroup): null | { mismatch: boolean } {
-    const password = formGroup.get('password')?.value;
-    const retypePassword = formGroup.get('retypePassword')?.value;
-
-    if (password && retypePassword && password !== retypePassword) {
-      return { mismatch: true }; // Return an error object if passwords don't match
-    }
-
-    return null; // Return null if validation passes
+  passwordMatchValidator() {
+    return (formGroup: AbstractControl): ValidationErrors | null => {
+      const password = formGroup.get('password')?.value;
+      const retypePassword = formGroup.get('retypePassword')?.value;
+  
+      return password && retypePassword && password !== retypePassword
+        ? { mismatch: true }
+        : null;
+    };
   }
 
   getErrorMessage(controlName: string): string | null {
@@ -203,8 +212,8 @@ export class CreateUserForCorporateComponent {
           return `Minimum length is ${control.errors["minlength"].requiredLength} characters`;
         }
         // Check for the Password Match
-        if (control.errors["passwordsMismatch"] && controlName === 'retypePassword') {
-          return "Passwords do not match";
+        if (this.userForm.hasError('mismatch') && controlName === 'retypePassword') {
+          return 'Passwords do not match.';
         }
       }
     }
@@ -220,9 +229,21 @@ export class CreateUserForCorporateComponent {
     this.spinner.show(); // Ensure spinner is shown at the start
 
     try {
-      if(this.inviteDetails.inviteStatus === CorpInviteStatusEnum.EXPIRED) {
-          throw new Error("Invite has expired");
+      if(
+        this.inviteDetails.inviteStatus === CorpInviteStatusEnum.EXPIRED ||
+        this.inviteDetails.inviteStatus === CorpInviteStatusEnum.DELETED 
+      ) {
+        this.openModal(ModalType.CORPORATE_USER_INVITE_EXPIRED);
+        return;
         };
+        if(
+          this.inviteDetails.inviteStatus === CorpInviteStatusEnum.ACCEPTED){
+            this.errorMessage = "Invite has already been accepted";
+            this.modalSize = "md";
+            this.modalTitle = "Error";
+            this.openModal(ModalType.SUCCESS_ERROR_MESSAGE)
+            return;
+          }
 
       const signupData = {
         password: this.userForm.get('password')?.value,

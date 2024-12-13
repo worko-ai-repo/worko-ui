@@ -416,7 +416,7 @@ export class AdminCompanyComponent implements OnInit {
     async searchJobs(event: any) {
       this.searchQuery = event.target.value;
       //  console.log("Search query:", this.searchQuery);
-     this.fetchInvites({ inviteStatus: this.selectedStatus, searchText: this.searchQuery, pageSize: 200 });
+     this.fetchInvites({ inviteStatus: this.selectedStatus, searchText: this.searchQuery, pageSize: this.pageSize });
       if (this.filteredInvites.length == 0) {
         this.noInviteMessage = "No Invite present with this name or description";
       }

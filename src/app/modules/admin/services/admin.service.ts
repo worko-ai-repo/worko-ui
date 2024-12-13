@@ -239,7 +239,7 @@ export class AdminService {
   }
 
   deleteCorporateUserById(userId: string) {
-    return this.http.patch(`${API_URL}corporate-user/${userId}/delete`, this.authService.getHttpOptions()).toPromise();
+    return this.http.patch(`${API_URL}corporate-user/${userId}/delete`,{}, this.authService.getHttpOptions()).toPromise();
   }
 
   // Corporate Users Invite API
@@ -277,7 +277,7 @@ export class AdminService {
   }
 
     deleteInvite(inviteId: string) {
-    return this.http.patch(`${API_URL}corporate-invite/${inviteId}/delete`, this.authService.getHttpOptions()).toPromise();
+    return this.http.patch(`${API_URL}corporate-invite/${inviteId}/delete`, {} ,this.authService.getHttpOptions()).toPromise();
   }
 
   // API's for Admin Applicants page

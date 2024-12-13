@@ -111,7 +111,7 @@ export class CorporateService {
   }
 
   deleteCorporateUserById(userId: string, companyId: string): Promise<any> {
-    return this.http.patch(`${API_URL}corporate-user/${userId}/delete?companyId=${companyId}`, this.authService.getHttpOptions()).toPromise();
+    return this.http.patch(`${API_URL}corporate-user/${userId}/delete?companyId=${companyId}`,{}, this.authService.getHttpOptions()).toPromise();
   }
 
   getCorporateUserDetailById(userId: string): Promise<any> {
@@ -155,7 +155,7 @@ export class CorporateService {
     return this.http.patch(`${API_URL}corporate-invite/${inviteId}?companyId=${companyId}`, { inviteStatus }, this.authService.getHttpOptions()).toPromise();
   }
   deleteInvite(inviteId: string, companyId: string) {
-    return this.http.patch(`${API_URL}corporate-invite/${inviteId}/delete?companyId=${companyId}`, this.authService.getHttpOptions()).toPromise();
+    return this.http.patch(`${API_URL}corporate-invite/${inviteId}/delete?companyId=${companyId}`, {}, this.authService.getHttpOptions()).toPromise();
   }
 
   // API's for Corporate Applicants page

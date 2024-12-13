@@ -35,7 +35,7 @@
           <div class="form-group">
             <label class="form-label required-form-field">Password</label>
             <input matInput class="form-control form-input" formControlName="password" type="password"
-              [ngClass]="{ 'is-invalidInput': isInvalid('password') }" />
+              [ngClass]="{ 'is-invalid': isInvalid('password') }" />
             <span *ngIf="isInvalid('password')" class="text-danger" style="font-size:10px">
               {{ getErrorMessage('password') }}
             </span>
@@ -69,12 +69,15 @@
               name="email"
               placeholder="Enter Email"
               [readonly]="changePasswordWithOtpScreen"
-              >
+              [ngClass]="{ 'is-invalid': isInvalid('email') }">
+            <span *ngIf="isInvalid('email')" class="text-danger" style="font-size:10px">
+              {{ getErrorMessage('email') }}
+            </span>
           </div>
           <div *ngIf="changePasswordWithOtpScreen" class="form-group forgotPasswordField">
             <label class="form-label required-form-field">OTP</label>
             <input matInput formControlName="code" class="form-control form-input" type="text" placeholder="Enter OTP"
-              [ngClass]="{ 'is-invalidInput': isInvalid('code') }">
+              [ngClass]="{ 'is-invalid': isInvalid('code') }">
             <span *ngIf="isInvalid('code')" class="text-danger" style="font-size:10px">
               {{ getErrorMessage('code') }}
             </span>
@@ -83,7 +86,7 @@
             <label class="form-label required-form-field">New Password</label>
             <input matInput formControlName="newPassword" class="form-control form-input" type="password"
               name="password" placeholder="Enter New Password"
-              [ngClass]="{ 'is-invalidInput': isInvalid('newPassword') }">
+              [ngClass]="{ 'is-invalid': isInvalid('newPassword') }">
             <span *ngIf="isInvalid('newPassword')" class="text-danger" style="font-size:10px">
               {{ getErrorMessage('newPassword') }}
             </span>
@@ -94,12 +97,12 @@
             formControlName="retypePassword"
              type="password"
              placeholder="Retype Password"
-              [ngClass]="{ 'is-invalidInput': isInvalid('retypePassword') }" />
-              <span
+             [ngClass]="{'is-invalid': forgotPasswordForm?.get('newPassword')?.invalid && forgotPasswordForm?.get('newPassword')?.touched}" />
+             <span
               *ngIf="forgotPasswordForm.get('newPassword')?.value !== forgotPasswordForm.get('retypePassword')?.value && forgotPasswordForm.get('retypePassword')?.touched"
               class="text-danger" style="font-size: 10px;">
               Passwords do not match.
-            </span>    
+            </span> 
           </div>
           <div>
             <a _ngcontent-ng-c1006296152="" href="javascript:void(0);" style="font-size:10px; margin-bottom: 5px;"
