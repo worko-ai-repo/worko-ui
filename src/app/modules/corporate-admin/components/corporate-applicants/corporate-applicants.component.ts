@@ -595,6 +595,7 @@ export class CorporateApplicantsComponent {
     this.spinner.show(); //spinner at the start
 
     const payload: any = {
+      userType: this.userType.toUpperCase(),
       userId: this.corporateVitalDetails.userId,
       status: newStatus,
       emailId: this.corporateVitalDetails.email, // Email of the corporate user
@@ -642,6 +643,7 @@ export class CorporateApplicantsComponent {
     this.updateJobApplicationStatus(this.currentJob.id, this.newStatus, rejectReasonsData).then(async (response: any) => {
       if (response) {
         this.spinner.hide();
+        this.closeModal();
         // Refresh jobApplicationListing data
         await this.getAllJobApplications(null);
       }
