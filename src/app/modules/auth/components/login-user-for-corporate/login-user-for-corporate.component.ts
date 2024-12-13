@@ -1,12 +1,13 @@
 import { HttpClient } from '@angular/common/http';
 import { ChangeDetectorRef, Component, EventEmitter, Output, ViewChild } from '@angular/core';
-import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { AbstractControl, FormBuilder, FormGroup, ValidationErrors, ValidatorFn, Validators } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
 import { ConfirmResetPasswordInput, confirmResetPassword, fetchAuthSession, getCurrentUser, resetPassword } from '@aws-amplify/auth';
 import { NgxSpinnerService } from 'ngx-spinner';
 import { StorageService } from 'src/app/modules/app-core/services/storage.service';
 import { CognitoService } from 'src/app/modules/services/cognito.service';
 import { ModalComponent } from 'src/app/modules/shared/components/modal/modal.component';
+import { emailDomainDenyListValidator } from 'src/app/modules/shared/data/email-domain-validator';
 import { CorpInviteStatusEnum } from 'src/app/modules/shared/enums/corporate-usr-invt.enum';
 import { CorporateUserInviteCreateApiDto, CorporateUserInviteCreateDto, CorporateUserInviteUpdateApiDto } from 'src/app/modules/shared/interfaces/corporate-usr-invite.interface';
 import { ModalType } from 'src/app/modules/shared/interfaces/shared.interface';
@@ -92,23 +93,27 @@ export class LoginUserForCorporateComponent {
    );
 
    // Form to reset the password
-   this.forgotPasswordForm = this.fb.group({
-     email: ['', [Validators.required, Validators.email]],
-     code: ['', [
-      Validators.required,
-      Validators.pattern('^[0-9]+$')  // Ensures the input is only numeric
-    ]],
-     newPassword: [
-       '',
-       [
-         Validators.required,
-         Validators.minLength(8),
-         Validators.pattern(/^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[!@#$%^&*(),.?":{}|<>])[A-Za-z\d!@#$%^&*(),.?":{}|<>]{8,}$/)
-       ]
-     ],
-     retypePassword: ['',Validators.required]
+   this.forgotPasswordForm = this.fb.group(
+    {
+      email: ["", [Validators.required, Validators.email, emailDomainDenyListValidator()]],
+      code: ["", [Validators.required, Validators.pattern("^[0-9]+$")]],
+      newPassword: [
+        "",
+        [
+          Validators.required,
+          Validators.minLength(8),
+          Validators.pattern(
+            /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[!@#$%^&*(),.?":{}|<>])[A-Za-z\d!@#$%^&*(),.?":{}|<>]{8,}$/
+          ),
+        ],
+      ],
+      retypePassword: ["", Validators.required],
     },
+    {
+      validators: this.passwordMatchValidator(), // Correctly bind the validator to the form group
+    }
   );
+  
  }
 
 
@@ -123,7 +128,7 @@ export class LoginUserForCorporateComponent {
 
  ngOnInit() {
     this.currentUserSessionToken = this.amplify.getAccessToken();
-    this.currentLoggedInUser = this.storage.get('cognitoUserId');
+    this.currentLoggedInUser = this.storage.get('userType');
 
     // Ckeck If the user is already logged in
     this.isUserLoggedIn();
@@ -142,12 +147,27 @@ export class LoginUserForCorporateComponent {
     }
   }
 
+  /**
+   * Custom Validator for Password Match
+   */
+  passwordMatchValidator(): ValidatorFn {
+    return (formGroup: AbstractControl): ValidationErrors | null => {
+      const password = formGroup.get('newPassword')?.value; // Ensure it uses the passed form group
+      const retypePassword = formGroup.get('retypePassword')?.value;
+  
+      return password && retypePassword && password !== retypePassword
+        ? { mismatch: true }
+        : null;
+    };
+  }
+  
+
    // Validation function for common and specific checks
    isInvalid(controlName: string): boolean {
 
       let control;
-    
-      if (!this.changePasswordWithOtpScreen) {
+      const forgotPassPage = this.forgotPasswordScreen || this.changePasswordWithOtpScreen;
+      if (!forgotPassPage) {
         control = this.userLoginForm.get(controlName);
       } else {
         control = this.forgotPasswordForm.get(controlName);
@@ -165,7 +185,8 @@ export class LoginUserForCorporateComponent {
    getErrorMessage(controlName: string): string | null {
     let control;
     
-      if (!this.changePasswordWithOtpScreen) {
+    const forgotPassPage = this.forgotPasswordScreen || this.changePasswordWithOtpScreen;
+      if (!forgotPassPage)  {
         control = this.userLoginForm.get(controlName);
       } else {
         control = this.forgotPasswordForm.get(controlName);
@@ -185,9 +206,12 @@ export class LoginUserForCorporateComponent {
            return `Minimum length is ${control.errors["minlength"].requiredLength} characters`;
          }
          // Check for the Password Match
-         if (control.errors["passwordsMismatch"] && controlName === 'retypePassword') {
-           return "Passwords do not match";
-         }
+          if (control.errors["mismatch"]) {
+            return "Passwords do not match";
+          }
+         if (control.errors["personalEmail"]) {
+          return "Personal email addresses are not allowed";
+        }
        }
      }
  
@@ -246,6 +270,16 @@ export class LoginUserForCorporateComponent {
         const userId = this.storage.get('cognitoUserId');
         // Fetch user profile after successful sign-in
         const response = await this.authService.getCorporateUser(userId);
+        console.log(response, "response");
+
+        if(response && response[0].isDeleted === true){
+          this.spinner.hide();
+          this.modalMessageText = "Your account is no longer active. Please contact the administrator.";
+          this.modalTitleText = "Error";
+          this.openModal(ModalType.SUCCESS_ERROR_MESSAGE);
+          this.amplify.handleSignOut();
+          return;
+        }
 
         this.onLoginSuccess(response);
       }
@@ -260,7 +294,7 @@ export class LoginUserForCorporateComponent {
   private async onLoginSuccess(response: any): Promise<void> {
     
     const userType = response.data?.lastAccessedDash ?? 'Corporate'; //CORP emp
-    const userName = response.data?.name;
+    const userName = response[0]?.firstName + ' ' + response[0]?.lastName;
     this.storage.set('lastAccessedDash', userType);
     this.storage.set('userName', userName);
 
@@ -271,7 +305,6 @@ export class LoginUserForCorporateComponent {
  
     this.spinner.hide();
     
-    const tf = userType === 'Corporate' ? '/corporate/cJobs' : '/';
     this.router.navigate([userType === 'Corporate' ? '/corporate/cJobs' : '/']);
   }
 
@@ -377,6 +410,8 @@ async onChangePassword() {
     this.forgotPasswordScreen = false;
     this.changePasswordWithOtpScreen = false;
   }
+  this.forgotPasswordForm.reset();
+  this.userLoginForm.reset();
 }
 
  // Css functions for the blinking animation

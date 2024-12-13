@@ -27,13 +27,13 @@
           <div class="form-group">
 
             <label>First Name</label>
-            <input matInput class="form-control form-input" formControlName="firstName" [readonly]="true"  />
+            <input matInput class="form-control" formControlName="firstName" [readonly]="true"  />
           </div>
 
           <div class="form-group">
 
             <label>Last Name</label>
-            <input matInput class="form-control form-input" formControlName="lastName" [readonly]="true"  />
+            <input matInput class="form-control" formControlName="lastName" [readonly]="true"  />
           </div>
 
           <div class="form-group">
@@ -52,7 +52,7 @@
           <div class="form-group">
 
             <label>Company Name</label>
-            <input matInput class="form-control form-input" formControlName="companyName" [readonly]="true" />
+            <input matInput class="form-control" formControlName="companyName" [readonly]="true" />
 
           </div>
 
@@ -64,7 +64,7 @@
               formControlName="phoneNumber"
               type="text"
               [ngClass]="{ 'is-invalidInput': isInvalid('phoneNumber') }" />
-            <span *ngIf="isInvalid('phoneNumber')" class="text-danger">
+            <span *ngIf="isInvalid('phoneNumber')" class="text-danger" style="font-size: 10px;">
               {{ getErrorMessage('phoneNumber') }}
             </span>
           </div>
@@ -73,11 +73,11 @@
             <label class="form-label required-form-field">Password</label>
             <input
               matInput
-              class="form-control form-input"
+              class="form-control"
               formControlName="password"
               type="password"
-              [ngClass]="{ 'is-invalidInput': isInvalid('password') }" />
-            <span *ngIf="isInvalid('password')" class="text-danger">
+              [ngClass]="{ 'is-invalid': isInvalid('password') }" />
+            <span *ngIf="isInvalid('password')" class="text-danger" style="font-size: 10px;">
               {{ getErrorMessage('password') }}
             </span>
           </div>
@@ -86,17 +86,20 @@
             <label class="form-label required-form-field">Retype Password</label>
             <input
               matInput
-              class="form-control form-input"
+              class="form-control"
               formControlName="retypePassword"
               type="password"
-              [ngClass]="{ 'is-invalidInput': isInvalid('retypePassword') }" />
-            <span *ngIf="isInvalid('retypePassword')" class="text-danger">
-              {{ getErrorMessage('retypePassword') }}
+              [ngClass]="{ 'is-invalid': isInvalid('retypePassword') || userForm.hasError('mismatch') }" />
+            <span
+              *ngIf="isInvalid('retypePassword') || userForm.hasError('mismatch')"
+              class="text-danger" style="font-size: 10px;">
+              Password does not match.
             </span>
           </div>
 
           <div class="form-group cSubmit">
             <button mat-raised-button color="primary" type="submit" 
+            [disabled]="!userForm.valid"
               class="ajobs-fitem-resetBtn">Submit</button>
           </div>
         </form>

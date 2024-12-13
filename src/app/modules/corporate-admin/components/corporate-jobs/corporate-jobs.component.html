@@ -104,34 +104,34 @@
               </tr>
             </tbody>
           </table>
-       <!-- pagination block starts here -->
-       <div class="row pe-2 pt-4">
-        <div class="pagination-controls">
-          <div class="dropdown-container">
-            <div style="display: flex; align-items: center;">
-              <label for="pageSizeSelect" class="dropdown-label">Items per page:</label>
-            </div>
-            <div class="dropdown-wrapper">
-              <select id="pageSizeSelect" class="styled-dropdown" [(ngModel)]="pageSize"
-                (change)="onPageSizeChange($event)">
-                <option *ngFor="let option of pageSizeOptions" [value]="option">
-                  {{ option }}
-                </option>
-              </select>
-            </div>
-          </div>
-
-          <button class="prev-button" [disabled]="!hasPrevious" (click)="onPrevious()">
-            &lt; Previous
-          </button>
-
-          <button class="next-button" [disabled]="!hasNext" (click)="onNext()">
-            Next &gt;
-          </button>
         </div>
-      </div>
-      <!-- pagination blocl ends here -->
-        </div>
+        <!-- pagination block starts here -->
+         <div class="row pe-2 pt-4">
+           <div class="pagination-controls">
+             <div class="dropdown-container">
+               <div style="display: flex; align-items: center;">
+                 <label for="pageSizeSelect" class="dropdown-label">Items per page:</label>
+               </div>
+               <div class="dropdown-wrapper">
+                 <select id="pageSizeSelect" class="styled-dropdown" [(ngModel)]="pageSize"
+                   (change)="onPageSizeChange($event)">
+                   <option *ngFor="let option of pageSizeOptions" [value]="option">
+                     {{ option }}
+                   </option>
+                 </select>
+               </div>
+             </div>
+ 
+             <button class="prev-button" [disabled]="!hasPrevious" (click)="onPrevious()">
+               &lt; Previous
+             </button>
+ 
+             <button class="next-button" [disabled]="!hasNext" (click)="onNext()">
+               Next &gt;
+             </button>
+           </div>
+         </div>
+       <!-- pagination blocl ends here -->
 
       </div>
   

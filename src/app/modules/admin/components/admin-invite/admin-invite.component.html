@@ -5,7 +5,7 @@
          <div class="ajobs-filters">
 
             <span class="aInvites-add">
-               <button class="ps-4 pe-4 btn searchButton" (click)="openModal(modalType.CORPORATE_USER_ADD_INVITE)">Create Invite</button>
+               <button class="ps-4 pe-4 btn searchButton" (click)="openCreateInviteModal()">Create Invite</button>
             </span>
             <span class="ajobs-search">
                   <span class="ajobs-status">
@@ -34,7 +34,7 @@
                   </select>
                 </span>
                <input type="text" [(ngModel)]="searchQuery" class="form-control serachInput" placeholder="Search Invite" (keyup)="searchJobs($event)"/>
-               <button class="ps-4 pe-4 btn searchButton">Reset</button>
+               <button class="ps-4 pe-4 btn searchButton" (click)="resetBtnHandler()">Reset</button>
             </span>
          </div>
          
@@ -116,35 +116,35 @@
                   </tr>
                </tbody>
             </table>
-                  <!-- pagination block starts here -->
-       <div class="row pe-2 pt-4">
-         <div class="pagination-controls">
-           <div class="dropdown-container">
-             <div style="display: flex; align-items: center;">
-               <label for="pageSizeSelect" class="dropdown-label">Items per page:</label>
-             </div>
-             <div class="dropdown-wrapper">
-               <select id="pageSizeSelect" class="styled-dropdown" [(ngModel)]="pageSize"
-                 (change)="onPageSizeChange($event)">
-                 <option *ngFor="let option of pageSizeOptions" [value]="option">
-                   {{ option }}
-                 </option>
-               </select>
-             </div>
-           </div>
- 
-           <button class="prev-button" [disabled]="!hasPrevious" (click)="onPrevious()">
-             &lt; Previous
-           </button>
- 
-           <button class="next-button" [disabled]="!hasNext" (click)="onNext()">
-             Next &gt;
-           </button>
+            
          </div>
-       </div>
-       <!-- pagination blocl ends here -->
- 
-         </div>
+         <!-- pagination block starts here -->
+<div class="row pe-2 pt-4">
+<div class="pagination-controls">
+  <div class="dropdown-container">
+    <div style="display: flex; align-items: center;">
+      <label for="pageSizeSelect" class="dropdown-label">Items per page:</label>
+    </div>
+    <div class="dropdown-wrapper">
+      <select id="pageSizeSelect" class="styled-dropdown" [(ngModel)]="pageSize"
+        (change)="onPageSizeChange($event)">
+        <option *ngFor="let option of pageSizeOptions" [value]="option">
+          {{ option }}
+        </option>
+      </select>
+    </div>
+  </div>
+
+  <button class="prev-button" [disabled]="!hasPrevious" (click)="onPrevious()">
+    &lt; Previous
+  </button>
+
+  <button class="next-button" [disabled]="!hasNext" (click)="onNext()">
+    Next &gt;
+  </button>
+</div>
+</div>
+<!-- pagination blocl ends here -->
       </div>
    </div>
 </div>
@@ -182,7 +182,7 @@
             </div>
             <!-- First Name -->
             <div class="cinvite-fitem">
-               <label for="firstName" class="form-label required-form-field">First Name:</label>
+               <label for="firstName" class="form-label required-form-field">First Name</label>
                <input id="firstName" formControlName="firstName" class="form-control form-input"
                   [ngClass]="{ 'is-invalid': isInvalid('firstName') }" />
                <span *ngIf="isInvalid('firstName')" class="text-danger">{{ getErrorMessage('firstName') }}</span>
@@ -190,7 +190,7 @@
 
             <!-- last Name -->
             <div class="cinvite-fitem">
-               <label for="lastName" class="form-label required-form-field">Last Name:</label>
+               <label for="lastName" class="form-label required-form-field">Last Name</label>
                <input id="lastName" formControlName="lastName" class="form-control form-input"
                   [ngClass]="{ 'is-invalid': isInvalid('lastName') }" />
                <span *ngIf="isInvalid('lastName')" class="text-danger">{{ getErrorMessage('lastName') }}</span>
@@ -198,7 +198,7 @@
 
             <!-- email -->
             <div class="cinvite-fitem">
-               <label for="email" class="form-label required-form-field">Email Address:</label>
+               <label for="email" class="form-label required-form-field">Email Address</label>
                <input id="email" formControlName="email" class="form-control form-input"
                   [ngClass]="{ 'is-invalid': isInvalid('email') }" />
                <span *ngIf="isInvalid('email')" class="text-danger">{{ getErrorMessage('email') }}</span>
@@ -206,7 +206,7 @@
 
             <!-- Corporate User Type -->
             <div class="cinvite-fitem">
-               <label for="Aceess Type" class="form-label required-form-field">Access Type:</label>
+               <label for="Aceess Type" class="form-label required-form-field">Access Type</label>
                <select id="aceessType" formControlName="corporateUserType" class="selector form-select required-form-field"
                [ngClass]="{ 'is-invalid': isInvalid('aceessType') }">
                <option value="" disabled selected>Select User Access Type</option> <!-- Placeholder-like option -->

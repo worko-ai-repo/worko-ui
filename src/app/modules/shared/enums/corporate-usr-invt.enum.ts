@@ -30,4 +30,7 @@ export enum CorpInviteStatusEnum {
 
     // The invite has been expired.
     EXPIRED = 'EXPIRED',
+
+    // The invite has been deleted.
+    DELETED = 'DELETED',
 }
