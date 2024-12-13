@@ -241,7 +241,7 @@ export class AdminCorporateUsersComponent implements OnInit {
   async searchJobs(event: any) {
     this.searchQuery = event.target.value;
     //  console.log("Search query:", this.searchQuery);
-   this.fetchUsers({ corporateUserType:this.selectedCorporateUserType, searchText: this.searchQuery, pageSize: 200 });
+   this.fetchUsers({ corporateUserType:this.selectedCorporateUserType, searchText: this.searchQuery, pageSize: this.pageSize });
     if (this.filteredUsers.length == 0) {
       this.noUsersMessage = "No Invite present with this name or description";
     }
