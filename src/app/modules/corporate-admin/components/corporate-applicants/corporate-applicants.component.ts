@@ -97,6 +97,7 @@ export class CorporateApplicantsComponent {
   // Properties related to modal messages
   successTitle: string = "";
   modalSize: string = "md";
+  showClose: boolean = false;
   successMessage: string = "";
 
   // Component properties
@@ -686,12 +687,15 @@ export class CorporateApplicantsComponent {
     // Reset modal size every time you open the modal
     if (modalType === this.modalType.SHOW_MORE_DETAILS) {
       this.modalSize = "lg";
+      this.showClose = true;
     }
     else if (modalType === this.modalType.VIEW_CV) {
       this.modalSize = "xl";
+      this.showClose = true;
     }
     else {
       this.modalSize = "md";
+      this.showClose = false;
     }
 
     this.cdr.detectChanges();
