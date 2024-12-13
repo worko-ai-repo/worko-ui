@@ -373,6 +373,7 @@ export class AdminApplicantsComponent {
     this.spinner.show(); //spinner at the start
 
     const payload: any = {
+      userType: this.userType.toUpperCase(),
       userId: this.userId,
       status: newStatus,
       emailId: this.emailAddress, // Email of the corporate user
