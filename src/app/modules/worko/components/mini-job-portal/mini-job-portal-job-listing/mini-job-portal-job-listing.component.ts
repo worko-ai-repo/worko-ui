@@ -246,7 +246,8 @@ export class MiniJobPortalJobListingComponent {
     try{
       let response=await this.companyListing.getcompanyDetailsByCompanyID(this.companyID)
         if (response[0]) {
-          this.companyName=response[0].name
+          this.companyName=response[0].name;
+          this.companyDetail = response[0];
           this.getJobByCompanyID()
 
         }else{

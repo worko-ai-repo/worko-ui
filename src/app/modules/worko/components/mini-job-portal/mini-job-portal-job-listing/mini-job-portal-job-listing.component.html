@@ -15,7 +15,7 @@
         <div class="row  contents">
 
             <div class="col-md-12" *ngIf="companyName.length>0">
-                <div class="cardidate-card py-4 " >
+                <div class="cardidate-card py-4 ">
                     <div class="card-header d-flex justify-content-between align-items-center">
                         <span class="ms-3">Get Referral for Any Job In {{companyName | titlecase}}</span>
                         <div class="d-flex align-items-center icon-wrapper">
@@ -109,8 +109,9 @@
 </div>
 <app-footer></app-footer>
 <app-modal (onModalClose)="onModalClose()" [theme]="'theme-k'" [centered]="true"
-    [showHeader]="showModal === modalType.MESSAGE" [showClose]="isShowCloseButton" [showFooter]="showModal === modalType.MESSAGE"
-    [title]="modalTitle" [message]="modalMessage" [bodyClass]="modalMessage ? 'p-4' : 'p-0'"  [modalSize]="modalSize">
+    [showHeader]="showModal === modalType.MESSAGE" [showClose]="isShowCloseButton"
+    [showFooter]="showModal === modalType.MESSAGE" [title]="modalTitle" [message]="modalMessage"
+    [bodyClass]="modalMessage ? 'p-4' : 'p-0'" [modalSize]="modalSize">
 
     <ng-container *ngIf="showModal === modalType.LOGIN_SIGNUP">
         <app-login-form (onSuccess)="receiveDataFromChild($event)" [userLoggedInData]="userLoggedIn"></app-login-form>
@@ -187,8 +188,9 @@
         <div class="row d-flex align-self-center justify-content-center" *ngIf="showScore">
             <div class="body main-div1">
                 <div class="progress-bar" *ngIf="showScore">
-                    <app-referral-progress-bar [referralId]="referralRequestId" [jobApplicationRequestId]="jobApplicationRequestId"
-                        (response)="handleResponse()" [showFeedback]="showFeedback"></app-referral-progress-bar>
+                    <app-referral-progress-bar [referralId]="referralRequestId"
+                        [jobApplicationRequestId]="jobApplicationRequestId" (response)="handleResponse()"
+                        [showFeedback]="showFeedback"></app-referral-progress-bar>
                 </div>
 
             </div>

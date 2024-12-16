@@ -50,8 +50,7 @@
         <div class="col">
             <span class="label">Job Url</span>
             <span class="value">
-                <a *ngIf="jobDetails?.jobUrl; else noUrl" [href]="jobDetails?.jobUrl" target="_blank"
-                    rel="noopener noreferrer">
+                <a *ngIf="jobUrl; else noUrl" style="cursor: pointer;" (click)="navigateToJobUrl($event)">
                     Link
                 </a>
                 <ng-template #noUrl>-</ng-template>
@@ -124,7 +123,7 @@
                     </thead>
                     <tbody>
                         <tr *ngIf="filteredJobs.length === 0">
-                            <td colspan="9" class="no-jobs-message">{{ noJobsMessage }}</td>
+                            <td colspan="9" class="no-jobs-message">{{ noApplicationsMessage }}</td>
                         </tr>
                         <tr *ngFor="let job of filteredJobs; let i = index">
                             <td matTooltip="{{ job?.applicantDetails?.name | titlecase }}" matTooltipPosition="above"
@@ -241,7 +240,7 @@
                                 </span>
 
                                 <!-- Reject Button -->
-                                <span *ngIf="job.status !== status.REJECTED" matTooltip="Reject"
+                                <span *ngIf="job.status !== status.REJECTED && job.status !== status.HIRED" matTooltip="Reject"
                                     matTooltipPosition="above" style="background: red; cursor: pointer;"
                                     (click)="handleAction(job, status.REJECTED)">
                                     <i class="fa-solid fa-times"></i>
