@@ -43,7 +43,7 @@ export class AdminApplicantsComponent {
   jobId: string | null = null; // Variable to store the job ID
   dataSource = new MatTableDataSource<any>(); // To store the updated data in the table
   selectedStatus: string = this.status.ALL_APPLICATIONS;
-  noJobsMessage: string = "No Jobs Present"; // Will be showin inside the table
+  noApplicationsMessage: string = "No Job Applications Present"; // Will be showin inside the table
 
   //Filters Properties
   filteredJobs: any[] = [];
@@ -58,6 +58,7 @@ export class AdminApplicantsComponent {
   // Properties related to modal messages
   successTitle: string = "";
   modalSize: string = "md";
+  showClose: boolean = false;
   successMessage: string = "";
 
   // Component properties
@@ -93,6 +94,9 @@ export class AdminApplicantsComponent {
   emailAddress: any = "";
   currentJob: any;
   newStatus: any;
+
+  companyDetails: any;
+  jobUrl: any;
 
 
   constructor(private router: Router, private fb: FormBuilder, private adminService: AdminService, private spinner: NgxSpinnerService, private cdr: ChangeDetectorRef, private sanitizer: DomSanitizer, private route: ActivatedRoute, private storage: StorageService) {
@@ -132,6 +136,7 @@ export class AdminApplicantsComponent {
 
       try {
         await this.fetchJobDetails(this.jobId);
+        this.getJobLink();
         this.getAllJobApplications(null);
       } catch (error) {
         console.error("Error", error);
@@ -149,6 +154,23 @@ export class AdminApplicantsComponent {
       this.successTitle = "Error";
       this.openModal(ModalType.SUCCESS_ERROR_MESSAGE);
     }
+  }
+
+  navigateToJobUrl(event: any): void {
+    event.preventDefault(); // Prevents default browser navigation
+    if (this.jobUrl) {
+      window.open(this.jobUrl, '_blank'); // Opens the link in a new tab
+    }
+  }
+
+  getJobLink(): void {
+
+    // Encode the company name and job title for URL-safe navigation
+    const formattedCompanyName = this.companyDetails?.name.toLowerCase().replace(/\(.*?\)/g, '').replace(/\s*&\s*/g, '&').replace(/\s+/g, '-').replace(/-+/g, '-').replace(/^-|-$/g, '');
+    const formattedJobTitle = this.jobDetails?.jobTitle.toLowerCase().replace(/\(.*?\)/g, '').replace(/\s*&\s*/g, '&').replace(/\s+/g, '-').replace(/-+/g, '-').replace(/^-|-$/g, '');
+
+    const route = `/company/jobs/${formattedCompanyName}-jobs/${formattedJobTitle}-${this.jobId}`;
+    this.jobUrl = route;
   }
 
   formatRange(min: number, max: number, type: string): string {
@@ -273,6 +295,7 @@ export class AdminApplicantsComponent {
       const response: any = await this.adminService.getJobDetailsById(jobId);
       if (response && response.length > 0) {
         this.jobDetails = response[0];
+        this.companyDetails = response[0].companyDetails;
       } else {
         console.warn("Job details response is empty or undefined.");
         this.jobDetails = [];
@@ -318,21 +341,26 @@ export class AdminApplicantsComponent {
       return;
     }
 
-    // Call updateStatus API if the status is not already in the tracker
-    this.updateJobApplicationStatus(job.id, newStatus).then(async (response: any) => {
-      if (response) {
-        // Refresh jobApplicationListing data
-        await this.getAllJobApplications(null);
-        if (response.status === "CV_DOWNLOADED") {
-          this.cvUrl = this.sanitizer.bypassSecurityTrustResourceUrl(this.currentJob?.applicantDetails?.cvAwsS3SignedUrl);
-          this.openModal(ModalType.VIEW_CV);
-        }
-      }
-    }).catch((error) => {
-      this.successMessage = "Something went wrong. Please try again later.";
-      this.successTitle = "Error";
-      this.openModal(ModalType.SUCCESS_ERROR_MESSAGE);
-    });
+    this.updateJobApplicationStatus(job.id, newStatus);
+
+    // // Call updateStatus API if the status is not already in the tracker
+    // this.updateJobApplicationStatus(job.id, newStatus).then(async (response: any) => {
+    //   if (response) {
+    //     // Refresh jobApplicationListing data
+    //     console.log("Current Job is", this.currentJob);
+    //     console.log("Current Job CV is", this.currentJob?.applicantDetails?.cvAwsS3SignedUrl);
+    //     await this.getAllJobApplications(null);
+    //     if (response.status === "CV_DOWNLOADED") {
+    //       this.cvUrl = this.sanitizer.bypassSecurityTrustResourceUrl(this.currentJob?.applicantDetails?.cvAwsS3SignedUrl);
+    //       this.cdr.detectChanges();
+    //       this.openModal(ModalType.VIEW_CV);
+    //     }
+    //   }
+    // }).catch((error) => {
+    //   this.successMessage = "Something went wrong. Please try again later.";
+    //   this.successTitle = "Error";
+    //   this.openModal(ModalType.SUCCESS_ERROR_MESSAGE);
+    // });
   }
 
   // Utility to check if the current status is already at or beyond the target status
@@ -368,10 +396,11 @@ export class AdminApplicantsComponent {
       rejectTitle
       : string; rejectComments: string
     }
-  ): Promise<void> {
+  ): Promise<any> {
     this.spinner.show(); //spinner at the start
 
     const payload: any = {
+      userType: this.userType.toUpperCase(),
       userId: this.userId,
       status: newStatus,
       emailId: this.emailAddress, // Email of the corporate user
@@ -385,11 +414,16 @@ export class AdminApplicantsComponent {
 
     try {
       // Call the service to update status
-      const response = await this.adminService.updateJobApplicationStatus(jobApplicationId, payload);
+      const response: any = await this.adminService.updateJobApplicationStatus(jobApplicationId, payload);
 
       if (response) {
         // Refresh jobApplicationListing data
-        this.getAllJobApplications(null);
+        await this.getAllJobApplications(null);
+        if (response.status === "CV_DOWNLOADED") {
+          this.cvUrl = this.sanitizer.bypassSecurityTrustResourceUrl(this.currentJob?.applicantDetails?.cvAwsS3SignedUrl);
+          this.openModal(ModalType.VIEW_CV);
+        }
+        return response; // Return the response for the caller
       } else {
         throw new Error("No response received from server.");
       }
@@ -419,15 +453,11 @@ export class AdminApplicantsComponent {
     this.updateJobApplicationStatus(this.currentJob.id, this.newStatus, rejectReasonsData).then(async (response: any) => {
       if (response) {
         this.spinner.hide();
+        this.closeModal();
         // Refresh jobApplicationListing data
-        await this.getAllJobApplications(null);
+        // await this.getAllJobApplications(null);
       }
-    }).catch((error) => {
-      this.spinner.hide();
-      this.successMessage = "Something went wrong. Please try again later.";
-      this.successTitle = "Error";
-      this.openModal(ModalType.SUCCESS_ERROR_MESSAGE);
-    });
+    })
   }
 
   /* Skills selector ends here */
@@ -448,12 +478,18 @@ export class AdminApplicantsComponent {
     // Reset modal size every time you open the modal
     if (modalType === this.modalType.SHOW_MORE_DETAILS) {
       this.modalSize = "lg";
+      this.showClose = true;
     }
     else if (modalType === this.modalType.VIEW_CV) {
       this.modalSize = "xl";
+      this.showClose = true;
+    }
+    else if (modalType === this.modalType.REJECTED_REQUEST) {
+      this.showClose = true;
     }
     else {
       this.modalSize = "md";
+      this.showClose = false;
     }
 
     this.cdr.detectChanges();
@@ -471,7 +507,7 @@ export class AdminApplicantsComponent {
   }
 
   continue() {
-    this.router.navigate(['/admin/cJobs']);
+    this.router.navigate(['/admin/ajobs']);
     this.closeModal();
   }
 

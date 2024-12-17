@@ -228,15 +228,34 @@
     }
 }
 
+// $statuses: (
+//     'APPLIED': #2716bb,
+//     'CV_DOWNLOADED': #ffc107,
+//     'UNDER_EVALUATION': rgba(64, 73, 64, 0.124),
+//     'PROCESSING_INTERVIEW': rgb(217, 148, 21),
+//     'INTERVIEW_DONE': rgba(44, 207, 101, 0.36),
+//     'HIRED': rgb(54, 141, 54),
+//     'REJECTED': red
+// );
+
 $statuses: (
-    'APPLIED': #2716bb,
-    'CV_DOWNLOADED': #ffc107,
-    'UNDER_EVALUATION': rgba(64, 73, 64, 0.124),
-    'PROCESSING_INTERVIEW': rgb(217, 148, 21),
-    'INTERVIEW_DONE': rgba(44, 207, 101, 0.36),
-    'HIRED': rgb(54, 141, 54),
-    'REJECTED': red
+    'applied': #007bff,
+    // Blue: Represents a neutral or informational status
+    'cv_downloaded': #17a2b8,
+    // Teal: Indicates progress or action taken
+    'under_evaluation': #ffc107,
+    // Yellow: Shows the status is in progress or being assessed
+    'processing_interview': #fd7e14,
+    // Orange: Indicates preparation for a major step
+    'interview_done': #28a745,
+    // Green: Signifies completion of an important step
+    'hired': #218838,
+    // Darker Green: Represents a positive and final outcome
+    'rejected': red // Red: Clearly communicates a negative or closed status
+    // 'rejected': #dc3545 // Red: Clearly communicates a negative or closed status
+
 );
+
 
 .candidate-card {
     padding: 15px;

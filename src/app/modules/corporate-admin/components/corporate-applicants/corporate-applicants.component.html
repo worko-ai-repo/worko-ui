@@ -50,8 +50,7 @@
         <div class="col">
             <span class="label">Job Url</span>
             <span class="value">
-                <a *ngIf="jobDetails?.jobUrl; else noUrl" [href]="jobDetails?.jobUrl" target="_blank"
-                    rel="noopener noreferrer">
+                <a *ngIf="jobUrl; else noUrl" style="cursor: pointer;" (click)="navigateToJobUrl($event)">
                     Link
                 </a>
                 <ng-template #noUrl>-</ng-template>
@@ -124,7 +123,7 @@
                     </thead>
                     <tbody>
                         <tr *ngIf="filteredJobs.length === 0">
-                            <td colspan="9" class="no-jobs-message">{{ noJobsMessage }}</td>
+                            <td colspan="9" class="no-jobs-message">{{ noApplicationsMessage }}</td>
                         </tr>
                         <tr *ngFor="let job of filteredJobs; let i = index">
                             <td matTooltip="{{ job?.applicantDetails?.name | titlecase }}" matTooltipPosition="above"
@@ -203,7 +202,7 @@
                                 <span
                                     *ngIf="true"
                                     (click)="handleAction(job, status.CV_DOWNLOADED)" matTooltip="View CV" matTooltipPosition="above"
-                                    style="background: blue; cursor: pointer;">
+                                    style="background: #17a2b8; cursor: pointer;">
                                     <i class="fa-solid fa-file"></i>
                                 </span>
 
@@ -215,34 +214,34 @@
 
                                 <!-- Under Evaluation Button -->
                                 <span *ngIf="job.status === status.CV_DOWNLOADED" matTooltip="Under Evaluation"
-                                    matTooltipPosition="above" style="background: orange; cursor: pointer;"
+                                    matTooltipPosition="above" style="background: #ffc107; cursor: pointer;"
                                     (click)="handleAction(job, status.UNDER_EVALUATION)">
                                     <i class="fa-solid fa-spinner"></i>
                                 </span>
 
                                 <!-- Processing Interview Button -->
                                 <span *ngIf="job.status === status.UNDER_EVALUATION" matTooltip="Processing Interview"
-                                    matTooltipPosition="above" style="background: green; cursor: pointer;"
+                                    matTooltipPosition="above" style="background: #fd7e14; cursor: pointer;"
                                     (click)="handleAction(job, status.PROCESSING_INTERVIEW)">
                                     <i class="fa-solid fa-comments"></i>
                                 </span>
 
                                 <!-- Interview Done Button -->
                                 <span *ngIf="job.status === status.PROCESSING_INTERVIEW" matTooltip="Interview Done"
-                                    matTooltipPosition="above" style="background: purple; cursor: pointer;"
+                                    matTooltipPosition="above" style="background: #28a745; cursor: pointer;"
                                     (click)="handleAction(job, status.INTERVIEW_DONE)">
                                     <i class="fa-solid fa-check"></i>
                                 </span>
 
                                 <!-- Hired Button -->
                                 <span *ngIf="job.status === status.INTERVIEW_DONE" matTooltip="Hired"
-                                    matTooltipPosition="above" style="background: teal; cursor: pointer;"
+                                    matTooltipPosition="above" style="background: #218838; cursor: pointer;"
                                     (click)="handleAction(job, status.HIRED)">
                                     <i class="fa-solid fa-user-check"></i>
                                 </span>
 
                                 <!-- Reject Button -->
-                                <span *ngIf="job.status !== status.REJECTED" matTooltip="Reject"
+                                <span *ngIf="job.status !== status.REJECTED && job.status !== status.HIRED" matTooltip="Reject"
                                     matTooltipPosition="above" style="background: red; cursor: pointer;"
                                     (click)="handleAction(job, status.REJECTED)">
                                     <i class="fa-solid fa-times"></i>
@@ -292,7 +291,7 @@
 </div>
 
 <!--Form and othe modal-->
-<app-modal [theme]="'theme-k'" [centered]="true" [showHeader]="showModal === modalType.MESSAGE" [showClose]="true"
+<app-modal [theme]="'theme-k'" [centered]="true" [showHeader]="showModal === modalType.MESSAGE" [showClose]="showClose"
     [showFooter]="showModal === modalType.MESSAGE" [title]="modalTitle" [message]="modalMessage"
     [bodyClass]="modalMessage ? 'p-4' : 'p-0'" [modalSize]="modalSize">
     <!-- Modal for adding a new job -->
