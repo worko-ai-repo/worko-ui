@@ -52,13 +52,13 @@ export class CorporateInvitesComponent implements OnInit{
   };
   userType = {
     ALL:"",
-    ADMIN: "ADMIN",
-    RECRUITER: "RECRUITER",
+    ADMIN: "corporate-admin",
+    RECRUITER: "corporate-recruiter",
   };
 
   corporateUserType = [
-    { value: "ADMIN", name: "ADMIN" },
-    { value: "RECRUITER", name: "RECRUITER" },
+    { value: "corporate-admin", name: "ADMIN" },
+    { value: "corporate-recruiter", name: "RECRUITER" },
   ]
 
   corporateCompanyName : string ="";
@@ -134,12 +134,11 @@ export class CorporateInvitesComponent implements OnInit{
         "",
         [Validators.required, Validators.email, emailDomainDenyListValidator()]
       ],
-      corporateUserType: ["RECRUITER", Validators.required],
+      corporateUserType: [this.userType.RECRUITER, Validators.required],
     });
   }
   // Implement the OnInit function to fetch the records on component initialization
   ngOnInit(): void {
-
     // Set up the corporateVitalDetails
     this.corporateService.corporateDetails$.subscribe((details) => {
       if (details) {
@@ -148,7 +147,8 @@ export class CorporateInvitesComponent implements OnInit{
         this.inviteForm.patchValue({
           companyId: this.corporateVitalDetails.companyId,
         });
-        this.corporateVitalDetails.corporateUserType === "RECRUITER" ? this.isRecruiter = true : this.isRecruiter = false;
+        this.corporateVitalDetails.corporateUserType === this.userType.RECRUITER ? this.isRecruiter = true : this.isRecruiter = false;
+    
         this.fetchInvites({
            companyId:this.corporateVitalDetails.companyId,
            pageSize: 25,
@@ -204,7 +204,7 @@ export class CorporateInvitesComponent implements OnInit{
       this.spinner.hide();
       if (error.status === 404) {
         // If page not found then open modal saying thaat somthing is wrong cant fetch the data
-        this.modalSize = "md";
+        this.modalSize = "sm";
         this.errorMessage = "Something went wrong. Please try reload the Page.";
         this.successtitle = "Error";
         this.openModal(ModalType.SUCCESS_ERROR_MESSAGE);
@@ -304,7 +304,7 @@ export class CorporateInvitesComponent implements OnInit{
         return;
       }
       this.selectedStatus = statusVal.target.value; // Update global variable
-      this.fetchInvites({corporateUserType : this.selectedCorporateUserType, searchText:this.searchQuery,inviteStatus: this.selectedStatus, pageSize: this.pageSize, resetPagination: true }); // Fetch jobs with the new status
+      this.fetchInvites({corporateUserType : this.selectedCorporateUserType, searchText:this.searchQuery,inviteStatus: this.selectedStatus, pageSize: this.pageSize,sortOrder: this.selectedSortOrder, resetPagination: true }); // Fetch jobs with the new status
     }
 
  /**
@@ -329,7 +329,7 @@ export class CorporateInvitesComponent implements OnInit{
       return;
     }
       this.selectedCorporateUserType = corporateUserType.target.value; // Update global variable
-      this.fetchInvites({ corporateUserType : this.selectedCorporateUserType ,searchText:this.searchQuery,inviteStatus: this.selectedStatus, pageSize: this.pageSize, resetPagination: true }); // Fetch jobs with the new status
+      this.fetchInvites({ corporateUserType : this.selectedCorporateUserType ,searchText:this.searchQuery,inviteStatus: this.selectedStatus, pageSize: this.pageSize, sortOrder: this.selectedSortOrder,resetPagination: true }); // Fetch jobs with the new status
     }
 
   /**
@@ -442,7 +442,7 @@ export class CorporateInvitesComponent implements OnInit{
     this.inviteForm.reset();
     this.inviteForm.patchValue({
       companyId: this.corporateVitalDetails.companyId,
-      corporateUserType: "RECRUITER",
+      corporateUserType: this.userType.RECRUITER,
     });
     this.resetBtnHandler()
   }

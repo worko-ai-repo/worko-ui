@@ -91,9 +91,11 @@
                     (click)="updateJobStatus(job,'ARCHIVED')" matTooltip="Archive" matTooltipPosition="above"
                     style="background: #ffc107;">
                     <i class="fa-solid fa-file-arrow-down"></i></span>
-                  <span *ngIf="job.status != status.CLOSED" (click)="updateJobStatus(job,'CLOSED')" matTooltip="Delete"
-                    matTooltipPosition="above" style="background: red;">
-                    <i class="fa-solid fa-trash"></i></span>
+                  <span *ngIf="!isRecruiter">
+                    <span *ngIf="job.status != status.CLOSED" (click)="updateJobStatus(job,'CLOSED')" matTooltip="Delete"
+                      matTooltipPosition="above" style="background: red;">
+                      <i class="fa-solid fa-trash"></i></span>
+                  </span>
                   <span *ngIf="job.status === status.ARCHIVED" (click)="updateJobStatus(job,'PUBLISHED')"
                     matTooltip="Make Publish" matTooltipPosition="above" style="background: #ffc107;">
                     <i class="fa-solid fa-eye"></i></span>

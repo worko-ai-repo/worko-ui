@@ -139,6 +139,13 @@ export class CorporateJobsComponent implements OnInit {
   ]
   // Corporate Jobs Component Properties
   corporateVitalDetails:CorporateVitalDetails = {};
+    // Corporate User Type 
+    userType = {
+      ALL:"",
+      ADMIN: "corporate-admin",
+      RECRUITER: "corporate-recruiter",
+    };
+  isRecruiter: boolean = false;
   
   // Properties related to job management
   jobs: any[] = []; // To store the fetched jobs
@@ -192,7 +199,6 @@ export class CorporateJobsComponent implements OnInit {
   copiedContextId: any;
   skillsTooltipMessage = "Type a skill and press Enter to add it to the list.";
   corporateCompanyName: string = "";
-  isRecruiter: boolean = false;
 
   /**
    * Initializes the AdminJobsComponent with the required services and sets up the job form.
@@ -229,6 +235,8 @@ export class CorporateJobsComponent implements OnInit {
     // Set up the corporateVitalDetails
      // Set up the corporateVitalDetails
   // Set up the corporateVitalDetails
+
+
   this.corporateService.corporateDetails$.subscribe((details) => {
     if (details) {
       this.corporateVitalDetails = details;
@@ -237,8 +245,7 @@ export class CorporateJobsComponent implements OnInit {
         companyId: this.corporateVitalDetails.companyId,
         noticePeriod: 0,
       });
-      this.corporateVitalDetails.corporateUserType === "RECRUITER" ? this.isRecruiter = true : this.isRecruiter = false;
-     
+      this.corporateVitalDetails.corporateUserType === this.userType.RECRUITER ? this.isRecruiter = true : this.isRecruiter = false;
 
         this.fetchJobs({
           companyId: this.corporateVitalDetails.companyId,
@@ -631,7 +638,7 @@ export class CorporateJobsComponent implements OnInit {
       return;
     }
     this.selectedStatus = statusVal.target.value; // Update global variable
-    this.fetchJobs({ jobStatus: this.selectedStatus, pageSize: this.pageSize, resetPagination: true }); // Fetch jobs with the new status
+    this.fetchJobs({ searchText:this.searchQuery, jobStatus: this.selectedStatus, pageSize: this.pageSize, resetPagination: false, sortOrder: this.selectedSortOrder });
   }
 
   /**
@@ -641,7 +648,7 @@ export class CorporateJobsComponent implements OnInit {
    */
   onSortOrderChange(event: any) {
 /*     console.log("Sort order:", event.target.value);
- */    this.fetchJobs({ jobStatus: this.selectedStatus, pageSize: this.pageSize, sortOrder: event.target.value, resetPagination: true });
+ */ this.fetchJobs({ searchText:this.searchQuery, jobStatus: this.selectedStatus, pageSize: this.pageSize, resetPagination: false, sortOrder: this.selectedSortOrder });
   }
 
   // Edit Job Function
@@ -749,7 +756,7 @@ export class CorporateJobsComponent implements OnInit {
 
       // This will  Give time to If  Codition in the HTML to work as expected
       setTimeout(() => {
-        this.fetchJobs({ jobStatus: this.selectedStatus, pageSize: this.pageSize, resetPagination: true, sortOrder: this.selectedSortOrder });
+        this.fetchJobs({ searchText:this.searchQuery, jobStatus: this.selectedStatus, pageSize: this.pageSize, resetPagination: false, sortOrder: this.selectedSortOrder });
       }, 1000);
     } catch (error) {
       this.successmessage = "Something went wrong. Please try again later.";

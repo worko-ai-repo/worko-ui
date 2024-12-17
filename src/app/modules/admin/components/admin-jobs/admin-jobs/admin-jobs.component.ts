@@ -586,7 +586,7 @@ export class AdminJobsComponent implements OnInit {
       return;
     }
     this.selectedStatus = statusVal.target.value; // Update global variable
-    this.fetchJobs({ jobStatus: this.selectedStatus, pageSize: this.pageSize, resetPagination: true }); // Fetch jobs with the new status
+     this.fetchJobs({ searchText:this.searchQuery, jobStatus: this.selectedStatus, pageSize: this.pageSize, resetPagination: false, sortOrder: this.selectedSortOrder });
   }
 
   /**
@@ -596,7 +596,8 @@ export class AdminJobsComponent implements OnInit {
    */
   onSortOrderChange(event: any) {
 /*     console.log("Sort order:", event.target.value);
- */    this.fetchJobs({ jobStatus: this.selectedStatus, pageSize: this.pageSize, sortOrder: event.target.value, resetPagination: true });
+ */      this.fetchJobs({ searchText:this.searchQuery, jobStatus: this.selectedStatus, pageSize: this.pageSize, resetPagination: false, sortOrder: this.selectedSortOrder });
+
   }
 
   // Edit Job Function
@@ -704,7 +705,7 @@ export class AdminJobsComponent implements OnInit {
 
       // This will  Give time to If  Codition in the HTML to work as expected
       setTimeout(() => {
-        this.fetchJobs({ jobStatus: this.selectedStatus, pageSize: this.pageSize, resetPagination: true, sortOrder: this.selectedSortOrder });
+        this.fetchJobs({ searchText:this.searchQuery, jobStatus: this.selectedStatus, pageSize: this.pageSize, resetPagination: false, sortOrder: this.selectedSortOrder });
       }, 1000);
     } catch (error) {
       this.successmessage = "Something went wrong. Please try again later.";

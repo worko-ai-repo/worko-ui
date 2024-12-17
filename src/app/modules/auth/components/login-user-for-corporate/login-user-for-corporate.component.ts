@@ -76,7 +76,7 @@ export class LoginUserForCorporateComponent {
  ) {
    this.userLoginForm = this.fb.group(
      {
-       email: ['', [Validators.required, Validators.email]],
+      email: ["", [Validators.required, Validators.email, emailDomainDenyListValidator()]],
        password: [
          '',
          [
@@ -200,7 +200,7 @@ export class LoginUserForCorporateComponent {
            return "This field is required";
          }
          if (control.errors["pattern"]) {
-           return "Invalid format , allowed symbols [.,?!-'\"]";
+           return "Invalid format";
          }
          if (control.errors["minlength"]) {
            return `Minimum length is ${control.errors["minlength"].requiredLength} characters`;
@@ -268,9 +268,19 @@ export class LoginUserForCorporateComponent {
 
         // fetch the cognito Id from the session
         const userId = this.storage.get('cognitoUserId');
+        const userType = this.storage.get('userType');
         // Fetch user profile after successful sign-in
         const response = await this.authService.getCorporateUser(userId);
         console.log(response, "response");
+
+        if(userType !== 'Corporate'){
+          this.spinner.hide();
+          this.modalMessageText = "You are not authorized user for Corporate Access.";
+          this.modalTitleText = "Alert";
+          this.openModal(ModalType.SUCCESS_ERROR_MESSAGE);
+          this.amplify.handleSignOut();
+          return;
+        }
 
         if(response && response[0].isDeleted === true){
           this.spinner.hide();

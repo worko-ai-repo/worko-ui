@@ -13,41 +13,59 @@
                       class="form-control serachInput"
                       formControlName="oldPassword"
                       placeholder="Enter current password"
-                    />
-                    <div *ngIf="passwordForm.get('oldPassword')?.touched && passwordForm.get('oldPassword')?.invalid" class="error">
-                      <span *ngIf="passwordForm.get('oldPassword')?.errors?.['required']">Current password is required.</span>
-                    </div>
+                      [ngClass]="{ 'is-invalid': isInvalid('oldPassword') }">
+                      <span *ngIf="isInvalid('oldPassword')" class="text-danger" style="font-size:10px">
+                        {{ getErrorMessage('oldPassword') }}
+                      </span>
                   </div>
               
                   <!-- New Password -->
-                  <div class="form-group">
+                  <div class="form-group"  >
                     <label for="newPassword">New Password</label>
-                    <input
-                      type="password"
-                      id="newPassword"
-                      class="form-control serachInput"
-                      formControlName="newPassword"
-                      placeholder="Enter new password"
-                    />
-                    <div *ngIf="passwordForm.get('newPassword')?.touched && passwordForm.get('newPassword')?.invalid" class="error">
-                      <span *ngIf="passwordForm.get('newPassword')?.errors?.['required']">New password is required.</span>
-                      <span *ngIf="passwordForm.get('newPassword')?.errors?.['minlength']">Password must be at least 6 characters.</span>
+                    <div class="new-pass-with-instructions" style="position: relative;">
+                      <input
+                          type="password"
+                          id="newPassword"
+                          class="form-control serachInput"
+                          formControlName="newPassword"
+                          placeholder="Enter new password"
+                          [ngClass]="{ 'is-invalid': isInvalid('newPassword') }"
+                        />
+                        <!-- ToolTip Starts Here -->
+                        <div class="tooltip-container"  *ngIf="!isInvalid('newPassword')">
+                          <div class="tooltip-style">
+                            <i class="fa-solid fa-circle-info"></i>
+                          </div>
+                          <div class="tooltip-text pt-2 text-center p-2">
+                            <small>Should contain at least one Uppercase, one Lowercase, one Special Character, one Number,
+                              and 8 or more Characters.</small>
+                          </div>
+                        </div>
+                    </div>
+
+                    <div *ngIf="passwordForm.get('newPassword')!.touched && passwordForm.get('newPassword')!.invalid" class="error">
+                      <span *ngIf="isInvalid('newPassword')" class="text-danger" style="font-size:10px">
+                        {{ getErrorMessage('newPassword') }}
+                      </span>
                     </div>
                   </div>
               
                   <!-- Confirm New Password -->
                   <div class="form-group">
                     <label for="confirmPassword">Confirm New Password</label>
+                    
                     <input
                       type="password"
                       id="confirmPassword"
                       class="form-control serachInput"
                       formControlName="confirmPassword"
                       placeholder="Confirm new password"
-                    />
-                    <div *ngIf="passwordForm.get('confirmPassword')?.touched && passwordForm.errors?.['mismatch']" class="error">
-                      Passwords do not match.
-                    </div>
+                      [ngClass]="{'is-invalid': passwordForm!.get('newPassword')!.invalid && passwordForm!.get('confirmPassword')!.touched}" />
+                    <small
+                    *ngIf="passwordForm!.get('newPassword')!.invalid && passwordForm!.get('confirmPassword')!.touched"
+                    class="text-danger" style="font-size: 10px;">
+                    Passwords do not match.
+                  </small> 
                   </div>
               
                   <!-- Submit Button -->

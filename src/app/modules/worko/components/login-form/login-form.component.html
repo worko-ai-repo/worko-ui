@@ -945,3 +945,13 @@
 </ng-container>
 
 <!-- </app-modal> -->
+
+<app-modal [theme]="'theme-k'" [centered]="true" [showHeader]="showModal === modalType.MESSAGE" [showClose]="true"
+[showFooter]="showModal === modalType.MESSAGE" [modalSize]="'md'" [title]="modalTitle" [message]="modalMessage"
+[bodyClass]="modalMessage ? 'p-4' : 'p-0'">
+
+  <ng-container *ngIf="showModal === modalType.SUCCESS_ERROR_MESSAGE">
+    <app-message-modal [title]="successtitle" [message]="successmessage" (onOk)="closeModal()">
+    </app-message-modal>
+  </ng-container>
+</app-modal>

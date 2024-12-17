@@ -213,5 +213,7 @@
     
   }
   
-  
+  .form-control.is-invalid{
+    border: 2px solid rgba(var(--bs-danger-rgb)) !important; 
+    }
   // Common Css Ends here
