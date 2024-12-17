@@ -618,7 +618,7 @@ export class CorporateApplicantsComponent {
     this.spinner.show(); //spinner at the start
 
     const payload: any = {
-      userType: this.userType.toUpperCase(),
+      userType: this.userType,
       userId: this.corporateVitalDetails.userId,
       status: newStatus,
       emailId: this.corporateVitalDetails.email, // Email of the corporate user
