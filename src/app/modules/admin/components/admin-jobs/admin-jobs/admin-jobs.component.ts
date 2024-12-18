@@ -588,7 +588,7 @@ export class AdminJobsComponent implements OnInit {
       return;
     }
     this.selectedStatus = statusVal.target.value; // Update global variable
-     this.fetchJobs({ searchText:this.searchQuery, jobStatus: this.selectedStatus, pageSize: this.pageSize, resetPagination: false, sortOrder: this.selectedSortOrder });
+     this.fetchJobs({ searchText:this.searchQuery, jobStatus: this.selectedStatus, pageSize: this.pageSize, resetPagination: true, sortOrder: this.selectedSortOrder });
   }
 
   /**
@@ -598,7 +598,7 @@ export class AdminJobsComponent implements OnInit {
    */
   onSortOrderChange(event: any) {
 /*     console.log("Sort order:", event.target.value);
- */      this.fetchJobs({ searchText:this.searchQuery, jobStatus: this.selectedStatus, pageSize: this.pageSize, resetPagination: false, sortOrder: this.selectedSortOrder });
+ */      this.fetchJobs({ searchText:this.searchQuery, jobStatus: this.selectedStatus, pageSize: this.pageSize, resetPagination: true, sortOrder: this.selectedSortOrder });
 
   }
 
