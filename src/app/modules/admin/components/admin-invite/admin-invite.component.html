@@ -89,11 +89,11 @@
                      </td>
                      <td>{{ (invite.firstName + ' ' + invite.lastName) | ellipsis:30 | titlecase }}
                      </td>
-                     <td matTooltip={{invite.email}}>{{ invite.email | ellipsis:30 | titlecase }}
+                     <td matTooltip={{invite.email}}>{{ invite.email | ellipsis:30 }}
                      </td>
                      <!-- GetAccessType -->
                      <td>
-                        <p [ngClass]="getStatusClass(invite.corporateUserType)">{{ invite.corporateUserType | uppercase}}</p>
+                        <p [ngClass]="getStatusClass(invite.corporateUserType.split('-')[1])">{{ invite.corporateUserType.split('-')[1] | uppercase}}</p>
                      </td>
                      <!-- Get Status -->
                      <td>

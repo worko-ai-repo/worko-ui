@@ -11,6 +11,8 @@ export class MessageModalComponent {
 
   @Output() onCancel = new EventEmitter<void>();
   @Output() onOk = new EventEmitter<void>();
+  @Output() onYesBtn = new EventEmitter<void>();
+  @Output() onNoBtn = new EventEmitter<void>();
   @Output() onContinue = new EventEmitter<void>();
 
   cancelBtn() {
@@ -19,6 +21,14 @@ export class MessageModalComponent {
 
   okBtn() {
     this.onOk.emit();
+  }
+
+  yesBtn() {
+    this.onYesBtn.emit();
+  }
+
+  noBtn() {
+    this.onNoBtn.emit();
   }
 
   continueBtn() {

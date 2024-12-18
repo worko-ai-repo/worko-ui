@@ -90,11 +90,11 @@
                       </td> -->
                       <td>{{ (invite.firstName + ' ' + invite.lastName) | ellipsis:30 | titlecase }}
                       </td>
-                      <td matTooltip={{invite.email}}>{{ invite.email | ellipsis:30 | titlecase }}
+                      <td matTooltip={{invite.email}}>{{ invite.email | ellipsis:30  }}
                       </td>
                       <!-- GetAccessType -->
                       <td>
-                         <p [ngClass]="getStatusClass(invite.corporateUserType)">{{ invite.corporateUserType | uppercase}}</p>
+                         <p [ngClass]="getStatusClass(invite.corporateUserType.split('-')[1])">{{ invite.corporateUserType.split('-')[1] | uppercase}}</p>
                       </td>
                       <!-- Get Status -->
                       <td>
@@ -204,7 +204,7 @@
                 <select id="aceessType" formControlName="corporateUserType" class="selector form-select required-form-field"
                 [ngClass]="{ 'is-invalid': isInvalid('aceessType') }">
                 <option value="" disabled selected>Select Access Type</option> <!-- Placeholder option -->
-                <option value="RECRUITER">RECRUITER</option> <!-- Actual selectable option -->
+                <option value='corporate-recruiter'>RECRUITER</option> <!-- Actual selectable option -->
                 </select>
                 <span *ngIf="isInvalid('aceessType')" class="text-danger">{{ getErrorMessage('aceessType') }}</span>
              </div>

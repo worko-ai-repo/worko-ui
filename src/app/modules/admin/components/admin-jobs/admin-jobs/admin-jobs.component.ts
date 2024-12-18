@@ -159,6 +159,7 @@ export class AdminJobsComponent implements OnInit {
   @ViewChild("autoCompleteInput", { static: false, read: MatAutocompleteTrigger }) trigger!: MatAutocompleteTrigger;
   @ViewChild('refSalaryRange') refSalaryRange!: ElementRef;
   @ViewChild('refExpRange') refExpRange!: ElementRef;
+  ariaExpanded = 'false'; 
 
   // Properties related to modal handling
   @ViewChild(ModalComponent) modal!: ModalComponent;
@@ -495,6 +496,7 @@ export class AdminJobsComponent implements OnInit {
 
   // Opens the job Form modal
   openModalone(): void {
+    
     this.openModal(ModalType.ADMINJOBS_POPUP);
   }
   
@@ -586,7 +588,7 @@ export class AdminJobsComponent implements OnInit {
       return;
     }
     this.selectedStatus = statusVal.target.value; // Update global variable
-    this.fetchJobs({ jobStatus: this.selectedStatus, pageSize: this.pageSize, resetPagination: true }); // Fetch jobs with the new status
+     this.fetchJobs({ searchText:this.searchQuery, jobStatus: this.selectedStatus, pageSize: this.pageSize, resetPagination: false, sortOrder: this.selectedSortOrder });
   }
 
   /**
@@ -596,7 +598,8 @@ export class AdminJobsComponent implements OnInit {
    */
   onSortOrderChange(event: any) {
 /*     console.log("Sort order:", event.target.value);
- */    this.fetchJobs({ jobStatus: this.selectedStatus, pageSize: this.pageSize, sortOrder: event.target.value, resetPagination: true });
+ */      this.fetchJobs({ searchText:this.searchQuery, jobStatus: this.selectedStatus, pageSize: this.pageSize, resetPagination: false, sortOrder: this.selectedSortOrder });
+
   }
 
   // Edit Job Function
@@ -704,7 +707,7 @@ export class AdminJobsComponent implements OnInit {
 
       // This will  Give time to If  Codition in the HTML to work as expected
       setTimeout(() => {
-        this.fetchJobs({ jobStatus: this.selectedStatus, pageSize: this.pageSize, resetPagination: true, sortOrder: this.selectedSortOrder });
+        this.fetchJobs({ searchText:this.searchQuery, jobStatus: this.selectedStatus, pageSize: this.pageSize, resetPagination: false, sortOrder: this.selectedSortOrder });
       }, 1000);
     } catch (error) {
       this.successmessage = "Something went wrong. Please try again later.";
@@ -743,8 +746,7 @@ export class AdminJobsComponent implements OnInit {
         this.adminService
           .updateJob(this.jobId, this.jobForm.value)
           .then((response) => {
-            this.fetchJobs({ jobStatus: this.selectedStatus, pageSize: this.pageSize, resetPagination: true, sortOrder: this.selectedSortOrder });
-            this.closeModal();
+            this.fetchJobs({ searchText:this.searchQuery, jobStatus: this.selectedStatus, pageSize: this.pageSize, resetPagination: false, sortOrder: this.selectedSortOrder });
             this.jobId = null;
           })
           .catch((error) => {
@@ -753,6 +755,9 @@ export class AdminJobsComponent implements OnInit {
             this.openModal(ModalType.SUCCESS_MESSAGE);
           })
           .finally(() => {
+            this.closeModal();
+            this.jobForm.reset();
+            this.companyControl.reset();
             this.spinner.hide();
           });
       } else {

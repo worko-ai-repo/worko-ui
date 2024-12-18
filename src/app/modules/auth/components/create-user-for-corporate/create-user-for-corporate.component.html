@@ -21,7 +21,7 @@
 
       <div class="corporate-signup-form">
         <div class="corporate-signup-form-heading" style="margin-bottom: 8px;">
-          <h3 class="text-white1">SignUp for Admin Access </h3>
+          <h3 class="text-white1">Sign Up for Corporate Access </h3>
         </div>
         <form [formGroup]="userForm" (keydown.enter)="$event.preventDefault()" (ngSubmit)="onSubmit()" class="common-form-main">
           <div class="form-group">
@@ -39,7 +39,9 @@
           <div class="form-group">
             <label class="form-label">Access Type</label>
             <br>
-            <input matInput class="form-control form-input" formControlName="accessType" type="text" [readonly]="true"/>
+            <input matInput class="form-control form-input" formControlName="accessType"
+            [value]="userForm.get('accessType')!.value.split('-')[1] | titlecase"
+             type="text" [readonly]="true"/>
           </div>
 
           <div class="form-group">
@@ -63,7 +65,7 @@
               class="form-control form-input"
               formControlName="phoneNumber"
               type="text"
-              [ngClass]="{ 'is-invalidInput': isInvalid('phoneNumber') }" />
+              [ngClass]="{ 'is-invalid': isInvalid('phoneNumber') }" />
             <span *ngIf="isInvalid('phoneNumber')" class="text-danger" style="font-size: 10px;">
               {{ getErrorMessage('phoneNumber') }}
             </span>
@@ -71,12 +73,24 @@
           
           <div class="form-group">
             <label class="form-label required-form-field">Password</label>
+            <div style="position: relative;">
             <input
               matInput
               class="form-control"
               formControlName="password"
               type="password"
               [ngClass]="{ 'is-invalid': isInvalid('password') }" />
+               <!-- ToolTip Starts Here -->
+               <div class="tooltip-container" [ngClass]="{'hide':isInvalid('password')}" >
+                <div class="tooltip-style">
+                  <i class="fa-solid fa-circle-info"></i>
+                </div>
+                <div class="tooltip-text pt-2 text-center p-2">
+                  <small>Should contain at least one Uppercase, one Lowercase, one Special Character, one Number,
+                    and 8 or more Characters.</small>
+                </div>
+              </div>
+          </div>
             <span *ngIf="isInvalid('password')" class="text-danger" style="font-size: 10px;">
               {{ getErrorMessage('password') }}
             </span>
@@ -121,9 +135,9 @@
       <ng-container *ngIf="showModal === modalType.CORPORATE_USER_INVITE_EXPIRED">
         <!-- If you want to use this kind of Modal then you have to use the css of this component where the selector starts with message-card -->
         <div class="row message-card px-sm-3 p-4">
-          <div class="d-flex justify-content-center flex-column">
-            <h5 class="text-danger fw-4">Invite Expired ! </h5>
-            <p class="text-secondary">
+          <div class="d-flex justify-content-center align-items-center flex-column">
+            <h5 class="text-danger fw-4 mb-4">Invite Expired ! </h5>
+            <p class="text-secondary" style="text-align: center;">
               Unfortunately, your invite has expired. To request a new invite, drop us a mail at 
               <a href="mailto:support@worko.ai">support@worko.ai</a>
             </p>
@@ -134,9 +148,9 @@
       <ng-container *ngIf="showModal === modalType.CORPORATE_USER_INVITE_REDIRECT">
         <!-- If you want to use this kind of Modal then you have to use the css of this component where the selector starts with message-card -->
         <div class="row message-card px-sm-3 p-4">
-        <div class="d-flex justify-content-center flex-column">
-          <h4 class="text-danger fw-4">{{redirectTitle}}</h4>
-          <h5 class="text-secondary">{{redirectMessage}}.Redirecting in <b>{{timer}} seconds</b></h5>
+        <div class="d-flex justify-content-center flex-column align-items-center">
+          <h4 class="text-danger fw-4 mb-4" [ngClass]="{'redirect-success': redirectModalType === 'success'}" >{{redirectTitle}}</h4>
+          <h5 class="text-secondary"  style="text-align: center;">{{redirectMessage}}.Redirecting in <b>{{timer}} seconds</b></h5>
          </div>
         </div>
       </ng-container>

@@ -48,15 +48,16 @@ export class AdminInviteComponent implements OnInit {
     DESC: "descending",
   };
   userType = {
-    ALL: "",
-    ADMIN: "ADMIN",
-    RECRUITER: "RECRUITER",
+    ALL:"",
+    ADMIN: "corporate-admin",
+    RECRUITER: "corporate-recruiter",
   };
 
   corporateUserType = [
-    { value: "ADMIN", name: "ADMIN" },
-    { value: "RECRUITER", name: "RECRUITER" },
+    { value: "corporate-admin", name: "ADMIN" },
+    { value: "corporate-recruiter", name: "RECRUITER" },
   ]
+
 
   // Corporate Invites related properties
   invites: any = [];
@@ -190,7 +191,7 @@ export class AdminInviteComponent implements OnInit {
       this.spinner.hide();
       if (error.status === 404) {
         // If page not found then open modal saying thaat somthing is wrong cant fetch the data
-        this.modalSize = "md";
+        this.modalSize = "sm";
         this.errorMessage = "Something went wrong. Please try reload the Page.";
         this.successtitle = "Error";
         this.openModal(ModalType.SUCCESS_ERROR_MESSAGE);
@@ -363,7 +364,7 @@ export class AdminInviteComponent implements OnInit {
       return;
     }
     this.selectedCorporateUserType = corporateUserType.target.value; // Update global variable
-    this.fetchInvites({ corporateUserType: this.selectedCorporateUserType, searchText: this.searchQuery, inviteStatus: this.selectedStatus, pageSize: this.pageSize, resetPagination: true }); // Fetch jobs with the new status
+    this.fetchInvites({ corporateUserType: this.selectedCorporateUserType, sortOrder:this.selectedSortOrder,searchText: this.searchQuery, inviteStatus: this.selectedStatus, pageSize: this.pageSize, resetPagination: false }); // Fetch jobs with the new status
   }
 
   /**
@@ -416,7 +417,7 @@ export class AdminInviteComponent implements OnInit {
     this.spinner.show();
     try {
       await this.adminService.deleteInvite(inviteId);
-      await this.fetchInvites({ pageSize: this.pageSize, resetPagination: true });
+      this.fetchInvites({ corporateUserType: this.selectedCorporateUserType, sortOrder:this.selectedSortOrder,searchText: this.searchQuery, inviteStatus: this.selectedStatus, pageSize: this.pageSize, resetPagination: false }); // Fetch jobs with the new status
     } catch (error) {
       console.error("Invite status update failed:", error);
       this.errorTitle = "Error";

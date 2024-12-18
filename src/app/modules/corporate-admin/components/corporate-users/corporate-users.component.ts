@@ -48,8 +48,8 @@ export class CorporateUsersComponent implements OnInit {
   // Corporate User Type 
   userType = {
     ALL:"",
-    ADMIN: "ADMIN",
-    RECRUITER: "RECRUITER",
+    ADMIN: "corporate-admin",
+    RECRUITER: "corporate-recruiter",
   };
 
 //Pagination Properties
@@ -115,7 +115,7 @@ pageSizeOptions: number[] = [25, 50, 100, 150];
       if (details) {
         this.corporateVitalDetails = details;
         this.corporateCompanyName = this.corporateVitalDetails.companyName || "";
-        this.corporateVitalDetails.corporateUserType === "RECRUITER" ? this.isRecruiter = true : this.isRecruiter = false;
+        this.corporateVitalDetails.corporateUserType === this.userType.RECRUITER ? this.isRecruiter = true : this.isRecruiter = false;
 
       // Fetch jobs on component initialization
     this.fetchUsers({ 
@@ -206,7 +206,7 @@ pageSizeOptions: number[] = [25, 50, 100, 150];
    * @param userId - The ID of the user to be deleted.
    */
   deleteUser(userId: string) {
-    debugger;
+
     this.modalSize = "md";
     this.modalCustomTitle = "Warning!!";
     this.modalCustomMessage = "Are you sure you want to delete this user?";

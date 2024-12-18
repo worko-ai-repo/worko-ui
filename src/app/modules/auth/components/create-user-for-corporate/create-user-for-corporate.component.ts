@@ -51,6 +51,7 @@ export class CreateUserForCorporateComponent {
   userId: any;
   isLoggedIn: boolean = false;
   currentLoggedInUser: string = "";
+  redirectModalType: string = "error";
 
   constructor(
     private router: Router,
@@ -206,7 +207,7 @@ export class CreateUserForCorporateComponent {
           return "This field is required";
         }
         if (control.errors["pattern"]) {
-          return "Invalid format , allowed symbols [.,?!-'\"]";
+          return "Invalid format";
         }
         if (control.errors["minlength"]) {
           return `Minimum length is ${control.errors["minlength"].requiredLength} characters`;
@@ -267,6 +268,7 @@ export class CreateUserForCorporateComponent {
         const DBResponse = await this.authService.createCorporateUser(requestPayload);
         if (DBResponse) {
           this.modalMessage = "Sign-up successful! Please check your email to verify your account.";
+          this.redirectModalType = "success"
           this.redirectTitle = "Sign-Up Successful";
           this.modalSize = "md";
           this.redirectMessage = "Your Account has been created successfully \u{1F389} .";
@@ -294,6 +296,7 @@ export class CreateUserForCorporateComponent {
       }
       this.openModal(ModalType.SUCCESS_ERROR_MESSAGE);
     } finally {
+      this.redirectModalType = "error";
       this.spinner.hide(); // Ensure spinner is hidden in all cases
     }
   }

@@ -165,7 +165,8 @@ export class CorporateService {
   }
 
   getAllJobApplicants(pageSize: any, userType: any, companyId: any, jobId: any, status: any, lastKey?: any, sortOrder?: string, searchText?: any) {
-    let url = `${API_URL}job-application/?companyId=${companyId}&jobId=${jobId}&userType=${userType}&pageSize=${pageSize}`;
+    const encodedUserType = encodeURIComponent(userType);
+    let url = `${API_URL}job-application/?companyId=${companyId}&jobId=${jobId}&userType=${encodedUserType}&pageSize=${pageSize}`;
 
     if (lastKey) {
       url += `&lastKey=${lastKey}`;

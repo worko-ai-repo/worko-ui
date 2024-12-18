@@ -65,11 +65,11 @@
                   {{user.companyDetails.name | ellipsis:30 | titlecase }}
                 </td>
                 <td>{{ (user.firstName + ' ' + user.lastName) | ellipsis:30 | titlecase }}</td>
-                <td matTooltip={{user.email}}>{{ user.email | ellipsis:30 | titlecase }}
+                <td matTooltip={{user.email}}>{{ user.email | ellipsis:30  }}
                 </td>
                 <!-- GetAccessType -->
                 <td>
-                   <p [ngClass]="getStatusClass(user.corporateUserType)">{{ user.corporateUserType | uppercase}}
+                   <p [ngClass]="getStatusClass(user.corporateUserType.split('-')[1])">{{ user.corporateUserType.split('-')[1] | uppercase}}
                   </p>
                 </td>
                 <td>

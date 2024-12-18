@@ -41,8 +41,8 @@ export class AdminCorporateUsersComponent implements OnInit {
   // Corporate User Type 
   userType = {
     ALL:"",
-    ADMIN: "ADMIN",
-    RECRUITER: "RECRUITER",
+    ADMIN: "corporate-admin",
+    RECRUITER: "corporate-recruiter",
   };
 
   //Pagination Properties
@@ -196,11 +196,13 @@ export class AdminCorporateUsersComponent implements OnInit {
       this.spinner.hide();
       if (error.status === 404) {
         this.successMessage = "Something went wrong. Please try again later.";
+        this.modalSize = "md";
         this.successTitle = "Error";
         this.openModal(ModalType.SUCCESS_ERROR_MESSAGE);
       } else {
         this.successMessage = "Something went wrong. Please try again later.";
         this.successTitle = "Error";
+        this.modalSize = "md";
         this.openModal(ModalType.SUCCESS_ERROR_MESSAGE);
       }
     } finally {
@@ -241,7 +243,7 @@ export class AdminCorporateUsersComponent implements OnInit {
   async searchJobs(event: any) {
     this.searchQuery = event.target.value;
     //  console.log("Search query:", this.searchQuery);
-   this.fetchUsers({ corporateUserType:this.selectedCorporateUserType, searchText: this.searchQuery, pageSize: this.pageSize });
+    this.fetchUsers({corporateUserType : this.selectedCorporateUserType,searchText:this.searchQuery, pageSize: this.pageSize, sortOrder: this.selectedSortOrder, resetPagination: true });
     if (this.filteredUsers.length == 0) {
       this.noUsersMessage = "No Invite present with this name or description";
     }

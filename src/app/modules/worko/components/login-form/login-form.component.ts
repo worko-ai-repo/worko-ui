@@ -1181,6 +1181,16 @@ export class LoginFormComponent implements AfterViewInit, OnDestroy {
       password: this.form.password || form.password
     }
     let login = await this.amplify.handleSignIn(loginData);
+
+    let userType = this.storage.get('userType');
+     if(userType === 'Corporate'){
+          this.spinner.hide();
+          this.successmessage = "Oops! You don't have access to log in to this portal. Please contact support for assistance.";
+          this.successtitle = "Alert";
+          this.openModal(ModalType.SUCCESS_ERROR_MESSAGE);
+          this.amplify.handleSignOut();
+          return;
+        }
     if (login.response?.nextStep?.signInStep === "CONFIRM_SIGN_UP") {
       this.spinner.hide();
       this.confirmationEmail = this.maskEmail(this.form.email || form.emailId);
