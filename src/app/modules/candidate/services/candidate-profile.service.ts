@@ -178,13 +178,24 @@ export class CandidateProfileService {
 
   // Candidate Jobs API
 
-  getAllJobApplication(userType:string, emailAddress:string, status:string) {
+  getAllJobApplication(userType: string, emailAddress: string, status: string, pageSize: any, lastKey?: string) {
     const emailAddressEncoded = encodeURIComponent(emailAddress);
-    return this.http.get(API_URL + `job-application/?status=${status}&userEmail=${emailAddressEncoded}&userType=${userType}`, this.authService.getHttpOptions()).toPromise();
+    let url = `${API_URL}job-application/?status=${status}&userEmail=${emailAddressEncoded}&userType=${userType}&pageSize=${pageSize}`;
+
+    if (lastKey) {
+      url += `&lastKey=${lastKey}`;
+    }
+
+    try {
+      return this.http.get(url, this.authService.getHttpOptions()).toPromise();
+    } catch (error) {
+      console.error('Error fetching Job Applications listing:', error);
+      throw error; // Rethrow the error to be handled by the caller
+    }
   }
 
 
-  jobApplicationRequestFeedback(jobId:any, data:any) {
+  jobApplicationRequestFeedback(jobId: any, data: any) {
     return this.http.patch(API_URL + `job-application/${jobId}/request-feedback`, data, this.authService.getHttpOptions()).toPromise();
   }
 

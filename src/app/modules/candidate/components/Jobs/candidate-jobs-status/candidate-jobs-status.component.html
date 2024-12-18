@@ -1,0 +1,147 @@
+<div *ngIf="jobApplications && jobApplications.length > 0; else noJobApplication">
+
+    <div *ngFor="let application of jobApplications; let i = index" class="margin-top" [class.mt-0]="i === 0">
+
+        <div class="card candidate-card">
+            <div class="card-body">
+                <div class="container-fluid">
+                    <div class="row row-cols-1 row-cols-md-2 row-cols-lg-6">
+                        <div class="col">
+                            <span class="label">Applied on</span>
+                            <span class="value">{{ application.createdAt ? (application.createdAt | date:'MMM dd, yyyy')
+                                :
+                                '-'
+                                }}</span>
+                        </div>
+                        <div class="col">
+                            <span class="label">Job Title</span>
+                            <span class="value">{{ application.jobTitle ? (application.jobTitle | uppercase) : '-'
+                                }}</span>
+                        </div>
+                        <div class="col">
+                            <span class="label">Company</span>
+                            <span class="value">{{ application.companyName ? (application.companyName | uppercase) : '-'
+                                }}</span>
+                        </div>
+                        <div class="col">
+                            <span class="label">Matching Score</span>
+                            <span class="value">{{ application.matchingScore ? application.matchingScore : '-' }}</span>
+                        </div>
+                        <div class="col">
+                            <span class="label">Status</span>
+                            <span class="value">{{ statusLabels[application.status] || '-' }}</span>
+                        </div>
+                        <div class="col">
+                            <span class="label">Job Url</span>
+                            <span class="value">
+                                <a *ngIf="application?.jobUrl; else noUrl" [href]="application?.jobUrl" target="_blank"
+                                    rel="noopener noreferrer">
+                                    Link
+                                </a>
+                                <ng-template #noUrl>-</ng-template>
+                            </span>
+                        </div>
+                    </div>
+
+                    <!-- <div class="timeline-steps mt-3 mt-lg-5">
+            <div *ngFor="let step of steps; let i = index" class="timeline-step"
+              [class.completed]="i <= currentStepIndex">
+              <div class="step-circle">{{ i + 1 }}</div>
+              <div class="step-label" [innerHTML]="getFormattedStep(step)"></div>
+            </div>
+          </div> -->
+
+                    <div class="flex-container">
+
+                        <div class="timeline-steps mt-3 mt-lg-5">
+                            <div *ngFor="let step of application.timelineSteps; let i = index" class="timeline-step"
+                                [class.completed]="i <= (application.currentStepIndex ?? -1)">
+                                <div class="step-circle">{{ i + 1 }}</div>
+                                <!-- <div class="step-label">{{ statusLabels[step] || step }}</div> -->
+                                <div class="step-label" [innerHTML]="getFormattedStep(statusLabels[step] || step)">
+                                </div>
+                            </div>
+                        </div>
+
+
+                        <div *ngIf="(application?.status === 'REJECTED' && (application?.rejectedByUserId || application?.rejectionFeedbackBySystem))"
+                            class="job-action">
+                            <button (click)="showMore(application)" class="btn btn-upgrade">Show
+                                Feedback</button>
+                        </div>
+
+                        <div *ngIf="application?.status !== 'REJECTED'" class="job-action">
+                            <!-- Enabled Button for Followup -->
+                            <button *ngIf="!application?.followUpRequest?.length"
+                                (click)="requestFeedback(application.id)" class="btn btn-upgrade">
+                                Request Follow-Up
+                            </button>
+
+                            <!-- Disabled Button for Followup Request Sent -->
+                            <button *ngIf="application?.followUpRequest?.length" class="btn btn-upgrade btn-disabled"
+                                disabled>
+                                <i class="fa fa-check-circle" aria-hidden="true"></i>
+                                Follow-Up Request Sent
+                            </button>
+                        </div>
+
+                        <!-- <div *ngIf="application.rejectionFeedbackBySystem; else noFeedbackBlock" class="job-action">
+              <button (click)="showMore(application.rejectionFeedbackBySystem)" class="btn btn-upgrade">Show
+                Feedback</button>
+            </div> -->
+                        <!-- <h6 class="content-experience" *ngIf="application?.rejectedByUserIds?.length > 0 || application?.rejectionFeedbackBySystem">
+              <a style="cursor: pointer; text-decoration: underline;" (click)="showMore()">
+                {{ selectedReferral?.rejectedByUserIds?.length > 0 ? 'Referral Reject Reason' : 'Show Feedback' }}
+              </a>
+            </h6> -->
+                        <!-- <ng-template #noFeedbackBlock>
+              <div class="job-action">
+                <button (click)="requestFeedback(application.jobId)" class="btn btn-upgrade"> {{ application.status
+                  === "REJECTED" ? 'Request Feedaback' : 'Followup / Request Feedaback' }}</button>
+              </div>
+            </ng-template> -->
+                    </div>
+
+                </div>
+
+            </div>
+        </div>
+
+    </div>
+    <div #scrollTrigger></div>
+</div>
+
+<ng-template #noJobApplication>
+    <div class="card candidate-card">
+        <div class="card-body custom-center">
+            <div class="container-fluid">
+                <div class="row">
+                    <div class="col-12">
+                        <h6 style="color: white; margin: 0;">No job applications found</h6>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</ng-template>
+
+<app-modal [theme]="'theme-k'" [centered]="true" [showHeader]="showModal === modalType.MESSAGE" [showClose]="showClose"
+    [showFooter]="showModal === modalType.MESSAGE" [title]="modalTitle" [message]="modalMessage"
+    [bodyClass]="modalMessage ? 'p-4' : 'p-0'" [modalSize]="modalSize">
+
+    <ng-container *ngIf="showModal === modalType.SUCCESS_ERROR_MESSAGE">
+        <app-message-modal [title]="errorTitle" [message]="errorMessage" (onCancel)="cancel()" (onOk)="continue()">
+        </app-message-modal>
+    </ng-container>
+
+    <ng-container *ngIf="showModal === modalType.REJECT_DETAILS">
+        <app-referral-reject-details-popup [userType]="userType" [rejectReasonsData]="rejectedReasons"
+            (onSuccess)="closeModal()"></app-referral-reject-details-popup>
+    </ng-container>
+
+    <ng-container *ngIf="showModal === modalType.SHOW_MORE_DETAILS">
+        <app-show-more-details [title]="feedbackTitle" [details]="feedbackDetails"
+            (onCancel)="closeModal()"></app-show-more-details>
+    </ng-container>
+
+</app-modal>
