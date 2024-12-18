@@ -249,7 +249,7 @@ export class CreateUserForCorporateComponent {
       const signupData = {
         password: this.userForm.get('password')?.value,
         username: this.userForm.get('email')?.value.toLowerCase(),
-        name: `${this.userForm.get('name')?.value} ${this.userForm.get('companyName')?.value}`,
+        name: `${this.userForm.get('firstName')?.value} ${this.userForm.get('lastName')?.value}`,
         phone_number: "+91" + this.userForm.get('phoneNumber')?.value
       };
 
