@@ -485,6 +485,7 @@ export class AdminApplicantsComponent {
       this.showClose = true;
     }
     else if (modalType === this.modalType.REJECTED_REQUEST) {
+      this.modalSize = "md";
       this.showClose = true;
     }
     else {
