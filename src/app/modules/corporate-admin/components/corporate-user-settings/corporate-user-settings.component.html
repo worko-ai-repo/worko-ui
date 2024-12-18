@@ -32,7 +32,7 @@
                           [ngClass]="{ 'is-invalid': isInvalid('newPassword') }"
                         />
                         <!-- ToolTip Starts Here -->
-                        <div class="tooltip-container"  *ngIf="!isInvalid('newPassword')">
+                        <div class="tooltip-container"  [ngClass]="{'hide':isInvalid('newPassword')}">
                           <div class="tooltip-style">
                             <i class="fa-solid fa-circle-info"></i>
                           </div>
@@ -43,11 +43,10 @@
                         </div>
                     </div>
 
-                    <div *ngIf="passwordForm.get('newPassword')!.touched && passwordForm.get('newPassword')!.invalid" class="error">
                       <span *ngIf="isInvalid('newPassword')" class="text-danger" style="font-size:10px">
                         {{ getErrorMessage('newPassword') }}
                       </span>
-                    </div>
+                    
                   </div>
               
                   <!-- Confirm New Password -->
@@ -60,12 +59,12 @@
                       class="form-control serachInput"
                       formControlName="confirmPassword"
                       placeholder="Confirm new password"
-                      [ngClass]="{'is-invalid': passwordForm!.get('newPassword')!.invalid && passwordForm!.get('confirmPassword')!.touched}" />
-                    <small
-                    *ngIf="passwordForm!.get('newPassword')!.invalid && passwordForm!.get('confirmPassword')!.touched"
-                    class="text-danger" style="font-size: 10px;">
-                    Passwords do not match.
-                  </small> 
+                      [ngClass]="{ 'is-invalid': isInvalid('confirmPassword') || passwordForm.hasError('mismatch') }" />
+                      <span
+                        *ngIf="isInvalid('confirmPassword') || passwordForm.hasError('mismatch')"
+                        class="text-danger" style="font-size: 10px;">
+                        Password does not match.
+                      </span>
                   </div>
               
                   <!-- Submit Button -->

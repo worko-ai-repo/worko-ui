@@ -242,7 +242,9 @@ input:-webkit-autofill {
   right: 14px;
   cursor: pointer;
 }
-
+.tooltip-container.hide{
+  .tooltip-style{visibility: hidden;}
+}
 .tooltip-style {
   font-size: 12px;
   color: grey;
@@ -275,7 +277,11 @@ input:-webkit-autofill {
 .tooltip-text span {
   display: block;
 }
-  
+
+#login-warn-popup ::ng-deep button.btn {
+  margin-inline: 10px !important;
+}
+
   @media screen and (max-width: 1024px) {
     .corporate-auth-main {
       

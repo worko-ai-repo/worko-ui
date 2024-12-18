@@ -127,6 +127,7 @@ export class LoginUserForCorporateComponent {
  }
 
  ngOnInit() {
+
     this.currentUserSessionToken = this.amplify.getAccessToken();
     this.currentLoggedInUser = this.storage.get('userType');
 
@@ -143,10 +144,30 @@ export class LoginUserForCorporateComponent {
     if (this.currentLoggedInUser === 'Corporate' && this.currentUserSessionToken) {
       this.router.navigate(['/corporate/cJobs']);
     } else if (this.currentUserSessionToken) {
-      this.router.navigate(['/']);
+      this.modalMessageText = "Hmm! Seems like you are still logged in as worko user.Do you want to Logout and proceed to Login as Corporate Admin?";
+      this.modalSize = "lg"
+      this.modalTitleText = "Warning!";
+      this.openModal(ModalType.CORPORATE_USER_WARNING);
     }
   }
 
+  warningHandler(action: string) {
+    try{
+      if(action === 'Yes'){
+        this.amplify.handleSignOut()
+    }
+    else{
+      this.router.navigate(['/']);
+    }
+  }
+  catch(error)
+  {
+    console.log(error);
+  }
+  finally{
+    this.closeModal();
+  }
+  }
   /**
    * Custom Validator for Password Match
    */

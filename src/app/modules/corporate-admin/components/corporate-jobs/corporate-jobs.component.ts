@@ -795,8 +795,7 @@ export class CorporateJobsComponent implements OnInit {
         this.corporateService
           .updateJob(this.jobId, this.jobForm.value)
           .then((response) => {
-            this.fetchJobs({ jobStatus: this.selectedStatus, pageSize: this.pageSize, resetPagination: true, sortOrder: this.selectedSortOrder });
-            this.closeModal();
+            this.fetchJobs({ searchText:this.searchQuery, jobStatus: this.selectedStatus, pageSize: this.pageSize, resetPagination: false, sortOrder: this.selectedSortOrder });
             this.jobId = null;
           })
           .catch((error) => {
@@ -805,6 +804,9 @@ export class CorporateJobsComponent implements OnInit {
             this.openModal(ModalType.SUCCESS_MESSAGE);
           })
           .finally(() => {
+            this.closeModal();
+            this.jobForm.reset();
+            this.companyControl.reset();
             this.spinner.hide();
           });
       } else {

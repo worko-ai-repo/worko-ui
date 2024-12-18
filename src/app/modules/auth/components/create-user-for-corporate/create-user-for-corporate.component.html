@@ -39,7 +39,9 @@
           <div class="form-group">
             <label class="form-label">Access Type</label>
             <br>
-            <input matInput class="form-control form-input" formControlName="accessType" type="text" [readonly]="true"/>
+            <input matInput class="form-control form-input" formControlName="accessType"
+            [value]="userForm.get('accessType')!.value.split('-')[1] | titlecase"
+             type="text" [readonly]="true"/>
           </div>
 
           <div class="form-group">
@@ -79,7 +81,7 @@
               type="password"
               [ngClass]="{ 'is-invalid': isInvalid('password') }" />
                <!-- ToolTip Starts Here -->
-               <div class="tooltip-container" *ngIf="!isInvalid('password')" >
+               <div class="tooltip-container" [ngClass]="{'hide':isInvalid('password')}" >
                 <div class="tooltip-style">
                   <i class="fa-solid fa-circle-info"></i>
                 </div>

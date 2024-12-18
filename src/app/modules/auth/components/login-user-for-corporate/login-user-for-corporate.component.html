@@ -42,7 +42,7 @@
             <input matInput class="form-control form-input" formControlName="password" type="password"
               [ngClass]="{ 'is-invalid': isInvalid('password') }" />
               <!-- ToolTip Starts Here -->
-              <div class="tooltip-container" *ngIf="!isInvalid('password')">
+              <div class="tooltip-container" [ngClass]="{'hide':isInvalid('password')}">
                 <div class="tooltip-style">
                   <i class="fa-solid fa-circle-info"></i>
                 </div>
@@ -105,7 +105,7 @@
                 name="password" placeholder="Enter New Password"
                 [ngClass]="{ 'is-invalid': isInvalid('newPassword') }">
                <!-- ToolTip Starts Here -->
-              <div class="tooltip-container" *ngIf="!isInvalid('newPassword')">
+              <div class="tooltip-container" [ngClass]="{'hide':isInvalid('newPassword')}">
                 <div class="tooltip-style">
                   <i class="fa-solid fa-circle-info"></i>
                 </div>
@@ -125,12 +125,12 @@
             formControlName="retypePassword"
              type="password"
              placeholder="Retype Password"
-             [ngClass]="{'is-invalid': forgotPasswordForm!.get('newPassword')!.invalid && forgotPasswordForm!.get('newPassword')!.touched}" />
+             [ngClass]="{ 'is-invalid': isInvalid('retypePassword') || forgotPasswordForm.hasError('mismatch') }" />
              <span
-              *ngIf="forgotPasswordForm.get('newPassword')!.value !== forgotPasswordForm.get('retypePassword')!.value && forgotPasswordForm.get('retypePassword')!.touched"
-              class="text-danger" style="font-size: 10px;">
-              Passwords do not match.
-            </span> 
+               *ngIf="isInvalid('retypePassword') || forgotPasswordForm.hasError('mismatch')"
+               class="text-danger" style="font-size: 10px;">
+               Password does not match.
+             </span>
           </div>
           <div>
             <a _ngcontent-ng-c1006296152="" href="javascript:void(0);" style="font-size:10px; margin-bottom: 5px;"
@@ -166,6 +166,10 @@
     </app-message-modal>
   </ng-container>
 
+  <ng-container *ngIf="showModal === modalType.CORPORATE_USER_WARNING">
+    <app-message-modal [title]="modalTitleText" [message]="modalMessageText"  (onNoBtn) = "warningHandler('No')" (onYesBtn)="warningHandler('Yes')" id="login-warn-popup">
+    </app-message-modal>
+  </ng-container>
 
   <ng-container *ngIf="showModal === modalType.CORPORATE_USER_INVITE_REDIRECT">
     <!-- If you want to use this kind of Modal then you have to use the css of this component where the selector starts with message-card -->
