@@ -1,5 +1,4 @@
 import { AfterContentChecked, AfterViewInit, ChangeDetectorRef, Component, ElementRef, EventEmitter, Input, Output, QueryList, ViewChild, ViewChildren } from '@angular/core';
-import { EventManager } from '@angular/platform-browser';
 import { ModalComponent } from 'src/app/modules/shared/components/modal/modal.component';
 import { JobApplication } from 'src/app/modules/shared/interfaces/job-application.interface';
 import { ModalType } from 'src/app/modules/shared/interfaces/shared.interface';
@@ -137,18 +136,18 @@ export class CandidateJobsStatusComponent implements AfterViewInit {
   openModal(modalType: ModalType, message: string = "", title: string = ""): void {
     this.showModal = modalType;
 
-    // Dynamically set modalSize and showClose based on modalType
-    if (modalType === this.modalType.SHOW_MORE_DETAILS) {
-      this.modalSize = 'lg';
-      this.showClose = true;  // Show the close icon for Show More Details
-    } else if (modalType === this.modalType.REJECT_DETAILS) {
-      this.modalSize = 'md';
-      this.showClose = false;  // Hide the close button for Reject Details
-    } else {
-      this.modalSize = 'md';  // Default size
-      this.showClose = false;
-    }
+    // Strongly typed modal configuration
+    const modalConfig: Partial<Record<ModalType, { size: string; close: boolean }>> = {
+      [this.modalType.SHOW_MORE_DETAILS]: { size: "lg", close: true }
+    };
 
+    // Fallback configuration for undefined modal types
+    const config = modalConfig[modalType] || { size: "md", close: false };
+
+    this.modalSize = config.size;
+    this.showClose = config.close;
+
+    // Trigger change detection
     this.cdrf.detectChanges();
 
     this.modalMessage = message;
@@ -161,7 +160,6 @@ export class CandidateJobsStatusComponent implements AfterViewInit {
    * @returns {void}
    */
   closeModal(): void {
-    // this.referrralComponent.showReferrelRow = true;
     this.modal.cancel();
   }
 

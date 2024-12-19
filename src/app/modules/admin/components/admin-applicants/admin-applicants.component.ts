@@ -21,7 +21,6 @@ export class AdminApplicantsComponent {
 
   cvUrl: SafeResourceUrl | null = null;
   cvPath: any = "";
-  // cvPath = 'https://worko-app-dev.s3.ap-south-1.amazonaws.com/users/e1134dca-6071-70ff-2941-54fcce656f38/resumes/01JA89YTM0MAGV6E511PWYWK8W.pdf?X-Amz-Algorithm=AWS4-HMAC-SHA256&X-Amz-Credential=REDACTED%2F20241201%2Fap-south-1%2Fs3%2Faws4_request&X-Amz-Date=20241201T163703Z&X-Amz-Expires=900&X-Amz-Security-Token=IQoJb3JpZ2luX2VjEAEaCmFwLXNvdXRoLTEiRzBFAiEAr88kTmkBHmAvjf%2FzP7s3RjtKeQU6LpsjYeUMyPkkIvcCIHwNciYBStd2TYCaSbwjyf21cEIh7AuapST8zglX54GNKoADCKr%2F%2F%2F%2F%2F%2F%2F%2F%2F%2FwEQABoMMjExMTI1MzUzODk5Igz6yFDKzOE64ST9i%2BIq1AJTey%2BH53l45ZwuhS83bAaTfamgYsWPNzKVUW4boZ1L82ERqQ2s60c730t1tcQjD7MvuGRZeO%2BfjH6OCdCPcgQ9YT16mbch4PgUrulW3dSqAHC1FpnWOJHoql8OPjG8gMD7Ixe8DUioH9ERvo2KIThxpqdfrznF0Oy8%2FmcXm4NCgGnLs0pNBvRnSFjhtu7zr%2B18QQPjxxcRWogNIUMOEfvgGXFOcEHftQwXreS5DqBECs2AAvx%2FO1yFuq%2FcFvB8KFlmdjJjp286LFE64Bkbgfmkxbk9uNjbWP9p3CX%2BfkaQ%2FZBJS2SuAW8zZUmr%2Fg24UekoQzOeyrKFOWl1ZaysQsgCGjM8c8RXvP01pq%2Bsam7ZI1RmogCB4v5%2FdXzAtmZ8rPypQWvjgGEjx9TYrAOGQ1kF7p2M5VibbU10AbWXm%2BzBmlC367r45MmzNldCJhktz%2F5UNwZ9MKyfsroGOp4BPgc0U%2FnfnE3%2FpDES7OH3BUvdb69%2B21hGuqLSKjj1jLed5bmFBd5%2B98pOOr7szw92%2FqF4JJnWn7Dx6HS%2FPqYMknEAJn1w2sSGuhBIKFNENTPw2s2eKlvr2ntki6%2BCiR3kdUlzZhnZDLUXSRdZxfWh8t%2BvaEjQz5YABTYdCIRVUBwNaQVxltVI28aP4iughY3xcJbJEgxZZDS9MiFlWMs%3D&X-Amz-Signature=a1de102fdc60db73cc134715d78b3cc296e17b2bf70338cbe8c7ca8f48c39c41&X-Amz-SignedHeaders=host';
 
   // Common Enums
   status = {
@@ -35,15 +34,9 @@ export class AdminApplicantsComponent {
     REJECTED: "REJECTED"
   };
 
-  // Corporate Jobs Component Properties
-  // corporateVitalDetails: CorporateVitalDetails = {};
-
-  // Properties related to job management
-  jobs: any[] = []; // To store the fetched jobs
   jobId: string | null = null; // Variable to store the job ID
-  dataSource = new MatTableDataSource<any>(); // To store the updated data in the table
   selectedStatus: string = this.status.ALL_APPLICATIONS;
-  noApplicationsMessage: string = "No Job Applications Present"; // Will be showin inside the table
+  noApplicationsMessage: string = "No Job Applications Present"; // Will be showing this inside the table
 
   //Filters Properties
   filteredJobs: any[] = [];
@@ -61,8 +54,6 @@ export class AdminApplicantsComponent {
   showClose: boolean = false;
   successMessage: string = "";
 
-  // Component properties
-  copiedContextId: any;
   jobDetails!: any;
 
   lastKey: string | undefined = undefined;
@@ -97,7 +88,6 @@ export class AdminApplicantsComponent {
 
   companyDetails: any;
   jobUrl: any;
-
 
   constructor(private router: Router, private fb: FormBuilder, private adminService: AdminService, private spinner: NgxSpinnerService, private cdr: ChangeDetectorRef, private sanitizer: DomSanitizer, private route: ActivatedRoute, private storage: StorageService) {
     this.searchTerms.pipe(
@@ -173,14 +163,19 @@ export class AdminApplicantsComponent {
     this.jobUrl = route;
   }
 
-  formatRange(min: number, max: number, type: string): string {
+  formatRange(min: number | null, max: number | null, type: string): string {
+    if (min === null || max === null) return '-'; // Handle null values during API loading
+
     if (type === 'experience') {
       if (min === 0 && max === 0) return '-'; // Handling edge case for no experience range
+      if (max === 9999) return `${min}+ Years`; // Handle max as 9999 for experience
       return `${min}-${max} ${max === 1 ? 'Year' : 'Years'}`;
     } else if (type === 'salary') {
       if (min === 0 && max === 0) return '-'; // Handling edge case for no salary range
+      if (max === 9999) return `${min}+ LPA`; // Handle max as 9999 for salary
       return `${min}-${max} LPA`;
     }
+
     return '-'; // Default value
   }
 
@@ -224,7 +219,6 @@ export class AdminApplicantsComponent {
       this.clearSearchInput()
     }
   }
-
 
   onSearchInputEnter(event: KeyboardEvent): void {
     if (event.key === 'Enter') {
@@ -276,18 +270,6 @@ export class AdminApplicantsComponent {
     } finally {
       this.spinner.hide();
     }
-  }
-
-  // @TODO Add to reusable code
-  /**
-   * toTitleCase
-   * 
-   * Converts a string to title case.
-   */
-  toTitleCase(str: string): string {
-    return str.replace(/\w\S*/g, (txt) => {
-      return txt.charAt(0).toUpperCase() + txt.substr(1).toLowerCase();
-    });
   }
 
   async fetchJobDetails(jobId: any) {
@@ -418,7 +400,12 @@ export class AdminApplicantsComponent {
 
       if (response) {
         // Refresh jobApplicationListing data
-        await this.getAllJobApplications(null);
+        
+        // Use the previous lastKey if available; otherwise, start fresh
+        const keyToUse = this.getKeyForCurrentPage();
+        await this.getAllJobApplications(keyToUse);
+        // await this.getAllJobApplications(null);
+
         if (response.status === "CV_DOWNLOADED") {
           this.cvUrl = this.sanitizer.bypassSecurityTrustResourceUrl(this.currentJob?.applicantDetails?.cvAwsS3SignedUrl);
           this.openModal(ModalType.VIEW_CV);
@@ -460,10 +447,6 @@ export class AdminApplicantsComponent {
     })
   }
 
-  /* Skills selector ends here */
-
-  /* Modal Handler Section Starts Here */
-
   /**
    * openModal
    *
@@ -475,25 +458,22 @@ export class AdminApplicantsComponent {
    */
   openModal(modalType: ModalType, message: string = "", title: string = ""): void {
     this.showModal = modalType;
-    // Reset modal size every time you open the modal
-    if (modalType === this.modalType.SHOW_MORE_DETAILS) {
-      this.modalSize = "lg";
-      this.showClose = true;
-    }
-    else if (modalType === this.modalType.VIEW_CV) {
-      this.modalSize = "xl";
-      this.showClose = true;
-    }
-    else if (modalType === this.modalType.REJECTED_REQUEST) {
-      this.modalSize = "md";
-      this.showClose = true;
-    }
-    else {
-      this.modalSize = "md";
-      this.showClose = false;
-    }
+
+    // Strongly typed modal configuration
+    const modalConfig: Partial<Record<ModalType, { size: string; close: boolean }>> = {
+      [this.modalType.SHOW_MORE_DETAILS]: { size: "lg", close: true },
+      [this.modalType.VIEW_CV]: { size: "xl", close: true },
+      [this.modalType.REJECTED_REQUEST]: { size: "md", close: true }
+    };
+
+    // Fallback configuration for undefined modal types
+    const config = modalConfig[modalType] || { size: "md", close: false };
+
+    this.modalSize = config.size;
+    this.showClose = config.close;
 
     this.cdr.detectChanges();
+
     this.modalMessage = message;
     this.modalTitle = title;
     this.modal.open();
@@ -501,9 +481,6 @@ export class AdminApplicantsComponent {
 
   // Closes the currently opened modal
   closeModal(): void {
-    // this.resetModal();
-    // this.companyControl.enable();
-    // this.isEditMode = false;
     this.modal.cancel();
   }
 
@@ -512,23 +489,16 @@ export class AdminApplicantsComponent {
     this.closeModal();
   }
 
-  // Opens the job Form modal
-  openModalone(): void {
-    this.openModal(ModalType.ADMINJOBS_POPUP);
-  }
-
   /**
    * Resets the search input and shows all jobs.
    */
   resetBtnHandler(): void {
-/*     console.log("Reset button clicked");
- */   this.searchQuery = "";
+    //  Reset button clicked
+    this.searchQuery = "";
     this.selectedStatus = this.status.ALL_APPLICATIONS;
-    this.searchTerm = "",
-      this.searchQuery = "";
+    this.searchTerm = "";
+    this.searchQuery = "";
     this.selectedSortOrder = this.sortOrder.DESC;
-
-    // (document.getElementById('referralStatus') as HTMLSelectElement).value = "";
 
     // Use the previous lastKey if available; otherwise, start fresh
     const keyToUse = this.getKeyForCurrentPage();
@@ -538,7 +508,7 @@ export class AdminApplicantsComponent {
   /**
    * onStausChange
    *
-   * Updates the status of a job. and fetch the desired jobs based on the status.
+   * Fetch the job applications based on the selected status from filter.
    */
   onStatusChange(statusVal: any) {
     if (statusVal.target.value === this.status.APPLIED) {
@@ -567,31 +537,10 @@ export class AdminApplicantsComponent {
     this.closeModal();
   }
 
-  // //Pagination methods
-  // /**
-  //  * @method onPageChange - this will be called when the user changes the page size
-  //  * @param event
-  //  */
-  // onPageChange(event: any) {
-  //   this.pageSize = event.pageSize;
-
-  //   // Fetch jobs with pagination reset
-  //   this.fetchJobs({ jobStatus: this.selectedStatus, pageSize: this.pageSize, resetPagination: false, sortOrder: this.selectedSortOrder });
-  // }
-
   // Misc method
   getStatusClass(status: string): string {
     return `job-${status.toLowerCase()}`; // Returns 'job-published', 'job-closed', 'job-archived'
   }
-
-  // Copy the context ID to the clipboard
-  copyToClipboard = (id: string) => {
-    navigator.clipboard.writeText(id);
-    this.copiedContextId = id;
-    setTimeout(() => {
-      this.copiedContextId = null;
-    }, 2000);
-  };
 
   navigateToJobReferral(event: MouseEvent, companyName: string, jobTitle: string, jobID: any): void {
     event.preventDefault(); // Prevent default anchor behavior

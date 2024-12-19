@@ -1,25 +1,4 @@
 <div class="job-details-container mx-2 ms-3">
-    <!-- <div class="job-details-box">
-        <div class="job-details-item">
-        <span class="job-details-label">Job ID:</span> <span class="job-details-value">{{ jobIdIs }}</span>
-      </div>
-        <div class="job-details-item">
-            <span class="job-details-label">Job Title:</span> <span class="job-details-value">{{ jobDetails?.jobTitle
-                }}</span>
-        </div>
-        <div class="job-details-item">
-            <span class="job-details-label">Location:</span> <span class="job-details-value">{{ jobDetails.location
-                }}</span>
-        </div>
-        <div class="job-details-item">
-            <span class="job-details-label">Department:</span> <span class="job-details-value">{{ jobDetails.department
-                }}</span>
-        </div>
-        <div class="job-details-item">
-            <span class="job-details-label">Work Mode:</span> <span class="job-details-value">{{ jobDetails.workMode
-                }}</span>
-        </div>
-    </div> -->
 
     <div class="row row-cols-1 row-cols-md-2 row-cols-lg-6">
         <div class="col">
@@ -80,18 +59,17 @@
                             <option value={{status.UNDER_EVALUATION}}>Under Evaluation</option>
                             <option value={{status.PROCESSING_INTERVIEW}}>Processing Interview</option>
                             <option value={{status.INTERVIEW_DONE}}>Interview Done</option>
-                            <!-- <option value={{status.PROCESSING_INTERVIEW}}>PROCESSING INTERVIEW</option> -->
                             <option value={{status.HIRED}}>Hired</option>
                             <option value={{status.REJECTED}}>Rejected</option>
                         </select>
                     </span>
-                    <span class="ajobs-status">
+                    <!-- <span class="ajobs-status">
                         <select name="status" [(ngModel)]="selectedSortOrder" class="selector form-select"
                             (change)="onSortOrderChange($event)">
                             <option value={{sortOrder.ASC}}>Ascending</option>
                             <option value={{sortOrder.DESC}}>Descending</option>
                         </select>
-                    </span>
+                    </span> -->
                     <div class="pe-2 search-container disabled" [ngClass]="{'disabled': isSearchActive}">
                         <input matInput class="serachInput" (keyup)="handleSearchInput($event)"
                             (keydown)="onSearchInputEnter($event)" placeholder="Search Candidate"
@@ -150,67 +128,20 @@
                                 <ng-template #noData>-</ng-template>
                             </td>
 
-                            <!-- <td>
-                                <span style="margin-right:30px">{{ job.id }}</span>
-                                <mat-icon style="cursor: pointer; position: absolute; right: 10px;"
-                                    (click)="copyToClipboard(job.id)" matTooltip="Copy to Clipboard"
-                                    matTooltipPosition="above"> -->
-                            <!-- {{ copiedContextId === job.id ? 'check' : 'content_copy' }} -->
-                            <!-- {{ copiedContextId === row.contextId ? 'check' : 'content_paste' }} -->
-                            <!-- </mat-icon> -->
-                            <!-- </td> -->
                             <td>
-                                <p [ngClass]="getStatusClass(job.status)">{{ transformStatus(job.status) | uppercase }}</p>
+                                <p [ngClass]="getStatusClass(job.status)">{{ transformStatus(job.status) | uppercase }}
+                                </p>
                             </td>
                             <td>{{ job.createdAt | date: 'd MMM yyyy, h:mm a' }}</td>
-                            <!-- <td matTooltip={{job.jobTitle}} matTooltipPosition="above" style="cursor: pointer;">{{
-                                job.jobTitle |
-                                ellipsis:30 | titlecase }}</td> -->
-                            <!-- <td>
-                                <span style="margin-right:30px">{{ job.createdByUserId }}</span>
-                                <mat-icon style="cursor: pointer; position: absolute; right: 10px;"
-                                    (click)="copyToClipboard(job.createdByUserId)" matTooltip="Copy to Clipboard"
-                                    matTooltipPosition="above"> -->
-                            <!-- {{ copiedContextId === job.createdByUserId ? 'check' : 'content_copy' }} -->
-                            <!-- {{ copiedContextId === row.contextId ? 'check' : 'content_paste' }} -->
-                            <!-- </mat-icon> -->
-                            <!-- </td> -->
+
                             <td id="editbtns">
-                                <!-- <span *ngIf="job.status != status.CLOSED"  matTooltip="Edit"
-                                    matTooltipPosition="above" style="background:#2716bb;"><i
-                                        class="fa-solid fa-pen-to-square"></i></span>
-                                <span *ngIf="job.status !== status.ARCHIVED && selectedStatus !== status.CLOSED"
-                                    (click)="updateJobStatus(job,'ARCHIVED')" matTooltip="Archive"
-                                    matTooltipPosition="above" style="background: #ffc107;">
-                                    <i class="fa-solid fa-file-arrow-down"></i></span>
-                                <span *ngIf="job.status != status.CLOSED" (click)="updateJobStatus(job,'CLOSED')"
-                                    matTooltip="Delete" matTooltipPosition="above" style="background: red;">
-                                    <i class="fa-solid fa-trash"></i></span>
-                                <span *ngIf="job.status === status.ARCHIVED" (click)="updateJobStatus(job,'PUBLISHED')"
-                                    matTooltip="Make Publish" matTooltipPosition="above" style="background: #ffc107;">
-                                    <i class="fa-solid fa-eye"></i></span>
-                                <span *ngIf="true"
-                                    (click)="navigateToJobReferral($event,job.companyDetails.name, job.jobTitle,job.id)"
-                                    matTooltip="Visit" matTooltipPosition="above" style="background: green;">
-                                    <i class="fa-solid fa-link"></i></span>
-                                <span *ngIf="true" (click)="viewJobDetailsandApplications(job.id)"
-                                    matTooltip="View More Details for this Job" matTooltipPosition="above"
-                                    style="background: #2cf504;">
-                                    <i class="fa-solid fa-circle-info"></i></span> -->
 
                                 <!-- View CV Button -->
-                                <span
-                                    *ngIf="true"
-                                    (click)="handleAction(job, status.CV_DOWNLOADED)" matTooltip="View CV" matTooltipPosition="above"
+                                <span *ngIf="true" (click)="handleAction(job, status.CV_DOWNLOADED)"
+                                    matTooltip="View CV" matTooltipPosition="above"
                                     style="background: #17a2b8; cursor: pointer;">
                                     <i class="fa-solid fa-file"></i>
                                 </span>
-
-                                <!-- <span *ngIf="true" matTooltip="View CV" matTooltipPosition="above"
-                                    style="background: blue; cursor: pointer;"
-                                    (click)="handleAction(job, status.CV_DOWNLOADED)">
-                                    <i class="fa-solid fa-file"></i>
-                                </span> -->
 
                                 <!-- Under Evaluation Button -->
                                 <span *ngIf="job.status === status.CV_DOWNLOADED" matTooltip="Under Evaluation"
@@ -241,8 +172,9 @@
                                 </span>
 
                                 <!-- Reject Button -->
-                                <span *ngIf="job.status !== status.REJECTED && job.status !== status.HIRED" matTooltip="Reject"
-                                    matTooltipPosition="above" style="background: red; cursor: pointer;"
+                                <span *ngIf="job.status !== status.REJECTED && job.status !== status.HIRED"
+                                    matTooltip="Reject" matTooltipPosition="above"
+                                    style="background: red; cursor: pointer;"
                                     (click)="handleAction(job, status.REJECTED)">
                                     <i class="fa-solid fa-times"></i>
                                 </span>
@@ -251,10 +183,7 @@
                         </tr>
                     </tbody>
                 </table>
-                <!--Pagination-->
-                <!-- <mat-paginator #companyJobMatPaginator aria-label="Select page of users" [pageSize]="10"
-                    [pageSizeOptions]="[10,25,50,100]" [showFirstLastButtons]="true" (page)="onPageChange($event)">
-                </mat-paginator> -->
+
             </div>
             <div class="row pe-2 pt-4">
                 <div class="pagination-controls">
@@ -325,11 +254,13 @@
     </ng-container>
 
     <ng-container *ngIf="showModal === modalType.SUCCESS_ERROR_MESSAGE">
-        <app-message-modal [title]="successTitle" [message]="successMessage" (onOk)="continue()" (onCancel)="closeModal()">
+        <app-message-modal [title]="successTitle" [message]="successMessage" (onOk)="continue()"
+            (onCancel)="closeModal()">
         </app-message-modal>
     </ng-container>
 
     <ng-container *ngIf="showModal === modalType.REJECTED_REQUEST">
-        <app-referral-rejected-popup [userType]="userType" (onSuccess)="receiveDataFromChild($event)"></app-referral-rejected-popup>
+        <app-referral-rejected-popup [userType]="userType"
+            (onSuccess)="receiveDataFromChild($event)"></app-referral-rejected-popup>
     </ng-container>
 </app-modal>
