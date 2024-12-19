@@ -9,33 +9,12 @@ import { Observable, Subject, debounceTime, distinctUntilChanged, map, of, switc
 import { CorporateService } from "../../services/corporate.service";
 
 // Shared components like spinner ,modals and etcetras.
-import { MatSort, Sort } from "@angular/material/sort";
 import { ModalType } from "src/app/modules/shared/interfaces/shared.interface";
-import { MatPaginator } from "@angular/material/paginator";
 import { ModalComponent } from "src/app/modules/shared/components/modal/modal.component";
 import { NgxSpinnerService } from "ngx-spinner";
-import { MatTableDataSource } from "@angular/material/table";
-import { MatAutocompleteTrigger } from "@angular/material/autocomplete";
 
 import { DomSanitizer, SafeResourceUrl } from "@angular/platform-browser";
 import { StorageService } from "src/app/modules/app-core/services/storage.service";
-
-interface FetchJobsOptionsDto {
-  companyId?: string;
-  jobStatus?: string;
-  searchText?: string;
-  pageSize?: number;
-  sortOrder?: string;
-  resetPagination?: boolean;
-}
-
-interface RangeDropDownDto {
-  label: string;
-  value: {
-    min: number;
-    max: number;
-  };
-}
 
 export interface CorporateVitalDetails {
   cognitoUserId?: string;
@@ -60,7 +39,6 @@ export class CorporateApplicantsComponent {
 
   cvUrl: SafeResourceUrl | null = null;
   cvPath: any = "";
-  // cvPath = 'https://worko-app-dev.s3.ap-south-1.amazonaws.com/users/e1134dca-6071-70ff-2941-54fcce656f38/resumes/01JA89YTM0MAGV6E511PWYWK8W.pdf?X-Amz-Algorithm=AWS4-HMAC-SHA256&X-Amz-Credential=REDACTED%2F20241201%2Fap-south-1%2Fs3%2Faws4_request&X-Amz-Date=20241201T163703Z&X-Amz-Expires=900&X-Amz-Security-Token=IQoJb3JpZ2luX2VjEAEaCmFwLXNvdXRoLTEiRzBFAiEAr88kTmkBHmAvjf%2FzP7s3RjtKeQU6LpsjYeUMyPkkIvcCIHwNciYBStd2TYCaSbwjyf21cEIh7AuapST8zglX54GNKoADCKr%2F%2F%2F%2F%2F%2F%2F%2F%2F%2FwEQABoMMjExMTI1MzUzODk5Igz6yFDKzOE64ST9i%2BIq1AJTey%2BH53l45ZwuhS83bAaTfamgYsWPNzKVUW4boZ1L82ERqQ2s60c730t1tcQjD7MvuGRZeO%2BfjH6OCdCPcgQ9YT16mbch4PgUrulW3dSqAHC1FpnWOJHoql8OPjG8gMD7Ixe8DUioH9ERvo2KIThxpqdfrznF0Oy8%2FmcXm4NCgGnLs0pNBvRnSFjhtu7zr%2B18QQPjxxcRWogNIUMOEfvgGXFOcEHftQwXreS5DqBECs2AAvx%2FO1yFuq%2FcFvB8KFlmdjJjp286LFE64Bkbgfmkxbk9uNjbWP9p3CX%2BfkaQ%2FZBJS2SuAW8zZUmr%2Fg24UekoQzOeyrKFOWl1ZaysQsgCGjM8c8RXvP01pq%2Bsam7ZI1RmogCB4v5%2FdXzAtmZ8rPypQWvjgGEjx9TYrAOGQ1kF7p2M5VibbU10AbWXm%2BzBmlC367r45MmzNldCJhktz%2F5UNwZ9MKyfsroGOp4BPgc0U%2FnfnE3%2FpDES7OH3BUvdb69%2B21hGuqLSKjj1jLed5bmFBd5%2B98pOOr7szw92%2FqF4JJnWn7Dx6HS%2FPqYMknEAJn1w2sSGuhBIKFNENTPw2s2eKlvr2ntki6%2BCiR3kdUlzZhnZDLUXSRdZxfWh8t%2BvaEjQz5YABTYdCIRVUBwNaQVxltVI28aP4iughY3xcJbJEgxZZDS9MiFlWMs%3D&X-Amz-Signature=a1de102fdc60db73cc134715d78b3cc296e17b2bf70338cbe8c7ca8f48c39c41&X-Amz-SignedHeaders=host';
 
   // Common Enums
   status = {
@@ -77,10 +55,7 @@ export class CorporateApplicantsComponent {
   // Corporate Jobs Component Properties
   corporateVitalDetails: CorporateVitalDetails = {};
 
-  // Properties related to job management
-  jobs: any[] = []; // To store the fetched jobs
   jobId: string | null = null; // Variable to store the job ID
-  dataSource = new MatTableDataSource<any>(); // To store the updated data in the table
   selectedStatus: string = this.status.ALL_APPLICATIONS;
   noApplicationsMessage: string = "No Job Applications Present"; // Will be showin inside the table
 
@@ -101,7 +76,6 @@ export class CorporateApplicantsComponent {
   successMessage: string = "";
 
   // Component properties
-  copiedContextId: any;
   jobDetails!: any;
 
   lastKey: string | undefined = undefined;
@@ -137,7 +111,6 @@ export class CorporateApplicantsComponent {
   companyDetails: any;
   jobUrl: any;
 
-
   constructor(private router: Router, private fb: FormBuilder, private corporateService: CorporateService, private spinner: NgxSpinnerService, private cdr: ChangeDetectorRef, private sanitizer: DomSanitizer, private route: ActivatedRoute, private storage: StorageService) {
     this.searchTerms.pipe(
       debounceTime(300), // Adjust the debounce time as needed (300 milliseconds in this example)
@@ -169,15 +142,6 @@ export class CorporateApplicantsComponent {
       // this.openModal(ModalType.SUCCESS_ERROR_MESSAGE);
       return;
     }
-
-    // else {
-    //   try {
-    //     await this.fetchJobDetails(this.jobId);
-    //     this.getAllJobApplications(null);
-    //   } catch (error) {
-    //     console.error('Error fetching job details:', error);
-    //   }
-    // }
 
     this.corporateVitalDetails.cognitoUserId = this.storage.get("cognitoUserId");
 
@@ -278,16 +242,22 @@ export class CorporateApplicantsComponent {
     }
   }
 
-  formatRange(min: number, max: number, type: string): string {
+  formatRange(min: number | null, max: number | null, type: string): string {
+    if (min === null || max === null) return '-'; // Handle null values during API loading
+
     if (type === 'experience') {
       if (min === 0 && max === 0) return '-'; // Handling edge case for no experience range
+      if (max === 9999) return `${min}+ Years`; // Handle max as 9999 for experience
       return `${min}-${max} ${max === 1 ? 'Year' : 'Years'}`;
     } else if (type === 'salary') {
       if (min === 0 && max === 0) return '-'; // Handling edge case for no salary range
+      if (max === 9999) return `${min}+ LPA`; // Handle max as 9999 for salary
       return `${min}-${max} LPA`;
     }
+
     return '-'; // Default value
   }
+
 
   transformStatus(status: string): string {
     return status ? status.replace(/_/g, ' ') : status;
@@ -329,7 +299,6 @@ export class CorporateApplicantsComponent {
       this.clearSearchInput()
     }
   }
-  
 
   onSearchInputEnter(event: KeyboardEvent): void {
     if (event.key === 'Enter') {
@@ -419,97 +388,6 @@ export class CorporateApplicantsComponent {
     }
   }
 
-  // CompanyId(CompanyId: any, pageSize: number, lastKey: string | null, sortOrder: { ASC: string; DESC: string; }, searchTerm: string, arg5: string) {
-  //   throw new Error("Method not implemented.");
-  // }
-  // searchTerm(pageSize: number, lastKey: string | null, sortOrder: { ASC: string; DESC: string; }, searchTerm: any, arg4: string) {
-  //   throw new Error("Method not implemented.");
-  // }
-
-
-  // @TODO Add to reusable code
-  /**
-   * toTitleCase
-   * 
-   * Converts a string to title case.
-   */
-  toTitleCase(str: string): string {
-    return str.replace(/\w\S*/g, (txt) => {
-      return txt.charAt(0).toUpperCase() + txt.substr(1).toLowerCase();
-    });
-  }
-  // /**
-  //  * fetchJobs
-  //  *
-  //  * Fetches jobs from the server.By taking options as args and
-  //  */
-  // async fetchJobs(options: FetchJobsOptionsDto) {
-  //   this.spinner.show();
-  //   try {
-  //     // If resetPagination is true, reset the lastKey
-  //     if (options.resetPagination) {
-  //       this.lastKey = undefined;
-  //     }
-  //     const params = {
-  //       // companyId : this.corporateVitalDetails.companyId,
-  //       companyId: "01HZM77T3F331PMJP1C8B75N1P",
-  //       status: options.jobStatus,
-  //       searchText: options.searchText,
-  //       pageSize: options.pageSize,
-  //       lastKey: this.lastKey,
-  //       sortOrder: options.sortOrder,
-  //     };
-  //     debugger;
-  //     const response = await this.corporateService.getJobs(params);
-  //     if (response) {
-  //       this.jobs = response.data;
-  //       this.lastKey = response.pagination.lastKey;
-  //       this.pageSize = response.pagination.pageSize;
-
-  //       this.updateData(this.jobs);
-
-  //       // // Reset the paginator to the first page if necessary when mat-paginator is available and resetPagination is true
-  //       // if (options.resetPagination && this.companyJobMatPaginator) {
-  //       //   this.companyJobMatPaginator.firstPage();
-  //       // }
-  //     }
-  //   } catch (error: any) {
-  //     this.spinner.hide();
-  //     if (error.status === 404) {
-  //       this.router.navigate(["/admin/dashboard"]);
-  //     } else if (error.status === 401) {
-  //       this.router.navigate(["/"]);
-  //     } else {
-  //       this.successmessage = "Something went wrong. Please try again later.";
-  //       this.successtitle = "Error";
-  //       this.openModal(ModalType.SUCCESS_MESSAGE);
-  //     }
-  //   } finally {
-  //     this.spinner.hide();
-  //   }
-  // }
-
-  // async fetchJobDetails(jobId: any) {
-  //   this.spinner.show();
-  //   this.corporateService.getJobDetailsById(jobId).then((response: any) => {
-  //     if (response) {
-  //       this.spinner.hide();
-  //       this.jobDetails = response[0];
-  //     }
-  //   }).catch((error: any) => {
-  //     if (error.status == 404) {
-  //       this.spinner.hide()
-  //       this.router.navigate(['/auth/logout']);
-  //     } else if (error.status == 401) {
-  //       this.spinner.hide();
-  //       this.router.navigate(['/']);
-  //     }
-  //     this.spinner.hide();
-  //     this.jobDetails = [];
-  //   }
-  //   );
-  // }
-
   async fetchJobDetails(jobId: any) {
     this.spinner.show();
     try {
@@ -523,7 +401,7 @@ export class CorporateApplicantsComponent {
       }
     } catch (error: any) {
       if (error.status === 401) {
-        this.router.navigate(['/']);
+        this.router.navigate(['/auth/corporate/login']);
       } else {
         console.error("Error fetching job details:", error);
         this.modalSize = 'md';
@@ -535,7 +413,6 @@ export class CorporateApplicantsComponent {
       this.spinner.hide();
     }
   }
-
 
   handleAction(job: any, newStatus: any) {
 
@@ -636,7 +513,12 @@ export class CorporateApplicantsComponent {
 
       if (response) {
         // Refresh jobApplicationListing data
-        await this.getAllJobApplications(null);
+
+        // Use the previous lastKey if available; otherwise, start fresh
+        const keyToUse = this.getKeyForCurrentPage();
+        await this.getAllJobApplications(keyToUse);
+        // await this.getAllJobApplications(null);
+        
         if (response.status === "CV_DOWNLOADED") {
           this.cvUrl = this.sanitizer.bypassSecurityTrustResourceUrl(this.currentJob?.applicantDetails?.cvAwsS3SignedUrl);
           this.openModal(ModalType.VIEW_CV);
@@ -682,24 +564,6 @@ export class CorporateApplicantsComponent {
       this.openModal(ModalType.SUCCESS_ERROR_MESSAGE);
     });
   }
-  // /**
-  //  * updateData: Updates the data in the table.
-  //  */
-  // // Update data method
-  // updateData(data: any) {
-  //   this.filteredJobs = data;
-  //   this.dataSource.data = this.filteredJobs;
-  //   this.dataSource.paginator = this.companyJobMatPaginator;
-  //   this.dataSource.sort = this.companyJobMatSort; // Ensure sorting is applied
-
-  //   // Optional: Reset the paginator if needed
-  //   if (this.companyJobMatPaginator) {
-  //     this.companyJobMatPaginator.firstPage();
-  //   }
-  // }
-
-
-  /* Skills selector ends here */
 
   /* Modal Handler Section Starts Here */
 
@@ -714,25 +578,22 @@ export class CorporateApplicantsComponent {
    */
   openModal(modalType: ModalType, message: string = "", title: string = ""): void {
     this.showModal = modalType;
-    // Reset modal size every time you open the modal
-    if (modalType === this.modalType.SHOW_MORE_DETAILS) {
-      this.modalSize = "lg";
-      this.showClose = true;
-    }
-    else if (modalType === this.modalType.VIEW_CV) {
-      this.modalSize = "xl";
-      this.showClose = true;
-    }
-    else if (modalType === this.modalType.REJECTED_REQUEST) {
-      this.modalSize = "md";
-      this.showClose = true;
-    }
-    else {
-      this.modalSize = "md";
-      this.showClose = false;
-    }
+
+    // Strongly typed modal configuration
+    const modalConfig: Partial<Record<ModalType, { size: string; close: boolean }>> = {
+      [this.modalType.SHOW_MORE_DETAILS]: { size: "lg", close: true },
+      [this.modalType.VIEW_CV]: { size: "xl", close: true },
+      [this.modalType.REJECTED_REQUEST]: { size: "md", close: true }
+    };
+
+    // Fallback configuration for undefined modal types
+    const config = modalConfig[modalType] || { size: "md", close: false };
+
+    this.modalSize = config.size;
+    this.showClose = config.close;
 
     this.cdr.detectChanges();
+
     this.modalMessage = message;
     this.modalTitle = title;
     this.modal.open();
@@ -740,9 +601,6 @@ export class CorporateApplicantsComponent {
 
   // Closes the currently opened modal
   closeModal(): void {
-    // this.resetModal();
-    // this.companyControl.enable();
-    // this.isEditMode = false;
     this.modal.cancel();
   }
 
@@ -751,23 +609,16 @@ export class CorporateApplicantsComponent {
     this.closeModal();
   }
 
-  // Opens the job Form modal
-  openModalone(): void {
-    this.openModal(ModalType.ADMINJOBS_POPUP);
-  }
-
   /**
-   * Resets the search input and shows all jobs.
+   * Resets the search input and shows all job applications.
    */
   resetBtnHandler(): void {
-/*     console.log("Reset button clicked");
- */    this.searchQuery = "";
+    // "Reset button clicked"
+    this.searchQuery = "";
     this.selectedStatus = this.status.ALL_APPLICATIONS;
-    this.searchTerm = "",
-      this.searchQuery = "";
+    this.searchTerm = "";
+    this.searchQuery = "";
     this.selectedSortOrder = this.sortOrder.DESC;
-
-    // (document.getElementById('referralStatus') as HTMLSelectElement).value = "";
 
     // Use the previous lastKey if available; otherwise, start fresh
     const keyToUse = this.getKeyForCurrentPage();
@@ -777,7 +628,7 @@ export class CorporateApplicantsComponent {
   /**
    * onStausChange
    *
-   * Updates the status of a job. and fetch the desired jobs based on the status.
+   * Based on selected job application status fetch the job applications.
    */
   onStatusChange(statusVal: any) {
     if (statusVal.target.value === this.status.APPLIED) {
@@ -806,88 +657,10 @@ export class CorporateApplicantsComponent {
     this.closeModal();
   }
 
-  // onSort(sort: Sort): void {
-
-  //   if (sort.active === 'date') {
-  //     // this.lastKey = "";
-  //     // this.pageSize = 50;
-  //     this.sortOrder = this.sortOrder === 'ascending' ? 'descending' : 'ascending';
-  //     sort.direction === 'asc' ? 'ascending' : 'descending';
-  //     this.sort.direction = sort.direction;
-
-  //     // Use the previous lastKey if available; otherwise, start fresh
-  //     const keyToUse = this.getKeyForCurrentPage();
-  //     // Call API to get data with the new sort direction
-  //     this.getAllJobApplications(keyToUse);
-  //   }
-  // }
-
-  //   /**
-  //    * onSortOrderChange
-  //    *
-  //    * Updates the sort order of the jobs.
-  //    */
-  //   onSortOrderChange(event: any) {
-  // /*     console.log("Sort order:", event.target.value);
-  //  */    this.fetchJobs({ jobStatus: this.selectedStatus, pageSize: this.pageSize, sortOrder: event.target.value, resetPagination: true });
-  //   }
-
-  //   /**
-  //    * Archives a job.
-  //    * @param job - The job object to archive.
-  //    */
-  //   updateJobStatus = async (job: any, newStatus: string) => {
-  // /*     console.log(job);
-  //  */    try {
-  //       this.spinner.show();
-  //       const jobData = {
-  //         companyId: job.PK.startsWith("COMP#ID#") ? job.PK.slice(8, -1) : job.PK,
-  //         status: newStatus,
-  //       };
-  //       if (newStatus === this.status.CLOSED) {
-  //         await this.corporateService.deleteJob(job.id, jobData);
-  //       } else {
-  //         this.corporateService.archiveJob(job.id, jobData);
-  //       }
-
-  //       // This will  Give time to If  Codition in the HTML to work as expected
-  //       setTimeout(() => {
-  //         this.fetchJobs({ jobStatus: this.selectedStatus, pageSize: this.pageSize, resetPagination: true, sortOrder: this.selectedSortOrder });
-  //       }, 1000);
-  //     } catch (error) {
-  //       this.successmessage = "Something went wrong. Please try again later.";
-  //       this.successtitle = "Error";
-  //       this.openModal(ModalType.SUCCESS_MESSAGE);
-  //     } finally {
-  //       this.spinner.hide();
-  //     }
-  //   };
-
-  // //Pagination methods
-  // /**
-  //  * @method onPageChange - this will be called when the user changes the page size
-  //  * @param event
-  //  */
-  // onPageChange(event: any) {
-  //   this.pageSize = event.pageSize;
-
-  //   // Fetch jobs with pagination reset
-  //   this.fetchJobs({ jobStatus: this.selectedStatus, pageSize: this.pageSize, resetPagination: false, sortOrder: this.selectedSortOrder });
-  // }
-
   // Misc method
   getStatusClass(status: string): string {
     return `job-${status.toLowerCase()}`; // Returns 'job-published', 'job-closed', 'job-archived'
   }
-
-  // Copy the context ID to the clipboard
-  copyToClipboard = (id: string) => {
-    navigator.clipboard.writeText(id);
-    this.copiedContextId = id;
-    setTimeout(() => {
-      this.copiedContextId = null;
-    }, 2000);
-  };
 
   navigateToJobReferral(event: MouseEvent, companyName: string, jobTitle: string, jobID: any): void {
     event.preventDefault(); // Prevent default anchor behavior
@@ -931,7 +704,5 @@ export class CorporateApplicantsComponent {
     }
 
   }
-
-
 
 }
