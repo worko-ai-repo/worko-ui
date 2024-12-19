@@ -18,6 +18,7 @@ import { emailDomainDenyListValidator } from 'src/app/modules/shared/data/email-
 
 // Interface for FetchInviteOptionDto
 interface FetchInviteOptionDto {
+  useCurrentPage?: boolean;
   companyId?: string;
   corporateUserType?: any;
   inviteStatus?: string;
@@ -175,6 +176,7 @@ export class CorporateInvitesComponent implements OnInit{
       if (options.resetPagination) {
         this.lastKey = null;
       }
+      if(options.useCurrentPage){this.lastKey = this.previousKeys[this.previousKeys.length - 1]};
       const params = {
         companyId ,
         corporateUserType:options.corporateUserType,
@@ -368,8 +370,7 @@ export class CorporateInvitesComponent implements OnInit{
     try {
       const companyId = this.corporateVitalDetails.companyId;
     await this.corporateService.updateInviteStatus(inviteId, status , companyId! );
-      await this.fetchInvites({ pageSize: this.pageSize, resetPagination: true });
-    } catch (error) {
+    this.fetchInvites({ corporateUserType: this.selectedCorporateUserType, sortOrder: this.selectedSortOrder, searchText: this.searchQuery, inviteStatus: this.selectedStatus, pageSize: this.pageSize, resetPagination: false,useCurrentPage:true });   } catch (error) {
       console.error("Invite status update failed:", error);
       this.errorTitle = "Error";
       this.errorMessage = "Something went wrong. Please try again later.";
@@ -385,8 +386,8 @@ export class CorporateInvitesComponent implements OnInit{
     try {
       const companyId = this.corporateVitalDetails.companyId;
     await this.corporateService.deleteInvite(inviteId , companyId! );
-      await this.fetchInvites({ pageSize: this.pageSize, resetPagination: true });
-    } catch (error) {
+    this.fetchInvites({ corporateUserType: this.selectedCorporateUserType, sortOrder: this.selectedSortOrder, searchText: this.searchQuery, inviteStatus: this.selectedStatus, pageSize: this.pageSize, resetPagination: false,useCurrentPage:true }); 
+  } catch (error) {
       console.error("Invite status update failed:", error);
       this.errorTitle = "Error";
       this.errorMessage = "Something went wrong. Please try again later.";

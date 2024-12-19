@@ -26,13 +26,13 @@
                      <option value={{status.DELETED}}>Deleted</option>
                    </select>
                  </span>
-                 <span class="ajobs-status">
+                 <!-- <span class="ajobs-status">
                    <select name="status" [(ngModel)]="selectedSortOrder" class="selector form-select"
                      (change)="onSortOrderChange($event)">
                      <option value={{sortOrder.ASC}}>Ascending</option>
                      <option value={{sortOrder.DESC}}>Descending</option>
                    </select>
-                 </span>
+                 </span> -->
                 <input type="text" [(ngModel)]="searchQuery" class="form-control serachInput" placeholder="Search Invite" (keyup)="searchJobs($event)"/>
                 <button class="ps-4 pe-4 btn searchButton" (click)="resetBtnHandler()">Reset</button>
              </span>

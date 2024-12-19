@@ -15,8 +15,9 @@ import { MatTableDataSource } from "@angular/material/table";
 import { MatAutocompleteTrigger } from "@angular/material/autocomplete";
 
 
-// Interface for FetchJobsOptionsDto
-interface FetchJobsOptionsDto {
+// Interface for FetchUsersOptionsDto
+interface FetchUsersOptionsDto {
+  useCurrentPage?: boolean;
   corporateUserType?: string;
   name?: string;
   searchText?: string;
@@ -111,13 +112,14 @@ export class AdminCorporateUsersComponent implements OnInit {
    *
    * Fetches jobs from the server.By taking options as args and
    */
-   async fetchUsers(options: FetchJobsOptionsDto) {
+   async fetchUsers(options: FetchUsersOptionsDto) {
     this.spinner.show();
     try {
       // If resetPagination is true, reset the lastKey
       if (options.resetPagination) {
         this.lastKey = null;
       }
+      if(options.useCurrentPage){this.lastKey = this.previousKeys[this.previousKeys.length - 1]};
       const params = {
         corporateUserType: options.corporateUserType,
         searchText: options.searchText,
@@ -206,7 +208,7 @@ export class AdminCorporateUsersComponent implements OnInit {
         this.openModal(ModalType.SUCCESS_ERROR_MESSAGE);
       }
     } finally {
-      this.fetchUsers({corporateUserType : this.selectedCorporateUserType,searchText:this.searchQuery, pageSize: this.pageSize, sortOrder: this.selectedSortOrder, resetPagination: true });
+      this.fetchUsers({corporateUserType : this.selectedCorporateUserType,searchText:this.searchQuery, pageSize: this.pageSize, sortOrder: this.selectedSortOrder, resetPagination: false , useCurrentPage: true });
       this.spinner.hide();
       this.closeModal()
     } 

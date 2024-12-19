@@ -16,8 +16,9 @@ import { MatAutocompleteTrigger } from "@angular/material/autocomplete";
 import { emailDomainDenyListValidator } from 'src/app/modules/shared/data/email-domain-validator';
 
 
-// Interface for FetchJobsOptionsDto
-interface FetchJobsOptionsDto {
+// Interface for FetchInvitesOptionsDto
+interface FetchInvitesOptionsDto {
+  useCurrentPage?: boolean;
   corporateUserType?: any;
   inviteStatus?: string;
   firstName?: string;
@@ -48,7 +49,7 @@ export class AdminInviteComponent implements OnInit {
     DESC: "descending",
   };
   userType = {
-    ALL:"",
+    ALL: "",
     ADMIN: "corporate-admin",
     RECRUITER: "corporate-recruiter",
   };
@@ -155,13 +156,14 @@ export class AdminInviteComponent implements OnInit {
   *
   * Fetches jobs from the server.By taking options as args and
   */
-  async fetchInvites(options: FetchJobsOptionsDto) {
+  async fetchInvites(options: FetchInvitesOptionsDto) {
     this.spinner.show();
     try {
       // If resetPagination is true, reset the lastKey
       if (options.resetPagination) {
         this.lastKey = null;
       }
+      if(options.useCurrentPage){this.lastKey = this.previousKeys[this.previousKeys.length - 1]};
       const params = {
         corporateUserType: options.corporateUserType,
         inviteStatus: options.inviteStatus,
@@ -319,9 +321,9 @@ export class AdminInviteComponent implements OnInit {
 
   /* Company Selector Ends Here */
 
-/**
- * OpenCreateInviteModal
- */
+  /**
+   * OpenCreateInviteModal
+   */
   openCreateInviteModal(): void {
     this.showCloseBtn = false;
     this.openModal(this.modalType.CORPORATE_USER_ADD_INVITE)
@@ -364,7 +366,7 @@ export class AdminInviteComponent implements OnInit {
       return;
     }
     this.selectedCorporateUserType = corporateUserType.target.value; // Update global variable
-    this.fetchInvites({ corporateUserType: this.selectedCorporateUserType, sortOrder:this.selectedSortOrder,searchText: this.searchQuery, inviteStatus: this.selectedStatus, pageSize: this.pageSize, resetPagination: false }); // Fetch jobs with the new status
+    this.fetchInvites({ corporateUserType: this.selectedCorporateUserType, sortOrder: this.selectedSortOrder, searchText: this.searchQuery, inviteStatus: this.selectedStatus, pageSize: this.pageSize, resetPagination: false }); // Fetch jobs with the new status
   }
 
   /**
@@ -402,6 +404,7 @@ export class AdminInviteComponent implements OnInit {
     this.spinner.show();
     try {
       await this.adminService.updateInviteStatus(inviteId, status);
+      this.fetchInvites({ corporateUserType: this.selectedCorporateUserType, sortOrder: this.selectedSortOrder, searchText: this.searchQuery, inviteStatus: this.selectedStatus, pageSize: this.pageSize, resetPagination: false,useCurrentPage:true }); 
       await this.fetchInvites({ pageSize: this.pageSize, resetPagination: true });
     } catch (error) {
       console.error("Invite status update failed:", error);
@@ -417,7 +420,7 @@ export class AdminInviteComponent implements OnInit {
     this.spinner.show();
     try {
       await this.adminService.deleteInvite(inviteId);
-      this.fetchInvites({ corporateUserType: this.selectedCorporateUserType, sortOrder:this.selectedSortOrder,searchText: this.searchQuery, inviteStatus: this.selectedStatus, pageSize: this.pageSize, resetPagination: false }); // Fetch jobs with the new status
+      this.fetchInvites({ corporateUserType: this.selectedCorporateUserType, sortOrder: this.selectedSortOrder, searchText: this.searchQuery, inviteStatus: this.selectedStatus, pageSize: this.pageSize, resetPagination: false,useCurrentPage:true }); 
     } catch (error) {
       console.error("Invite status update failed:", error);
       this.errorTitle = "Error";
@@ -489,11 +492,6 @@ export class AdminInviteComponent implements OnInit {
   };
 
   //Pagination methods
-  /**
-   * @method onPageChange - this will be called when the user changes the page size
-   * @param event
-   */
-
   onNext() {
     if (!this.hasNext) return;
 
@@ -538,8 +536,8 @@ export class AdminInviteComponent implements OnInit {
   * Resets the search input and shows all jobs.
   */
   resetBtnHandler(): void {
-    /*     console.log("Reset button clicked");
-     */
+    // console.log("Reset button clicked");
+
     this.searchQuery = "";
     this.selectedStatus = this.status.ALL;
     this.selectedCorporateUserType = this.userType.ALL;

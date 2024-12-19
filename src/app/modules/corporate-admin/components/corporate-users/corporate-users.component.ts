@@ -16,8 +16,9 @@ import { MatAutocompleteTrigger } from "@angular/material/autocomplete";
 import { CorporateVitalDetails } from '../../corporate.component';
 
 
-// Interface for FetchJobsOptionsDto
-interface FetchJobsOptionsDto {
+// Interface for FetchUsersOptionsDto
+interface FetchUsersOptionsDto {
+  useCurrentPage?: boolean;
   companyId?:string;
   corporateUserType?: string;
   name?: string;
@@ -136,7 +137,7 @@ pageSizeOptions: number[] = [25, 50, 100, 150];
    *
    * Fetches jobs from the server.By taking options as args and
    */
-   async fetchUsers(options: FetchJobsOptionsDto) {
+   async fetchUsers(options: FetchUsersOptionsDto) {
     this.spinner.show();
     try {
       const companyId = this.corporateVitalDetails.companyId;
@@ -144,6 +145,7 @@ pageSizeOptions: number[] = [25, 50, 100, 150];
       if (options.resetPagination) {
         this.lastKey = null;
       }
+      if(options.useCurrentPage){this.lastKey = this.previousKeys[this.previousKeys.length - 1]};
       const params = {
         companyId ,
         corporateUserType: options.corporateUserType,
@@ -231,7 +233,7 @@ pageSizeOptions: number[] = [25, 50, 100, 150];
         this.openModal(ModalType.SUCCESS_ERROR_MESSAGE);
       }
     } finally {
-      this.fetchUsers({corporateUserType : this.selectedCorporateUserType,searchText:this.searchQuery, pageSize: this.pageSize, sortOrder: this.selectedSortOrder, resetPagination: true });
+      this.fetchUsers({corporateUserType : this.selectedCorporateUserType,searchText:this.searchQuery, pageSize: this.pageSize, sortOrder: this.selectedSortOrder, resetPagination: false, useCurrentPage: true });
       this.spinner.hide();
       this.closeModal()
     } 

@@ -20,6 +20,7 @@ import { MatAutocompleteTrigger } from "@angular/material/autocomplete";
 
 // Interface for FetchJobsOptionsDto
 interface FetchJobsOptionsDto {
+  useCurrentPage?: boolean;
   jobStatus?: string;
   searchText?: string;
   pageSize?: number;
@@ -254,6 +255,7 @@ export class AdminJobsComponent implements OnInit {
       if (options.resetPagination) {
         this.lastKey = null;
       }
+      if(options.useCurrentPage){this.lastKey = this.previousKeys[this.previousKeys.length - 1]};
       const params = {
         status: options.jobStatus,
         searchText: options.searchText,
@@ -571,8 +573,9 @@ export class AdminJobsComponent implements OnInit {
    */
   resetBtnHandler(): void {
 /*     console.log("Reset button clicked");
- */    this.searchQuery = "";
-    this.selectedStatus = this.status.PUBLISHED;
+ */ this.searchQuery = "";
+    this.selectedStatus = this.status.ALL;
+    this.selectedSortOrder = this.sortOrder.DESC;
     this.fetchJobs({ jobStatus: this.selectedStatus, pageSize: this.pageSize, resetPagination: true }); // Fetch jobs with the new status
   }
 
@@ -597,9 +600,8 @@ export class AdminJobsComponent implements OnInit {
    * Updates the sort order of the jobs.
    */
   onSortOrderChange(event: any) {
-/*     console.log("Sort order:", event.target.value);
- */      this.fetchJobs({ searchText:this.searchQuery, jobStatus: this.selectedStatus, pageSize: this.pageSize, resetPagination: true, sortOrder: this.selectedSortOrder });
-
+    //  console.log("Sort order:", event.target.value);
+  this.fetchJobs({ searchText:this.searchQuery, jobStatus: this.selectedStatus, pageSize: this.pageSize, resetPagination: true, sortOrder: this.selectedSortOrder });
   }
 
   // Edit Job Function
@@ -707,7 +709,7 @@ export class AdminJobsComponent implements OnInit {
 
       // This will  Give time to If  Codition in the HTML to work as expected
       setTimeout(() => {
-        this.fetchJobs({ searchText:this.searchQuery, jobStatus: this.selectedStatus, pageSize: this.pageSize, resetPagination: false, sortOrder: this.selectedSortOrder });
+        this.fetchJobs({ searchText:this.searchQuery, jobStatus: this.selectedStatus, pageSize: this.pageSize, resetPagination: false, sortOrder: this.selectedSortOrder,useCurrentPage:true });
       }, 1000);
     } catch (error) {
       this.successmessage = "Something went wrong. Please try again later.";
@@ -723,9 +725,9 @@ export class AdminJobsComponent implements OnInit {
    */
   onSubmit(): void {
     // Log whether the form is invalid or not
-/*     console.log("Form is invalid:", this.jobForm.invalid);
- */
-    // Loop through all form controls and print their validation status
+    // console.log("Form is invalid:", this.jobForm.invalid);
+
+    // Loop through all form controls and print their validation status @Info Bug Testing for form Invalidations 
     Object.keys(this.jobForm.controls).forEach((controlName) => {
       const control = this.jobForm.get(controlName);
       // console.log(`${controlName} is valid: ${control?.valid}`);
@@ -746,7 +748,7 @@ export class AdminJobsComponent implements OnInit {
         this.adminService
           .updateJob(this.jobId, this.jobForm.value)
           .then((response) => {
-            this.fetchJobs({ searchText:this.searchQuery, jobStatus: this.selectedStatus, pageSize: this.pageSize, resetPagination: false, sortOrder: this.selectedSortOrder });
+            this.fetchJobs({ searchText:this.searchQuery, jobStatus: this.selectedStatus, pageSize: this.pageSize, resetPagination: false, sortOrder: this.selectedSortOrder,useCurrentPage:true });
             this.jobId = null;
           })
           .catch((error) => {

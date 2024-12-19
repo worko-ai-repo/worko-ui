@@ -21,6 +21,7 @@ import { CorporateVitalDetails } from "../../corporate.component";
 
 // Interface for FetchJobsOptionsDto
 interface FetchJobsOptionsDto {
+  useCurrentPage?: boolean;
   companyId?: string;
   jobStatus?: string;
   searchText?: string;
@@ -292,6 +293,7 @@ export class CorporateJobsComponent implements OnInit {
       if (options.resetPagination) {
         this.lastKey = null;
       }
+       if(options.useCurrentPage)(this.lastKey = this.previousKeys[this.previousKeys.length - 1]);
       const params = {
         companyId : companyId,
         status: options.jobStatus,
@@ -622,7 +624,8 @@ export class CorporateJobsComponent implements OnInit {
   resetBtnHandler(): void {
 /*     console.log("Reset button clicked");
  */    this.searchQuery = "";
-    this.selectedStatus = this.status.PUBLISHED;
+      this.selectedStatus = this.status.ALL;
+      this.selectedSortOrder = this.sortOrder.DESC;
     this.fetchJobs({ jobStatus: this.selectedStatus, pageSize: this.pageSize, resetPagination: true }); // Fetch jobs with the new status
   }
 
@@ -756,7 +759,7 @@ export class CorporateJobsComponent implements OnInit {
 
       // This will  Give time to If  Codition in the HTML to work as expected
       setTimeout(() => {
-        this.fetchJobs({ searchText:this.searchQuery, jobStatus: this.selectedStatus, pageSize: this.pageSize, resetPagination: false, sortOrder: this.selectedSortOrder });
+        this.fetchJobs({ searchText:this.searchQuery, jobStatus: this.selectedStatus, pageSize: this.pageSize, resetPagination: false, sortOrder: this.selectedSortOrder,useCurrentPage:true  });
       }, 1000);
     } catch (error) {
       this.successmessage = "Something went wrong. Please try again later.";
@@ -795,7 +798,7 @@ export class CorporateJobsComponent implements OnInit {
         this.corporateService
           .updateJob(this.jobId, this.jobForm.value)
           .then((response) => {
-            this.fetchJobs({ searchText:this.searchQuery, jobStatus: this.selectedStatus, pageSize: this.pageSize, resetPagination: false, sortOrder: this.selectedSortOrder });
+            this.fetchJobs({ searchText:this.searchQuery, jobStatus: this.selectedStatus, pageSize: this.pageSize, resetPagination: false, sortOrder: this.selectedSortOrder ,useCurrentPage:true });
             this.jobId = null;
           })
           .catch((error) => {

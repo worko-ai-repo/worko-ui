@@ -20,12 +20,9 @@
       }
       .cjobs-settings-container {
         display: flex;
-        align-items: start;
+        align-items: flex-start;
         justify-content: space-evenly;
         flex-direction: column;
-        input{
-            margin-block: 10px;
-        }
       }
       .corporate-reset-creds{
         display: flex;
