@@ -198,8 +198,10 @@ export class AdminApplicantsComponent {
 
   callApiWithSearchQuery(query: string): void {
     this.searchTerm = query; // Setting here encoded query to filterData
-    const keyToUse = this.getKeyForCurrentPage();
-    this.getAllJobApplications(keyToUse);
+    // const keyToUse = this.getKeyForCurrentPage();
+    // this.getAllJobApplications(keyToUse);
+    this.previousKeys = []; // Resetting pagination keys to refresh the data based on fresh search
+    this.getAllJobApplications(null); // Starting from the beginning by passing `null` for `lastKey` to fetch the initial page of results.
   }
 
   clearSearchInput() {
@@ -207,8 +209,11 @@ export class AdminApplicantsComponent {
     this.searchQuery = '';
 
     // Use the previous lastKey if available; otherwise, start fresh
-    const keyToUse = this.getKeyForCurrentPage();
-    this.getAllJobApplications(keyToUse);
+    // const keyToUse = this.getKeyForCurrentPage();
+    // this.getAllJobApplications(keyToUse);
+
+    this.previousKeys = [];
+    this.getAllJobApplications(null);
   }
 
   handleSearchInput(event: Event) {
@@ -400,7 +405,7 @@ export class AdminApplicantsComponent {
 
       if (response) {
         // Refresh jobApplicationListing data
-        
+
         // Use the previous lastKey if available; otherwise, start fresh
         const keyToUse = this.getKeyForCurrentPage();
         await this.getAllJobApplications(keyToUse);
@@ -501,8 +506,11 @@ export class AdminApplicantsComponent {
     this.selectedSortOrder = this.sortOrder.DESC;
 
     // Use the previous lastKey if available; otherwise, start fresh
-    const keyToUse = this.getKeyForCurrentPage();
-    this.getAllJobApplications(keyToUse);
+    // const keyToUse = this.getKeyForCurrentPage();
+    // this.getAllJobApplications(keyToUse);
+
+    this.previousKeys = [];
+    this.getAllJobApplications(null);
   }
 
   /**
@@ -514,16 +522,21 @@ export class AdminApplicantsComponent {
     if (statusVal.target.value === this.status.APPLIED) {
       this.selectedStatus = this.status.APPLIED;
       // Use the previous lastKey if available; otherwise, start fresh
-      const keyToUse = this.getKeyForCurrentPage();
+      // const keyToUse = this.getKeyForCurrentPage();
       // Call API to get data
-      this.getAllJobApplications(keyToUse);
+      // this.getAllJobApplications(keyToUse);
+      this.previousKeys = [];
+      this.getAllJobApplications(null);
       return;
     }
     this.selectedStatus = statusVal.target.value; // Update global variable
     // Use the previous lastKey if available; otherwise, start fresh
-    const keyToUse = this.getKeyForCurrentPage();
+    // const keyToUse = this.getKeyForCurrentPage();
     // Call API to get data
-    this.getAllJobApplications(keyToUse);
+    // this.getAllJobApplications(keyToUse);
+
+    this.previousKeys = [];
+    this.getAllJobApplications(null);
   }
 
   viewDetails(scoreDetails: any) {

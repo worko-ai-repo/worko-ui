@@ -196,8 +196,11 @@ export class AdminReferralComponent {
     // this.toDate = "",
     // console.log(this.sortOrder,this.fromDate,this.toDate,this.searchTerm)
     // Use the previous lastKey if available; otherwise, start fresh
-    const keyToUse = this.getKeyForCurrentPage();
-    this.getAllReferral(keyToUse);
+    // const keyToUse = this.getKeyForCurrentPage();
+    // this.getAllReferral(keyToUse);
+
+    this.previousKeys = [];
+    this.getAllReferral(null);
 
   }
 
@@ -217,8 +220,11 @@ export class AdminReferralComponent {
     // this.initializeData();
 
     // Use the previous lastKey if available; otherwise, start fresh
-    const keyToUse = this.getKeyForCurrentPage();
-    this.getAllReferral(keyToUse);
+    // const keyToUse = this.getKeyForCurrentPage();
+    // this.getAllReferral(keyToUse);
+
+    this.previousKeys = [];
+    this.getAllReferral(null);
   }
 
   applyToDateFilters() {
@@ -242,8 +248,11 @@ export class AdminReferralComponent {
     // this.initializeData();
 
     // Use the previous lastKey if available; otherwise, start fresh
-    const keyToUse = this.getKeyForCurrentPage();
-    this.getAllReferral(keyToUse);
+    // const keyToUse = this.getKeyForCurrentPage();
+    // this.getAllReferral(keyToUse);
+
+    this.previousKeys = [];
+    this.getAllReferral(null);
   }
 
   initializeData() {
@@ -273,8 +282,11 @@ export class AdminReferralComponent {
     (document.getElementById('referralStatus') as HTMLSelectElement).value = "";
 
     // Use the previous lastKey if available; otherwise, start fresh
-    const keyToUse = this.getKeyForCurrentPage();
-    this.getAllReferral(keyToUse);
+    // const keyToUse = this.getKeyForCurrentPage();
+    // this.getAllReferral(keyToUse);
+
+    this.previousKeys = [];
+    this.getAllReferral(null);
   }
 
   handleSearchInput(event: Event) {
@@ -305,8 +317,11 @@ export class AdminReferralComponent {
     // this.isDropdownActive = false
 
     // Use the previous lastKey if available; otherwise, start fresh
-    const keyToUse = this.getKeyForCurrentPage();
-    this.getAllReferral(keyToUse);
+    // const keyToUse = this.getKeyForCurrentPage();
+    // this.getAllReferral(keyToUse);
+
+    this.previousKeys = [];
+    this.getAllReferral(null);
   }
   
   onSearchInputEnter(event: KeyboardEvent): void {
@@ -332,9 +347,12 @@ export class AdminReferralComponent {
     this.selectedStatus = selectedStatus;
 
     // Use the previous lastKey if available; otherwise, start fresh
-    const keyToUse = this.getKeyForCurrentPage();
+    // const keyToUse = this.getKeyForCurrentPage();
     // Call API to get data
-    this.getAllReferral(keyToUse);
+    // this.getAllReferral(keyToUse);
+
+    this.previousKeys = [];
+    this.getAllReferral(null);
   }
 
   ngAfterViewInit() {

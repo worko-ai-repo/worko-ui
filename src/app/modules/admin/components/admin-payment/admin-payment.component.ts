@@ -176,9 +176,11 @@ export class AdminPaymentComponent {
     this.searchTerm = query; // Setting here encoded query to filterData
 
     // Use the previous lastKey if available; otherwise, start fresh
-    const keyToUse = this.getKeyForCurrentPage();
-    this.getAllSubscriptions(keyToUse);
+    // const keyToUse = this.getKeyForCurrentPage();
+    // this.getAllSubscriptions(keyToUse);
 
+    this.previousKeys = [];
+    this.getAllSubscriptions(null);
   }
 
   applyFromDateFilters() {
@@ -196,8 +198,11 @@ export class AdminPaymentComponent {
     // this.initializeData();
 
     // Use the previous lastKey if available; otherwise, start fresh
-    const keyToUse = this.getKeyForCurrentPage();
-    this.getAllSubscriptions(keyToUse);
+    // const keyToUse = this.getKeyForCurrentPage();
+    // this.getAllSubscriptions(keyToUse);
+
+    this.previousKeys = [];
+    this.getAllSubscriptions(null);
   }
 
 
@@ -217,8 +222,11 @@ export class AdminPaymentComponent {
     }
     // this.initializeData();
     // Use the previous lastKey if available; otherwise, start fresh
-    const keyToUse = this.getKeyForCurrentPage();
-    this.getAllSubscriptions(keyToUse);
+    // const keyToUse = this.getKeyForCurrentPage();
+    // this.getAllSubscriptions(keyToUse);
+
+    this.previousKeys = [];
+    this.getAllSubscriptions(null);
   }
 
   initializeData() {
@@ -248,8 +256,11 @@ export class AdminPaymentComponent {
     this.isDropdownActive = false;
 
     // Use the previous lastKey if available; otherwise, start fresh
-    const keyToUse = this.getKeyForCurrentPage();
-    this.getAllSubscriptions(keyToUse);
+    // const keyToUse = this.getKeyForCurrentPage();
+    // this.getAllSubscriptions(keyToUse);
+
+    this.previousKeys = [];
+    this.getAllSubscriptions(null);
   }
 
   ngAfterViewInit() {
@@ -305,9 +316,12 @@ export class AdminPaymentComponent {
     this.selectedStatus = selectedStatus;
 
     // Use the previous lastKey if available; otherwise, start fresh
-    const keyToUse = this.getKeyForCurrentPage();
+    // const keyToUse = this.getKeyForCurrentPage();
     // Call API to get data
-    this.getAllSubscriptions(keyToUse);
+    // this.getAllSubscriptions(keyToUse);
+
+    this.previousKeys = [];
+    this.getAllSubscriptions(null);
   }
 
   onNameChange(selectedName: string) {
@@ -321,9 +335,12 @@ export class AdminPaymentComponent {
     this.selectedStatus = selectedName;
 
     // Use the previous lastKey if available; otherwise, start fresh
-    const keyToUse = this.getKeyForCurrentPage();
+    // const keyToUse = this.getKeyForCurrentPage();
     // Call API to get data
-    this.getAllSubscriptions(keyToUse);
+    // this.getAllSubscriptions(keyToUse);
+
+    this.previousKeys = [];
+    this.getAllSubscriptions(null);
   }
 
   async viewRow(row: any) {
