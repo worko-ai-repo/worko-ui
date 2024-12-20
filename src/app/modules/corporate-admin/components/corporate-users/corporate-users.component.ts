@@ -62,8 +62,8 @@ hasPrevious: boolean = false; // To enable/disable "Previous" button
 pageSize: number = 25; // Default page size
 pageSizeOptions: number[] = [25, 50, 100, 150];
 
-  @ViewChild("companyJobMatSort") companyJobMatSort!: MatSort; //@todo RENAME THIS AND SEE WHERE ITS GETTING UTILIZED
-  @ViewChild("companyJobMatPaginator") companyJobMatPaginator!: MatPaginator;
+  @ViewChild("companyuserMatSort") companyuserMatSort!: MatSort; //@todo RENAME THIS AND SEE WHERE ITS GETTING UTILIZED
+  @ViewChild("companyuserMatPaginator") companyuserMatPaginator!: MatPaginator;
   
   // Corporate Users related properties
   users: any = [];
@@ -96,7 +96,7 @@ pageSizeOptions: number[] = [25, 50, 100, 150];
 
   isRecruiter: boolean = false;
   /**
-   * Initializes the AdminJobsComponent with the required services and sets up the job form.
+   * Initializes the AdminusersComponent with the required services and sets up the user form.
    *
    * @param {Router} router - The Angular router service.
    * @param {FormBuilder} fb - The Angular form builder service.
@@ -118,7 +118,7 @@ pageSizeOptions: number[] = [25, 50, 100, 150];
         this.corporateCompanyName = this.corporateVitalDetails.companyName || "";
         this.corporateVitalDetails.corporateUserType === this.userType.RECRUITER ? this.isRecruiter = true : this.isRecruiter = false;
 
-      // Fetch jobs on component initialization
+      // Fetch users on component initialization
     this.fetchUsers({ 
       companyId:this.corporateVitalDetails.companyId,
       pageSize: 25, 
@@ -129,13 +129,13 @@ pageSizeOptions: number[] = [25, 50, 100, 150];
     }
   });
    
-  // Fetch jobs on component initialization
+  // Fetch users on component initialization
 }
 
    /**
    * fetchUsers
    *
-   * Fetches jobs from the server.By taking options as args and
+   * Fetches users from the server.By taking options as args and
    */
    async fetchUsers(options: FetchUsersOptionsDto) {
     this.spinner.show();
@@ -165,8 +165,8 @@ pageSizeOptions: number[] = [25, 50, 100, 150];
         this.updateData(this.users);
 
         // Reset the paginator to the first page if necessary when mat-paginator is available and resetPagination is true
-        if (options.resetPagination && this.companyJobMatPaginator) {
-          this.companyJobMatPaginator.firstPage();
+        if (options.resetPagination && this.companyuserMatPaginator) {
+          this.companyuserMatPaginator.firstPage();
         }
       }
     } catch (error: any) {
@@ -192,12 +192,12 @@ pageSizeOptions: number[] = [25, 50, 100, 150];
   updateData(data: any) {
     this.filteredUsers = data;
     this.dataSource.data = this.filteredUsers;
-    this.dataSource.paginator = this.companyJobMatPaginator;
-    this.dataSource.sort = this.companyJobMatSort; // Ensure sorting is applied
+    this.dataSource.paginator = this.companyuserMatPaginator;
+    this.dataSource.sort = this.companyuserMatSort; // Ensure sorting is applied
 
     // Optional: Reset the paginator if needed
-    if (this.companyJobMatPaginator) {
-      this.companyJobMatPaginator.firstPage();
+    if (this.companyuserMatPaginator) {
+      this.companyuserMatPaginator.firstPage();
     }
   }
   /**
@@ -241,7 +241,7 @@ pageSizeOptions: number[] = [25, 50, 100, 150];
    /**
    * onSortOrderChange
    *
-   * Updates the sort order of the jobs.
+   * Updates the sort order of the users.
    */
    onSortOrderChange(event: any) {
     // console.log("Sort order:", event.target.value);
@@ -251,37 +251,37 @@ pageSizeOptions: number[] = [25, 50, 100, 150];
   /**
    * onCorporateUserTypeChange
    * 
-   * Updates the corporate user type and fetch the desired jobs based on the user type.
+   * Updates the corporate user type and fetch the desired users based on the user type.
    */
   onCorporateUserTypeChange(corporateUserType: any) {
     if (corporateUserType.target.value === this.userType.ALL) {
       this.selectedCorporateUserType = this.userType.ALL;
-      this.fetchUsers({ pageSize: this.pageSize, resetPagination: true }); // Fetch all jobs
+      this.fetchUsers({ pageSize: this.pageSize,searchText:this.searchQuery, resetPagination: true }); // Fetch all users
       return;
     }
       this.selectedCorporateUserType = corporateUserType.target.value; // Update global variable
-      this.fetchUsers({ corporateUserType : this.selectedCorporateUserType , searchText:this.searchQuery,pageSize: this.pageSize, resetPagination: true }); // Fetch jobs with the new status
+      this.fetchUsers({ corporateUserType : this.selectedCorporateUserType , searchText:this.searchQuery,pageSize: this.pageSize, resetPagination: true }); // Fetch users with the new status
     }
 
   /*
-   * @method searchJobs
+   * @method searchUsers
    * @param query - The search query.
    */
-  async searchJobs(event: any) {
+  async searchUsers(event: any) {
     this.searchQuery = event.target.value;
     //  console.log("Search query:", this.searchQuery);
-   this.fetchUsers({ corporateUserType:this.selectedCorporateUserType, searchText: this.searchQuery, pageSize: this.pageSize });
+   this.fetchUsers({ corporateUserType:this.selectedCorporateUserType, searchText: this.searchQuery, pageSize: this.pageSize,resetPagination: true });
     if (this.filteredUsers.length == 0) {
-      this.noUsersMessage = "No Invite present with this name or description";
+      this.noUsersMessage = "No User present with this name or description";
     }
   }
 
-  // Reset the job Form modal
+  // Reset the user Form modal
   resetModal(): void {
     this.searchQuery = "";
     this.selectedCorporateUserType = this.userType.ALL;
     this.selectedSortOrder = this.sortOrder.DESC;
-    this.fetchUsers({ corporateUserType :this.selectedCorporateUserType, pageSize: this.pageSize, resetPagination: true }); // Fetch jobs with the new status
+    this.fetchUsers({ corporateUserType :this.selectedCorporateUserType, pageSize: this.pageSize, resetPagination: true }); // Fetch users with the new status
   }
   /**
    * openModal

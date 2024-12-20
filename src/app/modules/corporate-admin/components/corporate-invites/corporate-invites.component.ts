@@ -104,8 +104,8 @@ export class CorporateInvitesComponent implements OnInit{
   pageSize: number = 25; // Default page size
   pageSizeOptions: number[] = [25, 50, 100, 150];
 
-  @ViewChild("companyJobMatSort") companyJobMatSort!: MatSort; //@todo RENAME THIS AND SEE WHERE ITS GETTING UTILIZED
-  @ViewChild("companyJobMatPaginator") companyJobMatPaginator!: MatPaginator;
+  @ViewChild("companyinviteMatSort") companyinviteMatSort!: MatSort; //@todo RENAME THIS AND SEE WHERE ITS GETTING UTILIZED
+  @ViewChild("companyinviteMatPaginator") companyinviteMatPaginator!: MatPaginator;
 
   // Misc Vars
   copiedContextId: any;
@@ -113,7 +113,7 @@ export class CorporateInvitesComponent implements OnInit{
   showCloseBtn: boolean = true;
 
   /**
-   * Initializes the Component with the required services and sets up the job form.
+   * Initializes the Component with the required services and sets up the invite form.
    *
    * @param {Router} router - The Angular router service.
    * @param {FormBuilder} fb - The Angular form builder service.
@@ -159,13 +159,13 @@ export class CorporateInvitesComponent implements OnInit{
       }
     });
      
-    // Fetch jobs on component initialization
+    // Fetch invites on component initialization
   }
 
   /**
   * fetchInvites
   *
-  * Fetches jobs from the server.By taking options as args and
+  * Fetches invites from the server.By taking options as args and
   */
   async fetchInvites(options: FetchInviteOptionDto) {
     this.spinner.show();
@@ -197,8 +197,8 @@ export class CorporateInvitesComponent implements OnInit{
         this.updateData(this.invites);
 
         // Reset the paginator to the first page if necessary when mat-paginator is available and resetPagination is true
-        if (options.resetPagination && this.companyJobMatPaginator) {
-          this.companyJobMatPaginator.firstPage();
+        if (options.resetPagination && this.companyinviteMatPaginator) {
+          this.companyinviteMatPaginator.firstPage();
         }
       }
     } catch (error: any) {
@@ -230,12 +230,12 @@ export class CorporateInvitesComponent implements OnInit{
   updateData(data: any) {
     this.filteredInvites = data;
     this.dataSource.data = this.filteredInvites;
-    this.dataSource.paginator = this.companyJobMatPaginator;
-    this.dataSource.sort = this.companyJobMatSort; // Ensure sorting is applied
+    this.dataSource.paginator = this.companyinviteMatPaginator;
+    this.dataSource.sort = this.companyinviteMatSort; // Ensure sorting is applied
 
     // Optional: Reset the paginator if needed
-    if (this.companyJobMatPaginator) {
-      this.companyJobMatPaginator.firstPage();
+    if (this.companyinviteMatPaginator) {
+      this.companyinviteMatPaginator.firstPage();
     }
   }
 
@@ -297,22 +297,22 @@ export class CorporateInvitesComponent implements OnInit{
     /**
    * onStausChange
    *
-   * Updates the status of a job. and fetch the desired jobs based on the status.
+   * Updates the status of a invite. and fetch the desired invites based on the status.
    */
     onStatusChange(statusVal: any) {
       if (statusVal.target.value === this.status.ALL) {
         this.selectedStatus = this.status.ALL;
-        this.fetchInvites({ pageSize: this.pageSize, resetPagination: true }); // Fetch all jobs
+        this.fetchInvites({ pageSize: this.pageSize, corporateUserType : this.selectedCorporateUserType, searchText:this.searchQuery,resetPagination: true }); // Fetch all invites
         return;
       }
       this.selectedStatus = statusVal.target.value; // Update global variable
-      this.fetchInvites({corporateUserType : this.selectedCorporateUserType, searchText:this.searchQuery,inviteStatus: this.selectedStatus, pageSize: this.pageSize,sortOrder: this.selectedSortOrder, resetPagination: true }); // Fetch jobs with the new status
+      this.fetchInvites({corporateUserType : this.selectedCorporateUserType, searchText:this.searchQuery,inviteStatus: this.selectedStatus, pageSize: this.pageSize,sortOrder: this.selectedSortOrder, resetPagination: true }); // Fetch invites with the new status
     }
 
  /**
    * onSortOrderChange
    *
-   * Updates the sort order of the jobs.
+   * Updates the sort order of the invites.
    */
   onSortOrderChange(event: any) {
         // console.log("Sort order:", event.target.value);
@@ -322,20 +322,20 @@ export class CorporateInvitesComponent implements OnInit{
   /**
    * onCorporateUserTypeChange
    * 
-   * Updates the corporate user type and fetch the desired jobs based on the user type.
+   * Updates the corporate user type and fetch the desired invites based on the user type.
    */
   onCorporateUserTypeChange(corporateUserType: any) {
     if (corporateUserType.target.value === this.userType.ALL) {
       this.selectedCorporateUserType = this.userType.ALL;
-      this.fetchInvites({ pageSize: this.pageSize, resetPagination: true }); // Fetch all jobs
+      this.fetchInvites({ pageSize: this.pageSize,inviteStatus:this.selectedStatus,searchText:this.searchQuery,resetPagination: true }); // Fetch all invites
       return;
     }
       this.selectedCorporateUserType = corporateUserType.target.value; // Update global variable
-      this.fetchInvites({ corporateUserType : this.selectedCorporateUserType ,searchText:this.searchQuery,inviteStatus: this.selectedStatus, pageSize: this.pageSize, sortOrder: this.selectedSortOrder,resetPagination: true }); // Fetch jobs with the new status
+      this.fetchInvites({ corporateUserType : this.selectedCorporateUserType ,searchText:this.searchQuery,inviteStatus: this.selectedStatus, pageSize: this.pageSize, sortOrder: this.selectedSortOrder,resetPagination: true }); // Fetch invites with the new status
     }
 
   /**
-   * Submits the job form and creates a new job.
+   * Submits the invite form and creates a new invite.
    */
   async onSubmit(): Promise<void> {
     if (this.inviteForm.valid) { // Ensure error is falsy, not just an empty string
@@ -361,7 +361,7 @@ export class CorporateInvitesComponent implements OnInit{
   /**
    * updateStatus
    * 
-   * Updates the status of a job. and fetch the desired jobs based on the status.
+   * Updates the status of a invite. and fetch the desired invites based on the status.
    * 
    * @param status - New status to be updated
    */
@@ -426,19 +426,19 @@ export class CorporateInvitesComponent implements OnInit{
   }
 
   /*
-   * @method searchJobs
+   * @method searchInvites
    * @param query - The search query.
    */
-    async searchJobs(event: any) {
+    async searchInvites(event: any) {
       this.searchQuery = event.target.value;
       //  console.log("Search query:", this.searchQuery);
-     this.fetchInvites({ inviteStatus: this.selectedStatus, searchText: this.searchQuery, pageSize: this.pageSize });
+     this.fetchInvites({ corporateUserType:this.selectedCorporateUserType,inviteStatus: this.selectedStatus, searchText: this.searchQuery, pageSize: this.pageSize ,resetPagination:true});
       if (this.filteredInvites.length == 0) {
         this.noInviteMessage = "No Invite present with this name or description";
       }
     }
 
-  // Reset the job Form modal
+  // Reset the invite Form modal
   resetModal(): void {
     this.inviteForm.reset();
     this.inviteForm.patchValue({
@@ -507,7 +507,7 @@ export class CorporateInvitesComponent implements OnInit{
   }
 
     /**
-   * Resets the search input and shows all jobs.
+   * Resets the search input and shows all invites.
    */
     resetBtnHandler(): void {
       /*     console.log("Reset button clicked");

@@ -563,7 +563,7 @@ export class AdminJobsComponent implements OnInit {
   async searchJobs(event: any) {
     this.searchQuery = event.target.value;
 /*     console.log("Search query:", this.searchQuery);
- */    this.fetchJobs({ jobStatus: this.selectedStatus, searchText: this.searchQuery, pageSize: this.pageSize });
+ */    this.fetchJobs({ jobStatus: this.selectedStatus, searchText: this.searchQuery, pageSize: this.pageSize,resetPagination:true });
     if (this.filteredJobs.length == 0) {
       this.noJobsMessage = "No Jobs present with this name or description";
     }
@@ -587,7 +587,7 @@ export class AdminJobsComponent implements OnInit {
   onStatusChange(statusVal: any) {
     if (statusVal.target.value === this.status.ALL) {
       this.selectedStatus = this.status.ALL;
-      this.fetchJobs({ pageSize: this.pageSize, resetPagination: true }); // Fetch all jobs
+      this.fetchJobs({ pageSize: this.pageSize,searchText:this.searchQuery, resetPagination: true }); // Fetch all jobs
       return;
     }
     this.selectedStatus = statusVal.target.value; // Update global variable
@@ -863,14 +863,17 @@ export class AdminJobsComponent implements OnInit {
    * 
    * Formats the range values based on the type.
    */
-  formatRange(min: number, max: number, type: string): string {
+  formatRange(min: number | null, max: number | null, type: string): string {
+    if (min === null || max === null) return '-'; // Handle null values during API loading
     if (type === 'experience') {
-    if (min === 0 && max === 0) return '-'; // Handling edge case for no experience range
-    return `${min}-${max} ${max === 1 ? 'Year' : 'Years'}`;
+      if (min === 0 && max === 0) return '-'; // Handling edge case for no experience range
+      if (max === 9999) return `${min}+ Years`; // Handle max as 9999 for experience
+      return `${min}-${max} ${max === 1 ? 'Year' : 'Years'}`;
     } else if (type === 'salary') {
-    if (min === 0 && max === 0) return '-'; // Handling edge case for no salary range
-    return `${min}-${max} LPA`;
+      if (min === 0 && max === 0) return '-'; // Handling edge case for no salary range
+      if (max === 9999) return `${min}+ LPA`; // Handle max as 9999 for salary
+      return `${min}-${max} LPA`;
     }
     return '-'; // Default value
-    }
+  }
 }
