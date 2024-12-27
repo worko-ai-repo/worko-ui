@@ -23,7 +23,7 @@ export class CreateUserForCorporateComponent {
   isBlinking = true;
   blinkTimer: any; //timer reference
   currentWordIndex = 0;
-  EmployeeWords = ["Reward", "Sell Services", "Earn Money", "Priority Job Access"];
+  EmployeeWords = ["Top Talent Access","Reduced hiring cost","Minimise Hiring effort","Boost Employer Branding"];
   currentWord = '';
 
   userForm: FormGroup;
@@ -70,7 +70,7 @@ export class CreateUserForCorporateComponent {
         accessType: ['', Validators.required],
         email: ['', [Validators.required, Validators.email]],
         companyName: ['', Validators.required],
-        phoneNumber: ['', [Validators.required, Validators.pattern(/^[0-9]{10}$/)]],
+        // phoneNumber: ['', [Validators.required, Validators.pattern(/^[0-9]{10}$/)]],
         password: [
           '',
           [
@@ -250,7 +250,7 @@ export class CreateUserForCorporateComponent {
         password: this.userForm.get('password')?.value,
         username: this.userForm.get('email')?.value.toLowerCase(),
         name: `${this.userForm.get('firstName')?.value} ${this.userForm.get('lastName')?.value}`,
-        phone_number: "+91" + this.userForm.get('phoneNumber')?.value
+        // phone_number: "+91" + this.userForm.get('phoneNumber')?.value
       };
 
       const { response, error } = await this.amplify.handleSignUp(signupData);

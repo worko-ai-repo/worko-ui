@@ -239,19 +239,19 @@
 // );
 
 $statuses: (
-    'applied': #007bff,
+    'applied': #3A7D7C,
     // Blue: Represents a neutral or informational status
-    'cv_downloaded': #17a2b8,
+    'cv_downloaded': #357CBA,
     // Teal: Indicates progress or action taken
-    'under_evaluation': #ffc107,
+    'under_evaluation': #334E68,
     // Yellow: Shows the status is in progress or being assessed
-    'processing_interview': #fd7e14,
+    'processing_interview': #46727f,
     // Orange: Indicates preparation for a major step
-    'interview_done': #28a745,
+    'interview_done': #D7A769,
     // Green: Signifies completion of an important step
-    'hired': #218838,
+    'hired': #6a7b67,
     // Darker Green: Represents a positive and final outcome
-    'rejected': red // Red: Clearly communicates a negative or closed status
+    'rejected': #A34242 // Red: Clearly communicates a negative or closed status
     // 'rejected': #dc3545 // Red: Clearly communicates a negative or closed status
 );
 
@@ -260,30 +260,29 @@ $statuses: (
     overflow: auto;
     border-radius: 10px;
 
-    //Top Heading bar with search and other filters
-    .ajobs-filters {
-        padding-block: 5px;
-        margin-block: 5px;
-        display: flex;
-        justify-content: space-between;
-        align-items: center;
+//Top Heading bar with search and other filters
+.ajobs-filters {
+    padding-block: 5px;
+    
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-end;
+    align-items: flex-end;
 
-        input,
-        button {
-            height: 100% !important;
-        }
-
-        button {
-            margin-left: 5px;
-            border: 1px solid var(--color-skyblue-100) !important;
-        }
-
-        .ajobs-search {
-            margin-inline: 10px;
-            display: flex;
-            align-items: center;
-            justify-content: space-evenly;
-        }
+    input,
+    button {
+      height: 100% !important;
+    }
+    button {
+      margin-left: 5px;
+      border: 1px solid var(--color-skyblue-100) !important;
+    }
+    .ajobs-search {
+      margin-top: 10px;
+      display: flex;
+      align-items: center;
+      justify-content: space-evenly;
+    }
 
         .ajobs-status {
             height: 100% !important;
@@ -325,7 +324,6 @@ $statuses: (
                         color: white;
                         font-weight: 500;
                         padding: 2px;
-                        width: min-content;
                         border-radius: 5px;
                         margin: unset !important; //@review: some global margin is interfaring with the layout
                         padding-inline: 5px;

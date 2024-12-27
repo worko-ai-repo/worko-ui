@@ -111,6 +111,7 @@ export class CorporateInvitesComponent implements OnInit{
   copiedContextId: any;
   isRecruiter: boolean = false;
   showCloseBtn: boolean = true;
+  currentSelectedInviteId: string ="";
 
   /**
    * Initializes the Component with the required services and sets up the invite form.
@@ -380,13 +381,22 @@ export class CorporateInvitesComponent implements OnInit{
     }
   }
 
+  // Delete Invite
+  deleteInvite(inviteId: string) {
+    // debugger;
+    this.modalSize = "md";
+    this.errorTitle = "Warning!!";
+    this.errorMessage = "Are you sure you want to delete this user?";
+    this.currentSelectedInviteId = inviteId;
+    this.openModal(ModalType.CORPORATE_USER_WARNING);
+  }
   // Delete invite
-  async deleteInvite(inviteId: string): Promise<void> {
+  
+  async confirmDeleteInvite(): Promise<void> {
     this.spinner.show();
     try {
       const companyId = this.corporateVitalDetails.companyId;
-    await this.corporateService.deleteInvite(inviteId , companyId! );
-    this.fetchInvites({ corporateUserType: this.selectedCorporateUserType, sortOrder: this.selectedSortOrder, searchText: this.searchQuery, inviteStatus: this.selectedStatus, pageSize: this.pageSize, resetPagination: false,useCurrentPage:true }); 
+    await this.corporateService.deleteInvite(this.currentSelectedInviteId , companyId! );
   } catch (error) {
       console.error("Invite status update failed:", error);
       this.errorTitle = "Error";
@@ -394,6 +404,8 @@ export class CorporateInvitesComponent implements OnInit{
       this.openModal(ModalType.SUCCESS_ERROR_MESSAGE);
     } finally {
       this.spinner.hide();
+      this.fetchInvites({ corporateUserType: this.selectedCorporateUserType, sortOrder: this.selectedSortOrder, searchText: this.searchQuery, inviteStatus: this.selectedStatus, pageSize: this.pageSize, resetPagination: false,useCurrentPage:true }); 
+      this.closeModal();
     }
   }
   

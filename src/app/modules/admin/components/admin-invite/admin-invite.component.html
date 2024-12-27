@@ -1,12 +1,13 @@
 <div class="admin-table-main mx-2 ms-3" id="admin-job-main">
    <div class="tab-content mt-2" id="myTabContent">
       <div class="candidate-card tab-pane fade show active" id="home" role="tabpanel" aria-labelledby="home-tab">
-         <h5>Invite Listings</h5>
-         <div class="ajobs-filters">
-
+         <div class="heading-and-btn">
+            <h5>Invite Listings</h5>
             <span class="aInvites-add">
                <button class="ps-4 pe-4 btn searchButton" (click)="openCreateInviteModal()">Create Invite</button>
             </span>
+         </div>
+         <div class="ajobs-filters">
             <span class="ajobs-search">
                   <span class="ajobs-status">
                   <select name="status" [(ngModel)]="selectedCorporateUserType" class="selector form-select"
@@ -42,13 +43,11 @@
             <table class="table-style">
                <thead>
                   <tr>
-                     <th>Invite Id</th>
-                     <th>Company Id</th>
-                     <th>Company Name</th>
-                     <th>Name</th>           
+                     <th>Name</th>          
                      <th>Email</th>
-                     <th>Access Type</th>
-                     <th>Status</th>
+                     <th>Company</th>
+                     <th style="width: unset;">Access Type</th>
+                     <th style="width: unset;">Status</th>
                      <th>Created At</th>
                      <th>Expires At</th>
                      <th>Actions</th>
@@ -60,44 +59,46 @@
                      <td colspan="15" class="no-jobs-message">{{ noInviteMessage }}</td>
                   </tr>
                   <tr *ngFor="let invite of filteredInvites; let i = index">
-                     <td>
-                        <span style="margin-right:30px">{{ invite.id | ellipsis:30 | uppercase }}</span>
-                        <mat-icon style="cursor: pointer; position: absolute; right: 10px;"
-                           (click)="copyToClipboard(invite.id)" matTooltip="Copy to Clipboard"
-                           matTooltipPosition="above">
+                     <td >
+                        <span style="margin-right: 30px;">{{ (invite.firstName + ' ' + invite.lastName) | ellipsis:30 | titlecase }}</span>
+                        <mat-icon style="cursor: pointer; position: absolute; right: 10px;" (click)="copyToClipboard(invite.id)" matTooltip="Copy Invite Id To Clipboard" matTooltipPosition="above">
                            {{ copiedContextId === invite.id ? 'check' : 'content_copy' }}
-                        </mat-icon>
+                           <!-- {{ copiedContextId === row.contextId ? 'check' : 'content_paste' }} -->
+                         </mat-icon>
                      </td>
-                     <td>
-                        <span style="margin-right:30px">{{ invite.companyId | ellipsis:30 | uppercase }}</span>
-                        <mat-icon style="cursor: pointer; position: absolute; right: 10px;"
-                           (click)="copyToClipboard(invite.companyId)" matTooltip="Copy to Clipboard"
-                           matTooltipPosition="above">
-                           {{ copiedContextId === invite.companyId ? 'check' : 'content_copy' }}
-                        </mat-icon>
+                     <td >
+                        <span matTooltip={{invite.email}} matTooltipPosition="above">
+                           {{ invite.email | ellipsis:30 }}
+                        </span>
                      </td>
+                   
                      <td matTooltip={{invite.companyName}} matTooltipPosition="above" style="cursor: pointer;">
                         <ng-container *ngIf="invite.companyDetails?.logo; else useUrlLogoSecond">
                            <img src="assets/company-logo/{{invite.companyDetails?.logo}}" alt="{{invite.companyDetails?.name}}"
-                             width="50" height="50">
+                           (click)="copyToClipboard(invite.companyDetails.id)"
+                           matTooltip="Copy Company Id To Clipboard"
+                           matTooltipPosition="above"
+                           style="cursor:pointer"  
+                           width="50" height="50">
                          </ng-container>
                          <ng-template #useUrlLogoSecond>
-                           <img src="{{ invite.companyDetails?.logoUrl }}" alt="{{invite.companyDetails?.name}}" width="50"
-                             height="50">
+                           <img src="{{ invite.companyDetails?.logoUrl }}" alt="{{invite.companyDetails?.name}}" 
+                           (click)="copyToClipboard( invite.companyDetails.id)"
+                           matTooltip="Copy Company Id To Clipboard"
+                           matTooltipPosition="above"
+                           style="cursor:pointer"
+                           width="50" height="50">
                          </ng-template>
                         {{invite.companyDetails.name | ellipsis:30 | titlecase }}
                      </td>
-                     <td>{{ (invite.firstName + ' ' + invite.lastName) | ellipsis:30 | titlecase }}
-                     </td>
-                     <td matTooltip={{invite.email}}>{{ invite.email | ellipsis:30 }}
-                     </td>
+
                      <!-- GetAccessType -->
-                     <td>
+                     <td style="width: 30px;">
                         <p [ngClass]="getStatusClass(invite.corporateUserType.split('-')[1])">{{ invite.corporateUserType.split('-')[1] | uppercase}}</p>
                      </td>
                      <!-- Get Status -->
-                     <td>
-                        <p [ngClass]="getStatusClass(invite.inviteStatus)">{{ invite.inviteStatus | uppercase}}</p>
+                     <td style="width: 30px;">
+                        <p [ngClass]="getStatusClass(invite.inviteStatus)" >{{ invite.inviteStatus | uppercase}}</p>
                      </td>
                      <td>
                         {{ invite.createdAt | date: 'd MMM yyyy, h:mm a' }}
@@ -105,12 +106,12 @@
                      <td>
                         {{ invite.expiresAt | date: 'd MMM yyyy, h:mm a' }}
                      </td>
-                     <td id="editbtns">
+                     <td id="editbtns" style="width: 30px;">
                          <span *ngIf="invite.inviteStatus !== status.AWAITING && invite.inviteStatus !== status.ACCEPTED" 
                          (click) = "updateStatus(status.AWAITING,invite.id)"  matTooltip="Move to Awaiting" matTooltipPosition="above" style="background:#2716bb;">
                            <i class="fa-solid fa-trash-can-arrow-up"></i></span>
                            <!-- @Todo user deleteinvite here -->
-                         <span *ngIf="invite.inviteStatus!= status.DELETED" (click) = "deleteInvite(invite.id)" matTooltip="Delete Invite" matTooltipPosition="above" style="background: red;">
+                         <span *ngIf="invite.inviteStatus!= status.DELETED" (click) = "deleteInvite(invite.id)" matTooltip="Delete Invite" matTooltipPosition="above" style="background: #A41F13;">
                          <i class="fa-solid fa-trash"></i></span>
                          </td> 
                   </tr>
@@ -158,6 +159,11 @@
       <app-message-modal [title]="errorTitle" [message]="errorMessage" (onCancel)="closeModal()">
       </app-message-modal>
    </ng-container>
+
+   <ng-container *ngIf="showModal === modalType.CORPORATE_USER_WARNING">
+      <app-message-modal [title]="'Warning!'" [message]="errorMessage"  (onNoBtn) = "closeModal()" (onYesBtn)="confirmDeleteInvite()" id="login-warn-popup">
+      </app-message-modal>
+    </ng-container>
 
    <ng-container *ngIf="showModal === modalType.CORPORATE_USER_ADD_INVITE">
        <!-- If you want to use this kind of Modal then you have to use the css of this component where the selector starts with message-card -->

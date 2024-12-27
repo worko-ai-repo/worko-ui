@@ -99,6 +99,7 @@
         flex-direction: column;
         height: 80%;
         min-width: 50%;
+        // width:45%; ##
         justify-content: center;
         align-items: center;
         // border: 2px solid red;
@@ -125,18 +126,28 @@ color: #fff;
   max-width: 90%;
   .form-group{
     margin-bottom:10px !important;
+    position: relative;
   }  
 
       .form-control {
         background-color: transparent;
-        font-size: medium !important;
-        border-radius: 5px;
+        font-size: 12px !important;
+        border-radius: 0px;
         color: white;
         max-width: 228px;
-        border: 2px solid #295CA8;
+        border: none;
+        border-bottom: 1px solid #ffffff !important;
+        box-shadow: none !important;
+        caret-color: white;
+        padding-left: 25px;
     }
       .form-control.is-invalid{
-    border: 2px solid rgba(var(--bs-danger-rgb)) !important; 
+    border-bottom: 2px solid rgba(var(--bs-danger-rgb)) !important; 
+  }
+  .input-icn{
+    position: absolute;
+    top: 15px;
+    left: 5px;
   }
 }
 .cSubmit{
@@ -150,27 +161,48 @@ color: #fff;
   
 }
  
-button[type="submit"] {
-  background-color: #2f92c7;
+.btn-signUp{
+  margin: 5px;
+  font-weight: 500;
   color: white;
-     padding: 5px;
-  border: transparent;
-  border-radius: 5px;
-  outline: none;
-  width: 60%;
+  background: linear-gradient(90deg, #2F92C7 0%, rgba(47, 146, 199, 0) 205.38%);
+  min-width: 30%;
   height: min-content;
   cursor: pointer;
-  &:hover {
-    background-color: #1d5e81;
-  }
-  &:disabled {
-    background-color: #8696b3;
-    &hover {
-      background-color: #8696b3 !important;
-    }
-  }
+  font-size: 10px;
+  position: relative;
 }
- 
+.btn-signUp:disabled{
+   cursor: not-allowed;
+  pointer-events: visible;
+  background: linear-gradient(90deg, #1d658b 0%, rgba(47, 146, 199, 0) 205.38%);
+}
+.error-message-div[disabled]::after {
+  content: attr(data-tooltip);
+  position: absolute;
+  visibility: hidden;
+  width: 230px;
+  background-color: #0A1E36;
+  color: red;
+  border: 1px solid red;
+  border-radius: 6px;
+  padding: 5px;
+  font-size: 10px;
+  font-weight: 900;
+  bottom: 125%;
+  left: 50%;
+  transform: translateX(-50%);
+  // opacity: 0;
+  transition: opacity 0.3s;
+  z-index: 1;
+  text-align: center;
+  pointer-events: none;
+}
+
+.error-message-div[disabled]:hover::after,.btn:disabled {
+  visibility: visible;
+  opacity: 1 !important;
+}
 //Modal style Craete Job Form
 .message-card {
   background: #0a1e36;
@@ -181,8 +213,7 @@ button[type="submit"] {
   }
   input {
     background-color: transparent !important;
-    border: 2px solid #295CA8 !important;
-  }
+      }
   .error {
     color: red;
   }
@@ -190,10 +221,10 @@ button[type="submit"] {
  
 .isInvalid{
   border-color: #dc3545;
-  padding-right: calc(1.5em + 0.75rem);
+  padding-right: unset !important;
   background-repeat: no-repeat;
-  background-position: right calc(0.375em + 0.1875rem) center;
-  background-size: calc(0.75em + 0.375rem) calc(0.75em + 0.375rem);
+  background-position: unset !important;
+  background-size:unset !important;
 }
 
 
@@ -201,8 +232,8 @@ button[type="submit"] {
   position: absolute;
   display: inline-block;
   // background-color: #0A1E36;
-  top: 10px;
-  right: 14px;
+  top: 8px;
+  right: 10px;
   cursor: pointer;
 }
 .tooltip-container.hide{

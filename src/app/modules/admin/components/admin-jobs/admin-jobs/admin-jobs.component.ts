@@ -190,6 +190,13 @@ export class AdminJobsComponent implements OnInit {
   copiedContextId: any;
   skillsTooltipMessage = "Type a skill and press Enter to add it to the list.";
 
+
+  // Warning Message
+  operationType = ""
+  operationJob = ""
+  isDuplicateMode: boolean = false;
+  isduplicateFormValid: any;
+  originalJobData: any;
   /**
    * Initializes the AdminJobsComponent with the required services and sets up the job form.
    *
@@ -228,9 +235,27 @@ export class AdminJobsComponent implements OnInit {
       distinctUntilChanged(),
       switchMap((value) => this.filterCompanies(value))
     )
+
+    // Subscribe to the form changes and check for changes in duplicate mode
+    this.jobForm.valueChanges.subscribe(() => {
+      if (this.isDuplicateMode) {
+        this.checkForChanges();
+      }
+    });
+
+
       // Fetch jobs on component initialization
     this.fetchJobs({ pageSize: 25, sortOrder: this.sortOrder.DESC, jobStatus: this.status.ALL, resetPagination: true });
   }
+
+// Method to check if the form has changes
+checkForChanges(): void {
+  // Compare the current form value with the original job data
+  const hasChanges = JSON.stringify(this.jobForm.value) !== JSON.stringify(this.originalJobData);
+  console.log(JSON.stringify(this.originalJobData))
+  this.isduplicateFormValid = hasChanges;
+  console.log("Form has changes: " + hasChanges);
+}
 
   // @TODO Add to reusable code
   /**
@@ -476,7 +501,10 @@ export class AdminJobsComponent implements OnInit {
   openModal(modalType: ModalType, message: string = "", title: string = ""): void {
     this.showModal = modalType;
     // Reset modal size every time you open the modal
-    if(modalType === this.modalType.SUCCESS_MESSAGE ){
+    if(modalType === this.modalType.SUCCESS_MESSAGE){
+      this.modalSize = "md";
+    }
+    if(modalType === this.modalType.CORPORATE_USER_WARNING){
       this.modalSize = "md";
     }
     else {
@@ -493,6 +521,9 @@ export class AdminJobsComponent implements OnInit {
     this.resetModal();
     this.companyControl.enable();
     this.isEditMode = false;
+    this.isDuplicateMode = false;
+    this.originalJobData = "";
+    this.isCompanyNameValid = false;
     this.modal.cancel();
   }
 
@@ -604,11 +635,17 @@ export class AdminJobsComponent implements OnInit {
   this.fetchJobs({ searchText:this.searchQuery, jobStatus: this.selectedStatus, pageSize: this.pageSize, resetPagination: true, sortOrder: this.selectedSortOrder });
   }
 
+
   // Edit Job Function
-  editJob(job: any): void {
+  editJob(job: any , editMode:boolean): void {
+    this.isDuplicateMode = !editMode;
+
     this.openModal(ModalType.ADMINJOBS_POPUP);
+    
     this.companyControl.disable(); // Disable the company input
-    this.isEditMode = true; // Set edit mode to true
+    
+    this.isEditMode = editMode; // Set edit mode to true
+
     this.jobId = job.id; // Store the job ID
     // Update the form with job data except for the skills
     this.jobForm.patchValue({
@@ -687,6 +724,11 @@ export class AdminJobsComponent implements OnInit {
           }
         });
       }, 100); // Adjust the timeout as necessary
+
+      if(this.isDuplicateMode){
+        this.originalJobData = this.jobForm.value;
+        // this.checkForChanges();
+      }
   }
 
   /**
@@ -694,8 +736,9 @@ export class AdminJobsComponent implements OnInit {
    * @param job - The job object to archive.
    */
   updateJobStatus = async (job: any, newStatus: string) => {
-/*     console.log(job);
- */    try {
+//      console.log(job);
+this.closeModal(); 
+    try { 
       this.spinner.show();
       const jobData = {
         companyId: job.PK.startsWith("COMP#ID#") ? job.PK.slice(8, -1) : job.PK,
@@ -716,6 +759,9 @@ export class AdminJobsComponent implements OnInit {
       this.successtitle = "Error";
       this.openModal(ModalType.SUCCESS_MESSAGE);
     } finally {
+      
+      this.operationJob = "";
+      this.operationType = "";
       this.spinner.hide();
     }
   };
@@ -875,5 +921,13 @@ export class AdminJobsComponent implements OnInit {
       return `${min}-${max} LPA`;
     }
     return '-'; // Default value
+  }
+
+  confirmOperation(job: any , operationType: string): void {
+    this.operationType = operationType;
+    this.operationJob = job;
+    this.modalSize = "sm";
+    this.successmessage = `Are you sure you want to ${operationType.slice(0,-1).toLocaleLowerCase()} this job?`;
+    this.openModal(ModalType.CORPORATE_USER_WARNING);
   }
 }

@@ -112,6 +112,7 @@ export class AdminInviteComponent implements OnInit {
   // Misc Vars
   copiedContextId: any;
   showCloseBtn: boolean = true;
+  currentSelectedInviteId: string = "";
 
   /**
    * Initializes the Component with the required services and sets up the invite form.
@@ -415,18 +416,28 @@ export class AdminInviteComponent implements OnInit {
       this.spinner.hide();
     }
   }
-  // Delete invite
-  async deleteInvite(inviteId: string): Promise<void> {
+  // Delete Invite
+  deleteInvite(inviteId: string) {
+    // debugger;
+    this.modalSize = "md";
+    this.errorTitle = "Warning!!";
+    this.errorMessage = "Are you sure you want to delete this user?";
+    this.currentSelectedInviteId = inviteId;
+    this.openModal(ModalType.CORPORATE_USER_WARNING);
+  }
+  //Confirm Delete invite
+  async confirmDeleteInvite(): Promise<void> {
     this.spinner.show();
     try {
-      await this.adminService.deleteInvite(inviteId);
-      this.fetchInvites({ corporateUserType: this.selectedCorporateUserType, sortOrder: this.selectedSortOrder, searchText: this.searchQuery, inviteStatus: this.selectedStatus, pageSize: this.pageSize, resetPagination: false,useCurrentPage:true }); 
+      await this.adminService.deleteInvite(this.currentSelectedInviteId);
     } catch (error) {
       console.error("Invite status update failed:", error);
       this.errorTitle = "Error";
       this.errorMessage = "Something went wrong. Please try again later.";
       this.openModal(ModalType.SUCCESS_ERROR_MESSAGE);
     } finally {
+      this.fetchInvites({ corporateUserType: this.selectedCorporateUserType, sortOrder: this.selectedSortOrder, searchText: this.searchQuery, inviteStatus: this.selectedStatus, pageSize: this.pageSize, resetPagination: false,useCurrentPage:true }); 
+      this.closeModal()
       this.spinner.hide();
     }
   }

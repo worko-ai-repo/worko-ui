@@ -3,14 +3,7 @@
       <div class="candidate-card tab-pane fade show active" id="home" role="tabpanel" aria-labelledby="home-tab">
         <h5>Corporate Listings</h5>
         <div class="ajobs-filters justify-content-end">
-            <span class="ajobs-status">
-            <select name="status" [(ngModel)]="selectedCorporateUserType" class="selector form-select"
-                (change)="onCorporateUserTypeChange($event)">
-                <option value={{userType.ALL}}>Access Type</option>
-                <option value={{userType.ADMIN}}>Admin</option>
-                <option value={{userType.RECRUITER}}>Recruiter</option>
-            </select>
-        </span>
+           
         <!-- <span class="ajobs-status">
         <select name="status" [(ngModel)]="selectedSortOrder" class="selector form-select"
           (change)="onSortOrderChange($event)">
@@ -19,15 +12,23 @@
         </select>
       </span>   -->
             <span class="ajobs-search">
+              <span class="ajobs-status">
+                <select name="status" [(ngModel)]="selectedCorporateUserType" class="selector form-select"
+                    (change)="onCorporateUserTypeChange($event)">
+                    <option value={{userType.ALL}}>Access Type</option>
+                    <option value={{userType.ADMIN}}>Admin</option>
+                    <option value={{userType.RECRUITER}}>Recruiter</option>
+                </select>
+            </span>
             <input type="text" [(ngModel)]="searchQuery" class="form-control serachInput" placeholder="Search Users" (keyup)="searchUsers($event)" />
-            <button class="ps-4 pe-4 btn searchButton" (click)="resetModal()">Reset</button>
+            <button class="ps-4 pe-4 btn searchButton ml-3" (click)="resetModal()">Reset</button>
         </span>
         </div>
         <div class="mat-elevation-z8 table-wrapper">
           <table class="table-style">
             <thead>
               <tr>
-                <th>User Id</th>
+               
                 <th>Name</th>
                 <th>Email</th>
                 <th style="width: 10%;">Access Type</th>
@@ -41,17 +42,18 @@
               </tr>
               <tr *ngFor="let user of filteredUsers; let i = index">
                 <td>
-                  <span style="margin-right:30px">{{ user.id }}</span>
-                  <mat-icon style="cursor: pointer; position: absolute; right: 10px;" (click)="copyToClipboard(user.id)" matTooltip="Copy to Clipboard" matTooltipPosition="above">
+                  <span style="margin-right: 30px;">
+                    {{ (user.firstName + ' ' + user.lastName) | ellipsis:30 | titlecase }}
+                  </span>
+                  <mat-icon style="cursor: pointer; position: absolute; right: 10px;" (click)="copyToClipboard(user.id)" matTooltip="Copy User Id To Clipboard" matTooltipPosition="above">
                     {{ copiedContextId === user.id ? 'check' : 'content_copy' }}
                     <!-- {{ copiedContextId === row.contextId ? 'check' : 'content_paste' }} -->
                   </mat-icon>
-                </td>
-                <td>{{ (user.firstName + ' ' + user.lastName) | ellipsis:30 | titlecase }}</td>
-                <td matTooltip={{user.email}}>{{ user.email | ellipsis:30 }}
+                  </td>
+                <td matTooltip={{user.email}} matTooltipPosition="above">{{ user.email | ellipsis:30 }}
                 </td>
                 <!-- GetAccessType -->
-                <td>
+                <td style="width: 10px;">
                    <p [ngClass]="getStatusClass(user.corporateUserType.split('-')[1])">{{ user.corporateUserType.split('-')[1] | uppercase}}
                   </p>
                 </td>
@@ -62,7 +64,7 @@
                     <span 
                     [matTooltip]="user.isDeleted ? 'User Already Deleted' : 'Delete User'" 
                     matTooltipPosition="above"
-                    [ngStyle]="{ 'background': user.isDeleted ? 'grey' : 'red', 'cursor': user.isDeleted ? 'not-allowed' : 'pointer' }"
+                    [ngStyle]="{ 'background': user.isDeleted ? 'grey' : '#A41F13', 'cursor': user.isDeleted ? 'not-allowed' : 'pointer' }"
                     [ngClass]="{ 'disabled-element': user.isDeleted }"
                     [attr.disabled]="user.isDeleted ? true : null"
                     (click)="!user.isDeleted && deleteUser(user.id)">
@@ -113,15 +115,9 @@
   </app-message-modal>
 </ng-container>
 
-  <ng-container *ngIf="showModal === modalType.CORPORATE_USER_WARNING">
-    <!-- If you want to use this kind of Modal then you have to use the css of this component where the selector starts with message-card -->
-    <div class="row message-card px-sm-3 p-4">
-        <h3 class="text-danger">{{ modalCustomTitle }}</h3>
-        <p>{{ modalCustomMessage }}</p>
-        <div class="d-flex justify-content-end mt-3">
-          <button class="btn bg-danger editbtns me-4 fw-bold text-white" (click)="confirmDelete()">Delete</button>
-          <button class="btn editbtns bg-info fw-bold text-white" (click)="closeModal()">Close</button>
-        </div>
-      </div>
-  </ng-container>
+<ng-container *ngIf="showModal === modalType.CORPORATE_USER_WARNING">
+  <app-message-modal [title]="'Warning!'" [message]="modalCustomMessage"  (onNoBtn) = "closeModal()" (onYesBtn)="confirmDelete()" id="login-warn-popup">
+  </app-message-modal>
+</ng-container>
+
 </app-modal>

@@ -59,7 +59,7 @@ export class MiniJobPortalJobDescriptionComponent {
   showFeedback!: boolean;
   isShowCloseButton: boolean = true;
   modalSize: string = 'lg';
-
+  isJobInvalid: any;
   constructor(private route: ActivatedRoute, private router: Router, private cognitoService: CognitoService, private http: HttpClient,
     private spinner: NgxSpinnerService, private companyListing: CompanyListingService, private cdr: ChangeDetectorRef, private candidateSrv: CandidateProfileService, private storage: StorageService) { }
 
@@ -70,6 +70,9 @@ export class MiniJobPortalJobDescriptionComponent {
       this.jobID = this.extractJobID(fullCategory); // Extract the job ID if needed
     });
     await this.getJobDescriptionDetails(this.jobID);
+
+    // Check if the Job is valid or not
+    this.isJobInvalid = this.jobDescriptionDetails?.status !== 'PUBLISHED';
   }
 
   private extractCompanyName(fullCategory: string): string {

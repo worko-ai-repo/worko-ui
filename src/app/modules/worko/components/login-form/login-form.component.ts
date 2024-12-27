@@ -277,6 +277,7 @@ export class LoginFormComponent implements AfterViewInit, OnDestroy {
     //   .subscribe(e => {
     //     this.myControl.setValue(null);
     //   });
+    // This is to ensure the tooltip works
     var tooltipTriggerList = [].slice.call(document.querySelectorAll('[data-bs-toggle="tooltip"]'))
     var tooltipList = tooltipTriggerList.map(function (tooltipTriggerEl) {
       return new bootstrap.Tooltip(tooltipTriggerEl)

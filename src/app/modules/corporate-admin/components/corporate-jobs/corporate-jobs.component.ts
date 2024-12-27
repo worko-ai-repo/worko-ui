@@ -200,6 +200,11 @@ export class CorporateJobsComponent implements OnInit {
   copiedContextId: any;
   skillsTooltipMessage = "Type a skill and press Enter to add it to the list.";
   corporateCompanyName: string = "";
+  operationType = "";
+  operationJob = "";
+  isDuplicateMode: boolean = false;
+  originalJobData: any;
+  isduplicateFormValid: boolean = false;
 
   /**
    * Initializes the AdminJobsComponent with the required services and sets up the job form.
@@ -258,6 +263,14 @@ export class CorporateJobsComponent implements OnInit {
       }
     });
 
+    // Subscribe to the form changes and check for changes in duplicate mode
+    this.jobForm.valueChanges.subscribe(() => {
+      if (this.isDuplicateMode) {
+        this.checkForChanges();
+      }
+    });
+
+
     // Setup the filteredCompanies$ for the company autocomplete
     this.filteredCompanies$ = this.companyControl.valueChanges.pipe(
       debounceTime(300),
@@ -266,6 +279,16 @@ export class CorporateJobsComponent implements OnInit {
     )
       // Fetch jobs on component initialization
   }
+
+  // Method to check if the form has changes
+checkForChanges(): void {
+  // Compare the current form value with the original job data
+  const hasChanges = JSON.stringify(this.jobForm.value) !== JSON.stringify(this.originalJobData);
+  console.log(JSON.stringify(this.originalJobData))
+  this.isduplicateFormValid = hasChanges;
+  console.log("Form has changes: " + hasChanges);
+}
+
 
   // @TODO Add to reusable code
   /**
@@ -526,6 +549,9 @@ export class CorporateJobsComponent implements OnInit {
     if(modalType === this.modalType.SUCCESS_MESSAGE ){
       this.modalSize = "md";
     }
+     if(modalType === this.modalType.CORPORATE_USER_WARNING){
+      this.modalSize = "md";
+    }
     else {
         this.modalSize = "xl";
     }
@@ -540,6 +566,9 @@ export class CorporateJobsComponent implements OnInit {
     this.resetModal();
     this.companyControl.enable();
     this.isEditMode = false;
+    this.isDuplicateMode = false;
+    this.originalJobData = "";
+    this.isCompanyNameValid = false;
     this.jobForm.patchValue({ 
       companyId: this.corporateVitalDetails.companyId,
       noticePeriod: 0,
@@ -655,10 +684,15 @@ export class CorporateJobsComponent implements OnInit {
   }
 
   // Edit Job Function
-  editJob(job: any): void {
+  editJob(job: any , editMode:boolean): void {
+    this.isDuplicateMode = !editMode;
+   
     this.openModal(ModalType.ADMINJOBS_POPUP);
+   
     this.companyControl.disable(); // Disable the company input
-    this.isEditMode = true; // Set edit mode to true
+   
+    this.isEditMode = editMode; // Set edit mode to true
+   
     this.jobId = job.id; // Store the job ID
     // Update the form with job data except for the skills
     this.jobForm.patchValue({
@@ -737,6 +771,11 @@ export class CorporateJobsComponent implements OnInit {
           }
         });
       }, 100); // Adjust the timeout as necessary
+
+      if(this.isDuplicateMode){
+        this.originalJobData = this.jobForm.value;
+        // this.checkForChanges();
+      }
   }
 
   /**
@@ -744,8 +783,9 @@ export class CorporateJobsComponent implements OnInit {
    * @param job - The job object to archive.
    */
   updateJobStatus = async (job: any, newStatus: string) => {
-/*     console.log(job);
- */    try {
+//      console.log(job);
+this.closeModal(); 
+     try {
       this.spinner.show();
       const jobData = {
         companyId: job.PK.startsWith("COMP#ID#") ? job.PK.slice(8, -1) : job.PK,
@@ -766,6 +806,9 @@ export class CorporateJobsComponent implements OnInit {
       this.successtitle = "Error";
       this.openModal(ModalType.SUCCESS_MESSAGE);
     } finally {
+       
+      this.operationJob = "";
+      this.operationType = "";
       this.spinner.hide();
     }
   };
@@ -932,5 +975,13 @@ export class CorporateJobsComponent implements OnInit {
       return `${min}-${max} LPA`;
     }
     return '-'; // Default value
+  }
+
+  confirmOperation(job: any , operationType: string): void {
+    this.operationType = operationType;
+    this.operationJob = job;
+    this.modalSize = "sm";
+    this.successmessage = `Are you sure you want to ${operationType.slice(0,-1).toLocaleLowerCase()} this job?`;
+    this.openModal(ModalType.CORPORATE_USER_WARNING);
   }
 }

@@ -12,7 +12,8 @@
 
         <div class="csignup-info two">
           <h2 class="unlockText text-white1">
-            Unlock Dream Opportunities <br />
+            Your gateway to seamless hiring
+            <br />
           </h2>
           <h5 class="cblinking-heading m-0" [class.blink]="isBlinking">{{ currentWord }}</h5>
         </div>
@@ -26,41 +27,37 @@
         <form [formGroup]="userForm" (keydown.enter)="$event.preventDefault()" (ngSubmit)="onSubmit()" class="common-form-main">
           <div class="form-group">
 
-            <label>First Name</label>
-            <input matInput class="form-control" formControlName="firstName" [readonly]="true"  />
+            
+            <input placeholder="Name" matInput class="form-control" formControlName="firstName" [readonly]="true" [value]="userForm.get('firstName')!.value +' '+ userForm.get('lastName')!.value" />
+            <i class="fa-solid input-icn fa-user fa-xs" style="color: #ffffff;"></i>
           </div>
 
-          <div class="form-group">
-
-            <label>Last Name</label>
-            <input matInput class="form-control" formControlName="lastName" [readonly]="true"  />
-          </div>
 
           <div class="form-group">
-            <label class="form-label">Access Type</label>
-            <br>
-            <input matInput class="form-control form-input" formControlName="accessType"
+            
+            <input placeholder="Access Type" matInput class="form-control form-input" formControlName="accessType"
             [value]="userForm.get('accessType')!.value.split('-')[1] | titlecase"
              type="text" [readonly]="true"/>
+             <i class="fa-solid input-icn fa-id-card-clip fa-xs" style="color: #ffffff;"></i>
           </div>
 
           <div class="form-group">
 
-            <label>Email</label>
-            <input matInput class="form-control form-input" formControlName="email" type="email" [readonly]="true"/>
-
+            
+            <input placeholder="Email" matInput class="form-control form-input" formControlName="email" type="email" [readonly]="true"/>
+            <i class="fa-solid input-icn fa-envelope fa-xs" style="color: #ffffff;"></i>
           </div>
 
           <div class="form-group">
 
-            <label>Company Name</label>
-            <input matInput class="form-control" formControlName="companyName" [readonly]="true" />
-
+            
+            <input placeholder="Company" matInput class="form-control" formControlName="companyName" [readonly]="true" />
+            <i class="fa-solid input-icn fa-building fa-xs" style="color: #ffffff;"></i>
           </div>
 
-          <div class="form-group">
-            <label class="form-label required-form-field">Phone Number</label>
-            <input
+<!--           <div class="form-group">
+            
+            <input placeholder=""
               matInput
               class="form-control form-input"
               formControlName="phoneNumber"
@@ -69,18 +66,19 @@
             <span *ngIf="isInvalid('phoneNumber')" class="text-danger" style="font-size: 10px;">
               {{ getErrorMessage('phoneNumber') }}
             </span>
-          </div>
+          </div> -->
           
           <div class="form-group">
-            <label class="form-label required-form-field">Password</label>
+            
             <div style="position: relative;">
-            <input
+            <input placeholder="Enter Password"
               matInput
               class="form-control"
               formControlName="password"
               type="password"
               [ngClass]="{ 'is-invalid': isInvalid('password') }" />
-               <!-- ToolTip Starts Here -->
+              <i class="fa-solid input-icn fa-lock fa-xs input-icn" style="color: #ffffff;"></i> 
+              <!-- ToolTip Starts Here -->
                <div class="tooltip-container" [ngClass]="{'hide':isInvalid('password')}" >
                 <div class="tooltip-style">
                   <i class="fa-solid fa-circle-info"></i>
@@ -97,14 +95,15 @@
           </div>
           
           <div class="form-group">
-            <label class="form-label required-form-field">Retype Password</label>
-            <input
+            
+            <input placeholder="Retype Password"
               matInput
               class="form-control"
               formControlName="retypePassword"
               type="password"
               [ngClass]="{ 'is-invalid': isInvalid('retypePassword') || userForm.hasError('mismatch') }" />
-            <span
+              <i class="fa-solid input-icn fa-lock fa-xs input-icn" style="color: #ffffff;"></i>
+              <span
               *ngIf="isInvalid('retypePassword') || userForm.hasError('mismatch')"
               class="text-danger" style="font-size: 10px;">
               Password does not match.
@@ -114,7 +113,8 @@
           <div class="form-group cSubmit">
             <button mat-raised-button color="primary" type="submit" 
             [disabled]="!userForm.valid"
-              class="ajobs-fitem-resetBtn">Submit</button>
+            data-tooltip="Please make sure you have added the valid data in the above fields."
+              class="btn btn-signUp error-message-div">Submit</button>
           </div>
         </form>
       </div>

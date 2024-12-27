@@ -12,7 +12,8 @@ import { CorpInviteStatusEnum } from 'src/app/modules/shared/enums/corporate-usr
 import { CorporateUserInviteCreateApiDto, CorporateUserInviteCreateDto, CorporateUserInviteUpdateApiDto } from 'src/app/modules/shared/interfaces/corporate-usr-invite.interface';
 import { ModalType } from 'src/app/modules/shared/interfaces/shared.interface';
 import { AuthService } from 'src/app/modules/worko/services/auth.service';
-
+import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
+declare var bootstrap: any;
 @Component({
   selector: 'app-login-user-for-corporate',
   templateUrl: './login-user-for-corporate.component.html',
@@ -26,7 +27,7 @@ export class LoginUserForCorporateComponent {
  isBlinking = true;
  blinkTimer: any; //timer reference
  currentWordIndex = 0;
- EmployeeWords = ["Reward", "Sell Services", "Earn Money", "Priority Job Access"];
+ EmployeeWords = ["Top Talent Access","Reduced hiring cost","Minimise Hiring effort","Boost Employer Branding"];
  currentWord = '';
 
  userLoginForm: FormGroup;
@@ -125,7 +126,19 @@ export class LoginUserForCorporateComponent {
      clearInterval(this.countdownInterval);
    }
  }
+ ngAfterViewInit() {
+  // this.trigger.panelClosingActions
+  //   .subscribe(e => {
+  //     this.myControl.setValue(null);
+  //   });
+  // This is to ensure the tooltip works
+  var tooltipTriggerList = [].slice.call(document.querySelectorAll('[data-bs-toggle="tooltip"]'))
+  var tooltipList = tooltipTriggerList.map(function (tooltipTriggerEl) {
+    return new bootstrap.Tooltip(tooltipTriggerEl)
+  })
 
+
+}
  ngOnInit() {
 
     this.currentUserSessionToken = this.amplify.getAccessToken();
@@ -396,7 +409,7 @@ async onChangePassword() {
       this.forgotPasswordForm.reset();
     }, 3000)
   } catch (error: any) {
-   this.invalidOtp = "Invalid OTP,Please enter the correct OTP";
+   this.invalidOtp = "Invalid OTP , Please enter the correct OTP";
   }
 }
 /**

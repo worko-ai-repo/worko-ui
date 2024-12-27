@@ -12,7 +12,7 @@
 
         <div class="csignup-info two">
           <h2 class="unlockText text-white1">
-            Unlock Dream Opportunities <br />
+            Your gateway to seamless hiring <br />
           </h2>
           <h5 class="cblinking-heading m-0" [class.blink]="isBlinking">{{ currentWord }}</h5>
         </div>
@@ -28,19 +28,21 @@
           class="common-form-main">
 
           <div class="form-group">
-            <label class="form-label required-form-field">Email</label>
-            <input matInput class="form-control form-input" formControlName="email" type="email" 
+           <!--  <label class="form-label required-form-field">Email</label> -->
+            <input matInput class="form-control form-input" formControlName="email" type="email" placeholder="Email" 
             [ngClass]="{ 'is-invalid': isInvalid('email') }">
+            <i class="fa-solid input-icn fa-envelope fa-xs" style="color: #ffffff;"></i>
             <span *ngIf="isInvalid('email')" class="text-danger" style="font-size:10px">
               {{ getErrorMessage('email') }}
             </span>
           </div>
 
           <div class="form-group">
-            <label class="form-label required-form-field">Password</label>
+            <!-- <label class="form-label required-form-field">Password</label> -->
             <div style="position: relative;">
-            <input matInput class="form-control form-input" formControlName="password" type="password"
+            <input matInput class="form-control form-input" formControlName="password" type="password" placeholder="Password"
               [ngClass]="{ 'is-invalid': isInvalid('password') }" />
+              <i class="fa-solid fa-lock fa-xs input-icn" style="color: #ffffff;"></i>
               <!-- ToolTip Starts Here -->
               <div class="tooltip-container" [ngClass]="{'hide':isInvalid('password')}">
                 <div class="tooltip-style">
@@ -55,21 +57,22 @@
             <span *ngIf="isInvalid('password')" class="text-danger" style="font-size:10px">
               {{ getErrorMessage('password') }}
             </span>
-            <div>
+            <div class="text-right">
               <a _ngcontent-ng-c1006296152="" href="javascript:void(0);" class="fs-11" style="font-size:10px"
-                (click)="initiateFpScreen('fp-screen')">Forgot password?</a>
+                (click)="initiateFpScreen('fp-screen')">Forgot password ?</a>
             </div>
           </div>
           <div class="form-group cSubmit">
-            <button mat-raised-button color="primary" type="submit" class="ajobs-fitem-resetBtn" [disabled] ="!userLoginForm.valid">Submit</button>
+            <button mat-raised-button color="primary" type="submit" class="btn btn-signUp error-message-div" [disabled] ="!userLoginForm.valid"
+            data-tooltip="Please make sure you have added the valid data in the above fields.">Submit</button>
           </div>
         </form>
       </div>
 
-      <div *ngIf="forgotPasswordScreen"  class="corporate-signup-form">
+      <div *ngIf="forgotPasswordScreen"  class="corporate-signup-form reset">
 
         <div class="corporate-signup-form-heading mb-10" style="margin-bottom: 8px; width: 60%;">
-          <h4 class="text-white1">Forgot Password! </h4>
+          <h4 class="text-white1">{{ changePasswordWithOtpScreen ? 'Reset Password' : 'Forgot Password!' }}</h4>
           <p *ngIf="!changePasswordWithOtpScreen" class="text-secondary">Forgot your password! No Worries Follow these Two Easy Steps to resolve it.</p>
           <p *ngIf="changePasswordWithOtpScreen" class="text-secondary">A one-time password has been sent to your email address. Please use it to reset your password.</p>
         </div>
@@ -78,33 +81,36 @@
         <form [formGroup]="forgotPasswordForm" (keydown.enter)="$event.preventDefault()" class="common-form-main">
 
           <div class="form-group forgotPasswordField">
-            <label class="form-label required-form-field">Email</label>
+            <!-- <label class="form-label required-form-field">Email</label> -->
             <input matInput formControlName="email" 
               class="form-control form-input" 
               type="text"
               name="email"
-              placeholder="Enter Email"
+              placeholder="Email"
               [readonly]="changePasswordWithOtpScreen"
               [ngClass]="{ 'is-invalid': isInvalid('email') }">
             <span *ngIf="isInvalid('email')" class="text-danger" style="font-size:10px">
               {{ getErrorMessage('email') }}
             </span>
+            <i class="fa-solid input-icn fa-envelope fa-xs input-icn" style="color: #ffffff;"></i>
           </div>
           <div *ngIf="changePasswordWithOtpScreen" class="form-group forgotPasswordField">
-            <label class="form-label required-form-field">OTP</label>
-            <input matInput formControlName="code" class="form-control form-input" type="text" placeholder="Enter OTP"
+            <!-- <label class="form-label required-form-field">OTP</label> -->
+            <input matInput formControlName="code" class="form-control form-input" type="text" placeholder="OTP"
               [ngClass]="{ 'is-invalid': isInvalid('code') }">
-            <span *ngIf="isInvalid('code')" class="text-danger" style="font-size:10px">
+              <i class="fa-solid fa-key fa-xs input-icn" style="color: #ffffff;"></i>
+              <span *ngIf="isInvalid('code')" class="text-danger" style="font-size:10px">
               {{ getErrorMessage('code') }}
             </span>
           </div>
           <div *ngIf="changePasswordWithOtpScreen" class="form-group forgotPasswordField">
-            <label class="form-label required-form-field">New Password</label>
+            <!-- <label class="form-label required-form-field">New Password</label> -->
             <div style="position: relative;">
               <input matInput formControlName="newPassword" class="form-control form-input" type="password"
-                name="password" placeholder="Enter New Password"
+                name="password" placeholder="New Password"
                 [ngClass]="{ 'is-invalid': isInvalid('newPassword') }">
-               <!-- ToolTip Starts Here -->
+                <i class="fa-solid fa-lock fa-xs input-icn" style="color: #ffffff;"></i>
+                <!-- ToolTip Starts Here -->
               <div class="tooltip-container" [ngClass]="{'hide':isInvalid('newPassword')}">
                 <div class="tooltip-style">
                   <i class="fa-solid fa-circle-info"></i>
@@ -120,21 +126,23 @@
             </span>
           </div>
           <div *ngIf="changePasswordWithOtpScreen" class="form-group forgotPasswordField">
-            <label class="form-label required-form-field">Retype Password</label>
+            <!-- <label class="form-label required-form-field">Retype Password</label> -->
             <input matInput class="form-control form-input" 
             formControlName="retypePassword"
              type="password"
              placeholder="Retype Password"
              [ngClass]="{ 'is-invalid': isInvalid('retypePassword') || forgotPasswordForm.hasError('mismatch') }" />
+             <i class="fa-solid fa-lock fa-xs input-icn" style="color: #ffffff;"></i>
              <span
                *ngIf="isInvalid('retypePassword') || forgotPasswordForm.hasError('mismatch')"
                class="text-danger" style="font-size: 10px;">
                Password does not match.
              </span>
           </div>
-          <div>
+          <div class="text-right">
+            <span style="font-size:10px;" class="text-bold">Know Your password ? </span>
             <a _ngcontent-ng-c1006296152="" href="javascript:void(0);" style="font-size:10px; margin-bottom: 5px;"
-              (click)="initiateFpScreen('login')">Know You password? Login</a>
+              (click)="initiateFpScreen('login')">Login</a>
           </div>
           <div>
             <small *ngIf="invalidOtp" class="text-danger">{{invalidOtp}}</small>
@@ -142,12 +150,14 @@
           <div class="form-group cSubmit">
             <!-- Conditionally render buttons -->
             <button *ngIf="!changePasswordWithOtpScreen" mat-raised-button color="primary" (click)="onSendCode()"
-              class="clogin-resetPassword" [disabled]="!forgotPasswordForm.get('email')!.valid">
+              class="btn btn-signUp error-message-div" [disabled]="!forgotPasswordForm.get('email')!.valid"
+              data-tooltip="Please make sure you have added the valid data in the above fields." >
               Send Code
             </button>
 
             <button *ngIf="changePasswordWithOtpScreen" mat-raised-button color="primary" (click)="onChangePassword()"
-              class="clogin-resetPassword" [disabled]="!forgotPasswordForm.valid">
+              class="btn btn-signUp error-message-div" [disabled]="!forgotPasswordForm.valid"
+              data-tooltip="Please make sure you have added the valid data in the above fields.">
               Change Password
             </button>
           </div>
@@ -159,7 +169,7 @@
 
 <app-modal [theme]="'theme-k'" [centered]="true" [showHeader]="showModal === modalType.MESSAGE" [showClose]="showClose"
 [showFooter]="showModal === modalType.MESSAGE" [modalSize]="modalSize" [title]="modalTitle" [message]="modalMessage"
-[bodyClass]="modalMessage ? 'p-4' : 'p-0'">
+[bodyClass]="modalMessage  ? 'p-4' : 'p-0'">
 
   <ng-container *ngIf="showModal === modalType.SUCCESS_ERROR_MESSAGE">
     <app-message-modal [title]="modalTitleText" [message]="modalMessageText" (onCancel)="closeModal()" (onContinue) = "closeModal()">

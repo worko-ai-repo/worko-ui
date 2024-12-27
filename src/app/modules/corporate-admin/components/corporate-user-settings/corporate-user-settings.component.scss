@@ -9,7 +9,7 @@
       margin-block: 5px;
       display: flex;
       justify-content: space-between;
-      align-items: center;
+      align-items: flex-start;
   
       input,
       button {
@@ -94,4 +94,34 @@
 }
   .form-control.is-invalid{
 border: 2px solid rgba(var(--bs-danger-rgb)) !important; 
+}
+.searchButton:disabled{
+  position: relative;
+  
+}
+.error-message-div[disabled]::after {
+  content: attr(data-tooltip);
+  position: absolute;
+  visibility: hidden;
+  width: 230px;
+  background-color: #0A1E36;
+  color: red;
+  border: 1px solid red;
+  border-radius: 6px;
+  padding: 5px;
+  font-size: 10px;
+  font-weight: 900;
+  bottom: -20%;
+  left: 185%;
+  transform: translateX(-50%);
+  opacity: 0;
+  transition: opacity 0.3s;
+  z-index: 99;
+  text-align: center;
+  pointer-events: none;
+}
+
+.error-message-div[disabled]:hover::after {
+  visibility: visible;
+  opacity: 1;
 }

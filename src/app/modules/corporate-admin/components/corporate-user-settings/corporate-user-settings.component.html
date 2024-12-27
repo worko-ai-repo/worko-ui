@@ -68,7 +68,9 @@
                   </div>
               
                   <!-- Submit Button -->
-                  <button type="submit" class="ps-4 pe-4 btn searchButton" [disabled]="isSubmitting || passwordForm.invalid">
+                  <button type="submit" class="ps-4 pe-4 btn searchButton error-message-div" style="cursor: not-allowed; pointer-events: visible;" [disabled]="isSubmitting || passwordForm.invalid"
+                  data-tooltip="Please make sure you have added the valid data in the above fields."
+                  >
                     Reset Password
                   </button>
               

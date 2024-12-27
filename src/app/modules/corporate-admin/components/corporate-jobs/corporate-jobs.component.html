@@ -1,13 +1,15 @@
 <div class="admin-table-main mx-2 ms-3" id="admin-job-main">
     <div class="tab-content mt-2" id="myTabContent">
       <div class="candidate-card tab-pane fade show active" id="home" role="tabpanel" aria-labelledby="home-tab">
-        <h5>Job Listings</h5>
-        <div class="ajobs-filters">
+        <div class="heading-and-btn">
+          <h5>Job Listings</h5>
           <span class="ajobs-create-jobs">
             <!-- Button to open the Add Job modal -->
             <button (click)="openModalone()" class="ps-4 pe-4 btn searchButton">Create Job</button>
           </span>
-  
+        </div>
+
+        <div class="ajobs-filters">
           <span class="ajobs-search">
             
             <span class="ajobs-status">
@@ -28,7 +30,7 @@
             </span> -->
             <input type="text" class="form-control serachInput" placeholder="Search Jobs" (keyup)="searchJobs($event)"
             [(ngModel)]="searchQuery" />
-            <button class="ps-4 pe-4 btn searchButton" (click)="resetBtnHandler()">Reset</button>
+            <button class="ps-4 pe-4 btn searchButton ml-3" (click)="resetBtnHandler()">Reset</button>
           </span>
 
         </div>
@@ -43,7 +45,6 @@
                 <th>Experience</th>
                 <th>Salary</th>
                 <th>Location</th>
-                <th>Job ID</th>
                 <th>Actions</th>
               </tr>
             </thead>
@@ -53,17 +54,23 @@
               </tr>
               <tr *ngFor="let job of filteredJobs; let i = index">
                 
-
-                <td matTooltip={{job.jobTitle}} matTooltipPosition="above"  (click)="viewJobDetailsandApplications(job.id)" id="job-table-row">{{ job.jobTitle |
-                  ellipsis:30 | titlecase }}
-                </td>
-
                   <td>
+                    <span matTooltip={{job.jobTitle}} matTooltipPosition="above" (click)="viewJobDetailsandApplications(job.id)"
+                      id="job-table-row" style="margin-right: 30px;">
+                      {{ job.jobTitle | ellipsis:30 | titlecase }}</span>
+                    <mat-icon style="cursor: pointer; position: absolute; right: 10px;" (click)="copyToClipboard(job.id)"
+                      matTooltip="Copy Job Id To Clipboard" matTooltipPosition="above">
+                      {{ copiedContextId === job.id ? 'check' : 'content_copy' }}
+                      <!-- {{ copiedContextId === row.contextId ? 'check' : 'content_paste' }} -->
+                    </mat-icon>
+                  </td>
+
+                  <td style="width: 30px;">
                     <p [ngClass]="getStatusClass(job.status)">{{ job.status | uppercase }}</p>
                   </td>
                   
 
-                <td>{{ job.createdAt | date: 'd MMM yyyy, h:mm a' }}</td>
+                <td style="width: 30px;">{{ job.createdAt | date: 'd MMM yyyy, h:mm a' }}</td>
                 
                 <td>  {{ formatRange(job?.experienceRange.min, job?.experienceRange.max,
                   'experience') }}</td>
@@ -71,37 +78,39 @@
                   'salary') }}</td>
                 <td>{{ job.location | titlecase }}</td>
 
-                  <td>
-                    <span style="margin-right:30px"  matTooltip={{job.id}} matTooltipPosition="above">{{ job.id | ellipsis:8 }}</span>
-                    <mat-icon style="cursor: pointer; position: absolute; right: 10px;" (click)="copyToClipboard(job.id)"
-                      matTooltip="Copy to Clipboard" matTooltipPosition="above">
-                      {{ copiedContextId === job.id ? 'check' : 'content_copy' }}
-                      <!-- {{ copiedContextId === row.contextId ? 'check' : 'content_paste' }} -->
-                    </mat-icon>
-                  </td>
-
-                <td id="editbtns">
+                <td id="editbtns" style="width: 100px;">
+                  
                   <span *ngIf="true" (click)="viewJobDetailsandApplications(job.id)"
-                  matTooltip="View More Details for this Job" matTooltipPosition="above" style="background: #9b00cb;">
-                  <i class="fa-solid fa-circle-info"></i></span>
-                  <span *ngIf="job.status != status.CLOSED" (click)="editJob(job)" matTooltip="Edit"
-                    matTooltipPosition="above" style="background:#2716bb;"><i
-                      class="fa-solid fa-pen-to-square"></i></span>
+                  matTooltip="View Applications" matTooltipPosition="above" style="background: #B4B7BA ;color: #182B47;">
+                  <i class="fa-solid fa-eye"></i></span>
+                  
+                  <span *ngIf="job.status != status.CLOSED" (click)="editJob(job , false)" matTooltip="Duplicate Job"
+                  matTooltipPosition="above"  style="background:#EDEEEB;">
+                  <i class="fa-solid fa-copy" style="color: #182B47;"></i></span>
+
+                  <span *ngIf="job.status != status.CLOSED" (click)="editJob(job , true)" matTooltip="Update Job"
+                    matTooltipPosition="above"  style="background:#CCC7BF; color: #182B47;">
+                    <i class="fa-solid fa-pen-to-square"></i></span>
+
+                    <span *ngIf="true" (click)="navigateToJobReferral($event,job.companyDetails.name, job.jobTitle,job.id)"
+                    matTooltip="View Job" matTooltipPosition="above" style="background: #0274BD;">
+                    <i class="fa-solid fa-arrow-up-right-from-square"></i></span>
+
                   <span *ngIf="job.status !== status.ARCHIVED && selectedStatus !== status.CLOSED"
-                    (click)="updateJobStatus(job,'ARCHIVED')" matTooltip="Archive" matTooltipPosition="above"
-                    style="background: #ffc107;">
+                    (click)="confirmOperation(job,'ARCHIVED')" matTooltip="Archive Job" matTooltipPosition="above"
+                    style="background: #E9E6DD; color: #182B47;">
                     <i class="fa-solid fa-file-arrow-down"></i></span>
-                  <span *ngIf="!isRecruiter">
-                    <span *ngIf="job.status != status.CLOSED" (click)="updateJobStatus(job,'CLOSED')" matTooltip="Delete"
-                      matTooltipPosition="above" style="background: red;">
+                  
+                    <span *ngIf="!isRecruiter">
+                    <span *ngIf="job.status != status.CLOSED" (click)="confirmOperation(job,'CLOSED')" matTooltip="Delete Job"
+                      matTooltipPosition="above" style="background: #A41F13;">
                       <i class="fa-solid fa-trash"></i></span>
                   </span>
+                  
                   <span *ngIf="job.status === status.ARCHIVED" (click)="updateJobStatus(job,'PUBLISHED')"
-                    matTooltip="Make Publish" matTooltipPosition="above" style="background: #ffc107;">
-                    <i class="fa-solid fa-eye"></i></span>
-                  <span *ngIf="true" (click)="navigateToJobReferral($event,job.companyDetails.name, job.jobTitle,job.id)"
-                    matTooltip="Visit" matTooltipPosition="above" style="background: green;">
-                    <i class="fa-solid fa-arrow-up-right-from-square"></i></span>
+                    matTooltip="Make Publish Job" matTooltipPosition="above" style="background: #31393C;">
+                     <i class="fa-solid fa-tower-cell"></i></span>
+                
                 </td>
               </tr>
             </tbody>
@@ -148,27 +157,27 @@
     <!-- Modal for adding a new job -->
     <ng-container *ngIf="showModal === modalType.ADMINJOBS_POPUP">
       <div class="message-card px-sm-3 p-4 ">
-        <h3> {{ isEditMode ? 'Update Job' : 'Create Job' }}</h3>
+        <h3>  {{ isDuplicateMode ? 'Duplicate Job' : (isEditMode ? 'Update Job' : 'Create Job') }} </h3>
         <form [formGroup]="jobForm" (keydown.enter)="$event.preventDefault()" (ngSubmit)="onSubmit()">
   
-          <!-- Company Name Input -->
- <!--  
-          <div class="ajobs-fitem">
-            <label for="companyName" class="form-label required-form-field">Company Name</label>
-            <input id="companyName" type="text" matInput [formControl]="companyControl" [matAutocomplete]="auto"
-              (focus)="onInputFocus()" (blur)="onInputBlur()" class="selector form-select required-form-field" />
-            <mat-autocomplete #auto="matAutocomplete" (optionSelected)="onCompanySelect($event)"
-              class="mat-autocomplete-main">
-              <mat-option *ngFor="let company of filteredCompanies$ | async" [value]="company">
-                {{ company.name }}
-              </mat-option>
-            </mat-autocomplete>
-            <div *ngIf="companyNameError" class="error">{{ companyNameError }}</div>
-            <span *ngIf="isInvalid('companyControl')" class="text-danger">{{ getErrorMessage('companyControl') }}</span>
-          </div> -->
-  
+
+            <!-- Job Description -->
+            <div class="ajobs-fitem gCloumnTwo" style="grid-column: span 6;" id="ajobDesc-rte">
+              <label for="jobDescription" class="form-label required-form-field">Job Description:</label>&nbsp;
+              <span class="ajob-tooltip"
+                style="cursor: pointer; width: min-content; position:relative ;height: min-content;">
+                <i class="fa-solid fa-circle-info " matTooltip="1.For New Line Press Shift + Enter Keys."
+                  matTooltipPosition="above"></i>
+              </span>
+
+              <div formControlName="jobDescription" [ngxSummernote]="ngxSummerConfig" class="ajobDesc-rte_editor"
+                [ngClass]="{ 'is-invalid': isInvalid('jobDescription') }"></div>
+
+              <span *ngIf="isInvalid('jobDescription')" class="text-danger">{{ getErrorMessage('jobDescription') }}</span>
+            </div>
+
           <!-- Job Title -->
-          <div class="ajobs-fitem">
+          <div class="ajobs-fitem" style="grid-column: span 4;">
             <label for="jobTitle" class="form-label required-form-field">Job Title:</label>
             <input id="jobTitle" formControlName="jobTitle" class="form-control form-input"
               [ngClass]="{ 'is-invalid': isInvalid('jobTitle') }" />
@@ -361,20 +370,7 @@
               }}</span>
           </div>
   
-          <!-- Job Description -->
-          <div class="ajobs-fitem gCloumnTwo" id="ajobDesc-rte">
-            <label for="jobDescription" class="form-label required-form-field">Job Description:</label>&nbsp;
-            <span class="ajob-tooltip"
-              style="cursor: pointer; width: min-content; position:relative ;height: min-content;">
-              <i class="fa-solid fa-circle-info " matTooltip="1.For New Line Press Shift + Enter Keys."
-                matTooltipPosition="above"></i>
-            </span>
-  
-            <div formControlName="jobDescription" [ngxSummernote]="ngxSummerConfig" class="ajobDesc-rte_editor"
-              [ngClass]="{ 'is-invalid': isInvalid('jobDescription') }"></div>
-  
-            <span *ngIf="isInvalid('jobDescription')" class="text-danger">{{ getErrorMessage('jobDescription') }}</span>
-          </div>
+         
           <!-- Other Requirements -->
           <div class="ajobs-fitem gCloumnTwo">
             <label for="otherRequirements" class="form-label">Other Requirements:</label>
@@ -385,8 +381,10 @@
               }}</span>
           </div>
   
-          <button type="submit" [disabled]="!jobForm.valid" class="ajobs-fitem-submitBtn">
-            {{ isEditMode ? 'Update' : 'Create' }}
+          <button type="submit" 
+          [disabled]="!jobForm.valid || (isDuplicateMode && !isduplicateFormValid)"
+           class="ajobs-fitem-submitBtn">
+            {{ isEditMode ? 'Update Job' : isDuplicateMode ? 'Duplicate Job' : 'Create Job' }}
           </button>
           <button type="button" id="ajobResetBtn" (click)="resetModal()" class="ajobs-fitem-resetBtn">Reset</button>
           <button class="btn btn-next" (click)="closeModal()"> Close</button>
@@ -410,4 +408,11 @@
         </div>
       </div>
     </ng-container>
+
+  <!-- Warning Modal -->
+  <ng-container *ngIf="showModal === modalType.CORPORATE_USER_WARNING" >
+    <app-message-modal [title]="'Warning!'" [message]="successmessage"  (onNoBtn) = "closeModal()" id="login-warn-popup"
+    (onYesBtn)="updateJobStatus(operationJob , operationType)" >
+    </app-message-modal>
+  </ng-container>
   </app-modal>

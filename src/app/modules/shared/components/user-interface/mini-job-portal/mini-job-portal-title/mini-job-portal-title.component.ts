@@ -7,6 +7,7 @@ import { Component, Input } from '@angular/core';
 })
 export class MiniJobPortalTitleComponent {
     @Input() jobDescriptionDetails: any;
+    @Input() isJobInvalid: any;
     shareCurrentUrl() {
         const url = window.location.href;
 

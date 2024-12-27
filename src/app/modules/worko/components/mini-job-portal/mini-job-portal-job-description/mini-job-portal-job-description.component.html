@@ -22,11 +22,11 @@
             <div class="col-md-7 col-12 divide-55">
                 <div class="mini-job-title-container">
                     <app-mini-job-portal-title
-                        [jobDescriptionDetails]="jobDescriptionDetails"></app-mini-job-portal-title>
+                        [jobDescriptionDetails]="jobDescriptionDetails" [isJobInvalid] = "isJobInvalid"></app-mini-job-portal-title>
                 </div>
                 <div class="mini-job-description-container">
                     <app-mini-job-portal-description (requestReferral)="handleRequestReferral()"
-                        [jobDescriptionDetails]="jobDescriptionDetails"></app-mini-job-portal-description>
+                        [jobDescriptionDetails]="jobDescriptionDetails" [isJobInvalid] = "isJobInvalid"></app-mini-job-portal-description>
                 </div>
                 <!-- <div class="mini-job-about-container">
                 <app-mini-job-portal-about-company></app-mini-job-portal-about-company>

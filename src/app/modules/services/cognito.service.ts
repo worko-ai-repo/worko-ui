@@ -28,7 +28,7 @@ type SignUpParameters = {
   username: string;
   password: string;
   // email: string;
-  phone_number: string;
+  phone_number?: string;
   name: string;
 };
 
@@ -251,7 +251,7 @@ export class CognitoService {
         options: {
           userAttributes: {
             name,
-            phone_number
+            ...(phone_number && {phone_number}),
           },
           autoSignIn: true
         }

@@ -10,6 +10,7 @@ export class MiniJobPortalDescriptionComponent implements OnInit, OnChanges {
   sanitizedHtml: SafeHtml | undefined;
   @Output() requestReferral = new EventEmitter<void>();
   @Input() jobDescriptionDetails: any;
+  @Input() isJobInvalid:any;
 
   constructor(private sanitizer: DomSanitizer) {}
 

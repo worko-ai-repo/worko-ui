@@ -139,34 +139,34 @@
                                 <!-- View CV Button -->
                                 <span *ngIf="true" (click)="handleAction(job, status.CV_DOWNLOADED)"
                                     matTooltip="View CV" matTooltipPosition="above"
-                                    style="background: #17a2b8; cursor: pointer;">
+                                    style="background: #1E3A5F; cursor: pointer;">
                                     <i class="fa-solid fa-file"></i>
                                 </span>
 
                                 <!-- Under Evaluation Button -->
                                 <span *ngIf="job.status === status.CV_DOWNLOADED" matTooltip="Under Evaluation"
-                                    matTooltipPosition="above" style="background: #ffc107; cursor: pointer;"
+                                    matTooltipPosition="above" style="background: #357CBA; cursor: pointer;"
                                     (click)="handleAction(job, status.UNDER_EVALUATION)">
                                     <i class="fa-solid fa-spinner"></i>
                                 </span>
 
                                 <!-- Processing Interview Button -->
                                 <span *ngIf="job.status === status.UNDER_EVALUATION" matTooltip="Processing Interview"
-                                    matTooltipPosition="above" style="background: #fd7e14; cursor: pointer;"
+                                    matTooltipPosition="above" style="background: #334E68; cursor: pointer;"
                                     (click)="handleAction(job, status.PROCESSING_INTERVIEW)">
                                     <i class="fa-solid fa-comments"></i>
                                 </span>
 
                                 <!-- Interview Done Button -->
                                 <span *ngIf="job.status === status.PROCESSING_INTERVIEW" matTooltip="Interview Done"
-                                    matTooltipPosition="above" style="background: #28a745; cursor: pointer;"
+                                    matTooltipPosition="above" style="background: #46727f; cursor: pointer;"
                                     (click)="handleAction(job, status.INTERVIEW_DONE)">
                                     <i class="fa-solid fa-check"></i>
                                 </span>
 
                                 <!-- Hired Button -->
                                 <span *ngIf="job.status === status.INTERVIEW_DONE" matTooltip="Hired"
-                                    matTooltipPosition="above" style="background: #218838; cursor: pointer;"
+                                    matTooltipPosition="above" style="background: #D7A769; cursor: pointer;"
                                     (click)="handleAction(job, status.HIRED)">
                                     <i class="fa-solid fa-user-check"></i>
                                 </span>
@@ -174,7 +174,7 @@
                                 <!-- Reject Button -->
                                 <span *ngIf="job.status !== status.REJECTED && job.status !== status.HIRED"
                                     matTooltip="Reject" matTooltipPosition="above"
-                                    style="background: red; cursor: pointer;"
+                                    style="background: #A34242; cursor: pointer;"
                                     (click)="handleAction(job, status.REJECTED)">
                                     <i class="fa-solid fa-times"></i>
                                 </span>

@@ -14,7 +14,7 @@ input:-webkit-autofill {
   
     // Inner container that will hold the inputs @change
     .create-corporate-user-container {
-      min-width: 50vw;   
+      width: 50vw;   
       margin: 0 auto;
       padding: 1.5rem;
       padding-block: 75px 0;
@@ -104,6 +104,7 @@ input:-webkit-autofill {
             flex-direction: column;
             height: 80%;
             min-width: 50%;
+            width: 45%;
             justify-content: center;
             align-items: center;
             // border: 2px solid red;
@@ -132,56 +133,71 @@ input:-webkit-autofill {
 
     .form-control {
       background-color: transparent;
-      font-size: medium !important;
-      border-radius: 5px;
+      font-size: 12px !important;
+      border-radius: 0px;
       color: white;
-      border: 2px solid #295CA8;
+      border: none;
+      border-bottom: 2px solid #295CA8;
+      padding-left: 25px;
+      
     }
-      .form-control.is-invalid{
-    border: 2px solid rgba(var(--bs-danger-rgb)) !important; 
+    .form-control.is-invalid{
+    border-bottom: 2px solid rgba(var(--bs-danger-rgb)) !important; 
+  }
+  .input-icn{
+    position: absolute;
+    top: 15px;
+    left: 5px;
   }
   }
   .cSubmit{
     margin-bottom: 0;
-    width: 100%;
+    width: 70%;
     grid-column: span 1;
     justify-self: center;
     display: flex;
     justify-content: center;
-    margin-top:10px
-    
+    margin-top:10px;
   }
   
   button[type="submit"] {
     background-color: #2f92c7;
+    font-size: 10px;
     padding: 5px;
     color: white;
     border: transparent;
     border-radius: 5px;
     outline: none;
-    width: 60%;
+    width: auto;
     height: min-content;
     cursor: pointer;
     &:hover {
       background-color: #1d5e81;
     }
-    &:disabled {
-      background-color: #8696b3;
+/*     &:disabled {
+      background: linear-gradient(90deg, #2F92C7 0%, rgba(47, 146, 199, 0) 205.38%);
       &hover {
+        cursor: not-allowed;
         background-color: #8696b3 !important;
       }
-    }
+    } */
   }
   .form-group{
+    position: relative;
     input{
       width:100%;
       max-width: unset !important;
-      border: 2px solid #295CA8 !important;
-       
+      border: none;
+      border-bottom: 2px solid #295CA8 !important;
+      box-shadow: none !important;
+      caret-color: white;
     }
+    
   }
   .is-invalid{
-    border: 2px solid red !important;
+    box-shadow: none !important;
+    border-bottom: 2px solid rgba(var(--bs-danger-rgb)) !important; 
+    caret-color: rgba(var(--bs-danger-rgb)) !important;
   }
   
   //Modal style Craete Job Form
@@ -214,26 +230,49 @@ input:-webkit-autofill {
       margin-top:5px;
     }
   }
-  .clogin-resetPassword{
-    margin: 5px;
-    background-color: #2f92c7;
-    color: white;
+  .btn-signUp{
+    font-size: 10px;
     padding: 5px;
-    border: transparent;
-    border-radius: 5px;
-    outline: none;
+    margin: 5px;
+    color: white;
+    background: linear-gradient(90deg, #2F92C7 0%, rgba(47, 146, 199, 0) 205.38%);
     min-width: 80%;
     height: min-content;
     cursor: pointer;
+    position: relative;
   }
-  .clogin-resetPassword:disabled{
-    background-color: #8696b3;
+  .btn-signUp:disabled{
+     cursor: not-allowed;
+    pointer-events: visible;
+    background: linear-gradient(90deg, #2F92C7 0%, rgba(47, 146, 199, 0) 205.38%);
   }
-  .clogin-resetPassword:hover{
-    background-color: #1d5e81;
+
+  .error-message-div[disabled]::after {
+    content: attr(data-tooltip);
+    position: absolute;
+    visibility: hidden;
+    width: 230px;
+    background-color: #0A1E36;
+    color: red;
+    border: 1px solid red;
+    border-radius: 6px;
+    padding: 5px;
+    font-size: 10px;
+    font-weight: 900;
+    bottom: 125%;
+    left: 50%;
+    transform: translateX(-50%);
+    opacity: 0;
+    transition: opacity 0.3s;
+    z-index: 1;
+    text-align: center;
+    pointer-events: none;
   }
   
-  
+  .error-message-div[disabled]:hover::after {
+    visibility: visible;
+    opacity: 1;
+  }
 .tooltip-container {
   position: absolute;
   display: inline-block;
@@ -284,20 +323,23 @@ input:-webkit-autofill {
 
   @media screen and (max-width: 1024px) {
     .corporate-auth-main {
-      
       .create-corporate-user-container {
         min-width: 480px;
+        width: 75vw;
       }
     }
     .common-form-main {
       display: grid;
       grid-template-columns: repeat(1, 1fr);
       grid-gap: 0px 10px;
-      width: 60%;
+      width: 70%;
       max-width: 80%;
     }
     .common-form-main>*{
       font-size: 12px !important; 
+  }
+  .cSubmit{
+    font-size: 12px;
   }
   }
   
@@ -313,6 +355,9 @@ input:-webkit-autofill {
           align-items: center;
           .corporate-signup-info{
               display: none !important;
+        }
+        .corporate-signup-form{
+          width: 100%;
         }
       }
       }
