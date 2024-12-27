@@ -129,8 +129,11 @@ export class AdminIssuesComponent {
     // this.initializeData();
 
     // Use the previous lastKey if available; otherwise, start fresh
-    const keyToUse = this.getKeyForCurrentPage();
-    this.getAllIssues(keyToUse);
+    // const keyToUse = this.getKeyForCurrentPage();
+    // this.getAllIssues(keyToUse);
+
+    this.previousKeys = [];
+    this.getAllIssues(null); // Starting from the beginning by passing `null` for `lastKey` to fetch the initial page of results.
   }
 
 
@@ -189,8 +192,11 @@ export class AdminIssuesComponent {
     // this.initializeData();
 
     // Use the previous lastKey if available; otherwise, start fresh
-    const keyToUse = this.getKeyForCurrentPage();
-    this.getAllIssues(keyToUse);
+    // const keyToUse = this.getKeyForCurrentPage();
+    // this.getAllIssues(keyToUse);
+
+    this.previousKeys = [];
+    this.getAllIssues(null);
   }
 
 
@@ -212,8 +218,11 @@ export class AdminIssuesComponent {
 
     // this.initializeData();
     // Use the previous lastKey if available; otherwise, start fresh
-    const keyToUse = this.getKeyForCurrentPage();
-    this.getAllIssues(keyToUse);
+    // const keyToUse = this.getKeyForCurrentPage();
+    // this.getAllIssues(keyToUse);
+
+    this.previousKeys = [];
+    this.getAllIssues(null);
   }
 
   initializeData() {
@@ -239,15 +248,18 @@ export class AdminIssuesComponent {
     // this.referralPaginator.pageSize = 25;  // Update the UI's pageSize
 
     // Use the previous lastKey if available; otherwise, start fresh
-    const keyToUse = this.getKeyForCurrentPage();
-    this.getAllIssues(keyToUse);
+    // const keyToUse = this.getKeyForCurrentPage();
+    // this.getAllIssues(keyToUse);
+
+    this.previousKeys = [];
+    this.getAllIssues(null);
   }
 
   onPageSizeChange(event: Event): void {
     const selectedPageSize = (event.target as HTMLSelectElement).value;
     this.pageSize = Number(selectedPageSize);
     this.previousKeys = [];
-    this.getAllIssues(null); // Call getAllUserData refresh the data with the new page size
+    this.getAllIssues(null); // Call getAllIssues refresh the data with the new page size
   }
 
   onSort(sort: Sort): void {
@@ -340,8 +352,11 @@ export class AdminIssuesComponent {
     this.searchQuery = "";
 
     // Use the previous lastKey if available; otherwise, start fresh
-    const keyToUse = this.getKeyForCurrentPage();
-    this.getAllIssues(keyToUse);
+    // const keyToUse = this.getKeyForCurrentPage();
+    // this.getAllIssues(keyToUse);
+
+    this.previousKeys = [];
+    this.getAllIssues(null);
 
 
     //   input.value = ''; // Clear the input value
