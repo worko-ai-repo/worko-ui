@@ -33,12 +33,21 @@
                     <!-- <span class="experience ms-2"> Experience:
                         {{ job.experienceRange.min }} 
                         {{ job.experienceRange.max <= 1 ? '- ' + job.experienceRange.max + ' Year' : (job.experienceRange.max >= 9999 ? '+' : '- ' + job.experienceRange.max + ' Years') }}</span> -->
-                    <span class="experience ms-2"> Experience:
+                    <!-- <span class="experience ms-2"> Experience:
                         {{ job.experienceRange.max === 9999
                         ? job.experienceRange.min + '+ Years'
                         : job.experienceRange.min + ' - ' +
-                        (job.experienceRange.max <= 1 ? job.experienceRange.max
-                            + ' Year' : job.experienceRange.max + ' Years' ) }} </span>
+                        (job.experienceRange.max <= 1 ? job.experienceRange.max + ' Year' : job.experienceRange.max
+                            + ' Years' ) }} </span> -->
+                    <span class="experience ms-2"> Experience:
+                        {{ job.experienceRange.min === job.experienceRange.max
+                        ? job.experienceRange.min + (job.experienceRange.min === 1 ? ' Year' : '
+                        Years')
+                        : job.experienceRange.max === 9999
+                        ? job.experienceRange.min + '+ Years'
+                        : job.experienceRange.min + ' - ' +
+                        (job.experienceRange.max <= 1 ? job.experienceRange.max + ' Year' : job.experienceRange.max
+                            + ' Years' ) }} </span>
 
                 </div>
             </div>

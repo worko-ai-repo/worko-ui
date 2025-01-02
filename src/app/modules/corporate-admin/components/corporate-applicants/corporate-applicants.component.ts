@@ -245,6 +245,14 @@ export class CorporateApplicantsComponent {
   formatRange(min: number | null, max: number | null, type: string): string {
     if (min === null || max === null) return '-'; // Handle null values during API loading
 
+    if (min === max) {
+      if (type === 'experience') {
+        return `${min} ${min === 1 ? 'Year' : 'Years'}`;
+      } else if (type === 'salary') {
+        return `${min} LPA`;
+      }
+    }
+
     if (type === 'experience') {
       if (min === 0 && max === 0) return '-'; // Handling edge case for no experience range
       if (max === 9999) return `${min}+ Years`; // Handle max as 9999 for experience
@@ -258,6 +266,11 @@ export class CorporateApplicantsComponent {
     return '-'; // Default value
   }
 
+  getCvDownloadedDate(statusTracker: any[]): string | null {
+    if (!statusTracker) return null;
+    const found = statusTracker.find(item => item.newStatus === 'CV_DOWNLOADED');
+    return found ? found.actionDate : null;
+  }
 
   transformStatus(status: string): string {
     return status ? status.replace(/_/g, ' ') : status;

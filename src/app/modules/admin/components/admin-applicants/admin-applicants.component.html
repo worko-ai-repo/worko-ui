@@ -96,12 +96,13 @@
                             <th>Score Details</th>
                             <th>Status</th>
                             <th>Application Date</th>
+                            <th>CV Viewed Date</th>
                             <th>Actions</th>
                         </tr>
                     </thead>
                     <tbody>
                         <tr *ngIf="filteredJobs.length === 0">
-                            <td colspan="9" class="no-jobs-message">{{ noApplicationsMessage }}</td>
+                            <td colspan="10" class="no-jobs-message">{{ noApplicationsMessage }}</td>
                         </tr>
                         <tr *ngFor="let job of filteredJobs; let i = index">
                             <td matTooltip="{{ job?.applicantDetails?.name | titlecase }}" matTooltipPosition="above"
@@ -133,6 +134,11 @@
                                 </p>
                             </td>
                             <td>{{ job.createdAt | date: 'd MMM yyyy, h:mm a' }}</td>
+                            <td>
+                                {{ getCvDownloadedDate(job?.statusTracker)
+                                ? (getCvDownloadedDate(job?.statusTracker) | date: 'd MMM yyyy, h:mm a')
+                                : '-' }}
+                            </td>
                             <td id="editbtns">
 
                                 <!-- View CV Button -->
