@@ -40,6 +40,7 @@ export enum ModalCloseResult {
     CORPORATE_USER_INVITE_REDIRECT = 31,
     CORPORATE_USER_ADD_INVITE = 32,
     CORPORATE_USER_WARNING = 33,
-    VIEW_CV = 34
+    VIEW_CV = 34,
+    JD_AUTOFILL = 35,
   }
   

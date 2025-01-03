@@ -327,7 +327,12 @@ export class AdminInviteComponent implements OnInit {
    */
   openCreateInviteModal(): void {
     this.showCloseBtn = false;
+    this.inviteForm.reset();
+    this.companyControl.disable();
     this.openModal(this.modalType.CORPORATE_USER_ADD_INVITE)
+    setTimeout(() => {
+      this.companyControl.enable();
+    }, 1000);
   }
 
   /**

@@ -5,7 +5,7 @@
         <h5>Job Listings</h5>
         <span class="ajobs-create-jobs">
           <!-- Button to open the Add Job modal -->
-          <button (click)="openModalone()" class="ps-4 pe-4 btn searchButton">Create Job</button>
+          <button (click)="openAutoFill()" class="ps-4 pe-4 btn searchButton">Create Job</button>
         </span>
       </div>
       <div class="ajobs-filters">
@@ -196,7 +196,7 @@
 
         <!-- Job Description -->
         <div class="ajobs-fitem gCloumnTwo" id="ajobDesc-rte">
-          <label for="jobDescription" class="form-label required-form-field">Job Description:</label>&nbsp;
+          <label for="jobDescription" class="form-label required-form-field">Job Description</label>&nbsp;
           <span class="ajob-tooltip"
             style="cursor: pointer; width: min-content; position:relative ;height: min-content;">
             <i class="fa-solid fa-circle-info " matTooltip="1.For New Line Press Shift + Enter Keys."
@@ -211,7 +211,7 @@
 
         <!-- Job Title -->
         <div class="ajobs-fitem" style="grid-column: span 4;">
-          <label for="jobTitle" class="form-label required-form-field">Job Title:</label>
+          <label for="jobTitle" class="form-label required-form-field">Job Title</label>
           <input id="jobTitle" formControlName="jobTitle" class="form-control form-input"
             [ngClass]="{ 'is-invalid': isInvalid('jobTitle') }" />
           <span *ngIf="isInvalid('jobTitle')" class="text-danger">{{ getErrorMessage('jobTitle') }}</span>
@@ -219,33 +219,52 @@
 
         <!-- Salary Range -->
         <div class="ajobs-fitem">
-          <label for="salaryRange" class="form-label required-form-field">Salary Range:</label>
-          <select id="salaryRange" class="selector form-select required-form-field"
-            [ngClass]="{ 'is-invalid': isInvalid('salaryRange') }" formControlName="salaryRange" #refSalaryRange>
-            <option [ngValue]="null" disabled selected>Select Salary</option>
-            <option *ngFor="let range of salaryRange" [ngValue]="range.value">
-              {{ range.label }}
-            </option>
-          </select>
-          <span *ngIf="isInvalid('salaryRange')" class="text-danger">{{ getErrorMessage('salaryRange') }}</span>
+          <label for="salaryRange" class="form-label required-form-field">Salary Range</label>&nbsp;
+          <span class="ajob-tooltip"
+          style=" cursor: pointer; width: min-content; position:relative ;height: min-content;">
+          <i class="fa-solid fa-circle-info " matTooltip="{{rangeSalToolTipMessage}}" matTooltipPosition="above"></i>
+        </span>
+          <div class="d-flex gap-2" formGroupName="salaryRange">
+            <!-- Minimum Salary -->
+            <input type="number" id="salaryRangeMin" placeholder="Min" class="form-control form-input required-form-field"
+              [ngClass]="{ 'is-invalid': isInvalid('salaryRange.min') }"
+              formControlName="min" />
+            <input type="number" id="salaryRangeMax" placeholder="Max" class="form-control form-input required-form-field"
+              [ngClass]="{ 'is-invalid': isInvalid('salaryRange.max') }"
+              formControlName="max" />
+          </div>
+            <!-- Single error message for all conditions -->
+          <span *ngIf="isInvalid('salaryRange')" class="text-danger">
+            {{ getErrorMessage('salaryRange') }}
+          </span>
         </div>
 
         <!-- Experience Range -->
         <div class="ajobs-fitem">
-          <label for="experienceRange" class="form-label required-form-field">Experience Range:</label>
-          <select id="experienceRange" class="selector form-select required-form-field"
-            [ngClass]="{ 'is-invalid': isInvalid('experienceRange') }" formControlName="experienceRange" #refExpRange>
-            <option [ngValue]="null" disabled>Select Experience Range</option>
-            <option *ngFor="let range of experienceRange" [ngValue]="range.value">
-              {{ range.label }}
-            </option>
-          </select>
-          <span *ngIf="isInvalid('experienceRange')" class="text-danger">{{ getErrorMessage('experienceRange') }}</span>
+          <label for="experienceRange" class="form-label required-form-field">Experience Range</label>&nbsp;
+          <span class="ajob-tooltip"
+          style=" cursor: pointer; width: min-content; position:relative ;height: min-content;">
+          <i class="fa-solid fa-circle-info " matTooltip="{{rangeExpToolTipMessage}}" matTooltipPosition="above"></i>
+        </span>
+          <div class="d-flex gap-2" formGroupName="experienceRange">
+            <!-- Minimum Experience -->
+            <input type="number" id="experienceRangeMin" placeholder="Min" class="form-control form-input required-form-field"
+              [ngClass]="{ 'is-invalid': isInvalid('experienceRange.min') }"
+              formControlName="min" />
+            <input type="number" id="experienceRangeMax" placeholder="Max" class="form-control form-input required-form-field"
+              [ngClass]="{ 'is-invalid': isInvalid('experienceRange.max') }"
+              formControlName="max" />
+          </div>
+            <!-- Single error message for all conditions -->
+          <span *ngIf="isInvalid('experienceRange')" class="text-danger">
+            {{ getErrorMessage('experienceRange') }}
+          </span>
         </div>
+        
 
         <!-- Number of Openings -->
         <div class="ajobs-fitem">
-          <label for="numOfOpenings" class="form-label required-form-field">Number of Openings:</label>
+          <label for="numOfOpenings" class="form-label required-form-field">Number of Openings</label>
           <input type="number" id="numOfOpenings" formControlName="numOfOpenings" class="form-control form-input"
             [ngClass]="{ 'is-invalid': isInvalid('numOfOpenings') }" />
           <span *ngIf="isInvalid('numOfOpenings')" class="text-danger">{{ getErrorMessage('numOfOpenings') }}</span>
@@ -253,7 +272,7 @@
 
         <!-- Work Mode -->
         <div class="ajobs-fitem">
-          <label for="workMode" class="form-label required-form-field">Work Mode:</label>
+          <label for="workMode" class="form-label required-form-field">Work Mode</label>
           <select id="workMode" formControlName="workMode" class="selector form-select required-form-field"
             [ngClass]="{ 'is-invalid': isInvalid('workMode') }">
             <option value="" disabled selected>Select Work Mode</option> <!-- Placeholder-like option -->
@@ -266,7 +285,7 @@
 
         <!-- Location -->
         <div class="ajobs-fitem">
-          <label for="location" class="form-label required-form-field">Location:</label>
+          <label for="location" class="form-label required-form-field">Location</label>
           <select id="location" formControlName="location" class="selector form-select required-form-field"
             [ngClass]="{ 'is-invalid': isInvalid('location') }">
             <option value="" disabled selected>Select Location</option> <!-- Placeholder-like option -->
@@ -288,7 +307,7 @@
 
         <!-- Type of Employment -->
         <div class="ajobs-fitem">
-          <label for="typeofEmployment" class="form-label required-form-field">Type of Employment:</label>
+          <label for="typeofEmployment" class="form-label required-form-field">Type of Employment</label>
           <select id="typeofEmployment" formControlName="typeofEmployment"
             class="selector form-select required-form-field">
             <option value="" disabled selected>Select Employment Type</option> <!-- Placeholder-like option -->
@@ -304,7 +323,7 @@
 
         <!-- Department -->
         <div class="ajobs-fitem">
-          <label for="department" class="form-label required-form-field">Department:</label>
+          <label for="department" class="form-label required-form-field">Department</label>
           <input id="department" formControlName="department" class="form-control form-input required-form-field"
             [ngClass]="{ 'is-invalid': isInvalid('department') }" />
           <span *ngIf="isInvalid('department')" class="text-danger">{{ getErrorMessage('department') }}</span>
@@ -317,7 +336,7 @@
             style=" cursor: pointer; width: min-content; position:relative ;height: min-content;">
             <i class="fa-solid fa-circle-info " matTooltip="{{skillsTooltipMessage}}" matTooltipPosition="above"></i>
           </span>
-          <input type="text" id="coreSkills" (keydown.enter)="onSkillInput($event, 'coreSkills')"
+          <input type="text" id="coreSkills" maxlength="30" (keydown.enter)="onSkillInput($event, 'coreSkills')"
             (blur)="markControlAsTouched('coreSkills')" class="form-control form-input required-form-field"
             [ngClass]="{ 'is-invalid': isInvalid('coreSkills') }" />
 
@@ -337,7 +356,7 @@
             style=" cursor: pointer; width: min-content; position:relative ;height: min-content;">
             <i class="fa-solid fa-circle-info " matTooltip="{{skillsTooltipMessage}}" matTooltipPosition="above"></i>
           </span>
-          <input type="text" id="softSkills" (keydown.enter)="onSkillInput($event, 'softSkills')"
+          <input type="text" id="softSkills" maxlength="30" (keydown.enter)="onSkillInput($event, 'softSkills')"
             (blur)="markControlAsTouched('softSkills')" class="form-control form-input required-form-field"
             [ngClass]="{ 'is-invalid': isInvalid('softSkills') }" />
 
@@ -360,7 +379,7 @@
             style=" cursor: pointer; width: min-content; position:relative ;height: min-content;">
             <i class="fa-solid fa-circle-info " matTooltip="{{skillsTooltipMessage}}" matTooltipPosition="above"></i>
           </span>
-          <input type="text" id="technicalSkills" (keydown.enter)="onSkillInput($event, 'technicalSkills')"
+          <input type="text" id="technicalSkills" maxlength="30" (keydown.enter)="onSkillInput($event, 'technicalSkills')"
             (blur)="markControlAsTouched('technicalSkills')" class="form-control form-input required-form-field"
             [ngClass]="{ 'is-invalid': isInvalid('technicalSkills') }" />
 
@@ -381,7 +400,7 @@
             style=" cursor: pointer; width: min-content; position:relative ;height: min-content;">
             <i class="fa-solid fa-circle-info " matTooltip="{{skillsTooltipMessage}}" matTooltipPosition="above"></i>
           </span>
-          <input type="text" id="mislaneiousSkills" (keydown.enter)="onSkillInput($event, 'mislaneiousSkills')"
+          <input type="text" id="mislaneiousSkills" maxlength="30" (keydown.enter)="onSkillInput($event, 'mislaneiousSkills')"
             class="form-control form-input " [ngClass]="{ 'is-invalid': isInvalid('mislaneiousSkills') }" />
 
           <div class="skill-chip-box">
@@ -398,7 +417,7 @@
 
         <!-- Other Requirements -->
         <div class="ajobs-fitem gCloumnTwo">
-          <label for="otherRequirements" class="form-label">Other Requirements:</label>
+          <label for="otherRequirements" class="form-label">Other Requirements</label>
           <textarea id="otherRequirements" formControlName="otherRequirements" class="form-control form-input jobDesc"
             rows="4" [ngClass]="{ 'is-invalid': isInvalid('otherRequirements') }">
         </textarea>
@@ -440,4 +459,10 @@
     (onYesBtn)="updateJobStatus(operationJob , operationType)" >
     </app-message-modal>
   </ng-container>
+
+  <!-- jd-autofill-modal -->
+  <ng-container *ngIf="showModal === modalType.JD_AUTOFILL">
+    <app-jd-autofill-modal (onClose)="modal.cancel()" (onSkip)="openModalone()" (onAutofillPastJd) = "autofillParseJd($event)"></app-jd-autofill-modal>
+  </ng-container>
+
 </app-modal>

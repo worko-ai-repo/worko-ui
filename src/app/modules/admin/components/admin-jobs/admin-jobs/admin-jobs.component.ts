@@ -17,6 +17,8 @@ import { ModalComponent } from "src/app/modules/shared/components/modal/modal.co
 import { NgxSpinnerService } from "ngx-spinner";
 import { MatTableDataSource } from "@angular/material/table";
 import { MatAutocompleteTrigger } from "@angular/material/autocomplete";
+import { minMaxValidator } from "src/app/modules/worko/validators/minMax.validator";
+import { autofillJobDetailsToForm } from "src/app/modules/shared/utils/jobsAutoFillParser.utils";
 
 // Interface for FetchJobsOptionsDto
 interface FetchJobsOptionsDto {
@@ -188,7 +190,9 @@ export class AdminJobsComponent implements OnInit {
 
   // Component properties
   copiedContextId: any;
-  skillsTooltipMessage = "Type a skill and press Enter to add it to the list.";
+  skillsTooltipMessage = "Type a skill and press Enter to add it to the list. Maximum length is 30 characters.";
+  rangeExpToolTipMessage = "Enter minimum and maximum values. Maximum Experience range is 30 Years";
+  rangeSalToolTipMessage = "Enter minimum and maximum values. Maximum Salary range is 100L";
 
 
   // Warning Message
@@ -209,10 +213,15 @@ export class AdminJobsComponent implements OnInit {
     // Initialize the job form with necessary fields and validation
     this.jobForm = this.fb.group({
       status: [this.status.PUBLISHED],
-      companyId: ["",Validators.required],
+      companyId: [null,Validators.required],
       coreSkills: this.fb.array([], Validators.required),
       department: ["", [Validators.required]],
-      experienceRange:[null, Validators.required],
+      experienceRange: this.fb.group({
+        min: [null, [Validators.required, Validators.min(0)]],
+        max: [null, [Validators.required, Validators.min(0)]],
+      },
+        { validators: minMaxValidator(30) }
+      ),
       jobTitle: ["", [Validators.required, Validators.minLength(3)]],
       jobDescription: ["", [Validators.required, Validators.minLength(20)]],
       location: ["", Validators.required],
@@ -220,8 +229,13 @@ export class AdminJobsComponent implements OnInit {
       numOfOpenings: [1, [Validators.required, Validators.min(1)]],
       noticePeriod: [0, [Validators.required, Validators.min(0)]],
       otherRequirements: [""],
-      salaryRange: [null, Validators.required],
-      softSkills: this.fb.array([], Validators.required),
+      salaryRange: this.fb.group({
+        min: [null, [Validators.required, Validators.min(0)]],
+        max: [null, [Validators.required, Validators.min(0)]],
+      },
+        { validators: minMaxValidator(100) }
+      ),
+      softSkills: this.fb.array([], [Validators.required]),
       technicalSkills: this.fb.array([], Validators.required),
       typeofEmployment: ["", Validators.required],
       workMode: ["", Validators.required],
@@ -249,12 +263,13 @@ export class AdminJobsComponent implements OnInit {
   }
 
 // Method to check if the form has changes
-checkForChanges(): void {
+checkForChanges():any{
   // Compare the current form value with the original job data
-  const hasChanges = JSON.stringify(this.jobForm.value) !== JSON.stringify(this.originalJobData);
-  console.log(JSON.stringify(this.originalJobData))
+  const hasChanges = JSON.stringify(this.jobForm.value) != JSON.stringify(this.originalJobData);
+  
   this.isduplicateFormValid = hasChanges;
   console.log("Form has changes: " + hasChanges);
+  console.log(`Job Form Valid ${this.jobForm.valid}  CompanyName Valid: ${this.isCompanyNameValid}`)
 }
 
   // @TODO Add to reusable code
@@ -350,7 +365,7 @@ checkForChanges(): void {
   // Helper method to get the error message
   getErrorMessage(controlName: string): string | null {
     const control = this.jobForm.get(controlName);
-
+    
     // Check if the control is invalid and touched/dirty
     if (this.isInvalid(controlName)) {
       // Check and return specific validation error messages
@@ -367,11 +382,17 @@ checkForChanges(): void {
         if (control.errors["maxlength"]) {
           return `Maximum length is ${control.errors["maxlength"].requiredLength} characters`;
         }
-        if (control.errors["min"]) {
-          return "Value must be greater than or equal to the minimum allowed";
+        if (control.errors["maxGreaterThanLimit"]){
+          return `Maximum limit exceeded`;
         }
-        if (control.errors["max"]) {
-          return "Value must be less than or equal to the maximum allowed";
+        if (control.errors["minAndMaxRequired"]) {
+          return `Field is required`;
+        }
+/*         if(control.errors["minAndMaxEqual"]){
+          return "Minimum and Maximum value cannot be same";
+        } */
+        if (control.errors["minGreaterThanMax"]) {
+          return "Minimum value must be less than the maximum value";
         }
       }
     }
@@ -419,16 +440,16 @@ checkForChanges(): void {
   onInputBlur(): void {
     const companyNameValue = this.companyControl.value?.trim(); // Check if the input is empty
     // If the input is empty, show an error
-    let companyIdCheck = this.jobForm.get("companyId")?.value === null || this.jobForm.get("companyId")?.value === "";
+    let isCompanyIdInvalid = this.jobForm.get("companyId")?.value === null || this.jobForm.get("companyId")?.value === "";
     if (companyNameValue === "" || companyNameValue === null) {
       this.companyNameError = "Company name is required.";
       this.isCompanyNameValid =false;
     } 
-     if(companyIdCheck) {
+     if(isCompanyIdInvalid) {
       this.companyNameError = "Please select a company from the list.";
       this.isCompanyNameValid =false;
     }
-    if(companyIdCheck && companyNameValue === "") {
+    if(isCompanyIdInvalid && companyNameValue === "") {
       this.companyNameError = ""; // Clear the error if companies are found
       this.isCompanyNameValid =true;
     }
@@ -500,11 +521,15 @@ checkForChanges(): void {
    */
   openModal(modalType: ModalType, message: string = "", title: string = ""): void {
     this.showModal = modalType;
+
     // Reset modal size every time you open the modal
-    if(modalType === this.modalType.SUCCESS_MESSAGE){
+    if(modalType === this.modalType.JD_AUTOFILL){
+      this.modalSize = "lg";
+    }
+    else if(modalType === this.modalType.SUCCESS_MESSAGE){
       this.modalSize = "md";
     }
-    if(modalType === this.modalType.CORPORATE_USER_WARNING){
+    else if(modalType === this.modalType.CORPORATE_USER_WARNING){
       this.modalSize = "md";
     }
     else {
@@ -513,6 +538,7 @@ checkForChanges(): void {
     this.cdr.detectChanges();
     this.modalMessage = message;
     this.modalTitle = title;
+    console.log("Modal Size",this.modalSize);
     this.modal.open();
   }
 
@@ -529,8 +555,12 @@ checkForChanges(): void {
 
   // Opens the job Form modal
   openModalone(): void {
-    
+    this.resetModal();
+    this.companyControl.disable();
     this.openModal(ModalType.ADMINJOBS_POPUP);
+    setTimeout(() => {
+      this.companyControl.enable();
+    }, 1000);
   }
   
   // Reset the job Form modal
@@ -560,10 +590,12 @@ checkForChanges(): void {
       // If not in edit mode, reset the entire form including companyId
       this.jobForm.reset();
       this.companyControl.reset();
+      this.companyControl.setValue(null);
     }
     this.jobForm.get('status')?.patchValue(this.status.PUBLISHED);
+    // Close the autocomplete panel (if it's open)
     if (this.trigger) {
-      this.trigger.closePanel(); // Manually close the autocomplete
+      this.trigger.closePanel();
     }
 
     // Optionally, if you want to reset specific FormArrays like softSkills, coreSkills, etc.
@@ -637,10 +669,8 @@ checkForChanges(): void {
 
 
   // Edit Job Function
-  editJob(job: any , editMode:boolean): void {
+  async editJob(job: any , editMode:boolean): Promise<void> {
     this.isDuplicateMode = !editMode;
-
-    this.openModal(ModalType.ADMINJOBS_POPUP);
     
     this.companyControl.disable(); // Disable the company input
     
@@ -668,9 +698,11 @@ checkForChanges(): void {
     });
 
     // Patch experienceRange separately
-    this.jobForm.get("experienceRange")?.patchValue(
-     job.experienceRange
-    );
+    this.jobForm.get('experienceRange')?.patchValue({
+      min: job.experienceRange.min,
+      max: job.experienceRange.max,
+    });
+    
 
     // Manually set the company name and ID
     this.companyControl.setValue(job.companyDetails.name || ""); // Set company name
@@ -703,32 +735,14 @@ checkForChanges(): void {
     job.mislaneiousSkills.forEach((skill: string) => {
       mislaneiousSkillsArray.push(this.fb.control(this.toTitleCase(skill)));
     });
-    // Reset the Ranges
-    const ranges = {
-      refSalaryRange: this.salaryRange,
-      refExpRange: this.experienceRange,
-    };
-
-      // Loop through the ranges and reset selectedIndex
-      setTimeout(() => {
-        Object.entries(ranges).forEach(([refKey, RangeKey]) => {
-          for (const [index, key] of RangeKey.entries()) {
-            const isMatched = 
-              (refKey === 'refSalaryRange' && key.value.min === job.salaryRange.min && key.value.max === job.salaryRange.max) ||
-              (refKey === 'refExpRange' && key.value.min === job.experienceRange.min && key.value.max === job.experienceRange.max);
-    
-            if (isMatched) {
-              this[refKey].nativeElement.selectedIndex = index + 1; 
-              break; // Exit the loop after finding the match 
-            }
-          }
-        });
-      }, 100); // Adjust the timeout as necessary
-
+  
       if(this.isDuplicateMode){
         this.originalJobData = this.jobForm.value;
-        // this.checkForChanges();
+        await this.checkForChanges();
       }
+      // Always make the companyName valid in edit mode
+      this.isCompanyNameValid = true;
+      this.openModal(ModalType.ADMINJOBS_POPUP);
   }
 
   /**
@@ -911,6 +925,9 @@ this.closeModal();
    */
   formatRange(min: number | null, max: number | null, type: string): string {
     if (min === null || max === null) return '-'; // Handle null values during API loading
+    if (min === max){
+      return `${min} ${type === 'experience' ? `${max === 1 ? 'Year' : 'Years'}` : 'LPA'}`;
+    }
     if (type === 'experience') {
       if (min === 0 && max === 0) return '-'; // Handling edge case for no experience range
       if (max === 9999) return `${min}+ Years`; // Handle max as 9999 for experience
@@ -929,5 +946,29 @@ this.closeModal();
     this.modalSize = "sm";
     this.successmessage = `Are you sure you want to ${operationType.slice(0,-1).toLocaleLowerCase()} this job?`;
     this.openModal(ModalType.CORPORATE_USER_WARNING);
+  }
+
+  openAutoFill(): void {
+    this.modalSize = "md";
+    this.openModal(ModalType.JD_AUTOFILL);
+  }
+
+  async autofillParseJd(newJd: string): Promise<void> {
+  //  console.log("New JD",newJd); 
+    this.spinner.show();
+    try {
+      const response = await this.adminService.parseJD({ jobDescription: newJd });
+      if (response) {
+        this.modal.cancel();
+        autofillJobDetailsToForm(response, newJd, this.jobForm);
+      }
+    } catch (error) {
+      this.successmessage = "Something went wrong. Please try again later.";
+      this.successtitle = "Error";
+      this.openModal(ModalType.SUCCESS_MESSAGE);
+    } finally {
+      this.spinner.hide();
+      this.openModal(ModalType.ADMINJOBS_POPUP);
+    }
   }
 }

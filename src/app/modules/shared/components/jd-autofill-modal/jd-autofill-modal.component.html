@@ -1,0 +1,32 @@
+<div #modalContent class="candidate-card" style="border-radius: 6px;">
+    <div class="row">
+      <div class="card-content px-4">
+        <div class="popup-card">
+          <div class="form-group">
+            <h3>Create Job</h3>
+            <div class="paste-jd-main">
+              <div class="paste-jd-head pt-2 pb-2">
+                <span for="job-description" class="form-lable">Paste Job Description to fetch data automatically</span>&nbsp;
+                <span class="ajob-tooltip" style="cursor: pointer; width: min-content; position:relative; height: min-content;">
+                  <i class="fa-solid fa-circle-info" matTooltip="{{jdValidFormatInfo}}" matTooltipPosition="above"></i>
+                </span>
+              </div>
+              <div class="paste-jd-content one" (touchstart)="onTouchStart()">
+                <textarea minlength="100" id="job-description" class="job-description bg-transparent text-white form-control"
+                  rows="10" (input)="jobDescriptionValidator($event)"></textarea>
+                <div *ngIf="isJobDescTouched && isJobDescInValid" class="text-danger">
+                  Please enter a valid job description.
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="past-jd-buttons">
+            <button class="close-button" (click)="closeModal()">Close</button>
+            <button class="skip-button" (click)="skipAutofill()">Skip Step</button>
+            <button id="continue-button" [disabled]="isJobDescInValid" (click)="fetchLamdaJobDetails()">Continue</button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  

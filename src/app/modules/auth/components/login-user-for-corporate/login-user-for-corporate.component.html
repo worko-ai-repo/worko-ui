@@ -29,7 +29,7 @@
 
           <div class="form-group">
            <!--  <label class="form-label required-form-field">Email</label> -->
-            <input matInput class="form-control form-input" formControlName="email" type="email" placeholder="Email" 
+            <input matInput class="form-control noInfo" formControlName="email" type="email" placeholder="Enter Email" 
             [ngClass]="{ 'is-invalid': isInvalid('email') }">
             <i class="fa-solid input-icn fa-envelope fa-xs" style="color: #ffffff;"></i>
             <span *ngIf="isInvalid('email')" class="text-danger" style="font-size:10px">
@@ -40,7 +40,7 @@
           <div class="form-group">
             <!-- <label class="form-label required-form-field">Password</label> -->
             <div style="position: relative;">
-            <input matInput class="form-control form-input" formControlName="password" type="password" placeholder="Password"
+            <input matInput class="form-control form-input" formControlName="password" type="password" placeholder="Enter Password"
               [ngClass]="{ 'is-invalid': isInvalid('password') }" />
               <i class="fa-solid fa-lock fa-xs input-icn" style="color: #ffffff;"></i>
               <!-- ToolTip Starts Here -->
@@ -83,10 +83,10 @@
           <div class="form-group forgotPasswordField">
             <!-- <label class="form-label required-form-field">Email</label> -->
             <input matInput formControlName="email" 
-              class="form-control form-input" 
+              class="form-control noInfo" 
               type="text"
               name="email"
-              placeholder="Email"
+              placeholder="Enter Email"
               [readonly]="changePasswordWithOtpScreen"
               [ngClass]="{ 'is-invalid': isInvalid('email') }">
             <span *ngIf="isInvalid('email')" class="text-danger" style="font-size:10px">
@@ -96,7 +96,7 @@
           </div>
           <div *ngIf="changePasswordWithOtpScreen" class="form-group forgotPasswordField">
             <!-- <label class="form-label required-form-field">OTP</label> -->
-            <input matInput formControlName="code" class="form-control form-input" type="text" placeholder="OTP"
+            <input matInput formControlName="code" class="form-control noInfo" type="text" maxlength="6"  placeholder="Enter OTP"
               [ngClass]="{ 'is-invalid': isInvalid('code') }">
               <i class="fa-solid fa-key fa-xs input-icn" style="color: #ffffff;"></i>
               <span *ngIf="isInvalid('code')" class="text-danger" style="font-size:10px">
@@ -107,7 +107,7 @@
             <!-- <label class="form-label required-form-field">New Password</label> -->
             <div style="position: relative;">
               <input matInput formControlName="newPassword" class="form-control form-input" type="password"
-                name="password" placeholder="New Password"
+                name="password" placeholder="Enter New Password"
                 [ngClass]="{ 'is-invalid': isInvalid('newPassword') }">
                 <i class="fa-solid fa-lock fa-xs input-icn" style="color: #ffffff;"></i>
                 <!-- ToolTip Starts Here -->

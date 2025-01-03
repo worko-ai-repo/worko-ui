@@ -2,6 +2,7 @@
 import { Router } from "@angular/router";
 import { ChangeDetectorRef, Component, ElementRef, OnInit, ViewChild, ViewEncapsulation } from "@angular/core";
 import { FormBuilder, FormGroup, FormArray, Validators, FormControl } from "@angular/forms";
+import { minMaxValidator } from "src/app/modules/worko/validators/minMax.validator";
 
 // Rxjs import for observable debounceTime, distinctUntilChanged, of, switchMap
 import { Observable, debounceTime, distinctUntilChanged, map, of,  switchMap } from "rxjs";
@@ -18,6 +19,7 @@ import { NgxSpinnerService } from "ngx-spinner";
 import { MatTableDataSource } from "@angular/material/table";
 import { MatAutocompleteTrigger } from "@angular/material/autocomplete";
 import { CorporateVitalDetails } from "../../corporate.component";
+import { autofillJobDetailsToForm } from "src/app/modules/shared/utils/jobsAutoFillParser.utils";
 
 // Interface for FetchJobsOptionsDto
 interface FetchJobsOptionsDto {
@@ -38,9 +40,9 @@ interface RangeDropDownDto {
 }
 
 @Component({
-  selector: 'app-corporate-jobs',
-  templateUrl: './corporate-jobs.component.html',
-  styleUrls: ['./corporate-jobs.component.scss'],
+  selector: "app-corporate-jobs",
+  templateUrl: "./corporate-jobs.component.html",
+  styleUrls: ["./corporate-jobs.component.scss"],
   encapsulation: ViewEncapsulation.None,
 })
 
@@ -59,28 +61,28 @@ export class CorporateJobsComponent implements OnInit {
     airMode: false,
     tabDisable: true,
     popover: {
-      link: [['link', ['linkDialogShow', 'unlink']]],
+      link: [["link", ["linkDialogShow", "unlink"]]],
     },
-    height: '200px',
-    uploadImagePath: '/api/upload',
+    height: "200px",
+    uploadImagePath: "/api/upload",
     toolbar: [
-      ['misc', ['undo', 'redo']],
+      ["misc", ["undo", "redo"]],
       [
-        'font',
+        "font",
         [
-          'bold',
-          'italic',
-          'underline',
-          'strikethrough',
-          'superscript',
-          'subscript',
-          'clear'
-        ]
+          "bold",
+          "italic",
+          "underline",
+          "strikethrough",
+          "superscript",
+          "subscript",
+          "clear",
+        ],
       ],
-      ['fontsize', ['fontname', 'fontsize', 'color']],
-      ['para', ['style', 'ul', 'ol', 'paragraph', 'height']],
-      ['insert', ['link', 'hr']],
-      ['view',['help','fullscreen']],
+      ["fontsize", ["fontname", "fontsize", "color"]],
+      ["para", ["style", "ul", "ol", "paragraph", "height"]],
+      ["insert", ["link", "hr"]],
+      ["view", ["help", "fullscreen"]],
     ],
   };
 
@@ -109,7 +111,7 @@ export class CorporateJobsComponent implements OnInit {
 
   // List of experience ranges and salary ranges
   experienceRange: RangeDropDownDto[] = [
-    { label: "0-1", value: { min: 0 , max: 1, } },
+    { label: "0-1", value: { min: 0, max: 1 } },
     { label: "1-3", value: { min: 1, max: 3 } },
     { label: "3-6", value: { min: 3, max: 6 } },
     { label: "6-9", value: { min: 6, max: 9 } },
@@ -119,7 +121,6 @@ export class CorporateJobsComponent implements OnInit {
     { label: "20-25", value: { min: 20, max: 25 } },
     { label: "25+", value: { min: 25, max: 9999 } },
   ];
-  
 
   salaryRange: RangeDropDownDto[] = [
     { label: "0L - 5L", value: { min: 0, max: 5 } },
@@ -132,22 +133,22 @@ export class CorporateJobsComponent implements OnInit {
     { label: "50L - 70L", value: { min: 50, max: 70 } },
     { label: "70L+", value: { min: 70, max: 9999 } },
   ];
-  
+
   workMode = [
-    {value : "WFH", name: "Work From Home"},
-    {value : "WFO", name: "Work From Office"},
-    {value : "HYBRID", name: "Hybrid"},
-  ]
+    { value: "WFH", name: "Work From Home" },
+    { value: "WFO", name: "Work From Office" },
+    { value: "HYBRID", name: "Hybrid" },
+  ];
   // Corporate Jobs Component Properties
-  corporateVitalDetails:CorporateVitalDetails = {};
-    // Corporate User Type 
-    userType = {
-      ALL:"",
-      ADMIN: "corporate-admin",
-      RECRUITER: "corporate-recruiter",
-    };
+  corporateVitalDetails: CorporateVitalDetails = {};
+  // Corporate User Type
+  userType = {
+    ALL: "",
+    ADMIN: "corporate-admin",
+    RECRUITER: "corporate-recruiter",
+  };
   isRecruiter: boolean = false;
-  
+
   // Properties related to job management
   jobs: any[] = []; // To store the fetched jobs
   jobId: string | null = null; // Variable to store the job ID
@@ -168,9 +169,13 @@ export class CorporateJobsComponent implements OnInit {
   companyNameError: string = "";
   filteredCompanies$: Observable<any[]> = of([]);
   selectedCompany: any = null;
-  @ViewChild('refSalaryRange') refSalaryRange!: ElementRef;
-  @ViewChild('refExpRange') refExpRange!: ElementRef;
-  @ViewChild("autoCompleteInput", { static: false, read: MatAutocompleteTrigger }) trigger!: MatAutocompleteTrigger;
+  @ViewChild("refSalaryRange") refSalaryRange!: ElementRef;
+  @ViewChild("refExpRange") refExpRange!: ElementRef;
+  @ViewChild("autoCompleteInput", {
+    static: false,
+    read: MatAutocompleteTrigger,
+  })
+  trigger!: MatAutocompleteTrigger;
 
   // Properties related to modal handling
   @ViewChild(ModalComponent) modal!: ModalComponent;
@@ -181,24 +186,29 @@ export class CorporateJobsComponent implements OnInit {
 
   // Properties related to modal messages
   successtitle: string = "";
-  modalSize : string = "xl";
+  modalSize: string = "xl";
   successmessage: string = "";
 
- //Pagination Properties
-  
- lastKey: string | null = null; // The current lastKey for the current page
- previousKeys: string[] = []; // Stack to store previous lastKeys for "Previous" functionality
- hasNext: boolean = false; // To enable/disable "Next" button
- hasPrevious: boolean = false; // To enable/disable "Previous" button
- pageSize: number = 25; // Default page size
- pageSizeOptions: number[] = [25, 50, 100, 150];
- 
+  //Pagination Properties
+
+  lastKey: string | null = null; // The current lastKey for the current page
+  previousKeys: string[] = []; // Stack to store previous lastKeys for "Previous" functionality
+  hasNext: boolean = false; // To enable/disable "Next" button
+  hasPrevious: boolean = false; // To enable/disable "Previous" button
+  pageSize: number = 25; // Default page size
+  pageSizeOptions: number[] = [25, 50, 100, 150];
+
   @ViewChild("companyJobMatSort") companyJobMatSort!: MatSort;
   @ViewChild("companyJobMatPaginator") companyJobMatPaginator!: MatPaginator;
 
   // Component properties
   copiedContextId: any;
   skillsTooltipMessage = "Type a skill and press Enter to add it to the list.";
+  rangeExpToolTipMessage =
+    "Enter minimum and maximum values. Maximum Experience range is 30 Years";
+  rangeSalToolTipMessage =
+    "Enter minimum and maximum values. Maximum Salary range is 100L";
+
   corporateCompanyName: string = "";
   operationType = "";
   operationJob = "";
@@ -214,23 +224,41 @@ export class CorporateJobsComponent implements OnInit {
    * @param {corporateService} corporateService - The admin service for API calls.
    * @param {NgxSpinnerService} spinner - The service for displaying a loading spinner.
    */
-  constructor(private router: Router, private fb: FormBuilder, private corporateService: CorporateService, private spinner: NgxSpinnerService ,private cdr: ChangeDetectorRef) {
+  constructor(
+    private router: Router,
+    private fb: FormBuilder,
+    private corporateService: CorporateService,
+    private spinner: NgxSpinnerService,
+    private cdr: ChangeDetectorRef
+  ) {
     // Initialize the job form with necessary fields and validation
     this.jobForm = this.fb.group({
       status: [this.status.PUBLISHED],
       companyId: ["", Validators.required],
       coreSkills: this.fb.array([], Validators.required),
       department: ["", [Validators.required]],
-      experienceRange:[null, Validators.required],
+      experienceRange: this.fb.group(
+        {
+          min: [null, [Validators.required, Validators.min(0)]],
+          max: [null, [Validators.required, Validators.min(0)]],
+        },
+        { validators: minMaxValidator(30) }
+      ),
       jobTitle: ["", [Validators.required, Validators.minLength(3)]],
       jobDescription: ["", [Validators.required, Validators.minLength(20)]],
       location: ["", Validators.required],
       mislaneiousSkills: this.fb.array([]),
       numOfOpenings: [1, [Validators.required, Validators.min(1)]],
-      noticePeriod: [0 , Validators.required],
+      noticePeriod: [0, Validators.required],
       otherRequirements: [""],
-      salaryRange: [null, Validators.required],
-      softSkills: this.fb.array([], Validators.required),
+      salaryRange: this.fb.group(
+        {
+          min: [null, [Validators.required, Validators.min(0)]],
+          max: [null, [Validators.required, Validators.min(0)]],
+        },
+        { validators: minMaxValidator(100) }
+      ),
+      softSkills: this.fb.array([], [Validators.required]),
       technicalSkills: this.fb.array([], Validators.required),
       typeofEmployment: ["", Validators.required],
       workMode: ["", Validators.required],
@@ -239,19 +267,21 @@ export class CorporateJobsComponent implements OnInit {
 
   async ngOnInit() {
     // Set up the corporateVitalDetails
-     // Set up the corporateVitalDetails
-  // Set up the corporateVitalDetails
+    // Set up the corporateVitalDetails
+    // Set up the corporateVitalDetails
 
-
-  this.corporateService.corporateDetails$.subscribe((details) => {
-    if (details) {
-      this.corporateVitalDetails = details;
-      this.corporateCompanyName = this.corporateVitalDetails.companyName || "";
-      this.jobForm.patchValue({
-        companyId: this.corporateVitalDetails.companyId,
-        noticePeriod: 0,
-      });
-      this.corporateVitalDetails.corporateUserType === this.userType.RECRUITER ? this.isRecruiter = true : this.isRecruiter = false;
+    this.corporateService.corporateDetails$.subscribe((details) => {
+      if (details) {
+        this.corporateVitalDetails = details;
+        this.corporateCompanyName =
+          this.corporateVitalDetails.companyName || "";
+        this.jobForm.patchValue({
+          companyId: this.corporateVitalDetails.companyId,
+          noticePeriod: 0,
+        });
+        this.corporateVitalDetails.corporateUserType === this.userType.RECRUITER
+          ? (this.isRecruiter = true)
+          : (this.isRecruiter = false);
 
         this.fetchJobs({
           companyId: this.corporateVitalDetails.companyId,
@@ -270,30 +300,31 @@ export class CorporateJobsComponent implements OnInit {
       }
     });
 
-
     // Setup the filteredCompanies$ for the company autocomplete
     this.filteredCompanies$ = this.companyControl.valueChanges.pipe(
       debounceTime(300),
       distinctUntilChanged(),
       switchMap((value) => this.filterCompanies(value))
-    )
-      // Fetch jobs on component initialization
+    );
+    // Fetch jobs on component initialization
   }
 
   // Method to check if the form has changes
-checkForChanges(): void {
-  // Compare the current form value with the original job data
-  const hasChanges = JSON.stringify(this.jobForm.value) !== JSON.stringify(this.originalJobData);
-  console.log(JSON.stringify(this.originalJobData))
-  this.isduplicateFormValid = hasChanges;
-  console.log("Form has changes: " + hasChanges);
-}
+  checkForChanges(): any {
+    // Compare the current form value with the original job data
+    const hasChanges =
+      JSON.stringify(this.jobForm.value) !=
+      JSON.stringify(this.originalJobData);
 
+    this.isduplicateFormValid = hasChanges;
+    // console.log("Form has changes: " + hasChanges);
+    // console.log(`Job Form Valid ${this.jobForm.valid}  CompanyName Valid: ${this.isCompanyNameValid}`)
+  }
 
   // @TODO Add to reusable code
   /**
    * toTitleCase
-   * 
+   *
    * Converts a string to title case.
    */
   toTitleCase(str: string): string {
@@ -301,7 +332,6 @@ checkForChanges(): void {
       return txt.charAt(0).toUpperCase() + txt.substr(1).toLowerCase();
     });
   }
-
 
   /**
    * fetchJobs
@@ -316,9 +346,10 @@ checkForChanges(): void {
       if (options.resetPagination) {
         this.lastKey = null;
       }
-       if(options.useCurrentPage)(this.lastKey = this.previousKeys[this.previousKeys.length - 1]);
+      if (options.useCurrentPage)
+        this.lastKey = this.previousKeys[this.previousKeys.length - 1];
       const params = {
-        companyId : companyId,
+        companyId: companyId,
         status: options.jobStatus,
         searchText: options.searchText,
         pageSize: options.pageSize,
@@ -346,7 +377,7 @@ checkForChanges(): void {
       this.spinner.hide();
       if (error.status === 404) {
         this.router.navigate(["/corporate/cJobs"]);
-      }  else {
+      } else {
         this.successmessage = "Something went wrong. Please try again later.";
         this.successtitle = "Error";
         this.openModal(ModalType.SUCCESS_MESSAGE);
@@ -380,16 +411,16 @@ checkForChanges(): void {
       return false;
     }
     const isInvalid = control.invalid && (control.dirty || control.touched);
-    
-      // Log the invalid control and its errors
-      if (isInvalid) {
-        console.log(`Invalid control: ${controlName}`, control.errors);
-      }
-      if (!isInvalid) {
-        console.log(`valid`);
-      }
-    
-      return isInvalid;
+
+    // Log the invalid control and its errors
+    if (isInvalid) {
+      console.log(`Invalid control: ${controlName}`, control.errors);
+    }
+    if (!isInvalid) {
+      console.log(`valid`);
+    }
+
+    return isInvalid;
   }
 
   // Helper method to get the error message
@@ -412,11 +443,17 @@ checkForChanges(): void {
         if (control.errors["maxlength"]) {
           return `Maximum length is ${control.errors["maxlength"].requiredLength} characters`;
         }
-        if (control.errors["min"]) {
-          return "Value must be greater than or equal to the minimum allowed";
+        if (control.errors["maxGreaterThanLimit"]) {
+          return `Maximum limit exceeded`;
         }
-        if (control.errors["max"]) {
-          return "Value must be less than or equal to the maximum allowed";
+        if (control.errors["minAndMaxRequired"]) {
+          return `Field is required`;
+        }
+        /*         if(control.errors["minAndMaxEqual"]){
+          return "Minimum and Maximum value cannot be same";
+        } */
+        if (control.errors["minGreaterThanMax"]) {
+          return "Minimum value must be less than the maximum value";
         }
       }
     }
@@ -439,7 +476,8 @@ checkForChanges(): void {
       map((response) => {
         const companies = Array.isArray(response.data) ? response.data : [];
         this.isCompanyNameValid = companies.length === 0 ? false : true;
-        this.companyNameError = companies.length === 0 ? "No companies found." : "";
+        this.companyNameError =
+          companies.length === 0 ? "No companies found." : "";
         return companies;
       })
     );
@@ -464,18 +502,20 @@ checkForChanges(): void {
   onInputBlur(): void {
     const companyNameValue = this.companyControl.value?.trim(); // Check if the input is empty
     // If the input is empty, show an error
-    let companyIdCheck = this.jobForm.get("companyId")?.value === null || this.jobForm.get("companyId")?.value === "";
+    let isCompanyIdInvalid =
+      this.jobForm.get("companyId")?.value === null ||
+      this.jobForm.get("companyId")?.value === "";
     if (companyNameValue === "" || companyNameValue === null) {
       this.companyNameError = "Company name is required.";
-      this.isCompanyNameValid =false;
-    } 
-     if(companyIdCheck) {
-      this.companyNameError = "Please select a company from the list.";
-      this.isCompanyNameValid =false;
+      this.isCompanyNameValid = false;
     }
-    if(companyIdCheck && companyNameValue === "") {
+    if (isCompanyIdInvalid) {
+      this.companyNameError = "Please select a company from the list.";
+      this.isCompanyNameValid = false;
+    }
+    if (isCompanyIdInvalid && companyNameValue === "") {
       this.companyNameError = ""; // Clear the error if companies are found
-      this.isCompanyNameValid =true;
+      this.isCompanyNameValid = true;
     }
   }
 
@@ -484,18 +524,26 @@ checkForChanges(): void {
   /* Skills selector starts here :This gorup of method will help in selecting skills in the form just by typing and pressing enter. */
 
   get softSkills(): string[] {
-    return (this.jobForm.get("softSkills") as FormArray).controls.map((control) => control.value);
+    return (this.jobForm.get("softSkills") as FormArray).controls.map(
+      (control) => control.value
+    );
   }
 
   get coreSkills(): string[] {
-    return (this.jobForm.get("coreSkills") as FormArray).controls.map((control) => control.value);
+    return (this.jobForm.get("coreSkills") as FormArray).controls.map(
+      (control) => control.value
+    );
   }
   get technicalSkills(): string[] {
-    return (this.jobForm.get("technicalSkills") as FormArray).controls.map((control) => control.value);
+    return (this.jobForm.get("technicalSkills") as FormArray).controls.map(
+      (control) => control.value
+    );
   }
 
   get mislaneiousSkills(): string[] {
-    return (this.jobForm.get("mislaneiousSkills") as FormArray).controls.map((control) => control.value);
+    return (this.jobForm.get("mislaneiousSkills") as FormArray).controls.map(
+      (control) => control.value
+    );
   }
 
   /**
@@ -543,17 +591,24 @@ checkForChanges(): void {
    * @param message - The message to display in the modal.
    * @param title - The title to display in the modal.
    */
-  openModal(modalType: ModalType, message: string = "", title: string = ""): void {
+  openModal(
+    modalType: ModalType,
+    message: string = "",
+    title: string = ""
+  ): void {
     this.showModal = modalType;
     // Reset modal size every time you open the modal
-    if(modalType === this.modalType.SUCCESS_MESSAGE ){
+    if (modalType === this.modalType.SUCCESS_MESSAGE) {
       this.modalSize = "md";
     }
-     if(modalType === this.modalType.CORPORATE_USER_WARNING){
-      this.modalSize = "md";
+    else if (modalType === this.modalType.JD_AUTOFILL) {
+      this.modalSize = "lg";
     }
+    else if (modalType === this.modalType.CORPORATE_USER_WARNING) {
+      this.modalSize = "md";
+    } 
     else {
-        this.modalSize = "xl";
+      this.modalSize = "xl";
     }
     this.cdr.detectChanges();
     this.modalMessage = message;
@@ -569,7 +624,7 @@ checkForChanges(): void {
     this.isDuplicateMode = false;
     this.originalJobData = "";
     this.isCompanyNameValid = false;
-    this.jobForm.patchValue({ 
+    this.jobForm.patchValue({
       companyId: this.corporateVitalDetails.companyId,
       noticePeriod: 0,
     });
@@ -580,7 +635,7 @@ checkForChanges(): void {
   openModalone(): void {
     this.openModal(ModalType.ADMINJOBS_POPUP);
   }
-  
+
   // Reset the job Form modal
   resetModal(): void {
     // Reset the form to its initial state
@@ -607,9 +662,9 @@ checkForChanges(): void {
     } else {
       // If not in edit mode, reset the entire form including companyId
       this.jobForm.reset();
-//      this.companyControl.reset();
+      //      this.companyControl.reset();
     }
-    this.jobForm.get('status')?.patchValue(this.status.PUBLISHED);
+    this.jobForm.get("status")?.patchValue(this.status.PUBLISHED);
     if (this.trigger) {
       this.trigger.closePanel(); // Manually close the autocomplete
     }
@@ -620,8 +675,8 @@ checkForChanges(): void {
     (this.jobForm.get("technicalSkills") as FormArray).clear();
     (this.jobForm.get("mislaneiousSkills") as FormArray).clear();
 
-    this.jobForm.get('experienceRange')?.patchValue(null);
-    this.jobForm.get('salaryRange')?.patchValue(null)
+    this.jobForm.get("experienceRange")?.patchValue(null);
+    this.jobForm.get("salaryRange")?.patchValue(null);
 
     // You can also set the form back to its default values if necessary
     this.jobForm.patchValue({
@@ -641,8 +696,13 @@ checkForChanges(): void {
    */
   async searchJobs(event: any) {
     this.searchQuery = event.target.value;
-/*     console.log("Search query:", this.searchQuery);
- */    this.fetchJobs({ jobStatus: this.selectedStatus, searchText: this.searchQuery, pageSize: this.pageSize ,resetPagination:true});
+    /*     console.log("Search query:", this.searchQuery);
+     */ this.fetchJobs({
+      jobStatus: this.selectedStatus,
+      searchText: this.searchQuery,
+      pageSize: this.pageSize,
+      resetPagination: true,
+    });
     if (this.filteredJobs.length == 0) {
       this.noJobsMessage = "No Jobs present with this name or description";
     }
@@ -651,11 +711,15 @@ checkForChanges(): void {
    * Resets the search input and shows all jobs.
    */
   resetBtnHandler(): void {
-/*     console.log("Reset button clicked");
- */    this.searchQuery = "";
-      this.selectedStatus = this.status.ALL;
-      this.selectedSortOrder = this.sortOrder.DESC;
-    this.fetchJobs({ jobStatus: this.selectedStatus, pageSize: this.pageSize, resetPagination: true }); // Fetch jobs with the new status
+    /*     console.log("Reset button clicked");
+     */ this.searchQuery = "";
+    this.selectedStatus = this.status.ALL;
+    this.selectedSortOrder = this.sortOrder.DESC;
+    this.fetchJobs({
+      jobStatus: this.selectedStatus,
+      pageSize: this.pageSize,
+      resetPagination: true,
+    }); // Fetch jobs with the new status
   }
 
   /**
@@ -666,11 +730,21 @@ checkForChanges(): void {
   onStatusChange(statusVal: any) {
     if (statusVal.target.value === this.status.ALL) {
       this.selectedStatus = this.status.ALL;
-      this.fetchJobs({ pageSize: this.pageSize,searchText:this.searchQuery, resetPagination: true }); // Fetch all jobs
+      this.fetchJobs({
+        pageSize: this.pageSize,
+        searchText: this.searchQuery,
+        resetPagination: true,
+      }); // Fetch all jobs
       return;
     }
     this.selectedStatus = statusVal.target.value; // Update global variable
-    this.fetchJobs({ searchText:this.searchQuery, jobStatus: this.selectedStatus, pageSize: this.pageSize, resetPagination: true, sortOrder: this.selectedSortOrder });
+    this.fetchJobs({
+      searchText: this.searchQuery,
+      jobStatus: this.selectedStatus,
+      pageSize: this.pageSize,
+      resetPagination: true,
+      sortOrder: this.selectedSortOrder,
+    });
   }
 
   /**
@@ -679,25 +753,29 @@ checkForChanges(): void {
    * Updates the sort order of the jobs.
    */
   onSortOrderChange(event: any) {
-/*     console.log("Sort order:", event.target.value);
- */ this.fetchJobs({ searchText:this.searchQuery, jobStatus: this.selectedStatus, pageSize: this.pageSize, resetPagination: true, sortOrder: this.selectedSortOrder });
+    /*     console.log("Sort order:", event.target.value);
+     */ this.fetchJobs({
+      searchText: this.searchQuery,
+      jobStatus: this.selectedStatus,
+      pageSize: this.pageSize,
+      resetPagination: true,
+      sortOrder: this.selectedSortOrder,
+    });
   }
 
   // Edit Job Function
-  editJob(job: any , editMode:boolean): void {
+  async editJob(job: any, editMode: boolean): Promise<void> {
     this.isDuplicateMode = !editMode;
-   
-    this.openModal(ModalType.ADMINJOBS_POPUP);
-   
+
     this.companyControl.disable(); // Disable the company input
-   
+
     this.isEditMode = editMode; // Set edit mode to true
-   
+
     this.jobId = job.id; // Store the job ID
     // Update the form with job data except for the skills
     this.jobForm.patchValue({
       companyId: job.companyId,
-      jobTitle: this.toTitleCase(job.jobTitle), 
+      jobTitle: this.toTitleCase(job.jobTitle),
       numOfOpenings: job.numOfOpenings,
       workMode: job.workMode,
       noticePeriod: job.noticePeriod,
@@ -715,9 +793,7 @@ checkForChanges(): void {
     });
 
     // Patch experienceRange separately
-    this.jobForm.get("experienceRange")?.patchValue(
-     job.experienceRange
-    );
+    this.jobForm.get("experienceRange")?.patchValue(job.experienceRange);
 
     // Manually set the company name and ID
     // this.companyControl.setValue(job.companyDetails.name || ""); // Set company name
@@ -738,44 +814,36 @@ checkForChanges(): void {
     });
 
     // Clear and repopulate the technicalSkills FormArray
-    const technicalSkillsArray = this.jobForm.get("technicalSkills") as FormArray;
+    const technicalSkillsArray = this.jobForm.get(
+      "technicalSkills"
+    ) as FormArray;
     technicalSkillsArray.clear();
     job.technicalSkills.forEach((skill: string) => {
       technicalSkillsArray.push(this.fb.control(this.toTitleCase(skill)));
     });
 
     // Clear and repopulate the mislaneious skills FormArray
-    const mislaneiousSkillsArray = this.jobForm.get("mislaneiousSkills") as FormArray;
+    const mislaneiousSkillsArray = this.jobForm.get(
+      "mislaneiousSkills"
+    ) as FormArray;
     mislaneiousSkillsArray.clear();
     job.mislaneiousSkills.forEach((skill: string) => {
       mislaneiousSkillsArray.push(this.fb.control(this.toTitleCase(skill)));
     });
-    // Reset the Ranges
-    const ranges = {
-      refSalaryRange: this.salaryRange,
-      refExpRange: this.experienceRange,
-    };
 
-      // Loop through the ranges and reset selectedIndex
-      setTimeout(() => {
-        Object.entries(ranges).forEach(([refKey, RangeKey]) => {
-          for (const [index, key] of RangeKey.entries()) {
-            const isMatched = 
-              (refKey === 'refSalaryRange' && key.value.min === job.salaryRange.min && key.value.max === job.salaryRange.max) ||
-              (refKey === 'refExpRange' && key.value.min === job.experienceRange.min && key.value.max === job.experienceRange.max);
-    
-            if (isMatched) {
-              this[refKey].nativeElement.selectedIndex = index + 1; 
-              break; // Exit the loop after finding the match 
-            }
-          }
-        });
-      }, 100); // Adjust the timeout as necessary
+    // Patch experienceRange separately
+    this.jobForm.get("experienceRange")?.patchValue({
+      min: job.experienceRange.min,
+      max: job.experienceRange.max,
+    });
 
-      if(this.isDuplicateMode){
-        this.originalJobData = this.jobForm.value;
-        // this.checkForChanges();
-      }
+    if (this.isDuplicateMode) {
+      this.originalJobData = this.jobForm.value;
+      await this.checkForChanges();
+    }
+    // Always make the companyName valid in edit mode
+    this.isCompanyNameValid = true;
+    this.openModal(ModalType.ADMINJOBS_POPUP);
   }
 
   /**
@@ -783,9 +851,9 @@ checkForChanges(): void {
    * @param job - The job object to archive.
    */
   updateJobStatus = async (job: any, newStatus: string) => {
-//      console.log(job);
-this.closeModal(); 
-     try {
+    //      console.log(job);
+    this.closeModal();
+    try {
       this.spinner.show();
       const jobData = {
         companyId: job.PK.startsWith("COMP#ID#") ? job.PK.slice(8, -1) : job.PK,
@@ -799,14 +867,20 @@ this.closeModal();
 
       // This will  Give time to If  Codition in the HTML to work as expected
       setTimeout(() => {
-        this.fetchJobs({ searchText:this.searchQuery, jobStatus: this.selectedStatus, pageSize: this.pageSize, resetPagination: false, sortOrder: this.selectedSortOrder,useCurrentPage:true  });
+        this.fetchJobs({
+          searchText: this.searchQuery,
+          jobStatus: this.selectedStatus,
+          pageSize: this.pageSize,
+          resetPagination: false,
+          sortOrder: this.selectedSortOrder,
+          useCurrentPage: true,
+        });
       }, 1000);
     } catch (error) {
       this.successmessage = "Something went wrong. Please try again later.";
       this.successtitle = "Error";
       this.openModal(ModalType.SUCCESS_MESSAGE);
     } finally {
-       
       this.operationJob = "";
       this.operationType = "";
       this.spinner.hide();
@@ -818,18 +892,19 @@ this.closeModal();
    */
   onSubmit(): void {
     // Log whether the form is invalid or not
-/*     console.log("Form is invalid:", this.jobForm.invalid);
- */
+    /*     console.log("Form is invalid:", this.jobForm.invalid);
+     */
     // Loop through all form controls and print their validation status
     Object.keys(this.jobForm.controls).forEach((controlName) => {
       const control = this.jobForm.get(controlName);
-/*       console.log(`${controlName} is valid: ${control?.valid}`);
- */
+      /*       console.log(`${controlName} is valid: ${control?.valid}`);
+       */
       // If the control is a FormArray, log its inner controls' statuses
       if (control instanceof FormArray) {
         control.controls.forEach((arrayControl, index) => {
-/*           console.log(`${controlName}[${index}] is valid: ${arrayControl.valid}`);
- */        });
+          /*           console.log(`${controlName}[${index}] is valid: ${arrayControl.valid}`);
+           */
+        });
       }
     });
 
@@ -841,11 +916,19 @@ this.closeModal();
         this.corporateService
           .updateJob(this.jobId, this.jobForm.value)
           .then((response) => {
-            this.fetchJobs({ searchText:this.searchQuery, jobStatus: this.selectedStatus, pageSize: this.pageSize, resetPagination: false, sortOrder: this.selectedSortOrder ,useCurrentPage:true });
+            this.fetchJobs({
+              searchText: this.searchQuery,
+              jobStatus: this.selectedStatus,
+              pageSize: this.pageSize,
+              resetPagination: false,
+              sortOrder: this.selectedSortOrder,
+              useCurrentPage: true,
+            });
             this.jobId = null;
           })
           .catch((error) => {
-            this.successmessage = "Something went wrong. Please try again later.";
+            this.successmessage =
+              "Something went wrong. Please try again later.";
             this.successtitle = "Error";
             this.openModal(ModalType.SUCCESS_MESSAGE);
           })
@@ -860,11 +943,17 @@ this.closeModal();
         this.corporateService
           .createJob(this.jobForm.value)
           .then((response) => {
-            this.fetchJobs({ jobStatus: this.selectedStatus, pageSize: this.pageSize, resetPagination: true, sortOrder: this.selectedSortOrder });
+            this.fetchJobs({
+              jobStatus: this.selectedStatus,
+              pageSize: this.pageSize,
+              resetPagination: true,
+              sortOrder: this.selectedSortOrder,
+            });
             this.closeModal();
           })
           .catch((error) => {
-            this.successmessage = "Something went wrong. Please try again later.";
+            this.successmessage =
+              "Something went wrong. Please try again later.";
             this.successtitle = "Error";
             this.openModal(ModalType.SUCCESS_MESSAGE);
           })
@@ -884,10 +973,15 @@ this.closeModal();
     this.pageSize = event.pageSize;
 
     // Fetch jobs with pagination reset
-    this.fetchJobs({ jobStatus: this.selectedStatus, pageSize: this.pageSize, resetPagination: false, sortOrder: this.selectedSortOrder });
+    this.fetchJobs({
+      jobStatus: this.selectedStatus,
+      pageSize: this.pageSize,
+      resetPagination: false,
+      sortOrder: this.selectedSortOrder,
+    });
   }
 
-   //Pagination methods
+  //Pagination methods
   /**
    * @method onPageChange - this will be called when the user changes the page size
    * @param event
@@ -902,26 +996,46 @@ this.closeModal();
     }
 
     // Fetch the next page
-    this.fetchJobs({ jobStatus: this.selectedStatus, searchText: this.searchQuery, pageSize: this.pageSize, sortOrder: this.selectedSortOrder , resetPagination: false });
+    this.fetchJobs({
+      jobStatus: this.selectedStatus,
+      searchText: this.searchQuery,
+      pageSize: this.pageSize,
+      sortOrder: this.selectedSortOrder,
+      resetPagination: false,
+    });
   }
-
 
   onPrevious() {
     if (!this.hasPrevious) return;
 
     // Retrieve the second-to-last key in the stack, which corresponds to the last key used for the previous page
-    const previousLastKey = this.previousKeys.length > 1 ? this.previousKeys[this.previousKeys.length - 2] : null;
+    const previousLastKey =
+      this.previousKeys.length > 1
+        ? this.previousKeys[this.previousKeys.length - 2]
+        : null;
 
     // Remove the current page's lastKey from the stack
     this.previousKeys.pop();
 
     if (!previousLastKey) {
       // If no valid previous key, fetch the first page
-      this.fetchJobs({ jobStatus: this.selectedStatus, searchText: this.searchQuery, pageSize: this.pageSize, sortOrder: this.selectedSortOrder, resetPagination: true });
+      this.fetchJobs({
+        jobStatus: this.selectedStatus,
+        searchText: this.searchQuery,
+        pageSize: this.pageSize,
+        sortOrder: this.selectedSortOrder,
+        resetPagination: true,
+      });
     } else {
       // Fetch the previous page using the second-to-last key
-     this.lastKey = previousLastKey;
-     this.fetchJobs({ jobStatus: this.selectedStatus, searchText: this.searchQuery, pageSize: this.pageSize, sortOrder: this.selectedSortOrder, resetPagination: false });
+      this.lastKey = previousLastKey;
+      this.fetchJobs({
+        jobStatus: this.selectedStatus,
+        searchText: this.searchQuery,
+        pageSize: this.pageSize,
+        sortOrder: this.selectedSortOrder,
+        resetPagination: false,
+      });
     }
   }
 
@@ -929,9 +1043,14 @@ this.closeModal();
     const selectedPageSize = (event.target as HTMLSelectElement).value;
     this.pageSize = Number(selectedPageSize);
     this.previousKeys = [];
-    this.fetchJobs({ jobStatus: this.selectedStatus, searchText: this.searchQuery, pageSize: this.pageSize, sortOrder: this.selectedSortOrder, resetPagination: true });
+    this.fetchJobs({
+      jobStatus: this.selectedStatus,
+      searchText: this.searchQuery,
+      pageSize: this.pageSize,
+      sortOrder: this.selectedSortOrder,
+      resetPagination: true,
+    });
   }
-
 
   // Misc method
   getStatusClass(status: string): string {
@@ -947,41 +1066,91 @@ this.closeModal();
     }, 2000);
   };
 
-  navigateToJobReferral(event: MouseEvent, companyName: string, jobTitle: string, jobID: any): void {
+  navigateToJobReferral(
+    event: MouseEvent,
+    companyName: string,
+    jobTitle: string,
+    jobID: any
+  ): void {
     event.preventDefault(); // Prevent default anchor behavior
-  
+
     // Encode the company name and job title for URL-safe navigation
-    const formattedCompanyName = companyName.toLowerCase().replace(/\(.*?\)/g, '').replace(/\s*&\s*/g, '&').replace(/\s+/g, '-').replace(/-+/g, '-').replace(/^-|-$/g, '');
-    const formattedJobTitle = jobTitle.toLowerCase().replace(/\(.*?\)/g, '').replace(/\s*&\s*/g, '&').replace(/\s+/g, '-').replace(/-+/g, '-').replace(/^-|-$/g, '');
+    const formattedCompanyName = companyName
+      .toLowerCase()
+      .replace(/\(.*?\)/g, "")
+      .replace(/\s*&\s*/g, "&")
+      .replace(/\s+/g, "-")
+      .replace(/-+/g, "-")
+      .replace(/^-|-$/g, "");
+    const formattedJobTitle = jobTitle
+      .toLowerCase()
+      .replace(/\(.*?\)/g, "")
+      .replace(/\s*&\s*/g, "&")
+      .replace(/\s+/g, "-")
+      .replace(/-+/g, "-")
+      .replace(/^-|-$/g, "");
     const route = `/company/jobs/${formattedCompanyName}-jobs/${formattedJobTitle}-${jobID}`;
 
     // Open the route in a new tab
-    window.open(route, '_blank');
+    window.open(route, "_blank");
   }
-  
+
   viewJobDetailsandApplications(jobId: any): void {
-    this.router.navigate(["corporate/cApplicants/"+jobId]);
+    this.router.navigate(["corporate/cApplicants/" + jobId]);
   }
 
   formatRange(min: number | null, max: number | null, type: string): string {
-    if (min === null || max === null) return '-'; // Handle null values during API loading
-    if (type === 'experience') {
-      if (min === 0 && max === 0) return '-'; // Handling edge case for no experience range
+    if (min === null || max === null) return "-"; // Handle null values during API loading
+    if (min === max) {
+      return `${min} ${
+        type === "experience" ? `${max === 1 ? "Year" : "Years"}` : "LPA"
+      }`;
+    }
+    if (type === "experience") {
+      if (min === 0 && max === 0) return "-"; // Handling edge case for no experience range
       if (max === 9999) return `${min}+ Years`; // Handle max as 9999 for experience
-      return `${min}-${max} ${max === 1 ? 'Year' : 'Years'}`;
-    } else if (type === 'salary') {
-      if (min === 0 && max === 0) return '-'; // Handling edge case for no salary range
+      return `${min}-${max} ${max === 1 ? "Year" : "Years"}`;
+    } else if (type === "salary") {
+      if (min === 0 && max === 0) return "-"; // Handling edge case for no salary range
       if (max === 9999) return `${min}+ LPA`; // Handle max as 9999 for salary
       return `${min}-${max} LPA`;
     }
-    return '-'; // Default value
+    return "-"; // Default value
   }
 
-  confirmOperation(job: any , operationType: string): void {
+  confirmOperation(job: any, operationType: string): void {
     this.operationType = operationType;
     this.operationJob = job;
     this.modalSize = "sm";
-    this.successmessage = `Are you sure you want to ${operationType.slice(0,-1).toLocaleLowerCase()} this job?`;
+    this.successmessage = `Are you sure you want to ${operationType
+      .slice(0, -1)
+      .toLocaleLowerCase()} this job?`;
     this.openModal(ModalType.CORPORATE_USER_WARNING);
+  }
+
+  openAutoFill(): void {
+    this.modalSize = "lg";
+    this.openModal(ModalType.JD_AUTOFILL);
+  }
+
+  async autofillParseJd(newJd: string): Promise<void> {
+    //  console.log("New JD",newJd);
+    this.spinner.show();
+    try {
+      const response = await this.corporateService.parseJD({
+        jobDescription: newJd,
+      });
+      if (response) {
+        this.modal.cancel();
+        autofillJobDetailsToForm(response, newJd, this.jobForm);
+      }
+    } catch (error) {
+      this.successmessage = "Something went wrong. Please try again later.";
+      this.successtitle = "Error";
+      this.openModal(ModalType.SUCCESS_MESSAGE);
+    } finally {
+      this.spinner.hide();
+      this.openModal(ModalType.ADMINJOBS_POPUP);
+    }
   }
 }

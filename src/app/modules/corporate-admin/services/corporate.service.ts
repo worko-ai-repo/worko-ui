@@ -194,4 +194,7 @@ export class CorporateService {
     return this.http.patch(`${API_URL}job-application/${jobApplicationId}/corp-action`, data, this.authService.getHttpOptions()).toPromise();
   }
 
+  parseJD(jobDescription: object) : Promise<any> {
+    return this.http.post(`${API_URL}job/parsejd`, jobDescription, this.authService.getHttpOptions()).toPromise();
+  }
 }

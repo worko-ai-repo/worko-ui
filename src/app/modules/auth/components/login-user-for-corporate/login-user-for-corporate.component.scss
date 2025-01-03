@@ -144,6 +144,9 @@ input:-webkit-autofill {
     .form-control.is-invalid{
     border-bottom: 2px solid rgba(var(--bs-danger-rgb)) !important; 
   }
+  .form-control.noInfo.is-invalid{
+    background-image: none;
+  }
   .input-icn{
     position: absolute;
     top: 15px;
