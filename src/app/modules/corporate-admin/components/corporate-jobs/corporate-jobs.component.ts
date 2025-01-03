@@ -1150,7 +1150,13 @@ export class CorporateJobsComponent implements OnInit {
       this.openModal(ModalType.SUCCESS_MESSAGE);
     } finally {
       this.spinner.hide();
+      this.companyControl.reset();
+      this.companyControl.setValue(null);
+      this.companyControl.disable();
       this.openModal(ModalType.ADMINJOBS_POPUP);
+      setTimeout(() => {
+        this.companyControl.enable();
+      }, 1000);
     }
   }
 }

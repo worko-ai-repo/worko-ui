@@ -424,6 +424,7 @@
           <span *ngIf="isInvalid('otherRequirements')" class="text-danger">{{ getErrorMessage('otherRequirements')
             }}</span>
         </div>
+       <!--  <button type="button" (click)="jobFormTester()" >Test</button> -->
 
         <button type="submit"
          [disabled]="!jobForm.valid || !isCompanyNameValid || (isDuplicateMode && !isduplicateFormValid)"
