@@ -22,7 +22,7 @@
   </div>
 
   <!-- Other Requirements -->
-  <div class="skill-main-div"  *ngIf="otherRequirements.length>0">
+  <div class="skill-main-div" *ngIf="otherRequirements.length>0">
     <div class="skill-title"><u>Other Requirements</u></div>
     <!-- <div class="skill-option">{{ getJoinedSkills(otherRequirements) }}</div> -->
     <div class="skill-option">{{ otherRequirements }}</div>
@@ -30,9 +30,21 @@
   </div>
 
   <!-- CTC -->
-  <div class="skill-main-div">
+  <!-- <div class="skill-main-div">
     <div class="skill-title"><u>CTC</u></div>
     <div class="skill-option"> {{ jobDescriptionDetails.salaryRange.min }} 
       {{ jobDescriptionDetails.salaryRange.max >= 9999 ? '+' : '- ' + jobDescriptionDetails.salaryRange.max }} LPA</div>
+    </div>
+  </div> -->
+
+  <!-- CTC -->
+  <div class="skill-main-div">
+    <div class="skill-title"><u>CTC</u></div>
+    <div class="skill-option">
+      {{ jobDescriptionDetails.salaryRange.min === jobDescriptionDetails.salaryRange.max
+      ? jobDescriptionDetails.salaryRange.min + ' LPA'
+      : jobDescriptionDetails.salaryRange.max >= 9999
+      ? jobDescriptionDetails.salaryRange.min + '+ LPA'
+      : jobDescriptionDetails.salaryRange.min + ' - ' + jobDescriptionDetails.salaryRange.max + ' LPA' }}
     </div>
   </div>
