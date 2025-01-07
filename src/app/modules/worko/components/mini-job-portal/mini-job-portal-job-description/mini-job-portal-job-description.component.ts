@@ -411,7 +411,6 @@ export class MiniJobPortalJobDescriptionComponent {
 
         let response = await this.companyListing.getJobByJobID(jobID)
         if (response) {
-          debugger
           this.spinner.hide();
           this.jobDescriptionDetails = response[0];
           this.companyName = this.jobDescriptionDetails.companyDetails.name.toLowerCase();

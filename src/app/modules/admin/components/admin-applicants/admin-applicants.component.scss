@@ -1,3 +1,70 @@
+.selector option {
+    cursor: pointer;
+}
+
+.selector option:disabled {
+    cursor: not-allowed;
+    color: gray;
+}
+
+.status-container {
+    position: relative;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.change-icon {
+    cursor: pointer;
+    color: #007bff;
+    font-size: 16px;
+}
+
+.change-icon:hover {
+    color: #0056b3;
+}
+
+.dropdown-status-container {
+    // position: absolute;
+    top: 100%;
+    left: 0;
+    z-index: 1000;
+    background-color: #0A1E35;
+    /* Dark background color */
+    color: white;
+    /* White text */
+    border-radius: 8px;
+    padding-top: 8px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+    margin-top: 4px;
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    overflow: visible;
+    /* Allow overflow */
+}
+
+.update-btn {
+    padding: 5px 10px;
+    // background-color: #1ed6ff;
+    background-color: rgb(45, 142, 194);
+    color: white;
+    border: none;
+    cursor: pointer;
+    border-radius: 4px;
+    align-self: flex-start;
+}
+
+// .update-btn:hover {
+//     background-color: #0056b3;
+// }
+
+.update-btn:disabled {
+    background-color: rgba(45, 142, 194, 0.5);
+    color: rgba(255, 255, 255, 0.6);
+    cursor: not-allowed;
+}
+
 .detailed-analysis-btn {
     background-color: rgb(45, 142, 194);
     color: white;
@@ -260,29 +327,31 @@ $statuses: (
     overflow: auto;
     border-radius: 10px;
 
-//Top Heading bar with search and other filters
-.ajobs-filters {
-    padding-block: 5px;
-    
-    display: flex;
-    flex-direction: column;
-    justify-content: flex-end;
-    align-items: flex-end;
+    //Top Heading bar with search and other filters
+    .ajobs-filters {
+        padding-block: 5px;
 
-    input,
-    button {
-      height: 100% !important;
-    }
-    button {
-      margin-left: 5px;
-      border: 1px solid var(--color-skyblue-100) !important;
-    }
-    .ajobs-search {
-      margin-top: 10px;
-      display: flex;
-      align-items: center;
-      justify-content: space-evenly;
-    }
+        display: flex;
+        flex-direction: column;
+        justify-content: flex-end;
+        align-items: flex-end;
+
+        input,
+        button {
+            height: 100% !important;
+        }
+
+        button {
+            margin-left: 5px;
+            border: 1px solid var(--color-skyblue-100) !important;
+        }
+
+        .ajobs-search {
+            margin-top: 10px;
+            display: flex;
+            align-items: center;
+            justify-content: space-evenly;
+        }
 
         .ajobs-status {
             height: 100% !important;
@@ -308,7 +377,7 @@ $statuses: (
                 text-overflow: ellipsis;
                 white-space: nowrap;
                 padding-inline: 10px;
-                vertical-align: middle;
+                vertical-align: baseline;
                 border: 2px solid #476baf;
                 border-inline-color: #283a5bd1;
                 padding: 10px;

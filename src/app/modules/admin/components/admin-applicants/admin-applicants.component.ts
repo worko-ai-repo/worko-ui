@@ -34,6 +34,13 @@ export class AdminApplicantsComponent {
     REJECTED: "REJECTED"
   };
 
+  statusArray = [
+    this.status.UNDER_EVALUATION,
+    this.status.PROCESSING_INTERVIEW,
+    this.status.INTERVIEW_DONE,
+    this.status.HIRED
+  ];
+
   jobId: string | null = null; // Variable to store the job ID
   selectedStatus: string = this.status.ALL_APPLICATIONS;
   noApplicationsMessage: string = "No Job Applications Present"; // Will be showing this inside the table
@@ -88,6 +95,13 @@ export class AdminApplicantsComponent {
 
   companyDetails: any;
   jobUrl: any;
+
+  selectedStatusDropdown: string = '';
+
+  boxVisibleIndex: number | null = null;
+  dropdownVisibleIndex: number | null = null;
+
+  isUpdateEnabled: boolean = false;
 
   constructor(private router: Router, private fb: FormBuilder, private adminService: AdminService, private spinner: NgxSpinnerService, private cdr: ChangeDetectorRef, private sanitizer: DomSanitizer, private route: ActivatedRoute, private storage: StorageService) {
     this.searchTerms.pipe(
@@ -144,6 +158,35 @@ export class AdminApplicantsComponent {
       this.successTitle = "Error";
       this.openModal(ModalType.SUCCESS_ERROR_MESSAGE);
     }
+  }
+
+  isOptionDisabled(option: string, currentStatus: string): boolean {
+    const currentIndex = this.statusArray.indexOf(currentStatus);
+    const optionIndex = this.statusArray.indexOf(option);
+    return optionIndex !== currentIndex + 1; // Enable only the next status
+  }
+
+  statusChange(selectedStatus: string, job: any): void {
+    this.isUpdateEnabled = !!selectedStatus && selectedStatus !== job.status;
+  }
+
+  toggleDropdown(index: number): void {
+    // Toggle dropdown visibility
+    if (this.dropdownVisibleIndex === index) {
+      this.dropdownVisibleIndex = null; // Close the dropdown if already open
+    } else {
+      this.dropdownVisibleIndex = index; // Open the dropdown for the selected row
+      this.selectedStatusDropdown = ''; // Reset selected status
+      this.isUpdateEnabled = false; // Disable update button initially
+    }
+  }
+
+  isDropdownVisible(index: number): boolean {
+    return this.dropdownVisibleIndex === index;
+  }
+
+  closeStatusBox(): void {
+    this.boxVisibleIndex = null;
   }
 
   navigateToJobUrl(event: any): void {
@@ -265,6 +308,11 @@ export class AdminApplicantsComponent {
         this.currentLastKey = response.pagination.lastKey || null;
         this.hasNext = !!response.pagination.lastKey;
         this.hasPrevious = this.previousKeys.length > 0;
+
+        // Reset dropdown-related states
+        this.dropdownVisibleIndex = null;
+        this.selectedStatusDropdown = '';
+        this.isUpdateEnabled = false;
       } else {
         console.warn("Job applications response is empty or undefined.");
       }

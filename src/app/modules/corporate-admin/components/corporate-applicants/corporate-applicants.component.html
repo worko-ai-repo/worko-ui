@@ -129,10 +129,43 @@
                                 <ng-template #noData>-</ng-template>
                             </td>
 
-                            <td>
+                            <!-- <td>
                                 <p [ngClass]="getStatusClass(job.status)">{{ transformStatus(job.status) | uppercase }}
                                 </p>
+                            </td> -->
+
+                            <td>
+                                <div class="status-container">
+                                    <p [ngClass]="getStatusClass(job.status)">
+                                        {{ transformStatus(job.status) | uppercase }}
+                                    </p>
+                                    <ng-container *ngIf="
+                                                   job.status === status.CV_DOWNLOADED ||
+                                                   job.status === status.UNDER_EVALUATION ||
+                                                   job.status === status.PROCESSING_INTERVIEW ||
+                                                   job.status === status.INTERVIEW_DONE">
+                                        <i class="fa-solid fa-pen-to-square change-icon" matTooltip="Update status"
+                                            matTooltipPosition="above" (click)="toggleDropdown(i)">
+                                        </i>
+                                    </ng-container>
+
+                                </div>
+                                <div *ngIf="isDropdownVisible(i)" class="dropdown-status-container ">
+                                    <select class="selector form-select" style="margin: 0; border-radius: 4px;"
+                                        [(ngModel)]="selectedStatusDropdown"
+                                        (ngModelChange)="statusChange(selectedStatusDropdown, job)"
+                                        (click)="$event.stopPropagation()">
+                                        <option value="" disabled selected>Select Next Status</option>
+                                        <option *ngFor="let option of statusArray" [value]="option"
+                                            [disabled]="isOptionDisabled(option, job.status)">
+                                            {{ transformStatus(option) | titlecase }}
+                                        </option>
+                                    </select>
+                                    <button class="update-btn" [disabled]="!isUpdateEnabled"
+                                        (click)="handleAction(job, selectedStatusDropdown)">Update</button>
+                                </div>
                             </td>
+
                             <td>{{ job.createdAt | date: 'd MMM yyyy, h:mm a' }}</td>
 
                             <td>
@@ -151,32 +184,32 @@
                                 </span>
 
                                 <!-- Under Evaluation Button -->
-                                <span *ngIf="job.status === status.CV_DOWNLOADED" matTooltip="Under Evaluation"
+                                <!-- <span *ngIf="job.status === status.CV_DOWNLOADED" matTooltip="Under Evaluation"
                                     matTooltipPosition="above" style="background: #357CBA; cursor: pointer;"
                                     (click)="handleAction(job, status.UNDER_EVALUATION)">
                                     <i class="fa-solid fa-spinner"></i>
-                                </span>
+                                </span> -->
 
                                 <!-- Processing Interview Button -->
-                                <span *ngIf="job.status === status.UNDER_EVALUATION" matTooltip="Processing Interview"
+                                <!-- <span *ngIf="job.status === status.UNDER_EVALUATION" matTooltip="Processing Interview"
                                     matTooltipPosition="above" style="background: #334E68; cursor: pointer;"
                                     (click)="handleAction(job, status.PROCESSING_INTERVIEW)">
                                     <i class="fa-solid fa-comments"></i>
-                                </span>
+                                </span> -->
 
                                 <!-- Interview Done Button -->
-                                <span *ngIf="job.status === status.PROCESSING_INTERVIEW" matTooltip="Interview Done"
+                                <!-- <span *ngIf="job.status === status.PROCESSING_INTERVIEW" matTooltip="Interview Done"
                                     matTooltipPosition="above" style="background: #46727f; cursor: pointer;"
                                     (click)="handleAction(job, status.INTERVIEW_DONE)">
                                     <i class="fa-solid fa-check"></i>
-                                </span>
+                                </span> -->
 
                                 <!-- Hired Button -->
-                                <span *ngIf="job.status === status.INTERVIEW_DONE" matTooltip="Hired"
+                                <!-- <span *ngIf="job.status === status.INTERVIEW_DONE" matTooltip="Hired"
                                     matTooltipPosition="above" style="background: #D7A769; cursor: pointer;"
                                     (click)="handleAction(job, status.HIRED)">
                                     <i class="fa-solid fa-user-check"></i>
-                                </span>
+                                </span> -->
 
                                 <!-- Reject Button -->
                                 <span *ngIf="job.status !== status.REJECTED && job.status !== status.HIRED"
