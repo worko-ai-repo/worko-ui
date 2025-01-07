@@ -195,6 +195,9 @@ input:-webkit-autofill {
       box-shadow: none !important;
       caret-color: white;
     }
+    input::placeholder{
+      color: #d3d3d3 !important;
+    }
     
   }
   .is-invalid{

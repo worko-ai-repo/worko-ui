@@ -193,10 +193,10 @@
           </span>
           <div class="d-flex gap-2" formGroupName="salaryRange">
             <!-- Minimum Salary -->
-            <input type="number" id="salaryRangeMin" placeholder="Min"
+            <input type="number" id="salaryRangeMin" placeholder="Min salary in Lakhs"
               class="form-control form-input required-form-field"
               [ngClass]="{ 'is-invalid': isInvalid('salaryRange.min') }" formControlName="min" />
-            <input type="number" id="salaryRangeMax" placeholder="Max"
+            <input type="number" id="salaryRangeMax" placeholder="Max salary in Lakhs"
               class="form-control form-input required-form-field"
               [ngClass]="{ 'is-invalid': isInvalid('salaryRange.max') }" formControlName="max" />
           </div>
@@ -215,10 +215,10 @@
           </span>
           <div class="d-flex gap-2" formGroupName="experienceRange">
             <!-- Minimum Experience -->
-            <input type="number" id="experienceRangeMin" placeholder="Min"
+            <input type="number" id="experienceRangeMin" placeholder="Min experience in Years"
               class="form-control form-input required-form-field"
               [ngClass]="{ 'is-invalid': isInvalid('experienceRange.min') }" formControlName="min" />
-            <input type="number" id="experienceRangeMax" placeholder="Max"
+            <input type="number" id="experienceRangeMax" placeholder="Max experience in Years"
               class="form-control form-input required-form-field"
               [ngClass]="{ 'is-invalid': isInvalid('experienceRange.max') }" formControlName="max" />
           </div>

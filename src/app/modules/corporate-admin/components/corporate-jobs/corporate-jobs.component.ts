@@ -205,9 +205,9 @@ export class CorporateJobsComponent implements OnInit {
   copiedContextId: any;
   skillsTooltipMessage = "Type a skill and press Enter to add it to the list.";
   rangeExpToolTipMessage =
-    "Enter minimum and maximum values. Maximum Experience range is 30 Years";
+    "Enter minimum and maximum values in (Years). Maximum Experience range is 30 Years";
   rangeSalToolTipMessage =
-    "Enter minimum and maximum values. Maximum Salary range is 100L";
+    "Enter minimum and maximum values in (Lakhs). Maximum Salary range is 100L";
 
   corporateCompanyName: string = "";
   operationType = "";

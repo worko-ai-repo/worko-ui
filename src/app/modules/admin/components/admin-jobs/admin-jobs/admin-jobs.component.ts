@@ -179,8 +179,8 @@ export class AdminJobsComponent implements OnInit {
   // Component properties
   copiedContextId: any;
   skillsTooltipMessage = "Type a skill and press Enter to add it to the list. Maximum length is 30 characters.";
-  rangeExpToolTipMessage = "Enter minimum and maximum values. Maximum Experience range is 30 Years";
-  rangeSalToolTipMessage = "Enter minimum and maximum values. Maximum Salary range is 100L";
+  rangeExpToolTipMessage = "Enter minimum and maximum values in (Years). Maximum Experience range is 30 Years";
+  rangeSalToolTipMessage = "Enter minimum and maximum values in (Lakhs). Maximum Salary range is 100L";
 
   // Warning Message
   operationType = "";

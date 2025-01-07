@@ -409,7 +409,7 @@ async onChangePassword() {
       this.forgotPasswordForm.reset();
     }, 3000)
   } catch (error: any) {
-   this.invalidOtp = "Invalid OTP , Please enter the correct OTP";
+   this.invalidOtp = "Please enter the valid OTP";
   }
 }
 /**
