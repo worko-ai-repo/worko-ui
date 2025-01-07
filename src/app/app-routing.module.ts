@@ -20,6 +20,10 @@ const routes: Routes = [
     path: 'employee',
     loadChildren: () => import('./modules/employee/employee.module').then(m => m.EmployeeModule)
   },
+  {
+    path : 'corporate',
+    loadChildren: () => import('./modules/corporate-admin/corporate.module').then(m => m.CorporateModule)
+  },
   // {
   //   path: 'company',
   //   loadChildren: () => import('./modules/mini-job-portal/mini-job-portal.module').then(m => m.MiniJobPortalModule)

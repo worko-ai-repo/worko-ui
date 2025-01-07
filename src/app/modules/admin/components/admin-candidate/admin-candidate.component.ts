@@ -176,8 +176,9 @@ export class AdminCandidateComponent implements AfterViewInit {
     this.searchTerm = query; // Setting here encoded query to filterData
 
     // Use the previous lastKey if available; otherwise, start fresh
-    const keyToUse = this.getKeyForCurrentPage();
-    this.getAllUserData(keyToUse);
+    // const keyToUse = this.getKeyForCurrentPage(); //previous working way
+    this.previousKeys = [];
+    this.getAllUserData(null);
 
   }
 
@@ -214,8 +215,11 @@ export class AdminCandidateComponent implements AfterViewInit {
     this.searchQuery = "";
 
     // Use the previous lastKey if available; otherwise, start fresh
-    const keyToUse = this.getKeyForCurrentPage();
-    this.getAllUserData(keyToUse);
+    // const keyToUse = this.getKeyForCurrentPage();
+    // this.getAllUserData(keyToUse);
+
+    this.previousKeys = [];
+    this.getAllUserData(null);
   }
 
   applyFromDateFilters() {
@@ -232,8 +236,11 @@ export class AdminCandidateComponent implements AfterViewInit {
     // this.initializeData();
 
     // Use the previous lastKey if available; otherwise, start fresh
-    const keyToUse = this.getKeyForCurrentPage();
-    this.getAllUserData(keyToUse);
+    // const keyToUse = this.getKeyForCurrentPage();
+    // this.getAllUserData(keyToUse);  //Previous working way
+
+    this.previousKeys = [];
+    this.getAllUserData(null);
   }
 
 
@@ -255,8 +262,11 @@ export class AdminCandidateComponent implements AfterViewInit {
     }
     // this.initializeData();
     // Use the previous lastKey if available; otherwise, start fresh
-    const keyToUse = this.getKeyForCurrentPage();
-    this.getAllUserData(keyToUse);
+    // const keyToUse = this.getKeyForCurrentPage();
+    // this.getAllUserData(keyToUse); //prervious working way
+
+    this.previousKeys = [];
+    this.getAllUserData(null);
   }
 
   initializeData() {
@@ -282,8 +292,11 @@ export class AdminCandidateComponent implements AfterViewInit {
     // this.referralPaginator.pageSize = 25;  // Update the UI's pageSize
 
     // Use the previous lastKey if available; otherwise, start fresh
-    const keyToUse = this.getKeyForCurrentPage();
-    this.getAllUserData(keyToUse);
+    // const keyToUse = this.getKeyForCurrentPage();
+    // this.getAllUserData(keyToUse); //prervious working way
+
+    this.previousKeys = [];
+    this.getAllUserData(null);
   }
 
   //backend sorting code

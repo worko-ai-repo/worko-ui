@@ -14,7 +14,9 @@ export class ReferralProgressBarComponent implements OnChanges {
   public PASSING_SCORE = 70;
   @Input() showFeedback: boolean = false;
   @Input() score: any;
-  @Input() referralId: any;
+  @Input() referralId: any = "";
+  @Input() jobApplicationRequestId: any = "";
+
   showScore: boolean = false;
   showEmailContent: boolean = false;
   originalPoints = 2.1;
@@ -38,15 +40,15 @@ export class ReferralProgressBarComponent implements OnChanges {
   constructor(private companyListing: CompanyListingService, private storage: StorageService, private router: Router) { }
   ngOnChanges(changes: SimpleChanges): void {
     // Check if referralId has changed
-    if (changes['referralId'] && changes['referralId'].currentValue) {
-      this.emailId = this.storage.get("useremail");
-      this.startTextLoop();
-    }
+    // if (changes['referralId'] && changes['referralId'].currentValue) {
+    //   this.emailId = this.storage.get("useremail");
+    //   this.startTextLoop();
+    // }
   }
   ngOnInit(): void {
     // console.log("current score is", this.score);
     this.emailId = this.storage.get("useremail");
-    // this.startTextLoop();
+    this.startTextLoop();
   }
   startTextLoop() {
     this.startTime = Date.now();
@@ -77,12 +79,22 @@ export class ReferralProgressBarComponent implements OnChanges {
   async fetchScore() {
     try {
 
+      // Helper function to decide which service call to use
+      const fetchMatchingScore = async () => {
+        if (this.jobApplicationRequestId) {
+          return await this.companyListing.getJobMatchingScore(this.jobApplicationRequestId);
+        } else if (this.referralId) {
+          return await this.companyListing.getReferralMatchingScore(this.emailId, this.referralId);
+        }
+        throw new Error('Neither jobApplicationRequestId nor referralRequestId is available');
+      };
+
+      // Recursive function to handle retries
       const fetchScoreWithRetry = async () => {
-        const response = await this.companyListing.getMatchingScore(this.emailId, this.referralId);
+        const response = await fetchMatchingScore();
 
         if (response && response.matchingScore !== undefined) {
 
-          // this.feedbackDetails = "Feedback:\n\n- The job description specifically mentions a preference for experience with TypeScript, which is not listed among your technical skills.\n- While you have experience with front-end development using JavaScript frameworks like React and Angular, the job requires expertise in building reusable UX components or libraries, which is not explicitly mentioned in your resume.\n- The job requires 3+ years of professional front-end, web, or mobile software development experience, but based on the information provided, your experience appears to be around 5 years, which may not meet the minimum requirement.\n\nSuitable roles:\n\n- Full-Stack Developer: Your experience with both front-end (React, HTML, CSS, JavaScript) and back-end technologies (Node.js) makes you a suitable candidate for full-stack developer roles.\n- Front-End Developer: While you may not meet all the preferred qualifications for the specific role at Amazon, your skills in front-end development using React, JavaScript, HTML, and CSS make you a strong candidate for other front-end developer positions.\n- Software Engineer: Your Bachelor's degree in Computer Science and experience in software development, problem-solving, and algorithm design align well with software engineering roles across various industries.\n- Web Developer: Your expertise in web development technologies like HTML, CSS, JavaScript, and frameworks like React and Angular make you a good fit for web developer roles.\n\nRemember, while you may not be an ideal match for this particular role, your skills and experience can be valuable assets for other suitable positions. It's essential to highlight your strengths and align them with the job requirements during the application and interview process."
           if (response?.rejectionFeedbackBySystem) {
             this.feedbackDetails = response?.rejectionFeedbackBySystem;
           }
@@ -120,7 +132,12 @@ export class ReferralProgressBarComponent implements OnChanges {
                 // Display the message for 5 seconds and then navigate
                 setTimeout(() => {
                   this.showScore = false;  // Hide the message after 5 seconds
-                  this.router.navigate(['/candidate/referral']);  // Navigate to another component
+                  if (this.jobApplicationRequestId) {
+                    this.router.navigate(['/candidate/jobs']);  // Navigate to jobs component                    
+                  }
+                  else if (this.referralId) {
+                    this.routeToReferral(); // Navigate to referral component   
+                  }
                 }, 5000);  // 5000 ms = 5 seconds
               }
               break;

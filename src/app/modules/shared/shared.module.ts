@@ -102,6 +102,8 @@ import { ShowMoreDetailsComponent } from './components/show-more-details/show-mo
 import { EllipsisPipe } from './pipes/ellipsis/ellipsis.pipe';
 import { MessageModalComponent } from './components/modal/message-modal/message-modal.component';
 import { OtpFieldComponent } from './components/otp-field/otp-field.component';
+import { JdAutofillModalComponent } from './components/jd-autofill-modal/jd-autofill-modal.component';
+import { MatTooltipModule } from '@angular/material/tooltip';
 export const routes: Routes = [
 
   
@@ -162,6 +164,8 @@ export const routes: Routes = [
     EllipsisPipe,
     MessageModalComponent,
     OtpFieldComponent,
+    ReferralRejectedPopupComponent,
+    JdAutofillModalComponent
     // DoneServiceComponent,
     // CancelledServiceComponent,
     // AwaitingServiceComponent,
@@ -185,6 +189,7 @@ export const routes: Routes = [
     RouterModule,
     MatProgressSpinnerModule,
     AutosizeModule,
+    MatTooltipModule
     // BrowserAnimationsModule,
   
    
@@ -244,7 +249,9 @@ export const routes: Routes = [
   ShowMoreDetailsComponent,
   MessageModalComponent,
   OtpFieldComponent,
-  EllipsisPipe
+  EllipsisPipe,
+  ReferralRejectedPopupComponent,
+  JdAutofillModalComponent
   ],
 
 })

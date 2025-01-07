@@ -156,7 +156,7 @@ export class ReferralRequestComponent implements OnInit, OnChanges {
   }
 
   getScore(referralRequestId: string) {
-    this.companyListing.getMatchingScore(this.emailId, referralRequestId).then(async (response) => {
+    this.companyListing.getReferralMatchingScore(this.emailId, referralRequestId).then(async (response) => {
       if (response) {
         
         this.matchingScore = response.matchingScore;

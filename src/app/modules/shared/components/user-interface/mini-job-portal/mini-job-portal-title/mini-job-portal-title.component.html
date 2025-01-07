@@ -19,7 +19,15 @@
             <div class="col-lg-10 col-sm-10">
                 <div class="job-info">
                     <div class="d-flex align-items-center justify-content-between">
-                        <h4 class="job-title">{{jobDescriptionDetails.jobTitle | titlecase}}</h4>
+                        <div class="job-title">
+                            <h4>{{jobDescriptionDetails.jobTitle | titlecase}}</h4>
+                            <small *ngIf="isJobInvalid">
+                                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" data-supported-dps="16x16"
+                                    fill="currentColor" class="mercado-match" width="16" height="16" focusable="false">
+                                    <path d="M10.8 1H5.2L1 5.2v5.6L5.2 15h5.6l4.2-4.2V5.2zM12 9H4V7h8z"></path>
+                                </svg>
+                                &nbsp; This job is no longer active.</small>
+                        </div>
                         <div class="share-btn d-flex align-items-center" (click)="shareCurrentUrl()">
                             <svg width="40" height="46" viewBox="0 0 40 46" fill="none"
                                 xmlns="http://www.w3.org/2000/svg">
@@ -52,11 +60,36 @@
                                     d="M13.3333 1.6665V4.99984M6.66667 1.6665V4.99984M2.5 8.33317H17.5M4.16667 3.33317H15.8333C16.7538 3.33317 17.5 4.07936 17.5 4.99984V16.6665C17.5 17.587 16.7538 18.3332 15.8333 18.3332H4.16667C3.24619 18.3332 2.5 17.587 2.5 16.6665V4.99984C2.5 4.07936 3.24619 3.33317 4.16667 3.33317Z"
                                     stroke="#FCFCFC" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
                             </svg>
-                            <span class="experience ms-2"> Experience:
+                            <!-- <span class="experience ms-2"> Experience:
                                 {{ jobDescriptionDetails.experienceRange.min }}
-                                {{ jobDescriptionDetails.experienceRange.max <= 1 ? '- ' + jobDescriptionDetails.experienceRange.max + ' Year' :
-                                    (jobDescriptionDetails.experienceRange.max>= 9999 ? '+' : '- ' + jobDescriptionDetails.experienceRange.max + ' Years')
-                                    }}</span>
+                                {{ jobDescriptionDetails.experienceRange.max <= 1 ? '- ' +
+                                    jobDescriptionDetails.experienceRange.max + ' Year' :
+                                    (jobDescriptionDetails.experienceRange.max>= 9999 ? '+' : '- ' +
+                                    jobDescriptionDetails.experienceRange.max + ' Years')
+                                    }}</span> -->
+
+                            <!-- <span class="experience ms-2"> Experience:
+                                {{ jobDescriptionDetails.experienceRange.max === 9999 
+                                    ? jobDescriptionDetails.experienceRange.min + '+ Years' 
+                                    : jobDescriptionDetails.experienceRange.min + ' - ' + 
+                                    (jobDescriptionDetails.experienceRange.max <= 1 
+                                    ? jobDescriptionDetails.experienceRange.max + ' Year' 
+                                    : jobDescriptionDetails.experienceRange.max + ' Years') }}
+                            </span> -->
+
+                            <span class="experience ms-2"> Experience:
+                                {{ jobDescriptionDetails.experienceRange.min ===
+                                jobDescriptionDetails.experienceRange.max
+                                ? jobDescriptionDetails.experienceRange.min + (jobDescriptionDetails.experienceRange.min
+                                === 1 ? ' Year' : '
+                                Years')
+                                : jobDescriptionDetails.experienceRange.max === 9999
+                                ? jobDescriptionDetails.experienceRange.min + '+ Years'
+                                : jobDescriptionDetails.experienceRange.min + ' - ' +
+                                (jobDescriptionDetails.experienceRange.max <= 1 ?
+                                    jobDescriptionDetails.experienceRange.max + ' Year' :
+                                    jobDescriptionDetails.experienceRange.max + ' Years' ) }} </span>
+
                         </div>
 
 

@@ -277,6 +277,7 @@ export class LoginFormComponent implements AfterViewInit, OnDestroy {
     //   .subscribe(e => {
     //     this.myControl.setValue(null);
     //   });
+    // This is to ensure the tooltip works
     var tooltipTriggerList = [].slice.call(document.querySelectorAll('[data-bs-toggle="tooltip"]'))
     var tooltipList = tooltipTriggerList.map(function (tooltipTriggerEl) {
       return new bootstrap.Tooltip(tooltipTriggerEl)
@@ -531,6 +532,7 @@ export class LoginFormComponent implements AfterViewInit, OnDestroy {
     this.showSignInRow = true;
   }
 
+  // STEP 1 : This will be opened Once you set the email and clicked on the forgot password, it will open the handleResetPassword page and pass your email to next function
   async resetPassword(form: any) {
     this.setErrorMessage("");
     this.confirmationEmail = this.maskEmail(this.resetForm.emailId);
@@ -540,6 +542,7 @@ export class LoginFormComponent implements AfterViewInit, OnDestroy {
     this.handleResetPassword(this.resetForm.emailId)
 
   }
+  // STEP 2: Cognito is accepting username as email so we are using calling resetPassword function and passing the email to the next function
   async handleResetPassword(username: string) {
     try {
 
@@ -550,18 +553,29 @@ export class LoginFormComponent implements AfterViewInit, OnDestroy {
       // console.log(error);
     }
   }
-
+  // STEP 3: After requesting Cognito the reset password request we will confirm reset with code (otp)
   async handleResetPasswordNextSteps(output: ResetPasswordOutput) {
     const { nextStep } = output;
     switch (nextStep.resetPasswordStep) {
       case 'CONFIRM_RESET_PASSWORD_WITH_CODE':
+        /**
+         * @example
+         *{
+         *   "resetPasswordStep": "CONFIRM_RESET_PASSWORD_WITH_CODE",
+         *   "codeDeliveryDetails": {
+         *       "deliveryMedium": "EMAIL",
+         *       "destination": "a***@g***",
+         *       "attributeName": "email"
+         *   }
+         *}
+         */
         const codeDeliveryDetails = nextStep.codeDeliveryDetails;
       // console.log(
       //   `Confirmation code was sent to ${codeDeliveryDetails.deliveryMedium}`
       // );
     }
   }
-
+  // STEP 4: After getting the code from the user we will confirm the reset password from cognito, and we have already match the password with confirm password of verification
   async handleConfirmResetPassword({
 
     username,
@@ -1168,6 +1182,16 @@ export class LoginFormComponent implements AfterViewInit, OnDestroy {
       password: this.form.password || form.password
     }
     let login = await this.amplify.handleSignIn(loginData);
+
+    let userType = this.storage.get('userType');
+     if(userType === 'Corporate'){
+          this.spinner.hide();
+          this.successmessage = "Oops! You don't have access to log in to this portal. Please contact support for assistance.";
+          this.successtitle = "Alert";
+          this.openModal(ModalType.SUCCESS_ERROR_MESSAGE);
+          this.amplify.handleSignOut();
+          return;
+        }
     if (login.response?.nextStep?.signInStep === "CONFIRM_SIGN_UP") {
       this.spinner.hide();
       this.confirmationEmail = this.maskEmail(this.form.email || form.emailId);
@@ -1184,9 +1208,9 @@ export class LoginFormComponent implements AfterViewInit, OnDestroy {
     if (login!.response!.isSignedIn) {
       await this.authService.getProfile(this.form.email.toLowerCase() || form.emailId.toLowerCase()).then(async (response) => {
 
-        let userType = response.data.lastAccessedDash;
-        let userName = response.data.name;
-        this.storage.set('lastAccessedDash', userType);
+        let userType = response.data.lastAccessedDash; //??
+        let userName = response.data.name;//??
+        this.storage.set('lastAccessedDash', userType);//??
         this.storage.set('userName', userName);
         this.navbarToggleSwitchService.intializeToggleStatus();
 

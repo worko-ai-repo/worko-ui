@@ -1,32 +1,33 @@
 <div class="admin-table-main mx-2 ms-3" id="admin-job-main">
   <div class="tab-content mt-2" id="myTabContent">
     <div class="candidate-card tab-pane fade show active" id="home" role="tabpanel" aria-labelledby="home-tab">
-      <h5>Job Listings</h5>
-      <div class="ajobs-filters">
+      <div class="heading-and-btn">
+        <h5>Job Listings</h5>
         <span class="ajobs-create-jobs">
           <!-- Button to open the Add Job modal -->
-          <button (click)="openModalone()" class="ps-4 pe-4 btn searchButton">Add Job</button>
+          <button (click)="openAutoFill()" class="ps-4 pe-4 btn searchButton">Create Job</button>
         </span>
-
+      </div>
+      <div class="ajobs-filters">
         <span class="ajobs-search">
           <input type="text" class="form-control serachInput" placeholder="Search Jobs" (keyup)="searchJobs($event)"
             [(ngModel)]="searchQuery" />
           <span class="ajobs-status">
             <select name="status" [(ngModel)]="selectedStatus" class="selector form-select"
               (change)="onStatusChange($event)">
-              <option value={{status.ALL}}>ALL JOBS</option>
-              <option value={{status.PUBLISHED}}>PUBLISHED</option>
-              <option value={{status.ARCHIVED}}>ARCHIVED</option>
-              <option value={{status.CLOSED}}>CLOSED</option>
+              <option value={{status.ALL}}>All Jobs</option>
+              <option value={{status.PUBLISHED}}>Published</option>
+              <option value={{status.ARCHIVED}}>Archived</option>
+              <option value={{status.CLOSED}}>Closed</option>
             </select>
           </span>
-          <span class="ajobs-status">
+          <!-- <span class="ajobs-status">
             <select name="status" [(ngModel)]="selectedSortOrder" class="selector form-select"
               (change)="onSortOrderChange($event)">
-              <option value={{sortOrder.ASC}}>ASCENDING</option>
-              <option value={{sortOrder.DESC}}>DESCENDING</option>
+              <option value={{sortOrder.ASC}}>Ascending</option>
+              <option value={{sortOrder.DESC}}>Descending</option>
             </select>
-          </span>
+          </span> -->
           <button class="ps-4 pe-4 btn searchButton" (click)="resetBtnHandler()">Reset</button>
         </span>
       </div>
@@ -34,75 +35,134 @@
         <table class="table-style">
           <thead>
             <tr>
-              <th>Job ID</th>
-              <th>Job Title</th>
-              <th>Company Name</th>
+              <th style="width: 20% !important;">Job Title</th>
               <th>Status</th>
+              <!-- <th>CreatedBy</th> -->
               <th>Created At</th>
+              <th>Company</th>
+              <th>Experience</th>
+              <th>Salary</th>
+              <th>Location</th>
               <th>Actions</th>
             </tr>
           </thead>
           <tbody>
             <tr *ngIf="filteredJobs.length === 0">
-              <td colspan="7" class="no-jobs-message">{{ noJobsMessage }}</td>
+              <td colspan="14" class="no-jobs-message">{{ noJobsMessage }}</td>
             </tr>
             <tr *ngFor="let job of filteredJobs; let i = index">
+            
               <td>
-                <span style="margin-right:30px">{{ job.id }}</span>
+                <span style="margin-right:30px" matTooltip={{job.jobTitle}} matTooltipPosition="above" (click)="viewJobDetailsandApplications(job.id)" id="job-table-row">{{ job.jobTitle | ellipsis:30 | titlecase }}</span>
                 <mat-icon style="cursor: pointer; position: absolute; right: 10px;" (click)="copyToClipboard(job.id)"
-                  matTooltip="Copy to Clipboard" matTooltipPosition="above">
-                  {{ copiedContextId === job.id ? 'check' : 'content_copy' }}
-                  <!-- {{ copiedContextId === row.contextId ? 'check' : 'content_paste' }} -->
-                </mat-icon>
+                    matTooltip="Copy Job Id To Clipboard" matTooltipPosition="above">
+                    {{ copiedContextId === job.id ? 'check' : 'content_copy' }}
+                    <!-- {{ copiedContextId === row.contextId ? 'check' : 'content_paste' }} -->
+                  </mat-icon>
               </td>
-              <td matTooltip={{job.jobTitle}} matTooltipPosition="above" style="cursor: pointer;">{{ job.jobTitle |
-                ellipsis:30 | titlecase }}</td>
+
+                <td>
+                  <p [ngClass]="getStatusClass(job.status)">{{ job.status | uppercase }}</p>
+                </td>
+                
+
+              <td style="width: 30px;">{{ job.createdAt | date: 'd MMM yyyy, h:mm a' }}</td>
+              
               <td id="tuple-with-logo">
-                <ng-container *ngIf="job.companyDetails?.logo; else useUrlLogoSecond">
-                  <img src="assets/company-logo/{{job.companyDetails?.logo}}" alt="{{job.companyDetails?.name}}"
+                <ng-container *ngIf="job.companyDetails?.logo; else useUrlLogoSecond"
+                 >
+                  <img
+                  (click)="copyToClipboard(job.companyDetails.id)"
+                 matTooltip="Copy Company Id To Clipboard"
+                matTooltipPosition="above"
+                style="cursor:pointer"
+                 src="assets/company-logo/{{job.companyDetails?.logo}}" alt="{{job.companyDetails?.name}}"
                     width="50" height="50">
                 </ng-container>
-                <ng-template #useUrlLogoSecond>
-                  <img src="{{ job.companyDetails?.logoUrl }}" alt="{{job.companyDetails?.name}}" width="50"
+                <ng-template #useUrlLogoSecond
+                >
+                  <img 
+                  (click)="copyToClipboard(job.companyDetails.id)"
+                 matTooltip="Copy Company Id To Clipboard"
+                matTooltipPosition="above"
+                style="cursor:pointer"
+                src="{{ job.companyDetails?.logoUrl }}" alt="{{job.companyDetails?.name}}" width="50"
                     height="50">
                 </ng-template>
-                {{ job.companyDetails?.name }}
+                <span  matTooltip={{job.companyDetails.name}} matTooltipPosition="above">{{ job.companyDetails?.name | ellipsis:30 |titlecase }}</span>
               </td>
-              <td>
-                <p [ngClass]="getStatusClass(job.status)">{{ job.status | uppercase }}</p>
-              </td>
-              <td>{{ job.createdAt | date: 'd MMM yyyy, h:mm a' }}</td>
-              <td id="editbtns">
-                <span *ngIf="job.status != status.CLOSED" (click)="editJob(job)" matTooltip="Edit"
-                  matTooltipPosition="above" style="background:#2716bb;"><i
-                    class="fa-solid fa-pen-to-square"></i></span>
-                <span *ngIf="job.status !== status.ARCHIVED && selectedStatus !== status.CLOSED"
-                  (click)="updateJobStatus(job,'ARCHIVED')" matTooltip="Archive" matTooltipPosition="above"
-                  style="background: #ffc107;">
-                  <i class="fa-solid fa-file-arrow-down"></i></span>
-                <span *ngIf="job.status != status.CLOSED" (click)="updateJobStatus(job,'CLOSED')" matTooltip="Delete"
-                  matTooltipPosition="above" style="background: red;">
-                  <i class="fa-solid fa-trash"></i></span>
-                <span *ngIf="job.status === status.ARCHIVED" (click)="updateJobStatus(job,'PUBLISHED')"
-                  matTooltip="Make Publish" matTooltipPosition="above" style="background: #ffc107;">
-                  <i class="fa-solid fa-eye"></i></span>
-                <span *ngIf="true" (click)="navigateToJobReferral($event,job.companyDetails.name, job.jobTitle,job.id)"
-                  matTooltip="Visit" matTooltipPosition="above" style="background: green;">
-                  <i class="fa-solid fa-link"></i></span>
+              
+              <td>  {{ formatRange(job?.experienceRange.min, job?.experienceRange.max,
+                'experience') }}</td>
+              <td>  {{ formatRange(job?.salaryRange.min, job?.salaryRange.max,
+                'salary') }}</td>
+              <td>{{ job.location | titlecase }}</td>
 
+
+              <td id="editbtns" style="width: 100px;">
+                <span *ngIf="true" (click)="viewJobDetailsandApplications(job.id)"
+                matTooltip="View Applications" matTooltipPosition="above" style="background: #B4B7BA ;color: #182B47;">
+                <i class="fa-solid fa-eye"></i></span>
+
+                <span *ngIf="job.status != status.CLOSED" (click)="editJob(job , false)" matTooltip="Duplicate Job"
+                  matTooltipPosition="above" style="background:#EDEEEB;">
+                <i class="fa-solid fa-copy" style="color: #182B47;"></i></span>
+
+                <span *ngIf="job.status != status.CLOSED" (click)="editJob(job , true)" matTooltip="Update Job"
+                  matTooltipPosition="above" style="background:#CCC7BF; color: #182B47;">
+                <i class="fa-solid fa-pen-to-square"></i></span>
+                              
+                <span *ngIf="true" (click)="navigateToJobReferral($event,job.companyDetails.name, job.jobTitle,job.id)"
+                matTooltip="View Job" matTooltipPosition="above" style="background: #0274BD;">
+                <i class="fa-solid fa-arrow-up-right-from-square"></i></span>
+
+                <span *ngIf="job.status !== status.ARCHIVED && selectedStatus !== status.CLOSED"
+                  (click)="confirmOperation(job,'ARCHIVED')" matTooltip="Archive Job" matTooltipPosition="above"
+                  style="background: #E9E6DD; color: #182B47;">
+                  <i class="fa-solid fa-file-arrow-down"></i></span>
+                
+                  <span *ngIf="job.status != status.CLOSED" (click)="confirmOperation(job,'CLOSED')" matTooltip="Delete Job"
+                  matTooltipPosition="above" style="background: #A41F13;">
+                  <i class="fa-solid fa-trash"></i></span>
+                
+                  <span *ngIf="job.status === status.ARCHIVED" (click)="updateJobStatus(job,'PUBLISHED')"
+                  matTooltip="Publish Job" matTooltipPosition="above" style="background: #31393C;">
+                  <i class="fa-solid fa-tower-cell"></i></span>
               </td>
             </tr>
           </tbody>
         </table>
-        <!--Pagination-->
-        <mat-paginator #companyJobMatPaginator aria-label="Select page of users" [pageSize]="10"
-          [pageSizeOptions]="[10,25,50,100]" [showFirstLastButtons]="true" (page)="onPageChange($event)">
-        </mat-paginator>
+      
+        
+        
       </div>
+      <!-- pagination block starts here -->
+      <div class="row pe-2 pt-4">
+       <div class="pagination-controls">
+         <div class="dropdown-container">
+           <div style="display: flex; align-items: center;">
+             <label for="pageSizeSelect" class="dropdown-label">Items per page:</label>
+           </div>
+           <div class="dropdown-wrapper">
+             <select id="pageSizeSelect" class="styled-dropdown" [(ngModel)]="pageSize"
+               (change)="onPageSizeChange($event)">
+               <option *ngFor="let option of pageSizeOptions" [value]="option">
+                 {{ option }}
+               </option>
+             </select>
+           </div>
+         </div>
 
+         <button class="prev-button" [disabled]="!hasPrevious" (click)="onPrevious()">
+           &lt; Previous
+         </button>
 
-
-    </div>
+         <button class="next-button" [disabled]="!hasNext" (click)="onNext()">
+           Next &gt;
+         </button>
+       </div>
+     </div>
+     <!-- pagination blocl ends here -->
 
   </div>
 
@@ -115,7 +175,7 @@
   <!-- Modal for adding a new job -->
   <ng-container *ngIf="showModal === modalType.ADMINJOBS_POPUP">
     <div class="message-card px-sm-3 p-4 ">
-      <h3> {{ isEditMode ? 'Update Job' : 'Create Job' }}</h3>
+      <h3>   {{ isDuplicateMode ? 'Duplicate Job' : (isEditMode ? 'Update Job' : 'Create Job') }} </h3>
       <form [formGroup]="jobForm" (keydown.enter)="$event.preventDefault()" (ngSubmit)="onSubmit()">
 
         <!-- Company Name Input -->
@@ -134,9 +194,24 @@
           <span *ngIf="isInvalid('companyControl')" class="text-danger">{{ getErrorMessage('companyControl') }}</span>
         </div>
 
+        <!-- Job Description -->
+        <div class="ajobs-fitem gCloumnTwo" id="ajobDesc-rte">
+          <label for="jobDescription" class="form-label required-form-field">Job Description</label>&nbsp;
+          <span class="ajob-tooltip"
+            style="cursor: pointer; width: min-content; position:relative ;height: min-content;">
+            <i class="fa-solid fa-circle-info " matTooltip="1.For New Line Press Shift + Enter Keys."
+              matTooltipPosition="above"></i>
+          </span>
+
+          <div formControlName="jobDescription" [ngxSummernote]="ngxSummerConfig" class="ajobDesc-rte_editor"
+            [ngClass]="{ 'is-invalid': isInvalid('jobDescription') }"></div>
+
+          <span *ngIf="isInvalid('jobDescription')" class="text-danger">{{ getErrorMessage('jobDescription') }}</span>
+        </div>
+
         <!-- Job Title -->
-        <div class="ajobs-fitem">
-          <label for="jobTitle" class="form-label required-form-field">Job Title:</label>
+        <div class="ajobs-fitem" style="grid-column: span 4;">
+          <label for="jobTitle" class="form-label required-form-field">Job Title</label>
           <input id="jobTitle" formControlName="jobTitle" class="form-control form-input"
             [ngClass]="{ 'is-invalid': isInvalid('jobTitle') }" />
           <span *ngIf="isInvalid('jobTitle')" class="text-danger">{{ getErrorMessage('jobTitle') }}</span>
@@ -144,33 +219,52 @@
 
         <!-- Salary Range -->
         <div class="ajobs-fitem">
-          <label for="salaryRange" class="form-label required-form-field">Salary Range:</label>
-          <select id="salaryRange" class="selector form-select required-form-field"
-            [ngClass]="{ 'is-invalid': isInvalid('salaryRange') }" formControlName="salaryRange" #refSalaryRange>
-            <option [ngValue]="null" disabled selected>Select Salary</option>
-            <option *ngFor="let range of salaryRange" [ngValue]="range.value">
-              {{ range.label }}
-            </option>
-          </select>
-          <span *ngIf="isInvalid('salaryRange')" class="text-danger">{{ getErrorMessage('salaryRange') }}</span>
+          <label for="salaryRange" class="form-label required-form-field">Salary Range</label>&nbsp;
+          <span class="ajob-tooltip"
+          style=" cursor: pointer; width: min-content; position:relative ;height: min-content;">
+          <i class="fa-solid fa-circle-info " matTooltip="{{rangeSalToolTipMessage}}" matTooltipPosition="above"></i>
+        </span>
+          <div class="d-flex gap-2" formGroupName="salaryRange">
+            <!-- Minimum Salary -->
+            <input type="number" id="salaryRangeMin" placeholder="Min salary in Lakhs" class="form-control form-input required-form-field"
+              [ngClass]="{ 'is-invalid': isInvalid('salaryRange.min') }"
+              formControlName="min" />
+            <input type="number" id="salaryRangeMax" placeholder="Max salary in Lakhs" class="form-control form-input required-form-field"
+              [ngClass]="{ 'is-invalid': isInvalid('salaryRange.max') }"
+              formControlName="max" />
+          </div>
+            <!-- Single error message for all conditions -->
+          <span *ngIf="isInvalid('salaryRange')" class="text-danger">
+            {{ getErrorMessage('salaryRange') }}
+          </span>
         </div>
 
         <!-- Experience Range -->
         <div class="ajobs-fitem">
-          <label for="experienceRange" class="form-label required-form-field">Experience Range:</label>
-          <select id="experienceRange" class="selector form-select required-form-field"
-            [ngClass]="{ 'is-invalid': isInvalid('experienceRange') }" formControlName="experienceRange" #refExpRange>
-            <option [ngValue]="null" disabled>Select Experience Range</option>
-            <option *ngFor="let range of experienceRange" [ngValue]="range.value">
-              {{ range.label }}
-            </option>
-          </select>
-          <span *ngIf="isInvalid('experienceRange')" class="text-danger">{{ getErrorMessage('experienceRange') }}</span>
+          <label for="experienceRange" class="form-label required-form-field">Experience Range</label>&nbsp;
+          <span class="ajob-tooltip"
+          style=" cursor: pointer; width: min-content; position:relative ;height: min-content;">
+          <i class="fa-solid fa-circle-info " matTooltip="{{rangeExpToolTipMessage}}" matTooltipPosition="above"></i>
+        </span>
+          <div class="d-flex gap-2" formGroupName="experienceRange">
+            <!-- Minimum Experience -->
+            <input type="number" id="experienceRangeMin" placeholder="Min experience in Years" class="form-control form-input required-form-field"
+              [ngClass]="{ 'is-invalid': isInvalid('experienceRange.min') }"
+              formControlName="min" />
+            <input type="number" id="experienceRangeMax" placeholder="Max experience in Years" class="form-control form-input required-form-field"
+              [ngClass]="{ 'is-invalid': isInvalid('experienceRange.max') }"
+              formControlName="max" />
+          </div>
+            <!-- Single error message for all conditions -->
+          <span *ngIf="isInvalid('experienceRange')" class="text-danger">
+            {{ getErrorMessage('experienceRange') }}
+          </span>
         </div>
+        
 
         <!-- Number of Openings -->
         <div class="ajobs-fitem">
-          <label for="numOfOpenings" class="form-label required-form-field">Number of Openings:</label>
+          <label for="numOfOpenings" class="form-label required-form-field">Number of Openings</label>
           <input type="number" id="numOfOpenings" formControlName="numOfOpenings" class="form-control form-input"
             [ngClass]="{ 'is-invalid': isInvalid('numOfOpenings') }" />
           <span *ngIf="isInvalid('numOfOpenings')" class="text-danger">{{ getErrorMessage('numOfOpenings') }}</span>
@@ -178,7 +272,7 @@
 
         <!-- Work Mode -->
         <div class="ajobs-fitem">
-          <label for="workMode" class="form-label required-form-field">Work Mode:</label>
+          <label for="workMode" class="form-label required-form-field">Work Mode</label>
           <select id="workMode" formControlName="workMode" class="selector form-select required-form-field"
             [ngClass]="{ 'is-invalid': isInvalid('workMode') }">
             <option value="" disabled selected>Select Work Mode</option> <!-- Placeholder-like option -->
@@ -191,7 +285,7 @@
 
         <!-- Location -->
         <div class="ajobs-fitem">
-          <label for="location" class="form-label required-form-field">Location:</label>
+          <label for="location" class="form-label required-form-field">Location</label>
           <select id="location" formControlName="location" class="selector form-select required-form-field"
             [ngClass]="{ 'is-invalid': isInvalid('location') }">
             <option value="" disabled selected>Select Location</option> <!-- Placeholder-like option -->
@@ -210,18 +304,10 @@
           <span *ngIf="isInvalid('location')" class="text-danger">{{ getErrorMessage('location') }}</span>
         </div>
 
-        <!-- Notice Period -->
-        <div class="ajobs-fitem">
-          <label for="noticePeriod" class="form-label required-form-field">Notice Period (Months):</label>
-          <input type="number" id="noticePeriod" formControlName="noticePeriod"
-            class="form-control form-input required-form-field"
-            [ngClass]="{ 'is-invalid': isInvalid('noticePeriod') }" />
-          <span *ngIf="isInvalid('noticePeriod')" class="text-danger">{{ getErrorMessage('noticePeriod') }}</span>
-        </div>
 
         <!-- Type of Employment -->
         <div class="ajobs-fitem">
-          <label for="typeofEmployment" class="form-label required-form-field">Type of Employment:</label>
+          <label for="typeofEmployment" class="form-label required-form-field">Type of Employment</label>
           <select id="typeofEmployment" formControlName="typeofEmployment"
             class="selector form-select required-form-field">
             <option value="" disabled selected>Select Employment Type</option> <!-- Placeholder-like option -->
@@ -237,7 +323,7 @@
 
         <!-- Department -->
         <div class="ajobs-fitem">
-          <label for="department" class="form-label required-form-field">Department:</label>
+          <label for="department" class="form-label required-form-field">Department</label>
           <input id="department" formControlName="department" class="form-control form-input required-form-field"
             [ngClass]="{ 'is-invalid': isInvalid('department') }" />
           <span *ngIf="isInvalid('department')" class="text-danger">{{ getErrorMessage('department') }}</span>
@@ -250,7 +336,7 @@
             style=" cursor: pointer; width: min-content; position:relative ;height: min-content;">
             <i class="fa-solid fa-circle-info " matTooltip="{{skillsTooltipMessage}}" matTooltipPosition="above"></i>
           </span>
-          <input type="text" id="coreSkills" (keydown.enter)="onSkillInput($event, 'coreSkills')"
+          <input type="text" id="coreSkills" maxlength="30" (keydown.enter)="onSkillInput($event, 'coreSkills')"
             (blur)="markControlAsTouched('coreSkills')" class="form-control form-input required-form-field"
             [ngClass]="{ 'is-invalid': isInvalid('coreSkills') }" />
 
@@ -270,7 +356,7 @@
             style=" cursor: pointer; width: min-content; position:relative ;height: min-content;">
             <i class="fa-solid fa-circle-info " matTooltip="{{skillsTooltipMessage}}" matTooltipPosition="above"></i>
           </span>
-          <input type="text" id="softSkills" (keydown.enter)="onSkillInput($event, 'softSkills')"
+          <input type="text" id="softSkills" maxlength="30" (keydown.enter)="onSkillInput($event, 'softSkills')"
             (blur)="markControlAsTouched('softSkills')" class="form-control form-input required-form-field"
             [ngClass]="{ 'is-invalid': isInvalid('softSkills') }" />
 
@@ -293,7 +379,7 @@
             style=" cursor: pointer; width: min-content; position:relative ;height: min-content;">
             <i class="fa-solid fa-circle-info " matTooltip="{{skillsTooltipMessage}}" matTooltipPosition="above"></i>
           </span>
-          <input type="text" id="technicalSkills" (keydown.enter)="onSkillInput($event, 'technicalSkills')"
+          <input type="text" id="technicalSkills" maxlength="30" (keydown.enter)="onSkillInput($event, 'technicalSkills')"
             (blur)="markControlAsTouched('technicalSkills')" class="form-control form-input required-form-field"
             [ngClass]="{ 'is-invalid': isInvalid('technicalSkills') }" />
 
@@ -314,7 +400,7 @@
             style=" cursor: pointer; width: min-content; position:relative ;height: min-content;">
             <i class="fa-solid fa-circle-info " matTooltip="{{skillsTooltipMessage}}" matTooltipPosition="above"></i>
           </span>
-          <input type="text" id="mislaneiousSkills" (keydown.enter)="onSkillInput($event, 'mislaneiousSkills')"
+          <input type="text" id="mislaneiousSkills" maxlength="30" (keydown.enter)="onSkillInput($event, 'mislaneiousSkills')"
             class="form-control form-input " [ngClass]="{ 'is-invalid': isInvalid('mislaneiousSkills') }" />
 
           <div class="skill-chip-box">
@@ -328,32 +414,22 @@
             }}</span>
         </div>
 
-        <!-- Job Description -->
-        <div class="ajobs-fitem gCloumnTwo" id="ajobDesc-rte">
-          <label for="jobDescription" class="form-label required-form-field">Job Description:</label>&nbsp;
-          <span class="ajob-tooltip"
-            style="cursor: pointer; width: min-content; position:relative ;height: min-content;">
-            <i class="fa-solid fa-circle-info " matTooltip="1.For New Line Press Shift + Enter Keys."
-              matTooltipPosition="above"></i>
-          </span>
 
-          <div formControlName="jobDescription" [ngxSummernote]="ngxSummerConfig" class="ajobDesc-rte_editor"
-            [ngClass]="{ 'is-invalid': isInvalid('jobDescription') }"></div>
-
-          <span *ngIf="isInvalid('jobDescription')" class="text-danger">{{ getErrorMessage('jobDescription') }}</span>
-        </div>
         <!-- Other Requirements -->
         <div class="ajobs-fitem gCloumnTwo">
-          <label for="otherRequirements" class="form-label">Other Requirements:</label>
+          <label for="otherRequirements" class="form-label">Other Requirements</label>
           <textarea id="otherRequirements" formControlName="otherRequirements" class="form-control form-input jobDesc"
             rows="4" [ngClass]="{ 'is-invalid': isInvalid('otherRequirements') }">
         </textarea>
           <span *ngIf="isInvalid('otherRequirements')" class="text-danger">{{ getErrorMessage('otherRequirements')
             }}</span>
         </div>
+       <!--  <button type="button" (click)="jobFormTester()" >Test</button> -->
 
-        <button type="submit" [disabled]="!jobForm.valid || !isCompanyNameValid" class="ajobs-fitem-submitBtn">
-          {{ isEditMode ? 'Update' : 'Create' }}
+        <button type="submit"
+         [disabled]="!jobForm.valid || !isCompanyNameValid || (isDuplicateMode && !isduplicateFormValid)"
+         class="ajobs-fitem-submitBtn">
+          {{ isEditMode ? 'Update Job' : isDuplicateMode ? 'Duplicate Job' : 'Create Job' }}
         </button>
         <button type="button" id="ajobResetBtn" (click)="resetModal()" class="ajobs-fitem-resetBtn">Reset</button>
         <button class="btn btn-next" (click)="closeModal()"> Close</button>
@@ -377,4 +453,17 @@
       </div>
     </div>
   </ng-container>
+
+  <!-- Warning Modal -->
+  <ng-container *ngIf="showModal === modalType.CORPORATE_USER_WARNING" >
+    <app-message-modal [title]="'Warning!'" [message]="successmessage"  (onNoBtn) = "closeModal()" id="login-warn-popup"
+    (onYesBtn)="updateJobStatus(operationJob , operationType)" >
+    </app-message-modal>
+  </ng-container>
+
+  <!-- jd-autofill-modal -->
+  <ng-container *ngIf="showModal === modalType.JD_AUTOFILL">
+    <app-jd-autofill-modal (onClose)="modal.cancel()" (onSkip)="openModalone()" (onAutofillPastJd) = "autofillParseJd($event)"></app-jd-autofill-modal>
+  </ng-container>
+
 </app-modal>

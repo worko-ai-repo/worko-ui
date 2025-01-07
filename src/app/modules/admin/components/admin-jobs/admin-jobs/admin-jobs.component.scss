@@ -13,39 +13,47 @@
   }
 }
 
-$statuses: (
-  'PUBLISHED': #2716bb,
-  'CLOSED': red,
-  'ARCHIVED': #ffc107,
-);
 
+$statuses: (
+  'PUBLISHED': #C4AD9D,
+  'CLOSED': #A34242,
+  'ARCHIVED': #E9E6DD,
+);
+.heading-and-btn
+{
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  button{height: 40px !important;}
+}
 .candidate-card {
   padding: 15px;
   overflow: auto;
   border-radius: 10px;
 
-  //Top Heading bar with search and other filters
-  .ajobs-filters {
-    padding-block: 5px;
-    margin-block: 5px;
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
+//Top Heading bar with search and other filters
+.ajobs-filters {
+  padding-block: 5px;
+  
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-end;
+  align-items: flex-end;
 
-    input,
-    button {
-      height: 100% !important;
-    }
-    button {
-      margin-left: 5px;
-      border: 1px solid var(--color-skyblue-100) !important;
-    }
-    .ajobs-search {
-      margin-inline: 10px;
-      display: flex;
-      align-items: center;
-      justify-content: space-evenly;
-    }
+  input,
+  button {
+    height: 100% !important;
+  }
+  button {
+    margin-left: 5px;
+    border: 1px solid var(--color-skyblue-100) !important;
+  }
+  .ajobs-search {
+    margin-top: 10px;
+    display: flex;
+    align-items: center;
+    justify-content: space-evenly;
+  }
     .ajobs-status {
       height: 100% !important;
     }
@@ -72,24 +80,28 @@ $statuses: (
         border: 2px solid #476baf;
         border-inline-color: #283a5bd1;
         padding: 10px;
-        //width: min-content;
+        width: min-content;
       }
 
+      $dark-text-color: #182B47;
+      $light-text-color: white;
+      
       td {
         // Dynamic status color
         @each $status, $color in $statuses {
           .job-#{to-lower-case($status)} {
             background-color: $color;
-            color: white;
-            font-weight: 500;
-            width: min-content;
+            color: if(lightness($color) > 50, $dark-text-color, $light-text-color); // Determine text color based on lightness
+            font-weight: 600;
+            padding: 2px;
             border-radius: 5px;
-            margin: unset !important; //@review: some global margin is interfaring with the layout
+            margin: unset !important; // @review: some global margin is interfering with the layout
             padding-inline: 5px;
             height: 80%;
             text-align: center;
           }
         }
+      
         img {
           /*     position: relative;
         left: 10px; */
@@ -132,6 +144,7 @@ $statuses: (
     //All the commmon fields should resides within 3 columns
     .selector{
       width:100%;
+      border: 2px solid #476baf;
     }
     .ajobs-fitem {
       grid-column: span 2;
@@ -156,7 +169,7 @@ $statuses: (
     //Grid Managment Ends
     .skill-chip-box {
       display: grid;
-      grid-gap: 10px 5px;
+      grid-gap: 10px 20px;
       justify-content: center;
       grid-template-columns: repeat(3, 30%);
       grid-auto-flow: row;
@@ -248,7 +261,7 @@ $statuses: (
 
 #editbtns span {
   position: relative;
-  padding: 5px;
+  padding: 5px 0px ;
   box-shadow: 7px 6px 28px 1px rgba(0, 0, 0, 0.24); 
   text-align: center;
   cursor: pointer;
@@ -328,6 +341,20 @@ $statuses: (
     margin: 10px;
   }
 }
+
+#job-table-row{
+  cursor: pointer;
+
+}
+
+#job-table-row:hover{
+    color: #1ed6ff !important;
+}
+
+#login-warn-popup button.btn-next {
+  margin-inline: 10px !important;
+}
+
 @media screen and (max-width: 992px) {
   form {
     display: flex !important;

@@ -52,6 +52,7 @@ export class MiniJobPortalJobListingComponent {
   showScore: boolean = false;
   matchingScore: number = 0;
   referralRequestId: string = "";
+  jobApplicationRequestId: string = "";
   errorMsg: string | undefined;
   showErrorMsg: boolean | undefined;
   companyID: any = "";
@@ -245,7 +246,8 @@ export class MiniJobPortalJobListingComponent {
     try{
       let response=await this.companyListing.getcompanyDetailsByCompanyID(this.companyID)
         if (response[0]) {
-          this.companyName=response[0].name
+          this.companyName=response[0].name;
+          this.companyDetail = response[0];
           this.getJobByCompanyID()
 
         }else{
@@ -441,6 +443,7 @@ export class MiniJobPortalJobListingComponent {
           if (response.referralRequestId) {
 
             this.referralRequestId = response.referralRequestId;
+            this.jobApplicationRequestId = "";
             this.showLoading = true;
             this.showReferrelRow = false;
             this.showScore = true;

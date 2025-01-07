@@ -29,11 +29,21 @@
         padding-left: 15px;
 
         .job-title {
+            display: flex;
+            flex-direction: column;
             color: black;
             font-size: 1.5em;
-            margin: 28px 0 28px 0;
+            margin: 28px 0 10px 0;
             font-weight: bold;
             // font-size: calc(1.5vw + 10px);
+            small{
+                display: flex;
+                align-items: center;
+                font-weight: 600;
+                font-size: 13px;
+                color : #d11124;
+                line-height: 1.5;
+            }
 
         }
 

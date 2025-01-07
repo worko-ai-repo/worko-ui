@@ -178,8 +178,11 @@ export class AdminEmployeeComponent {
     // this.initializeData();
 
     // Use the previous lastKey if available; otherwise, start fresh
-    const keyToUse = this.getKeyForCurrentPage();
-    this.getAllUserData(keyToUse);
+    // const keyToUse = this.getKeyForCurrentPage();
+    // this.getAllUserData(keyToUse);
+
+    this.previousKeys = [];
+    this.getAllUserData(null);
   }
 
   handleSearchInput(event: Event) {
@@ -213,8 +216,11 @@ export class AdminEmployeeComponent {
     // this.initializeData();
 
     // Use the previous lastKey if available; otherwise, start fresh
-    const keyToUse = this.getKeyForCurrentPage();
-    this.getAllUserData(keyToUse);
+    // const keyToUse = this.getKeyForCurrentPage();
+    // this.getAllUserData(keyToUse);
+
+    this.previousKeys = [];
+    this.getAllUserData(null);
   }
 
   ngAfterViewInit() {
@@ -341,8 +347,11 @@ export class AdminEmployeeComponent {
     // this.initializeData();
 
     // Use the previous lastKey if available; otherwise, start fresh
-    const keyToUse = this.getKeyForCurrentPage();
-    this.getAllUserData(keyToUse);
+    // const keyToUse = this.getKeyForCurrentPage();
+    // this.getAllUserData(keyToUse);
+
+    this.previousKeys = [];
+    this.getAllUserData(null);
   }
 
   applyToDateFilters() {
@@ -364,8 +373,11 @@ export class AdminEmployeeComponent {
     }
 
     // Use the previous lastKey if available; otherwise, start fresh
-    const keyToUse = this.getKeyForCurrentPage();
-    this.getAllUserData(keyToUse);
+    // const keyToUse = this.getKeyForCurrentPage();
+    // this.getAllUserData(keyToUse);
+
+    this.previousKeys = [];
+    this.getAllUserData(null);
   }
 
   initializeData() {
@@ -388,8 +400,11 @@ export class AdminEmployeeComponent {
     // this.referralPaginator.pageSize = 25;  // Update the UI's pageSize
 
     // Use the previous lastKey if available; otherwise, start fresh
-    const keyToUse = this.getKeyForCurrentPage();
-    this.getAllUserData(keyToUse);
+    // const keyToUse = this.getKeyForCurrentPage();
+    // this.getAllUserData(keyToUse);
+
+    this.previousKeys = [];
+    this.getAllUserData(null);
   }
 
   onNext() {

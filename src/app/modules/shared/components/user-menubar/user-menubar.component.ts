@@ -1,5 +1,5 @@
 import { Component, EventEmitter, Input, Output } from '@angular/core';
-import { ActivatedRoute, Router } from '@angular/router';
+import { ActivatedRoute, NavigationEnd, Router } from '@angular/router';
 import { signOut } from '@aws-amplify/auth';
 import { StorageService } from 'src/app/modules/app-core/services/storage.service';
 
@@ -17,7 +17,7 @@ export class UserMenubarComponent {
   @Input() isSidebarExpanded: boolean = true;
   @Output() onToggleSidebar: EventEmitter<void> = new EventEmitter<void>();
   @Input() userType: string = "";
-
+  isCorporateRoute: boolean = false;
   // iconChevronLeft: IconDefinition = faChevronLeft;
   // iconChevronRight: IconDefinition = faChevronRight;
   panelOpenState = false;
@@ -29,6 +29,8 @@ export class UserMenubarComponent {
   isNotAdminDashboard!: boolean;
   isReferralSubmenuOpen: boolean = false;
   currentSubmenuStatus: string | null = null;
+
+  isJobsSubmenuOpen: boolean = false;
 
   private destroy$ = new Subject<void>();
   /**
@@ -45,19 +47,62 @@ export class UserMenubarComponent {
     this.checkRoute();
 
     // Check the initial state on load
-    this.updateReferralSubmenuState();
+    this.updateSubmenuStates();;
 
     // Listen for route changes to update the submenu state
     this.route.url.pipe(takeUntil(this.destroy$)).subscribe((segments) => {
-      this.updateReferralSubmenuState();
+      this.updateSubmenuStates();
     });
 
+    // Check if the use is on the corporate Page or not
+    this.router.events.subscribe((event) => {
+      if (event instanceof NavigationEnd) {
+        this.isCorporateRoute = event.url.startsWith('/corporate');
+      }
+    });
 
+    if (true) {
+      this.menuItems = [
+        {
+          name: 'Jobs',
+          router: "corporate/cJobs"
+        },
+        {
+          name: "Application",
+          router: "corporate/cApplicants/"
+        },
+        {
+          name: 'Invites',
+          router: "corporate/cInvites"
+        },
+        {
+          name: 'Manage Users',
+          router: "corporate/cManageUsers"
+        },
+        {
+          name: "Settings",
+          router: "corporate/cSettings"
+        }
+      ]
+    }
     if (this.userType == "Candidate") {
       this.menuItems = [
         {
           name: 'Dashboard',
           router: "candidate/dashboard",
+        },
+        {
+          name: 'Job',
+          router: "candidate/jobs",
+          submenu: [
+            { name: 'Applied', router: '/candidate/jobs/applied' },
+            { name: 'CV Downloaded', router: '/candidate/jobs/cv-downloaded' },
+            { name: 'Under Evaluation', router: '/candidate/jobs/under-evaluation' },
+            { name: 'Processing Interview', router: '/candidate/jobs/processing-interview' },
+            { name: 'Interview Done', router: '/candidate/jobs/interview-done' },
+            { name: 'Hired', router: '/candidate/jobs/hired' },
+            { name: 'Rejected', router: '/candidate/jobs/rejected' },
+          ]
         },
         {
           name: 'Referral',
@@ -146,8 +191,24 @@ export class UserMenubarComponent {
           router: "admin/aReferral"
         },
         {
+          name: 'Company',
+          router: "admin/aCompany"
+        },
+        {
           name: 'Jobs',
           router: "admin/ajobs"
+        },
+        {
+          name: "Application",
+          router: "admin/aApplicants/"
+        },
+        {
+          name: 'Corporate Users',
+          router: "admin/aCorporate/Users"
+        },
+        {
+          name: 'Invites',
+          router: "admin/aCorporate/Invite"
         },
         {
           name: 'Service',
@@ -187,11 +248,18 @@ export class UserMenubarComponent {
     this.isNotAdminDashboard = !this.router.url.includes('admin');
   }
 
-  private updateReferralSubmenuState(): void {
+  // private updateReferralSubmenuState(): void {
+  //   const currentUrl = this.router.url.toLowerCase();
+  //   this.isReferralSubmenuOpen =
+  //     currentUrl.startsWith('/candidate/referral/') ||
+  //     currentUrl.startsWith('/employee/referral/');
+  // }
+
+  private updateSubmenuStates(): void {
     const currentUrl = this.router.url.toLowerCase();
-    this.isReferralSubmenuOpen =
-      currentUrl.startsWith('/candidate/referral/') ||
-      currentUrl.startsWith('/employee/referral/');
+
+    this.isReferralSubmenuOpen = currentUrl.startsWith('/candidate/referral/') || currentUrl.startsWith('/employee/referral/');
+    this.isJobsSubmenuOpen = currentUrl.startsWith('/candidate/jobs/');
   }
 
   /**
@@ -231,32 +299,115 @@ export class UserMenubarComponent {
 
   }
 
+  // toggleSubmenu(menu: any): void {
+  //   const isReferralMenu = (menu.name === 'Referral' || menu.name === 'Referral request');
+  //   const isJobsMenu = (menu.name === 'Jobs');
+
+  //   if (isReferralMenu && this.isNotAdminDashboard) {
+  //     // Toggle the submenu
+  //     this.isReferralSubmenuOpen = !this.isReferralSubmenuOpen;
+
+  //     if(this.isReferralSubmenuOpen) {
+  //       this.isJobsSubmenuOpen = false;
+  //     }
+
+  //     // Navigate to default route if opening and no current submenu status
+  //     if (this.isReferralSubmenuOpen && !this.currentSubmenuStatus) {
+  //       const defaultRoute = menu.name === 'Referral request'
+  //         ? '/employee/Referral'
+  //         : '/candidate/referral';
+
+  //       this.router.navigate([defaultRoute]);
+  //     }
+  //   } 
+  //   else if(isJobsMenu && this.isNotAdminDashboard) {
+  //     // Toggle the submenu
+  //     this.isJobsSubmenuOpen = !this.isJobsSubmenuOpen;
+
+  //     if(this.isJobsSubmenuOpen) {
+  //       this.isReferralSubmenuOpen = false;
+  //     }
+
+  //     // Navigate to default route if opening and no current submenu status
+  //     if(this.isJobsSubmenuOpen && !this.currentSubmenuStatus) {
+  //       if(menu.name === 'Jobs'){
+  //         const defaultRoute = '/candidate/jobs';
+  //         this.router.navigate([defaultRoute]);
+  //       }
+  //     }
+  //   }
+  //   else {
+  //     // Collapse submenu and reset current status
+  //     this.isJobsSubmenuOpen = false;
+  //     this.isReferralSubmenuOpen = false;
+  //     this.currentSubmenuStatus = null;
+  //   }
+  // }
+
   toggleSubmenu(menu: any): void {
     const isReferralMenu = (menu.name === 'Referral' || menu.name === 'Referral request');
+    const isJobsMenu = menu.name === 'Job';
 
     if (isReferralMenu && this.isNotAdminDashboard) {
-      // Toggle the submenu
       this.isReferralSubmenuOpen = !this.isReferralSubmenuOpen;
+      this.isJobsSubmenuOpen = false;
 
-      // Navigate to default route if opening and no current submenu status
-      if (this.isReferralSubmenuOpen && !this.currentSubmenuStatus) {
-        const defaultRoute = menu.name === 'Referral request'
-          ? '/employee/Referral'
-          : '/candidate/referral';
+      // if (this.isReferralSubmenuOpen && !this.currentSubmenuStatus) { Previous working code
 
+      if (this.isReferralSubmenuOpen) {
+        const defaultRoute = menu.name === 'Referral request' ? '/employee/Referral' : '/candidate/referral';
         this.router.navigate([defaultRoute]);
+        // this.router.navigate(['/candidate/referral']);
+      }
+    } else if (isJobsMenu && this.isNotAdminDashboard) {
+      this.isJobsSubmenuOpen = !this.isJobsSubmenuOpen;
+      this.isReferralSubmenuOpen = false;
+
+      // if (this.isJobsSubmenuOpen && !this.currentSubmenuStatus) { Previous working code
+
+      if (this.isJobsSubmenuOpen) {
+        this.router.navigate(['/candidate/jobs']);
       }
     } else {
-      // Collapse submenu and reset current status
       this.isReferralSubmenuOpen = false;
+      this.isJobsSubmenuOpen = false;
       this.currentSubmenuStatus = null;
     }
   }
+
+  // isReferralActive(): boolean {
+  //   const currentUrl = this.router.url.toLowerCase();
+  //   return currentUrl.startsWith('/candidate/referral') || currentUrl.startsWith('/employee/referral');
+  // }
 
   isReferralActive(): boolean {
     const currentUrl = this.router.url.toLowerCase();
     return currentUrl.startsWith('/candidate/referral') || currentUrl.startsWith('/employee/referral');
   }
+
+  isJobsActive(): boolean {
+    const currentUrl = this.router.url.toLowerCase();
+    return currentUrl.startsWith('/candidate/jobs');
+  }
+
+  // getIcon(name: string): string {
+  //   switch (name.toLowerCase()) {
+  //     case 'awaiting':
+  //       return 'fas fa-clock'; // Icon for 'Awaiting'
+  //     case 'accepted':
+  //       return 'fas fa-check-circle'; // Icon for 'Accepted'
+  //     case 'rejected':
+  //       return 'fas fa-times-circle'; // Icon for 'Rejected'
+  //     case 'cancelled':
+  //       return 'fas fa-ban'; // Icon for 'Cancelled'
+  //     case 'withdrawn':
+  //       return 'fas fa-undo'; // Icon for 'Withdrawn'
+  //     case 'referred':
+  //       return 'fas fa-user-plus'; // Icon for 'Referred'
+  //     default:
+  //       return 'fas fa-circle'; // Default icon
+  //   }
+  // }
 
   getIcon(name: string): string {
     switch (name.toLowerCase()) {
@@ -272,10 +423,23 @@ export class UserMenubarComponent {
         return 'fas fa-undo'; // Icon for 'Withdrawn'
       case 'referred':
         return 'fas fa-user-plus'; // Icon for 'Referred'
+      case 'applied':
+        return 'fas fa-file-alt'; // Icon for 'Applied'
+      case 'cv downloaded':
+        return 'fas fa-download'; // Icon for 'CV Downloaded'
+      case 'under evaluation':
+        return 'fas fa-search'; // Icon for 'Under Evaluation'
+      case 'processing interview':
+        return 'fas fa-user-clock'; // Icon for 'Processing Interview'
+      case 'interview done':
+        return 'fas fa-user-check'; // Icon for 'Interview Done'
+      case 'hired':
+        return 'fas fa-user-tie'; // Icon for 'Hired'
       default:
         return 'fas fa-circle'; // Default icon
     }
   }
+
 
   onSubmenuClick(currentSubmenu: string) {
     this.currentSubmenuStatus = currentSubmenu.toLowerCase();

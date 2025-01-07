@@ -278,22 +278,25 @@ export class IndexComponent {
     return this.companyList.slice(start, start + companiesPerLine);
   }
 
-  //sending data through url
   async openReferralPage(item: any) {
-    // const companySk = item.replace(/^ID#/, '');
-    // const Type = "referral";
-    const  companyName=encodeURIComponent(item.name);
-    const route = `/company/${companyName.toLowerCase()}-jobs`;
+    this.getJobLink(item);
+  }
+
+  getJobLink(data:any): void {
+    const companyName = data.name
+  .toLowerCase()                        // Convert to lowercase
+  .replace(/\(.*?\)/g, '')               // Remove content inside parentheses
+  .replace(/\s*&\s*/g, '&')              // Remove spaces around the '&' symbol
+  .replace(/\s+/g, '-')                  // Replace remaining spaces with hyphen
+  .replace(/-+/g, '-')                   // Ensure there's only one hyphen in between
+  .replace(/^-|-$/g, '');                 // Remove hyphen at start or end
+    const companyID=data.SK.replace("ID#", "");
+    const route = `/company/jobs/${companyName}-jobs-${companyID}`;
     this.router.navigate([route]);
    // console.log(route);
     // this.router.navigate([route],{
-    //   state: { companySK: item.SK}
-    // });
-
-   // this.router.navigate(['/companies'], { queryParams: { companyID: companySk, Type: 'referral' } });
-
-    // const url = `${environment.crossOriginUrl}/companies?companyID=${companySk}&Type=${Type}`;
-    // window.location.href = url;
+    //   state: { companySK: data.SK}
+    // });;
   }
 
 

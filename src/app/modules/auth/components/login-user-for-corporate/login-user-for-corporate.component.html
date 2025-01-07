@@ -1,0 +1,193 @@
+<div class="corporate-auth-main" id="corporate-create-user-main">
+  <div class="create-corporate-user-container glass">
+    <div class="corporate-signup-logo">
+      <img alt="logo" src="assets/public/workologoai-2@2x.png">
+    </div>
+    <div class="corporate-signup-content">
+
+      <div class="corporate-signup-info">
+        <div class="csignup-info one">
+          <img src="/assets/image-login/g8%2097.png" alt="earth" />
+        </div>
+
+        <div class="csignup-info two">
+          <h2 class="unlockText text-white1">
+            Your gateway to seamless hiring <br />
+          </h2>
+          <h5 class="cblinking-heading m-0" [class.blink]="isBlinking">{{ currentWord }}</h5>
+        </div>
+      </div>
+
+
+      <div *ngIf="!forgotPasswordScreen"  class="corporate-signup-form">
+        <div class="corporate-signup-form-heading mb-10" style="margin-bottom: 8px; width: 60%;">
+          <h4 class="text-white1">Welcome Back! </h4>
+          <p class="text-secondary"> Enter your details below to login</p>
+        </div>
+        <form [formGroup]="userLoginForm" (keydown.enter)="$event.preventDefault()" (ngSubmit)="onSubmit()"
+          class="common-form-main">
+
+          <div class="form-group">
+           <!--  <label class="form-label required-form-field">Email</label> -->
+            <input matInput class="form-control noInfo" formControlName="email" type="email" placeholder="Enter Email" 
+            [ngClass]="{ 'is-invalid': isInvalid('email') }">
+            <i class="fa-solid input-icn fa-envelope fa-xs" style="color: #ffffff;"></i>
+            <span *ngIf="isInvalid('email')" class="text-danger" style="font-size:10px">
+              {{ getErrorMessage('email') }}
+            </span>
+          </div>
+
+          <div class="form-group">
+            <!-- <label class="form-label required-form-field">Password</label> -->
+            <div style="position: relative;">
+            <input matInput class="form-control form-input" formControlName="password" type="password" placeholder="Enter Password"
+              [ngClass]="{ 'is-invalid': isInvalid('password') }" />
+              <i class="fa-solid fa-lock fa-xs input-icn" style="color: #ffffff;"></i>
+              <!-- ToolTip Starts Here -->
+              <div class="tooltip-container" [ngClass]="{'hide':isInvalid('password')}">
+                <div class="tooltip-style">
+                  <i class="fa-solid fa-circle-info"></i>
+                </div>
+                <div class="tooltip-text pt-2 text-center p-2">
+                  <small>Should contain at least one Uppercase, one Lowercase, one Special Character, one Number,
+                    and 8 or more Characters.</small>
+                </div>
+              </div>
+          </div>
+            <span *ngIf="isInvalid('password')" class="text-danger" style="font-size:10px">
+              {{ getErrorMessage('password') }}
+            </span>
+            <div class="text-right">
+              <a _ngcontent-ng-c1006296152="" href="javascript:void(0);" class="fs-11" style="font-size:10px"
+                (click)="initiateFpScreen('fp-screen')">Forgot password ?</a>
+            </div>
+          </div>
+          <div class="form-group cSubmit">
+            <button mat-raised-button color="primary" type="submit" class="btn btn-signUp error-message-div" [disabled] ="!userLoginForm.valid"
+            data-tooltip="Please make sure you have added the valid data in the above fields.">Submit</button>
+          </div>
+        </form>
+      </div>
+
+      <div *ngIf="forgotPasswordScreen"  class="corporate-signup-form reset">
+
+        <div class="corporate-signup-form-heading mb-10" style="margin-bottom: 8px; width: 60%;">
+          <h4 class="text-white1">{{ changePasswordWithOtpScreen ? 'Reset Password' : 'Forgot Password!' }}</h4>
+          <p *ngIf="!changePasswordWithOtpScreen" class="text-secondary">Forgot your password! No Worries Follow these Two Easy Steps to resolve it.</p>
+          <p *ngIf="changePasswordWithOtpScreen" class="text-secondary">A one-time password has been sent to your email address. Please use it to reset your password.</p>
+        </div>
+  
+
+        <form [formGroup]="forgotPasswordForm" (keydown.enter)="$event.preventDefault()" class="common-form-main">
+
+          <div class="form-group forgotPasswordField">
+            <!-- <label class="form-label required-form-field">Email</label> -->
+            <input matInput formControlName="email" 
+              class="form-control noInfo" 
+              type="text"
+              name="email"
+              placeholder="Enter Email"
+              [readonly]="changePasswordWithOtpScreen"
+              [ngClass]="{ 'is-invalid': isInvalid('email') }">
+            <span *ngIf="isInvalid('email')" class="text-danger" style="font-size:10px">
+              {{ getErrorMessage('email') }}
+            </span>
+            <i class="fa-solid input-icn fa-envelope fa-xs input-icn" style="color: #ffffff;"></i>
+          </div>
+          <div *ngIf="changePasswordWithOtpScreen" class="form-group forgotPasswordField">
+            <!-- <label class="form-label required-form-field">OTP</label> -->
+            <input matInput formControlName="code" class="form-control noInfo" type="text" maxlength="6"  placeholder="Enter OTP"
+              [ngClass]="{ 'is-invalid': isInvalid('code') }">
+              <i class="fa-solid fa-key fa-xs input-icn" style="color: #ffffff;"></i>
+              <span *ngIf="isInvalid('code')" class="text-danger" style="font-size:10px">
+              {{ getErrorMessage('code') }}
+            </span>
+          </div>
+          <div *ngIf="changePasswordWithOtpScreen" class="form-group forgotPasswordField">
+            <!-- <label class="form-label required-form-field">New Password</label> -->
+            <div style="position: relative;">
+              <input matInput formControlName="newPassword" class="form-control form-input" type="password"
+                name="password" placeholder="Enter New Password"
+                [ngClass]="{ 'is-invalid': isInvalid('newPassword') }">
+                <i class="fa-solid fa-lock fa-xs input-icn" style="color: #ffffff;"></i>
+                <!-- ToolTip Starts Here -->
+              <div class="tooltip-container" [ngClass]="{'hide':isInvalid('newPassword')}">
+                <div class="tooltip-style">
+                  <i class="fa-solid fa-circle-info"></i>
+                </div>
+                <div class="tooltip-text pt-2 text-center p-2">
+                  <small>Should contain at least one Uppercase, one Lowercase, one Special Character, one Number,
+                    and 8 or more Characters.</small>
+                </div>
+              </div>
+            </div>
+            <span *ngIf="isInvalid('newPassword')" class="text-danger" style="font-size:10px">
+              {{ getErrorMessage('newPassword') }}
+            </span>
+          </div>
+          <div *ngIf="changePasswordWithOtpScreen" class="form-group forgotPasswordField">
+            <!-- <label class="form-label required-form-field">Retype Password</label> -->
+            <input matInput class="form-control form-input" 
+            formControlName="retypePassword"
+             type="password"
+             placeholder="Retype Password"
+             [ngClass]="{ 'is-invalid': isInvalid('retypePassword') || forgotPasswordForm.hasError('mismatch') }" />
+             <i class="fa-solid fa-lock fa-xs input-icn" style="color: #ffffff;"></i>
+             <span
+               *ngIf="isInvalid('retypePassword') || forgotPasswordForm.hasError('mismatch')"
+               class="text-danger" style="font-size: 10px;">
+               Password does not match.
+             </span>
+          </div>
+          <div class="text-right">
+            <span style="font-size:10px;" class="text-bold">Know Your password ? </span>
+            <a _ngcontent-ng-c1006296152="" href="javascript:void(0);" style="font-size:10px; margin-bottom: 5px;"
+              (click)="initiateFpScreen('login')">Login</a>
+          </div>
+          <div>
+            <small *ngIf="invalidOtp" class="text-danger">{{invalidOtp}}</small>
+          </div>
+          <div class="form-group cSubmit">
+            <!-- Conditionally render buttons -->
+            <button *ngIf="!changePasswordWithOtpScreen" mat-raised-button color="primary" (click)="onSendCode()"
+              class="btn btn-signUp error-message-div" [disabled]="!forgotPasswordForm.get('email')!.valid"
+              data-tooltip="Please make sure you have added the valid data in the above fields." >
+              Send Code
+            </button>
+
+            <button *ngIf="changePasswordWithOtpScreen" mat-raised-button color="primary" (click)="onChangePassword()"
+              class="btn btn-signUp error-message-div" [disabled]="!forgotPasswordForm.valid"
+              data-tooltip="Please make sure you have added the valid data in the above fields.">
+              Change Password
+            </button>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+</div>
+
+<app-modal [theme]="'theme-k'" [centered]="true" [showHeader]="showModal === modalType.MESSAGE" [showClose]="showClose"
+[showFooter]="showModal === modalType.MESSAGE" [modalSize]="modalSize" [title]="modalTitle" [message]="modalMessage"
+[bodyClass]="modalMessage  ? 'p-4' : 'p-0'">
+
+  <ng-container *ngIf="showModal === modalType.SUCCESS_ERROR_MESSAGE">
+    <app-message-modal [title]="modalTitleText" [message]="modalMessageText" (onCancel)="closeModal()" (onContinue) = "closeModal()">
+    </app-message-modal>
+  </ng-container>
+
+  <ng-container *ngIf="showModal === modalType.CORPORATE_USER_WARNING">
+    <app-message-modal [title]="modalTitleText" [message]="modalMessageText"  (onNoBtn) = "warningHandler('No')" (onYesBtn)="warningHandler('Yes')" id="login-warn-popup">
+    </app-message-modal>
+  </ng-container>
+
+  <ng-container *ngIf="showModal === modalType.CORPORATE_USER_INVITE_REDIRECT">
+    <!-- If you want to use this kind of Modal then you have to use the css of this component where the selector starts with message-card -->
+    <div class="row message-card px-sm-3 p-4">
+      <div class="d-flex justify-content-center align-items-center flex-column">
+        <h4 class="text-danger fw-4 mb-4">{{redirectTitle}}</h4>
+        <h5 class="text-secondary">{{redirectMessage}}.Redirecting in <b>{{timer}} seconds</b></h5>
+      </div>
+    </div>
+  </ng-container>
+</app-modal>

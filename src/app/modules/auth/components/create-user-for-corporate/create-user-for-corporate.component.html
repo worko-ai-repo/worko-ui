@@ -1,0 +1,157 @@
+<div class="corporate-auth-main" id="corporate-create-user-main">
+  <div class="create-corporate-user-container glass">
+    <div class="corporate-signup-logo">
+      <img alt="logo" src="assets/public/workologoai-2@2x.png">
+    </div>
+    <div class="corporate-signup-content">
+
+      <div class="corporate-signup-info">
+        <div class="csignup-info one">
+          <img src="/assets/image-login/g8%2097.png" alt="earth" />
+        </div>
+
+        <div class="csignup-info two">
+          <h2 class="unlockText text-white1">
+            Your gateway to seamless hiring
+            <br />
+          </h2>
+          <h5 class="cblinking-heading m-0" [class.blink]="isBlinking">{{ currentWord }}</h5>
+        </div>
+      </div>
+
+
+      <div class="corporate-signup-form">
+        <div class="corporate-signup-form-heading" style="margin-bottom: 8px;">
+          <h3 class="text-white1">Sign Up for Corporate Access </h3>
+        </div>
+        <form [formGroup]="userForm" (keydown.enter)="$event.preventDefault()" (ngSubmit)="onSubmit()" class="common-form-main">
+          <div class="form-group">
+
+            
+            <input placeholder="Name" matInput class="form-control" formControlName="firstName" [readonly]="true" [value]="userForm.get('firstName')!.value +' '+ userForm.get('lastName')!.value" />
+            <i class="fa-solid input-icn fa-user fa-xs" style="color: #ffffff;"></i>
+          </div>
+
+
+          <div class="form-group">
+            
+            <input placeholder="Access Type" matInput class="form-control form-input" formControlName="accessType"
+            [value]="userForm.get('accessType')!.value.split('-')[1] | titlecase"
+             type="text" [readonly]="true"/>
+             <i class="fa-solid input-icn fa-id-card-clip fa-xs" style="color: #ffffff;"></i>
+          </div>
+
+          <div class="form-group">
+
+            
+            <input placeholder="Email" matInput class="form-control form-input" formControlName="email" type="email" [readonly]="true"/>
+            <i class="fa-solid input-icn fa-envelope fa-xs" style="color: #ffffff;"></i>
+          </div>
+
+          <div class="form-group">
+
+            
+            <input placeholder="Company" matInput class="form-control" formControlName="companyName" [readonly]="true" />
+            <i class="fa-solid input-icn fa-building fa-xs" style="color: #ffffff;"></i>
+          </div>
+
+<!--           <div class="form-group">
+            
+            <input placeholder=""
+              matInput
+              class="form-control form-input"
+              formControlName="phoneNumber"
+              type="text"
+              [ngClass]="{ 'is-invalid': isInvalid('phoneNumber') }" />
+            <span *ngIf="isInvalid('phoneNumber')" class="text-danger" style="font-size: 10px;">
+              {{ getErrorMessage('phoneNumber') }}
+            </span>
+          </div> -->
+          
+          <div class="form-group">
+            
+            <div style="position: relative;">
+            <input placeholder="Enter Password"
+              matInput
+              class="form-control"
+              formControlName="password"
+              type="password"
+              [ngClass]="{ 'is-invalid': isInvalid('password') }" />
+              <i class="fa-solid input-icn fa-lock fa-xs input-icn" style="color: #ffffff;"></i> 
+              <!-- ToolTip Starts Here -->
+               <div class="tooltip-container" [ngClass]="{'hide':isInvalid('password')}" >
+                <div class="tooltip-style">
+                  <i class="fa-solid fa-circle-info"></i>
+                </div>
+                <div class="tooltip-text pt-2 text-center p-2">
+                  <small>Should contain at least one Uppercase, one Lowercase, one Special Character, one Number,
+                    and 8 or more Characters.</small>
+                </div>
+              </div>
+          </div>
+            <span *ngIf="isInvalid('password')" class="text-danger" style="font-size: 10px;">
+              {{ getErrorMessage('password') }}
+            </span>
+          </div>
+          
+          <div class="form-group">
+            
+            <input placeholder="Retype Password"
+              matInput
+              class="form-control"
+              formControlName="retypePassword"
+              type="password"
+              [ngClass]="{ 'is-invalid': isInvalid('retypePassword') || userForm.hasError('mismatch') }" />
+              <i class="fa-solid input-icn fa-lock fa-xs input-icn" style="color: #ffffff;"></i>
+              <span
+              *ngIf="isInvalid('retypePassword') || userForm.hasError('mismatch')"
+              class="text-danger" style="font-size: 10px;">
+              Password does not match.
+            </span>
+          </div>
+
+          <div class="form-group cSubmit">
+            <button mat-raised-button color="primary" type="submit" 
+            [disabled]="!userForm.valid"
+            data-tooltip="Please make sure you have added the valid data in the above fields."
+              class="btn btn-signUp error-message-div">Submit</button>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+</div>
+
+    <!--Form and othe modal-->
+    <app-modal [theme]="'theme-k'" [centered]="true" [showHeader]="showModal === modalType.MESSAGE" [showClose]="true"
+      [showFooter]="showModal === modalType.MESSAGE" [modalSize]="modalSize" [title]="modalTitle" [message]="modalMessage"
+      [bodyClass]="modalMessage ? 'p-4' : 'p-0'">
+
+ <ng-container *ngIf="showModal === modalType.SUCCESS_ERROR_MESSAGE">
+        <app-message-modal [title]="errorTitle" [message]="errorMessage" (onCancel)="closeModal()">
+        </app-message-modal>
+      </ng-container>
+
+      <ng-container *ngIf="showModal === modalType.CORPORATE_USER_INVITE_EXPIRED">
+        <!-- If you want to use this kind of Modal then you have to use the css of this component where the selector starts with message-card -->
+        <div class="row message-card px-sm-3 p-4">
+          <div class="d-flex justify-content-center align-items-center flex-column">
+            <h5 class="text-danger fw-4 mb-4">Invite Expired ! </h5>
+            <p class="text-secondary" style="text-align: center;">
+              Unfortunately, your invite has expired. To request a new invite, drop us a mail at 
+              <a href="mailto:support@worko.ai">support@worko.ai</a>
+            </p>
+          </div>
+        </div>
+      </ng-container>
+
+      <ng-container *ngIf="showModal === modalType.CORPORATE_USER_INVITE_REDIRECT">
+        <!-- If you want to use this kind of Modal then you have to use the css of this component where the selector starts with message-card -->
+        <div class="row message-card px-sm-3 p-4">
+        <div class="d-flex justify-content-center flex-column align-items-center">
+          <h4 class="text-danger fw-4 mb-4" [ngClass]="{'redirect-success': redirectModalType === 'success'}" >{{redirectTitle}}</h4>
+          <h5 class="text-secondary"  style="text-align: center;">{{redirectMessage}}.Redirecting in <b>{{timer}} seconds</b></h5>
+         </div>
+        </div>
+      </ng-container>
+    </app-modal> 

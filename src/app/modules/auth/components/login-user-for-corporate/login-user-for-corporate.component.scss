@@ -1,0 +1,381 @@
+input:-webkit-autofill { 
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: white !important;
+  -webkit-text-stroke-color: white !important;
+}
+
+.corporate-auth-main {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-wrap: wrap;
+    width: 100%;
+    height: 100vh;
+  
+    // Inner container that will hold the inputs @change
+    .create-corporate-user-container {
+      width: 50vw;   
+      margin: 0 auto;
+      padding: 1.5rem;
+      padding-block: 75px 0;
+      // border: 2px solid red;
+      background: radial-gradient(
+        circle at -10% 50%,
+        #034c7f 4%,
+        #77c9dc 10%,
+        #034c7f 32%,
+        #034c7f 41%,
+        #0a1e3600 50%);
+        position: relative;
+        background-repeat: no-repeat;
+      .corporate-signup-logo {
+        position: absolute;
+        top: 15px;
+        left: 0;
+        width: 100%;
+        display: flex;
+        justify-content: center;
+        justify-self: center;
+        /* border: 2px solid red; */
+  
+        img {
+          height: 100%;
+          max-width: 15%;
+          /* border: 2px solid red; */
+        }
+      }
+  //@change
+  .corporate-signup-content{
+  height: 100%;
+  width: 100%;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  // border: 2px solid;
+  padding-block: 50px;
+    
+  // border: 2px solid red;
+    .corporate-signup-info{
+        width: 50%;
+        height: 100%;
+        display: flex;
+        justify-content: flex-start;
+        align-items: center;
+        margin-bottom: 80px;
+  
+  
+          .csignup-info{
+            height: fit-content;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            
+              img{
+                width: 100%;
+                height: auto;
+              }
+          }
+      //@change
+          .csignup-info.one{
+            width:50%;
+            min-width: 100px;
+            max-width: 200px;
+          }
+          .csignup-info.two{
+            font-size: 100%;
+            border-left: 4px solid white;
+            padding-left: 30px;
+            height: 100px;
+            //@change 
+            h2{
+                font-size:100%;
+              }
+              .cblinking-heading{
+                  color: rgba(255, 255, 255, 0.58);
+                  font-size: small;
+                  letter-spacing: 1px;
+                  animation:blinker 10s linear infinite; //@Todo not working
+              }
+          }
+      }
+      //@change
+      .corporate-signup-form{
+            display: flex;
+            flex-direction: column;
+            height: 80%;
+            min-width: 50%;
+            width: 45%;
+            justify-content: center;
+            align-items: center;
+            // border: 2px solid red;
+         /* font-size: 1rem; */
+        }
+      }}
+    }
+  
+  .glass {
+  color: #fff;
+    margin: 40px auto;
+    background-color: rgba(255,255,255,0.06);
+    border: 1px solid rgba(255,255,255,0.1);
+    border-radius: 15px;
+    padding: 32px;
+    
+  }
+  
+  // Form styles explicitly declare here for more clearity
+  .common-form-main {
+    display: grid; 
+    grid-template-columns: repeat(1, 1fr); 
+    grid-gap: 0px 20px;  
+    width: 60%;
+    max-width: 80%;
+
+    .form-control {
+      background-color: transparent;
+      font-size: 12px !important;
+      border-radius: 0px;
+      color: white;
+      border: none;
+      border-bottom: 2px solid #295CA8;
+      padding-left: 25px;
+      
+    }
+    .form-control.is-invalid{
+    border-bottom: 2px solid rgba(var(--bs-danger-rgb)) !important; 
+  }
+  .form-control.noInfo.is-invalid{
+    background-image: none;
+  }
+  .input-icn{
+    position: absolute;
+    top: 15px;
+    left: 5px;
+  }
+  }
+  .cSubmit{
+    margin-bottom: 0;
+    width: 70%;
+    grid-column: span 1;
+    justify-self: center;
+    display: flex;
+    justify-content: center;
+    margin-top:10px;
+  }
+  
+  button[type="submit"] {
+    background-color: #2f92c7;
+    font-size: 10px;
+    padding: 5px;
+    color: white;
+    border: transparent;
+    border-radius: 5px;
+    outline: none;
+    width: auto;
+    height: min-content;
+    cursor: pointer;
+    &:hover {
+      background-color: #1d5e81;
+    }
+/*     &:disabled {
+      background: linear-gradient(90deg, #2F92C7 0%, rgba(47, 146, 199, 0) 205.38%);
+      &hover {
+        cursor: not-allowed;
+        background-color: #8696b3 !important;
+      }
+    } */
+  }
+  .form-group{
+    position: relative;
+    input{
+      width:100%;
+      max-width: unset !important;
+      border: none;
+      border-bottom: 2px solid #295CA8 !important;
+      box-shadow: none !important;
+      caret-color: white;
+    }
+    input::placeholder{
+      color: #d3d3d3 !important;
+    }
+    
+  }
+  .is-invalid{
+    box-shadow: none !important;
+    border-bottom: 2px solid rgba(var(--bs-danger-rgb)) !important; 
+    caret-color: rgba(var(--bs-danger-rgb)) !important;
+  }
+  
+  //Modal style Craete Job Form
+  .message-card {
+    background: #0a1e36;
+    border-radius: 6px;
+  
+    .form-control:focus {
+      color:white !important;
+    }
+    input {
+      background-color: transparent !important;
+      border: 2px solid #476baf;
+    }
+    .error {
+      color: red;
+    }
+  }
+  .forgotPasswordField{
+    form{
+      width: 60%;
+      input{
+      width: 100%;
+      font-size: 14px;
+    }}
+  }
+   .form-group.forgotPasswordField{
+    margin-bottom: 0rem !important;
+    label{
+      margin-top:5px;
+    }
+  }
+  .btn-signUp{
+    font-size: 10px;
+    padding: 5px;
+    margin: 5px;
+    color: white;
+    background: linear-gradient(90deg, #2F92C7 0%, rgba(47, 146, 199, 0) 205.38%);
+    min-width: 80%;
+    height: min-content;
+    cursor: pointer;
+    position: relative;
+  }
+  .btn-signUp:disabled{
+     cursor: not-allowed;
+    pointer-events: visible;
+    background: linear-gradient(90deg, #2F92C7 0%, rgba(47, 146, 199, 0) 205.38%);
+  }
+
+  .error-message-div[disabled]::after {
+    content: attr(data-tooltip);
+    position: absolute;
+    visibility: hidden;
+    width: 230px;
+    background-color: #0A1E36;
+    color: red;
+    border: 1px solid red;
+    border-radius: 6px;
+    padding: 5px;
+    font-size: 10px;
+    font-weight: 900;
+    bottom: 125%;
+    left: 50%;
+    transform: translateX(-50%);
+    opacity: 0;
+    transition: opacity 0.3s;
+    z-index: 1;
+    text-align: center;
+    pointer-events: none;
+  }
+  
+  .error-message-div[disabled]:hover::after {
+    visibility: visible;
+    opacity: 1;
+  }
+.tooltip-container {
+  position: absolute;
+  display: inline-block;
+  // background-color: #0A1E36;
+  top: 10px;
+  right: 14px;
+  cursor: pointer;
+}
+.tooltip-container.hide{
+  .tooltip-style{visibility: hidden;}
+}
+.tooltip-style {
+  font-size: 12px;
+  color: grey;
+}
+
+.tooltip-text {
+  visibility: hidden;
+  width: 230px;
+  background-color: #0A1E36;
+  color: white;
+  border: 1px solid #0076B2;
+  // text-align: center;
+  border-radius: 6px;
+  padding: 5px;
+  font-size: 10px;
+  position: absolute;
+  z-index: 1;
+  bottom: 125%;
+  left: 50%;
+  margin-left: -100px;
+  opacity: 0;
+  transition: opacity 0.3s;
+}
+
+.tooltip-container:hover .tooltip-text {
+  visibility: visible;
+  opacity: 1;
+}
+
+.tooltip-text span {
+  display: block;
+}
+
+#login-warn-popup ::ng-deep button.btn {
+  margin-inline: 10px !important;
+}
+
+  @media screen and (max-width: 1024px) {
+    .corporate-auth-main {
+      .create-corporate-user-container {
+        min-width: 480px;
+        width: 75vw;
+      }
+    }
+    .common-form-main {
+      display: grid;
+      grid-template-columns: repeat(1, 1fr);
+      grid-gap: 0px 10px;
+      width: 70%;
+      max-width: 80%;
+    }
+    .common-form-main>*{
+      font-size: 12px !important; 
+  }
+  .cSubmit{
+    font-size: 12px;
+  }
+  }
+  
+  @media screen and (max-width: 768px) {
+    .corporate-auth-main {
+      
+      .create-corporate-user-container {
+        min-width: 90vw;
+        justify-content: center;
+        align-items: center;
+        .corporate-signup-content{
+          justify-content: center;
+          align-items: center;
+          .corporate-signup-info{
+              display: none !important;
+        }
+        .corporate-signup-form{
+          width: 100%;
+        }
+      }
+      }
+    }
+    .corporate-signup-form-heading {
+      width: 80% !important;
+    }
+    .common-form-main{
+      width: 80%;
+    }
+    .common-form-main>*{
+      font-size: 12px !important; 
+  }
+    
+  }

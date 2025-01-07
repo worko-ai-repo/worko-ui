@@ -12,6 +12,16 @@
     justify-content: center;
 }
 
+.message-title-warning {
+    color: #ffda61;
+    letter-spacing: 1px;
+    font-size: 20px;
+    font-weight: bold;
+    margin-bottom: 1rem; /* mb-3 */
+    display: flex;
+    justify-content: center;
+}
+
 .message-title-success {
     color: #2371CB;
     font-size: 20px;
@@ -36,6 +46,12 @@
 
 .btn-next {
     background: #2371CB;
+    font-size: 15px;
+    color: white;
+}
+
+.btn-next.err {
+    background: #cb2323;
     font-size: 15px;
     color: white;
 }

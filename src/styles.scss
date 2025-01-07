@@ -97,6 +97,15 @@ body {
 //     font-family: var(--font-inria-sans) !important;
 // }
 
+// For paginator dropdown
+.styled-dropdown option {
+    background-color: transparent !important;
+    /* transparent background */
+    color: black !important;
+    /* black text for options */
+    font-size: 16px;
+}
+
 .btn-dark {
     outline: none !important;
     box-shadow: none !important;
@@ -3075,7 +3084,7 @@ body {
 
 .pagination-controls {
     display: flex;
-    justify-content: end;
+    justify-content: flex-end;
     align-items: center;
     margin: 0px 0;
     gap: 10px;

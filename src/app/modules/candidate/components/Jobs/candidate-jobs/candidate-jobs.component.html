@@ -1,0 +1,21 @@
+<div class="row content-container mb-2">
+  <div class="divide-55">
+    <div class="row">
+
+      <app-candidate-jobs-status [jobApplications]="jobApplications" (onRequestFeedback)="requestFeedback($event)" (onScrollToBottom)="onScrollToBottom()"
+        [userType]="userType"></app-candidate-jobs-status>
+
+    </div>
+  </div>
+</div>
+
+<app-modal [theme]="'theme-k'" [centered]="true" [showHeader]="showModal === modalType.MESSAGE" [showClose]="showClose"
+  [showFooter]="showModal === modalType.MESSAGE" [title]="modalTitle" [message]="modalMessage"
+  [bodyClass]="modalMessage ? 'p-4' : 'p-0'" [modalSize]="modalSize">
+
+  <ng-container *ngIf="showModal === modalType.SUCCESS_ERROR_MESSAGE">
+    <app-message-modal [title]="errorTitle" [message]="errorMessage" (onCancel)="cancel()" (onOk)="continue()">
+    </app-message-modal>
+  </ng-container>
+
+</app-modal>

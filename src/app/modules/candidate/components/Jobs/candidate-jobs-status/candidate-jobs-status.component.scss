@@ -1,0 +1,548 @@
+.btn-upgrade {
+  /* border-radius: 10.863px; */
+  // background: #2F92C7;
+
+  background-color: rgb(45, 142, 194);
+  color: #FFF;
+  text-align: center;
+  font-family: Poppins;
+  font-size: 16px;
+  font-style: normal;
+  font-weight: 700;
+  line-height: 118.5%;
+  letter-spacing: 1.09px;
+  width: 212px;
+}
+
+/* Disabled btn-upgrade style */
+.btn-disabled {
+  background-color: #3c8bb1;
+  color: white;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  padding: 10px 20px;
+  border-radius: 8px;
+  border: 1px solid #7a9fa8;
+  font-weight: 500;
+  cursor: not-allowed;
+  pointer-events: none;
+  font-size: 16px;
+}
+
+/* Icon color for disabled state */
+.btn-disabled i {
+  font-size: 22px;
+  color: #32ab54;
+  /* Slightly muted icon to match the disabled state */
+}
+
+.btn-disabled:hover {
+  background-color: #3c8bb1;
+}
+
+
+
+
+.custom-center {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100%;
+}
+
+.custom-center .col-12 {
+  text-align: center;
+}
+
+.job-application {
+  border: 1px solid #ccc;
+  margin-bottom: 10px;
+  padding: 10px;
+}
+
+.job-header {
+  background-color: rgb(35, 34, 34);
+  // padding: 10px;
+  // margin-bottom: 10px;
+}
+
+.label {
+  // text-align: center;
+  color: #FFF;
+  font-family: Poppins;
+  font-size: 16px;
+  /* Smaller font size for labels */
+  font-weight: 400;
+  /* Normal font weight */
+  color: #bbb;
+  /* Lighter color */
+  font-style: normal;
+  line-height: normal;
+  // font-weight: bold;
+  display: block;
+}
+
+.value {
+  // text-align: center;
+  color: #FFF;
+  font-family: Poppins;
+  font-size: 16px;
+  /* Slightly larger font size */
+  font-weight: 600;
+  /* Bold font weight */
+  color: #fff;
+  font-style: normal;
+  line-height: normal;
+  display: block;
+}
+
+.job-url {
+  color: #1e90ff;
+  /* Blue hyperlink color */
+  font-family: Poppins, sans-serif;
+  font-size: 16px;
+  font-weight: 600;
+  /* Bold font weight */
+  text-decoration: none;
+  /* Remove underline */
+  cursor: pointer;
+}
+
+.job-url:hover {
+  text-decoration: underline;
+  /* Underline on hover */
+}
+
+// .col-md-2 { /* Or the class you're using for those columns */
+//   display: flex;
+//   flex-direction: column;
+//   justify-content: center; /* Center vertically within the column */
+//   align-items: center;     /* Center horizontally within the column */
+//   padding-top: 10px;      /* Add padding to the top */
+//   padding-bottom: 10px;   /* Add padding to the bottom */
+// }
+
+// .col-md-4 { /* Or the class you're using for those columns */
+//   display: flex;
+//   flex-direction: column;
+//   justify-content: center; /* Center vertically within the column */
+//   align-items: center;     /* Center horizontally within the column */
+//   padding-top: 10px;      /* Add padding to the top */
+//   padding-bottom: 10px;   /* Add padding to the bottom */
+// }
+
+.job-timeline {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 10px;
+  border-top: 1px solid #ccc;
+  border-bottom: 1px solid #ccc;
+}
+
+.timeline-steps {
+  display: flex;
+  flex-direction: row;
+  /* Horizontal alignment */
+  align-items: center;
+}
+
+.step {
+  margin-right: 30px;
+  /* Increased spacing */
+}
+
+
+.step-name {
+  display: block;
+}
+
+.step-date {
+  font-size: smaller;
+  color: #777;
+}
+
+.job-action {
+  // text-align: right;
+  display: flex;
+  justify-content: flex-end;
+  padding: 10px;
+}
+
+.margin-top {
+  margin-top: 0.5rem;
+}
+
+.label {
+  margin-bottom: 5px;
+  /* Add spacing between label and value */
+}
+
+// .value {
+//   margin-bottom: 1rem;
+//   /* Add spacing after the value */
+// }
+
+.row>[class*='col-'] {
+  padding: 0.5rem;
+  /* Add consistent padding to all columns */
+}
+
+.job-timeline {
+  border: none;
+  /* Remove default borders */
+  padding: 1rem;
+  /* Add consistent padding */
+  background-color: #111;
+  /* Slightly darker background for better contrast */
+  border-radius: 8px;
+  /* Rounded edges for better appearance */
+}
+
+.step {
+  position: relative;
+  padding-left: 20px;
+  /* Space for the indicator */
+}
+
+.step:before {
+  content: '';
+  position: absolute;
+  top: 50%;
+  left: 0;
+  transform: translateY(-50%);
+  width: 10px;
+  height: 10px;
+  // background-color: #00aaff; /* Completed step color */
+  background-color: #1b7ff3;
+  border-radius: 50%;
+  /* Circle indicator */
+}
+
+.step:not(:last-child)::after {
+  content: '';
+  position: absolute;
+  top: 50%;
+  left: 5px;
+  width: 2px;
+  height: 100%;
+  background-color: #ccc;
+  /* Line connecting steps */
+  z-index: -1;
+}
+
+.col-md-2,
+.col-md-4 {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+
+.row {
+  display: flex;
+  align-items: stretch;
+}
+
+.row {
+  display: flex;
+  align-items: flex-start;
+  /* Align all items at the top */
+}
+
+// .row {
+//   margin-bottom: 20px;
+// }
+// .col {
+//   padding: 10px;
+// }
+
+
+// .label, .value {
+//   padding: 5px 0;
+// }
+
+// .row-cols-1 .col,
+// .row-cols-md-2 .col,
+// .row-cols-lg-5 .col {
+//     display: flex;
+//     flex-direction: column; /* Stack label and value vertically */
+//     justify-content: center; /* Center vertically */
+//     align-items: center; /* Center horizontally */
+//     text-align: center; /* Ensure text is centered */
+//     padding: 10px; /* Add some padding for better spacing */
+// }
+
+.row-cols-1 .col,
+.row-cols-md-2 .col,
+.row-cols-lg-5 .col {
+  display: flex;
+  flex-direction: column;
+  /* Stack label and value vertically */
+  /* Add some padding for better spacing */
+}
+
+/* For larger screens: center-align content */
+@media (min-width: 768px) {
+
+  /* Medium screens and above */
+  .row-cols-md-2 .col,
+  .row-cols-lg-5 .col {
+    justify-content: center;
+    /* Center vertically */
+    align-items: center;
+    /* Center horizontally */
+    text-align: center;
+    /* Center text */
+  }
+}
+
+/* For smaller screens: left-align content */
+@media (max-width: 767.98px) {
+
+  /* Small screens and below */
+  .row-cols-1 .col {
+    justify-content: flex-start;
+    /* Align items at the start */
+    align-items: flex-start;
+    /* Left-align items */
+    text-align: left;
+    /* Left-align text */
+  }
+
+  .value {
+    margin-bottom: 1rem;
+    /* Add spacing after the value */
+  }
+}
+
+@media (max-width: 992px) {
+
+
+  .value {
+    margin-bottom: 1rem;
+    /* Add spacing after the value */
+  }
+}
+
+// .timeline-container {
+//   display: flex;
+//   justify-content: center;
+//   margin: 20px 0;
+// }
+
+// .timeline-steps {
+//   display: flex;
+//   width: 100%;
+//   max-width: 800px; /* Optional: Control width of the stepper */
+//   position: relative;
+// }
+
+// .timeline-step {
+//   flex: 1;
+//   text-align: center;
+//   position: relative;
+// }
+
+// .step-circle {
+//   width: 30px;
+//   height: 30px;
+//   border-radius: 50%;
+//   background: #ddd;
+//   color: #000;
+//   line-height: 30px;
+//   font-size: 14px;
+//   font-weight: bold;
+//   margin: 0 auto;
+//   position: relative;
+//   z-index: 2;
+//   display: flex;
+//   justify-content: center;
+//   align-items: center;
+// }
+
+// .timeline-step.completed .step-circle {
+//   background: #007bff; /* Highlight for completed steps */
+//   color: #fff;
+// }
+
+// .step-label {
+//   margin-top: 10px;
+//   font-size: 12px;
+//   color: #777;
+// }
+
+// .timeline-step:not(:last-child)::after {
+//   content: "";
+//   position: absolute;
+//   top: 15px;
+//   left: 50%;
+//   width: 100%;
+//   height: 4px;
+//   background: #ddd;
+//   z-index: 1;
+// }
+
+// .timeline-step.completed:not(:last-child)::after {
+//   background: #007bff; /* Highlight for completed connector lines */
+// }
+
+// 2nd
+
+.timeline-container {
+  display: flex;
+  justify-content: center;
+  margin: 20px 0;
+  padding: 0 10px;
+  /* Add padding for smaller screens */
+}
+
+.timeline-steps {
+  display: flex;
+  width: 100%;
+  max-width: 800px;
+  position: relative;
+}
+
+.timeline-step {
+  flex: 1;
+  text-align: center;
+  position: relative;
+  padding: 0 5px;
+  /* Add some padding for smaller screens */
+  // height: 100px; /* Fixed height to ensure all steps are the same size */
+  height: 85px;
+  // justify-content: center; /* Vertically center the step contents */
+}
+
+.step-circle {
+  width: 30px;
+  height: 30px;
+  border-radius: 50%;
+  background: #ddd;
+  color: #000;
+  line-height: 30px;
+  font-size: 14px;
+  font-weight: bold;
+  margin: 0 auto;
+  position: relative;
+  z-index: 2;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  transition: all 0.3s ease;
+  /* Smooth transitions */
+}
+
+.timeline-step.completed .step-circle {
+  background: #007bff;
+  /* Highlight for completed steps */
+  color: #fff;
+}
+
+.step-label {
+  margin-top: 10px;
+  font-size: 12px;
+  color: #777;
+  white-space: nowrap;
+  /* Prevent labels from wrapping */
+}
+
+.timeline-step:not(:last-child)::after {
+  content: "";
+  position: absolute;
+  top: 15px;
+  left: 50%;
+  width: 100%;
+  height: 4px;
+  background: #ddd;
+  z-index: 1;
+}
+
+.timeline-step.completed:not(:last-child)::after {
+  background: #007bff;
+  /* Highlight for completed connector lines */
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+  .timeline-steps {
+    max-width: 100%;
+    /* Allow full width */
+  }
+
+  .timeline-step {
+    padding: 0 3px;
+    /* Reduce padding */
+  }
+
+  .step-circle {
+    width: 30px;
+    height: 30px;
+    font-size: 12px;
+    line-height: 25px;
+  }
+
+  .step-label {
+    font-size: 10px;
+    /* Reduce font size */
+  }
+}
+
+@media (max-width: 480px) {
+  .timeline-steps {
+    max-width: 100%;
+    /* Allow full width */
+  }
+
+  .timeline-step {
+    padding: 0 2px;
+    /* Further reduce padding */
+  }
+
+  .step-circle {
+    width: 30px;
+    height: 30px;
+    font-size: 10px;
+    line-height: 20px;
+  }
+
+  .step-label {
+    font-size: 8px;
+    /* Reduce font size further */
+  }
+}
+
+.flex-container {
+  display: flex;
+  flex-direction: column;
+  /* Default for smaller screens (stack vertically) */
+  gap: 1rem;
+  /* Optional: add space between child elements */
+}
+
+/* On larger screens, change the layout */
+@media (min-width: 992px) {
+  .flex-container {
+    flex-direction: row;
+    /* Align children in a single row */
+    justify-content: space-between;
+    /* Distribute space between children */
+    align-items: flex-end;
+    /* Optional: Align items vertically center */
+  }
+
+  .timeline-steps {
+    flex: 1;
+    /* Allow this child to take up remaining space */
+  }
+
+  .job-action {
+    flex-shrink: 0;
+    /* Prevent shrinking */
+    text-align: right;
+    /* Align content to the right */
+  }
+}

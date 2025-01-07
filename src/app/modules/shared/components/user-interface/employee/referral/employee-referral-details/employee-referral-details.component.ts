@@ -9,6 +9,7 @@ import { BreakpointObserver, Breakpoints } from '@angular/cdk/layout';
   styleUrls: ['./employee-referral-details.component.scss']
 })
 export class EmployeeReferralDetailsComponent implements OnChanges {
+  @Input() userType!:any;
   @Input() empdetailsList: any = "";
   @Input() empEducationList: any = "";
   @Input() empExperienceList: any = "";

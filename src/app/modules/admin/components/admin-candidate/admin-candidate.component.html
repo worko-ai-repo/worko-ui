@@ -212,8 +212,8 @@
             </table>
             <!-- <mat-paginator #referralPaginator [pageSizeOptions]="[25,50,100,150,200]"
               aria-label="Select page of users"></mat-paginator> -->
-
-          </div>
+            </div>
+            <!-- pagination block starts here -->
           <div class="row pe-2 pt-4">
             <div class="pagination-controls">
               <div class="dropdown-container">
@@ -229,7 +229,7 @@
                   </select>
                 </div>
               </div>
-
+             
 
 
               <button class="prev-button" [disabled]="!hasPrevious" (click)="onPrevious()">
@@ -241,6 +241,7 @@
               </button>
             </div>
           </div>
+          <!-- pagination blocl ends here -->
         </div>
       </div>
     </div>

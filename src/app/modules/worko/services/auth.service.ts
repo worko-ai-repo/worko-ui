@@ -4,7 +4,9 @@ import { environment } from '../../../../environments/environment';
 import { Observable, catchError } from 'rxjs';
 import { candidateInfo, employeeInfo } from '../interfaces/auth.interface';
 import { CognitoService } from '../../services/cognito.service';
+import { CorporateUserInviteCreateDto, CorporateUserInviteUpdateApiDto } from '../../shared/interfaces/corporate-usr-invite.interface';
 const API_URL = environment.apiUrl;
+
 
 @Injectable({
   providedIn: 'root'
@@ -156,6 +158,33 @@ export class AuthService {
     return httpOptions;
   }
 
+  /**
+   * Corporate Invite Section
+   * 
+   * This sections will have the following functions:
+   * 
+   * @function getInviteById - Get the invite details by the inviteId'
+   * @function createCorporateUser - Create the corporate user in the cognito
+   * @function sendOtpRequest - Send the OTP request to the user
+   * @function verifyOtp - Verify the OTP
+   * @function renewInviteRequest - Renew the invite request
+   */
 
+    // Check where it is getting called @TODO
+   getInviteById(inviteId: string): Promise<any> {
+      return this.http.get(`${API_URL}corporate-invite/${inviteId}`, this.getHttpOptions()).toPromise();
+    }
+
+    renewInviteRequest(inviteId: string , updateData : CorporateUserInviteUpdateApiDto): Promise<any> {
+      return this.http.patch(`${API_URL}corporate-invite/${inviteId}/renew`, { renewInvite:true }, this.getHttpOptions()).toPromise();
+    }
+    // Check where it is getting called @TODO
+    getCorporateUser(userId:string):Promise<any>{
+      return this.http.get(`${API_URL}corporate-user/${userId}/cognito`,this.getHttpOptions()).toPromise()
+    }
+
+    createCorporateUser(data: any): Promise<any> {
+      return this.http.post(`${API_URL}corporate-user/`, data, this.getHttpOptions()).toPromise();
+    }
 }
 

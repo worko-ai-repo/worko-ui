@@ -29,7 +29,6 @@
     "bootstrap": "^5.2.3",
     "chart.js": "^4.4.1",
     "crypto-js": "^4.2.0",
-    "globe.gl": "^2.32.1",
     "jquery": "^3.7.1",
     "ng2-charts": "^5.0.4",
     "ngx-autosize": "^2.0.4",

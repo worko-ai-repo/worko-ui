@@ -1,0 +1,85 @@
+<div class="admin-table-main mx-2 ms-3" id="admin-job-main">
+    <div class="tab-content mt-2" id="myTabContent">
+        <div class="candidate-card tab-pane fade show active" id="home" role="tabpanel" aria-labelledby="home-tab">
+            <h5>Settings</h5>
+            <div class="ajobs-filters">
+                <form [formGroup]="passwordForm" (ngSubmit)="onSubmit()" class="cjobs-settings-container">
+                  <!-- Current Password -->
+                  <div class="form-group">
+                    <label for="oldPassword">Current Password</label>
+                    <input
+                      type="password"
+                      id="oldPassword"
+                      class="form-control serachInput"
+                      formControlName="oldPassword"
+                      placeholder="Enter current password"
+                      [ngClass]="{ 'is-invalid': isInvalid('oldPassword') }">
+                      <span *ngIf="isInvalid('oldPassword')" class="text-danger" style="font-size:10px">
+                        {{ getErrorMessage('oldPassword') }}
+                      </span>
+                  </div>
+              
+                  <!-- New Password -->
+                  <div class="form-group"  >
+                    <label for="newPassword">New Password</label>
+                    <div class="new-pass-with-instructions" style="position: relative;">
+                      <input
+                          type="password"
+                          id="newPassword"
+                          class="form-control serachInput"
+                          formControlName="newPassword"
+                          placeholder="Enter new password"
+                          [ngClass]="{ 'is-invalid': isInvalid('newPassword') }"
+                        />
+                        <!-- ToolTip Starts Here -->
+                        <div class="tooltip-container"  [ngClass]="{'hide':isInvalid('newPassword')}">
+                          <div class="tooltip-style">
+                            <i class="fa-solid fa-circle-info"></i>
+                          </div>
+                          <div class="tooltip-text pt-2 text-center p-2">
+                            <small>Should contain at least one Uppercase, one Lowercase, one Special Character, one Number,
+                              and 8 or more Characters.</small>
+                          </div>
+                        </div>
+                    </div>
+
+                      <span *ngIf="isInvalid('newPassword')" class="text-danger" style="font-size:10px">
+                        {{ getErrorMessage('newPassword') }}
+                      </span>
+                    
+                  </div>
+              
+                  <!-- Confirm New Password -->
+                  <div class="form-group">
+                    <label for="confirmPassword">Confirm New Password</label>
+                    
+                    <input
+                      type="password"
+                      id="confirmPassword"
+                      class="form-control serachInput"
+                      formControlName="confirmPassword"
+                      placeholder="Confirm new password"
+                      [ngClass]="{ 'is-invalid': isInvalid('confirmPassword') || passwordForm.hasError('mismatch') }" />
+                      <span
+                        *ngIf="isInvalid('confirmPassword') || passwordForm.hasError('mismatch')"
+                        class="text-danger" style="font-size: 10px;">
+                        Password does not match.
+                      </span>
+                  </div>
+              
+                  <!-- Submit Button -->
+                  <button type="submit" class="ps-4 pe-4 btn searchButton error-message-div" style="cursor: not-allowed; pointer-events: visible;" [disabled]="isSubmitting || passwordForm.invalid"
+                  data-tooltip="Please make sure you have added the valid data in the above fields."
+                  >
+                    Reset Password
+                  </button>
+              
+                  <!-- Messages -->
+                  <div *ngIf="errorMessage" class="resetPasswordError text-danger mt-2"><i class="fa-solid fa-triangle-exclamation fa-sm" style="color: #ff0505;"></i>&nbsp;{{ errorMessage }}</div>
+                  <div *ngIf="successMessage" class="resetPasswordSuccess text-success mt-2"><i class="fa-solid fa-square-check fa-sm" style="color: #63E6BE;"></i> &nbsp;{{ successMessage}}</div>
+                </form>
+              </div>
+              
+        </div>
+    </div>
+</div>
