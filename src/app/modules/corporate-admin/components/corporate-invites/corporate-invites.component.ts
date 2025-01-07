@@ -386,7 +386,7 @@ export class CorporateInvitesComponent implements OnInit{
     // debugger;
     this.modalSize = "md";
     this.errorTitle = "Warning!!";
-    this.errorMessage = "Are you sure you want to delete this user?";
+    this.errorMessage = "Are you sure you want to delete this invite?";
     this.currentSelectedInviteId = inviteId;
     this.openModal(ModalType.CORPORATE_USER_WARNING);
   }
