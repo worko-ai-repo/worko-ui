@@ -111,8 +111,20 @@
                          (click) = "updateStatus(status.AWAITING,invite.id)"  matTooltip="Move to Awaiting" matTooltipPosition="above" style="background:#2716bb;">
                            <i class="fa-solid fa-trash-can-arrow-up"></i></span>
                            <!-- @Todo user deleteinvite here -->
-                         <span *ngIf="invite.inviteStatus!= status.DELETED" (click) = "deleteInvite(invite.id)" matTooltip="Delete Invite" matTooltipPosition="above" style="background: #A41F13;">
-                         <i class="fa-solid fa-trash"></i></span>
+                           <span
+                           [matTooltip]="getTooltipMessage(invite.inviteStatus)"
+                           matTooltipPosition="above"
+                           [ngStyle]="{
+                             'background': isInviteDisabled(invite.inviteStatus) ? 'grey' : '#A41F13',
+                             'cursor': isInviteDisabled(invite.inviteStatus) ? 'not-allowed' : 'pointer'
+                           }"
+                           [ngClass]="{ 'disabled-element': isInviteDisabled(invite.inviteStatus) }"
+                           [attr.disabled]="isInviteDisabled(invite.inviteStatus) ? true : null"
+                           (click)="isInviteDisabled(invite.inviteStatus) ? null : deleteInvite(invite.id)"
+                           style="background: #A41F13;"
+                         >
+                           <i class="fa-solid fa-trash"></i>
+                         </span>
                          </td> 
                   </tr>
                </tbody>

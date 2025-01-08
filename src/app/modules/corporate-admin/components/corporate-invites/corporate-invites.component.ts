@@ -534,4 +534,19 @@ export class CorporateInvitesComponent implements OnInit{
             resetPagination: true });
  
        }
+
+       getTooltipMessage(status: string): string {
+        if (status === 'ACCEPTED') {
+          return 'Invite Already Accepted';
+        } else if (status === 'DELETED') {
+          return 'Invite Already Deleted';
+        } else {
+          return 'Delete Invite';
+        }
+      }
+      
+      isInviteDisabled(status: string): boolean {
+        return status === 'DELETED' || status === 'ACCEPTED';
+      }
+      
 }
