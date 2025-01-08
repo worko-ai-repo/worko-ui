@@ -97,6 +97,8 @@ border: 2px solid rgba(var(--bs-danger-rgb)) !important;
 }
 .searchButton:disabled{
   position: relative;
+  cursor: not-allowed;
+  pointer-events: visible;
   
 }
 .error-message-div[disabled]::after {
