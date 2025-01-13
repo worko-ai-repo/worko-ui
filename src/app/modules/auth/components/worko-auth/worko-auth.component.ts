@@ -66,7 +66,7 @@ export class WorkoAuthComponent {
             this.linkedinAccessToken = accessToken;
 
 
-            this.storage.set('accessToken', this.linkedinAccessToken.toString());
+            this.storage.set('accessToken', this.linkedinAccessToken?.toString());
 
             const usertype = this.storage.get('LinkedinUserType');
 
