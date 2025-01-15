@@ -22,6 +22,11 @@ import { CorporateInvitesComponent } from './components/corporate-invites/corpor
 import { AuthAdminGuardService } from '../worko/services/auth-admin-guard.service';
 import { AuthCoporateGuardService } from '../worko/services/auth-coporate-guard.service';
 import { CorporateApplicantsComponent } from './components/corporate-applicants/corporate-applicants.component';
+import { ResumeScreenerPageComponent } from './components/resume-screener/resume-screener-page/resume-screener-page.component';
+import { ResumeUploaderComponent } from './components/resume-screener/resume-uploader/resume-uploader.component';
+import { JobDescriptionComponent } from './components/resume-screener/job-description/job-description.component';
+import { ResumeMatchTableComponent } from './components/resume-screener/resume-match-table/resume-match-table.component';
+import { ResumeScreeningListViewComponent } from './components/resume-screener/resume-screening-list-view/resume-screening-list-view.component';
 
 export const routes: Routes = [
   {
@@ -29,13 +34,13 @@ export const routes: Routes = [
     redirectTo: '/corporate/home',
     pathMatch: 'full'
   },
-{
+  {
     path: '',
     component: CorporateComponent,
     children: [
       {
         path: 'cJobs',
-        component: CorporateJobsComponent,canActivate:[AuthCoporateGuardService]
+        component: CorporateJobsComponent, canActivate: [AuthCoporateGuardService]
       },
       {
         path: 'cApplicants',
@@ -49,16 +54,45 @@ export const routes: Routes = [
       },
       {
         path: 'cManageUsers',
-        component: CorporateUsersComponent ,canActivate:[AuthCoporateGuardService]
+        component: CorporateUsersComponent, canActivate: [AuthCoporateGuardService]
       },
       {
         path: 'cInvites',
-        component: CorporateInvitesComponent ,canActivate:[AuthCoporateGuardService]
+        component: CorporateInvitesComponent, canActivate: [AuthCoporateGuardService]
       },
       {
         path: 'cSettings',
-        component: CorporateUserSettingsComponent ,canActivate:[AuthCoporateGuardService]
+        component: CorporateUserSettingsComponent, canActivate: [AuthCoporateGuardService]
       },
+      {
+        path: 'cCandidateScreener',
+        component: ResumeScreenerPageComponent,
+        canActivate: [AuthCoporateGuardService],
+        children: [
+          {
+            path: 'cMatchingResult',
+            component: ResumeMatchTableComponent,
+            canActivate: [AuthCoporateGuardService],
+          },
+          {
+            path: 'cScreeningList',
+            component: ResumeScreeningListViewComponent,
+            canActivate: [AuthCoporateGuardService],
+          },
+        ],
+      },
+      // {
+      //   path: '',
+      //   component: ScreenedListComponent, canActivate:[AuthCoporateGuardService]
+      // }
+      {
+        path: 'cMatchingResult',
+        component: ResumeMatchTableComponent, canActivate: [AuthCoporateGuardService]
+      },
+      {
+        path: 'cScreeningList',
+        component: ResumeScreeningListViewComponent, canActivate: [AuthCoporateGuardService]
+      }
     ]
   }
 ]
@@ -71,16 +105,21 @@ export const routes: Routes = [
     CorporateUsersComponent,
     CorporateUserSettingsComponent,
     CorporateInvitesComponent,
-    CorporateApplicantsComponent
+    CorporateApplicantsComponent,
+    ResumeScreenerPageComponent,
+    ResumeUploaderComponent,
+    JobDescriptionComponent,
+    ResumeMatchTableComponent,
+    ResumeScreeningListViewComponent,
   ],
   imports: [
     CommonModule,
     SharedModule,
-    FormsModule ,
+    FormsModule,
     MatFormFieldModule,
-    MatInputModule, 
-    MatTableModule, 
-    MatSortModule, 
+    MatInputModule,
+    MatTableModule,
+    MatSortModule,
     MatPaginatorModule,
     MatIconModule,
     MatTooltipModule,

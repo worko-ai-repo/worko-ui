@@ -1,0 +1,129 @@
+.paste-jd-main {
+    margin-bottom: 20px;
+}
+
+.paste-jd-head {
+    font-weight: 500;
+    // display: flex;
+    // align-items: center;
+}
+
+.form-lable {
+    font-weight: 500;
+    font-size: 16px;
+}
+
+.ajob-tooltip i {
+    font-size: 16px;
+    color: #fff;
+    margin-left: 4px;
+}
+
+.compact-tooltip {
+    max-width: 250px;
+    font-size: 13px;
+    line-height: 1.4;
+    padding: 8px;
+    border-radius: 6px;
+    background-color: #2b2b2b;
+    color: #f1f1f1;
+    box-shadow: 0px 2px 6px rgba(0, 0, 0, 0.2);
+    text-align: left;
+    white-space: normal;
+}
+
+.job-description {
+    height: unset !important;
+    padding: 16.5px 14px;
+    min-height: 70px !important;
+    resize: vertical;
+}
+
+
+.job-description::placeholder {
+    color: #ccc;
+}
+
+
+.paste-jd-content.one {
+    position: relative;
+}
+
+.paste-jd-content.one.drag-over {
+    border: 2px dashed grey;
+}
+
+
+.paste-jd-content.two {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 50%;
+    height: fit-content;
+    border: 2px solid;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    margin-inline: auto;
+    overflow: hidden;
+
+    .paste-jd-circle {
+        overflow: hidden;
+        width: 150px;
+        height: 150px;
+        border: 2px dashed grey;
+        border-radius: 50%;
+        background-color: #00000000;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        z-index: 1;
+
+        .fa-solid {
+            font-size: 50px;
+        }
+    }
+}
+
+.past-jd-buttons {
+    display: flex;
+    justify-content: flex-end;
+    align-items: center;
+    gap: 10px;
+    margin-top: 20px;
+
+    button {
+        padding: 10px 20px;
+        border: none;
+        border-radius: 5px;
+        background-color: #50D5FF;
+        color: black;
+        cursor: pointer;
+    }
+
+    .close-button {
+        background-color: #ff5050;
+        color: white;
+    }
+
+    .skip-button {
+        padding: 10px 20px;
+        border: 1px solid #4c4e50;
+        border-radius: 5px;
+        background-color: transparent;
+        color: white;
+        cursor: pointer;
+    }
+
+    .skip-button:hover {
+        background-color: #4c4e50;
+    }
+
+    #continue-button:disabled {
+        background-color: #005068;
+        color: white;
+        cursor: not-allowed;
+        pointer-events: all;
+    }
+}

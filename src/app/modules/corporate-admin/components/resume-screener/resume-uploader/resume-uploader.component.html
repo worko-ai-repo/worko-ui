@@ -1,0 +1,22 @@
+<div class="upload-resume-main">
+    <div class="upload-resume-head">
+      <label for="resume-upload" class="form-label">Upload Resumes *</label>&nbsp;
+      <span class="resume-tooltip" style="cursor: pointer;">
+        <i class="fa-solid fa-circle-info" matTooltip="Upload up to 200 resumes in PDF, DOC, or DOCX format." matTooltipPosition="above"></i>
+      </span>
+    </div>
+  
+    <div 
+      class="upload-resume-box" 
+      (dragover)="onDragOver($event)" 
+      (dragleave)="onDragLeave($event)" 
+      (drop)="onFileDrop($event)">
+      <button type="button" class="upload-btn" (click)="onFileClick()">Drag and Drop / Click to Upload</button>
+      <input type="file" id="resume-upload" class="file-input" (change)="onFileSelected($event)" multiple accept=".pdf,.doc,.docx" />
+    </div>
+  
+    <div *ngIf="fileError" class="text-danger mt-2" role="alert">
+      {{ fileError }}
+    </div>
+  </div>
+  

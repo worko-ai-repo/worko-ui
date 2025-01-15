@@ -28,6 +28,7 @@ export class UserMenubarComponent {
   adminUserType: any;
   isNotAdminDashboard!: boolean;
   isReferralSubmenuOpen: boolean = false;
+  isScreenerSubmenuOpen: boolean = false;
   currentSubmenuStatus: string | null = null;
 
   isJobsSubmenuOpen: boolean = false;
@@ -70,6 +71,14 @@ export class UserMenubarComponent {
         {
           name: "Application",
           router: "corporate/cApplicants/"
+        },
+        {
+          name: "Candidate Screener",
+          router: "corporate/cCandidateScreener",
+          submenu: [
+            { name: 'New Screening', router: 'corporate/cCandidateScreener/cCandidateScreener' },
+            { name: 'Screened List', router: 'corporate/cCandidateScreener/cScreeningList' }
+          ]
         },
         {
           name: 'Invites',
@@ -260,6 +269,7 @@ export class UserMenubarComponent {
 
     this.isReferralSubmenuOpen = currentUrl.startsWith('/candidate/referral/') || currentUrl.startsWith('/employee/referral/');
     this.isJobsSubmenuOpen = currentUrl.startsWith('/candidate/jobs/');
+    this.isScreenerSubmenuOpen = currentUrl.startsWith('/corporate/ccandidatescreener');
   }
 
   /**
@@ -347,6 +357,7 @@ export class UserMenubarComponent {
   toggleSubmenu(menu: any): void {
     const isReferralMenu = (menu.name === 'Referral' || menu.name === 'Referral request');
     const isJobsMenu = menu.name === 'Job';
+    const isScreeningMenu = (menu.name === 'Candidate Screener');
 
     if (isReferralMenu && this.isNotAdminDashboard) {
       this.isReferralSubmenuOpen = !this.isReferralSubmenuOpen;
@@ -368,11 +379,21 @@ export class UserMenubarComponent {
       if (this.isJobsSubmenuOpen) {
         this.router.navigate(['/candidate/jobs']);
       }
+    }
+    else if (isScreeningMenu && this.isNotAdminDashboard) {
+      this.isScreenerSubmenuOpen = !this.isScreenerSubmenuOpen;
+      this.router.navigate(['/corporate/cCandidateScreener']);
     } else {
       this.isReferralSubmenuOpen = false;
       this.isJobsSubmenuOpen = false;
+      this.isScreenerSubmenuOpen = false;
       this.currentSubmenuStatus = null;
     }
+  }
+
+  isCandidateScreenerActive(): boolean {
+    const currentUrl = this.router.url.toLowerCase();
+    return currentUrl.startsWith('/corporate/cCandidateScreener');
   }
 
   // isReferralActive(): boolean {
@@ -441,8 +462,15 @@ export class UserMenubarComponent {
   }
 
 
-  onSubmenuClick(currentSubmenu: string) {
+  onSubmenuClick(currentSubmenu: any) {
     this.currentSubmenuStatus = currentSubmenu.toLowerCase();
+    if(currentSubmenu === "Screened List" ) {
+      this.router.navigate(['/corporate/cCandidateScreener/cScreeningList']);
+
+    }
+    else if(currentSubmenu === "New Screening" ) {
+      this.router.navigate(['/corporate/cCandidateScreener']);
+    }
   }
 
   ngOnDestroy(): void {

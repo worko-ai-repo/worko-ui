@@ -1,0 +1,105 @@
+<div class="main-container mx-3">
+
+  <div class="page-top-content">
+    <div class="page-title">
+      <h1>AI-Powered Resume Screener for Faster, Smarter Hiring</h1>
+    </div>
+    <div class="page-info">
+      <h5>
+        Effortlessly screen resumes with precision using Worko’s AI-Powered Resume Screener.
+        Screen up to 1000 resumes in minutes and get an accurate, ranked list of top
+        candidates for your job openings.
+      </h5>
+    </div>
+  </div>
+
+
+
+
+  <app-job-description (jdValidationChange)="updateJDValidation($event)" (jdTextChange)="updateJDText($event)">
+  </app-job-description>
+  <button class="btn ps-4 pe-4 btn screen-resumes-btn" style="margin-bottom: 20px;" [disabled]="!isValidJD"
+    *ngIf="showFetchDetailsButton" (click)="fetchDetails()">
+    Fetch Details
+  </button>
+
+  <div class="criteria-section">
+    <!-- Must Haves -->
+    <div class="ajobs-fitem gCloumnOne">
+      <label for="must-haves" class="form-label">Must Haves</label>&nbsp;
+      <span class="ajob-tooltip" style="cursor: pointer;">
+        <i class="fa-solid fa-circle-info" matTooltip="List critical requirements here." matTooltipPosition="above"></i>
+      </span>
+      <input 
+        type="text" 
+        id="must-haves" 
+        class="form-control form-input" 
+        placeholder="Add must-have skills (e.g., React, Java)" 
+        (keydown.enter)="onSkillInput($event, 'mustHaves')" />
+      <div class="skill-chip-box">
+        <span *ngFor="let skill of mustHaves; let i = index" class="skill-chip">
+          <div class="skill-chip-item">{{ skill }}</div>
+          <i class="fa-solid fa-circle-xmark skill-chip-button" (click)="removeSkill(i, 'mustHaves')"></i>
+        </span>
+      </div>
+    </div>
+  
+    <!-- Good to Haves -->
+    <div class="ajobs-fitem gCloumnOne">
+      <label for="good-to-haves" class="form-label">Good to Haves</label>&nbsp;
+      <span class="ajob-tooltip" style="cursor: pointer;">
+        <i class="fa-solid fa-circle-info" matTooltip="List optional but desirable skills here." matTooltipPosition="above"></i>
+      </span>
+      <input 
+        type="text" 
+        id="good-to-haves" 
+        class="form-control form-input" 
+        placeholder="Add good-to-have skills (e.g., Python, Leadership)" 
+        (keydown.enter)="onSkillInput($event, 'goodToHaves')" />
+      <div class="skill-chip-box">
+        <span *ngFor="let skill of goodToHaves; let i = index" class="skill-chip">
+          <div class="skill-chip-item">{{ skill }}</div>
+          <i class="fa-solid fa-circle-xmark skill-chip-button" (click)="removeSkill(i, 'goodToHaves')"></i>
+        </span>
+      </div>
+    </div>
+  
+    <!-- Must Not Haves -->
+    <div class="ajobs-fitem gCloumnOne">
+      <label for="must-not-haves" class="form-label">Must Not Haves</label>&nbsp;
+      <span class="ajob-tooltip" style="cursor: pointer;">
+        <i class="fa-solid fa-circle-info" matTooltip="List disqualifying factors here." matTooltipPosition="above"></i>
+      </span>
+      <input 
+        type="text" 
+        id="must-not-haves" 
+        class="form-control form-input" 
+        placeholder="Add must-not-have skills (e.g., Poor communication)" 
+        (keydown.enter)="onSkillInput($event, 'mustNotHaves')" />
+      <div class="skill-chip-box">
+        <span *ngFor="let skill of mustNotHaves; let i = index" class="skill-chip">
+          <div class="skill-chip-item">{{ skill }}</div>
+          <i class="fa-solid fa-circle-xmark skill-chip-button" (click)="removeSkill(i, 'mustNotHaves')"></i>
+        </span>
+      </div>
+    </div>
+
+    <div class="experience-range">
+      <label class="form-label">Experience Range (Years)</label>
+      <div class="range-inputs">
+        <input type="number" class="criteria-input small-input bg-transparent text-white form-control"
+          placeholder="Min" />
+        <span class="mx-2">to</span>
+        <input type="number" class="criteria-input small-input bg-transparent text-white form-control"
+          placeholder="Max" />
+      </div>
+    </div>
+  </div>
+
+  <app-resume-uploader (resumeUploadChange)="updateResumeUploadStatus($event)"
+    (uploadedFilesChange)="updateUploadedFiles($event)"></app-resume-uploader>
+
+  <button class="ps-4 pe-4 btn screen-resumes-btn" [disabled]="!isValidJD || !isResumeUploaded"
+    (click)="submitCriteria()">Screen Resumes</button>
+
+</div>

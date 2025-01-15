@@ -1,0 +1,705 @@
+.selector option {
+    cursor: pointer;
+}
+
+.selector option:disabled {
+    cursor: not-allowed;
+    color: gray;
+}
+
+.status-container {
+    position: relative;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.change-icon {
+    cursor: pointer;
+    color: #007bff;
+    font-size: 16px;
+}
+
+.change-icon:hover {
+    color: #0056b3;
+}
+
+.dropdown-status-container {
+    // position: absolute;
+    top: 100%;
+    left: 0;
+    z-index: 1000;
+    background-color: #0A1E35;
+    /* Dark background color */
+    color: white;
+    /* White text */
+    border-radius: 8px;
+    padding-top: 8px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+    margin-top: 4px;
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    overflow: visible;
+    /* Allow overflow */
+}
+
+.update-btn {
+    padding: 5px 10px;
+    // background-color: #1ed6ff;
+    background-color: rgb(45, 142, 194);
+    color: white;
+    border: none;
+    cursor: pointer;
+    border-radius: 4px;
+    align-self: flex-start;
+}
+
+// .update-btn:hover {
+//     background-color: #0056b3;
+// }
+
+.update-btn:disabled {
+    background-color: rgba(45, 142, 194, 0.5);
+    color: rgba(255, 255, 255, 0.6);
+    cursor: not-allowed;
+}
+
+
+.detailed-analysis-btn {
+    background-color: rgb(45, 142, 194);
+    color: white;
+    font-weight: 500;
+    padding: 2px;
+    width: min-content;
+    border-radius: 5px;
+    margin: unset !important; //@review: some global margin is interfaring with the layout
+    padding-inline: 5px;
+    height: 80%;
+    text-align: center;
+    cursor: pointer;
+}
+
+.search-container.disabled {
+    cursor: not-allowed;
+    pointer-events: none;
+}
+
+.search-container input.disabled-background {
+    background-color: #f5f5f5;
+    cursor: not-allowed;
+}
+
+.job-details-container {
+    background-color: rgb(39, 39, 39);
+    padding: 10px;
+    border-radius: 8px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+
+.label {
+    // text-align: center;
+    color: #FFF;
+    font-family: Poppins;
+    font-size: 14px;
+    font-weight: 400;
+    color: #bbb;
+    font-style: normal;
+    line-height: normal;
+    display: block;
+}
+
+.value {
+    // text-align: center;
+    color: #FFF;
+    font-family: Poppins;
+    font-size: 14px;
+    font-weight: 600;
+    color: #fff;
+    font-style: normal;
+    line-height: normal;
+    display: block;
+}
+
+.label {
+    margin-bottom: 5px;
+    /* spacing between label and value */
+}
+
+//   .value {
+//     margin-bottom: 1rem; /* Add spacing after the value */
+//   }
+
+.row>[class*='col-'] {
+    padding: 0.5rem;
+    /* This Adds consistent padding to all columns */
+}
+
+.col-md-2,
+.col-md-4 {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+
+.row {
+    display: flex;
+    align-items: stretch;
+}
+
+.row {
+    display: flex;
+    align-items: flex-start;
+    /* Align all items at the top */
+}
+
+.row-cols-1 .col,
+.row-cols-md-2 .col,
+.row-cols-lg-5 .col {
+    display: flex;
+    flex-direction: column;
+    /* Stack label and value vertically */
+    /* Add some padding for better spacing */
+}
+
+/* Dropdown options */
+.styled-dropdown option {
+    background-color: transparent !important;
+    /* transparent background */
+    color: black;
+    /* black text for options */
+    font-size: 16px;
+}
+
+/* For larger screens: center-align content */
+@media (min-width: 768px) {
+
+    /* Medium screens and above */
+    .row-cols-md-2 .col,
+    .row-cols-lg-5 .col {
+        justify-content: center;
+        /* Center vertically */
+        align-items: center;
+        /* Center horizontally */
+        text-align: center;
+        /* Center text */
+    }
+}
+
+/* For smaller screens: left-align content */
+@media (max-width: 767.98px) {
+
+    /* Small screens and below */
+    .row-cols-1 .col {
+        justify-content: flex-start;
+        /* Align items at the start */
+        align-items: flex-start;
+        /* Left-align items */
+        text-align: left;
+        /* Left-align text */
+    }
+
+    .value {
+        margin-bottom: 1rem;
+        /* Add spacing after the value */
+    }
+}
+
+// This was my previous UI design
+
+// .job-details-container {  
+//     // width: 100%;
+//     // margin-bottom: 20px;
+//     background-color: rgb(39, 39, 39); /* Light grey background */
+//     padding: 10px;
+//     border-radius: 8px;
+//     // display: flex;
+//     // flex-wrap: wrap; /* Makes it responsive */
+//     // gap: 10px;
+//     box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+//     // justify-content: space-between;
+//   }
+
+//   .job-details-box {
+//     background-color: rgb(39, 39, 39); /* Light grey background */
+//     padding: 15px;
+//     border-radius: 8px;
+//     display: flex;
+//     flex-wrap: wrap; /* Makes it responsive */
+//     gap: 10px;
+//     box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+//     justify-content: space-between; /* Ensures content spans the whole width */
+//   }
+
+//   .job-details-item {
+//     flex: 1 1 auto; /* Shrink or grow dynamically based on content size */
+//     // min-width: 120px; /* Minimum width for smaller screens */
+//     // max-width: 200px; /* Ensures content doesn't grow too large */
+//     max-width: 100%;
+//     overflow: hidden; /* Hides overflowing content */
+//     text-overflow: ellipsis; /* Adds "..." for overflowed text */
+//     white-space: nowrap; /* Prevents text from wrapping to the next line */
+//   }
+
+//   .job-details-label {
+//     font-weight: bold;
+//     margin-right: 5px;
+//     font-size: 14px; /* Ensures readability */
+//   }
+
+//   .job-details-value {
+//     font-weight: normal;
+//     font-size: 14px; /* Matches label font size */
+//   }
+
+//   .modal-body {
+//     padding: 0;
+//   }
+
+//   iframe {
+//     border: none;
+//   }
+
+//   /* Media Queries */
+// @media (max-width: 992px) { /* Medium screens (tablets) */
+//   .job-details-item {
+//     flex: 1 1 45%; /* Two items per row */
+//   }
+// }
+
+// @media (max-width: 576px) { /* Small screens (mobiles) */
+//   .job-details-item {
+//     flex: 1 1 100%; /* One item per row */
+//   }
+// }
+
+//// Previous UI design ends here
+
+
+//This is very Important dont remove it .
+::ng-deep .cdk-overlay-container {
+    position: fixed;
+    z-index: 9999999 !important;
+
+    .mat-mdc-autocomplete-panel {
+        background-color: #0a1e35;
+
+        .mat-mdc-option {
+            color: white;
+
+            &:hover {
+                background-color: #476baf;
+            }
+        }
+    }
+}
+
+// $statuses: (
+//     'APPLIED': #2716bb,
+//     'CV_DOWNLOADED': #ffc107,
+//     'UNDER_EVALUATION': rgba(64, 73, 64, 0.124),
+//     'PROCESSING_INTERVIEW': rgb(217, 148, 21),
+//     'INTERVIEW_DONE': rgba(44, 207, 101, 0.36),
+//     'HIRED': rgb(54, 141, 54),
+//     'REJECTED': red
+// );
+
+$statuses: (
+    'applied': #3A7D7C,
+    // Blue: Represents a neutral or informational status
+    'cv_downloaded': #357CBA,
+    // Teal: Indicates progress or action taken
+    'under_evaluation': #334E68,
+    // Yellow: Shows the status is in progress or being assessed
+    'processing_interview': #46727f,
+    // Orange: Indicates preparation for a major step
+    'interview_done': #D7A769,
+    // Green: Signifies completion of an important step
+    'hired': #6a7b67,
+    // Darker Green: Represents a positive and final outcome
+    'rejected': #A34242 // Red: Clearly communicates a negative or closed status
+    // 'rejected': #dc3545 // Red: Clearly communicates a negative or closed status
+);
+
+.candidate-card {
+    padding: 15px;
+    overflow: auto;
+    border-radius: 10px;
+
+    //Top Heading bar with search and other filters
+    .ajobs-filters {
+        padding-block: 5px;
+
+        display: flex;
+        flex-direction: column;
+        justify-content: flex-end;
+        align-items: flex-end;
+
+        input,
+        button {
+            height: 100% !important;
+        }
+
+        button {
+            margin-left: 5px;
+            border: 1px solid var(--color-skyblue-100) !important;
+        }
+
+        .ajobs-search {
+            margin-top: 10px;
+            display: flex;
+            align-items: center;
+            justify-content: space-evenly;
+        }
+
+        .ajobs-status {
+            height: 100% !important;
+        }
+    }
+
+    //Table style
+
+    .mat-elevation-z8 {
+        background-color: #0a1e35;
+        color: white;
+        border: 2px solid #476baf;
+        border-bottom-right-radius: 5px;
+        border-bottom-left-radius: 5px;
+        border-top: none;
+        overflow: auto;
+
+        .table-style {
+
+            th,
+            td {
+                position: relative;
+                text-overflow: ellipsis;
+                white-space: nowrap;
+                padding-inline: 10px;
+                vertical-align: baseline;
+                border: 2px solid #476baf;
+                border-inline-color: #283a5bd1;
+                padding: 10px;
+                //width: min-content;
+            }
+
+            td {
+
+                // Dynamic status color
+                @each $status, $color in $statuses {
+                    .job-#{to-lower-case($status)} {
+                        background-color: $color;
+                        color: white;
+                        font-weight: 500;
+                        padding: 2px;
+                        border-radius: 5px;
+                        margin: unset !important; //@review: some global margin is interfaring with the layout
+                        padding-inline: 5px;
+                        height: 80%;
+                        text-align: center;
+                    }
+                }
+
+                img {
+                    /*     position: relative;
+          left: 10px; */
+                    width: 30px;
+                    height: 30px;
+                    border-radius: 50%;
+                    margin-right: 25px;
+                }
+            }
+
+            .no-jobs-message {
+                text-align: center;
+                /* Centers text horizontally */
+                vertical-align: middle;
+                /* Centers text vertically */
+                height: 100px;
+                /* Set a height for vertical centering (adjust as needed) */
+            }
+        }
+    }
+}
+
+//Modal style Craete Job Form
+.message-card {
+    background: #0a1e36;
+    border-radius: 6px;
+
+    .form-control:focus {
+        color: white !important;
+    }
+
+    input {
+        background-color: transparent !important;
+        border: 2px solid #476baf;
+    }
+
+    .error {
+        color: red;
+    }
+
+    form {
+        display: grid;
+        grid-template-columns: repeat(6, 1fr);
+        grid-gap: 20px;
+
+        //Grid Managment Starts
+        //All the commmon fields should resides within 3 columns
+        .selector {
+            width: 100%;
+        }
+
+        .ajobs-fitem {
+            grid-column: span 2;
+            position: relative;
+
+            &.gCloumnOne {
+                grid-column: span 3;
+            }
+
+            &.gCloumnTwo {
+                grid-column: span 6;
+            }
+
+            /*         i{
+            position: absolute;
+            top: 50px;
+            left: 10px;
+            cursor: pointer;
+          } */
+        }
+
+        //The companyName Field Should be full width
+        .ajobs-fitem:first-child {
+            grid-column: 1 / span 6;
+        }
+
+        //Grid Managment Ends
+        .skill-chip-box {
+            display: grid;
+            grid-gap: 10px 5px;
+            justify-content: center;
+            grid-template-columns: repeat(3, 30%);
+            grid-auto-flow: row;
+            flex-wrap: wrap;
+            height: 80px;
+            margin-top: 5px;
+            border: 2px solid #476baf;
+            border-radius: 15px;
+            overflow: auto;
+            padding: 5px;
+
+            .skill-chip {
+                display: grid;
+                cursor: pointer;
+                align-items: center;
+                grid-template-columns: 1fr 28px;
+                color: #0a1e35;
+                font-weight: 600;
+                border-radius: 10px;
+                background: #1ed6ff;
+
+                height: min-content;
+                width: 100%;
+
+                padding: 5px;
+
+                .skill-chip-item {
+                    text-overflow: ellipsis;
+                    overflow: hidden;
+                    white-space: nowrap;
+                    font-size: small;
+                }
+
+                .skill-chip-button {
+                    margin: 0 0 0 5px;
+                    background-color: transparent;
+                    width: min-content;
+                    height: min-content;
+                }
+            }
+        }
+
+        //close btn
+        .btn-next {
+            grid-column: 5 / 1fr;
+            grid-column: 6 / span 1;
+            justify-self: end;
+        }
+
+        .jobDesc:focus {
+            background-color: transparent;
+            color: white;
+        }
+
+        input {
+            color: white;
+            height: auto;
+        }
+
+        select {
+            color: white;
+            height: auto;
+        }
+
+        button[type="submit"] {
+            background-color: #2f92c7;
+            color: white;
+            padding: 5px;
+            border: transparent;
+            border-radius: 5px;
+            outline: none;
+            cursor: pointer;
+
+            &:hover {
+                background-color: #1d5e81;
+            }
+
+            &:disabled {
+                background-color: #8696b3;
+
+                &hover {
+                    background-color: #8696b3 !important;
+                }
+            }
+        }
+
+        #ajobResetBtn[type="button"] {
+            background-color: #ff2a00c9;
+            color: white;
+            padding: 5px;
+            border: transparent;
+            border-radius: 5px;
+            outline: none;
+
+            &:hover {
+                background-color: #853224;
+            }
+        }
+    }
+}
+
+#editbtns span {
+    position: relative;
+    padding: 5px 0px;
+    box-shadow: 7px 6px 28px 1px rgba(0, 0, 0, 0.24);
+    text-align: center;
+    cursor: pointer;
+    border-radius: 5px;
+    margin: 5px;
+    transition: 0.2s all;
+
+    .fa-solid {
+        width: 50px;
+    }
+}
+
+#editbtns span:hover {
+    background: grey !important;
+}
+
+#editbtns>span:active {
+    box-shadow: 7px 6px 28px 1px rgba(0, 0, 0, 0.24);
+    top: 4px;
+}
+
+//Common Styles
+#admin-job-main {
+    .form-select {
+        margin: 0 4px;
+        width: min-content;
+        height: max-content;
+        border: 2px solid #295ca8;
+        background-color: var(--color-darkslategray-300);
+        color: var(--color-white);
+        border-radius: 3px;
+    }
+}
+
+#ajobDesc-rte>div * {
+    border-color: white;
+
+    table {
+        color: white;
+    }
+
+    .note-btn-group {
+        background-color: #d4d4d4;
+
+        .note-para {
+            box-shadow: 0 0 0 0.2rem #dfdfdf;
+        }
+
+        color: black;
+
+        button {
+            border-color: black;
+            background-color: white;
+        }
+    }
+
+    .note-editable {
+        background-color: #0a1e36;
+    }
+
+    .note-editable {
+        color: white;
+        border: 1px solid white;
+    }
+
+    .note-icon-caret::before {
+        content: "";
+    }
+
+    .ajobDesc-rte_editor * {
+        color: white;
+        border-color: white !important;
+    }
+}
+
+.cdk-overlay-container {
+    position: fixed;
+    z-index: 9999 !important;
+
+    .mat-mdc-autocomplete-panel {
+        background-color: #0a1e35;
+
+        .mat-mdc-option {
+            color: white;
+
+            &:hover {
+                background-color: #476baf;
+            }
+        }
+    }
+}
+
+.note-modal-content {
+    background-color: #0a1e35;
+    color: white;
+
+    .note-modal-footer {
+        margin: 10px;
+    }
+}
+
+@media screen and (max-width: 992px) {
+    form {
+        display: flex !important;
+        flex-direction: column;
+        flex-wrap: wrap;
+
+        .btn.btn-next {
+            width: 100%;
+        }
+    }
+
+    .value {
+        margin-bottom: 1rem;
+        /* Add spacing after the value */
+    }
+}

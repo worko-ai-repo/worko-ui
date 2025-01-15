@@ -111,7 +111,7 @@ export class CorporateService {
   }
 
   deleteCorporateUserById(userId: string, companyId: string): Promise<any> {
-    return this.http.patch(`${API_URL}corporate-user/${userId}/delete?companyId=${companyId}`,{}, this.authService.getHttpOptions()).toPromise();
+    return this.http.patch(`${API_URL}corporate-user/${userId}/delete?companyId=${companyId}`, {}, this.authService.getHttpOptions()).toPromise();
   }
 
   getCorporateUserDetailById(userId: string): Promise<any> {
@@ -194,7 +194,29 @@ export class CorporateService {
     return this.http.patch(`${API_URL}job-application/${jobApplicationId}/corp-action`, data, this.authService.getHttpOptions()).toPromise();
   }
 
-  parseJD(jobDescription: object) : Promise<any> {
+  parseJD(jobDescription: object): Promise<any> {
     return this.http.post(`${API_URL}job/parsejd`, jobDescription, this.authService.getHttpOptions()).toPromise();
   }
+
+  // Submit Bulk JD and Resumes
+  submitBulkJD(data: object): Promise<any> {
+    return this.http.post(`${API_URL}corporate-bulk-jd/`, data, this.authService.getHttpOptions()).toPromise();
+  }
+
+  // Upload Resume to S3
+  uploadResumeToS3(url: string, file: File): Promise<any> {
+    return this.http.put(url, file, {
+      headers: { 'Content-Type': file.type }
+    }).toPromise();
+  }
+
+  // Check Processing Status
+  getProcessingStatus(corporateBulkJdId: string, status?: string): Promise<any> {
+    let url = `${API_URL}corporate-bulk-jd-resume/?corporateBulkJdId=${corporateBulkJdId}`;
+    if (status) {
+      url += `&status=${status}`;
+    }
+    return this.http.get(url, this.authService.getHttpOptions()).toPromise();
+  }
+
 }

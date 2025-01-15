@@ -33,7 +33,7 @@
             <span class="ms-2 nav-link-text -pointer"
               [routerLink]="menu.name !== 'Referral' && menu.name !== 'Job' ? '/' + menu.router : null"
               routerLinkActive="active-navbar"
-              [class.active-navbar]="menu.name === 'Referral' && isReferralActive() || menu.name === 'Job' && isJobsActive()"
+              [class.active-navbar]="menu.name === 'Referral' && isReferralActive() || menu.name === 'Job' && isJobsActive() || menu.name === 'Candidate Screener' && isCandidateScreenerActive()"
               (click)="toggleSubmenu(menu)">
               <span *ngIf="menu.name === 'Dashboard'">
                 <svg xmlns='http://www.w3.org/2000/svg' width='21' height='31' viewBox='0 0 31 31' fill='none'>
@@ -197,6 +197,26 @@
                 <i class="fa-solid fa-address-card" style="margin-right:2px"></i>
               </span>
 
+              <!-- Corporate Panel - Candidate Resume Screener -->
+              <span *ngIf="menu.name === 'Candidate Screener'">
+                <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  viewBox="0 0 24 24"
+                  fill="currentColor"
+                  style="width: 20px; height: 20px; margin-right: 5px;"
+                >
+                  <path
+                    d="M12 12C9.79 12 8 10.21 8 8C8 5.79 9.79 4 12 4C14.21 4 16 5.79 16 8C16 10.21 14.21 12 12 12ZM4 20C4 16.69 8.03 15 12 15C15.97 15 20 16.69 20 20H4Z"
+                  />
+                  <path
+                    fill-rule="evenodd"
+                    clip-rule="evenodd"
+                    d="M20 2H4C2.9 2 2 2.9 2 4V20C2 21.1 2.9 22 4 22H20C21.1 22 22 21.1 22 20V4C22 2.9 21.1 2 20 2ZM20 20H4V4H20V20Z"
+                  />
+                </svg>
+              </span>
+              
+
               <span *ngIf="menu.name === 'Manage Users'">
                 <svg width="20" height="20" margin-right="5px" fill="none" xmlns="http://www.w3.org/2000/svg"
                   viewBox="0 0 512 512">
@@ -234,6 +254,9 @@
               <span *ngIf="menu.name === 'Job' && isNotAdminDashboard" class="left-space">
                 <i class="fas fa-chevron-right" [ngClass]="{ 'rotated': isJobsSubmenuOpen }"></i>
               </span>
+              <span *ngIf="menu.name === 'Candidate Screener' && isNotAdminDashboard" class="left-space">
+                <i class="fas fa-chevron-right" [ngClass]="{ 'rotated': isScreenerSubmenuOpen }"></i>
+              </span>
             </span>
 
             <!-- Referral Submenu -->
@@ -249,6 +272,16 @@
 
             <!-- Job Submenu -->
             <ul *ngIf="menu.name === 'Job' && isJobsSubmenuOpen" class="sub-menu">
+              <li *ngFor="let item of menu.submenu">
+                <a [routerLink]="item.router" [queryParamsHandling]="'preserve'" routerLinkActive="active-link"
+                  [routerLinkActiveOptions]="{ exact: true }" (click)="onSubmenuClick(item.name)">
+                  <i [class]="getIcon(item.name)"></i> <!-- Dynamically set the icon -->
+                  {{ item.name }}
+                </a>
+              </li>
+            </ul>
+
+            <ul *ngIf="(menu.name === 'Candidate Screener') && isScreenerSubmenuOpen" class="sub-menu">
               <li *ngFor="let item of menu.submenu">
                 <a [routerLink]="item.router" [queryParamsHandling]="'preserve'" routerLinkActive="active-link"
                   [routerLinkActiveOptions]="{ exact: true }" (click)="onSubmenuClick(item.name)">

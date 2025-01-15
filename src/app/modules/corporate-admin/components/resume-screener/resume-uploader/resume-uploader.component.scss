@@ -1,0 +1,59 @@
+.upload-resume-main {
+  margin-bottom: 20px;
+}
+
+.upload-resume-head {
+  // display: flex;
+  // align-items: center;
+  font-weight: 500;
+}
+
+.upload-resume-box {
+  border: 2px dashed #cccccc;
+  border-radius: 8px;
+  padding: 40px;
+  text-align: center;
+  position: relative;
+  background-color: transparent;
+  transition: background-color 0.3s ease, border-color 0.3s ease;
+}
+
+.upload-resume-box.drag-over {
+  background-color: #e8f4ff;
+  border-color: #007bff;
+}
+
+.upload-btn {
+  background: none;
+  border: none;
+  font-size: 18px;
+  font-weight: 500;
+  color: #ccc;
+  cursor: pointer;
+  outline: none;
+}
+
+.upload-btn:hover {
+  text-decoration: underline;
+}
+
+.file-input {
+  display: none;
+}
+
+.text-danger {
+  font-size: 14px;
+  color: #ff4d4f;
+}
+
+.resume-tooltip i {
+  font-size: 16px;
+  // color: #6c757d;
+  color: #fff;
+  margin-left: 4px;
+}
+
+.drag-over {
+  border: 2px dashed #007bff;
+  background-color: #eaf4ff;
+}
