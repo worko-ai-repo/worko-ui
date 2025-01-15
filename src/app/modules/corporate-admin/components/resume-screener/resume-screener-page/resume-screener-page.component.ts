@@ -24,6 +24,7 @@ export interface CorporateVitalDetails {
 export class ResumeScreenerPageComponent {
 
   corporateBulkJdId: string = ''; // Store the ID from the backend response
+  skillsTooltipMessage = "Type a skill and press Enter to add it to the list. Maximum length is 30 characters.";
 
   // Properties related to modal handling
   @ViewChild(ModalComponent) modal!: ModalComponent;
@@ -51,13 +52,15 @@ export class ResumeScreenerPageComponent {
   mustHaves: any = [];
   goodToHaves: any = [];
   mustNotHaves: any = [];
-  experienceMin: number | 0 = 0;
-  experienceMax: number | 0 = 0;
+  experienceMin!: number;
+  experienceMax!: number;
 
   uploadedFiles: File[] = [];
 
   fieldsDisabled: boolean = true; // Initially disable fields
   showFetchDetailsButton: boolean = true; // Show the Fetch Details button initially
+
+  jdParsedData: any;
 
   constructor(private router: Router, private cdr: ChangeDetectorRef, private corporateService: CorporateService, private spinner: NgxSpinnerService, private storage: StorageService) { }
 
@@ -88,20 +91,27 @@ export class ResumeScreenerPageComponent {
 
   }
 
-  fetchDetails(): void {
-    this.corporateService.parseJD({ jobDescription: this.jdText }).then((response: any) => {
+  async fetchDetails(): Promise<void> {
+    this.spinner.show(); // Show spinner before API call
+    try {
+      const response = await this.corporateService.parseJD({ jobDescription: this.jdText });
       console.log('Parse JD Response:', response);
-      this.populateFields(response); // Populate fields with the response
-      this.showFetchDetailsButton = false; // Remove the Fetch Details button
-      this.fieldsDisabled = false; // Enable fields
-    }).catch(error => {
-      console.error('Error parsing JD:', error);
-    });
+      this.jdParsedData = response;
+      this.populateFields(response);
+      this.showFetchDetailsButton = false;
+      this.fieldsDisabled = false;
+    } catch (error: any) {
+      this.handleError(error, "Error parsing job description.");
+    } finally {
+      this.spinner.hide(); // Hide spinner after API call
+    }
   }
 
+  // Populate fields with API response
   populateFields(response: any): void {
-    this.mustHaves = response.mustHaves || '';
-    this.goodToHaves = response.goodToHaves || '';
+    this.mustHaves = response.coreSkills || [];
+    this.goodToHaves = response.goodToHaveSkills || [];
+    this.mustNotHaves = response?.mustNotHaves || [];
     this.experienceMin = response.experienceRange?.min || null;
     this.experienceMax = response.experienceRange?.max || null;
   }
@@ -156,64 +166,166 @@ export class ResumeScreenerPageComponent {
     console.log('Updated uploaded files:', this.uploadedFiles);
   }
 
-  submitCriteria(): void {
-    const payload = {
-      companyId: this.corporateVitalDetails.companyId, // Replace with actual companyId
-      jobDescription: this.jdText,
-      jobTitle: 'Testing', // Replace with parsed data if available
-      mustHaveSkills: this.mustHaves,
-      goodToHaveSkills: this.goodToHaves,
-      mustNotHaveSkills: this.mustNotHaves,
-      experienceRange: {
-        min: this.experienceMin,
-        max: this.experienceMax,
-      },
-      bulkCvs: this.uploadedFiles.map(file => ({
+  async submitCriteria(): Promise<void> {
+    this.spinner.show();
+    try {
+      // Step 1: Submit JD and related details
+      const payload: {
+        companyId: string | undefined;
+        jobDescription: string;
+        mustHaveSkills: any;
+        goodToHaveSkills: any;
+        mustNotHaveSkills: any;
+        experienceRange?: any;
+        // bulkCvs: { fileName: string; fileMimeType: string }[];
+        jobTitle?: string; // Optional property
+      } = {
+        companyId: this.corporateVitalDetails.companyId,
+        jobDescription: this.jdText,
+        mustHaveSkills: this.mustHaves,
+        goodToHaveSkills: this.goodToHaves,
+        mustNotHaveSkills: this.mustNotHaves,
+        // bulkCvs: this.uploadedFiles.map(file => ({
+        //   fileName: file.name,
+        //   fileMimeType: file.type,
+        // })),
+      };
+
+      // Handle experienceRange
+      const experienceRange = this.getExperienceRange();
+      if (experienceRange) {
+        payload.experienceRange = experienceRange;
+      }
+
+      if (this.jdParsedData && this.jdParsedData.jobTitle) {
+        payload.jobTitle = this.jdParsedData?.jobTitle;
+      }
+
+      const jdResponse = await this.corporateService.submitJD(payload);
+      this.corporateBulkJdId = jdResponse.id;
+
+      // Step 2: Upload bulk CVs
+      const bulkCvs = this.uploadedFiles.map(file => ({
         fileName: file.name,
         fileMimeType: file.type,
-      })),
-    };
+      }));
 
-    // Submit JD and resume data to backend
-    this.corporateService.submitBulkJD(payload).then((response: any) => {
-      this.corporateBulkJdId = response.corporateBulkJdId;
-      console.log('Bulk JD Response:', response);
-      this.uploadToS3(response.bulkCvs);
-    }).catch(error => {
-      console.error('Error submitting bulk JD:', error);
-    });
-  }
+      const uploadResponse = await this.corporateService.uploadBulkCvs(this.corporateBulkJdId, bulkCvs);
 
-  uploadToS3(bulkCvs: any[]): void {
-    bulkCvs.forEach((fileData, index) => {
-      const file = this.uploadedFiles[index];
-      this.corporateService.uploadResumeToS3(fileData.awsS3SignedUrl, file).then(() => {
-        console.log(`${file.name} uploaded successfully.`);
-        if (index === bulkCvs.length - 1) {
-          console.log('All resumes uploaded.');
-          this.checkProcessingStatus();
-        }
-      }).catch(error => {
-        console.error(`Error uploading ${file.name}:`, error);
+      // Step 3: Upload files to S3 using signed URLs
+      const s3UploadPromises = uploadResponse.bulkCvs.map((fileData: any, index: number) => {
+        const file = this.uploadedFiles[index];
+        return this.corporateService.uploadResumeToS3(fileData.awsS3SignedUrl, file);
       });
-    });
+
+      await Promise.all(s3UploadPromises);
+      console.log('All resumes uploaded successfully.');
+
+      // Step 4: Check processing status
+      this.checkProcessingStatus();
+
+      // Submit JD and resume data to backend
+      // const response = await this.corporateService.submitBulkJD(payload);
+      // this.corporateBulkJdId = response.corporateBulkJdId;
+      // console.log('Bulk JD Response:', response);
+      // this.uploadToS3(response.bulkCvs);
+    } catch (error: any) {
+      this.handleError(error, "Error in resume screening process.");
+    } finally {
+      this.spinner.hide();
+    }
   }
 
-  checkProcessingStatus(): void {
-    console.log('Checking processing status...');
-    this.corporateService.getProcessingStatus(this.corporateBulkJdId, 'PENDING').then((response: any) => {
+  getExperienceRange(): { min?: number; max?: number } | null {
+    const min = this.normalizeExperienceValue(this.experienceMin);
+    const max = this.normalizeExperienceValue(this.experienceMax);
+
+    // If both are null, return null to exclude experienceRange
+    if (min === null && max === null) {
+      return null;
+    }
+
+    // Build and return the experienceRange object
+    const experienceRange: { min?: number; max?: number } = {};
+    if (min !== null) {
+      experienceRange.min = min;
+    }
+    if (max !== null) {
+      experienceRange.max = max;
+    }
+
+    return experienceRange;
+  }
+
+  private normalizeExperienceValue(value: number | string | null): number | null {
+    if (value === null || value === undefined || value === "not mentioned") {
+      return null;
+    }
+    const num = Number(value);
+    return !isNaN(num) ? num : null;
+  }
+
+
+
+
+  async uploadToS3(bulkCvs: any[]): Promise<void> {
+    this.spinner.show();
+    try {
+
+      for (const [index, fileData] of bulkCvs.entries()) {
+        const file = this.uploadedFiles[index];
+        await this.corporateService.uploadResumeToS3(fileData.awsS3SignedUrl, file);
+        console.log(`${file.name} uploaded successfully.`);
+      }
+      console.log('All resumes uploaded.');
+      this.checkProcessingStatus();
+    } catch (error: any) {
+      this.handleError(error, "Error uploading resumes to S3.");
+    } finally {
+      this.spinner.hide();
+    }
+    // bulkCvs.forEach((fileData, index) => {
+    //   const file = this.uploadedFiles[index];
+    //   this.corporateService.uploadResumeToS3(fileData.awsS3SignedUrl, file).then(() => {
+    //     console.log(`${file.name} uploaded successfully.`);
+    //     if (index === bulkCvs.length - 1) {
+    //       console.log('All resumes uploaded.');
+    //       this.checkProcessingStatus();
+    //     }
+    //   }).catch(error => {
+    //     console.error(`Error uploading ${file.name}:`, error);
+    //   });
+    // });
+  }
+
+  async checkProcessingStatus(): Promise<void> {
+    this.spinner.show();
+    try {
+      const response = await this.corporateService.getProcessingStatus(this.corporateBulkJdId);
       console.log('Processing Status:', response);
 
-      if (response.status === 'COMPLETED') {
-        console.log('Processing completed. Displaying results...');
-        // Navigate to results page or handle results
-      } else if (response.status === 'FAILED') {
-        console.error('Processing failed.');
-      } else {
-        console.log('Processing is still pending. Polling again...');
-        setTimeout(() => this.checkProcessingStatus(), 5000); // Poll every 5 seconds
+      if (response) {
+        this.viewMatchingScoreDetails(this.corporateBulkJdId);
       }
-    }).catch(error => console.error('Error checking status:', error));
+
+      // if (response.status === 'COMPLETED') {
+      //   console.log('Processing completed. Displaying results...');
+      //   // Handle results or navigate
+      // } else if (response.status === 'FAILED') {
+      //   console.error('Processing failed.');
+      // } else {
+      //   console.log('Processing is still pending. Polling again...');
+      //   setTimeout(() => this.checkProcessingStatus(), 5000); // Poll every 5 seconds
+      // }
+    } catch (error: any) {
+      this.handleError(error, "Error checking processing status.");
+    } finally {
+      this.spinner.hide();
+    }
+  }
+
+  viewMatchingScoreDetails(corporateBulkJdId: any): void {
+    this.router.navigate(["corporate/cMatchingResult/" + corporateBulkJdId]);
   }
 
   onSkillInput(event: any, field: string): void {
@@ -240,6 +352,14 @@ export class ResumeScreenerPageComponent {
     } else if (field === 'mustNotHaves') {
       this.mustNotHaves.splice(index, 1);
     }
+  }
+
+  private handleError(error: any, defaultMessage: string): void {
+    console.error(defaultMessage, error);
+    this.modalSize = 'md';
+    this.successMessage = "Something went wrong. Please try again later.";
+    this.successTitle = "Error";
+    this.openModal(ModalType.SUCCESS_ERROR_MESSAGE);
   }
 
   /* Modal Handler Section Starts Here */

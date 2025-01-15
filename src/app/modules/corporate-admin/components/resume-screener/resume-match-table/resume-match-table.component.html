@@ -102,10 +102,10 @@
                         </tr>
                     </thead>
                     <tbody>
-                        <tr *ngIf="filteredJobs.length === 0">
+                        <tr *ngIf="screenedCvData.length === 0">
                             <td colspan="9" class="no-jobs-message">{{ noApplicationsMessage }}</td>
                         </tr>
-                        <tr *ngFor="let job of filteredJobs; let i = index">
+                        <tr *ngFor="let job of screenedCvData; let i = index">
                             <td matTooltip="{{ job?.applicantDetails?.name | titlecase }}" matTooltipPosition="above"
                                 style="cursor: pointer;">{{ job?.applicantDetails?.name ? (job?.applicantDetails?.name |
                                 ellipsis:20 | titlecase) : '-' }}

@@ -90,6 +90,10 @@ export const routes: Routes = [
         component: ResumeMatchTableComponent, canActivate: [AuthCoporateGuardService]
       },
       {
+        path: 'cMatchingResult/:id',
+        component: ResumeMatchTableComponent, canActivate: [AuthCoporateGuardService]
+      },
+      {
         path: 'cScreeningList',
         component: ResumeScreeningListViewComponent, canActivate: [AuthCoporateGuardService]
       }

@@ -54,12 +54,14 @@ export class ResumeMatchTableComponent {
     // Corporate Jobs Component Properties
     corporateVitalDetails: CorporateVitalDetails = {};
   
-    jobId: string | null = null; // Variable to store the job ID
+    corporateBulkJdId: string | null = null; // Variable to store the job ID
     selectedStatus: string = this.status.ALL_APPLICATIONS;
     noApplicationsMessage: string = "No Matching Result Found"; // Will be showin inside the table
   
     //Filters Properties
     filteredJobs: any[] = [];
+
+    screenedCvData: any[] = [];
   
     // Properties related to modal handling
     @ViewChild(ModalComponent) modal!: ModalComponent;
@@ -133,21 +135,21 @@ export class ResumeMatchTableComponent {
   
       // this.emailAddress = this.storage.get("useremail");
       // this.userId = this.storage.get("userId");
-      // this.jobId = this.route.snapshot.paramMap.get('id');
+
+      this.corporateBulkJdId = this.route.snapshot.paramMap.get('id');
+
+      if (!this.corporateBulkJdId) {
+        this.spinner.show();
+        this.successMessage = 'Please select a job from the screening from the screened listing page.';
+        this.successTitle = 'Alert';
   
-      // if (!this.jobId) {
-      //   this.spinner.show();
-      //   this.successMessage = 'Please select a job from the job listing page.';
-      //   this.successTitle = 'Alert';
+        setTimeout(() => {
+          this.spinner.hide();
+          this.openModal(ModalType.SUCCESS_ERROR_MESSAGE);
+        }, 1000);
   
-      //   setTimeout(() => {
-      //     this.spinner.hide();
-      //     this.openModal(ModalType.SUCCESS_ERROR_MESSAGE);
-      //   }, 1000);
-  
-      //   // this.openModal(ModalType.SUCCESS_ERROR_MESSAGE);
-      //   return;
-      // }
+        return;
+      }
   
       this.corporateVitalDetails.cognitoUserId = this.storage.get("cognitoUserId");
   
@@ -172,31 +174,6 @@ export class ResumeMatchTableComponent {
         this.successTitle = "Error";
         this.openModal(ModalType.SUCCESS_ERROR_MESSAGE);
       }
-  
-      // this.getAllJobApplications(null);
-      // this.cvUrl = this.sanitizer.bypassSecurityTrustResourceUrl(this.cvPath);
-  
-      // Set up the corporateVitalDetails
-      // this.corporateService.corporateDetails$.subscribe((details) => {
-      //   if (details) {
-      //     console.log("user details is", details)
-      //     this.corporateVitalDetails = details;
-  
-      // this.jobForm.patchValue({
-      //   companyId: this.corporateVitalDetails.companyId,
-      // });
-  
-      // this.fetchJobs({
-      //   // companyId:this.corporateVitalDetails.companyId,
-      //   companyId: "01HZM77T3F331PMJP1C8B75N1P",
-      //   pageSize: 10,
-      //   sortOrder: this.sortOrder.DESC,
-      //   jobStatus: this.status.ALL,
-      //   resetPagination: true,
-      // });
-      //   }
-      // });
-  
     }  
   
     isOptionDisabled(option: string, currentStatus: string): boolean {
@@ -235,15 +212,15 @@ export class ResumeMatchTableComponent {
       }
     }
   
-    getJobLink(): void {
+    // getJobLink(): void {
   
-      // Encode the company name and job title for URL-safe navigation
-      const formattedCompanyName = this.companyDetails?.name.toLowerCase().replace(/\(.*?\)/g, '').replace(/\s*&\s*/g, '&').replace(/\s+/g, '-').replace(/-+/g, '-').replace(/^-|-$/g, '');
-      const formattedJobTitle = this.jobDetails?.jobTitle.toLowerCase().replace(/\(.*?\)/g, '').replace(/\s*&\s*/g, '&').replace(/\s+/g, '-').replace(/-+/g, '-').replace(/^-|-$/g, '');
+    //   // Encode the company name and job title for URL-safe navigation
+    //   const formattedCompanyName = this.companyDetails?.name.toLowerCase().replace(/\(.*?\)/g, '').replace(/\s*&\s*/g, '&').replace(/\s+/g, '-').replace(/-+/g, '-').replace(/^-|-$/g, '');
+    //   const formattedJobTitle = this.jobDetails?.jobTitle.toLowerCase().replace(/\(.*?\)/g, '').replace(/\s*&\s*/g, '&').replace(/\s+/g, '-').replace(/-+/g, '-').replace(/^-|-$/g, '');
   
-      const route = `/company/jobs/${formattedCompanyName}-jobs/${formattedJobTitle}-${this.jobId}`;
-      this.jobUrl = route;
-    }
+    //   const route = `/company/jobs/${formattedCompanyName}-jobs/${formattedJobTitle}-${this.jobId}`;
+    //   this.jobUrl = route;
+    // }
   
     // Fetching the user details with company
     async fetchUserDetailsWithCompany(cognitoUserId: string) {
@@ -260,12 +237,12 @@ export class ResumeMatchTableComponent {
           // console.log(this.corporateVitalDetails);
   
           // Fetch job details and applications after user details are fetched
-          if (this.jobId) {
-            await this.fetchJobDetails(this.jobId);
-            this.getJobLink();
-            this.getAllJobApplications(null);
+          if (this.corporateBulkJdId) {
+            await this.checkProcessingStatus();
+            // this.getJobLink();
+            // this.getAllJobApplications(null);
           } else {
-            console.warn("Job ID is not available.");
+            console.warn("corporateBulkJd ID is not available.");
           }
         } else {
           console.warn("No user details found for the given Cognito User ID.");
@@ -275,6 +252,40 @@ export class ResumeMatchTableComponent {
         console.error("Error fetching user details:", error);
         throw error; // Let ngOnInit handle the modal and spinner
       }
+    }
+
+    async checkProcessingStatus(): Promise<void> {
+      this.spinner.show();
+      try {
+        const response = await this.corporateService.getProcessingStatus(this.corporateBulkJdId);
+        console.log('Screened CV Matching Details:', response);
+  
+        if (response) {
+          this.screenedCvData = response;
+        }
+  
+        // if (response.status === 'COMPLETED') {
+        //   console.log('Processing completed. Displaying results...');
+        //   // Handle results or navigate
+        // } else if (response.status === 'FAILED') {
+        //   console.error('Processing failed.');
+        // } else {
+        //   console.log('Processing is still pending. Polling again...');
+        //   setTimeout(() => this.checkProcessingStatus(), 5000); // Poll every 5 seconds
+        // }
+      } catch (error: any) {
+        this.handleError(error, "Error checking processing status.");
+      } finally {
+        this.spinner.hide();
+      }
+    }
+
+    private handleError(error: any, defaultMessage: string): void {
+      console.error(defaultMessage, error);
+      this.modalSize = 'md';
+      this.successMessage = "Something went wrong. Please try again later.";
+      this.successTitle = "Error";
+      this.openModal(ModalType.SUCCESS_ERROR_MESSAGE);
     }
   
     formatRange(min: number | null, max: number | null, type: string): string {
@@ -315,13 +326,13 @@ export class ResumeMatchTableComponent {
       const selectedPageSize = (event.target as HTMLSelectElement).value;
       this.pageSize = Number(selectedPageSize);
       this.previousKeys = [];
-      this.getAllJobApplications(null); // Call getAllJobApplications refresh the data with the new page size
+      // this.getAllJobApplications(null); // Call getAllJobApplications refresh the data with the new page size
     }
   
     onSortOrderChange(event: any) {
       this.selectedSortOrder = event.target.value;
       const keyToUse = this.getKeyForCurrentPage();
-      this.getAllJobApplications(keyToUse);
+      // this.getAllJobApplications(keyToUse);
     }
   
     callApiWithSearchQuery(query: string): void {
@@ -330,7 +341,7 @@ export class ResumeMatchTableComponent {
       // this.getAllJobApplications(keyToUse);
   
       this.previousKeys = []; // Resetting pagination keys to refresh the data based on fresh search
-      this.getAllJobApplications(null); // Starting from the beginning by passing `null` for `lastKey` to fetch the initial page of results.
+      // this.getAllJobApplications(null); // Starting from the beginning by passing `null` for `lastKey` to fetch the initial page of results.
     }
   
     clearSearchInput() {
@@ -342,7 +353,7 @@ export class ResumeMatchTableComponent {
       // this.getAllJobApplications(keyToUse);
   
       this.previousKeys = [];
-      this.getAllJobApplications(null);
+      // this.getAllJobApplications(null);
     }
   
     handleSearchInput(event: Event) {
@@ -398,80 +409,80 @@ export class ResumeMatchTableComponent {
     //   });
     // }
   
-    async getAllJobApplications(lastKey: string | null) {
-      const companyId = this.corporateVitalDetails.companyId;
-      if (!companyId) {
-        console.warn("Company ID is missing. Cannot fetch job applications.");
-        return;
-      }
+    // async getAllJobApplications(lastKey: string | null) {
+    //   const companyId = this.corporateVitalDetails.companyId;
+    //   if (!companyId) {
+    //     console.warn("Company ID is missing. Cannot fetch job applications.");
+    //     return;
+    //   }
   
-      this.spinner.show();
-      try {
-        const response: any = await this.corporateService.getAllJobApplicants(
-          this.pageSize,
-          this.userType,
-          companyId,
-          this.jobId,
-          this.selectedStatus,
-          lastKey,
-          this.selectedSortOrder,
-          this.searchTerm
-        );
+    //   this.spinner.show();
+    //   try {
+    //     const response: any = await this.corporateService.getAllJobApplicants(
+    //       this.pageSize,
+    //       this.userType,
+    //       companyId,
+    //       this.jobId,
+    //       this.selectedStatus,
+    //       lastKey,
+    //       this.selectedSortOrder,
+    //       this.searchTerm
+    //     );
   
-        if (response) {
-          this.filteredJobs = response.data || [];
-          this.pageSize = response.pagination.pageSize;
-          this.currentLastKey = response.pagination.lastKey || null;
-          this.hasNext = !!response.pagination.lastKey;
-          this.hasPrevious = this.previousKeys.length > 0;
+    //     if (response) {
+    //       this.filteredJobs = response.data || [];
+    //       this.pageSize = response.pagination.pageSize;
+    //       this.currentLastKey = response.pagination.lastKey || null;
+    //       this.hasNext = !!response.pagination.lastKey;
+    //       this.hasPrevious = this.previousKeys.length > 0;
   
-          // Reset dropdown-related states
-          this.dropdownVisibleIndex = null;
-          this.selectedStatusDropdown = '';
-          this.isUpdateEnabled = false;
-        } else {
-          console.warn("Job applications response is empty or undefined.");
-        }
-      } catch (error: any) {
-        if (error.status === 401) {
-          this.router.navigate(['/']);
-        } else {
-          console.error("Error fetching job applications:", error);
-          this.modalSize = 'md';
-          this.successMessage = "Something went wrong. Please try again later.";
-          this.successTitle = "Error";
-          this.openModal(ModalType.SUCCESS_ERROR_MESSAGE);
-        }
-      } finally {
-        this.spinner.hide();
-      }
-    }
+    //       // Reset dropdown-related states
+    //       this.dropdownVisibleIndex = null;
+    //       this.selectedStatusDropdown = '';
+    //       this.isUpdateEnabled = false;
+    //     } else {
+    //       console.warn("Job applications response is empty or undefined.");
+    //     }
+    //   } catch (error: any) {
+    //     if (error.status === 401) {
+    //       this.router.navigate(['/']);
+    //     } else {
+    //       console.error("Error fetching job applications:", error);
+    //       this.modalSize = 'md';
+    //       this.successMessage = "Something went wrong. Please try again later.";
+    //       this.successTitle = "Error";
+    //       this.openModal(ModalType.SUCCESS_ERROR_MESSAGE);
+    //     }
+    //   } finally {
+    //     this.spinner.hide();
+    //   }
+    // }
   
-    async fetchJobDetails(jobId: any) {
-      this.spinner.show();
-      try {
-        const response: any = await this.corporateService.getJobDetailsById(jobId);
-        if (response && response.length > 0) {
-          this.jobDetails = response[0];
-          this.companyDetails = response[0].companyDetails;
-        } else {
-          console.warn("Job details response is empty or undefined.");
-          this.jobDetails = [];
-        }
-      } catch (error: any) {
-        if (error.status === 401) {
-          this.router.navigate(['/auth/corporate/login']);
-        } else {
-          console.error("Error fetching job details:", error);
-          this.modalSize = 'md';
-          this.successMessage = "Something went wrong. Please try again later.";
-          this.successTitle = "Error";
-          this.openModal(ModalType.SUCCESS_ERROR_MESSAGE);
-        }
-      } finally {
-        this.spinner.hide();
-      }
-    }
+    // async fetchJobDetails(jobId: any) {
+    //   this.spinner.show();
+    //   try {
+    //     const response: any = await this.corporateService.getJobDetailsById(jobId);
+    //     if (response && response.length > 0) {
+    //       this.jobDetails = response[0];
+    //       this.companyDetails = response[0].companyDetails;
+    //     } else {
+    //       console.warn("Job details response is empty or undefined.");
+    //       this.jobDetails = [];
+    //     }
+    //   } catch (error: any) {
+    //     if (error.status === 401) {
+    //       this.router.navigate(['/auth/corporate/login']);
+    //     } else {
+    //       console.error("Error fetching job details:", error);
+    //       this.modalSize = 'md';
+    //       this.successMessage = "Something went wrong. Please try again later.";
+    //       this.successTitle = "Error";
+    //       this.openModal(ModalType.SUCCESS_ERROR_MESSAGE);
+    //     }
+    //   } finally {
+    //     this.spinner.hide();
+    //   }
+    // }
   
     handleAction(job: any, newStatus: any) {
   
@@ -575,8 +586,7 @@ export class ResumeMatchTableComponent {
   
           // Use the previous lastKey if available; otherwise, start fresh
           const keyToUse = this.getKeyForCurrentPage();
-          await this.getAllJobApplications(keyToUse);
-          // await this.getAllJobApplications(null);
+          // await this.getAllJobApplications(keyToUse);
   
           if (response.status === "CV_DOWNLOADED") {
             this.cvUrl = this.sanitizer.bypassSecurityTrustResourceUrl(this.currentJob?.applicantDetails?.cvAwsS3SignedUrl);
@@ -684,7 +694,7 @@ export class ResumeMatchTableComponent {
       // this.getAllJobApplications(keyToUse);
   
       this.previousKeys = [];
-      this.getAllJobApplications(null);
+      // this.getAllJobApplications(null);
     }
   
     /**
@@ -701,7 +711,7 @@ export class ResumeMatchTableComponent {
         // this.getAllJobApplications(keyToUse);
   
         this.previousKeys = [];
-        this.getAllJobApplications(null);
+        // this.getAllJobApplications(null);
         return;
       }
       this.selectedStatus = statusVal.target.value; // Update global variable
@@ -711,7 +721,7 @@ export class ResumeMatchTableComponent {
       // this.getAllJobApplications(keyToUse);
   
       this.previousKeys = [];
-      this.getAllJobApplications(null);
+      // this.getAllJobApplications(null);
     }
   
     viewDetails(scoreDetails: any) {
@@ -751,7 +761,7 @@ export class ResumeMatchTableComponent {
       }
   
       // Fetch the next page
-      this.getAllJobApplications(this.currentLastKey);
+      // this.getAllJobApplications(this.currentLastKey);
     }
   
     onPrevious() {
@@ -765,10 +775,10 @@ export class ResumeMatchTableComponent {
   
       if (!previousLastKey) {
         // If no valid previous key, fetch the first page
-        this.getAllJobApplications(null);
+        // this.getAllJobApplications(null);
       } else {
         // Fetch the previous page using the second-to-last key
-        this.getAllJobApplications(previousLastKey);
+        // this.getAllJobApplications(previousLastKey);
       }
   
     }

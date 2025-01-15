@@ -1,11 +1,12 @@
-import { Component, EventEmitter, Output } from '@angular/core';
+import { Component, EventEmitter, OnInit, Output } from '@angular/core';
 
 @Component({
   selector: 'app-resume-uploader',
   templateUrl: './resume-uploader.component.html',
   styleUrls: ['./resume-uploader.component.scss']
 })
-export class ResumeUploaderComponent {
+export class ResumeUploaderComponent implements OnInit {
+  ngOnInit(): void { }
 
   @Output() resumeUploadChange = new EventEmitter<boolean>(); // Emits whether files are uploaded
   @Output() uploadedFilesChange = new EventEmitter<File[]>(); // Emits the list of uploaded files

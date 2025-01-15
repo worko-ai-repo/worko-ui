@@ -57,3 +57,19 @@
   border: 2px dashed #007bff;
   background-color: #eaf4ff;
 }
+
+.upload-resume-messages {
+  margin-top: 10px;
+}
+
+.text-danger {
+  font-size: 14px;
+  color: #ff4d4f;
+  margin-bottom: 5px; /* Add spacing between error and count messages */
+}
+
+.resume-count {
+  font-size: 14px;
+  color: #ccc;
+  font-weight: 500;
+}

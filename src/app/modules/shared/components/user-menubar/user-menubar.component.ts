@@ -456,6 +456,10 @@ export class UserMenubarComponent {
         return 'fas fa-user-check'; // Icon for 'Interview Done'
       case 'hired':
         return 'fas fa-user-tie'; // Icon for 'Hired'
+      case 'new screening':
+        return 'fas fa-filter'; // Icon for Screening Resumes
+      case 'screened list':
+        return 'fas fa-list-alt'; // Icon for Screened List  
       default:
         return 'fas fa-circle'; // Default icon
     }
@@ -464,11 +468,11 @@ export class UserMenubarComponent {
 
   onSubmenuClick(currentSubmenu: any) {
     this.currentSubmenuStatus = currentSubmenu.toLowerCase();
-    if(currentSubmenu === "Screened List" ) {
-      this.router.navigate(['/corporate/cCandidateScreener/cScreeningList']);
+    if (currentSubmenu === "Screened List") {
+      this.router.navigate(['/corporate/cScreeningList']);
 
     }
-    else if(currentSubmenu === "New Screening" ) {
+    else if (currentSubmenu === "New Screening") {
       this.router.navigate(['/corporate/cCandidateScreener']);
     }
   }
