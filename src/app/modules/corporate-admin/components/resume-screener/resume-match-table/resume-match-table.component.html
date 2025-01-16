@@ -3,13 +3,13 @@
     <div class="row row-cols-1 row-cols-md-2 row-cols-lg-5">
         <div class="col">
             <span class="label">Job Title</span>
-            <span class="value" matTooltip="{{ jobDetails?.jobTitle | uppercase }}" matTooltipPosition="above"
+            <span class="value" matTooltip="{{ bulkJdDetails?.jobTitle | uppercase }}" matTooltipPosition="above"
                 style="cursor: pointer;">
-                {{ jobDetails?.jobTitle ? (jobDetails?.jobTitle | ellipsis:20 | uppercase) : '-' }}</span>
+                {{ bulkJdDetails?.jobTitle ? (bulkJdDetails?.jobTitle | ellipsis:20 | uppercase) : '-' }}</span>
         </div>
         <div class="col">
             <span class="label">Experience Range</span>
-            <span class="value">{{ formatRange(jobDetails?.experienceRange.min, jobDetails?.experienceRange.max,
+            <span class="value">{{ formatRange(bulkJdDetails?.experienceRange.min, bulkJdDetails?.experienceRange.max,
                 'experience') }}</span>
         </div>
         <!-- <div class="col">
@@ -19,11 +19,12 @@
         </div> -->
         <div class="col">
             <span class="label">Location</span>
-            <span class="value">{{ jobDetails?.location ? (jobDetails.location | titlecase) : '-' }}</span>
+            <span class="value">{{ bulkJdDetails?.jobLocation ? (bulkJdDetails.jobLocation | titlecase) : '-' }}</span>
         </div>
         <div class="col">
             <span class="label">Screened On</span>
-            <span class="value">{{ jobDetails?.createdAt ? (jobDetails.createdAt | date:'MMM dd, yyyy') : '-' }}</span>
+            <span class="value">{{ bulkJdDetails?.createdAt ? (bulkJdDetails.createdAt | date:'MMM dd, yyyy') : '-'
+                }}</span>
         </div>
 
         <div class="col">
@@ -41,7 +42,13 @@
 <div class="admin-table-main mx-2 ms-3" id="admin-job-main">
     <div class="tab-content mt-2" id="myTabContent">
         <div class="candidate-card tab-pane fade show active" id="home" role="tabpanel" aria-labelledby="home-tab">
-            <h5>Matching Result</h5>
+            <div class="heading-and-btn">
+                <h5>Matching Result</h5>
+                <span class="ajobs-create-jobs">
+                    <!-- Button to open the Add Job modal -->
+                    <button (click)="refreshData()" class="ps-4 pe-4 btn searchButton">Refresh</button>
+                </span>
+            </div>
             <div class="ajobs-filters">
                 <span class="ajobs-create-jobs">
                     <!-- Button to open the Add Job modal -->
@@ -71,7 +78,7 @@
                             <option value={{sortOrder.DESC}}>Descending</option>
                         </select>
                     </span> -->
-                    <div class="pe-2 search-container disabled" [ngClass]="{'disabled': isSearchActive}">
+                    <div class="search-container disabled" [ngClass]="{'disabled': isSearchActive}">
                         <input matInput class="serachInput" (keyup)="handleSearchInput($event)"
                             (keydown)="onSearchInputEnter($event)" placeholder="Search Candidate"
                             [(ngModel)]="searchQuery" #input [disabled]="isSearchActive"
@@ -105,26 +112,50 @@
                         <tr *ngIf="screenedCvData.length === 0">
                             <td colspan="9" class="no-jobs-message">{{ noApplicationsMessage }}</td>
                         </tr>
-                        <tr *ngFor="let job of screenedCvData; let i = index">
-                            <td matTooltip="{{ job?.applicantDetails?.name | titlecase }}" matTooltipPosition="above"
-                                style="cursor: pointer;">{{ job?.applicantDetails?.name ? (job?.applicantDetails?.name |
+                        <tr *ngFor="let cv of screenedCvData; let i = index">
+                            <td matTooltip="{{ cv?.cvExtractedParsed?.candidateName | titlecase }}"
+                                matTooltipPosition="above" style="cursor: pointer;">{{
+                                cv?.cvExtractedParsed?.candidateName ? (cv?.cvExtractedParsed?.candidateName |
                                 ellipsis:20 | titlecase) : '-' }}
                             </td>
-                            <td>{{ job?.applicantDetails?.YOE ? (job?.applicantDetails?.YOE === 1 ?
-                                job?.applicantDetails?.YOE + ' year' : job?.applicantDetails?.YOE + ' years') : '-' }}
+                            <td>{{ cv?.cvExtractedParsed?.candidateExperience
+                                ? (cv?.cvExtractedParsed?.candidateExperience
+                                === 1 ?
+                                cv?.cvExtractedParsed?.candidateExperience
+                                + ' year' : (cv?.cvExtractedParsed?.candidateExperience | ellipsis:20 | titlecase)
+                                + ' years') : '-' }}
                             </td>
-                            <td>{{ job?.applicantDetails?.ECTC ? job?.applicantDetails?.ECTC + ' LPA' : '-' }}
-                            </td>
-                            <td>{{ job?.applicantDetails?.candidateExperience?.companyName ?
-                                (job.applicantDetails?.candidateExperience?.companyName | ellipsis:20 | uppercase) : '-'
+                            <!-- <td>{{ job?.applicantDetails?.ECTC ? job?.applicantDetails?.ECTC + ' LPA' : '-' }}
+                            </td> -->
+                            <td>{{ cv?.cvExtractedParsed?.candidateCurrentCompany ?
+                                (cv?.cvExtractedParsed?.candidateCurrentCompany | ellipsis:20 | titlecase) : '-'
                                 }}
                             </td>
-                            <td>{{ job?.matchingScore ? job?.matchingScore + '/100' : '-' }}
+                            <td matTooltip="{{ cv?.cvExtractedParsed?.candidateCurrentDesignation | titlecase }}"
+                                matTooltipPosition="above" style="cursor: pointer;">{{
+                                cv?.cvExtractedParsed?.candidateCurrentDesignation ?
+                                (cv?.cvExtractedParsed?.candidateCurrentDesignation | ellipsis:20 | titlecase) : '-'
+                                }}
+                            </td>
+
+                            <td>{{ cv?.matchingScore ? cv?.matchingScore + '/100' : '-' }}
+                            </td>
+
+                            <td matTooltip="{{ cv?.cvExtractedParsed?.candidateEmail | titlecase }}"
+                                matTooltipPosition="above" style="cursor: pointer;">
+                                {{ cv?.cvExtractedParsed?.candidateEmail ? (cv?.cvExtractedParsed?.candidateEmail) : '-'
+                                }}
+                            </td>
+
+                            <td matTooltip="{{ cv?.cvExtractedParsed?.candidatePhoneNumber | titlecase }}"
+                                matTooltipPosition="above" style="cursor: pointer;">
+                                {{ cv?.cvExtractedParsed?.candidatePhoneNumber ?
+                                (cv?.cvExtractedParsed?.candidatePhoneNumber | titlecase) : '-' }}
                             </td>
 
                             <td>
-                                <ng-container *ngIf="job?.scoreDetails; else noData">
-                                    <p class="detailed-analysis-btn" (click)="viewDetails(job?.scoreDetails)">View
+                                <ng-container *ngIf="cv?.scoreDetails; else noData">
+                                    <p class="detailed-analysis-btn" (click)="viewDetails(cv?.scoreDetails)">View
                                         Detailed Analysis</p>
                                 </ng-container>
                                 <ng-template #noData>-</ng-template>
@@ -135,7 +166,7 @@
                                 </p>
                             </td> -->
 
-                            <td>
+                            <!-- <td>
                                 <div class="status-container">
                                     <p [ngClass]="getStatusClass(job.status)">
                                         {{ transformStatus(job.status) | uppercase }}
@@ -173,14 +204,13 @@
                                 {{ getCvDownloadedDate(job?.statusTracker)
                                 ? (getCvDownloadedDate(job?.statusTracker) | date: 'd MMM yyyy, h:mm a')
                                 : '-' }}
-                            </td>
+                            </td> -->
 
                             <td id="editbtns">
 
                                 <!-- View CV Button -->
-                                <span *ngIf="true" (click)="handleAction(job, status.CV_DOWNLOADED)"
-                                    matTooltip="View CV" matTooltipPosition="above"
-                                    style="background: #1E3A5F; cursor: pointer;">
+                                <span *ngIf="true" (click)="handleAction(cv)" matTooltip="View CV"
+                                    matTooltipPosition="above" style="background: #1E3A5F; cursor: pointer;">
                                     <i class="fa-solid fa-file"></i>
                                 </span>
 
@@ -213,13 +243,12 @@
                                 </span> -->
 
                                 <!-- Reject Button -->
-                                <span *ngIf="job.status !== status.REJECTED && job.status !== status.HIRED"
+                                <!-- <span *ngIf="job.status !== status.REJECTED && job.status !== status.HIRED"
                                     matTooltip="Reject" matTooltipPosition="above"
                                     style="background: #A34242; cursor: pointer;"
                                     (click)="handleAction(job, status.REJECTED)">
                                     <i class="fa-solid fa-times"></i>
-                                </span>
-
+                                </span> -->
                             </td>
                         </tr>
                     </tbody>

@@ -84,7 +84,7 @@ export class ResumeScreeningListViewComponent {
   previousKeys: string[] = []; // Stack to store previous lastKeys for "Previous" functionality
   hasNext: boolean = false; // To enable/disable "Next" button
   hasPrevious: boolean = false; // To enable/disable "Previous" button
-  pageSize: number = 25; // Default page size
+  pageSize: number = 100; // Default page size
   pageSizeOptions: number[] = [25, 50, 100, 150];
 
   searchText: any = '';
@@ -201,6 +201,10 @@ export class ResumeScreeningListViewComponent {
 
   }
 
+  viewMatchingResultPage(id: any): void {
+    this.router.navigate(["corporate/cMatchingResult/" + id]);
+  }
+
   isOptionDisabled(option: string, currentStatus: string): boolean {
     const currentIndex = this.statusArray.indexOf(currentStatus);
     const optionIndex = this.statusArray.indexOf(option);
@@ -282,12 +286,11 @@ export class ResumeScreeningListViewComponent {
     try {
       const response = await this.corporateService.getScreenedListByCompanyId(this.corporateVitalDetails.companyId);
       console.log('All Screened List:', response);
-
+  
       if (response) {
-        this.allScreenedList = response;
-      }
+        this.allScreenedList = response.data; // Update the list with the API response
 
-      // if (response.status === 'COMPLETED') {
+        // if (response.status === 'COMPLETED') {
       //   console.log('Processing completed. Displaying results...');
       //   // Handle results or navigate
       // } else if (response.status === 'FAILED') {
@@ -296,12 +299,16 @@ export class ResumeScreeningListViewComponent {
       //   console.log('Processing is still pending. Polling again...');
       //   setTimeout(() => this.checkProcessingStatus(), 5000); // Poll every 5 seconds
       // }
+      } else {
+        console.warn('No screened list data received.');
+      }
     } catch (error: any) {
       this.handleError(error, "Error fetching screened list");
     } finally {
       this.spinner.hide();
     }
   }
+  
 
   private handleError(error: any, defaultMessage: string): void {
     console.error(defaultMessage, error);

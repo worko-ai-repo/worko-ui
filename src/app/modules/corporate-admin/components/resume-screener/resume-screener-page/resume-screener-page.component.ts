@@ -108,13 +108,36 @@ export class ResumeScreenerPageComponent {
   }
 
   // Populate fields with API response
+  // populateFields(response: any): void {
+  //   this.mustHaves = response.coreSkills || [];
+  //   this.goodToHaves = response.goodToHaveSkills || [];
+  //   this.mustNotHaves = response?.mustNotHaves || [];
+  //   this.experienceMin = response.experienceRange?.min || null;
+  //   this.experienceMax = response.experienceRange?.max || null;
+  // }
+
   populateFields(response: any): void {
-    this.mustHaves = response.coreSkills || [];
-    this.goodToHaves = response.goodToHaveSkills || [];
-    this.mustNotHaves = response?.mustNotHaves || [];
-    this.experienceMin = response.experienceRange?.min || null;
-    this.experienceMax = response.experienceRange?.max || null;
+    // Helper function to check if a value is valid
+    const isValidValue = (value: any) => value !== "Not Mentioned" && value !== null && value !== undefined;
+
+    // Handle arrays and numbers separately
+    const sanitizeArray = (arr: any[]) =>
+      Array.isArray(arr) ? arr.filter(item => isValidValue(item)) : [];
+
+    this.mustHaves = sanitizeArray(response.coreSkills) || [];
+    this.goodToHaves = sanitizeArray(response.goodToHaveSkills) || [];
+    this.mustNotHaves = sanitizeArray(response.mustNotHaves) || [];
+
+    // Assign numbers only if they are valid
+    if (isValidValue(response.experienceRange?.min)) {
+      this.experienceMin = +response.experienceRange.min;
+    }
+
+    if (isValidValue(response.experienceRange?.max)) {
+      this.experienceMax = +response.experienceRange.max;
+    }
   }
+
 
   // Fetching the user details with company
   async fetchUserDetailsWithCompany(cognitoUserId: string) {
@@ -328,21 +351,44 @@ export class ResumeScreenerPageComponent {
     this.router.navigate(["corporate/cMatchingResult/" + corporateBulkJdId]);
   }
 
+  // onSkillInput(event: any, field: string): void {
+  //   const input = event.target as HTMLInputElement;
+  //   const value = input.value.trim();
+
+  //   if (event.key === 'Enter' && value) {
+  //     if (field === 'mustHaves') {
+  //       this.mustHaves.push(value);
+  //     } else if (field === 'goodToHaves') {
+  //       this.goodToHaves.push(value);
+  //     } else if (field === 'mustNotHaves') {
+  //       this.mustNotHaves.push(value);
+  //     }
+  //     input.value = ''; // Clear input field after adding
+  //   }
+  // }
+
   onSkillInput(event: any, field: string): void {
     const input = event.target as HTMLInputElement;
     const value = input.value.trim();
 
     if (event.key === 'Enter' && value) {
       if (field === 'mustHaves') {
-        this.mustHaves.push(value);
+        if (!this.mustHaves.includes(value)) {
+          this.mustHaves.push(value);
+        }
       } else if (field === 'goodToHaves') {
-        this.goodToHaves.push(value);
+        if (!this.goodToHaves.includes(value)) {
+          this.goodToHaves.push(value);
+        }
       } else if (field === 'mustNotHaves') {
-        this.mustNotHaves.push(value);
+        if (!this.mustNotHaves.includes(value)) {
+          this.mustNotHaves.push(value);
+        }
       }
       input.value = ''; // Clear input field after adding
     }
   }
+
 
   removeSkill(index: number, field: string): void {
     if (field === 'mustHaves') {

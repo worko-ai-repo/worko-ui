@@ -209,7 +209,7 @@ export class CorporateService {
 
   uploadBulkCvs(id: string, bulkCvs: any[]): Promise<any> {
     return this.http.post(`${API_URL}corporate-bulk-jd/${id}/resumes`, { bulkCvs }, this.authService.getHttpOptions()).toPromise();
-  }  
+  }
 
   // Upload Resume to S3
   uploadResumeToS3(url: string, file: File): Promise<any> {
@@ -228,7 +228,24 @@ export class CorporateService {
   }
 
   getScreenedListByCompanyId(companyId: any): Promise<any> {
-    return this.http.get(`${API_URL}corporate-bulk-jd-resume/?companyId=${companyId}`, this.authService.getHttpOptions()).toPromise();
+    const url = `${API_URL}corporate-bulk-jd/?companyId=${companyId}`;
+    return this.http.get(url, this.authService.getHttpOptions()).toPromise();
+  }
+
+  // getSingleCvDetails(companyId: any, cloudFileName: string, corporateBulkJdId: any): Promise<any> {
+  //   const url = `${API_URL}file/${companyId}/${cloudFileName}/BULK_CVS`;
+  //   const body = { corporateBulkJdId };
+  //   return this.http.get(url, body, this.authService.getHttpOptions()).toPromise();
+  // }
+
+  getSingleCvDetails(companyId: string, cloudFileName: string, corporateBulkJdId: string): Promise<any> {
+    const url = `${API_URL}file/${companyId}/${cloudFileName}/BULK_CVS?corporateBulkJdId=${corporateBulkJdId}`;
+    return this.http.get(url, this.authService.getHttpOptions()).toPromise();
+  }
+
+  getBulkJDDetailsById(corporateBulkJdId: string): Promise<any> {
+    const url = `${API_URL}corporate-bulk-jd/${corporateBulkJdId}`;
+    return this.http.get(url, this.authService.getHttpOptions()).toPromise();
   }
 
 }
