@@ -321,4 +321,54 @@ export class AdminService {
     return this.http.post(`${API_URL}job/parsejd`, jobDescription, this.authService.getHttpOptions()).toPromise();
   }
 
+  getSingleCvDetails(companyId: string, cloudFileName: string, corporateBulkJdId: string): Promise<any> {
+    const url = `${API_URL}file/${companyId}/${cloudFileName}/BULK_CVS?corporateBulkJdId=${corporateBulkJdId}`;
+    return this.http.get(url, this.authService.getHttpOptions()).toPromise();
+  }
+
+  getScreenedList(pageSize: any, lastKey?: any, sortOrder?: string, searchText?: any): Promise<any> {
+    let url = `${API_URL}corporate-bulk-jd/?pageSize=${pageSize}`;
+    if (lastKey) {
+      url += `&lastKey=${lastKey}`;
+    }
+    if (sortOrder) {
+      url += `&sortOrder=${sortOrder}`;
+    }
+    if (searchText) {
+      const searchTexts = encodeURIComponent(searchText)
+      url += `&searchText=${searchTexts}`;
+    }
+    return this.http.get(url, this.authService.getHttpOptions()).toPromise();
+  }
+
+  getBulkJDDetailsById(corporateBulkJdId: string): Promise<any> {
+    const url = `${API_URL}corporate-bulk-jd/${corporateBulkJdId}`;
+    return this.http.get(url, this.authService.getHttpOptions()).toPromise();
+  }
+
+  // Check Processing Status
+  getProcessingStatus(corporateBulkJdId: any, pageSize?: any, lastKey?: any, sortOrder?: string, searchText?: any,  status?: string): Promise<any> {
+    let url = `${API_URL}corporate-bulk-jd-resume/?corporateBulkJdId=${corporateBulkJdId}`;
+
+    if (pageSize) {
+      url += `&pageSize=${pageSize}`;
+    }
+    
+    if (status) {
+      url += `&status=${status}`;
+    }
+    if (lastKey) {
+      url += `&lastKey=${lastKey}`;
+    }
+    if (sortOrder) {
+      url += `&sortOrder=${sortOrder}`;
+    }
+    if (searchText) {
+      const searchTexts = encodeURIComponent(searchText)
+      url += `&searchText=${searchTexts}`;
+    }
+    
+    return this.http.get(url, this.authService.getHttpOptions()).toPromise();
+  }
+
 }

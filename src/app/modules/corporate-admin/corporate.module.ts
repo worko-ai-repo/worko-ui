@@ -65,38 +65,68 @@ export const routes: Routes = [
         component: CorporateUserSettingsComponent, canActivate: [AuthCoporateGuardService]
       },
       {
-        path: 'cCandidateScreener',
+        path: 'cCandidateScreener/cNewScreening',
         component: ResumeScreenerPageComponent,
         canActivate: [AuthCoporateGuardService],
-        children: [
-          {
-            path: 'cMatchingResult',
-            component: ResumeMatchTableComponent,
-            canActivate: [AuthCoporateGuardService],
-          },
-          {
-            path: 'cScreeningList',
-            component: ResumeScreeningListViewComponent,
-            canActivate: [AuthCoporateGuardService],
-          },
-        ],
       },
+      {
+        path: 'cCandidateScreener/cScreeningList',
+        component: ResumeScreeningListViewComponent,
+        canActivate: [AuthCoporateGuardService],
+      },
+      {
+        path: 'cCandidateScreener/cMatchingResult/:id',
+        component: ResumeMatchTableComponent,
+        canActivate: [AuthCoporateGuardService],
+      },
+      {
+        path: 'cCandidateScreener', 
+        redirectTo: 'cCandidateScreener/cNewScreening', 
+        pathMatch: 'full',
+      },
+      // {
+      //   path: 'cCandidateScreener',
+      //   component: ResumeScreenerPageComponent,
+      //   canActivate: [AuthCoporateGuardService],
+      //   children: [
+      //     {
+      //       path: 'cNewScreening',
+      //       component: ResumeScreenerPageComponent, // or another component if applicable
+      //       canActivate: [AuthCoporateGuardService],
+      //     },
+      //     {
+      //       path: 'cScreeningList',
+      //       component: ResumeScreeningListViewComponent,
+      //       canActivate: [AuthCoporateGuardService],
+      //     },
+      //     {
+      //       path: 'cMatchingResult/:id',
+      //       component: ResumeMatchTableComponent,
+      //       canActivate: [AuthCoporateGuardService],
+      //     },
+      //     {
+      //       path: '',
+      //       redirectTo: 'cNewScreening', // Default redirection to `cNewScreening` when accessing `cCandidateScreener`
+      //       pathMatch: 'full',
+      //     },
+      //   ],
+      // },
       // {
       //   path: '',
       //   component: ScreenedListComponent, canActivate:[AuthCoporateGuardService]
       // }
-      {
-        path: 'cMatchingResult',
-        component: ResumeMatchTableComponent, canActivate: [AuthCoporateGuardService]
-      },
-      {
-        path: 'cMatchingResult/:id',
-        component: ResumeMatchTableComponent, canActivate: [AuthCoporateGuardService]
-      },
-      {
-        path: 'cScreeningList',
-        component: ResumeScreeningListViewComponent, canActivate: [AuthCoporateGuardService]
-      }
+      // {
+      //   path: 'cMatchingResult',
+      //   component: ResumeMatchTableComponent, canActivate: [AuthCoporateGuardService]
+      // },
+      // {
+      //   path: 'cMatchingResult/:id',
+      //   component: ResumeMatchTableComponent, canActivate: [AuthCoporateGuardService]
+      // },
+      // {
+      //   path: 'cScreeningList',
+      //   component: ResumeScreeningListViewComponent, canActivate: [AuthCoporateGuardService]
+      // }
     ]
   }
 ]

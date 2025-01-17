@@ -16,11 +16,11 @@ import { SharedModule } from '../shared/shared.module';
 import { CandidateModule } from '../candidate/candidate.module';
 import { EmployeeModule } from '../employee/employee.module';
 // import { MatPaginatorModule } from '@angular/material/paginator';
-import { MatPaginatorModule} from '@angular/material/paginator';
-import { MatSortModule} from '@angular/material/sort';
-import {MatTableDataSource, MatTableModule} from '@angular/material/table';
-import {MatInputModule} from '@angular/material/input';
-import {MatFormFieldModule} from '@angular/material/form-field';
+import { MatPaginatorModule } from '@angular/material/paginator';
+import { MatSortModule } from '@angular/material/sort';
+import { MatTableDataSource, MatTableModule } from '@angular/material/table';
+import { MatInputModule } from '@angular/material/input';
+import { MatFormFieldModule } from '@angular/material/form-field';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { MatDatepickerModule } from '@angular/material/datepicker';
 import { MatNativeDateModule } from '@angular/material/core';
@@ -38,95 +38,108 @@ import { AdminInviteComponent } from './components/admin-invite/admin-invite.com
 import { AdminCompanyComponent } from './components/admin-company/admin-company.component';
 import { CorporateJobApplicationDetailComponent } from './components/corporate-job-application-detail/corporate-job-application-detail.component';
 import { AdminApplicantsComponent } from './components/admin-applicants/admin-applicants.component';
+import { AdminResumeScreenerPageComponent } from './components/resume-screener/admin-resume-screener-page/admin-resume-screener-page.component';
+import { AdminResumeScreeningListViewComponent } from './components/resume-screener/admin-resume-screening-list-view/admin-resume-screening-list-view.component';
+import { AdminResumeMatchTableComponent } from './components/resume-screener/admin-resume-match-table/admin-resume-match-table.component';
 
 
 export const routes: Routes = [
-{
-  path: '',
-  redirectTo: '/admin/home',
-  pathMatch: 'full'
-},
-{
-  path: '',
-  component: AdminComponent,
-  children: [
-    {
-      path: 'aDashboard',
-      component: AdminDashboardComponent,canActivate:[AuthAdminGuardService]
-      
-    },
-    {
-      path: 'aCandidate',
-     component:AdminCandidateComponent,canActivate:[AuthAdminGuardService]
+  {
+    path: '',
+    redirectTo: '/admin/home',
+    pathMatch: 'full'
+  },
+  {
+    path: '',
+    component: AdminComponent,
+    children: [
+      {
+        path: 'aDashboard',
+        component: AdminDashboardComponent, canActivate: [AuthAdminGuardService]
 
-    },
-    {
-      path: 'aEmployee',
-     component:AdminEmployeeComponent,canActivate:[AuthAdminGuardService]
+      },
+      {
+        path: 'aCandidate',
+        component: AdminCandidateComponent, canActivate: [AuthAdminGuardService]
 
-    },
-    {
-      path: 'aIssues',
-     component:AdminIssuesComponent,canActivate:[AuthAdminGuardService]
+      },
+      {
+        path: 'aEmployee',
+        component: AdminEmployeeComponent, canActivate: [AuthAdminGuardService]
 
-    },
-    {
-      path: 'aService',
-     component:AdminServiceComponent,canActivate:[AuthAdminGuardService]
+      },
+      {
+        path: 'aIssues',
+        component: AdminIssuesComponent, canActivate: [AuthAdminGuardService]
 
-    },
-    {
-      path: 'aPayment',
-     component:AdminPaymentComponent,canActivate:[AuthAdminGuardService]
+      },
+      {
+        path: 'aService',
+        component: AdminServiceComponent, canActivate: [AuthAdminGuardService]
 
-    },
-    {
-      path: 'aRefer-Earn',
-     component:AdminReferEarnComponent,canActivate:[AuthAdminGuardService]
+      },
+      {
+        path: 'aPayment',
+        component: AdminPaymentComponent, canActivate: [AuthAdminGuardService]
 
-    },
-    {
-      path: 'aSetting',
-     component:AdminSettingComponent,canActivate:[AuthAdminGuardService]
+      },
+      {
+        path: 'aRefer-Earn',
+        component: AdminReferEarnComponent, canActivate: [AuthAdminGuardService]
 
-    },
-    {
-      path: 'aReferral',
-     component:AdminReferralComponent,canActivate:[AuthAdminGuardService]
+      },
+      {
+        path: 'aSetting',
+        component: AdminSettingComponent, canActivate: [AuthAdminGuardService]
 
-    },
-    {
-      path: 'ajobs',
-      component:AdminJobsComponent,canActivate:[AuthAdminGuardService]
-    },
-/*     {
-      path: 'aCompany',
-      component:AdminCompanyComponent,canActivate:[AuthAdminGuardService]
-    }, */
-    {
-      path: 'aCorporate/Users',
-      component:AdminCorporateUsersComponent,canActivate:[AuthAdminGuardService]
-    },
-    {
-      path: 'aCorporate/Invite',
-      component:AdminInviteComponent,canActivate:[AuthAdminGuardService]
-    },
-    {
-      path: 'aCorporate/jobApplDetail/:id',
-      component:CorporateJobApplicationDetailComponent,canActivate:[AuthAdminGuardService]
-    },
-    {
-      path: 'aApplicants',
-      component: AdminApplicantsComponent,
-      canActivate: [AuthAdminGuardService]
-    },
-    {
-      path: 'aApplicants/:id',
-      component: AdminApplicantsComponent,
-      canActivate: [AuthAdminGuardService]
-    }
-  ]
-}
+      },
+      {
+        path: 'aReferral',
+        component: AdminReferralComponent, canActivate: [AuthAdminGuardService]
+
+      },
+      {
+        path: 'ajobs',
+        component: AdminJobsComponent, canActivate: [AuthAdminGuardService]
+      },
+      /*     {
+            path: 'aCompany',
+            component:AdminCompanyComponent,canActivate:[AuthAdminGuardService]
+          }, */
+      {
+        path: 'aCorporate/Users',
+        component: AdminCorporateUsersComponent, canActivate: [AuthAdminGuardService]
+      },
+      {
+        path: 'aCorporate/Invite',
+        component: AdminInviteComponent, canActivate: [AuthAdminGuardService]
+      },
+      {
+        path: 'aCorporate/jobApplDetail/:id',
+        component: CorporateJobApplicationDetailComponent, canActivate: [AuthAdminGuardService]
+      },
+      {
+        path: 'aApplicants',
+        component: AdminApplicantsComponent,
+        canActivate: [AuthAdminGuardService]
+      },
+      {
+        path: 'aApplicants/:id',
+        component: AdminApplicantsComponent,
+        canActivate: [AuthAdminGuardService]
+      },
+      {
+        path: 'aCandidateScreener/aScreeningList',
+        component: AdminResumeScreeningListViewComponent,
+        canActivate: [AuthAdminGuardService],
+      },
+      {
+        path: 'aCandidateScreener/aMatchingResult/:id',
+        component: AdminResumeMatchTableComponent,
+        canActivate: [AuthAdminGuardService],
+      }
+    ]
+  }
 
 ]
 
@@ -146,20 +159,23 @@ export const routes: Routes = [
     AdminCorporateUsersComponent,
     AdminInviteComponent,
     AdminCompanyComponent,
-    AdminApplicantsComponent
+    AdminApplicantsComponent,
+    AdminResumeScreenerPageComponent,
+    AdminResumeScreeningListViewComponent,
+    AdminResumeMatchTableComponent
   ],
   imports: [
     CommonModule,
     SharedModule,
-    FormsModule ,
+    FormsModule,
     CandidateModule,
     EmployeeModule,
     MatDatepickerModule,
     MatNativeDateModule,
     MatFormFieldModule,
-    MatInputModule, 
-    MatTableModule, 
-    MatSortModule, 
+    MatInputModule,
+    MatTableModule,
+    MatSortModule,
     MatPaginatorModule,
     MatIconModule,
     MatTooltipModule,

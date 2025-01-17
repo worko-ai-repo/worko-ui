@@ -219,16 +219,41 @@ export class CorporateService {
   }
 
   // Check Processing Status
-  getProcessingStatus(corporateBulkJdId: any, status?: string): Promise<any> {
+  getProcessingStatus(corporateBulkJdId: any, pageSize?: any, lastKey?: any, sortOrder?: string, searchText?: any, status?: string): Promise<any> {
     let url = `${API_URL}corporate-bulk-jd-resume/?corporateBulkJdId=${corporateBulkJdId}`;
+
+    if (pageSize) {
+      url += `&pageSize=${pageSize}`;
+    }
     if (status) {
       url += `&status=${status}`;
     }
+    if (lastKey) {
+      url += `&lastKey=${lastKey}`;
+    }
+    if (sortOrder) {
+      url += `&sortOrder=${sortOrder}`;
+    }
+    if (searchText) {
+      const searchTexts = encodeURIComponent(searchText)
+      url += `&searchText=${searchTexts}`;
+    }
+  
     return this.http.get(url, this.authService.getHttpOptions()).toPromise();
   }
 
-  getScreenedListByCompanyId(companyId: any): Promise<any> {
-    const url = `${API_URL}corporate-bulk-jd/?companyId=${companyId}`;
+  getScreenedListByCompanyId(companyId: any, pageSize: any, lastKey?: any, sortOrder?: string, searchText?: any): Promise<any> {
+    let url = `${API_URL}corporate-bulk-jd/?companyId=${companyId}&pageSize=${pageSize}`;
+    if (lastKey) {
+      url += `&lastKey=${lastKey}`;
+    }
+    if (sortOrder) {
+      url += `&sortOrder=${sortOrder}`;
+    }
+    if (searchText) {
+      const searchTexts = encodeURIComponent(searchText)
+      url += `&searchText=${searchTexts}`;
+    }
     return this.http.get(url, this.authService.getHttpOptions()).toPromise();
   }
 

@@ -35,8 +35,8 @@
         (keydown.enter)="onSkillInput($event, 'mustHaves')"
         [disabled]="fieldsDisabled" />
       <div class="skill-chip-box">
-        <span *ngFor="let skill of mustHaves; let i = index" class="skill-chip">
-          <div class="skill-chip-item">{{ skill }}</div>
+        <span *ngFor="let skill of mustHaves; let i = index" class="skill-chip" matTooltip="{{skill}}" matTooltipPosition="above" style="cursor: pointer;">
+          <div class="skill-chip-item">{{ skill | ellipsis:20 }}</div>
           <i class="fa-solid fa-circle-xmark skill-chip-button" (click)="removeSkill(i, 'mustHaves')"></i>
         </span>
       </div>
@@ -56,8 +56,8 @@
         (keydown.enter)="onSkillInput($event, 'goodToHaves')"
         [disabled]="fieldsDisabled" />
       <div class="skill-chip-box">
-        <span *ngFor="let skill of goodToHaves; let i = index" class="skill-chip">
-          <div class="skill-chip-item">{{ skill }}</div>
+        <span *ngFor="let skill of goodToHaves; let i = index" class="skill-chip" matTooltip="{{skill}}" matTooltipPosition="above" style="cursor: pointer;">
+          <div class="skill-chip-item">{{ skill | ellipsis:20 }}</div>
           <i class="fa-solid fa-circle-xmark skill-chip-button" (click)="removeSkill(i, 'goodToHaves')"></i>
         </span>
       </div>
@@ -77,8 +77,8 @@
         (keydown.enter)="onSkillInput($event, 'mustNotHaves')"
         [disabled]="fieldsDisabled" />
       <div class="skill-chip-box">
-        <span *ngFor="let skill of mustNotHaves; let i = index" class="skill-chip">
-          <div class="skill-chip-item">{{ skill }}</div>
+        <span *ngFor="let skill of mustNotHaves; let i = index" class="skill-chip" matTooltip="{{skill}}" matTooltipPosition="above" style="cursor: pointer;">
+          <div class="skill-chip-item">{{ skill | ellipsis:20 }}</div>
           <i class="fa-solid fa-circle-xmark skill-chip-button" (click)="removeSkill(i, 'mustNotHaves')"></i>
         </span>
       </div>

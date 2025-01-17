@@ -1,0 +1,331 @@
+<div class="job-details-container mx-2 ms-3">
+
+    <div class="row row-cols-1 row-cols-md-2 row-cols-lg-5">
+        <div class="col">
+            <span class="label">Job Title</span>
+            <span class="value" matTooltip="{{ bulkJdDetails?.jobTitle | uppercase }}" matTooltipPosition="above"
+                style="cursor: pointer;">
+                {{ bulkJdDetails?.jobTitle ? (bulkJdDetails?.jobTitle | ellipsis:20 | uppercase) : '-' }}</span>
+        </div>
+        <div class="col">
+            <span class="label">Experience Range</span>
+            <span class="value">{{ formatRange(bulkJdDetails?.experienceRange.min, bulkJdDetails?.experienceRange.max,
+                'experience') }}</span>
+        </div>
+        <!-- <div class="col">
+            <span class="label">Salary</span>
+            <span class="value">{{ formatRange(jobDetails?.salaryRange.min, jobDetails?.salaryRange.max, 'salary')
+                }}</span>
+        </div> -->
+        <div class="col">
+            <span class="label">Location</span>
+            <span class="value">{{ bulkJdDetails?.jobLocation ? (bulkJdDetails.jobLocation | titlecase) : '-' }}</span>
+        </div>
+        <div class="col">
+            <span class="label">Screened On</span>
+            <span class="value">{{ bulkJdDetails?.createdAt ? (bulkJdDetails.createdAt | date:'MMM dd, yyyy') : '-'
+                }}</span>
+        </div>
+
+        <div class="col">
+            <span class="label">JD Url</span>
+            <span class="value">
+                <a *ngIf="jobUrl; else noUrl" style="cursor: pointer;" (click)="navigateToJobUrl($event)">
+                    Link
+                </a>
+                <ng-template #noUrl>-</ng-template>
+            </span>
+        </div>
+    </div>
+</div>
+
+<div class="admin-table-main mx-2 ms-3" id="admin-job-main">
+    <div class="tab-content mt-2" id="myTabContent">
+        <div class="candidate-card tab-pane fade show active" id="home" role="tabpanel" aria-labelledby="home-tab">
+            <div class="heading-and-btn">
+                <h5>Matching Result</h5>
+                <span class="ajobs-create-jobs">
+                    <!-- Button to open the Add Job modal -->
+                    <button (click)="refreshData()" class="ps-4 pe-4 btn searchButton">Refresh</button>
+                </span>
+            </div>
+            <div class="ajobs-filters">
+                <span class="ajobs-create-jobs">
+                    <!-- Button to open the Add Job modal -->
+                    <!-- <button (click)="openModalone()" class="ps-4 pe-4 btn searchButton">Add Job</button> -->
+                </span>
+
+                <span class="ajobs-search">
+
+                    <!-- <span class="ajobs-status">
+                        <select name="status" [(ngModel)]="selectedStatus" class="selector form-select"
+                            (change)="onStatusChange($event)">
+                            <option value="{{status.ALL_APPLICATIONS}}">All Applications</option>
+                            <option value={{status.APPLIED}}>Applied</option>
+                            <option value={{status.CV_DOWNLOADED}}>CV Downloaded</option>
+                            <option value={{status.UNDER_EVALUATION}}>Under Evaluation</option>
+                            <option value={{status.PROCESSING_INTERVIEW}}>Processing Interview</option>
+                            <option value={{status.INTERVIEW_DONE}}>Interview Done</option>
+                            <option value={{status.HIRED}}>Hired</option>
+                            <option value={{status.REJECTED}}>Rejected</option>
+                        </select>
+                    </span> -->
+
+                    <!-- <span class="ajobs-status">
+                        <select name="status" [(ngModel)]="selectedSortOrder" class="selector form-select"
+                            (change)="onSortOrderChange($event)">
+                            <option value={{sortOrder.ASC}}>Ascending</option>
+                            <option value={{sortOrder.DESC}}>Descending</option>
+                        </select>
+                    </span> -->
+                    <div class="search-container disabled" [ngClass]="{'disabled': isSearchActive}">
+                        <input matInput class="serachInput" (keyup)="handleSearchInput($event)"
+                            (keydown)="onSearchInputEnter($event)" placeholder="Search Candidate"
+                            [(ngModel)]="searchQuery" #input [disabled]="isSearchActive"
+                            [ngClass]="{'disabled-background': isSearchActive}" />
+                        <button mat-button matSuffix mat-icon-button (click)="clearSearchInput()" *ngIf="searchQuery"
+                            class="admin-custom-clear-button ">
+                            <mat-icon>clear</mat-icon>
+                        </button>
+                    </div>
+                    <!-- <button class="ps-4 pe-4 btn searchButton" (click)="resetBtnHandler()">Reset</button> -->
+                </span>
+
+            </div>
+            <div class="mat-elevation-z8 table-wrapper">
+                <table class="table-style">
+                    <thead>
+                        <tr>
+                            <th>Candidate Name</th>
+                            <th>Experience</th>
+                            <th>Current Company</th>
+                            <th>Current Designation</th>
+                            <th>Matching Score</th>
+                            <th>Email ID</th>
+                            <th>Phone Number</th>
+                            <th>Score Details</th>
+                            <!-- <th>CV Viewed Date</th> -->
+                            <th>Actions</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr *ngIf="screenedCvData.length === 0">
+                            <td colspan="9" class="no-jobs-message">{{ noApplicationsMessage }}</td>
+                        </tr>
+                        <tr *ngFor="let cv of screenedCvData; let i = index">
+                            <td matTooltip="{{ cv?.cvExtractedParsed?.candidateName | titlecase }}"
+                                matTooltipPosition="above" style="cursor: pointer;">{{
+                                cv?.cvExtractedParsed?.candidateName ? (cv?.cvExtractedParsed?.candidateName |
+                                ellipsis:20 | titlecase) : '-' }}
+                            </td>
+                            <td>{{ cv?.cvExtractedParsed?.candidateExperience
+                                ? (cv?.cvExtractedParsed?.candidateExperience
+                                === 1 ?
+                                cv?.cvExtractedParsed?.candidateExperience
+                                + ' year' : (cv?.cvExtractedParsed?.candidateExperience | ellipsis:20 | titlecase)
+                                + ' years') : '-' }}
+                            </td>
+                            <!-- <td>{{ job?.applicantDetails?.ECTC ? job?.applicantDetails?.ECTC + ' LPA' : '-' }}
+                            </td> -->
+                            <td>{{ cv?.cvExtractedParsed?.candidateCurrentCompany ?
+                                (cv?.cvExtractedParsed?.candidateCurrentCompany | ellipsis:20 | titlecase) : '-'
+                                }}
+                            </td>
+                            <td matTooltip="{{ cv?.cvExtractedParsed?.candidateCurrentDesignation | titlecase }}"
+                                matTooltipPosition="above" style="cursor: pointer;">{{
+                                cv?.cvExtractedParsed?.candidateCurrentDesignation ?
+                                (cv?.cvExtractedParsed?.candidateCurrentDesignation | ellipsis:20 | titlecase) : '-'
+                                }}
+                            </td>
+
+                            <td>{{ cv?.matchingScore ? cv?.matchingScore + '/100' : '-' }}
+                            </td>
+
+                            <td matTooltip="{{ cv?.cvExtractedParsed?.candidateEmail | titlecase }}"
+                                matTooltipPosition="above" style="cursor: pointer;">
+                                {{ cv?.cvExtractedParsed?.candidateEmail ? (cv?.cvExtractedParsed?.candidateEmail) : '-'
+                                }}
+                            </td>
+
+                            <td matTooltip="{{ cv?.cvExtractedParsed?.candidatePhoneNumber | titlecase }}"
+                                matTooltipPosition="above" style="cursor: pointer;">
+                                {{ cv?.cvExtractedParsed?.candidatePhoneNumber ?
+                                (cv?.cvExtractedParsed?.candidatePhoneNumber | titlecase) : '-' }}
+                            </td>
+
+                            <td>
+                                <ng-container *ngIf="cv?.scoreDetails; else noData">
+                                    <p class="detailed-analysis-btn" (click)="viewDetails(cv?.scoreDetails)">View
+                                        Detailed Analysis</p>
+                                </ng-container>
+                                <ng-template #noData>-</ng-template>
+                            </td>
+
+                            <!-- <td>
+                                <p [ngClass]="getStatusClass(job.status)">{{ transformStatus(job.status) | uppercase }}
+                                </p>
+                            </td> -->
+
+                            <!-- <td>
+                                <div class="status-container">
+                                    <p [ngClass]="getStatusClass(job.status)">
+                                        {{ transformStatus(job.status) | uppercase }}
+                                    </p>
+                                    <ng-container *ngIf="
+                                                   job.status === status.CV_DOWNLOADED ||
+                                                   job.status === status.UNDER_EVALUATION ||
+                                                   job.status === status.PROCESSING_INTERVIEW ||
+                                                   job.status === status.INTERVIEW_DONE">
+                                        <i class="fa-solid fa-pen-to-square change-icon" matTooltip="Update status"
+                                            matTooltipPosition="above" (click)="toggleDropdown(i)">
+                                        </i>
+                                    </ng-container>
+
+                                </div>
+                                <div *ngIf="isDropdownVisible(i)" class="dropdown-status-container ">
+                                    <select class="selector form-select" style="margin: 0; border-radius: 4px;"
+                                        [(ngModel)]="selectedStatusDropdown"
+                                        (ngModelChange)="statusChange(selectedStatusDropdown, job)"
+                                        (click)="$event.stopPropagation()">
+                                        <option value="" disabled selected>Select Next Status</option>
+                                        <option *ngFor="let option of statusArray" [value]="option"
+                                            [disabled]="isOptionDisabled(option, job.status)">
+                                            {{ transformStatus(option) | titlecase }}
+                                        </option>
+                                    </select>
+                                    <button class="update-btn" [disabled]="!isUpdateEnabled"
+                                        (click)="handleAction(job, selectedStatusDropdown)">Update</button>
+                                </div>
+                            </td>
+
+                            <td>{{ job.createdAt | date: 'd MMM yyyy, h:mm a' }}</td>
+
+                            <td>
+                                {{ getCvDownloadedDate(job?.statusTracker)
+                                ? (getCvDownloadedDate(job?.statusTracker) | date: 'd MMM yyyy, h:mm a')
+                                : '-' }}
+                            </td> -->
+
+                            <td id="editbtns">
+
+                                <!-- View CV Button -->
+                                <span *ngIf="true" (click)="handleAction(cv)" matTooltip="View CV"
+                                    matTooltipPosition="above" style="background: #1E3A5F; cursor: pointer;">
+                                    <i class="fa-solid fa-file"></i>
+                                </span>
+
+                                <!-- Under Evaluation Button -->
+                                <!-- <span *ngIf="job.status === status.CV_DOWNLOADED" matTooltip="Under Evaluation"
+                                    matTooltipPosition="above" style="background: #357CBA; cursor: pointer;"
+                                    (click)="handleAction(job, status.UNDER_EVALUATION)">
+                                    <i class="fa-solid fa-spinner"></i>
+                                </span> -->
+
+                                <!-- Processing Interview Button -->
+                                <!-- <span *ngIf="job.status === status.UNDER_EVALUATION" matTooltip="Processing Interview"
+                                    matTooltipPosition="above" style="background: #334E68; cursor: pointer;"
+                                    (click)="handleAction(job, status.PROCESSING_INTERVIEW)">
+                                    <i class="fa-solid fa-comments"></i>
+                                </span> -->
+
+                                <!-- Interview Done Button -->
+                                <!-- <span *ngIf="job.status === status.PROCESSING_INTERVIEW" matTooltip="Interview Done"
+                                    matTooltipPosition="above" style="background: #46727f; cursor: pointer;"
+                                    (click)="handleAction(job, status.INTERVIEW_DONE)">
+                                    <i class="fa-solid fa-check"></i>
+                                </span> -->
+
+                                <!-- Hired Button -->
+                                <!-- <span *ngIf="job.status === status.INTERVIEW_DONE" matTooltip="Hired"
+                                    matTooltipPosition="above" style="background: #D7A769; cursor: pointer;"
+                                    (click)="handleAction(job, status.HIRED)">
+                                    <i class="fa-solid fa-user-check"></i>
+                                </span> -->
+
+                                <!-- Reject Button -->
+                                <!-- <span *ngIf="job.status !== status.REJECTED && job.status !== status.HIRED"
+                                    matTooltip="Reject" matTooltipPosition="above"
+                                    style="background: #A34242; cursor: pointer;"
+                                    (click)="handleAction(job, status.REJECTED)">
+                                    <i class="fa-solid fa-times"></i>
+                                </span> -->
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+
+            </div>
+            <div class="row pe-2 pt-4">
+                <div class="pagination-controls">
+                    <div class="dropdown-container">
+                        <div style="display: flex; align-items: center;">
+                            <label for="pageSizeSelect" class="dropdown-label">Items per page:</label>
+                        </div>
+                        <div class="dropdown-wrapper">
+                            <select id="pageSizeSelect" class="styled-dropdown" [(ngModel)]="pageSize"
+                                (change)="onPageSizeChange($event)">
+                                <option *ngFor="let option of pageSizeOptions" [value]="option">
+                                    {{ option }}
+                                </option>
+                            </select>
+                        </div>
+                    </div>
+
+
+
+                    <button class="prev-button" [disabled]="!hasPrevious" (click)="onPrevious()">
+                        &lt; Previous
+                    </button>
+
+                    <button class="next-button" [disabled]="!hasNext" (click)="onNext()">
+                        Next &gt;
+                    </button>
+                </div>
+            </div>
+
+        </div>
+
+    </div>
+
+</div>
+
+<!--Form and othe modal-->
+<app-modal [theme]="'theme-k'" [centered]="true" [showHeader]="showModal === modalType.MESSAGE" [showClose]="showClose"
+    [showFooter]="showModal === modalType.MESSAGE" [title]="modalTitle" [message]="modalMessage"
+    [bodyClass]="modalMessage ? 'p-4' : 'p-0'" [modalSize]="modalSize">
+    <!-- Modal for adding a new job -->
+
+    <!-- Success Message Modal -->
+    <ng-container *ngIf="showModal=== modalType.SUCCESS_MESSAGE">
+        <div class="row message-card px-sm-3 p-4">
+            <div class="font-weight-bold text-color-red mb-3 d-flex justify-content-center"
+                style="color: #e40707; font-size: medium;" *ngIf="successTitle === 'Error'">
+                {{successTitle}}
+            </div>
+
+            <div class="d-flex justify-content-center"><span>{{successMessage}}</span> </div>
+
+            <div class=" mt-3 d-flex justify-content-center">
+                <button class="btn btn-next" (click)="closeModal()" *ngIf="successTitle === 'Error'"> Close</button>
+            </div>
+        </div>
+    </ng-container>
+
+    <ng-container *ngIf="showModal === modalType.SHOW_MORE_DETAILS">
+        <app-show-more-details [details]="scoreDetails" [title]="detailsTitle"
+            (onCancel)="closeDetailedPopup()"></app-show-more-details>
+    </ng-container>
+
+    <ng-container *ngIf="showModal === modalType.VIEW_CV">
+        <div class="row message-card px-sm-3 p-4">
+            <iframe [src]="cvUrl" style="width: 100%; height: 500px;" frameborder="0">
+            </iframe>
+        </div>
+    </ng-container>
+
+    <ng-container *ngIf="showModal === modalType.SUCCESS_ERROR_MESSAGE">
+        <app-message-modal [title]="successTitle" [message]="successMessage" (onOk)="continue()"
+            (onCancel)="closeModal()">
+        </app-message-modal>
+    </ng-container>
+</app-modal>

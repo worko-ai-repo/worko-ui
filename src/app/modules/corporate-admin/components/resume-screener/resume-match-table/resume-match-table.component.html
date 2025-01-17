@@ -328,9 +328,4 @@
             (onCancel)="closeModal()">
         </app-message-modal>
     </ng-container>
-
-    <ng-container *ngIf="showModal === modalType.REJECTED_REQUEST">
-        <app-referral-rejected-popup [userType]="userType"
-            (onSuccess)="receiveDataFromChild($event)"></app-referral-rejected-popup>
-    </ng-container>
 </app-modal>

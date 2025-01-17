@@ -72,14 +72,34 @@ export class UserMenubarComponent {
           name: "Application",
           router: "corporate/cApplicants/"
         },
+        // {
+        //   name: "Candidate Screener",
+        //   router: "corporate/cCandidateScreener",
+        //   submenu: [
+        //     { name: 'New Screening', router: 'corporate/cCandidateScreener/cCandidateScreener' },
+        //     { name: 'Screened List', router: 'corporate/cCandidateScreener/cScreeningList' }
+        //   ]
+        // },
         {
           name: "Candidate Screener",
           router: "corporate/cCandidateScreener",
           submenu: [
-            { name: 'New Screening', router: 'corporate/cCandidateScreener/cCandidateScreener' },
-            { name: 'Screened List', router: 'corporate/cCandidateScreener/cScreeningList' }
+            { name: 'New Screening', router: 'corporate/cCandidateScreener/cNewScreening' },
+            { name: 'Screened List', router: 'corporate/cCandidateScreener/cScreeningList'},
           ]
         },
+
+        // {
+        //   name: 'Referral request',
+        //   router: "employee/Referral",
+        //   submenu: [
+        //     { name: 'Awaiting', router: '/employee/Referral/awaiting' },
+        //     { name: 'Accepted', router: '/employee/Referral/accepted' },
+        //     { name: 'Rejected', router: '/employee/Referral/rejected' },
+        //     { name: 'Cancelled', router: '/employee/Referral/cancelled' },
+        //     { name: 'Referred', router: '/employee/Referral/referred' },
+        //   ]
+        // }
         {
           name: 'Invites',
           router: "corporate/cInvites"
@@ -199,9 +219,13 @@ export class UserMenubarComponent {
           name: 'Referrals',
           router: "admin/aReferral"
         },
+        // {
+        //   name: 'Company',
+        //   router: "admin/aCompany"
+        // },
         {
-          name: 'Company',
-          router: "admin/aCompany"
+          name: 'Screened List',
+          router: "admin/aCandidateScreener/aScreeningList"
         },
         {
           name: 'Jobs',
@@ -393,6 +417,7 @@ export class UserMenubarComponent {
 
   isCandidateScreenerActive(): boolean {
     const currentUrl = this.router.url.toLowerCase();
+    // console.log(currentUrl.startsWith('/corporate/cCandidateScreener'));
     return currentUrl.startsWith('/corporate/cCandidateScreener');
   }
 
@@ -466,16 +491,27 @@ export class UserMenubarComponent {
   }
 
 
-  onSubmenuClick(currentSubmenu: any) {
-    this.currentSubmenuStatus = currentSubmenu.toLowerCase();
-    if (currentSubmenu === "Screened List") {
-      this.router.navigate(['/corporate/cScreeningList']);
+  // onSubmenuClick(submenuName: string): void {
+  //   this.currentSubmenuStatus = submenuName.toLowerCase();
+  //   const submenuRoutes: { [key: string]: string } = {
+  //     'New Screening': 'corporate/cCandidateScreener/cNewScreening',
+  //     'Screened List': 'corporate/cCandidateScreener/cScreeningList',
+  //   };
+  
+  //   if (submenuRoutes[submenuName]) {
+  //     this.router.navigate([submenuRoutes[submenuName]]);
+  //   }
+  // }
 
-    }
-    else if (currentSubmenu === "New Screening") {
-      this.router.navigate(['/corporate/cCandidateScreener']);
+  onSubmenuClick(currentSubmenu: string) {
+    if (currentSubmenu === "Screened List") {
+      this.router.navigate(['/corporate/cCandidateScreener/cScreeningList']);
+    } else if (currentSubmenu === "New Screening") {
+      this.router.navigate(['/corporate/cCandidateScreener/cNewScreening']);
     }
   }
+  
+  
 
   ngOnDestroy(): void {
     // Notify all subscriptions to complete

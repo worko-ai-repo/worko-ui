@@ -27,7 +27,6 @@ export interface CorporateVitalDetails {
 })
 export class ResumeMatchTableComponent {
 
-
   userType: any;
 
   cvUrl: SafeResourceUrl | null = null;
@@ -85,7 +84,7 @@ export class ResumeMatchTableComponent {
   previousKeys: string[] = []; // Stack to store previous lastKeys for "Previous" functionality
   hasNext: boolean = false; // To enable/disable "Next" button
   hasPrevious: boolean = false; // To enable/disable "Previous" button
-  pageSize: number = 100; // Default page size
+  pageSize: number = 50; // Default page size
   pageSizeOptions: number[] = [25, 50, 100, 150];
 
   searchText: any = '';
@@ -242,7 +241,7 @@ export class ResumeMatchTableComponent {
         // Fetch job details and applications after user details are fetched
         if (this.corporateBulkJdId) {
           await this.fetchBulkJDDetails();
-          await this.checkProcessingStatus();
+          await this.checkProcessingStatus(null);
           // this.getJobLink();
           // this.getAllJobApplications(null);
         } else {
@@ -259,18 +258,22 @@ export class ResumeMatchTableComponent {
   }
 
   refreshData() {
-    console.log('Refreshing processing status...');
-    this.checkProcessingStatus();
+    // console.log('Refreshing processing status...');
+    this.checkProcessingStatus(null);
   }
 
-  async checkProcessingStatus(): Promise<void> {
+  async checkProcessingStatus(lastKey: string | null): Promise<void> {
     this.spinner.show();
     try {
-      const response = await this.corporateService.getProcessingStatus(this.corporateBulkJdId);
-      console.log('Screened CV Matching Details:', response);
+      const response = await this.corporateService.getProcessingStatus(this.corporateBulkJdId, this.pageSize, lastKey, this.sortOrder.DESC, this.searchTerm);
+      // console.log('Screened CV Matching Details:', response);
 
       if (response) {
         this.screenedCvData = response.data;
+        this.pageSize = response.pagination.pageSize;
+        this.currentLastKey = response.pagination.lastKey || null;
+        this.hasNext = !!response.pagination.lastKey;
+        this.hasPrevious = this.previousKeys.length > 0;
       }
 
       // if (response.status === 'COMPLETED') {
@@ -331,17 +334,10 @@ export class ResumeMatchTableComponent {
     return status ? status.replace(/_/g, ' ') : status;
   }
 
-  onPageSizeChange(event: Event): void {
-    const selectedPageSize = (event.target as HTMLSelectElement).value;
-    this.pageSize = Number(selectedPageSize);
-    this.previousKeys = [];
-    // this.getAllJobApplications(null); // Call getAllJobApplications refresh the data with the new page size
-  }
-
   onSortOrderChange(event: any) {
     this.selectedSortOrder = event.target.value;
     const keyToUse = this.getKeyForCurrentPage();
-    // this.getAllJobApplications(keyToUse);
+    this.checkProcessingStatus(keyToUse);
   }
 
   callApiWithSearchQuery(query: string): void {
@@ -350,7 +346,7 @@ export class ResumeMatchTableComponent {
     // this.getAllJobApplications(keyToUse);
 
     this.previousKeys = []; // Resetting pagination keys to refresh the data based on fresh search
-    // this.getAllJobApplications(null); // Starting from the beginning by passing `null` for `lastKey` to fetch the initial page of results.
+    this.checkProcessingStatus(null); // Starting from the beginning by passing `null` for `lastKey` to fetch the initial page of results.
   }
 
   clearSearchInput() {
@@ -362,7 +358,7 @@ export class ResumeMatchTableComponent {
     // this.getAllJobApplications(keyToUse);
 
     this.previousKeys = [];
-    // this.getAllJobApplications(null);
+    this.checkProcessingStatus(null);
   }
 
   handleSearchInput(event: Event) {
@@ -535,40 +531,13 @@ export class ResumeMatchTableComponent {
     try {
       const response = await this.corporateService.getBulkJDDetailsById(this.corporateBulkJdId);
       this.bulkJdDetails = response;
-      console.log('Bulk JD Details:', this.bulkJdDetails);
+      // console.log('Bulk JD Details:', this.bulkJdDetails);
     } catch (error) {
       console.error('Error fetching Bulk JD details:', error);
       this.handleError(error, 'Error fetching Bulk JD details. Please try again.');
     } finally {
       this.spinner.hide();
     }
-  }
-
-
-  // Utility to check if the current status is already at or beyond the target status
-  isStatusBeyondCurrent(currentStatus: string, targetStatus: string): boolean {
-    const statusOrder = [
-      "APPLIED",
-      "CV_DOWNLOADED",
-      "UNDER_EVALUATION",
-      "PROCESSING_INTERVIEW",
-      "INTERVIEW_DONE",
-      "HIRED",
-      "REJECTED"
-    ];
-
-    // Get the indices of the statuses in the predefined order
-    const currentIndex = statusOrder.indexOf(currentStatus);
-    const targetIndex = statusOrder.indexOf(targetStatus);
-
-    // Return true if the current status is at or beyond the target status
-    return currentIndex >= targetIndex;
-  }
-
-  hasStatusInTracker(statusTracker: any[], statusToCheck: string): boolean {
-    return statusTracker.some(
-      (tracker) => tracker.oldStatus === statusToCheck || tracker.newStatus === statusToCheck
-    );
   }
 
   async updateJobApplicationStatus(
@@ -628,27 +597,6 @@ export class ResumeMatchTableComponent {
     } finally {
       this.spinner.hide(); // Always hide the spinner
     }
-  }
-
-  //Rejected reason will come here from the reject modal
-  receiveDataFromChild(data: any) {
-
-    this.spinner.show();
-    let rejectReasonsData = data;
-
-    this.updateJobApplicationStatus(this.currentJob.id, this.newStatus, rejectReasonsData).then(async (response: any) => {
-      if (response) {
-        this.spinner.hide();
-        this.closeModal();
-        // Refresh jobApplicationListing data
-        // await this.getAllJobApplications(null);
-      }
-    }).catch((error) => {
-      this.spinner.hide();
-      this.successMessage = "Something went wrong. Please try again later.";
-      this.successTitle = "Error";
-      this.openModal(ModalType.SUCCESS_ERROR_MESSAGE);
-    });
   }
 
   /* Modal Handler Section Starts Here */
@@ -738,7 +686,7 @@ export class ResumeMatchTableComponent {
     // this.getAllJobApplications(keyToUse);
 
     this.previousKeys = [];
-    // this.getAllJobApplications(null);
+    this.checkProcessingStatus(null);
   }
 
   viewDetails(scoreDetails: any) {
@@ -757,16 +705,11 @@ export class ResumeMatchTableComponent {
     return `job-${status.toLowerCase()}`; // Returns 'job-published', 'job-closed', 'job-archived'
   }
 
-  navigateToJobReferral(event: MouseEvent, companyName: string, jobTitle: string, jobID: any): void {
-    event.preventDefault(); // Prevent default anchor behavior
-
-    // Encode the company name and job title for URL-safe navigation
-    const formattedCompanyName = companyName.toLowerCase().replace(/\(.*?\)/g, '').replace(/\s*&\s*/g, '&').replace(/\s+/g, '-').replace(/-+/g, '-').replace(/^-|-$/g, '');
-    const formattedJobTitle = jobTitle.toLowerCase().replace(/\(.*?\)/g, '').replace(/\s*&\s*/g, '&').replace(/\s+/g, '-').replace(/-+/g, '-').replace(/^-|-$/g, '');
-    const route = `/company/jobs/${formattedCompanyName}-jobs/${formattedJobTitle}-${jobID}`;
-
-    // Open the route in a new tab
-    window.open(route, '_blank');
+  onPageSizeChange(event: Event): void {
+    const selectedPageSize = (event.target as HTMLSelectElement).value;
+    this.pageSize = Number(selectedPageSize);
+    this.previousKeys = [];
+    this.checkProcessingStatus(null); // Call fetchScreenedList refresh the data with the new page size
   }
 
   onNext() {
@@ -778,7 +721,7 @@ export class ResumeMatchTableComponent {
     }
 
     // Fetch the next page
-    // this.getAllJobApplications(this.currentLastKey);
+    this.checkProcessingStatus(this.currentLastKey);
   }
 
   onPrevious() {
@@ -792,10 +735,10 @@ export class ResumeMatchTableComponent {
 
     if (!previousLastKey) {
       // If no valid previous key, fetch the first page
-      // this.getAllJobApplications(null);
+      this.checkProcessingStatus(null);
     } else {
       // Fetch the previous page using the second-to-last key
-      // this.getAllJobApplications(previousLastKey);
+      this.checkProcessingStatus(previousLastKey);
     }
 
   }

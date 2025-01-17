@@ -31,10 +31,10 @@
                             <option value={{sortOrder.DESC}}>Descending</option>
                         </select>
                     </span> -->
-                    <div class="search-container disabled" [ngClass]="{'disabled': isSearchActive}">
+                    <div class="search-container">
                         <input matInput class="serachInput" (keyup)="handleSearchInput($event)"
                             (keydown)="onSearchInputEnter($event)" placeholder="Search Job" [(ngModel)]="searchQuery"
-                            #input [disabled]="isSearchActive" [ngClass]="{'disabled-background': isSearchActive}" />
+                            #input/>
                         <button mat-button matSuffix mat-icon-button (click)="clearSearchInput()" *ngIf="searchQuery"
                             class="admin-custom-clear-button ">
                             <mat-icon>clear</mat-icon>
@@ -68,7 +68,8 @@
                                 ellipsis:20 | titlecase) : '-' }}
                             </td>
 
-                            <td>{{ item?.jobLocation ? (item.jobLocation | titlecase) : '-' }}</td>
+                            <td matTooltip="{{ item?.jobLocation | titlecase }}" matTooltipPosition="above"
+                            style="cursor: pointer;">{{ item?.jobLocation ? (item.jobLocation | ellipsis:20 | titlecase) : '-' }}</td>
 
                             <td>{{ formatRange(item?.experienceRange?.min, item?.experienceRange?.max,
                                 'experience') }}
@@ -171,10 +172,5 @@
         <app-message-modal [title]="successTitle" [message]="successMessage" (onOk)="continue()"
             (onCancel)="closeModal()">
         </app-message-modal>
-    </ng-container>
-
-    <ng-container *ngIf="showModal === modalType.REJECTED_REQUEST">
-        <app-referral-rejected-popup [userType]="userType"
-            (onSuccess)="receiveDataFromChild($event)"></app-referral-rejected-popup>
     </ng-container>
 </app-modal>

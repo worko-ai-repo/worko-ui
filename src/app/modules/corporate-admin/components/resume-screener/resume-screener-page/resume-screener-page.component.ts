@@ -201,7 +201,8 @@ export class ResumeScreenerPageComponent {
         mustNotHaveSkills: any;
         experienceRange?: any;
         // bulkCvs: { fileName: string; fileMimeType: string }[];
-        jobTitle?: string; // Optional property
+        jobTitle?: string;
+        jobLocation?: string; // Optional property
       } = {
         companyId: this.corporateVitalDetails.companyId,
         jobDescription: this.jdText,
@@ -222,6 +223,10 @@ export class ResumeScreenerPageComponent {
 
       if (this.jdParsedData && this.jdParsedData.jobTitle) {
         payload.jobTitle = this.jdParsedData?.jobTitle;
+      }
+
+      if (this.jdParsedData && this.jdParsedData.location) {
+        payload.jobLocation = this.jdParsedData?.location;
       }
 
       const jdResponse = await this.corporateService.submitJD(payload);
@@ -288,9 +293,6 @@ export class ResumeScreenerPageComponent {
     return !isNaN(num) ? num : null;
   }
 
-
-
-
   async uploadToS3(bulkCvs: any[]): Promise<void> {
     this.spinner.show();
     try {
@@ -348,7 +350,7 @@ export class ResumeScreenerPageComponent {
   }
 
   viewMatchingScoreDetails(corporateBulkJdId: any): void {
-    this.router.navigate(["corporate/cMatchingResult/" + corporateBulkJdId]);
+    this.router.navigate(["corporate/cCandidateScreener/cMatchingResult/" + corporateBulkJdId]);
   }
 
   // onSkillInput(event: any, field: string): void {
