@@ -35,10 +35,10 @@
                         <input matInput class="serachInput" (keyup)="handleSearchInput($event)"
                             (keydown)="onSearchInputEnter($event)" placeholder="Search Job" [(ngModel)]="searchQuery"
                             #input/>
-                        <button mat-button matSuffix mat-icon-button (click)="clearSearchInput()" *ngIf="searchQuery"
+                        <!-- <button mat-button matSuffix mat-icon-button (click)="clearSearchInput()" *ngIf="searchQuery"
                             class="admin-custom-clear-button ">
                             <mat-icon>clear</mat-icon>
-                        </button>
+                        </button> -->
                     </div>
                     <!-- <button class="ps-4 pe-4 btn searchButton" (click)="resetBtnHandler()">Reset</button> -->
                 </span>
