@@ -1,17 +1,19 @@
 <div class="paste-jd-main">
   <div class="paste-jd-head">
-    <!-- <span for="job-description" class="form-lable">Job Description *</span>&nbsp; -->
     <label for="job-description" class="form-label required-form-field">Job Description</label>
     <span class="ajob-tooltip" style="cursor: pointer; width: min-content; position:relative; height: min-content;">
       <i class="fa-solid fa-circle-info" matTooltip="{{jdValidFormatInfo}}" matTooltipClass="compact-tooltip"
         matTooltipPosition="above"></i>
     </span>
   </div>
-  <div class="paste-jd-content one" (touchstart)="onTouchStart()">
+  <div class="paste-jd-content one">
     <textarea minlength="100" id="job-description" class="job-description bg-transparent text-white form-control"
-      rows="10" (input)="jobDescriptionValidator($event)" placeholder="Paste your Job Description here"></textarea>
-    <div *ngIf="isJobDescTouched && isJobDescInValid" class="text-danger">
-      Please enter a valid job description.
+    [formControl]="jdControl"
+    [ngClass]="{ 'is-invalid': jdControl.invalid && (jdControl.dirty || jdControl.touched) }"
+      rows="10"
+      placeholder="Paste your Job Description here"></textarea>
+    <div *ngIf="jdControl.invalid && (jdControl.dirty || jdControl.touched)" class="text-danger">
+      {{ getErrorMessage() }}
     </div>
   </div>
 </div>

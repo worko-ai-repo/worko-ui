@@ -23,8 +23,12 @@ export interface CorporateVitalDetails {
 })
 export class ResumeScreenerPageComponent {
 
+  jobTitle: string = '';
+  jobTitleTouched: boolean = false; // Tracks whether the field has been touched
+  jobTitleError: string | null = null; // Holds error messages
+
   corporateBulkJdId: string = ''; // Store the ID from the backend response
-  skillsTooltipMessage = "Type a skill and press Enter to add it to the list. Maximum length is 30 characters.";
+  skillsTooltipMessage = "Type a skill and press Enter to add it to the list.";
 
   // Properties related to modal handling
   @ViewChild(ModalComponent) modal!: ModalComponent;
@@ -95,7 +99,7 @@ export class ResumeScreenerPageComponent {
     this.spinner.show(); // Show spinner before API call
     try {
       const response = await this.corporateService.parseJD({ jobDescription: this.jdText });
-      console.log('Parse JD Response:', response);
+      // console.log('Parse JD Response:', response);
       this.jdParsedData = response;
       this.populateFields(response);
       this.showFetchDetailsButton = false;
@@ -136,6 +140,13 @@ export class ResumeScreenerPageComponent {
     if (isValidValue(response.experienceRange?.max)) {
       this.experienceMax = +response.experienceRange.max;
     }
+
+    // Populate job title
+    if (isValidValue(response.jobTitle)) {
+      this.jobTitle = response.jobTitle.trim(); // Assign and trim the job title
+    } 
+
+    this.validateJobTitle(); // Triggering validation explicitly
   }
 
 
@@ -177,7 +188,7 @@ export class ResumeScreenerPageComponent {
 
   updateJDText(jd: string): void {
     this.jdText = jd;
-    console.log('Updated JD:', this.jdText); // Log the JD for debugging
+    // console.log('Updated JD:', this.jdText); // Log the JD for debugging
   }
 
   updateResumeUploadStatus(isUploaded: boolean): void {
@@ -186,7 +197,28 @@ export class ResumeScreenerPageComponent {
 
   updateUploadedFiles(files: File[]): void {
     this.uploadedFiles = files;
-    console.log('Updated uploaded files:', this.uploadedFiles);
+    // console.log('Updated uploaded files:', this.uploadedFiles);
+  }
+
+  // Mark the Job Title field as touched
+  markJobTitleTouched(): void {
+    this.jobTitleTouched = true;
+  }
+
+  // Validate the Job Title dynamically
+  validateJobTitle(): void {
+    if (!this.jobTitle.trim()) {
+      this.jobTitleError = 'Job Title is required.';
+    } else if (this.jobTitle.length > 100) {
+      this.jobTitleError = 'Job Title must not exceed 100 characters.';
+    } else {
+      this.jobTitleError = null; // Clear any previous errors
+    }
+  }
+
+  // Final validation to call during form submission
+  isJobTitleValid(): boolean {
+    return !this.jobTitleError; // If no error, it's valid
   }
 
   async submitCriteria(): Promise<void> {
@@ -201,7 +233,7 @@ export class ResumeScreenerPageComponent {
         mustNotHaveSkills: any;
         experienceRange?: any;
         // bulkCvs: { fileName: string; fileMimeType: string }[];
-        jobTitle?: string;
+        jobTitle: string;
         jobLocation?: string; // Optional property
       } = {
         companyId: this.corporateVitalDetails.companyId,
@@ -209,6 +241,7 @@ export class ResumeScreenerPageComponent {
         mustHaveSkills: this.mustHaves,
         goodToHaveSkills: this.goodToHaves,
         mustNotHaveSkills: this.mustNotHaves,
+        jobTitle: this.jobTitle,
         // bulkCvs: this.uploadedFiles.map(file => ({
         //   fileName: file.name,
         //   fileMimeType: file.type,
@@ -221,9 +254,9 @@ export class ResumeScreenerPageComponent {
         payload.experienceRange = experienceRange;
       }
 
-      if (this.jdParsedData && this.jdParsedData.jobTitle) {
-        payload.jobTitle = this.jdParsedData?.jobTitle;
-      }
+      // if (this.jdParsedData && this.jdParsedData.jobTitle) {
+      //   payload.jobTitle = this.jdParsedData?.jobTitle;
+      // }
 
       if (this.jdParsedData && this.jdParsedData.location) {
         payload.jobLocation = this.jdParsedData?.location;
@@ -247,7 +280,7 @@ export class ResumeScreenerPageComponent {
       });
 
       await Promise.all(s3UploadPromises);
-      console.log('All resumes uploaded successfully.');
+      // console.log('All resumes uploaded successfully.');
 
       // Step 4: Check processing status
       this.checkProcessingStatus();
@@ -300,9 +333,9 @@ export class ResumeScreenerPageComponent {
       for (const [index, fileData] of bulkCvs.entries()) {
         const file = this.uploadedFiles[index];
         await this.corporateService.uploadResumeToS3(fileData.awsS3SignedUrl, file);
-        console.log(`${file.name} uploaded successfully.`);
+        // console.log(`${file.name} uploaded successfully.`);
       }
-      console.log('All resumes uploaded.');
+      // console.log('All resumes uploaded.');
       this.checkProcessingStatus();
     } catch (error: any) {
       this.handleError(error, "Error uploading resumes to S3.");
@@ -327,7 +360,7 @@ export class ResumeScreenerPageComponent {
     this.spinner.show();
     try {
       const response = await this.corporateService.getProcessingStatus(this.corporateBulkJdId);
-      console.log('Processing Status:', response);
+      // console.log('Processing Status:', response);
 
       if (response) {
         this.viewMatchingScoreDetails(this.corporateBulkJdId);

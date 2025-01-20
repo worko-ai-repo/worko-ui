@@ -21,144 +21,144 @@
   </button>
 
   <div class="criteria-section">
+
+    <!-- Job Title -->
+    <div class="job-title-container">
+      <label for="job-title" class="required-form-field form-label">Job Title</label>&nbsp;
+      <span class="ajob-tooltip" style="cursor: pointer;">
+        <i class="fa-solid fa-circle-info" matTooltip="Enter the job title (e.g., Software Engineer, Data Analyst). Maximum length is 100 characters."
+          matTooltipPosition="above"></i>
+      </span>
+      <input type="text" id="job-title" class="form-control form-input"
+        placeholder="Enter a job title (e.g., Software Engineer, Data Analyst)" [(ngModel)]="jobTitle" maxlength="100"
+        (blur)="validateJobTitle()" (input)="validateJobTitle()" (focus)="markJobTitleTouched()" [ngClass]="{ 'is-invalid': !isJobTitleValid() }" />
+
+      <span *ngIf="jobTitleError" class="text-danger">
+        {{ jobTitleError }}
+      </span>
+    </div>
+
     <!-- Must Haves -->
-    <div class="ajobs-fitem gCloumnOne">
+    <div>
       <label for="must-haves" class="form-label">Must Haves</label>&nbsp;
       <span class="ajob-tooltip" style="cursor: pointer;">
         <i class="fa-solid fa-circle-info" matTooltip="{{skillsTooltipMessage}}" matTooltipPosition="above"></i>
       </span>
-      <input 
-        type="text" 
-        id="must-haves" 
-        class="form-control form-input" 
-        placeholder="Add must-have skills (e.g., React, Java)" 
-        (keydown.enter)="onSkillInput($event, 'mustHaves')"
+      <input type="text" id="must-haves" class="form-control form-input"
+        placeholder="Add must-have skills (e.g., React, Java)" (keydown.enter)="onSkillInput($event, 'mustHaves')"
         [disabled]="fieldsDisabled" />
       <div class="skill-chip-box">
-        <span *ngFor="let skill of mustHaves; let i = index" class="skill-chip" matTooltip="{{skill}}" matTooltipPosition="above" style="cursor: pointer;">
+        <span *ngFor="let skill of mustHaves; let i = index" class="skill-chip" matTooltip="{{skill}}"
+          matTooltipPosition="above" style="cursor: pointer;">
           <div class="skill-chip-item">{{ skill | ellipsis:20 }}</div>
           <i class="fa-solid fa-circle-xmark skill-chip-button" (click)="removeSkill(i, 'mustHaves')"></i>
         </span>
       </div>
     </div>
-  
+
     <!-- Good to Haves -->
-    <div class="ajobs-fitem gCloumnOne">
+    <div>
       <label for="good-to-haves" class="form-label">Good to Haves</label>&nbsp;
       <span class="ajob-tooltip" style="cursor: pointer;">
         <i class="fa-solid fa-circle-info" matTooltip="{{skillsTooltipMessage}}" matTooltipPosition="above"></i>
       </span>
-      <input 
-        type="text" 
-        id="good-to-haves" 
-        class="form-control form-input" 
-        placeholder="Add good-to-have skills (e.g., Python, Leadership)" 
-        (keydown.enter)="onSkillInput($event, 'goodToHaves')"
-        [disabled]="fieldsDisabled" />
+      <input type="text" id="good-to-haves" class="form-control form-input"
+        placeholder="Add good-to-have skills (e.g., Python, Leadership)"
+        (keydown.enter)="onSkillInput($event, 'goodToHaves')" [disabled]="fieldsDisabled" />
       <div class="skill-chip-box">
-        <span *ngFor="let skill of goodToHaves; let i = index" class="skill-chip" matTooltip="{{skill}}" matTooltipPosition="above" style="cursor: pointer;">
+        <span *ngFor="let skill of goodToHaves; let i = index" class="skill-chip" matTooltip="{{skill}}"
+          matTooltipPosition="above" style="cursor: pointer;">
           <div class="skill-chip-item">{{ skill | ellipsis:20 }}</div>
           <i class="fa-solid fa-circle-xmark skill-chip-button" (click)="removeSkill(i, 'goodToHaves')"></i>
         </span>
       </div>
     </div>
-  
+
     <!-- Must Not Haves -->
-    <div class="ajobs-fitem gCloumnOne">
+    <div>
       <label for="must-not-haves" class="form-label">Must Not Haves</label>&nbsp;
       <span class="ajob-tooltip" style="cursor: pointer;">
         <i class="fa-solid fa-circle-info" matTooltip="{{skillsTooltipMessage}}" matTooltipPosition="above"></i>
       </span>
-      <input 
-        type="text" 
-        id="must-not-haves" 
-        class="form-control form-input" 
-        placeholder="Add must-not-have skills (e.g., Poor communication)" 
-        (keydown.enter)="onSkillInput($event, 'mustNotHaves')"
-        [disabled]="fieldsDisabled" />
+      <input type="text" id="must-not-haves" class="form-control form-input"
+        placeholder="Add must-not-have skills (e.g., Poor communication)"
+        (keydown.enter)="onSkillInput($event, 'mustNotHaves')" [disabled]="fieldsDisabled" />
       <div class="skill-chip-box">
-        <span *ngFor="let skill of mustNotHaves; let i = index" class="skill-chip" matTooltip="{{skill}}" matTooltipPosition="above" style="cursor: pointer;">
+        <span *ngFor="let skill of mustNotHaves; let i = index" class="skill-chip" matTooltip="{{skill}}"
+          matTooltipPosition="above" style="cursor: pointer;">
           <div class="skill-chip-item">{{ skill | ellipsis:20 }}</div>
           <i class="fa-solid fa-circle-xmark skill-chip-button" (click)="removeSkill(i, 'mustNotHaves')"></i>
         </span>
       </div>
     </div>
 
-    <div class="experience-range ajobs-fitem">
+    <div class="experience-range">
       <label class="form-label">Experience Range (Years)</label>&nbsp;
       <span class="ajob-tooltip" style="cursor: pointer; width: min-content; position:relative; height: min-content;">
-        <i class="fa-solid fa-circle-info" matTooltip="Enter the minimum and maximum years of experience required." matTooltipPosition="above"></i>
+        <i class="fa-solid fa-circle-info" matTooltip="Enter the minimum and maximum years of experience required."
+          matTooltipPosition="above"></i>
       </span>
-    
+
       <div class="d-flex gap-2">
         <!-- Minimum Experience -->
-        <input 
-          type="number" 
-          class="criteria-input small-input bg-transparent text-white form-control" 
-          placeholder="Min experience in Years" 
-          [(ngModel)]="experienceMin"
-          [disabled]="fieldsDisabled" />
-        
+        <input type="number" class="criteria-input small-input bg-transparent text-white form-control"
+          placeholder="Min experience in Years" [(ngModel)]="experienceMin" [disabled]="fieldsDisabled" />
+
         <!-- Maximum Experience -->
-        <input 
-          type="number" 
-          class="criteria-input small-input bg-transparent text-white form-control" 
-          placeholder="Max experience in Years" 
-          [(ngModel)]="experienceMax"
-          [disabled]="fieldsDisabled" />
+        <input type="number" class="criteria-input small-input bg-transparent text-white form-control"
+          placeholder="Max experience in Years" [(ngModel)]="experienceMax" [disabled]="fieldsDisabled" />
       </div>
     </div>
-    
+
   </div>
 
   <app-resume-uploader (resumeUploadChange)="updateResumeUploadStatus($event)"
     (uploadedFilesChange)="updateUploadedFiles($event)"></app-resume-uploader>
 
-  <button class="ps-4 pe-4 btn screen-resumes-btn" [disabled]="!isValidJD || !isResumeUploaded"
+  <button class="ps-4 pe-4 btn screen-resumes-btn" [disabled]="!isValidJD || !isResumeUploaded || !isJobTitleValid()"
     (click)="submitCriteria()">Screen Resumes</button>
 
 </div>
 
 <app-modal [theme]="'theme-k'" [centered]="true" [showHeader]="showModal === modalType.MESSAGE" [showClose]="showClose"
-    [showFooter]="showModal === modalType.MESSAGE" [title]="modalTitle" [message]="modalMessage"
-    [bodyClass]="modalMessage ? 'p-4' : 'p-0'" [modalSize]="modalSize">
-    <!-- Modal for adding a new job -->
+  [showFooter]="showModal === modalType.MESSAGE" [title]="modalTitle" [message]="modalMessage"
+  [bodyClass]="modalMessage ? 'p-4' : 'p-0'" [modalSize]="modalSize">
+  <!-- Modal for adding a new job -->
 
-    <!-- Success Message Modal -->
-    <ng-container *ngIf="showModal=== modalType.SUCCESS_MESSAGE">
-        <div class="row message-card px-sm-3 p-4">
-            <div class="font-weight-bold text-color-red mb-3 d-flex justify-content-center"
-                style="color: #e40707; font-size: medium;" *ngIf="successTitle === 'Error'">
-                {{successTitle}}
-            </div>
+  <!-- Success Message Modal -->
+  <ng-container *ngIf="showModal=== modalType.SUCCESS_MESSAGE">
+    <div class="row message-card px-sm-3 p-4">
+      <div class="font-weight-bold text-color-red mb-3 d-flex justify-content-center"
+        style="color: #e40707; font-size: medium;" *ngIf="successTitle === 'Error'">
+        {{successTitle}}
+      </div>
 
-            <div class="d-flex justify-content-center"><span>{{successMessage}}</span> </div>
+      <div class="d-flex justify-content-center"><span>{{successMessage}}</span> </div>
 
-            <div class=" mt-3 d-flex justify-content-center">
-                <button class="btn btn-next" (click)="closeModal()" *ngIf="successTitle === 'Error'"> Close</button>
-            </div>
-        </div>
-    </ng-container>
+      <div class=" mt-3 d-flex justify-content-center">
+        <button class="btn btn-next" (click)="closeModal()" *ngIf="successTitle === 'Error'"> Close</button>
+      </div>
+    </div>
+  </ng-container>
 
-    <!-- <ng-container *ngIf="showModal === modalType.SHOW_MORE_DETAILS">
+  <!-- <ng-container *ngIf="showModal === modalType.SHOW_MORE_DETAILS">
         <app-show-more-details [details]="scoreDetails" [title]="detailsTitle"
             (onCancel)="closeDetailedPopup()"></app-show-more-details>
     </ng-container> -->
 
-    <!-- <ng-container *ngIf="showModal === modalType.VIEW_CV">
+  <!-- <ng-container *ngIf="showModal === modalType.VIEW_CV">
         <div class="row message-card px-sm-3 p-4">
             <iframe [src]="cvUrl" style="width: 100%; height: 500px;" frameborder="0">
             </iframe>
         </div>
     </ng-container> -->
 
-    <ng-container *ngIf="showModal === modalType.SUCCESS_ERROR_MESSAGE">
-        <app-message-modal [title]="successTitle" [message]="successMessage" (onOk)="continue()"
-            (onCancel)="closeModal()">
-        </app-message-modal>
-    </ng-container>
+  <ng-container *ngIf="showModal === modalType.SUCCESS_ERROR_MESSAGE">
+    <app-message-modal [title]="successTitle" [message]="successMessage" (onOk)="continue()" (onCancel)="closeModal()">
+    </app-message-modal>
+  </ng-container>
 
-    <!-- <ng-container *ngIf="showModal === modalType.REJECTED_REQUEST">
+  <!-- <ng-container *ngIf="showModal === modalType.REJECTED_REQUEST">
         <app-referral-rejected-popup [userType]="userType"
             (onSuccess)="receiveDataFromChild($event)"></app-referral-rejected-popup>
     </ng-container> -->

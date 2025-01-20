@@ -146,6 +146,10 @@
     /* Two columns */
     gap: 20px 20px;
   }
+
+  .job-title-container {
+    grid-column: span 2; /* Make Job Title span across two columns */
+  }
 }
 
 // .ajobs-fitem {
@@ -232,9 +236,9 @@
   color: #ccc; /* Lighter placeholder text */
 }
 
-.required-form-field {
-  font-weight: bold;
-}
+// .required-form-field {
+//   font-weight: bold;
+// }
 
 .ajob-tooltip i {
   color: #fff;

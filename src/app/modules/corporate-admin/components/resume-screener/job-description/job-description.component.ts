@@ -1,4 +1,5 @@
 import { Component, EventEmitter, Output } from '@angular/core';
+import { AbstractControl, FormControl, ValidationErrors, ValidatorFn, Validators } from '@angular/forms'; 
 
 @Component({
   selector: 'app-job-description',
@@ -10,9 +11,7 @@ export class JobDescriptionComponent {
   @Output() jdValidationChange = new EventEmitter<boolean>();
   @Output() jdTextChange = new EventEmitter<string>(); // Emits JD text to parent
 
-  // Variables
-  isJobDescInValid: boolean = true;
-  isJobDescTouched: boolean = false; // Track user interaction
+  jdControl: FormControl;
 
   jdValidFormatInfo = `
   A valid job description must include at least 5 of these keywords:
@@ -26,58 +25,60 @@ export class JobDescriptionComponent {
   8. Role
   9. Employment
   10. Department
-`;
-  jdText: string = "";
+  `;
 
-  constructor() { }
+  constructor() {
+    // Initializing the reactive form control with validators and proper options
+    this.jdControl = new FormControl('', {
+      validators: [
+        Validators.required,
+        Validators.minLength(100),
+        this.keywordValidator(), // Custom keyword validation
+      ],
+    });
+  }
 
   ngOnInit(): void {
-    // Disable textarea autofill and remove initial focus
-    setTimeout(() => {
-      const textArea = document.getElementById(
-        "job-description"
-      ) as HTMLTextAreaElement;
-      textArea.autocomplete = "off";
-      textArea.blur(); // Remove focus from the textarea
-    }, 1000);
+    // Subscribe to changes in the form control to handle real-time validation
+    this.jdControl.valueChanges.subscribe((value) => {
+      const isValid = this.jdControl.valid;
+      this.jdValidationChange.emit(isValid); // Emitting validation status to the parent
+      this.jdTextChange.emit(value); // Emitingt the current JD text to the parent
+    });
   }
 
-  jobDescriptionValidator(event: any): void {
-    const text = event.target.value || "";
-    this.jdText = text; // Update jdText with the current input
-    const keywords = [
-      "experience",
-      "education",
-      "skills",
-      "certifications",
-      "Preferred Skills",
-      "job description",
-      "responsibilities",
-      "role",
-      "Employment",
-      "Department",
-    ];
-
-    // Count the number of keywords found in the text
-    const containsKeywords = this.countKeywords(text, keywords) >= 5;
-
-    // Update invalid state only if touched
-    this.isJobDescInValid = !containsKeywords;
-    this.isJobDescTouched = true;
-
-    // Emit the validation result and JD text to the parent
-    this.jdValidationChange.emit(containsKeywords);
-    this.jdTextChange.emit(this.jdText);
+  private keywordValidator(): ValidatorFn {
+    return (control: AbstractControl): ValidationErrors | null => {
+      const keywords = [
+        "experience",
+        "education",
+        "skills",
+        "certifications",
+        "Preferred Skills",
+        "job description",
+        "responsibilities",
+        "role",
+        "Employment",
+        "Department",
+      ];
+  
+      const value = control.value || '';
+      const matches = (value.match(new RegExp(keywords.join("|"), "ig")) || []).length;
+  
+      return matches >= 5 ? null : { keywordsMissing: true }; // Return null if valid; otherwise, return error object.
+    };
   }
-
-  onTouchStart() {
-    this.isJobDescTouched = true; // Mark the field as touched
-  }
-
-  countKeywords(text: string, keywords: string[]): number {
-    const regex = new RegExp(keywords.join("|"), "ig");
-    const matches = text.match(regex);
-    return matches ? matches.length : 0;
+  
+  // Get error message for the field
+  getErrorMessage(): string {
+    if (this.jdControl.hasError('required')) {
+      return 'Job Description is required.';
+    } else if (this.jdControl.hasError('minlength')) {
+      return 'Job Description must be at least 100 characters long.';
+    } else if (this.jdControl.hasError('keywordsMissing')) {
+      return 'Please include at least 5 relevant keywords.';
+    }
+    return '';
   }
 
 }

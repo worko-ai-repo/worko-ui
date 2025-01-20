@@ -162,7 +162,10 @@ export class MiniJobPortalJobDescriptionComponent {
 
   checkProfileCompletion(): any {
 
-    if (this.totalPercentage > 60 && this.cvCurPerc !== 0) {
+    // if (this.totalPercentage > 60 && this.cvCurPerc !== 0) {  // This was the previous implmentation
+    //   return true;
+    // }
+    if (this.cvCurPerc !== 0) {
       return true;
     }
     else {
