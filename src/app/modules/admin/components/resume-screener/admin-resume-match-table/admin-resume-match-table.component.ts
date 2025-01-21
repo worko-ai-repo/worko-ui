@@ -170,7 +170,7 @@ export class AdminResumeMatchTableComponent {
     try {
       const response = await this.corporateService.getBulkJDDetailsById(this.corporateBulkJdId);
       this.bulkJdDetails = response;
-      console.log('Bulk JD Details:', this.bulkJdDetails);
+      // console.log('Bulk JD Details:', this.bulkJdDetails);
     } catch (error) {
       console.error('Error fetching Bulk JD details:', error);
       this.handleError(error, 'Error fetching Bulk JD details. Please try again.');
@@ -284,9 +284,18 @@ export class AdminResumeMatchTableComponent {
       window.open(this.jobUrl, '_blank'); // Opens the link in a new tab
     }
   }
-  
+
   private handleError(error: any, defaultMessage: string): void {
     console.error(defaultMessage, error);
+
+    if (error.status === 404) {
+      this.router.navigate(['/auth/logout']);
+      return;
+    } else if (error.status === 401) {
+      this.router.navigate(['/']);
+      return;
+    }
+
     this.modalSize = 'md';
     this.successMessage = "Something went wrong. Please try again later.";
     this.successTitle = "Error";
@@ -468,15 +477,12 @@ export class AdminResumeMatchTableComponent {
         this.jobDetails = [];
       }
     } catch (error: any) {
-      if (error.status === 401) {
-        this.router.navigate(['/auth/corporate/login']);
-      } else {
-        console.error("Error fetching job details:", error);
-        this.modalSize = 'md';
-        this.successMessage = "Something went wrong. Please try again later.";
-        this.successTitle = "Error";
-        this.openModal(ModalType.SUCCESS_ERROR_MESSAGE);
-      }
+      console.error("Error fetching job details:", error);
+      this.modalSize = 'md';
+      this.successMessage = "Something went wrong. Please try again later.";
+      this.successTitle = "Error";
+      this.openModal(ModalType.SUCCESS_ERROR_MESSAGE);
+
     } finally {
       this.spinner.hide();
     }

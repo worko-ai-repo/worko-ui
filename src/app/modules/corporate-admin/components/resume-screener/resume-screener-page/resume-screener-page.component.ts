@@ -144,7 +144,7 @@ export class ResumeScreenerPageComponent {
     // Populate job title
     if (isValidValue(response.jobTitle)) {
       this.jobTitle = response.jobTitle.trim(); // Assign and trim the job title
-    } 
+    }
 
     this.validateJobTitle(); // Triggering validation explicitly
   }
@@ -437,6 +437,12 @@ export class ResumeScreenerPageComponent {
 
   private handleError(error: any, defaultMessage: string): void {
     console.error(defaultMessage, error);
+
+    if (error.status === 404) {
+      this.router.navigate(["/corporate/cJobs"]);
+      return;
+    }
+
     this.modalSize = 'md';
     this.successMessage = "Something went wrong. Please try again later.";
     this.successTitle = "Error";

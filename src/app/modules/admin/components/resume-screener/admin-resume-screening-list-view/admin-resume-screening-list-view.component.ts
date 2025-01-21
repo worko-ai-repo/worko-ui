@@ -232,6 +232,15 @@ export class AdminResumeScreeningListViewComponent {
 
   private handleError(error: any, defaultMessage: string): void {
     console.error(defaultMessage, error);
+
+    if (error.status === 404) {
+      this.router.navigate(['/auth/logout']);
+      return;
+    } else if (error.status === 401) {
+      this.router.navigate(['/']);
+      return;
+    }
+
     this.modalSize = 'md';
     this.successMessage = "Something went wrong. Please try again later.";
     this.successTitle = "Error";
