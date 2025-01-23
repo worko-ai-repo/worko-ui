@@ -90,3 +90,19 @@ ngb-rating {
   /* Match the button color */
   border-radius: 4px;
 }
+
+@media (min-width: 992px) {
+
+  .popup-card {
+    padding: 55px 50px;
+  }
+
+  .btn-submit {
+    width: 40%;
+  }
+
+  .btn-cancel {
+    width: 40%;
+  }
+
+}

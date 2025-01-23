@@ -10,6 +10,7 @@ export class ReferralRejectDetailsPopupComponent {
   @Input() userType: any;
   @Output() onSuccess: EventEmitter<any> = new EventEmitter<any>();
   @Input() rejectReasonsData: any;
+  @Input() rejectionTitle: any = "";
 
   closePopup() {
     this.onSuccess.emit();

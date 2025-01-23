@@ -155,7 +155,7 @@
 
                             <td>
                                 <ng-container *ngIf="cv?.scoreDetails; else noData">
-                                    <p class="detailed-analysis-btn" (click)="viewDetails(cv?.scoreDetails)">View
+                                    <p class="detailed-analysis-btn" (click)="viewDetails(cv)">View
                                         Detailed Analysis</p>
                                 </ng-container>
                                 <ng-template #noData>-</ng-template>

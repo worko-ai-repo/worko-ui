@@ -137,7 +137,13 @@
                             <td>
                                 <div class="status-container">
                                     <p [ngClass]="getStatusClass(job.status)">
-                                        {{ transformStatus(job.status) | uppercase }}
+                                        <span *ngIf="job.status === status.REJECTED" class="clickable-status"
+                                            (click)="showRejectReason(job)">
+                                            {{ transformStatus(job.status) | uppercase }}
+                                        </span>
+                                        <span *ngIf="job.status !== status.REJECTED">
+                                            {{ transformStatus(job.status) | uppercase }}
+                                        </span>
                                     </p>
                                     <ng-container *ngIf="
                                                    job.status === status.CV_DOWNLOADED ||
@@ -299,4 +305,15 @@
         <app-referral-rejected-popup [userType]="userType"
             (onSuccess)="receiveDataFromChild($event)"></app-referral-rejected-popup>
     </ng-container>
+
+    <ng-container *ngIf="showModal === modalType.REJECT_DETAILS">
+        <app-referral-reject-details-popup [rejectionTitle]="rejectionTitle" [userType]="userType"
+            [rejectReasonsData]="rejectedReasons" (onSuccess)="closeModal()"></app-referral-reject-details-popup>
+    </ng-container>
+
+    <!-- <ng-container *ngIf="showModal === modalType.SHOW_MORE_DETAILS">
+        <app-show-more-details [title]="feedbackTitle" [details]="feedbackDetails"
+            (onCancel)="closeModal()"></app-show-more-details>
+    </ng-container> -->
+
 </app-modal>

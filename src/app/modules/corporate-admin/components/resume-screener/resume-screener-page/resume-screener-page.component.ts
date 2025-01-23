@@ -66,6 +66,8 @@ export class ResumeScreenerPageComponent {
 
   jdParsedData: any;
 
+  private timeoutId: any;
+
   constructor(private router: Router, private cdr: ChangeDetectorRef, private corporateService: CorporateService, private spinner: NgxSpinnerService, private storage: StorageService) { }
 
   async ngOnInit() {
@@ -93,6 +95,12 @@ export class ResumeScreenerPageComponent {
       this.openModal(ModalType.SUCCESS_ERROR_MESSAGE);
     }
 
+  }
+
+  ngOnDestroy() {
+    if (this.timeoutId) {
+      clearTimeout(this.timeoutId);
+    }
   }
 
   async fetchDetails(): Promise<void> {
@@ -336,7 +344,10 @@ export class ResumeScreenerPageComponent {
         // console.log(`${file.name} uploaded successfully.`);
       }
       // console.log('All resumes uploaded.');
-      this.checkProcessingStatus();
+      this.timeoutId = setTimeout(() => {
+        this.checkProcessingStatus();
+      }, 30000);
+
     } catch (error: any) {
       this.handleError(error, "Error uploading resumes to S3.");
     } finally {

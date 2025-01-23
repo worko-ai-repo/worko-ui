@@ -1,3 +1,11 @@
+.clickable-status {
+    cursor: pointer;
+}
+
+.clickable-status:hover {
+    color: #1ed6ff;
+}
+
 .selector option {
     cursor: pointer;
 }

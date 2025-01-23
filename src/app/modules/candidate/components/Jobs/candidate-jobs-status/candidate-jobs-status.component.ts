@@ -30,8 +30,10 @@ export class CandidateJobsStatusComponent implements AfterViewInit {
 
   rejectedReasons: { reason: any; comment: any; userId: any, actionDate: any } | undefined;
 
-  feedbackTitle: string = "Rejection Feedback"
+  feedbackTitle: string = "Rejection Feedback";
   feedbackDetails: string = "";
+
+  rejectionTitle: string = "Application Rejected";
 
   statusLabels: { [key: string]: string } = {
     APPLIED: 'APPLIED',

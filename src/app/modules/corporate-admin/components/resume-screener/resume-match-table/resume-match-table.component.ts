@@ -695,8 +695,16 @@ export class ResumeMatchTableComponent {
     this.checkProcessingStatus(null);
   }
 
-  viewDetails(scoreDetails: any) {
-    this.scoreDetails = scoreDetails;
+  viewDetails(cv: any) {
+    if (!cv) {
+      console.error("Invalid input: cv is null or undefined");
+      return;
+    }
+
+    const THRESHOLD_SCORE = 70;
+
+    this.scoreDetails = cv.matchingScore >= THRESHOLD_SCORE ? cv.scoreDetails : cv.rejectionFeedbackBySystem;
+
     this.detailedAnalysisModalSize = true;
     this.openModal(ModalType.SHOW_MORE_DETAILS);
   }

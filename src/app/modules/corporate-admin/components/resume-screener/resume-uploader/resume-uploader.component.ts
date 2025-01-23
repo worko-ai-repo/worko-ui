@@ -74,11 +74,11 @@ export class ResumeUploaderComponent implements OnInit {
     this.uploadedFilesChange.emit(this.uploadedFiles);
 
     // Log the file details
-    console.log('Uploaded files:', this.uploadedFiles.map(file => ({
-      name: file.name,
-      size: `${(file.size / 1024).toFixed(2)} KB`,
-      type: file.type,
-    })));
+    // console.log('Uploaded files:', this.uploadedFiles.map(file => ({
+    //   name: file.name,
+    //   size: `${(file.size / 1024).toFixed(2)} KB`,
+    //   type: file.type,
+    // })));
   }
 
 

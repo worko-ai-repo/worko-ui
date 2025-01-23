@@ -85,7 +85,7 @@ export class AdminApplicantsComponent {
   selectedSortOrder: string = this.sortOrder.DESC;
 
   detailedAnalysisModalSize: boolean = false;
-  detailsTitle: string = "Detailed Analysis"
+  detailsTitle: string = "";
   scoreDetails: any = "";
 
   userId: any = " ";
@@ -102,6 +102,12 @@ export class AdminApplicantsComponent {
   dropdownVisibleIndex: number | null = null;
 
   isUpdateEnabled: boolean = false;
+
+  rejectedReasons: { reason: any; comment: any; userId: any, actionDate: any } | undefined;
+
+  // feedbackTitle: string = "Rejection Feedback";
+  // feedbackDetails: string = "";
+  rejectionTitle: string = "Application Rejected";
 
   constructor(private router: Router, private fb: FormBuilder, private adminService: AdminService, private spinner: NgxSpinnerService, private cdr: ChangeDetectorRef, private sanitizer: DomSanitizer, private route: ActivatedRoute, private storage: StorageService) {
     this.searchTerms.pipe(
@@ -157,6 +163,20 @@ export class AdminApplicantsComponent {
       this.successMessage = "Something went wrong. Please try again after some time.";
       this.successTitle = "Error";
       this.openModal(ModalType.SUCCESS_ERROR_MESSAGE);
+    }
+  }
+
+  showRejectReason(job: any) {
+
+    if (job?.status === 'REJECTED' && (job?.rejectedByUserId || job?.rejectionFeedbackBySystem)) {
+      if (job?.rejectedByUserId) {
+        this.rejectedReasons = job.rejectedByUserId;
+        this.openModal(ModalType.REJECT_DETAILS);
+      } else if (job?.rejectionFeedbackBySystem) {
+        this.scoreDetails = job.rejectionFeedbackBySystem;
+        this.detailsTitle = "Rejection Feedback";
+        this.openModal(ModalType.SHOW_MORE_DETAILS);
+      }
     }
   }
 
@@ -597,6 +617,7 @@ export class AdminApplicantsComponent {
 
   viewDetails(scoreDetails: any) {
     this.scoreDetails = scoreDetails;
+    this.detailsTitle = "Detailed Analysis";
     this.detailedAnalysisModalSize = true;
     this.openModal(ModalType.SHOW_MORE_DETAILS);
   }

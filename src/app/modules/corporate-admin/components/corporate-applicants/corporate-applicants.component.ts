@@ -107,7 +107,7 @@ export class CorporateApplicantsComponent {
   selectedSortOrder: string = this.sortOrder.DESC;
 
   detailedAnalysisModalSize: boolean = false;
-  detailsTitle: string = "Detailed Analysis"
+  detailsTitle: string = ""
   scoreDetails: any = "";
 
   userId: any = " ";
@@ -124,6 +124,12 @@ export class CorporateApplicantsComponent {
   dropdownVisibleIndex: number | null = null;
 
   isUpdateEnabled: boolean = false;
+
+  rejectedReasons: { reason: any; comment: any; userId: any, actionDate: any } | undefined;
+
+  // feedbackTitle: string = "Rejection Feedback"
+  // feedbackDetails: string = "";
+  rejectionTitle: string = "Application Rejected";
 
   constructor(private router: Router, private fb: FormBuilder, private corporateService: CorporateService, private spinner: NgxSpinnerService, private cdr: ChangeDetectorRef, private sanitizer: DomSanitizer, private route: ActivatedRoute, private storage: StorageService) {
     this.searchTerms.pipe(
@@ -205,7 +211,7 @@ export class CorporateApplicantsComponent {
     //   }
     // });
 
-  }  
+  }
 
   isOptionDisabled(option: string, currentStatus: string): boolean {
     const currentIndex = this.statusArray.indexOf(currentStatus);
@@ -632,6 +638,20 @@ export class CorporateApplicantsComponent {
     });
   }
 
+  showRejectReason(job: any) {
+
+    if (job?.status === 'REJECTED' && (job?.rejectedByUserId || job?.rejectionFeedbackBySystem)) {
+      if (job?.rejectedByUserId) {
+        this.rejectedReasons = job.rejectedByUserId;
+        this.openModal(ModalType.REJECT_DETAILS);
+      } else if (job?.rejectionFeedbackBySystem) {
+        this.scoreDetails = job.rejectionFeedbackBySystem;
+        this.detailsTitle = "Rejection Feedback";
+        this.openModal(ModalType.SHOW_MORE_DETAILS);
+      }
+    }
+  }
+
   /* Modal Handler Section Starts Here */
 
   /**
@@ -721,9 +741,10 @@ export class CorporateApplicantsComponent {
     this.previousKeys = [];
     this.getAllJobApplications(null);
   }
-
+  
   viewDetails(scoreDetails: any) {
     this.scoreDetails = scoreDetails;
+    this.detailsTitle = "Detailed Analysis";
     this.detailedAnalysisModalSize = true;
     this.openModal(ModalType.SHOW_MORE_DETAILS);
   }
