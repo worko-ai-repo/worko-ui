@@ -290,8 +290,10 @@ export class ResumeScreenerPageComponent {
       await Promise.all(s3UploadPromises);
       // console.log('All resumes uploaded successfully.');
 
-      // Step 4: Check processing status
-      this.checkProcessingStatus();
+      // Step 4: Check processing status after 30 seconds
+      this.timeoutId = setTimeout(() => {
+        this.checkProcessingStatus();
+      }, 30000);
 
       // Submit JD and resume data to backend
       // const response = await this.corporateService.submitBulkJD(payload);
@@ -344,9 +346,7 @@ export class ResumeScreenerPageComponent {
         // console.log(`${file.name} uploaded successfully.`);
       }
       // console.log('All resumes uploaded.');
-      this.timeoutId = setTimeout(() => {
-        this.checkProcessingStatus();
-      }, 30000);
+      this.checkProcessingStatus();
 
     } catch (error: any) {
       this.handleError(error, "Error uploading resumes to S3.");

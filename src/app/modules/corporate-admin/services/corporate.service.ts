@@ -211,12 +211,25 @@ export class CorporateService {
     return this.http.post(`${API_URL}corporate-bulk-jd/${id}/resumes`, { bulkCvs }, this.authService.getHttpOptions()).toPromise();
   }
 
-  // Upload Resume to S3
-  uploadResumeToS3(url: string, file: File): Promise<any> {
-    return this.http.put(url, file, {
-      headers: { 'Content-Type': file.type }
-    }).toPromise();
+  // // Upload Resume to S3
+  // uploadResumeToS3(url: string, file: File): Promise<any> {
+  //   return this.http.put(url, file, {
+  //     headers: { 'Content-Type': file.type }
+  //   }).toPromise();
+  // }
+
+  uploadResumeToS3(url: string, file: File, awsS3Tag?: string): Promise<any> {
+    const httpOptions = this.authService.getHttpOptions(false, { 
+      awsS3Tag: awsS3Tag, 
+      fileType: file.type 
+    });
+  
+    return this.http.put(url, file, httpOptions).toPromise();
   }
+
+  // uploadFileOnS3Bucket(file: File, signedUrl: string, awsS3Tag: string): Promise<any> {
+  //   return this.http.put(signedUrl, file, this.getHttpOptions(false, { awsS3Tag: awsS3Tag, "fileType": file.type  })).toPromise()
+  // }
 
   // Check Processing Status
   getProcessingStatus(corporateBulkJdId: any, pageSize?: any, lastKey?: any, sortOrder?: string, searchText?: any, status?: string): Promise<any> {
