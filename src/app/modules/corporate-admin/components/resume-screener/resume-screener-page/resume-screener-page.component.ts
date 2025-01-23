@@ -291,9 +291,9 @@ export class ResumeScreenerPageComponent {
       // console.log('All resumes uploaded successfully.');
 
       // Step 4: Check processing status after 30 seconds
-      this.timeoutId = setTimeout(() => {
-        this.checkProcessingStatus();
-      }, 30000);
+      
+      await new Promise(resolve => setTimeout(resolve, 30000));
+      await this.checkProcessingStatus();
 
       // Submit JD and resume data to backend
       // const response = await this.corporateService.submitBulkJD(payload);
