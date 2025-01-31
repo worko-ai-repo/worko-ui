@@ -24,3 +24,47 @@
     </div>
   </div>
 </div>
+
+<app-modal [theme]="'theme-k'" [centered]="true" [showHeader]="showModal === modalType.MESSAGE" [showClose]="showClose"
+  [showFooter]="showModal === modalType.MESSAGE" [title]="modalTitle" [message]="modalMessage"
+  [bodyClass]="modalMessage ? 'p-4' : 'p-0'" [modalSize]="modalSize">
+
+  <ng-container>
+
+    <div class="message-card">
+      <div class="modal-content-wrapper">
+
+        <!-- Warning Icon -->
+        <div class="icon-container">
+          <i class="fa-solid fa-exclamation-triangle warning-icon"></i>
+        </div>
+
+        <!-- Modal Title -->
+        <h4 class="modal-title">Some Files Are Already Uploaded</h4>
+
+        <!-- Modal Content -->
+        <p class="modal-message">
+          The following files are already uploaded. You can either <strong>reselect files</strong> or <strong>continue
+            without these duplicates.</strong>
+        </p>
+
+        <!-- Duplicate Files List (Shows up to 5 files) -->
+        <div class="duplicate-files-list">
+          <span *ngFor="let file of limitedDuplicates; let i = index" class="duplicate-file">
+            {{ file }}{{ i < limitedDuplicates.length - 1 ? ', ' : '' }} </span>
+              <span *ngIf="duplicateFiles.length > 5" class="more-files">
+                +{{ duplicateFiles.length - 5 }} more
+              </span>
+        </div>
+
+        <!-- Action Buttons -->
+        <div class="modal-buttons">
+          <button class="btn btn-reselect" (click)="handleModalAction('reselect')">Reselect Files</button>
+          <button class="btn btn-continue" (click)="handleModalAction('continue')">Continue Upload</button>
+        </div>
+
+      </div>
+    </div>
+  </ng-container>
+
+</app-modal>

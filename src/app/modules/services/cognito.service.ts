@@ -297,7 +297,7 @@ export class CognitoService {
         newPassword,
       });
   
-      console.log("Password changed successfully:", response);
+      // console.log("Password changed successfully:", response);
       return { response };
     } catch (error) {
       console.error("Error changing password:", error);

@@ -256,8 +256,8 @@ export class AdminJobsComponent implements OnInit {
     const hasChanges = JSON.stringify(this.jobForm.value) != JSON.stringify(this.originalJobData);
 
     this.isduplicateFormValid = hasChanges;
-    console.log("Form has changes: " + hasChanges);
-    console.log(`Job Form Valid ${this.jobForm.valid}  CompanyName Valid: ${this.isCompanyNameValid}`);
+    // console.log("Form has changes: " + hasChanges);
+    // console.log(`Job Form Valid ${this.jobForm.valid}  CompanyName Valid: ${this.isCompanyNameValid}`);
   }
 
   // @TODO Add to reusable code
@@ -525,7 +525,7 @@ export class AdminJobsComponent implements OnInit {
     this.cdr.detectChanges();
     this.modalMessage = message;
     this.modalTitle = title;
-    console.log("Modal Size", this.modalSize);
+    // console.log("Modal Size", this.modalSize);
     this.modal.open();
   }
 
@@ -1017,7 +1017,7 @@ export class AdminJobsComponent implements OnInit {
       const response = await this.adminService.parseJD({ jobDescription: newJd });
       if (response) {
         this.modal.cancel();
-        autofillJobDetailsToForm(response, newJd, this.jobForm);
+        autofillJobDetailsToForm(response, this.jobForm);
       }
     } catch (error) {
       this.successmessage = "Something went wrong. Please try again later.";

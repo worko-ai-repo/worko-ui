@@ -414,10 +414,10 @@ export class CorporateJobsComponent implements OnInit {
 
     // Log the invalid control and its errors
     if (isInvalid) {
-      console.log(`Invalid control: ${controlName}`, control.errors);
+      // console.log(`Invalid control: ${controlName}`, control.errors);
     }
     if (!isInvalid) {
-      console.log(`valid`);
+      // console.log(`valid`);
     }
 
     return isInvalid;
@@ -1142,7 +1142,7 @@ export class CorporateJobsComponent implements OnInit {
       });
       if (response) {
         this.modal.cancel();
-        autofillJobDetailsToForm(response, newJd, this.jobForm);
+        autofillJobDetailsToForm(response, this.jobForm);
       }
     } catch (error) {
       this.successmessage = "Something went wrong. Please try again later.";

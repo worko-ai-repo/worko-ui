@@ -146,7 +146,7 @@ export class AdminCandidateComponent implements AfterViewInit {
         this.hasPrevious = this.previousKeys.length > 0;
       }
     }).catch((error: any) => {
-      console.log(error)
+      // console.log(error)
       this.spinner.hide()
       if (error.status == 404) {
         this.spinner.hide()

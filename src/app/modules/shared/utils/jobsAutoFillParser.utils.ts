@@ -29,14 +29,14 @@ export function populateFormArray(formArray: FormArray, skills: string[]): void 
 }
 
 // Autofill job details into the form
-export function autofillJobDetailsToForm(job: any, newJd: string, jobForm: any): void {
+export function autofillJobDetailsToForm(job: any, jobForm: any): void {
   // Extract and process ranges
   const experienceRange = extractRange(job.experienceRange || {});
   const salaryRange = extractRange(job.salaryRange || {});
 
   // Patch values to the form
   jobForm.patchValue({
-      jobDescription: newJd,
+      jobDescription: job?.formattedHTML ? job.formattedHTML : "",
       jobTitle: job.jobTitle !== "Not Mentioned" ? job.jobTitle :null,
       location: job.location !== "Not Mentioned" ? job.location :null,
       workMode: job.workMode !== "Not Mentioned" ? job.workMode :null,

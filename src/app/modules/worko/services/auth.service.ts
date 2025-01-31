@@ -98,7 +98,7 @@ export class AuthService {
     return this.http.get(url, this.getHttpOptions())
       .pipe(
         catchError(error => {
-          console.log(error)
+          // console.log(error)
           console.error('Error:', error);
           throw error;
         })

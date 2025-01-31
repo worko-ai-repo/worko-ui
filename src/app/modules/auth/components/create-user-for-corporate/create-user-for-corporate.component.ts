@@ -130,7 +130,7 @@ export class CreateUserForCorporateComponent {
       const response = await this.authService.getInviteById(inviteId);
       if (response) {
         this.inviteDetails = response; // Assign the first object
-        console.log('Fetched Invite Details:', this.inviteDetails); // Log for debugging
+        // console.log('Fetched Invite Details:', this.inviteDetails); // Log for debugging
       
         this.updateForm(this.inviteDetails); // Populate the form with data
         
@@ -161,7 +161,7 @@ export class CreateUserForCorporateComponent {
    * Update Form Values
    */
   updateForm(inviteDetails: any): void {
-    console.log('Invite Details:', inviteDetails);
+    // console.log('Invite Details:', inviteDetails);
     this.userForm.patchValue({
       firstName: inviteDetails.firstName,
       lastName: inviteDetails.lastName,
@@ -340,7 +340,7 @@ export class CreateUserForCorporateComponent {
         this.startCountdown('home');
       }
     } catch (error: any) {
-      console.log('Error:', error);
+      // console.log('Error:', error);
     }
     finally {
       this.spinner.hide();
@@ -407,7 +407,7 @@ export class CreateUserForCorporateComponent {
       }, 1000);
 
       setTimeout(() => {
-        console.log('Redirecting to login page...');
+        // console.log('Redirecting to login page...');
         this.closeModal();
         if (route === 'home') {
           this.router.navigate(['/']); // Redirects to home or login page

@@ -180,7 +180,7 @@ export class JobCategoryComponent implements OnInit, AfterViewInit, OnDestroy {
   }
 
   private handleNoCompanyFound() {
-    console.log('No company found');
+    // console.log('No company found');
     // Display a message or take any other action when no companies are found
   }
 

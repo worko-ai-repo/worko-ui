@@ -530,7 +530,7 @@ export class EmployeeReferralComponent implements OnDestroy {
     this.chatService.createChat(createChatPayload).then((chatResponse: any) => {
       if (chatResponse) {
         // Handle successful chat creation if needed
-        console.log("Chat Creation Response", chatResponse);
+        // console.log("Chat Creation Response", chatResponse);
       }
     }).catch((error: any) => {
       console.error('Chat creation error:', error);
