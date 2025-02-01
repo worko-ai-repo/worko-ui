@@ -1,0 +1,177 @@
+<div class="admin-table-main mx-2 ms-3" id="admin-job-main">
+    <div class="tab-content mt-2" id="myTabContent">
+        <div class="candidate-card tab-pane fade show active" id="home" role="tabpanel" aria-labelledby="home-tab">
+            <h5>Company Request Listing</h5>
+            <div class="ajobs-filters">
+                <span class="ajobs-create-jobs">
+                    <!-- Button to open the Add Job modal -->
+                    <!-- <button (click)="openModalone()" class="ps-4 pe-4 btn searchButton">Add Job</button> -->
+                </span>
+
+                <span class="ajobs-search">
+
+                    <!-- <span class="ajobs-status">
+                        <select name="status" [(ngModel)]="selectedStatus" class="selector form-select"
+                            (change)="onStatusChange($event)">
+                            <option value="{{status.ALL_APPLICATIONS}}">All Applications</option>
+                            <option value={{status.APPLIED}}>Applied</option>
+                            <option value={{status.CV_DOWNLOADED}}>CV Downloaded</option>
+                            <option value={{status.UNDER_EVALUATION}}>Under Evaluation</option>
+                            <option value={{status.PROCESSING_INTERVIEW}}>Processing Interview</option>
+                            <option value={{status.INTERVIEW_DONE}}>Interview Done</option>
+                            <option value={{status.HIRED}}>Hired</option>
+                            <option value={{status.REJECTED}}>Rejected</option>
+                        </select>
+                    </span> -->
+
+                    <!-- <span class="ajobs-status">
+                        <select name="status" [(ngModel)]="selectedSortOrder" class="selector form-select"
+                            (change)="onSortOrderChange($event)">
+                            <option value={{sortOrder.ASC}}>Ascending</option>
+                            <option value={{sortOrder.DESC}}>Descending</option>
+                        </select>
+                    </span> -->
+                    <div class="search-container">
+                        <input matInput class="serachInput" (keyup)="handleSearchInput($event)"
+                            (keydown)="onSearchInputEnter($event)" placeholder="Search Company" [(ngModel)]="searchQuery"
+                            #input />
+                        <!-- <button mat-button matSuffix mat-icon-button (click)="clearSearchInput()" *ngIf="searchQuery"
+                            class="admin-custom-clear-button ">
+                            <mat-icon>clear</mat-icon>
+                        </button> -->
+                    </div>
+                    <!-- <button class="ps-4 pe-4 btn searchButton" (click)="resetBtnHandler()">Reset</button> -->
+                </span>
+
+            </div>
+            <div class="mat-elevation-z8 table-wrapper">
+                <table class="table-style">
+                    <thead>
+                        <tr>
+                            <th>Company Name</th>
+                            <th>Website</th>
+                            <th>LinkedIn</th>
+                            <th>Career page</th>
+                            <th>Logo</th>
+                            <th>Industry</th>
+                            <th>Team size</th>
+                            <th>About company</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr *ngIf="allScreenedList.length === 0">
+                            <td colspan="8" class="no-jobs-message">{{ noApplicationsMessage }}</td>
+                        </tr>
+
+                        <tr *ngFor="let item of allScreenedList; let i = index">
+                            <td matTooltip="{{ item?.jobTitle | titlecase }}" matTooltipPosition="above"
+                                style="cursor: pointer;">{{ item?.jobTitle ? (item.jobTitle |
+                                ellipsis:20 | titlecase) : '-' }}
+                            </td>
+
+                            <td matTooltip="{{ item?.jobLocation | titlecase }}" matTooltipPosition="above"
+                            style="cursor: pointer;">{{ item?.jobLocation ? (item.jobLocation | ellipsis:20 | titlecase) : '-' }}</td>
+
+                            <td>{{ formatRange(item?.experienceRange?.min, item?.experienceRange?.max,
+                                'experience') }}
+                            </td>
+
+                            <td>{{ item?.resumesCount ? item.resumesCount : '-' }}</td>
+
+                            <td>{{ item?.createdAt ? (item.createdAt | date:'MMM dd, yyyy') : '-' }}</td>
+
+                            <td matTooltip="{{ item?.corporateUserDetails?.firstName ? ((item?.corporateUserDetails?.firstName + ' ' + (item?.corporateUserDetails?.lastName || '')).trim() | titlecase) : '-' }}"
+                                matTooltipPosition="above" style="cursor: pointer;">
+                                {{
+                                item?.corporateUserDetails?.firstName
+                                ? ((item?.corporateUserDetails?.firstName + ' ' + (item?.corporateUserDetails?.lastName
+                                || '')).trim() | titlecase)
+                                : '-'
+                                }}
+                            </td>
+
+
+                            <td id="editbtns" style="width: 100px;">
+                                <span *ngIf="true" (click)="viewMatchingResultPage(item.id)" matTooltip="View Details"
+                                    matTooltipPosition="above" style="background: #B4B7BA ;color: #182B47;">
+                                    <i class="fa-solid fa-eye"></i></span>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+
+            </div>
+            <div class="row pe-2 pt-4">
+                <div class="pagination-controls">
+                    <div class="dropdown-container">
+                        <div style="display: flex; align-items: center;">
+                            <label for="pageSizeSelect" class="dropdown-label">Items per page:</label>
+                        </div>
+                        <div class="dropdown-wrapper">
+                            <select id="pageSizeSelect" class="styled-dropdown" [(ngModel)]="pageSize"
+                                (change)="onPageSizeChange($event)">
+                                <option *ngFor="let option of pageSizeOptions" [value]="option">
+                                    {{ option }}
+                                </option>
+                            </select>
+                        </div>
+                    </div>
+
+
+
+                    <button class="prev-button" [disabled]="!hasPrevious" (click)="onPrevious()">
+                        &lt; Previous
+                    </button>
+
+                    <button class="next-button" [disabled]="!hasNext" (click)="onNext()">
+                        Next &gt;
+                    </button>
+                </div>
+            </div>
+
+        </div>
+
+    </div>
+
+</div>
+
+<!--Form and othe modal-->
+<app-modal [theme]="'theme-k'" [centered]="true" [showHeader]="showModal === modalType.MESSAGE" [showClose]="showClose"
+    [showFooter]="showModal === modalType.MESSAGE" [title]="modalTitle" [message]="modalMessage"
+    [bodyClass]="modalMessage ? 'p-4' : 'p-0'" [modalSize]="modalSize">
+    <!-- Modal for adding a new job -->
+
+    <!-- Success Message Modal -->
+    <ng-container *ngIf="showModal=== modalType.SUCCESS_MESSAGE">
+        <div class="row message-card px-sm-3 p-4">
+            <div class="font-weight-bold text-color-red mb-3 d-flex justify-content-center"
+                style="color: #e40707; font-size: medium;" *ngIf="successTitle === 'Error'">
+                {{successTitle}}
+            </div>
+
+            <div class="d-flex justify-content-center"><span>{{successMessage}}</span> </div>
+
+            <div class=" mt-3 d-flex justify-content-center">
+                <button class="btn btn-next" (click)="closeModal()" *ngIf="successTitle === 'Error'"> Close</button>
+            </div>
+        </div>
+    </ng-container>
+
+    <ng-container *ngIf="showModal === modalType.SHOW_MORE_DETAILS">
+        <app-show-more-details [details]="scoreDetails" [title]="detailsTitle"
+            (onCancel)="closeDetailedPopup()"></app-show-more-details>
+    </ng-container>
+
+    <ng-container *ngIf="showModal === modalType.VIEW_CV">
+        <div class="row message-card px-sm-3 p-4">
+            <iframe [src]="cvUrl" style="width: 100%; height: 500px;" frameborder="0">
+            </iframe>
+        </div>
+    </ng-container>
+
+    <ng-container *ngIf="showModal === modalType.SUCCESS_ERROR_MESSAGE">
+        <app-message-modal [title]="successTitle" [message]="successMessage" (onOk)="continue()"
+            (onCancel)="closeModal()">
+        </app-message-modal>
+    </ng-container>
+</app-modal>

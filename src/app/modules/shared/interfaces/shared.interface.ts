@@ -42,5 +42,6 @@ export enum ModalCloseResult {
     CORPORATE_USER_WARNING = 33,
     VIEW_CV = 34,
     JD_AUTOFILL = 35,
+    ADMIN_ADD_COMPANY = 36
   }
   

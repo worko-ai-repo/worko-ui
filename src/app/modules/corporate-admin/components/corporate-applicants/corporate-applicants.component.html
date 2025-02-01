@@ -118,8 +118,7 @@
                                 (job.applicantDetails?.candidateExperience?.companyName | ellipsis:20 | uppercase) : '-'
                                 }}
                             </td>
-                            <td>{{ job?.matchingScore ? job?.matchingScore + '/100' : '-' }}
-                            </td>
+                            <td>{{ job?.matchingScore !== null && job?.matchingScore !== undefined && job?.matchingScore !== '' ? job?.matchingScore + '/100' : '-' }}</td>
 
                             <td>
                                 <ng-container *ngIf="job?.scoreDetails; else noData">

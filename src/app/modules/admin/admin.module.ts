@@ -41,6 +41,9 @@ import { AdminApplicantsComponent } from './components/admin-applicants/admin-ap
 import { AdminResumeScreenerPageComponent } from './components/resume-screener/admin-resume-screener-page/admin-resume-screener-page.component';
 import { AdminResumeScreeningListViewComponent } from './components/resume-screener/admin-resume-screening-list-view/admin-resume-screening-list-view.component';
 import { AdminResumeMatchTableComponent } from './components/resume-screener/admin-resume-match-table/admin-resume-match-table.component';
+import { AdminCompanyListingComponent } from './components/admin-company-listing/admin-company-listing.component';
+import { AdminCompanyRequestsComponentComponent } from './components/admin-company-requests-component/admin-company-requests-component.component';
+import { AdminAddCompanyFormComponent } from './components/admin-add-company-form/admin-add-company-form.component';
 
 
 export const routes: Routes = [
@@ -102,10 +105,26 @@ export const routes: Routes = [
         path: 'ajobs',
         component: AdminJobsComponent, canActivate: [AuthAdminGuardService]
       },
-      /*     {
-            path: 'aCompany',
-            component:AdminCompanyComponent,canActivate:[AuthAdminGuardService]
-          }, */
+      {
+        path: 'aCompany',
+        component: AdminCompanyComponent,
+        canActivate: [AuthAdminGuardService],
+        children: [
+          {
+            path: 'listing',
+            component: AdminCompanyListingComponent
+          },
+          {
+            path: 'requests',
+            component: AdminCompanyRequestsComponentComponent
+          },
+          {
+            path: '',
+            redirectTo: 'listing', // Default child route
+            pathMatch: 'full'
+          }
+        ]
+      },
       {
         path: 'aCorporate/Users',
         component: AdminCorporateUsersComponent, canActivate: [AuthAdminGuardService]
@@ -162,7 +181,10 @@ export const routes: Routes = [
     AdminApplicantsComponent,
     AdminResumeScreenerPageComponent,
     AdminResumeScreeningListViewComponent,
-    AdminResumeMatchTableComponent
+    AdminResumeMatchTableComponent,
+    AdminCompanyListingComponent,
+    AdminCompanyRequestsComponentComponent,
+    AdminAddCompanyFormComponent
   ],
   imports: [
     CommonModule,

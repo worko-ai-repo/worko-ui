@@ -29,6 +29,7 @@ export class UserMenubarComponent {
   isNotAdminDashboard!: boolean;
   isReferralSubmenuOpen: boolean = false;
   isScreenerSubmenuOpen: boolean = false;
+  isCompanySubmenuOpen: boolean = false;
   currentSubmenuStatus: string | null = null;
 
   isJobsSubmenuOpen: boolean = false;
@@ -85,7 +86,7 @@ export class UserMenubarComponent {
           router: "corporate/cCandidateScreener",
           submenu: [
             { name: 'New Screening', router: 'corporate/cCandidateScreener/cNewScreening' },
-            { name: 'Screened List', router: 'corporate/cCandidateScreener/cScreeningList'},
+            { name: 'Screened List', router: 'corporate/cCandidateScreener/cScreeningList' },
           ]
         },
 
@@ -219,10 +220,18 @@ export class UserMenubarComponent {
           name: 'Referrals',
           router: "admin/aReferral"
         },
-        // {
-        //   name: 'Company',
-        //   router: "admin/aCompany"
-        // },
+        {
+          name: 'Company',
+          router: "aCompany",
+          submenu: [
+            {
+              name: 'Listing', router: "aCompany/listing"
+            },
+            {
+              name: 'Requests', router: "aCompany/requests"
+            }
+          ]
+        },
         {
           name: 'Screened List',
           router: "admin/aCandidateScreener/aScreeningList"
@@ -294,6 +303,7 @@ export class UserMenubarComponent {
     this.isReferralSubmenuOpen = currentUrl.startsWith('/candidate/referral/') || currentUrl.startsWith('/employee/referral/');
     this.isJobsSubmenuOpen = currentUrl.startsWith('/candidate/jobs/');
     this.isScreenerSubmenuOpen = currentUrl.startsWith('/corporate/ccandidatescreener');
+    this.isCompanySubmenuOpen = currentUrl.startsWith('/admin/acompany');
   }
 
   /**
@@ -382,6 +392,7 @@ export class UserMenubarComponent {
     const isReferralMenu = (menu.name === 'Referral' || menu.name === 'Referral request');
     const isJobsMenu = menu.name === 'Job';
     const isScreeningMenu = (menu.name === 'Candidate Screener');
+    const isCompanyMenu = (menu.name === 'Company');
 
     if (isReferralMenu && this.isNotAdminDashboard) {
       this.isReferralSubmenuOpen = !this.isReferralSubmenuOpen;
@@ -407,11 +418,20 @@ export class UserMenubarComponent {
     else if (isScreeningMenu && this.isNotAdminDashboard) {
       this.isScreenerSubmenuOpen = !this.isScreenerSubmenuOpen;
       this.router.navigate(['/corporate/cCandidateScreener']);
-    } else {
+    } 
+    else if(isCompanyMenu) {
+      this.isCompanySubmenuOpen = !this.isCompanySubmenuOpen;
+
+      if (this.isCompanySubmenuOpen) {
+        this.router.navigate(['/admin/aCompany']);
+      }
+    }
+    else {
       this.isReferralSubmenuOpen = false;
       this.isJobsSubmenuOpen = false;
       this.isScreenerSubmenuOpen = false;
       this.currentSubmenuStatus = null;
+      this.isCompanySubmenuOpen = false;
     }
   }
 
@@ -434,6 +454,11 @@ export class UserMenubarComponent {
   isJobsActive(): boolean {
     const currentUrl = this.router.url.toLowerCase();
     return currentUrl.startsWith('/candidate/jobs');
+  }
+
+  isCompanyActive(): boolean {
+    const currentUrl = this.router.url.toLowerCase();
+    return currentUrl.startsWith('/admin/acompany');
   }
 
   // getIcon(name: string): string {
@@ -485,6 +510,10 @@ export class UserMenubarComponent {
         return 'fas fa-filter'; // Icon for Screening Resumes
       case 'screened list':
         return 'fas fa-list-alt'; // Icon for Screened List  
+      case 'listing':
+        return 'fas fa-building'; // Icon for Company Listing
+      case 'requests':
+        return 'fas fa-clipboard-list'; // Icon for Request Listing
       default:
         return 'fas fa-circle'; // Default icon
     }
@@ -497,7 +526,7 @@ export class UserMenubarComponent {
   //     'New Screening': 'corporate/cCandidateScreener/cNewScreening',
   //     'Screened List': 'corporate/cCandidateScreener/cScreeningList',
   //   };
-  
+
   //   if (submenuRoutes[submenuName]) {
   //     this.router.navigate([submenuRoutes[submenuName]]);
   //   }
@@ -510,8 +539,8 @@ export class UserMenubarComponent {
       this.router.navigate(['/corporate/cCandidateScreener/cNewScreening']);
     }
   }
-  
-  
+
+
 
   ngOnDestroy(): void {
     // Notify all subscriptions to complete

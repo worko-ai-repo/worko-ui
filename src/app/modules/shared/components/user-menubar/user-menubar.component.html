@@ -33,7 +33,7 @@
             <span class="ms-2 nav-link-text -pointer"
               [routerLink]="menu.name !== 'Referral' && menu.name !== 'Job' ? '/' + menu.router : null"
               routerLinkActive="active-navbar"
-              [class.active-navbar]="menu.name === 'Referral' && isReferralActive() || menu.name === 'Job' && isJobsActive() || menu.name === 'Candidate Screener' && isCandidateScreenerActive()"
+              [class.active-navbar]="menu.name === 'Referral' && isReferralActive() || menu.name === 'Job' && isJobsActive() || menu.name === 'Candidate Screener' && isCandidateScreenerActive() || menu.name === 'Company' && isCompanyActive()"
               (click)="toggleSubmenu(menu)">
               <span *ngIf="menu.name === 'Dashboard'">
                 <svg xmlns='http://www.w3.org/2000/svg' width='21' height='31' viewBox='0 0 31 31' fill='none'>
@@ -253,6 +253,10 @@
               <span *ngIf="menu.name === 'Candidate Screener' && isNotAdminDashboard" class="left-space">
                 <i class="fas fa-chevron-right" [ngClass]="{ 'rotated': isScreenerSubmenuOpen }"></i>
               </span>
+              <span *ngIf="menu.name === 'Company'" class="left-space">
+                <i class="fas fa-chevron-right" [ngClass]="{ 'rotated': isCompanySubmenuOpen }"></i>
+              </span>
+
             </span>
 
             <!-- Referral Submenu -->
@@ -287,6 +291,18 @@
                 </a>
               </li>
             </ul>
+
+            <!-- Company Submenu -->
+            <ul *ngIf="menu.name === 'Company' && isCompanySubmenuOpen" class="sub-menu">
+              <li *ngFor="let item of menu.submenu">
+                <a [routerLink]="item.router" [queryParamsHandling]="'preserve'" routerLinkActive="active-link"
+                  [routerLinkActiveOptions]="{ exact: true }" (click)="onSubmenuClick(item.name)">
+                  <i [class]="getIcon(item.name)"></i> <!-- Dynamically set the icon -->
+                  {{ item.name }}
+                </a>
+              </li>
+            </ul>
+
 
             <!-- <ul *ngIf="menu.submenu && isReferralSubmenuOpen" class="sub-menu">
             <li *ngFor="let item of menu.submenu">

@@ -84,7 +84,7 @@ export class AdminService {
     }
     if (toDate) {
       url += `&toDate=${toDate}`;
-    } 
+    }
     if (searchText) {
       const searchTexts = encodeURIComponent(searchText)
       url += `&searchText=${searchTexts}`;
@@ -220,8 +220,8 @@ export class AdminService {
   // Corporate Users API
   getCorporateUsers(params: any): Promise<any> {
     let url = `${API_URL}corporate-user/?pageSize=${params.pageSize}`;
-    
-    if(params.corporateUserType){
+
+    if (params.corporateUserType) {
       // debugger;
       url += `&corporateUserType=${params.corporateUserType}`;
     }
@@ -239,7 +239,7 @@ export class AdminService {
   }
 
   deleteCorporateUserById(userId: string) {
-    return this.http.patch(`${API_URL}corporate-user/${userId}/delete`,{}, this.authService.getHttpOptions()).toPromise();
+    return this.http.patch(`${API_URL}corporate-user/${userId}/delete`, {}, this.authService.getHttpOptions()).toPromise();
   }
 
   // Corporate Users Invite API
@@ -247,12 +247,12 @@ export class AdminService {
   getCorporateInvites(params: any): Promise<any> {
     let url = `${API_URL}corporate-invite/?pageSize=${params.pageSize}`;
 
-    if(params.corporateUserType){
+    if (params.corporateUserType) {
       // debugger;
       url += `&corporateUserType=${params.corporateUserType}`;
     }
 
-    if(params.inviteStatus) {
+    if (params.inviteStatus) {
       url += `&inviteStatus=${params.inviteStatus}`;
     }
     if (params.searchText) {
@@ -276,8 +276,8 @@ export class AdminService {
     return this.http.patch(`${API_URL}corporate-invite/${inviteId}`, { inviteStatus }, this.authService.getHttpOptions()).toPromise();
   }
 
-    deleteInvite(inviteId: string) {
-    return this.http.patch(`${API_URL}corporate-invite/${inviteId}/delete`, {} ,this.authService.getHttpOptions()).toPromise();
+  deleteInvite(inviteId: string) {
+    return this.http.patch(`${API_URL}corporate-invite/${inviteId}/delete`, {}, this.authService.getHttpOptions()).toPromise();
   }
 
   // API's for Admin Applicants page
@@ -317,7 +317,7 @@ export class AdminService {
     return this.http.patch(`${API_URL}job-application/${jobApplicationId}/corp-action`, data, this.authService.getHttpOptions()).toPromise();
   }
 
-  parseJD(jobDescription: object) : Promise<any> {
+  parseJD(jobDescription: object): Promise<any> {
     return this.http.post(`${API_URL}job/parsejd`, jobDescription, this.authService.getHttpOptions()).toPromise();
   }
 
@@ -347,13 +347,13 @@ export class AdminService {
   }
 
   // Check Processing Status
-  getProcessingStatus(corporateBulkJdId: any, pageSize?: any, lastKey?: any, sortOrder?: string, searchText?: any,  status?: string): Promise<any> {
+  getProcessingStatus(corporateBulkJdId: any, pageSize?: any, lastKey?: any, sortOrder?: string, searchText?: any, status?: string): Promise<any> {
     let url = `${API_URL}corporate-bulk-jd-resume/?corporateBulkJdId=${corporateBulkJdId}`;
 
     if (pageSize) {
       url += `&pageSize=${pageSize}`;
     }
-    
+
     if (status) {
       url += `&status=${status}`;
     }
@@ -367,8 +367,72 @@ export class AdminService {
       const searchTexts = encodeURIComponent(searchText)
       url += `&searchText=${searchTexts}`;
     }
-    
+
     return this.http.get(url, this.authService.getHttpOptions()).toPromise();
+  }
+
+  //admin company section
+
+  getCompanyList(pageSize?: number, lastKey?: any, sortOrder?: string, searchText?: any): Promise<any> {
+    let url = `${API_URL}company/?pageSize=${pageSize || 50}`;
+
+    if (lastKey) {
+      url += `&lastKey=${lastKey}`;
+    }
+    if (sortOrder) {
+      url += `&sortOrder=${sortOrder}`;
+    }
+    if (searchText) {
+      const searchTexts = encodeURIComponent(searchText)
+      url += `&companyName=${searchTexts}`;
+    }
+
+    return this.http.get(url, this.authService.getHttpOptions()).toPromise();
+  }
+
+  createCompany(companyData: {
+    name: string;
+    industry: string;
+    teamSize: number;
+    carrierPage: string;
+    linkedIn: string;
+    logoUrl: string;
+    logo: string;
+    aboutCompany: string; // New field
+  }): Promise<any> {
+    const url = `${API_URL}company/`;
+
+    // Ensure mandatory empty strings if not provided
+    companyData.logoUrl = companyData.logoUrl || "";
+    companyData.logo = companyData.logo || "";
+
+    return this.http.post(url, companyData, this.authService.getHttpOptions()).toPromise();
+  }
+
+  updateCompany(companyId: string, companyData: any, companyRequestPageFlag: boolean): Promise<any> {
+    const url = `${API_URL}company/${companyId}/?companyRequestPageFlag=${companyRequestPageFlag}`;
+    return this.http.put(url, companyData, this.authService.getHttpOptions()).toPromise();
+  }
+
+  deleteCompany(companyId: string): Promise<any> {
+    const url = `${API_URL}company/${companyId}`;
+    return this.http.delete(url, this.authService.getHttpOptions()).toPromise();
+  }
+
+  getCompanyRequests(pageSize?: number): Promise<any> {
+    const url = `${API_URL}company/request/list/?pageSize=${pageSize || 50}`;
+    return this.http.get(url, this.authService.getHttpOptions()).toPromise();
+  }
+
+  deleteCompanyRequest(companyId: string): Promise<any> {
+    const url = `${API_URL}company/${companyId}/request`;
+    return this.http.delete(url, this.authService.getHttpOptions()).toPromise();
+  }
+
+
+  createCompanyRequest(requestData: { userType: string; companyDetail: { name: string; industry: string; carrierPage: string; linkedIn: string }; userEmail: string; userContactNumber: string }): Promise<any> {
+    const url = `${API_URL}company/request`;
+    return this.http.post(url, requestData, this.authService.getHttpOptions()).toPromise();
   }
 
 }
