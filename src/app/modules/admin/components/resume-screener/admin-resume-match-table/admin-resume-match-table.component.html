@@ -138,8 +138,8 @@
                                 }}
                             </td>
 
-                            <td>{{ cv?.matchingScore ? cv?.matchingScore + '/100' : '-' }}
-                            </td>
+                            <td>{{ cv?.matchingScore !== null && cv?.matchingScore !== undefined && cv?.matchingScore
+                                !== '' ? cv?.matchingScore + '/100' : '-' }}</td>
 
                             <td matTooltip="{{ cv?.cvExtractedParsed?.candidateEmail | titlecase }}"
                                 matTooltipPosition="above" style="cursor: pointer;">
