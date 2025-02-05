@@ -258,14 +258,14 @@
     <!-- Warning Modal -->
     <ng-container *ngIf="showModal === modalType.CORPORATE_USER_WARNING">
         <app-message-modal [title]="'Warning!'" [message]="successMessage" (onNoBtn)="closeModal()"
-            id="login-warn-popup" (onYesBtn)="deleteCompany(actionOnCompany , actionType)">
+            id="login-warn-popup" (onYesBtn)="deleteCompany(actionOnCompany)">
         </app-message-modal>
     </ng-container>
 
     <!-- Admin Add/update Company Modal -->
     <ng-container *ngIf="showModal === modalType.ADMIN_ADD_COMPANY">
         <div class="message-card px-sm-3 p-4 ">
-            <app-admin-add-company-form [title]="popupTitle" [companyData]="actionOnCompany"
+            <app-admin-add-company-form [title]="popupTitle" [companyData]="actionOnCompany" [actionType]="actionType"
                 (formSubmitted)="handleCompanySubmission($event)">
             </app-admin-add-company-form>
         </div>

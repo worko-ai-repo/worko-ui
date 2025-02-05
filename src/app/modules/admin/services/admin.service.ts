@@ -419,8 +419,22 @@ export class AdminService {
     return this.http.delete(url, this.authService.getHttpOptions()).toPromise();
   }
 
-  getCompanyRequests(pageSize?: number): Promise<any> {
-    const url = `${API_URL}company/request/list/?pageSize=${pageSize || 50}`;
+  // Admin Company Request page APi's
+
+  getCompanyRequests(pageSize?: number, lastKey?: any, sortOrder?: string, searchText?: any): Promise<any> {
+    let url = `${API_URL}company/request/list/?pageSize=${pageSize || 50}`;
+
+    if (lastKey) {
+      url += `&lastKey=${lastKey}`;
+    }
+    if (sortOrder) {
+      url += `&sortOrder=${sortOrder}`;
+    }
+    if (searchText) {
+      const searchTexts = encodeURIComponent(searchText)
+      url += `&searchText=${searchTexts}`;
+    }
+
     return this.http.get(url, this.authService.getHttpOptions()).toPromise();
   }
 

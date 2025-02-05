@@ -1,3 +1,32 @@
+#login-warn-popup button.btn-next {
+    margin-inline: 10px !important;
+}
+
+.heading-and-btn {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+
+    button {
+        height: 40px !important;
+    }
+}
+
+.company-logo {
+    width: 20px;
+    /* Adjust size as needed */
+    height: 20px;
+    /* Ensure it's a perfect square */
+    border-radius: 50%;
+    /* Makes it circular */
+    object-fit: cover;
+    /* Ensures the image fills the circle without stretching */
+    background-color: #f0f0f0;
+    /* Optional: Set a background color */
+    display: block;
+}
+
+
 .selector option {
     cursor: pointer;
 }

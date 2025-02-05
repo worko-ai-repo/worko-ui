@@ -1,7 +1,12 @@
 <div class="admin-table-main mx-2 ms-3" id="admin-job-main">
     <div class="tab-content mt-2" id="myTabContent">
         <div class="candidate-card tab-pane fade show active" id="home" role="tabpanel" aria-labelledby="home-tab">
-            <h5>Company Request Listing</h5>
+            <div class="heading-and-btn">
+                <h5>Company Requests Listing</h5>
+                <!-- <span class="ajobs-create-jobs">
+                    <button (click)="openAddCompanyForm()" class="ps-4 pe-4 btn searchButton">Add Company</button>
+                </span> -->
+            </div>
             <div class="ajobs-filters">
                 <span class="ajobs-create-jobs">
                     <!-- Button to open the Add Job modal -->
@@ -33,8 +38,8 @@
                     </span> -->
                     <div class="search-container">
                         <input matInput class="serachInput" (keyup)="handleSearchInput($event)"
-                            (keydown)="onSearchInputEnter($event)" placeholder="Search Company" [(ngModel)]="searchQuery"
-                            #input />
+                            (keydown)="onSearchInputEnter($event)" placeholder="Search Company"
+                            [(ngModel)]="searchQuery" #input />
                         <!-- <button mat-button matSuffix mat-icon-button (click)="clearSearchInput()" *ngIf="searchQuery"
                             class="admin-custom-clear-button ">
                             <mat-icon>clear</mat-icon>
@@ -56,45 +61,127 @@
                             <th>Industry</th>
                             <th>Team size</th>
                             <th>About company</th>
+                            <th>Actions</th>
                         </tr>
                     </thead>
                     <tbody>
-                        <tr *ngIf="allScreenedList.length === 0">
-                            <td colspan="8" class="no-jobs-message">{{ noApplicationsMessage }}</td>
+                        <tr *ngIf="companyRequests.length === 0">
+                            <td colspan="9" class="no-jobs-message">{{ noApplicationsMessage }}</td>
                         </tr>
 
-                        <tr *ngFor="let item of allScreenedList; let i = index">
-                            <td matTooltip="{{ item?.jobTitle | titlecase }}" matTooltipPosition="above"
-                                style="cursor: pointer;">{{ item?.jobTitle ? (item.jobTitle |
+                        <tr *ngFor="let item of companyRequests; let i = index">
+
+                            <td matTooltip="{{ item?.companyDetail?.name | titlecase }}" matTooltipPosition="above"
+                                style="cursor: pointer;">{{ item?.companyDetail?.name ? ( item.companyDetail.name |
                                 ellipsis:20 | titlecase) : '-' }}
                             </td>
 
-                            <td matTooltip="{{ item?.jobLocation | titlecase }}" matTooltipPosition="above"
-                            style="cursor: pointer;">{{ item?.jobLocation ? (item.jobLocation | ellipsis:20 | titlecase) : '-' }}</td>
+                            <!-- <td matTooltip="{{ item?.website | lowercase }}" matTooltipPosition="above"
+                                style="cursor: pointer;">{{ item?.website ? (item.website |
+                                ellipsis:20 | lowercase) : '-' }}
+                            </td> -->
 
-                            <td>{{ formatRange(item?.experienceRange?.min, item?.experienceRange?.max,
-                                'experience') }}
+                            <!-- Website Column -->
+                            <td>
+                                <span matTooltip="{{ item?.companyDetail?.website | lowercase }}"
+                                    matTooltipPosition="above" style="cursor: pointer;  padding-right: 2rem;">
+                                    {{ item?.companyDetail?.website ? (item.companyDetail.website | ellipsis:20 |
+                                    lowercase) : '-' }}
+                                </span>
+                                <mat-icon *ngIf="item?.companyDetail?.website"
+                                    style="cursor: pointer; position: absolute; right: 10px; color: #0274BD;"
+                                    matTooltip="View Website" matTooltipPosition="above"
+                                    (click)="openInNewTab(item.companyDetail.website)">
+                                    open_in_new
+                                </mat-icon>
                             </td>
 
-                            <td>{{ item?.resumesCount ? item.resumesCount : '-' }}</td>
-
-                            <td>{{ item?.createdAt ? (item.createdAt | date:'MMM dd, yyyy') : '-' }}</td>
-
-                            <td matTooltip="{{ item?.corporateUserDetails?.firstName ? ((item?.corporateUserDetails?.firstName + ' ' + (item?.corporateUserDetails?.lastName || '')).trim() | titlecase) : '-' }}"
-                                matTooltipPosition="above" style="cursor: pointer;">
-                                {{
-                                item?.corporateUserDetails?.firstName
-                                ? ((item?.corporateUserDetails?.firstName + ' ' + (item?.corporateUserDetails?.lastName
-                                || '')).trim() | titlecase)
-                                : '-'
-                                }}
+                            <!-- <td matTooltip="{{ item?.linkedIn | lowercase }}" matTooltipPosition="above"
+                                style="cursor: pointer;">{{ item?.linkedIn ? (item.linkedIn | ellipsis:20 | lowercase) :
+                                '-' }}
                             </td>
 
+                            <td matTooltip="{{ item?.carrierPage | lowercase }}" matTooltipPosition="above"
+                                style="cursor: pointer;">{{ item?.carrierPage ? (item.carrierPage |
+                                ellipsis:20 | lowercase) : '-' }}
+                            </td> -->
+
+                            <!-- LinkedIn Column -->
+                            <td>
+                                <span matTooltip="{{ item?.companyDetail?.linkedIn | lowercase }}"
+                                    matTooltipPosition="above" style="cursor: pointer;  padding-right: 2rem;">
+                                    {{ item?.companyDetail?.linkedIn ? (item.companyDetail.linkedIn | ellipsis:20 |
+                                    lowercase) : '-' }}
+                                </span>
+                                <mat-icon *ngIf="item?.companyDetail?.linkedIn"
+                                    style="cursor: pointer; position: absolute; right: 10px; color: #0274BD;"
+                                    matTooltip="View LinkedIn Profile" matTooltipPosition="above"
+                                    (click)="openInNewTab(item.companyDetail.linkedIn)">
+                                    open_in_new
+                                </mat-icon>
+                            </td>
+
+                            <!-- Career Page Column -->
+                            <td>
+                                <span matTooltip="{{ item?.companyDetail?.carrierPage | lowercase }}"
+                                    matTooltipPosition="above" style="cursor: pointer;  padding-right: 2rem;">
+                                    {{ item?.companyDetail?.carrierPage ? (item.companyDetail.carrierPage | ellipsis:20
+                                    | lowercase) : '-' }}
+                                </span>
+                                <mat-icon *ngIf="item?.companyDetail?.carrierPage"
+                                    style="cursor: pointer; position: absolute; right: 10px; color: #0274BD;"
+                                    matTooltip="View Career Page" matTooltipPosition="above"
+                                    (click)="openInNewTab(item.companyDetail.carrierPage)">
+                                    open_in_new
+                                </mat-icon>
+                            </td>
+
+
+                            <td>
+                                <ng-container
+                                    *ngIf="item?.companyDetail?.logo || item?.companyDetail?.logoUrl; else showDash">
+                                    <ng-container *ngIf="item?.companyDetail?.logo; else useUrlLogo">
+                                        <img src="assets/company-logo/{{ item.companyDetail.logo }}"
+                                            class="company-logo" alt="logo">
+                                    </ng-container>
+
+                                    <ng-template #useUrlLogo>
+                                        <img src="{{ item?.companyDetail?.logoUrl }}" class="company-logo" alt="logo">
+                                    </ng-template>
+                                </ng-container>
+
+                                <ng-template #showDash>-</ng-template>
+                            </td>
+
+
+                            <td matTooltip="{{ item?.companyDetail?.industry | titlecase }}" matTooltipPosition="above"
+                                style="cursor: pointer;">{{ item?.companyDetail?.industry ? (
+                                item.companyDetail.industry |
+                                ellipsis:20 | titlecase) : '-' }}
+                            </td>
+
+                            <td style="cursor: pointer;">{{ item?.companyDetail?.teamSize ? (
+                                item.companyDetail.teamSize) : '-' }}
+                            </td>
+
+                            <td matTooltip="{{ item?.companyDetail?.aboutCompany | titlecase }}"
+                                matTooltipPosition="above" style="cursor: pointer;">{{ item?.companyDetail?.aboutCompany
+                                ? (item.companyDetail.aboutCompany |
+                                ellipsis:20 | titlecase) : '-' }}
+                            </td>
 
                             <td id="editbtns" style="width: 100px;">
-                                <span *ngIf="true" (click)="viewMatchingResultPage(item.id)" matTooltip="View Details"
-                                    matTooltipPosition="above" style="background: #B4B7BA ;color: #182B47;">
-                                    <i class="fa-solid fa-eye"></i></span>
+
+                                <span (click)="actionBtn(item, 'approve')" matTooltip="Approve Company"
+                                    matTooltipPosition="above" style="background:#28A745;">
+                                    <i class="fa-solid fa-circle-check"></i>
+                                </span>
+
+                                <span (click)="actionBtn(item,'delete')" matTooltip="Delete Company"
+                                    matTooltipPosition="above" style="background: #A41F13;">
+                                    <i class="fa-solid fa-trash"></i>
+                                </span>
+
                             </td>
                         </tr>
                     </tbody>
@@ -171,7 +258,24 @@
 
     <ng-container *ngIf="showModal === modalType.SUCCESS_ERROR_MESSAGE">
         <app-message-modal [title]="successTitle" [message]="successMessage" (onOk)="continue()"
-            (onCancel)="closeModal()">
+            (onContinue)="continue()" (onCancel)="closeModal()">
         </app-message-modal>
     </ng-container>
+
+    <!-- Warning Modal -->
+    <ng-container *ngIf="showModal === modalType.CORPORATE_USER_WARNING">
+        <app-message-modal [title]="'Warning!'" [message]="successMessage" (onNoBtn)="closeModal()"
+            id="login-warn-popup" (onYesBtn)="deleteCompanyRequest(actionOnCompany)">
+        </app-message-modal>
+    </ng-container>
+
+    <!-- Admin Add/update Company Modal -->
+    <ng-container *ngIf="showModal === modalType.ADMIN_ADD_COMPANY">
+        <div class="message-card px-sm-3 p-4 ">
+            <app-admin-add-company-form [title]="popupTitle" [companyData]="actionOnCompany" [actionType]="actionType"
+                (formSubmitted)="handleCompanySubmission($event)">
+            </app-admin-add-company-form>
+        </div>
+    </ng-container>
+
 </app-modal>

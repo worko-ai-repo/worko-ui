@@ -10,6 +10,7 @@ export class AdminAddCompanyFormComponent {
 
   @Input() title: string = "Add Company"; // Default title
   @Input() companyData: any; // Company details from parent
+  @Input() actionType: any;
   @Output() formSubmitted = new EventEmitter<any>(); // Event to send data to parent
 
   @ViewChild('hiddenFileInput') fileInput!: ElementRef; // Reference to the hidden file input
@@ -151,14 +152,14 @@ export class AdminAddCompanyFormComponent {
 
   constructor(private fb: FormBuilder) {
     this.companyForm = this.fb.group({
-      companyName: ['', [Validators.required, Validators.minLength(3)]],
+      name: ['', [Validators.required, Validators.minLength(3)]],
       website: ['', [Validators.pattern(/https?:\/\/.+/)]],
       linkedIn: ['', [Validators.required, Validators.pattern(/^(https?:\/\/((www|[in]{2})\.)?linkedin\.com\/(company\/[a-zA-Z0-9_\-&]+|in\/[a-zA-Z0-9-]+)\/?)$/)]],
-      careerPage: ['', [Validators.required, Validators.pattern(/https?:\/\/.+/)]],
+      carrierPage: ['', [Validators.required, Validators.pattern(/https?:\/\/.+/)]],
       logo: ['', Validators.required],
       industry: ['', Validators.required],
       teamSize: ['', [Validators.required, Validators.min(1)]], // Ensure number input with min value,
-      aboutCompany: ['', [Validators.required, Validators.minLength(100)]],
+      aboutCompany: ['', [Validators.minLength(100)]],
       logoUrl: ['', Validators.pattern(/https?:\/\/.+/)] // Optional, but must be a valid URL if provided
     });
   }
@@ -190,6 +191,10 @@ export class AdminAddCompanyFormComponent {
 
   populateForm(company: any) {
 
+    if (this.actionType === 'approve' && this.companyData?.companyDetail) {
+      company = this.companyData.companyDetail;
+    }
+
     // console.log("Industry Options:", this.industryTypeOptions);
     // console.log("Company Industry:", company.industry);
 
@@ -209,10 +214,10 @@ export class AdminAddCompanyFormComponent {
 
 
     this.companyForm.patchValue({
-      companyName: company.name || '',
+      name: company.name || '',
       website: company.website || '',
       linkedIn: company.linkedIn || '',
-      careerPage: company.carrierPage || '',
+      carrierPage: company.carrierPage || '',
       industry: matchedIndustry ? matchedIndustry.value : '', // Match value from options,
       teamSize: company.teamSize || '',
       aboutCompany: company.aboutCompany || '',
@@ -272,16 +277,18 @@ export class AdminAddCompanyFormComponent {
     if (this.companyForm.valid) {
       let companyData = this.companyForm.value;
 
-      // Ensure optional fields are sent as empty strings if not provided
+      // Ensuring optional fields are sent as empty strings if not provided
       companyData.website = companyData.website || "";
       companyData.logoUrl = companyData.logoUrl || "";
+      companyData.aboutCompany = companyData.aboutCompany || "";
       companyData.logo = this.companyForm.get('logo')?.value || "";
 
-      console.log("Final Form Data:", companyData);
+      // console.log("Final Form Data:", companyData);
 
       // Emit data to parent
       this.formSubmitted.emit({
-        action: this.companyData ? "update" : "create",
+        // action: this.companyData ? "update" : "create",
+        action: this.actionType,
         data: companyData
       });
 
@@ -290,6 +297,20 @@ export class AdminAddCompanyFormComponent {
       console.error('Form is invalid');
     }
   }
+
+  getButtonLabel(): string {
+    switch (this.actionType) {
+      case 'add':
+        return 'Submit';
+      case 'approve':
+        return 'Approve';
+      case 'edit':
+        return 'Update';
+      default:
+        return 'Submit'; // Default to Submit if actionType is undefined
+    }
+  }
+  
 
 
 

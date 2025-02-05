@@ -190,23 +190,14 @@ export class AdminCompanyListingComponent {
         console.warn("Company listing response is empty or undefined.");
       }
     } catch (error: any) {
-      if (error.status === 404) {
-        console.error("404 Error: Resource not found.");
-      } else if (error.status === 401) {
-        this.router.navigate(['/']);
-      } else {
-        console.error("Error fetching job applications:", error);
-        this.modalSize = 'md';
-        this.successMessage = "Something went wrong. Please try again later.";
-        this.successTitle = "Error";
-        this.openModal(ModalType.SUCCESS_ERROR_MESSAGE);
-      }
+      this.handleApiError(error);
     } finally {
       this.spinner.hide();
     }
   }
 
-  async deleteCompany(company: any, action: string) {
+  async deleteCompany(company: any) {
+    this.closeModal();
     this.spinner.show();
 
     // Extract companyId by removing "ID#" prefix
@@ -229,34 +220,17 @@ export class AdminCompanyListingComponent {
     try {
       const response: any = await this.adminService.deleteCompany(companyId);
 
-      if (response) {
-        this.successMessage = "Company deleted successfully.";
-        this.successTitle = "Success";
-        this.openModal(ModalType.SUCCESS_ERROR_MESSAGE);
-
-        // Refresh the company list after deletion
-        await this.getAllCompany(this.currentLastKey);
-      } else {
-        console.warn("Delete company response is empty or undefined.");
-      }
+      // If API call succeeds, execution continues here
+      this.showSuccessMessage('Company deleted successfully.');
+      // Use the previous lastKey if available; otherwise, start fresh
+      const keyToUse = this.getKeyForCurrentPage();
+      await this.getAllCompany(keyToUse);
     } catch (error: any) {
-      if (error.status === 404) {
-        console.error("404 Error: Company not found.");
-      } else if (error.status === 401) {
-        this.router.navigate(['/']);
-      } else {
-        console.error("Error deleting company:", error);
-        this.modalSize = 'md';
-        this.successMessage = "Something went wrong. Please try again later.";
-        this.successTitle = "Error";
-        this.openModal(ModalType.SUCCESS_ERROR_MESSAGE);
-      }
+      this.handleApiError(error);
     } finally {
       this.spinner.hide();
     }
   }
-
-
 
   actionBtn(company: any, action: string) {
     this.actionType = action;
@@ -282,14 +256,17 @@ export class AdminCompanyListingComponent {
   }
 
   async handleCompanySubmission(event: { action: string, data: any }) {
+    this.closeModal();
     this.spinner.show(); // Show loading spinner
 
     try {
-      if (event.action === 'update') {
+      if (event.action === 'edit') {
         // console.log("Calling API to update company...", event.data);
 
         // Ensure the companyId is extracted properly
-        const companyId = this.actionOnCompany.SK?.startsWith("ID#") ? event.data.SK.slice(3) : "";
+        // const companyId = this.actionOnCompany.SK?.startsWith("ID#") ? event.data.SK.slice(3) : "";
+        const companyId = this.actionOnCompany.SK?.startsWith("ID#") ? this.actionOnCompany.SK.slice(3) : "";
+
 
         if (!companyId) {
           console.error("Invalid company ID. Update aborted.");
@@ -301,7 +278,9 @@ export class AdminCompanyListingComponent {
 
         if (response) {
           this.showSuccessMessage("Company updated successfully.");
-          await this.getAllCompany(this.currentLastKey); // Refresh company list
+          // Use the previous lastKey if available; otherwise, start fresh
+          const keyToUse = this.getKeyForCurrentPage();
+          await this.getAllCompany(keyToUse);
         }
       } else {
         // console.log("Calling API to create new company...", event.data);
@@ -317,13 +296,14 @@ export class AdminCompanyListingComponent {
       this.handleApiError(error);
     } finally {
       this.spinner.hide(); // Hide loading spinner
-      this.closeModal(); // Close modal after submission
+      // this.closeModal(); // Close modal after submission
     }
   }
 
   showSuccessMessage(message: string) {
+    this.modalSize = 'sm';
     this.successMessage = message;
-    this.successTitle = "Success";
+    this.successTitle = "Success!";
     this.openModal(ModalType.SUCCESS_ERROR_MESSAGE);
   }
 
@@ -335,9 +315,7 @@ export class AdminCompanyListingComponent {
   }
 
   handleApiError(error: any) {
-    if (error.status === 404) {
-      console.error("404 Error: Company not found.");
-    } else if (error.status === 401) {
+    if (error.status === 401) {
       this.router.navigate(['/']); // Redirect to login
     } else {
       console.error("Error:", error);
@@ -347,6 +325,7 @@ export class AdminCompanyListingComponent {
 
   openAddCompanyForm() {
     this.actionOnCompany = null;  // Set to null to trigger change detection properly
+    this.actionType = "Add";
     this.popupTitle = "Add Company";
     this.cdr.detectChanges();
     this.openModal(ModalType.ADMIN_ADD_COMPANY);
