@@ -26,6 +26,101 @@ export interface CorporateVitalDetails {
 })
 export class AdminCompanyListingComponent {
 
+  industryTypeOptions: any = [
+
+    { name: "Accounting / Auditing", value: "Accounting / Auditing" },
+    { name: "Advertising & Marketing", value: "Advertising & Marketing" },
+    { name: "Agriculture / Forestry / Fishing", value: "Agriculture / Forestry / Fishing" },
+    { name: "Analytics / KPO / Research", value: "Analytics / KPO / Research" },
+    { name: "Animation & VFX", value: "Animation & VFX" },
+    { name: "Architecture / Interior Design", value: "Architecture / Interior Design" },
+    { name: "Auto Components", value: "Auto Components" },
+    { name: "Aviation", value: "Aviation" },
+    { name: "Automobile", value: "Automobile" },
+    { name: "Banking", value: "Banking" },
+    { name: "Beauty & Personal Care", value: "Beauty & Personal Care" },
+    { name: "Beverage", value: "Beverage" },
+    { name: "Biotechnology", value: "Biotechnology" },
+    { name: "BPO / Call Centre", value: "BPO / Call Centre" },
+    { name: "Building Material", value: "Building Material" },
+    { name: "Chemicals", value: "Chemicals" },
+    { name: "Clinical Research / Contract Research", value: "Clinical Research / Contract Research" },
+    { name: "Consumer Electronics & Appliances", value: "Consumer Electronics & Appliances" },
+    { name: "Content Development / Language", value: "Content Development / Language " },
+    { name: "Courier / Logistics", value: "Courier / Logistics" },
+    { name: "Defence & Aerospace", value: "Defence & Aerospace" },
+    { name: "Design", value: "Design" },
+    { name: "E-commerce", value: "E-commerce" },
+    { name: "E-Learning / EdTech", value: "e-Learning / EdTech" },
+    { name: "Education / Training", value: "Education / Training" },
+    { name: "Electrical Equipment", value: "Electrical Equipment" },
+    { name: "Electronic Components / Semiconductors", value: "Electronic Components / Semiconductors" },
+    { name: "Electronics Manufacturing", value: "Electronics Manufacturing" },
+    { name: "Emerging Technologies", value: "Emerging Technologies" },
+    { name: "Engineering & Construction", value: "Engineering & Construction" },
+    { name: "Events / Live Entertainment", value: "Events / Live Entertainment" },
+    { name: "D2C", value: "D2C" },
+    { name: "Facility Management Services", value: "Facility Management Services" },
+    { name: "Fertilizers / Pesticides / Agro chemicals", value: "Fertilizers / Pesticides / Agro chemicals" },
+    { name: "Film / Music / Entertainment", value: "Film / Music / Entertainment" },
+    { name: "Financial Services", value: "Financial Services" },
+    { name: "FinTech / Payments", value: "FinTech / Payments" },
+    { name: "Fitness & Wellness", value: "Fitness & Wellness" },
+    { name: "FMCG", value: "FMCG" },
+    { name: "Food Processing", value: "Food Processing" },
+    { name: "Furniture & Furnishing", value: "Furniture & Furnishing" },
+    { name: "Gaming", value: "Gaming" },
+    { name: "Gems & Jewellery", value: "Gems & Jewellery" },
+    { name: "Hardware & Networking", value: "Hardware & Networking" },
+    { name: "Hospitality", value: "Hospitality" },
+    { name: "Hotels & Restaurants", value: "Hotels & Restaurants" },
+    { name: "Import & Export", value: "Import & Export" },
+    { name: "Industrial Automation", value: "Industrial Automation" },
+    { name: "Industrial Equipment / Machinery", value: "Industrial Equipment / Machinery" },
+    { name: "Insurance", value: "Insurance" },
+    { name: "Internet", value: "Internet" },
+    { name: "Investment Banking / Venture Capital / Private Equity", value: "Investment Banking / Venture Capital / Private Equity" },
+    { name: "Manufacturing", value: "Manufacturing" },
+    { name: "Iron & Steel", value: "Iron & Steel" },
+    { name: "IT Services & Consulting", value: "IT Services & Consulting" },
+    { name: "Law Enforcement / Security Services", value: "Law Enforcement / Security Services" },
+    { name: "Leather", value: "Leather" },
+    { name: "Legal", value: "Legal" },
+    { name: "Management Consulting", value: "Management Consulting" },
+    { name: "Manufacturing", value: "Manufacturing" },
+    { name: "Medical Devices & Equipment", value: "Medical Devices & Equipment" },
+    { name: "Medical Services / Hospital", value: "Medical Services / Hospital" },
+    { name: "Metals & Mining", value: "Metals & Mining" },
+    { name: "Miscellaneous", value: "Miscellaneous" },
+    { name: "NBFC", value: "NBFC" },
+    { name: "NGO / Social Services / Industry Associations", value: "NGO / Social Services / Industry Associations" },
+    { name: "Oil & Gas", value: "Oil & Gas" },
+    { name: "Packaging & Containers", value: "Packaging & Containers" },
+    { name: "Petrochemical / Plastics / Rubber", value: "Petrochemical / Plastics / Rubber" },
+    { name: "Pharmaceutical & Life Sciences", value: "Pharmaceutical & Life Sciences" },
+    { name: "Ports & Shipping", value: "Ports & Shipping" },
+    { name: "Power", value: "Power" },
+    { name: "Professional Services / Project Management", value: "Professional Services / Project Management" },
+    { name: "Printing & Publishing", value: "Printing & Publishing" },
+    { name: "Pulp & Paper", value: "Pulp & Paper" },
+    { name: "Railways", value: "Railways" },
+    { name: "Real Estate", value: "Real Estate" },
+    { name: "Recruitment / Staffing", value: "Recruitment / Staffing" },
+    { name: "Retail", value: "Retail" },
+    { name: "SAAS", value: "SAAS" },
+    { name: "Software Product", value: "Software Product" },
+    { name: "Sports / Leisure & Recreation", value: "Sports / Leisure & Recreation" },
+    { name: "Stock Broking", value: "Stock broking" },
+    { name: "Telecom / ISP", value: "Telecom / ISP" },
+    { name: "Textile & Apparel ", value: "Textile & Apparel" },
+    { name: "Travel & Tourism", value: "Travel & Tourism" },
+    { name: "Taxi / Mobility", value: "Taxi / Mobility" },
+    { name: "TV / Radio", value: "TV / Radio" },
+    { name: "Transport / Logistics", value: "Transport / Logistics" },
+    { name: "Warehousing", value: "Warehousing" },
+    { name: "Water Treatment / Waste Management", value: "Water Treatment / Waste Management" },
+  ]
+
   // Corporate Jobs Component Properties
   corporateVitalDetails: CorporateVitalDetails = {};
   userType: any;
@@ -53,7 +148,7 @@ export class AdminCompanyListingComponent {
   ];
 
   jobId: string | null = null; // Variable to store the job ID
-  selectedStatus: string = this.status.ALL_APPLICATIONS;
+  selectedIndustry: string = '';
   noApplicationsMessage: string = "No Company Found"; // Will be showin inside the table
 
   allScreenedList: any[] = [];
@@ -172,7 +267,8 @@ export class AdminCompanyListingComponent {
         this.pageSize,
         lastKey,
         this.sortOrder.ASC,
-        this.searchTerm
+        this.searchTerm,
+        this.selectedIndustry
       );
 
       if (response) {
@@ -244,7 +340,7 @@ export class AdminCompanyListingComponent {
       this.openModal(ModalType.CORPORATE_USER_WARNING);
     } else if (action === 'edit') {
       this.popupTitle = "Update Company";
-      this.modalSize = "lg";
+      // this.modalSize = "lg";
       this.openModal(ModalType.ADMIN_ADD_COMPANY);
     }
   }
@@ -612,10 +708,10 @@ export class AdminCompanyListingComponent {
   resetBtnHandler(): void {
     // "Reset button clicked"
     this.searchQuery = "";
-    this.selectedStatus = this.status.ALL_APPLICATIONS;
+    this.selectedIndustry = "";
     this.searchTerm = "";
     this.searchQuery = "";
-    this.selectedSortOrder = this.sortOrder.DESC;
+    // this.selectedSortOrder = this.sortOrder.DESC;
 
     // Use the previous lastKey if available; otherwise, start fresh
     // const keyToUse = this.getKeyForCurrentPage();
@@ -625,29 +721,9 @@ export class AdminCompanyListingComponent {
     this.getAllCompany(null);
   }
 
-  /**
-   * onStausChange
-   *
-   * Based on selected job application status fetch the job applications.
-   */
-  onStatusChange(statusVal: any) {
-    if (statusVal.target.value === this.status.APPLIED) {
-      this.selectedStatus = this.status.APPLIED;
-      // Use the previous lastKey if available; otherwise, start fresh
-      // const keyToUse = this.getKeyForCurrentPage();
-      // Call API to get data
-      // this.getAllJobApplications(keyToUse);
 
-      this.previousKeys = [];
-      this.getAllCompany(null);
-      return;
-    }
-    this.selectedStatus = statusVal.target.value; // Update global variable
-    // Use the previous lastKey if available; otherwise, start fresh
-    // const keyToUse = this.getKeyForCurrentPage();
-    // Call API to get data
-    // this.getAllJobApplications(keyToUse);
-
+  onIndustryChange(event: any) {
+    this.selectedIndustry = event.target.value; // Update selected industry
     this.previousKeys = [];
     this.getAllCompany(null);
   }

@@ -38,7 +38,7 @@
                     </span> -->
                     <div class="search-container">
                         <input matInput class="serachInput" (keyup)="handleSearchInput($event)"
-                            (keydown)="onSearchInputEnter($event)" placeholder="Search Company"
+                            (keydown)="onSearchInputEnter($event)" placeholder="Search by Email"
                             [(ngModel)]="searchQuery" #input />
                         <!-- <button mat-button matSuffix mat-icon-button (click)="clearSearchInput()" *ngIf="searchQuery"
                             class="admin-custom-clear-button ">
@@ -53,6 +53,7 @@
                 <table class="table-style">
                     <thead>
                         <tr>
+                            <th>Requested By</th>
                             <th>Company Name</th>
                             <th>Website</th>
                             <th>LinkedIn</th>
@@ -66,10 +67,27 @@
                     </thead>
                     <tbody>
                         <tr *ngIf="companyRequests.length === 0">
-                            <td colspan="9" class="no-jobs-message">{{ noApplicationsMessage }}</td>
+                            <td colspan="10" class="no-jobs-message">{{ noApplicationsMessage }}</td>
                         </tr>
 
                         <tr *ngFor="let item of companyRequests; let i = index">
+
+                            <!-- <td matTooltip="{{ item?.userEmail | lowercase }}" matTooltipPosition="above"
+                                style="cursor: pointer;">{{ item?.userEmail ? ( item.userEmail |
+                                ellipsis:20 | lowercase) : '-' }}
+                            </td> -->
+
+                            <td>
+                                <span style="margin-right:30px; cursor: pointer;" matTooltip="{{ item?.userEmail | lowercase }}"
+                                    matTooltipPosition="above">{{ item?.userEmail ? ( item.userEmail |
+                                    ellipsis:20 | lowercase) : '-' }}</span>
+                                <mat-icon *ngIf="item.userEmail" style="cursor: pointer; position: absolute; right: 10px;"
+                                    (click)="copyToClipboard(item.userEmail)" matTooltip="Copy Email To Clipboard"
+                                    matTooltipPosition="above">
+                                    {{ copiedContent === item.userEmail ? 'check' : 'content_copy' }}
+                                    <!-- {{ copiedContextId === row.contextId ? 'check' : 'content_paste' }} -->
+                                </mat-icon>
+                            </td>
 
                             <td matTooltip="{{ item?.companyDetail?.name | titlecase }}" matTooltipPosition="above"
                                 style="cursor: pointer;">{{ item?.companyDetail?.name ? ( item.companyDetail.name |
@@ -230,7 +248,7 @@
 
     <!-- Success Message Modal -->
     <ng-container *ngIf="showModal=== modalType.SUCCESS_MESSAGE">
-        <div class="row message-card px-sm-3 p-4">
+        <div class="row message-cards px-sm-3 p-4">
             <div class="font-weight-bold text-color-red mb-3 d-flex justify-content-center"
                 style="color: #e40707; font-size: medium;" *ngIf="successTitle === 'Error'">
                 {{successTitle}}
@@ -250,7 +268,7 @@
     </ng-container>
 
     <ng-container *ngIf="showModal === modalType.VIEW_CV">
-        <div class="row message-card px-sm-3 p-4">
+        <div class="row message-cards px-sm-3 p-4">
             <iframe [src]="cvUrl" style="width: 100%; height: 500px;" frameborder="0">
             </iframe>
         </div>
@@ -271,7 +289,7 @@
 
     <!-- Admin Add/update Company Modal -->
     <ng-container *ngIf="showModal === modalType.ADMIN_ADD_COMPANY">
-        <div class="message-card px-sm-3 p-4 ">
+        <div class="message-cards px-sm-3 p-4 ">
             <app-admin-add-company-form [title]="popupTitle" [companyData]="actionOnCompany" [actionType]="actionType"
                 (formSubmitted)="handleCompanySubmission($event)">
             </app-admin-add-company-form>

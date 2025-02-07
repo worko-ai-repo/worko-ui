@@ -89,7 +89,7 @@
                 src="{{ job.companyDetails?.logoUrl }}" alt="{{job.companyDetails?.name}}" width="50"
                     height="50">
                 </ng-template>
-                <span  matTooltip={{job.companyDetails.name}} matTooltipPosition="above">{{ job.companyDetails?.name | ellipsis:30 |titlecase }}</span>
+                <span  matTooltip={{job?.companyDetails?.name}} matTooltipPosition="above">{{ job?.companyDetails?.name | ellipsis:30 |titlecase }}</span>
               </td>
               
               <td>  {{ formatRange(job?.experienceRange.min, job?.experienceRange.max,

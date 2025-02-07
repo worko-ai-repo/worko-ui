@@ -1,214 +1,246 @@
 //This is very Important dont remove it .
 ::ng-deep .cdk-overlay-container {
-    position: fixed;
-    z-index: 9999999 !important;
-    .mat-mdc-autocomplete-panel{
-      background-color: #0a1e35;
-      .mat-mdc-option{
-        color: white;
-        &:hover{
-          background-color: #476baf;
-        }
+  position: fixed;
+  z-index: 9999999 !important;
+
+  .mat-mdc-autocomplete-panel {
+    background-color: #0a1e35;
+
+    .mat-mdc-option {
+      color: white;
+
+      &:hover {
+        background-color: #476baf;
       }
     }
   }
-  
-  $statuses: (
-      'RECRUITER': #2716bb,
-      'ADMIN': red,
-      'AWAITING': #ffc107,
-      'ACCEPTED':rgb(0, 168, 22)107,
-      'CLOSED': red,
-    );
-    
-    //Common Styles
-    #admin-job-main {
-      .form-select {
-        margin: 0 4px;
-        width: min-content;
-        height: max-content;
-        border: 2px solid #295ca8;
-        background-color: var(--color-darkslategray-300);
-        color: var(--color-white);
-        border-radius: 3px;
-      }
+}
+
+$statuses: (
+  'RECRUITER': #2716bb,
+  'ADMIN': red,
+  'AWAITING': #ffc107,
+  'ACCEPTED':rgb(0, 168, 22)107,
+  'CLOSED': red,
+);
+
+//Common Styles
+#admin-job-main {
+  .form-select {
+    margin: 0 4px;
+    width: min-content;
+    height: max-content;
+    border: 2px solid #295ca8;
+    background-color: var(--color-darkslategray-300);
+    color: var(--color-white);
+    border-radius: 3px;
+  }
+}
+
+.candidate-card {
+  padding: 15px;
+  overflow: auto;
+  border-radius: 10px;
+
+  //Top Heading bar with search and other filters
+  .ajobs-filters {
+    padding-block: 5px;
+    margin-block: 5px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+
+    input,
+    button {
+      height: 100% !important;
     }
-  
-    .candidate-card {
-      padding: 15px;
-      overflow: auto;
-      border-radius: 10px;
-    
-      //Top Heading bar with search and other filters
-      .ajobs-filters {
-        padding-block: 5px;
-        margin-block: 5px;
-        display: flex;
-        justify-content: space-between;
-        align-items: center;
-    
-        input,
-        button {
-          height: 100% !important;
-        }
-        button {
-          margin-left: 5px;
-          border: 1px solid var(--color-skyblue-100) !important;
-        }
-        .ajobs-search {
-          margin-inline: 10px;
-          display: flex;
-          align-items: center;
-          justify-content: space-evenly;
-        }
-        .ajobs-status {
-          height: 100% !important;
-        }
-      }
-    
-      //Table style
-    
-      .mat-elevation-z8 {
-        background-color: #0a1e35;
-        color: white;
+
+    button {
+      margin-left: 5px;
+      border: 1px solid var(--color-skyblue-100) !important;
+    }
+
+    .ajobs-search {
+      margin-inline: 10px;
+      display: flex;
+      align-items: center;
+      justify-content: space-evenly;
+    }
+
+    .ajobs-status {
+      height: 100% !important;
+    }
+  }
+
+  //Table style
+
+  .mat-elevation-z8 {
+    background-color: #0a1e35;
+    color: white;
+    border: 2px solid #476baf;
+    border-bottom-right-radius: 5px;
+    border-bottom-left-radius: 5px;
+    border-top: none;
+    overflow: auto;
+
+    .table-style {
+
+      th,
+      td {
+        position: relative;
+        text-overflow: ellipsis;
+        white-space: nowrap;
+        padding-inline: 10px;
+        vertical-align: middle;
         border: 2px solid #476baf;
-        border-bottom-right-radius: 5px;
-        border-bottom-left-radius: 5px;
-        border-top: none;
-        overflow: auto;
-        .table-style {
-          th,
-          td {
-            position: relative;
-            text-overflow: ellipsis;
-            white-space: nowrap;
-            padding-inline: 10px;
-            vertical-align: middle;
-            border: 2px solid #476baf;
-            border-inline-color: #283a5bd1;
-            padding: 10px;
-            //width: min-content;
+        border-inline-color: #283a5bd1;
+        padding: 10px;
+        //width: min-content;
+      }
+
+      td {
+
+        // Dynamic status color
+        @each $status, $color in $statuses {
+          .invite-#{to-lower-case($status)} {
+            background-color: $color;
+            color: white;
+            font-weight: 500;
+            width: min-content;
+            border-radius: 5px;
+            margin: unset !important; //@review: some global margin is interfaring with the layout
+            padding-inline: 5px;
+            height: 80%;
+            text-align: center;
           }
-    
-          td {
-            // Dynamic status color
-            @each $status, $color in $statuses {
-              .invite-#{to-lower-case($status)} {
-                background-color: $color;
-                color: white;
-                font-weight: 500;
-                width: min-content;
-                border-radius: 5px;
-                margin: unset !important; //@review: some global margin is interfaring with the layout
-                padding-inline: 5px;
-                height: 80%;
-                text-align: center;
-              }
-            }
-            img {
-              /*     position: relative;
+        }
+
+        img {
+          /*     position: relative;
             left: 10px; */
-              width: 30px;
-              height: 30px;
-              border-radius: 50%;
-              margin-right: 25px;
-            }
-          }
-          .no-jobs-message {
-            text-align: center;   /* Centers text horizontally */
-            vertical-align: middle;  /* Centers text vertically */
-            height: 100px;       /* Set a height for vertical centering (adjust as needed) */
-          }      
+          width: 30px;
+          height: 30px;
+          border-radius: 50%;
+          margin-right: 25px;
+        }
+      }
+
+      .no-jobs-message {
+        text-align: center;
+        /* Centers text horizontally */
+        vertical-align: middle;
+        /* Centers text vertically */
+        height: 100px;
+        /* Set a height for vertical centering (adjust as needed) */
+      }
+    }
+  }
+}
+
+//Modal style Craete Job Form
+.message-card {
+  background: #0a1e36;
+  border-radius: 6px;
+
+  .form-control:focus {
+    color: white !important;
+  }
+
+  input {
+    background-color: transparent !important;
+    border: 2px solid #476baf;
+    width: 100%;
+  }
+
+  .error {
+    color: red;
+  }
+
+  form {
+
+    //Commented the below grid code since its causing the UI break for large screens
+
+    // display: grid;
+    // grid-template-columns: repeat(6, 1fr);
+    // grid-gap: 20px;
+
+    select {
+      color: white;
+      height: auto;
+      border: 2px solid #476baf;
+      width: 100%;
+    }
+
+    button[type="submit"] {
+      background-color: #2f92c7;
+      color: white;
+      padding: 5px;
+      border: transparent;
+      border-radius: 5px;
+      outline: none;
+      cursor: pointer;
+
+      &:hover {
+        background-color: #1d5e81;
+      }
+
+      &:disabled {
+        background-color: #8696b3;
+
+        &hover {
+          background-color: #8696b3 !important;
         }
       }
     }
-  
-    //Modal style Craete Job Form
-    .message-card {
-      background: #0a1e36;
-      border-radius: 6px;
-    
-      .form-control:focus {
-        color:white !important;
-      }
-      input {
-        background-color: transparent !important;
-        border: 2px solid #476baf;
-        width: 100%;
-      }
-      .error {
-        color: red;
-      }
-    form {
-      display: grid;
-      grid-template-columns: repeat(2, 1fr);
-      grid-gap: 20px;
-  
-      select {
-        color: white;
-        height: auto;
-        border: 2px solid #476baf;
-        width: 100%;
-      }
-      button[type="submit"] {
-        background-color: #2f92c7;
-        color: white;
-        padding: 5px;
-        border: transparent;
-        border-radius: 5px;
-        outline: none;
-        cursor: pointer;
-        &:hover {
-          background-color: #1d5e81;
-        }
-        &:disabled {
-          background-color: #8696b3;
-          &hover {
-            background-color: #8696b3 !important;
-          }
-        }
+  }
+
+  //The companyName Field Should be full width
+  .cinvite-fitem:first-child {
+    grid-column: 1 / span 2;
+  }
+}
+
+#editbtns span {
+  position: relative;
+  padding: 5px;
+  box-shadow: 7px 6px 28px 1px rgba(0, 0, 0, 0.24);
+  text-align: center;
+  cursor: pointer;
+  border-radius: 5px;
+  margin: 5px;
+  transition: 0.2s all;
+
+  .fa-solid {
+    width: 50px;
+  }
+}
+
+#editbtns span:hover {
+  background: grey !important;
+}
+
+#editbtns>span:active {
+  box-shadow: 7px 6px 28px 1px rgba(0, 0, 0, 0.24);
+  top: 4px;
+}
+
+.cdk-overlay-container {
+  position: fixed;
+  z-index: 9999 !important;
+
+  .mat-mdc-autocomplete-panel {
+    background-color: #0a1e35;
+
+    .mat-mdc-option {
+      color: white;
+
+      &:hover {
+        background-color: #476baf;
       }
     }
-    //The companyName Field Should be full width
-    .cinvite-fitem:first-child {
-      grid-column: 1 / span 2;
-    }
   }
-  #editbtns span {
-    position: relative;
-    padding: 5px;
-    box-shadow: 7px 6px 28px 1px rgba(0, 0, 0, 0.24); 
-    text-align: center;
-    cursor: pointer;
-    border-radius: 5px;
-    margin: 5px;
-    transition: 0.2s all; 
-    .fa-solid {
-      width: 50px;
-    }
-  }
-  
-  #editbtns span:hover{
-      background: grey !important;
-  }
-  #editbtns>span:active {
-    box-shadow:  7px 6px 28px 1px rgba(0, 0, 0, 0.24); 
-    top:4px; 
-  }
-  .cdk-overlay-container {
-    position: fixed;
-    z-index: 9999 !important;
-    .mat-mdc-autocomplete-panel{
-      background-color: #0a1e35;
-      .mat-mdc-option{
-        color: white;
-        &:hover{
-          background-color: #476baf;
-        }
-      }
-    }
-    
-  }
-  
-  
-  // Common Css Ends here
+
+}
+
+
+// Common Css Ends here

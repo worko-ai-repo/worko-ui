@@ -236,6 +236,7 @@ export class CompanyListingComponent implements OnInit, AfterViewInit, OnDestroy
   private searchTerms = new Subject<string>();
   debouncedGetCompanyDetails: () => void;
   observer: IntersectionObserver | undefined;
+  userType: any;
 
   constructor(private spinner: NgxSpinnerService, private location: Location, private activatedRoute: ActivatedRoute, private cdr: ChangeDetectorRef,
     private storage: StorageService, private router: Router, private authService: AuthService, private http: HttpClient, private renderer: Renderer2, private el: ElementRef, private companyListing: CompanyListingService, private cognitoService: CognitoService, private candidateSrv: CandidateProfileService) {
@@ -289,6 +290,7 @@ export class CompanyListingComponent implements OnInit, AfterViewInit, OnDestroy
   }
 
   async ngOnInit(): Promise<void> {
+    this.userType = this.storage.get("lastAccessedDash");
     this.userLoggedIn = await this.cognitoService.isLoggedIn();
     if (this.userLoggedIn) {
       this.getUserDetails();
@@ -862,7 +864,7 @@ export class CompanyListingComponent implements OnInit, AfterViewInit, OnDestroy
   async requestCampanyData(form: NgForm) {
     try {
       this.companyData = {
-        userType: "CAND",
+        userType: this.userType,
         companyDetail: {
           name: this.companyForm.CompanyName,
           industry: 'Industry',

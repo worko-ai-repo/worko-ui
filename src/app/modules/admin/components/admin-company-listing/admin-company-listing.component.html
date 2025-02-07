@@ -30,6 +30,17 @@
                         </select>
                     </span> -->
 
+                    <span class="ajobs-status">
+                        <select name="industryType" [(ngModel)]="selectedIndustry" class="selector form-select"
+                            (change)="onIndustryChange($event)">
+                            <option value="">Select Industry Type</option>
+                            <option *ngFor="let industry of industryTypeOptions" [value]="industry.value">
+                                {{ industry.name }}
+                            </option>
+                        </select>
+                    </span>
+                    
+
                     <!-- <span class="ajobs-status">
                         <select name="status" [(ngModel)]="selectedSortOrder" class="selector form-select"
                             (change)="onSortOrderChange($event)">
@@ -46,7 +57,7 @@
                             <mat-icon>clear</mat-icon>
                         </button> -->
                     </div>
-                    <!-- <button class="ps-4 pe-4 btn searchButton" (click)="resetBtnHandler()">Reset</button> -->
+                    <button class="ps-4 pe-4 btn searchButton" (click)="resetBtnHandler()">Reset</button>
                 </span>
 
             </div>
@@ -223,7 +234,7 @@
 
     <!-- Success Message Modal -->
     <ng-container *ngIf="showModal=== modalType.SUCCESS_MESSAGE">
-        <div class="row message-card px-sm-3 p-4">
+        <div class="row message-cards px-sm-3 p-4">
             <div class="font-weight-bold text-color-red mb-3 d-flex justify-content-center"
                 style="color: #e40707; font-size: medium;" *ngIf="successTitle === 'Error'">
                 {{successTitle}}
@@ -243,7 +254,7 @@
     </ng-container>
 
     <ng-container *ngIf="showModal === modalType.VIEW_CV">
-        <div class="row message-card px-sm-3 p-4">
+        <div class="row message-cards px-sm-3 p-4">
             <iframe [src]="cvUrl" style="width: 100%; height: 500px;" frameborder="0">
             </iframe>
         </div>
@@ -264,7 +275,7 @@
 
     <!-- Admin Add/update Company Modal -->
     <ng-container *ngIf="showModal === modalType.ADMIN_ADD_COMPANY">
-        <div class="message-card px-sm-3 p-4 ">
+        <div class="message-cards px-sm-3 p-4 ">
             <app-admin-add-company-form [title]="popupTitle" [companyData]="actionOnCompany" [actionType]="actionType"
                 (formSubmitted)="handleCompanySubmission($event)">
             </app-admin-add-company-form>

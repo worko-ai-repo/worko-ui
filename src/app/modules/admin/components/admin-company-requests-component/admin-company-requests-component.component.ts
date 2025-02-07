@@ -121,6 +121,7 @@ export class AdminCompanyRequestsComponentComponent {
   actionOnCompany!: any;
 
   popupTitle: string = "";
+  copiedContent: any;
 
 
   constructor(private router: Router, private fb: FormBuilder, private adminService: AdminService, private spinner: NgxSpinnerService, private cdr: ChangeDetectorRef, private sanitizer: DomSanitizer, private route: ActivatedRoute, private storage: StorageService) {
@@ -182,7 +183,8 @@ export class AdminCompanyRequestsComponentComponent {
     this.spinner.show();
 
     // Extract companyId by removing "ID#" prefix
-    const companyId = company.SK.startsWith("ID#") ? company.SK.slice(3) : "";
+    // const companyId = company.SK.startsWith("ID#") ? company.SK.slice(3) : "";
+    const companyId = this.actionOnCompany.companyId || "";
 
     // If companyId is empty, show an error message and stop execution
     if (!companyId) {
@@ -247,8 +249,8 @@ export class AdminCompanyRequestsComponentComponent {
 
         // Ensuring the companyId is extracted properly
         // const companyId = this.actionOnCompany.SK?.startsWith("ID#") ? event.data.SK.slice(3) : "";
-        const companyId = this.actionOnCompany.SK?.startsWith("ID#") ? this.actionOnCompany.SK.slice(3) : "";
-
+        // const companyId = this.actionOnCompany.SK?.startsWith("ID#") ? this.actionOnCompany.SK.slice(3) : "";
+        const companyId = this.actionOnCompany.companyId || "";
 
         if (!companyId) {
           console.error("Invalid company ID. approve aborted.");
@@ -274,6 +276,15 @@ export class AdminCompanyRequestsComponentComponent {
       this.spinner.hide(); // Hide loading spinner
     }
   }
+
+  // Copy the Email Id to the clipboard
+  copyToClipboard = (email: string) => {
+    navigator.clipboard.writeText(email);
+    this.copiedContent = email;
+    setTimeout(() => {
+      this.copiedContent = null;
+    }, 2000);
+  };
 
   showSuccessMessage(message: string) {
     this.modalSize = 'sm';

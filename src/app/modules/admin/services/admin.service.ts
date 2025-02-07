@@ -373,7 +373,7 @@ export class AdminService {
 
   //admin company section
 
-  getCompanyList(pageSize?: number, lastKey?: any, sortOrder?: string, searchText?: any): Promise<any> {
+  getCompanyList(pageSize?: number, lastKey?: any, sortOrder?: string, searchText?: any, selectedIndustry?: string): Promise<any> {
     let url = `${API_URL}company/?pageSize=${pageSize || 50}`;
 
     if (lastKey) {
@@ -383,8 +383,13 @@ export class AdminService {
       url += `&sortOrder=${sortOrder}`;
     }
     if (searchText) {
-      const searchTexts = encodeURIComponent(searchText)
+      const searchTexts = encodeURIComponent(searchText);
       url += `&companyName=${searchTexts}`;
+    }
+
+    if (selectedIndustry) {
+      const industryName = encodeURIComponent(selectedIndustry);
+      url += `&industryName=${industryName}`;
     }
 
     return this.http.get(url, this.authService.getHttpOptions()).toPromise();
@@ -410,8 +415,13 @@ export class AdminService {
   }
 
   updateCompany(companyId: string, companyData: any, companyRequestPageFlag: boolean): Promise<any> {
-    const url = `${API_URL}company/${companyId}/?companyRequestPageFlag=${companyRequestPageFlag}`;
-    return this.http.put(url, companyData, this.authService.getHttpOptions()).toPromise();
+    const url = `${API_URL}company/${companyId}/`;
+    const payload = {
+      ...companyData,
+      companyRequestPageFlag // Adding the flag to the request body
+    };
+
+    return this.http.put(url, payload, this.authService.getHttpOptions()).toPromise();
   }
 
   deleteCompany(companyId: string): Promise<any> {
@@ -419,10 +429,10 @@ export class AdminService {
     return this.http.delete(url, this.authService.getHttpOptions()).toPromise();
   }
 
-  // Admin Company Request page APi's
+  // Admin Company Request page API's
 
   getCompanyRequests(pageSize?: number, lastKey?: any, sortOrder?: string, searchText?: any): Promise<any> {
-    let url = `${API_URL}company/request/list/?pageSize=${pageSize || 50}`;
+    let url = `${API_URL}company/request/list/?pageSize=${pageSize || 50}&status=new`;
 
     if (lastKey) {
       url += `&lastKey=${lastKey}`;
