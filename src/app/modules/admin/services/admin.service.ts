@@ -414,11 +414,11 @@ export class AdminService {
     return this.http.post(url, companyData, this.authService.getHttpOptions()).toPromise();
   }
 
-  updateCompany(companyId: string, companyData: any, companyRequestPageFlag: boolean): Promise<any> {
+  updateCompany(companyId: string, companyData: any, isCompanyRequestPageFlag: boolean): Promise<any> {
     const url = `${API_URL}company/${companyId}/`;
     const payload = {
       ...companyData,
-      companyRequestPageFlag // Adding the flag to the request body
+      isCompanyRequestPageFlag // Adding the flag to the request body
     };
 
     return this.http.put(url, payload, this.authService.getHttpOptions()).toPromise();
