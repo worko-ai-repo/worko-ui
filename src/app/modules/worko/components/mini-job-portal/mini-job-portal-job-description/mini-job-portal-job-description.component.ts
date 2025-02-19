@@ -60,10 +60,12 @@ export class MiniJobPortalJobDescriptionComponent {
   isShowCloseButton: boolean = true;
   modalSize: string = 'lg';
   isJobInvalid: any;
+  applyBtnClicked: boolean = false;
   constructor(private route: ActivatedRoute, private router: Router, private cognitoService: CognitoService, private http: HttpClient,
     private spinner: NgxSpinnerService, private companyListing: CompanyListingService, private cdr: ChangeDetectorRef, private candidateSrv: CandidateProfileService, private storage: StorageService) { }
 
   async ngOnInit(): Promise<void> {
+
     this.route.url.subscribe(urlSegments => {
       const fullCategory = decodeURIComponent(urlSegments.map(segment => segment.path).join('/')); // Decode the URL
       // this.companyName = this.extractCompanyName(fullCategory);
@@ -73,6 +75,13 @@ export class MiniJobPortalJobDescriptionComponent {
 
     // Check if the Job is valid or not
     this.isJobInvalid = this.jobDescriptionDetails?.status !== 'PUBLISHED';
+
+    this.route.queryParams.subscribe(params => {
+      if (params['applyJob'] === 'true') {
+        this.handleRequestReferral(); // Auto-apply
+        this.router.navigate([], { queryParams: { applyJob: null }, queryParamsHandling: 'merge' }); // Cleaning URL after use
+      }
+    });
   }
 
   private extractCompanyName(fullCategory: string): string {
@@ -109,6 +118,8 @@ export class MiniJobPortalJobDescriptionComponent {
   }
 
   async handleRequestReferral() {
+
+    this.applyBtnClicked = true;
 
     // Check if the job is  published 
     if (this.jobDescriptionDetails.status === 'PUBLISHED') {
@@ -414,7 +425,7 @@ export class MiniJobPortalJobDescriptionComponent {
 
         let response = await this.companyListing.getJobByJobID(jobID)
         if (response) {
-          debugger
+          // debugger
           this.spinner.hide();
           this.jobDescriptionDetails = response[0];
           this.companyName = this.jobDescriptionDetails.companyDetails.name.toLowerCase();

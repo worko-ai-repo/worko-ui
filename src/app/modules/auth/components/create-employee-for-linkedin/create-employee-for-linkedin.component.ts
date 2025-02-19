@@ -288,8 +288,21 @@ export class CreateEmployeeForLinkedinComponent {
 
           //redirect to dynamic routes
           const dynamicRoutes = this.storage.get('dynamicRoute')
-          const decodedRoute = decodeURIComponent(dynamicRoutes); // Decode the route
-          this.router.navigate([decodedRoute]);  // Navigate using the decoded route
+          let decodedRoute = decodeURIComponent(dynamicRoutes); // Decode the route
+
+          // Check if applyJob was set before login
+          const applyJob = this.storage.get('applyJobAfterLogin'); // Retrieve flag
+          if (applyJob) {
+            this.storage.remove('applyJobAfterLogin'); // Clearing it after using
+
+            // Append applyJob=true properly
+            const url = new URL(decodedRoute, window.location.origin); // Creating the URL object
+            url.searchParams.set('applyJob', 'true'); // Adding query param
+
+            decodedRoute = url.pathname + url.search; // Getting clean path with params
+          }
+          // Navigate to the dynamic route with query param if applicable
+          this.router.navigateByUrl(decodedRoute);
 
         } else if (this.groupType.includes('admin')) {
           this.router.navigate(['/switcher']);

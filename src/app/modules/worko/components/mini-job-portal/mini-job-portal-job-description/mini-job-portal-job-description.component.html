@@ -55,7 +55,7 @@
     [bodyClass]="modalMessage ? 'p-4' : 'p-0'" [modalSize]="modalSize">
 
     <ng-container *ngIf="showModal === modalType.LOGIN_SIGNUP">
-        <app-login-form (onSuccess)="receiveDataFromChild($event)" [userLoggedInData]="userLoggedIn"></app-login-form>
+        <app-login-form (onSuccess)="receiveDataFromChild($event)" [userLoggedInData]="userLoggedIn" [isApplyBtnClicked]="applyBtnClicked"></app-login-form>
     </ng-container>
     <ng-container *ngIf="showModal === modalType.SUCCESS_ERROR_MESSAGE">
         <app-message-modal [title]="successTitle" [message]="successMessage" (onCancel)="cancel()">

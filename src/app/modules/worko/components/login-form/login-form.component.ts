@@ -44,6 +44,7 @@ export class LoginFormComponent implements AfterViewInit, OnDestroy {
   @Output() onSuccess: EventEmitter<void> = new EventEmitter<void>();
   @Input() userType: any;
   @Input() userLoggedInData: any
+  @Input() isApplyBtnClicked = false;
   @ViewChild('company')
   companyFormDirective!: NgForm;
   @ViewChild('candidate')
@@ -1184,14 +1185,14 @@ export class LoginFormComponent implements AfterViewInit, OnDestroy {
     let login = await this.amplify.handleSignIn(loginData);
 
     let userType = this.storage.get('userType');
-     if(userType === 'Corporate'){
-          this.spinner.hide();
-          this.successmessage = "Oops! You don't have access to log in to this portal. Please contact support for assistance.";
-          this.successtitle = "Alert";
-          this.openModal(ModalType.SUCCESS_ERROR_MESSAGE);
-          this.amplify.handleSignOut();
-          return;
-        }
+    if (userType === 'Corporate') {
+      this.spinner.hide();
+      this.successmessage = "Oops! You don't have access to log in to this portal. Please contact support for assistance.";
+      this.successtitle = "Alert";
+      this.openModal(ModalType.SUCCESS_ERROR_MESSAGE);
+      this.amplify.handleSignOut();
+      return;
+    }
     if (login.response?.nextStep?.signInStep === "CONFIRM_SIGN_UP") {
       this.spinner.hide();
       this.confirmationEmail = this.maskEmail(this.form.email || form.emailId);
@@ -1470,6 +1471,10 @@ export class LoginFormComponent implements AfterViewInit, OnDestroy {
     if (isCompanyRoute) {
       this.storage.set('isCompanyListingRoute', true);
       this.storage.set('dynamicRoute', currentUrl);  // Store the full job details route if necessary
+
+      if (this.isApplyBtnClicked) {
+        this.storage.set('applyJobAfterLogin', true);
+      }
     }
 
     else {

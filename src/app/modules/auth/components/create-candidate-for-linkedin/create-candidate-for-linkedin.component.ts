@@ -73,22 +73,22 @@ export class CreateCandidateForLinkedinComponent {
 
       userSub
     } = await fetchAuthSession();
-    
+
     this.userEmail = tokens?.idToken?.payload['email']?.toString().toLowerCase()
     this.userName = tokens?.idToken?.payload['name']?.toString()
     this.pictureUrl = tokens?.idToken?.payload['picture']
-    this.groupType=tokens?.idToken?.payload['cognito:groups']
+    this.groupType = tokens?.idToken?.payload['cognito:groups']
 
     if (Array.isArray(this.groupType) && this.groupType.includes('admin')) {
-     this.storage.set('userType', 'Admin');
-   }
+      this.storage.set('userType', 'Admin');
+    }
 
     const {
       username,
       userId: id
     } = await getCurrentUser();
     this.userId = id
-   
+
 
     //this.storage.set("useremail", this.userEmail);
 
@@ -139,30 +139,30 @@ export class CreateCandidateForLinkedinComponent {
 
       let response = await this.authService.createCandidate(candidateData)
 
-        try {
-          if (this.userId && this.fileName &&  response) {
+      try {
+        if (this.userId && this.fileName && response) {
 
-            let documentDetails = {
-              userId: this.userId,
-              resumeUserFileName: this.fileName,
-              resumeFileMimeType: this.fileType
-            }
-            let docResult = await this.authService.uploadCV(documentDetails);
-
-            this.uploadedCvName = docResult.cloudFileName;
-            this.uploadCVonS3Bucket(docResult);
-
+          let documentDetails = {
+            userId: this.userId,
+            resumeUserFileName: this.fileName,
+            resumeFileMimeType: this.fileType
           }
+          let docResult = await this.authService.uploadCV(documentDetails);
 
-        } catch (error) {
-          this.spinner.hide();
-          this.successmessage = "Something went wrong. Please try again after sometime"
-          this.successtitle = "Error"
-          this.openModal(ModalType.SUCCESS_MESSAGE)
-          //console.log(error);
+          this.uploadedCvName = docResult.cloudFileName;
+          this.uploadCVonS3Bucket(docResult);
 
         }
-   
+
+      } catch (error) {
+        this.spinner.hide();
+        this.successmessage = "Something went wrong. Please try again after sometime"
+        this.successtitle = "Error"
+        this.openModal(ModalType.SUCCESS_MESSAGE)
+        //console.log(error);
+
+      }
+
 
     } catch (error: any) {
       this.spinner.hide();
@@ -192,7 +192,7 @@ export class CreateCandidateForLinkedinComponent {
     try {
       this.authService.uploadFileOnS3Bucket(this.fileToUpload!, docResult.awsS3SignedUrl, docResult.awsS3Tag)
         .then(async () => {
-         // console.log('File uploaded successfully.');
+          // console.log('File uploaded successfully.');
           try {
             let a = await this.authService.linkResumewithUser(this.userEmail, this.uploadedCvName);
             this.otpVerification(this.userEmail)
@@ -223,7 +223,7 @@ export class CreateCandidateForLinkedinComponent {
         });
 
     } catch (error) {
-     // console.log(error)
+      // console.log(error)
       this.spinner.hide();
       this.successmessage = "Something went wrong. Please try again after sometime"
       this.successtitle = "Error"
@@ -238,7 +238,7 @@ export class CreateCandidateForLinkedinComponent {
 
     this.authService.otpVerification(emailId)
       .then(response => {
-       
+
         this.storage.set("useremail", this.userEmail);
         this.storage.set("isLinkedinUser", 'true');
         const isCompanyListingRoute = this.storage.get('isCompanyListingRoute');
@@ -250,17 +250,31 @@ export class CreateCandidateForLinkedinComponent {
           //this.letter = this.userName.charAt(0).toUpperCase();
 
           // Redirect to the company listing page
-         // this.router.navigate(['/companies']);
+          // this.router.navigate(['/companies']);
 
-         //redirect to dynamic routes
-         const dynamicRoutes=this.storage.get('dynamicRoute')
-         const decodedRoute = decodeURIComponent(dynamicRoutes); // Decode the route
-         this.router.navigate([decodedRoute]);  // Navigate using the decoded route
-        }else if(this.groupType.includes('admin')){
+          //redirect to dynamic routes
+          const dynamicRoutes = this.storage.get('dynamicRoute')
+          let decodedRoute = decodeURIComponent(dynamicRoutes); // Decode the route
+
+          // Check if applyJob was set before login
+          const applyJob = this.storage.get('applyJobAfterLogin'); // Retrieve flag
+          if (applyJob) {
+            this.storage.remove('applyJobAfterLogin'); // Clearing it after use
+
+            // Append applyJob=true properly
+            const url = new URL(decodedRoute, window.location.origin); // Creating URL object
+            url.searchParams.set('applyJob', 'true'); // Adding query param
+
+            decodedRoute = url.pathname + url.search; // Getting clean path here with params
+          }
+          // Navigate to the dynamic route with query param
+          this.router.navigateByUrl(decodedRoute);
+
+        } else if (this.groupType.includes('admin')) {
           this.router.navigate(['/switcher']);
-    
-        } else{
-        this.router.navigate(['/candidate/dashboard']);
+
+        } else {
+          this.router.navigate(['/candidate/dashboard']);
         }
         this.spinner.hide();
 
@@ -292,7 +306,7 @@ export class CreateCandidateForLinkedinComponent {
           this.fileToUpload = file;
           this.fileName = file.name;
           this.fileType = file.type;
-        //  console.log('Selected PDF file:', file);
+          //  console.log('Selected PDF file:', file);
         } else {
           // Display an error for invalid file type
           console.error('Invalid file type. Please upload a PDF file.');
