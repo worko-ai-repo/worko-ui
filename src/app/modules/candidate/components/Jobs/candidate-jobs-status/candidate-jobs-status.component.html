@@ -23,10 +23,14 @@
                             <span class="value">{{ application.companyName ? (application.companyName | uppercase) : '-'
                                 }}</span>
                         </div>
+
                         <div class="col">
                             <span class="label">Matching Score</span>
-                            <span class="value">{{ application.matchingScore ? application.matchingScore : '-' }}</span>
+                            <span class="value">
+                                {{ application.matchingScore === 0 ? '0/100' : (application.matchingScore > 0 ? application.matchingScore + '/100' : '-') }}
+                            </span>
                         </div>
+
                         <div class="col">
                             <span class="label">Status</span>
                             <span class="value">{{ statusLabels[application.status] || '-' }}</span>
