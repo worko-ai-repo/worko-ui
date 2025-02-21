@@ -52,7 +52,7 @@
                     <label for="" class="form-lable  required-form-field">Company Email</label>
                     <input type="text" class="form-control form-input" placeholder="Company email" name="email"
                         id="email" [(ngModel)]="employeeProfessionalData.officialEmail" required
-                        pattern="^(?!.*@(gmail\.com|outlook\.com|aol\.com|yahoo\.com|icloud\.com|protonmail\.com|zoho\.com|yandex\.com|gmx\.com|hubspot\.com|mail\.com|tutanota\.com|10minutemail\.com)$)[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$"
+                        pattern="^(?!.*@(gmail\.com|outlook\.com|hotmail\.com|aol\.com|yahoo\.com|icloud\.com|protonmail\.com|zoho\.com|yandex\.com|gmx\.com|hubspot\.com|mail\.com|tutanota\.com|10minutemail\.com)$)[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$"
                         [title]="email.errors?.['pattern'] ? 'Official Email is invalid' : ''"
                         [title]="email.errors?.['required'] ? 'Official Email is required' : ''" [disabled]="isDisabled"
                         [ngClass]="{ 'is-invalid': email.invalid && (email.dirty || email.touched) }" #email="ngModel"
