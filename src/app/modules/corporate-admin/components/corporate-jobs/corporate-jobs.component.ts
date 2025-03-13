@@ -5,7 +5,7 @@ import { FormBuilder, FormGroup, FormArray, Validators, FormControl } from "@ang
 import { minMaxValidator } from "src/app/modules/worko/validators/minMax.validator";
 
 // Rxjs import for observable debounceTime, distinctUntilChanged, of, switchMap
-import { Observable, debounceTime, distinctUntilChanged, map, of,  switchMap } from "rxjs";
+import { Observable, debounceTime, distinctUntilChanged, map, of, switchMap } from "rxjs";
 
 // Service module import for Api calling
 import { CorporateService } from "../../services/corporate.service";
@@ -57,6 +57,8 @@ interface RangeDropDownDto {
  * @property {companyControl} FormControl - The form control for the company selection.
  */
 export class CorporateJobsComponent implements OnInit {
+  locations = ["Noida", "Bangalore", "Hyderabad", "Pune", "Mumbai", "Chennai", "Delhi", "Gurgaon", "Kolkata", "Ahmedabad", "Chandigarh"];
+
   ngxSummerConfig: any = {
     airMode: false,
     tabDisable: true,
@@ -105,8 +107,8 @@ export class CorporateJobsComponent implements OnInit {
     INTERNSHIP: "INTERNSHIP",
   };
   sortOrder = {
-    ASC: "ascending",
-    DESC: "descending",
+    ASC: "asc",
+    DESC: "desc"
   };
 
   // List of experience ranges and salary ranges
@@ -246,8 +248,14 @@ export class CorporateJobsComponent implements OnInit {
       ),
       jobTitle: ["", [Validators.required, Validators.minLength(3)]],
       jobDescription: ["", [Validators.required, Validators.minLength(20)]],
-      location: ["", Validators.required],
-      mislaneiousSkills: this.fb.array([]),
+      // Location: Using a FormArray for backend requirements
+      location: this.fb.group({
+        city: this.fb.array([], Validators.required),
+      }),
+
+      // Separate control for the select dropdown
+      cityControl: new FormControl('', Validators.required),
+      miscellaneousSkills: this.fb.array([]),
       numOfOpenings: [1, [Validators.required, Validators.min(1)]],
       noticePeriod: [0, Validators.required],
       otherRequirements: [""],
@@ -375,7 +383,10 @@ export class CorporateJobsComponent implements OnInit {
       }
     } catch (error: any) {
       this.spinner.hide();
-      if (error.status === 404) {
+      if(error.status === 401) {
+        this.router.navigate(["/auth/corporate/login"]);
+      }
+      else if (error.status === 404) {
         this.router.navigate(["/corporate/cJobs"]);
       } else {
         this.successmessage = "Something went wrong. Please try again later.";
@@ -519,6 +530,16 @@ export class CorporateJobsComponent implements OnInit {
     }
   }
 
+  onLocationChange(event: Event) {
+    const selectedCity = (event.target as HTMLSelectElement).value;
+    this.jobForm.get("cityControl")?.setValue(selectedCity); // Update UI dropdown
+
+    // Update FormArray (Ensure it's always sent as an array)
+    const cityArray = this.jobForm.get("location.city") as FormArray;
+    cityArray.clear();
+    cityArray.push(this.fb.control(selectedCity)); // Store as array for backend
+  }
+
   /* Company Selector Ends Here */
 
   /* Skills selector starts here :This gorup of method will help in selecting skills in the form just by typing and pressing enter. */
@@ -540,8 +561,8 @@ export class CorporateJobsComponent implements OnInit {
     );
   }
 
-  get mislaneiousSkills(): string[] {
-    return (this.jobForm.get("mislaneiousSkills") as FormArray).controls.map(
+  get miscellaneousSkills(): string[] {
+    return (this.jobForm.get("miscellaneousSkills") as FormArray).controls.map(
       (control) => control.value
     );
   }
@@ -606,7 +627,7 @@ export class CorporateJobsComponent implements OnInit {
     }
     else if (modalType === this.modalType.CORPORATE_USER_WARNING) {
       this.modalSize = "md";
-    } 
+    }
     else {
       this.modalSize = "xl";
     }
@@ -648,8 +669,8 @@ export class CorporateJobsComponent implements OnInit {
         experienceRange: null,
         jobTitle: "",
         jobDescription: "",
-        location: "",
-        mislaneiousSkills: [],
+        location: { city: [] }, // Reset city properly as an empty array
+        miscellaneousSkills: [],
         numOfOpenings: 1,
         noticePeriod: 0,
         otherRequirements: "",
@@ -673,7 +694,14 @@ export class CorporateJobsComponent implements OnInit {
     (this.jobForm.get("softSkills") as FormArray).clear();
     (this.jobForm.get("coreSkills") as FormArray).clear();
     (this.jobForm.get("technicalSkills") as FormArray).clear();
-    (this.jobForm.get("mislaneiousSkills") as FormArray).clear();
+    (this.jobForm.get("miscellaneousSkills") as FormArray).clear();
+
+    // Reset location.city as an empty array for backend
+    const cityArray = this.jobForm.get("location.city") as FormArray;
+    cityArray.clear(); // Clear existing values to maintain array format
+
+    // Reset the dropdown UI control
+    this.jobForm.get("cityControl")?.setValue("");
 
     this.jobForm.get("experienceRange")?.patchValue(null);
     this.jobForm.get("salaryRange")?.patchValue(null);
@@ -682,7 +710,6 @@ export class CorporateJobsComponent implements OnInit {
     this.jobForm.patchValue({
       jobDescription: "",
       workMode: "",
-      location: "",
       noticePeriod: 0,
       typeofEmployment: "",
       otherRequirements: "",
@@ -755,12 +782,12 @@ export class CorporateJobsComponent implements OnInit {
   onSortOrderChange(event: any) {
     /*     console.log("Sort order:", event.target.value);
      */ this.fetchJobs({
-      searchText: this.searchQuery,
-      jobStatus: this.selectedStatus,
-      pageSize: this.pageSize,
-      resetPagination: true,
-      sortOrder: this.selectedSortOrder,
-    });
+    searchText: this.searchQuery,
+    jobStatus: this.selectedStatus,
+    pageSize: this.pageSize,
+    resetPagination: true,
+    sortOrder: this.selectedSortOrder,
+  });
   }
 
   // Edit Job Function
@@ -781,11 +808,21 @@ export class CorporateJobsComponent implements OnInit {
       noticePeriod: job.noticePeriod,
       jobDescription: job.jobDescription,
       otherRequirements: job.otherRequirements,
-      location: job.location,
       typeofEmployment: job.typeofEmployment,
       department: this.toTitleCase(job.department),
       status: job.status,
     });
+
+    // Handle Location (set for both UI and backend)
+    const cityArray = this.jobForm.get("location.city") as FormArray;
+    cityArray.clear();
+    if (job.location?.city) {
+      cityArray.push(this.fb.control(job.location.city)); // Store as array
+      this.jobForm.get("cityControl")?.setValue(job.location.city); // UI control
+    } else {
+      this.jobForm.get("cityControl")?.setValue(''); // Reset if no city
+    }
+
     // Patch salaryRange separately
     this.jobForm.get("salaryRange")?.patchValue({
       min: job.salaryRange.min,
@@ -823,12 +860,12 @@ export class CorporateJobsComponent implements OnInit {
     });
 
     // Clear and repopulate the mislaneious skills FormArray
-    const mislaneiousSkillsArray = this.jobForm.get(
-      "mislaneiousSkills"
+    const miscellaneousSkillsArray = this.jobForm.get(
+      "miscellaneousSkills"
     ) as FormArray;
-    mislaneiousSkillsArray.clear();
-    job.mislaneiousSkills.forEach((skill: string) => {
-      mislaneiousSkillsArray.push(this.fb.control(this.toTitleCase(skill)));
+    miscellaneousSkillsArray.clear();
+    job.miscellaneousSkills.forEach((skill: string) => {
+      miscellaneousSkillsArray.push(this.fb.control(this.toTitleCase(skill)));
     });
 
     // Patch experienceRange separately
@@ -1102,9 +1139,8 @@ export class CorporateJobsComponent implements OnInit {
   formatRange(min: number | null, max: number | null, type: string): string {
     if (min === null || max === null) return "-"; // Handle null values during API loading
     if (min === max) {
-      return `${min} ${
-        type === "experience" ? `${max === 1 ? "Year" : "Years"}` : "LPA"
-      }`;
+      return `${min} ${type === "experience" ? `${max === 1 ? "Year" : "Years"}` : "LPA"
+        }`;
     }
     if (type === "experience") {
       if (min === 0 && max === 0) return "-"; // Handling edge case for no experience range

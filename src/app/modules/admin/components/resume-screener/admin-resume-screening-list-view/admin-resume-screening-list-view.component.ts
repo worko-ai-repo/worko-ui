@@ -8,6 +8,7 @@ import { StorageService } from 'src/app/modules/app-core/services/storage.servic
 import { ModalComponent } from 'src/app/modules/shared/components/modal/modal.component';
 import { ModalType } from 'src/app/modules/shared/interfaces/shared.interface';
 import { AdminService } from '../../../services/admin.service';
+import { ErrorHandlingService } from 'src/app/modules/app-core/services/error-handling.service';
 
 export interface CorporateVitalDetails {
   cognitoUserId?: string;
@@ -117,7 +118,7 @@ export class AdminResumeScreeningListViewComponent {
   filteredJobs: any[] = [];
 
 
-  constructor(private router: Router, private fb: FormBuilder, private adminService: AdminService, private spinner: NgxSpinnerService, private cdr: ChangeDetectorRef, private sanitizer: DomSanitizer, private route: ActivatedRoute, private storage: StorageService) {
+  constructor(private router: Router, private fb: FormBuilder, private adminService: AdminService, private spinner: NgxSpinnerService, private cdr: ChangeDetectorRef, private sanitizer: DomSanitizer, private route: ActivatedRoute, private storage: StorageService, private errorHandlingService: ErrorHandlingService) {
     this.searchTerms.pipe(
       debounceTime(300), // Adjust the debounce time as needed (300 milliseconds in this example)
       //distinctUntilChanged()
@@ -131,7 +132,7 @@ export class AdminResumeScreeningListViewComponent {
 
   async ngOnInit() {
 
-    this.emailAddress = this.storage.get("useremail");
+    this.emailAddress = this.storage.get("userEmail");
     this.userId = this.storage.get("userId");
 
     if (this.userId && this.emailAddress) {
@@ -220,7 +221,14 @@ export class AdminResumeScreeningListViewComponent {
         console.warn('No screened list data received.');
       }
     } catch (error: any) {
-      this.handleError(error, "Error fetching screened list");
+      // this.handleError(error, "Error fetching screened list");
+      // Use the error handling service and pass the modal function
+      this.errorHandlingService.handleApiError(error, () => {
+        this.modalSize = 'md';
+        this.successMessage = "Something went wrong. Please try again later.";
+        this.successTitle = "Error";
+        this.openModal(ModalType.SUCCESS_ERROR_MESSAGE);
+      });
     } finally {
       this.spinner.hide();
     }
@@ -362,15 +370,23 @@ export class AdminResumeScreeningListViewComponent {
         console.warn("Job applications response is empty or undefined.");
       }
     } catch (error: any) {
-      if (error.status === 401) {
-        this.router.navigate(['/']);
-      } else {
+      // if (error.status === 401) {
+      //   this.router.navigate(['/']);
+      // } else {
+      //   console.error("Error fetching job applications:", error);
+      //   this.modalSize = 'md';
+      //   this.successMessage = "Something went wrong. Please try again later.";
+      //   this.successTitle = "Error";
+      //   this.openModal(ModalType.SUCCESS_ERROR_MESSAGE);
+      // }
+
+      this.errorHandlingService.handleApiError(error, () => {
         console.error("Error fetching job applications:", error);
         this.modalSize = 'md';
         this.successMessage = "Something went wrong. Please try again later.";
         this.successTitle = "Error";
         this.openModal(ModalType.SUCCESS_ERROR_MESSAGE);
-      }
+      });
     } finally {
       this.spinner.hide();
     }

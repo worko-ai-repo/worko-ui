@@ -51,6 +51,7 @@ import { RefundPolicyComponent } from './components/refund-policy/refund-policy.
 import { LoginFormComponent } from './components/login-form/login-form.component';
 import { MiniJobPortalJobListingComponent } from './components/mini-job-portal/mini-job-portal-job-listing/mini-job-portal-job-listing.component';
 import { MiniJobPortalJobDescriptionComponent } from './components/mini-job-portal/mini-job-portal-job-description/mini-job-portal-job-description.component';
+import { PageNotFoundComponent } from './components/page-not-found/page-not-found.component';
 
 
 
@@ -66,71 +67,69 @@ export const routes: Routes = [
       //   path: 'index',
       //   component: HomeComponent
       // },
-      {
-        path: '',
-        component: IndexComponent
-      },
-      {
-        path : 'login',
-        component: LoginPageComponent
-      },
-      {
-        path : 'company',
-        component: CompanyListingComponent
-      },
+      // {
+      //   path: '',
+      //   component: IndexComponent
+      // },
+      // {
+      //   path : 'login',
+      //   component: LoginPageComponent
+      // },
+      // {
+      //   path : 'company',
+      //   component: CompanyListingComponent
+      // },
       // { path: ':category-jobs', component: JobCategoryComponent },
-
-      { 
-        matcher: jobCategoryMatcher,
-        component: JobCategoryComponent 
-      },
-
+      // { 
+      //   matcher: jobCategoryMatcher,
+      //   component: JobCategoryComponent 
+      // },
       {
         path : 'switcher',
         component:AccountSwitcherComponent ,canActivate:[AuthAdminGuardService]
       },
-      {
-        path: 'contact-us',
-        component: ContactUsComponent
-      },
-      {
-        path: 'refund-policy',
-        component: RefundPolicyComponent
-      },
-      {
-        path : 'faq',
-        component: FaqComponent
-      },
-      {
-        path : 'corporate',
-        component: CorporateComponent,
-        // data: {
-        //   title: 'Enhance Your Hiring with Peer-to-Peer Referrals',
-        //   description: 'Join Worko’s Peer-to-Peer Referral Network to streamline your hiring process. Connect with top talent through verified referrals and boost your recruitment efficiency.',
-        //   tags: 'Worko.ai, Peer-to-Peer Referrals, Recruitment Solutions, Employee Referrals, Talent Acquisition, Hiring Network, Worko Corporate Services, Streamlined Recruitment, Verified Referrals'
-        // }
-      },
-      {
-        path : 'about-us',
-        component: AboutUsComponent
-      },
-      {
-        path : 'terms-of-service',
-        component: TermsOfServiceComponent
-      },
-      {
-        path : 'privacy-policy',
-        component: PrivacyPolicyComponent,
-      },
-      {
-        path: 'company/jobs/:companyName-jobs-:companyID',
-        component: MiniJobPortalJobListingComponent
-      },
+      // {
+      //   path: 'contact-us',
+      //   component: ContactUsComponent
+      // },
+      // {
+      //   path: 'refund-policy',
+      //   component: RefundPolicyComponent
+      // },
+      // {
+      //   path : 'faq',
+      //   component: FaqComponent
+      // },
+      // {
+      //   path : 'corporate',
+      //   component: CorporateComponent,
+      //   // data: {
+      //   //   title: 'Enhance Your Hiring with Peer-to-Peer Referrals',
+      //   //   description: 'Join Worko’s Peer-to-Peer Referral Network to streamline your hiring process. Connect with top talent through verified referrals and boost your recruitment efficiency.',
+      //   //   tags: 'Worko.ai, Peer-to-Peer Referrals, Recruitment Solutions, Employee Referrals, Talent Acquisition, Hiring Network, Worko Corporate Services, Streamlined Recruitment, Verified Referrals'
+      //   // }
+      // },
+      // {
+      //   path : 'about-us',
+      //   component: AboutUsComponent
+      // },
+      // {
+      //   path : 'terms-of-service',
+      //   component: TermsOfServiceComponent
+      // },
+      // {
+      //   path : 'privacy-policy',
+      //   component: PrivacyPolicyComponent,
+      // },
+      // {
+      //   path: 'company/jobs/:companyName-jobs-:companyID',
+      //   component: MiniJobPortalJobListingComponent
+      // },
 
-      {
-        path: 'company/jobs/:companyName-jobs/:jobTitle-:jobID',
-        component: MiniJobPortalJobDescriptionComponent
-      },
+      // {
+      //   path: 'company/jobs/:companyName-jobs/:jobTitle-:jobID',
+      //   component: MiniJobPortalJobDescriptionComponent
+      // },
       // {
       //   path: 'contact',
       //   component: ContactComponent
@@ -248,7 +247,8 @@ export const routes: Routes = [
         RefundPolicyComponent,
         LoginFormComponent,
         MiniJobPortalJobListingComponent,
-        MiniJobPortalJobDescriptionComponent
+        MiniJobPortalJobDescriptionComponent,
+        PageNotFoundComponent
     ],
     exports: [
         NavbarComponent,

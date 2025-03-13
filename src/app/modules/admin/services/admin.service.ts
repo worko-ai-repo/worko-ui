@@ -4,7 +4,7 @@ import { AuthService } from '../../worko/services/auth.service';
 import { environment } from 'src/environments/environment';
 import { Observable, catchError } from 'rxjs';
 const API_URL = environment.apiUrl;
-
+const JOB_BASE_URL = environment.jobBaseUrl;
 
 
 @Injectable({
@@ -165,7 +165,7 @@ export class AdminService {
 
   getJobs(param: any): Promise<any> {
     //  console.log(`params ${param.pageSize} ${param.lastKey} ${param.status} ${param.sortOrder}`);
-    let url = `${API_URL}job/?pageSize=${param.pageSize}`;
+    let url = `${JOB_BASE_URL}job/?pageSize=${param.pageSize}`;
     if (param.status) {
       url += `&status=${param.status}`;
     }
@@ -185,17 +185,45 @@ export class AdminService {
   }
   //POST DATA
   createJob(jobData: any) {
-    return this.http.post(`${API_URL}job/`, jobData, this.authService.getHttpOptions()).toPromise();
+
+    let payload: any = { ...jobData }; // Clone form values
+
+    // Ensure location object is structured properly
+    if (payload.location && payload.location.city) {
+      payload.location = {
+        city: Array.isArray(payload.location.city) ? payload.location.city : [],
+        fullLocation: Array.isArray(payload.location.city) ? [...payload.location.city] : []
+      };
+    }
+
+    // Remove cityControl before sending
+    delete payload.cityControl;
+
+    return this.http.post(`${JOB_BASE_URL}job/`, payload, this.authService.getHttpOptions()).toPromise();
   }
 
   archiveJob(jobId: string, jobData: object) {
-    return this.http.put(`${API_URL}job/${jobId}`, jobData, this.authService.getHttpOptions()).toPromise();
+    return this.http.put(`${JOB_BASE_URL}job/${jobId}`, jobData, this.authService.getHttpOptions()).toPromise();
   }
   updateJob(jobId: string, jobData: object) {
-    return this.http.put(`${API_URL}job/${jobId}`, jobData, this.authService.getHttpOptions()).toPromise();
+    let payload: any = { ...jobData }; // Clone form values
+
+    // Ensure location object is structured properly
+    if (payload.location && payload.location.city) {
+      payload.location = {
+        city: Array.isArray(payload.location.city) ? payload.location.city : [],
+        fullLocation: Array.isArray(payload.location.city) ? [...payload.location.city] : []
+      };
+    }
+
+    // Remove cityControl before sending
+    delete payload.cityControl;
+
+    return this.http.put(`${JOB_BASE_URL}job/${jobId}`, payload, this.authService.getHttpOptions()).toPromise();
   }
+
   deleteJob(jobId: string, jobData: object) {
-    return this.http.put(`${API_URL}job/${jobId}/delete`, jobData, this.authService.getHttpOptions()).toPromise();
+    return this.http.put(`${JOB_BASE_URL}job/${jobId}/delete`, jobData, this.authService.getHttpOptions()).toPromise();
   }
 
   // For fetching the dynamic dropdown values
@@ -285,11 +313,11 @@ export class AdminService {
   // API's for Corporate Applicants page
 
   getJobDetailsById(jobId: string) {
-    return this.http.get(API_URL + `job/${jobId}`, this.authService.getHttpOptions()).toPromise();
+    return this.http.get(JOB_BASE_URL + `job/${jobId}`, this.authService.getHttpOptions()).toPromise();
   }
 
   getAllJobApplicants(pageSize: any, userType: any, jobId: any, status: any, lastKey?: any, sortOrder?: string, searchText?: any) {
-    let url = `${API_URL}job-application/?jobId=${jobId}&userType=${userType}&pageSize=${pageSize}`;
+    let url = `${JOB_BASE_URL}job-application/?jobId=${jobId}&userType=${userType}&pageSize=${pageSize}`;
 
     if (lastKey) {
       url += `&lastKey=${lastKey}`;
@@ -314,11 +342,11 @@ export class AdminService {
   }
 
   updateJobApplicationStatus(jobApplicationId: string, data: any) {
-    return this.http.patch(`${API_URL}job-application/${jobApplicationId}/corp-action`, data, this.authService.getHttpOptions()).toPromise();
+    return this.http.patch(`${JOB_BASE_URL}job-application/${jobApplicationId}/corp-action`, data, this.authService.getHttpOptions()).toPromise();
   }
 
   parseJD(jobDescription: object): Promise<any> {
-    return this.http.post(`${API_URL}job/parsejd`, jobDescription, this.authService.getHttpOptions()).toPromise();
+    return this.http.post(`${JOB_BASE_URL}job/parsejd`, jobDescription, this.authService.getHttpOptions()).toPromise();
   }
 
   getSingleCvDetails(companyId: string, cloudFileName: string, corporateBulkJdId: string): Promise<any> {

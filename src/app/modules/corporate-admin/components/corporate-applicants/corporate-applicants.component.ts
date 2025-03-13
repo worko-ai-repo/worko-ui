@@ -448,7 +448,7 @@ export class CorporateApplicantsComponent {
       }
     } catch (error: any) {
       if (error.status === 401) {
-        this.router.navigate(['/']);
+        this.router.navigate(['/auth/corporate/login']);
       } else {
         console.error("Error fetching job applications:", error);
         this.modalSize = 'md';

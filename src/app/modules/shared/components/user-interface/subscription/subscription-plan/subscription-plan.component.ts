@@ -12,6 +12,7 @@ import { environment } from 'src/environments/environment';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { PAYMENT_GATEWAYS, PaymentGatewayData } from 'src/app/modules/shared/constants/payment-gateways.constants';
 import { Router } from '@angular/router';
+import { ErrorHandlingService } from 'src/app/modules/app-core/services/error-handling.service';
 
 // export const theme_config = {
 //   sdkPrimaryColor: "#2F92C7",
@@ -73,12 +74,12 @@ export class SubscriptionPlanComponent {
 
 
   constructor(private renderer2: Renderer2, private cd: ChangeDetectorRef, private router: Router,
-    @Inject(DOCUMENT) private document: Document, private spinner: NgxSpinnerService, private candServ: CandidateProfileService, private storage: StorageService, private modalService: NgbModal) { }
+    @Inject(DOCUMENT) private document: Document, private spinner: NgxSpinnerService, private candServ: CandidateProfileService, private storage: StorageService, private modalService: NgbModal, private errorHandlingService: ErrorHandlingService) { }
   // constructor(private router: Router, private candidateSrv: CandidateProfileService, private storage: StorageService, private authService: AuthService) { }
 
   ngOnInit(): void {
     // this.userId = this.storage.get("userId");
-    this.emailAddress = this.storage.get("useremail");
+    this.emailAddress = this.storage.get("userEmail");
     this.getSubscriptionStatus();
   }
 
@@ -178,7 +179,7 @@ export class SubscriptionPlanComponent {
     let totalAmount = subTotalAmount + gstAmount - discountAmount;
     let domain = environment.localUrl;
     let returnUrl = domain + `/candidate/pgresponse/${this.pGatewayProvider}`;
-  
+
     let payload = {
       "pgatewayProvider": this.pGatewayProvider,
       "subTotalAmount": subTotalAmount,
@@ -205,7 +206,7 @@ export class SubscriptionPlanComponent {
 
     await this.candServ.createOrder(payload, this.userDetails[0]?.id).then(async (response) => {
       if (response) {
-        
+
         if (this.pGatewayProvider === PaymentGateway.RAZORPAY) {
           this.handleResponseRazorpay(response);
         }
@@ -215,20 +216,26 @@ export class SubscriptionPlanComponent {
         // this.spinner.hide();
       }
     }).catch((error: any) => {
-      if (error.status==404) { 
-        this.spinner.hide()
-        this.router.navigate(['/auth/logout']);
-      }else if (error.status==401){
-        this.storage.set('redirectAfterLogin','/candidate/subscription');
-       this.router.navigate(['/']);
-      } else {
-      this.spinner.hide();
-     
-      this.successMessage = "Something went wrong. Please try again after sometime";
-      this.successTitle = "Error";
-      this.openModal(ModalType.SUCCESS_ERROR_MESSAGE);
+      //   if (error.status==404) { 
+      //     this.spinner.hide()
+      //     this.router.navigate(['/auth/logout']);
+      //   }else if (error.status==401){
+      //     this.storage.set('redirectAfterLogin','/candidate/subscription');
+      //    this.router.navigate(['/']);
+      //   } else {
+      //   this.spinner.hide();
+
+      //   this.successMessage = "Something went wrong. Please try again after sometime";
+      //   this.successTitle = "Error";
+      //   this.openModal(ModalType.SUCCESS_ERROR_MESSAGE);
+      // }
+      this.errorHandlingService.handleApiError(error, () => {
+        this.spinner.hide();
+        this.successMessage = "Something went wrong. Please try again later.";
+        this.successTitle = "Error";
+        this.openModal(ModalType.SUCCESS_ERROR_MESSAGE);
+      });
     }
-  }
     );
 
   }
@@ -256,7 +263,7 @@ export class SubscriptionPlanComponent {
 
     const responseHandler = (resCallback: any) => {
       if (resCallback) {
-        
+
         this.processPayment(createOrderResponse, resCallback);
       }
 
@@ -291,7 +298,7 @@ export class SubscriptionPlanComponent {
       description: this.selectedPackage?.details,
       order_id: createOrderResponse?.userOrderResponse?.pgatewayOrderId, // Razorpay order ID
       handler: (paymentResponse: any) => {
-       // console.log("payment response received in handler is == ", paymentResponse);
+        // console.log("payment response received in handler is == ", paymentResponse);
         this.processPayment(createOrderResponse, paymentResponse);
       },
       prefill: {
@@ -313,7 +320,7 @@ export class SubscriptionPlanComponent {
 
     const rzp1 = new Razorpay(options);
     rzp1.on('payment.failed', (response: any) => {
-     // console.log(response.error);
+      // console.log(response.error);
     });
     rzp1.open();
   }
@@ -354,28 +361,34 @@ export class SubscriptionPlanComponent {
         }
       }
     }).catch((error: any) => {
-      if (error.status==404) { 
-        this.spinner.hide()
-        this.router.navigate(['/auth/logout']);
-      }else if (error.status==401){
-        this.storage.set('redirectAfterLogin','/candidate/subscription');
-       this.router.navigate(['/']);
-      } else {
-      this.spinner.hide();
-      
-      this.successMessage = "Something went wrong. Please try again after sometime";
-      this.successTitle = "Error";
-      this.openModal(ModalType.SUCCESS_ERROR_MESSAGE);
+      // if (error.status == 404) {
+      //   this.spinner.hide()
+      //   this.router.navigate(['/auth/logout']);
+      // } else if (error.status == 401) {
+      //   this.storage.set('redirectAfterLogin', '/candidate/subscription');
+      //   this.router.navigate(['/']);
+      // } else {
+      //   this.spinner.hide();
+
+      //   this.successMessage = "Something went wrong. Please try again after sometime";
+      //   this.successTitle = "Error";
+      //   this.openModal(ModalType.SUCCESS_ERROR_MESSAGE);
+      // }
+      this.errorHandlingService.handleApiError(error, () => {
+        this.spinner.hide();
+        this.successMessage = "Something went wrong. Please try again later.";
+        this.successTitle = "Error";
+        this.openModal(ModalType.SUCCESS_ERROR_MESSAGE);
+      });
     }
-  }
     );
   }
 
   injectBillDeskSdk(config: any) {
-    
+
 
     (window as any).loadBillDeskSdk(config);
-   
+
     this.spinner.hide();
 
     // // Dynamically loading ES module script
@@ -454,19 +467,22 @@ export class SubscriptionPlanComponent {
     await this.candServ.getSubscriptionStatus(this.emailAddress).then(async (response) => {
       if (response) {
         this.subscriptionStatus = response;
-       
+
         this.spinner.hide();
       }
     }).catch((error: any) => {
-      if (error.status==404) { 
-        this.spinner.hide()
-        this.router.navigate(['/auth/logout']);
-      }else if (error.status==401){
-        this.storage.set('redirectAfterLogin','/candidate/subscription');
-       this.router.navigate(['/']);
-      } else {
-      this.spinner.hide();
-      }
+      // if (error.status == 404) {
+      //   this.spinner.hide()
+      //   this.router.navigate(['/auth/logout']);
+      // } else if (error.status == 401) {
+      //   this.storage.set('redirectAfterLogin', '/candidate/subscription');
+      //   this.router.navigate(['/']);
+      // } else {
+      //   this.spinner.hide();
+      // }
+      this.errorHandlingService.handleApiError(error, () => {
+        this.spinner.hide();
+      });
     }
     );
   }
@@ -479,21 +495,27 @@ export class SubscriptionPlanComponent {
     }
     await this.candServ.createSubscription(this.emailAddress, payload).then(async (res) => {
       if (res) {
-       
+
       }
     }).catch((error: any) => {
-      if (error.status==404) { 
-        this.spinner.hide()
-        this.router.navigate(['/auth/logout']);
-      }else if (error.status==401){
-        this.storage.set('redirectAfterLogin','/candidate/subscription');
-       this.router.navigate(['/']);
-      } else {
-    
-      this.successMessage = "Something went wrong. Please try again after sometime";
-      this.successTitle = "Error";
-      this.openModal(ModalType.SUCCESS_ERROR_MESSAGE);
-      }
+      // if (error.status == 404) {
+      //   this.spinner.hide()
+      //   this.router.navigate(['/auth/logout']);
+      // } else if (error.status == 401) {
+      //   this.storage.set('redirectAfterLogin', '/candidate/subscription');
+      //   this.router.navigate(['/']);
+      // } else {
+
+      //   this.successMessage = "Something went wrong. Please try again after sometime";
+      //   this.successTitle = "Error";
+      //   this.openModal(ModalType.SUCCESS_ERROR_MESSAGE);
+      // }
+      this.errorHandlingService.handleApiError(error, () => {
+        this.spinner.hide();
+        this.successMessage = "Something went wrong. Please try again later.";
+        this.successTitle = "Error";
+        this.openModal(ModalType.SUCCESS_ERROR_MESSAGE);
+      });
     });
   }
 

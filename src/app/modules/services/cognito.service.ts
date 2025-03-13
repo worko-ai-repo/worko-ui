@@ -159,8 +159,8 @@ export class CognitoService {
       if (this.linkedinSignInDetails.username && this.linkedinSignInDetails.userId) {
         const { tokens, userSub } = await fetchAuthSession()
 
-        if (!this.storage.get("useremail")) {
-          this.storage.set("useremail", tokens?.idToken?.payload['email']?.toString().toLowerCase());
+        if (!this.storage.get("userEmail")) {
+          this.storage.set("userEmail", tokens?.idToken?.payload['email']?.toString().toLowerCase());
         }
       
         return true;
@@ -190,8 +190,8 @@ export class CognitoService {
           const { tokens, userSub } = await fetchAuthSession()
 
           if(tokens){
-          if (!this.storage.get("useremail")) {
-            this.storage.set("useremail", tokens?.idToken?.payload['email']?.toString().toLowerCase());
+          if (!this.storage.get("userEmail")) {
+            this.storage.set("userEmail", tokens?.idToken?.payload['email']?.toString().toLowerCase());
           }
 
           

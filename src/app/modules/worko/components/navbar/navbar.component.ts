@@ -159,7 +159,7 @@ export class NavbarComponent {
     const currentUrl = this.router.url;
 
     this.userLoggedIn = await this.cognitoService.isLoggedIn();
-    this.emailAddress = this.storage.get("useremail");
+    this.emailAddress = this.storage.get("userEmail");
 
     if (this.userLoggedIn) {
       if (currentUrl.includes('/company') || currentUrl.match(/-jobs$/)) {

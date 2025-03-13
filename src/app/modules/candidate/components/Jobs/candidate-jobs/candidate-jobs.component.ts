@@ -7,6 +7,7 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { StorageService } from 'src/app/modules/app-core/services/storage.service';
 import { ModalType } from 'src/app/modules/shared/interfaces/shared.interface';
 import { ModalComponent } from 'src/app/modules/shared/components/modal/modal.component';
+import { ErrorHandlingService } from 'src/app/modules/app-core/services/error-handling.service';
 
 @Component({
   selector: 'app-candidate-jobs',
@@ -15,7 +16,7 @@ import { ModalComponent } from 'src/app/modules/shared/components/modal/modal.co
 })
 export class CandidateJobsComponent implements OnInit {
 
-  constructor(private candidateSrv: CandidateProfileService, private spinner: NgxSpinnerService, private route: ActivatedRoute, private storage: StorageService, private router: Router, private cdrf: ChangeDetectorRef) {
+  constructor(private candidateSrv: CandidateProfileService, private spinner: NgxSpinnerService, private route: ActivatedRoute, private storage: StorageService, private router: Router, private cdrf: ChangeDetectorRef, private errorHandlingService: ErrorHandlingService) {
 
   }
 
@@ -64,7 +65,7 @@ export class CandidateJobsComponent implements OnInit {
 
   ngOnInit(): void {
 
-    this.emailAddress = this.storage.get("useremail");
+    this.emailAddress = this.storage.get("userEmail");
 
     // Listen to route changes
 
@@ -154,15 +155,20 @@ export class CandidateJobsComponent implements OnInit {
       }
     }).catch((error: any) => {
       this.spinner.hide();
-      if (error.status == 401) {
-        this.storage.set('redirectAfterLogin', '/candidate/jobs');
-        this.router.navigate(['/']);
-      }
-      else {
+      // if (error.status == 401) {
+      //   this.storage.set('redirectAfterLogin', '/candidate/jobs');
+      //   this.router.navigate(['/']);
+      // }
+      // else {
+      //   this.errorMessage = "Something went wrong. Please try again later.";
+      //   this.errorTitle = "Error";
+      //   this.openModal(ModalType.SUCCESS_ERROR_MESSAGE);
+      // }
+      this.errorHandlingService.handleApiError(error, () => {
         this.errorMessage = "Something went wrong. Please try again later.";
         this.errorTitle = "Error";
         this.openModal(ModalType.SUCCESS_ERROR_MESSAGE);
-      }
+      });
     });
   }
 
@@ -186,16 +192,23 @@ export class CandidateJobsComponent implements OnInit {
       }
 
     }).catch((error: any) => {
-      if (error.status == 401) {
-        this.storage.set('redirectAfterLogin', '/candidate/jobs');
-        this.router.navigate(['/']);
-      }
-      else {
+      // if (error.status == 401) {
+      //   this.storage.set('redirectAfterLogin', '/candidate/jobs');
+      //   this.router.navigate(['/']);
+      // }
+      // else {
+      //   this.spinner.hide();
+      //   this.errorMessage = "Something went wrong. Please try again after sometime";
+      //   this.errorTitle = "Error";
+      //   this.openModal(ModalType.SUCCESS_ERROR_MESSAGE);
+      // }
+
+      this.errorHandlingService.handleApiError(error, () => {
         this.spinner.hide();
-        this.errorMessage = "Something went wrong. Please try again after sometime";
+        this.errorMessage = "Something went wrong. Please try again later.";
         this.errorTitle = "Error";
         this.openModal(ModalType.SUCCESS_ERROR_MESSAGE);
-      }
+      });
     }
     );
   }

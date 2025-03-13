@@ -5,6 +5,7 @@ import { AuthService } from '../services/auth.service';
 import { environment } from '../../../../environments/environment';
 import { BehaviorSubject, Observable, Subject } from 'rxjs';
 const API_URL = environment.apiUrl;
+const JOB_BASE_URL = environment.jobBaseUrl;
 
 @Injectable({
   providedIn: 'root'
@@ -166,7 +167,7 @@ export class CompanyListingService {
 * @returns {Promise<any>}
  */
   getJobByJobID(jobID: any): Promise<any> {
-    let url = `${API_URL}job/${jobID}`;
+    let url = `${JOB_BASE_URL}job/${jobID}`;
 
     return this.http.get(url, this.authService.getHttpOptions()).toPromise();
 
@@ -189,7 +190,7 @@ export class CompanyListingService {
 * @returns {Promise<any>}
 */
   applyJobByEmail(data: any): Promise<any> {
-    return this.http.post(API_URL + `job-application/`, data, this.authService.getHttpOptions()).toPromise();
+    return this.http.post(JOB_BASE_URL + `job-application/`, data, this.authService.getHttpOptions()).toPromise();
   }
 
   /**
@@ -198,7 +199,7 @@ export class CompanyListingService {
 * @returns {Promise<any>}
 */
   getJobMatchingScore(jobApplicationId: string): Promise<any> {
-    return this.http.get(`${API_URL}job-application/${jobApplicationId}/score`, this.authService.getHttpOptions()).toPromise();
+    return this.http.get(`${JOB_BASE_URL}job-application/${jobApplicationId}/score`, this.authService.getHttpOptions()).toPromise();
   }
 
 }

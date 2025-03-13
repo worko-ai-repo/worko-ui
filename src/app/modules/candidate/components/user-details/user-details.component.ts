@@ -13,7 +13,7 @@ export class UserDetailsComponent implements OnInit {
 
   candidateNameElement!: HTMLElement
   recentGraduation: any;
-  profileImage: string = "/assets/public/candidate-img.png";
+  profileImage: string = "assets/public/candidate-img.png";
   constructor() { }
 
   ngOnInit(): void {
@@ -50,7 +50,7 @@ export class UserDetailsComponent implements OnInit {
     if (this.workExperienceDetails?.length) {
       this.workExperienceDetails = this.workExperienceDetails[0];
     }
-    this.profileImage = this.candidateDetails?.profileImageAwsS3SignedUrl ? this.candidateDetails?.profileImageAwsS3SignedUrl : '/assets/public/candidate-img.png'
+    this.profileImage = this.candidateDetails?.profileImageAwsS3SignedUrl ? this.candidateDetails?.profileImageAwsS3SignedUrl : 'assets/public/candidate-img.png'
   }
 
 

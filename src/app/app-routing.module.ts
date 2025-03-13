@@ -2,6 +2,7 @@ import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 import { jobCategoryMatcher } from './modules/worko/matchers/custom-route-matcher';
 import { JobCategoryComponent } from './modules/worko/components/job-category/job-category.component';
+import { PageNotFoundComponent } from './modules/worko/components/page-not-found/page-not-found.component';
 
 const routes: Routes = [
   {
@@ -41,7 +42,9 @@ const routes: Routes = [
   {
     path: 'auth',
     loadChildren: () => import('./modules/auth/auth.module').then(m => m.AuthModule)
-  }
+  },
+  // **404 Page - MUST be the last route**
+  { path: '**', component: PageNotFoundComponent }
 
 ];
 

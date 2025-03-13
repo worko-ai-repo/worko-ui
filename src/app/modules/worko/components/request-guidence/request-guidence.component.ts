@@ -61,7 +61,7 @@ serviceText=''
 
   constructor(private reqGuidanceSrv: ReqGuidanceService, private storage:StorageService) { }
   ngOnInit(): void {
-    this.emailAddress = this.storage.get("useremail");
+    this.emailAddress = this.storage.get("userEmail");
     this.getmasterService()
  
   }

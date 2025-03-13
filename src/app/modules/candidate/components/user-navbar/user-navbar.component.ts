@@ -22,7 +22,7 @@ export class UserNavbarComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    this.emailAddress = this.storage.get("useremail");
+    this.emailAddress = this.storage.get("userEmail");
     //debugger
 
     if (this.router.url.includes('candidate')) {
@@ -96,7 +96,7 @@ export class UserNavbarComponent implements OnInit {
   }
 
   async updateLastAccessDashboard() {   
-    //API Call to update the lastAccessDashboard
+    //API Call to update the hboard
 
     let payload = {
       lastAccessedDash: this.navbarToggleSwitchService.getDashboard()

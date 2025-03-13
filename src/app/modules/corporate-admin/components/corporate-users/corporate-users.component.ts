@@ -171,15 +171,15 @@ pageSizeOptions: number[] = [25, 50, 100, 150];
       }
     } catch (error: any) {
       this.spinner.hide();
-      if (error.status === 404) {
-        this.router.navigate(["/admin/aCorporate"]);
-      } else if (error.status === 401) {
-        this.router.navigate(["/"]);
-      } else {
+      // if (error.status === 404) {
+      //   this.router.navigate(["/admin/aCorporate"]);
+      // } else if (error.status === 401) {
+      //   this.router.navigate(["/"]);
+      // } else {
         this.successMessage = "Something went wrong. Please try again later.";
         this.successTitle = "Error";
         this.openModal(ModalType.SUCCESS_ERROR_MESSAGE);
-      }
+      // }
     } finally {
       this.spinner.hide();
     }

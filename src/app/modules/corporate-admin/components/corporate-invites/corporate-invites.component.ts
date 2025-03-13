@@ -207,13 +207,13 @@ export class CorporateInvitesComponent implements OnInit{
       this.spinner.hide();
       if (error.status === 404) {
         // If page not found then open modal saying thaat somthing is wrong cant fetch the data
-        this.modalSize = "sm";
+        this.modalSize = "md";
         this.errorMessage = "Something went wrong. Please try reload the Page.";
         this.successtitle = "Error";
         this.openModal(ModalType.SUCCESS_ERROR_MESSAGE);
 
       } else if (error.status === 401) {
-        this.router.navigate(["/"]);
+        this.router.navigate(['/auth/corporate/login']);
       } else {
         this.errorMessage = "Something went wrong. Please try again later.";
         this.successtitle = "Error";

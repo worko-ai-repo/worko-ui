@@ -9,6 +9,7 @@ import { AdminService } from '../../services/admin.service';
 import { NgxSpinnerService } from 'ngx-spinner';
 import { StorageService } from 'src/app/modules/app-core/services/storage.service';
 import { MatTableDataSource } from '@angular/material/table';
+import { ErrorHandlingService } from 'src/app/modules/app-core/services/error-handling.service';
 
 @Component({
   selector: 'app-admin-applicants',
@@ -109,7 +110,7 @@ export class AdminApplicantsComponent {
   // feedbackDetails: string = "";
   rejectionTitle: string = "Application Rejected";
 
-  constructor(private router: Router, private fb: FormBuilder, private adminService: AdminService, private spinner: NgxSpinnerService, private cdr: ChangeDetectorRef, private sanitizer: DomSanitizer, private route: ActivatedRoute, private storage: StorageService) {
+  constructor(private router: Router, private fb: FormBuilder, private adminService: AdminService, private spinner: NgxSpinnerService, private cdr: ChangeDetectorRef, private sanitizer: DomSanitizer, private route: ActivatedRoute, private storage: StorageService, private errorHandlingService: ErrorHandlingService) {
     this.searchTerms.pipe(
       debounceTime(300), // Adjust the debounce time as needed (300 milliseconds in this example)
       //distinctUntilChanged()
@@ -123,7 +124,7 @@ export class AdminApplicantsComponent {
 
   async ngOnInit() {
 
-    this.emailAddress = this.storage.get("useremail");
+    this.emailAddress = this.storage.get("userEmail");
     this.userId = this.storage.get("userId");
     this.jobId = this.route.snapshot.paramMap.get('id');
 
@@ -337,17 +338,24 @@ export class AdminApplicantsComponent {
         console.warn("Job applications response is empty or undefined.");
       }
     } catch (error: any) {
-      if (error.status === 404) {
-        console.error("404 Error: Resource not found.");
-      } else if (error.status === 401) {
-        this.router.navigate(['/']);
-      } else {
+      // if (error.status === 404) {
+      //   console.error("404 Error: Resource not found.");
+      // } else if (error.status === 401) {
+      //   this.router.navigate(['/']);
+      // } else {
+      //   console.error("Error fetching job applications:", error);
+      //   this.modalSize = 'md';
+      //   this.successMessage = "Something went wrong. Please try again later.";
+      //   this.successTitle = "Error";
+      //   this.openModal(ModalType.SUCCESS_ERROR_MESSAGE);
+      // }
+      this.errorHandlingService.handleApiError(error, () => {
         console.error("Error fetching job applications:", error);
         this.modalSize = 'md';
         this.successMessage = "Something went wrong. Please try again later.";
         this.successTitle = "Error";
         this.openModal(ModalType.SUCCESS_ERROR_MESSAGE);
-      }
+      });
     } finally {
       this.spinner.hide();
     }
@@ -364,17 +372,26 @@ export class AdminApplicantsComponent {
         this.jobDetails = [];
       }
     } catch (error: any) {
-      if (error.status === 404) {
-        this.router.navigate(['/auth/logout']);
-      } else if (error.status === 401) {
-        this.router.navigate(['/']);
-      } else {
+      // if (error.status === 404) {
+      //   this.router.navigate(['/auth/logout']);
+      // } else if (error.status === 401) {
+      //   this.router.navigate(['/']);
+      // } else {
+      //   console.error("Error fetching job details:", error);
+      //   this.modalSize = 'md';
+      //   this.successMessage = "Something went wrong. Please try again later.";
+      //   this.successTitle = "Error";
+      //   this.openModal(ModalType.SUCCESS_ERROR_MESSAGE);
+      // }
+
+      this.errorHandlingService.handleApiError(error, () => {
         console.error("Error fetching job details:", error);
         this.modalSize = 'md';
         this.successMessage = "Something went wrong. Please try again later.";
         this.successTitle = "Error";
         this.openModal(ModalType.SUCCESS_ERROR_MESSAGE);
-      }
+      });
+
     }
   }
 

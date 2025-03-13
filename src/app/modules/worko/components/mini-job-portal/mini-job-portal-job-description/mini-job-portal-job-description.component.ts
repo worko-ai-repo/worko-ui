@@ -243,7 +243,7 @@ export class MiniJobPortalJobDescriptionComponent {
       ...(jobDetails.technicalSkills || []),
       ...(jobDetails.coreSkills || []),
       ...(jobDetails.softSkills || []),
-      ...(jobDetails.mislaneiousSkills || [])
+      ...(jobDetails.miscellaneousSkills || [])
     ].join(', ');  // Joining all skills with a comma and space
 
     // Extracting experience range
@@ -387,7 +387,7 @@ export class MiniJobPortalJobDescriptionComponent {
 
 
   async getUserDetails() {
-    this.emailAddress = this.storage.get("useremail");
+    this.emailAddress = this.storage.get("userEmail");
     try {
       await this.candidateSrv.getUserDetails(this.emailAddress).then(async (response) => {
         if (response) {
@@ -400,7 +400,7 @@ export class MiniJobPortalJobDescriptionComponent {
   }
   async getProfilePercentage() {
     if (this.userLoggedIn) {
-      this.emailAddress = this.storage.get("useremail");
+      this.emailAddress = this.storage.get("userEmail");
       const response = await this.candidateSrv.getProfileComplete(this.emailAddress);
 
       if (response) {

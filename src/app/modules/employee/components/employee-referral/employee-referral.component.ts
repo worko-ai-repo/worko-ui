@@ -8,6 +8,7 @@ import { NgxSpinnerService } from 'ngx-spinner';
 import { ActivatedRoute, Router } from '@angular/router';
 import { StateService } from '../../services/state.service';
 import { ChatService } from 'src/app/modules/services/chat.service';
+import { ErrorHandlingService } from 'src/app/modules/app-core/services/error-handling.service';
 @Component({
   selector: 'app-employee-referral',
   templateUrl: './employee-referral.component.html',
@@ -65,7 +66,7 @@ export class EmployeeReferralComponent implements OnDestroy {
 
   status: string = '';
 
-  constructor(private candidateSrv: CandidateProfileService, private empService: EmployeeProfileService, private storage: StorageService, private spinner: NgxSpinnerService, private router: Router, private stateService: StateService, private chatService: ChatService, private route: ActivatedRoute) { }
+  constructor(private candidateSrv: CandidateProfileService, private empService: EmployeeProfileService, private storage: StorageService, private spinner: NgxSpinnerService, private router: Router, private stateService: StateService, private chatService: ChatService, private route: ActivatedRoute, private errorHandlingService:ErrorHandlingService) { }
   ngOnDestroy(): void {
     this.closeModal();
 
@@ -75,7 +76,7 @@ export class EmployeeReferralComponent implements OnDestroy {
     this.screenWidth = window.innerWidth;
     this.performFunctionalityBasedOnScreenSize();
     this.previousScreenWidth = this.screenWidth;
-    this.emailAddress = this.storage.get("useremail");
+    this.emailAddress = this.storage.get("userEmail");
     this.userId = this.storage.get("userId");
     this.userName = this.storage.get("userName");
     // this.currentCompanySK = this.storage.get("currentCompanySK");
@@ -86,13 +87,13 @@ export class EmployeeReferralComponent implements OnDestroy {
     await this.getWorkExperienceDetails();
 
     // Only proceed if popupStatus is true after the API call
-    if(this.popupStatus) {
+    if (this.popupStatus) {
       this.route.paramMap.subscribe(params => {
         this.status = params.get('status') || 'Awaiting'; // Default to 'Awaiting' if no status
         this.onStatusSelected(this.status.toUpperCase());
       });
     }
-    
+
     // this.getCandidateDetails();
     // this.getEmpReferralDetails();
 
@@ -157,19 +158,25 @@ export class EmployeeReferralComponent implements OnDestroy {
         }
       }
     }).catch((error: any) => {
-      if (error.status == 404) {
-        this.spinner.hide()
-        this.router.navigate(['/auth/logout']);
-      } else if (error.status == 401) {
-        this.storage.set('redirectAfterLogin', '/employee/Referral');
-        this.router.navigate(['/']);
-      } else {
-        this.spinner.hide();
+      // if (error.status == 404) {
+      //   this.spinner.hide()
+      //   this.router.navigate(['/auth/logout']);
+      // } else if (error.status == 401) {
+      //   this.storage.set('redirectAfterLogin', '/employee/Referral');
+      //   this.router.navigate(['/']);
+      // } else {
+      //   this.spinner.hide();
 
-        this.successMessage = "Something went wrong. Please try again after sometime";
+      //   this.successMessage = "Something went wrong. Please try again after sometime";
+      //   this.successTitle = "Error";
+      //   this.openModal(ModalType.SUCCESS_ERROR_MESSAGE);
+      // }
+      this.errorHandlingService.handleApiError(error, () => {
+        this.spinner.hide();
+        this.successMessage = "Something went wrong. Please try again later.";
         this.successTitle = "Error";
         this.openModal(ModalType.SUCCESS_ERROR_MESSAGE);
-      }
+      });
     });
   }
 
@@ -287,15 +294,19 @@ export class EmployeeReferralComponent implements OnDestroy {
         }
       }
     }).catch((error: any) => {
-      if (error.status == 404) {
-        this.spinner.hide()
-        this.router.navigate(['/auth/logout']);
-      } else if (error.status == 401) {
-        this.storage.set('redirectAfterLogin', '/employee/Referral');
-        this.router.navigate(['/']);
-      }
-      this.spinner.hide();
-      this.empReferralList = [];
+      // if (error.status == 404) {
+      //   this.spinner.hide()
+      //   this.router.navigate(['/auth/logout']);
+      // } else if (error.status == 401) {
+      //   this.storage.set('redirectAfterLogin', '/employee/Referral');
+      //   this.router.navigate(['/']);
+      // }
+      // this.spinner.hide();
+      // this.empReferralList = [];
+      this.errorHandlingService.handleApiError(error, () => {
+        this.spinner.hide();
+        this.empReferralList = [];
+      });
     }
     );
 
@@ -418,19 +429,25 @@ export class EmployeeReferralComponent implements OnDestroy {
         }
       }
     }).catch((error: any) => {
-      if (error.status == 404) {
-        this.spinner.hide()
-        this.router.navigate(['/auth/logout']);
-      } else if (error.status == 401) {
-        this.storage.set('redirectAfterLogin', '/employee/Referral');
-        this.router.navigate(['/']);
-      } else {
-        this.spinner.hide();
+      // if (error.status == 404) {
+      //   this.spinner.hide()
+      //   this.router.navigate(['/auth/logout']);
+      // } else if (error.status == 401) {
+      //   this.storage.set('redirectAfterLogin', '/employee/Referral');
+      //   this.router.navigate(['/']);
+      // } else {
+      //   this.spinner.hide();
 
-        this.successMessage = "Something went wrong. Please try again after sometime";
+      //   this.successMessage = "Something went wrong. Please try again after sometime";
+      //   this.successTitle = "Error";
+      //   this.openModal(ModalType.SUCCESS_ERROR_MESSAGE);
+      // }
+      this.errorHandlingService.handleApiError(error, () => {
+        this.spinner.hide();
+        this.successMessage = "Something went wrong. Please try again later.";
         this.successTitle = "Error";
         this.openModal(ModalType.SUCCESS_ERROR_MESSAGE);
-      }
+      });
     }
     );
   }
@@ -573,20 +590,25 @@ export class EmployeeReferralComponent implements OnDestroy {
         this.spinner.hide();
       }
     }).catch((error: any) => {
-      if (error.status == 404) {
-        this.spinner.hide()
-        this.router.navigate(['/auth/logout']);
-      } else if (error.status == 401) {
-        this.storage.set('redirectAfterLogin', '/employee/Referral');
-        this.router.navigate(['/']);
-      } else {
-        this.spinner.hide();
+      // if (error.status == 404) {
+      //   this.spinner.hide()
+      //   this.router.navigate(['/auth/logout']);
+      // } else if (error.status == 401) {
+      //   this.storage.set('redirectAfterLogin', '/employee/Referral');
+      //   this.router.navigate(['/']);
+      // } else {
+      //   this.spinner.hide();
 
-        this.successMessage = "Something went wrong. Please try again after sometime";
+      //   this.successMessage = "Something went wrong. Please try again after sometime";
+      //   this.successTitle = "Error";
+      //   this.openModal(ModalType.SUCCESS_ERROR_MESSAGE);
+      // }
+      this.errorHandlingService.handleApiError(error, () => {
+        this.spinner.hide();
+        this.successMessage = "Something went wrong. Please try again later.";
         this.successTitle = "Error";
         this.openModal(ModalType.SUCCESS_ERROR_MESSAGE);
-      }
-
+      });
     }
     );
 

@@ -4,6 +4,7 @@ import { StorageService } from 'src/app/modules/app-core/services/storage.servic
 import { SubscriptionPackService } from 'src/app/modules/worko/services/subscription-pack.service';
 import { NgxSpinnerService } from 'ngx-spinner';
 import { Router } from '@angular/router';
+import { ErrorHandlingService } from 'src/app/modules/app-core/services/error-handling.service';
 @Component({
   selector: 'app-subscription',
   templateUrl: './subscription.component.html',
@@ -16,10 +17,10 @@ export class SubscriptionComponent {
   packageDetails1: any;
   cardDetails: any[] = [];
   userDetails: any;
-  constructor(private candidateSrv: CandidateProfileService, private storage: StorageService, private subscriptionPack: SubscriptionPackService, private spinner: NgxSpinnerService, private router: Router, private cdr: ChangeDetectorRef) { }
+  constructor(private candidateSrv: CandidateProfileService, private storage: StorageService, private subscriptionPack: SubscriptionPackService, private spinner: NgxSpinnerService, private router: Router, private cdr: ChangeDetectorRef, private errorHandlingService: ErrorHandlingService) { }
   ngOnInit(): void {
 
-    this.emailAddress = this.storage.get("useremail");
+    this.emailAddress = this.storage.get("userEmail");
     if (this.emailAddress) {
       this.getCandidateDetails();
     }
@@ -91,10 +92,11 @@ export class SubscriptionComponent {
         }
       })
     } catch (error: any) {
-      if (error.status == 401) {
-        this.storage.set('redirectAfterLogin','/candidate/subscription');
-        this.router.navigate(['/']);
-      }
+      // if (error.status == 401) {
+      //   this.storage.set('redirectAfterLogin','/candidate/subscription');
+      //   this.router.navigate(['/']);
+      // }
+      this.errorHandlingService.handleApiError(error);
     }
   }
 

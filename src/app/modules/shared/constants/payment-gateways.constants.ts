@@ -9,12 +9,12 @@ export interface PaymentGatewayData {
 export const PAYMENT_GATEWAYS: PaymentGatewayData[] = [
     {
         name: 'BillDesk',
-        logo: '/assets/icons/billDeskLogo.png',
+        logo: 'assets/icons/billDeskLogo.png',
         isEnabled: false
     },
     {
         name: 'Razorpay',
-        logo: '/assets/icons/razorpayLogo1.png',
+        logo: 'assets/icons/razorpayLogo1.png',
         isEnabled: true
     }
 ];

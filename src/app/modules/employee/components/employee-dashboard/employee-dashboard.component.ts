@@ -38,7 +38,7 @@ export class EmployeeDashboardComponent {
   ngOnInit(): void {
     // console.log("In Employee Dashboard Component");
     // this.emailAddress = this.storage.get("useremail");
-    this.emailAddress = this.storage.get("useremail");
+    this.emailAddress = this.storage.get("userEmail");
     this.getCandidateDetails();
   }
 

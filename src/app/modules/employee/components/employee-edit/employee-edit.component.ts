@@ -55,7 +55,7 @@ export class EmployeeEditComponent {
   ) {}
 
   ngOnInit(): void {
-    this.emailAddress = this.storage.get("useremail");
+    this.emailAddress = this.storage.get("userEmail");
     this.getEmployeeDetails();
   }
 
@@ -484,7 +484,7 @@ const candidateExperience = {
 
             await this.getWorkExperienceDetails();
             if(!this.isEmailVerified) {
-              this.emailid = this.storage.get("useremail");
+              this.emailid = this.storage.get("userEmail");
               this.id = this.workExperienceDetails?.id;
               this.openOtpModal();
             }

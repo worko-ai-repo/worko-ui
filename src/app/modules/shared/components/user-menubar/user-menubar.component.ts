@@ -320,15 +320,18 @@ export class UserMenubarComponent {
     await signOut();
     this.userLoggedIn = await this.cognitoService.isLoggedIn();
     if (!this.userLoggedIn) {
-      this.router.navigateByUrl('/');
+      const baseUrl = window.location.origin; // Gets "dev-ui.worko.work" or "worko.ai"
+      window.location.href = `${baseUrl}/`;
+      // this.router.navigateByUrl('/');
       // window.location.href = environment.crossOriginUrl + '/';
     }
   }
 
   //route user to company lisiting if user is clicks on worko logo
   userCheck() {
-    const currentUrl = window.location.href;
-
+    // const currentUrl = window.location.href;
+    const baseUrl = window.location.origin;
+    window.location.href = `${baseUrl}/jobs`;
     //   // Check if the URL contains "employee" or "candidate"
     //   console.log(currentUrl)
     //   if (currentUrl.includes("employee")) {
@@ -339,8 +342,7 @@ export class UserMenubarComponent {
     //     console.log('can')
     //     this.router.navigateByUrl('/candidate/dashboard');
     //   }
-    this.router.navigateByUrl('/company');
-
+    // this.router.navigateByUrl('/company');
   }
 
   // toggleSubmenu(menu: any): void {
@@ -418,8 +420,8 @@ export class UserMenubarComponent {
     else if (isScreeningMenu && this.isNotAdminDashboard) {
       this.isScreenerSubmenuOpen = !this.isScreenerSubmenuOpen;
       this.router.navigate(['/corporate/cCandidateScreener']);
-    } 
-    else if(isCompanyMenu) {
+    }
+    else if (isCompanyMenu) {
       this.isCompanySubmenuOpen = !this.isCompanySubmenuOpen;
 
       if (this.isCompanySubmenuOpen) {

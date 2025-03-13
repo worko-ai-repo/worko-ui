@@ -7,6 +7,7 @@ import { NgxSpinnerService } from 'ngx-spinner';
 import { ModalType } from 'src/app/modules/shared/interfaces/shared.interface';
 import { ModalComponent } from 'src/app/modules/shared/components/modal/modal.component';
 import { ActivatedRoute, Router } from '@angular/router';
+import { ErrorHandlingService } from 'src/app/modules/app-core/services/error-handling.service';
 
 @Component({
   selector: 'app-referral',
@@ -41,7 +42,7 @@ export class ReferralComponent implements OnInit {
   count: number = 0;
   pageSize: number = 0;
 
-  constructor(private candidateSrv: CandidateProfileService, private router: Router, private storage: StorageService, private spinner: NgxSpinnerService, private route: ActivatedRoute) { }
+  constructor(private candidateSrv: CandidateProfileService, private router: Router, private storage: StorageService, private spinner: NgxSpinnerService, private route: ActivatedRoute, private errorHandlingService: ErrorHandlingService) { }
   isAwaitingVisible!: boolean;
   // isStepperVisible = true;
   isMainContentVisible!: boolean;
@@ -55,7 +56,7 @@ export class ReferralComponent implements OnInit {
     this.performFunctionalityBasedOnScreenSize();
     this.previousScreenWidth = this.screenWidth;
 
-    this.emailAddress = this.storage.get("useremail");
+    this.emailAddress = this.storage.get("userEmail");
     this.userId = this.storage.get("userId");
     this.userName = this.storage.get("userName");
     // this.getReferral();
@@ -151,15 +152,20 @@ export class ReferralComponent implements OnInit {
         // this.getRefereeDetials(response.accc);
       }
     }).catch((error: any) => {
-      if (error.status == 404) {
-        this.spinner.hide()
-        this.router.navigate(['/auth/logout']);
-      } else if (error.status == 401) {
-        this.storage.set('redirectAfterLogin', '/candidate/referral');
-        this.router.navigate(['/']);
-      }
-      this.spinner.hide();
-      this.referralList = [];
+      // if (error.status == 404) {
+      //   this.spinner.hide()
+      //   this.router.navigate(['/auth/logout']);
+      // } else if (error.status == 401) {
+      //   this.storage.set('redirectAfterLogin', '/candidate/referral');
+      //   this.router.navigate(['/']);
+      // }
+      // this.spinner.hide();
+      // this.referralList = [];
+      this.errorHandlingService.handleApiError(error, () => {
+        this.spinner.hide();
+        this.referralList = [];
+      });
+
     }
     );
   }
@@ -258,19 +264,26 @@ export class ReferralComponent implements OnInit {
         this.openModal(ModalType.REFERRAL_RATING);
       }
     }).catch((error: any) => {
-      if (error.status == 404) {
-        this.spinner.hide()
-        this.router.navigate(['/auth/logout']);
-      } else if (error.status == 401) {
-        this.storage.set('redirectAfterLogin', '/candidate/referral');
-        this.router.navigate(['/']);
-      } else {
-        this.spinner.hide();
+      // if (error.status == 404) {
+      //   this.spinner.hide()
+      //   this.router.navigate(['/auth/logout']);
+      // } else if (error.status == 401) {
+      //   this.storage.set('redirectAfterLogin', '/candidate/referral');
+      //   this.router.navigate(['/']);
+      // } else {
+      //   this.spinner.hide();
 
-        this.successMessage = "Something went wrong. Please try again after sometime";
+      //   this.successMessage = "Something went wrong. Please try again after sometime";
+      //   this.successTitle = "Error";
+      //   this.openModal(ModalType.SUCCESS_ERROR_MESSAGE);
+      // }
+
+      this.errorHandlingService.handleApiError(error, () => {
+        this.spinner.hide();
+        this.successMessage = "Something went wrong. Please try again later.";
         this.successTitle = "Error";
         this.openModal(ModalType.SUCCESS_ERROR_MESSAGE);
-      }
+      });
     }
     );
   }
@@ -308,19 +321,26 @@ export class ReferralComponent implements OnInit {
         this.spinner.hide();
       }
     }).catch((error: any) => {
-      if (error.status == 404) {
-        this.spinner.hide()
-        this.router.navigate(['/auth/logout']);
-      } else if (error.status == 401) {
-        this.storage.set('redirectAfterLogin', '/candidate/referral');
-        this.router.navigate(['/']);
-      } else {
-        this.spinner.hide();
+      // if (error.status == 404) {
+      //   this.spinner.hide()
+      //   this.router.navigate(['/auth/logout']);
+      // } else if (error.status == 401) {
+      //   this.storage.set('redirectAfterLogin', '/candidate/referral');
+      //   this.router.navigate(['/']);
+      // } else {
+      //   this.spinner.hide();
 
-        this.successMessage = "Something went wrong. Please try again after sometime";
+      //   this.successMessage = "Something went wrong. Please try again after sometime";
+      //   this.successTitle = "Error";
+      //   this.openModal(ModalType.SUCCESS_ERROR_MESSAGE);
+      // }
+      this.errorHandlingService.handleApiError(error, () => {
+        this.spinner.hide();
+        this.successMessage = "Something went wrong. Please try again later.";
         this.successTitle = "Error";
         this.openModal(ModalType.SUCCESS_ERROR_MESSAGE);
-      }
+      });
+
     }
     );
 
@@ -348,17 +368,22 @@ export class ReferralComponent implements OnInit {
 
       }
     }).catch((error: any) => {
-      if (error.status == 404) {
-        this.spinner.hide()
-        this.router.navigate(['/auth/logout']);
-      } else if (error.status == 401) {
-        this.storage.set('redirectAfterLogin', '/candidate/referral');
-        this.router.navigate(['/']);
-      } else if (executeProcessedStatus) {
-        this.processStatus = true;
-      }
+      // if (error.status == 404) {
+      //   this.spinner.hide()
+      //   this.router.navigate(['/auth/logout']);
+      // } else if (error.status == 401) {
+      //   this.storage.set('redirectAfterLogin', '/candidate/referral');
+      //   this.router.navigate(['/']);
+      // } else if (executeProcessedStatus) {
+      //   this.processStatus = true;
+      // }
       this.reviewData = [];
-
+      this.errorHandlingService.handleApiError(error, () => {
+        this.spinner.hide();
+        if (executeProcessedStatus) {
+          this.processStatus = true;
+        }
+      });
     }
     );
 
@@ -404,19 +429,27 @@ export class ReferralComponent implements OnInit {
         this.openModal(ModalType.SUCCESS_ERROR_MESSAGE);
       }
     }).catch((error: any) => {
-      if (error.status == 404) {
-        this.spinner.hide()
-        this.router.navigate(['/auth/logout']);
-      } else if (error.status == 401) {
-        this.storage.set('redirectAfterLogin', '/candidate/referral');
-        this.router.navigate(['/']);
-      } else {
-        this.spinner.hide();
+      // if (error.status == 404) {
+      //   this.spinner.hide()
+      //   this.router.navigate(['/auth/logout']);
+      // } else if (error.status == 401) {
+      //   this.storage.set('redirectAfterLogin', '/candidate/referral');
+      //   this.router.navigate(['/']);
+      // } else {
+      //   this.spinner.hide();
 
-        this.successMessage = "Something went wrong. Please try again after sometime";
+      //   this.successMessage = "Something went wrong. Please try again after sometime";
+      //   this.successTitle = "Error";
+      //   this.openModal(ModalType.SUCCESS_ERROR_MESSAGE);
+      // }
+
+      this.errorHandlingService.handleApiError(error, () => {
+        this.spinner.hide();
+        this.successMessage = "Something went wrong. Please try again later.";
         this.successTitle = "Error";
         this.openModal(ModalType.SUCCESS_ERROR_MESSAGE);
-      }
+      });
+
     }
     );
 
@@ -441,18 +474,24 @@ export class ReferralComponent implements OnInit {
 
       }
     }).catch((error: any) => {
-      if (error.status == 404) {
-        this.spinner.hide()
-        this.router.navigate(['/auth/logout']);
-      } else if (error.status == 401) {
-        this.storage.set('redirectAfterLogin', '/candidate/referral');
-        this.router.navigate(['/']);
-      } else {
+      // if (error.status == 404) {
+      //   this.spinner.hide()
+      //   this.router.navigate(['/auth/logout']);
+      // } else if (error.status == 401) {
+      //   this.storage.set('redirectAfterLogin', '/candidate/referral');
+      //   this.router.navigate(['/']);
+      // } else {
+      //   this.spinner.hide();
+      //   this.successMessage = "Something went wrong. Please try again after sometime";
+      //   this.successTitle = "Error";
+      //   this.openModal(ModalType.SUCCESS_ERROR_MESSAGE);
+      // }
+      this.errorHandlingService.handleApiError(error, () => {
         this.spinner.hide();
-        this.successMessage = "Something went wrong. Please try again after sometime";
+        this.successMessage = "Something went wrong. Please try again later.";
         this.successTitle = "Error";
         this.openModal(ModalType.SUCCESS_ERROR_MESSAGE);
-      }
+      });
     }
     );
 

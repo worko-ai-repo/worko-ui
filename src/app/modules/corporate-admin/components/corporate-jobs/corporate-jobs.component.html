@@ -76,7 +76,7 @@
                 'experience') }}</td>
               <td> {{ formatRange(job?.salaryRange.min, job?.salaryRange.max,
                 'salary') }}</td>
-              <td>{{ job.location | titlecase }}</td>
+              <td>{{ job?.location?.city?.length ? (job.location.city[0] | titlecase) : '' }}</td>
 
               <td id="editbtns" style="width: 100px;">
 
@@ -252,22 +252,12 @@
         <!-- Location -->
         <div class="ajobs-fitem">
           <label for="location" class="form-label required-form-field">Location</label>
-          <select id="location" formControlName="location" class="selector form-select required-form-field"
-            [ngClass]="{ 'is-invalid': isInvalid('location') }">
+          <select id="location" formControlName="cityControl" class="selector form-select required-form-field"
+            [ngClass]="{ 'is-invalid': isInvalid('location.city') }" (change)="onLocationChange($event)">
             <option value="" disabled selected>Select Location</option> <!-- Placeholder-like option -->
-            <option value="noida">Noida</option>
-            <option value="bangalore">Bangalore</option>
-            <option value="hyderabad">Hyderabad</option>
-            <option value="pune">Pune</option>
-            <option value="mumbai">Mumbai</option>
-            <option value="chennai">Chennai</option>
-            <option value="delhi">Delhi</option>
-            <option value="gurgaon">Gurgaon</option>
-            <option value="kolkata">Kolkata</option>
-            <option value="ahmedabad">Ahmedabad</option>
-            <option value="chandigarh">Chandigarh</option>
+            <option *ngFor="let loc of locations" [value]="loc">{{ loc }}</option>
           </select>
-          <span *ngIf="isInvalid('location')" class="text-danger">{{ getErrorMessage('location') }}</span>
+          <span *ngIf="isInvalid('location.city')" class="text-danger">{{ getErrorMessage('location.city') }}</span>
         </div>
 
         <!-- Notice Period -->
@@ -372,23 +362,23 @@
 
         <!-- GoodToHave Skills Input -->
         <div class="ajobs-fitem gCloumnOne">
-          <label for="mislaneiousSkills" class="form-label">Good to have Skills</label>&nbsp;
+          <label for="miscellaneousSkills" class="form-label">Good to have Skills</label>&nbsp;
           <span class="ajob-tooltip"
             style=" cursor: pointer; width: min-content; position:relative ;height: min-content;">
             <i class="fa-solid fa-circle-info " matTooltip="{{skillsTooltipMessage}}" matTooltipPosition="above"></i>
           </span>
-          <input type="text" id="mislaneiousSkills" (keydown.enter)="onSkillInput($event, 'mislaneiousSkills')"
-            class="form-control form-input " [ngClass]="{ 'is-invalid': isInvalid('mislaneiousSkills') }" />
+          <input type="text" id="miscellaneousSkills" (keydown.enter)="onSkillInput($event, 'miscellaneousSkills')"
+            class="form-control form-input " [ngClass]="{ 'is-invalid': isInvalid('miscellaneousSkills') }" />
 
           <div class="skill-chip-box">
-            <span *ngFor="let skill of mislaneiousSkills; let i = index" class="skill-chip" matTooltip="{{skill}}"
+            <span *ngFor="let skill of miscellaneousSkills; let i = index" class="skill-chip" matTooltip="{{skill}}"
               matTooltipPosition="above">
               <div class="skill-chip-item">{{ skill }}</div>
               <i class="fa-solid fa-circle-xmark skill-chip-button" type="button"
-                (click)="removeSkill(i, 'mislaneiousSkills')"></i>
+                (click)="removeSkill(i, 'miscellaneousSkills')"></i>
             </span>
           </div>
-          <span *ngIf="isInvalid('mislaneiousSkills')" class="text-danger">{{ getErrorMessage('mislaneiousSkills')
+          <span *ngIf="isInvalid('miscellaneousSkills')" class="text-danger">{{ getErrorMessage('miscellaneousSkills')
             }}</span>
         </div>
 
