@@ -81,7 +81,7 @@ export class ReferralDoneComponent implements OnChanges {
 
     if (this.empdetailsList?.length > 0) {
       this.candidateName = this.empdetailsList[0].name;
-      this.profileImage = this.empdetailsList[0].profileImageAwsS3SignedUrl ? this.empdetailsList[0]?.profileImageAwsS3SignedUrl : '/assets/public/candidate-img.png'
+      this.profileImage = this.empdetailsList[0].profileImageAwsS3SignedUrl ? this.empdetailsList[0]?.profileImageAwsS3SignedUrl : 'assets/public/candidate-img.png'
     }
 
     if (this.selectedStatus === 'REFERRED') {

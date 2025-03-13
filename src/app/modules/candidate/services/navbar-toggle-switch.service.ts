@@ -22,6 +22,12 @@ export class NavbarToggleSwitchService {
     // else {
     //   localStorage.removeItem(this.localStoragekey);
     // }
+
+ this.currentDashboard = this.storage.get('lastAccessedDash');
+ console.log(this.currentDashboard)
+
+
+
   }
 
   getDashboard() {

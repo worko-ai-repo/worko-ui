@@ -4,6 +4,7 @@ import { DomSanitizer, SafeResourceUrl } from '@angular/platform-browser';
 import { ActivatedRoute, Router } from '@angular/router';
 import { NgxSpinnerService } from 'ngx-spinner';
 import { debounceTime, Subject } from 'rxjs';
+import { ErrorHandlingService } from 'src/app/modules/app-core/services/error-handling.service';
 import { StorageService } from 'src/app/modules/app-core/services/storage.service';
 import { CorporateService } from 'src/app/modules/corporate-admin/services/corporate.service';
 import { ModalComponent } from 'src/app/modules/shared/components/modal/modal.component';
@@ -116,7 +117,7 @@ export class AdminResumeMatchTableComponent {
 
 
 
-  constructor(private router: Router, private fb: FormBuilder, private corporateService: CorporateService, private spinner: NgxSpinnerService, private cdr: ChangeDetectorRef, private sanitizer: DomSanitizer, private route: ActivatedRoute, private storage: StorageService) {
+  constructor(private router: Router, private fb: FormBuilder, private corporateService: CorporateService, private spinner: NgxSpinnerService, private cdr: ChangeDetectorRef, private sanitizer: DomSanitizer, private route: ActivatedRoute, private storage: StorageService, private errorHandlingService: ErrorHandlingService) {
     this.searchTerms.pipe(
       debounceTime(300), // Adjust the debounce time as needed (300 milliseconds in this example)
       //distinctUntilChanged()
@@ -130,7 +131,7 @@ export class AdminResumeMatchTableComponent {
 
   async ngOnInit() {
 
-    this.emailAddress = this.storage.get("useremail");
+    this.emailAddress = this.storage.get("userEmail");
     this.userId = this.storage.get("userId");
 
     this.corporateBulkJdId = this.route.snapshot.paramMap.get('id');
@@ -173,7 +174,13 @@ export class AdminResumeMatchTableComponent {
       // console.log('Bulk JD Details:', this.bulkJdDetails);
     } catch (error) {
       console.error('Error fetching Bulk JD details:', error);
-      this.handleError(error, 'Error fetching Bulk JD details. Please try again.');
+      // this.handleError(error, 'Error fetching Bulk JD details. Please try again.');
+      this.errorHandlingService.handleApiError(error, () => {
+        this.modalSize = 'md';
+        this.successMessage = "Something went wrong. Please try again later.";
+        this.successTitle = "Error";
+        this.openModal(ModalType.SUCCESS_ERROR_MESSAGE);
+      });
     } finally {
       this.spinner.hide();
     }
@@ -203,7 +210,14 @@ export class AdminResumeMatchTableComponent {
       //   setTimeout(() => this.checkProcessingStatus(), 5000); // Poll every 5 seconds
       // }
     } catch (error: any) {
-      this.handleError(error, "Error checking processing status.");
+      // this.handleError(error, "Error checking processing status.");
+      console.error('Error checking processing status.', error);
+      this.errorHandlingService.handleApiError(error, () => {
+        this.modalSize = 'md';
+        this.successMessage = "Something went wrong. Please try again later.";
+        this.successTitle = "Error";
+        this.openModal(ModalType.SUCCESS_ERROR_MESSAGE);
+      });
     } finally {
       this.spinner.hide();
     }
@@ -235,7 +249,13 @@ export class AdminResumeMatchTableComponent {
         }
       } catch (error) {
         console.error('Error fetching CV details:', error);
-        this.handleError(error, 'Error fetching CV details. Please try again.');
+        // this.handleError(error, 'Error fetching CV details. Please try again.');
+        this.errorHandlingService.handleApiError(error, () => {
+          this.modalSize = 'md';
+          this.successMessage = "Something went wrong. Please try again later.";
+          this.successTitle = "Error";
+          this.openModal(ModalType.SUCCESS_ERROR_MESSAGE);
+        });
       } finally {
         this.spinner.hide();
       }
@@ -644,13 +664,13 @@ export class AdminResumeMatchTableComponent {
       return;
     }
     const THRESHOLD_SCORE = 70;
-  
+
     this.scoreDetails = cv.matchingScore >= THRESHOLD_SCORE ? cv.scoreDetails : cv.rejectionFeedbackBySystem;
-  
+
     this.detailedAnalysisModalSize = true;
     this.openModal(ModalType.SHOW_MORE_DETAILS);
   }
-  
+
   closeDetailedPopup() {
     this.detailedAnalysisModalSize = false;
     this.closeModal();

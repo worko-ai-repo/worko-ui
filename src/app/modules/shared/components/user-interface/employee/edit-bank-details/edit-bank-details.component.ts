@@ -19,11 +19,11 @@ export class EditBankDetailsComponent {
     
   // };
   employeeBankDetails: any = {};
-  emailAddress: string = this.storage.get("useremail");
+  emailAddress: string = this.storage.get("userEmail");
   constructor( private empService: EmployeeProfileService, private storage: StorageService) { }
 
   ngOnInit(): void {
-    this.emailAddress = this.storage.get("useremail");
+    this.emailAddress = this.storage.get("userEmail");
     // this.getBankDetails();
 
 

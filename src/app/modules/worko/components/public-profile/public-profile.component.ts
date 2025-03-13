@@ -26,7 +26,7 @@ export class PublicProfileComponent implements OnInit {
 
   constructor(private candidateSrv:CandidateProfileService , private publicSrv:PublicProfileService, private storage: StorageService){}
   ngOnInit(): void {
-    this.emailAddress = this.storage.get("useremail");
+    this.emailAddress = this.storage.get("userEmail");
     
     this.getPubllicUserDetails();
     

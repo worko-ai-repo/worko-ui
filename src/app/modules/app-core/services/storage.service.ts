@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { SecureStorageService } from './secure-storage.service';
-import { BehaviorSubject, Observable } from 'rxjs';
+import { BehaviorSubject } from 'rxjs';
 @Injectable({
   providedIn: 'root'
 })
@@ -8,6 +8,7 @@ export class StorageService {
 
   private localStorageSubject = new BehaviorSubject<boolean | null>(null);
   private notificationStorageSubject = new BehaviorSubject<boolean | null>(null);
+
   /**
    * Constructor.
    *
@@ -22,15 +23,13 @@ export class StorageService {
    * @param {any} value
    * @returns {void}
    */
-  set(key: string, value: any): void {
-    this.secureStorageService.secureStorage.setItem(key, value);
-    //Check for detect the change in the "useremail" localStorage only
-    if(key == "useremail"){
-      this.localStorageSubject.next(value);
+  set<T>(key: string, value: T): void {
+    this.secureStorageService.setItem(key, value);
+
+    // Notify changes
+    if (key === 'useremail') {
+      this.localStorageSubject.next(true);
     }
-    // if(key == "requesterRequests"){
-    //   this.notificationStorageSubject.next(value);
-    // }
   }
 
   /**
@@ -39,9 +38,8 @@ export class StorageService {
    * @param {string} key
    * @returns {any}
    */
-  get(key: string): any {
-    return this.secureStorageService.secureStorage.getItem(key);
-    
+  get<T>(key: string): T | any {
+    return this.secureStorageService.getItem<T>(key);
   }
 
   /**
@@ -51,8 +49,7 @@ export class StorageService {
    * @returns {void}
    */
   remove(key: string): void {
-    this.secureStorageService.secureStorage.removeItem(key);
-  
+    this.secureStorageService.removeItem(key);
   }
 
   /**
@@ -61,20 +58,18 @@ export class StorageService {
    * @returns {void}
    */
   clear(): void {
-    this.secureStorageService.secureStorage.clear();
+    this.secureStorageService.clear();
   }
 
   /**
-   * Check change in localStorage Value
-   * @returns {void}
+   * Observe localStorage changes
    */
   getLocalStorageValueObservable() {
     return this.localStorageSubject.asObservable();
   }
 
   /**
-   * Check change in localStorage Value
-   * @returns {void}
+   * Observe notification storage changes
    */
   getNotificationLocalStorageValueObservable() {
     return this.notificationStorageSubject.asObservable();

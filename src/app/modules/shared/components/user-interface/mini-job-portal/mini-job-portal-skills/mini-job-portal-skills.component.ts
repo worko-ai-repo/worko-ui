@@ -9,7 +9,7 @@ export class MiniJobPortalSkillsComponent {
 
   @Input() jobDescriptionDetails: any;
   coreSkills: string[] = []
-  mislaneiousSkills: string[] = [];
+  miscellaneousSkills: string[] = [];
   technicalSkills: string[] = [];
   otherRequirements: string[] = [];
 
@@ -21,7 +21,7 @@ export class MiniJobPortalSkillsComponent {
 
   updateSkills(): void {
     this.coreSkills = this.jobDescriptionDetails.coreSkills
-    this.mislaneiousSkills = this.jobDescriptionDetails.mislaneiousSkills
+    this.miscellaneousSkills = this.jobDescriptionDetails.miscellaneousSkills
     this.technicalSkills = this.jobDescriptionDetails.technicalSkills
     this.otherRequirements = this.jobDescriptionDetails.otherRequirements
   }

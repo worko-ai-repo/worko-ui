@@ -59,7 +59,7 @@ export class PersonalInformationComponent implements OnInit {
     fileName: "",
     fileToUpload: "",
     fileType: "",
-    profilePicUrl: "/assets/public/candidate-img.png"
+    profilePicUrl: "assets/public/candidate-img.png"
 
 
   };
@@ -83,7 +83,7 @@ export class PersonalInformationComponent implements OnInit {
 
   ngOnInit(): void {
 
-    this.emailid = this.storage.get("useremail");
+    this.emailid = this.storage.get("userEmail");
 
 
   }
@@ -172,7 +172,7 @@ export class PersonalInformationComponent implements OnInit {
       socialLinktwitter: this.candidateSocial?.twitter,
       socialSk: this.candidateSocial?.SK,
       socialPk: this.candidateSocial?.PK,
-      profilePicUrl: this.candidateList?.profileImageAwsS3SignedUrl ? this.candidateList?.profileImageAwsS3SignedUrl : "/assets/public/candidate-img.png",
+      profilePicUrl: this.candidateList?.profileImageAwsS3SignedUrl ? this.candidateList?.profileImageAwsS3SignedUrl : "assets/public/candidate-img.png",
       isEmailVerified: this.candidateList?.isEmailVerified,
       isNumberVerified: this.candidateList?.isEmailVerified,
       country: this.candidateList?.country ? this.candidateList?.country : ""

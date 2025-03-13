@@ -23,6 +23,7 @@ export const environment = {
       userPoolWebClientId: '16sh5s2bo3169886fdm8gtp0e4',
       domain:'worko-dev.auth.ap-south-1.amazoncognito.com'
     },
+    jobBaseUrl: 'https://jobs.dev.worko.work/',
     razorpayKey:"REDACTED",
     // crossOriginUrl:'https://dev.worko.work',
     localUrl: 'https://dev.worko.work',

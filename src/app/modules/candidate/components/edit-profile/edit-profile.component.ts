@@ -9,6 +9,7 @@ import { NgxSpinnerService } from 'ngx-spinner';
 import { ModalComponent } from 'src/app/modules/shared/components/modal/modal.component';
 import { ModalType } from 'src/app/modules/shared/interfaces/shared.interface';
 import { CognitoService } from 'src/app/modules/services/cognito.service';
+import { ErrorHandlingService } from 'src/app/modules/app-core/services/error-handling.service';
 @Component({
   selector: 'app-edit-profile',
   templateUrl: './edit-profile.component.html',
@@ -53,9 +54,9 @@ export class EditProfileComponent implements OnInit {
   showModal: ModalType | undefined;
   
   details: any;
-  constructor(private spinner: NgxSpinnerService,private cognitoService: CognitoService, private router: Router, private candidateSrv: CandidateProfileService, private storage: StorageService, private authService: AuthService) { }
+  constructor(private spinner: NgxSpinnerService,private cognitoService: CognitoService, private router: Router, private candidateSrv: CandidateProfileService, private storage: StorageService, private authService: AuthService, private errorHandlingService: ErrorHandlingService) { }
   ngOnInit(): void {
-    this.emailAddress = this.storage.get("useremail");
+    this.emailAddress = this.storage.get("userEmail");
     this.getCandidateDetails();
     // this.openModal(this.modalType.MESSAGE, "Title", "Conteny");
   }
@@ -98,18 +99,24 @@ export class EditProfileComponent implements OnInit {
 
       })
     } catch (error: any) {
-      if (error.status==404) { 
-        this.spinner.hide()
-        this.router.navigate(['/auth/logout']);
-      }else if (error.status==401){
+      // if (error.status==404) { 
+      //   this.spinner.hide()
+      //   this.router.navigate(['/auth/logout']);
+      // }else if (error.status==401){
      
-       this.router.navigate(['/']);
-      } else {
+      //  this.router.navigate(['/']);
+      // } else {
+      //   this.spinner.hide();
+      //   this.successMessage = "Something went wrong. Please try again after sometime";
+      //   this.successTitle = "Error";
+      //   this.openModal(ModalType.SUCCESS_ERROR_MESSAGE);
+      // }
+      this.errorHandlingService.handleApiError(error, () => {
         this.spinner.hide();
-        this.successMessage = "Something went wrong. Please try again after sometime";
+        this.successMessage = "Something went wrong. Please try again after sometime.";
         this.successTitle = "Error";
         this.openModal(ModalType.SUCCESS_ERROR_MESSAGE);
-      }
+      });
     }
   }
 
@@ -142,18 +149,24 @@ export class EditProfileComponent implements OnInit {
 
       }
     } catch (error: any) {
-      if (error.status==404) { 
-        this.spinner.hide()
-        this.router.navigate(['/auth/logout']);
-      }else if (error.status==401){
+      // if (error.status==404) { 
+      //   this.spinner.hide()
+      //   this.router.navigate(['/auth/logout']);
+      // }else if (error.status==401){
      
-       this.router.navigate(['/']);
-      } else {
+      //  this.router.navigate(['/']);
+      // } else {
+      //   this.spinner.hide();
+      //   this.successMessage = "Something went wrong. Please try again after sometime";
+      //   this.successTitle = "Error";
+      //   this.openModal(ModalType.SUCCESS_ERROR_MESSAGE);
+      // }
+      this.errorHandlingService.handleApiError(error, () => {
         this.spinner.hide();
-        this.successMessage = "Something went wrong. Please try again after sometime";
+        this.successMessage = "Something went wrong. Please try again after sometime.";
         this.successTitle = "Error";
         this.openModal(ModalType.SUCCESS_ERROR_MESSAGE);
-      }
+      });
     }
     
 
@@ -175,18 +188,24 @@ export class EditProfileComponent implements OnInit {
         // }
       })
     } catch (error: any) {
-      if (error.status==404) { 
-        this.spinner.hide()
-        this.router.navigate(['/auth/logout']);
-      }else if (error.status==401){
+      // if (error.status==404) { 
+      //   this.spinner.hide()
+      //   this.router.navigate(['/auth/logout']);
+      // }else if (error.status==401){
      
-       this.router.navigate(['/']);
-      } else {
+      //  this.router.navigate(['/']);
+      // } else {
+      //   this.spinner.hide();
+      //   this.successMessage = "Something went wrong. Please try again after sometime";
+      //   this.successTitle = "Error";
+      //   this.openModal(ModalType.SUCCESS_ERROR_MESSAGE);
+      // }
+      this.errorHandlingService.handleApiError(error, () => {
         this.spinner.hide();
-        this.successMessage = "Something went wrong. Please try again after sometime";
+        this.successMessage = "Something went wrong. Please try again after sometime.";
         this.successTitle = "Error";
         this.openModal(ModalType.SUCCESS_ERROR_MESSAGE);
-      }
+      });
     }
   }
 
@@ -210,18 +229,24 @@ export class EditProfileComponent implements OnInit {
         this.creatSocialProfile();
       }
     } catch (error: any) {
-      if (error.status==404) { 
-        this.spinner.hide()
-        this.router.navigate(['/auth/logout']);
-      }else if (error.status==401){
+      // if (error.status==404) { 
+      //   this.spinner.hide()
+      //   this.router.navigate(['/auth/logout']);
+      // }else if (error.status==401){
      
-       this.router.navigate(['/']);
-      } else {
+      //  this.router.navigate(['/']);
+      // } else {
+      //   this.spinner.hide();
+      //   this.successMessage = "Something went wrong. Please try again after sometime";
+      //   this.successTitle = "Error";
+      //   this.openModal(ModalType.SUCCESS_ERROR_MESSAGE);
+      // }
+      this.errorHandlingService.handleApiError(error, () => {
         this.spinner.hide();
-        this.successMessage = "Something went wrong. Please try again after sometime";
+        this.successMessage = "Something went wrong. Please try again after sometime.";
         this.successTitle = "Error";
         this.openModal(ModalType.SUCCESS_ERROR_MESSAGE);
-      }
+      });
     }
 
   }
@@ -291,18 +316,24 @@ export class EditProfileComponent implements OnInit {
         }
       })
     } catch (error: any) {
-      if (error.status==404) { 
-        this.spinner.hide()
-        this.router.navigate(['/auth/logout']);
-      }else if (error.status==401){
+      // if (error.status==404) { 
+      //   this.spinner.hide()
+      //   this.router.navigate(['/auth/logout']);
+      // }else if (error.status==401){
      
-       this.router.navigate(['/']);
-      } else {
+      //  this.router.navigate(['/']);
+      // } else {
+      //   this.spinner.hide();
+      //   this.successMessage = "Something went wrong. Please try again after sometime";
+      //   this.successTitle = "Error";
+      //   this.openModal(ModalType.SUCCESS_ERROR_MESSAGE);
+      // }
+      this.errorHandlingService.handleApiError(error, () => {
         this.spinner.hide();
-        this.successMessage = "Something went wrong. Please try again after sometime";
+        this.successMessage = "Something went wrong. Please try again after sometime.";
         this.successTitle = "Error";
         this.openModal(ModalType.SUCCESS_ERROR_MESSAGE);
-      }
+      });
     }
   }
   modelOpen() {
@@ -388,18 +419,25 @@ export class EditProfileComponent implements OnInit {
         }
       })
     } catch (error: any) {
-      if (error.status==404) { 
-        this.spinner.hide()
-        this.router.navigate(['/auth/logout']);
-      }else if (error.status==401){
+      // if (error.status==404) { 
+      //   this.spinner.hide()
+      //   this.router.navigate(['/auth/logout']);
+      // }else if (error.status==401){
      
-       this.router.navigate(['/']);
-      }else {
+      //  this.router.navigate(['/']);
+      // }else {
+      //   this.spinner.hide();
+      //   this.successMessage = "Something went wrong. Please try again after sometime";
+      //   this.successTitle = "Error";
+      //   this.openModal(ModalType.SUCCESS_ERROR_MESSAGE);
+      // }
+      this.errorHandlingService.handleApiError(error, () => {
+        console.error('An error occurred:', error);
         this.spinner.hide();
-        this.successMessage = "Something went wrong. Please try again after sometime";
+        this.successMessage = "Something went wrong. Please try again after sometime.";
         this.successTitle = "Error";
         this.openModal(ModalType.SUCCESS_ERROR_MESSAGE);
-      }
+      });
     }
   };
 
@@ -418,25 +456,32 @@ export class EditProfileComponent implements OnInit {
       this.spinner.hide(); // Hide the spinner after successful API call
     } catch (error: any) {
       this.spinner.hide(); // Hide the spinner in case of error as well
-       if (error.status==404) { 
-        this.spinner.hide()
-        this.router.navigate(['/auth/logout']);
-      }else if (error.status==401){
+      //  if (error.status==404) { 
+      //   this.spinner.hide()
+      //   this.router.navigate(['/auth/logout']);
+      // }else if (error.status==401){
      
-       this.router.navigate(['/']);
-      }
-        // Handle unauthorized or forbidden error
+      //  this.router.navigate(['/']);
+      // }
+      //   // Handle unauthorized or forbidden error
 
-        // For example, you can redirect the user to a login page or display an error message
-       else {
-        // Handle other errors
+      //   // For example, you can redirect the user to a login page or display an error message
+      //  else {
+      //   // Handle other errors
+      //   this.spinner.hide();
+      //   this.successMessage = "Something went wrong. Please try again after sometime";
+      //   this.successTitle = "Error";
+      //   this.openModal(ModalType.SUCCESS_ERROR_MESSAGE);
+      //   console.error('An error occurred:', error);
+      //   // For example, display an error message to the user
+      // }
+      this.errorHandlingService.handleApiError(error, () => {
+        console.error('An error occurred:', error);
         this.spinner.hide();
-        this.successMessage = "Something went wrong. Please try again after sometime";
+        this.successMessage = "Something went wrong. Please try again after sometime.";
         this.successTitle = "Error";
         this.openModal(ModalType.SUCCESS_ERROR_MESSAGE);
-        console.error('An error occurred:', error);
-        // For example, display an error message to the user
-      }
+      });
     }
   }
 
@@ -452,26 +497,33 @@ export class EditProfileComponent implements OnInit {
       })
     } catch (error: any) {
       this.spinner.hide(); // Hide the spinner in case of error as well
-      if (error.status==404) { 
-        this.spinner.hide()
-        this.router.navigate(['/auth/logout']);
-      }else if (error.status==401){
+      // if (error.status==404) { 
+      //   this.spinner.hide()
+      //   this.router.navigate(['/auth/logout']);
+      // }else if (error.status==401){
      
-       this.router.navigate(['/']);
-      }
-        // Handle unauthorized or forbidden error
+      //  this.router.navigate(['/']);
+      // }
+      //   // Handle unauthorized or forbidden error
 
        
-        // For example, you can redirect the user to a login page or display an error message
-       else {
-        // Handle other errors
+      //   // For example, you can redirect the user to a login page or display an error message
+      //  else {
+      //   // Handle other errors
+      //   this.spinner.hide();
+      //   this.successMessage = "Something went wrong. Please try again after sometime";
+      //   this.successTitle = "Error";
+      //   this.openModal(ModalType.SUCCESS_ERROR_MESSAGE);
+      //   console.error('An error occurred:', error);
+      //   // For example, display an error message to the user
+      // }
+      this.errorHandlingService.handleApiError(error, () => {
+        console.error('An error occurred:', error);
         this.spinner.hide();
-        this.successMessage = "Something went wrong. Please try again after sometime";
+        this.successMessage = "Something went wrong. Please try again after sometime.";
         this.successTitle = "Error";
         this.openModal(ModalType.SUCCESS_ERROR_MESSAGE);
-        console.error('An error occurred:', error);
-        // For example, display an error message to the user
-      }
+      });
     }
   }
 
@@ -485,21 +537,28 @@ export class EditProfileComponent implements OnInit {
       });
     } catch (error: any) {
       this.spinner.hide(); // Hide the spinner in case of error as well
-      if (error.status==404) { 
-        this.spinner.hide()
-        this.router.navigate(['/auth/logout']);
-      }else if (error.status==401){
+      // if (error.status==404) { 
+      //   this.spinner.hide()
+      //   this.router.navigate(['/auth/logout']);
+      // }else if (error.status==401){
      
-       this.router.navigate(['/']);
-      } else {
-        // Handle other errors
+      //  this.router.navigate(['/']);
+      // } else {
+      //   // Handle other errors
+      //   this.spinner.hide();
+      //   this.successMessage = "Something went wrong. Please try again after sometime";
+      //   this.successTitle = "Error";
+      //   this.openModal(ModalType.SUCCESS_ERROR_MESSAGE);
+      //   console.error('An error occurred:', error);
+      //   // For example, display an error message to the user
+      // }
+      this.errorHandlingService.handleApiError(error, () => {
+        console.error('An error occurred:', error);
         this.spinner.hide();
-        this.successMessage = "Something went wrong. Please try again after sometime";
+        this.successMessage = "Something went wrong. Please try again after sometime.";
         this.successTitle = "Error";
         this.openModal(ModalType.SUCCESS_ERROR_MESSAGE);
-        console.error('An error occurred:', error);
-        // For example, display an error message to the user
-      }
+      });
     }
   }
 
@@ -518,21 +577,28 @@ export class EditProfileComponent implements OnInit {
 
     } catch (error: any) {
       this.spinner.hide(); // Hide the spinner in case of error as well
-      if (error.status==404) { 
-        this.spinner.hide()
-        this.router.navigate(['/auth/logout']);
-      }else if (error.status==401){
+      // if (error.status==404) { 
+      //   this.spinner.hide()
+      //   this.router.navigate(['/auth/logout']);
+      // }else if (error.status==401){
      
-       this.router.navigate(['/']);
-      }else {
-        // Handle other errors
+      //  this.router.navigate(['/']);
+      // }else {
+      //   // Handle other errors
+      //   this.spinner.hide();
+      //   this.successMessage = "Something went wrong. Please try again after sometime";
+      //   this.successTitle = "Error";
+      //   this.openModal(ModalType.SUCCESS_ERROR_MESSAGE);
+      //   console.error('An error occurred:', error);
+      //   // For example, display an error message to the user
+      // }
+      this.errorHandlingService.handleApiError(error, () => {
+        console.error('An error occurred:', error);
         this.spinner.hide();
-        this.successMessage = "Something went wrong. Please try again after sometime";
+        this.successMessage = "Something went wrong. Please try again after sometime.";
         this.successTitle = "Error";
         this.openModal(ModalType.SUCCESS_ERROR_MESSAGE);
-        console.error('An error occurred:', error);
-        // For example, display an error message to the user
-      }
+      });
     }
   }
 
@@ -548,21 +614,28 @@ export class EditProfileComponent implements OnInit {
       })
     } catch (error: any) {
       this.spinner.hide(); // Hide the spinner in case of error as well
-      if (error.status==404) { 
-        this.spinner.hide()
-        this.router.navigate(['/auth/logout']);
-      }else if (error.status==401){
+      // if (error.status==404) { 
+      //   this.spinner.hide()
+      //   this.router.navigate(['/auth/logout']);
+      // }else if (error.status==401){
      
-       this.router.navigate(['/']);
-      } else {
-        // Handle other errors
+      //  this.router.navigate(['/']);
+      // } else {
+      //   // Handle other errors
+      //   this.spinner.hide();
+      //   this.successMessage = "Something went wrong. Please try again after sometime";
+      //   this.successTitle = "Error";
+      //   this.openModal(ModalType.SUCCESS_ERROR_MESSAGE);
+      //   console.error('An error occurred:', error);
+      //   // For example, display an error message to the user
+      // }
+      this.errorHandlingService.handleApiError(error, () => {
+        console.error('An error occurred:', error);
         this.spinner.hide();
-        this.successMessage = "Something went wrong. Please try again after sometime";
+        this.successMessage = "Something went wrong. Please try again after sometime.";
         this.successTitle = "Error";
         this.openModal(ModalType.SUCCESS_ERROR_MESSAGE);
-        console.error('An error occurred:', error);
-        // For example, display an error message to the user
-      }
+      });
     }
   }
 
@@ -579,21 +652,28 @@ export class EditProfileComponent implements OnInit {
       })
     } catch (error: any) {
       this.spinner.hide(); // Hide the spinner in case of error as well
-      if (error.status==404) { 
-        this.spinner.hide()
-        this.router.navigate(['/auth/logout']);
-      }else if (error.status==401){
+      // if (error.status==404) { 
+      //   this.spinner.hide()
+      //   this.router.navigate(['/auth/logout']);
+      // }else if (error.status==401){
      
-       this.router.navigate(['/']);
-      } else {
-        // Handle other errors
+      //  this.router.navigate(['/']);
+      // } else {
+      //   // Handle other errors
+      //   this.spinner.hide();
+      //   this.successMessage = "Something went wrong. Please try again after sometime";
+      //   this.successTitle = "Error";
+      //   this.openModal(ModalType.SUCCESS_ERROR_MESSAGE);
+      //   console.error('An error occurred:', error);
+      //   // For example, display an error message to the user
+      // }
+      this.errorHandlingService.handleApiError(error, () => {
+        console.error('An error occurred:', error);
         this.spinner.hide();
-        this.successMessage = "Something went wrong. Please try again after sometime";
+        this.successMessage = "Something went wrong. Please try again after sometime.";
         this.successTitle = "Error";
         this.openModal(ModalType.SUCCESS_ERROR_MESSAGE);
-        console.error('An error occurred:', error);
-        // For example, display an error message to the user
-      }
+      });
     }
   }
   nextStepSecond(data: any) {
@@ -697,18 +777,25 @@ export class EditProfileComponent implements OnInit {
         this.updateProfilePic();
       }
     } catch (error: any) {
-      if (error.status==404) { 
-        this.spinner.hide()
-        this.router.navigate(['/auth/logout']);
-      }else if (error.status==401){
+      // if (error.status==404) { 
+      //   this.spinner.hide()
+      //   this.router.navigate(['/auth/logout']);
+      // }else if (error.status==401){
      
-       this.router.navigate(['/']);
-      } else {
+      //  this.router.navigate(['/']);
+      // } else {
+      //   this.spinner.hide();
+      //   this.successMessage = "Something went wrong. Please try again after sometime";
+      //   this.successTitle = "Error";
+      //   this.openModal(ModalType.SUCCESS_ERROR_MESSAGE);
+      // }
+      this.errorHandlingService.handleApiError(error, () => {
+        console.error('An error occurred:', error);
         this.spinner.hide();
-        this.successMessage = "Something went wrong. Please try again after sometime";
+        this.successMessage = "Something went wrong. Please try again after sometime.";
         this.successTitle = "Error";
         this.openModal(ModalType.SUCCESS_ERROR_MESSAGE);
-      }
+      });
     }
 
   }
@@ -736,18 +823,25 @@ export class EditProfileComponent implements OnInit {
         this.createUserDetails();
       }
     } catch (error: any) {
-      if (error.status==404) { 
-        this.spinner.hide()
-        this.router.navigate(['/auth/logout']);
-      }else if (error.status==401){
+      // if (error.status==404) { 
+      //   this.spinner.hide()
+      //   this.router.navigate(['/auth/logout']);
+      // }else if (error.status==401){
      
-       this.router.navigate(['/']);
-      } else {
+      //  this.router.navigate(['/']);
+      // } else {
+      //   this.spinner.hide();
+      //   this.successMessage = "Something went wrong. Please try again after sometime";
+      //   this.successTitle = "Error";
+      //   this.openModal(ModalType.SUCCESS_ERROR_MESSAGE);
+      // }
+      this.errorHandlingService.handleApiError(error, () => {
+        console.error('An error occurred:', error);
         this.spinner.hide();
-        this.successMessage = "Something went wrong. Please try again after sometime";
+        this.successMessage = "Something went wrong. Please try again after sometime.";
         this.successTitle = "Error";
         this.openModal(ModalType.SUCCESS_ERROR_MESSAGE);
-      }
+      });
     }
   }
 

@@ -27,7 +27,7 @@ export class EmployeePackagesComponent implements OnInit {
   constructor(private publicSrv : PublicProfileService, private storage:StorageService ,private empService:EmployeeProfileService, private spinner: NgxSpinnerService, private router: Router){}
 
   ngOnInit(): void {
-    this.emailAddress = this.storage.get("useremail");
+    this.emailAddress = this.storage.get("userEmail");
     this.getPackageDetail();
     this.spinner.show();
     this.successtitle = 'Alert!';

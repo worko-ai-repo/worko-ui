@@ -14,6 +14,7 @@ import { NgxSpinnerService } from "ngx-spinner";
 import { MatTableDataSource } from "@angular/material/table";
 import { MatAutocompleteTrigger } from "@angular/material/autocomplete";
 import { emailDomainDenyListValidator } from 'src/app/modules/shared/data/email-domain-validator';
+import { ErrorHandlingService } from 'src/app/modules/app-core/services/error-handling.service';
 
 
 // Interface for FetchInvitesOptionsDto
@@ -126,7 +127,8 @@ export class AdminInviteComponent implements OnInit {
     private fb: FormBuilder,
     private adminService: AdminService,
     private spinner: NgxSpinnerService,
-    private cdr: ChangeDetectorRef) {
+    private cdr: ChangeDetectorRef,
+    private errorHandlingService: ErrorHandlingService) {
 
     // Initialize the corporate Invite form with necessary fields and validation
     this.inviteForm = this.fb.group({
@@ -164,7 +166,7 @@ export class AdminInviteComponent implements OnInit {
       if (options.resetPagination) {
         this.lastKey = null;
       }
-      if(options.useCurrentPage){this.lastKey = this.previousKeys[this.previousKeys.length - 1]};
+      if (options.useCurrentPage) { this.lastKey = this.previousKeys[this.previousKeys.length - 1] };
       const params = {
         corporateUserType: options.corporateUserType,
         inviteStatus: options.inviteStatus,
@@ -192,20 +194,26 @@ export class AdminInviteComponent implements OnInit {
     } catch (error: any) {
       // Hide the spinner
       this.spinner.hide();
-      if (error.status === 404) {
-        // If page not found then open modal saying thaat somthing is wrong cant fetch the data
-        this.modalSize = "sm";
-        this.errorMessage = "Something went wrong. Please try reload the Page.";
-        this.successtitle = "Error";
-        this.openModal(ModalType.SUCCESS_ERROR_MESSAGE);
+      // if (error.status === 404) {
+      //   // If page not found then open modal saying thaat somthing is wrong cant fetch the data
+      //   this.modalSize = "sm";
+      //   this.errorMessage = "Something went wrong. Please try reload the Page.";
+      //   this.successtitle = "Error";
+      //   this.openModal(ModalType.SUCCESS_ERROR_MESSAGE);
 
-      } else if (error.status === 401) {
-        this.router.navigate(["/"]);
-      } else {
+      // } else if (error.status === 401) {
+      //   this.router.navigate(["/"]);
+      // } else {
+      //   this.errorMessage = "Something went wrong. Please try again later.";
+      //   this.successtitle = "Error";
+      //   this.openModal(ModalType.SUCCESS_ERROR_MESSAGE);
+      // }
+      this.errorHandlingService.handleApiError(error, () => {
+        this.modalSize = "md";
         this.errorMessage = "Something went wrong. Please try again later.";
         this.successtitle = "Error";
         this.openModal(ModalType.SUCCESS_ERROR_MESSAGE);
-      }
+      });
     } finally {
       this.spinner.hide();
     }
@@ -343,7 +351,7 @@ export class AdminInviteComponent implements OnInit {
   onStatusChange(statusVal: any) {
     if (statusVal.target.value === this.status.ALL) {
       this.selectedStatus = this.status.ALL;
-      this.fetchInvites({ pageSize: this.pageSize,corporateUserType:this.selectedCorporateUserType, searchText:this.searchQuery,resetPagination: true }); // Fetch all invites
+      this.fetchInvites({ pageSize: this.pageSize, corporateUserType: this.selectedCorporateUserType, searchText: this.searchQuery, resetPagination: true }); // Fetch all invites
       return;
     }
     this.selectedStatus = statusVal.target.value; // Update global variable
@@ -368,7 +376,7 @@ export class AdminInviteComponent implements OnInit {
   onCorporateUserTypeChange(corporateUserType: any) {
     if (corporateUserType.target.value === this.userType.ALL) {
       this.selectedCorporateUserType = this.userType.ALL;
-      this.fetchInvites({ pageSize: this.pageSize,inviteStatus:this.selectedStatus,searchText:this.searchQuery , resetPagination: true }); // Fetch all invites
+      this.fetchInvites({ pageSize: this.pageSize, inviteStatus: this.selectedStatus, searchText: this.searchQuery, resetPagination: true }); // Fetch all invites
       return;
     }
     this.selectedCorporateUserType = corporateUserType.target.value; // Update global variable
@@ -410,7 +418,7 @@ export class AdminInviteComponent implements OnInit {
     this.spinner.show();
     try {
       await this.adminService.updateInviteStatus(inviteId, status);
-      this.fetchInvites({ corporateUserType: this.selectedCorporateUserType, sortOrder: this.selectedSortOrder, searchText: this.searchQuery, inviteStatus: this.selectedStatus, pageSize: this.pageSize, resetPagination: false,useCurrentPage:true }); 
+      this.fetchInvites({ corporateUserType: this.selectedCorporateUserType, sortOrder: this.selectedSortOrder, searchText: this.searchQuery, inviteStatus: this.selectedStatus, pageSize: this.pageSize, resetPagination: false, useCurrentPage: true });
       await this.fetchInvites({ pageSize: this.pageSize, resetPagination: true });
     } catch (error) {
       console.error("Invite status update failed:", error);
@@ -441,7 +449,7 @@ export class AdminInviteComponent implements OnInit {
       this.errorMessage = "Something went wrong. Please try again later.";
       this.openModal(ModalType.SUCCESS_ERROR_MESSAGE);
     } finally {
-      this.fetchInvites({ corporateUserType: this.selectedCorporateUserType, sortOrder: this.selectedSortOrder, searchText: this.searchQuery, inviteStatus: this.selectedStatus, pageSize: this.pageSize, resetPagination: false,useCurrentPage:true }); 
+      this.fetchInvites({ corporateUserType: this.selectedCorporateUserType, sortOrder: this.selectedSortOrder, searchText: this.searchQuery, inviteStatus: this.selectedStatus, pageSize: this.pageSize, resetPagination: false, useCurrentPage: true });
       this.closeModal()
       this.spinner.hide();
     }
@@ -480,7 +488,7 @@ export class AdminInviteComponent implements OnInit {
   async searchInvites(event: any) {
     this.searchQuery = event.target.value;
     //  console.log("Search query:", this.searchQuery);
-    this.fetchInvites({ inviteStatus: this.selectedStatus, searchText: this.searchQuery, pageSize: this.pageSize,resetPagination:true});
+    this.fetchInvites({ inviteStatus: this.selectedStatus, searchText: this.searchQuery, pageSize: this.pageSize, resetPagination: true });
     if (this.filteredInvites.length == 0) {
       this.noInviteMessage = "No Invite present with this name or description";
     }
@@ -573,11 +581,11 @@ export class AdminInviteComponent implements OnInit {
       return 'Delete Invite';
     }
   }
-  
+
   isInviteDisabled(status: string): boolean {
     return status === 'DELETED' || status === 'ACCEPTED';
   }
-  
+
 }
 
 

@@ -316,6 +316,11 @@ export class ResumeScreeningListViewComponent {
   private handleError(error: any, defaultMessage: string): void {
     console.error(defaultMessage, error);
 
+    if (error.status === 401) {
+      this.router.navigate(["/auth/corporate/login"]);
+      return;
+    }
+
     if (error.status === 404) {
       this.router.navigate(["/corporate/cJobs"]);
       return;
@@ -444,7 +449,7 @@ export class ResumeScreeningListViewComponent {
       }
     } catch (error: any) {
       if (error.status === 401) {
-        this.router.navigate(['/']);
+        this.router.navigate(['/auth/corporate/login']);
       } else {
         console.error("Error fetching job applications:", error);
         this.modalSize = 'md';

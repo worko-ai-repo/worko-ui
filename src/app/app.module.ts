@@ -11,12 +11,11 @@ import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { HttpClientModule } from '@angular/common/http';
 import { MatTooltipModule } from '@angular/material/tooltip';
 import { NavbarToggleSwitchService } from './modules/candidate/services/navbar-toggle-switch.service';
-
-
+import { APP_BASE_HREF } from '@angular/common';
 
 
 @NgModule({
-  providers: [NavbarToggleSwitchService],
+  providers: [NavbarToggleSwitchService, { provide: APP_BASE_HREF, useValue: '/v1/' }],
   declarations: [
     AppComponent,
   ],

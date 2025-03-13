@@ -295,6 +295,11 @@ export class ResumeMatchTableComponent {
   private handleError(error: any, defaultMessage: string): void {
     console.error(defaultMessage, error);
 
+    if (error.status === 401) {
+      this.router.navigate(["/auth/corporate/login"]);
+      return;
+    }
+
     if (error.status === 404) {
       this.router.navigate(["/corporate/cJobs"]);
       return;

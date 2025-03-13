@@ -11,6 +11,7 @@ import { MatSnackBar } from '@angular/material/snack-bar';
 import { NgxSpinnerService } from 'ngx-spinner';
 import { Router } from '@angular/router';
 import { debounceTime, Subject } from 'rxjs';
+import { ErrorHandlingService } from 'src/app/modules/app-core/services/error-handling.service';
 export interface UserData {
 
   name: string;
@@ -94,7 +95,7 @@ export class AdminIssuesComponent {
   pageSizeOptions: number[] = [25, 50, 100, 150];
 
 
-  constructor(private router: Router, private elementRef: ElementRef, private cdr: ChangeDetectorRef, private adminService: AdminService, private spinner: NgxSpinnerService) {
+  constructor(private router: Router, private elementRef: ElementRef, private cdr: ChangeDetectorRef, private adminService: AdminService, private spinner: NgxSpinnerService, private errorHandlingService:ErrorHandlingService) {
     this.candidatesDataSource = new MatTableDataSource<UserData>(this.issueList);
     // this.servicesDataSource = new MatTableDataSource<UserData>(this.nameslist);
     this.searchTerms.pipe(
@@ -153,19 +154,26 @@ export class AdminIssuesComponent {
         this.hasPrevious = this.previousKeys.length > 0;
       }
     }).catch((error: any) => {
-      this.spinner.hide()
-      if (error.status == 404) {
-        this.spinner.hide()
-        this.router.navigate(['/auth/logout']);
-      } else if (error.status == 401) {
+      // this.spinner.hide()
+      // if (error.status == 404) {
+      //   this.spinner.hide()
+      //   this.router.navigate(['/auth/logout']);
+      // } else if (error.status == 401) {
 
-        this.router.navigate(['/']);
-      } else {
-        this.modalSize = 'md'
-        this.successmessage = "Something went wrong. Please try again after sometime"
-        this.successtitle = "Error"
-        this.openModal(ModalType.SUCCESS_ERROR_MESSAGE)
-      }
+      //   this.router.navigate(['/']);
+      // } else {
+      //   this.modalSize = 'md'
+      //   this.successmessage = "Something went wrong. Please try again after sometime"
+      //   this.successtitle = "Error"
+      //   this.openModal(ModalType.SUCCESS_ERROR_MESSAGE)
+      // }
+      this.spinner.hide();
+      this.errorHandlingService.handleApiError(error, () => {
+        this.modalSize = 'md';
+        this.successmessage = "Something went wrong. Please try again later.";
+        this.successtitle = "Error";
+        this.openModal(ModalType.SUCCESS_ERROR_MESSAGE);
+      });
     });
   }
 

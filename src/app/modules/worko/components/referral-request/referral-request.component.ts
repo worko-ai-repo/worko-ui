@@ -49,7 +49,7 @@ export class ReferralRequestComponent implements OnInit, OnChanges {
   ngOnInit(): void {
     // this.getSubcriptionPack();
     this.initializeForm();
-    this.emailId = this.storage.get("useremail");
+    this.emailId = this.storage.get("userEmail");
   }
 
   ngOnChanges() {

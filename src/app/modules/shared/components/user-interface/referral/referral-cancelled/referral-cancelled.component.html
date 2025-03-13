@@ -110,11 +110,11 @@
                 <div *ngIf="selectedReferral"
                     class="take-remaining d-flex flex-column justify-content-center align-items-center"
                     style="flex: 1;">
-                    <img src="/assets/public/img-req-missed.png" class="req-missed-img" alt="">
+                    <img src="assets/public/img-req-missed.png" class="req-missed-img" alt="">
                     <span class="text-white">Referral Request is Cancelled!</span>
                     <button class="btn-cv mt-2" [hidden]="!empdetailsList[0].cvAwsS3SignedUrl"
                         (click)="openfile($event)"><span><img style="width: 20px; margin-right: 2px;"
-                                src="/assets/icons/pepicons-pencil_cv.png" alt=""></span>Review CV</button>
+                                src="assets/icons/pepicons-pencil_cv.png" alt=""></span>Review CV</button>
                 </div>
 
                 <div *ngIf="!selectedReferral" class="center-elements">

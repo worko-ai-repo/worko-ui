@@ -291,7 +291,7 @@ export class ResumeScreenerPageComponent {
       // console.log('All resumes uploaded successfully.');
 
       // Step 4: Check processing status after 30 seconds
-      
+
       await new Promise(resolve => setTimeout(resolve, 30000));
       await this.checkProcessingStatus();
 
@@ -449,6 +449,11 @@ export class ResumeScreenerPageComponent {
   private handleError(error: any, defaultMessage: string): void {
     console.error(defaultMessage, error);
 
+    if (error.status === 401) {
+      this.router.navigate(['/auth/corporate/login']);
+      return
+    }
+    
     if (error.status === 404) {
       this.router.navigate(["/corporate/cJobs"]);
       return;

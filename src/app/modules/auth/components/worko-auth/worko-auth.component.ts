@@ -84,7 +84,9 @@ export class WorkoAuthComponent {
             break;
           case 'logout':
             await this.cognitoService.handleSignOut();
-            this.router.navigate(['/']);
+            // this.router.navigate(['/']);
+            const baseUrl = window.location.origin;
+            window.location.href = `${baseUrl}/`;
             // window.location.href = environment.crossOriginUrl + '/';
             break;
         }

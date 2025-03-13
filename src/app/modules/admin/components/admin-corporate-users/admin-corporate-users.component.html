@@ -60,7 +60,7 @@
                    style="cursor:pointer"
                     width="50" height="50">
                   </ng-template>
-                  {{user.companyDetails.name | ellipsis:30 | titlecase }}
+                  {{user?.companyDetails?.name | ellipsis:30 | titlecase }}
                 </td>
                 <td matTooltip={{user.email}} matTooltipPosition="above">{{ user.email | ellipsis:30  }}
                 </td>

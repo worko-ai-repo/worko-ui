@@ -100,7 +100,7 @@ export class EmployeeReferralDetailsComponent implements OnChanges {
 
     if (this.empdetailsList?.length > 0) {
 
-      this.profileImage = this.empdetailsList[0].profileImageAwsS3SignedUrl ? this.empdetailsList[0]?.profileImageAwsS3SignedUrl : '/assets/public/candidate-img.png'
+      this.profileImage = this.empdetailsList[0].profileImageAwsS3SignedUrl ? this.empdetailsList[0]?.profileImageAwsS3SignedUrl : 'assets/public/candidate-img.png'
 
     }
 

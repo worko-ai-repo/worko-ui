@@ -25,7 +25,7 @@ export class ServiceComponent implements  OnDestroy, OnInit {
   constructor(private candidateSrv: CandidateProfileService, private storage: StorageService, private spinner: NgxSpinnerService, private router: Router) { }
   
   ngOnInit(): void {
-    this.emailAddress = this.storage.get("useremail");
+    this.emailAddress = this.storage.get("userEmail");
     this.spinner.show();
     this.successtitle = 'Alert!';
     this.successmessage = "Ah, it appears you've stumbled upon a section in the works! Fear not, we're crafting a tailored experience just for you. Stay tuned as we prepare to unveil a treasure trove of job-seeking solutions. Your future success awaits!";

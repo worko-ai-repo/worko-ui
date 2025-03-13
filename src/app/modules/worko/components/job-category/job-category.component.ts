@@ -185,7 +185,7 @@ export class JobCategoryComponent implements OnInit, AfterViewInit, OnDestroy {
   }
 
   async getUserDetails() {
-    this.emailAddress = this.storage.get("useremail");
+    this.emailAddress = this.storage.get("userEmail");
     try {
       await this.candidateSrv.getUserDetails(this.emailAddress).then(async (response) => {
         if (response) {
@@ -317,7 +317,7 @@ export class JobCategoryComponent implements OnInit, AfterViewInit, OnDestroy {
 
   async getProfilePercentage() {
     if (this.userLoggedIn) {
-      this.emailAddress = this.storage.get("useremail");
+      this.emailAddress = this.storage.get("userEmail");
       const response = await this.candidateSrv.getProfileComplete(this.emailAddress);
 
       if (response) {

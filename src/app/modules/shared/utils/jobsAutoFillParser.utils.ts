@@ -56,5 +56,5 @@ export function autofillJobDetailsToForm(job: any, jobForm: any): void {
   populateFormArray(jobForm.get("coreSkills") as FormArray, job.coreSkills || []);
   populateFormArray(jobForm.get("softSkills") as FormArray, job.softSkills || []);
   populateFormArray(jobForm.get("technicalSkills") as FormArray, job.technicalSkills || []);
-  populateFormArray(jobForm.get("mislaneiousSkills") as FormArray, job.goodToHaveSkills || []);
+  populateFormArray(jobForm.get("miscellaneousSkills") as FormArray, job.goodToHaveSkills || []);
 }

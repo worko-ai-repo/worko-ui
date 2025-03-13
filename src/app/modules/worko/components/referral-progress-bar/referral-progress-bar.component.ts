@@ -47,7 +47,7 @@ export class ReferralProgressBarComponent implements OnChanges {
   }
   ngOnInit(): void {
     // console.log("current score is", this.score);
-    this.emailId = this.storage.get("useremail");
+    this.emailId = this.storage.get("userEmail");
     this.startTextLoop();
   }
   startTextLoop() {

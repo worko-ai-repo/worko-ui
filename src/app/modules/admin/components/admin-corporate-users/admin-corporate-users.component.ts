@@ -13,6 +13,7 @@ import { ModalComponent } from "src/app/modules/shared/components/modal/modal.co
 import { NgxSpinnerService } from "ngx-spinner";
 import { MatTableDataSource } from "@angular/material/table";
 import { MatAutocompleteTrigger } from "@angular/material/autocomplete";
+import { ErrorHandlingService } from 'src/app/modules/app-core/services/error-handling.service';
 
 
 // Interface for FetchUsersOptionsDto
@@ -38,10 +39,10 @@ export class AdminCorporateUsersComponent implements OnInit {
     ASC: "ascending",
     DESC: "descending",
   };
-  
+
   // Corporate User Type 
   userType = {
-    ALL:"",
+    ALL: "",
     ADMIN: "corporate-admin",
     RECRUITER: "corporate-recruiter",
   };
@@ -55,10 +56,10 @@ export class AdminCorporateUsersComponent implements OnInit {
   pageSize: number = 25; // Default page size
   pageSizeOptions: number[] = [25, 50, 100, 150];
 
-   
+
   @ViewChild("companyuserMatSort") companyuserMatSort!: MatSort; //@todo RENAME THIS AND SEE WHERE ITS GETTING UTILIZED
   @ViewChild("companyuserMatPaginator") companyuserMatPaginator!: MatPaginator;
-  
+
   // Corporate Users related properties
   users: any = [];
   dataSource = new MatTableDataSource<any>(); // To store the updated data in the table
@@ -70,7 +71,7 @@ export class AdminCorporateUsersComponent implements OnInit {
   //Filters Properties
   searchQuery: string = "";
   filteredUsers: any[] = [];
- 
+
   // Properties related to modal handling
   @ViewChild(ModalComponent) modal!: ModalComponent;
   modalType = ModalType;
@@ -79,14 +80,14 @@ export class AdminCorporateUsersComponent implements OnInit {
   modalTitle: string = "";
 
   // Properties related to modal messages
-  modalCustomTitle : string = "";
-  modalCustomMessage : string = ""; 
+  modalCustomTitle: string = "";
+  modalCustomMessage: string = "";
 
   successTitle: string = "";
   successMessage: string = "";
-  modalSize : string = "xl";
+  modalSize: string = "xl";
   copiedContextId: any;
-  
+
   /**
    * Initializes the AdminusersComponent with the required services and sets up the user form.
    *
@@ -96,30 +97,31 @@ export class AdminCorporateUsersComponent implements OnInit {
    * @param {NgxSpinnerService} spinner - The service for displaying a loading spinner.
    */
   constructor(private router: Router,
-     private fb: FormBuilder,
-     private adminService: AdminService,
-     private spinner: NgxSpinnerService ,
-    private cdr: ChangeDetectorRef) {
+    private fb: FormBuilder,
+    private adminService: AdminService,
+    private spinner: NgxSpinnerService,
+    private cdr: ChangeDetectorRef,
+    private errorHandlingService: ErrorHandlingService) {
   }
   // Implement the OnInit function to fetch the records on component initialization
   ngOnInit(): void {
-      // Fetch users on component initialization
-    this.fetchUsers({ pageSize: 25, sortOrder: this.sortOrder.DESC,  resetPagination: true });
+    // Fetch users on component initialization
+    this.fetchUsers({ pageSize: 25, sortOrder: this.sortOrder.DESC, resetPagination: true });
   }
 
-   /**
-   * fetchUsers
-   *
-   * Fetches users from the server.By taking options as args and
-   */
-   async fetchUsers(options: FetchUsersOptionsDto) {
+  /**
+  * fetchUsers
+  *
+  * Fetches users from the server.By taking options as args and
+  */
+  async fetchUsers(options: FetchUsersOptionsDto) {
     this.spinner.show();
     try {
       // If resetPagination is true, reset the lastKey
       if (options.resetPagination) {
         this.lastKey = null;
       }
-      if(options.useCurrentPage){this.lastKey = this.previousKeys[this.previousKeys.length - 1]};
+      if (options.useCurrentPage) { this.lastKey = this.previousKeys[this.previousKeys.length - 1] };
       const params = {
         corporateUserType: options.corporateUserType,
         searchText: options.searchText,
@@ -143,16 +145,23 @@ export class AdminCorporateUsersComponent implements OnInit {
         }
       }
     } catch (error: any) {
+      // this.spinner.hide();
+      // if (error.status === 404) {
+      //   this.router.navigate(["/admin/aCorporate"]);
+      // } else if (error.status === 401) {
+      //   this.router.navigate(["/auth/corporate/login"]);
+
+      // } else {
+      //   this.successMessage = "Something went wrong. Please try again later.";
+      //   this.successTitle = "Error";
+      //   this.openModal(ModalType.SUCCESS_ERROR_MESSAGE);
+      // }
       this.spinner.hide();
-      if (error.status === 404) {
-        this.router.navigate(["/admin/aCorporate"]);
-      } else if (error.status === 401) {
-        this.router.navigate(["/"]);
-      } else {
+      this.errorHandlingService.handleApiError(error, () => {
         this.successMessage = "Something went wrong. Please try again later.";
         this.successTitle = "Error";
         this.openModal(ModalType.SUCCESS_ERROR_MESSAGE);
-      }
+      });
     } finally {
       this.spinner.hide();
     }
@@ -188,39 +197,45 @@ export class AdminCorporateUsersComponent implements OnInit {
     this.currentSeletedUser = userId;
     this.openModal(ModalType.CORPORATE_USER_WARNING);
   }
-   async confirmDelete(){
-     try {
+  async confirmDelete() {
+    try {
       /* this.closeModal() */
       this.spinner.show();
       await this.adminService.deleteCorporateUserById(this.currentSeletedUser);
     } catch (error: any) {
       this.closeModal();
       this.spinner.hide();
-      if (error.status === 404) {
-        this.successMessage = "Something went wrong. Please try again later.";
+      // if (error.status === 404) {
+      //   this.successMessage = "Something went wrong. Please try again later.";
+      //   this.modalSize = "md";
+      //   this.successTitle = "Error";
+      //   this.openModal(ModalType.SUCCESS_ERROR_MESSAGE);
+      // } else {
+      //   this.successMessage = "Something went wrong. Please try again later.";
+      //   this.successTitle = "Error";
+      //   this.modalSize = "md";
+      //   this.openModal(ModalType.SUCCESS_ERROR_MESSAGE);
+      // }
+      this.errorHandlingService.handleApiError(error, () => {
         this.modalSize = "md";
+        this.successMessage = "Something went wrong. Please try again later.";
         this.successTitle = "Error";
         this.openModal(ModalType.SUCCESS_ERROR_MESSAGE);
-      } else {
-        this.successMessage = "Something went wrong. Please try again later.";
-        this.successTitle = "Error";
-        this.modalSize = "md";
-        this.openModal(ModalType.SUCCESS_ERROR_MESSAGE);
-      }
+      });
     } finally {
-      this.fetchUsers({corporateUserType : this.selectedCorporateUserType,searchText:this.searchQuery, pageSize: this.pageSize, sortOrder: this.selectedSortOrder, resetPagination: false , useCurrentPage: true });
+      this.fetchUsers({ corporateUserType: this.selectedCorporateUserType, searchText: this.searchQuery, pageSize: this.pageSize, sortOrder: this.selectedSortOrder, resetPagination: false, useCurrentPage: true });
       this.spinner.hide();
       this.closeModal()
-    } 
+    }
   }
-   /**
-   * onSortOrderChange
-   *
-   * Updates the sort order of the users.
-   */
-   onSortOrderChange(event: any) {
+  /**
+  * onSortOrderChange
+  *
+  * Updates the sort order of the users.
+  */
+  onSortOrderChange(event: any) {
     // console.log("Sort order:", event.target.value);
-    this.fetchUsers({corporateUserType : this.selectedCorporateUserType,searchText:this.searchQuery, pageSize: this.pageSize, sortOrder: event.target.value, resetPagination: true });
+    this.fetchUsers({ corporateUserType: this.selectedCorporateUserType, searchText: this.searchQuery, pageSize: this.pageSize, sortOrder: event.target.value, resetPagination: true });
   }
 
   /**
@@ -231,12 +246,12 @@ export class AdminCorporateUsersComponent implements OnInit {
   onCorporateUserTypeChange(corporateUserType: any) {
     if (corporateUserType.target.value === this.userType.ALL) {
       this.selectedCorporateUserType = this.userType.ALL;
-      this.fetchUsers({ pageSize: this.pageSize,searchText:this.searchQuery, resetPagination: true }); // Fetch all users
+      this.fetchUsers({ pageSize: this.pageSize, searchText: this.searchQuery, resetPagination: true }); // Fetch all users
       return;
     }
-      this.selectedCorporateUserType = corporateUserType.target.value; // Update global variable
-      this.fetchUsers({ corporateUserType : this.selectedCorporateUserType , searchText:this.searchQuery,pageSize: this.pageSize, resetPagination: true }); // Fetch users with the new status
-    }
+    this.selectedCorporateUserType = corporateUserType.target.value; // Update global variable
+    this.fetchUsers({ corporateUserType: this.selectedCorporateUserType, searchText: this.searchQuery, pageSize: this.pageSize, resetPagination: true }); // Fetch users with the new status
+  }
 
   /*
    * @method searchUser
@@ -245,7 +260,7 @@ export class AdminCorporateUsersComponent implements OnInit {
   async searchUser(event: any) {
     this.searchQuery = event.target.value;
     //  console.log("Search query:", this.searchQuery);
-    this.fetchUsers({corporateUserType : this.selectedCorporateUserType,searchText:this.searchQuery, pageSize: this.pageSize, sortOrder: this.selectedSortOrder, resetPagination: true });
+    this.fetchUsers({ corporateUserType: this.selectedCorporateUserType, searchText: this.searchQuery, pageSize: this.pageSize, sortOrder: this.selectedSortOrder, resetPagination: true });
     if (this.filteredUsers.length == 0) {
       this.noUsersMessage = "No User present with this name or description";
     }
@@ -256,7 +271,7 @@ export class AdminCorporateUsersComponent implements OnInit {
     this.searchQuery = "";
     this.selectedCorporateUserType = this.userType.ALL;
     this.selectedSortOrder = this.sortOrder.DESC;
-    this.fetchUsers({ corporateUserType :this.selectedCorporateUserType, pageSize: this.pageSize, resetPagination: true }); // Fetch users with the new status
+    this.fetchUsers({ corporateUserType: this.selectedCorporateUserType, pageSize: this.pageSize, resetPagination: true }); // Fetch users with the new status
   }
   /**
    * openModal
@@ -285,7 +300,7 @@ export class AdminCorporateUsersComponent implements OnInit {
     this.currentSeletedUser = "";
   }
 
-   //Pagination methods
+  //Pagination methods
   /**
    * @method onPageChange - this will be called when the user changes the page size
    * @param event
@@ -300,7 +315,7 @@ export class AdminCorporateUsersComponent implements OnInit {
     }
 
     // Fetch the next page
-    this.fetchUsers({corporateUserType :this.selectedCorporateUserType,  searchText: this.searchQuery, pageSize: this.pageSize, sortOrder: this.selectedSortOrder , resetPagination: false });
+    this.fetchUsers({ corporateUserType: this.selectedCorporateUserType, searchText: this.searchQuery, pageSize: this.pageSize, sortOrder: this.selectedSortOrder, resetPagination: false });
   }
 
 
@@ -315,11 +330,11 @@ export class AdminCorporateUsersComponent implements OnInit {
 
     if (!previousLastKey) {
       // If no valid previous key, fetch the first page
-      this.fetchUsers({corporateUserType :this.selectedCorporateUserType, searchText: this.searchQuery, pageSize: this.pageSize, sortOrder: this.selectedSortOrder, resetPagination: true });
+      this.fetchUsers({ corporateUserType: this.selectedCorporateUserType, searchText: this.searchQuery, pageSize: this.pageSize, sortOrder: this.selectedSortOrder, resetPagination: true });
     } else {
       // Fetch the previous page using the second-to-last key
-     this.lastKey = previousLastKey;
-     this.fetchUsers({corporateUserType :this.selectedCorporateUserType, searchText: this.searchQuery, pageSize: this.pageSize, sortOrder: this.selectedSortOrder, resetPagination: false });
+      this.lastKey = previousLastKey;
+      this.fetchUsers({ corporateUserType: this.selectedCorporateUserType, searchText: this.searchQuery, pageSize: this.pageSize, sortOrder: this.selectedSortOrder, resetPagination: false });
     }
   }
 
@@ -327,16 +342,16 @@ export class AdminCorporateUsersComponent implements OnInit {
     const selectedPageSize = (event.target as HTMLSelectElement).value;
     this.pageSize = Number(selectedPageSize);
     this.previousKeys = [];
-    this.fetchUsers({corporateUserType :this.selectedCorporateUserType, searchText: this.searchQuery, pageSize: this.pageSize, sortOrder: this.selectedSortOrder, resetPagination: true });
+    this.fetchUsers({ corporateUserType: this.selectedCorporateUserType, searchText: this.searchQuery, pageSize: this.pageSize, sortOrder: this.selectedSortOrder, resetPagination: true });
   }
 
 
-    // Misc method
-    getStatusClass(status: string): string {
-      return `user-${status.toLowerCase()}`; // Returns 'user-admin' 'user-recruiter';
-    }
+  // Misc method
+  getStatusClass(status: string): string {
+    return `user-${status.toLowerCase()}`; // Returns 'user-admin' 'user-recruiter';
+  }
 
-   // Copy the context ID to the clipboard
+  // Copy the context ID to the clipboard
   copyToClipboard = (id: string) => {
     navigator.clipboard.writeText(id);
     this.copiedContextId = id;

@@ -4,6 +4,7 @@ import { StorageService } from 'src/app/modules/app-core/services/storage.servic
 import { NgxSpinnerService } from 'ngx-spinner';
 import { Router } from '@angular/router';
 import { CognitoService } from 'src/app/modules/services/cognito.service';
+import { ErrorHandlingService } from 'src/app/modules/app-core/services/error-handling.service';
 @Component({
   selector: 'app-candidate-dashboard',
   templateUrl: './candidate-dashboard.component.html',
@@ -17,125 +18,122 @@ export class CandidateDashboardComponent {
   educationDetails: any = {};
   achievementsList: any = "";
   candidateSocial: any = {};
-  certificationList:any;
+  certificationList: any;
   coreSkillsLists: any;
   softSkillsLists: any;
   workExperienceDetails: any;
   userDescription: string = "";
-  profileCompletion:any="";
-  userType="Candidate";
-  userName:any;
-  successtitle: string="";
-  successmessage: string="";
+  profileCompletion: any = "";
+  userType = "Candidate";
+  userName: any;
+  successtitle: string = "";
+  successmessage: string = "";
   highestDegree: any = {};
+  userEmail: any;
 
-  constructor( private candidateSrv: CandidateProfileService,private cognitoService: CognitoService, private router: Router,private storage: StorageService,private spinner: NgxSpinnerService) { }
+  constructor(private candidateSrv: CandidateProfileService, private cognitoService: CognitoService, private router: Router, private storage: StorageService, private spinner: NgxSpinnerService, private errorHandlingService: ErrorHandlingService) { }
 
   ngOnInit(): void {
-    // console.log("In Candidate Dashboard Component");
-    this.emailAddress = this.storage.get("useremail");
-    
+    this.userEmail = this.storage.get("userEmail");
+    this.emailAddress = this.storage.get("userEmail");
     this.getCandidateDetails()
-
   }
 
   getSlicedValue(value: string): string {
     const parts = value?.split('#');
     if (parts && parts.length > 1) {
-        return parts.length > 2 ? parts[2] : parts[1];
+      return parts.length > 2 ? parts[2] : parts[1];
     }
     return '';
   }
 
   async getCandidateDetails() {
-    
+
     this.spinner.show();
-    try{
-    await this.candidateSrv.getUserDetails(this.emailAddress).then(async (response) => {
-      if (response) {
-        this.candidateList = response
-        if(response[0].id)
-        {
-        this.storage.set('userId', response[0].id);
+    try {
+      await this.candidateSrv.getUserDetails(this.emailAddress).then(async (response) => {
+        if (response) {
+          this.candidateList = response
+          if (response[0].id) {
+            this.storage.set('userId', response[0].id);
+          }
+          else {
+            let userId = this.getSlicedValue(response[0].SK);
+            this.storage.set('userId', userId);
+          }
+          this.candidateDetails = this.candidateList[0];
+          this.userName = this.candidateDetails.name;
+          this.storage.set('userName', this.userName);
+          this.userDescription = this.candidateList[0].about;
+          await this.getEducationDetails();
         }
-        else
-        {
-          let userId = this.getSlicedValue(response[0].SK);
-          this.storage.set('userId', userId);
-        }
-        this.candidateDetails = this.candidateList[0];
-        this.userName = this.candidateDetails.name;
-        this.storage.set('userName', this.userName);
-        this.userDescription = this.candidateList[0].about;
-        await this.getEducationDetails();
-      }
-    })
-  }catch(error:any ){
-   
-    // if(error.status==404 || error.status==401){
+      })
+    } catch (error: any) {
+
+      // if(error.status==404 || error.status==401){
       this.spinner.hide()
-      if (error.status==404) { 
-        this.spinner.hide()
-        this.router.navigate(['/auth/logout']);
-      }else{
-     
-       this.router.navigate(['/']);
-      }
-    
-    // }else{
-    //   this.spinner.hide();
-    //   this.successmessage = "Something went wrong. Please try again after sometime"
-    //   this.successtitle = "Error"
-    //   // this.openModal(ModalType.SUCCESS_MESSAGE)
-    // }
-    // this.spinner.hide()
-    // this.router.navigate(['/']);
-  }
- 
+      // if (error.status == 404) {
+      //   this.spinner.hide()
+      //   this.router.navigate(['/auth/logout']);
+      // } else {
+
+      //   this.router.navigate(['/']);
+      // }
+      this.errorHandlingService.handleApiError(error);
+
+      // }else{
+      //   this.spinner.hide();
+      //   this.successmessage = "Something went wrong. Please try again after sometime"
+      //   this.successtitle = "Error"
+      //   // this.openModal(ModalType.SUCCESS_MESSAGE)
+      // }
+      // this.spinner.hide()
+      // this.router.navigate(['/']);
+    }
+
   }
 
   async getEducationDetails() {
-    try{
-    await this.candidateSrv.getCandidateEducation(this.emailAddress).then(async (response) => {
-      if (Array.isArray(response) && response.length > 0 ) {
-         this.educationList = response;
-        // this.educationDetails = this.educationList;
-        
-         // If there are multiple entries, find the highest degree
-      if (this.educationList.length > 1) {
-        this.highestDegree = this.educationList.reduce((prev: { passingYear: any; }, current: { passingYear: any; }) => {
-          return (prev.passingYear > current.passingYear) ? prev : current;
-        });
-        this.educationDetails = this.highestDegree;
-      } else {
-        // If there's only one entry, it's already the highest degree
-        this.educationDetails = this.educationList[0];
-      }
-    
-      }
-     // this.getWorkExperienceDetails();
-     this.getAchievements();
-    })
-  }catch(error:any ){
-    //if(error.status==404 || error.status==401){
+    try {
+      await this.candidateSrv.getCandidateEducation(this.emailAddress).then(async (response) => {
+        if (Array.isArray(response) && response.length > 0) {
+          this.educationList = response;
+          // this.educationDetails = this.educationList;
+
+          // If there are multiple entries, find the highest degree
+          if (this.educationList.length > 1) {
+            this.highestDegree = this.educationList.reduce((prev: { passingYear: any; }, current: { passingYear: any; }) => {
+              return (prev.passingYear > current.passingYear) ? prev : current;
+            });
+            this.educationDetails = this.highestDegree;
+          } else {
+            // If there's only one entry, it's already the highest degree
+            this.educationDetails = this.educationList[0];
+          }
+
+        }
+        // this.getWorkExperienceDetails();
+        this.getAchievements();
+      })
+    } catch (error: any) {
+      //if(error.status==404 || error.status==401){
       this.spinner.hide()
-      if (error.status==404) { 
-        this.spinner.hide()
-        this.router.navigate(['/auth/logout']);
-      }else{
-     
-       this.router.navigate(['/']);
-      }
-  
-  
-  }
+      // if (error.status==404) { 
+      //   this.spinner.hide()
+      //   this.router.navigate(['/auth/logout']);
+      // }else{
+
+      //  this.router.navigate(['/']);
+      // }
+      this.errorHandlingService.handleApiError(error);
+    }
   }
 
   // async getWorkExperienceDetails() {
   //   await this.candidateSrv.getWorkExperience(this.emailAddress).then(async (response) => {
   //     if (Array.isArray(response) && response.length > 0 ) {
   //       this.workExperienceDetails = response;
-       
+
   //     }
   //     this.getAchievements();
   //   })
@@ -143,98 +141,95 @@ export class CandidateDashboardComponent {
 
 
   async getAchievements() {
-    try{
-    await this.candidateSrv.getCandidateAchievements(this.emailAddress).then(async (response) => {
-      if (Array.isArray(response) && response.length > 0 ) {
-        this.achievementsList = response[0]?.achievements;
-      }
-      this.getSocialProfile();
-    })
-  }catch(error:any ){
-    //if(error.status==404 || error.status==401){
+    try {
+      await this.candidateSrv.getCandidateAchievements(this.emailAddress).then(async (response) => {
+        if (Array.isArray(response) && response.length > 0) {
+          this.achievementsList = response[0]?.achievements;
+        }
+        this.getSocialProfile();
+      })
+    } catch (error: any) {
+      //if(error.status==404 || error.status==401){
       this.spinner.hide()
-      if (error.status==404) { 
-        this.spinner.hide()
-        this.router.navigate(['/auth/logout']);
-      }else{
-     
-       this.router.navigate(['/']);
-      }
-  
-  
-  }
+      // if (error.status == 404) {
+      //   this.spinner.hide()
+      //   this.router.navigate(['/auth/logout']);
+      // } else {
+
+      //   this.router.navigate(['/']);
+      // }
+      this.errorHandlingService.handleApiError(error);
+
+    }
   }
 
   async getSocialProfile() {
-    try{
-    await this.candidateSrv.getUserProfile(this.emailAddress).then(async (response) => {
-      if (Array.isArray(response) && response.length > 0 ) {
-        this.candidateSocial = response; 
-      }
-      this.userCertifications();
-    })
-  }catch(error:any ){
-    //if(error.status==404 || error.status==401){
-      this.spinner.hide()
-      if (error.status==404) { 
-        this.spinner.hide()
-        this.router.navigate(['/auth/logout']);
-      }else{
-     
-       this.router.navigate(['/']);
-      }
-  
-  
-  }
-
-  }
-
-  async userCertifications(){
-    try{
-    await this.candidateSrv.getCandidateSkills(this.emailAddress).then(async(response)=>{
-      if (Array.isArray(response) && response.length > 0 ) {
-         this.certificationList=response[0];
-         this.coreSkillsLists = response[0]?.coreSkills;
-         this.softSkillsLists = response[0]?.softSkills;
-       }
-       this.userProfileComplete();
-     })
-    }catch(error:any ){
-      //if(error.status==404 || error.status==401){
-        this.spinner.hide()
-        if (error.status==404) { 
-          this.spinner.hide()
-          this.router.navigate(['/auth/logout']);
-        }else{
-       
-         this.router.navigate(['/']);
+    try {
+      await this.candidateSrv.getUserProfile(this.emailAddress).then(async (response) => {
+        if (Array.isArray(response) && response.length > 0) {
+          this.candidateSocial = response;
         }
-    
-    
-    }
-   }
-
-   async userProfileComplete(){
-    try{
-    await this.candidateSrv.getProfileComplete(this.emailAddress).then(async(response)=>{
-      // if (Array.isArray(response) ) {
-         this.profileCompletion=response;
-         this.spinner.hide();
-        //  console.log(  this.profileCompletion);
-      //  }
-     })
-   }catch(error:any ){
-    //if(error.status==404 || error.status==401){
+        this.userCertifications();
+      })
+    } catch (error: any) {
+      //if(error.status==404 || error.status==401){
       this.spinner.hide()
-      if (error.status==404) { 
-        this.spinner.hide()
-        this.router.navigate(['/auth/logout']);
-      }else{
-     
-       this.router.navigate(['/']);
-      }
-  
-  
+      // if (error.status == 404) {
+      //   this.spinner.hide()
+      //   this.router.navigate(['/auth/logout']);
+      // } else {
+
+      //   this.router.navigate(['/']);
+      // }
+      this.errorHandlingService.handleApiError(error);
+    }
+
   }
-}
+
+  async userCertifications() {
+    try {
+      await this.candidateSrv.getCandidateSkills(this.emailAddress).then(async (response) => {
+        if (Array.isArray(response) && response.length > 0) {
+          this.certificationList = response[0];
+          this.coreSkillsLists = response[0]?.coreSkills;
+          this.softSkillsLists = response[0]?.softSkills;
+        }
+        this.userProfileComplete();
+      })
+    } catch (error: any) {
+      //if(error.status==404 || error.status==401){
+      this.spinner.hide()
+      // if (error.status == 404) {
+      //   this.spinner.hide()
+      //   this.router.navigate(['/auth/logout']);
+      // } else {
+
+      //   this.router.navigate(['/']);
+      // }
+      this.errorHandlingService.handleApiError(error);
+    }
+  }
+
+  async userProfileComplete() {
+    try {
+      await this.candidateSrv.getProfileComplete(this.emailAddress).then(async (response) => {
+        // if (Array.isArray(response) ) {
+        this.profileCompletion = response;
+        this.spinner.hide();
+        //  console.log(  this.profileCompletion);
+        //  }
+      })
+    } catch (error: any) {
+      //if(error.status==404 || error.status==401){
+      this.spinner.hide()
+      // if (error.status == 404) {
+      //   this.spinner.hide()
+      //   this.router.navigate(['/auth/logout']);
+      // } else {
+
+      //   this.router.navigate(['/']);
+      // }
+      this.errorHandlingService.handleApiError(error);
+    }
+  }
 }

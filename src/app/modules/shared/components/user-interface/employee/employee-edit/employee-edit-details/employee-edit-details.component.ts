@@ -127,7 +127,7 @@ export class EmployeeEditDetailsComponent {
       socialLinktwitter: this.employeeSocial?.twitter,
       location: this.employeeDetails?.location,
       country: this.employeeDetails?.country ? this.employeeDetails?.country : "",
-      profilePicUrl: this.employeeDetails?.profileImageAwsS3SignedUrl ? this.employeeDetails?.profileImageAwsS3SignedUrl : "/assets/public/candidate-img.png"
+      profilePicUrl: this.employeeDetails?.profileImageAwsS3SignedUrl ? this.employeeDetails?.profileImageAwsS3SignedUrl : "assets/public/candidate-img.png"
 
     }
     

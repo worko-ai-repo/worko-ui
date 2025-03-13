@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { environment } from '../../../../environments/environment';
+import { environment } from 'src/environments/environment';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { AuthService } from '../../worko/services/auth.service';
 import { of } from 'rxjs';
@@ -7,6 +7,7 @@ import { of } from 'rxjs';
 
 
 const API_URL = environment.apiUrl;
+const JOB_BASE_URL = environment.jobBaseUrl;
 // const CREATE_ORDER_URL = environment.createOrderUrl;
 // const apiOrderUrl = 'https://uat1.billdesk.com/u2/payments/ve1_2/orders/create';
 
@@ -180,7 +181,7 @@ export class CandidateProfileService {
 
   getAllJobApplication(userType: string, emailAddress: string, status: string, pageSize: any, lastKey?: string) {
     const emailAddressEncoded = encodeURIComponent(emailAddress);
-    let url = `${API_URL}job-application/?status=${status}&userEmail=${emailAddressEncoded}&userType=${userType}&pageSize=${pageSize}`;
+    let url = `${JOB_BASE_URL}job-application/?status=${status}&userEmail=${emailAddressEncoded}&userType=${userType}&pageSize=${pageSize}`;
 
     if (lastKey) {
       url += `&lastKey=${lastKey}`;
@@ -196,7 +197,7 @@ export class CandidateProfileService {
 
 
   jobApplicationRequestFeedback(jobId: any, data: any) {
-    return this.http.patch(API_URL + `job-application/${jobId}/request-feedback`, data, this.authService.getHttpOptions()).toPromise();
+    return this.http.patch(JOB_BASE_URL + `job-application/${jobId}/request-feedback`, data, this.authService.getHttpOptions()).toPromise();
   }
 
   // markasDoneService(emailAddress: string, status: string, serviceId: string) {

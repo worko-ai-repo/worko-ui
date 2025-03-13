@@ -8,6 +8,7 @@ import { AdminService } from '../../services/admin.service';
 import { NgxSpinnerService } from 'ngx-spinner';
 import { StorageService } from 'src/app/modules/app-core/services/storage.service';
 import { debounceTime, Subject } from 'rxjs';
+import { ErrorHandlingService } from 'src/app/modules/app-core/services/error-handling.service';
 
 export interface CorporateVitalDetails {
   cognitoUserId?: string;
@@ -216,7 +217,7 @@ export class AdminCompanyListingComponent {
   popupTitle: string = "";
 
 
-  constructor(private router: Router, private fb: FormBuilder, private adminService: AdminService, private spinner: NgxSpinnerService, private cdr: ChangeDetectorRef, private sanitizer: DomSanitizer, private route: ActivatedRoute, private storage: StorageService) {
+  constructor(private router: Router, private fb: FormBuilder, private adminService: AdminService, private spinner: NgxSpinnerService, private cdr: ChangeDetectorRef, private sanitizer: DomSanitizer, private route: ActivatedRoute, private storage: StorageService, private errorHandlingService: ErrorHandlingService) {
     this.searchTerms.pipe(
       debounceTime(300), // Adjust the debounce time as needed (300 milliseconds in this example)
       //distinctUntilChanged()
@@ -229,34 +230,9 @@ export class AdminCompanyListingComponent {
   }
 
   async ngOnInit() {
-
-    this.emailAddress = this.storage.get("useremail");
+    this.emailAddress = this.storage.get("userEmail");
     this.userId = this.storage.get("userId");
-
     this.getAllCompany(null);
-
-    // if (this.userId && this.emailAddress) {
-    //   this.spinner.show(); // Show spinner before starting API calls
-
-    //   try {
-    //     await this.fetchScreenedList(null);
-    //   } catch (error) {
-    //     console.error("Error", error);
-    //     this.modalSize = 'md';
-    //     this.successMessage = "Something went wrong. Please try again after some time.";
-    //     this.successTitle = "Error";
-    //     this.openModal(ModalType.SUCCESS_ERROR_MESSAGE);
-    //   } finally {
-    //     this.spinner.hide(); // Ensure spinner hides regardless of success or failure
-    //   }
-    // }
-    // else {
-    //   this.modalSize = 'md';
-    //   this.successMessage = "Something went wrong. Please try again after some time.";
-    //   this.successTitle = "Error";
-    //   this.openModal(ModalType.SUCCESS_ERROR_MESSAGE);
-    // }
-
   }
 
   async getAllCompany(lastKey: string | null) {
@@ -286,7 +262,10 @@ export class AdminCompanyListingComponent {
         console.warn("Company listing response is empty or undefined.");
       }
     } catch (error: any) {
-      this.handleApiError(error);
+      // this.handleApiError(error);
+      this.errorHandlingService.handleApiError(error, () => {
+        this.showErrorMessage("Something went wrong. Please try again later.");
+      });
     } finally {
       this.spinner.hide();
     }
@@ -322,7 +301,9 @@ export class AdminCompanyListingComponent {
       const keyToUse = this.getKeyForCurrentPage();
       await this.getAllCompany(keyToUse);
     } catch (error: any) {
-      this.handleApiError(error);
+      this.errorHandlingService.handleApiError(error, () => {
+        this.showErrorMessage("Something went wrong. Please try again later.");
+      });
     } finally {
       this.spinner.hide();
     }
@@ -389,7 +370,10 @@ export class AdminCompanyListingComponent {
         }
       }
     } catch (error: any) {
-      this.handleApiError(error);
+      // this.handleApiError(error);
+      this.errorHandlingService.handleApiError(error, () => {
+        this.showErrorMessage("Something went wrong. Please try again later.");
+      });
     } finally {
       this.spinner.hide(); // Hide loading spinner
       // this.closeModal(); // Close modal after submission
@@ -460,38 +444,6 @@ export class AdminCompanyListingComponent {
     event.preventDefault(); // Prevents default browser navigation
     if (this.jobUrl) {
       window.open(this.jobUrl, '_blank'); // Opens the link in a new tab
-    }
-  }
-
-  async fetchScreenedList(lastKey: string | null): Promise<void> {
-    this.spinner.show();
-    try {
-      const response = await this.adminService.getScreenedList(this.pageSize, lastKey, this.sortOrder.DESC, this.searchTerm);
-      // console.log('All Screened List:', response);
-
-      if (response) {
-        this.allScreenedList = response.data; // Update the list with the API response
-        this.pageSize = response.pagination.pageSize;
-        this.currentLastKey = response.pagination.lastKey || null;
-        this.hasNext = !!response.pagination.lastKey;
-        this.hasPrevious = this.previousKeys.length > 0;
-
-        // if (response.status === 'COMPLETED') {
-        //   console.log('Processing completed. Displaying results...');
-        //   // Handle results or navigate
-        // } else if (response.status === 'FAILED') {
-        //   console.error('Processing failed.');
-        // } else {
-        //   console.log('Processing is still pending. Polling again...');
-        //   setTimeout(() => this.checkProcessingStatus(), 5000); // Poll every 5 seconds
-        // }
-      } else {
-        console.warn('No screened list data received.');
-      }
-    } catch (error: any) {
-      this.handleError(error, "Error fetching screened list");
-    } finally {
-      this.spinner.hide();
     }
   }
 
@@ -597,66 +549,6 @@ export class AdminCompanyListingComponent {
     return this.previousKeys.length > 0 ? this.previousKeys[this.previousKeys.length - 1] : null;
   }
 
-  // async updateJobApplicationStatus(
-  //   jobApplicationId: string,
-  //   newStatus: string,
-  //   rejectReasons?: {
-  //     rejectTitle
-  //     : string; rejectComments: string
-  //   }
-  // ): Promise<any> {
-  //   this.spinner.show(); //spinner at the start
-
-  //   const payload: any = {
-  //     userType: this.userType,
-  //     userId: this.corporateVitalDetails.userId,
-  //     status: newStatus,
-  //     emailId: this.corporateVitalDetails.email, // Email of the corporate user
-  //   };
-
-  //   // Add rejection-specific data if the status is "REJECTED"
-  //   if (newStatus === "REJECTED" && rejectReasons) {
-  //     payload.reason = rejectReasons.rejectTitle;
-  //     payload.userComment = rejectReasons.rejectComments;
-  //   }
-
-  //   try {
-  //     // Call the service to update status
-  //     const response: any = await this.adminService.updateJobApplicationStatus(jobApplicationId, payload);
-
-  //     if (response) {
-  //       // Refresh jobApplicationListing data
-
-  //       // Use the previous lastKey if available; otherwise, start fresh
-  //       const keyToUse = this.getKeyForCurrentPage();
-  //       await this.getAllJobApplications(keyToUse);
-  //       // await this.getAllJobApplications(null);
-
-  //       if (response.status === "CV_DOWNLOADED") {
-  //         this.cvUrl = this.sanitizer.bypassSecurityTrustResourceUrl(this.currentJob?.applicantDetails?.cvAwsS3SignedUrl);
-  //         this.openModal(ModalType.VIEW_CV);
-  //       }
-  //       return response; // Return the response for the caller
-  //     } else {
-  //       throw new Error("No response received from server.");
-  //     }
-  //   } catch (error: any) {
-  //     // Handle errors
-  //     // if (error.status === 404) {
-  //     //   this.router.navigate(['/auth/logout']);
-  //     // } else if (error.status === 401) {
-  //     //   this.storage.set('redirectAfterLogin', '/candidate/referral');
-  //     //   this.router.navigate(['/']);
-  //     // } else {
-  //     this.successMessage = "Something went wrong. Please try again later.";
-  //     this.successTitle = "Error";
-  //     this.openModal(ModalType.SUCCESS_ERROR_MESSAGE);
-  //     // }
-  //   } finally {
-  //     this.spinner.hide(); // Always hide the spinner
-  //   }
-  // }
-
   /* Modal Handler Section Starts Here */
 
   /**
@@ -748,7 +640,7 @@ export class AdminCompanyListingComponent {
     const selectedPageSize = (event.target as HTMLSelectElement).value;
     this.pageSize = Number(selectedPageSize);
     this.previousKeys = [];
-    this.getAllCompany(null); // Call fetchScreenedList refresh the data with the new page size
+    this.getAllCompany(null); // Call getAllCompany to refresh the data with the new page size
   }
 
   onNext() {

@@ -23,6 +23,7 @@ import { ModalType } from "src/app/modules/shared/interfaces/shared.interface";
 import { NgxSpinnerService } from "ngx-spinner";
 import { Router } from "@angular/router";
 import { debounceTime, Subject } from "rxjs";
+import { ErrorHandlingService } from "src/app/modules/app-core/services/error-handling.service";
 
 export interface UserData {
   name: string;
@@ -102,7 +103,8 @@ export class AdminEmployeeComponent {
     private cdr: ChangeDetectorRef,
     private elementRef: ElementRef,
     private adminService: AdminService,
-    private spinner: NgxSpinnerService
+    private spinner: NgxSpinnerService,
+    private errorHandlingService: ErrorHandlingService
   ) {
     this.candidatesDataSource = new MatTableDataSource<UserData>(
       this.nameslist
@@ -148,19 +150,26 @@ export class AdminEmployeeComponent {
         }
       })
       .catch((error: any) => {
+        // this.spinner.hide();
+        // if (error.status == 404) {
+        //   this.spinner.hide();
+        //   this.router.navigate(["/auth/logout"]);
+        // } else if (error.status == 401) {
+        //   this.router.navigate(["/"]);
+        // } else {
+        //   this.modalSize = "md";
+        //   this.successmessage =
+        //     "Something went wrong. Please try again after sometime";
+        //   this.successtitle = "Error";
+        //   this.openModal(ModalType.SUCCESS_ERROR_MESSAGE);
+        // }
         this.spinner.hide();
-        if (error.status == 404) {
-          this.spinner.hide();
-          this.router.navigate(["/auth/logout"]);
-        } else if (error.status == 401) {
-          this.router.navigate(["/"]);
-        } else {
+        this.errorHandlingService.handleApiError(error, () => {
           this.modalSize = "md";
-          this.successmessage =
-            "Something went wrong. Please try again after sometime";
+          this.successmessage = "Something went wrong. Please try again later.";
           this.successtitle = "Error";
           this.openModal(ModalType.SUCCESS_ERROR_MESSAGE);
-        }
+        });
       });
   }
 

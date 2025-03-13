@@ -160,7 +160,7 @@ export class LoginPageComponent {
   
   async receiveDataFromChild(userType: any) {
     this.userLoggedIn = await this.cognitoService.isLoggedIn();
-    this.emailAddress = this.storage.get("useremail");
+    this.emailAddress = this.storage.get("userEmail");
     const adminUserType=this.storage.get('userType');
     if (this.userLoggedIn) {
       if (this.router.url.includes('/company')) {

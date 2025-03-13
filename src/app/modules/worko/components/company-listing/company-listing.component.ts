@@ -20,8 +20,8 @@ import { CandidateProfileService } from 'src/app/modules/candidate/services/cand
 import { NavbarComponent } from '../navbar/navbar.component';
 import { Location } from '@angular/common';
 import { Subscription } from 'rxjs';
-import { debounce } from 'lodash';
 import { LoginFormComponent } from '../login-form/login-form.component';
+import { debounce } from 'lodash';
 @Component({
   selector: 'app-company-listing',
   templateUrl: './company-listing.component.html',
@@ -428,7 +428,7 @@ export class CompanyListingComponent implements OnInit, AfterViewInit, OnDestroy
   }
 
   async getUserDetails() {
-    this.emailAddress = this.storage.get("useremail");
+    this.emailAddress = this.storage.get("userEmail");
     try {
       await this.candidateSrv.getUserDetails(this.emailAddress).then(async (response) => {
         if (response) {
@@ -997,7 +997,7 @@ export class CompanyListingComponent implements OnInit, AfterViewInit, OnDestroy
 
   async getProfilePercentage() {
     if (this.userLoggedIn) {
-      this.emailAddress = this.storage.get("useremail");
+      this.emailAddress = this.storage.get("userEmail");
       const response = await this.candidateSrv.getProfileComplete(this.emailAddress);
 
       if (response) {

@@ -8,6 +8,7 @@ import { DomSanitizer, SafeResourceUrl } from '@angular/platform-browser';
 import { StorageService } from 'src/app/modules/app-core/services/storage.service';
 import { ModalComponent } from 'src/app/modules/shared/components/modal/modal.component';
 import { debounceTime, Subject } from 'rxjs';
+import { ErrorHandlingService } from 'src/app/modules/app-core/services/error-handling.service';
 
 export interface CorporateVitalDetails {
   cognitoUserId?: string;
@@ -124,7 +125,7 @@ export class AdminCompanyRequestsComponentComponent {
   copiedContent: any;
 
 
-  constructor(private router: Router, private fb: FormBuilder, private adminService: AdminService, private spinner: NgxSpinnerService, private cdr: ChangeDetectorRef, private sanitizer: DomSanitizer, private route: ActivatedRoute, private storage: StorageService) {
+  constructor(private router: Router, private fb: FormBuilder, private adminService: AdminService, private spinner: NgxSpinnerService, private cdr: ChangeDetectorRef, private sanitizer: DomSanitizer, private route: ActivatedRoute, private storage: StorageService, private errorHandlingService: ErrorHandlingService) {
     this.searchTerms.pipe(
       debounceTime(300), // Adjust the debounce time as needed (300 milliseconds in this example)
       //distinctUntilChanged()
@@ -138,7 +139,7 @@ export class AdminCompanyRequestsComponentComponent {
 
   async ngOnInit() {
 
-    this.emailAddress = this.storage.get("useremail");
+    this.emailAddress = this.storage.get("userEmail");
     this.userId = this.storage.get("userId");
 
     this.getAllCompanyRequests(null);
@@ -169,7 +170,10 @@ export class AdminCompanyRequestsComponentComponent {
         console.warn("Company requests response is empty or undefined.");
       }
     } catch (error: any) {
-      this.handleApiError(error);
+      // this.handleApiError(error);
+      this.errorHandlingService.handleApiError(error, () => {
+        this.showErrorMessage("Something went wrong. Please try again later.");
+      });
     } finally {
       this.spinner.hide();
     }
@@ -207,7 +211,10 @@ export class AdminCompanyRequestsComponentComponent {
       const keyToUse = this.getKeyForCurrentPage();
       await this.getAllCompanyRequests(keyToUse);
     } catch (error: any) {
-      this.handleApiError(error);
+      // this.handleApiError(error);
+      this.errorHandlingService.handleApiError(error, () => {
+        this.showErrorMessage("Something went wrong. Please try again later.");
+      });
     } finally {
       this.spinner.hide();
     }
@@ -260,7 +267,7 @@ export class AdminCompanyRequestsComponentComponent {
 
         const response = await this.adminService.updateCompany(companyId, event.data, true);
 
-        debugger;
+        // debugger;
 
         if (response) {
           this.showSuccessMessage("Company request approved successfully.");
@@ -270,7 +277,10 @@ export class AdminCompanyRequestsComponentComponent {
         }
       }
     } catch (error: any) {
-      this.handleApiError(error);
+      // this.handleApiError(error);
+      this.errorHandlingService.handleApiError(error, () => {
+        this.showErrorMessage("Something went wrong. Please try again later.");
+      });
     }
     finally {
       this.spinner.hide(); // Hide loading spinner
@@ -378,7 +388,11 @@ export class AdminCompanyRequestsComponentComponent {
         console.warn('No screened list data received.');
       }
     } catch (error: any) {
-      this.handleError(error, "Error fetching screened list");
+      // this.handleError(error, "Error fetching screened list");
+      console.error("Error fetching screened list", error);
+      this.errorHandlingService.handleApiError(error, () => {
+        this.showErrorMessage("Something went wrong. Please try again later.");
+      });
     } finally {
       this.spinner.hide();
     }

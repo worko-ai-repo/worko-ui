@@ -19,6 +19,7 @@ import { MatTableDataSource } from "@angular/material/table";
 import { MatAutocompleteTrigger } from "@angular/material/autocomplete";
 import { minMaxValidator } from "src/app/modules/worko/validators/minMax.validator";
 import { autofillJobDetailsToForm } from "src/app/modules/shared/utils/jobsAutoFillParser.utils";
+import { ErrorHandlingService } from "src/app/modules/app-core/services/error-handling.service";
 
 // Interface for FetchJobsOptionsDto
 interface FetchJobsOptionsDto {
@@ -55,6 +56,9 @@ interface RangeDropDownDto {
  * @property {companyControl} FormControl - The form control for the company selection.
  */
 export class AdminJobsComponent implements OnInit {
+
+  locations = ["Noida", "Bangalore", "Hyderabad", "Pune", "Mumbai", "Chennai", "Delhi", "Gurgaon", "Kolkata", "Ahmedabad", "Chandigarh"];
+
   ngxSummerConfig: any = {
     airMode: false,
     tabDisable: true,
@@ -92,8 +96,8 @@ export class AdminJobsComponent implements OnInit {
     INTERNSHIP: "INTERNSHIP",
   };
   sortOrder = {
-    ASC: "ascending",
-    DESC: "descending",
+    ASC: "asc",
+    DESC: "desc",
   };
 
   // List of experience ranges and salary ranges
@@ -196,7 +200,7 @@ export class AdminJobsComponent implements OnInit {
    * @param {AdminService} adminService - The admin service for API calls.
    * @param {NgxSpinnerService} spinner - The service for displaying a loading spinner.
    */
-  constructor(private router: Router, private fb: FormBuilder, private adminService: AdminService, private spinner: NgxSpinnerService, private cdr: ChangeDetectorRef) {
+  constructor(private router: Router, private fb: FormBuilder, private adminService: AdminService, private spinner: NgxSpinnerService, private cdr: ChangeDetectorRef, private errorHandlingService: ErrorHandlingService) {
     // Initialize the job form with necessary fields and validation
     this.jobForm = this.fb.group({
       status: [this.status.PUBLISHED],
@@ -212,8 +216,15 @@ export class AdminJobsComponent implements OnInit {
       ),
       jobTitle: ["", [Validators.required, Validators.minLength(3)]],
       jobDescription: ["", [Validators.required, Validators.minLength(20)]],
-      location: ["", Validators.required],
-      mislaneiousSkills: this.fb.array([]),
+    
+      // Location: Using a FormArray for backend requirements
+      location: this.fb.group({
+        city: this.fb.array([], Validators.required),
+      }),
+
+      // Separate control for the select dropdown
+      cityControl: new FormControl('', Validators.required),
+      miscellaneousSkills: this.fb.array([]),
       numOfOpenings: [1, [Validators.required, Validators.min(1)]],
       noticePeriod: [0, [Validators.required, Validators.min(0)]],
       otherRequirements: [""],
@@ -310,19 +321,35 @@ export class AdminJobsComponent implements OnInit {
         }
       }
     } catch (error: any) {
+      // this.spinner.hide();
+      // if (error.status === 404) {
+      //   this.router.navigate(["/admin/dashboard"]);
+      // } else if (error.status === 401) {
+      //   this.router.navigate(["/"]);
+      // } else {
+      //   this.successmessage = "Something went wrong. Please try again later.";
+      //   this.successtitle = "Error";
+      //   this.openModal(ModalType.SUCCESS_MESSAGE);
+      // }
       this.spinner.hide();
-      if (error.status === 404) {
-        this.router.navigate(["/admin/dashboard"]);
-      } else if (error.status === 401) {
-        this.router.navigate(["/"]);
-      } else {
+      this.errorHandlingService.handleApiError(error, () => {
         this.successmessage = "Something went wrong. Please try again later.";
         this.successtitle = "Error";
         this.openModal(ModalType.SUCCESS_MESSAGE);
-      }
+      });
     } finally {
       this.spinner.hide();
     }
+  }
+
+  onLocationChange(event: Event) {
+    const selectedCity = (event.target as HTMLSelectElement).value;
+    this.jobForm.get("cityControl")?.setValue(selectedCity); // Update UI dropdown
+
+    // Update FormArray (Ensure it's always sent as an array)
+    const cityArray = this.jobForm.get("location.city") as FormArray;
+    cityArray.clear();
+    cityArray.push(this.fb.control(selectedCity)); // Store as array for backend
   }
 
   /**
@@ -460,8 +487,8 @@ export class AdminJobsComponent implements OnInit {
     return (this.jobForm.get("technicalSkills") as FormArray).controls.map((control) => control.value);
   }
 
-  get mislaneiousSkills(): string[] {
-    return (this.jobForm.get("mislaneiousSkills") as FormArray).controls.map((control) => control.value);
+  get miscellaneousSkills(): string[] {
+    return (this.jobForm.get("miscellaneousSkills") as FormArray).controls.map((control) => control.value);
   }
 
   /**
@@ -562,8 +589,8 @@ export class AdminJobsComponent implements OnInit {
         experienceRange: null,
         jobTitle: "",
         jobDescription: "",
-        location: "",
-        mislaneiousSkills: [],
+        location: { city: [] }, // Reset city properly as an empty array
+        miscellaneousSkills: [],
         numOfOpenings: 1,
         noticePeriod: 0,
         otherRequirements: "",
@@ -589,7 +616,15 @@ export class AdminJobsComponent implements OnInit {
     (this.jobForm.get("softSkills") as FormArray).clear();
     (this.jobForm.get("coreSkills") as FormArray).clear();
     (this.jobForm.get("technicalSkills") as FormArray).clear();
-    (this.jobForm.get("mislaneiousSkills") as FormArray).clear();
+    (this.jobForm.get("miscellaneousSkills") as FormArray).clear();
+
+
+    // Reset location.city as an empty array for backend
+    const cityArray = this.jobForm.get("location.city") as FormArray;
+    cityArray.clear(); // Clear existing values to maintain array format
+
+    // Reset the dropdown UI control
+    this.jobForm.get("cityControl")?.setValue("");
 
     this.jobForm.get("experienceRange")?.patchValue(null);
     this.jobForm.get("salaryRange")?.patchValue(null);
@@ -598,7 +633,6 @@ export class AdminJobsComponent implements OnInit {
     this.jobForm.patchValue({
       jobDescription: "",
       workMode: "",
-      location: "",
       noticePeriod: 0,
       typeofEmployment: "",
       otherRequirements: "",
@@ -684,11 +718,21 @@ export class AdminJobsComponent implements OnInit {
       noticePeriod: job.noticePeriod,
       jobDescription: job.jobDescription,
       otherRequirements: job.otherRequirements,
-      location: job.location,
       typeofEmployment: job.typeofEmployment,
       department: this.toTitleCase(job.department),
       status: job.status,
     });
+
+    // Handle Location (set for both UI and backend)
+    const cityArray = this.jobForm.get("location.city") as FormArray;
+    cityArray.clear();
+    if (job.location?.city) {
+      cityArray.push(this.fb.control(job.location.city)); // Store as array
+      this.jobForm.get("cityControl")?.setValue(job.location.city); // UI control
+    } else {
+      this.jobForm.get("cityControl")?.setValue(''); // Reset if no city
+    }
+
     // Patch salaryRange separately
     this.jobForm.get("salaryRange")?.patchValue({
       min: job.salaryRange.min,
@@ -727,10 +771,10 @@ export class AdminJobsComponent implements OnInit {
     });
 
     // Clear and repopulate the mislaneious skills FormArray
-    const mislaneiousSkillsArray = this.jobForm.get("mislaneiousSkills") as FormArray;
-    mislaneiousSkillsArray.clear();
-    job.mislaneiousSkills.forEach((skill: string) => {
-      mislaneiousSkillsArray.push(this.fb.control(this.toTitleCase(skill)));
+    const miscellaneousSkillsArray = this.jobForm.get("miscellaneousSkills") as FormArray;
+    miscellaneousSkillsArray.clear();
+    job.miscellaneousSkills.forEach((skill: string) => {
+      miscellaneousSkillsArray.push(this.fb.control(this.toTitleCase(skill)));
     });
 
     if (this.isDuplicateMode) {
