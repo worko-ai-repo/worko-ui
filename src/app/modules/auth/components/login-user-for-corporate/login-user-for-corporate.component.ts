@@ -307,7 +307,7 @@ export class LoginUserForCorporateComponent {
         const userType = this.storage.get('userType');
         // Fetch user profile after successful sign-in
         const response = await this.authService.getCorporateUser(userId);
-        console.log(response, "response");
+        // console.log(response, "response");
 
         if(userType !== 'Corporate'){
           this.spinner.hide();

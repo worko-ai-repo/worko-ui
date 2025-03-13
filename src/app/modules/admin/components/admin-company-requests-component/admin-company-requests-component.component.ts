@@ -267,7 +267,7 @@ export class AdminCompanyRequestsComponentComponent {
 
         const response = await this.adminService.updateCompany(companyId, event.data, true);
 
-        debugger;
+        // debugger;
 
         if (response) {
           this.showSuccessMessage("Company request approved successfully.");

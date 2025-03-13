@@ -14,14 +14,14 @@ export class SecureStorageService {
   // Hashing function for keys (same as React)
   private hash(key: string): string {
     const hashedKey = CryptoJS.HmacSHA256(key, SECRET_KEY).toString();
-    console.log(`[SecureStorage] Hashed Key: ${key} -> ${hashedKey}`);
+    // console.log(`[SecureStorage] Hashed Key: ${key} -> ${hashedKey}`);
     return hashedKey;
   }
 
   // Encrypt function for values (same as React)
   private encrypt(data: string): string {
     const encryptedData = CryptoJS.AES.encrypt(data, SECRET_KEY).toString();
-    console.log(`[SecureStorage] Encrypted Data: ${data} -> ${encryptedData}`);
+    // console.log(`[SecureStorage] Encrypted Data: ${data} -> ${encryptedData}`);
     return encryptedData;
   }
 
@@ -29,7 +29,7 @@ export class SecureStorageService {
   private decrypt(data: string): string {
     const bytes = CryptoJS.AES.decrypt(data, SECRET_KEY);
     const decryptedData = bytes.toString(CryptoJS.enc.Utf8);
-    console.log(`[SecureStorage] Decrypted Data: ${data} -> ${decryptedData}`);
+    // console.log(`[SecureStorage] Decrypted Data: ${data} -> ${decryptedData}`);
     return decryptedData;
   }
 
@@ -41,7 +41,7 @@ export class SecureStorageService {
   
     try {
       const decryptedData = this.decrypt(encryptedData);
-      console.log(`[SecureStorage] Decrypted Data: ${decryptedData}`);
+      // console.log(`[SecureStorage] Decrypted Data: ${decryptedData}`);
   
       // If decrypted data starts with '{' or '[', attempt to parse JSON
       if (decryptedData.startsWith('{') || decryptedData.startsWith('[')) {
@@ -66,9 +66,9 @@ export class SecureStorageService {
 
     try {
       localStorage.setItem(hashedKey, encryptedValue);
-      console.log(
-        `[SecureStorage] Stored - Key: ${key} | Hashed: ${hashedKey} | Encrypted: ${encryptedValue}`
-      );
+      // console.log(
+      //   `[SecureStorage] Stored - Key: ${key} | Hashed: ${hashedKey} | Encrypted: ${encryptedValue}`
+      // );
     } catch (error) {
       console.error(`[SecureStorage] Error setting key: ${key}`, error);
     }
@@ -79,9 +79,9 @@ export class SecureStorageService {
     const hashedKey = this.hash(key);
     try {
       localStorage.removeItem(hashedKey);
-      console.log(
-        `[SecureStorage] Item removed - Key: ${key} | Hashed: ${hashedKey}`
-      );
+      // console.log(
+      //   `[SecureStorage] Item removed - Key: ${key} | Hashed: ${hashedKey}`
+      // );
     } catch (error) {
       console.error(`[SecureStorage] Error removing key: ${key}`, error);
     }
@@ -91,7 +91,7 @@ export class SecureStorageService {
   clear(): void {
     try {
       localStorage.clear();
-      console.log("[SecureStorage] Storage cleared");
+      // console.log("[SecureStorage] Storage cleared");
     } catch (error) {
       console.error("[SecureStorage] Error clearing storage", error);
     }
