@@ -9,10 +9,10 @@ export class ErrorHandlingService {
   constructor(private router: Router) { }
 
   handleApiError(error: any, showModalCallback?: () => void): void {
-    if (error.status === 404) {
-      this.router.navigate(['/auth/logout']);
-      return;
-    }
+    // if (error.status === 404) {
+    //   this.router.navigate(['/auth/logout']);
+    //   return;
+    // }
 
     if (error.status === 401) {
       // this.router.navigate(['/']);

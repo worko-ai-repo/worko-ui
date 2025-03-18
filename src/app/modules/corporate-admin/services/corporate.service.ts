@@ -98,15 +98,25 @@ export class CorporateService {
   updateJob(jobId: string, jobData: object) {
     let payload: any = { ...jobData }; // Clone form values
 
+    // // Ensure location object is structured properly
+    // if (payload.location && payload.location.city) {
+    //   payload.location = {
+    //     city: Array.isArray(payload.location.city) ? payload.location.city : [],
+    //     fullLocation: Array.isArray(payload.location.city) ? [...payload.location.city] : []
+    //   };
+    // }
+
     // Ensure location object is structured properly
-    if (payload.location && payload.location.city) {
+    if (payload.location?.city) {
+      const cityValues = Array.isArray(payload.location.city) ? payload.location.city : [payload.location.city];
+
       payload.location = {
-        city: Array.isArray(payload.location.city) ? payload.location.city : [],
-        fullLocation: Array.isArray(payload.location.city) ? [...payload.location.city] : []
+        city: cityValues,
+        fullLocation: [...cityValues] // Ensures fullLocation is the same as city
       };
     }
 
-    // Remove cityControl before sending
+    // Remove UI helper field before sending request
     delete payload.cityControl;
 
     return this.http.put(`${JOB_BASE_URL}job/${jobId}`, payload, this.authService.getHttpOptions()).toPromise();

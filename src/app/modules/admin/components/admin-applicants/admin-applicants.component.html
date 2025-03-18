@@ -19,7 +19,7 @@
         </div>
         <div class="col">
             <span class="label">Location</span>
-            <span class="value">{{ jobDetails?.location ? (jobDetails.location | titlecase) : '-' }}</span>
+            <span class="value">{{ jobDetails?.location ? (jobDetails.location.fullLocation[0] | titlecase) : '-' }}</span>
         </div>
         <div class="col">
             <span class="label">Created At</span>

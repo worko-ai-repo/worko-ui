@@ -209,14 +209,16 @@ export class AdminService {
     let payload: any = { ...jobData }; // Clone form values
 
     // Ensure location object is structured properly
-    if (payload.location && payload.location.city) {
+    if (payload.location?.city) {
+      const cityValues = Array.isArray(payload.location.city) ? payload.location.city : [payload.location.city];
+
       payload.location = {
-        city: Array.isArray(payload.location.city) ? payload.location.city : [],
-        fullLocation: Array.isArray(payload.location.city) ? [...payload.location.city] : []
+        city: cityValues,
+        fullLocation: [...cityValues] // Ensures fullLocation is the same as city
       };
     }
 
-    // Remove cityControl before sending
+    // Remove UI helper field before sending request
     delete payload.cityControl;
 
     return this.http.put(`${JOB_BASE_URL}job/${jobId}`, payload, this.authService.getHttpOptions()).toPromise();
@@ -485,6 +487,38 @@ export class AdminService {
   createCompanyRequest(requestData: { userType: string; companyDetail: { name: string; industry: string; carrierPage: string; linkedIn: string }; userEmail: string; userContactNumber: string }): Promise<any> {
     const url = `${API_URL}company/request`;
     return this.http.post(url, requestData, this.authService.getHttpOptions()).toPromise();
+  }
+
+  submitJD(payload: any): Promise<any> {
+    return this.http.post(`${API_URL}corporate-bulk-jd/`, payload, this.authService.getHttpOptions()).toPromise();
+  }
+
+  uploadBulkCvs(id: string, bulkCvs: any[]): Promise<any> {
+    return this.http.post(`${API_URL}corporate-bulk-jd/${id}/resumes`, { bulkCvs }, this.authService.getHttpOptions()).toPromise();
+  }
+
+  uploadResumeToS3(url: string, file: File, awsS3Tag?: string): Promise<any> {
+    const httpOptions = this.authService.getHttpOptions(false, {
+      awsS3Tag: awsS3Tag,
+      fileType: file.type
+    });
+
+    return this.http.put(url, file, httpOptions).toPromise();
+  }
+
+  getScreenedListByCompanyId(companyId: any, pageSize: any, lastKey?: any, sortOrder?: string, searchText?: any): Promise<any> {
+    let url = `${API_URL}corporate-bulk-jd/?companyId=${companyId}&pageSize=${pageSize}`;
+    if (lastKey) {
+      url += `&lastKey=${lastKey}`;
+    }
+    if (sortOrder) {
+      url += `&sortOrder=${sortOrder}`;
+    }
+    if (searchText) {
+      const searchTexts = encodeURIComponent(searchText)
+      url += `&searchText=${searchTexts}`;
+    }
+    return this.http.get(url, this.authService.getHttpOptions()).toPromise();
   }
 
 }

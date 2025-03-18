@@ -104,6 +104,8 @@ import { MessageModalComponent } from './components/modal/message-modal/message-
 import { OtpFieldComponent } from './components/otp-field/otp-field.component';
 import { JdAutofillModalComponent } from './components/jd-autofill-modal/jd-autofill-modal.component';
 import { MatTooltipModule } from '@angular/material/tooltip';
+import { ResumeUploaderComponent } from '../corporate-admin/components/resume-screener/resume-uploader/resume-uploader.component';
+import { JobDescriptionComponent } from '../corporate-admin/components/resume-screener/job-description/job-description.component';
 export const routes: Routes = [
 
   
@@ -165,7 +167,9 @@ export const routes: Routes = [
     MessageModalComponent,
     OtpFieldComponent,
     ReferralRejectedPopupComponent,
-    JdAutofillModalComponent
+    JdAutofillModalComponent,
+    ResumeUploaderComponent,
+    JobDescriptionComponent
     // DoneServiceComponent,
     // CancelledServiceComponent,
     // AwaitingServiceComponent,
@@ -251,7 +255,9 @@ export const routes: Routes = [
   OtpFieldComponent,
   EllipsisPipe,
   ReferralRejectedPopupComponent,
-  JdAutofillModalComponent
+  JdAutofillModalComponent,
+  ResumeUploaderComponent,
+  JobDescriptionComponent
   ],
 
 })
