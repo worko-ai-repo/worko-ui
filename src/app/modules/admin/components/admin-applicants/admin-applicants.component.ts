@@ -94,7 +94,7 @@ export class AdminApplicantsComponent {
   currentJob: any;
   newStatus: any;
 
-  companyDetails: any;
+  // companyDetails: any;
   jobUrl: any;
 
   selectedStatusDropdown: string = '';
@@ -220,11 +220,21 @@ export class AdminApplicantsComponent {
   getJobLink(): void {
 
     // Encode the company name and job title for URL-safe navigation
-    const formattedCompanyName = this.companyDetails?.name.toLowerCase().replace(/\(.*?\)/g, '').replace(/\s*&\s*/g, '&').replace(/\s+/g, '-').replace(/-+/g, '-').replace(/^-|-$/g, '');
-    const formattedJobTitle = this.jobDetails?.jobTitle.toLowerCase().replace(/\(.*?\)/g, '').replace(/\s*&\s*/g, '&').replace(/\s+/g, '-').replace(/-+/g, '-').replace(/^-|-$/g, '');
+    // const formattedCompanyName = this.jobDetails?.companyName.toLowerCase().replace(/\(.*?\)/g, '').replace(/\s*&\s*/g, '&').replace(/\s+/g, '-').replace(/-+/g, '-').replace(/^-|-$/g, '');
+    // const formattedJobTitle = this.jobDetails?.jobTitle.toLowerCase().replace(/\(.*?\)/g, '').replace(/\s*&\s*/g, '&').replace(/\s+/g, '-').replace(/-+/g, '-').replace(/^-|-$/g, '');
 
-    const route = `/company/jobs/${formattedCompanyName}-jobs/${formattedJobTitle}-${this.jobId}`;
-    this.jobUrl = route;
+    // const route = `/company/jobs/${formattedCompanyName}-jobs/${formattedJobTitle}-${this.jobId}`;
+
+    if (this.jobDetails.companyName) {
+      // Replace any whitespace or special characters in company name with an underscore
+      const refinedCompanyName = this.jobDetails.companyName.replace(/\s/g, "_");
+
+      // Construct the new URL
+      const baseUrl = window.location.origin; // Gets the domain dynamically
+      const route = `${baseUrl}/jobs/${refinedCompanyName}/${this.jobId}`;
+
+      this.jobUrl = route;
+    }
   }
 
   formatRange(min: number | null, max: number | null, type: string): string {
@@ -364,12 +374,12 @@ export class AdminApplicantsComponent {
   async fetchJobDetails(jobId: any) {
     try {
       const response: any = await this.adminService.getJobDetailsById(jobId);
-      if (response && response.length > 0) {
-        this.jobDetails = response[0];
-        this.companyDetails = response[0].companyDetails;
+      if (response) {
+        this.jobDetails = response;
+        // this.companyDetails = response[0].companyDetails;
       } else {
         console.warn("Job details response is empty or undefined.");
-        this.jobDetails = [];
+        // this.jobDetails = [];
       }
     } catch (error: any) {
       // if (error.status === 404) {

@@ -23,8 +23,6 @@ import { AuthAdminGuardService } from '../worko/services/auth-admin-guard.servic
 import { AuthCoporateGuardService } from '../worko/services/auth-coporate-guard.service';
 import { CorporateApplicantsComponent } from './components/corporate-applicants/corporate-applicants.component';
 import { ResumeScreenerPageComponent } from './components/resume-screener/resume-screener-page/resume-screener-page.component';
-import { ResumeUploaderComponent } from './components/resume-screener/resume-uploader/resume-uploader.component';
-import { JobDescriptionComponent } from './components/resume-screener/job-description/job-description.component';
 import { ResumeMatchTableComponent } from './components/resume-screener/resume-match-table/resume-match-table.component';
 import { ResumeScreeningListViewComponent } from './components/resume-screener/resume-screening-list-view/resume-screening-list-view.component';
 
@@ -141,8 +139,6 @@ export const routes: Routes = [
     CorporateInvitesComponent,
     CorporateApplicantsComponent,
     ResumeScreenerPageComponent,
-    ResumeUploaderComponent,
-    JobDescriptionComponent,
     ResumeMatchTableComponent,
     ResumeScreeningListViewComponent,
   ],

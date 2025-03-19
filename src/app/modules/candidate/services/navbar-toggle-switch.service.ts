@@ -13,7 +13,7 @@ export class NavbarToggleSwitchService {
   private currentDashboard = this.storage.get('lastAccessedDash')
 
   constructor(private storage: StorageService) {
-    
+
     // const toggleStatus = localStorage.getItem(this.localStoragekey);
     // const toggleStatus = this.storage.get(this.localStoragekey);
     // if(toggleStatus) {
@@ -23,10 +23,8 @@ export class NavbarToggleSwitchService {
     //   localStorage.removeItem(this.localStoragekey);
     // }
 
- this.currentDashboard = this.storage.get('lastAccessedDash');
- console.log(this.currentDashboard)
-
-
+    this.currentDashboard = this.storage.get('lastAccessedDash');
+    //  console.log(this.currentDashboard)
 
   }
 
@@ -34,7 +32,7 @@ export class NavbarToggleSwitchService {
     return this.currentDashboard;
   }
 
-  setDashboard(userType:any) {
+  setDashboard(userType: any) {
     this.currentDashboard = userType;
     this.storage.set('lastAccessedDash', this.currentDashboard);
   }

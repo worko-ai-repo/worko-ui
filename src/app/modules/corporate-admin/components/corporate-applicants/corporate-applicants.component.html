@@ -19,7 +19,8 @@
         </div>
         <div class="col">
             <span class="label">Location</span>
-            <span class="value">{{ jobDetails?.location ? (jobDetails.location | titlecase) : '-' }}</span>
+            <span class="value">{{ jobDetails?.location ? (jobDetails.location.fullLocation[0] | titlecase) : '-'
+                }}</span>
         </div>
         <div class="col">
             <span class="label">Created At</span>
@@ -311,8 +312,8 @@
     </ng-container>
 
     <ng-container *ngIf="showModal === modalType.REJECT_DETAILS">
-        <app-referral-reject-details-popup [rejectionTitle]="rejectionTitle" [userType]="userType" [rejectReasonsData]="rejectedReasons"
-            (onSuccess)="closeModal()"></app-referral-reject-details-popup>
+        <app-referral-reject-details-popup [rejectionTitle]="rejectionTitle" [userType]="userType"
+            [rejectReasonsData]="rejectedReasons" (onSuccess)="closeModal()"></app-referral-reject-details-popup>
     </ng-container>
 
     <!-- <ng-container *ngIf="showModal === modalType.SHOW_MORE_DETAILS">

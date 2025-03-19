@@ -216,7 +216,7 @@ export class AdminJobsComponent implements OnInit {
       ),
       jobTitle: ["", [Validators.required, Validators.minLength(3)]],
       jobDescription: ["", [Validators.required, Validators.minLength(20)]],
-    
+
       // Location: Using a FormArray for backend requirements
       location: this.fb.group({
         city: this.fb.array([], Validators.required),
@@ -724,11 +724,23 @@ export class AdminJobsComponent implements OnInit {
     });
 
     // Handle Location (set for both UI and backend)
+    // const cityArray = this.jobForm.get("location.city") as FormArray;
+    // cityArray.clear();
+    // if (job.location?.city) {
+    //   cityArray.push(this.fb.control(job.location.city)); // Store as array
+    //   this.jobForm.get("cityControl")?.setValue(job.location.city); // UI control
+    // } else {
+    //   this.jobForm.get("cityControl")?.setValue(''); // Reset if no city
+    // }
+
+    // Handle Location field
     const cityArray = this.jobForm.get("location.city") as FormArray;
     cityArray.clear();
+
     if (job.location?.city) {
-      cityArray.push(this.fb.control(job.location.city)); // Store as array
-      this.jobForm.get("cityControl")?.setValue(job.location.city); // UI control
+      const cityValues = Array.isArray(job.location.city) ? job.location.city : [job.location.city];
+      cityValues.forEach((city: any) => cityArray.push(this.fb.control(city)));
+      this.jobForm.get("cityControl")?.setValue(cityValues[0]); // UI control (single value)
     } else {
       this.jobForm.get("cityControl")?.setValue(''); // Reset if no city
     }
@@ -796,13 +808,13 @@ export class AdminJobsComponent implements OnInit {
     try {
       this.spinner.show();
       const jobData = {
-        companyId: job.PK.startsWith("COMP#ID#") ? job.PK.slice(8, -1) : job.PK,
+        companyId: job.companyId,
         status: newStatus,
       };
       if (newStatus === this.status.CLOSED) {
         await this.adminService.deleteJob(job.id, jobData);
       } else {
-        this.adminService.archiveJob(job.id, jobData);
+        await this.adminService.archiveJob(job.id, jobData);
       }
 
       // This will  Give time to If  Codition in the HTML to work as expected
@@ -991,25 +1003,39 @@ export class AdminJobsComponent implements OnInit {
     }, 2000);
   };
 
+  // navigateToJobReferral(event: MouseEvent, companyName: string, jobTitle: string, jobID: any): void {
+  //   event.preventDefault(); // Prevent default anchor behavior
+
+  //   // Encode the company name and job title for URL-safe navigation
+  //   const formattedCompanyName = companyName
+  //     .toLowerCase()
+  //     .replace(/\(.*?\)/g, "")
+  //     .replace(/\s*&\s*/g, "&")
+  //     .replace(/\s+/g, "-")
+  //     .replace(/-+/g, "-")
+  //     .replace(/^-|-$/g, "");
+  //   const formattedJobTitle = jobTitle
+  //     .toLowerCase()
+  //     .replace(/\(.*?\)/g, "")
+  //     .replace(/\s*&\s*/g, "&")
+  //     .replace(/\s+/g, "-")
+  //     .replace(/-+/g, "-")
+  //     .replace(/^-|-$/g, "");
+  //   const route = `/company/jobs/${formattedCompanyName}-jobs/${formattedJobTitle}-${jobID}`;
+
+  //   // Open the route in a new tab
+  //   window.open(route, "_blank");
+  // }
+
   navigateToJobReferral(event: MouseEvent, companyName: string, jobTitle: string, jobID: any): void {
     event.preventDefault(); // Prevent default anchor behavior
 
-    // Encode the company name and job title for URL-safe navigation
-    const formattedCompanyName = companyName
-      .toLowerCase()
-      .replace(/\(.*?\)/g, "")
-      .replace(/\s*&\s*/g, "&")
-      .replace(/\s+/g, "-")
-      .replace(/-+/g, "-")
-      .replace(/^-|-$/g, "");
-    const formattedJobTitle = jobTitle
-      .toLowerCase()
-      .replace(/\(.*?\)/g, "")
-      .replace(/\s*&\s*/g, "&")
-      .replace(/\s+/g, "-")
-      .replace(/-+/g, "-")
-      .replace(/^-|-$/g, "");
-    const route = `/company/jobs/${formattedCompanyName}-jobs/${formattedJobTitle}-${jobID}`;
+    // Replace any whitespace or special characters in company name with an underscore
+    const refinedCompanyName = companyName.replace(/\s/g, "_");
+
+    // Construct the new URL
+    const baseUrl = window.location.origin; // Gets the domain dynamically
+    const route = `${baseUrl}/jobs/${refinedCompanyName}/${jobID}`;
 
     // Open the route in a new tab
     window.open(route, "_blank");
