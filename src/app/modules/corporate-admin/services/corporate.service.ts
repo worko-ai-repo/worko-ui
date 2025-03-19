@@ -74,6 +74,9 @@ export class CorporateService {
     if (param.sortOrder) {
       url += `&sortOrder=${param.sortOrder}`;
     }
+
+    url += `&dashboard=CORPORATE`;
+
     return this.http.get(url, this.authService.getHttpOptions()).toPromise();
   }
 

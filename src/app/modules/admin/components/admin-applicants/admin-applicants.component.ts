@@ -225,16 +225,16 @@ export class AdminApplicantsComponent {
 
     // const route = `/company/jobs/${formattedCompanyName}-jobs/${formattedJobTitle}-${this.jobId}`;
 
-    // Replace any whitespace or special characters in company name with an underscore
-    const refinedCompanyName = this.jobDetails?.companyName.replace(/\s/g, "_");
+    if (this.jobDetails.companyName) {
+      // Replace any whitespace or special characters in company name with an underscore
+      const refinedCompanyName = this.jobDetails.companyName.replace(/\s/g, "_");
 
-    // Construct the new URL
-    const baseUrl = window.location.origin; // Gets the domain dynamically
-    const route = `${baseUrl}/jobs/${refinedCompanyName}/${this.jobId}`;
+      // Construct the new URL
+      const baseUrl = window.location.origin; // Gets the domain dynamically
+      const route = `${baseUrl}/jobs/${refinedCompanyName}/${this.jobId}`;
 
-    // Open the route in a new tab
-    window.open(route, "_blank");
-    this.jobUrl = route;
+      this.jobUrl = route;
+    }
   }
 
   formatRange(min: number | null, max: number | null, type: string): string {

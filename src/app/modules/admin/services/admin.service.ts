@@ -181,6 +181,7 @@ export class AdminService {
     if (param.sortOrder) {
       url += `&sortOrder=${param.sortOrder}`;
     }
+    url += `&dashboard=ADMIN`;
     return this.http.get(url, this.authService.getHttpOptions()).toPromise();
   }
   //POST DATA
