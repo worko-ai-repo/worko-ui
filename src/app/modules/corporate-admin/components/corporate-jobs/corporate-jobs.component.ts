@@ -904,10 +904,11 @@ export class CorporateJobsComponent implements OnInit {
     this.closeModal();
     try {
       this.spinner.show();
-      const jobData = {
-        companyId: job.companyId,
-        status: newStatus,
-      };
+      const jobData: any = { companyId: job.companyId };
+
+      if (newStatus !== this.status.CLOSED) {
+        jobData.status = newStatus;
+      }
       if (newStatus === this.status.CLOSED) {
         await this.corporateService.deleteJob(job.id, jobData);
       } else {
