@@ -233,9 +233,29 @@ export class UserMenubarComponent {
           ]
         },
         {
-          name: 'Screened List',
-          router: "admin/aCandidateScreener/aScreeningList"
+          name: 'Candidate Screener',
+          router: "aCandidateScreener",
+          submenu: [
+            {
+              name: 'New Screening', router: "aCandidateScreener/aNewScreening"
+            },
+            {
+              name: 'Screened List', router: "aCandidateScreener/aScreeningList"
+            }
+          ]
         },
+        // {
+        //   name: 'Screened List',
+        //   router: "admin/aCandidateScreener/aScreeningList"
+        // },
+        // {
+        //   name: "Candidate Screener",
+        //   router: "admin/aCandidateScreener",
+        //   submenu: [
+        //     { name: 'New Screening', router: 'admin/aCandidateScreener/aNewScreening' },
+        //     { name: 'Screened List', router: 'admin/aCandidateScreener/aScreeningList' },
+        //   ]
+        // },
         {
           name: 'Jobs',
           router: "admin/ajobs"
@@ -304,6 +324,7 @@ export class UserMenubarComponent {
     this.isJobsSubmenuOpen = currentUrl.startsWith('/candidate/jobs/');
     this.isScreenerSubmenuOpen = currentUrl.startsWith('/corporate/ccandidatescreener');
     this.isCompanySubmenuOpen = currentUrl.startsWith('/admin/acompany');
+    this.isScreenerSubmenuOpen = currentUrl.startsWith('/admin/acandidatescreener');
   }
 
   /**
@@ -423,10 +444,15 @@ export class UserMenubarComponent {
     }
     else if (isCompanyMenu) {
       this.isCompanySubmenuOpen = !this.isCompanySubmenuOpen;
+      this.isScreenerSubmenuOpen = false;
 
       if (this.isCompanySubmenuOpen) {
         this.router.navigate(['/admin/aCompany']);
       }
+    }
+    else if (isScreeningMenu) {
+      this.isScreenerSubmenuOpen = !this.isScreenerSubmenuOpen;
+      this.isCompanySubmenuOpen = false;
     }
     else {
       this.isReferralSubmenuOpen = false;
@@ -461,6 +487,11 @@ export class UserMenubarComponent {
   isCompanyActive(): boolean {
     const currentUrl = this.router.url.toLowerCase();
     return currentUrl.startsWith('/admin/acompany');
+  }
+
+  isAdminCandidateScreenerActive(): boolean {
+    const currentUrl = this.router.url.toLowerCase();
+    return currentUrl.startsWith('/admin/cCandidateScreener');
   }
 
   // getIcon(name: string): string {
@@ -535,9 +566,9 @@ export class UserMenubarComponent {
   // }
 
   onSubmenuClick(currentSubmenu: string) {
-    if (currentSubmenu === "Screened List") {
+    if (currentSubmenu === "Screened List" && this.isNotAdminDashboard) {
       this.router.navigate(['/corporate/cCandidateScreener/cScreeningList']);
-    } else if (currentSubmenu === "New Screening") {
+    } else if (currentSubmenu === "New Screening" && this.isNotAdminDashboard) {
       this.router.navigate(['/corporate/cCandidateScreener/cNewScreening']);
     }
   }

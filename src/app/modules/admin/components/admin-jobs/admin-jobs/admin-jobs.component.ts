@@ -1046,6 +1046,10 @@ export class AdminJobsComponent implements OnInit {
     this.router.navigate(["admin/aApplicants/" + jobId]);
   }
 
+  screenJob(jobId: any): void {
+    this.router.navigate(["admin/aCandidateScreener/aNewScreening/" + jobId]);
+  }
+
   /**
    * formatRange
    *

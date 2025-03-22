@@ -1,5 +1,5 @@
-import { Component, EventEmitter, Output } from '@angular/core';
-import { AbstractControl, FormControl, ValidationErrors, ValidatorFn, Validators } from '@angular/forms'; 
+import { Component, EventEmitter, Input, Output, SimpleChanges } from '@angular/core';
+import { AbstractControl, FormControl, ValidationErrors, ValidatorFn, Validators } from '@angular/forms';
 
 @Component({
   selector: 'app-job-description',
@@ -8,6 +8,7 @@ import { AbstractControl, FormControl, ValidationErrors, ValidatorFn, Validators
 })
 export class JobDescriptionComponent {
 
+  @Input() jobDescription!: any;
   @Output() jdValidationChange = new EventEmitter<boolean>();
   @Output() jdTextChange = new EventEmitter<string>(); // Emits JD text to parent
 
@@ -47,6 +48,14 @@ export class JobDescriptionComponent {
     });
   }
 
+  ngOnChanges(changes: SimpleChanges): void {
+    if (changes['jobDescription'] && changes['jobDescription'].currentValue) {
+      this.jdControl.setValue(changes['jobDescription'].currentValue);
+      const isValid = this.jdControl.valid;
+      this.jdValidationChange.emit(isValid); // Emitting validation status to the parent
+    }
+  }
+
   private keywordValidator(): ValidatorFn {
     return (control: AbstractControl): ValidationErrors | null => {
       const keywords = [
@@ -61,14 +70,14 @@ export class JobDescriptionComponent {
         "Employment",
         "Department",
       ];
-  
+
       const value = control.value || '';
       const matches = (value.match(new RegExp(keywords.join("|"), "ig")) || []).length;
-  
+
       return matches >= 5 ? null : { keywordsMissing: true }; // Return null if valid; otherwise, return error object.
     };
   }
-  
+
   // Get error message for the field
   getErrorMessage(): string {
     if (this.jdControl.hasError('required')) {
