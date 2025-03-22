@@ -44,6 +44,7 @@ import { AdminResumeMatchTableComponent } from './components/resume-screener/adm
 import { AdminCompanyListingComponent } from './components/admin-company-listing/admin-company-listing.component';
 import { AdminCompanyRequestsComponentComponent } from './components/admin-company-requests-component/admin-company-requests-component.component';
 import { AdminAddCompanyFormComponent } from './components/admin-add-company-form/admin-add-company-form.component';
+import { AdminScreenerComponent } from './components/resume-screener/admin-screener/admin-screener.component';
 
 
 export const routes: Routes = [
@@ -148,15 +149,28 @@ export const routes: Routes = [
         canActivate: [AuthAdminGuardService]
       },
       {
-        path: 'aCandidateScreener/aScreeningList',
-        component: AdminResumeScreeningListViewComponent,
+        path: 'aCandidateScreener',
+        component: AdminScreenerComponent,
         canActivate: [AuthAdminGuardService],
+        children: [
+          {
+            path: 'aNewScreening',
+            component: AdminResumeScreenerPageComponent
+          },
+          {
+            path: 'aNewScreening/:id',
+            component: AdminResumeScreenerPageComponent
+          },
+          {
+            path: 'aScreeningList',
+            component: AdminResumeScreeningListViewComponent
+          },
+          {
+            path: 'aMatchingResult/:id',
+            component: AdminResumeMatchTableComponent
+          },
+        ]
       },
-      {
-        path: 'aCandidateScreener/aMatchingResult/:id',
-        component: AdminResumeMatchTableComponent,
-        canActivate: [AuthAdminGuardService],
-      }
     ]
   }
 
@@ -179,6 +193,7 @@ export const routes: Routes = [
     AdminInviteComponent,
     AdminCompanyComponent,
     AdminApplicantsComponent,
+    AdminScreenerComponent,
     AdminResumeScreenerPageComponent,
     AdminResumeScreeningListViewComponent,
     AdminResumeMatchTableComponent,

@@ -31,9 +31,19 @@
           <div class="menu-bar"
             [ngClass]="{'py-1': isReferralSubmenuOpen || isJobsSubmenuOpen, 'py-2': !(isReferralSubmenuOpen || isJobsSubmenuOpen)}">
             <span class="ms-2 nav-link-text -pointer"
-              [routerLink]="menu.name !== 'Referral' && menu.name !== 'Job' ? '/' + menu.router : null"
+            [routerLink]="
+            menu.name !== 'Referral' && 
+            menu.name !== 'Job' && 
+            !(menu.name === 'Candidate Screener' && !this.isNotAdminDashboard)
+              ? '/' + menu.router 
+              : null
+          "
+          
               routerLinkActive="active-navbar"
-              [class.active-navbar]="menu.name === 'Referral' && isReferralActive() || menu.name === 'Job' && isJobsActive() || menu.name === 'Candidate Screener' && isCandidateScreenerActive() || menu.name === 'Company' && isCompanyActive()"
+              [class.active-navbar]="menu.name === 'Referral' && isReferralActive() 
+              || menu.name === 'Job' && isJobsActive() 
+              || menu.name === 'Candidate Screener' && isCandidateScreenerActive() 
+              || menu.name === 'Company' && isCompanyActive() || menu.name === 'Candidate Screener' && isAdminCandidateScreenerActive()"
               (click)="toggleSubmenu(menu)">
               <span *ngIf="menu.name === 'Dashboard'">
                 <svg xmlns='http://www.w3.org/2000/svg' width='21' height='31' viewBox='0 0 31 31' fill='none'>
@@ -255,6 +265,9 @@
               </span>
               <span *ngIf="menu.name === 'Company'" class="left-space">
                 <i class="fas fa-chevron-right" [ngClass]="{ 'rotated': isCompanySubmenuOpen }"></i>
+              </span>
+              <span *ngIf="menu.name === 'Candidate Screener' && !isNotAdminDashboard" class="left-space">
+                <i class="fas fa-chevron-right" [ngClass]="{ 'rotated': isScreenerSubmenuOpen }"></i>
               </span>
 
             </span>

@@ -78,3 +78,70 @@ textarea.form-control {
     border-radius: 5px;
     height: 40px;
 }
+
+#ajobDesc-rte>div * {
+    border-color: white;
+
+    table {
+        color: white;
+    }
+
+    .note-btn-group {
+        background-color: #d4d4d4;
+
+        .note-para {
+            box-shadow: 0 0 0 0.2rem #dfdfdf;
+        }
+
+        color: black;
+
+        button {
+            border-color: black;
+            background-color: white;
+        }
+    }
+
+    .note-editable {
+        background-color: #0a1e36;
+    }
+
+    .note-editable {
+        color: white;
+        border: 1px solid white;
+    }
+
+    .note-icon-caret::before {
+        content: "";
+    }
+
+    .ajobDesc-rte_editor * {
+        color: white;
+        border-color: white !important;
+    }
+}
+
+.cdk-overlay-container {
+    position: fixed;
+    z-index: 9999 !important;
+
+    .mat-mdc-autocomplete-panel {
+        background-color: #0a1e35;
+
+        .mat-mdc-option {
+            color: white;
+
+            &:hover {
+                background-color: #476baf;
+            }
+        }
+    }
+}
+
+.note-modal-content {
+    background-color: #0a1e35;
+    color: white;
+
+    .note-modal-footer {
+        margin: 10px;
+    }
+}

@@ -15,6 +15,24 @@ export class AdminAddCompanyFormComponent {
 
   @ViewChild('hiddenFileInput') fileInput!: ElementRef; // Reference to the hidden file input
 
+  ngxSummerConfig: any = {
+    airMode: false,
+    tabDisable: true,
+    popover: {
+      link: [["link", ["linkDialogShow", "unlink"]]],
+    },
+    height: "200px",
+    uploadImagePath: "/api/upload",
+    toolbar: [
+      ["misc", ["undo", "redo"]],
+      ["font", ["bold", "italic", "underline", "strikethrough", "superscript", "subscript", "clear"]],
+      ["fontsize", ["fontname", "fontsize", "color"]],
+      ["para", ["style", "ul", "ol", "paragraph", "height"]],
+      ["insert", ["link", "hr"]],
+      ["view", ["help", "fullscreen"]],
+    ],
+  };
+
   companyForm: FormGroup;
   logoFileName: string = ''; // Store file name
 
@@ -310,7 +328,7 @@ export class AdminAddCompanyFormComponent {
         return 'Submit'; // Default to Submit if actionType is undefined
     }
   }
-  
+
 
 
 

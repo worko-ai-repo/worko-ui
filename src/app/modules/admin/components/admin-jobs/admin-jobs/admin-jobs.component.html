@@ -98,6 +98,10 @@
                   matTooltipPosition="above" style="background: #B4B7BA ;color: #182B47;">
                   <i class="fa-solid fa-eye"></i></span>
 
+                <span *ngIf="true" (click)="screenJob(job.id)" matTooltip="Screen Resumes" matTooltipPosition="above"
+                  style="background: #B4B7BA ;color: #182B47;">
+                  <i class="fa-solid fa-filter"></i></span>
+
                 <span *ngIf="job.status != status.CLOSED" (click)="editJob(job , false)" matTooltip="Duplicate Job"
                   matTooltipPosition="above" style="background:#EDEEEB;">
                   <i class="fa-solid fa-copy" style="color: #182B47;"></i></span>
