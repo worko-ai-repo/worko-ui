@@ -3215,3 +3215,63 @@ body {
     border-color: #334f8c;
     box-shadow: 0 0 4px rgba(71, 107, 175, 0.5);
 }
+
+// Styles related to rich text editor ( ngx-summernote)
+
+#ajobDesc-rte>div * {
+    border-color: white;
+
+    table {
+        color: white;
+    }
+
+    .note-btn-group {
+        background-color: #d4d4d4;
+
+        .note-para {
+            box-shadow: 0 0 0 0.2rem #dfdfdf;
+        }
+
+        color: black;
+
+        button {
+            border-color: black;
+            background-color: white;
+        }
+    }
+
+    .note-editable {
+        background-color: #0a1e36;
+    }
+
+    .note-editable {
+        color: white;
+        border: 1px solid white;
+    }
+
+    .note-icon-caret::before {
+        content: "";
+    }
+
+    .ajobDesc-rte_editor * {
+        color: white;
+        border-color: white !important;
+    }
+}
+
+.cdk-overlay-container {
+    position: fixed;
+    z-index: 9999 !important;
+
+    .mat-mdc-autocomplete-panel {
+        background-color: #0a1e35;
+
+        .mat-mdc-option {
+            color: white;
+
+            &:hover {
+                background-color: #476baf;
+            }
+        }
+    }
+}

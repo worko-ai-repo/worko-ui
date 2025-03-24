@@ -28,8 +28,7 @@ export class AdminAddCompanyFormComponent {
       ["font", ["bold", "italic", "underline", "strikethrough", "superscript", "subscript", "clear"]],
       ["fontsize", ["fontname", "fontsize", "color"]],
       ["para", ["style", "ul", "ol", "paragraph", "height"]],
-      ["insert", ["link", "hr"]],
-      ["view", ["help", "fullscreen"]],
+      ["insert", ["link", "hr"]]
     ],
   };
 

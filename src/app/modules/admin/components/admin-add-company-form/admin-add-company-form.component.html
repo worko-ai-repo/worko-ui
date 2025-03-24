@@ -150,7 +150,7 @@
                             </div>
                         </div> -->
 
-                        <!-- Job Description -->
+                        <!-- About Company Text Editor -->
                         <div class="row">
                             <div class="col-12 mb-3 ajobs-fitem gCloumnTwo" id="ajobDesc-rte">
                                 <label for="aboutCompany" class="form-label">About Company</label>&nbsp;
@@ -163,7 +163,7 @@
 
                                 <div formControlName="aboutCompany" [ngxSummernote]="ngxSummerConfig"
                                     class="ajobDesc-rte_editor"
-                                    [ngClass]="{ 'is-invalid': isInvalid('jobDescription') }">
+                                    [ngClass]="{ 'is-invalid': isInvalid('aboutCompany') }">
                                 </div>
 
                                 <span *ngIf="isInvalid('aboutCompany')" class="text-danger">
