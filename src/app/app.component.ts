@@ -1,4 +1,4 @@
-import { Component,HostListener, OnInit } from '@angular/core';
+import { Component, HostListener, OnInit } from '@angular/core';
 import { Title, Meta } from '@angular/platform-browser';
 import { Router, NavigationEnd, ActivatedRoute } from '@angular/router';
 import { filter, map, mergeMap } from 'rxjs/operators';
@@ -20,11 +20,11 @@ export class AppComponent implements OnInit {
     private seoService: SeoService,
     private router: Router,
     private spinner: NgxSpinnerService,
-    private titleService: Title, 
+    private titleService: Title,
     private metaService: Meta,
     private activatedRoute: ActivatedRoute
-  
-  ) {}
+
+  ) { }
 
   ngOnInit(): void {
     // Handling initial navigation here
@@ -41,7 +41,7 @@ export class AppComponent implements OnInit {
         this.seoService.updateRobots('index, follow');
         this.updateMetaTitleForUrl(event.urlAfterRedirects);
         this.updateMetaDescriptionForUrl(event.urlAfterRedirects);
-      } 
+      }
       // else {
       //   this.seoService.updateRobots('noindex, nofollow');
       // }
@@ -54,7 +54,7 @@ export class AppComponent implements OnInit {
       this.seoService.updateRobots('index, follow');
       this.updateMetaTitleForUrl(url);
       this.updateMetaDescriptionForUrl(url);
-    } 
+    }
     // else {
     //   this.seoService.updateRobots('noindex, nofollow');
     // }
@@ -68,8 +68,8 @@ export class AppComponent implements OnInit {
       '/faq': 'Worko.Ai - FAQs',
       '/corporate': 'Worko.Ai - Corporate'
     };
-    
-    const title = titleMap[url] || 'Worko.AI: Smarter Referrals, Better Jobs'; // Fallback title if URL not matched
+
+    const title = titleMap[url] || 'Worko: Your AI Job Search Platform'; // Fallback title if URL not matched
     this.seoService.updateMetaTitle(title);
   }
 
@@ -81,8 +81,8 @@ export class AppComponent implements OnInit {
       '/faq': 'Here are some common questions and their answers, asked by candidates/job seekers, employees/referees when they are looking for referral jobs or when hiring a person who comes with the support of a referral.',
       '/corporate': 'Explore Worko.AI Corporate solutions, designed to streamline talent acquisition through AI-powered job referrals. Partner with us to leverage smart networking, enhance recruitment efficiency, and connect with top talent tailored to your business needs.'
     };
-    
-    const description = descriptionMap[url] || 'Worko is your trusted platform for job referrals, career guidance, and interview support. Connect with employees from top companies, get vetted referrals, and maximize your chances of landing your dream job.'; // Fallback description if URL not matched
+
+    const description = descriptionMap[url] || 'Discover your dream job with Worko, the AI-powered job search platform that tailors job matches to your resume.Get personalised job recommendations, insightful feedback, and direct referrals to land your perfect role faster.'; // Fallback description if URL not matched
     this.seoService.updateMetaDescription(description);
   }
 
