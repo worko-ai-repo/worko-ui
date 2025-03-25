@@ -4,7 +4,7 @@ import { CandidateProfileService } from '../../services/candidate-profile.servic
 import { StorageService } from 'src/app/modules/app-core/services/storage.service';
 // import { error } from 'jquery';
 import { AuthService } from 'src/app/modules/worko/services/auth.service';
-import { Router } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { NgxSpinnerService } from 'ngx-spinner';
 import { ModalComponent } from 'src/app/modules/shared/components/modal/modal.component';
 import { ModalType } from 'src/app/modules/shared/interfaces/shared.interface';
@@ -52,10 +52,19 @@ export class EditProfileComponent implements OnInit {
   modalMessage: string = "";
   modalTitle: string = "";
   showModal: ModalType | undefined;
-  
+
   details: any;
-  constructor(private spinner: NgxSpinnerService,private cognitoService: CognitoService, private router: Router, private candidateSrv: CandidateProfileService, private storage: StorageService, private authService: AuthService, private errorHandlingService: ErrorHandlingService) { }
+  constructor(private spinner: NgxSpinnerService, private cognitoService: CognitoService, private router: Router, private candidateSrv: CandidateProfileService, private storage: StorageService, private authService: AuthService, private errorHandlingService: ErrorHandlingService, private route: ActivatedRoute) { }
   ngOnInit(): void {
+
+    const returnUrl = this.route.snapshot.queryParamMap.get('returnUrl');
+    if (returnUrl) {
+      const decodedReturnUrl = decodeURIComponent(returnUrl); // Decode the URL
+      this.storage.set('returnUrl', decodedReturnUrl); // Store properly
+    } else {
+      this.storage.remove('returnUrl');  // Clear old values if no returnUrl is present
+    }
+
     this.emailAddress = this.storage.get("userEmail");
     this.getCandidateDetails();
     // this.openModal(this.modalType.MESSAGE, "Title", "Conteny");
@@ -83,7 +92,7 @@ export class EditProfileComponent implements OnInit {
           "department": this.secondStepData?.department,
           "SK": this.workExperienceDetails ? this.workExperienceDetails.SK : "",
           "PK": this.workExperienceDetails ? this.workExperienceDetails.PK : "",
-         // "userType": "CAND",
+          // "userType": "CAND",
           "isCurrent": this.secondStepData?.isCurrent ? this.secondStepData?.isCurrent : true
         }
         ]
@@ -95,7 +104,7 @@ export class EditProfileComponent implements OnInit {
         // this.router.navigate(['/candidate/dashboard']);
 
         //this.createEducationDetails();
-       
+
 
       })
     } catch (error: any) {
@@ -103,7 +112,7 @@ export class EditProfileComponent implements OnInit {
       //   this.spinner.hide()
       //   this.router.navigate(['/auth/logout']);
       // }else if (error.status==401){
-     
+
       //  this.router.navigate(['/']);
       // } else {
       //   this.spinner.hide();
@@ -153,7 +162,7 @@ export class EditProfileComponent implements OnInit {
       //   this.spinner.hide()
       //   this.router.navigate(['/auth/logout']);
       // }else if (error.status==401){
-     
+
       //  this.router.navigate(['/']);
       // } else {
       //   this.spinner.hide();
@@ -168,7 +177,7 @@ export class EditProfileComponent implements OnInit {
         this.openModal(ModalType.SUCCESS_ERROR_MESSAGE);
       });
     }
-    
+
 
   };
 
@@ -192,7 +201,7 @@ export class EditProfileComponent implements OnInit {
       //   this.spinner.hide()
       //   this.router.navigate(['/auth/logout']);
       // }else if (error.status==401){
-     
+
       //  this.router.navigate(['/']);
       // } else {
       //   this.spinner.hide();
@@ -233,7 +242,7 @@ export class EditProfileComponent implements OnInit {
       //   this.spinner.hide()
       //   this.router.navigate(['/auth/logout']);
       // }else if (error.status==401){
-     
+
       //  this.router.navigate(['/']);
       // } else {
       //   this.spinner.hide();
@@ -257,38 +266,38 @@ export class EditProfileComponent implements OnInit {
 
     // Check if twitterArray is an array
     if (twitterArray.length > 2) {
-  
+
       twitterArray = [this.firstStepData.socialLinktwitter];
     } else if (twitterArray.length == 1) {
-      
+
       twitterArray = this.firstStepData.socialLinktwitter;
     } else {
-      
+
       twitterArray = [];
     }
 
     // Check if twitterArray is an array
-   
+
     if (linkedinArray.length > 2) {
       linkedinArray = [this.firstStepData.socialLinklinkdin];
-     
+
     } else if (linkedinArray.length == 1) {
       linkedinArray = this.firstStepData.socialLinklinkdin;
     } else {
-      
+
       linkedinArray = [];
 
 
     }
-   
+
     if (githubArray.length > 2) {
-     
+
 
       githubArray = [this.firstStepData.socialLinkGithub];
     } else if (githubArray.length == 1) {
       githubArray = this.firstStepData.socialLinkGithub;
     } else {
-     
+
       githubArray = [];
     }
     let socialProfile =
@@ -299,14 +308,14 @@ export class EditProfileComponent implements OnInit {
       SK: this.firstStepData?.socialSk,
       PK: this.firstStepData?.socialPk
     }
-    
+
     try {
       await this.candidateSrv.createUserProfile(this.emailAddress, socialProfile).then(async (response) => {
         if (!this.secondStepData.isCandidateFresher) {
           // this.createUserDetails();
-         // this.updateWorkExperience();
-         this.spinner.hide();
-         this.modelOpen();
+          // this.updateWorkExperience();
+          this.spinner.hide();
+          this.modelOpen();
         }
         else {
           //this.router.navigate(['/candidate/dashboard']);
@@ -320,7 +329,7 @@ export class EditProfileComponent implements OnInit {
       //   this.spinner.hide()
       //   this.router.navigate(['/auth/logout']);
       // }else if (error.status==401){
-     
+
       //  this.router.navigate(['/']);
       // } else {
       //   this.spinner.hide();
@@ -347,6 +356,12 @@ export class EditProfileComponent implements OnInit {
 
   continue() {
 
+    const returnUrl = this.storage.get('returnUrl');
+    if (returnUrl) { 
+      this.storage.remove('returnUrl'); // Clean up
+      window.location.href = returnUrl; // Navigate back to React app
+    }
+
     this.router.navigate(['/candidate/dashboard']);
     this.closeModal();
     //window.location.reload();
@@ -358,11 +373,11 @@ export class EditProfileComponent implements OnInit {
   }
 
   async createUserDetails() {
-   
-    
+
+
     try {
       let userDetails: any = {
-        
+
         // "candidateExperience":{
         //   "department":this.secondStepData.department??"",
         //   "companyName":this.secondStepData.companyName??"",
@@ -378,7 +393,7 @@ export class EditProfileComponent implements OnInit {
         },
         "CV": this.candidateList.uploadCV,
         "about": this.firstStepData.about,
-        "number": "+91"+this.firstStepData.phoneNo,
+        "number": "+91" + this.firstStepData.phoneNo,
         "noticePeriod": this.secondStepData.noticePeriod,
         "userType": this.candidateList.userType,
         "linkedinUrl": this.candidateList.linkedinUrl,
@@ -423,7 +438,7 @@ export class EditProfileComponent implements OnInit {
       //   this.spinner.hide()
       //   this.router.navigate(['/auth/logout']);
       // }else if (error.status==401){
-     
+
       //  this.router.navigate(['/']);
       // }else {
       //   this.spinner.hide();
@@ -460,7 +475,7 @@ export class EditProfileComponent implements OnInit {
       //   this.spinner.hide()
       //   this.router.navigate(['/auth/logout']);
       // }else if (error.status==401){
-     
+
       //  this.router.navigate(['/']);
       // }
       //   // Handle unauthorized or forbidden error
@@ -501,12 +516,12 @@ export class EditProfileComponent implements OnInit {
       //   this.spinner.hide()
       //   this.router.navigate(['/auth/logout']);
       // }else if (error.status==401){
-     
+
       //  this.router.navigate(['/']);
       // }
       //   // Handle unauthorized or forbidden error
 
-       
+
       //   // For example, you can redirect the user to a login page or display an error message
       //  else {
       //   // Handle other errors
@@ -541,7 +556,7 @@ export class EditProfileComponent implements OnInit {
       //   this.spinner.hide()
       //   this.router.navigate(['/auth/logout']);
       // }else if (error.status==401){
-     
+
       //  this.router.navigate(['/']);
       // } else {
       //   // Handle other errors
@@ -571,8 +586,8 @@ export class EditProfileComponent implements OnInit {
           this.softSkillsLists = response[0].softSkills;
 
         }
-       // this.getWorkExperienceDetails();
-       this.getWorkExperienceDetails();
+        // this.getWorkExperienceDetails();
+        this.getWorkExperienceDetails();
       })
 
     } catch (error: any) {
@@ -581,7 +596,7 @@ export class EditProfileComponent implements OnInit {
       //   this.spinner.hide()
       //   this.router.navigate(['/auth/logout']);
       // }else if (error.status==401){
-     
+
       //  this.router.navigate(['/']);
       // }else {
       //   // Handle other errors
@@ -618,7 +633,7 @@ export class EditProfileComponent implements OnInit {
       //   this.spinner.hide()
       //   this.router.navigate(['/auth/logout']);
       // }else if (error.status==401){
-     
+
       //  this.router.navigate(['/']);
       // } else {
       //   // Handle other errors
@@ -656,7 +671,7 @@ export class EditProfileComponent implements OnInit {
       //   this.spinner.hide()
       //   this.router.navigate(['/auth/logout']);
       // }else if (error.status==401){
-     
+
       //  this.router.navigate(['/']);
       // } else {
       //   // Handle other errors
@@ -781,7 +796,7 @@ export class EditProfileComponent implements OnInit {
       //   this.spinner.hide()
       //   this.router.navigate(['/auth/logout']);
       // }else if (error.status==401){
-     
+
       //  this.router.navigate(['/']);
       // } else {
       //   this.spinner.hide();
@@ -827,7 +842,7 @@ export class EditProfileComponent implements OnInit {
       //   this.spinner.hide()
       //   this.router.navigate(['/auth/logout']);
       // }else if (error.status==401){
-     
+
       //  this.router.navigate(['/']);
       // } else {
       //   this.spinner.hide();
@@ -847,12 +862,12 @@ export class EditProfileComponent implements OnInit {
 
 
   uploadCVonS3Bucket(docResult: any) {
-    
+
     try {
       this.authService.uploadFileOnS3Bucket(this.thirdStepData.fileToUpload!, docResult.awsS3SignedUrl, docResult.awsS3Tag)
         .then(async () => {
 
-        
+
           try {
             let a = await this.authService.linkResumewithUser(this.emailAddress, this.uploadedCvName);
             if (this.firstStepData.fileType && this.firstStepData.fileName) {
@@ -897,7 +912,7 @@ export class EditProfileComponent implements OnInit {
       this.successMessage = "Something went wrong. Please try again after sometime";
       this.successTitle = "Error";
       this.openModal(ModalType.SUCCESS_ERROR_MESSAGE);
-     
+
     }
 
   }
@@ -907,7 +922,7 @@ export class EditProfileComponent implements OnInit {
       this.authService.uploadFileOnS3Bucket(this.firstStepData.fileToUpload!, docResult.awsS3SignedUrl, docResult.awsS3Tag)
         .then(async () => {
 
-         
+
           try {
             // let a = await this.authService.linkResumewithUser(this.emailAddress, this.uploadedProfilePicName);
 
@@ -947,7 +962,7 @@ export class EditProfileComponent implements OnInit {
       this.successMessage = "Something went wrong. Please try again after sometime";
       this.successTitle = "Error";
       this.openModal(ModalType.SUCCESS_ERROR_MESSAGE);
-     
+
     }
   }
 
