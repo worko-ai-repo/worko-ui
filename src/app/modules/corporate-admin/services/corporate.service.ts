@@ -234,7 +234,7 @@ export class CorporateService {
   }
 
   parseJD(jobDescription: object): Promise<any> {
-    return this.http.post(`${JOB_BASE_URL}job/parsejdddd`, jobDescription, this.authService.getHttpOptions()).toPromise();
+    return this.http.post(`${JOB_BASE_URL}job/parsejd`, jobDescription, this.authService.getHttpOptions()).toPromise();
   }
 
   submitJD(payload: any): Promise<any> {
