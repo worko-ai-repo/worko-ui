@@ -54,6 +54,9 @@ export class EditProfileComponent implements OnInit {
   showModal: ModalType | undefined;
 
   details: any;
+
+  isCvUpdated: boolean = false; // default false
+
   constructor(private spinner: NgxSpinnerService, private cognitoService: CognitoService, private router: Router, private candidateSrv: CandidateProfileService, private storage: StorageService, private authService: AuthService, private errorHandlingService: ErrorHandlingService, private route: ActivatedRoute) { }
   ngOnInit(): void {
 
@@ -357,7 +360,7 @@ export class EditProfileComponent implements OnInit {
   continue() {
 
     const returnUrl = this.storage.get('returnUrl');
-    if (returnUrl) { 
+    if (returnUrl) {
       this.storage.remove('returnUrl'); // Clean up
       window.location.href = returnUrl; // Navigate back to React app
     }
@@ -383,6 +386,7 @@ export class EditProfileComponent implements OnInit {
         //   "companyName":this.secondStepData.companyName??"",
         //   "designation":this.secondStepData.designation??"",
         // },
+        "isCvUpdated": this.isCvUpdated, // (true if success, false if failed)
         "ECTC": this.secondStepData.ectc,
         "location": this.firstStepData.location,
         "coverLetter": this.thirdStepData.coverLetter,
@@ -870,6 +874,10 @@ export class EditProfileComponent implements OnInit {
 
           try {
             let a = await this.authService.linkResumewithUser(this.emailAddress, this.uploadedCvName);
+
+            // updating the flag if upload and linking is successful
+            this.isCvUpdated = true;
+
             if (this.firstStepData.fileType && this.firstStepData.fileName) {
               this.updateProfilePic();
             }
@@ -877,7 +885,6 @@ export class EditProfileComponent implements OnInit {
               // await this.updateWorkExperience();
               await this.createUserDetails();
             }
-
 
           } catch (error: any) {
 

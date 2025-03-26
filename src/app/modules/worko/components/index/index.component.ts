@@ -1,6 +1,7 @@
 import { Component, ViewChild, OnDestroy } from '@angular/core';
 import { Router } from '@angular/router';
 import { CompanyListingService } from '../../services/company-listing.service';
+import { environment } from 'src/environments/environment';
 
 @Component({
   selector: 'app-index',
@@ -40,6 +41,8 @@ export class IndexComponent {
       description: 'Get referred and receive insider guidance throughout the application process, boosting your chances of success.'
     }
   ];
+
+  baseURL = environment.baseUrl;
 
   // For swapping Get referrals and give referrals buttons:
 

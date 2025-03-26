@@ -122,7 +122,7 @@
                         <div class="company company1" tabindex="0">
 
                             <ng-container *ngIf="item.logo; else useUrlLogo">
-                                <img src="assets/company-logo/{{item.logo}}" class="company-name" alt="{{item.name}}">
+                                <img [src]="baseURL + '/images/' + item.logo" class="company-name" alt="{{item.name}}">
                             </ng-container>
                             <ng-template #useUrlLogo>
                                 <img src="{{ item.logoUrl }}" class="company-name" alt="{{item.name}}">
@@ -132,7 +132,7 @@
 
                                 <div class="logo-container">
                                     <ng-container *ngIf="item.logo; else useUrlLogoHover">
-                                        <img src="assets/company-logo/{{item.logo}}" class="company-name"
+                                        <img [src]="baseURL + '/images/' + item.logo" class="company-name"
                                             alt="{{item.name}}">
                                     </ng-container>
                                     <ng-template #useUrlLogoHover>
@@ -153,7 +153,7 @@
                         <div class="company company1" tabindex="0">
 
                             <ng-container *ngIf="item.logo; else useUrlLogoSecond">
-                                <img src="assets/company-logo/{{item.logo}}" class="company-name" alt="{{item.name}}">
+                                <img [src]="baseURL + '/images/' + item.logo" class="company-name" alt="{{item.name}}">
                             </ng-container>
                             <ng-template #useUrlLogoSecond>
                                 <img src="{{ item.logoUrl }}" class="company-name" alt="{{item.name}}">
@@ -163,7 +163,7 @@
 
                                 <div class="logo-container">
                                     <ng-container *ngIf="item.logo; else useUrlLogoHoverSecond">
-                                        <img src="assets/company-logo/{{item.logo}}" class="company-name"
+                                        <img [src]="baseURL + '/images/' + item.logo" class="company-name"
                                             alt="{{item.name}}">
                                     </ng-container>
                                     <ng-template #useUrlLogoHoverSecond>

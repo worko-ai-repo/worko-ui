@@ -149,7 +149,7 @@
                             <td>
                                 <ng-container *ngIf="item?.logo || item?.logoUrl; else showDash">
                                     <ng-container *ngIf="item?.logo; else useUrlLogo">
-                                        <img src="assets/company-logo/{{ item.logo }}" class="company-logo" alt="logo">
+                                        <img [src]="baseURL + '/images/' + item.logo" class="company-logo" alt="logo">
                                     </ng-container>
 
                                     <ng-template #useUrlLogo>

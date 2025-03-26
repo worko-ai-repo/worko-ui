@@ -5,6 +5,7 @@ import { CountryCodes } from 'src/app/modules/shared/data/country.data';
 import { ModalType } from 'src/app/modules/shared/interfaces/shared.interface';
 import { CompanyListingService } from 'src/app/modules/worko/services/company-listing.service';
 import { ModalComponent } from '../../../modal/modal.component';
+import { environment } from 'src/environments/environment';
 
 @Component({
   selector: 'app-min-job-portal-job-list',
@@ -63,8 +64,7 @@ export class MinJobPortalJobListComponent {
     { label: '25+ years', minExperience: 25, maxExperience: 9999 }
   ];
 
-
-
+  baseURL = environment.baseUrl;
 
   constructor(private router: Router, private companyListing: CompanyListingService, private spinner: NgxSpinnerService) { }
 

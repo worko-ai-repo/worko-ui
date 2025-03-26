@@ -9,6 +9,7 @@ import { StorageService } from 'src/app/modules/app-core/services/storage.servic
 import { ModalComponent } from 'src/app/modules/shared/components/modal/modal.component';
 import { debounceTime, Subject } from 'rxjs';
 import { ErrorHandlingService } from 'src/app/modules/app-core/services/error-handling.service';
+import { environment } from 'src/environments/environment';
 
 export interface CorporateVitalDetails {
   cognitoUserId?: string;
@@ -124,6 +125,7 @@ export class AdminCompanyRequestsComponentComponent {
   popupTitle: string = "";
   copiedContent: any;
 
+  baseURL = environment.baseUrl;
 
   constructor(private router: Router, private fb: FormBuilder, private adminService: AdminService, private spinner: NgxSpinnerService, private cdr: ChangeDetectorRef, private sanitizer: DomSanitizer, private route: ActivatedRoute, private storage: StorageService, private errorHandlingService: ErrorHandlingService) {
     this.searchTerms.pipe(

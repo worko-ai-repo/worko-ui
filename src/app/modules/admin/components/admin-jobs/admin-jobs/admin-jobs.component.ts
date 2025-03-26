@@ -20,6 +20,7 @@ import { MatAutocompleteTrigger } from "@angular/material/autocomplete";
 import { minMaxValidator } from "src/app/modules/worko/validators/minMax.validator";
 import { autofillJobDetailsToForm } from "src/app/modules/shared/utils/jobsAutoFillParser.utils";
 import { ErrorHandlingService } from "src/app/modules/app-core/services/error-handling.service";
+import { environment } from 'src/environments/environment';
 
 // Interface for FetchJobsOptionsDto
 interface FetchJobsOptionsDto {
@@ -56,6 +57,8 @@ interface RangeDropDownDto {
  * @property {companyControl} FormControl - The form control for the company selection.
  */
 export class AdminJobsComponent implements OnInit {
+
+  baseURL = environment.baseUrl;
 
   locations = ["Noida", "Bangalore", "Hyderabad", "Pune", "Mumbai", "Chennai", "Delhi", "Gurgaon", "Kolkata", "Ahmedabad", "Chandigarh"];
 

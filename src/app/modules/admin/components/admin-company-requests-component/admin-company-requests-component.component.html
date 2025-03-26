@@ -159,7 +159,7 @@
                                 <ng-container
                                     *ngIf="item?.companyDetail?.logo || item?.companyDetail?.logoUrl; else showDash">
                                     <ng-container *ngIf="item?.companyDetail?.logo; else useUrlLogo">
-                                        <img src="assets/company-logo/{{ item.companyDetail.logo }}"
+                                        <img [src]="baseURL + '/images/' + item.companyDetail.logo"
                                             class="company-logo" alt="logo">
                                     </ng-container>
 

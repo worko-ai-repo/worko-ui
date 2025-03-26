@@ -114,7 +114,7 @@
                             <div class="img-div">
                                 <!-- <img [src]="job.companyDetails.companyLogo" alt="logo" class="company-img"> -->
                                 <ng-container *ngIf="job.companyDetails.logo; else useUrlLogo">
-                                    <img src="assets/company-logo/{{job.companyDetails.logo}}" class="company-img"
+                                    <img [src]="baseURL + '/images/' + job.companyDetails.logo" class="company-img"
                                         alt="logo">
                                 </ng-container>
 

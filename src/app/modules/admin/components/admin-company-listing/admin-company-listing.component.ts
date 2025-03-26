@@ -9,6 +9,7 @@ import { NgxSpinnerService } from 'ngx-spinner';
 import { StorageService } from 'src/app/modules/app-core/services/storage.service';
 import { debounceTime, Subject } from 'rxjs';
 import { ErrorHandlingService } from 'src/app/modules/app-core/services/error-handling.service';
+import { environment } from 'src/environments/environment';
 
 export interface CorporateVitalDetails {
   cognitoUserId?: string;
@@ -216,6 +217,7 @@ export class AdminCompanyListingComponent {
 
   popupTitle: string = "";
 
+  baseURL = environment.baseUrl;
 
   constructor(private router: Router, private fb: FormBuilder, private adminService: AdminService, private spinner: NgxSpinnerService, private cdr: ChangeDetectorRef, private sanitizer: DomSanitizer, private route: ActivatedRoute, private storage: StorageService, private errorHandlingService: ErrorHandlingService) {
     this.searchTerms.pipe(
