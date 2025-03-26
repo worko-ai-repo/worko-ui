@@ -1,4 +1,5 @@
 import { Component, Input } from '@angular/core';
+import { environment } from 'src/environments/environment';
 
 @Component({
     selector: 'app-mini-job-portal-title',
@@ -8,6 +9,9 @@ import { Component, Input } from '@angular/core';
 export class MiniJobPortalTitleComponent {
     @Input() jobDescriptionDetails: any;
     @Input() isJobInvalid: any;
+
+    baseURL = environment.baseUrl;
+
     shareCurrentUrl() {
         const url = window.location.href;
 

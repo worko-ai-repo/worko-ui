@@ -9,6 +9,7 @@ export const environment = {
       userPoolWebClientId: '7ul99pqf5uflpl2ckvukklc6c3',
       domain: 'worko-congnito.auth.ap-south-1.amazoncognito.com'
     },
+    baseUrl: 'https://worko.ai',
     razorpayKey:'REDACTED',
     // crossOriginUrl:'https://worko.ai',
     localUrl: 'https://worko.ai',

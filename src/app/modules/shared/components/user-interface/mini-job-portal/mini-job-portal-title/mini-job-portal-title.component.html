@@ -6,7 +6,7 @@
                 <div class="img-div ">
                     <!-- <img src="assets/company-logo/301.jpg" alt="logo" class="company-img"> -->
                     <ng-container *ngIf="jobDescriptionDetails.companyDetails.logo; else useUrlLogo">
-                        <img src="assets/company-logo/{{jobDescriptionDetails.companyDetails.logo}}" class="company-img"
+                        <img [src]="baseURL + '/images/' + jobDescriptionDetails.companyDetails.logo" class="company-img"
                             alt="logo">
                     </ng-container>
 

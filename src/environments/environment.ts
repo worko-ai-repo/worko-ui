@@ -13,6 +13,7 @@ export const environment = {
     razorpayKey:"REDACTED",
     // crossOriginUrl:'http://localhost:4400',
     localUrl: 'http://localhost:4200',
+    baseUrl: 'https://dev-ui.worko.work',
     apiUrl: 'https://api.dev.worko.work/',
     chatApiUrl: 'https://chatapi.dev.worko.work/',
     chatWsUrl: 'wss://chatws.dev.worko.work',

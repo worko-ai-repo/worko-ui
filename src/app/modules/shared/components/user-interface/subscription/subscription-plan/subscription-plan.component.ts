@@ -178,7 +178,7 @@ export class SubscriptionPlanComponent {
 
     let totalAmount = subTotalAmount + gstAmount - discountAmount;
     let domain = environment.localUrl;
-    let returnUrl = domain + `/candidate/pgresponse/${this.pGatewayProvider}`;
+    let returnUrl = domain + `/v1/candidate/pgresponse/${this.pGatewayProvider}`;
 
     let payload = {
       "pgatewayProvider": this.pGatewayProvider,

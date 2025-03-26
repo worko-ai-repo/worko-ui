@@ -14,6 +14,7 @@ import { NgxSpinnerService } from "ngx-spinner";
 import { MatTableDataSource } from "@angular/material/table";
 import { MatAutocompleteTrigger } from "@angular/material/autocomplete";
 import { ErrorHandlingService } from 'src/app/modules/app-core/services/error-handling.service';
+import { environment } from 'src/environments/environment';
 
 
 // Interface for FetchUsersOptionsDto
@@ -87,6 +88,8 @@ export class AdminCorporateUsersComponent implements OnInit {
   successMessage: string = "";
   modalSize: string = "xl";
   copiedContextId: any;
+
+  baseURL = environment.baseUrl;
 
   /**
    * Initializes the AdminusersComponent with the required services and sets up the user form.

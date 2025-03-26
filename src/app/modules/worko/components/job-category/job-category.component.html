@@ -91,7 +91,7 @@
                                     <img *ngIf="!assetLogos.includes(item.logo)" src="{{ item.logoUrl }}"
                                         class="company-name" alt="logo"> -->
                                         <ng-container *ngIf="item.logo; else useUrlLogo">
-                                            <img src="assets/company-logo/{{item.logo}}" class="company-name" alt="logo">
+                                            <img [src]="baseURL + '/images/' + item.logo" class="company-name" alt="logo">
                                           </ng-container>
                                           
                                           <ng-template #useUrlLogo>

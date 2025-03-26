@@ -74,7 +74,7 @@
                 <ng-container *ngIf="job.companyDetails?.logo; else useUrlLogoSecond">
                   <img (click)="copyToClipboard(job.companyDetails.id)" matTooltip="Copy Company Id To Clipboard"
                     matTooltipPosition="above" style="cursor:pointer"
-                    src="assets/company-logo/{{job.companyDetails?.logo}}" alt="{{job.companyDetails?.name}}" width="50"
+                    [src]="baseURL + '/images/' + job.companyDetails?.logo"  alt="{{job.companyDetails?.name}}" width="50"
                     height="50">
                 </ng-container>
                 <ng-template #useUrlLogoSecond>

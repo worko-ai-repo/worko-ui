@@ -74,7 +74,7 @@
                    
                      <td matTooltip={{invite.companyName}} matTooltipPosition="above" style="cursor: pointer;">
                         <ng-container *ngIf="invite.companyDetails?.logo; else useUrlLogoSecond">
-                           <img src="assets/company-logo/{{invite.companyDetails?.logo}}" alt="{{invite.companyDetails?.name}}"
+                           <img [src]="baseURL + '/images/' + invite.companyDetails?.logo" alt="{{invite.companyDetails?.name}}"
                            (click)="copyToClipboard(invite.companyDetails.id)"
                            matTooltip="Copy Company Id To Clipboard"
                            matTooltipPosition="above"

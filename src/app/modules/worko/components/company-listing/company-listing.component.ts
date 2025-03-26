@@ -22,6 +22,7 @@ import { Location } from '@angular/common';
 import { Subscription } from 'rxjs';
 import { LoginFormComponent } from '../login-form/login-form.component';
 import { debounce } from 'lodash';
+import { environment } from 'src/environments/environment';
 @Component({
   selector: 'app-company-listing',
   templateUrl: './company-listing.component.html',
@@ -238,6 +239,8 @@ export class CompanyListingComponent implements OnInit, AfterViewInit, OnDestroy
   observer: IntersectionObserver | undefined;
   userType: any;
 
+  baseURL = environment.baseUrl;
+
   constructor(private spinner: NgxSpinnerService, private location: Location, private activatedRoute: ActivatedRoute, private cdr: ChangeDetectorRef,
     private storage: StorageService, private router: Router, private authService: AuthService, private http: HttpClient, private renderer: Renderer2, private el: ElementRef, private companyListing: CompanyListingService, private cognitoService: CognitoService, private candidateSrv: CandidateProfileService) {
 
@@ -344,19 +347,19 @@ export class CompanyListingComponent implements OnInit, AfterViewInit, OnDestroy
     window.scrollTo(0, 0);
   }
 
-  checkImageExists(imageName: string): Promise<boolean> {
-    // debugger
-    const imageUrl = `assets/company-logo/${imageName}`;
-    return this.http.get(imageUrl, { observe: 'response' }).toPromise()
-      .then(response => {
-        if (response && response.status === 200) {
-          return true;
-        } else {
-          return false;
-        }
-      })
-      .catch(() => false);
-  }
+  // checkImageExists(imageName: string): Promise<boolean> {
+  //   // debugger
+  //   const imageUrl = `assets/company-logo/${imageName}`;
+  //   return this.http.get(imageUrl, { observe: 'response' }).toPromise()
+  //     .then(response => {
+  //       if (response && response.status === 200) {
+  //         return true;
+  //       } else {
+  //         return false;
+  //       }
+  //     })
+  //     .catch(() => false);
+  // }
 
 
   //receive data from static page

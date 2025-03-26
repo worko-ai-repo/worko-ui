@@ -15,6 +15,7 @@ import { MatTableDataSource } from "@angular/material/table";
 import { MatAutocompleteTrigger } from "@angular/material/autocomplete";
 import { emailDomainDenyListValidator } from 'src/app/modules/shared/data/email-domain-validator';
 import { ErrorHandlingService } from 'src/app/modules/app-core/services/error-handling.service';
+import { environment } from 'src/environments/environment';
 
 
 // Interface for FetchInvitesOptionsDto
@@ -36,6 +37,9 @@ interface FetchInvitesOptionsDto {
   encapsulation: ViewEncapsulation.None,
 })
 export class AdminInviteComponent implements OnInit {
+
+  baseURL = environment.baseUrl;
+  
   status = {
     ALL: "",
     AWAITING: "AWAITING",

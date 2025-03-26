@@ -71,6 +71,8 @@ export class JobCategoryComponent implements OnInit, AfterViewInit, OnDestroy {
 
   industryTypeOptions: any[] = (industryTypes as any).default;
 
+  baseURL = environment.baseUrl;
+
   constructor(private route: ActivatedRoute, private router: Router, private spinner: NgxSpinnerService, private companyListing: CompanyListingService, private storage: StorageService, private cdr: ChangeDetectorRef, private cognitoService: CognitoService, private candidateSrv: CandidateProfileService, private location: Location, private http: HttpClient) { }
 
   async ngOnInit() {
