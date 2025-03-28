@@ -3,7 +3,7 @@
         <div class="row">
             <div class="col-md-3">
                 <div class="row d-flex justify-content-center">
-                    <div class="col-md-12 mt-2  d-flex justify-content-center">
+                        <div class="col-md-12 mt-2  d-flex justify-content-center">
                         <img src="{{candidatePersonalDetails.profilePicUrl}}" class="candidate-img float-end" alt="" >
                     </div>
                     <!-- <span class="error-message upload-error">{{picErrorMessage}}</span> -->
@@ -191,9 +191,9 @@
                         </div>
                         <div class="col-md-4">
                             <div class="material-input__group">
-                                <label for="" class="form-lable required-form-field">LinkedIn</label>
+                                <label for="" class="form-lable">LinkedIn</label>
                                 <i class="fa-brands fa-linkedin" style="color: #f6f7f9; font-size: 16px"></i>
-                                <input type="text" placeholder="LinkdIn" required
+                                <input type="text" placeholder="LinkdIn"
                                     class="text-white material-input__group__input form-input form-control"
                                     #socialLinklinkdin="ngModel"
                                     [(ngModel)]="candidatePersonalDetails.socialLinklinkdin"
@@ -224,7 +224,7 @@
                     <div class="row">
                         <div class="col-md-10 mt-3">
                             <button class="btn btn-next float-end" (click)="updateEducationDetails()" type="submit"
-                                [disabled]="(  !candidatePersonalDetails.socialLinklinkdin || candidatePersonalDetails.socialLinklinkdin.length === 0  || !candidatePersonalDetails.phoneNo || !candidatePersonalDetails.name || !candidatePersonalDetails.location  || !candidatePersonalDetails.about || !areAllPreviousFieldsFilled()  ||!candidatePersonalDetails.country ||!candidate.form.valid)">Next</button>
+                                [disabled]="( !candidatePersonalDetails.phoneNo || !candidatePersonalDetails.name || !candidatePersonalDetails.location  || !candidatePersonalDetails.about || !areAllPreviousFieldsFilled()  ||!candidatePersonalDetails.country ||!candidate.form.valid)">Next</button>
                         </div>
 
                     </div>
