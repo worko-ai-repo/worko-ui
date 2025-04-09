@@ -69,7 +69,8 @@
                             </td>
 
                             <td matTooltip="{{ item?.jobLocation | titlecase }}" matTooltipPosition="above"
-                            style="cursor: pointer;">{{ item?.jobLocation ? (item.jobLocation | ellipsis:20 | titlecase) : '-' }}</td>
+                                style="cursor: pointer;">{{ item?.jobLocation ? (item.jobLocation | ellipsis:20 |
+                                titlecase) : '-' }}</td>
 
                             <td>{{ formatRange(item?.experienceRange?.min, item?.experienceRange?.max,
                                 'experience') }}
@@ -79,14 +80,18 @@
 
                             <td>{{ item?.createdAt ? (item.createdAt | date:'MMM dd, yyyy') : '-' }}</td>
 
-                            <td matTooltip="{{ item?.corporateUserDetails?.firstName ? ((item?.corporateUserDetails?.firstName + ' ' + (item?.corporateUserDetails?.lastName || '')).trim() | titlecase) : '-' }}"
-                                matTooltipPosition="above" style="cursor: pointer;">
-                                {{
-                                item?.corporateUserDetails?.firstName
-                                ? ((item?.corporateUserDetails?.firstName + ' ' + (item?.corporateUserDetails?.lastName
-                                || '')).trim() | titlecase)
-                                : '-'
+                            <td matTooltip="{{ item?.userDetails?.name ? item.userDetails.name : 
+                                (item?.corporateUserDetails?.firstName ? 
+                                   ((item.corporateUserDetails.firstName + ' ' + (item.corporateUserDetails.lastName || '')).trim() | titlecase) 
+                                   : '-') 
+                             }}" matTooltipPosition="above" style="cursor: pointer;">
+                                {{ item?.userDetails?.name ? item.userDetails.name :
+                                (item?.corporateUserDetails?.firstName ?
+                                ((item.corporateUserDetails.firstName + ' ' + (item.corporateUserDetails.lastName ||
+                                '')).trim() | titlecase)
+                                : '-')
                                 }}
+
                             </td>
 
 

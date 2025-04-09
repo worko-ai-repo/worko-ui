@@ -1,0 +1,307 @@
+.main-container {
+    // padding: 16px 12px;
+    padding: 15px;
+    background-color: #0A1E35;
+    // margin-top: 20px;
+    margin-bottom: 20px;
+    // border: 2px solid #295CA8;
+    border-radius: 10px;
+  }
+  
+  /* Smaller screens: */
+  .page-top-content {
+    height: fit-content;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin-bottom: 10px;
+  }
+  
+  .page-title {
+    text-align: center;
+  }
+  
+  .page-title h1 {
+    font-size: 36px;
+    font-family: 'Poppins', sans-serif;
+    line-height: 50px;
+    color: #fff;
+  }
+  
+  .page-info {
+    text-align: center;
+    margin-top: 10px;
+  }
+  
+  .page-info h5 {
+    font-size: 16px;
+    line-height: 1.5;
+    font-family: 'Poppins', sans-serif;
+    color: #a1a4a9;
+  }
+  
+  /* Larger screens: Left-aligned */
+  @media (min-width: 768px) {
+    .page-top-content {
+      width: 100%;
+      max-width: 1200px;
+      margin: 20px auto;
+      /* Center container horizontally */
+      margin-top: 0px;
+      // padding: 40px 20px;
+      align-items: flex-start;
+    }
+  
+    .page-title h1 {
+      font-size: 30px;
+      line-height: 1.1;
+      color: #fff;
+      margin-bottom: 10px;
+      text-align: left;
+    }
+  
+    .page-info {
+      margin-top: 10px;
+      text-align: left;
+    }
+  
+    .page-info h5 {
+      font-size: 16px;
+      line-height: 1.5;
+      max-width: 900px;
+      color: #9da0a4;
+    }
+  }
+  
+  @media (min-width: 1200px) {
+    .page-title h1 {
+      font-size: 34px;
+      line-height: 1.1;
+    }
+  
+    .page-info h5 {
+      font-size: 18px;
+    }
+  }
+  
+  
+  .criteria-section {
+    display: grid;
+    gap: 20px;
+    /* Space between grid items */
+    margin-bottom: 20px;
+  }
+  
+  .criteria-input-head {
+    display: flex;
+    align-items: center;
+    font-weight: 500;
+  }
+  
+  .form-label {
+    font-weight: 500;
+    font-size: 16px;
+  }
+  
+  .criteria-textarea {
+    height: unset !important;
+    padding: 16.5px 14px;
+    min-height: 70px !important;
+    resize: vertical;
+  }
+  
+  .criteria-textarea::placeholder {
+    color: #ccc;
+  }
+  
+  .criteria-input::placeholder {
+    color: #ccc;
+  }
+  
+  .small-input {
+    width: 80px;
+    // margin: 0 8px;
+  }
+  
+  .range-inputs {
+    display: flex;
+    align-items: center;
+  }
+  
+  .screen-resumes-btn {
+    margin-top: 10px;
+    background-color: #50D5FF;
+    border: 2px solid #0A1E35;
+    padding: 12px 20px;
+    border-radius: 5px;
+    font-size: 16px;
+    // color: #fff;
+  }
+  
+  // .screen-resumes-btn:hover {
+  //   background-color: #0056b3;
+  // }
+  
+  @media (min-width: 992px) {
+    .criteria-section {
+      grid-template-columns: repeat(2, 1fr);
+      /* Two columns */
+      gap: 20px 20px;
+    }
+  
+    .job-title-container {
+      grid-column: span 2;
+      /* Make Job Title span across two columns */
+    }
+  }
+  
+  // .ajobs-fitem {
+  //   grid-column: span 2;
+  //   position: relative;
+  // }
+  
+  // .gCloumnOne {
+  //   grid-column: span 3;
+  // }
+  
+  .criteria-section input.form-input {
+    min-height: 40px;
+    /* Recommended minimum height */
+    padding: 10px;
+    /* Add some padding for better spacing */
+    font-size: 14px;
+    /* Adjust font size for readability */
+    // border: 2px solid #476baf; /* Match border style with chip box */
+    border-radius: 5px;
+    /* Rounded corners for consistency */
+    background-color: #0a1e35;
+    /* Background color matching the design */
+    color: white;
+    /* Text color for good contrast */
+  }
+  
+  .criteria-section input.form-input::placeholder {
+    color: #ccc;
+    /* Lighter color for placeholder text */
+  }
+  
+  .skill-chip-box {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+    margin-top: 10px;
+    padding: 10px;
+    border: 1px solid#fff;
+    border-radius: 5px;
+    background-color: #0a1e35;
+    height: 60px;
+    overflow-y: auto;
+  }
+  
+  .skill-chip {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    background-color: #1ed6ff;
+    padding: 5px 10px;
+    border-radius: 5px;
+    font-size: 14px;
+    font-weight: bold;
+    color: #0a1e35;
+  }
+  
+  .skill-chip-item {
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+  
+  .skill-chip-button {
+    cursor: pointer;
+    margin-left: 10px;
+    color: #cc5757;
+  }
+  
+  .experience-range {
+    margin-bottom: 20px;
+  }
+  
+  .d-flex {
+    display: flex;
+    gap: 10px;
+    /* Space between Min and Max inputs */
+  }
+  
+  .small-input {
+    width: 100px;
+    /* Slightly wider for better input experience */
+    min-height: 40px;
+    /* Ensure a consistent height */
+    padding: 10px;
+    /* Add padding for better spacing */
+    border: 1px solid #fff;
+    /* Border style for consistency */
+    border-radius: 5px;
+    /* Rounded corners for modern look */
+    background-color: #0a1e35;
+    /* Dark background to match design */
+    color: white;
+    /* Text color for contrast */
+    font-size: 14px;
+  }
+  
+  .small-input::placeholder {
+    color: #ccc;
+    /* Lighter placeholder text */
+  }
+  
+  // .required-form-field {
+  //   font-weight: bold;
+  // }
+  
+  .ajob-tooltip i {
+    color: #fff;
+    cursor: pointer;
+  }
+  
+  .range-inputs {
+    display: flex;
+    gap: 15px;
+    /* Space between Min and Max inputs */
+    width: 100%;
+    /* Ensures it takes the full available width */
+  }
+  
+  .criteria-input {
+    flex: 1;
+    /* Make both inputs take equal width */
+    min-height: 40px;
+    padding: 10px;
+    // border: 2px solid #476baf;
+    border: 1px solid #fff;
+    border-radius: 5px;
+    background-color: #0a1e35;
+    color: white;
+    font-size: 14px;
+  }
+  
+  .criteria-input::placeholder {
+    color: #ccc;
+  }
+  
+  
+  @media (min-width: 1400px) {
+  
+    .page-top-content {
+      margin-left: 0;
+      margin-right: 0;
+    }
+  
+    .page-title {
+      text-align: left;
+    }
+  
+    .page-info {
+      text-align: left;
+    }
+  }

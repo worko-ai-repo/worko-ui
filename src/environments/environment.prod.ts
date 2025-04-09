@@ -4,6 +4,7 @@
 
 export const environment = {
     production: false,
+    resumeUploadLimit: 50,
     cognito: {
       userPoolId: 'ap-south-1_1f9O34ojY',
       userPoolWebClientId: '7ul99pqf5uflpl2ckvukklc6c3',

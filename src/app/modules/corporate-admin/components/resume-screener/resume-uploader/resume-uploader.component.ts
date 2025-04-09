@@ -2,6 +2,7 @@ import { ChangeDetectorRef, Component, EventEmitter, OnInit, Output, ViewChild }
 import { ModalComponent } from 'src/app/modules/shared/components/modal/modal.component';
 import { ModalType } from 'src/app/modules/shared/interfaces/shared.interface';
 import { Router } from '@angular/router';
+import { environment } from 'src/environments/environment';
 
 @Component({
   selector: 'app-resume-uploader',
@@ -9,6 +10,7 @@ import { Router } from '@angular/router';
   styleUrls: ['./resume-uploader.component.scss']
 })
 export class ResumeUploaderComponent implements OnInit {
+  public resumeUploadLimit = environment.resumeUploadLimit;
   filteredNewFiles: any;
 
   ngOnInit(): void { }
@@ -155,8 +157,8 @@ export class ResumeUploaderComponent implements OnInit {
       }
     });
 
-    if (this.uploadedFiles.length + fileArray.length > 200) {
-      this.fileError = 'You can upload up to 200 resumes only.';
+    if (this.uploadedFiles.length + this.filteredNewFiles.length > this.resumeUploadLimit) {
+      this.fileError = `You can upload up to ${this.resumeUploadLimit} resumes only.`;
       return;
     }
 
@@ -183,7 +185,7 @@ export class ResumeUploaderComponent implements OnInit {
 
   handleModalAction(action: string): void {
     if (action === 'reselect') {
-      // 🔹 Clear uploaded files & reset file input
+      // Clear uploaded files & reset file input
       this.uploadedFiles = [];
       this.filteredNewFiles = [];
       this.duplicateFiles = [];

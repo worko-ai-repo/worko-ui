@@ -21,68 +21,16 @@
     Fetch Details
   </button>
 
-  <form [formGroup]="screenerForm">
-    <div class="criteria-section">
-
-      <!-- Must Haves -->
-      <div>
-        <label class="form-label">Must Haves</label>&nbsp;
-        <span class="ajob-tooltip" style="cursor: pointer;">
-          <i class="fa-solid fa-circle-info" matTooltip="{{skillsTooltipMessage}}" matTooltipPosition="above"></i>
-        </span>
-        <input type="text" class="form-control form-input" placeholder="Add must-have skills (e.g., React, Java)"
-          #mustHaveInput (keydown.enter)="addSkill($event, 'mustHaves')" [disabled]="fieldsDisabled" />
-        <div class="skill-chip-box">
-          <span *ngFor="let skill of mustHaves.controls; let i = index" class="skill-chip">
-            <div class="skill-chip-item">{{ skill.value | ellipsis:20 }}</div>
-            <i class="fa-solid fa-circle-xmark skill-chip-button" (click)="removeSkill(i, 'mustHaves')"></i>
-          </span>
-        </div>
-      </div>
-
-      <!-- Good to Haves -->
-      <div>
-        <label class="form-label">Good to Haves</label>&nbsp;
-        <span class="ajob-tooltip" style="cursor: pointer;">
-          <i class="fa-solid fa-circle-info" matTooltip="{{skillsTooltipMessage}}" matTooltipPosition="above"></i>
-        </span>
-        <input type="text" class="form-control form-input"
-          placeholder="Add good-to-have skills (e.g., Python, Leadership)" #goodToHaveInput
-          (keydown.enter)="addSkill($event, 'goodToHaves')" [disabled]="fieldsDisabled" />
-        <div class="skill-chip-box">
-          <span *ngFor="let skill of goodToHaves.controls; let i = index" class="skill-chip">
-            <div class="skill-chip-item">{{ skill.value | ellipsis:20 }}</div>
-            <i class="fa-solid fa-circle-xmark skill-chip-button" (click)="removeSkill(i, 'goodToHaves')"></i>
-          </span>
-        </div>
-      </div>
-
-      <!-- Must Not Haves -->
-      <div>
-        <label class="form-label">Must Not Haves</label>&nbsp;
-        <span class="ajob-tooltip" style="cursor: pointer;">
-          <i class="fa-solid fa-circle-info" matTooltip="{{skillsTooltipMessage}}" matTooltipPosition="above"></i>
-        </span>
-        <input type="text" id="must-not-haves" class="form-control form-input"
-          placeholder="Add must-not-have skills (e.g., Poor communication)" #mustNotHaveInput
-          (keydown.enter)="addSkill($event, 'mustNotHaves')" [disabled]="fieldsDisabled" />
-        <div class="skill-chip-box">
-          <span *ngFor="let skill of mustNotHaves.controls; let i = index" class="skill-chip">
-            <div class="skill-chip-item">{{ skill.value | ellipsis:20 }}</div>
-            <i class="fa-solid fa-circle-xmark skill-chip-button" (click)="removeSkill(i, 'mustNotHaves')"></i>
-          </span>
-        </div>
-      </div>
-
-    </div>
-  </form>
+  <app-resume-screener-form #resumeFormRef [userType]="'ADMIN'" [mustHavesInput]="mustHaves"
+    [goodToHavesInput]="goodToHaves" [mustNotHavesInput]="mustNotHaves"
+    [fieldsDisabled]="fieldsDisabled"></app-resume-screener-form>
 
   <app-resume-uploader (resumeUploadChange)="updateResumeUploadStatus($event)"
     (uploadedFilesChange)="updateUploadedFiles($event)">
   </app-resume-uploader>
 
-  <button class="ps-4 pe-4 btn screen-resumes-btn" [disabled]="!isValidJD || !isResumeUploaded || screenerForm.invalid"
-    (click)="submitCriteria()">
+  <button class="ps-4 pe-4 btn screen-resumes-btn"
+    [disabled]="!isValidJD || !isResumeUploaded || !resumeFormComponent.isFormValid()" (click)="submitCriteria()">
     Screen Resumes
   </button>
 </div>
@@ -112,5 +60,5 @@
     <app-message-modal [title]="successTitle" [message]="successMessage" (onOk)="continue()" (onCancel)="closeModal()">
     </app-message-modal>
   </ng-container>
-  
+
 </app-modal>

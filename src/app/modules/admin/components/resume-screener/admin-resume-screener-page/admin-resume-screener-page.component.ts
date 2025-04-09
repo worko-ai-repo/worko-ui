@@ -7,6 +7,7 @@ import { NgxSpinnerService } from 'ngx-spinner';
 import { StorageService } from 'src/app/modules/app-core/services/storage.service';
 import { ErrorHandlingService } from 'src/app/modules/app-core/services/error-handling.service';
 import { FormArray, FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { ResumeScreenerFormComponent } from 'src/app/modules/shared/components/resume-screener-form/resume-screener-form.component';
 
 @Component({
   selector: 'app-admin-resume-screener-page',
@@ -15,8 +16,9 @@ import { FormArray, FormBuilder, FormGroup, Validators } from '@angular/forms';
 })
 export class AdminResumeScreenerPageComponent {
 
+  @ViewChild('resumeFormRef') resumeFormComponent!: ResumeScreenerFormComponent;
+
   adminBulkJdId: string = ''; // Store the ID from the backend response
-  skillsTooltipMessage = "Type a skill and press Enter to add it to the list.";
 
   // Properties related to modal handling
   @ViewChild(ModalComponent) modal!: ModalComponent;
@@ -38,10 +40,13 @@ export class AdminResumeScreenerPageComponent {
   isResumeUploaded: boolean = false;
 
   jdText: string = '';
+  mustHaves: any = [];
+  goodToHaves: any = [];
+  mustNotHaves: any = [];
 
   uploadedFiles: File[] = [];
 
-  fieldsDisabled: boolean = false; // Initially disable fields
+  fieldsDisabled: boolean = true; // Initially disable fields
   showFetchDetailsButton: boolean = true; // Show the Fetch Details button initially
 
   jdParsedData: any;
@@ -56,9 +61,6 @@ export class AdminResumeScreenerPageComponent {
   constructor(private fb: FormBuilder, private router: Router, private cdr: ChangeDetectorRef, private adminService: AdminService, private spinner: NgxSpinnerService, private storage: StorageService, private errorHandlingService: ErrorHandlingService, private route: ActivatedRoute) {
 
     this.screenerForm = this.fb.group({
-      mustHaves: this.fb.array([]), // Dynamic skill management
-      goodToHaves: this.fb.array([]),
-      mustNotHaves: this.fb.array([])
     });
 
   }
@@ -135,47 +137,6 @@ export class AdminResumeScreenerPageComponent {
     return tempDiv.innerText || tempDiv.textContent || '';
   }
 
-  get mustHaves(): FormArray {
-    return this.screenerForm.get('mustHaves') as FormArray;
-  }
-
-  get goodToHaves(): FormArray {
-    return this.screenerForm.get('goodToHaves') as FormArray;
-  }
-
-  get mustNotHaves(): FormArray {
-    return this.screenerForm.get('mustNotHaves') as FormArray;
-  }
-
-  addSkill(event: any, field: 'mustHaves' | 'goodToHaves' | 'mustNotHaves'): void {
-    const input = event.target as HTMLInputElement;
-    const value = input.value.trim();
-
-    if (event.key === 'Enter' && value) {
-      if (field === 'mustHaves' && !this.mustHaves.value.includes(value)) {
-        this.mustHaves.push(this.fb.control(value));
-      } else if (field === 'goodToHaves' && !this.goodToHaves.value.includes(value)) {
-        this.goodToHaves.push(this.fb.control(value));
-      }
-      else if (field === 'mustNotHaves' && !this.mustNotHaves.value.includes(value)) {
-        this.mustNotHaves.push(this.fb.control(value));
-      }
-      input.value = '';
-      event.preventDefault(); // Prevent form submission
-    }
-  }
-
-  removeSkill(index: number, field: 'mustHaves' | 'goodToHaves' | 'mustNotHaves'): void {
-    if (field === 'mustHaves') {
-      this.mustHaves.removeAt(index);
-    } else if (field === 'goodToHaves') {
-      this.goodToHaves.removeAt(index);
-    }
-    else if (field === 'mustNotHaves') {
-      this.mustNotHaves.removeAt(index);
-    }
-  }
-
   async fetchDetails(): Promise<void> {
     this.spinner.show(); // Show spinner before API call
     try {
@@ -194,21 +155,12 @@ export class AdminResumeScreenerPageComponent {
 
   populateFields(response: any): void {
     const isValidValue = (value: any) => value !== "Not Mentioned" && value !== null && value !== undefined;
-    const sanitizeArray = (arr: any[]) => Array.isArray(arr) ? arr.filter(item => isValidValue(item)) : [];
+    const sanitizeArray = (arr: any[]) =>
+      Array.isArray(arr) ? arr.filter(item => isValidValue(item)) : [];
 
-    // Reset FormArrays before adding new data
-    this.mustHaves.clear();
-    this.goodToHaves.clear();
-
-    // Populate Must Haves
-    sanitizeArray(response.coreSkills).forEach(skill => {
-      this.mustHaves.push(this.fb.control(skill));
-    });
-
-    // Populate Good to Haves
-    sanitizeArray(response.goodToHaveSkills).forEach(skill => {
-      this.goodToHaves.push(this.fb.control(skill));
-    });
+    this.mustHaves = sanitizeArray(response.coreSkills);
+    this.goodToHaves = sanitizeArray(response.goodToHaveSkills);
+    this.mustNotHaves = sanitizeArray(response.mustNotHaves);
   }
 
   updateJDValidation(isValid: boolean): void {
@@ -231,6 +183,7 @@ export class AdminResumeScreenerPageComponent {
   async submitCriteria(): Promise<void> {
     this.spinner.show();
     try {
+      const formData = this.resumeFormComponent.getScreenerFormData();
       // Step 1: Submit JD and related details
       const payload: {
         companyId: string | undefined;
@@ -245,9 +198,9 @@ export class AdminResumeScreenerPageComponent {
       } = {
         companyId: this.jobDetails?.companyId,
         jobDescription: this.jdText,
-        mustHaveSkills: this.mustHaves.value,
-        goodToHaveSkills: this.goodToHaves.value,
-        mustNotHaveSkills: this.mustNotHaves.value,
+        mustHaveSkills: formData.mustHaveSkills,
+        goodToHaveSkills: formData.goodToHaveSkills,
+        mustNotHaveSkills: formData.mustNotHaveSkills,
         jobTitle: this.jobDetails?.jobTitle,
         experienceRange: this.jobDetails?.experienceRange,
         jobLocation: this.jobDetails?.location?.city[0],
@@ -282,14 +235,6 @@ export class AdminResumeScreenerPageComponent {
     } finally {
       this.spinner.hide();
     }
-  }
-
-  private normalizeExperienceValue(value: number | string | null): number | null {
-    if (value === null || value === undefined || value === "not mentioned") {
-      return null;
-    }
-    const num = Number(value);
-    return !isNaN(num) ? num : null;
   }
 
   async uploadToS3(bulkCvs: any[]): Promise<void> {

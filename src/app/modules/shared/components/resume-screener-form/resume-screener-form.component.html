@@ -1,0 +1,116 @@
+<form [formGroup]="screenerForm">
+  <div class="criteria-section">
+    <!-- Job Title -->
+    <div class="job-title-container" *ngIf="userType === 'CORPORATE'">
+      <label for="job-title" class="required-form-field form-label">Job Title</label>&nbsp;
+      <span class="ajob-tooltip" style="cursor: pointer">
+        <i class="fa-solid fa-circle-info"
+          matTooltip="Enter the job title (e.g., Software Engineer, Data Analyst). Max 100 characters."
+          matTooltipPosition="above">
+        </i>
+      </span>
+      <input id="job-title" type="text" class="form-control form-input" formControlName="jobTitle"
+        placeholder="Enter a job title (e.g., Software Engineer)" [disabled]="fieldsDisabled" [ngClass]="{
+          'is-invalid':
+            jobTitle?.invalid && (jobTitle?.dirty || jobTitle?.touched)
+        }" />
+      <span *ngIf="jobTitle?.invalid && (jobTitle?.dirty || jobTitle?.touched)" class="text-danger">
+        Job title is required and must be under 100 characters.
+      </span>
+    </div>
+
+    <!-- Must Haves -->
+    <div>
+      <label class="form-label">Must Haves</label>&nbsp;
+      <span class="ajob-tooltip" style="cursor: pointer">
+        <i class="fa-solid fa-circle-info" matTooltip="{{ skillsTooltipMessage }}" matTooltipPosition="above"></i>
+      </span>
+      <input type="text" class="form-control form-input" placeholder="Add must-have skills (e.g., React, Java)"
+        #mustHaveInput (keydown.enter)="addSkill($event, 'mustHaves')" [disabled]="fieldsDisabled" />
+      <div class="skill-chip-box">
+        <span *ngFor="let skill of mustHaves.controls; let i = index" class="skill-chip">
+          <div class="skill-chip-item">{{ skill.value | ellipsis : 20 }}</div>
+          <i class="fa-solid fa-circle-xmark skill-chip-button" (click)="removeSkill(i, 'mustHaves')"></i>
+        </span>
+      </div>
+    </div>
+
+    <!-- Good to Haves -->
+    <div>
+      <label class="form-label">Good to Haves</label>&nbsp;
+      <span class="ajob-tooltip" style="cursor: pointer">
+        <i class="fa-solid fa-circle-info" matTooltip="{{ skillsTooltipMessage }}" matTooltipPosition="above"></i>
+      </span>
+      <input type="text" class="form-control form-input"
+        placeholder="Add good-to-have skills (e.g., Python, Leadership)" #goodToHaveInput
+        (keydown.enter)="addSkill($event, 'goodToHaves')" [disabled]="fieldsDisabled" />
+      <div class="skill-chip-box">
+        <span *ngFor="let skill of goodToHaves.controls; let i = index" class="skill-chip">
+          <div class="skill-chip-item">{{ skill.value | ellipsis : 20 }}</div>
+          <i class="fa-solid fa-circle-xmark skill-chip-button" (click)="removeSkill(i, 'goodToHaves')"></i>
+        </span>
+      </div>
+    </div>
+
+    <!-- Must Not Haves -->
+    <div>
+      <label class="form-label">Must Not Haves</label>&nbsp;
+      <span class="ajob-tooltip" style="cursor: pointer">
+        <i class="fa-solid fa-circle-info" matTooltip="{{ skillsTooltipMessage }}" matTooltipPosition="above"></i>
+      </span>
+      <input type="text" id="must-not-haves" class="form-control form-input"
+        placeholder="Add must-not-have skills (e.g., Poor communication)" #mustNotHaveInput
+        (keydown.enter)="addSkill($event, 'mustNotHaves')" [disabled]="fieldsDisabled" />
+      <div class="skill-chip-box">
+        <span *ngFor="let skill of mustNotHaves.controls; let i = index" class="skill-chip">
+          <div class="skill-chip-item">{{ skill.value | ellipsis : 20 }}</div>
+          <i class="fa-solid fa-circle-xmark skill-chip-button" (click)="removeSkill(i, 'mustNotHaves')"></i>
+        </span>
+      </div>
+    </div>
+
+    <!-- Experience Range -->
+    <div class="experience-range" *ngIf="userType === 'CORPORATE'">
+      <label class="required-form-field form-label">Experience Range (Years)</label>&nbsp;
+      <span class="ajob-tooltip" style="cursor: pointer">
+        <i class="fa-solid fa-circle-info" matTooltip="Enter the minimum and maximum years of experience required."
+          matTooltipPosition="above">
+        </i>
+      </span>
+
+      <div class="d-flex gap-2">
+        <!-- Minimum Experience -->
+        <input type="number" class="criteria-input small-input form-control" placeholder="Min experience in Years"
+          formControlName="experienceMin" [ngClass]="{
+            'is-invalid':
+              jobTitle?.invalid && (jobTitle?.dirty || jobTitle?.touched)
+          }" [disabled]="fieldsDisabled" />
+
+        <!-- Maximum Experience -->
+        <input type="number" class="criteria-input small-input form-control" placeholder="Max experience in Years"
+          formControlName="experienceMax" [ngClass]="{ 'is-invalid': showExperienceError('min') }"
+          [disabled]="fieldsDisabled" />
+      </div>
+
+      <div class="text-danger mt-1" *ngIf="experienceMin?.touched || experienceMax?.touched">
+        <ng-container *ngIf="screenerForm.errors?.['experienceRequired']">
+          Experience range is required.
+        </ng-container>
+        <ng-container
+          *ngIf="!screenerForm.errors?.['experienceRequired'] && (experienceMin?.errors?.['required'] || experienceMax?.errors?.['required'])">
+          Please enter both min and max experience.
+        </ng-container>
+        <ng-container
+          *ngIf="!screenerForm.errors?.['experienceRequired'] && (experienceMin?.errors?.['min'] || experienceMax?.errors?.['min'])">
+          Experience cannot be negative.
+        </ng-container>
+        <ng-container *ngIf="!screenerForm.errors?.['experienceRequired'] && screenerForm.errors?.['experienceEqual']">
+          Min and max experience cannot be the same.
+        </ng-container>
+        <ng-container *ngIf="!screenerForm.errors?.['experienceRequired'] && screenerForm.errors?.['invalidRange']">
+          Max experience should be greater than min.
+        </ng-container>
+      </div>
+    </div>
+  </div>
+</form>

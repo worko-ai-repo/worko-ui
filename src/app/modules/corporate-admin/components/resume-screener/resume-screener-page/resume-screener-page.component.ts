@@ -5,6 +5,7 @@ import { StorageService } from 'src/app/modules/app-core/services/storage.servic
 import { ModalType } from 'src/app/modules/shared/interfaces/shared.interface';
 import { ModalComponent } from 'src/app/modules/shared/components/modal/modal.component';
 import { Router } from '@angular/router';
+import { ResumeScreenerFormComponent } from 'src/app/modules/shared/components/resume-screener-form/resume-screener-form.component';
 
 export interface CorporateVitalDetails {
   cognitoUserId?: string;
@@ -23,12 +24,32 @@ export interface CorporateVitalDetails {
 })
 export class ResumeScreenerPageComponent {
 
-  jobTitle: string = '';
-  jobTitleTouched: boolean = false; // Tracks whether the field has been touched
-  jobTitleError: string | null = null; // Holds error messages
+  @ViewChild('resumeFormRef') resumeFormComponent!: ResumeScreenerFormComponent;
 
   corporateBulkJdId: string = ''; // Store the ID from the backend response
-  skillsTooltipMessage = "Type a skill and press Enter to add it to the list.";
+  // Corporate Jobs Component Properties
+  corporateVitalDetails: CorporateVitalDetails = {};
+
+  userId: any = " ";
+  userType: any;
+
+  isValidJD: boolean = false;
+  isResumeUploaded: boolean = false;
+
+  jobTitle: string = '';
+  jdText: string = '';
+  mustHaves: any = [];
+  goodToHaves: any = [];
+  mustNotHaves: any = [];
+  experienceMin!: number | null;
+  experienceMax!: number | null;
+
+  uploadedFiles: File[] = [];
+
+  fieldsDisabled: boolean = true; // Initially disable fields
+  showFetchDetailsButton: boolean = true; // Show the Fetch Details button initially
+
+  jdParsedData: any;
 
   // Properties related to modal handling
   @ViewChild(ModalComponent) modal!: ModalComponent;
@@ -42,31 +63,6 @@ export class ResumeScreenerPageComponent {
   modalSize: string = "md";
   showClose: boolean = false;
   successMessage: string = "";
-
-  userId: any = " ";
-  userType: any;
-
-  // Corporate Jobs Component Properties
-  corporateVitalDetails: CorporateVitalDetails = {};
-
-  isValidJD: boolean = false;
-  isResumeUploaded: boolean = false;
-
-  jdText: string = '';
-  mustHaves: any = [];
-  goodToHaves: any = [];
-  mustNotHaves: any = [];
-  experienceMin!: number;
-  experienceMax!: number;
-
-  uploadedFiles: File[] = [];
-
-  fieldsDisabled: boolean = true; // Initially disable fields
-  showFetchDetailsButton: boolean = true; // Show the Fetch Details button initially
-
-  jdParsedData: any;
-
-  private timeoutId: any;
 
   constructor(private router: Router, private cdr: ChangeDetectorRef, private corporateService: CorporateService, private spinner: NgxSpinnerService, private storage: StorageService) { }
 
@@ -97,12 +93,6 @@ export class ResumeScreenerPageComponent {
 
   }
 
-  ngOnDestroy() {
-    if (this.timeoutId) {
-      clearTimeout(this.timeoutId);
-    }
-  }
-
   async fetchDetails(): Promise<void> {
     this.spinner.show(); // Show spinner before API call
     try {
@@ -119,44 +109,18 @@ export class ResumeScreenerPageComponent {
     }
   }
 
-  // Populate fields with API response
-  // populateFields(response: any): void {
-  //   this.mustHaves = response.coreSkills || [];
-  //   this.goodToHaves = response.goodToHaveSkills || [];
-  //   this.mustNotHaves = response?.mustNotHaves || [];
-  //   this.experienceMin = response.experienceRange?.min || null;
-  //   this.experienceMax = response.experienceRange?.max || null;
-  // }
-
   populateFields(response: any): void {
-    // Helper function to check if a value is valid
     const isValidValue = (value: any) => value !== "Not Mentioned" && value !== null && value !== undefined;
-
-    // Handle arrays and numbers separately
     const sanitizeArray = (arr: any[]) =>
       Array.isArray(arr) ? arr.filter(item => isValidValue(item)) : [];
 
-    this.mustHaves = sanitizeArray(response.coreSkills) || [];
-    this.goodToHaves = sanitizeArray(response.goodToHaveSkills) || [];
-    this.mustNotHaves = sanitizeArray(response.mustNotHaves) || [];
-
-    // Assign numbers only if they are valid
-    if (isValidValue(response.experienceRange?.min)) {
-      this.experienceMin = +response.experienceRange.min;
-    }
-
-    if (isValidValue(response.experienceRange?.max)) {
-      this.experienceMax = +response.experienceRange.max;
-    }
-
-    // Populate job title
-    if (isValidValue(response.jobTitle)) {
-      this.jobTitle = response.jobTitle.trim(); // Assign and trim the job title
-    }
-
-    this.validateJobTitle(); // Triggering validation explicitly
+    this.jobTitle = isValidValue(response.jobTitle) ? response.jobTitle.trim() : '';
+    this.experienceMin = isValidValue(response.experienceRange?.min) ? +response.experienceRange.min : null;
+    this.experienceMax = isValidValue(response.experienceRange?.max) ? +response.experienceRange.max : null;
+    this.mustHaves = sanitizeArray(response.coreSkills);
+    this.goodToHaves = sanitizeArray(response.goodToHaveSkills);
+    this.mustNotHaves = sanitizeArray(response.mustNotHaves);
   }
-
 
   // Fetching the user details with company
   async fetchUserDetailsWithCompany(cognitoUserId: string) {
@@ -171,15 +135,6 @@ export class ResumeScreenerPageComponent {
         this.corporateVitalDetails.email = userDetail[0]?.email || null;
 
         // console.log(this.corporateVitalDetails);
-
-        // Fetch job details and applications after user details are fetched
-        // if (this.jobId) {
-        //   await this.fetchJobDetails(this.jobId);
-        //   this.getJobLink();
-        //   this.getAllJobApplications(null);
-        // } else {
-        //   console.warn("Job ID is not available.");
-        // }
       } else {
         console.warn("No user details found for the given Cognito User ID.");
       }
@@ -208,30 +163,11 @@ export class ResumeScreenerPageComponent {
     // console.log('Updated uploaded files:', this.uploadedFiles);
   }
 
-  // Mark the Job Title field as touched
-  markJobTitleTouched(): void {
-    this.jobTitleTouched = true;
-  }
-
-  // Validate the Job Title dynamically
-  validateJobTitle(): void {
-    if (!this.jobTitle.trim()) {
-      this.jobTitleError = 'Job Title is required.';
-    } else if (this.jobTitle.length > 100) {
-      this.jobTitleError = 'Job Title must not exceed 100 characters.';
-    } else {
-      this.jobTitleError = null; // Clear any previous errors
-    }
-  }
-
-  // Final validation to call during form submission
-  isJobTitleValid(): boolean {
-    return !this.jobTitleError; // If no error, it's valid
-  }
-
   async submitCriteria(): Promise<void> {
     this.spinner.show();
     try {
+      const formData = this.resumeFormComponent.getScreenerFormData();
+
       // Step 1: Submit JD and related details
       const payload: {
         companyId: string | undefined;
@@ -246,20 +182,21 @@ export class ResumeScreenerPageComponent {
       } = {
         companyId: this.corporateVitalDetails.companyId,
         jobDescription: this.jdText,
-        mustHaveSkills: this.mustHaves,
-        goodToHaveSkills: this.goodToHaves,
-        mustNotHaveSkills: this.mustNotHaves,
-        jobTitle: this.jobTitle,
+        mustHaveSkills: formData.mustHaveSkills,
+        goodToHaveSkills: formData.goodToHaveSkills,
+        mustNotHaveSkills: formData.mustNotHaveSkills,
+        jobTitle: formData.jobTitle ?? '',
         // bulkCvs: this.uploadedFiles.map(file => ({
         //   fileName: file.name,
         //   fileMimeType: file.type,
         // })),
       };
 
-      // Handle experienceRange
-      const experienceRange = this.getExperienceRange();
-      if (experienceRange) {
-        payload.experienceRange = experienceRange;
+      if (formData.experienceMin != null || formData.experienceMax != null) {
+        payload.experienceRange = {
+          min: formData.experienceMin,
+          max: formData.experienceMax,
+        };
       }
 
       // if (this.jdParsedData && this.jdParsedData.jobTitle) {
@@ -267,7 +204,7 @@ export class ResumeScreenerPageComponent {
       // }
 
       if (this.jdParsedData && this.jdParsedData.location) {
-        payload.jobLocation = this.jdParsedData?.location;
+        payload.jobLocation = this.jdParsedData.location;
       }
 
       const jdResponse = await this.corporateService.submitJD(payload);
@@ -307,27 +244,6 @@ export class ResumeScreenerPageComponent {
     }
   }
 
-  getExperienceRange(): { min?: number; max?: number } | null {
-    const min = this.normalizeExperienceValue(this.experienceMin);
-    const max = this.normalizeExperienceValue(this.experienceMax);
-
-    // If both are null, return null to exclude experienceRange
-    if (min === null && max === null) {
-      return null;
-    }
-
-    // Build and return the experienceRange object
-    const experienceRange: { min?: number; max?: number } = {};
-    if (min !== null) {
-      experienceRange.min = min;
-    }
-    if (max !== null) {
-      experienceRange.max = max;
-    }
-
-    return experienceRange;
-  }
-
   private normalizeExperienceValue(value: number | string | null): number | null {
     if (value === null || value === undefined || value === "not mentioned") {
       return null;
@@ -353,18 +269,6 @@ export class ResumeScreenerPageComponent {
     } finally {
       this.spinner.hide();
     }
-    // bulkCvs.forEach((fileData, index) => {
-    //   const file = this.uploadedFiles[index];
-    //   this.corporateService.uploadResumeToS3(fileData.awsS3SignedUrl, file).then(() => {
-    //     console.log(`${file.name} uploaded successfully.`);
-    //     if (index === bulkCvs.length - 1) {
-    //       console.log('All resumes uploaded.');
-    //       this.checkProcessingStatus();
-    //     }
-    //   }).catch(error => {
-    //     console.error(`Error uploading ${file.name}:`, error);
-    //   });
-    // });
   }
 
   async checkProcessingStatus(): Promise<void> {
@@ -397,55 +301,6 @@ export class ResumeScreenerPageComponent {
     this.router.navigate(["corporate/cCandidateScreener/cMatchingResult/" + corporateBulkJdId]);
   }
 
-  // onSkillInput(event: any, field: string): void {
-  //   const input = event.target as HTMLInputElement;
-  //   const value = input.value.trim();
-
-  //   if (event.key === 'Enter' && value) {
-  //     if (field === 'mustHaves') {
-  //       this.mustHaves.push(value);
-  //     } else if (field === 'goodToHaves') {
-  //       this.goodToHaves.push(value);
-  //     } else if (field === 'mustNotHaves') {
-  //       this.mustNotHaves.push(value);
-  //     }
-  //     input.value = ''; // Clear input field after adding
-  //   }
-  // }
-
-  onSkillInput(event: any, field: string): void {
-    const input = event.target as HTMLInputElement;
-    const value = input.value.trim();
-
-    if (event.key === 'Enter' && value) {
-      if (field === 'mustHaves') {
-        if (!this.mustHaves.includes(value)) {
-          this.mustHaves.push(value);
-        }
-      } else if (field === 'goodToHaves') {
-        if (!this.goodToHaves.includes(value)) {
-          this.goodToHaves.push(value);
-        }
-      } else if (field === 'mustNotHaves') {
-        if (!this.mustNotHaves.includes(value)) {
-          this.mustNotHaves.push(value);
-        }
-      }
-      input.value = ''; // Clear input field after adding
-    }
-  }
-
-
-  removeSkill(index: number, field: string): void {
-    if (field === 'mustHaves') {
-      this.mustHaves.splice(index, 1);
-    } else if (field === 'goodToHaves') {
-      this.goodToHaves.splice(index, 1);
-    } else if (field === 'mustNotHaves') {
-      this.mustNotHaves.splice(index, 1);
-    }
-  }
-
   private handleError(error: any, defaultMessage: string): void {
     console.error(defaultMessage, error);
 
@@ -453,7 +308,7 @@ export class ResumeScreenerPageComponent {
       this.router.navigate(['/auth/corporate/login']);
       return
     }
-    
+
     if (error.status === 404) {
       this.router.navigate(["/corporate/cJobs"]);
       return;
