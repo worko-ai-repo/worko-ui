@@ -218,7 +218,7 @@ export class AdminJobsComponent implements OnInit {
         { validators: minMaxValidator(30) }
       ),
       jobTitle: ["", [Validators.required, Validators.minLength(3)]],
-      jobDescription: ["", [Validators.required, Validators.minLength(20)]],
+      htmlJobDescription: ["", [Validators.required, Validators.minLength(20)]],
 
       // Location: Using a FormArray for backend requirements
       location: this.fb.group({
@@ -591,7 +591,7 @@ export class AdminJobsComponent implements OnInit {
         department: "",
         experienceRange: null,
         jobTitle: "",
-        jobDescription: "",
+        htmlJobDescription: "",
         location: { city: [] }, // Reset city properly as an empty array
         miscellaneousSkills: [],
         numOfOpenings: 1,
@@ -634,7 +634,7 @@ export class AdminJobsComponent implements OnInit {
 
     // You can also set the form back to its default values if necessary
     this.jobForm.patchValue({
-      jobDescription: "",
+      htmlJobDescription: "",
       workMode: "",
       noticePeriod: 0,
       typeofEmployment: "",
@@ -719,7 +719,7 @@ export class AdminJobsComponent implements OnInit {
       numOfOpenings: job.numOfOpenings,
       workMode: job.workMode,
       noticePeriod: job.noticePeriod,
-      jobDescription: job.jobDescription,
+      htmlJobDescription: job.htmlJobDescription ? job.htmlJobDescription : job.jobDescription,
       otherRequirements: job.otherRequirements,
       typeofEmployment: job.typeofEmployment,
       department: this.toTitleCase(job.department),
@@ -877,12 +877,24 @@ export class AdminJobsComponent implements OnInit {
     // console.log("Form is invalid:", this.jobForm.invalid);
 
     if (this.jobForm.valid && this.companyNameError === "") {
+
+      const formValue = this.jobForm.value;
+
+      // Get the plain text from HTML job description
+      const plainTextDescription = this.stripHtmlTags(formValue.htmlJobDescription);
+
+      // Append plain text version to payload
+      const payload = {
+        ...formValue,
+        jobDescription: plainTextDescription,
+      };
+
       // Call createJob when in create mode
       if (this.isEditMode && this.jobId) {
         this.spinner.show();
         // Update job with the stored job ID
         this.adminService
-          .updateJob(this.jobId, this.jobForm.value)
+          .updateJob(this.jobId, payload)
           .then((response) => {
             this.fetchJobs({
               searchText: this.searchQuery,
@@ -908,7 +920,7 @@ export class AdminJobsComponent implements OnInit {
       } else {
         this.spinner.show();
         this.adminService
-          .createJob(this.jobForm.value)
+          .createJob(payload)
           .then((response) => {
             this.fetchJobs({ jobStatus: this.selectedStatus, pageSize: this.pageSize, resetPagination: true, sortOrder: this.selectedSortOrder });
             this.closeModal();
@@ -923,6 +935,16 @@ export class AdminJobsComponent implements OnInit {
           });
       }
     }
+  }
+
+  stripHtmlTags(html: string): string {
+    const tempDiv = document.createElement("div");
+    tempDiv.innerHTML = html;
+    let text = tempDiv.textContent || tempDiv.innerText || "";
+
+    // Remove excessive blank lines and trim extra whitespace
+    return text.replace(/\n\s*\n/g, '\n').trim();
+
   }
 
   //Pagination methods

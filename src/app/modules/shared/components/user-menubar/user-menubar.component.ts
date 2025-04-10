@@ -339,20 +339,25 @@ export class UserMenubarComponent {
   async logout(): Promise<void> {
     await this.cognitoService.handleSignOut();
     await signOut();
+
     this.userLoggedIn = await this.cognitoService.isLoggedIn();
+
     if (!this.userLoggedIn) {
-      const baseUrl = window.location.origin; // Gets "dev-ui.worko.work" or "worko.ai"
-      window.location.href = `${baseUrl}/`;
-      // this.router.navigateByUrl('/');
-      // window.location.href = environment.crossOriginUrl + '/';
+      const baseUrl = window.location.origin;
+
+      if (this.userType === 'Corporate') {
+        window.location.href = `${baseUrl}/v1/auth/corporate/login`;
+      } else {
+        window.location.href = `${baseUrl}/`;
+      }
     }
   }
 
-  //route user to company lisiting if user is clicks on worko logo
   userCheck() {
-    // const currentUrl = window.location.href;
-    const baseUrl = window.location.origin;
-    window.location.href = `${baseUrl}/jobs`;
+    if (this.userType !== "Corporate") {
+      window.location.href = `${window.location.origin}/jobs`;
+    }
+
     //   // Check if the URL contains "employee" or "candidate"
     //   console.log(currentUrl)
     //   if (currentUrl.includes("employee")) {
