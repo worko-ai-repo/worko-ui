@@ -170,10 +170,10 @@
               matTooltipPosition="above"></i>
           </span>
 
-          <div formControlName="jobDescription" [ngxSummernote]="ngxSummerConfig" class="ajobDesc-rte_editor"
-            [ngClass]="{ 'is-invalid': isInvalid('jobDescription') }"></div>
+          <div formControlName="htmlJobDescription" [ngxSummernote]="ngxSummerConfig" class="ajobDesc-rte_editor"
+            [ngClass]="{ 'is-invalid': isInvalid('htmlJobDescription') }"></div>
 
-          <span *ngIf="isInvalid('jobDescription')" class="text-danger">{{ getErrorMessage('jobDescription') }}</span>
+          <span *ngIf="isInvalid('htmlJobDescription')" class="text-danger">{{ getErrorMessage('htmlJobDescription') }}</span>
         </div>
 
         <!-- Job Title -->

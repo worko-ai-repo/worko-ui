@@ -157,7 +157,7 @@ export class LoginUserForCorporateComponent {
     if (this.currentLoggedInUser === 'Corporate' && this.currentUserSessionToken) {
       this.router.navigate(['/corporate/cJobs']);
     } else if (this.currentUserSessionToken) {
-      this.modalMessageText = "Hmm! Seems like you are still logged in as worko user.Do you want to Logout and proceed to Login as Corporate Here?";
+      this.modalMessageText = "Hmm! Seems like you are still logged in as worko user. Do you want to Logout and proceed to Login as Corporate Here?";
       this.modalSize = "lg"
       this.modalTitleText = "Warning!";
       this.showClose = false;
