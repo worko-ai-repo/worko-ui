@@ -325,4 +325,11 @@ export class CorporateService {
     return this.http.get(url, this.authService.getHttpOptions()).toPromise();
   }
 
+
+  // Submit CV Duplicacy Details
+  submitCvDuplicacyDetails(jobApplicationId: string, data: any) {
+    const url = `${JOB_BASE_URL}job-application/${jobApplicationId}/cv-duplicacy`;
+    return this.http.put(url, data, this.authService.getHttpOptions()).toPromise();
+  }
+
 }

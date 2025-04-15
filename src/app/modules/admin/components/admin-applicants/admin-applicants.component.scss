@@ -450,93 +450,93 @@ $statuses: (
     }
 
     form {
-        display: grid;
-        grid-template-columns: repeat(6, 1fr);
-        grid-gap: 20px;
+        // display: grid;
+        // grid-template-columns: repeat(6, 1fr);
+        // grid-gap: 20px;
 
-        //Grid Managment Starts
-        //All the commmon fields should resides within 3 columns
-        .selector {
-            width: 100%;
-        }
+        // //Grid Managment Starts
+        // //All the commmon fields should resides within 3 columns
+        // .selector {
+        //     width: 100%;
+        // }
 
-        .ajobs-fitem {
-            grid-column: span 2;
-            position: relative;
+        // .ajobs-fitem {
+        //     grid-column: span 2;
+        //     position: relative;
 
-            &.gCloumnOne {
-                grid-column: span 3;
-            }
+        //     &.gCloumnOne {
+        //         grid-column: span 3;
+        //     }
 
-            &.gCloumnTwo {
-                grid-column: span 6;
-            }
+        //     &.gCloumnTwo {
+        //         grid-column: span 6;
+        //     }
 
-            /*         i{
-            position: absolute;
-            top: 50px;
-            left: 10px;
-            cursor: pointer;
-          } */
-        }
+        //     /*         i{
+        //     position: absolute;
+        //     top: 50px;
+        //     left: 10px;
+        //     cursor: pointer;
+        //   } */
+        // }
 
-        //The companyName Field Should be full width
-        .ajobs-fitem:first-child {
-            grid-column: 1 / span 6;
-        }
+        // //The companyName Field Should be full width
+        // .ajobs-fitem:first-child {
+        //     grid-column: 1 / span 6;
+        // }
 
-        //Grid Managment Ends
-        .skill-chip-box {
-            display: grid;
-            grid-gap: 10px 5px;
-            justify-content: center;
-            grid-template-columns: repeat(3, 30%);
-            grid-auto-flow: row;
-            flex-wrap: wrap;
-            height: 80px;
-            margin-top: 5px;
-            border: 2px solid #476baf;
-            border-radius: 15px;
-            overflow: auto;
-            padding: 5px;
+        // //Grid Managment Ends
+        // .skill-chip-box {
+        //     display: grid;
+        //     grid-gap: 10px 5px;
+        //     justify-content: center;
+        //     grid-template-columns: repeat(3, 30%);
+        //     grid-auto-flow: row;
+        //     flex-wrap: wrap;
+        //     height: 80px;
+        //     margin-top: 5px;
+        //     border: 2px solid #476baf;
+        //     border-radius: 15px;
+        //     overflow: auto;
+        //     padding: 5px;
 
-            .skill-chip {
-                display: grid;
-                cursor: pointer;
-                align-items: center;
-                grid-template-columns: 1fr 28px;
-                color: #0a1e35;
-                font-weight: 600;
-                border-radius: 10px;
-                background: #1ed6ff;
+        //     .skill-chip {
+        //         display: grid;
+        //         cursor: pointer;
+        //         align-items: center;
+        //         grid-template-columns: 1fr 28px;
+        //         color: #0a1e35;
+        //         font-weight: 600;
+        //         border-radius: 10px;
+        //         background: #1ed6ff;
 
-                height: min-content;
-                width: 100%;
+        //         height: min-content;
+        //         width: 100%;
 
-                padding: 5px;
+        //         padding: 5px;
 
-                .skill-chip-item {
-                    text-overflow: ellipsis;
-                    overflow: hidden;
-                    white-space: nowrap;
-                    font-size: small;
-                }
+        //         .skill-chip-item {
+        //             text-overflow: ellipsis;
+        //             overflow: hidden;
+        //             white-space: nowrap;
+        //             font-size: small;
+        //         }
 
-                .skill-chip-button {
-                    margin: 0 0 0 5px;
-                    background-color: transparent;
-                    width: min-content;
-                    height: min-content;
-                }
-            }
-        }
+        //         .skill-chip-button {
+        //             margin: 0 0 0 5px;
+        //             background-color: transparent;
+        //             width: min-content;
+        //             height: min-content;
+        //         }
+        //     }
+        // }
 
-        //close btn
-        .btn-next {
-            grid-column: 5 / 1fr;
-            grid-column: 6 / span 1;
-            justify-self: end;
-        }
+        // //close btn
+        // .btn-next {
+        //     grid-column: 5 / 1fr;
+        //     grid-column: 6 / span 1;
+        //     justify-self: end;
+        // }
 
         .jobDesc:focus {
             background-color: transparent;
@@ -694,16 +694,33 @@ $statuses: (
     }
 }
 
-@media screen and (max-width: 992px) {
-    form {
-        display: flex !important;
-        flex-direction: column;
-        flex-wrap: wrap;
+.cv-duplicacy-details {
+    // background-color: #1e1e2f;
+    border-radius: 12px;
+    color: #ffffff;
+    max-width: 500px;
+    margin: auto;
+    // box-shadow: 0 0 15px rgba(0, 0, 0, 0.25);
+}
 
-        .btn.btn-next {
-            width: 100%;
-        }
-    }
+.detail-row {
+    display: flex;
+    justify-content: space-between;
+    padding: 0.5rem 0;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.detail-label {
+    font-weight: 600;
+    color: #adb5bd;
+}
+
+.detail-value {
+    font-weight: 500;
+    color: #ffffff;
+}
+
+@media screen and (max-width: 992px) {
 
     .value {
         margin-bottom: 1rem;

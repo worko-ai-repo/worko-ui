@@ -98,6 +98,7 @@
                             <th>Status</th>
                             <th>Application Date</th>
                             <th>CV Viewed Date</th>
+                            <th>Duplicate CV</th>
                             <th>Actions</th>
                         </tr>
                     </thead>
@@ -121,7 +122,6 @@
                             </td>
                             <td>{{ job?.matchingScore ? job?.matchingScore + '/100' : '-' }}
                             </td>
-
                             <td>
                                 <ng-container *ngIf="job?.scoreDetails; else noData">
                                     <p class="detailed-analysis-btn" (click)="viewDetails(job?.scoreDetails)">View
@@ -181,7 +181,24 @@
                                 : '-' }}
                             </td>
 
+                            <td>
+                                <ng-container *ngIf="job?.cvSourcedFrom && job?.cvSourcedDate; else noDuplicacy">
+                                    <p class="detailed-analysis-btn"
+                                        (click)="viewDuplicacyDetails(job.cvSourcedFrom, job.cvSourcedDate)">
+                                        View Duplicacy Details
+                                    </p>
+                                </ng-container>
+                                <ng-template #noDuplicacy>No</ng-template>
+                            </td>
+
                             <td id="editbtns">
+
+                                <!-- Submit CV Duplicacy Details -->
+                                <span *ngIf="isCVDuplicacyAllowed(job.status, job.statusTracker) && !(job?.cvSourcedFrom && job?.cvSourcedDate)"
+                                    (click)="openDuplicacyDetailsModal(job.id)" matTooltip="Submit CV Duplicacy Details"
+                                    matTooltipPosition="above" style="background: #FFA500; cursor: pointer;">
+                                    <i class="fa-solid fa-exclamation-circle"></i>
+                                </span>
 
                                 <!-- View CV Button -->
                                 <span *ngIf="true" (click)="handleAction(job, status.CV_DOWNLOADED)"
@@ -284,6 +301,59 @@
 
             <div class=" mt-3 d-flex justify-content-center">
                 <button class="btn btn-next" (click)="closeModal()" *ngIf="successTitle === 'Error'"> Close</button>
+            </div>
+        </div>
+    </ng-container>
+
+    <!-- Duplicacy Input Modal -->
+    <ng-container *ngIf="showModal=== modalType.SUBMIT_DUPLICACY_DETAILS">
+        <div class="row message-card px-sm-3 p-4">
+            <div class="container p-4 duplicacy-modal">
+                <h5 class="text-center mb-4 fw-bold">Input Duplicacy Details</h5>
+
+                <form [formGroup]="duplicacyForm" (ngSubmit)="submitDuplicacyDetails()">
+                    <div class="mb-3">
+                        <label for="source" class="form-label required-form-field">Source</label>
+                        <input type="text" class="form-control" id="source" formControlName="cvSourcedFrom"
+                            placeholder="Enter the source" required />
+                    </div>
+
+                    <div class="mb-5">
+                        <label for="firstReceivedDate" class="form-label required-form-field">First Received
+                            Date</label>
+                        <input type="date" class="form-control" id="firstReceivedDate" formControlName="cvSourcedDate"
+                            required />
+                    </div>
+
+                    <div class="buttons">
+                        <button type="button" class="close-button" (click)="closeModal()">Cancel</button>
+                        <button type="submit button" id="continue-button"
+                            [disabled]="duplicacyForm.invalid">Submit</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+
+    </ng-container>
+
+    <!-- View Duplicacy Details Modal -->
+    <ng-container *ngIf="showModal=== modalType.VIEW_CV_DUPLICACY_DETAILS">
+        <div class="row message-card px-sm-3 p-4">
+            <div class="cv-duplicacy-details p-4">
+                <h5 class="fw-bold mb-4 text-center">CV Duplicacy Details</h5>
+
+                <div class="detail-row mb-3">
+                    <label class="detail-label">Sourced From:</label>
+                    <div class="detail-value">{{ duplicacyDetails.cvSourcedFrom | titlecase }}</div>
+                </div>
+
+                <div class="detail-row">
+                    <label class="detail-label">Sourced Date:</label>
+                    <div class="detail-value">
+                        {{ duplicacyDetails.cvSourcedDate | date: 'fullDate' }}
+                        {{ duplicacyDetails.cvSourcedDate | date: 'shortTime' }}
+                    </div>
+                </div>
             </div>
         </div>
     </ng-container>
