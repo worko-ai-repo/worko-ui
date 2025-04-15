@@ -110,6 +110,11 @@ export class AdminApplicantsComponent {
   // feedbackDetails: string = "";
   rejectionTitle: string = "Application Rejected";
 
+  duplicacyDetails = {
+    cvSourcedFrom: '',
+    cvSourcedDate: ''
+  };
+
   constructor(private router: Router, private fb: FormBuilder, private adminService: AdminService, private spinner: NgxSpinnerService, private cdr: ChangeDetectorRef, private sanitizer: DomSanitizer, private route: ActivatedRoute, private storage: StorageService, private errorHandlingService: ErrorHandlingService) {
     this.searchTerms.pipe(
       debounceTime(300), // Adjust the debounce time as needed (300 milliseconds in this example)
@@ -311,6 +316,15 @@ export class AdminApplicantsComponent {
     if (event.key === 'Enter') {
       this.searchTerms.next(this.searchQuery);
     }
+  }
+
+  viewDuplicacyDetails(cvSourcedFrom: string, cvSourcedDate: any) {
+    this.duplicacyDetails = {
+      cvSourcedFrom: cvSourcedFrom,
+      cvSourcedDate: cvSourcedDate
+    };
+
+    this.openModal(ModalType.VIEW_CV_DUPLICACY_DETAILS);
   }
 
   private getKeyForCurrentPage(): string | null {
@@ -571,7 +585,8 @@ export class AdminApplicantsComponent {
     const modalConfig: Partial<Record<ModalType, { size: string; close: boolean }>> = {
       [this.modalType.SHOW_MORE_DETAILS]: { size: "lg", close: true },
       [this.modalType.VIEW_CV]: { size: "xl", close: true },
-      [this.modalType.REJECTED_REQUEST]: { size: "md", close: true }
+      [this.modalType.REJECTED_REQUEST]: { size: "md", close: true },
+      [this.modalType.VIEW_CV_DUPLICACY_DETAILS]: { size: "md", close: true }
     };
 
     // Fallback configuration for undefined modal types

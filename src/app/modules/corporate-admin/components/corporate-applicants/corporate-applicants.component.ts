@@ -15,6 +15,7 @@ import { NgxSpinnerService } from "ngx-spinner";
 
 import { DomSanitizer, SafeResourceUrl } from "@angular/platform-browser";
 import { StorageService } from "src/app/modules/app-core/services/storage.service";
+import { ErrorHandlingService } from "src/app/modules/app-core/services/error-handling.service";
 
 export interface CorporateVitalDetails {
   cognitoUserId?: string;
@@ -34,6 +35,8 @@ export interface CorporateVitalDetails {
 
 
 export class CorporateApplicantsComponent {
+
+  duplicacyForm!: FormGroup;
 
   userType: any;
 
@@ -130,8 +133,18 @@ export class CorporateApplicantsComponent {
   // feedbackTitle: string = "Rejection Feedback"
   // feedbackDetails: string = "";
   rejectionTitle: string = "Application Rejected";
+  duplicateCvApplicationId!: string;
 
-  constructor(private router: Router, private fb: FormBuilder, private corporateService: CorporateService, private spinner: NgxSpinnerService, private cdr: ChangeDetectorRef, private sanitizer: DomSanitizer, private route: ActivatedRoute, private storage: StorageService) {
+  duplicacyDetails = {
+    cvSourcedFrom: '',
+    cvSourcedDate: ''
+  };
+
+  constructor(private router: Router, private corporateService: CorporateService, private spinner: NgxSpinnerService, private cdr: ChangeDetectorRef, private sanitizer: DomSanitizer, private route: ActivatedRoute, private storage: StorageService, private fb: FormBuilder, private errorHandlingService: ErrorHandlingService) {
+    this.duplicacyForm = this.fb.group({
+      cvSourcedFrom: ['', Validators.required],
+      cvSourcedDate: ['', Validators.required]
+    });
     this.searchTerms.pipe(
       debounceTime(300), // Adjust the debounce time as needed (300 milliseconds in this example)
       //distinctUntilChanged()
@@ -330,6 +343,19 @@ export class CorporateApplicantsComponent {
     if (!statusTracker) return null;
     const found = statusTracker.find(item => item.newStatus === 'CV_DOWNLOADED');
     return found ? found.actionDate : null;
+  }
+
+  isCVDuplicacyAllowed(status: string, statusTracker: any[]): boolean {
+    if (status !== 'CV_DOWNLOADED' || !statusTracker) return false;
+
+    const found = statusTracker.find(item => item.newStatus === 'CV_DOWNLOADED');
+    if (!found || !found.actionDate) return false;
+
+    const downloadedDate = new Date(found.actionDate).getTime();
+    const now = new Date().getTime();
+    const diffInHours = (now - downloadedDate) / (1000 * 60 * 60);
+
+    return diffInHours <= 24;
   }
 
   transformStatus(status: string): string {
@@ -663,6 +689,44 @@ export class CorporateApplicantsComponent {
     }
   }
 
+  openDuplicacyDetailsModal(jobApplicationId: string) {
+    this.duplicateCvApplicationId = jobApplicationId;
+    this.openModal(ModalType.SUBMIT_DUPLICACY_DETAILS);
+  }
+
+  async submitDuplicacyDetails() {
+    this.spinner.show();
+    try {
+      const payload = this.duplicacyForm.value;
+
+      const response = await this.corporateService.submitCvDuplicacyDetails(this.duplicateCvApplicationId, payload);
+      if (response) {
+        this.closeModal();
+        // Use the previous lastKey if available; otherwise, start fresh
+        const keyToUse = this.getKeyForCurrentPage();
+        await this.getAllJobApplications(keyToUse);
+      }
+    } catch (error: any) {
+      this.spinner.hide();
+      this.errorHandlingService.handleApiError(error, () => {
+        this.successMessage = "Something went wrong. Please try again later.";
+        this.successTitle = "Error";
+        this.openModal(ModalType.SUCCESS_MESSAGE);
+      });
+    } finally {
+      this.spinner.hide();
+    }
+  }
+
+  viewDuplicacyDetails(cvSourcedFrom: string, cvSourcedDate: any) {
+    this.duplicacyDetails = {
+      cvSourcedFrom: cvSourcedFrom,
+      cvSourcedDate: cvSourcedDate
+    };
+
+    this.openModal(ModalType.VIEW_CV_DUPLICACY_DETAILS);
+  }
+
   /* Modal Handler Section Starts Here */
 
   /**
@@ -681,7 +745,8 @@ export class CorporateApplicantsComponent {
     const modalConfig: Partial<Record<ModalType, { size: string; close: boolean }>> = {
       [this.modalType.SHOW_MORE_DETAILS]: { size: "lg", close: true },
       [this.modalType.VIEW_CV]: { size: "xl", close: true },
-      [this.modalType.REJECTED_REQUEST]: { size: "md", close: true }
+      [this.modalType.REJECTED_REQUEST]: { size: "md", close: true },
+      [this.modalType.VIEW_CV_DUPLICACY_DETAILS]: { size: "md", close: true }
     };
 
     // Fallback configuration for undefined modal types
@@ -699,6 +764,7 @@ export class CorporateApplicantsComponent {
 
   // Closes the currently opened modal
   closeModal(): void {
+    this.duplicacyForm.reset();
     this.modal.cancel();
   }
 

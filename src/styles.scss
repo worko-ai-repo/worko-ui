@@ -1985,6 +1985,50 @@ footer {
     padding-bottom: 0.8rem;
 }
 
+// CSS FOR BUTTONS
+
+.buttons {
+    display: flex;
+    justify-content: flex-end;
+    align-items: center;
+    gap: 10px;
+    margin-top: 20px;
+
+    button {
+        padding: 10px 20px;
+        border: none;
+        border-radius: 5px;
+        background-color: #50D5FF;
+        color: black;
+        cursor: pointer;
+    }
+
+    .close-button {
+        background-color: #ff5050;
+        color: white;
+    }
+
+    .skip-button {
+        padding: 10px 20px;
+        border: 1px solid #4c4e50;
+        border-radius: 5px;
+        background-color: transparent;
+        color: white;
+        cursor: pointer;
+    }
+
+    .skip-button:hover {
+        background-color: #4c4e50;
+    }
+
+    #continue-button:disabled {
+        background-color: #005068;
+        color: white;
+        cursor: not-allowed;
+        pointer-events: all;
+    }
+}
+
 @media (max-width: 1025px) and (min-width: 480px) {
 
     .individual-page .section {
