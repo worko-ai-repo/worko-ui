@@ -1,0 +1,74 @@
+<div #modalContent class="candidate-card" style="border-radius: 6px;">
+    <div class="row">
+        <div class="card-content">
+            <div class="popup-card">
+
+                <div class="mb-3">
+                    <h3 class="modal-title">{{ 'Add Bank Details' }}</h3>
+                </div>
+
+                <form [formGroup]="bankForm" (ngSubmit)="onSubmit()" novalidate>
+                    <div class="row">
+                        <div class="col-md-6 mb-3">
+                            <label class="form-label required-form-field">Account Holder Name</label>
+                            <input formControlName="accountHolderName" class="form-control" placeholder="Enter name"
+                                [ngClass]="{ 'is-invalid': isInvalid('accountHolderName') }" />
+                            <div *ngIf="isInvalid('accountHolderName')" class="invalid-feedback">
+                                {{ getErrorMessage('accountHolderName') }}
+                            </div>
+                        </div>
+
+                        <div class="col-md-6 mb-3">
+                            <label class="form-label required-form-field">Account Number</label>
+                            <input formControlName="accountNumber" class="form-control"
+                                placeholder="Enter account number"
+                                [ngClass]="{ 'is-invalid': isInvalid('accountNumber') }" />
+                            <div *ngIf="isInvalid('accountNumber')" class="invalid-feedback">
+                                {{ getErrorMessage('accountNumber') }}
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="row">
+                        <div class="col-md-6 mb-3">
+                            <label class="form-label required-form-field">Confirm Account Number</label>
+                            <input formControlName="confirmAccountNumber" class="form-control"
+                                placeholder="Re-enter account number"
+                                [ngClass]="{ 'is-invalid': isInvalid('confirmAccountNumber') || bankForm.hasError('accountMismatch') }" />
+                            <div *ngIf="isInvalid('confirmAccountNumber') || bankForm.hasError('accountMismatch')"
+                                class="invalid-feedback">
+                                {{ getErrorMessage('confirmAccountNumber') }}
+                            </div>
+                        </div>
+
+                        <div class="col-md-6 mb-3">
+                            <label class="form-label required-form-field">IFSC Code</label>
+                            <input formControlName="ifscCode" class="form-control" placeholder="e.g. SBIN0000123"
+                                [ngClass]="{ 'is-invalid': isInvalid('ifscCode') }" />
+                            <div *ngIf="isInvalid('ifscCode')" class="invalid-feedback">
+                                {{ getErrorMessage('ifscCode') }}
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="row">
+                        <div class="col-md-6 mb-3">
+                            <label class="form-label required-form-field">Branch Name</label>
+                            <input formControlName="branchName" class="form-control" placeholder="Enter branch name"
+                                [ngClass]="{ 'is-invalid': isInvalid('branchName') }" />
+                            <div *ngIf="isInvalid('branchName')" class="invalid-feedback">
+                                {{ getErrorMessage('branchName') }}
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="d-flex justify-content-end">
+                        <button type="submit" class="ps-4 pe-4 btn searchButton" [disabled]="bankForm.invalid">
+                            Submit
+                        </button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>

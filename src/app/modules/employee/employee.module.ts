@@ -31,6 +31,9 @@ import { ReferralRejectedPopupComponent } from '../shared/components/user-interf
 import { EmployeeReferralRejectComponent } from '../shared/components/user-interface/employee/referral/employee-referral-reject/employee-referral-reject.component';
 import { EmployeeAcceptedReferralComponent } from '../shared/components/user-interface/employee/referral/employee-accepted-referral/employee-accepted-referral.component';
 import { AuthRouteGuardService } from '../worko/services/auth-route-guard.service';
+import { EmployeeReferEarnComponent } from './components/employee-refer-earn/employee-refer-earn.component';
+import { MatTooltipModule } from '@angular/material/tooltip';
+
 
 
 
@@ -72,13 +75,11 @@ export const routes: Routes = [
         path: 'Edit-profile',
         component: EmployeeEditComponent,canActivate:[AuthRouteGuardService]
       },
-      
-      
-      
-      
-      
-      
-      
+
+      {
+        path: 'Refer&earn',
+        component: EmployeeReferEarnComponent, canActivate:[AuthRouteGuardService]
+      }
       
     ]
   }  
@@ -101,6 +102,7 @@ export const routes: Routes = [
     EmployeeEditDetailsComponent,
     EmployeeProfessionalDetailsComponent,
     AddBankDetailsComponent,
+    EmployeeReferEarnComponent,
     // ReferralRejectedPopupComponent
     
     
@@ -116,6 +118,7 @@ export const routes: Routes = [
     SharedModule,
     FormsModule,
     NgbRatingModule,
+    MatTooltipModule,
     
     
     RouterModule.forChild(routes),

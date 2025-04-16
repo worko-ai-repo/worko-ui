@@ -107,6 +107,7 @@ import { MatTooltipModule } from '@angular/material/tooltip';
 import { ResumeUploaderComponent } from '../corporate-admin/components/resume-screener/resume-uploader/resume-uploader.component';
 import { JobDescriptionComponent } from '../corporate-admin/components/resume-screener/job-description/job-description.component';
 import { ResumeScreenerFormComponent } from './components/resume-screener-form/resume-screener-form.component';
+import { BankDetailsFormComponent } from './bank-details-form/bank-details-form.component';
 export const routes: Routes = [
 
   
@@ -171,7 +172,8 @@ export const routes: Routes = [
     JdAutofillModalComponent,
     ResumeUploaderComponent,
     JobDescriptionComponent,
-    ResumeScreenerFormComponent
+    ResumeScreenerFormComponent,
+    BankDetailsFormComponent
     // DoneServiceComponent,
     // CancelledServiceComponent,
     // AwaitingServiceComponent,
@@ -260,7 +262,8 @@ export const routes: Routes = [
   JdAutofillModalComponent,
   ResumeUploaderComponent,
   JobDescriptionComponent,
-  ResumeScreenerFormComponent
+  ResumeScreenerFormComponent,
+  BankDetailsFormComponent
   ],
 
 })

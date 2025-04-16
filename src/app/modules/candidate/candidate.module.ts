@@ -58,6 +58,7 @@ import { AuthRouteGuardService } from '../worko/services/auth-route-guard.servic
 import { PgResponseComponent } from '../shared/components/user-interface/subscription/pg-response/pg-response.component';
 import { CandidateJobsComponent } from './components/Jobs/candidate-jobs/candidate-jobs.component';
 import { CandidateJobsStatusComponent } from './components/Jobs/candidate-jobs-status/candidate-jobs-status.component';
+import { EmployeeReferEarnComponent } from '../employee/components/employee-refer-earn/employee-refer-earn.component';
 
 
 export const routes: Routes = [
@@ -119,7 +120,7 @@ export const routes: Routes = [
       },
       {
         path: 'refer&earn',
-        component: ReferEarnComponent,canActivate:[AuthRouteGuardService]
+        component: EmployeeReferEarnComponent,canActivate:[AuthRouteGuardService]
        
       },
       {
