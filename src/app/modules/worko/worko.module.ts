@@ -67,10 +67,10 @@ export const routes: Routes = [
       //   path: 'index',
       //   component: HomeComponent
       // },
-      // {
-      //   path: '',
-      //   component: IndexComponent
-      // },
+      {
+        path: '',
+        component: IndexComponent
+      },
       // {
       //   path : 'login',
       //   component: LoginPageComponent

@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { environment } from 'src/environments/environment';
-import { HttpClient, HttpHeaders } from '@angular/common/http';
+import { HttpClient, HttpParams } from '@angular/common/http';
 import { AuthService } from '../../worko/services/auth.service';
 import { of } from 'rxjs';
 
@@ -15,6 +15,8 @@ const JOB_BASE_URL = environment.jobBaseUrl;
   providedIn: 'root'
 })
 export class CandidateProfileService {
+
+  private referAndEarnBaseUrl = JOB_BASE_URL + 'refer-and-earn';
 
   /** 
     @param {HttpClient} http
@@ -203,6 +205,102 @@ export class CandidateProfileService {
   // markasDoneService(emailAddress: string, status: string, serviceId: string) {
   //   return this.http.patch(`${API_URL}user/${emailAddress}/service/${serviceId}/${status}`, {}, this.authService.getHttpOptions()).toPromise();
   // }
+
+
+  // 1. GET: List referrals by referrerEmail (Candidate/Employee Dashboard)
+  getReferAndEarnByReferrerEmail(referrerEmail: string, pageSize: any, lastKey?: string | null) {
+    let params = new HttpParams()
+      .set('referrerEmail', referrerEmail)
+      .set('pageSize', pageSize);
+
+    if (lastKey) {
+      params = params.set('lastKey', lastKey);
+    }
+
+    const options = {
+      ...this.authService.getHttpOptions(),
+      params,
+    };
+
+    return this.http.get(`${this.referAndEarnBaseUrl}`, options).toPromise();
+  }
+
+
+  // 2. GET: Admin - by status + job application status
+  getReferAndEarnByStatusAndJobStatus(status?: string, jobApplicationStatus?: string) {
+    let params = new HttpParams();
+    if (status) params = params.set('status', status);
+    if (jobApplicationStatus) params = params.set('jobApplicationStatus', jobApplicationStatus);
+
+    const options = {
+      ...this.authService.getHttpOptions(),
+      params,
+    };
+    return this.http.get(`${this.referAndEarnBaseUrl}`, options).toPromise();
+  }
+
+  // 3. GET: By companyId (Admin Dashboard)
+  getReferAndEarnByCompanyId(companyId: string) {
+    const params = new HttpParams().set('companyId', companyId);
+    const options = {
+      ...this.authService.getHttpOptions(),
+      params,
+    };
+    return this.http.get(`${this.referAndEarnBaseUrl}`, options).toPromise();
+  }
+
+  // 4. GET: By jobId
+  getReferAndEarnByJobId(jobId: string) {
+    const params = new HttpParams().set('jobId', jobId);
+    const options = {
+      ...this.authService.getHttpOptions(),
+      params,
+    };
+    return this.http.get(`${this.referAndEarnBaseUrl}`, options).toPromise();
+  }
+
+  // 5. GET: By userJobApplicationId
+  getReferAndEarnByUserJobApplicationId(userJobApplicationId: string) {
+    const params = new HttpParams().set('userJobApplicationId', userJobApplicationId);
+    const options = {
+      ...this.authService.getHttpOptions(),
+      params,
+    };
+    return this.http.get(`${this.referAndEarnBaseUrl}`, options).toPromise();
+  }
+
+  // 6. GET: Search filter
+  searchReferAndEarn(searchText: string) {
+    const params = new HttpParams().set('searchText', searchText);
+    const options = {
+      ...this.authService.getHttpOptions(),
+      params,
+    };
+    return this.http.get(`${this.referAndEarnBaseUrl}`, options).toPromise();
+  }
+
+  // 7. GET: By ID
+  getReferAndEarnById(id: string) {
+    return this.http.get(`${this.referAndEarnBaseUrl}/${id}`, this.authService.getHttpOptions()).toPromise();
+  }
+
+  // 8. PATCH: Update status of a referral
+  updateReferAndEarnStatus(id: string, email: string, payload: { status: 'PENDING' | 'APPROVED' }) {
+    const url = `${this.referAndEarnBaseUrl}/${id}/${encodeURIComponent(email)}`;
+    return this.http.patch(url, payload, this.authService.getHttpOptions()).toPromise();
+  }
+
+  // 9. PATCH: Request withdrawal
+  requestWithdrawal(id: string, payload: {
+    accountHolderName: string;
+    accountNumber: number;
+    ifscCode: string;
+    branchName: string;
+  }) {
+    const url = `${this.referAndEarnBaseUrl}/${id}/request-withdrawal`;
+    return this.http.patch(url, payload, this.authService.getHttpOptions()).toPromise();
+  }
+
 
 }
 
