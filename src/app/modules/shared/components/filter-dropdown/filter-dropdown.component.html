@@ -1,0 +1,8 @@
+<span class="ajobs-status">
+    <select [formControl]="control" class="selector form-select">
+        <option value="">{{ placeholder || 'All'}}</option>
+        <option *ngFor="let opt of options" [value]="opt.value">
+            {{ opt.label }}
+        </option>
+    </select>
+</span>

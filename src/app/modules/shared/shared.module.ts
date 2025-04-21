@@ -108,6 +108,7 @@ import { ResumeUploaderComponent } from '../corporate-admin/components/resume-sc
 import { JobDescriptionComponent } from '../corporate-admin/components/resume-screener/job-description/job-description.component';
 import { ResumeScreenerFormComponent } from './components/resume-screener-form/resume-screener-form.component';
 import { BankDetailsFormComponent } from './bank-details-form/bank-details-form.component';
+import { FilterDropdownComponent } from './components/filter-dropdown/filter-dropdown.component';
 export const routes: Routes = [
 
   
@@ -173,7 +174,8 @@ export const routes: Routes = [
     ResumeUploaderComponent,
     JobDescriptionComponent,
     ResumeScreenerFormComponent,
-    BankDetailsFormComponent
+    BankDetailsFormComponent,
+    FilterDropdownComponent
     // DoneServiceComponent,
     // CancelledServiceComponent,
     // AwaitingServiceComponent,
@@ -263,7 +265,8 @@ export const routes: Routes = [
   ResumeUploaderComponent,
   JobDescriptionComponent,
   ResumeScreenerFormComponent,
-  BankDetailsFormComponent
+  BankDetailsFormComponent,
+  FilterDropdownComponent
   ],
 
 })

@@ -28,7 +28,8 @@ $statuses: (
     // Vibrant green: Success/confirmed payment
     'hired': #2ECC71,
     // Fresh green: Final positive outcome
-    'joined': #0984E3, // Royal blue: Final stage - candidate onboarded
+    'joined': #0984E3,
+    // Royal blue: Final stage - candidate onboarded
     'closed': #6c757d // Muted gray: Final/inactive
 );
 
@@ -168,9 +169,14 @@ $statuses: (
 
     &.disabled {
         background-color: #d3d3d3;
-        color: #8a8a8a;
-        
-        
+        color: #3e3d3d;
+    }
+
+    &.status-light {
+        background-color: rgba(45, 142, 194, 0.2); // lighter tint of main blue
+        color: rgb(45, 142, 194);
+        font-weight: 500;
+        cursor: default;
     }
 }
 
