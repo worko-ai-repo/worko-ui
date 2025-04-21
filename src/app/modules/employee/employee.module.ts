@@ -33,9 +33,7 @@ import { EmployeeAcceptedReferralComponent } from '../shared/components/user-int
 import { AuthRouteGuardService } from '../worko/services/auth-route-guard.service';
 import { EmployeeReferEarnComponent } from './components/employee-refer-earn/employee-refer-earn.component';
 import { MatTooltipModule } from '@angular/material/tooltip';
-
-
-
+import { MatIconModule } from '@angular/material/icon';
 
 export const routes: Routes = [
 
@@ -119,8 +117,8 @@ export const routes: Routes = [
     FormsModule,
     NgbRatingModule,
     MatTooltipModule,
-    
-    
+    MatIconModule,
+
     RouterModule.forChild(routes),
   ]
 })

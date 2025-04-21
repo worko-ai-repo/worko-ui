@@ -2,7 +2,6 @@ import { Injectable } from '@angular/core';
 import { environment } from 'src/environments/environment';
 import { HttpClient, HttpParams } from '@angular/common/http';
 import { AuthService } from '../../worko/services/auth.service';
-import { of } from 'rxjs';
 
 
 
@@ -208,13 +207,21 @@ export class CandidateProfileService {
 
 
   // 1. GET: List referrals by referrerEmail (Candidate/Employee Dashboard)
-  getReferAndEarnByReferrerEmail(referrerEmail: string, pageSize: any, lastKey?: string | null) {
+  getReferAndEarnByReferrerEmail(referrerEmail: string, pageSize: any, jobApplicationStatus?: string | null, lastKey?: string | null, searchText?: string) {
     let params = new HttpParams()
       .set('referrerEmail', referrerEmail)
       .set('pageSize', pageSize);
 
     if (lastKey) {
       params = params.set('lastKey', lastKey);
+    }
+
+    if (jobApplicationStatus) {
+      params = params.set('jobApplicationStatus', jobApplicationStatus)
+    }
+
+    if (searchText) {
+      params = params.set('searchText', searchText)
     }
 
     const options = {

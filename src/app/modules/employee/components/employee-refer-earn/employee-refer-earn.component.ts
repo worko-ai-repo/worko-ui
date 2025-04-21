@@ -1,5 +1,5 @@
 import { ChangeDetectorRef, Component, ViewChild } from '@angular/core';
-import { FormBuilder } from '@angular/forms';
+import { FormBuilder, FormControl } from '@angular/forms';
 import { DomSanitizer, SafeResourceUrl } from '@angular/platform-browser';
 import { ActivatedRoute, Router } from '@angular/router';
 import { NgxSpinnerService } from 'ngx-spinner';
@@ -10,6 +10,11 @@ import { StorageService } from 'src/app/modules/app-core/services/storage.servic
 import { CandidateProfileService } from 'src/app/modules/candidate/services/candidate-profile.service';
 import { ModalComponent } from 'src/app/modules/shared/components/modal/modal.component';
 import { ModalType } from 'src/app/modules/shared/interfaces/shared.interface';
+
+import {
+  REFERRAL_STATUS_OPTIONS,
+  WITHDRAWAL_STATUS_OPTIONS
+} from 'src/app/modules/shared/constants/status-options.constants';
 
 export interface WithdrawalRequestPayload {
   accountHolderName: string;
@@ -25,33 +30,19 @@ export interface WithdrawalRequestPayload {
 })
 export class EmployeeReferEarnComponent {
 
+  withdrawalStatusControl = new FormControl('');
+  referralStatusControl = new FormControl('');
+
+  withdrawalStatusOptions = WITHDRAWAL_STATUS_OPTIONS;
+  referralStatusOptions = REFERRAL_STATUS_OPTIONS;
+
+  withdrawalStatus: string | null = '';
+  referralStatus: string | null = '';
+
   userType: any = "EMP";
 
-  cvUrl: SafeResourceUrl | null = null;
-  cvPath: any = "";
-
-  // Common Enums
-  status = {
-    ALL_APPLICATIONS: "",
-    APPLIED: "APPLIED",
-    CV_DOWNLOADED: "CV_DOWNLOADED",
-    UNDER_EVALUATION: "UNDER_EVALUATION",
-    PROCESSING_INTERVIEW: "PROCESSING_INTERVIEW",
-    INTERVIEW_DONE: "INTERVIEW_DONE",
-    HIRED: "HIRED",
-    REJECTED: "REJECTED"
-  };
-
-  statusArray = [
-    this.status.UNDER_EVALUATION,
-    this.status.PROCESSING_INTERVIEW,
-    this.status.INTERVIEW_DONE,
-    this.status.HIRED
-  ];
-
   jobId: string | null = null; // Variable to store the job ID
-  selectedStatus: string = this.status.ALL_APPLICATIONS;
-  noApplicationsMessage: string = "No Referral Requested"; // Will be showing this inside the table
+  noReferralMessage: string = "No Referral Found"; // Will be showing this inside the table
 
   //Referral for refer and earn list property
   referralList: any[] = [];
@@ -86,7 +77,6 @@ export class EmployeeReferEarnComponent {
   searchTerm: string = '';
   searchQuery: string = '';
   private searchTerms = new Subject<string>();
-  isSearchActive: boolean = true;
 
   sortOrder = {
     ASC: "ascending",
@@ -116,9 +106,9 @@ export class EmployeeReferEarnComponent {
   rejectionTitle: string = "Application Rejected";
   filteredJobs: any = [];
 
-  referralIdForWithdraw!:string;
+  referralIdForWithdraw!: string;
 
-  constructor(private router: Router, private fb: FormBuilder, private candidateService: CandidateProfileService, private errorHandlingService: ErrorHandlingService, private spinner: NgxSpinnerService, private cdr: ChangeDetectorRef, private sanitizer: DomSanitizer, private route: ActivatedRoute, private storage: StorageService) {
+  constructor(private router: Router, private fb: FormBuilder, private candidateService: CandidateProfileService, private errorHandlingService: ErrorHandlingService, private spinner: NgxSpinnerService, private cdr: ChangeDetectorRef, private sanitizer: DomSanitizer, private route: ActivatedRoute, private storage: StorageService, private adminService: AdminService) {
     this.searchTerms.pipe(
       debounceTime(300), // Adjust the debounce time as needed (300 milliseconds in this example)
       //distinctUntilChanged()
@@ -130,9 +120,18 @@ export class EmployeeReferEarnComponent {
   }
 
   async ngOnInit() {
+
+    this.referralStatusControl.valueChanges.subscribe((val) => {
+      this.getFilteredData();
+    });
+
+    this.withdrawalStatusControl.valueChanges.subscribe((val) => {
+      this.getFilteredData();
+    });
+
     this.emailAddress = this.storage.get("userEmail");
     this.userId = this.storage.get("userId");
-  
+
     if (this.emailAddress) {
       try {
         await this.getReferAndEarnList(null);
@@ -149,27 +148,29 @@ export class EmployeeReferEarnComponent {
       this.errorTitle = "Error";
       this.openModal(ModalType.SUCCESS_ERROR_MESSAGE);
     }
-  }  
+  }
 
   async getReferAndEarnList(lastKey: string | null) {
     this.spinner.show();
-  
+
     try {
       const response: any = await this.candidateService.getReferAndEarnByReferrerEmail(
         this.emailAddress,
         this.pageSize,
-        lastKey
+        this.referralStatus,
+        lastKey,
+        this.searchTerm
       );
-  
+
       if (response) {
         this.referralList = response.data || [];
         const pagination = response.pagination || {};
-  
+
         this.pageSize = pagination.pageSize || this.pageSize;
         this.currentLastKey = pagination.lastKey || null;
         this.hasNext = !!pagination.lastKey;
         this.hasPrevious = this.previousKeys.length > 0;
-  
+
         // Clear filter dropdown
         this.selectedStatusDropdown = '';
       } else {
@@ -186,7 +187,6 @@ export class EmployeeReferEarnComponent {
       this.spinner.hide();
     }
   }
-  
 
   async handleWithdrawalSubmission(payload: WithdrawalRequestPayload) {
     this.spinner.show();
@@ -201,7 +201,7 @@ export class EmployeeReferEarnComponent {
         const keyToUse = this.getKeyForCurrentPage();
 
         // Refresh or fetch updated data after withdrawal
-        await this.getReferAndEarnList(keyToUse); 
+        await this.getReferAndEarnList(keyToUse);
       }
     } catch (error: any) {
       this.spinner.hide();
@@ -215,16 +215,64 @@ export class EmployeeReferEarnComponent {
     }
   }
 
-  isOptionDisabled(option: string, currentStatus: string): boolean {
-    const currentIndex = this.statusArray.indexOf(currentStatus);
-    const optionIndex = this.statusArray.indexOf(option);
-    return optionIndex !== currentIndex + 1; // Enable only the next status
+  // async fetchJobDetails(jobId: any) {
+  //   try {
+  //     const response: any = await this.adminService.getJobDetailsById(jobId);
+  //     if (response && response.length > 0) {
+  //       this.jobDetails = response[0];
+  //       this.companyDetails = response[0].companyDetails;
+  //     } else {
+  //       console.warn("Job details response is empty or undefined.");
+  //       this.jobDetails = [];
+  //     }
+  //   } catch (error: any) {
+  //     if (error.status === 404) {
+  //       this.router.navigate(['/auth/logout']);
+  //     } else if (error.status === 401) {
+  //       this.router.navigate(['/']);
+  //     } else {
+  //       console.error("Error fetching job details:", error);
+  //       this.modalSize = 'md';
+  //       this.successMessage = "Something went wrong. Please try again later.";
+  //       this.successTitle = "Error";
+  //       this.openModal(ModalType.SUCCESS_ERROR_MESSAGE);
+  //     }
+  //   }
+  // }
+
+  getFilteredData() {
+    const referralStatus = this.referralStatusControl.value;
+    const withdrawalStatus = this.withdrawalStatusControl.value;
+
+    this.referralStatus = referralStatus;
+    this.withdrawalStatus = withdrawalStatus;
+
+    this.previousKeys = [];
+    // Your API call or filtering logic
+    this.getReferAndEarnList(null);
+  }
+
+  hasRequestedWithdrawal(referral: any): boolean {
+    return referral?.statusTracker?.some(
+      (entry: any) => entry.newStatus === 'WITHDRAWAL_REQUESTED'
+    );
+  }
+
+  withdrawMoney(referral: any) {
+    this.referralIdForWithdraw = referral?.id;
+    this.openModal(this.modalType.BANK_DETAILS_POPUP)
   }
 
   navigateToJobUrl(event: any): void {
     event.preventDefault(); // Prevents default browser navigation
     if (this.jobUrl) {
       window.open(this.jobUrl, '_blank'); // Opens the link in a new tab
+    }
+  }
+
+  openInNewTab(url: string) {
+    if (url) {
+      window.open(url, '_blank'); // Open in a new tab
     }
   }
 
@@ -281,8 +329,6 @@ export class EmployeeReferEarnComponent {
 
   callApiWithSearchQuery(query: string): void {
     this.searchTerm = query; // Setting here encoded query to filterData
-    // const keyToUse = this.getKeyForCurrentPage();
-    // this.getAllJobApplications(keyToUse);
     this.previousKeys = []; // Resetting pagination keys to refresh the data based on fresh search
     this.getReferAndEarnList(null); // Starting from the beginning by passing `null` for `lastKey` to fetch the initial page of results.
   }
@@ -290,10 +336,6 @@ export class EmployeeReferEarnComponent {
   clearSearchInput() {
     this.searchTerm = "";
     this.searchQuery = '';
-
-    // Use the previous lastKey if available; otherwise, start fresh
-    // const keyToUse = this.getKeyForCurrentPage();
-    // this.getAllJobApplications(keyToUse);
 
     this.previousKeys = [];
     this.getReferAndEarnList(null);
@@ -319,187 +361,11 @@ export class EmployeeReferEarnComponent {
     return this.previousKeys.length > 0 ? this.previousKeys[this.previousKeys.length - 1] : null;
   }
 
-  // async fetchJobDetails(jobId: any) {
-  //   try {
-  //     const response: any = await this.adminService.getJobDetailsById(jobId);
-  //     if (response && response.length > 0) {
-  //       this.jobDetails = response[0];
-  //       this.companyDetails = response[0].companyDetails;
-  //     } else {
-  //       console.warn("Job details response is empty or undefined.");
-  //       this.jobDetails = [];
-  //     }
-  //   } catch (error: any) {
-  //     if (error.status === 404) {
-  //       this.router.navigate(['/auth/logout']);
-  //     } else if (error.status === 401) {
-  //       this.router.navigate(['/']);
-  //     } else {
-  //       console.error("Error fetching job details:", error);
-  //       this.modalSize = 'md';
-  //       this.successMessage = "Something went wrong. Please try again later.";
-  //       this.successTitle = "Error";
-  //       this.openModal(ModalType.SUCCESS_ERROR_MESSAGE);
-  //     }
-  //   }
-  // }
-
-  handleAction(job: any, newStatus: any) {
-
-    // Check if the current job's status is already at or beyond "View CV" (CV_DOWNLOADED)
-    if (this.isStatusBeyondCurrent(job.status, newStatus)) {
-      if (newStatus === "CV_DOWNLOADED") {
-        // Directly open the CV modal if status is greater than or equal to "CV_DOWNLOADED"
-        this.cvUrl = this.sanitizer.bypassSecurityTrustResourceUrl(job?.applicantDetails?.cvAwsS3SignedUrl);
-        this.openModal(ModalType.VIEW_CV);
-      }
-      return;
-    }
-
-    // Check the statusTracker before proceeding
-    if (this.hasStatusInTracker(job.statusTracker, newStatus)) {
-      console.warn(`Status '${newStatus}' already exists in statusTracker. Skipping update.`);
-      return; // Exit early if the status is already in the tracker
-    }
-
-    this.currentJob = job;
-    this.newStatus = newStatus;
-
-    if (newStatus === "REJECTED") {
-      this.openModal(ModalType.REJECTED_REQUEST);
-      return;
-    }
-
-    // this.updateJobApplicationStatus(job.id, newStatus);
-
-    // // Call updateStatus API if the status is not already in the tracker
-    // this.updateJobApplicationStatus(job.id, newStatus).then(async (response: any) => {
-    //   if (response) {
-    //     // Refresh jobApplicationListing data
-    //     console.log("Current Job is", this.currentJob);
-    //     console.log("Current Job CV is", this.currentJob?.applicantDetails?.cvAwsS3SignedUrl);
-    //     await this.getAllJobApplications(null);
-    //     if (response.status === "CV_DOWNLOADED") {
-    //       this.cvUrl = this.sanitizer.bypassSecurityTrustResourceUrl(this.currentJob?.applicantDetails?.cvAwsS3SignedUrl);
-    //       this.cdr.detectChanges();
-    //       this.openModal(ModalType.VIEW_CV);
-    //     }
-    //   }
-    // }).catch((error) => {
-    //   this.successMessage = "Something went wrong. Please try again later.";
-    //   this.successTitle = "Error";
-    //   this.openModal(ModalType.SUCCESS_ERROR_MESSAGE);
-    // });
-  }
-
-  // Utility to check if the current status is already at or beyond the target status
-  isStatusBeyondCurrent(currentStatus: string, targetStatus: string): boolean {
-    const statusOrder = [
-      "APPLIED",
-      "CV_DOWNLOADED",
-      "UNDER_EVALUATION",
-      "PROCESSING_INTERVIEW",
-      "INTERVIEW_DONE",
-      "HIRED",
-      "REJECTED"
-    ];
-
-    // Get the indices of the statuses in the predefined order
-    const currentIndex = statusOrder.indexOf(currentStatus);
-    const targetIndex = statusOrder.indexOf(targetStatus);
-
-    // Return true if the current status is at or beyond the target status
-    return currentIndex >= targetIndex;
-  }
-
   hasStatusInTracker(statusTracker: any[], statusToCheck: string): boolean {
     return statusTracker.some(
       (tracker) => tracker.oldStatus === statusToCheck || tracker.newStatus === statusToCheck
     );
   }
-
-  // statusChange(selectedStatus: string, job: any): void {
-  //   this.isUpdateEnabled = !!selectedStatus && selectedStatus !== job.status;
-  // }
-
-  // toggleDropdown(index: number): void {
-  //   // Toggle dropdown visibility
-  //   if (this.dropdownVisibleIndex === index) {
-  //     this.dropdownVisibleIndex = null; // Close the dropdown if already open
-  //   } else {
-  //     this.dropdownVisibleIndex = index; // Open the dropdown for the selected row
-  //     this.selectedStatusDropdown = ''; // Reset selected status
-  //     this.isUpdateEnabled = false; // Disable update button initially
-  //   }
-  // }
-
-  // isDropdownVisible(index: number): boolean {
-  //   return this.dropdownVisibleIndex === index;
-  // }
-
-  // closeStatusBox(): void {
-  //   this.boxVisibleIndex = null;
-  // }
-
-  // async updateJobApplicationStatus(
-  //   jobApplicationId: string,
-  //   newStatus: string,
-  //   rejectReasons?: {
-  //     rejectTitle
-  //     : string; rejectComments: string
-  //   }
-  // ): Promise<any> {
-  //   this.spinner.show(); //spinner at the start
-
-  //   const payload: any = {
-  //     userType: this.userType.toUpperCase(),
-  //     userId: this.userId,
-  //     status: newStatus,
-  //     emailId: this.emailAddress, // Email of the corporate user
-  //   };
-
-  //   // Add rejection-specific data if the status is "REJECTED"
-  //   if (newStatus === "REJECTED" && rejectReasons) {
-  //     payload.reason = rejectReasons.rejectTitle;
-  //     payload.userComment = rejectReasons.rejectComments;
-  //   }
-
-  //   try {
-  //     // Call the service to update status
-  //     const response: any = await this.adminService.updateJobApplicationStatus(jobApplicationId, payload);
-
-  //     if (response) {
-  //       // Refresh jobApplicationListing data
-
-  //       // Use the previous lastKey if available; otherwise, start fresh
-  //       const keyToUse = this.getKeyForCurrentPage();
-  //       await this.getAllJobApplications(keyToUse);
-  //       // await this.getAllJobApplications(null);
-
-  //       if (response.status === "CV_DOWNLOADED") {
-  //         this.cvUrl = this.sanitizer.bypassSecurityTrustResourceUrl(this.currentJob?.applicantDetails?.cvAwsS3SignedUrl);
-  //         this.openModal(ModalType.VIEW_CV);
-  //       }
-  //       return response; // Return the response for the caller
-  //     } else {
-  //       throw new Error("No response received from server.");
-  //     }
-  //   } catch (error: any) {
-  //     // Handle errors
-  //     // if (error.status === 404) {
-  //     //   this.router.navigate(['/auth/logout']);
-  //     // } else if (error.status === 401) {
-  //     //   this.storage.set('redirectAfterLogin', '/candidate/referral');
-  //     //   this.router.navigate(['/']);
-  //     // } else {
-  //     this.successMessage = "Something went wrong. Please try again later.";
-  //     this.successTitle = "Error";
-  //     this.openModal(ModalType.SUCCESS_ERROR_MESSAGE);
-  //     // }
-  //   } finally {
-  //     this.spinner.hide(); // Always hide the spinner
-  //   }
-  // }
 
   //Rejected reason will come here from the reject modal
   receiveDataFromChild(data: any) {
@@ -563,58 +429,16 @@ export class EmployeeReferEarnComponent {
    * Resets the search input and shows all jobs.
    */
   resetBtnHandler(): void {
-    //  Reset button clicked
+    
     this.searchQuery = "";
-    this.selectedStatus = this.status.ALL_APPLICATIONS;
     this.searchTerm = "";
     this.searchQuery = "";
     this.selectedSortOrder = this.sortOrder.DESC;
 
-    // Use the previous lastKey if available; otherwise, start fresh
-    // const keyToUse = this.getKeyForCurrentPage();
-    // this.getAllJobApplications(keyToUse);
-
     this.previousKeys = [];
-    // this.getAllJobApplications(null);
-  }
-
-  /**
-   * onStausChange
-   *
-   * Fetch the job applications based on the selected status from filter.
-   */
-  onStatusChange(statusVal: any) {
-    if (statusVal.target.value === this.status.APPLIED) {
-      this.selectedStatus = this.status.APPLIED;
-      // Use the previous lastKey if available; otherwise, start fresh
-      // const keyToUse = this.getKeyForCurrentPage();
-      // Call API to get data
-      // this.getAllJobApplications(keyToUse);
-      this.previousKeys = [];
-      // this.getAllJobApplications(null);
-      return;
-    }
-    this.selectedStatus = statusVal.target.value; // Update global variable
-    // Use the previous lastKey if available; otherwise, start fresh
-    // const keyToUse = this.getKeyForCurrentPage();
-    // Call API to get data
-    // this.getAllJobApplications(keyToUse);
-
-    this.previousKeys = [];
-    // this.getAllJobApplications(null);
-  }
-
-  viewDetails(scoreDetails: any) {
-    this.scoreDetails = scoreDetails;
-    this.detailsTitle = "Detailed Analysis";
-    this.detailedAnalysisModalSize = true;
-    this.openModal(ModalType.SHOW_MORE_DETAILS);
-  }
-
-  getCvDownloadedDate(statusTracker: any[]): string | null {
-    if (!statusTracker) return null;
-    const found = statusTracker.find(item => item.newStatus === 'CV_DOWNLOADED');
-    return found ? found.actionDate : null;
+    // this.getReferAndEarnList(null);
+    //  Reset button clicked
+    this.referralStatusControl.reset('');
   }
 
   closeDetailedPopup() {
@@ -668,17 +492,6 @@ export class EmployeeReferEarnComponent {
       this.getReferAndEarnList(previousLastKey);
     }
 
-  }
-
-  hasRequestedWithdrawal(referral: any): boolean {
-    return referral?.statusTracker?.some(
-      (entry: any) => entry.newStatus === 'WITHDRAWAL_REQUESTED'
-    );
-  }
-
-  withdrawMoney(referral: any) {
-    this.referralIdForWithdraw = referral?.id;
-    this.openModal(this.modalType.BANK_DETAILS_POPUP)
   }
 
 }
