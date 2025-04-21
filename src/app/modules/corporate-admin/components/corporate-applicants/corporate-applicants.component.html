@@ -182,23 +182,17 @@
                             </td>
 
                             <td>
-                                <ng-container *ngIf="job?.cvSourcedFrom && job?.cvSourcedDate; else noDuplicacy">
+                                <ng-container
+                                    *ngIf="job?.hiredFromOtherPortal?.portal && job?.hiredFromOtherPortal?.date; else noDuplicacy">
                                     <p class="detailed-analysis-btn"
-                                        (click)="viewDuplicacyDetails(job.cvSourcedFrom, job.cvSourcedDate)">
+                                        (click)="viewDuplicacyDetails(job.hiredFromOtherPortal.portal, job.hiredFromOtherPortal.date)">
                                         View Duplicacy Details
                                     </p>
                                 </ng-container>
-                                <ng-template #noDuplicacy>No</ng-template>
+                                <ng-template #noDuplicacy>-</ng-template>
                             </td>
 
                             <td id="editbtns">
-
-                                <!-- Submit CV Duplicacy Details -->
-                                <span *ngIf="isCVDuplicacyAllowed(job.status, job.statusTracker) && !(job?.cvSourcedFrom && job?.cvSourcedDate)"
-                                    (click)="openDuplicacyDetailsModal(job.id)" matTooltip="Submit CV Duplicacy Details"
-                                    matTooltipPosition="above" style="background: #FFA500; cursor: pointer;">
-                                    <i class="fa-solid fa-exclamation-circle"></i>
-                                </span>
 
                                 <!-- View CV Button -->
                                 <span *ngIf="true" (click)="handleAction(job, status.CV_DOWNLOADED)"
@@ -243,6 +237,13 @@
                                     <i class="fa-solid fa-times"></i>
                                 </span>
 
+                                <!-- Submit CV Duplicacy Details -->
+                                <span
+                                    *ngIf="isCVDuplicacyAllowed(job.status, job.statusTracker) && !(job?.hiredFromOtherPortal?.portal && job?.hiredFromOtherPortal?.date)"
+                                    (click)="openDuplicacyDetailsModal(job.id)" matTooltip="Submit CV Duplicacy Details"
+                                    matTooltipPosition="above" style="background: #FFA500; cursor: pointer;">
+                                    <i class="fa-solid fa-exclamation-circle"></i>
+                                </span>
                             </td>
                         </tr>
                     </tbody>
@@ -312,17 +313,19 @@
                 <h5 class="text-center mb-4 fw-bold">Input Duplicacy Details</h5>
 
                 <form [formGroup]="duplicacyForm" (ngSubmit)="submitDuplicacyDetails()">
-                    <div class="mb-3">
-                        <label for="source" class="form-label required-form-field">Source</label>
-                        <input type="text" class="form-control" id="source" formControlName="cvSourcedFrom"
-                            placeholder="Enter the source" required />
-                    </div>
+                    <div formGroupName="hiredFromOtherPortal">
+                        <div class="mb-3">
+                            <label for="source" class="form-label required-form-field">Source</label>
+                            <input type="text" class="form-control" id="source" formControlName="portal"
+                                placeholder="Enter the source" required />
+                        </div>
 
-                    <div class="mb-5">
-                        <label for="firstReceivedDate" class="form-label required-form-field">First Received
-                            Date</label>
-                        <input type="date" class="form-control" id="firstReceivedDate" formControlName="cvSourcedDate"
-                            required />
+                        <div class="mb-5">
+                            <label for="firstReceivedDate" class="form-label required-form-field">First Received
+                                Date</label>
+                            <input type="date" class="form-control" id="firstReceivedDate" formControlName="date"
+                                [max]="today" [min]="minDate" required />
+                        </div>
                     </div>
 
                     <div class="buttons">
@@ -351,7 +354,7 @@
                     <label class="detail-label">Sourced Date:</label>
                     <div class="detail-value">
                         {{ duplicacyDetails.cvSourcedDate | date: 'fullDate' }}
-                        {{ duplicacyDetails.cvSourcedDate | date: 'shortTime' }}
+                        <!-- {{ duplicacyDetails.cvSourcedDate | date: 'shortTime' }} -->
                     </div>
                 </div>
             </div>

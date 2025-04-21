@@ -182,13 +182,13 @@
                             </td>
 
                             <td>
-                                <ng-container *ngIf="job?.cvSourcedFrom && job?.cvSourcedDate; else noDuplicacy">
+                                <ng-container *ngIf="job?.hiredFromOtherPortal?.portal && job?.hiredFromOtherPortal?.date; else noDuplicacy">
                                     <p class="detailed-analysis-btn"
-                                        (click)="viewDuplicacyDetails(job.cvSourcedFrom, job.cvSourcedDate)">
+                                        (click)="viewDuplicacyDetails(job.hiredFromOtherPortal.portal, job.hiredFromOtherPortal.date)">
                                         View Duplicacy Details
                                     </p>
                                 </ng-container>
-                                <ng-template #noDuplicacy>No</ng-template>
+                                <ng-template #noDuplicacy>-</ng-template>
                             </td>
 
                             <td id="editbtns">
@@ -312,7 +312,7 @@
                     <label class="detail-label">Sourced Date:</label>
                     <div class="detail-value">
                         {{ duplicacyDetails.cvSourcedDate | date: 'fullDate' }}
-                        {{ duplicacyDetails.cvSourcedDate | date: 'shortTime' }}
+                        <!-- {{ duplicacyDetails.cvSourcedDate | date: 'shortTime' }} -->
                     </div>
                 </div>
             </div>

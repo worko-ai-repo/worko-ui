@@ -140,10 +140,15 @@ export class CorporateApplicantsComponent {
     cvSourcedDate: ''
   };
 
+  today!: string;
+  minDate!: string;
+
   constructor(private router: Router, private corporateService: CorporateService, private spinner: NgxSpinnerService, private cdr: ChangeDetectorRef, private sanitizer: DomSanitizer, private route: ActivatedRoute, private storage: StorageService, private fb: FormBuilder, private errorHandlingService: ErrorHandlingService) {
     this.duplicacyForm = this.fb.group({
-      cvSourcedFrom: ['', Validators.required],
-      cvSourcedDate: ['', Validators.required]
+      hiredFromOtherPortal: this.fb.group({
+        portal: ['', Validators.required],
+        date: ['', Validators.required]
+      })
     });
     this.searchTerms.pipe(
       debounceTime(300), // Adjust the debounce time as needed (300 milliseconds in this example)
@@ -157,6 +162,13 @@ export class CorporateApplicantsComponent {
   }
 
   async ngOnInit() {
+
+    const now = new Date();
+    const threeMonthsAgo = new Date();
+    threeMonthsAgo.setMonth(now.getMonth() - 3);
+
+    this.today = now.toISOString().split('T')[0];         // e.g., '2025-04-21'
+    this.minDate = threeMonthsAgo.toISOString().split('T')[0]; // e.g., '2025-01-21'
 
     // this.emailAddress = this.storage.get("useremail");
     // this.userId = this.storage.get("userId");
@@ -697,7 +709,15 @@ export class CorporateApplicantsComponent {
   async submitDuplicacyDetails() {
     this.spinner.show();
     try {
-      const payload = this.duplicacyForm.value;
+      const rawFormValue = this.duplicacyForm.value;
+
+      // Transform date to ISO format with time
+      const payload = {
+        hiredFromOtherPortal: {
+          portal: rawFormValue.hiredFromOtherPortal.portal,
+          date: new Date(rawFormValue.hiredFromOtherPortal.date).toISOString()  // ← this adds the time part
+        }
+      };
 
       const response = await this.corporateService.submitCvDuplicacyDetails(this.duplicateCvApplicationId, payload);
       if (response) {
