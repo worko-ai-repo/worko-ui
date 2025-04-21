@@ -328,7 +328,7 @@ export class CorporateService {
 
   // Submit CV Duplicacy Details
   submitCvDuplicacyDetails(jobApplicationId: string, data: any) {
-    const url = `${JOB_BASE_URL}job-application/${jobApplicationId}/cv-duplicacy`;
+    const url = `${JOB_BASE_URL}job-application/${jobApplicationId}/hired-from-other-portal`;
     return this.http.put(url, data, this.authService.getHttpOptions()).toPromise();
   }
 
