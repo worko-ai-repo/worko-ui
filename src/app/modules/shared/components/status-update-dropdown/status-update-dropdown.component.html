@@ -1,0 +1,26 @@
+<div class="status-wrapper">
+    <div class="status-container">
+        <p [ngClass]="getStatusClass(currentStatus)">
+            <span>
+                {{ transformStatus(currentStatus) | uppercase }}
+            </span>
+        </p>
+        <ng-container *ngIf="allowedNextStatuses.length">
+            <i class="fa-solid fa-pen-to-square change-icon" matTooltip="Update status" matTooltipPosition="above"
+                (click)="toggleDropdown()">
+            </i>
+        </ng-container>
+    </div>
+
+    <div *ngIf="dropdownVisible" class="dropdown-status-container">
+        <select style="margin: 0; border-radius: 4px;" class="selector form-select" [(ngModel)]="selectedStatus"
+            (ngModelChange)="onStatusChange()" (click)="$event.stopPropagation()">
+            <option value="" disabled selected>Select Next Status</option>
+            <option *ngFor="let option of allowedNextStatuses" [value]="option">
+                {{ transformStatus(option) | titlecase }}
+            </option>
+        </select>
+        <button class="update-btn" [disabled]="!isUpdateEnabled" (click)="updateStatus()">Update</button>
+    </div>
+
+</div>

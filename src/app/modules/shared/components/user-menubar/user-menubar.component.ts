@@ -265,6 +265,10 @@ export class UserMenubarComponent {
           router: "admin/aApplicants/"
         },
         {
+          name: 'Refer & Earn',
+          router: "admin/aRefer-Earn"
+        },
+        {
           name: 'Corporate Users',
           router: "admin/aCorporate/Users"
         },
@@ -283,11 +287,6 @@ export class UserMenubarComponent {
         {
           name: 'Payment',
           router: "admin/aPayment"
-        },
-
-        {
-          name: 'Refer & Earn',
-          router: "admin/aRefer-Earn"
         },
         {
           name: 'Settings',
