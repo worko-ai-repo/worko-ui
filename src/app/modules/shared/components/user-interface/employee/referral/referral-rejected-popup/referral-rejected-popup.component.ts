@@ -10,6 +10,7 @@ export class ReferralRejectedPopupComponent implements OnInit {
 
   @Output() onSuccess: EventEmitter<any> = new EventEmitter<any>();
   @Input() userType!: 'Employee' | 'Recruiter' | 'Admin';
+  @Input() forceCommentRequiredAndVisible: boolean | undefined;
   rejectForm!: FormGroup;
   isCommentRequired!: boolean;
 
@@ -21,9 +22,10 @@ export class ReferralRejectedPopupComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    this.isCommentRequired = this.userType === 'Employee';
+    const isOnlyCommentMode = this.forceCommentRequiredAndVisible === true;
+    this.isCommentRequired = isOnlyCommentMode || this.userType === 'Employee';
     this.rejectForm = this.fb.group({
-      reason: ['', Validators.required],
+      reason: [isOnlyCommentMode ? null : '', isOnlyCommentMode ? [] : Validators.required],
       comment: ['', this.isCommentRequired ? Validators.required : []],
     });
   }
@@ -39,7 +41,7 @@ export class ReferralRejectedPopupComponent implements OnInit {
     if (this.rejectForm.valid) {
       const { reason, comment } = this.rejectForm.value;
       this.onSuccess.emit({
-        rejectTitle: reason,
+        rejectTitle: reason || '',
         rejectComments: comment || '', // Optional comment for Corporate
       });
       this.rejectForm.reset();

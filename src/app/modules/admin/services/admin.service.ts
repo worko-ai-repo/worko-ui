@@ -1,16 +1,34 @@
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpParams } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { AuthService } from '../../worko/services/auth.service';
 import { environment } from 'src/environments/environment';
 import { Observable, catchError } from 'rxjs';
+import { ReferralJobApplicationStatus, WithdrawalStatus } from '../../shared/enums/refer-and-earn.enums';
 const API_URL = environment.apiUrl;
 const JOB_BASE_URL = environment.jobBaseUrl;
+
+export type ReferAndEarnStatusUpdatePayload =
+  | { jobApplicationStatus: ReferralJobApplicationStatus }
+  | { status: WithdrawalStatus.WITHDRAWAL_ACCEPTED }
+  | { status: WithdrawalStatus.WITHDRAWAL_REJECTED; withDrawalRequestRejectedReason: string }
+  | {
+    status: WithdrawalStatus.PAYMENT_COMPLETED;
+    paymentDoneDetails: {
+      userId: string;
+      userType: 'ADMIN';
+      actionDate: string;
+      amountPaid: number;
+      uniqueTransactionReference: string;
+    };
+};
 
 
 @Injectable({
   providedIn: 'root'
 })
 export class AdminService {
+
+  private referAndEarnBaseUrl = JOB_BASE_URL + 'refer-and-earn';
 
   constructor(private http: HttpClient, private authService: AuthService) { }
 
@@ -484,7 +502,6 @@ export class AdminService {
     return this.http.delete(url, this.authService.getHttpOptions()).toPromise();
   }
 
-
   createCompanyRequest(requestData: { userType: string; companyDetail: { name: string; industry: string; carrierPage: string; linkedIn: string }; userEmail: string; userContactNumber: string }): Promise<any> {
     const url = `${API_URL}company/request`;
     return this.http.post(url, requestData, this.authService.getHttpOptions()).toPromise();
@@ -520,6 +537,75 @@ export class AdminService {
       url += `&searchText=${searchTexts}`;
     }
     return this.http.get(url, this.authService.getHttpOptions()).toPromise();
+  }
+
+  // Refer & Earn API's
+
+  // 1. GET: Admin - by status + job application status
+  getReferAndEarnByStatusAndJobStatus(pageSize: any, withdrawlStatus?: string | null, referralStatus?: string | null, lastKey?: string | null, searchText?: string) {
+    let params = new HttpParams().set('pageSize', pageSize);
+
+    if (withdrawlStatus) params = params.set('status', withdrawlStatus);
+    if (referralStatus) params = params.set('jobApplicationStatus', referralStatus);
+    if (lastKey) params = params.set('lastKey', lastKey);
+    if (searchText) params = params.set('searchText', searchText);
+
+    const options = {
+      ...this.authService.getHttpOptions(),
+      params,
+    };
+    return this.http.get(`${this.referAndEarnBaseUrl}`, options).toPromise();
+  }
+
+  // 2. GET: By companyId (Admin Dashboard)
+  getReferAndEarnByCompanyId(companyId: string) {
+    const params = new HttpParams().set('companyId', companyId);
+    const options = {
+      ...this.authService.getHttpOptions(),
+      params,
+    };
+    return this.http.get(`${this.referAndEarnBaseUrl}`, options).toPromise();
+  }
+
+  // 3. GET: By jobId
+  getReferAndEarnByJobId(jobId: string) {
+    const params = new HttpParams().set('jobId', jobId);
+    const options = {
+      ...this.authService.getHttpOptions(),
+      params,
+    };
+    return this.http.get(`${this.referAndEarnBaseUrl}`, options).toPromise();
+  }
+
+  // 4. GET: By userJobApplicationId
+  getReferAndEarnByUserJobApplicationId(userJobApplicationId: string) {
+    const params = new HttpParams().set('userJobApplicationId', userJobApplicationId);
+    const options = {
+      ...this.authService.getHttpOptions(),
+      params,
+    };
+    return this.http.get(`${this.referAndEarnBaseUrl}`, options).toPromise();
+  }
+
+  // 5. GET: Search filter
+  searchReferAndEarn(searchText: string) {
+    const params = new HttpParams().set('searchText', searchText);
+    const options = {
+      ...this.authService.getHttpOptions(),
+      params,
+    };
+    return this.http.get(`${this.referAndEarnBaseUrl}`, options).toPromise();
+  }
+
+  // 6. GET: By ID
+  getReferAndEarnById(id: string) {
+    return this.http.get(`${this.referAndEarnBaseUrl}/${id}`, this.authService.getHttpOptions()).toPromise();
+  }
+
+  // 7. PATCH: Update status of a referral
+  updateReferAndEarnStatus(id: string, payload: ReferAndEarnStatusUpdatePayload) {
+    const url = `${this.referAndEarnBaseUrl}/${id}`;
+    return this.http.patch(url, payload, this.authService.getHttpOptions()).toPromise();
   }
 
 }

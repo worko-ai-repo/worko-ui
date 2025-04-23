@@ -9,10 +9,17 @@
 
                 <h5 class="card-title mb-4">
                     Are You Sure you want to <br />
-                    Reject this {{ userType === 'Employee' ? 'Request' : 'Job Application' }}?
+                    Reject this
+                    {{
+                    (userType === 'Admin' && forceCommentRequiredAndVisible)
+                    ? 'Withdrawal Request'
+                    : (userType === 'Employee' ? 'Request' : 'Job Application')
+                    }}?
                 </h5>
 
-                <div>
+
+                <!-- Reason Dropdown: only show if NOT in forced comment-only mode -->
+                <div *ngIf="!forceCommentRequiredAndVisible">
                     <h6 class="input-heading form-label required-form-field">Reason</h6>
                     <select style="width: 100%;" class="select-options p-2" formControlName="reason">
                         <!-- Placeholder -->

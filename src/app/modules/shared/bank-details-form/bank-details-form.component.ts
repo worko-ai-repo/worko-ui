@@ -84,7 +84,8 @@ export class BankDetailsFormComponent {
 
   onSubmit() {
     if (this.bankForm.valid) {
-      this.withdrawalFormSubmitted.emit(this.bankForm.value);
+      const { accountHolderName, accountNumber, ifscCode, branchName } = this.bankForm.value;
+      this.withdrawalFormSubmitted.emit({ accountHolderName, accountNumber, ifscCode, branchName });
       this.bankForm.reset();
     } else {
       this.bankForm.markAllAsTouched();

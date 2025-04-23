@@ -109,6 +109,8 @@ import { JobDescriptionComponent } from '../corporate-admin/components/resume-sc
 import { ResumeScreenerFormComponent } from './components/resume-screener-form/resume-screener-form.component';
 import { BankDetailsFormComponent } from './bank-details-form/bank-details-form.component';
 import { FilterDropdownComponent } from './components/filter-dropdown/filter-dropdown.component';
+import { StatusUpdateDropdownComponent } from './components/status-update-dropdown/status-update-dropdown.component';
+import { PaymentDoneDetailsComponent } from './components/payment-done-details/payment-done-details.component';
 export const routes: Routes = [
 
   
@@ -175,7 +177,9 @@ export const routes: Routes = [
     JobDescriptionComponent,
     ResumeScreenerFormComponent,
     BankDetailsFormComponent,
-    FilterDropdownComponent
+    FilterDropdownComponent,
+    StatusUpdateDropdownComponent,
+    PaymentDoneDetailsComponent
     // DoneServiceComponent,
     // CancelledServiceComponent,
     // AwaitingServiceComponent,
@@ -266,7 +270,9 @@ export const routes: Routes = [
   JobDescriptionComponent,
   ResumeScreenerFormComponent,
   BankDetailsFormComponent,
-  FilterDropdownComponent
+  FilterDropdownComponent,
+  StatusUpdateDropdownComponent,
+  PaymentDoneDetailsComponent
   ],
 
 })
