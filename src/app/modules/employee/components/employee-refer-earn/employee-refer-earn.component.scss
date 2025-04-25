@@ -767,6 +767,47 @@ $statuses: (
     }
 }
 
+.payment-details {
+    border-radius: 16px;
+    color: #ffffff;
+    max-width: 500px;
+    margin: auto;
+    //   box-shadow: 0 4px 20px rgba(0, 0, 0, 0.4);
+    padding-right: 2rem;
+    padding-left: 2rem;
+    padding-top: 1rem;
+    padding-bottom: 1rem;
+}
+
+.detail-row {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    padding: 1rem 0;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+}
+
+.detail-label {
+    font-weight: 600;
+    color: #b0b8c1;
+    font-size: 0.95rem;
+}
+
+.detail-value {
+    font-weight: 500;
+    color: #ffffff;
+    text-align: right;
+    font-size: 1rem;
+    word-break: break-word;
+}
+
+.copyable {
+    cursor: pointer;
+    user-select: text;
+}
+
+
+
 @media screen and (max-width: 992px) {
     form {
         display: flex !important;

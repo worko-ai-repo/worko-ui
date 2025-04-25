@@ -60,7 +60,7 @@ export class AdminJobsComponent implements OnInit {
 
   baseURL = environment.baseUrl;
 
-  locations = ["Noida", "Bangalore", "Hyderabad", "Pune", "Mumbai", "Chennai", "Delhi", "Gurgaon", "Kolkata", "Ahmedabad", "Chandigarh"];
+  // locations = ["Noida", "Bangalore", "Hyderabad", "Pune", "Mumbai", "Chennai", "Delhi", "Gurgaon", "Kolkata", "Ahmedabad", "Chandigarh"]; previous location drodpown property
 
   ngxSummerConfig: any = {
     airMode: false,
@@ -230,7 +230,7 @@ export class AdminJobsComponent implements OnInit {
       miscellaneousSkills: this.fb.array([]),
       numOfOpenings: [1, [Validators.required, Validators.min(1)]],
       noticePeriod: [0, [Validators.required, Validators.min(0)]],
-      otherRequirements: [""],
+      otherRequirements: ["", Validators.required],
       salaryRange: this.fb.group(
         {
           min: [null, [Validators.required, Validators.min(0)]],
@@ -1118,6 +1118,11 @@ export class AdminJobsComponent implements OnInit {
       if (response) {
         this.modal.cancel();
         autofillJobDetailsToForm(response, this.jobForm);
+        // If cityControl has a valid value, call onLocationChange manually
+        const cityValue = this.jobForm.get('cityControl')?.value;
+        if (cityValue) {
+          this.onLocationChange({ target: { value: cityValue } } as any); // simulate input event
+        }
       }
     } catch (error) {
       this.successmessage = "Something went wrong. Please try again later.";

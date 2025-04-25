@@ -38,7 +38,7 @@ export function autofillJobDetailsToForm(job: any, jobForm: any): void {
   jobForm.patchValue({
     htmlJobDescription: job?.formattedHTML ? job.formattedHTML : "",
     jobTitle: job.jobTitle !== "Not Mentioned" ? job.jobTitle : null,
-    location: job.location !== "Not Mentioned" ? job.location : null,
+    cityControl: job.location !== "Not Mentioned" ? job.location : null,
     workMode: job.workMode !== "Not Mentioned" ? job.workMode : null,
     noticePeriod: job.noticePeriod !== "Not Mentioned" ? job.noticePeriod : 0,
     typeofEmployment: job.typeOfEmployment !== "Not Mentioned" ? job.typeOfEmployment : null,
