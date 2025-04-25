@@ -23,12 +23,23 @@ export interface WithdrawalRequestPayload {
   branchName: string;
 }
 
+export interface PaymentDoneDetails {
+  userType: string;
+  amountPaid: number;
+  userId: string;
+  actionDate: string; // ISO string
+  uniqueTransactionReference: string;
+}
+
 @Component({
   selector: 'app-employee-refer-earn',
   templateUrl: './employee-refer-earn.component.html',
   styleUrls: ['./employee-refer-earn.component.scss']
 })
 export class EmployeeReferEarnComponent {
+
+  paymentDoneDetails!: PaymentDoneDetails;
+  referrerBankDetails!: WithdrawalRequestPayload;
 
   withdrawalStatusControl = new FormControl('');
   referralStatusControl = new FormControl('');
@@ -212,6 +223,14 @@ export class EmployeeReferEarnComponent {
       });
     } finally {
       this.spinner.hide();
+    }
+  }
+
+  showPaymentDetails(referral:any) {
+    if(referral.paymentDoneDetails && referral.referrerBankDetails) {
+      this.paymentDoneDetails = referral.paymentDoneDetails;
+      this.referrerBankDetails = referral.referrerBankDetails;
+      this.openModal(ModalType.SHOW_PAYMENT_DONE_DETAILS);
     }
   }
 
@@ -400,7 +419,8 @@ export class EmployeeReferEarnComponent {
       [this.modalType.SHOW_MORE_DETAILS]: { size: "lg", close: true },
       [this.modalType.VIEW_CV]: { size: "xl", close: true },
       [this.modalType.REJECTED_REQUEST]: { size: "md", close: true },
-      [this.modalType.BANK_DETAILS_POPUP]: { size: "md", close: true }
+      [this.modalType.BANK_DETAILS_POPUP]: { size: "md", close: true },
+      [this.modalType.SHOW_PAYMENT_DONE_DETAILS]: { size: "md", close: true}
     };
 
     // Fallback configuration for undefined modal types

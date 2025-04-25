@@ -57,7 +57,7 @@ interface RangeDropDownDto {
  * @property {companyControl} FormControl - The form control for the company selection.
  */
 export class CorporateJobsComponent implements OnInit {
-  locations = ["Noida", "Bangalore", "Hyderabad", "Pune", "Mumbai", "Chennai", "Delhi", "Gurgaon", "Kolkata", "Ahmedabad", "Chandigarh"];
+  // locations = ["Noida", "Bangalore", "Hyderabad", "Pune", "Mumbai", "Chennai", "Delhi", "Gurgaon", "Kolkata", "Ahmedabad", "Chandigarh"];
 
   ngxSummerConfig: any = {
     airMode: false,
@@ -258,7 +258,7 @@ export class CorporateJobsComponent implements OnInit {
       miscellaneousSkills: this.fb.array([]),
       numOfOpenings: [1, [Validators.required, Validators.min(1)]],
       noticePeriod: [0, Validators.required],
-      otherRequirements: [""],
+      otherRequirements: ["", Validators.required],
       salaryRange: this.fb.group(
         {
           min: [null, [Validators.required, Validators.min(0)]],
@@ -1034,7 +1034,7 @@ export class CorporateJobsComponent implements OnInit {
     // Remove excessive blank lines and trim extra whitespace
     return text.replace(/\n\s*\n/g, '\n').trim();
   }
-  
+
   //Pagination methods
   /**
    * @method onPageChange - this will be called when the user changes the page size
@@ -1227,6 +1227,11 @@ export class CorporateJobsComponent implements OnInit {
       if (response) {
         this.modal.cancel();
         autofillJobDetailsToForm(response, this.jobForm);
+        // If cityControl has a valid value, call onLocationChange manually
+        const cityValue = this.jobForm.get('cityControl')?.value;
+        if (cityValue) {
+          this.onLocationChange({ target: { value: cityValue } } as any); // simulate input event
+        }
       }
     } catch (error) {
       this.successmessage = "Something went wrong. Please try again later.";

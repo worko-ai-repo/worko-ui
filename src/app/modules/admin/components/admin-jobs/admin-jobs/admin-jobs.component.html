@@ -74,8 +74,8 @@
                 <ng-container *ngIf="job.companyDetails?.logo; else useUrlLogoSecond">
                   <img (click)="copyToClipboard(job.companyDetails.id)" matTooltip="Copy Company Id To Clipboard"
                     matTooltipPosition="above" style="cursor:pointer"
-                    [src]="baseURL + '/images/' + job.companyDetails?.logo"  alt="{{job.companyDetails?.name}}" width="50"
-                    height="50">
+                    [src]="baseURL + '/images/' + job.companyDetails?.logo" alt="{{job.companyDetails?.name}}"
+                    width="50" height="50">
                 </ng-container>
                 <ng-template #useUrlLogoSecond>
                   <img (click)="copyToClipboard(job.companyDetails.id)" matTooltip="Copy Company Id To Clipboard"
@@ -204,7 +204,8 @@
             <div formControlName="htmlJobDescription" [ngxSummernote]="ngxSummerConfig" class="ajobDesc-rte_editor"
               [ngClass]="{ 'is-invalid': isInvalid('htmlJobDescription') }"></div>
 
-            <span *ngIf="isInvalid('htmlJobDescription')" class="text-danger">{{ getErrorMessage('htmlJobDescription') }}</span>
+            <span *ngIf="isInvalid('htmlJobDescription')" class="text-danger">{{ getErrorMessage('htmlJobDescription')
+              }}</span>
           </div>
 
           <!-- Job Title -->
@@ -284,15 +285,29 @@
           </div>
 
           <!-- Location -->
-          <div class="ajobs-fitem">
+          <!-- <div class="ajobs-fitem">
             <label for="location" class="form-label required-form-field">Location</label>
             <select id="location" class="selector form-select required-form-field" formControlName="cityControl"
               [ngClass]="{ 'is-invalid': isInvalid('location.city') }" (change)="onLocationChange($event)">
 
-              <option value="" disabled selected>Select Location</option> <!-- Placeholder-like option -->
+              <option value="" disabled selected>Select Location</option>
               <option *ngFor="let loc of locations" [value]="loc">{{ loc }}</option>
             </select>
             <span *ngIf="isInvalid('location.city')" class="text-danger">{{ getErrorMessage('location.city') }}</span>
+          </div> -->
+          <!-- previous dropdwon code above -->
+
+          <!-- new location code below as free text -->
+
+          <!-- Location -->
+          <div class="ajobs-fitem">
+            <label for="location" class="form-label required-form-field">Location</label>
+            <input id="location" type="text" class="form-control form-input required-form-field"
+              formControlName="cityControl" [ngClass]="{ 'is-invalid': isInvalid('cityControl') }"
+              (input)="onLocationChange($event)" placeholder="Enter Location" />
+            <span *ngIf="isInvalid('cityControl')" class="text-danger">
+              {{ getErrorMessage('cityControl') }}
+            </span>
           </div>
 
           <!-- Type of Employment -->
@@ -413,14 +428,35 @@
 
 
           <!-- Other Requirements -->
-          <div class="ajobs-fitem gCloumnTwo">
+          <!-- <div class="ajobs-fitem gCloumnTwo">
             <label for="otherRequirements" class="form-label">Other Requirements</label>
             <textarea id="otherRequirements" formControlName="otherRequirements" class="form-control form-input jobDesc"
               rows="4" [ngClass]="{ 'is-invalid': isInvalid('otherRequirements') }">
         </textarea>
             <span *ngIf="isInvalid('otherRequirements')" class="text-danger">{{ getErrorMessage('otherRequirements')
               }}</span>
+          </div> -->
+
+          <!-- Other Requirements -->
+          <div class="ajobs-fitem gCloumnTwo">
+            <label for="otherRequirements" class="form-label required-form-field">Any Mandatory Requirement
+            </label>&nbsp;
+            <span class="ajob-tooltip"
+              style=" cursor: pointer; width: min-content; position:relative ;height: min-content;">
+              <i class="fa-solid fa-circle-info "
+                matTooltip="This information is only for internal matching purposes and will not be shown to the candidate. If there is no mandatory requirement, please write NA."
+                matTooltipPosition="above"></i>
+            </span>
+
+            <textarea id="otherRequirements" formControlName="otherRequirements" class="form-control form-input jobDesc"
+              rows="4" [ngClass]="{ 'is-invalid': isInvalid('otherRequirements') }"> 
+            </textarea>
+
+            <span *ngIf="isInvalid('otherRequirements')" class="text-danger">
+              {{ getErrorMessage('otherRequirements') }}
+            </span>
           </div>
+
           <!--  <button type="button" (click)="jobFormTester()" >Test</button> -->
 
           <button type="submit"
