@@ -148,11 +148,7 @@
                                             {{ transformStatus(job.status) | uppercase }}
                                         </span>
                                     </p>
-                                    <ng-container *ngIf="
-                                                   job.status === status.CV_DOWNLOADED ||
-                                                   job.status === status.UNDER_EVALUATION ||
-                                                   job.status === status.PROCESSING_INTERVIEW ||
-                                                   job.status === status.INTERVIEW_DONE">
+                                    <ng-container *ngIf="shouldShowUpdateIcon(job)">
                                         <i class="fa-solid fa-pen-to-square change-icon" matTooltip="Update status"
                                             matTooltipPosition="above" (click)="toggleDropdown(i)">
                                         </i>
@@ -176,9 +172,7 @@
 
                             <td>{{ job.createdAt | date: 'd MMM yyyy, h:mm a' }}</td>
                             <td>
-                                {{ getCvDownloadedDate(job?.statusTracker)
-                                ? (getCvDownloadedDate(job?.statusTracker) | date: 'd MMM yyyy, h:mm a')
-                                : '-' }}
+                                {{ formatCvDownloadedDate(job?.statusTracker) }}
                             </td>
 
                             <td>

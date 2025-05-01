@@ -1,5 +1,5 @@
 import { NgModule } from '@angular/core';
-import { CommonModule } from '@angular/common';
+import { CommonModule, DatePipe } from '@angular/common';
 import { RouterModule, Routes } from '@angular/router';
 import { AdminComponent } from './admin.component';
 import { AdminDashboardComponent } from './components/admin-dashboard/admin-dashboard.component';
@@ -177,6 +177,7 @@ export const routes: Routes = [
 ]
 
 @NgModule({
+  providers: [DatePipe],
   declarations: [
     AdminDashboardComponent,
     AdminCandidateComponent,

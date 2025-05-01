@@ -10,6 +10,9 @@ import { NgxSpinnerService } from 'ngx-spinner';
 import { StorageService } from 'src/app/modules/app-core/services/storage.service';
 import { MatTableDataSource } from '@angular/material/table';
 import { ErrorHandlingService } from 'src/app/modules/app-core/services/error-handling.service';
+import { DatePipe } from '@angular/common';
+
+const ALLOWED_CORPORATE_USER_TYPES = ['CORPORATE-ADMIN', 'CORPORATE-RECRUITER'];
 
 @Component({
   selector: 'app-admin-applicants',
@@ -115,7 +118,7 @@ export class AdminApplicantsComponent {
     cvSourcedDate: ''
   };
 
-  constructor(private router: Router, private fb: FormBuilder, private adminService: AdminService, private spinner: NgxSpinnerService, private cdr: ChangeDetectorRef, private sanitizer: DomSanitizer, private route: ActivatedRoute, private storage: StorageService, private errorHandlingService: ErrorHandlingService) {
+  constructor(private router: Router, private fb: FormBuilder, private adminService: AdminService, private spinner: NgxSpinnerService, private cdr: ChangeDetectorRef, private sanitizer: DomSanitizer, private route: ActivatedRoute, private storage: StorageService, private errorHandlingService: ErrorHandlingService, private datePipe: DatePipe) {
     this.searchTerms.pipe(
       debounceTime(300), // Adjust the debounce time as needed (300 milliseconds in this example)
       //distinctUntilChanged()
@@ -170,6 +173,20 @@ export class AdminApplicantsComponent {
       this.successTitle = "Error";
       this.openModal(ModalType.SUCCESS_ERROR_MESSAGE);
     }
+  }
+
+  private isCorporateCreatedJob(): boolean {
+    return !!this.jobDetails?.createdByCorporateUserId;
+  }
+
+  private isAdminCreatedJob(): boolean {
+    return !!this.jobDetails?.createdByUserId ||
+      (!this.jobDetails?.createdByUserId && !this.jobDetails?.createdByCorporateUserId);
+  }
+
+  private viewCV(job: any): void {
+    this.cvUrl = this.sanitizer.bypassSecurityTrustResourceUrl(job?.applicantDetails?.cvAwsS3SignedUrl);
+    this.openModal(ModalType.VIEW_CV);
   }
 
   showRejectReason(job: any) {
@@ -419,20 +436,60 @@ export class AdminApplicantsComponent {
     }
   }
 
+  formatCvDownloadedDate(statusTracker: any[]): any {
+    if (!statusTracker) return '-';
+
+    const action = statusTracker.find(item => item.newStatus === this.status.CV_DOWNLOADED);
+    if (!action) return '-';
+
+    const actionUserType = action.userType?.toUpperCase();
+    const actionDate = this.datePipe.transform(action.actionDate, 'd MMM yyyy, h:mm a');
+
+    if (this.isAdminCreatedJob()) {
+      if (actionUserType === 'ADMIN') return `${actionDate} [WA]`;
+      if (ALLOWED_CORPORATE_USER_TYPES.includes(actionUserType)) return actionDate;
+    }
+
+    if (this.isCorporateCreatedJob() &&
+      ALLOWED_CORPORATE_USER_TYPES.includes(actionUserType)) {
+      return actionDate;
+    }
+
+    return '-';
+  }
+
+  shouldShowUpdateIcon(job: any): boolean {
+    const allowedStatuses = [
+      this.status.CV_DOWNLOADED,
+      this.status.UNDER_EVALUATION,
+      this.status.PROCESSING_INTERVIEW,
+      this.status.INTERVIEW_DONE,
+    ];
+    return !this.jobDetails?.createdByCorporateUserId && allowedStatuses.includes(job.status);
+  }
+
   handleAction(job: any, newStatus: any) {
+    const isCVDownloaded = newStatus === this.status.CV_DOWNLOADED;
+    const isBeyond = this.isStatusBeyondCurrent(job.status, newStatus);
+    const isInTracker = this.hasStatusInTracker(job.statusTracker, newStatus);
+
+    // 1. If corporate created the job → just open CV without updating status
+    if (this.isCorporateCreatedJob() && isCVDownloaded) {
+      // Job created by corporate, and admin is trying to download CV → just show the CV
+      this.viewCV(job);
+      return;
+    }
 
     // Check if the current job's status is already at or beyond "View CV" (CV_DOWNLOADED)
-    if (this.isStatusBeyondCurrent(job.status, newStatus)) {
-      if (newStatus === "CV_DOWNLOADED") {
+    if (isBeyond) {
+      if (isCVDownloaded) {
         // Directly open the CV modal if status is greater than or equal to "CV_DOWNLOADED"
-        this.cvUrl = this.sanitizer.bypassSecurityTrustResourceUrl(job?.applicantDetails?.cvAwsS3SignedUrl);
-        this.openModal(ModalType.VIEW_CV);
+        this.viewCV(job);
       }
       return;
     }
 
-    // Check the statusTracker before proceeding
-    if (this.hasStatusInTracker(job.statusTracker, newStatus)) {
+    if (isInTracker) {
       console.warn(`Status '${newStatus}' already exists in statusTracker. Skipping update.`);
       return; // Exit early if the status is already in the tracker
     }
@@ -445,26 +502,10 @@ export class AdminApplicantsComponent {
       return;
     }
 
-    this.updateJobApplicationStatus(job.id, newStatus);
-
-    // // Call updateStatus API if the status is not already in the tracker
-    // this.updateJobApplicationStatus(job.id, newStatus).then(async (response: any) => {
-    //   if (response) {
-    //     // Refresh jobApplicationListing data
-    //     console.log("Current Job is", this.currentJob);
-    //     console.log("Current Job CV is", this.currentJob?.applicantDetails?.cvAwsS3SignedUrl);
-    //     await this.getAllJobApplications(null);
-    //     if (response.status === "CV_DOWNLOADED") {
-    //       this.cvUrl = this.sanitizer.bypassSecurityTrustResourceUrl(this.currentJob?.applicantDetails?.cvAwsS3SignedUrl);
-    //       this.cdr.detectChanges();
-    //       this.openModal(ModalType.VIEW_CV);
-    //     }
-    //   }
-    // }).catch((error) => {
-    //   this.successMessage = "Something went wrong. Please try again later.";
-    //   this.successTitle = "Error";
-    //   this.openModal(ModalType.SUCCESS_ERROR_MESSAGE);
-    // });
+    // Only update status if job is admin-created
+    if (this.isAdminCreatedJob()) {
+      this.updateJobApplicationStatus(job.id, newStatus);
+    }
   }
 
   // Utility to check if the current status is already at or beyond the target status

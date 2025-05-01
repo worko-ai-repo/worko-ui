@@ -176,9 +176,7 @@
                             <td>{{ job.createdAt | date: 'd MMM yyyy, h:mm a' }}</td>
 
                             <td>
-                                {{ getCvDownloadedDate(job?.statusTracker)
-                                ? (getCvDownloadedDate(job?.statusTracker) | date: 'd MMM yyyy, h:mm a')
-                                : '-' }}
+                                {{ formatCvDownloadedDate(job?.statusTracker) }}
                             </td>
 
                             <td>
