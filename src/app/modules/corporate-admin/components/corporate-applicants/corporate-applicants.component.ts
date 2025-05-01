@@ -16,6 +16,7 @@ import { NgxSpinnerService } from "ngx-spinner";
 import { DomSanitizer, SafeResourceUrl } from "@angular/platform-browser";
 import { StorageService } from "src/app/modules/app-core/services/storage.service";
 import { ErrorHandlingService } from "src/app/modules/app-core/services/error-handling.service";
+import { DatePipe } from '@angular/common';
 
 export interface CorporateVitalDetails {
   cognitoUserId?: string;
@@ -26,6 +27,8 @@ export interface CorporateVitalDetails {
   userId?: string;
   email?: string;
 }
+const ALLOWED_CORPORATE_USER_TYPES = ['CORPORATE-ADMIN', 'CORPORATE-RECRUITER'];
+
 
 @Component({
   selector: 'app-corporate-applicants',
@@ -143,7 +146,7 @@ export class CorporateApplicantsComponent {
   today!: string;
   minDate!: string;
 
-  constructor(private router: Router, private corporateService: CorporateService, private spinner: NgxSpinnerService, private cdr: ChangeDetectorRef, private sanitizer: DomSanitizer, private route: ActivatedRoute, private storage: StorageService, private fb: FormBuilder, private errorHandlingService: ErrorHandlingService) {
+  constructor(private router: Router, private corporateService: CorporateService, private spinner: NgxSpinnerService, private cdr: ChangeDetectorRef, private sanitizer: DomSanitizer, private route: ActivatedRoute, private storage: StorageService, private fb: FormBuilder, private errorHandlingService: ErrorHandlingService, private datePipe: DatePipe) {
     this.duplicacyForm = this.fb.group({
       hiredFromOtherPortal: this.fb.group({
         portal: ['', Validators.required],
@@ -236,6 +239,24 @@ export class CorporateApplicantsComponent {
     //   }
     // });
 
+  }
+
+  private isCorporateCreatedJob(): boolean {
+    return !!this.jobDetails?.createdByCorporateUserId;
+  }
+
+  private isAdminCreatedJob(): boolean {
+    return !!this.jobDetails?.createdByUserId ||
+      (!this.jobDetails?.createdByUserId && !this.jobDetails?.createdByCorporateUserId);
+  }
+
+  private formatDate(date: string): string {
+    return this.datePipe.transform(date, 'd MMM yyyy, h:mm a') ?? '-';
+  }
+
+  private viewCV(job: any): void {
+    this.cvUrl = this.sanitizer.bypassSecurityTrustResourceUrl(job?.applicantDetails?.cvAwsS3SignedUrl);
+    this.openModal(ModalType.VIEW_CV);
   }
 
   isOptionDisabled(option: string, currentStatus: string): boolean {
@@ -355,6 +376,28 @@ export class CorporateApplicantsComponent {
     if (!statusTracker) return null;
     const found = statusTracker.find(item => item.newStatus === 'CV_DOWNLOADED');
     return found ? found.actionDate : null;
+  }
+
+  formatCvDownloadedDate(statusTracker: any[]): any {
+    if (!statusTracker) return '-';
+
+    const action = statusTracker.find(item => item.newStatus === this.status.CV_DOWNLOADED);
+    if (!action) return '-';
+
+    const actionUserType = action.userType?.toUpperCase();
+
+    // Job created by Admin
+    if (this.isAdminCreatedJob()) {
+      if (actionUserType === 'ADMIN') return `${this.formatDate(action.actionDate)} [WA]`;
+      if (ALLOWED_CORPORATE_USER_TYPES.includes(actionUserType)) return this.formatDate(action.actionDate);
+    }
+  
+    // Job created by Corporate
+    if (this.isCorporateCreatedJob() && ALLOWED_CORPORATE_USER_TYPES.includes(actionUserType)) {
+      return this.formatDate(action.actionDate);
+    }
+
+    return '-';
   }
 
   isCVDuplicacyAllowed(status: string, statusTracker: any[]): boolean {
@@ -537,21 +580,24 @@ export class CorporateApplicantsComponent {
   }
 
   handleAction(job: any, newStatus: any) {
+    const isCVDownloaded = newStatus === this.status.CV_DOWNLOADED;
+    const isBeyond = this.isStatusBeyondCurrent(job.status, newStatus);
+    const isInTracker = this.hasStatusInTracker(job.statusTracker, newStatus);
 
-    // Check if the current job's status is already at or beyond "View CV" (CV_DOWNLOADED)
-    if (this.isStatusBeyondCurrent(job.status, newStatus)) {
-      if (newStatus === "CV_DOWNLOADED") {
-        // Directly open the CV modal if status is greater than or equal to "CV_DOWNLOADED"
-        this.cvUrl = this.sanitizer.bypassSecurityTrustResourceUrl(job?.applicantDetails?.cvAwsS3SignedUrl);
-        this.openModal(ModalType.VIEW_CV);
+    // Check if we should override CV_DOWNLOADED for incorrect userType
+    const shouldOverrideCVDownload = isCVDownloaded && isInTracker && this.shouldOverrideCVDownload(job.statusTracker);
+
+    if (isBeyond && !shouldOverrideCVDownload) {
+      if (isCVDownloaded) {
+        this.viewCV(job);
       }
       return;
     }
 
-    // Check the statusTracker before proceeding
-    if (this.hasStatusInTracker(job.statusTracker, newStatus)) {
+    // Skip update if already in tracker and not eligible to override
+    if (isInTracker && !shouldOverrideCVDownload) {
       console.warn(`Status '${newStatus}' already exists in statusTracker. Skipping update.`);
-      return; // Exit early if the status is already in the tracker
+      return;
     }
 
     this.currentJob = job;
@@ -563,21 +609,20 @@ export class CorporateApplicantsComponent {
     }
 
     this.updateJobApplicationStatus(job.id, newStatus);
-    // Call updateStatus API if the status is not already in the tracker
-    // this.updateJobApplicationStatus(job.id, newStatus).then(async (response: any) => {
-    //   if (response) {
-    //     // Refresh jobApplicationListing data
-    //     await this.getAllJobApplications(null);
-    //     if (response.status === "CV_DOWNLOADED") {
-    //       this.cvUrl = this.sanitizer.bypassSecurityTrustResourceUrl(this.currentJob?.applicantDetails?.cvAwsS3SignedUrl);
-    //       this.openModal(ModalType.VIEW_CV);
-    //     }
-    //   }
-    // }).catch((error) => {
-    //   this.successMessage = "Something went wrong. Please try again later.";
-    //   this.successTitle = "Error";
-    //   this.openModal(ModalType.SUCCESS_ERROR_MESSAGE);
-    // });
+  }
+
+  shouldOverrideCVDownload(statusTracker: any[]): boolean {
+    const cvDownloadedEntry = statusTracker.find(
+      tracker => tracker.newStatus === this.status.CV_DOWNLOADED
+    );
+    if (!cvDownloadedEntry) return false;
+
+    // If current user is corporate but previous entry was not by corporate
+    const previousUserType = cvDownloadedEntry.userType?.toUpperCase();
+    const isPreviousNotCorporate = !ALLOWED_CORPORATE_USER_TYPES.includes(previousUserType);
+    const isCurrentUserCorporate = ALLOWED_CORPORATE_USER_TYPES.includes(this.userType?.toUpperCase());
+
+    return isPreviousNotCorporate && isCurrentUserCorporate;
   }
 
   // Utility to check if the current status is already at or beyond the target status

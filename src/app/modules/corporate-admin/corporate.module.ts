@@ -1,5 +1,5 @@
 import { NgModule } from '@angular/core';
-import { CommonModule } from '@angular/common';
+import { CommonModule, DatePipe } from '@angular/common';
 import { SharedModule } from '../shared/shared.module';
 import { CorporateComponent } from './corporate.component';
 import { RouterModule, Routes } from '@angular/router';
@@ -130,6 +130,7 @@ export const routes: Routes = [
 ]
 
 @NgModule({
+  providers: [DatePipe],
   declarations: [
     CorporateComponent,
     CorporateJobsComponent,
