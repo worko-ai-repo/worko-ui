@@ -96,7 +96,10 @@
                             <th>Matching Score</th>
                             <th>Score Details</th>
                             <th>Status</th>
-                            <th>Application Date</th>
+                            <th>Application Date
+                                <app-sortable-header
+                                    (sortOrderChange)="onSortOrderChange($event)"></app-sortable-header>
+                            </th>
                             <th>CV Viewed Date</th>
                             <th>Duplicate CV</th>
                             <th>Actions</th>
@@ -120,8 +123,19 @@
                                 (job.applicantDetails?.candidateExperience?.companyName | ellipsis:20 | uppercase) : '-'
                                 }}
                             </td>
-                            <td>{{ job?.matchingScore ? job?.matchingScore + '/100' : '-' }}
+                            <!-- <td>{{ job?.matchingScore ? job?.matchingScore + '/100' : '-' }}
+                            </td> -->
+                            <td>
+                                <ng-container
+                                    *ngIf="job?.matchingScore !== undefined && job?.matchingScore !== null; else noScore">
+                                    <span class="badge me-1" [ngClass]="getMatchClass(job.matchingScore)">
+                                        {{ getMatchLabel(job.matchingScore) }}
+                                    </span>
+                                    ({{ job.matchingScore }}/100)
+                                </ng-container>
+                                <ng-template #noScore>-</ng-template>
                             </td>
+
                             <td>
                                 <ng-container *ngIf="job?.scoreDetails; else noData">
                                     <p class="detailed-analysis-btn" (click)="viewDetails(job?.scoreDetails)">View

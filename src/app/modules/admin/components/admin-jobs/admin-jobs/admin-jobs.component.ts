@@ -21,6 +21,7 @@ import { minMaxValidator } from "src/app/modules/worko/validators/minMax.validat
 import { autofillJobDetailsToForm } from "src/app/modules/shared/utils/jobsAutoFillParser.utils";
 import { ErrorHandlingService } from "src/app/modules/app-core/services/error-handling.service";
 import { environment } from 'src/environments/environment';
+import { SortOrder } from "src/app/modules/shared/types/sort-order.type";
 
 // Interface for FetchJobsOptionsDto
 interface FetchJobsOptionsDto {
@@ -662,8 +663,8 @@ export class AdminJobsComponent implements OnInit {
     /*     console.log("Reset button clicked");
      */ this.searchQuery = "";
     this.selectedStatus = this.status.ALL;
-    this.selectedSortOrder = this.sortOrder.DESC;
-    this.fetchJobs({ jobStatus: this.selectedStatus, pageSize: this.pageSize, resetPagination: true }); // Fetch jobs with the new status
+    // this.selectedSortOrder = this.sortOrder.DESC;
+    this.fetchJobs({ jobStatus: this.selectedStatus, pageSize: this.pageSize, sortOrder: this.selectedSortOrder, resetPagination: true }); // Fetch jobs with the new status
   }
 
   /**
@@ -692,8 +693,8 @@ export class AdminJobsComponent implements OnInit {
    *
    * Updates the sort order of the jobs.
    */
-  onSortOrderChange(event: any) {
-    //  console.log("Sort order:", event.target.value);
+  onSortOrderChange(order: SortOrder) {
+    this.selectedSortOrder = order;
     this.fetchJobs({
       searchText: this.searchQuery,
       jobStatus: this.selectedStatus,
@@ -702,6 +703,18 @@ export class AdminJobsComponent implements OnInit {
       sortOrder: this.selectedSortOrder,
     });
   }
+
+  isUpdatedMeaningfully(createdAt: string, updatedAt: string): boolean {
+    const created = new Date(createdAt);
+    const updated = new Date(updatedAt);
+
+    // Compare up to the second (ignore milliseconds)
+    created.setMilliseconds(0);
+    updated.setMilliseconds(0);
+
+    return created.getTime() !== updated.getTime();
+  }
+
 
   // Edit Job Function
   async editJob(job: any, editMode: boolean): Promise<void> {
