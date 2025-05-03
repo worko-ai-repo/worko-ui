@@ -41,7 +41,11 @@
               <th style="width: 20% !important;">Job Title</th>
               <th>Status</th>
               <!-- <th>CreatedBy</th> -->
-              <th>Created At</th>
+              <th>Created At
+                <app-sortable-header outputFormat="compact"
+                  (sortOrderChange)="onSortOrderChange($event)"></app-sortable-header>
+              </th>
+              <th>Updated On</th>
               <th>Experience</th>
               <th>Salary</th>
               <th>Location</th>
@@ -69,8 +73,14 @@
                 <p [ngClass]="getStatusClass(job.status)">{{ job.status | uppercase }}</p>
               </td>
 
-
               <td style="width: 30px;">{{ job.createdAt | date: 'd MMM yyyy, h:mm a' }}</td>
+
+              <td style="width: 30px;">
+                <ng-container *ngIf="isUpdatedMeaningfully(job.createdAt, job.updatedAt); else noUpdate">
+                  {{ job.updatedAt | date: 'd MMM yyyy, h:mm a' }}
+                </ng-container>
+                <ng-template #noUpdate>-</ng-template>
+              </td>
 
               <td> {{ formatRange(job?.experienceRange.min, job?.experienceRange.max,
                 'experience') }}</td>
@@ -421,7 +431,7 @@
           </span>
 
           <textarea id="otherRequirements" formControlName="otherRequirements" class="form-control form-input jobDesc"
-            rows="4" [ngClass]="{ 'is-invalid': isInvalid('otherRequirements') }"> 
+            rows="4" [ngClass]="{ 'is-invalid': isInvalid('otherRequirements') }">
           </textarea>
 
           <span *ngIf="isInvalid('otherRequirements')" class="text-danger">

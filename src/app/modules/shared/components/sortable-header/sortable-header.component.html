@@ -1,0 +1,9 @@
+<span class="sort-icon-wrapper" (click)="toggleSort()" matTooltip="Sort">
+  <i
+    class="fa-solid"
+    [ngClass]="{
+      'fa-arrow-up': sortOrder === SortOrderEnum.Asc || sortOrder === SortOrderEnum.Ascending,
+      'fa-arrow-down': sortOrder === SortOrderEnum.Desc || sortOrder === SortOrderEnum.Descending
+    }"
+  ></i>
+</span>

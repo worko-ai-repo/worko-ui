@@ -1,0 +1,17 @@
+.sort-icon-wrapper {
+  margin-left: 4px;
+  cursor: pointer;
+  display: inline-flex;
+  align-items: center;
+  color: #999; // default icon color
+  transition: color 0.2s ease;
+
+  &:hover {
+    color: #555; // subtle hover color, not too dark
+  }
+
+  .fa-solid {
+    font-size: 13px;
+    line-height: 1;
+  }
+}

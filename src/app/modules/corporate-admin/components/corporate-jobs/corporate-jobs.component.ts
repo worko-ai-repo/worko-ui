@@ -20,6 +20,7 @@ import { MatTableDataSource } from "@angular/material/table";
 import { MatAutocompleteTrigger } from "@angular/material/autocomplete";
 import { CorporateVitalDetails } from "../../corporate.component";
 import { autofillJobDetailsToForm } from "src/app/modules/shared/utils/jobsAutoFillParser.utils";
+import { SortOrder } from "src/app/modules/shared/types/sort-order.type";
 
 // Interface for FetchJobsOptionsDto
 interface FetchJobsOptionsDto {
@@ -741,10 +742,11 @@ export class CorporateJobsComponent implements OnInit {
     /*     console.log("Reset button clicked");
      */ this.searchQuery = "";
     this.selectedStatus = this.status.ALL;
-    this.selectedSortOrder = this.sortOrder.DESC;
+    // this.selectedSortOrder = this.sortOrder.DESC;
     this.fetchJobs({
       jobStatus: this.selectedStatus,
       pageSize: this.pageSize,
+      sortOrder: this.selectedSortOrder,
       resetPagination: true,
     }); // Fetch jobs with the new status
   }
@@ -779,15 +781,15 @@ export class CorporateJobsComponent implements OnInit {
    *
    * Updates the sort order of the jobs.
    */
-  onSortOrderChange(event: any) {
-    /*     console.log("Sort order:", event.target.value);
-     */ this.fetchJobs({
-    searchText: this.searchQuery,
-    jobStatus: this.selectedStatus,
-    pageSize: this.pageSize,
-    resetPagination: true,
-    sortOrder: this.selectedSortOrder,
-  });
+  onSortOrderChange(order: SortOrder) {
+    this.selectedSortOrder = order;
+    this.fetchJobs({
+      searchText: this.searchQuery,
+      jobStatus: this.selectedStatus,
+      pageSize: this.pageSize,
+      resetPagination: true,
+      sortOrder: this.selectedSortOrder,
+    });
   }
 
   // Edit Job Function
@@ -1210,6 +1212,17 @@ export class CorporateJobsComponent implements OnInit {
       .slice(0, -1)
       .toLocaleLowerCase()} this job?`;
     this.openModal(ModalType.CORPORATE_USER_WARNING);
+  }
+
+  isUpdatedMeaningfully(createdAt: string, updatedAt: string): boolean {
+    const created = new Date(createdAt);
+    const updated = new Date(updatedAt);
+
+    // Compare up to the second (ignore milliseconds)
+    created.setMilliseconds(0);
+    updated.setMilliseconds(0);
+
+    return created.getTime() !== updated.getTime();
   }
 
   openAutoFill(): void {

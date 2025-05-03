@@ -17,6 +17,7 @@ import { DomSanitizer, SafeResourceUrl } from "@angular/platform-browser";
 import { StorageService } from "src/app/modules/app-core/services/storage.service";
 import { ErrorHandlingService } from "src/app/modules/app-core/services/error-handling.service";
 import { DatePipe } from '@angular/common';
+import { SortOrder } from "src/app/modules/shared/types/sort-order.type";
 
 export interface CorporateVitalDetails {
   cognitoUserId?: string;
@@ -391,7 +392,7 @@ export class CorporateApplicantsComponent {
       if (actionUserType === 'ADMIN') return `${this.formatDate(action.actionDate)} [WA]`;
       if (ALLOWED_CORPORATE_USER_TYPES.includes(actionUserType)) return this.formatDate(action.actionDate);
     }
-  
+
     // Job created by Corporate
     if (this.isCorporateCreatedJob() && ALLOWED_CORPORATE_USER_TYPES.includes(actionUserType)) {
       return this.formatDate(action.actionDate);
@@ -424,11 +425,26 @@ export class CorporateApplicantsComponent {
     this.getAllJobApplications(null); // Call getAllJobApplications refresh the data with the new page size
   }
 
-  onSortOrderChange(event: any) {
-    this.selectedSortOrder = event.target.value;
+  onSortOrderChange(order: SortOrder) {
+    this.selectedSortOrder = order;
     const keyToUse = this.getKeyForCurrentPage();
     this.getAllJobApplications(keyToUse);
   }
+
+  getMatchLabel(score: number): string {
+    if (score <= 25) return 'Bad Match';
+    if (score <= 50) return 'Moderate Match';
+    if (score <= 75) return 'Good Match';
+    return 'Great Match';
+  }
+  
+  getMatchClass(score: number): string {
+    if (score <= 25) return 'bg-danger text-white';     // Red badge
+    if (score <= 50) return 'bg-warning text-dark';     // Orange badge
+    if (score <= 75) return 'bg-primary text-white';    // Blue badge
+    return 'bg-success text-white';                     // Green badge
+  }
+  
 
   callApiWithSearchQuery(query: string): void {
     this.searchTerm = query; // Setting here encoded query to filterData

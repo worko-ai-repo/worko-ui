@@ -111,6 +111,7 @@ import { BankDetailsFormComponent } from './bank-details-form/bank-details-form.
 import { FilterDropdownComponent } from './components/filter-dropdown/filter-dropdown.component';
 import { StatusUpdateDropdownComponent } from './components/status-update-dropdown/status-update-dropdown.component';
 import { PaymentDoneDetailsComponent } from './components/payment-done-details/payment-done-details.component';
+import { SortableHeaderComponent } from './components/sortable-header/sortable-header.component';
 export const routes: Routes = [
 
   
@@ -179,7 +180,8 @@ export const routes: Routes = [
     BankDetailsFormComponent,
     FilterDropdownComponent,
     StatusUpdateDropdownComponent,
-    PaymentDoneDetailsComponent
+    PaymentDoneDetailsComponent,
+    SortableHeaderComponent
     // DoneServiceComponent,
     // CancelledServiceComponent,
     // AwaitingServiceComponent,
@@ -272,7 +274,8 @@ export const routes: Routes = [
   BankDetailsFormComponent,
   FilterDropdownComponent,
   StatusUpdateDropdownComponent,
-  PaymentDoneDetailsComponent
+  PaymentDoneDetailsComponent,
+  SortableHeaderComponent
   ],
 
 })

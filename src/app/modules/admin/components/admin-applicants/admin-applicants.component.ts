@@ -11,6 +11,7 @@ import { StorageService } from 'src/app/modules/app-core/services/storage.servic
 import { MatTableDataSource } from '@angular/material/table';
 import { ErrorHandlingService } from 'src/app/modules/app-core/services/error-handling.service';
 import { DatePipe } from '@angular/common';
+import { SortOrder } from 'src/app/modules/shared/types/sort-order.type';
 
 const ALLOWED_CORPORATE_USER_TYPES = ['CORPORATE-ADMIN', 'CORPORATE-RECRUITER'];
 
@@ -287,6 +288,20 @@ export class AdminApplicantsComponent {
     return status ? status.replace(/_/g, ' ') : status;
   }
 
+  getMatchLabel(score: number): string {
+    if (score <= 25) return 'Bad Match';
+    if (score <= 50) return 'Moderate Match';
+    if (score <= 75) return 'Good Match';
+    return 'Great Match';
+  }
+  
+  getMatchClass(score: number): string {
+    if (score <= 25) return 'bg-danger text-white';     // Red badge
+    if (score <= 50) return 'bg-warning text-dark';     // Orange badge
+    if (score <= 75) return 'bg-primary text-white';    // Blue badge
+    return 'bg-success text-white';                     // Green badge
+  }
+
   onPageSizeChange(event: Event): void {
     const selectedPageSize = (event.target as HTMLSelectElement).value;
     this.pageSize = Number(selectedPageSize);
@@ -294,8 +309,8 @@ export class AdminApplicantsComponent {
     this.getAllJobApplications(null); // Call getAllJobApplications refresh the data with the new page size
   }
 
-  onSortOrderChange(event: any) {
-    this.selectedSortOrder = event.target.value;
+  onSortOrderChange(order: SortOrder) {
+    this.selectedSortOrder = order;
     const keyToUse = this.getKeyForCurrentPage();
     this.getAllJobApplications(keyToUse);
   }
