@@ -3260,6 +3260,31 @@ body {
     box-shadow: 0 0 4px rgba(71, 107, 175, 0.5);
 }
 
+// Styles related to show salary range toggle in create job for admin and corporate
+
+.salary-toggle {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    margin-top: 8px;
+    font-size: 14px;
+    color: white;
+
+    input[type='checkbox'] {
+        width: 16px;
+        height: 16px;
+        margin: 0;
+        accent-color: #1ed6ff; // Matches your theme color
+        cursor: pointer;
+    }
+
+    label {
+        font-size: 14px;
+        margin: 0;
+        cursor: pointer;
+    }
+}
+
 // Styles related to rich text editor ( ngx-summernote)
 
 #ajobDesc-rte>div * {
