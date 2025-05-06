@@ -267,6 +267,7 @@ export class CorporateJobsComponent implements OnInit {
         },
         { validators: minMaxValidator(100) }
       ),
+      displaySalaryRange: [true],
       softSkills: this.fb.array([], [Validators.required]),
       technicalSkills: this.fb.array([], Validators.required),
       typeofEmployment: ["", Validators.required],
@@ -716,6 +717,9 @@ export class CorporateJobsComponent implements OnInit {
       otherRequirements: "",
       numOfOpenings: 1,
     });
+
+    //resetting the show salary range to true as by default value
+    this.jobForm.get("displaySalaryRange")?.setValue(true);
   }
 
   /*
@@ -813,6 +817,8 @@ export class CorporateJobsComponent implements OnInit {
       typeofEmployment: job.typeofEmployment,
       department: this.toTitleCase(job.department),
       status: job.status,
+      displaySalaryRange: job.displaySalaryRange
+      //resetting the show salary range to true as by default
     });
 
     // Handle Location (set for both UI and backend)

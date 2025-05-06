@@ -215,6 +215,12 @@
           <span *ngIf="isInvalid('salaryRange')" class="text-danger">
             {{ getErrorMessage('salaryRange') }}
           </span>
+
+          <!-- Show Salary Toggle -->
+          <div class="salary-toggle">
+            <input type="checkbox" id="displaySalaryRange" formControlName="displaySalaryRange" />
+            <label for="displaySalaryRange">Show salary to users</label>
+          </div>
         </div>
 
         <!-- Experience Range -->
