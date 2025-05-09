@@ -289,17 +289,19 @@ export class AdminApplicantsComponent {
   }
 
   getMatchLabel(score: number): string {
-    if (score <= 25) return 'Bad Match';
-    if (score <= 50) return 'Moderate Match';
-    if (score <= 75) return 'Good Match';
-    return 'Great Match';
+    if (score <= 30) return 'Poor Match';
+    if (score <= 50) return 'Weak Match';
+    if (score <= 69) return 'Average Match';
+    if (score <= 84) return 'Strong Match';
+    return 'Perfect Match';
   }
-  
+
   getMatchClass(score: number): string {
-    if (score <= 25) return 'bg-danger text-white';     // Red badge
-    if (score <= 50) return 'bg-warning text-dark';     // Orange badge
-    if (score <= 75) return 'bg-primary text-white';    // Blue badge
-    return 'bg-success text-white';                     // Green badge
+    if (score <= 30) return 'bg-danger text-white';       // Poor
+    if (score <= 50) return 'bg-warning text-dark';       // Weak
+    if (score <= 69) return 'bg-info text-white';         // Average
+    if (score <= 84) return 'bg-primary text-white';      // Strong
+    return 'bg-success text-white';                       // Perfect
   }
 
   onPageSizeChange(event: Event): void {
