@@ -31,7 +31,7 @@ export class ReferralRatingPopupComponent implements OnChanges {
     if (this.ratingControl.valid) {
       const reviewRatingData = {
         rating: this.ratingControl.value,
-        review: this.reviewControl.value,
+        review: this.reviewControl.value ?? "",
       };
 
       this.ratingControl.reset();

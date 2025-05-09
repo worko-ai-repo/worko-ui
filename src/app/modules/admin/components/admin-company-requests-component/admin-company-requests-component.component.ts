@@ -155,7 +155,7 @@ export class AdminCompanyRequestsComponentComponent {
     try {
       const response = await this.adminService.getCompanyRequests(this.pageSize,
         lastKey,
-        this.sortOrder.ASC,
+        this.sortOrder.DESC,
         this.searchTerm);
       if (response) {
         this.companyRequests = response.data || [];

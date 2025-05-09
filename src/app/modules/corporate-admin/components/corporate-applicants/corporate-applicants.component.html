@@ -107,7 +107,7 @@
                     </thead>
                     <tbody>
                         <tr *ngIf="filteredJobs.length === 0">
-                            <td colspan="10" class="no-jobs-message">{{ noApplicationsMessage }}</td>
+                            <td colspan="11" class="no-jobs-message">{{ noApplicationsMessage }}</td>
                         </tr>
                         <tr *ngFor="let job of filteredJobs; let i = index">
                             <td matTooltip="{{ job?.applicantDetails?.name | titlecase }}" matTooltipPosition="above"

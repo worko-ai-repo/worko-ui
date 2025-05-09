@@ -53,39 +53,70 @@
                 <table class="table-style">
                     <thead>
                         <tr>
-                            <th>Requested By</th>
+                            <th>Requester Name</th>
+                            <th>Requester Email</th>
+                            <th>Requester Phone</th>
+                            <th>Requester Type</th>
+                            <th>Referral Request Url</th>
                             <th>Company Name</th>
                             <th>Website</th>
                             <th>LinkedIn</th>
-                            <th>Career page</th>
+                            <th>Career Page</th>
                             <th>Logo</th>
                             <th>Industry</th>
-                            <th>Team size</th>
-                            <th>About company</th>
+                            <th>Team Size</th>
+                            <th>About Company</th>
                             <th>Actions</th>
                         </tr>
                     </thead>
+
                     <tbody>
                         <tr *ngIf="companyRequests.length === 0">
-                            <td colspan="10" class="no-jobs-message">{{ noApplicationsMessage }}</td>
+                            <td colspan="14" class="no-jobs-message">{{ noApplicationsMessage }}</td>
                         </tr>
 
                         <tr *ngFor="let item of companyRequests; let i = index">
-
-                            <!-- <td matTooltip="{{ item?.userEmail | lowercase }}" matTooltipPosition="above"
-                                style="cursor: pointer;">{{ item?.userEmail ? ( item.userEmail |
-                                ellipsis:20 | lowercase) : '-' }}
-                            </td> -->
+                            <td matTooltip="{{ item?.userName | titlecase }}" matTooltipPosition="above"
+                                style="cursor: pointer;">{{
+                                item?.userName ? (item.userName |
+                                ellipsis:20 | titlecase) : '-' }}
+                            </td>
 
                             <td>
-                                <span style="margin-right:30px; cursor: pointer;" matTooltip="{{ item?.userEmail | lowercase }}"
-                                    matTooltipPosition="above">{{ item?.userEmail ? ( item.userEmail |
+                                <span style="margin-right:30px; cursor: pointer;"
+                                    matTooltip="{{ item?.userEmail | lowercase }}" matTooltipPosition="above">{{
+                                    item?.userEmail ? ( item.userEmail |
                                     ellipsis:20 | lowercase) : '-' }}</span>
-                                <mat-icon *ngIf="item.userEmail" style="cursor: pointer; position: absolute; right: 10px;"
+                                <mat-icon *ngIf="item.userEmail"
+                                    style="cursor: pointer; position: absolute; right: 10px;"
                                     (click)="copyToClipboard(item.userEmail)" matTooltip="Copy Email To Clipboard"
                                     matTooltipPosition="above">
                                     {{ copiedContent === item.userEmail ? 'check' : 'content_copy' }}
                                     <!-- {{ copiedContextId === row.contextId ? 'check' : 'content_paste' }} -->
+                                </mat-icon>
+                            </td>
+
+                            <td matTooltip="{{ item?.userContactNumber }}" matTooltipPosition="above"
+                                style="cursor: pointer;">
+                                {{ item?.userContactNumber ?
+                                (item.userContactNumber) : '-' }}
+                            </td>
+
+                            <td matTooltip="{{ item?.userType }}" matTooltipPosition="above" style="cursor: pointer;">{{
+                                item?.userType ? ( item.userType |
+                                ellipsis:20 | uppercase) : '-' }}
+                            </td>
+
+                            <td>
+                                <span style="cursor: pointer;  padding-right: 2rem;">
+                                    {{item?.referralRequestUrl ? (item.referralRequestUrl | ellipsis:20 |
+                                    lowercase) : '-' }}
+                                </span>
+                                <mat-icon *ngIf="item?.referralRequestUrl"
+                                    style="cursor: pointer; position: absolute; right: 10px; color: #0274BD;"
+                                    matTooltip="View Referral Requested Link" matTooltipPosition="above"
+                                    (click)="openInNewTab(item.referralRequestUrl)">
+                                    open_in_new
                                 </mat-icon>
                             </td>
 
@@ -159,8 +190,8 @@
                                 <ng-container
                                     *ngIf="item?.companyDetail?.logo || item?.companyDetail?.logoUrl; else showDash">
                                     <ng-container *ngIf="item?.companyDetail?.logo; else useUrlLogo">
-                                        <img [src]="baseURL + '/images/' + item.companyDetail.logo"
-                                            class="company-logo" alt="logo">
+                                        <img [src]="baseURL + '/images/' + item.companyDetail.logo" class="company-logo"
+                                            alt="logo">
                                     </ng-container>
 
                                     <ng-template #useUrlLogo>
