@@ -109,13 +109,13 @@
 
                             <td>
                                 <span style="cursor: pointer;  padding-right: 2rem;">
-                                    {{item?.referralRequestUrl ? (item.referralRequestUrl | ellipsis:20 |
+                                    {{item?.jobUrl ? (item.jobUrl | ellipsis:20 |
                                     lowercase) : '-' }}
                                 </span>
-                                <mat-icon *ngIf="item?.referralRequestUrl"
+                                <mat-icon *ngIf="item?.jobUrl"
                                     style="cursor: pointer; position: absolute; right: 10px; color: #0274BD;"
                                     matTooltip="View Referral Requested Link" matTooltipPosition="above"
-                                    (click)="openInNewTab(item.referralRequestUrl)">
+                                    (click)="openInNewTab(item.jobUrl)">
                                     open_in_new
                                 </mat-icon>
                             </td>
