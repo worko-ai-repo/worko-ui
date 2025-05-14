@@ -84,3 +84,12 @@
     /* black text for options */
     font-size: 16px;
 }
+
+
+.admin-table-main .mat-sort-header-content {
+  justify-content: center;  /* center horizontally */
+  white-space: nowrap;      /* prevent line breaks */
+  gap: 4px;                 /* space between text and sort arrow */
+  display: inline-flex;     /* keep it horizontal and compact */
+  align-items: center;
+}

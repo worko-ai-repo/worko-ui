@@ -29,8 +29,8 @@ import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 import { MatPaginatorModule } from '@angular/material/paginator';
 import { MatListModule } from '@angular/material/list';
 import { MatNativeDateModule } from '@angular/material/core';
-import {MatDatepickerModule} from '@angular/material/datepicker';
-import {MatIconModule} from '@angular/material/icon';
+import { MatDatepickerModule } from '@angular/material/datepicker';
+import { MatIconModule } from '@angular/material/icon';
 import { MatAutocompleteModule } from '@angular/material/autocomplete';
 import { PublicProfileComponent } from './components/public-profile/public-profile.component';
 import { PublicSidebarComponent } from '../shared/components/public-profile/public-sidebar/public-sidebar.component';
@@ -63,6 +63,11 @@ export const routes: Routes = [
     path: '',
     component: WorkoComponent,
     children: [
+      {
+        path: '',
+        redirectTo: '/candidate/dashboard',
+        pathMatch: 'full'
+      },
       // {
       //   path: 'index',
       //   component: HomeComponent
@@ -85,8 +90,8 @@ export const routes: Routes = [
       //   component: JobCategoryComponent 
       // },
       {
-        path : 'switcher',
-        component:AccountSwitcherComponent ,canActivate:[AuthAdminGuardService]
+        path: 'switcher',
+        component: AccountSwitcherComponent, canActivate: [AuthAdminGuardService]
       },
       // {
       //   path: 'contact-us',
@@ -161,7 +166,7 @@ export const routes: Routes = [
       // {
       //   path: 'companies',
       //    component: CompaniesSectionComponent
-        
+
       // },
       // {
       //   path: 'vedioArea',
@@ -187,7 +192,7 @@ export const routes: Routes = [
       //   path : 'title',
       //   component: TitleComponent
       // },
-    
+
       // {
       //   path : 'referral-req',
       //   component: ReferralRequestComponent
@@ -217,65 +222,65 @@ export const routes: Routes = [
       //   component: FaqRefereeComponent
       // },
     ]
-  }  
+  }
 ]
 
 @NgModule({
-    providers: [],
-    declarations: [
-        WorkoComponent,
-        HomeComponent,
-        NavbarComponent,
-        ReferralGuidenceComponent,
-        CompanyListingComponent,
-        FooterComponent,
-        LoginPageComponent,
-        ReferralRequestComponent,
-        ReferralProgressBarComponent,
-        RequestGuidenceComponent,
-        // CircleChartComponent,
-        PublicProfileComponent,
-        TermsOfServiceComponent,
-        IndexComponent,
-        ContactUsComponent,
-        JobCategoryComponent,
-        AccountSwitcherComponent,
-        AboutUsComponent,
-        CorporateComponent,
-        FaqComponent,
-        PrivacyPolicyComponent,
-        RefundPolicyComponent,
-        LoginFormComponent,
-        MiniJobPortalJobListingComponent,
-        MiniJobPortalJobDescriptionComponent,
-        PageNotFoundComponent
-    ],
-    exports: [
-        NavbarComponent,
-        FooterComponent,
-    ],
-    imports: [
-        CommonModule,
-        SharedModule,
-        RouterModule.forChild(routes),
-        MatFormFieldModule,
-        MatSelectModule,
-        ReactiveFormsModule,
-        FormsModule,
-        HttpClientModule,
-        MatTooltipModule,
-        MatCardModule,
-        MatDividerModule,
-        MatProgressBarModule,
-        MatProgressSpinnerModule,
-        // SlickCarouselModule,
-        MatPaginatorModule,
-        MatDatepickerModule,
-        MatListModule,
-        MatNativeDateModule,
-        MatInputModule,
-        MatIconModule,
-        MatAutocompleteModule,
-    ]
+  providers: [],
+  declarations: [
+    WorkoComponent,
+    HomeComponent,
+    NavbarComponent,
+    ReferralGuidenceComponent,
+    CompanyListingComponent,
+    FooterComponent,
+    LoginPageComponent,
+    ReferralRequestComponent,
+    ReferralProgressBarComponent,
+    RequestGuidenceComponent,
+    // CircleChartComponent,
+    PublicProfileComponent,
+    TermsOfServiceComponent,
+    IndexComponent,
+    ContactUsComponent,
+    JobCategoryComponent,
+    AccountSwitcherComponent,
+    AboutUsComponent,
+    CorporateComponent,
+    FaqComponent,
+    PrivacyPolicyComponent,
+    RefundPolicyComponent,
+    LoginFormComponent,
+    MiniJobPortalJobListingComponent,
+    MiniJobPortalJobDescriptionComponent,
+    PageNotFoundComponent
+  ],
+  exports: [
+    NavbarComponent,
+    FooterComponent,
+  ],
+  imports: [
+    CommonModule,
+    SharedModule,
+    RouterModule.forChild(routes),
+    MatFormFieldModule,
+    MatSelectModule,
+    ReactiveFormsModule,
+    FormsModule,
+    HttpClientModule,
+    MatTooltipModule,
+    MatCardModule,
+    MatDividerModule,
+    MatProgressBarModule,
+    MatProgressSpinnerModule,
+    // SlickCarouselModule,
+    MatPaginatorModule,
+    MatDatepickerModule,
+    MatListModule,
+    MatNativeDateModule,
+    MatInputModule,
+    MatIconModule,
+    MatAutocompleteModule,
+  ]
 })
 export class WorkoModule { }

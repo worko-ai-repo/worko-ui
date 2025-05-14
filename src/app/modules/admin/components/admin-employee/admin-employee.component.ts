@@ -3,27 +3,21 @@ import {
   ChangeDetectorRef,
   ElementRef,
   ViewChild,
-  AfterViewInit,
 } from "@angular/core";
 import {
   MatPaginator,
-  MatPaginatorIntl,
-  PageEvent,
 } from "@angular/material/paginator";
 import { MatSort, Sort } from "@angular/material/sort";
 import {
   MatTableDataSource,
-  MatTableDataSourcePaginator,
 } from "@angular/material/table";
-import { ViewEncapsulation } from "@angular/core";
-import { Action } from "rxjs/internal/scheduler/Action";
 import { AdminService } from "../../services/admin.service";
 import { ModalComponent } from "src/app/modules/shared/components/modal/modal.component";
 import { ModalType } from "src/app/modules/shared/interfaces/shared.interface";
 import { NgxSpinnerService } from "ngx-spinner";
-import { Router } from "@angular/router";
 import { debounceTime, Subject } from "rxjs";
 import { ErrorHandlingService } from "src/app/modules/app-core/services/error-handling.service";
+import { DateFilterService } from "src/app/modules/shared/services/date-filter.service";
 
 export interface UserData {
   name: string;
@@ -99,12 +93,11 @@ export class AdminEmployeeComponent {
   // candidatesDataSource: any[] = []; // The data for the table
 
   constructor(
-    private router: Router,
     private cdr: ChangeDetectorRef,
-    private elementRef: ElementRef,
     private adminService: AdminService,
     private spinner: NgxSpinnerService,
-    private errorHandlingService: ErrorHandlingService
+    private errorHandlingService: ErrorHandlingService,
+    private dateFilterService: DateFilterService
   ) {
     this.candidatesDataSource = new MatTableDataSource<UserData>(
       this.nameslist
@@ -232,16 +225,28 @@ export class AdminEmployeeComponent {
     this.getAllUserData(null);
   }
 
-  ngAfterViewInit() {
-    // // Set paginator and sort for referral table
-    // this.candidatesDataSource.paginator = this.referralPaginator;
+  // ngAfterViewInit() {
+  //   // // Set paginator and sort for referral table
+  //   // this.candidatesDataSource.paginator = this.referralPaginator;
 
-    // this.referralPaginator.page.subscribe((event: PageEvent) => {
-    //   if (event.pageSize !== this.pageSize) {
-    //     this.pageSize = event.pageSize;
-    //     this.getAllUserData(null); // Call getAllReferral with updated pageSize
-    //   }
-    // });
+  //   // this.referralPaginator.page.subscribe((event: PageEvent) => {
+  //   //   if (event.pageSize !== this.pageSize) {
+  //   //     this.pageSize = event.pageSize;
+  //   //     this.getAllUserData(null); // Call getAllReferral with updated pageSize
+  //   //   }
+  //   // });
+  // }
+
+  ngAfterViewInit() {
+    this.candidatesDataSource.sort = this.sort;
+
+    this.candidatesDataSource.sortingDataAccessor = (item, property) => {
+      if (property === 'accountCreatedDate') {
+        return new Date(item.createdAt).getTime(); // returns number
+      }
+      return ''; // fallback
+    };
+
   }
 
   onPageSizeChange(event: Event): void {
@@ -340,51 +345,15 @@ export class AdminEmployeeComponent {
         this.openModal(ModalType.SUCCESS_ERROR_MESSAGE);
       });
   }
+
   applyFromDateFilters() {
-    if (this.filterModel.fromDate) {
-      const dateObject = new Date(this.filterModel.fromDate);
-      // Adjusting time so that UTC conversion in toISOString() doesn't affect the date
-      dateObject.setMinutes(
-        dateObject.getMinutes() - dateObject.getTimezoneOffset()
-      );
-      const isoString = dateObject.toISOString();
-      this.fromDate = isoString;
-    } else {
-      this.fromDate = "";
-    }
-
-    // this.initializeData();
-
-    // Use the previous lastKey if available; otherwise, start fresh
-    // const keyToUse = this.getKeyForCurrentPage();
-    // this.getAllUserData(keyToUse);
-
+    this.fromDate = this.dateFilterService.getUTCFromDate(this.filterModel.fromDate);
     this.previousKeys = [];
     this.getAllUserData(null);
   }
 
   applyToDateFilters() {
-    if (this.filterModel.toDate) {
-      const dateObject = new Date(this.filterModel.toDate);
-
-      // Set the time to 23:59:59.999 for the end of the day
-      dateObject.setHours(23, 59, 59, 999);
-
-      // Adjusting time so that UTC conversion in toISOString() doesn't affect the date
-      dateObject.setMinutes(
-        dateObject.getMinutes() - dateObject.getTimezoneOffset()
-      );
-
-      const isoString = dateObject.toISOString();
-      this.toDate = isoString;
-    } else {
-      this.toDate = "";
-    }
-
-    // Use the previous lastKey if available; otherwise, start fresh
-    // const keyToUse = this.getKeyForCurrentPage();
-    // this.getAllUserData(keyToUse);
-
+    this.toDate = this.dateFilterService.getUTCToDate(this.filterModel.toDate);
     this.previousKeys = [];
     this.getAllUserData(null);
   }

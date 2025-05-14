@@ -1,9 +1,8 @@
 import { Component } from '@angular/core';
-import { ChangeDetectorRef, ElementRef, ViewChild, AfterViewInit } from '@angular/core';
-import { MatPaginator, MatPaginatorIntl, PageEvent } from '@angular/material/paginator';
+import { ChangeDetectorRef, ElementRef, ViewChild } from '@angular/core';
+import { MatPaginator } from '@angular/material/paginator';
 import { MatSort, Sort } from '@angular/material/sort';
-import { MatTableDataSource, MatTableDataSourcePaginator } from '@angular/material/table';
-import { ViewEncapsulation } from '@angular/core';
+import { MatTableDataSource } from '@angular/material/table';
 import { AdminService } from '../../services/admin.service';
 import { NgxSpinnerService } from 'ngx-spinner';
 import { ModalComponent } from 'src/app/modules/shared/components/modal/modal.component';
@@ -11,8 +10,8 @@ import { ModalType } from 'src/app/modules/shared/interfaces/shared.interface';
 import { NgPluralCase } from '@angular/common';
 import { Router } from '@angular/router';
 import { debounceTime, Subject } from 'rxjs';
-import { MatSelectChange } from '@angular/material/select';
 import { ErrorHandlingService } from 'src/app/modules/app-core/services/error-handling.service';
+import { DateFilterService } from 'src/app/modules/shared/services/date-filter.service';
 
 export interface UserData {
   Name: string;
@@ -100,7 +99,7 @@ export class AdminReferralComponent {
   ]
   formattedJD: any;
   cvUrl: any;
-  constructor(private router: Router, private elementRef: ElementRef, private cdr: ChangeDetectorRef, private adminService: AdminService, private spinner: NgxSpinnerService, private errorHandlingService: ErrorHandlingService) {
+  constructor(private cdr: ChangeDetectorRef, private adminService: AdminService, private spinner: NgxSpinnerService, private errorHandlingService: ErrorHandlingService, private dateFilterService: DateFilterService) {
     this.candidatesDataSource = new MatTableDataSource<UserData>(this.nameslist);
     this.servicesDataSource = new MatTableDataSource<UserData>(this.nameslist);
     this.searchTerms.pipe(
@@ -178,12 +177,12 @@ export class AdminReferralComponent {
       //   this.openModal(ModalType.SUCCESS_ERROR_MESSAGE)
       // }
       this.spinner.hide();
-        this.errorHandlingService.handleApiError(error, () => {
-          this.modalSize = 'md';
-          this.successmessage = "Something went wrong. Please try again later.";
-          this.successtitle = "Error";
-          this.openModal(ModalType.SUCCESS_ERROR_MESSAGE);
-        });
+      this.errorHandlingService.handleApiError(error, () => {
+        this.modalSize = 'md';
+        this.successmessage = "Something went wrong. Please try again later.";
+        this.successtitle = "Error";
+        this.openModal(ModalType.SUCCESS_ERROR_MESSAGE);
+      });
     });
   }
 
@@ -213,52 +212,13 @@ export class AdminReferralComponent {
   }
 
   applyFromDateFilters() {
-    if (this.filterModel.fromDate) {
-      const dateObject = new Date(this.filterModel.fromDate);
-      // Adjusting time so that UTC conversion in toISOString() doesn't affect the date
-      dateObject.setMinutes(
-        dateObject.getMinutes() - dateObject.getTimezoneOffset()
-      );
-      const isoString = dateObject.toISOString();
-      this.fromDate = isoString;
-    } else {
-      this.fromDate = "";
-    }
-
-    // this.initializeData();
-
-    // Use the previous lastKey if available; otherwise, start fresh
-    // const keyToUse = this.getKeyForCurrentPage();
-    // this.getAllReferral(keyToUse);
-
+    this.fromDate = this.dateFilterService.getUTCFromDate(this.filterModel.fromDate);
     this.previousKeys = [];
     this.getAllReferral(null);
   }
 
   applyToDateFilters() {
-    if (this.filterModel.toDate) {
-      const dateObject = new Date(this.filterModel.toDate);
-
-      // Set the time to 23:59:59.999 for the end of the day
-      dateObject.setHours(23, 59, 59, 999);
-
-      // Adjusting time so that UTC conversion in toISOString() doesn't affect the date
-      dateObject.setMinutes(
-        dateObject.getMinutes() - dateObject.getTimezoneOffset()
-      );
-
-      const isoString = dateObject.toISOString();
-      this.toDate = isoString;
-    } else {
-      this.toDate = "";
-    }
-
-    // this.initializeData();
-
-    // Use the previous lastKey if available; otherwise, start fresh
-    // const keyToUse = this.getKeyForCurrentPage();
-    // this.getAllReferral(keyToUse);
-
+    this.toDate = this.dateFilterService.getUTCToDate(this.filterModel.toDate);
     this.previousKeys = [];
     this.getAllReferral(null);
   }
@@ -279,9 +239,9 @@ export class AdminReferralComponent {
     // this.lastKey = "";
     // this.sortOrder = '';
     this.fromDate = "",
-    this.toDate = "",
-    this.searchTerm = "",
-    this.searchQuery = "";
+      this.toDate = "",
+      this.searchTerm = "",
+      this.searchQuery = "";
     this.selectedStatus = "";
     //   this.referralPaginator.pageIndex = 0;  // Reset to the first page
     // this.referralPaginator.pageSize = 50;  // Update the UI's pageSize
@@ -331,7 +291,7 @@ export class AdminReferralComponent {
     this.previousKeys = [];
     this.getAllReferral(null);
   }
-  
+
   onSearchInputEnter(event: KeyboardEvent): void {
     if (event.key === 'Enter') {
       // Checking if the pressed key is Enter
