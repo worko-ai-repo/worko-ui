@@ -11,16 +11,16 @@ import { TorusGeometry } from 'three';
 
 export class AuthCoporateGuardService {
 
-  constructor(private cognitoService: CognitoService, private router: Router,private storage: StorageService) {}
+  constructor(private cognitoService: CognitoService, private router: Router, private storage: StorageService) { }
 
   canActivate(route: ActivatedRouteSnapshot, state: RouterStateSnapshot): boolean {
     const accessToken = this.cognitoService.getAccessToken();
-    const userType =this.storage.get('userType');
+    const userType = this.storage.get('userType');
     if ((accessToken) && (userType === 'Corporate')) {
-      return true
+      return true;
     } else {
-      // Redirect to login page if no access token is present
-      this.router.navigate(['/']);
+      // Navigate to the corporate login page
+      this.router.navigate(['/auth/corporate/login']);
       return false;
     }
   }

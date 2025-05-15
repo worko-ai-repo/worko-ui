@@ -1,17 +1,15 @@
 import { ChangeDetectorRef, Component, ElementRef, ViewChild, AfterViewInit } from '@angular/core';
-import { MatPaginator, MatPaginatorIntl, PageEvent } from '@angular/material/paginator';
+import { MatPaginator } from '@angular/material/paginator';
 import { MatSort, Sort } from '@angular/material/sort';
-import { MatTableDataSource, MatTableDataSourcePaginator } from '@angular/material/table';
+import { MatTableDataSource } from '@angular/material/table';
 import { ViewEncapsulation } from '@angular/core';
 import { ModalComponent } from 'src/app/modules/shared/components/modal/modal.component';
 import { ModalType } from 'src/app/modules/shared/interfaces/shared.interface';
 import { AdminService } from '../../services/admin.service';
-import { LiveAnnouncer } from '@angular/cdk/a11y';
 import { NgxSpinnerService } from 'ngx-spinner';
-import { error } from 'jquery';
-import { Router } from '@angular/router';
 import { debounceTime, Subject } from 'rxjs';
 import { ErrorHandlingService } from 'src/app/modules/app-core/services/error-handling.service';
+import { DateFilterService } from 'src/app/modules/shared/services/date-filter.service';
 
 export interface UserData {
   Name: string;
@@ -72,7 +70,6 @@ export class AdminCandidateComponent implements AfterViewInit {
   filterModel: any = {
     fromDate: '',
     toDate: ''
-
   };
   cvUrl: any;
   modalSize: string = 'md';
@@ -84,7 +81,7 @@ export class AdminCandidateComponent implements AfterViewInit {
   pageSize: number = 25; // Default page size
   pageSizeOptions: number[] = [25, 50, 100, 150];
 
-  constructor(private router: Router, private adminService: AdminService, private cdr: ChangeDetectorRef, private _liveAnnouncer: LiveAnnouncer, private spinner: NgxSpinnerService, private errorHandlingService:ErrorHandlingService) {
+  constructor(private adminService: AdminService, private cdr: ChangeDetectorRef, private spinner: NgxSpinnerService, private errorHandlingService: ErrorHandlingService, private dateFilterService: DateFilterService) {
     this.candidatesDataSource = new MatTableDataSource<UserData>(this.nameslist);
     this.servicesDataSource = new MatTableDataSource<UserData>(this.nameslist);
     this.searchTerms.pipe(
@@ -101,23 +98,35 @@ export class AdminCandidateComponent implements AfterViewInit {
 
 
 
+  // ngAfterViewInit() {
+
+  //   // Set paginator and sort for referral table
+  //   // this.candidatesDataSource.paginator = this.referralPaginator;
+  //   // // this.candidatesDataSource.sort = this.referralSort;
+  //   // this.candidatesDataSource.sort = this.sort;
+
+  //   // this.referralPaginator.page.subscribe((event: PageEvent) => {
+  //   //   if (event.pageSize !== this.pageSize) {
+  //   //     this.pageSize = event.pageSize;
+  //   //     this.getAllUserData(null); // Call getAllReferral with updated pageSize
+  //   //   }
+  //   // });
+
+  //   // // Set paginator and sort for service table
+  //   // this.servicesDataSource.paginator = this.servicePaginator;
+  //   // this.servicesDataSource.sort = this.serviceSort;
+  // }
+
   ngAfterViewInit() {
+    this.candidatesDataSource.sort = this.sort;
 
-    // Set paginator and sort for referral table
-    // this.candidatesDataSource.paginator = this.referralPaginator;
-    // // this.candidatesDataSource.sort = this.referralSort;
-    // this.candidatesDataSource.sort = this.sort;
+    this.candidatesDataSource.sortingDataAccessor = (item, property) => {
+      if (property === 'accountCreatedDate') {
+        return new Date(item.createdAt).getTime(); // returns number
+      }
+      return ''; // fallback
+    };
 
-    // this.referralPaginator.page.subscribe((event: PageEvent) => {
-    //   if (event.pageSize !== this.pageSize) {
-    //     this.pageSize = event.pageSize;
-    //     this.getAllUserData(null); // Call getAllReferral with updated pageSize
-    //   }
-    // });
-
-    // // Set paginator and sort for service table
-    // this.servicesDataSource.paginator = this.servicePaginator;
-    // this.servicesDataSource.sort = this.serviceSort;
   }
 
   async ngOnInit(): Promise<void> {
@@ -232,48 +241,13 @@ export class AdminCandidateComponent implements AfterViewInit {
   }
 
   applyFromDateFilters() {
-
-    if (this.filterModel.fromDate) {
-      const dateObject = new Date(this.filterModel.fromDate);
-      // Adjusting time so that UTC conversion in toISOString() doesn't affect the date
-      dateObject.setMinutes(dateObject.getMinutes() - dateObject.getTimezoneOffset());
-      const isoString = dateObject.toISOString();
-      this.fromDate = isoString;
-    } else {
-      this.fromDate = "";
-    }
-    // this.initializeData();
-
-    // Use the previous lastKey if available; otherwise, start fresh
-    // const keyToUse = this.getKeyForCurrentPage();
-    // this.getAllUserData(keyToUse);  //Previous working way
-
+    this.fromDate = this.dateFilterService.getUTCFromDate(this.filterModel.fromDate);
     this.previousKeys = [];
     this.getAllUserData(null);
   }
 
-
   applyToDateFilters() {
-
-    if (this.filterModel.toDate) {
-      const dateObject = new Date(this.filterModel.toDate);
-
-      // Set the time to 23:59:59.999 for the end of the day
-      dateObject.setHours(23, 59, 59, 999);
-      // Adjusting time so that UTC conversion in toISOString() doesn't affect the date
-      dateObject.setMinutes(dateObject.getMinutes() - dateObject.getTimezoneOffset());
-
-      const isoString = dateObject.toISOString();
-
-      this.toDate = isoString;
-    } else {
-      this.toDate = "";
-    }
-    // this.initializeData();
-    // Use the previous lastKey if available; otherwise, start fresh
-    // const keyToUse = this.getKeyForCurrentPage();
-    // this.getAllUserData(keyToUse); //prervious working way
-
+    this.toDate = this.dateFilterService.getUTCToDate(this.filterModel.toDate);
     this.previousKeys = [];
     this.getAllUserData(null);
   }

@@ -10,16 +10,18 @@ import { TorusGeometry } from 'three';
 })
 export class AuthAdminGuardService {
 
-  constructor(private cognitoService: CognitoService, private router: Router,private storage: StorageService) {}
+  constructor(private cognitoService: CognitoService, private router: Router, private storage: StorageService) { }
 
   canActivate(route: ActivatedRouteSnapshot, state: RouterStateSnapshot): boolean {
     const accessToken = this.cognitoService.getAccessToken();
-    const userType =this. storage.get('userType');
-    if ((accessToken) && (userType === 'Admin') ) {
+    const userType = this.storage.get('userType');
+    if ((accessToken) && (userType === 'Admin')) {
       return true
     } else {
-      // Redirect to login page if no access token is present
-      this.router.navigate(['/auth/logout']);
+      // Get current origin (e.g., https://dev-ui.worko.work)
+      const origin = window.location.origin;
+      // Redirect to /auth/login on the same domain
+      window.location.href = `${origin}/auth/login`;
       return false;
     }
   }
