@@ -241,6 +241,14 @@
                                     <i class="fa-solid fa-times"></i>
                                 </span>
 
+                                <!-- Send to Recruiter Button -->
+                                <span *ngIf="job.status === status.APPLIED && job.matchingScore < 70 
+                                && job.rejectionFeedbackBySystem && job.rejectionFeedbackBySystem !== undefined"
+                                    (click)="!job.displayToCorporate && sendApplicationToRecruiter(job.id)"
+                                    [matTooltip]="job.displayToCorporate ? 'Already sent to recruiter' : 'Send to Recruiter'"
+                                    matTooltipPosition="above" [ngStyle]="{background: '#3A8BA3', cursor: job.displayToCorporate ? 'not-allowed' : 'pointer', opacity: job.displayToCorporate ? 0.6 : 1}">
+                                    <i class="fa-solid fa-paper-plane"></i>
+                                </span>
                             </td>
                         </tr>
                     </tbody>
@@ -337,7 +345,7 @@
     </ng-container>
 
     <ng-container *ngIf="showModal === modalType.SUCCESS_ERROR_MESSAGE">
-        <app-message-modal [title]="successTitle" [message]="successMessage" (onOk)="continue()"
+        <app-message-modal [title]="successTitle" [message]="successMessage" (onOk)="continue()" (onContinue)="closeModal()"
             (onCancel)="closeModal()">
         </app-message-modal>
     </ng-container>
