@@ -15,10 +15,10 @@
           <span class="ajobs-status">
             <select name="status" [(ngModel)]="selectedStatus" class="selector form-select"
               (change)="onStatusChange($event)">
-              <option value={{status.ALL}}>All Jobs</option>
               <option value={{status.PUBLISHED}}>Published</option>
               <option value={{status.ARCHIVED}}>Archived</option>
               <option value={{status.CLOSED}}>Closed</option>
+              <option value={{status.ALL}}>All Jobs</option>
             </select>
           </span>
           <!-- <span class="ajobs-status">
