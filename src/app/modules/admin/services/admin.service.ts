@@ -20,7 +20,7 @@ export type ReferAndEarnStatusUpdatePayload =
       amountPaid: number;
       uniqueTransactionReference: string;
     };
-};
+  };
 
 
 @Injectable({
@@ -364,6 +364,12 @@ export class AdminService {
 
   updateJobApplicationStatus(jobApplicationId: string, data: any) {
     return this.http.patch(`${JOB_BASE_URL}job-application/${jobApplicationId}/corp-action`, data, this.authService.getHttpOptions()).toPromise();
+  }
+
+  displayJobApplicationToCorporate(jobApplicationId: string): Promise<any> {
+    const url = `${JOB_BASE_URL}job-application/${jobApplicationId}/display-to-corporate`;
+    const payload = { displayToCorporate: true };
+    return this.http.patch(url, payload, this.authService.getHttpOptions()).toPromise();
   }
 
   parseJD(jobDescription: object): Promise<any> {

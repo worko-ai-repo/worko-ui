@@ -157,7 +157,7 @@ export class CorporateJobsComponent implements OnInit {
   jobId: string | null = null; // Variable to store the job ID
   dataSource = new MatTableDataSource<any>(); // To store the updated data in the table
   isEditMode: boolean = false;
-  selectedStatus: string = this.status.ALL;
+  selectedStatus: string = this.status.PUBLISHED;
   selectedSortOrder: string = this.sortOrder.DESC;
   noJobsMessage: string = "No Jobs Present"; // Will be showin inside the table
   isCompanyNameValid: boolean = false;
@@ -297,7 +297,7 @@ export class CorporateJobsComponent implements OnInit {
           companyId: this.corporateVitalDetails.companyId,
           pageSize: 25,
           sortOrder: this.sortOrder.DESC,
-          jobStatus: this.status.ALL,
+          jobStatus: this.selectedStatus,
           resetPagination: true,
         });
       }
@@ -745,7 +745,7 @@ export class CorporateJobsComponent implements OnInit {
   resetBtnHandler(): void {
     /*     console.log("Reset button clicked");
      */ this.searchQuery = "";
-    this.selectedStatus = this.status.ALL;
+    this.selectedStatus = this.status.PUBLISHED;
     // this.selectedSortOrder = this.sortOrder.DESC;
     this.fetchJobs({
       jobStatus: this.selectedStatus,

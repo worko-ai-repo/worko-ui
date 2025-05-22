@@ -551,6 +551,36 @@ export class AdminApplicantsComponent {
     );
   }
 
+  async sendApplicationToRecruiter(jobApplicationId: string): Promise<any> {
+    this.spinner.show(); // Show spinner at the start
+
+    try {
+      // Call the service method
+      const response = await this.adminService.displayJobApplicationToCorporate(jobApplicationId);
+
+      if (response) {
+        // Refresh job application listing using pagination key if needed
+        const keyToUse = this.getKeyForCurrentPage();
+        await this.getAllJobApplications(keyToUse);
+
+        // success message modal
+        this.successMessage = "Job application has been sent to recruiter successfully.";
+        this.successTitle = "Success!";
+        this.openModal(ModalType.SUCCESS_ERROR_MESSAGE);
+
+        // return response;
+      } else {
+        throw new Error("No response received from server.");
+      }
+    } catch (error) {
+      this.successMessage = "Something went wrong. Please try again later.";
+      this.successTitle = "Error";
+      this.openModal(ModalType.SUCCESS_ERROR_MESSAGE);
+    } finally {
+      this.spinner.hide(); // Always hide spinner
+    }
+  }
+
   async updateJobApplicationStatus(
     jobApplicationId: string,
     newStatus: string,
