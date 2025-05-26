@@ -188,7 +188,7 @@ export class AdminJobsComponent implements OnInit {
   copiedContextId: any;
   skillsTooltipMessage = "Type a skill and press Enter to add it to the list. Maximum length is 30 characters.";
   rangeExpToolTipMessage = "Enter minimum and maximum values in (Years). Maximum Experience range is 30 Years";
-  rangeSalToolTipMessage = "Enter minimum and maximum values in (Lakhs). Maximum Salary range is 100L";
+  rangeSalToolTipMessage = "Enter minimum and maximum values in (Lakhs). Maximum Salary range is 1000L";
 
   // Warning Message
   operationType = "";
@@ -237,7 +237,7 @@ export class AdminJobsComponent implements OnInit {
           min: [null, [Validators.required, Validators.min(0)]],
           max: [null, [Validators.required, Validators.min(0)]],
         },
-        { validators: minMaxValidator(100) }
+        { validators: minMaxValidator(1000) }
       ),
       displaySalaryRange: [true],
       softSkills: this.fb.array([], [Validators.required]),
