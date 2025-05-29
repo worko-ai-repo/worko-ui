@@ -458,13 +458,10 @@ export class AdminService {
     linkedIn: string;
     logoUrl: string;
     logo: string;
-    aboutCompany: string; // New field
+    aboutCompany: string;
+    website: string;
   }): Promise<any> {
     const url = `${API_URL}company/`;
-
-    // Ensure mandatory empty strings if not provided
-    companyData.logoUrl = companyData.logoUrl || "";
-    companyData.logo = companyData.logo || "";
 
     return this.http.post(url, companyData, this.authService.getHttpOptions()).toPromise();
   }
@@ -477,6 +474,16 @@ export class AdminService {
     };
 
     return this.http.put(url, payload, this.authService.getHttpOptions()).toPromise();
+  }
+
+  getCompanyLogoPresignedUrl(data: { companyLogoFileName: string, companyLogoFileMimeType: string }): Promise<any> {
+    const url = `${API_URL}file/gsu2u/COMPANY_LOGO`;
+    return this.http.post(url, data, this.authService.getHttpOptions()).toPromise();
+  }
+
+  updateCompanyLogo(companyId: string, payload: { companyLogoCloudFileName: string }): Promise<any> {
+    const url = `${API_URL}company/${companyId}/company-logo`;
+    return this.http.patch(url, payload, this.authService.getHttpOptions()).toPromise();
   }
 
   deleteCompany(companyId: string): Promise<any> {
@@ -521,7 +528,7 @@ export class AdminService {
     return this.http.post(`${API_URL}corporate-bulk-jd/${id}/resumes`, { bulkCvs }, this.authService.getHttpOptions()).toPromise();
   }
 
-  uploadResumeToS3(url: string, file: File, awsS3Tag?: string): Promise<any> {
+  uploadFileToS3(url: string, file: File, awsS3Tag?: string): Promise<any> {
     const httpOptions = this.authService.getHttpOptions(false, {
       awsS3Tag: awsS3Tag,
       fileType: file.type

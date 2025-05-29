@@ -48,52 +48,6 @@
                                 </span>
                             </div>
                         </div>
-                        <div class="row">
-                            <!-- <div class="col-md-6 mb-3">
-                                <label for="logo" class="required-form-field form-label">Logo</label>
-                                <input id="logo" type="file" class="form-control" formControlName="logo"
-                                    accept="image/*" [ngClass]="{ 'is-invalid': isInvalid('logo') }" />
-                                <span *ngIf="isInvalid('logo')" class="text-danger">
-                                    {{ getErrorMessage('logo') }}
-                                </span>
-                            </div> -->
-
-                            <div class="col-md-6 mb-3">
-                                <label for="logo" class="required-form-field form-label">Logo</label>
-
-                                <div class="d-flex gap-2">
-                                    <!-- Text Input for Displaying File Name -->
-                                    <div class="input-group">
-                                        <input id="logoFileName" type="text" class="form-control" formControlName="logo"
-                                            placeholder="Choose a file" readonly
-                                            [ngClass]="{ 'is-invalid': isInvalid('logo') }" />
-                                    </div>
-
-                                    <button type="button" class="browse-btn"
-                                        (click)="triggerFileInput()">Browse</button>
-
-                                </div>
-
-
-                                <!-- Hidden File Input (Opens when button is clicked) -->
-                                <input #hiddenFileInput type="file" class="d-none" accept="image/*"
-                                    (change)="onFileSelect($event)" />
-
-                                <span *ngIf="isInvalid('logo')" class="text-danger">
-                                    {{ getErrorMessage('logo') }}
-                                </span>
-                            </div>
-
-                            <div class="col-md-6 mb-3">
-                                <label for="logoUrl" class="form-label">Logo URL</label>
-                                <input id="logoUrl" type="url" class="form-control" formControlName="logoUrl"
-                                    placeholder="Enter logo URL" [ngClass]="{ 'is-invalid': isInvalid('logoUrl') }" />
-                                <span *ngIf="isInvalid('logoUrl')" class="text-danger">
-                                    {{ getErrorMessage('logoUrl') }}
-                                </span>
-                            </div>
-
-                        </div>
                         <!-- <div class="row">
                             <div class="col-md-6 mb-3">
                                 <label for="teamSize" class="required-form-field form-label">Team Size</label>
@@ -137,6 +91,44 @@
                             </div>
                         </div>
 
+                        <div class="row">
+                            <!-- <div class="col-md-6 mb-3">
+                                <label for="logo" class="required-form-field form-label">Logo</label>
+                                <input id="logo" type="file" class="form-control" formControlName="logo"
+                                    accept="image/*" [ngClass]="{ 'is-invalid': isInvalid('logo') }" />
+                                <span *ngIf="isInvalid('logo')" class="text-danger">
+                                    {{ getErrorMessage('logo') }}
+                                </span>
+                            </div> -->
+
+                            <div class="col-md-6 mb-3">
+                                <label for="logoInput" class="required-form-field form-label">Logo</label>
+
+                                <div class="d-flex gap-2">
+                                    <!-- Text Input for Displaying File Name -->
+                                    <div class="input-group">
+                                        <input id="logoFileName" type="text" class="form-control" [value]="logoFileName"
+                                            readonly [ngClass]="{ 'is-invalid': logoError }"
+                                            placeholder="Choose a file" />
+                                    </div>
+
+                                    <!-- Browse Button triggers file input -->
+                                    <button type="button" class="browse-btn"
+                                        (click)="triggerFileInput()">Browse</button>
+                                </div>
+
+
+                                <!-- Hidden File Input (Opens when browse button is clicked) -->
+                                <input #hiddenFileInput id="logoInput" type="file" class="d-none" accept="image/*"
+                                    (change)="onFileSelect($event)" />
+
+                                <span *ngIf="logoError" class="text-danger">
+                                    {{ logoError }}
+                                </span>
+                            </div>
+
+                        </div>
+
 
                         <!-- <div class="row">
                             <div class="col-12 mb-3">
@@ -162,8 +154,7 @@
                                 </span>
 
                                 <div formControlName="aboutCompany" [ngxSummernote]="ngxSummerConfig"
-                                    class="ajobDesc-rte_editor"
-                                    [ngClass]="{ 'is-invalid': isInvalid('aboutCompany') }">
+                                    class="ajobDesc-rte_editor" [ngClass]="{ 'is-invalid': isInvalid('aboutCompany') }">
                                 </div>
 
                                 <span *ngIf="isInvalid('aboutCompany')" class="text-danger">
@@ -173,7 +164,7 @@
                         </div>
 
                         <div class="d-flex justify-content-end">
-                            <button type="submit" class="ps-4 pe-4 btn searchButton" [disabled]="companyForm.invalid">
+                            <button type="submit" class="ps-4 pe-4 btn searchButton" [disabled]="companyForm.invalid || !!logoError || !logoFileName">
                                 {{ getButtonLabel() }}
                             </button>
                         </div>

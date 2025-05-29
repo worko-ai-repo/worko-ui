@@ -244,7 +244,7 @@ export class AdminCompanyListingComponent {
       const response: any = await this.adminService.getCompanyList(
         this.pageSize,
         lastKey,
-        this.sortOrder.ASC,
+        this.sortOrder.DESC,
         this.searchTerm,
         this.selectedIndustry
       );
@@ -334,53 +334,83 @@ export class AdminCompanyListingComponent {
     }
   }
 
-  async handleCompanySubmission(event: { action: string, data: any }) {
+  async handleCompanySubmission(event: { action: string, data: any, logoFile?: File }) {
     this.closeModal();
-    this.spinner.show(); // Show loading spinner
+    this.spinner.show();
+
+    let companyId: string | null = null;
+    let logoUploadFailed = false;
 
     try {
+      let response: any;
+
+      // 1. CREATE or UPDATE COMPANY
       if (event.action === 'edit') {
-        // console.log("Calling API to update company...", event.data);
-
-        // Ensure the companyId is extracted properly
-        // const companyId = this.actionOnCompany.SK?.startsWith("ID#") ? event.data.SK.slice(3) : "";
-        const companyId = this.actionOnCompany.SK?.startsWith("ID#") ? this.actionOnCompany.SK.slice(3) : "";
-
+        companyId = this.actionOnCompany.SK?.startsWith("ID#")
+          ? this.actionOnCompany.SK.slice(3)
+          : null;
 
         if (!companyId) {
-          console.error("Invalid company ID. Update aborted.");
           this.showErrorMessage("Something went wrong. Unable to update the company.");
           return;
         }
 
-        const response = await this.adminService.updateCompany(companyId, event.data, false);
-
-        if (response) {
-          this.showSuccessMessage("Company updated successfully.");
-          // Use the previous lastKey if available; otherwise, start fresh
-          const keyToUse = this.getKeyForCurrentPage();
-          await this.getAllCompany(keyToUse);
-        }
+        response = await this.adminService.updateCompany(companyId, event.data, false);
       } else {
-        // console.log("Calling API to create new company...", event.data);
+        response = await this.adminService.createCompany(event.data);
+        companyId = response?.id;
 
-        const response = await this.adminService.createCompany(event.data);
-
-        if (response) {
-          this.showSuccessMessage("Company created successfully.");
-          await this.getAllCompany(null); // Refresh company list
+        if (!companyId) {
+          this.showErrorMessage("Company created but missing ID. Cannot upload logo.");
         }
       }
+
+      // 2. OPTIONAL: LOGO UPLOAD FLOW
+      if (event.logoFile && companyId) {
+        const logoFile = event.logoFile;
+
+        try {
+          // 2a. Get pre-signed URL
+          const uploadMetadata = await this.adminService.getCompanyLogoPresignedUrl({
+            companyLogoFileName: logoFile.name,
+            companyLogoFileMimeType: logoFile.type
+          });
+
+          // 2b. Upload to S3
+          await this.adminService.uploadFileToS3(uploadMetadata.awsS3SignedUrl, logoFile);
+
+          // 2c. Save logo reference to backend
+          await this.adminService.updateCompanyLogo(companyId, {
+            companyLogoCloudFileName: uploadMetadata.cloudFileName
+          });
+
+        } catch (logoError) {
+          logoUploadFailed = true;
+          console.error("Logo Upload Error:", logoError);
+        }
+      }
+
+      // Final combined message
+      let successMsg = `Company ${event.action === 'edit' ? 'updated' : 'created'} successfully.`;
+      if (logoUploadFailed) {
+        successMsg += ` However, logo upload failed. You can update the logo later.`;
+      }
+      this.showSuccessMessage(successMsg);
+
+      // Use lastKey only for edit, fresh fetch when company is newly added
+      const keyToUse = event.action === 'edit' ? this.getKeyForCurrentPage() : null;
+      await this.getAllCompany(keyToUse);
+
     } catch (error: any) {
-      // this.handleApiError(error);
+      console.error("Company Create/Update Error:", error);
       this.errorHandlingService.handleApiError(error, () => {
-        this.showErrorMessage("Something went wrong. Please try again later.");
+        this.showErrorMessage("Something went wrong. Please try again.");
       });
     } finally {
-      this.spinner.hide(); // Hide loading spinner
-      // this.closeModal(); // Close modal after submission
+      this.spinner.hide();
     }
   }
+
 
   showSuccessMessage(message: string) {
     this.modalSize = 'sm';
