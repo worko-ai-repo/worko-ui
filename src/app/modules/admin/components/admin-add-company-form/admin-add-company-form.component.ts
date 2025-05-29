@@ -33,7 +33,10 @@ export class AdminAddCompanyFormComponent {
   };
 
   companyForm: FormGroup;
+
   logoFileName: string = ''; // Store file name
+  selectedLogoFile: File | null = null;
+  logoError: string | null = null;
 
   teamSizeOptions: any = [
     {
@@ -173,11 +176,9 @@ export class AdminAddCompanyFormComponent {
       website: ['', [Validators.pattern(/https?:\/\/.+/)]],
       linkedIn: ['', [Validators.required, Validators.pattern(/^(https?:\/\/((www|[in]{2})\.)?linkedin\.com\/(company\/[a-zA-Z0-9_\-&]+|in\/[a-zA-Z0-9-]+)\/?)$/)]],
       carrierPage: ['', [Validators.required, Validators.pattern(/https?:\/\/.+/)]],
-      logo: ['', Validators.required],
       industry: ['', Validators.required],
       teamSize: ['', [Validators.required, Validators.min(1)]], // Ensure number input with min value,
       aboutCompany: ['', [Validators.minLength(100)]],
-      logoUrl: ['', Validators.pattern(/https?:\/\/.+/)] // Optional, but must be a valid URL if provided
     });
   }
 
@@ -194,15 +195,6 @@ export class AdminAddCompanyFormComponent {
       } else {
         this.companyForm.reset();  // Clear form when no company data is provided
       }
-    }
-  }
-
-
-  onFileSelect(event: any) {
-    if (event.target.files.length > 0) {
-      const file = event.target.files[0];
-      this.logoFileName = file.name; // Store only the file name
-      this.companyForm.patchValue({ logo: file.name });
     }
   }
 
@@ -238,13 +230,46 @@ export class AdminAddCompanyFormComponent {
       industry: matchedIndustry ? matchedIndustry.value : '', // Match value from options,
       teamSize: company.teamSize || '',
       aboutCompany: company.aboutCompany || '',
-      logo: company.logo || '' // Store only file name
     });
+
+    this.logoFileName = company.logo || "";
   }
 
   /** Opens the hidden file input */
   triggerFileInput() {
     this.fileInput.nativeElement.click();
+  }
+
+  onFileSelect(event: Event) {
+    const inputElement = event.target as HTMLInputElement;
+
+    if (inputElement && inputElement.files && inputElement.files.length > 0) {
+      const file = inputElement.files[0];
+
+      // Only accept valid image types
+      const validImageTypes = ['image/jpeg', 'image/jpg', 'image/png'];
+      if (!validImageTypes.includes(file.type)) {
+        this.logoError = 'Only JPG and PNG image formats are allowed.';
+        this.clearLogo();
+        return;
+      }
+
+      // Check file size
+      if (file.size > 5 * 1024 * 1024) {
+        this.logoError = 'File size must be less than 5MB.';
+        this.clearLogo();
+        return;
+      }
+
+      this.selectedLogoFile = file;
+      this.logoFileName = file.name;
+      this.logoError = null;
+    }
+  }
+
+  clearLogo() {
+    this.selectedLogoFile = null;
+    this.logoFileName = '';
   }
 
 
@@ -291,29 +316,28 @@ export class AdminAddCompanyFormComponent {
   // }
 
   onSubmit() {
-    if (this.companyForm.valid) {
+    if (this.companyForm.valid && !this.logoError) {
       let companyData = this.companyForm.value;
 
       // Ensuring optional fields are sent as empty strings if not provided
       companyData.website = companyData.website || "";
-      companyData.logoUrl = companyData.logoUrl || "";
       companyData.aboutCompany = companyData.aboutCompany || "";
-      companyData.logo = this.companyForm.get('logo')?.value || "";
 
-      // console.log("Final Form Data:", companyData);
-
-      // Emit data to parent
-      this.formSubmitted.emit({
-        // action: this.companyData ? "update" : "create",
+      const payload: any = {
         action: this.actionType,
         data: companyData
-      });
+      };
 
+      if (this.selectedLogoFile) {
+        payload.logoFile = this.selectedLogoFile;
+      }
 
+      this.formSubmitted.emit(payload);
     } else {
-      console.error('Form is invalid');
+      console.error('Form is invalid or logo not selected');
     }
   }
+
 
   getButtonLabel(): string {
     switch (this.actionType) {

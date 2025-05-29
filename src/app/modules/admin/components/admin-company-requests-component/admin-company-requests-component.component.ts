@@ -249,43 +249,75 @@ export class AdminCompanyRequestsComponentComponent {
    * Handles updating a company request.
    */
 
-  async handleCompanySubmission(event: { action: string, data: any }) {
+  async handleCompanySubmission(event: { action: string, data: any, logoFile?: File }) {
     this.closeModal();
     this.spinner.show(); // Show loading spinner
 
+    let logoUploadFailed = false;
+
     try {
       if (event.action === 'approve') {
-
-        // Ensuring the companyId is extracted properly
-        // const companyId = this.actionOnCompany.SK?.startsWith("ID#") ? event.data.SK.slice(3) : "";
-        // const companyId = this.actionOnCompany.SK?.startsWith("ID#") ? this.actionOnCompany.SK.slice(3) : "";
         const companyId = this.actionOnCompany.companyId || "";
 
         if (!companyId) {
-          console.error("Invalid company ID. approve aborted.");
+          console.error("Invalid company ID. Approval aborted.");
           this.showErrorMessage("Something went wrong. Unable to approve the company.");
           return;
         }
 
+        // 1. Approve company
         const response = await this.adminService.updateCompany(companyId, event.data, true);
 
-        // debugger;
-
-        if (response) {
-          this.showSuccessMessage("Company request approved successfully.");
-          // Use the previous lastKey if available; otherwise, start fresh
-          const keyToUse = this.getKeyForCurrentPage();
-          await this.getAllCompanyRequests(keyToUse);
+        if (!response) {
+          this.showErrorMessage("Company approval failed. Please try again.");
+          return;
         }
+
+        // LOGO UPLOAD FLOW
+        if (event.logoFile) {
+          const logoFile = event.logoFile;
+
+          try {
+            // 2a. Get pre-signed URL
+            const uploadMetadata = await this.adminService.getCompanyLogoPresignedUrl({
+              companyLogoFileName: logoFile.name,
+              companyLogoFileMimeType: logoFile.type
+            });
+
+            // 2b. Upload to S3
+            await this.adminService.uploadFileToS3(uploadMetadata.awsS3SignedUrl, logoFile);
+
+            // 2c. Save logo reference to backend
+            await this.adminService.updateCompanyLogo(companyId, {
+              companyLogoCloudFileName: uploadMetadata.cloudFileName
+            });
+
+          } catch (logoError) {
+            logoUploadFailed = true;
+            console.error("Logo Upload Error:", logoError);
+          }
+        }
+
+        // 3. Final user message
+        if (logoUploadFailed) {
+          this.showSuccessMessage("Company approved, but logo upload failed. You can update the logo later.");
+        } else {
+          this.showSuccessMessage("Company approved successfully.");
+        }
+
+        // 4. Refresh list
+        const keyToUse = this.getKeyForCurrentPage();
+        await this.getAllCompanyRequests(keyToUse);
+
+      } else {
+        console.warn(`Unhandled action type: ${event.action}`);
       }
     } catch (error: any) {
-      // this.handleApiError(error);
       this.errorHandlingService.handleApiError(error, () => {
-        this.showErrorMessage("Something went wrong. Please try again later.");
+        this.showErrorMessage("Something went wrong while approving the company.");
       });
-    }
-    finally {
-      this.spinner.hide(); // Hide loading spinner
+    } finally {
+      this.spinner.hide();
     }
   }
 

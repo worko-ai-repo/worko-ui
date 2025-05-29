@@ -220,7 +220,7 @@ export class AdminResumeScreenerPageComponent {
       // Step 3: Upload files to S3 using signed URLs
       const s3UploadPromises = uploadResponse.bulkCvs.map((fileData: any, index: number) => {
         const file = this.uploadedFiles[index];
-        return this.adminService.uploadResumeToS3(fileData.awsS3SignedUrl, file);
+        return this.adminService.uploadFileToS3(fileData.awsS3SignedUrl, file);
       });
 
       await Promise.all(s3UploadPromises);
@@ -243,7 +243,7 @@ export class AdminResumeScreenerPageComponent {
 
       for (const [index, fileData] of bulkCvs.entries()) {
         const file = this.uploadedFiles[index];
-        await this.adminService.uploadResumeToS3(fileData.awsS3SignedUrl, file);
+        await this.adminService.uploadFileToS3(fileData.awsS3SignedUrl, file);
         // console.log(`${file.name} uploaded successfully.`);
       }
       // console.log('All resumes uploaded.');
