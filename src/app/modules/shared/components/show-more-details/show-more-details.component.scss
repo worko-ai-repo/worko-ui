@@ -105,4 +105,63 @@ ngb-rating {
     width: 40%;
   }
 
+  .timeline-container {
+    max-height: 450px;
+    overflow-y: auto;
+    padding: 20px;
+    background: transparent;
+  }
+
+  .timeline {
+    position: relative;
+    margin-left: 20px;
+    padding-left: 20px;
+    border-left: 2px solid #2371CB;
+  }
+
+  .timeline-item {
+    position: relative;
+    margin-bottom: 25px;
+  }
+
+  .timeline-marker {
+    position: absolute;
+    left: -27px;
+    /* Aligns with vertical line */
+    top: 8px;
+    /* Aligns vertically with heading */
+    width: 14px;
+    height: 14px;
+    background-color: #2371CB;
+    border: 2px solid white;
+    border-radius: 50%;
+    z-index: 1;
+  }
+
+  .timeline-content {
+    background: rgba(255, 255, 255, 0.05);
+    padding: 8px 16px;
+    border-radius: 8px;
+    color: white;
+    margin-left: 10px;
+    /* slight space between line and content */
+  }
+
+  .timeline-heading {
+    margin: 0 0 6px;
+    font-size: 16px;
+    font-weight: 600;
+    color: #ffffff;
+  }
+
+  .timeline-detail {
+    margin: 0;
+    font-size: 14px;
+    color: #cdd6e0;
+    line-height: 1.5;
+  }
+
+
+
+
 }

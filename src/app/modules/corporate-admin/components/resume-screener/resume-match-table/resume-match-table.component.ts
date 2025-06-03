@@ -8,6 +8,7 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { CorporateService } from '../../../services/corporate.service';
 import { NgxSpinnerService } from 'ngx-spinner';
 import { StorageService } from 'src/app/modules/app-core/services/storage.service';
+import { ViewDetailsService } from 'src/app/modules/shared/services/view-details.service';
 
 export interface CorporateVitalDetails {
   cognitoUserId?: string;
@@ -121,7 +122,7 @@ export class ResumeMatchTableComponent {
 
   bulkJdDetails: any; // To store the fetched JD details
 
-  constructor(private router: Router, private fb: FormBuilder, private corporateService: CorporateService, private spinner: NgxSpinnerService, private cdr: ChangeDetectorRef, private sanitizer: DomSanitizer, private route: ActivatedRoute, private storage: StorageService) {
+  constructor(private router: Router, private fb: FormBuilder, private corporateService: CorporateService, private spinner: NgxSpinnerService, private cdr: ChangeDetectorRef, private sanitizer: DomSanitizer, private route: ActivatedRoute, private storage: StorageService, private viewDetailsService: ViewDetailsService) {
     this.searchTerms.pipe(
       debounceTime(300), // Adjust the debounce time as needed (300 milliseconds in this example)
       //distinctUntilChanged()
@@ -701,14 +702,10 @@ export class ResumeMatchTableComponent {
   }
 
   viewDetails(cv: any) {
-    if (!cv) {
-      console.error("Invalid input: cv is null or undefined");
-      return;
-    }
+    const details = this.viewDetailsService.getScoreDetails(cv);
+    if (!details) return;
 
-    const THRESHOLD_SCORE = 70;
-
-    this.scoreDetails = cv.matchingScore >= THRESHOLD_SCORE ? cv.scoreDetails : cv.rejectionFeedbackBySystem;
+    this.scoreDetails = details;
 
     this.detailedAnalysisModalSize = true;
     this.openModal(ModalType.SHOW_MORE_DETAILS);

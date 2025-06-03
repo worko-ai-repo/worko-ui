@@ -8,7 +8,17 @@
 
         <div class="mt-5" style="width: 100%;">
           <div *ngIf="details" style="display: flex; justify-content: center;">
-            <div [innerHTML]="details" class="white-text"></div>
+
+            <div class="timeline">
+              <div class="timeline-item" *ngFor="let point of scorePoints; let i = index">
+                <div class="timeline-marker"></div>
+                <div class="timeline-content">
+                  <h5 class="timeline-heading">{{ i + 1 }}. {{ point.heading }}</h5>
+                  <p class="timeline-detail" *ngIf="point.detail">{{ point.detail }}</p>
+                </div>
+              </div>
+            </div>
+            
           </div>
         </div>
 

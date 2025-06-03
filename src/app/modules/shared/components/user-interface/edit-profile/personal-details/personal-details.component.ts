@@ -78,43 +78,43 @@ export class PersonalDetailsComponent implements OnInit {
 
   constructor(private authService: AuthService, private elRef: ElementRef, private cdr: ChangeDetectorRef) { }
   ngOnInit(): void {
-  //   this.filteredOptions = this.myControl.valueChanges.pipe(
-  //     debounceTime(300),
-  //     distinctUntilChanged(),
-  //     switchMap((value: any) => {
-  //       if (value && value.length >= 1) {
-  //         return this.authService.getCompanyName(value);
-  //       } else {
-  //         // If value.length is less than 1, return an empty array or null
-  //         return [];
-  //       }
-  //     })
+    //   this.filteredOptions = this.myControl.valueChanges.pipe(
+    //     debounceTime(300),
+    //     distinctUntilChanged(),
+    //     switchMap((value: any) => {
+    //       if (value && value.length >= 1) {
+    //         return this.authService.getCompanyName(value);
+    //       } else {
+    //         // If value.length is less than 1, return an empty array or null
+    //         return [];
+    //       }
+    //     })
 
-  //   );
+    //   );
 
-  this.filteredOptions = this.myControl.valueChanges.pipe(
-    debounceTime(300),
-    distinctUntilChanged(),
-    switchMap((value: any) => {
-      if (value && value.length >= 1) {
-        return this.authService.getCompanyName(value).pipe(
-          map((response: any) => {
-            const results = Array.isArray(response.data) ? response.data : []; // Ensure results is an array
-  
-            return results.map((company: any)=> ({
-              id: company.SK, // Remove the 'ID#' prefix from SK
-              name: company.name
-            }));
-          })
-        );
-      } else {
-        return [];
-      }
-    })
-  );
-  
+    this.filteredOptions = this.myControl.valueChanges.pipe(
+      debounceTime(300),
+      distinctUntilChanged(),
+      switchMap((value: any) => {
+        if (value && value.length >= 1) {
+          return this.authService.getCompanyName(value).pipe(
+            map((response: any) => {
+              const results = Array.isArray(response.data) ? response.data : []; // Ensure results is an array
+
+              return results.map((company: any) => ({
+                id: company.SK, // Remove the 'ID#' prefix from SK
+                name: company.name
+              }));
+            })
+          );
+        } else {
+          return [];
+        }
+      })
+    );
+
   }
-   
+
 
   focusInput(): void {
     this.softSkillInput.nativeElement.focus();
@@ -144,7 +144,7 @@ export class PersonalDetailsComponent implements OnInit {
       // this.companySK ="";
       return option;
     } else if (typeof option === 'object' && option.name) {
-    
+
       this.companyName = option.name;
       this.companySK = option.id;
       return option.name;
@@ -156,11 +156,11 @@ export class PersonalDetailsComponent implements OnInit {
   ngOnChanges(changes: SimpleChanges): void {
 
     if (this.candidateProfessionalDetails?.ctc && this.candidatePersonalDetails?.ectc && this.candidatePersonalDetails?.department &&
-      this.candidateProfessionalDetails?.desigination 
+      this.candidateProfessionalDetails?.desigination
     ) {
-      this.isDisabled=true
+      this.isDisabled = true
     } else if (this.candidateProfessionalDetails.isCandidateFresher) {
-      this.isDisabled=false
+      this.isDisabled = false
     }
     else {
       this.getData();
@@ -196,8 +196,8 @@ export class PersonalDetailsComponent implements OnInit {
 
   // function to check if all required fields are filled to disable the fresher checkbox
   checkIfDisabled(): void {
-   
-    if (this.candidateProfessionalDetails.companyName && this.candidateProfessionalDetails.designation && this.candidateProfessionalDetails.department && 
+
+    if (this.candidateProfessionalDetails.companyName && this.candidateProfessionalDetails.designation && this.candidateProfessionalDetails.department &&
       this.candidateProfessionalDetails.ctc && this.candidateProfessionalDetails.ectc) {
       this.isDisabled = true;
     }
@@ -205,10 +205,10 @@ export class PersonalDetailsComponent implements OnInit {
 
   userFresher(): void {
     // Check if the checkbox should be disabled before toggling fresher status
-  
+
     this.checkIfDisabled();
     if (!this.isDisabled) {
-      this.candidateProfessionalDetails.isCandidateFresher = 
+      this.candidateProfessionalDetails.isCandidateFresher =
         !this.candidateProfessionalDetails.isCandidateFresher;
     }
   }
@@ -453,25 +453,17 @@ export class PersonalDetailsComponent implements OnInit {
       this.candidateProfessionalDetails.coreSkillList = [];
     }
     if (this.coreSkill && this.skillYears) {
-      if (this.candidateProfessionalDetails.coreSkillList.length < 10) {
-        // Create a new achievement object
-        const newCoreSkill = {
-          skillName: this.coreSkill,
-          years: this.skillYears
-        };
-        // Push the new achievement object to the achievements array
-        this.candidateProfessionalDetails.coreSkillList.push(newCoreSkill);
+      // Create a new achievement object
+      const newCoreSkill = {
+        skillName: this.coreSkill,
+        years: this.skillYears
+      };
+      // Push the new achievement object to the achievements array
+      this.candidateProfessionalDetails.coreSkillList.push(newCoreSkill);
 
-        // Clear the input fields
-        this.coreSkill = '';
-        this.skillYears = '';
-      } else {
-        // Alert or handle the case where the limit is reached
-        //console.error('Cannot add more than 10 certificates.');
-        this.successmessage = "you cannot add more than 10 core skils."
-        this.successtitle = "Error"
-        this.openModal(ModalType.SUCCESS_MESSAGE)
-      }
+      // Clear the input fields
+      this.coreSkill = '';
+      this.skillYears = '';
     }
   }
 

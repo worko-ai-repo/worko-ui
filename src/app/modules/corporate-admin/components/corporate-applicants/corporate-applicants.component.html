@@ -138,7 +138,7 @@
 
                             <td>
                                 <ng-container *ngIf="job?.scoreDetails; else noData">
-                                    <p class="detailed-analysis-btn" (click)="viewDetails(job?.scoreDetails)">View
+                                    <p class="detailed-analysis-btn" (click)="viewDetails(job)">View
                                         Detailed Analysis</p>
                                 </ng-container>
                                 <ng-template #noData>-</ng-template>
