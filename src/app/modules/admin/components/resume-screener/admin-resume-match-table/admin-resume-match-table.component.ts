@@ -9,6 +9,7 @@ import { StorageService } from 'src/app/modules/app-core/services/storage.servic
 import { CorporateService } from 'src/app/modules/corporate-admin/services/corporate.service';
 import { ModalComponent } from 'src/app/modules/shared/components/modal/modal.component';
 import { ModalType } from 'src/app/modules/shared/interfaces/shared.interface';
+import { ViewDetailsService } from 'src/app/modules/shared/services/view-details.service';
 
 
 @Component({
@@ -117,7 +118,7 @@ export class AdminResumeMatchTableComponent {
 
 
 
-  constructor(private router: Router, private fb: FormBuilder, private corporateService: CorporateService, private spinner: NgxSpinnerService, private cdr: ChangeDetectorRef, private sanitizer: DomSanitizer, private route: ActivatedRoute, private storage: StorageService, private errorHandlingService: ErrorHandlingService) {
+  constructor(private router: Router, private fb: FormBuilder, private corporateService: CorporateService, private spinner: NgxSpinnerService, private cdr: ChangeDetectorRef, private sanitizer: DomSanitizer, private route: ActivatedRoute, private storage: StorageService, private errorHandlingService: ErrorHandlingService, private viewDetailsService: ViewDetailsService) {
     this.searchTerms.pipe(
       debounceTime(300), // Adjust the debounce time as needed (300 milliseconds in this example)
       //distinctUntilChanged()
@@ -659,13 +660,10 @@ export class AdminResumeMatchTableComponent {
   }
 
   viewDetails(cv: any) {
-    if (!cv) {
-      console.error("Invalid input: cv is null or undefined");
-      return;
-    }
-    const THRESHOLD_SCORE = 70;
+    const details = this.viewDetailsService.getScoreDetails(cv);
+    if (!details) return;
 
-    this.scoreDetails = cv.matchingScore >= THRESHOLD_SCORE ? cv.scoreDetails : cv.rejectionFeedbackBySystem;
+    this.scoreDetails = details;
 
     this.detailedAnalysisModalSize = true;
     this.openModal(ModalType.SHOW_MORE_DETAILS);

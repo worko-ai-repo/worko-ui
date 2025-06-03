@@ -12,6 +12,7 @@ import { MatTableDataSource } from '@angular/material/table';
 import { ErrorHandlingService } from 'src/app/modules/app-core/services/error-handling.service';
 import { DatePipe } from '@angular/common';
 import { SortOrder } from 'src/app/modules/shared/types/sort-order.type';
+import { ViewDetailsService } from 'src/app/modules/shared/services/view-details.service';
 
 const ALLOWED_CORPORATE_USER_TYPES = ['CORPORATE-ADMIN', 'CORPORATE-RECRUITER'];
 
@@ -119,7 +120,7 @@ export class AdminApplicantsComponent {
     cvSourcedDate: ''
   };
 
-  constructor(private router: Router, private fb: FormBuilder, private adminService: AdminService, private spinner: NgxSpinnerService, private cdr: ChangeDetectorRef, private sanitizer: DomSanitizer, private route: ActivatedRoute, private storage: StorageService, private errorHandlingService: ErrorHandlingService, private datePipe: DatePipe) {
+  constructor(private router: Router, private fb: FormBuilder, private adminService: AdminService, private spinner: NgxSpinnerService, private cdr: ChangeDetectorRef, private sanitizer: DomSanitizer, private route: ActivatedRoute, private storage: StorageService, private errorHandlingService: ErrorHandlingService, private datePipe: DatePipe, private viewDetailsService: ViewDetailsService) {
     this.searchTerms.pipe(
       debounceTime(300), // Adjust the debounce time as needed (300 milliseconds in this example)
       //distinctUntilChanged()
@@ -745,8 +746,11 @@ export class AdminApplicantsComponent {
     this.getAllJobApplications(null);
   }
 
-  viewDetails(scoreDetails: any) {
-    this.scoreDetails = scoreDetails;
+  viewDetails(Job: any) {
+    const details = this.viewDetailsService.getScoreDetails(Job);
+    if (!details) return;
+
+    this.scoreDetails = details;
     this.detailsTitle = "Detailed Analysis";
     this.detailedAnalysisModalSize = true;
     this.openModal(ModalType.SHOW_MORE_DETAILS);

@@ -18,6 +18,7 @@ import { StorageService } from "src/app/modules/app-core/services/storage.servic
 import { ErrorHandlingService } from "src/app/modules/app-core/services/error-handling.service";
 import { DatePipe } from '@angular/common';
 import { SortOrder } from "src/app/modules/shared/types/sort-order.type";
+import { ViewDetailsService } from "src/app/modules/shared/services/view-details.service";
 
 export interface CorporateVitalDetails {
   cognitoUserId?: string;
@@ -147,7 +148,7 @@ export class CorporateApplicantsComponent {
   today!: string;
   minDate!: string;
 
-  constructor(private router: Router, private corporateService: CorporateService, private spinner: NgxSpinnerService, private cdr: ChangeDetectorRef, private sanitizer: DomSanitizer, private route: ActivatedRoute, private storage: StorageService, private fb: FormBuilder, private errorHandlingService: ErrorHandlingService, private datePipe: DatePipe) {
+  constructor(private router: Router, private corporateService: CorporateService, private spinner: NgxSpinnerService, private cdr: ChangeDetectorRef, private sanitizer: DomSanitizer, private route: ActivatedRoute, private storage: StorageService, private fb: FormBuilder, private errorHandlingService: ErrorHandlingService, private datePipe: DatePipe, private viewDetailsService: ViewDetailsService) {
     this.duplicacyForm = this.fb.group({
       hiredFromOtherPortal: this.fb.group({
         portal: ['', Validators.required],
@@ -901,8 +902,11 @@ export class CorporateApplicantsComponent {
     this.getAllJobApplications(null);
   }
 
-  viewDetails(scoreDetails: any) {
-    this.scoreDetails = scoreDetails;
+  viewDetails(Job: any) {
+    const details = this.viewDetailsService.getScoreDetails(Job);
+    if (!details) return;
+
+    this.scoreDetails = details;
     this.detailsTitle = "Detailed Analysis";
     this.detailedAnalysisModalSize = true;
     this.openModal(ModalType.SHOW_MORE_DETAILS);
