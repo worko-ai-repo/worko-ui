@@ -121,6 +121,7 @@ export class ResumeMatchTableComponent {
   isUpdateEnabled: boolean = false;
 
   bulkJdDetails: any; // To store the fetched JD details
+  matchingScore: any;
 
   constructor(private router: Router, private fb: FormBuilder, private corporateService: CorporateService, private spinner: NgxSpinnerService, private cdr: ChangeDetectorRef, private sanitizer: DomSanitizer, private route: ActivatedRoute, private storage: StorageService, private viewDetailsService: ViewDetailsService) {
     this.searchTerms.pipe(
@@ -703,6 +704,7 @@ export class ResumeMatchTableComponent {
 
   viewDetails(cv: any) {
     const details = this.viewDetailsService.getScoreDetails(cv);
+    this.matchingScore =  cv?.matchingScore;
     if (!details) return;
 
     this.scoreDetails = details;

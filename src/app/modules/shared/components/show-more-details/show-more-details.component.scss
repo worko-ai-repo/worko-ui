@@ -105,63 +105,92 @@ ngb-rating {
     width: 40%;
   }
 
-  .timeline-container {
-    max-height: 450px;
-    overflow-y: auto;
-    padding: 20px;
-    background: transparent;
-  }
+}
 
-  .timeline {
-    position: relative;
-    margin-left: 20px;
-    padding-left: 20px;
-    border-left: 2px solid #2371CB;
-  }
+.timeline-container {
+  max-height: 450px;
+  overflow-y: auto;
+  padding: 20px;
+  background: transparent;
+}
 
-  .timeline-item {
-    position: relative;
-    margin-bottom: 25px;
-  }
+.timeline {
+  position: relative;
+  margin-left: 20px;
+  padding-left: 20px;
+  border-left: 2px solid #2371CB;
+}
 
-  .timeline-marker {
-    position: absolute;
-    left: -27px;
-    /* Aligns with vertical line */
-    top: 8px;
-    /* Aligns vertically with heading */
-    width: 14px;
-    height: 14px;
-    background-color: #2371CB;
-    border: 2px solid white;
-    border-radius: 50%;
-    z-index: 1;
-  }
+.timeline-item {
+  position: relative;
+  margin-bottom: 25px;
+}
 
-  .timeline-content {
-    background: rgba(255, 255, 255, 0.05);
-    padding: 8px 16px;
-    border-radius: 8px;
-    color: white;
-    margin-left: 10px;
-    /* slight space between line and content */
-  }
+.timeline-marker {
+  position: absolute;
+  left: -27px;
+  /* Aligns with vertical line */
+  top: 8px;
+  /* Aligns vertically with heading */
+  width: 14px;
+  height: 14px;
+  background-color: #2371CB;
+  border: 2px solid white;
+  border-radius: 50%;
+  z-index: 1;
+}
 
-  .timeline-heading {
-    margin: 0 0 6px;
-    font-size: 16px;
-    font-weight: 600;
-    color: #ffffff;
-  }
+.timeline-content {
+  background: rgba(255, 255, 255, 0.05);
+  padding: 8px 16px;
+  border-radius: 8px;
+  color: white;
+  margin-left: 10px;
+  /* slight space between line and content */
+}
 
-  .timeline-detail {
-    margin: 0;
-    font-size: 14px;
-    color: #cdd6e0;
-    line-height: 1.5;
-  }
+.timeline-heading {
+  margin: 0 0 6px;
+  font-size: 16px;
+  font-weight: 600;
+  color: #ffffff;
+}
 
+.timeline-detail {
+  margin: 0;
+  font-size: 14px;
+  color: #cdd6e0;
+  line-height: 1.5;
+  white-space: pre-line;
+}
 
+/* Positive items - default look */
+.positive-item .timeline-marker {
+  background-color: #2ecc71;
+  /* Green marker */
+}
 
+.positive-item .timeline-content {
+  background: rgba(46, 204, 113, 0.1);
+  /* Light green background */
+}
 
+.positive-item .timeline-heading {
+  color: #2ecc71;
+}
+
+/* Negative items */
+.negative-marker {
+  background-color: #e74c3c;
+  /* Red marker */
+}
+
+.negative-item .timeline-content {
+  background: rgba(231, 76, 60, 0.1);
+  /* Light red background */
+  border-left: 4px solid #e74c3c;
+}
+
+.negative-heading {
+  color: #e74c3c;
 }

@@ -119,6 +119,7 @@ export class AdminApplicantsComponent {
     cvSourcedFrom: '',
     cvSourcedDate: ''
   };
+  matchingScore: any;
 
   constructor(private router: Router, private fb: FormBuilder, private adminService: AdminService, private spinner: NgxSpinnerService, private cdr: ChangeDetectorRef, private sanitizer: DomSanitizer, private route: ActivatedRoute, private storage: StorageService, private errorHandlingService: ErrorHandlingService, private datePipe: DatePipe, private viewDetailsService: ViewDetailsService) {
     this.searchTerms.pipe(
@@ -748,6 +749,7 @@ export class AdminApplicantsComponent {
 
   viewDetails(Job: any) {
     const details = this.viewDetailsService.getScoreDetails(Job);
+    this.matchingScore =  Job?.matchingScore;
     if (!details) return;
 
     this.scoreDetails = details;

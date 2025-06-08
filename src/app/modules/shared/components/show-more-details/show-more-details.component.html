@@ -10,11 +10,11 @@
           <div *ngIf="details" style="display: flex; justify-content: center;">
 
             <div class="timeline">
-              <div class="timeline-item" *ngFor="let point of scorePoints; let i = index">
-                <div class="timeline-marker"></div>
+              <div class="timeline-item" *ngFor="let point of scorePoints; let i = index" [ngClass]="{ 'negative-item': point.heading === 'Area of Concern' && matchingScore >= 70, 'positive-item': point.heading !== 'Area of Concern' && matchingScore >= 70 }">
+                <div class="timeline-marker" [ngClass]="{ 'negative-marker': point.heading === 'Area of Concern' && matchingScore >= 70 }"></div>
                 <div class="timeline-content">
-                  <h5 class="timeline-heading">{{ i + 1 }}. {{ point.heading }}</h5>
-                  <p class="timeline-detail" *ngIf="point.detail">{{ point.detail }}</p>
+                  <h5 class="timeline-heading" [ngClass]="{ 'negative-heading': point.heading === 'Area of Concern' && matchingScore >= 70 }">{{ i + 1 }}. {{ point.heading }}</h5>
+                  <p class="timeline-detail" *ngIf="point.detail" [innerText]="point.detail"></p>
                 </div>
               </div>
             </div>
