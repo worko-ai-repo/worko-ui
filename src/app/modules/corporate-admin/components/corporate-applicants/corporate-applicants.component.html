@@ -374,7 +374,7 @@
     </ng-container>
 
     <ng-container *ngIf="showModal === modalType.SHOW_MORE_DETAILS">
-        <app-show-more-details [details]="scoreDetails" [title]="detailsTitle"
+        <app-show-more-details [matchingScore]="matchingScore" [details]="scoreDetails" [title]="detailsTitle"
             (onCancel)="closeDetailedPopup()"></app-show-more-details>
     </ng-container>
 

@@ -13,6 +13,7 @@ export interface ScorePoint {
 })
 export class ShowMoreDetailsComponent {
   @Input() title: string = '';
+  @Input() matchingScore: any = '';
   @Input() details: string = '';
   @Output() onCancel: EventEmitter<any> = new EventEmitter<any>();
   showCloseButton: boolean = true;
@@ -40,10 +41,43 @@ export class ShowMoreDetailsComponent {
     const points: { heading: string; detail?: string }[] = [];
 
     // 1. New format: Already a valid array
-    if (Array.isArray(text) && text.every(item => item.heading)) {
-      this.scorePoints = text;
-      return;
+    // Handle JSON stringified array
+  if (typeof text === 'string') {
+    try {
+      const parsed = JSON.parse(text);
+      if (Array.isArray(parsed) && parsed.every(item => item.heading)) {
+        text = parsed; // assign parsed array back to text
+      } else {
+        console.warn('Parsed string is not a valid array of score points.');
+      }
+    } catch (e) {
+      console.warn('JSON parse failed, attempting legacy parsing.');
     }
+  }
+
+  // Now handle as array
+  if (Array.isArray(text) && text.every(item => item.heading)) {
+    const mergedPoints: { heading: string; detail?: string }[] = [];
+    const concernDetails: string[] = [];
+
+    for (const item of text) {
+      if (item.heading === 'Area of Concern') {
+        if (item.detail) concernDetails.push(`- ${item.detail}`);
+      } else {
+        mergedPoints.push(item);
+      }
+    }
+
+    if (concernDetails.length > 0) {
+      mergedPoints.push({
+        heading: 'Area of Concern',
+        detail: concernDetails.join('\n')
+      });
+    }
+
+    this.scorePoints = mergedPoints;
+    return;
+  }
 
     // 2. Try to parse stringified JSON
     if (typeof text === 'string') {

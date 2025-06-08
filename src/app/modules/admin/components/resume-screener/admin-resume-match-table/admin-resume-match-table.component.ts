@@ -115,6 +115,7 @@ export class AdminResumeMatchTableComponent {
 
   bulkJdDetails: any; // To store the fetched JD details
   screenedCvData: any[] = [];
+  matchingScore: any;
 
 
 
@@ -661,6 +662,7 @@ export class AdminResumeMatchTableComponent {
 
   viewDetails(cv: any) {
     const details = this.viewDetailsService.getScoreDetails(cv);
+    this.matchingScore =  cv?.matchingScore;
     if (!details) return;
 
     this.scoreDetails = details;

@@ -147,6 +147,7 @@ export class CorporateApplicantsComponent {
 
   today!: string;
   minDate!: string;
+  matchingScore: any;
 
   constructor(private router: Router, private corporateService: CorporateService, private spinner: NgxSpinnerService, private cdr: ChangeDetectorRef, private sanitizer: DomSanitizer, private route: ActivatedRoute, private storage: StorageService, private fb: FormBuilder, private errorHandlingService: ErrorHandlingService, private datePipe: DatePipe, private viewDetailsService: ViewDetailsService) {
     this.duplicacyForm = this.fb.group({
@@ -904,6 +905,7 @@ export class CorporateApplicantsComponent {
 
   viewDetails(Job: any) {
     const details = this.viewDetailsService.getScoreDetails(Job);
+    this.matchingScore =  Job?.matchingScore;
     if (!details) return;
 
     this.scoreDetails = details;
