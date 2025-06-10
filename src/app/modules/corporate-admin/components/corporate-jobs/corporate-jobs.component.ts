@@ -258,7 +258,6 @@ export class CorporateJobsComponent implements OnInit {
       cityControl: new FormControl('', Validators.required),
       miscellaneousSkills: this.fb.array([]),
       numOfOpenings: [1, [Validators.required, Validators.min(1)]],
-      noticePeriod: [0, Validators.required],
       otherRequirements: ["", Validators.required],
       salaryRange: this.fb.group(
         {
@@ -287,7 +286,6 @@ export class CorporateJobsComponent implements OnInit {
           this.corporateVitalDetails.companyName || "";
         this.jobForm.patchValue({
           companyId: this.corporateVitalDetails.companyId,
-          noticePeriod: 0,
         });
         this.corporateVitalDetails.corporateUserType === this.userType.RECRUITER
           ? (this.isRecruiter = true)
@@ -648,8 +646,7 @@ export class CorporateJobsComponent implements OnInit {
     this.originalJobData = "";
     this.isCompanyNameValid = false;
     this.jobForm.patchValue({
-      companyId: this.corporateVitalDetails.companyId,
-      noticePeriod: 0,
+      companyId: this.corporateVitalDetails.companyId
     });
     this.modal.cancel();
   }
@@ -674,7 +671,6 @@ export class CorporateJobsComponent implements OnInit {
         location: { city: [] }, // Reset city properly as an empty array
         miscellaneousSkills: [],
         numOfOpenings: 1,
-        noticePeriod: 0,
         otherRequirements: "",
         salaryRange: null,
         softSkills: [],
@@ -712,7 +708,6 @@ export class CorporateJobsComponent implements OnInit {
     this.jobForm.patchValue({
       htmlJobDescription: "",
       workMode: "",
-      noticePeriod: 0,
       typeofEmployment: "",
       otherRequirements: "",
       numOfOpenings: 1,
@@ -811,7 +806,6 @@ export class CorporateJobsComponent implements OnInit {
       jobTitle: this.toTitleCase(job.jobTitle),
       numOfOpenings: job.numOfOpenings,
       workMode: job.workMode,
-      noticePeriod: job.noticePeriod,
       htmlJobDescription: job.htmlJobDescription ? job.htmlJobDescription : job.jobDescription,
       otherRequirements: job.otherRequirements,
       typeofEmployment: job.typeofEmployment,

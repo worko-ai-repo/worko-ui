@@ -230,7 +230,6 @@ export class AdminJobsComponent implements OnInit {
       cityControl: new FormControl('', Validators.required),
       miscellaneousSkills: this.fb.array([]),
       numOfOpenings: [1, [Validators.required, Validators.min(1)]],
-      noticePeriod: [0, [Validators.required, Validators.min(0)]],
       otherRequirements: ["", Validators.required],
       salaryRange: this.fb.group(
         {
@@ -597,7 +596,6 @@ export class AdminJobsComponent implements OnInit {
         location: { city: [] }, // Reset city properly as an empty array
         miscellaneousSkills: [],
         numOfOpenings: 1,
-        noticePeriod: 0,
         otherRequirements: "",
         salaryRange: null,
         softSkills: [],
@@ -638,7 +636,6 @@ export class AdminJobsComponent implements OnInit {
     this.jobForm.patchValue({
       htmlJobDescription: "",
       workMode: "",
-      noticePeriod: 0,
       typeofEmployment: "",
       otherRequirements: "",
       numOfOpenings: 1,
@@ -735,7 +732,6 @@ export class AdminJobsComponent implements OnInit {
       jobTitle: this.toTitleCase(job.jobTitle),
       numOfOpenings: job.numOfOpenings,
       workMode: job.workMode,
-      noticePeriod: job.noticePeriod,
       htmlJobDescription: job.htmlJobDescription ? job.htmlJobDescription : job.jobDescription,
       otherRequirements: job.otherRequirements,
       typeofEmployment: job.typeofEmployment,
