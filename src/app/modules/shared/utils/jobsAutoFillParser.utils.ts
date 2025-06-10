@@ -40,7 +40,6 @@ export function autofillJobDetailsToForm(job: any, jobForm: any): void {
     jobTitle: job.jobTitle !== "Not Mentioned" ? job.jobTitle : null,
     cityControl: job.location !== "Not Mentioned" ? job.location : null,
     workMode: job.workMode !== "Not Mentioned" ? job.workMode : null,
-    noticePeriod: job.noticePeriod !== "Not Mentioned" ? job.noticePeriod : 0,
     typeofEmployment: job.typeOfEmployment !== "Not Mentioned" ? job.typeOfEmployment : null,
     department: job.department !== "Not Mentioned" ? job.department : null,
     salaryRange: {
