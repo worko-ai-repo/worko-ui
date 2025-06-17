@@ -523,7 +523,7 @@ export class AdminApplicantsComponent {
 
     // Only update status if job is admin-created
     if (this.isAdminCreatedJob()) {
-      this.updateJobApplicationStatus(job.id, newStatus);
+      this.updateJobApplicationStatus(job.id, job.applicantDetails.name, newStatus);
     }
   }
 
@@ -585,6 +585,7 @@ export class AdminApplicantsComponent {
 
   async updateJobApplicationStatus(
     jobApplicationId: string,
+    jobApplicantName: string,
     newStatus: string,
     rejectReasons?: {
       rejectTitle
@@ -598,6 +599,7 @@ export class AdminApplicantsComponent {
       userId: this.userId,
       status: newStatus,
       emailId: this.emailAddress, // Email of the corporate user
+      applicantName: jobApplicantName
     };
 
     // Add rejection-specific data if the status is "REJECTED"
@@ -649,7 +651,7 @@ export class AdminApplicantsComponent {
     this.spinner.show();
     let rejectReasonsData = data;
 
-    this.updateJobApplicationStatus(this.currentJob.id, this.newStatus, rejectReasonsData).then(async (response: any) => {
+    this.updateJobApplicationStatus(this.currentJob.id, this.currentJob.applicantDetails.name, this.newStatus, rejectReasonsData).then(async (response: any) => {
       if (response) {
         this.spinner.hide();
         this.closeModal();
