@@ -5,7 +5,7 @@ import { FormBuilder, FormGroup, FormArray, Validators, FormControl } from "@ang
 import { minMaxValidator } from "src/app/modules/worko/validators/minMax.validator";
 
 // Rxjs import for observable debounceTime, distinctUntilChanged, of, switchMap
-import { Observable, debounceTime, distinctUntilChanged, map, of, switchMap } from "rxjs";
+import { Observable, debounceTime, distinctUntilChanged, map, of, switchMap, tap } from "rxjs";
 
 // Service module import for Api calling
 import { CorporateService } from "../../services/corporate.service";
@@ -312,9 +312,16 @@ export class CorporateJobsComponent implements OnInit {
     this.filteredCompanies$ = this.companyControl.valueChanges.pipe(
       debounceTime(300),
       distinctUntilChanged(),
-      switchMap((value) => this.filterCompanies(value))
+      tap(value => {
+        // Clear selection if user types something manually
+        if (typeof value === 'string') {
+          this.jobForm.get("companyId")?.setValue(null);
+          this.isCompanyNameValid = false;
+        }
+      }),
+      // switchMap((value) => this.filterCompanies(value))
+      switchMap(value => this.filterCompanies(typeof value === 'string' ? value : value?.name))
     );
-    // Fetch jobs on component initialization
   }
 
   // Method to check if the form has changes
@@ -497,9 +504,16 @@ export class CorporateJobsComponent implements OnInit {
   // Display the company name in the input when selected
   onCompanySelect(event: any): void {
     const selectedCompany = event.option.value; // Now selectedCompany is the whole object
-    this.companyControl.setValue(selectedCompany.name); // Set the name in the input
+    this.selectedCompany = selectedCompany;
+    this.companyControl.setValue(selectedCompany);
     // Set company ID or any other required logic
     this.jobForm.get("companyId")?.setValue(selectedCompany.SK.slice(3));
+    this.companyNameError = "";
+    this.isCompanyNameValid = true;
+  }
+
+  displayCompany(company: any): string {
+    return company?.name || '';
   }
 
   // Optionally, open the autocomplete when user focuses the input
@@ -509,22 +523,35 @@ export class CorporateJobsComponent implements OnInit {
     }
   }
 
-  // Validate the company name on blur
+  // // Validate the company name on blur
+  // onInputBlur(): void {
+  //   const companyNameValue = this.companyControl.value?.trim(); // Check if the input is empty
+  //   // If the input is empty, show an error
+  //   let isCompanyIdInvalid =
+  //     this.jobForm.get("companyId")?.value === null ||
+  //     this.jobForm.get("companyId")?.value === "";
+  //   if (companyNameValue === "" || companyNameValue === null) {
+  //     this.companyNameError = "Company name is required.";
+  //     this.isCompanyNameValid = false;
+  //   }
+  //   if (isCompanyIdInvalid) {
+  //     this.companyNameError = "Please select a company from the list.";
+  //     this.isCompanyNameValid = false;
+  //   }
+  //   if (isCompanyIdInvalid && companyNameValue === "") {
+  //     this.companyNameError = ""; // Clear the error if companies are found
+  //     this.isCompanyNameValid = true;
+  //   }
+  // }
+
   onInputBlur(): void {
-    const companyNameValue = this.companyControl.value?.trim(); // Check if the input is empty
-    // If the input is empty, show an error
-    let isCompanyIdInvalid =
-      this.jobForm.get("companyId")?.value === null ||
-      this.jobForm.get("companyId")?.value === "";
-    if (companyNameValue === "" || companyNameValue === null) {
-      this.companyNameError = "Company name is required.";
-      this.isCompanyNameValid = false;
-    }
-    if (isCompanyIdInvalid) {
+    const companyControlValue = this.companyControl.value;
+    const companyIdValue = this.jobForm.get("companyId")?.value;
+
+    if (!companyControlValue || !companyIdValue) {
       this.companyNameError = "Please select a company from the list.";
       this.isCompanyNameValid = false;
-    }
-    if (isCompanyIdInvalid && companyNameValue === "") {
+    } else {
       this.companyNameError = ""; // Clear the error if companies are found
       this.isCompanyNameValid = true;
     }

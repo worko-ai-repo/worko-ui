@@ -192,8 +192,8 @@
             <label for="companyName" class="form-label required-form-field">Company Name</label>
             <input id="companyName" type="text" matInput [formControl]="companyControl" [matAutocomplete]="auto"
               (focus)="onInputFocus()" (blur)="onInputBlur()" class="selector form-select required-form-field" />
-            <mat-autocomplete #auto="matAutocomplete" (optionSelected)="onCompanySelect($event)"
-              class="mat-autocomplete-main">
+            <mat-autocomplete #auto="matAutocomplete" [displayWith]="displayCompany"
+              (optionSelected)="onCompanySelect($event)" class="mat-autocomplete-main">
               <mat-option *ngFor="let company of filteredCompanies$ | async" [value]="company">
                 {{ company.name }}
               </mat-option>
@@ -243,7 +243,7 @@
                 class="form-control form-input required-form-field"
                 [ngClass]="{ 'is-invalid': isInvalid('salaryRange.max') }" formControlName="max" />
             </div>
-          
+
             <!-- Single error message for all conditions -->
             <span *ngIf="isInvalid('salaryRange')" class="text-danger">
               {{ getErrorMessage('salaryRange') }}

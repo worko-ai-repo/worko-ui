@@ -627,7 +627,7 @@ export class CorporateApplicantsComponent {
       return;
     }
 
-    this.updateJobApplicationStatus(job.id, newStatus);
+    this.updateJobApplicationStatus(job.id, job.applicantDetails.name, newStatus);
   }
 
   shouldOverrideCVDownload(statusTracker: any[]): boolean {
@@ -672,6 +672,7 @@ export class CorporateApplicantsComponent {
 
   async updateJobApplicationStatus(
     jobApplicationId: string,
+    jobApplicantName: string,
     newStatus: string,
     rejectReasons?: {
       rejectTitle
@@ -685,6 +686,7 @@ export class CorporateApplicantsComponent {
       userId: this.corporateVitalDetails.userId,
       status: newStatus,
       emailId: this.corporateVitalDetails.email, // Email of the corporate user
+      applicantName: jobApplicantName
     };
 
     // Add rejection-specific data if the status is "REJECTED"
@@ -736,7 +738,7 @@ export class CorporateApplicantsComponent {
     this.spinner.show();
     let rejectReasonsData = data;
 
-    this.updateJobApplicationStatus(this.currentJob.id, this.newStatus, rejectReasonsData).then(async (response: any) => {
+    this.updateJobApplicationStatus(this.currentJob.id, this.currentJob.applicantDetails.name, this.newStatus, rejectReasonsData).then(async (response: any) => {
       if (response) {
         this.spinner.hide();
         this.closeModal();
