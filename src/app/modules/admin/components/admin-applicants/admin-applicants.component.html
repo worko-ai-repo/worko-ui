@@ -242,8 +242,14 @@
                                 </span>
 
                                 <!-- Send to Recruiter Button -->
-                                <span *ngIf="job.status !== status.REJECTED && job.matchingScore < 70 
-                                && job.rejectionFeedbackBySystem"
+                                <!-- Show "Send to Recruiter" button only when: - job is not rejected AND
+                                 - (matching score is less than 70 AND rejectionFeedbackBySystem is present) => because score generation is delayed, we only consider sending to recruiter if final score is generated (indicated by rejection feedback)
+                                 - OR (matching score is 90 or above AND scoreDetails is available)
+                                 => this ensures final high score is also based on completed evaluation
+                                 - Button is hidden for scores between 70 and 89 -->
+                                 
+                                <span *ngIf="job.status !== status.REJECTED && ((job.matchingScore < 70 && job.rejectionFeedbackBySystem) ||
+                                (job.matchingScore >= 90 && job.scoreDetails))"
                                     (click)="job.displayToCorporate ? null : sendApplicationToRecruiter(job.id)"
                                     [matTooltip]="job.displayToCorporate ? 'Already sent to recruiter' : 'Send to Recruiter'"
                                     matTooltipPosition="above" [ngStyle]="{

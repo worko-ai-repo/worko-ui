@@ -174,7 +174,7 @@ export class AdminAddCompanyFormComponent {
     this.companyForm = this.fb.group({
       name: ['', [Validators.required, Validators.minLength(3)]],
       website: ['', [Validators.pattern(/https?:\/\/.+/)]],
-      linkedIn: ['', [Validators.required, Validators.pattern(/^https?:\/\/(www\.)?linkedin\.com\/.+$/)]],
+      linkedIn: ['', [Validators.required, Validators.pattern(/^https?:\/\/([a-z]+\.)?linkedin\.com\/.+$/)]],
       carrierPage: ['', [Validators.required, Validators.pattern(/https?:\/\/.+/)]],
       industry: ['', Validators.required],
       teamSize: ['', [Validators.required, Validators.min(1)]], // Ensure number input with min value,
