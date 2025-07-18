@@ -91,6 +91,7 @@
                         <tr>
                             <th>Candidate Name</th>
                             <th>Experience</th>
+                            <th>Current CTC</th>
                             <th>Expected CTC</th>
                             <th>Current Company</th>
                             <th>Matching Score</th>
@@ -107,7 +108,7 @@
                     </thead>
                     <tbody>
                         <tr *ngIf="filteredJobs.length === 0">
-                            <td colspan="11" class="no-jobs-message">{{ noApplicationsMessage }}</td>
+                            <td colspan="12" class="no-jobs-message">{{ noApplicationsMessage }}</td>
                         </tr>
                         <tr *ngFor="let job of filteredJobs; let i = index">
                             <td matTooltip="{{ job?.applicantDetails?.name | titlecase }}" matTooltipPosition="above"
@@ -117,6 +118,7 @@
                             <td>{{ job?.applicantDetails?.YOE ? (job?.applicantDetails?.YOE === 1 ?
                                 job?.applicantDetails?.YOE + ' year' : job?.applicantDetails?.YOE + ' years') : '-' }}
                             </td>
+                            <td>{{ job?.applicantDetails?.CTC ? job?.applicantDetails?.CTC + ' LPA' : '-' }}
                             <td>{{ job?.applicantDetails?.ECTC ? job?.applicantDetails?.ECTC + ' LPA' : '-' }}
                             </td>
                             <td>{{ job?.applicantDetails?.candidateExperience?.companyName ?
