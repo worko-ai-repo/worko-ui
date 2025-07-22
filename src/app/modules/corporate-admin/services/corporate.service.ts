@@ -203,9 +203,9 @@ export class CorporateService {
     return this.http.get(JOB_BASE_URL + `job/${jobId}`, this.authService.getHttpOptions()).toPromise();
   }
 
-  getAllJobApplicants(pageSize: any, userType: any, companyId: any, jobId: any, status: any, lastKey?: any, sortOrder?: string, searchText?: any) {
+  getAllJobApplicants(pageSize: any, userType: any, jobId: any, status: any, lastKey?: any, sortOrder?: string, searchText?: any) {
     const encodedUserType = encodeURIComponent(userType);
-    let url = `${JOB_BASE_URL}job-application/?companyId=${companyId}&jobId=${jobId}&userType=${encodedUserType}&pageSize=${pageSize}`;
+    let url = `${JOB_BASE_URL}job-application/?jobId=${jobId}&userType=${encodedUserType}&pageSize=${pageSize}`;
 
     if (lastKey) {
       url += `&lastKey=${lastKey}`;

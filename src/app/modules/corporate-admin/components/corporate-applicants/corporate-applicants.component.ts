@@ -524,18 +524,12 @@ export class CorporateApplicantsComponent {
   // }
 
   async getAllJobApplications(lastKey: string | null) {
-    const companyId = this.corporateVitalDetails.companyId;
-    if (!companyId) {
-      console.warn("Company ID is missing. Cannot fetch job applications.");
-      return;
-    }
 
     this.spinner.show();
     try {
       const response: any = await this.corporateService.getAllJobApplicants(
         this.pageSize,
         this.userType,
-        companyId,
         this.jobId,
         this.selectedStatus,
         lastKey,

@@ -413,55 +413,6 @@ export class ResumeScreeningListViewComponent {
     return this.previousKeys.length > 0 ? this.previousKeys[this.previousKeys.length - 1] : null;
   }
 
-  async getAllJobApplications(lastKey: string | null) {
-    const companyId = this.corporateVitalDetails.companyId;
-    if (!companyId) {
-      console.warn("Company ID is missing. Cannot fetch job applications.");
-      return;
-    }
-
-    this.spinner.show();
-    try {
-      const response: any = await this.corporateService.getAllJobApplicants(
-        this.pageSize,
-        this.userType,
-        companyId,
-        this.jobId,
-        this.selectedStatus,
-        lastKey,
-        this.selectedSortOrder,
-        this.searchTerm
-      );
-
-      if (response) {
-        this.filteredJobs = response.data || [];
-        this.pageSize = response.pagination.pageSize;
-        this.currentLastKey = response.pagination.lastKey || null;
-        this.hasNext = !!response.pagination.lastKey;
-        this.hasPrevious = this.previousKeys.length > 0;
-
-        // Reset dropdown-related states
-        this.dropdownVisibleIndex = null;
-        this.selectedStatusDropdown = '';
-        this.isUpdateEnabled = false;
-      } else {
-        console.warn("Job applications response is empty or undefined.");
-      }
-    } catch (error: any) {
-      if (error.status === 401) {
-        this.router.navigate(['/auth/corporate/login']);
-      } else {
-        console.error("Error fetching job applications:", error);
-        this.modalSize = 'md';
-        this.successMessage = "Something went wrong. Please try again later.";
-        this.successTitle = "Error";
-        this.openModal(ModalType.SUCCESS_ERROR_MESSAGE);
-      }
-    } finally {
-      this.spinner.hide();
-    }
-  }
-
   /* Modal Handler Section Starts Here */
 
   /**
