@@ -26,8 +26,6 @@ body {
 
 
 
-
-
 // header css end
 :root {
     /* fonts */
@@ -88,7 +86,12 @@ body {
     background: linear-gradient(147.55deg, #000000 34.1%, #182B45 70.16%);
     color: #fff;
 }
-
+.h6, .h6, h5, .h5, h4, .h4, h3, .h3, h2, .h2, h1, .h1{
+    color:#fff !important;
+}
+.modal-content{
+    color: #fff !important;
+}
 .fa-heart {
     color: #ff0018 !important;
 }

@@ -19,10 +19,9 @@
   }
 
   .container-bottom {
-    height: calc(100vh - 366px);
+    height: auto;
       display: flex;
       flex-direction: row;
-      overflow: hidden;
     }
   .divide-60 {
      flex:2;
