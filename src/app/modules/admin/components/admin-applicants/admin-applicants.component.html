@@ -250,8 +250,7 @@
                                  => this ensures final high score is also based on completed evaluation
                                  - Button is hidden for scores between 70 and 89 -->
                                  
-                                <span *ngIf="job.status !== status.REJECTED && ((job.matchingScore < 70 && job.rejectionFeedbackBySystem) ||
-                                (job.matchingScore >= 90 && job.scoreDetails))"
+                               <span *ngIf="showPushToRecruiterButton(job)"
                                     (click)="job.displayToCorporate ? null : sendApplicationToRecruiter(job.id)"
                                     [matTooltip]="job.displayToCorporate ? 'Already sent to recruiter' : 'Send to Recruiter'"
                                     matTooltipPosition="above" [ngStyle]="{

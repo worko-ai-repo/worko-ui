@@ -22,7 +22,7 @@
   position: fixed;
   z-index: 1;
   overflow-x: hidden;
-  overflow-y: hidden;
+  overflow-y: auto;
 }
 
 .logout-container {
@@ -114,6 +114,18 @@ input[type="checkbox"],
       height: 64px;
   }
 
+  .main-div .menu-items {
+    height: 100vh;
+    overflow-y: auto;
+    overflow-x: hidden;
+    justify-content: flex-start;
+  }
+
+  .sidebar {
+    overflow-y: auto;
+    overflow-x: hidden;
+  }
+
   .main-div input[type="checkbox"]{
       position: absolute;
       display: block;
@@ -193,7 +205,8 @@ input[type="checkbox"],
   margin-left: -1px;
   transition: transform 0.5s ease-in-out;
   box-shadow: 5px 0px 10px 0px #aaa;
-  overflow: hidden;
+  overflow-y: auto;
+  overflow-x: hidden;
   right: 0%;
   position: absolute;
   opacity: 100%;
@@ -202,11 +215,15 @@ input[type="checkbox"],
   padding-left: 3%;
   // max-height: 525px; previous code line when referral submenu was not there 
   max-width: 300px;
+  height: 100vh;
 }
 
 .logout-container {
   display: flex;
   justify-content: center;
+  padding-top: 20px;
+  padding-bottom: 20px;
+  margin-top: 20px;
 }
 
 .main-div .sidebar-brand{
@@ -216,6 +233,12 @@ input[type="checkbox"],
     margin-bottom: 2rem !important;
   }
 }
+}
+
+.navbar-container {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
 }
 
 .left-space {
@@ -265,5 +288,35 @@ input[type="checkbox"],
 
 .fas.fa-chevron-right.rotated {
   transform: rotate(90deg);
+}
+
+/* Custom scrollbar styling */
+.sidebar::-webkit-scrollbar,
+.main-div .menu-items::-webkit-scrollbar {
+  width: 6px;
+}
+
+.sidebar::-webkit-scrollbar-track,
+.main-div .menu-items::-webkit-scrollbar-track {
+  background: #1a2a3a;
+  border-radius: 3px;
+}
+
+.sidebar::-webkit-scrollbar-thumb,
+.main-div .menu-items::-webkit-scrollbar-thumb {
+  background: #4a5a6a;
+  border-radius: 3px;
+}
+
+.sidebar::-webkit-scrollbar-thumb:hover,
+.main-div .menu-items::-webkit-scrollbar-thumb:hover {
+  background: #6a7a8a;
+}
+
+/* Firefox scrollbar */
+.sidebar,
+.main-div .menu-items {
+  scrollbar-width: thin;
+  scrollbar-color: #4a5a6a #1a2a3a;
 }
 

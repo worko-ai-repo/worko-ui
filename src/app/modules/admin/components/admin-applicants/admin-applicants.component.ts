@@ -13,6 +13,7 @@ import { ErrorHandlingService } from 'src/app/modules/app-core/services/error-ha
 import { DatePipe } from '@angular/common';
 import { SortOrder } from 'src/app/modules/shared/types/sort-order.type';
 import { ViewDetailsService } from 'src/app/modules/shared/services/view-details.service';
+import { JobApplication } from 'src/app/modules/worko/interfaces/jobApplication.interface';
 
 const ALLOWED_CORPORATE_USER_TYPES = ['CORPORATE-ADMIN', 'CORPORATE-RECRUITER'];
 
@@ -816,7 +817,22 @@ export class AdminApplicantsComponent {
       // Fetch the previous page using the second-to-last key
       this.getAllJobApplications(previousLastKey);
     }
-
   }
+  
+  showPushToRecruiterButton(job: JobApplication): boolean {
+    if (!job?.statusTracker?.length) return false;
 
+    // Find the ACCEPTED status change
+    const acceptedStatus = [...job.statusTracker].reverse().find((entry) => entry.newStatus === "APPLIED");
+
+    if (!acceptedStatus?.actionDate) return false;
+
+    // Calculate hours since ACCEPTED
+    const hoursSinceAccepted = (new Date().getTime() - new Date(acceptedStatus.actionDate).getTime()) / (1000 * 60 * 60);
+
+    const isWithin24Hours = hoursSinceAccepted < 24;
+    const scoreIsValid = ((job.matchingScore >= 50 && job.matchingScore <= 70) || job.matchingScore >= 90) && Boolean(job.scoreDetails);
+
+    return isWithin24Hours && job.status !== "REJECTED" && !job.displayToCorporate && scoreIsValid;
+  }
 }
