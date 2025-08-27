@@ -833,6 +833,6 @@ export class AdminApplicantsComponent {
     const isWithin24Hours = hoursSinceAccepted < 24;
     const scoreIsValid = ((job.matchingScore >= 50 && job.matchingScore <= 70) || job.matchingScore >= 90) && Boolean(job.scoreDetails);
 
-    return isWithin24Hours && job.status !== "REJECTED" && !job.displayToCorporate && scoreIsValid;
+    return isWithin24Hours && job.status !== "REJECTED"  && scoreIsValid;
   }
 }
