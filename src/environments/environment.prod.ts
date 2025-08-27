@@ -11,6 +11,7 @@ export const environment = {
       domain: 'worko-congnito.auth.ap-south-1.amazoncognito.com'
     },
     baseUrl: 'https://worko.ai',
+    jobBaseUrl: 'https://jobs.worko.ai/',
     razorpayKey:'REDACTED',
     // crossOriginUrl:'https://worko.ai',
     localUrl: 'https://worko.ai',

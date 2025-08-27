@@ -6,6 +6,8 @@ import { ModalComponent } from 'src/app/modules/shared/components/modal/modal.co
 import { NgxSpinnerService } from 'ngx-spinner';
 import { NgForm } from '@angular/forms';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
+import { getCurrentUser } from '@aws-amplify/auth';
+import { StorageService } from 'src/app/modules/app-core/services/storage.service';
 
 @Component({
   selector: 'app-add-company',
@@ -29,24 +31,20 @@ export class AddCompanyComponent {
   successtitle: string = "";
   successmessage: string = "";
 
-  constructor(private cognitoService: CognitoService, private modalService: NgbModal, private companyListingService: CompanyListingService, private spinner: NgxSpinnerService) { }
-
+  constructor(private cognitoService: CognitoService, private modalService: NgbModal, private companyListingService: CompanyListingService, private spinner: NgxSpinnerService,   private storage: StorageService,) { }
+  userEmail: string = '';
+  userName: string = '';
   async ngOnInit(): Promise<void> {
-    // debugger
-    
+    this.userEmail = this.storage.get('userEmail');
+    this.userName = this.storage.get('userName');
     this.userLoggedIn = await this.cognitoService.isLoggedIn();
   }
   companyForm = {
-
-
     CompanyName: "",
     industry: 'Industry',
-
     carrierPage: "",
     linkedIn: "",
     emailid: "",
-
-
   }
 
 
@@ -55,10 +53,11 @@ export class AddCompanyComponent {
     try {
       this.companyData = {
         userType: "EMP",
+        userName:this.userName,
+        userEmail: this.userEmail,
         companyDetail: {
           name: this.companyForm.CompanyName,
           industry: 'Industry',
-          //emailid: this.companyForm.emailid,
           carrierPage: this.companyForm.carrierPage,
           linkedIn: this.companyForm.linkedIn
         }

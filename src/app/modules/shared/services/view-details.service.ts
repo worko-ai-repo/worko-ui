@@ -11,18 +11,17 @@ export class ViewDetailsService {
       console.error("Invalid input: data is null or undefined");
       return null;
     }
-    const isSentToCorporate =  data?.displayToCorporate ?? false; // Default to false if undefined
-    if (isSentToCorporate === false) {
-      if(data.matchingScore >= 50 && data.matchingScore <= 70){
-        return data.rejectionFeedbackBySystem 
-      }else if(data.matchingScore >=90){
+    const isSentToCorporate = data?.displayToCorporate ?? false; // Default to false if undefined
+    if (!isSentToCorporate) {
+      if (data.matchingScore >= 50 && data.matchingScore <= 70) {
+        return data.rejectionFeedbackBySystem;
+      } else if (data.matchingScore >= 90) {
         return data.scoreDetails;
-      }else{
-        return data.rejectionFeedbackBySystem
+      } else if (data.matchingScore < 50) {
+        return data.rejectionFeedbackBySystem;
       }
-    } else {
-      return data.scoreDetails;
     }
+    return data.scoreDetails;
   }
 
   constructor() {}
